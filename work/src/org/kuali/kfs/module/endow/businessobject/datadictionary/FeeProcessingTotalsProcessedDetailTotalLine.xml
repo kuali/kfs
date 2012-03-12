@@ -24,7 +24,7 @@
     <property name="attributes">
       <list>
       	<ref bean="FeeProcessingTotalsProcessedDetailTotalLine-feeMethodCode"/>
-        <ref bean="FeeProcessingTotalsProcessedDetailTotalLine-eDocNumber"/>
+        <ref bean="FeeProcessingTotalsProcessedDetailTotalLine-documentNumber"/>
       	<ref bean="FeeProcessingTotalsProcessedDetailTotalLine-linesGenerated"/>
         <ref bean="FeeProcessingTotalsProcessedDetailTotalLine-totalIncomeAmount"/>
         <ref bean="FeeProcessingTotalsProcessedDetailTotalLine-totalPrincipalAmount"/>
@@ -35,9 +35,9 @@
 
   <bean id="FeeProcessingTotalsProcessedDetailTotalLine-feeMethodCode-parentBean" abstract="true" parent="FeeProcessingTotalsProcessedGrandTotalLine-feeMethodCode"/>
 
-  <bean id="FeeProcessingTotalsProcessedDetailTotalLine-eDocNumber" parent="FeeProcessingTotalsProcessedDetailTotalLine-eDocNumber-parentBean"/>
+  <bean id="FeeProcessingTotalsProcessedDetailTotalLine-documentNumber" parent="FeeProcessingTotalsProcessedDetailTotalLine-documentNumber-parentBean"/>
   
-  <bean id="FeeProcessingTotalsProcessedDetailTotalLine-eDocNumber-parentBean" abstract="true" parent="FeeProcessingTotalsProcessedGrandTotalLine-eDocNumber"/>
+  <bean id="FeeProcessingTotalsProcessedDetailTotalLine-documentNumber-parentBean" abstract="true" parent="FeeProcessingTotalsProcessedGrandTotalLine-documentNumber"/>
 
   <bean id="FeeProcessingTotalsProcessedDetailTotalLine-linesGenerated" parent="FeeProcessingTotalsProcessedDetailTotalLine-linesGenerated-parentBean"/>
 

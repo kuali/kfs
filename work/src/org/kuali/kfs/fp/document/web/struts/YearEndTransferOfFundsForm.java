@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
-import org.kuali.kfs.fp.document.YearEndTransferOfFundsDocument;
 
 /**
  * form for <code>YearEndTransferOfFunds</code>. behaves the same as the TOF. the only functional difference between the YearEnd

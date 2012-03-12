@@ -66,15 +66,15 @@
     <property name="relationships">
       <list>
         <dd:relationship objectAttribute="postalZipCode">
-            <dd:primitiveAttribute source="retirementZipCode" target="postalCode"/>
-            <dd:primitiveAttribute source="retirementCountryCode" target="postalCountryCode"/>
+            <dd:primitiveAttribute source="retirementZipCode" target="code"/>
+            <dd:primitiveAttribute source="retirementCountryCode" target="countryCode"/>
         </dd:relationship>
         <dd:relationship objectAttribute="retirementState">
-            <dd:primitiveAttribute source="retirementCountryCode" target="postalCountryCode"/>
-            <dd:primitiveAttribute source="retirementStateCode" target="postalStateCode"/>            
+            <dd:primitiveAttribute source="retirementCountryCode" target="countryCode"/>
+            <dd:primitiveAttribute source="retirementStateCode" target="code"/>            
         </dd:relationship>
         <dd:relationship objectAttribute="retirementCountry">
-            <dd:primitiveAttribute source="retirementCountryCode" target="postalCountryCode"/>
+            <dd:primitiveAttribute source="retirementCountryCode" target="code"/>
         </dd:relationship>
       </list>
     </property>
@@ -115,7 +115,7 @@
   <bean id="AssetRetirementGlobal-retirementReasonCode" parent="AssetRetirementGlobal-retirementReasonCode-parentBean"/>
   <bean id="AssetRetirementGlobal-retirementReasonCode-parentBean" abstract="true" parent="AssetRetirementReason-retirementReasonCode">
     <property name="control">
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kfs.module.cam.businessobject.AssetRetirementReason" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder" p:includeKeyInLabel="true" p:includeBlankRow="true" p:keyAttribute="retirementReasonCode" p:labelAttribute="retirementReasonName"/>
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kfs.module.cam.businessobject.AssetRetirementReason" p:valuesFinderClass=" org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder" p:includeKeyInLabel="true" p:includeBlankRow="true" p:keyAttribute="retirementReasonCode" p:labelAttribute="retirementReasonName"/>
     </property>
   </bean>
 
@@ -211,7 +211,7 @@
     <property name="label" value="State Code"/>
     <property name="shortLabel" value="Code"/>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.bo.options.StateValuesFinder"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.state.StateValuesFinder"/>
     </property>
   </bean>
   
@@ -227,7 +227,7 @@
     <property name="name" value="retirementCountryCode"/>
     <property name="label" value="Country Code"/>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.bo.options.CountryValuesFinder"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryValuesFinder"/>
     </property>
   </bean>
   
@@ -242,7 +242,7 @@
     <property name="name" value="estimatedSellingPrice"/>
     <property name="label" value="Estimated Selling Price"/>
     <property name="shortLabel" value="Price"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="AssetRetirementGlobal-salePrice" parent="AssetRetirementGlobal-salePrice-parentBean"/>
@@ -250,7 +250,7 @@
     <property name="name" value="salePrice"/>
     <property name="label" value="Sale Price"/>
     <property name="shortLabel" value="Price"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="AssetRetirementGlobal-cashReceiptFinancialDocumentNumber" parent="AssetRetirementGlobal-cashReceiptFinancialDocumentNumber-parentBean"/>
@@ -265,7 +265,7 @@
     <property name="name" value="handlingFeeAmount"/>
     <property name="label" value="Handling Fee Amount"/>
     <property name="shortLabel" value="Amount"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="AssetRetirementGlobal-preventiveMaintenanceAmount" parent="AssetRetirementGlobal-preventiveMaintenanceAmount-parentBean"/>
@@ -273,7 +273,7 @@
     <property name="name" value="preventiveMaintenanceAmount"/>
     <property name="label" value="Preventive Maintenance Amount"/>
     <property name="shortLabel" value="Amount"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="AssetRetirementGlobal-calculatedTotal" parent="AssetRetirementGlobal-calculatedTotal-parentBean"/>
@@ -281,7 +281,7 @@
     <property name="name" value="calculatedTotal"/>
     <property name="label" value="Calculated Total"/>
     <property name="shortLabel" value="Amount"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="AssetRetirementGlobal-buyerDescription" parent="AssetRetirementGlobal-buyerDescription-parentBean"/>

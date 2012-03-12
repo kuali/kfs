@@ -50,7 +50,7 @@
               <property name="objectAttributeName" value="campus"/>
               <property name="primitiveAttributes">
                 <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="campusCode" p:targetName="campusCode"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="campusCode" p:targetName="code"/>
                 </list>
               </property>
     		</bean>
@@ -94,24 +94,25 @@
 	</property>
   </bean>
   
+  <!-- building code and room number shall be not required -->
+  
   <bean id="BarcodeInventoryErrorDetail-buildingCode" parent="BarcodeInventoryErrorDetail-buildingCode-parentBean"/>
-  <bean id="BarcodeInventoryErrorDetail-buildingCode-parentBean" abstract="true" parent="Building-buildingCode">
+  <bean id="BarcodeInventoryErrorDetail-buildingCode-parentBean" abstract="true" parent="Asset-buildingCode">
   </bean>
   
   <bean id="BarcodeInventoryErrorDetail-buildingRoomNumber" parent="BarcodeInventoryErrorDetail-buildingRoomNumber-parentBean"/>
-  <bean id="BarcodeInventoryErrorDetail-buildingRoomNumber-parentBean" abstract="true" parent="Room-buildingRoomNumber">
-    <property name="label" value="Room Number"/>
+  <bean id="BarcodeInventoryErrorDetail-buildingRoomNumber-parentBean" abstract="true" parent="Asset-buildingRoomNumber">
     <property name="shortLabel" value="Room#"/>
   </bean>
   
   <bean id="BarcodeInventoryErrorDetail-buildingSubRoomNumber" parent="BarcodeInventoryErrorDetail-buildingSubRoomNumber-parentBean"/>
   <bean id="BarcodeInventoryErrorDetail-buildingSubRoomNumber-parentBean" abstract="true" parent="Asset-buildingSubRoomNumber">
-    <property name="label" value="Sub Room Number"/>
     <property name="shortLabel" value="Sub Room#"/>
   </bean>
   
   <bean id="BarcodeInventoryErrorDetail-campusCode" parent="BarcodeInventoryErrorDetail-campusCode-parentBean"/>
-  <bean id="BarcodeInventoryErrorDetail-campusCode-parentBean" abstract="true" parent="Campus-campusCode">
+  <bean id="BarcodeInventoryErrorDetail-campusCode-parentBean" abstract="true" parent="Campus-code">
+    <property name="name" value="campusCode"/>
     <property name="shortLabel" value="Campus"/>
   </bean>
   

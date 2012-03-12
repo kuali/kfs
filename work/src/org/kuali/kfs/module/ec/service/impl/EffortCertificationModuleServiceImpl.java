@@ -20,16 +20,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.kfs.integration.ec.EffortCertificationReport;
 import org.kuali.kfs.integration.ec.EffortCertificationModuleService;
+import org.kuali.kfs.integration.ec.EffortCertificationReport;
 import org.kuali.kfs.module.ec.EffortConstants;
-import org.kuali.kfs.module.ec.EffortConstants.SystemParameters;
-import org.kuali.kfs.module.ec.batch.EffortCertificationExtractStep;
 import org.kuali.kfs.module.ec.dataaccess.EffortCertificationReportDefinitionDao;
 import org.kuali.kfs.module.ec.service.EffortCertificationReportDefinitionService;
 import org.kuali.kfs.module.ec.util.AccountingPeriodMonth;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

@@ -23,10 +23,10 @@
         http://rice.kuali.org/dd/dd.xsd">
       
 
-   	<bean id="RoutingType-VendorMaintenanceDocument-Management" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+   	<bean id="RoutingType-VendorMaintenanceDocument-Management" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
-		        <bean class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+		        <bean class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
 			    	<property name="qualificationAttributeName" value="vendorTypeCode" />
 			    </bean>
 	    
@@ -34,7 +34,7 @@
     	</property>
     	<property name="documentValuePathGroups">
     		<list>
-    			<bean class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+    			<bean class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
     				<property name="documentValues">
     					<list>
     						<value>newMaintainableObject.businessObject.vendorHeader.vendorTypeCode</value>

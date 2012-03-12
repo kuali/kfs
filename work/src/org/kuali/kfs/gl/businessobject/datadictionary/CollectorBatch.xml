@@ -100,7 +100,7 @@
   </bean>
   <bean id="CollectorBatch-campusCode" parent="CollectorBatch-campusCode-parentBean"/>
   
-  <bean id="CollectorBatch-campusCode-parentBean" abstract="true" parent="Campus-campusCode-parentBean">
+  <bean id="CollectorBatch-campusCode-parentBean" abstract="true" parent="Campus-code-parentBean">
     <property name="name" value="campusCode"/>
     <property name="label" value="Campus Code"/>
   </bean>
@@ -185,6 +185,6 @@
     <property name="control">
     	<bean parent="TextControlDefinition" p:size="20"/>
     </property>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
 </beans>

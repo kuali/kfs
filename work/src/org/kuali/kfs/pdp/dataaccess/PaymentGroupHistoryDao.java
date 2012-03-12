@@ -17,8 +17,6 @@ package org.kuali.kfs.pdp.dataaccess;
 
 import java.util.Iterator;
 
-import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
-
 public interface PaymentGroupHistoryDao {
 
     /**

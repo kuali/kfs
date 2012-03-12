@@ -16,7 +16,7 @@
  function loadAgreementSpecialInstructionCodeDesc(codeFieldName) {
 	var elPrefix = findElPrefix(codeFieldName.name);
 	var codeDescriptionFieldName = elPrefix + ".agreementSpecialInstruction.name";
-	var code = DWRUtil.getValue(codeFieldName);
+	var code = dwr.util.getValue(codeFieldName);
 	
 	setAgreementSpecialInstructionCodeDescription(code, codeDescriptionFieldName);
 }

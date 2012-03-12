@@ -29,8 +29,8 @@ import org.kuali.kfs.coa.dataaccess.impl.PriorYearAccountDaoJdbcImpl;
 import org.kuali.kfs.coa.service.PriorYearAccountService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.PersistenceStructureService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.PersistenceStructureService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

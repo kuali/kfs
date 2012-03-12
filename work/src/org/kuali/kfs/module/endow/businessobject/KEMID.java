@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.endow.businessobject;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -24,9 +25,8 @@ import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * This KEMID class is an identifier for a specific set of Funds held by the institution as an endowment of funds functioning as an
@@ -94,25 +94,25 @@ public class KEMID extends PersistableBusinessObjectBase {
      */
     public KEMID() {
         super();
-        kemidAgreements = new TypedArrayList(KemidAgreement.class);
-        kemidSourcesOfFunds = new TypedArrayList(KemidSourceOfFunds.class);
-        kemidBenefittingOrganizations = new TypedArrayList(KemidBenefittingOrganization.class);
-        kemidGeneralLedgerAccounts = new TypedArrayList(KemidGeneralLedgerAccount.class);
-        kemidPayoutInstructions = new TypedArrayList(KemidPayoutInstruction.class);
-        kemidUseCriteria = new TypedArrayList(KemidUseCriteria.class);
-        kemidSpecialInstructions = new TypedArrayList(KemidSpecialInstruction.class);
-        kemidFees = new TypedArrayList(KemidFee.class);
-        kemidReportGroups = new TypedArrayList(KemidReportGroup.class);
-        kemidDonorStatements = new TypedArrayList(KemidDonorStatement.class);
-        kemidCombineDonorStatements = new TypedArrayList(KemidCombineDonorStatement.class);
-        kemidAuthorizations = new TypedArrayList(KemidAuthorizations.class);
+        kemidAgreements = new ArrayList<KemidAgreement>();
+        kemidSourcesOfFunds = new ArrayList<KemidSourceOfFunds>();
+        kemidBenefittingOrganizations = new ArrayList<KemidBenefittingOrganization>();
+        kemidGeneralLedgerAccounts = new ArrayList<KemidGeneralLedgerAccount>();
+        kemidPayoutInstructions = new ArrayList<KemidPayoutInstruction>();
+        kemidUseCriteria = new ArrayList<KemidUseCriteria>();
+        kemidSpecialInstructions = new ArrayList<KemidSpecialInstruction>();
+        kemidFees = new ArrayList<KemidFee>();
+        kemidReportGroups = new ArrayList<KemidReportGroup>();
+        kemidDonorStatements = new ArrayList<KemidDonorStatement>();
+        kemidCombineDonorStatements = new ArrayList<KemidCombineDonorStatement>();
+        kemidAuthorizations = new ArrayList<KemidAuthorizations>();
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap<String, String> toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         m.put(EndowPropertyConstants.KEMID, this.kemid);
         return m;

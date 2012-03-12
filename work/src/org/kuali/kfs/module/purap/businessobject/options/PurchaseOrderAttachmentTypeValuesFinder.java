@@ -18,24 +18,23 @@ package org.kuali.kfs.module.purap.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.AttachmentTypeCodes;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class PurchaseOrderAttachmentTypeValuesFinder extends KeyValuesBase {
 
     public List getKeyValues() {
         List keyValues = new ArrayList();
 
-        keyValues.add(new KeyLabelPair("", ""));
-        keyValues.add(new KeyLabelPair(AttachmentTypeCodes.ATTACHMENT_TYPE_CONTRACTS, AttachmentTypeCodes.ATTACHMENT_TYPE_CONTRACTS));
-        keyValues.add(new KeyLabelPair(AttachmentTypeCodes.ATTACHMENT_TYPE_QUOTE, AttachmentTypeCodes.ATTACHMENT_TYPE_QUOTE));
-        keyValues.add(new KeyLabelPair(AttachmentTypeCodes.ATTACHMENT_TYPE_RFP, AttachmentTypeCodes.ATTACHMENT_TYPE_RFP));
-        keyValues.add(new KeyLabelPair(AttachmentTypeCodes.ATTACHMENT_TYPE_RFP_RESPONSES, AttachmentTypeCodes.ATTACHMENT_TYPE_RFP_RESPONSES));
-        keyValues.add(new KeyLabelPair(AttachmentTypeCodes.ATTACHMENT_TYPE_CONTRACT_AMENDMENTS, AttachmentTypeCodes.ATTACHMENT_TYPE_CONTRACT_AMENDMENTS));
-        keyValues.add(new KeyLabelPair(AttachmentTypeCodes.ATTACHMENT_TYPE_OTHER_RESTRICTED, AttachmentTypeCodes.ATTACHMENT_TYPE_OTHER_RESTRICTED));
-        keyValues.add(new KeyLabelPair(AttachmentTypeCodes.ATTACHMENT_TYPE_OTHER, AttachmentTypeCodes.ATTACHMENT_TYPE_OTHER));
+        keyValues.add(new ConcreteKeyValue("", ""));
+        keyValues.add(new ConcreteKeyValue(AttachmentTypeCodes.ATTACHMENT_TYPE_CONTRACTS, AttachmentTypeCodes.ATTACHMENT_TYPE_CONTRACTS));
+        keyValues.add(new ConcreteKeyValue(AttachmentTypeCodes.ATTACHMENT_TYPE_QUOTE, AttachmentTypeCodes.ATTACHMENT_TYPE_QUOTE));
+        keyValues.add(new ConcreteKeyValue(AttachmentTypeCodes.ATTACHMENT_TYPE_RFP, AttachmentTypeCodes.ATTACHMENT_TYPE_RFP));
+        keyValues.add(new ConcreteKeyValue(AttachmentTypeCodes.ATTACHMENT_TYPE_RFP_RESPONSES, AttachmentTypeCodes.ATTACHMENT_TYPE_RFP_RESPONSES));
+        keyValues.add(new ConcreteKeyValue(AttachmentTypeCodes.ATTACHMENT_TYPE_CONTRACT_AMENDMENTS, AttachmentTypeCodes.ATTACHMENT_TYPE_CONTRACT_AMENDMENTS));
+        keyValues.add(new ConcreteKeyValue(AttachmentTypeCodes.ATTACHMENT_TYPE_OTHER_RESTRICTED, AttachmentTypeCodes.ATTACHMENT_TYPE_OTHER_RESTRICTED));
+        keyValues.add(new ConcreteKeyValue(AttachmentTypeCodes.ATTACHMENT_TYPE_OTHER, AttachmentTypeCodes.ATTACHMENT_TYPE_OTHER));
 
         return keyValues;
     }

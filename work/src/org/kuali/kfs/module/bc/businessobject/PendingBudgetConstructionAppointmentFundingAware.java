@@ -17,7 +17,7 @@ package org.kuali.kfs.module.bc.businessobject;
 
 import java.util.List;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 /**
  * define the interfacce that references a collection of PendingBudgetConstructionAppointmentFunding objects

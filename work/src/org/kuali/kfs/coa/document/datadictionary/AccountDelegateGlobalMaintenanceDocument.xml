@@ -37,7 +37,6 @@
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="webScriptFiles">
       <list>
-        <value>../dwr/interface/AccountService.js</value>
         <value>../scripts/coa/accountGlobal.js</value>
         <value>../scripts/coa/accountDelegateGlobalDetail.js</value>        
         <value>../scripts/sys/objectInfo.js</value>
@@ -146,7 +145,7 @@
 		
 	</bean>
 	
-	<bean id="AccountDelegateGlobalMaintenanceDocument-DocumentValuePathGroup-ChartOrganization" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+	<bean id="AccountDelegateGlobalMaintenanceDocument-DocumentValuePathGroup-ChartOrganization" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
     	<property name="documentCollectionPath">
     		<bean parent="AccountDelegateGlobalMaintenanceDocument-DocumentCollectionPath-chartAndOrganization">
     			<property name="collectionPath" value="newMaintainableObject.businessObject.accountGlobalDetails"/>
@@ -154,7 +153,7 @@
     	</property>
    	</bean>
    	
-   	 <bean id="AccountDelegateGlobalMaintenanceDocument-DocumentCollectionPath-chartAndOrganization" class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath" abstract="true">
+   	 <bean id="AccountDelegateGlobalMaintenanceDocument-DocumentCollectionPath-chartAndOrganization" class="org.kuali.rice.krad.datadictionary.DocumentCollectionPath" abstract="true">
 		<property name="documentValues">
 	   		<list>
 	   			<value>chartOfAccountsCode</value>
@@ -163,7 +162,7 @@
    		</property>
    	</bean>
    	
-   	<bean id="AccountDelegateGlobalMaintenanceDocument-DocumentValuePathGroup-ChartAccountNumber" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+   	<bean id="AccountDelegateGlobalMaintenanceDocument-DocumentValuePathGroup-ChartAccountNumber" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
     	<property name="documentCollectionPath">
     		<bean parent="AccountDelegateGlobalMaintenanceDocument-DocumentCollectionPath-chartAndAccountNumber">
     			<property name="collectionPath" value="newMaintainableObject.businessObject.accountGlobalDetails"/>
@@ -171,7 +170,7 @@
     	</property>
    	</bean>
    	
-   	<bean id="AccountDelegateGlobalMaintenanceDocument-DocumentCollectionPath-chartAndAccountNumber" class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath" abstract="true">
+   	<bean id="AccountDelegateGlobalMaintenanceDocument-DocumentCollectionPath-chartAndAccountNumber" class="org.kuali.rice.krad.datadictionary.DocumentCollectionPath" abstract="true">
 		<property name="documentValues">
 	   		<list>
 	   			<value>chartOfAccountsCode</value>
@@ -180,7 +179,7 @@
    		</property>
    	</bean>
    	
-   	<bean id="AccountDelegateGlobalMaintenanceDocument-DocumentValuePathGroup-Chart" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+   	<bean id="AccountDelegateGlobalMaintenanceDocument-DocumentValuePathGroup-Chart" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
     	<property name="documentCollectionPath">
     		<bean parent="AccountDelegateGlobalMaintenanceDocument-DocumentCollectionPath-chart">
     			<property name="collectionPath" value="newMaintainableObject.businessObject.accountGlobalDetails"/>
@@ -188,7 +187,7 @@
     	</property>
    	</bean>
    	
-   	 <bean id="AccountDelegateGlobalMaintenanceDocument-DocumentCollectionPath-chart" class="org.kuali.rice.kns.datadictionary.DocumentCollectionPath" abstract="true">
+   	 <bean id="AccountDelegateGlobalMaintenanceDocument-DocumentCollectionPath-chart" class="org.kuali.rice.krad.datadictionary.DocumentCollectionPath" abstract="true">
 		<property name="documentValues">
 	   		<list>
 	   			<value>chartOfAccountsCode</value>
@@ -196,7 +195,7 @@
    		</property>
    	</bean>
    	
-   	<bean id="AccountDelegateGlobalMaintenanceDocument-RoutingType-OrganizationHierarchy" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+   	<bean id="AccountDelegateGlobalMaintenanceDocument-RoutingType-OrganizationHierarchy" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
 		        <ref bean="RoutingAttribute-Chart"/>
@@ -210,7 +209,7 @@
     	</property>
     </bean>
    	
-	<bean id="AccountDelegateGlobalMaintenanceDocument-RoutingType-Chart" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+	<bean id="AccountDelegateGlobalMaintenanceDocument-RoutingType-Chart" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
 		        <ref bean="RoutingAttribute-Chart"/>
@@ -223,7 +222,7 @@
     	</property>
     </bean>
     
-    <bean id="AccountDelegateGlobalMaintenanceDocument-RoutingType-Account" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+    <bean id="AccountDelegateGlobalMaintenanceDocument-RoutingType-Account" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
 		        <ref bean="RoutingAttribute-Chart"/>

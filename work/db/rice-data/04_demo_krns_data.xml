@@ -2,49 +2,29 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 
-	<changeSet context="demo" author="kfs" id="KFS_DEMO_LOAD_KRNS_PARM_T_oracle" dbms="oracle">
+	<changeSet context="demo" author="kfs" id="KFS_DEMO_LOAD_KRCR_PARM_T_oracle" dbms="oracle">
 		<!-- need to clear out the bootstrap data -->
-		<delete tableName="KRNS_PARM_T">
-			<where>APPL_NMSPC_CD = 'KFS'</where>
+		<delete tableName="KRCR_PARM_T">
+			<where>APPL_ID = 'KFS'</where>
 		</delete>
-		<loadData tableName="KRNS_PARM_T" file="demo/krns_parm_t.csv">
-			<column header="NMSPC_CD" type="string" />
-			<column header="OBJ_ID" type="string" />
-			<column header="PARM_DTL_TYP_CD" type="string" />
-			<column header="PARM_NM" type="string" />
-			<column header="PARM_TYP_CD" type="string" />
-			<column header="TXT" type="string" />
-			<column header="PARM_DESC_TXT" type="string" />
-			<column header="CONS_CD" type="string" />
-			<column header="APPL_NMSPC_CD" type="string" />
-		</loadData>
+		<loadData tableName="KRCR_PARM_T" file="demo/krcr_parm_t.csv" />
     </changeSet>
 
-    <changeSet context="demo" author="kfs" id="KFS_DEMO_LOAD_KRNS_PARM_T_mysql" dbms="mysql">
+    <changeSet context="demo" author="kfs" id="KFS_DEMO_LOAD_KRCR_PARM_T_mysql" dbms="mysql">
 		<!-- need to clear out the bootstrap data -->
-		<delete tableName="KRNS_PARM_T">
-			<where>APPL_NMSPC_CD = 'KFS'</where>
+		<delete tableName="KRCR_PARM_T">
+			<where>APPL_ID = 'KFS'</where>
 		</delete>
 		<sql>
 		   SET sql_mode='NO_BACKSLASH_ESCAPES'
 		</sql>
-		<loadData tableName="KRNS_PARM_T" file="demo/krns_parm_t.csv">
-			<column header="NMSPC_CD" type="string" />
-			<column header="OBJ_ID" type="string" />
-			<column header="PARM_DTL_TYP_CD" type="string" />
-			<column header="PARM_NM" type="string" />
-			<column header="PARM_TYP_CD" type="string" />
-			<column header="TXT" type="string" />
-			<column header="PARM_DESC_TXT" type="string" />
-			<column header="CONS_CD" type="string" />
-			<column header="APPL_NMSPC_CD" type="string" />
-		</loadData>
+		<loadData tableName="KRCR_PARM_T" file="demo/krcr_parm_t.csv" />
     </changeSet>
 
 
-	<changeSet context="demo" author="kfs" id="KFS_DEMO_LOAD_KRNS_CAMPUS_T">
-	    <delete tableName="KRNS_CAMPUS_T" />
-		<loadData tableName="KRNS_CAMPUS_T" file="demo/krns_campus_t.csv" />
+	<changeSet context="demo" author="kfs" id="KFS_DEMO_LOAD_KRLC_CMP_T">
+	    <delete tableName="KRLC_CMP_T" />
+		<loadData tableName="KRLC_CMP_T" file="demo/krlc_cmp_t.csv" />
     </changeSet>
 
 </databaseChangeLog>   

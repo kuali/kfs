@@ -91,15 +91,11 @@
   </bean>
   <bean id="RequisitionCapitalAssetLocation-campusCode" parent="RequisitionCapitalAssetLocation-campusCode-parentBean"/>
 
-  <bean id="RequisitionCapitalAssetLocation-campusCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="RequisitionCapitalAssetLocation-campusCode-parentBean" abstract="true" parent="Campus-code">
     <property name="name" value="campusCode"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Campus"/>
     <property name="shortLabel" value="Campus"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
     <property name="control">
       <ref bean="FourCharacterTextControl" />
     </property>
@@ -130,7 +126,7 @@
       <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.bo.options.CountryNotRestrictedValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryNotRestrictedValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
   <bean id="RequisitionCapitalAssetLocation-capitalAssetLine1Address" parent="RequisitionCapitalAssetLocation-capitalAssetLine1Address-parentBean"/>
@@ -164,12 +160,13 @@
   </bean>
   
   <bean id="RequisitionCapitalAssetLocation-capitalAssetPostalCode" parent="RequisitionCapitalAssetLocation-capitalAssetPostalCode-parentBean"/>
-  <bean id="RequisitionCapitalAssetLocation-capitalAssetPostalCode-parentBean" parent="ExternalizableAttributeDefinitionProxy" abstract="true" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode" p:sourceAttributeName="postalCode" p:name="capitalAssetPostalCode" p:label="Postal Code" p:shortLabel="Postal Code" p:required="false">
+  <bean id="RequisitionCapitalAssetLocation-capitalAssetPostalCode-parentBean" parent="PostalCode-code">
+    <property name="name" value="capitalAssetPostalCode"/>
   </bean>
   
   <bean id="RequisitionCapitalAssetLocation-capitalAssetStateCode" parent="RequisitionCapitalAssetLocation-capitalAssetStateCode-parentBean"/>
 
-  <bean id="RequisitionCapitalAssetLocation-capitalAssetStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State" p:sourceAttributeName="postalStateCode">
+  <bean id="RequisitionCapitalAssetLocation-capitalAssetStateCode-parentBean" abstract="true" parent="State-code">
     <property name="name" value="capitalAssetStateCode"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="State"/>
@@ -179,7 +176,7 @@
       <ref bean="AnyCharacterValidation" />
     </property>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.bo.options.StateValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.state.StateValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
   <bean id="RequisitionCapitalAssetLocation-capitalAssetSystemIdentifier" parent="RequisitionCapitalAssetLocation-capitalAssetSystemIdentifier-parentBean"/>

@@ -30,7 +30,7 @@
  
  function setFeeEndowmentCodeDescription(feeEndowmentCodeFieldName, feeEndowmentCodeDescriptionFieldName, errorMessage){
  
-	var feeEndowmentCode = DWRUtil.getValue(feeEndowmentCodeFieldName);
+	var feeEndowmentCode = dwr.util.getValue(feeEndowmentCodeFieldName);
     
 	if (feeEndowmentCode =='') {
 		clearRecipients(feeEndowmentCodeDescriptionFieldName);

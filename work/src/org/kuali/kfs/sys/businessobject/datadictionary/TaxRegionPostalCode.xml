@@ -32,11 +32,11 @@
     <property name="relationships">
       <list>
         <dd:relationship objectAttribute="postalZip">
-        	<dd:primitiveAttribute source="postalCountryCode" target="postalCountryCode"/>
-            <dd:primitiveAttribute source="postalCode" target="postalCode"/>
+        	<dd:primitiveAttribute source="postalCountryCode" target="countryCode"/>
+            <dd:primitiveAttribute source="postalCode" target="code"/>
         </dd:relationship>
         <dd:relationship objectAttribute="country">
-            <dd:primitiveAttribute source="postalCountryCode" target="postalCountryCode"/>
+            <dd:primitiveAttribute source="postalCountryCode" target="code"/>
         </dd:relationship>        
       </list>
     </property>
@@ -45,14 +45,14 @@
 <!-- Attribute Definitions -->
   <bean id="TaxRegionPostalCode-postalCountryCode" parent="TaxRegionPostalCode-postalCountryCode-parentBean"/>
   
-  <bean id="TaxRegionPostalCode-postalCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Country" p:sourceAttributeName="postalCountryCode">
+  <bean id="TaxRegionPostalCode-postalCountryCode-parentBean" abstract="true" parent="Country-code">
 	<property name="name" value="postalCountryCode"/>
 	<property name="forceUppercase" value="true"/>
   </bean>	
   
  <bean id="TaxRegionPostalCode-postalCode" parent="TaxRegionPostalCode-postalCode-parentBean"/>
 
-  <bean id="TaxRegionPostalCode-postalCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode" p:sourceAttributeName="postalCode">
+  <bean id="TaxRegionPostalCode-postalCode-parentBean" abstract="true" parent="PostalCode-code">
     <property name="name" value="postalCode"/>
     <property name="forceUppercase" value="true"/>
   </bean>

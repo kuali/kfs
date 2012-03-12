@@ -25,7 +25,7 @@ import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * To define an action form for effrot certification recreate process
@@ -72,7 +72,7 @@ public class CertificationRecreateForm extends EffortCertificationForm {
             dictionaryValidationService.validateDocumentAttribute(document, fieldName, EffortConstants.DOCUMENT_PREFIX);
         }
 
-        return GlobalVariables.getMessageMap().isEmpty();
+        return GlobalVariables.getMessageMap().hasErrors();
     }
 
     /**

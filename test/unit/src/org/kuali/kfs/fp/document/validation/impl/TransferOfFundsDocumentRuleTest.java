@@ -16,7 +16,7 @@
 package org.kuali.kfs.fp.document.validation.impl;
 
 
-import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapContains;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalMessageMapContains;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleTestUtils.testAddAccountingLineRule_ProcessAddAccountingLineBusinessRules;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleTestUtils.testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries;
 import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleTestUtils.testRouteDocumentRule_processRouteDocument;
@@ -66,9 +66,9 @@ import org.kuali.kfs.sys.service.IsDebitTestUtils;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.CrossSectionSuite;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.service.DocumentService;
 
 @ConfigureContext(session = khuntley)
 public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
@@ -95,7 +95,7 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
 
         boolean ruleResult = testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(document, accountingLine, expectedExplicit, expectedOffset);
         assertEquals(false, ruleResult);
-        assertGlobalErrorMapContains(KFSConstants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_NO_OFFSET_DEFINITION);
+        assertGlobalMessageMapContains(KFSConstants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_NO_OFFSET_DEFINITION);
     }
 
     public void testIsDebit_source_income_positveAmount() throws Exception {

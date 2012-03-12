@@ -19,11 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.pdp.businessobject.DisbursementType;
-import org.kuali.kfs.pdp.businessobject.PaymentStatus;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 public class DisbursementTypeValuesFinder extends KeyValuesBase {
 
@@ -31,12 +31,12 @@ public class DisbursementTypeValuesFinder extends KeyValuesBase {
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @SuppressWarnings("unchecked")
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         List<DisbursementType> boList = (List) SpringContext.getBean(KeyValuesService.class).findAll(DisbursementType.class);
-        List<KeyLabelPair> keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair("", ""));
+        List<KeyValue> keyValues = new ArrayList();
+        keyValues.add(new ConcreteKeyValue("", ""));
         for (DisbursementType element : boList) {
-            keyValues.add(new KeyLabelPair(element.getCode(), element.getName()));
+            keyValues.add(new ConcreteKeyValue(element.getCode(), element.getName()));
         }
 
         return keyValues;

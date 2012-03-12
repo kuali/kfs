@@ -37,8 +37,8 @@ import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
 import org.kuali.kfs.module.ld.util.LaborOriginEntryFileIterator;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.Message;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -337,7 +337,7 @@ public class LaborOriginEntryServiceImpl extends OriginEntryGroupServiceImpl imp
         
         boolean loadError = false;
         //returnErrorList is list of List<Message>
-        Map returnErrorMap = getEntriesByBufferedReader(INPUT_GLE_FILE_br, originEntryList);
+        Map returnMessageMap = getEntriesByBufferedReader(INPUT_GLE_FILE_br, originEntryList);
 
         try{
             INPUT_GLE_FILE_br.close();
@@ -347,13 +347,13 @@ public class LaborOriginEntryServiceImpl extends OriginEntryGroupServiceImpl imp
         }
         
         
-        return returnErrorMap;
+        return returnMessageMap;
     }
     
     public Map getEntriesByBufferedReader(BufferedReader inputBufferedReader, List<LaborOriginEntry> originEntryList) {
         String line;
         int lineNumber = 0;
-        Map returnErrorMap = new HashMap();
+        Map returnMessageMap = new HashMap();
         try {
             List<Message> tmperrors = new ArrayList();    
             while ((line = inputBufferedReader.readLine()) != null) {
@@ -362,7 +362,7 @@ public class LaborOriginEntryServiceImpl extends OriginEntryGroupServiceImpl imp
                 tmperrors = laborOriginEntry.setFromTextFileForBatch(line, lineNumber);
                 laborOriginEntry.setEntryId(lineNumber);
                 if (tmperrors.size() > 0){
-                    returnErrorMap.put(new Integer(lineNumber), tmperrors);
+                    returnMessageMap.put(new Integer(lineNumber), tmperrors);
                 } else {
                     originEntryList.add(laborOriginEntry);
                 }
@@ -371,7 +371,7 @@ public class LaborOriginEntryServiceImpl extends OriginEntryGroupServiceImpl imp
             throw new RuntimeException(e);
         }
             
-        return returnErrorMap;
+        return returnMessageMap;
     }
 
 

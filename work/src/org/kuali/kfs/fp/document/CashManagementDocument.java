@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,12 +16,9 @@
 
 package org.kuali.kfs.fp.document;
 
-import static org.kuali.rice.kns.util.AssertionUtils.assertThat;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,16 +45,16 @@ import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.location.api.campus.Campus;
+import org.kuali.rice.location.api.campus.CampusService;
 
 /**
  * This class represents the CashManagementDocument.
@@ -75,7 +72,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
     protected CashieringTransaction currentTransaction;
     protected CashDrawer cashDrawer;
     protected Campus campus;
-    
+
     private KualiDecimal financialDocumentHundredDollarAmount;
     private KualiDecimal financialDocumentFiftyDollarAmount;
     private KualiDecimal financialDocumentTwentyDollarAmount;
@@ -91,7 +88,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
     private KualiDecimal financialDocumentFiveCentAmount;
     private KualiDecimal financialDocumentOneCentAmount;
     private KualiDecimal financialDocumentOtherCentAmount;
-    
+
 
     /**
      * Default constructor.
@@ -113,7 +110,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
 
     /**
      * Sets the campusCode attribute value.
-     * 
+     *
      * @param campusCode The campusCode to set.
      */
     public void setCampusCode(String campusCode) {
@@ -152,7 +149,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
 
     /**
      * Sets the current List of Deposits
-     * 
+     *
      * @param deposits
      */
     public void setDeposits(List<Deposit> deposits) {
@@ -162,7 +159,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
     /**
      * Implementation creates empty Deposits as a side-effect, so that Struts' efforts to set fields of lines which haven't been
      * created will succeed rather than causing a NullPointerException.
-     * 
+     *
      * @return Deposit at the given index
      */
     public Deposit getDeposit(int index) {
@@ -173,7 +170,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
 
     /**
      * Removes and returns the Deposit at the given index.
-     * 
+     *
      * @param index
      * @return Deposit at the given index
      */
@@ -219,7 +216,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
 
     /**
      * Adds default AccountingLineDecorators to sourceAccountingLineDecorators until it contains at least minSize elements
-     * 
+     *
      * @param minSize
      */
     protected void extendDeposits(int minSize) {
@@ -229,8 +226,9 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
     }
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.krad.document.DocumentBase#buildListOfDeletionAwareLists()
      */
+
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
@@ -243,7 +241,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
 
     /**
      * Gets the cashDrawer attribute.
-     * 
+     *
      * @return Returns the cashDrawer.
      */
     public CashDrawer getCashDrawer() {
@@ -252,7 +250,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
 
     /**
      * Sets the cashDrawer attribute
-     * 
+     *
      * @param cd the cash drawer to set
      */
     public void setCashDrawer(CashDrawer cd) {
@@ -261,7 +259,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
 
     /**
      * Gets the currentTransaction attribute.
-     * 
+     *
      * @return Returns the currentTransaction.
      */
     public CashieringTransaction getCurrentTransaction() {
@@ -271,7 +269,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
 
     /**
      * Sets the currentTransaction attribute value.
-     * 
+     *
      * @param currentTransaction The currentTransaction to set.
      */
     public void setCurrentTransaction(CashieringTransaction currentTransaction) {
@@ -280,7 +278,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
 
     /**
      * Gets the checks attribute.
-     * 
+     *
      * @return Returns the checks.
      */
     public List<Check> getChecks() {
@@ -289,7 +287,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
 
     /**
      * Sets the checks attribute value.
-     * 
+     *
      * @param checks The checks to set.
      */
     public void setChecks(List<Check> checks) {
@@ -298,7 +296,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
 
     /**
      * Add a check to the cash management document
-     * 
+     *
      * @param check
      */
     public void addCheck(Check check) {
@@ -306,47 +304,47 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
     }
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#doRouteStatusChange()
+     * @see org.kuali.rice.krad.document.DocumentBase#doRouteStatusChange()
      */
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
 
-        KualiWorkflowDocument kwd = getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument kwd = getDocumentHeader().getWorkflowDocument();
 
         if (LOG.isDebugEnabled()) {
             logState();
         }
 
-        if (kwd.stateIsProcessed()) {
+        if (kwd.isProcessed()) {
             // all approvals have been processed, finalize everything
             SpringContext.getBean(CashManagementService.class).finalizeCashManagementDocument(this);
         }
-        else if (kwd.stateIsCanceled() || kwd.stateIsDisapproved()) {
+        else if (kwd.isCanceled() || kwd.isDisapproved()) {
             // document has been canceled or disapproved
             SpringContext.getBean(CashManagementService.class).cancelCashManagementDocument(this);
         }
     }
 
     protected void logState() {
-        KualiWorkflowDocument kwd = getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument kwd = getDocumentHeader().getWorkflowDocument();
 
-        if (kwd.stateIsInitiated()) {
-            LOG.debug("CMD stateIsInitiated");
+        if (kwd.isInitiated()) {
+            LOG.debug("CMD isInitiated");
         }
-        if (kwd.stateIsProcessed()) {
-            LOG.debug("CMD stateIsProcessed");
+        if (kwd.isProcessed()) {
+            LOG.debug("CMD isProcessed");
         }
-        if (kwd.stateIsCanceled()) {
-            LOG.debug("CMD stateIsCanceled");
+        if (kwd.isCanceled()) {
+            LOG.debug("CMD isCanceled");
         }
-        if (kwd.stateIsDisapproved()) {
-            LOG.debug("CMD stateIsDisapproved");
+        if (kwd.isDisapproved()) {
+            LOG.debug("CMD isDisapproved");
         }
     }
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#processAfterRetrieve()
+     * @see org.kuali.rice.krad.document.DocumentBase#processAfterRetrieve()
      */
     @Override
     public void processAfterRetrieve() {
@@ -357,19 +355,6 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
             this.resetCurrentTransaction();
         }
         SpringContext.getBean(CashManagementService.class).populateCashDetailsForDeposit(this);
-    }
-
-
-    /* utility methods */
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, getDocumentNumber());
-        m.put("campusCode", getCampusCode());
-        return m;
     }
 
     /**
@@ -410,6 +395,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
      * Returns an empty list as this document has no GeneralLedgerPostables
      * @see org.kuali.kfs.document.GeneralLedgerPostingHelper#getGeneralLedgerPostables()
      */
+    @Override
     public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPendingEntrySourceDetails() {
         return new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
     }
@@ -419,6 +405,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
      * Always returns true, as there are no GeneralLedgerPostables to create GLPEs
      * @see org.kuali.kfs.document.GeneralLedgerPostingHelper#isDebit(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
      */
+    @Override
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         return true;
     }
@@ -426,16 +413,17 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
 
     /**
      * Generates bank offset GLPEs for deposits, if enabled.
-     * 
+     *
      * @param financialDocument submitted accounting document
      * @param sequenceHelper helper class to keep track of sequence of general ledger pending entries
      * @see org.kuali.kfs.document.GeneralLedgerPostingHelper#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
+    @Override
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;
-        
+
         GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
-        
+
         if (SpringContext.getBean(BankService.class).isBankSpecificationEnabled()) {
             Integer universityFiscalYear = getUniversityFiscalYear();
             int interimDepositNumber = 1;
@@ -448,7 +436,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
                     LOG.warn("Skipping ledger entries for deposit " + deposit.getDepositTicketNumber() + ".");
                     continue; // An unsuccessfully populated bank offset entry may contain invalid relations, so don't add it
                 }
-                
+
                 bankOffsetEntry.setTransactionLedgerEntryDescription(createDescription(deposit, interimDepositNumber++));
                 getGeneralLedgerPendingEntries().add(bankOffsetEntry);
                 sequenceHelper.increment();
@@ -459,13 +447,13 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
                 sequenceHelper.increment();
             }
         }
-        
+
         return success;
     }
-    
+
     /**
      * Create description for deposit
-     * 
+     *
      * @param deposit deposit from cash management document
      * @param interimDepositNumber
      * @return the description for the given deposit's GLPE bank offset
@@ -476,7 +464,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
             descriptionKey = KFSKeyConstants.CashManagement.DESCRIPTION_GLPE_BANK_OFFSET_FINAL;
         }
         else {
-            assertThat(KFSConstants.DepositConstants.DEPOSIT_TYPE_INTERIM.equals(deposit.getDepositTypeCode()), deposit.getDepositTypeCode());
+           // assertThat(KFSConstants.DepositConstants.DEPOSIT_TYPE_INTERIM.equals(deposit.getDepositTypeCode()), deposit.getDepositTypeCode());
             descriptionKey = KFSKeyConstants.CashManagement.DESCRIPTION_GLPE_BANK_OFFSET_INTERIM;
         }
         AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);
@@ -490,7 +478,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
      * is a hack right now because it's intended to be set by the
      * <code>{@link org.kuali.kfs.coa.service.AccountingPeriodService}</code>, which suggests to me that pulling that
      * property up to FinancialDocument is preferable to duplicating this logic here.
-     * 
+     *
      * @return the fiscal year for the GLPEs generated by this document
      */
     protected Integer getUniversityFiscalYear() {
@@ -501,6 +489,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
      * The Cash Management doc doesn't have accounting lines, so it doesn't create general ledger pending entries for the accounting lines it doesn't have
      * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#generateGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
+    @Override
     public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         return true;
     }
@@ -509,13 +498,14 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
     /**
      * @see org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource#getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
      */
+    @Override
     public KualiDecimal getGeneralLedgerPendingEntryAmountForDetail(GeneralLedgerPendingEntrySourceDetail postable) {
         return postable.getAmount().abs();
     }
-    
+
     /**
      * Helper method on document for determining whether the document can have GLPEs.
-     * 
+     *
      * @return true if document can have GLPEs
      */
     public boolean getBankCashOffsetEnabled() {
@@ -523,39 +513,39 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#prepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
+     * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#prepareForSave(org.kuali.rice.krad.rule.event.KualiDocumentEvent)
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
-        if (getBankCashOffsetEnabled()) { 
+        if (getBankCashOffsetEnabled()) {
             if (!SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(this)) {
                 logErrors();
                 throw new ValidationException("general ledger GLPE generation failed");
             }
         }
-        
+
         super.prepareForSave(event);
     }
-    
+
     /**
      * @return the campus associated with this cash drawer
      */
     public Campus getCampus() {
-        if (campusCode != null && (campus == null || !campus.getCampusCode().equals(campusCode))) {
+        if (campusCode != null && (campus == null || !campus.getCode().equals(campusCode))) {
             campus = retrieveCampus();
         }
         return campus;
     }
-    
+
     protected Campus retrieveCampus() {
         Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put(KNSPropertyConstants.CAMPUS_CODE, campusCode);
-        return campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).getExternalizableBusinessObject(Campus.class, criteria);
+        criteria.put(KRADPropertyConstants.CAMPUS_CODE, campusCode);
+        return campus = SpringContext.getBean(CampusService.class).getCampus(campusCode/*RICE_20_REFACTORME  criteria */);
     }
 
 
     /**
-     * Gets the financialDocumentHundredDollarAmount attribute. 
+     * Gets the financialDocumentHundredDollarAmount attribute.
      * @return Returns the financialDocumentHundredDollarAmount.
      */
     public KualiDecimal getFinancialDocumentHundredDollarAmount() {
@@ -571,9 +561,8 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
         this.financialDocumentHundredDollarAmount = financialDocumentHundredDollarAmount;
     }
 
-
     /**
-     * Gets the financialDocumentFiftyDollarAmount attribute. 
+     * Gets the financialDocumentFiftyDollarAmount attribute.
      * @return Returns the financialDocumentFiftyDollarAmount.
      */
     public KualiDecimal getFinancialDocumentFiftyDollarAmount() {
@@ -591,7 +580,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
 
 
     /**
-     * Gets the financialDocumentTwentyDollarAmount attribute. 
+     * Gets the financialDocumentTwentyDollarAmount attribute.
      * @return Returns the financialDocumentTwentyDollarAmount.
      */
     public KualiDecimal getFinancialDocumentTwentyDollarAmount() {
@@ -609,7 +598,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
 
 
     /**
-     * Gets the financialDocumentTenDollarAmount attribute. 
+     * Gets the financialDocumentTenDollarAmount attribute.
      * @return Returns the financialDocumentTenDollarAmount.
      */
     public KualiDecimal getFinancialDocumentTenDollarAmount() {
@@ -627,7 +616,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
 
 
     /**
-     * Gets the financialDocumentFiveDollarAmount attribute. 
+     * Gets the financialDocumentFiveDollarAmount attribute.
      * @return Returns the financialDocumentFiveDollarAmount.
      */
     public KualiDecimal getFinancialDocumentFiveDollarAmount() {
@@ -645,7 +634,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
 
 
     /**
-     * Gets the financialDocumentTwoDollarAmount attribute. 
+     * Gets the financialDocumentTwoDollarAmount attribute.
      * @return Returns the financialDocumentTwoDollarAmount.
      */
     public KualiDecimal getFinancialDocumentTwoDollarAmount() {
@@ -663,7 +652,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
 
 
     /**
-     * Gets the financialDocumentOneDollarAmount attribute. 
+     * Gets the financialDocumentOneDollarAmount attribute.
      * @return Returns the financialDocumentOneDollarAmount.
      */
     public KualiDecimal getFinancialDocumentOneDollarAmount() {
@@ -681,7 +670,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
 
 
     /**
-     * Gets the financialDocumentOtherDollarAmount attribute. 
+     * Gets the financialDocumentOtherDollarAmount attribute.
      * @return Returns the financialDocumentOtherDollarAmount.
      */
     public KualiDecimal getFinancialDocumentOtherDollarAmount() {
@@ -699,7 +688,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
 
 
     /**
-     * Gets the financialDocumentHundredCentAmount attribute. 
+     * Gets the financialDocumentHundredCentAmount attribute.
      * @return Returns the financialDocumentHundredCentAmount.
      */
     public KualiDecimal getFinancialDocumentHundredCentAmount() {
@@ -717,7 +706,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
 
 
     /**
-     * Gets the financialDocumentFiftyCentAmount attribute. 
+     * Gets the financialDocumentFiftyCentAmount attribute.
      * @return Returns the financialDocumentFiftyCentAmount.
      */
     public KualiDecimal getFinancialDocumentFiftyCentAmount() {
@@ -735,7 +724,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
 
 
     /**
-     * Gets the financialDocumentTwentyFiveCentAmount attribute. 
+     * Gets the financialDocumentTwentyFiveCentAmount attribute.
      * @return Returns the financialDocumentTwentyFiveCentAmount.
      */
     public KualiDecimal getFinancialDocumentTwentyFiveCentAmount() {
@@ -753,7 +742,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
 
 
     /**
-     * Gets the financialDocumentTenCentAmount attribute. 
+     * Gets the financialDocumentTenCentAmount attribute.
      * @return Returns the financialDocumentTenCentAmount.
      */
     public KualiDecimal getFinancialDocumentTenCentAmount() {
@@ -771,7 +760,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
 
 
     /**
-     * Gets the financialDocumentFiveCentAmount attribute. 
+     * Gets the financialDocumentFiveCentAmount attribute.
      * @return Returns the financialDocumentFiveCentAmount.
      */
     public KualiDecimal getFinancialDocumentFiveCentAmount() {
@@ -789,7 +778,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
 
 
     /**
-     * Gets the financialDocumentOneCentAmount attribute. 
+     * Gets the financialDocumentOneCentAmount attribute.
      * @return Returns the financialDocumentOneCentAmount.
      */
     public KualiDecimal getFinancialDocumentOneCentAmount() {
@@ -807,7 +796,7 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
 
 
     /**
-     * Gets the financialDocumentOtherCentAmount attribute. 
+     * Gets the financialDocumentOtherCentAmount attribute.
      * @return Returns the financialDocumentOtherCentAmount.
      */
     public KualiDecimal getFinancialDocumentOtherCentAmount() {
@@ -822,4 +811,6 @@ public class CashManagementDocument extends GeneralLedgerPostingDocumentBase imp
     public void setFinancialDocumentOtherCentAmount(KualiDecimal financialDocumentOtherCentAmount) {
         this.financialDocumentOtherCentAmount = financialDocumentOtherCentAmount;
     }
+
+
 }

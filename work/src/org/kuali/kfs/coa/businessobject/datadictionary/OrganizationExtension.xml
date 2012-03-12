@@ -77,7 +77,7 @@
           <property name="objectAttributeName" value="hrmsIuCampus"/>
           <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition" p:sourceName="hrmsIuCampusCode" p:targetName="campusCode"/>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="hrmsIuCampusCode" p:targetName="code"/>
             </list>
           </property>
 		</bean>
@@ -152,7 +152,7 @@
       <bean parent="AnyCharacterValidationPattern" p:maxLength="2"/>
     </property>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.campus.CampusValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
   <bean id="OrganizationExtension-hrmsIuCampusBuilding" parent="OrganizationExtension-hrmsIuCampusBuilding-parentBean"/>

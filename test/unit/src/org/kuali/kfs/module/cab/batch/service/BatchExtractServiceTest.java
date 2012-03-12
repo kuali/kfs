@@ -18,9 +18,7 @@ package org.kuali.kfs.module.cab.batch.service;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.module.cab.CabConstants;
@@ -33,11 +31,9 @@ import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
-import org.kuali.rice.kns.bo.Parameter;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.kns.util.DateUtils;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Default implementation
@@ -74,7 +70,7 @@ public class BatchExtractServiceTest extends BatchTestBase {
         // Test updating the last extract time stamp
         batchExtractService.updateLastExtractTime(ts);
         Parameter parameter = findCabExtractTimeParam();
-        assertEquals("01/01/1970 23:59:59", parameter.getParameterValue());
+        assertEquals("01/01/1970 23:59:59", parameter.getValue());
 
         // Test saving PO lines
         batchExtractService.savePOLines(purapLines, processLog);

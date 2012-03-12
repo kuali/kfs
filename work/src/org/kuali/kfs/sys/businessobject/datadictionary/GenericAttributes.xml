@@ -69,11 +69,12 @@
   
   <bean id="DateControl" parent="TextControlDefinition" p:size="10" p:datePicker="true"/>
   <bean id="HiddenControl" parent="HiddenControlDefinition" />
-  <bean id="CheckboxControl" parent="CheckboxControlDefinition"/>
+  <bean id="KfsCheckboxControl" parent="CheckboxControlDefinition"/>
   <bean id="GenericAmountControl" parent="CurrencyControlDefinition" p:formattedMaxLength="26" p:size="10"/>
   <bean id="GenericBigTextControl" parent="TextareaControlDefinition" p:rows="5" p:cols="40"/>
-  <bean id="StateCodeSelectControl" parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.bo.options.StateValuesFinder" p:includeKeyInLabel="false"/>
-  <bean id="IndicatorYNNullSelectControl" parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNNullValuesFinder" p:includeKeyInLabel="false"/>
+  <bean id="StateCodeSelectControl" parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.state.StateValuesFinder" p:includeKeyInLabel="false"/>
+  <bean id="IndicatorYNNullSelectControl" parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.IndicatorYNNullValuesFinder" p:includeKeyInLabel="false"/>
+  <bean id="IndicatorYNOnlySelectControl" parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.IndicatorYNOnlyValuesFinder" p:includeKeyInLabel="false"/>
 
 
   <bean id="ExactlyOneCharacterValidationPattern" parent="AnyCharacterValidationPattern" p:exactLength="1"/>
@@ -118,7 +119,7 @@
     <property name="maxLength" value="22"/>
     <property name="validationPattern" ref="DateValidation" />
     <property name="control" ref="DateControl" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
   </bean>
   
   <bean id="GenericAttributes-genericTimestamp" parent="GenericAttributes-genericTimestamp-parentBean"/>
@@ -129,7 +130,7 @@
     <property name="shortLabel" value="GenericTimestamp"/>
     <property name="maxLength" value="22"/>
     <property name="control" ref="DateControl" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
   </bean>
   
   <bean id="GenericAttributes-genericBoolean" parent="GenericAttributes-genericBoolean-parentBean"/>
@@ -139,8 +140,8 @@
     <property name="label" value="Generic Boolean Attribute"/>
     <property name="shortLabel" value="GenericBool"/>
     <property name="maxLength" value="1"/>
-    <property name="control" ref="CheckboxControl" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+    <property name="control" ref="KfsCheckboxControl" />
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
   </bean>
   <bean id="GenericAttributes-activeIndicator" parent="GenericAttributes-activeIndicator-parentBean"/>
 
@@ -150,8 +151,8 @@
     <property name="label" value="Active Indicator"/>
     <property name="shortLabel" value="active"/>
     <property name="maxLength" value="1"/>
-    <property name="control" ref="CheckboxControl" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+    <property name="control" ref="KfsCheckboxControl" />
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
   </bean>
   
   <bean id="GenericAttributes-genericAmount" parent="GenericAttributes-genericAmount-parentBean"/>
@@ -391,7 +392,7 @@
     <property name="shortLabel" value="NewRecord"/>
     <property name="maxLength" value="1"/>
     <property name="control" ref="HiddenControl" />
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
   </bean>
   <bean id="GenericAttributes-searchType" parent="GenericAttributes-searchType-parentBean"/>
 

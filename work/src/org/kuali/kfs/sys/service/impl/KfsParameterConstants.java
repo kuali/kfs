@@ -15,19 +15,41 @@
  */
 package org.kuali.kfs.sys.service.impl;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-import org.kuali.rice.kns.service.ParameterConstants;
-import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
-import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
+import org.kuali.rice.krad.util.KRADConstants;
 
 
-public class KfsParameterConstants extends ParameterConstants {
 
+public class KfsParameterConstants  {
+
+    public static final String NERVOUS_SYSTEM_NAMESPACE = KRADConstants.KRAD_NAMESPACE;
+    public static final String ALL_COMPONENT = "All";
+    public static final String DOCUMENT_COMPONENT = "Document";
+    public static final String LOOKUP_COMPONENT = "Lookup";
+    public static final String BATCH_COMPONENT = "Batch";
+
+    @NAMESPACE(namespace = NERVOUS_SYSTEM_NAMESPACE)
+    @COMPONENT(component = ALL_COMPONENT)
+    public final class NERVOUS_SYSTEM_ALL {
+    }
+
+    @NAMESPACE(namespace = NERVOUS_SYSTEM_NAMESPACE)
+    @COMPONENT(component = DOCUMENT_COMPONENT)
+    public final class NERVOUS_SYSTEM_DOCUMENT {
+    }
+
+    @NAMESPACE(namespace = NERVOUS_SYSTEM_NAMESPACE)
+    @COMPONENT(component = LOOKUP_COMPONENT)
+    public final class NERVOUS_SYSTEM_LOOKUP {
+    }
+
+    @NAMESPACE(namespace = NERVOUS_SYSTEM_NAMESPACE)
+    @COMPONENT(component = BATCH_COMPONENT)
+    public final class NERVOUS_SYSTEM_BATCH {
+    }
+    
     public static final String FINANCIAL_NAMESPACE_PREFIX = "KFS-";
     public static final String FINANCIAL_SYSTEM_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "SYS";
     public static final String ACCOUNTS_RECEIVABLE_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "AR";
@@ -44,6 +66,8 @@ public class KfsParameterConstants extends ParameterConstants {
     public static final String PURCHASING_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "PURAP";
     public static final String VENDOR_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "VND";
     public static final String ENDOWMENT_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "ENDOW";
+    public static final String PARAMETER_CONFIG_TYPE_CODE = "CONFG";
+    public static final String PARAMETER_ALL_DETAIL_TYPE = "All";
 
     @NAMESPACE(namespace = FINANCIAL_SYSTEM_NAMESPACE)
     @COMPONENT(component = ALL_COMPONENT)

@@ -48,6 +48,7 @@
 		<property name="label" value="Award Status Code" />
 		<property name="shortLabel" value="Code" />
 		<property name="maxLength" value="2" />
+		<property name="required" value="true" />
 		<property name="validationPattern">
 			<ref bean="AlphaNumericValidation" />
 		</property>

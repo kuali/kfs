@@ -22,15 +22,14 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * 
  */
-public class AccountDelegateModel extends PersistableBusinessObjectBase implements Inactivateable {
+public class AccountDelegateModel extends PersistableBusinessObjectBase implements MutableInactivatable {
     private static final Logger LOG = Logger.getLogger(AccountDelegateModel.class);
 
     private String chartOfAccountsCode;
@@ -46,7 +45,7 @@ public class AccountDelegateModel extends PersistableBusinessObjectBase implemen
      * Default constructor.
      */
     public AccountDelegateModel() {
-        accountDelegateModelDetails = new TypedArrayList(AccountDelegateModelDetail.class);
+        accountDelegateModelDetails = new ArrayList<AccountDelegateModelDetail>();
     }
 
     /**
@@ -163,9 +162,9 @@ public class AccountDelegateModel extends PersistableBusinessObjectBase implemen
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("organizationCode", this.organizationCode);
@@ -174,7 +173,7 @@ public class AccountDelegateModel extends PersistableBusinessObjectBase implemen
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#linkEditableUserFields()
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#linkEditableUserFields()
      */
     @Override
     public void linkEditableUserFields() {

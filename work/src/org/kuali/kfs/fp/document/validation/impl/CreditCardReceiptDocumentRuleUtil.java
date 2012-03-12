@@ -21,14 +21,14 @@ import static org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleB
 import org.kuali.kfs.fp.businessobject.CreditCardDetail;
 import org.kuali.kfs.fp.document.CreditCardReceiptDocument;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSKeyConstants.CashReceipt;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.MessageMap;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * Common Credit Card Receipt Document rule utilities.
@@ -85,7 +85,7 @@ public class CreditCardReceiptDocumentRuleUtil {
      * @return true if any of the cash totals on cash credit card receipt document are invalid
      */
     public static boolean areCashTotalsInvalid(CreditCardReceiptDocument ccrDocument) {
-        String documentEntryName = ccrDocument.getDocumentHeader().getWorkflowDocument().getDocumentType();
+        String documentEntryName = ccrDocument.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
 
         boolean isInvalid = isTotalInvalid(ccrDocument, ccrDocument.getTotalDollarAmount(), documentEntryName, KFSPropertyConstants.CREDIT_CARD_RECEIPTS_TOTAL);
 

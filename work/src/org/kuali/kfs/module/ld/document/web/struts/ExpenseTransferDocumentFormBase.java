@@ -17,8 +17,6 @@ package org.kuali.kfs.module.ld.document.web.struts;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.kuali.kfs.module.ld.LaborPropertyConstants;
 import org.kuali.kfs.module.ld.businessobject.LaborAccountingLineOverride;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -27,7 +25,7 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Base Struts Action Form for all expense transfer documents.
@@ -52,7 +50,7 @@ public abstract class ExpenseTransferDocumentFormBase extends LaborDocumentFormB
     @Override
     public void addRequiredNonEditableProperties() {
         super.addRequiredNonEditableProperties();
-        registerRequiredNonEditableProperty(KNSConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER);
+        registerRequiredNonEditableProperty(KRADConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER);
     }
 
     /**

@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.ar.batch.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.kfs.module.ar.batch.report.CustomerLoadFileResult;
 import org.kuali.kfs.module.ar.batch.vo.CustomerDigesterVO;
@@ -69,7 +68,7 @@ public interface CustomerLoadService extends InitiateDirectory{
      *        should be passed in, and MaintDocs will be added to it.
      * @return True if no errors were encountered, False otherwise.
      */
-    public boolean validateAndPrepare(List<CustomerDigesterVO> customerUploads, List<MaintenanceDocument> customerMaintDocs, boolean useGlobalErrorMap);
+    public boolean validateAndPrepare(List<CustomerDigesterVO> customerUploads, List<MaintenanceDocument> customerMaintDocs, boolean useGlobalMessageMap);
 
     /**
      * 

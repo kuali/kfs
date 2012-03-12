@@ -18,6 +18,7 @@ package org.kuali.kfs.module.cam.businessobject;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -36,22 +37,21 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.GlobalBusinessObject;
-import org.kuali.rice.kns.bo.GlobalBusinessObjectDetail;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.PostalCode;
-import org.kuali.rice.kns.bo.State;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.PostalCodeService;
-import org.kuali.rice.kns.service.StateService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.GlobalBusinessObject;
+import org.kuali.rice.krad.bo.GlobalBusinessObjectDetail;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.location.api.postalcode.PostalCodeService;
+import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.location.framework.country.CountryEbo;
+import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
+import org.kuali.rice.location.framework.state.StateEbo;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -89,9 +89,9 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
     private Account retirementAccount;
     private Chart retirementChartOfAccounts;
     private DocumentHeader cashReceiptFinancialDocument;
-    private State retirementState;
-    private Country retirementCountry;
-    private PostalCode postalZipCode;
+    private StateEbo retirementState;
+    private CountryEbo retirementCountry;
+    private PostalCodeEbo postalZipCode;
 
     private List<GeneralLedgerPendingEntry> generalLedgerPendingEntries;
 
@@ -107,8 +107,8 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      * Default constructor.
      */
     public AssetRetirementGlobal() {
-        this.assetRetirementGlobalDetails = new TypedArrayList(AssetRetirementGlobalDetail.class);
-        this.generalLedgerPendingEntries = new TypedArrayList(GeneralLedgerPendingEntry.class);
+        this.assetRetirementGlobalDetails = new ArrayList<AssetRetirementGlobalDetail>();
+        this.generalLedgerPendingEntries = new ArrayList<GeneralLedgerPendingEntry>();
     }
 
 
@@ -117,7 +117,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.GlobalBusinessObject#generateGlobalChangesToPersist()
+     * @see org.kuali.rice.krad.bo.GlobalBusinessObject#generateGlobalChangesToPersist()
      */
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
         AssetRetirementService retirementService = SpringContext.getBean(AssetRetirementService.class);
@@ -136,11 +136,9 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
     }
 
     @Override
-    public List buildListOfDeletionAwareLists() {
-        List<List> managedList = super.buildListOfDeletionAwareLists();
-
-        managedList.add(getAssetRetirementGlobalDetails());
-
+    public List<Collection<PersistableBusinessObject>> buildListOfDeletionAwareLists() {
+        List<Collection<PersistableBusinessObject>> managedList = super.buildListOfDeletionAwareLists();
+        managedList.add(new ArrayList<PersistableBusinessObject>(getAssetRetirementGlobalDetails()));
         return managedList;
     }
 
@@ -404,9 +402,9 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("documentNumber", this.documentNumber);
         return m;
@@ -579,8 +577,8 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      * 
      * @return Returns the postalZipCode
      */
-    public PostalCode getPostalZipCode() {
-        postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(retirementCountryCode, retirementZipCode, postalZipCode);
+    public PostalCodeEbo getPostalZipCode() {
+        postalZipCode = (StringUtils.isBlank(retirementCountryCode) || StringUtils.isBlank( retirementZipCode))?null:( postalZipCode == null || !StringUtils.equals( postalZipCode.getCountryCode(),retirementCountryCode)|| !StringUtils.equals( postalZipCode.getCode(), retirementZipCode))?PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode(retirementCountryCode, retirementZipCode)): postalZipCode;
         return postalZipCode;
     }
 
@@ -589,7 +587,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      * 
      * @param postalZipCode The postalZipCode to set.
      */
-    public void setPostalZipCode(PostalCode postalZipCode) {
+    public void setPostalZipCode(PostalCodeEbo postalZipCode) {
         this.postalZipCode = postalZipCode;
     }
 
@@ -827,8 +825,8 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      * 
      * @return Returns the retirementCountry.
      */
-    public Country getRetirementCountry() {
-        retirementCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(retirementCountryCode, retirementCountry);
+    public CountryEbo getRetirementCountry() {
+        retirementCountry = (retirementCountryCode == null)?null:( retirementCountry == null || !StringUtils.equals( retirementCountry.getCode(),retirementCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(retirementCountryCode)): retirementCountry;
         return retirementCountry;
     }
 
@@ -838,7 +836,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      * @param retirementCountry The retirementCountry to set.
      * @deprecated
      */
-    public void setRetirementCountry(Country retirementCountry) {
+    public void setRetirementCountry(CountryEbo retirementCountry) {
         this.retirementCountry = retirementCountry;
     }
 
@@ -847,8 +845,8 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      * 
      * @return Returns the retirementState.
      */
-    public State getRetirementState() {
-        retirementState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(retirementCountryCode, retirementStateCode, retirementState);
+    public StateEbo getRetirementState() {
+        retirementState = (StringUtils.isBlank(retirementCountryCode) || StringUtils.isBlank( retirementStateCode))?null:( retirementState == null || !StringUtils.equals( retirementState.getCountryCode(),retirementCountryCode)|| !StringUtils.equals( retirementState.getCode(), retirementStateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState(retirementCountryCode, retirementStateCode)): retirementState;
         return retirementState;
     }
 
@@ -858,7 +856,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      * @param retirementState The retirementState to set.
      * @deprecated
      */
-    public void setRetirementState(State retirementState) {
+    public void setRetirementState(StateEbo retirementState) {
         this.retirementState = retirementState;
     }
 

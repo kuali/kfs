@@ -16,57 +16,55 @@
 
 package org.kuali.kfs.vnd.businessobject;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.bo.State;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.StateService;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.location.framework.country.CountryEbo;
+import org.kuali.rice.location.framework.state.StateEbo;
 
 /**
  * Container for information about how to get in Contact with a person at a Vendor for a particular purpose.
  */
-public class VendorContact extends PersistableBusinessObjectBase implements Inactivateable {
+public class VendorContact extends PersistableBusinessObjectBase implements MutableInactivatable {
 
-    private Integer vendorContactGeneratedIdentifier;
-    private Integer vendorHeaderGeneratedIdentifier;
-    private Integer vendorDetailAssignedIdentifier;
-    private String vendorContactTypeCode;
-    private String vendorContactName;
-    private String vendorContactEmailAddress;
-    private String vendorContactCommentText;
-    private String vendorLine1Address;
-    private String vendorLine2Address;
-    private String vendorCityName;
-    private String vendorStateCode;
-    private String vendorZipCode;
-    private String vendorCountryCode;
-    private String vendorAttentionName;
-    private String vendorAddressInternationalProvinceName;
-    private boolean active;
+    protected Integer vendorContactGeneratedIdentifier;
+    protected Integer vendorHeaderGeneratedIdentifier;
+    protected Integer vendorDetailAssignedIdentifier;
+    protected String vendorContactTypeCode;
+    protected String vendorContactName;
+    protected String vendorContactEmailAddress;
+    protected String vendorContactCommentText;
+    protected String vendorLine1Address;
+    protected String vendorLine2Address;
+    protected String vendorCityName;
+    protected String vendorStateCode;
+    protected String vendorZipCode;
+    protected String vendorCountryCode;
+    protected String vendorAttentionName;
+    protected String vendorAddressInternationalProvinceName;
+    protected boolean active;
 
     // These aren't persisted in db, only for lookup page
-    private String phoneNumberForLookup;
-    private String tollFreeForLookup;
-    private String faxForLookup;
+    protected String phoneNumberForLookup;
+    protected String tollFreeForLookup;
+    protected String faxForLookup;
 
-    private List<VendorContactPhoneNumber> vendorContactPhoneNumbers;
+    protected List<VendorContactPhoneNumber> vendorContactPhoneNumbers;
 
-    private VendorDetail vendorDetail;
-    private ContactType vendorContactType;
-    private State vendorState;
-    private Country vendorCountry;
+    protected VendorDetail vendorDetail;
+    protected ContactType vendorContactType;
+    protected StateEbo vendorState;
+    protected CountryEbo vendorCountry;
 
-    /**
-     * Default constructor.
-     */
     public VendorContact() {
-        vendorContactPhoneNumbers = new TypedArrayList(VendorContactPhoneNumber.class);
+        vendorContactPhoneNumbers = new ArrayList<VendorContactPhoneNumber>();
     }
 
     public Integer getVendorContactGeneratedIdentifier() {
@@ -129,12 +127,6 @@ public class VendorContact extends PersistableBusinessObjectBase implements Inac
         return vendorContactType;
     }
 
-    /**
-     * Sets the vendorContactType attribute.
-     * 
-     * @param vendorContactType The vendorContactType to set.
-     * @deprecated
-     */
     public void setVendorContactType(ContactType vendorContactType) {
         this.vendorContactType = vendorContactType;
     }
@@ -219,33 +211,21 @@ public class VendorContact extends PersistableBusinessObjectBase implements Inac
         this.vendorZipCode = vendorZipCode;
     }
 
-    public Country getVendorCountry() {
-        vendorCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(vendorCountryCode, vendorCountry);
+    public CountryEbo getVendorCountry() {
+        vendorCountry = (vendorCountryCode == null)?null:( vendorCountry == null || !StringUtils.equals( vendorCountry.getCode(),vendorCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(vendorCountryCode)): vendorCountry;
         return vendorCountry;
     }
 
-    /**
-     * Sets the vendorCountry attribute value.
-     * 
-     * @param vendorCountry The vendorCountry to set.
-     * @deprecated
-     */
-    public void setVendorCountry(Country vendorCountry) {
+    public void setVendorCountry(CountryEbo vendorCountry) {
         this.vendorCountry = vendorCountry;
     }
 
-    public State getVendorState() {
-        vendorState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(vendorCountryCode, vendorStateCode, vendorState);
+    public StateEbo getVendorState() {
+        vendorState = (StringUtils.isBlank(vendorCountryCode) || StringUtils.isBlank( vendorStateCode))?null:( vendorState == null || !StringUtils.equals( vendorState.getCountryCode(),vendorCountryCode)|| !StringUtils.equals( vendorState.getCode(), vendorStateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState(vendorCountryCode, vendorStateCode)): vendorState;
         return vendorState;
     }
 
-    /**
-     * Sets the vendorState attribute value.
-     * 
-     * @param vendorState The vendorState to set.
-     * @deprecated
-     */
-    public void setVendorState(State vendorState) {
+    public void setVendorState(StateEbo vendorState) {
         this.vendorState = vendorState;
     }
 
@@ -271,17 +251,6 @@ public class VendorContact extends PersistableBusinessObjectBase implements Inac
 
     public void setTollFreeForLookup(String tollFreeForLookup) {
         this.tollFreeForLookup = tollFreeForLookup;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-        if (this.vendorContactGeneratedIdentifier != null) {
-            m.put("vendorContactGeneratedIdentifier", this.vendorContactGeneratedIdentifier.toString());
-        }
-        return m;
     }
 
     public List<VendorContactPhoneNumber> getVendorContactPhoneNumbers() {

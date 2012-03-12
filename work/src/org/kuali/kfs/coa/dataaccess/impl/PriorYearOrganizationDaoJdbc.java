@@ -19,7 +19,7 @@ import org.apache.ojb.broker.metadata.MetadataManager;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.PriorYearOrganization;
 import org.kuali.kfs.coa.dataaccess.PriorYearOrganizationDao;
-import org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc;
+import org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJdbc;
 
 /**
  * This class performs actions against the database through direct SQL command calls.

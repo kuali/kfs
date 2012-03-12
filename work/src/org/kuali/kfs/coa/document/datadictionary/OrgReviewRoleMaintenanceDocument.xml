@@ -17,7 +17,9 @@
 
   <bean id="OrgReviewRoleMaintenanceDocument" parent="OrgReviewRoleMaintenanceDocument-parentBean"/>
 
-  <bean id="OrgReviewRoleMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.kfs.coa.identity.OrgReviewRole" p:maintainableClass="org.kuali.kfs.coa.document.OrgReviewRoleMaintainableImpl">
+  <bean id="OrgReviewRoleMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
+  		p:businessObjectClass="org.kuali.kfs.coa.identity.OrgReviewRole" 
+  		p:maintainableClass="org.kuali.kfs.coa.document.OrgReviewRoleMaintainableImpl">
     <property name="maintainableSections">
       <list>
         <ref bean="OrgReviewRoleMaintenanceDocument-RoleDetails"/>
@@ -27,15 +29,15 @@
     <property name="lockingKeys">
       <list>
         <value>roleMemberRoleId</value>
-        <value>roleMemberRoleNamespaceCode</value>
-        <value>roleMemberRoleName</value>
+        <!-- <value>roleMemberRoleNamespaceCode</value> -->
+        <!-- <value>roleMemberRoleName</value> -->
     	<value>groupMemberGroupId</value>
-        <value>groupMemberGroupNamespaceCode</value>
-        <value>groupMemberGroupName</value>
+        <!-- <value>groupMemberGroupNamespaceCode</value> -->
+        <!-- <value>groupMemberGroupName</value> -->
 		<value>principalMemberPrincipalId</value>
-        <value>principalMemberPrincipalName</value>
-        <value>chart.chartOfAccountsCode</value>
-        <value>organization.organizationCode</value>
+        <!-- <value>principalMemberPrincipalName</value> -->
+        <value>chartOfAccountsCode</value>
+        <value>organizationCode</value>
       </list>
     </property>
     <property name="defaultExistenceChecks">
@@ -48,9 +50,7 @@
     <property name="documentTypeName" value="ORR"/>
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.OrgReviewRoleRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
-    <property name="workflowAttributes">
-    	<ref bean="OrgReviewRoleMaintenanceDocument-workflowAttributes"/>
-    </property>
+    <property name="workflowAttributes" ref="OrgReviewRoleMaintenanceDocument-workflowAttributes"/>
   </bean>
 
 <!-- Maintenance Section Definitions -->
@@ -99,12 +99,10 @@
   	<bean id="OrgReviewRoleMaintenanceDocument-workflowAttributes" parent="OrgReviewRoleMaintenanceDocument-workflowAttributes-parentBean"/>
   
 	<bean id="OrgReviewRoleMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
-	<property name="routingTypeDefinitions">
-    		
+		<property name="routingTypeDefinitions">
     		<map>
     			<entry key="OrganizationHierarchy" value-ref="RoutingType-MaintenanceDocument-OrganizationHierarchy"/>
     		</map>
-    	
 		</property>
 	</bean>
 

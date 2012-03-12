@@ -29,14 +29,15 @@ import org.kuali.kfs.coa.businessobject.OrganizationReversionCategory;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionDetail;
 import org.kuali.kfs.coa.service.OrganizationReversionDetailTrickleDownInactivationService;
 import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentHeaderService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.NoteService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentHeaderService;
+import org.kuali.rice.krad.service.NoteService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * The default implementation of the OrganizationReversionDetailTrickleDownService
@@ -44,7 +45,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class OrganizationReversionDetailTrickleDownInactivationServiceImpl implements OrganizationReversionDetailTrickleDownInactivationService {
     private static final Logger LOG = Logger.getLogger(OrganizationReversionDetailTrickleDownInactivationServiceImpl.class);
     protected NoteService noteService;
-    protected KualiConfigurationService kualiConfigurationService;
+    protected ConfigurationService kualiConfigurationService;
     protected BusinessObjectService businessObjectService;
     protected DocumentHeaderService documentHeaderService;
     
@@ -242,9 +243,9 @@ public class OrganizationReversionDetailTrickleDownInactivationServiceImpl imple
         protected Note buildNote(String description, String messageKey, Note noteTemplate, PersistableBusinessObject noteParent) {
             Note note = null;
             try {
-                final String noteTextTemplate = kualiConfigurationService.getPropertyString(messageKey);
+                final String noteTextTemplate = kualiConfigurationService.getPropertyValueAsString(messageKey);
                 final String noteText = MessageFormat.format(noteTextTemplate, description);
-                note = noteService.createNote(noteTemplate, noteParent);
+                note = noteService.createNote(noteTemplate, noteParent, GlobalVariables.getUserSession().getPrincipalId());
                 note.setNoteText(noteText);
             }
             catch (Exception e) {
@@ -344,7 +345,7 @@ public class OrganizationReversionDetailTrickleDownInactivationServiceImpl imple
      * Gets the kualiConfigurationService attribute. 
      * @return Returns the kualiConfigurationService.
      */
-    public KualiConfigurationService getKualiConfigurationService() {
+    public ConfigurationService getConfigurationService() {
         return kualiConfigurationService;
     }
 
@@ -352,7 +353,7 @@ public class OrganizationReversionDetailTrickleDownInactivationServiceImpl imple
      * Sets the kualiConfigurationService attribute value.
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 

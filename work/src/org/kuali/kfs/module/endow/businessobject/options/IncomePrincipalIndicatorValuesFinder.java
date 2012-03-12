@@ -22,24 +22,25 @@ import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.IncomePrincipalIndicator;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 public class IncomePrincipalIndicatorValuesFinder extends KeyValuesBase {
 
     /**
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection<IncomePrincipalIndicator> codes = boService.findAll(IncomePrincipalIndicator.class);
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
+        List<KeyValue> labels = new ArrayList<KeyValue>();
 
-        labels.add(new KeyLabelPair("", ""));
+        labels.add(new ConcreteKeyValue("", ""));
         for (Iterator<IncomePrincipalIndicator> iter = codes.iterator(); iter.hasNext();) {
             IncomePrincipalIndicator incomePrincipalInd = (IncomePrincipalIndicator) iter.next();
-            labels.add(new KeyLabelPair(incomePrincipalInd.getCode(), incomePrincipalInd.getCodeAndDescription()));
+            labels.add(new ConcreteKeyValue(incomePrincipalInd.getCode(), incomePrincipalInd.getCodeAndDescription()));
         }
 
         return labels;

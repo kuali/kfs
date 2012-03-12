@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * returns text field delimiter values
@@ -32,9 +32,9 @@ public class TextFieldDelimiterValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair(BCConstants.RequestImportTextFieldDelimiter.QUOTE.getDelimiter(), BCConstants.RequestImportTextFieldDelimiter.QUOTE.toString()));
-        keyValues.add(new KeyLabelPair(BCConstants.RequestImportTextFieldDelimiter.NOTHING.getDelimiter(), BCConstants.RequestImportTextFieldDelimiter.NOTHING.toString()));
-        keyValues.add(new KeyLabelPair(BCConstants.RequestImportTextFieldDelimiter.OTHER.getDelimiter(), BCConstants.RequestImportTextFieldDelimiter.OTHER.toString()));
+        keyValues.add(new ConcreteKeyValue(BCConstants.RequestImportTextFieldDelimiter.QUOTE.getDelimiter(), BCConstants.RequestImportTextFieldDelimiter.QUOTE.toString()));
+        keyValues.add(new ConcreteKeyValue(BCConstants.RequestImportTextFieldDelimiter.NOTHING.getDelimiter(), BCConstants.RequestImportTextFieldDelimiter.NOTHING.toString()));
+        keyValues.add(new ConcreteKeyValue(BCConstants.RequestImportTextFieldDelimiter.OTHER.getDelimiter(), BCConstants.RequestImportTextFieldDelimiter.OTHER.toString()));
         
         return keyValues;
     }

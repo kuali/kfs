@@ -22,7 +22,7 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.kfs.fp.dataaccess.DisbursementVoucherDao;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
-import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class DisbursementVoucherDaoOjb extends PlatformAwareDaoBaseOjb implements DisbursementVoucherDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherDaoOjb.class);
@@ -40,14 +40,17 @@ public class DisbursementVoucherDaoOjb extends PlatformAwareDaoBaseOjb implement
     }
 
     /**
-     * @see org.kuali.kfs.fp.dataaccess.DisbursementVoucherDao#getDocumentsByHeaderStatus(java.lang.String)
+     * @see org.kuali.kfs.fp.dataaccess.DisbursementVoucherDao#getDocumentsByHeaderStatus(java.lang.String, boolean)
      */
-    public Collection getDocumentsByHeaderStatus(String statusCode) {
+    public Collection getDocumentsByHeaderStatus(String statusCode, boolean immediatesOnly) {
         LOG.debug("getDocumentsByHeaderStatus() started");
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("documentHeader.financialDocumentStatusCode", statusCode);
         criteria.addEqualTo("disbVchrPaymentMethodCode", DisbursementVoucherConstants.PAYMENT_METHOD_CHECK);
+        if (immediatesOnly) {
+            criteria.addEqualTo("immediatePaymentIndicator", Boolean.TRUE);
+        }
 
         return getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(DisbursementVoucherDocument.class, criteria));
     }

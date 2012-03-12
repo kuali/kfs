@@ -18,17 +18,16 @@ package org.kuali.kfs.pdp.businessobject;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 /**
  * Represents the parsed contents of an incoming payment file.
@@ -38,7 +37,7 @@ public class PaymentFileLoad extends TransientBusinessObjectBase {
     private String chart;
     private String unit;
     private String subUnit;
-    private Timestamp creationDate;
+    protected Timestamp creationDate;
 
     // trailer fields
     private int paymentCount;
@@ -389,8 +388,8 @@ public class PaymentFileLoad extends TransientBusinessObjectBase {
         this.customer = customer;
     }
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
 
         m.put(KFSPropertyConstants.CHART, this.chart);

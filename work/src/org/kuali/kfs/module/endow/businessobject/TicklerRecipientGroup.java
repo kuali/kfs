@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,46 +15,28 @@
  */
 package org.kuali.kfs.module.endow.businessobject;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.kim.framework.group.GroupEbo;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Group;
-import org.kuali.rice.kim.service.GroupService;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.util.KimConstants;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.KualiModuleService;
-
-public class TicklerRecipientGroup extends PersistableBusinessObjectBase implements Inactivateable
+public class TicklerRecipientGroup extends PersistableBusinessObjectBase implements MutableInactivatable
 {
-    private String number;
-    private boolean active;
-    private String groupId;
-    private String groupName;
-    
+    protected String number;
+    protected boolean active;
+    protected String groupId;
+    protected String groupName;
+
     protected String assignedToGroupNamespaceForLookup;
     protected String assignedToGroupNameForLookup;
-    protected Group assignedToGroup;
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap<String, String> toStringMapper() 
-    {
-        LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
-        m.put(EndowPropertyConstants.TICKLER_NUMBER,getNumber());
-        m.put(EndowPropertyConstants.TICKLER_RECIPIENT_GROUPID,getGroupId());
-        return m;
-    }
+    protected GroupEbo assignedToGroup;
 
+    @Override
     public boolean isActive() {
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -83,21 +65,21 @@ public class TicklerRecipientGroup extends PersistableBusinessObjectBase impleme
         this.assignedToGroupNameForLookup = assignedToGroupNameForLookup;
     }
 
-    public Group getAssignedToGroup() 
+    public GroupEbo getAssignedToGroup()
     {
         if(assignedToGroup == null)
         {
-            Group groupInfo = getGroup(getGroupId());
+            GroupEbo groupInfo = getGroup(getGroupId());
             return groupInfo;
         }
         return assignedToGroup;
     }
 
-    public Group getGroup(String groupId) {
-        return (Group) SpringContext.getBean(IdentityManagementService.class).getGroup(groupId);
+    public GroupEbo getGroup(String groupId) {
+        return GroupEbo.from( KimApiServiceLocator.getGroupService().getGroup(groupId) );
     }
-    
-    public void setAssignedToGroup(Group assignedToGroup) {
+
+    public void setAssignedToGroup(GroupEbo assignedToGroup) {
         this.assignedToGroup = assignedToGroup;
     }
 
@@ -109,11 +91,6 @@ public class TicklerRecipientGroup extends PersistableBusinessObjectBase impleme
         this.groupId = groupId;
     }
 
-    protected GroupService getGroupService()
-    {
-        return SpringContext.getBean(GroupService.class);
-    }
-
     public String getGroupName() {
         return groupName;
     }
@@ -121,5 +98,5 @@ public class TicklerRecipientGroup extends PersistableBusinessObjectBase impleme
     public void setGroupName(String groupName) {
         this.groupName = groupName;
     }
-    
+
 }

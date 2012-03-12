@@ -30,11 +30,12 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
 import org.kuali.kfs.sys.businessobject.AccountingLineOverride.COMPONENT;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.service.PersistenceService;
 
 /**
  * This class handles specific Actions requests for the BudgetAdjustment.
@@ -62,25 +63,25 @@ public class BudgetAdjustmentAction extends KualiAccountingDocumentActionBase {
      */
     @Override
     public ActionForward copy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        GlobalVariables.getMessageList().add(KFSKeyConstants.WARNING_DOCUMENT_BA_COPY_LABOR_BENEFITS);
+        KNSGlobalVariables.getMessageList().add(KFSKeyConstants.WARNING_DOCUMENT_BA_COPY_LABOR_BENEFITS);
         return super.copy(mapping, form, request, response);
     }
 
     @Override
-    protected void processAccountingLineOverrides(List accountingLines) {
+    protected void processAccountingLineOverrides(AccountingDocument financialDocument, List accountingLines) {
         if (!accountingLines.isEmpty()) {
             SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(accountingLines, AccountingLineOverride.REFRESH_FIELDS);
 
             for (Iterator i = accountingLines.iterator(); i.hasNext();) {
                 AccountingLine line = (AccountingLine) i.next();
-                processForOutput(line);
+                processForOutput(financialDocument,line);
             }
         }
     }
     
-    protected void processForOutput(AccountingLine line) {
+    protected void processForOutput(AccountingDocument financialDocument,AccountingLine line) {
         AccountingLineOverride fromCurrentCode = AccountingLineOverride.valueOf(line.getOverrideCode());
-        AccountingLineOverride needed = AccountingLineOverride.determineNeededOverrides(line);
+        AccountingLineOverride needed = AccountingLineOverride.determineNeededOverrides(financialDocument,line);
         line.setAccountExpiredOverride(fromCurrentCode.hasComponent(COMPONENT.EXPIRED_ACCOUNT));
         line.setAccountExpiredOverrideNeeded(needed.hasComponent(COMPONENT.EXPIRED_ACCOUNT));
         line.setObjectBudgetOverride(false);

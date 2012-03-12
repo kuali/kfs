@@ -15,12 +15,8 @@
  */
 package org.kuali.kfs.module.ar.batch;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,12 +25,9 @@ import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.batch.service.CustomerLoadService;
 import org.kuali.kfs.module.ar.batch.vo.CustomerAddressCSV;
-import org.kuali.kfs.module.ar.batch.vo.CustomerAddressDigesterVO;
 import org.kuali.kfs.module.ar.batch.vo.CustomerDigesterVO;
 import org.kuali.kfs.sys.batch.CsvBatchInputFileTypeBase;
 import org.kuali.kfs.sys.exception.ParseException;
-
-import au.com.bytecode.opencsv.CSVReader;
 
 /**
  * 
@@ -49,7 +42,7 @@ public class CustomerLoadCSVInputFileType extends CsvBatchInputFileTypeBase<Cust
     
     /**
      * 
-     * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileName(org.kuali.rice.kim.bo.Person, java.lang.Object, java.lang.String)
+     * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileName(org.kuali.rice.kim.api.identity.Person, java.lang.Object, java.lang.String)
      */
     public String getFileName(String principalName, Object parsedFileContents, String fileUserIdentifer) {
         return customerLoadService.getFileName(principalName, fileUserIdentifer, FILE_NAME_PREFIX, FILE_NAME_DELIM);

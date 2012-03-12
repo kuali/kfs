@@ -21,7 +21,7 @@ import java.sql.Timestamp;
 
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.LedgerBalanceHistory;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Labor business object for LedgerBalanceHistory.
@@ -57,7 +57,7 @@ public class LaborBalanceHistory extends LedgerBalance implements LedgerBalanceH
      * Compare amounts
      * 
      * @param balance
-     * @see org.kuali.kfs.gl.businessobject.Balance#addAmount(java.lang.String, org.kuali.rice.kns.util.KualiDecimal)
+     * @see org.kuali.kfs.gl.businessobject.Balance#addAmount(java.lang.String, org.kuali.rice.core.api.util.type.KualiDecimal)
      */
     public boolean compareAmounts(Balance balance) {
         if (!(balance instanceof LedgerBalance)) {

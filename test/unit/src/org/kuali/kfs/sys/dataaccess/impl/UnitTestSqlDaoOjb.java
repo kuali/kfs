@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
-import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 /**
  * NOTE: Do NOT use this code in production. It is only there for testing purposes.

@@ -18,8 +18,8 @@ package org.kuali.kfs.module.endow.document.validation.event;
 import org.kuali.kfs.module.endow.businessobject.EndowmentAccountingLine;
 import org.kuali.kfs.module.endow.document.EndowmentAccountingLinesDocument;
 import org.kuali.kfs.module.endow.document.validation.AddEndowmentAccountingLineRule;
-import org.kuali.rice.kns.rule.BusinessRule;
-import org.kuali.rice.kns.rule.event.KualiDocumentEventBase;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEventBase;
 
 public class AddEndowmentAccountingLineEvent extends KualiDocumentEventBase {
     private EndowmentAccountingLine line;
@@ -36,7 +36,7 @@ public class AddEndowmentAccountingLineEvent extends KualiDocumentEventBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
+     * @see org.kuali.rice.krad.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
     @SuppressWarnings("unchecked")
     public Class getRuleInterfaceClass() {
@@ -44,7 +44,7 @@ public class AddEndowmentAccountingLineEvent extends KualiDocumentEventBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
+     * @see org.kuali.rice.krad.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((AddEndowmentAccountingLineRule<EndowmentAccountingLinesDocument, EndowmentAccountingLine>) rule).processAddEndowmentAccountingLineRules((EndowmentAccountingLinesDocument) document, line);

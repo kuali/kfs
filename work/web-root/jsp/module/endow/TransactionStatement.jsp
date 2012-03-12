@@ -44,7 +44,7 @@
                 </th>
                 <td align=left valign=middle class="grid" style="width: 25%;">
 					<kul:htmlControlAttribute attributeEntry="${orgAttributes.organizationPhysicalCampusCodeForReport}" property="benefittingOrganziationCampus" />	
-                    <kul:lookup boClassName="org.kuali.rice.kns.bo.CampusImpl"  fieldConversions="campusCode:benefittingOrganziationCampus" />
+                    <kul:lookup boClassName="org.kuali.rice.krad.bo.CampusImpl"  fieldConversions="campusCode:benefittingOrganziationCampus" />
                 </td>				                      
             </tr>                          
             <tr>		

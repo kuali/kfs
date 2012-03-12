@@ -16,21 +16,21 @@
 package org.kuali.kfs.module.cam.document.service.impl;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class implements PaymentSummaryService
@@ -93,25 +93,24 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
 
     /**
      * @see org.kuali.kfs.module.cam.document.service.PaymentSummaryService#calculateFederalContribution(org.kuali.kfs.module.cam.businessobject.Asset)
-     */ 
+     */
     public KualiDecimal calculateFederalContribution(Asset asset) {
         KualiDecimal amount = new KualiDecimal(0);
         List<AssetPayment> assetPayments = asset.getAssetPayments();
 
         for (AssetPayment payment : assetPayments) {
             // Refresh the financial object
-            if (ObjectUtils.isNull(payment.getFinancialObject())) {
-                payment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
+            if (ObjectUtils.isNull(payment.getObjectCodeCurrent())) {
+                payment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.OBJECT_CODE_CURRENT);
             }
-            Collection<String> fedContrTypes = parameterService.getParameterValues(Asset.class, CamsConstants.Parameters.FEDERAL_CONTRIBUTIONS_OBJECT_SUB_TYPES);
-            if (!ObjectUtils.isNull(payment.getFinancialObject()) 
-                    && fedContrTypes.contains( payment.getFinancialObject().getFinancialObjectSubTypeCode())) {
+            Collection<String> fedContrTypes = parameterService.getParameterValuesAsString(Asset.class, CamsConstants.Parameters.FEDERAL_CONTRIBUTIONS_OBJECT_SUB_TYPES);
+            if (!ObjectUtils.isNull(payment.getObjectCodeCurrent()) 
+                    && fedContrTypes.contains( payment.getObjectCodeCurrent().getFinancialObjectSubTypeCode())) {
                 amount = addAmount(amount, payment.getAccountChargeAmount());
             }
         }
         return amount;
     }
-
 
     /**
      * Sums up total payment cost for an asset

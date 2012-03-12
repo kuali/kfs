@@ -51,9 +51,7 @@
 
 	<bean id="CommodityContractManager-campusCode" parent="CommodityContractManager-campusCode-parentBean" />
 	<bean id="CommodityContractManager-campusCode-parentBean"
-		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Campus"
-		p:sourceAttributeName="campusCode">
+		abstract="true" parent="Campus-code" >
 		<property name="name" value="campusCode" />
 		<property name="control">
 			<bean parent="SelectControlDefinition"

@@ -15,12 +15,8 @@
  */
 package org.kuali.kfs.sys.document.dataaccess;
 
-import java.sql.Date;
-import java.util.Collection;
-import java.util.List;
-
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.dao.DocumentHeaderDao;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.dao.DocumentHeaderDao;
 
 /**
  * This class...
@@ -33,16 +29,4 @@ public interface FinancialSystemDocumentHeaderDao extends DocumentHeaderDao {
      */
     public DocumentHeader getCorrectingDocumentHeader(String documentId);
 
-    /**
-     * Retrieves a collection of DocumentHeaders that were finalized on a given date
-     * 
-     * @param documentFinalDate
-     */
-    public Collection getByDocumentFinalDate(Date documentFinalDate);
-    
-    /**
-     * @param documentNumbers
-     * @return documentHeaders of the documents which document numbers are in the documentNumbers
-     */
-    public Collection getByDocumentNumbers(List documentNumbers);
 }

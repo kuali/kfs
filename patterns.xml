@@ -2,6 +2,49 @@
 <rules>
 	<rule name="new_rule_testing_1" alsoRenameClass="true">
 
+	<!-- 
+		<pattern>
+			<match>org.kuali.rice.kns.lookup.keyvalues.NamespaceValuesFinder</match>
+			<replacement>org.kuali.rice.coreservice.web.namespace.NamespaceValuesFinder</replacement>
+		</pattern>
+		<pattern>
+			<match>org\.kuali\.rice\.kns\.document\.authorization\.PermissionDerivedRoleTypeServiceImpl</match>
+			<replacement>org.kuali.rice.krad.kim.PermissionDerivedRoleTypeServiceImpl</replacement>
+		</pattern>
+		<pattern>
+			<match>org\.kuali\.rice\.ksb\.messaging\.KSBExporter</match>
+			<replacement>org.kuali.rice.ksb.api.bus.support.ServiceBusExporter</replacement>
+		</pattern>
+
+		<pattern>
+			<match>org\.kuali\.rice\.ksb\.messaging\.JavaServiceDefinition</match>
+			<replacement>org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition</replacement>
+		</pattern>
+		<pattern>
+			<match>org\.kuali\.rice\.ksb\.messaging\.SOAPServiceDefinition</match>
+			<replacement>org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition</replacement>
+		</pattern>
+		<pattern>
+			<match>org\.kuali\.rice\.ksb\.messaging\.RESTServiceDefinition</match>
+			<replacement>org.kuali.rice.ksb.api.bus.support.RestServiceDefinition</replacement>
+		</pattern>
+		<pattern>
+			<match><![CDATA[<property name="kualiConfigurationService"]]></match>
+			<replacement><![CDATA[<property name="configurationService"]]></replacement>
+		</pattern>
+		<pattern>
+			<match>org\.kuali\.rice\.kew\.dto\.DocumentRouteStatusChangeDTO</match>
+			<replacement>org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange</replacement>
+		</pattern>
+		<pattern>
+			<match>org\.kuali\.rice\.kew\.dto\.DocumentSearchCriteriaDTO</match>
+			<replacement>org.kuali.rice.kew.api.document.search.DocumentSearchCriteria</replacement>
+		</pattern>
+		<pattern>
+			<match>org\.kuali\.rice\.kew\.dto\.DocumentSearchResultDTO</match>
+			<replacement>org.kuali.rice.kew.api.document.search.DocumentSearchResult</replacement>
+		</pattern>
+ -->
 	
 <!-- 		
 		<pattern>
@@ -11,6 +54,142 @@
  -->	
     </rule>
 	<rule name="new_rule_testing_2">
+	
+		<pattern fileType="xml">
+			<match>org\.kuali\.rice\.krad\.bo\.State</match>
+			<replacement>org.kuali.rice.location.impl.state.StateBo</replacement>
+		</pattern>
+		<pattern fileType="xml">
+			<match>sourceExternalizableBusinessObjectInterface="org\.kuali\.rice\.location\.impl\.state\.StateBo"</match>
+			<replacement>sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.state.StateEbo"</replacement>
+		</pattern>
+		<pattern fileType="xml">
+			<match>sourceExternalizableBusinessObjectInterface="org\.kuali\.rice\.location\.impl\.campus\.CampusBo"</match>
+			<replacement>sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.campus.CampusEbo"</replacement>
+		</pattern>
+		<pattern fileType="xml">
+			<match>sourceExternalizableBusinessObjectInterface="org\.kuali\.rice\.location\.impl\.country\.Country"</match>
+			<replacement>sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.country.CountryEbo"</replacement>
+		</pattern>
+		<pattern fileType="xml">
+			<match>sourceExternalizableBusinessObjectInterface="org\.kuali\.rice\.location\.impl\.county\.County"</match>
+			<replacement>sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.county.CountyEbo"</replacement>
+		</pattern>
+		<pattern fileType="xml">
+			<match>sourceExternalizableBusinessObjectInterface="org\.kuali\.rice\.location\.impl\.postalcode\.PostalCode"</match>
+			<replacement>sourceExternalizableBusinessObjectInterface="org.kuali.rice.location.framework.postalcode.PostalCodeEbo"</replacement>
+		</pattern>
+
+	<!-- 
+	<pattern fileType="xml">
+		<match>org.kuali.rice.krad.bo.State</match>
+		<replacement>org.kuali.rice.location.impl.state.StateBo</replacement>
+	</pattern>
+	
+		<pattern fileType="xml">
+			<match>org.kuali.rice.krad.bo.PostalCode</match>
+			<replacement>org.kuali.rice.location.impl.postalcode.PostalCode</replacement>
+		</pattern>
+	
+		<pattern fileType="xml">
+			<match>org.kuali.rice.krad.bo.Country</match>
+			<replacement>org.kuali.rice.location.impl.country.Country</replacement>
+		</pattern>
+	
+		<pattern fileType="xml">
+			<match>org.kuali.rice.krad.bo.County</match>
+			<replacement>org.kuali.rice.location.impl.county.County</replacement>
+		</pattern>
+	
+		<pattern fileType="xml">
+			<match>org.kuali.rice.krad.bo.options.CountryValuesFinder</match>
+			<replacement>org.kuali.rice.location.framework.country.CountryValuesFinder</replacement>
+		</pattern>
+	
+		<pattern fileType="xml">
+			<match>org.kuali.rice.krad.bo.options.StateValuesFinder</match>
+			<replacement>org.kuali.rice.location.framework.state.StateValuesFinder</replacement>
+		</pattern>
+	
+		<pattern fileType="xml">
+			<match>org.kuali.rice.krad.bo.options.CountryNotRestrictedValuesFinder</match>
+			<replacement>org.kuali.rice.location.framework.country.CountryNotRestrictedValuesFinder</replacement>
+		</pattern>
+	
+		<pattern fileType="xml">
+			<match>sourceAttributeName="(state|postal|postalCountry|campus)Code"</match>
+			<replacement>sourceAttributeName="code"</replacement>
+		</pattern>
+
+		<pattern fileType="xml">
+			<match>targetName="campusCode"</match>
+			<replacement>targetName="code"</replacement>
+		</pattern>
+		<pattern fileType="xml">
+			<match>target="campusCode"</match>
+			<replacement>target="code"</replacement>
+		</pattern>
+		<pattern>
+			<match>ref="CheckboxControl"</match>
+			<replacement>ref="KfsCheckboxControl"</replacement>
+		</pattern>
+		<pattern>
+			<match>id="CheckboxControl"</match>
+			<replacement>id="KfsCheckboxControl"</replacement>
+		</pattern>
+		<pattern>
+			<match>"Campus-campusName</match>
+			<replacement>"Campus-name</replacement>
+		</pattern>
+		<pattern>
+			<match>"DelegateType-</match>
+			<replacement>"DelegateBo-</replacement>
+		</pattern>
+		<pattern>
+			<match>"GroupImpl-groupId</match>
+			<replacement>"Group-id</replacement>
+		</pattern>
+		<pattern>
+			<match>"GroupImpl-groupName</match>
+			<replacement>"Group-name</replacement>
+		</pattern>
+		<pattern>
+			<match>"GroupImpl-namespaceCode</match>
+			<replacement>"Group-namespaceCode</replacement>
+		</pattern>
+		<pattern>
+			<match>"RoleImpl-roleId</match>
+			<replacement>"RoleBo-id</replacement>
+		</pattern>
+		<pattern>
+			<match>"RoleImpl-roleName</match>
+			<replacement>"RoleBo-name</replacement>
+		</pattern>
+		<pattern>
+			<match>"RoleImpl-namespaceCode</match>
+			<replacement>"RoleBo-namespaceCode</replacement>
+		</pattern>
+		<pattern>
+			<match>"Campus-campusCode</match>
+			<replacement>"Campus-code</replacement>
+		</pattern>
+		<pattern>
+			<match>"PostalCode-postalCode</match>
+			<replacement>"PostalCode-code</replacement>
+		</pattern>
+		postalCountryCode
+		<pattern>
+			<match>"State-stateCode</match>
+			<replacement>"State-code</replacement>
+		</pattern>
+		<pattern>
+			<match>"Country-postalCountryCode</match>
+			<replacement>"Country-code</replacement>
+		</pattern>
+		<pattern>
+			<match>"Country-postalCountryName</match>
+			<replacement>"Country-name</replacement>
+		</pattern>
 		<pattern>
 			<match>\.getBoNotes\(\)</match>
 			<replacement>.getNotes()</replacement>
@@ -23,6 +202,7 @@
 			<match>RoleManagementService</match>
 			<replacement>RoleService</replacement>
 		</pattern>
+	 -->
  	</rule>
 
 	<rule name="handle_RICE_20_conversion_comments">

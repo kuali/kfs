@@ -16,27 +16,23 @@
 package org.kuali.kfs.sys.businessobject.options;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.io.DirectoryWalker;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.BatchFileUtils;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class BatchFileDirectoryPathValuesFinder extends KeyValuesBase {
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         List<File> rootDirectories = BatchFileUtils.retrieveBatchFileLookupRootDirectories();
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         
         for (File rootDirectory: rootDirectories) {
             SubDirectoryWalker walker = new SubDirectoryWalker(keyValues);
@@ -52,11 +48,11 @@ public class BatchFileDirectoryPathValuesFinder extends KeyValuesBase {
     }
 
     protected class SubDirectoryWalker extends DirectoryWalker {
-        private List<KeyLabelPair> keyValues;
+        private List<KeyValue> keyValues;
         private int recursiveDepth;
         private File rootDirectory;
         
-        public SubDirectoryWalker(List<KeyLabelPair> keyValues) {
+        public SubDirectoryWalker(List<KeyValue> keyValues) {
             super(DirectoryFileFilter.DIRECTORY, -1);
             this.keyValues = keyValues;
             this.recursiveDepth = 0;
@@ -73,10 +69,10 @@ public class BatchFileDirectoryPathValuesFinder extends KeyValuesBase {
         @Override
         protected void handleDirectoryStart(File directory, int depth, Collection results) throws IOException {
             super.handleDirectoryStart(directory, depth, results);
-            KeyLabelPair entry = new KeyLabelPair();
+            ConcreteKeyValue entry = new ConcreteKeyValue();
             entry.setKey(BatchFileUtils.pathRelativeToRootDirectory(directory.getAbsolutePath()));
-            entry.setLabel(directory.getName());
-            entry.setNumPaddedSpaces(4 * this.recursiveDepth);
+            // use the unicode literal for space....KFSMI-7392 fix
+            entry.setValue( StringUtils.repeat("\u00A0", 4 * this.recursiveDepth) + directory.getName());
             keyValues.add(entry);
             this.recursiveDepth++;
         }

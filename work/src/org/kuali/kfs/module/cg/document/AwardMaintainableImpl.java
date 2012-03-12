@@ -41,16 +41,16 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.document.MaintenanceLock;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.maintenance.MaintenanceLock;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Methods for the Award maintenance document UI.
@@ -332,17 +332,17 @@ public class AwardMaintainableImpl extends FinancialSystemMaintainable {
      * This method overrides the parent method to check the status of the award document and change the linked
      * {@link ProposalStatus} to A (Approved) if the {@link Award} is now in approved status.
      * 
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.krad.bo.DocumentHeader)
      */
     @Override
     public void doRouteStatusChange(DocumentHeader header) {
         super.doRouteStatusChange(header);
 
         Award award = getAward();
-        KualiWorkflowDocument workflowDoc = header.getWorkflowDocument();
+        WorkflowDocument workflowDoc = header.getWorkflowDocument();
 
-        // Use the stateIsProcessed() method so this code is only executed when the final approval occurs
-        if (workflowDoc.stateIsProcessed()) {
+        // Use the isProcessed() method so this code is only executed when the final approval occurs
+        if (workflowDoc.isProcessed()) {
             Proposal proposal = award.getProposal();
             proposal.setProposalStatusCode(Proposal.AWARD_CODE);
             SpringContext.getBean(BusinessObjectService.class).save(proposal);

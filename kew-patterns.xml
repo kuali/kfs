@@ -22,6 +22,10 @@
 			<replacement>org.kuali.rice.kew.api.docType.DocumentType</replacement>
 		</pattern>
 		<pattern>
+			<match>org\.kuali\.rice\.kew\.dto\.DocumentDocumentRouteStatusChangeDTO</match>
+			<replacement>org.kuali.rice.kew.framework.postprocessor.DocumentDocumentRouteStatusChange</replacement>
+		</pattern>
+		<pattern>
 			<match>org\.kuali\.rice\.kew\.dto\.ValidActionsDTO</match>
 			<replacement>org.kuali.rice.kew.api.action.ValidActions</replacement>
 		</pattern>

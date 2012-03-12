@@ -22,9 +22,9 @@ import org.kuali.kfs.coa.businessobject.OrganizationReversionCategory;
 import org.kuali.kfs.coa.service.OrganizationReversionDetailTrickleDownInactivationService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * A Maintainable for the Organization Reversion Category maintenance document
@@ -37,7 +37,7 @@ public class OrganizationReversionCategoryMaintainableImpl extends FinancialSyst
      */
     protected boolean isInactivatingOrganizationReversionCategory() {
         // the account has to be closed on the new side when editing in order for it to be possible that we are closing the account
-        if (KNSConstants.MAINTENANCE_EDIT_ACTION.equals(getMaintenanceAction()) && !((OrganizationReversionCategory) getBusinessObject()).isActive()) {
+        if (KRADConstants.MAINTENANCE_EDIT_ACTION.equals(getMaintenanceAction()) && !((OrganizationReversionCategory) getBusinessObject()).isActive()) {
             OrganizationReversionCategory existingOrganizationReversionCategoryFromDB = retrieveExistingOrganizationReversionCategory();
             if (ObjectUtils.isNotNull(existingOrganizationReversionCategoryFromDB)) {
                 // now see if the original account was not closed, in which case, we are closing the account
@@ -55,7 +55,7 @@ public class OrganizationReversionCategoryMaintainableImpl extends FinancialSyst
      */
     protected boolean isActivatingOrganizationReversionCategory() {
         // the account has to be closed on the new side when editing in order for it to be possible that we are closing the account
-        if (KNSConstants.MAINTENANCE_EDIT_ACTION.equals(getMaintenanceAction()) && ((OrganizationReversionCategory) getBusinessObject()).isActive()) {
+        if (KRADConstants.MAINTENANCE_EDIT_ACTION.equals(getMaintenanceAction()) && ((OrganizationReversionCategory) getBusinessObject()).isActive()) {
             OrganizationReversionCategory existingOrganizationReversionCategoryFromDB = retrieveExistingOrganizationReversionCategory();
             if (ObjectUtils.isNotNull(existingOrganizationReversionCategoryFromDB)) {
                 // now see if the original account was not closed, in which case, we are closing the account
@@ -91,9 +91,9 @@ public class OrganizationReversionCategoryMaintainableImpl extends FinancialSyst
         super.saveBusinessObject();
         
         if (isActivatingOrgReversionCategory) {
-            SpringContext.getBean(OrganizationReversionDetailTrickleDownInactivationService.class).trickleDownActiveOrganizationReversionDetails((OrganizationReversionCategory)getBusinessObject(), documentNumber);
+            SpringContext.getBean(OrganizationReversionDetailTrickleDownInactivationService.class).trickleDownActiveOrganizationReversionDetails((OrganizationReversionCategory)getBusinessObject(), getDocumentNumber());
         } else if (isInactivatingOrgReversionCategory) {
-            SpringContext.getBean(OrganizationReversionDetailTrickleDownInactivationService.class).trickleDownInactiveOrganizationReversionDetails((OrganizationReversionCategory)getBusinessObject(), documentNumber);
+            SpringContext.getBean(OrganizationReversionDetailTrickleDownInactivationService.class).trickleDownInactiveOrganizationReversionDetails((OrganizationReversionCategory)getBusinessObject(), getDocumentNumber());
         }
     }
 

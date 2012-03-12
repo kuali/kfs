@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * <code>{@link KeyValuesBase}</code> class that handles
@@ -33,9 +33,9 @@ public class AuxiliaryVoucherTypeCodeValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List retval = new ArrayList();
-        retval.add(new KeyLabelPair(KFSConstants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE, KFSConstants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE_NAME));
-        retval.add(new KeyLabelPair(KFSConstants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE, KFSConstants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE_NAME));
-        retval.add(new KeyLabelPair(KFSConstants.AuxiliaryVoucher.RECODE_DOC_TYPE, KFSConstants.AuxiliaryVoucher.RECODE_DOC_TYPE_NAME));
+        retval.add(new ConcreteKeyValue(KFSConstants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE, KFSConstants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE_NAME));
+        retval.add(new ConcreteKeyValue(KFSConstants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE, KFSConstants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE_NAME));
+        retval.add(new ConcreteKeyValue(KFSConstants.AuxiliaryVoucher.RECODE_DOC_TYPE, KFSConstants.AuxiliaryVoucher.RECODE_DOC_TYPE_NAME));
         return retval;
     }
 }

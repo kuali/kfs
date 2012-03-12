@@ -22,14 +22,14 @@ import org.kuali.kfs.module.ld.LaborPropertyConstants;
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.KualiModuleService;
 
 /**
  * Business Object for the Effort Certification Report Position Table.
  */
-public class EffortCertificationReportPosition extends PersistableBusinessObjectBase implements Inactivateable, FiscalYearBasedBusinessObject {
+public class EffortCertificationReportPosition extends PersistableBusinessObjectBase implements MutableInactivatable, FiscalYearBasedBusinessObject {
     private Integer universityFiscalYear;
     private String effortCertificationReportNumber;
     private String effortCertificationReportPositionObjectGroupCode;
@@ -175,10 +175,10 @@ public class EffortCertificationReportPosition extends PersistableBusinessObject
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         if (this.universityFiscalYear != null) {
             m.put("universityFiscalYear", this.universityFiscalYear.toString());

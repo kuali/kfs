@@ -15,24 +15,25 @@
  */
 package org.kuali.kfs.module.cam.businessobject;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.bo.GlobalBusinessObjectDetailBase;
-import org.kuali.rice.kns.bo.PostalCode;
-import org.kuali.rice.kns.bo.State;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.PostalCodeService;
-import org.kuali.rice.kns.service.StateService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.GlobalBusinessObjectDetailBase;
+import org.kuali.rice.location.api.campus.CampusService;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.location.api.postalcode.PostalCodeService;
+import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.location.framework.campus.CampusEbo;
+import org.kuali.rice.location.framework.country.CountryEbo;
+import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
+import org.kuali.rice.location.framework.state.StateEbo;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -59,12 +60,12 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
     private String nationalStockNumber;
 
     private Asset asset;
-    private Campus campus;
+    private CampusEbo campus;
     private Building building;
     private Room buildingRoom;
-    private State offCampusState;
-    private Country offCampusCountry;
-    private PostalCode postalZipCode;
+    private StateEbo offCampusState;
+    private CountryEbo offCampusCountry;
+    private PostalCodeEbo postalZipCode;
 
 
     private Integer locationQuantity;
@@ -84,7 +85,7 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
     private Person assetRepresentative;
     
     public Person getAssetRepresentative() {
-        assetRepresentative = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(representativeUniversalIdentifier, assetRepresentative);
+        assetRepresentative = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(representativeUniversalIdentifier, assetRepresentative);
         return assetRepresentative;
     }
 
@@ -114,7 +115,7 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Default constructor.
      */
     public AssetGlobalDetail() {
-        assetGlobalUniqueDetails = new TypedArrayList(AssetGlobalDetail.class);
+        assetGlobalUniqueDetails = new ArrayList<AssetGlobalDetail>();
 
     }
 
@@ -459,8 +460,8 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
      * 
      * @return Returns the campus
      */
-    public Campus getCampus() {
-        return campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, campus, "campus");
+    public CampusEbo getCampus() {
+        return campus = StringUtils.isBlank( campusCode)?null:((campus!=null && campus.getCode().equals( campusCode))?campus:CampusEbo.from(SpringContext.getBean(CampusService.class).getCampus( campusCode)));
     }
 
     /**
@@ -469,7 +470,7 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
      * @param campus The campus to set.
      * @deprecated
      */
-    public void setCampus(Campus campus) {
+    public void setCampus(CampusEbo campus) {
         this.campus = campus;
     }
 
@@ -516,8 +517,8 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
      * 
      * @return Returns the offCampusState.
      */
-    public State getOffCampusState() {
-        offCampusState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(offCampusCountryCode, offCampusStateCode, offCampusState);
+    public StateEbo getOffCampusState() {
+        offCampusState = (StringUtils.isBlank(offCampusCountryCode) || StringUtils.isBlank( offCampusStateCode))?null:( offCampusState == null || !StringUtils.equals( offCampusState.getCountryCode(),offCampusCountryCode)|| !StringUtils.equals( offCampusState.getCode(), offCampusStateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState(offCampusCountryCode, offCampusStateCode)): offCampusState;
         return offCampusState;
     }
 
@@ -527,7 +528,7 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
      * @param offCampusState The offCampusState to set.
      * @deprecated
      */
-    public void setOffCampusState(State offCampusState) {
+    public void setOffCampusState(StateEbo offCampusState) {
         this.offCampusState = offCampusState;
     }
 
@@ -536,8 +537,8 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
      * 
      * @return Returns the postalZipCode.
      */
-    public PostalCode getPostalZipCode() {
-        postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(offCampusCountryCode, offCampusZipCode, postalZipCode);
+    public PostalCodeEbo getPostalZipCode() {
+        postalZipCode = (StringUtils.isBlank(offCampusCountryCode) || StringUtils.isBlank( offCampusZipCode))?null:( postalZipCode == null || !StringUtils.equals( postalZipCode.getCountryCode(),offCampusCountryCode)|| !StringUtils.equals( postalZipCode.getCode(), offCampusZipCode))?PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode(offCampusCountryCode, offCampusZipCode)): postalZipCode;
         return postalZipCode;
     }
 
@@ -547,7 +548,7 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
      * @param postalZipCode The postalZipCode to set.
      * @deprecated
      */
-    public void setPostalZipCode(PostalCode postalZipCode) {
+    public void setPostalZipCode(PostalCodeEbo postalZipCode) {
         this.postalZipCode = postalZipCode;
     }
 
@@ -556,8 +557,8 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
      * 
      * @return Returns the offCampusCountry.
      */
-    public Country getOffCampusCountry() {
-        offCampusCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(offCampusCountryCode, offCampusCountry);
+    public CountryEbo getOffCampusCountry() {
+        offCampusCountry = (offCampusCountryCode == null)?null:( offCampusCountry == null || !StringUtils.equals( offCampusCountry.getCode(),offCampusCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(offCampusCountryCode)): offCampusCountry;
         return offCampusCountry;
     }
 
@@ -567,7 +568,7 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
      * @param offCampusCountry The offCampusCountry to set.
      * @deprecated
      */
-    public void setOffCampusCountry(Country offCampusCountry) {
+    public void setOffCampusCountry(CountryEbo offCampusCountry) {
         this.offCampusCountry = offCampusCountry;
     }
 
@@ -609,9 +610,9 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("documentNumber", this.documentNumber);
         if (this.capitalAssetNumber != null) {

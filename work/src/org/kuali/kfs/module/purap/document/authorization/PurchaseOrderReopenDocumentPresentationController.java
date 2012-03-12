@@ -15,13 +15,13 @@
  */
 package org.kuali.kfs.module.purap.document.authorization;
 
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 
 
 public class PurchaseOrderReopenDocumentPresentationController extends PurchaseOrderDocumentPresentationController {
     
     @Override
-    protected boolean canSave(Document document) {
+    public boolean canSave(Document document) {
         return false;
     }
 

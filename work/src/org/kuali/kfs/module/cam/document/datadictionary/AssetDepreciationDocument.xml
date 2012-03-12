@@ -3,6 +3,7 @@
   <bean id="AssetDepreciationDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
     <property name="documentTypeName" value="DEPR"/>
     <property name="documentClass" value="org.kuali.kfs.module.cam.document.AssetDepreciationDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.module.cam.document.AssetDepreciationDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.AssetDepreciationDocumentRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase"/>
     <property name="workflowAttributes">
@@ -11,6 +12,6 @@
   </bean>  
  <!-- workflow attributes -->
   <bean id="AssetDepreciationDocument-workflowAttributes" parent="AssetDepreciationDocument-workflowAttributes-parentBean"/>
-  <bean id="AssetDepreciationDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
+  <bean id="AssetDepreciationDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true">
   </bean>
 </beans>

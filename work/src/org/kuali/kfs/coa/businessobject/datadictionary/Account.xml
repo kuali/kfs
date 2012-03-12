@@ -15,92 +15,93 @@
 		the specific language governing permissions and limitations under the
 		License.
 	-->
-	<bean id="Account" parent="Account-parentBean" />
-	<bean id="Account-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.Account" />
-		<property name="inquiryDefinition" ref="Account-inquiryDefinition" />
-		<property name="lookupDefinition" ref="Account-lookupDefinition" />
-		<property name="titleAttribute" value="accountNumber" />
-		<property name="objectLabel" value="Account" />
-		<property name="attributes">
-			<list>
-				<ref bean="Account-chartOfAccountsCode" />
-				<ref bean="Account-chartOfAccounts.codeAndDescription" />
-				<ref bean="Account-endowmentIncomeChartOfAccounts.codeAndDescription" />
-				<ref bean="Account-accountNumber" />
-				<ref bean="Account-accountName" />
-				<ref bean="Account-organizationCode" />
-				<ref bean="Account-organization.codeAndDescription" />
-				<ref bean="Account-accountTypeCode" />
-				<ref bean="Account-accountPhysicalCampusCode" />
-				<ref bean="Account-subFundGroupCode" />
-				<ref bean="Account-subFundGroup.codeAndDescription" />
-				<ref bean="Account-accountsFringesBnftIndicator" />
-				<ref bean="Account-financialHigherEdFunctionCd" />
-				<ref bean="Account-financialHigherEdFunction.codeAndDescription" />
-				<ref bean="Account-accountRestrictedStatusCode" />
-				<ref bean="Account-accountRestrictedStatusDate" />
-				<ref bean="Account-accountCityName" />
-				<ref bean="Account-accountStateCode" />
-				<ref bean="Account-accountState.codeAndDescription" />
-				<ref bean="Account-accountStreetAddress" />
-				<ref bean="Account-accountZipCode" />
-				<ref bean="Account-postalZipCode.postalCode" />
-				<ref bean="Account-reportsToChartOfAccountsCode" />
-				<ref bean="Account-reportsToAccountNumber" />
-				<ref bean="Account-accountCreateDate" />
-				<ref bean="Account-accountEffectiveDate" />
-				<ref bean="Account-accountExpirationDate" />
-				<ref bean="Account-continuationFinChrtOfAcctCd" />
-				<ref bean="Account-continuationAccountNumber" />
-				<ref bean="Account-endowmentIncomeAcctFinCoaCd" />
-				<ref bean="Account-endowmentIncomeAccountNumber" />
-				<ref bean="Account-contractControlFinCoaCode" />
-				<ref bean="Account-contractControlAccountNumber" />
-				<ref bean="Account-incomeStreamFinancialCoaCode" />
-				<ref bean="Account-incomeStreamAccountNumber" />
-				<ref bean="Account-acctIndirectCostRcvyTypeCd" />
-				<ref bean="Account-acctIndirectCostRcvyType.codeAndDescription" />
-				<ref bean="Account-acctCustomIndCstRcvyExclCd" />
-				<ref bean="Account-financialIcrSeriesIdentifier" />
-				<ref bean="Account-accountInFinancialProcessingIndicator" />
-				<ref bean="Account-budgetRecordingLevelCode" />
-				<ref bean="Account-accountSufficientFundsCode" />
-				<ref bean="Account-pendingAcctSufficientFundsIndicator" />
-				<ref bean="Account-extrnlFinEncumSufficntFndIndicator" />
-				<ref bean="Account-intrnlFinEncumSufficntFndIndicator" />
-				<ref bean="Account-finPreencumSufficientFundIndicator" />
-				<ref bean="Account-financialObjectivePrsctrlIndicator" />
-				<ref bean="Account-accountCfdaNumber" />
-				<ref bean="Account-accountOffCampusIndicator" />
-				<ref bean="Account-active" />
-				<ref bean="Account-closed" />
-				<ref bean="Account-accountFiscalOfficerSystemIdentifier" />
-				<ref bean="Account-accountFiscalOfficerSystemIdentifierForSearching" />
-				<ref bean="Account-accountFiscalOfficerUser.principalName" />
-				<ref bean="Account-accountFiscalOfficerUser.name" />
-				<ref bean="Account-accountsSupervisorySystemsIdentifier" />
-				<ref bean="Account-accountsSupervisorySystemsIdentifierForSearching" />
-				<ref bean="Account-accountSupervisoryUser.principalName" />
-				<ref bean="Account-accountSupervisoryUser.name" />
-				<ref bean="Account-accountManagerSystemIdentifier" />
-				<ref bean="Account-accountManagerSystemIdentifierForSearching" />
-				<ref bean="Account-accountManagerUser.principalName" />
-				<ref bean="Account-accountManagerUser.name" />
-				<ref bean="Account-accountGuideline.accountExpenseGuidelineText" />
-				<ref bean="Account-accountGuideline.accountIncomeGuidelineText" />
-				<ref bean="Account-accountGuideline.accountPurposeText" />
-				<ref bean="Account-accountDescription.campusDescription" />
-				<ref bean="Account-accountDescription.organizationDescription" />
-				<ref bean="Account-accountDescription.responsibilityCenterDescription" />
-				<ref bean="Account-accountDescription.campusCode" />
-				<ref bean="Account-accountDescription.buildingCode" />
-				<ref bean="Account-contractsAndGrantsAccountResponsibilityId" />
-				<ref bean="Account-laborBenefitRateCategoryCode" />
-			</list>
-		</property>
-		<property name="accessRestrictedAttributes">
-			<list>
+  <bean id="Account" parent="Account-parentBean"/>
+  <bean id="Account-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.Account"/>
+    <property name="inquiryDefinition" ref="Account-inquiryDefinition"/>
+    <property name="lookupDefinition" ref="Account-lookupDefinition"/>
+    <property name="titleAttribute" value="accountNumber"/>
+    <property name="objectLabel" value="Account"/>
+    <property name="attributes">
+      <list>
+        <ref bean="Account-chartOfAccountsCode"/>
+        <ref bean="Account-chartOfAccounts.codeAndDescription"/>
+        <ref bean="Account-endowmentIncomeChartOfAccounts.codeAndDescription"/>
+        <ref bean="Account-accountNumber"/>
+        <ref bean="Account-accountName"/>
+        <ref bean="Account-organizationCode"/>
+        <ref bean="Account-organization.codeAndDescription"/>
+        <ref bean="Account-accountTypeCode"/>
+        <ref bean="Account-accountPhysicalCampusCode"/>
+        <ref bean="Account-subFundGroupCode"/>
+        <ref bean="Account-subFundGroup.codeAndDescription"/>
+        <ref bean="Account-accountsFringesBnftIndicator"/>
+        <ref bean="Account-financialHigherEdFunctionCd"/>
+        <ref bean="Account-financialHigherEdFunction.codeAndDescription"/>
+        <ref bean="Account-accountRestrictedStatusCode"/>
+        <ref bean="Account-accountRestrictedStatusDate"/>
+        <ref bean="Account-accountCityName"/>
+        <ref bean="Account-accountStateCode"/>
+        <!-- RICE20: codeAndDescription has been removed from the State object
+        <ref bean="Account-accountState.codeAndDescription"/>
+        -->
+        <ref bean="Account-accountStreetAddress"/>
+        <ref bean="Account-accountZipCode"/>
+        <ref bean="Account-reportsToChartOfAccountsCode"/>
+        <ref bean="Account-reportsToAccountNumber"/>
+        <ref bean="Account-accountCreateDate"/>
+        <ref bean="Account-accountEffectiveDate"/>
+        <ref bean="Account-accountExpirationDate"/>
+        <ref bean="Account-continuationFinChrtOfAcctCd"/>
+        <ref bean="Account-continuationAccountNumber"/>
+        <ref bean="Account-endowmentIncomeAcctFinCoaCd"/>
+        <ref bean="Account-endowmentIncomeAccountNumber"/>
+        <ref bean="Account-contractControlFinCoaCode"/>
+        <ref bean="Account-contractControlAccountNumber"/>
+        <ref bean="Account-incomeStreamFinancialCoaCode"/>
+        <ref bean="Account-incomeStreamAccountNumber"/>
+        <ref bean="Account-acctIndirectCostRcvyTypeCd"/>
+        <ref bean="Account-acctIndirectCostRcvyType.codeAndDescription"/>
+        <ref bean="Account-acctCustomIndCstRcvyExclCd"/>
+        <ref bean="Account-financialIcrSeriesIdentifier"/>
+        <ref bean="Account-accountInFinancialProcessingIndicator"/>
+        <ref bean="Account-budgetRecordingLevelCode"/>
+        <ref bean="Account-accountSufficientFundsCode"/>
+        <ref bean="Account-pendingAcctSufficientFundsIndicator"/>
+        <ref bean="Account-extrnlFinEncumSufficntFndIndicator"/>
+        <ref bean="Account-intrnlFinEncumSufficntFndIndicator"/>
+        <ref bean="Account-finPreencumSufficientFundIndicator"/>
+        <ref bean="Account-financialObjectivePrsctrlIndicator"/>
+        <ref bean="Account-accountCfdaNumber"/>
+        <ref bean="Account-accountOffCampusIndicator"/>
+        <ref bean="Account-active"/>
+        <ref bean="Account-closed"/>
+        <ref bean="Account-accountFiscalOfficerSystemIdentifier"/>
+        <ref bean="Account-accountFiscalOfficerSystemIdentifierForSearching"/>
+        <ref bean="Account-accountFiscalOfficerUser.principalName"/>
+        <ref bean="Account-accountFiscalOfficerUser.name"/>
+        <ref bean="Account-accountsSupervisorySystemsIdentifier"/>
+        <ref bean="Account-accountsSupervisorySystemsIdentifierForSearching"/>
+        <ref bean="Account-accountSupervisoryUser.principalName"/>
+        <ref bean="Account-accountSupervisoryUser.name"/>
+        <ref bean="Account-accountManagerSystemIdentifier"/>
+        <ref bean="Account-accountManagerSystemIdentifierForSearching"/>
+        <ref bean="Account-accountManagerUser.principalName"/>
+        <ref bean="Account-accountManagerUser.name"/>
+        <ref bean="Account-accountGuideline.accountExpenseGuidelineText"/>
+        <ref bean="Account-accountGuideline.accountIncomeGuidelineText"/>
+        <ref bean="Account-accountGuideline.accountPurposeText"/>
+        <ref bean="Account-accountDescription.campusDescription"/>
+        <ref bean="Account-accountDescription.organizationDescription"/>
+        <ref bean="Account-accountDescription.responsibilityCenterDescription"/>
+        <ref bean="Account-accountDescription.campusCode"/>
+        <ref bean="Account-accountDescription.buildingCode"/>
+        <ref bean="Account-contractsAndGrantsAccountResponsibilityId"/>
+	<ref bean="Account-laborBenefitRateCategoryCode" />
+      </list>
+    </property>
+    <property name="accessRestrictedAttributes">
+       <list>
            <bean parent="ChartRestriction"><property name="attribute" ref="Account-chartOfAccountsCode"/></bean>
            <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="Account-chartOfAccountsCode"/></bean>
            <bean parent="AccountRestriction"><property name="attribute" ref="Account-accountNumber"/></bean>
@@ -165,67 +166,62 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="RelationshipDefinition" p:objectAttributeName="cfda">
-					<property name="primitiveAttributes">
-						<list>
-        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountCfdaNumber" p:targetName="cfdaNumber" />
-						</list>
-					</property>
-				</bean>
         <bean parent="RelationshipDefinition" p:objectAttributeName="awards" p:targetClass="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation">
 					<property name="primitiveAttributes">
 						<list>
         			<bean parent="PrimitiveAttributeDefinition" p:sourceName="chartOfAccountsCode" p:targetName="chartOfAccountsCode" />
         			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountNumber" p:targetName="accountNumber" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="RelationshipDefinition" p:objectAttributeName="postalZipCode">
-					<property name="primitiveAttributes">
-						<list>
-        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountZipCode" p:targetName="postalCode" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="RelationshipDefinition" p:objectAttributeName="accountState">
-					<property name="primitiveAttributes">
-						<list>
-        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountStateCode" p:targetName="postalStateCode" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="RelationshipDefinition" p:objectAttributeName="accountPhysicalCampus">
-					<property name="primitiveAttributes">
-						<list>
-        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountPhysicalCampusCode" p:targetName="campusCode" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="RelationshipDefinition" p:objectAttributeName="laborBenefitRateCategory">
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="laborBenefitRateCategoryCode"
-								p:targetName="laborBenefitRateCategoryCode" />
-						</list>
-					</property>
-				</bean>
-
+        		</list>
+        	</property>
+        </bean>
+        <bean parent="RelationshipDefinition" p:objectAttributeName="postalZipCode">
+        	<property name="primitiveAttributes">
+        		<list>
+        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountZipCode" p:targetName="code" />
+        		</list>
+        	</property>
+        </bean>
+        <bean parent="RelationshipDefinition" p:objectAttributeName="accountState">
+        	<property name="primitiveAttributes">
+        		<list>
+        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountStateCode" p:targetName="code" />
+        		</list>
+        	</property>
+        </bean>
+        <bean parent="RelationshipDefinition" p:objectAttributeName="accountPhysicalCampus">
+        	<property name="primitiveAttributes">
+        		<list>
+        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountPhysicalCampusCode" p:targetName="code" />
+        		</list>
+        	</property>
+        </bean>        
+	<bean parent="RelationshipDefinition" p:objectAttributeName="laborBenefitRateCategory">
+		<property name="primitiveAttributes">
+			<list>
+				<bean parent="PrimitiveAttributeDefinition" p:sourceName="laborBenefitRateCategoryCode"
+					p:targetName="laborBenefitRateCategoryCode" />
 			</list>
 		</property>
-		<property name="inactivationBlockingDefinitions">
-			<list>
+	</bean>
+      </list>
+    </property>
+    <property name="inactivationBlockingDefinitions">
+      <list>
         <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="accountType"/>
         <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="acctIndirectCostRcvyType"/>
         <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="budgetRecordingLevel"/>
         <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="financialHigherEdFunction"/>
-        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="postalZipCode"/>
         <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="accountRestrictedStatus"/>
         <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="subFundGroup"/>
         <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="sufficientFundsCode"/>
+        <!-- RICE20 - removing zip code and state, since they are maintained on the Rice server
+        		and (I don't believe) that they can be blocked.
+        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="postalZipCode"/>
         <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="accountState"/>
-			</list>
-		</property>
-	</bean>
+         -->
+      </list>
+    </property>
+  </bean>
 
 	<!-- Attribute Definitions -->
 
@@ -286,10 +282,10 @@
 
 	<bean id="Account-accountPhysicalCampusCode" parent="Account-accountPhysicalCampusCode-parentBean" />
 	<bean id="Account-accountPhysicalCampusCode-parentBean" abstract="true"
-		parent="Campus-campusCode" p:name="accountPhysicalCampusCode">
+		parent="Campus-code" p:name="accountPhysicalCampusCode">
 		<property name="control">
 			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder" />
+				p:valuesFinderClass="org.kuali.rice.location.framework.campus.CampusValuesFinder" />
 		</property>
 	</bean>
 
@@ -364,22 +360,21 @@
 	</bean>
 	<bean id="Account-accountStateCode" parent="Account-accountStateCode-parentBean" />
 
-	<bean id="Account-accountStateCode-parentBean" abstract="true"
-		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
-		p:sourceAttributeName="postalStateCode">
+	<bean id="Account-accountStateCode-parentBean" abstract="true" parent="State-code">
 		<property name="name" value="accountStateCode" />
 		<property name="label" value="Account State Code" />
 		<property name="shortLabel" value="StateCd" />
 		<property name="required" value="true" />
 	</bean>
+
+<!-- RICE20: codeAndDescription has been removed from the State object 
 	<bean id="Account-accountState.codeAndDescription" parent="Account-accountState.codeAndDescription-parentBean" />
 
 	<bean id="Account-accountState.codeAndDescription-parentBean"
 		abstract="true" parent="State-codeAndDescription" p:name="accountState.codeAndDescription"
 		p:label="Account State Code" p:shortLabel="Account State Code" />
-
-	<bean id="Account-accountStreetAddress" parent="Account-accountStreetAddress-parentBean" />
+ -->
+ 	<bean id="Account-accountStreetAddress" parent="Account-accountStreetAddress-parentBean" />
 
 	<bean id="Account-accountStreetAddress-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -397,20 +392,12 @@
 	</bean>
 	<bean id="Account-accountZipCode" parent="Account-accountZipCode-parentBean" />
 
-	<bean id="Account-accountZipCode-parentBean" abstract="true"
-		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
-		p:sourceAttributeName="postalCode">
+	<bean id="Account-accountZipCode-parentBean" abstract="true" parent="PostalCode-code">
 		<property name="name" value="accountZipCode" />
 		<property name="label" value="Account Postal Code" />
 		<property name="shortLabel" value="ZipCode" />
 	</bean>
 
-	<bean id="Account-postalZipCode.postalCode" parent="Account-postalZipCode.postalCode-parentBean" />
-
-	<bean id="Account-postalZipCode.postalCode-parentBean" abstract="true"
-		parent="PostalCode-postalCode" p:name="postalZipCode.postalCode"
-		p:label="Account Postal Code" p:shortLabel="ZipCode" />
 	<bean id="Account-reportsToChartOfAccountsCode" parent="Account-reportsToChartOfAccountsCode-parentBean" />
 
 	<bean id="Account-reportsToChartOfAccountsCode-parentBean"
@@ -667,10 +654,7 @@
 
 	<bean id="Account-accountCfdaNumber" parent="Account-accountCfdaNumber-parentBean" />
 
-	<bean id="Account-accountCfdaNumber-parentBean" abstract="true"
-		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.kfs.integration.cg.ContractsAndGrantsCfda"
-		p:sourceAttributeName="cfdaNumber">
+	<bean id="Account-accountCfdaNumber-parentBean" abstract="true" parent="CFDA-cfdaNumber" >
 		<property name="name" value="accountCfdaNumber" />
 		<property name="required" value="false" />
 	</bean>
@@ -973,9 +957,12 @@
 				<bean parent="FieldDefinition" p:attributeName="accountPhysicalCampusCode" />
 				<bean parent="FieldDefinition" p:attributeName="accountEffectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="accountExpirationDate" />
-				<bean parent="FieldDefinition" p:attributeName="postalZipCode.postalCode" />
+				<bean parent="FieldDefinition" p:attributeName="accountZipCode" />
 				<bean parent="FieldDefinition" p:attributeName="accountCityName" />
+				<bean parent="FieldDefinition" p:attributeName="accountStateCode" />
+				<!-- RICE20: codeAndDescription has been removed from the State object
 				<bean parent="FieldDefinition" p:attributeName="accountState.codeAndDescription" />
+				-->
 				<bean parent="FieldDefinition" p:attributeName="accountStreetAddress" />
 				<bean parent="FieldDefinition" p:attributeName="accountOffCampusIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="closed" />

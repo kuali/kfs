@@ -16,7 +16,7 @@
 package org.kuali.kfs.fp.document;
 
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Interface for voucher type documents that require debit/credit support

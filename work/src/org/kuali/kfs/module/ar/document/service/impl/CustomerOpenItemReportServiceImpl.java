@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,6 +26,7 @@ import java.util.Date;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -47,91 +48,83 @@ import org.kuali.kfs.module.ar.document.service.CustomerOpenItemReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.exception.InfrastructureException;
-import org.kuali.rice.kns.exception.UnknownDocumentIdException;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocumentFactory;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.exception.InfrastructureException;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReportService {
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerOpenItemReportServiceImpl.class);
-    
-    private AccountsReceivableDocumentHeaderDao accountsReceivableDocumentHeaderDao;
-    private WorkflowDocumentService workflowDocumentService;
-    private CustomerInvoiceDocumentService customerInvoiceDocumentService;
-    private FinancialSystemDocumentHeaderDao financialSystemDocumentHeaderDao;
-    private DocumentService documentService;
-    private DateTimeService dateTimeService;
-    private CustomerInvoiceDetailDao customerInvoiceDetailDao;
-    private NonAppliedHoldingDao nonAppliedHoldingDao;
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerOpenItemReportServiceImpl.class);
+
+    protected AccountsReceivableDocumentHeaderDao accountsReceivableDocumentHeaderDao;
+    protected WorkflowDocumentService workflowDocumentService;
+    protected CustomerInvoiceDocumentService customerInvoiceDocumentService;
+    protected DocumentService documentService;
+    protected DateTimeService dateTimeService;
+    protected CustomerInvoiceDetailDao customerInvoiceDetailDao;
+    protected NonAppliedHoldingDao nonAppliedHoldingDao;
+    protected BusinessObjectService businessObjectService;
 
     /**
      * This method populates CustomerOpenItemReportDetails (Customer History Report).
-     * 
+     *
      * @param customerNumber
      */
+    @Override
     public List getPopulatedReportDetails(String customerNumber) {
-        
+
         List results = new ArrayList();
 
         Collection arDocumentHeaders = accountsReceivableDocumentHeaderDao.getARDocumentHeadersIncludingHiddenApplicationByCustomerNumber(customerNumber);
         if (arDocumentHeaders.size() == 0)
             return results;
 
-        Person user = GlobalVariables.getUserSession().getPerson();
-
+        String userId = GlobalVariables.getUserSession().getPrincipalId();
         List finSysDocHeaderIds = new ArrayList();
         List invoiceIds = new ArrayList();
         List paymentApplicationIds = new ArrayList();
         List unappliedHoldingIds = new ArrayList();
-
         Hashtable details = new Hashtable();
-        KualiWorkflowDocument workflowDocument;
-
+        WorkflowDocument workflowDocument;
 
         for (Iterator itr = arDocumentHeaders.iterator(); itr.hasNext();) {
             AccountsReceivableDocumentHeader documentHeader = (AccountsReceivableDocumentHeader) itr.next();
             CustomerOpenItemReportDetail detail = new CustomerOpenItemReportDetail();
 
             // populate workflow document
-            try {
-                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(documentHeader.getDocumentNumber()), user);
-            }
-            catch (WorkflowException e) {
-                throw new UnknownDocumentIdException("No document found for documentHeaderId '" + documentHeader.getDocumentNumber() + "'", e);
-            }
+            workflowDocument = WorkflowDocumentFactory.loadDocument(userId, documentHeader.getDocumentNumber());
 
             // do not display not approved documents
-            Date approvedDate = getSqlDate(workflowDocument.getRouteHeader().getDateApproved());
+            Date approvedDate = getSqlDate(workflowDocument.getDateApproved().toCalendar(Locale.getDefault()));
             if (ObjectUtils.isNull(approvedDate)) {
                 continue;
             }
 
             // Document Type
-            String documentType = workflowDocument.getDocumentType();
+            String documentType = workflowDocument.getDocumentTypeName();
             detail.setDocumentType(documentType);
 
             // Document Number
             String documentNumber = documentHeader.getDocumentNumber();
             detail.setDocumentNumber(documentNumber);
 
-            if (documentType.equals("INV"))
+            if (documentType.equals(KFSConstants.FinancialDocumentTypeCodes.CUSTOMER_INVOICE))
                 invoiceIds.add(documentNumber);
             else {
                 // Approved Date -> for invoices Due Date, for all other documents Approved Date
                 detail.setDueApprovedDate(approvedDate);
 
-                if (documentType.equals("APP"))
+                if (documentType.equals(ArConstants.PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE))
                     paymentApplicationIds.add(documentNumber);
                 else
                     finSysDocHeaderIds.add(documentNumber);
@@ -143,22 +136,17 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         Collection<NonAppliedHolding> arNonAppliedHoldings = nonAppliedHoldingDao.getNonAppliedHoldingsForCustomer(customerNumber);
         for (NonAppliedHolding nonAppliedHolding : arNonAppliedHoldings) {
             // populate workflow document
-            try {
-                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(nonAppliedHolding.getReferenceFinancialDocumentNumber()), user);
-            }
-            catch (WorkflowException e) {
-                throw new UnknownDocumentIdException("No document found for documentHeaderId '" + nonAppliedHolding.getReferenceFinancialDocumentNumber() + "'", e);
-            }
+            workflowDocument = WorkflowDocumentFactory.loadDocument(userId, nonAppliedHolding.getReferenceFinancialDocumentNumber());
 
             CustomerOpenItemReportDetail detail = new CustomerOpenItemReportDetail();
-            detail.setDocumentType("APP");
+            detail.setDocumentType(ArConstants.PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE);
             detail.setDocumentNumber(nonAppliedHolding.getReferenceFinancialDocumentNumber());
-            Date documentApprovedDate = getSqlDate(workflowDocument.getRouteHeader().getDateApproved());
+            Date documentApprovedDate = getSqlDate(workflowDocument.getDateApproved().toCalendar(Locale.getDefault()));
             detail.setDueApprovedDate(documentApprovedDate);
             details.put(nonAppliedHolding.getReferenceFinancialDocumentNumber(), detail);
             unappliedHoldingIds.add(nonAppliedHolding.getReferenceFinancialDocumentNumber());
         }
-        
+
         // for invoices
         if (invoiceIds.size() > 0)
             populateReportDetailsForInvoices(invoiceIds, results, details);
@@ -171,7 +159,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
                 LOG.error("WorkflowException while populating report details for PaymentApplicationDocument", w);
             }
         }
-        
+
         // for unapplied payment applications
         if (unappliedHoldingIds.size() > 0) {
             try {
@@ -190,7 +178,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
 
     /**
      * This method populates CustomerOpenItemReportDetails for CustomerInvoiceDocuments (Customer History Report).
-     * 
+     *
      * @param finSysDocHeaderIds <=> documentNumbers of CustomerInvoiceDocuments
      * @param results <=> CustomerOpenItemReportDetails to display in the report
      * @param details <=> <key = documentNumber, value = customerOpenItemReportDetail>
@@ -219,7 +207,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             detail.setDueApprovedDate(invoice.getInvoiceDueDate());
 
             // Document Payment Amount
-            detail.setDocumentPaymentAmount(invoice.getDocumentHeader().getFinancialDocumentTotalAmount());
+            detail.setDocumentPaymentAmount(invoice.getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount());
 
             // Unpaid/Unapplied Amount
             detail.setUnpaidUnappliedAmount(customerInvoiceDocumentService.getOpenAmountForCustomerInvoiceDocument(invoice));
@@ -230,7 +218,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
 
     /**
      * This method populates CustomerOpenItemReportDetails for PaymentApplicationDocuments (Customer History Report).
-     * 
+     *
      * @param paymentApplicationIds <=> documentNumbers of PaymentApplicationDocuments
      * @param results <=> CustomerOpenItemReportDetails to display in the report
      * @param details <=> <key = documentNumber, value = customerOpenItemReportDetail>
@@ -252,26 +240,26 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
                 detail.setDocumentDescription("");
 
             // populate Document Payment Amount
-            detail.setDocumentPaymentAmount(paymentApplication.getDocumentHeader().getFinancialDocumentTotalAmount().negated());
-            
+            detail.setDocumentPaymentAmount(paymentApplication.getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount().negated());
+
             // populate Unpaid/Unapplied Amount if the customer number is the same
             if (ObjectUtils.isNotNull(paymentApplication.getNonAppliedHolding())) {
                 if (paymentApplication.getNonAppliedHolding().getCustomerNumber().equals(paymentApplication.getAccountsReceivableDocumentHeader().getCustomerNumber())) {
-                    detail.setUnpaidUnappliedAmount(paymentApplication.getNonAppliedHolding().getAvailableUnappliedAmount().negated()); 
+                    detail.setUnpaidUnappliedAmount(paymentApplication.getNonAppliedHolding().getAvailableUnappliedAmount().negated());
                 } else {
                     detail.setUnpaidUnappliedAmount(KualiDecimal.ZERO);
                 }
             } else {
                 detail.setUnpaidUnappliedAmount(KualiDecimal.ZERO);
             }
-            
+
             results.add(detail);
         }
     }
 
     /**
      * This method populates CustomerOpenItemReportDetails for UnappliedPaymentApplicationDocuments (Customer History Report).
-     * 
+     *
      * @param unappliedHoldingIds <=> documentNumbers of UnappliedPaymentApplicationDocuments
      * @param results <=> CustomerOpenItemReportDetails to display in the report
      * @param details <=> <key = documentNumber, value = customerOpenItemReportDetail>
@@ -286,7 +274,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             if ((paymentApplication.getNonAppliedHolding().getCustomerNumber().equals(paymentApplication.getAccountsReceivableDocumentHeader().getCustomerNumber()))) {
                 continue;
             }
-            
+
             CustomerOpenItemReportDetail detail = (CustomerOpenItemReportDetail) details.get(documentNumber);
 
             // populate Document Description
@@ -295,9 +283,9 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
                 detail.setDocumentDescription(documentDescription);
             else
                 detail.setDocumentDescription("");
-        
+
             // populate Document Payment Amount - original document amount
-            detail.setDocumentPaymentAmount(paymentApplication.getDocumentHeader().getFinancialDocumentTotalAmount().negated());
+            detail.setDocumentPaymentAmount(paymentApplication.getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount().negated());
 
             // populate Unpaid/Unapplied Amount             
             detail.setUnpaidUnappliedAmount(paymentApplication.getNonAppliedHolding().getAvailableUnappliedAmount().negated());
@@ -309,26 +297,22 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
     /**
      * This method populates CustomerOpenItemReportDetails for CustomerCreditMemoDocuments and WriteOffDocuments <=> all documents
      * but CustomerInvoiceDocument and PaymentApplicationDocument (Customer History Report).
-     * 
+     *
      * @param finSysDocHeaderIds <=> documentNumbers of FinancialSystemDocumentHeaders
      * @param results <=> CustomerOpenItemReportDetails to display in the report
      * @param details <=> <key = documentNumber, value = customerOpenItemReportDetail>
      */
-    public void populateReportDetails(List finSysDocHeaderIds, List results, Hashtable details) {
-        Collection financialSystemDocHeaders = financialSystemDocumentHeaderDao.getByDocumentNumbers(finSysDocHeaderIds);
+    public void populateReportDetails(List<String> finSysDocHeaderIds, List results, Hashtable details) {
+        Collection<FinancialSystemDocumentHeader> financialSystemDocHeaders = new ArrayList<FinancialSystemDocumentHeader>();
+        for (String documentNumber : finSysDocHeaderIds) {
+            financialSystemDocHeaders.add(businessObjectService.findBySinglePrimaryKey(FinancialSystemDocumentHeader.class, documentNumber));
+        }
 
-        for (Iterator itr = financialSystemDocHeaders.iterator(); itr.hasNext();) {
-            FinancialSystemDocumentHeader fsDocumentHeader = (FinancialSystemDocumentHeader) itr.next();
-            String documentNumber = fsDocumentHeader.getDocumentNumber();
-
-            CustomerOpenItemReportDetail detail = (CustomerOpenItemReportDetail) details.get(documentNumber);
+        for ( FinancialSystemDocumentHeader fsDocumentHeader : financialSystemDocHeaders ) {
+            CustomerOpenItemReportDetail detail = (CustomerOpenItemReportDetail) details.get(fsDocumentHeader.getDocumentNumber());
 
             // populate Document Description
-            String documentDescription = fsDocumentHeader.getDocumentDescription();
-            if (ObjectUtils.isNotNull(documentDescription))
-                detail.setDocumentDescription(documentDescription);
-            else
-                detail.setDocumentDescription("");
+            detail.setDocumentDescription(StringUtils.trimToEmpty(fsDocumentHeader.getDocumentDescription()));
 
             // populate Document Payment Amount
             detail.setDocumentPaymentAmount(fsDocumentHeader.getFinancialDocumentTotalAmount().negated());
@@ -372,23 +356,24 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
 
     /**
      * This method populates CustomerOpenItemReportDetails (Customer Open Item Report)
-     * 
+     *
      * @param urlParameters
      */
+    @Override
     public List getPopulatedReportDetails(Map urlParameters) {
         List results = new ArrayList();
-        
+
         // get arDocumentHeaders
         Collection<AccountsReceivableDocumentHeader> arDocumentHeaders = getARDocumentHeaders(urlParameters);
         if (arDocumentHeaders.size() == 0)
             return results;
-        
+
         // get ids of arDocumentHeaders
         List<String> arDocumentHeaderIds = new ArrayList<String>();
         for (AccountsReceivableDocumentHeader arDocHeader : arDocumentHeaders) {
             arDocumentHeaderIds.add(arDocHeader.getDocumentNumber());
         }
-        
+
         // get invoices
         String reportOption = ((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.REPORT_OPTION))[0];
         Collection<CustomerInvoiceDocument> invoices;
@@ -403,12 +388,12 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         }
         if (ObjectUtils.isNull(invoices) | invoices.size()==0 )
             return results;
-        
+
         List<CustomerInvoiceDocument> selectedInvoices = new ArrayList();
 
         String columnTitle = ((String[]) urlParameters.get(KFSConstants.CustomerOpenItemReport.COLUMN_TITLE))[0];
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-        
+
         java.util.Date reportRunDate= null;
         java.util.Date beginDate = null;
         java.util.Date endDate = null;
@@ -424,7 +409,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         catch (ParseException e) {
             e.printStackTrace();
         }
-        
+
         // Billing Organization
         if (StringUtils.equals(reportOption, ArConstants.CustomerAgingReportFields.BILLING_ORG)) {
             // All days
@@ -453,7 +438,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
                             selectedInvoices.add(invoice);
                 }
             }
-        } 
+        }
         // Processing Organization or Account
         else {
             // All days
@@ -473,24 +458,24 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
                     if (ObjectUtils.isNull(invoice.getClosedDate())&& ObjectUtils.isNotNull(invoice.getBillingDate()))
                         if ( (ObjectUtils.isNotNull(beginDate) && !beginDate.after(invoice.getBillingDate()) && !endDate.before(invoice.getBillingDate())) || (ObjectUtils.isNull(beginDate) && !endDate.before(invoice.getBillingDate())) )
                             selectedInvoices.add(invoice);
-                }  
+                }
             }
         }
 
         if (selectedInvoices.size() == 0)
             return results;
-        
+
         if (StringUtils.equals(reportOption, ArConstants.CustomerAgingReportFields.ACCT))
             populateReporDetails(selectedInvoices,results,details);
         else
             populateReportDetails(selectedInvoices,results);
-        
+
         return results;
     }
 
     /**
      * This method retrieves ARDocumentHeader objects for "Customer Open Item Report"
-     * 
+     *
      * @param urlParameters
      * @return ARDocumentHeader objects meeting the search criteria
      */
@@ -510,7 +495,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
         }
         return arDocumentHeaders;
     }
-    
+
     /*
      * This method gets called only if reportOption is Account
      * Gets invoices based on the selected invoice details <=> invoice details meeting search criteria i.e. the accountNumber and the list of documentIds
@@ -521,10 +506,10 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
      */
     protected Collection<CustomerInvoiceDocument> getInvoicesByAccountNumberByDocumentIds(String accountNumber, List arDocumentHeaderIds, Collection<CustomerInvoiceDetail> details) {
         Collection<CustomerInvoiceDocument> invoices = null;
-        
+
         if (ObjectUtils.isNull(details) | details.size()==0)
             return invoices;
-        
+
         // get list of invoice document ids (eliminate duplicate invoice document ids)
         List<String> documentIds = new ArrayList();
         for (CustomerInvoiceDetail detail:details) {
@@ -532,40 +517,40 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             if (!documentIds.contains(documentNumber))
                 documentIds.add(documentNumber);
         }
-        
+
         // get invoices for the document ids list
         if (documentIds.size() != 0)
             invoices = getDocuments(CustomerInvoiceDocument.class, documentIds);
-        
+
         return invoices;
    }
-    
+
     protected void populateReporDetails(List<CustomerInvoiceDocument> selectedInvoices,List results, Collection<CustomerInvoiceDetail> invoiceDetails) {
-        
+
         for (Iterator<CustomerInvoiceDocument> iter = selectedInvoices.iterator(); iter.hasNext();) {
             CustomerInvoiceDocument invoice = iter.next();
             String documentNumber = invoice.getDocumentNumber();
-                    
+
             KualiDecimal amount = KualiDecimal.ZERO;
             KualiDecimal taxAmount = KualiDecimal.ZERO;
             KualiDecimal openAmount = KualiDecimal.ZERO;
-            
+
             boolean foundFlag = false;
-                    
+
             for (CustomerInvoiceDetail invoiceDetail:invoiceDetails) {
                 String tempDocumentNumber = ((CustomerInvoiceDetail)invoiceDetail).getDocumentNumber();
                 if (!StringUtils.equals(documentNumber, tempDocumentNumber))
                     continue;
                 foundFlag = true;
-                
+
                 KualiDecimal itemAmount = ((CustomerInvoiceDetail)invoiceDetail).getAmount();
                 if (ObjectUtils.isNotNull(itemAmount))
                     amount = amount.add(itemAmount);
-                            
+
                 KualiDecimal itemTaxAmount = ((CustomerInvoiceDetail)invoiceDetail).getInvoiceItemTaxAmount();
                 if (ObjectUtils.isNotNull(itemTaxAmount))
                     taxAmount = taxAmount.add(itemTaxAmount);
-                            
+
                 KualiDecimal openItemAmount = ((CustomerInvoiceDetail)invoiceDetail).getAmountOpen();
                 if (ObjectUtils.isNotNull(openItemAmount))
                     openAmount = openAmount.add(openItemAmount);
@@ -576,10 +561,10 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             // selectedInvoices.size() <= invoices.size()
             if (!foundFlag)
                 continue;
-            
+
             CustomerOpenItemReportDetail detail = new CustomerOpenItemReportDetail();
             // Document Type
-            detail.setDocumentType(invoice.getDocumentHeader().getWorkflowDocument().getDocumentType());
+            detail.setDocumentType(invoice.getDocumentHeader().getWorkflowDocument().getDocumentTypeName());
             // Document Number
             detail.setDocumentNumber(documentNumber);
             // Document Description
@@ -599,12 +584,12 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             results.add(detail);
         }
     }
-    
+
     protected void populateReportDetails(List<CustomerInvoiceDocument> invoices, List results) {
         for (CustomerInvoiceDocument invoice:invoices) {
             CustomerOpenItemReportDetail detail = new CustomerOpenItemReportDetail();
             // Document Type
-            detail.setDocumentType(invoice.getDocumentHeader().getWorkflowDocument().getDocumentType());
+            detail.setDocumentType(invoice.getDocumentHeader().getWorkflowDocument().getDocumentTypeName());
             // Document Number
             detail.setDocumentNumber(invoice.getDocumentNumber());
             // Document Description
@@ -618,62 +603,57 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             // Due Date
             detail.setDueApprovedDate(invoice.getInvoiceDueDate());
             // Document Payment Amount
-            detail.setDocumentPaymentAmount(invoice.getDocumentHeader().getFinancialDocumentTotalAmount());
+            detail.setDocumentPaymentAmount(invoice.getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount());
             // Unpaid/Unapplied Amount
             detail.setUnpaidUnappliedAmount(customerInvoiceDocumentService.getOpenAmountForCustomerInvoiceDocument(invoice));
             results.add(detail);
-            
+
         }
     }
-    
+
+    @Override
     public Collection<String> getDocumentNumbersOfReferenceReports(String customerNumber) {
 
         Collection<String> documentNumbers = new ArrayList();
 
         Collection arDocumentHeaders = accountsReceivableDocumentHeaderDao.getARDocumentHeadersIncludingHiddenApplicationByCustomerNumber(customerNumber);
-        Person user = GlobalVariables.getUserSession().getPerson();
+        String userId = GlobalVariables.getUserSession().getPrincipalId();
 
         //List invoiceIds = new ArrayList();
         List paymentApplicationIds = new ArrayList();
         List creditMemoIds = new ArrayList();
         List writeOffIds = new ArrayList();
-        
-        KualiWorkflowDocument workflowDocument;
+        WorkflowDocument workflowDocument;
 
         for (Iterator itr = arDocumentHeaders.iterator(); itr.hasNext();) {
             AccountsReceivableDocumentHeader documentHeader = (AccountsReceivableDocumentHeader) itr.next();
 
             // populate workflow document
-            try {
-                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(documentHeader.getDocumentNumber()), user);
-            }
-            catch (WorkflowException e) {
-                throw new UnknownDocumentIdException("No document found for documentHeaderId '" + documentHeader.getDocumentNumber() + "'", e);
-            }
+            workflowDocument = WorkflowDocumentFactory.loadDocument(userId, documentHeader.getDocumentNumber());
 
             // do not display not approved documents
-            Date approvedDate = getSqlDate(workflowDocument.getRouteHeader().getDateApproved());
+            Date approvedDate = getSqlDate(workflowDocument.getDateApproved().toCalendar(Locale.getDefault()));
             if (ObjectUtils.isNull(approvedDate)) {
                 continue;
             }
 
             // Document Type
-            String documentType = workflowDocument.getDocumentType();
+            String documentType = workflowDocument.getDocumentTypeName();
 
             // Document Number
             String documentNumber = documentHeader.getDocumentNumber();
 
-            if (documentType.equals("APP")){
+            if (documentType.equals(ArConstants.PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE)){
                 paymentApplicationIds.add(documentNumber);
             }
-            else if (documentType.equals("CRM")) {
+            else if (documentType.equals(KFSConstants.FinancialDocumentTypeCodes.CUSTOMER_CREDIT_MEMO)) {
                 creditMemoIds.add(documentNumber);
             }
-            else if (documentType.equals("INVW")) {
+            else if (documentType.equals(ArConstants.INVOICE_WRITEOFF_DOCUMENT_TYPE_CODE)) {
                 writeOffIds.add(documentNumber);
             }
         }
-        
+
         if (paymentApplicationIds.size() > 0){
             Collection<PaymentApplicationDocument> paymentApplications = getDocuments(PaymentApplicationDocument.class, paymentApplicationIds);
             for (PaymentApplicationDocument paymentApplicationDocument: paymentApplications ) {
@@ -682,63 +662,60 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
                 }
             }
         }
-        
+
         if (creditMemoIds.size() > 0){
             Collection<CustomerCreditMemoDocument> creditMemoDetailDocs = getDocuments(CustomerCreditMemoDocument.class, creditMemoIds);
             for (CustomerCreditMemoDocument creditMemo: creditMemoDetailDocs){
                 documentNumbers.add(creditMemo.getFinancialDocumentReferenceInvoiceNumber());
             }
         }
-        
+
         if (writeOffIds.size() > 0){
             Collection<CustomerInvoiceWriteoffDocument> customerInvoiceWriteoffDocs = getDocuments(CustomerInvoiceWriteoffDocument.class, writeOffIds);
             for (CustomerInvoiceWriteoffDocument invoiceWriteoffDocument : customerInvoiceWriteoffDocs) {
                 documentNumbers.add(invoiceWriteoffDocument.getFinancialDocumentReferenceInvoiceNumber());
             }
         }
-        
+
         return documentNumbers;
     }
-    
+
+    @Override
     public List getPopulatedUnpaidUnappliedAmountReportDetails(String customerNumber, String refDocumentNumber) {
-        
+
         List results = new ArrayList();
-        
+
         Collection<AccountsReceivableDocumentHeader> arDocumentHeaders = accountsReceivableDocumentHeaderDao.getARDocumentHeadersIncludingHiddenApplicationByCustomerNumber(customerNumber);
-        Person user = GlobalVariables.getUserSession().getPerson();
-        
+        String userId = GlobalVariables.getUserSession().getPrincipalId();
+
         Hashtable details = new Hashtable();
         //List invoiceIds = new ArrayList();
         List paymentApplicationIds = new ArrayList();
         List creditMemoIds = new ArrayList();
         List writeOffIds = new ArrayList();
-        
-        KualiWorkflowDocument workflowDocument;
+
+        WorkflowDocument workflowDocument;
 
         for (AccountsReceivableDocumentHeader documentHeader : arDocumentHeaders) {
             CustomerOpenItemReportDetail detail = new CustomerOpenItemReportDetail();
+
             // populate workflow document
-            try {
-                workflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(documentHeader.getDocumentNumber()), user);
-            }
-            catch (WorkflowException e) {
-                throw new UnknownDocumentIdException("No document found for documentHeaderId '" + documentHeader.getDocumentNumber() + "'", e);
-            }
+            workflowDocument = WorkflowDocumentFactory.loadDocument(userId, documentHeader.getDocumentNumber());
 
             // do not display not approved documents
-            Date approvedDate = getSqlDate(workflowDocument.getRouteHeader().getDateApproved());
+            Date approvedDate = getSqlDate(workflowDocument.getDateApproved().toCalendar(Locale.getDefault()));
             if (ObjectUtils.isNull(approvedDate)) {
                 continue;
             }
 
             // Document Type
-            String documentType = workflowDocument.getDocumentType();
+            String documentType = workflowDocument.getDocumentTypeName();
             detail.setDocumentType(documentType);
-            
+
             // Document Number
             String documentNumber = documentHeader.getDocumentNumber();
             detail.setDocumentNumber(documentNumber);
-            
+
             // Approved Date -> for invoices Due Date, for all other documents Approved Date
             detail.setDueApprovedDate(approvedDate);
 
@@ -751,10 +728,10 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             else if (documentType.equals("INVW")) {
                 writeOffIds.add(documentNumber);
             }
-            
+
             details.put(documentNumber, detail);
         }
-        
+
         if (paymentApplicationIds.size() > 0){
             try {
                 populateReportDetailsForUnpaidUnappliedPaymentApplications(paymentApplicationIds, results, details, refDocumentNumber);
@@ -762,26 +739,26 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
                 LOG.error("WorkflowException while populating report details for PaymentApplicationDocument", w);
             }
         }
-        
+
         if (creditMemoIds.size() > 0){
             populateReportDetailsForCreditMemo(creditMemoIds, results, details, refDocumentNumber);
-            
+
         }
-        
+
         if (writeOffIds.size() > 0){
             populateReportDetailsForWriteOff(writeOffIds, results, details, refDocumentNumber);
         }
 
-        
+
         return results;
     }
-    
+
     protected void populateReportDetailsForUnpaidUnappliedPaymentApplications(List paymentApplicationIds, List results, Hashtable details, String refDocumentNumber) throws WorkflowException {
         Collection<PaymentApplicationDocument> paymentApplications = getDocuments(PaymentApplicationDocument.class, paymentApplicationIds);
 
         for (PaymentApplicationDocument paymentApplication : paymentApplications) {
             for (InvoicePaidApplied invoicePaidApplied : paymentApplication.getInvoicePaidApplieds()){
-                
+
                 if (invoicePaidApplied.getFinancialDocumentReferenceInvoiceNumber().equals(refDocumentNumber)){
                     String documentNumber = paymentApplication.getDocumentNumber();
 
@@ -795,21 +772,21 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
                         detail.setDocumentDescription("");
 
                     // populate Document Payment Amount
-                    detail.setDocumentPaymentAmount(paymentApplication.getDocumentHeader().getFinancialDocumentTotalAmount().negated());
-                    
+                    detail.setDocumentPaymentAmount(paymentApplication.getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount().negated());
+
                     // populate Unpaid/Unapplied Amount if the customer number is the same
                     if (ObjectUtils.isNotNull(paymentApplication.getNonAppliedHolding())) {
                         if (paymentApplication.getNonAppliedHolding().getCustomerNumber().equals(paymentApplication.getAccountsReceivableDocumentHeader().getCustomerNumber())) {
-                            detail.setUnpaidUnappliedAmount(paymentApplication.getNonAppliedHolding().getAvailableUnappliedAmount().negated()); 
+                            detail.setUnpaidUnappliedAmount(paymentApplication.getNonAppliedHolding().getAvailableUnappliedAmount().negated());
                         }
                     }
-                    
+
                     results.add(detail);
                 }
             }
         }
     }
-    
+
     protected void populateReportDetailsForCreditMemo(List creditMemoIds, List results, Hashtable details, String refDocumentNumber){
         Collection<CustomerCreditMemoDocument> creditMemoDetailDocs = getDocuments(CustomerCreditMemoDocument.class, creditMemoIds);
         for (CustomerCreditMemoDocument creditMemo: creditMemoDetailDocs){
@@ -826,15 +803,15 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
                     detail.setDocumentDescription("");
 
                 // populate Document Payment Amount
-                detail.setDocumentPaymentAmount(creditMemo.getDocumentHeader().getFinancialDocumentTotalAmount().negated());
-                
+                detail.setDocumentPaymentAmount(creditMemo.getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount().negated());
+
                 // Unpaid/Unapplied Amount
-                detail.setUnpaidUnappliedAmount(KualiDecimal.ZERO);            
+                detail.setUnpaidUnappliedAmount(KualiDecimal.ZERO);
                 results.add(detail);
             }
         }
     }
-    
+
     protected void populateReportDetailsForWriteOff(List writeOffIds, List results, Hashtable details, String refDocumentNumber){
         Collection<CustomerInvoiceWriteoffDocument> customerInvoiceWriteoffDocs = getDocuments(CustomerInvoiceWriteoffDocument.class, writeOffIds);
         for (CustomerInvoiceWriteoffDocument invoiceWriteoffDocument : customerInvoiceWriteoffDocs) {
@@ -851,15 +828,15 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
                     detail.setDocumentDescription("");
 
                 // populate Document Payment Amount
-                detail.setDocumentPaymentAmount(invoiceWriteoffDocument.getDocumentHeader().getFinancialDocumentTotalAmount().negated());
-                
+                detail.setDocumentPaymentAmount(invoiceWriteoffDocument.getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount().negated());
+
                 // Unpaid/Unapplied Amount
-                detail.setUnpaidUnappliedAmount(KualiDecimal.ZERO);            
+                detail.setUnpaidUnappliedAmount(KualiDecimal.ZERO);
                 results.add(detail);
             }
         }
     }
-    
+
     public void setAccountsReceivableDocumentHeaderDao(AccountsReceivableDocumentHeaderDao accountsReceivableDocumentHeaderDao) {
         this.accountsReceivableDocumentHeaderDao = accountsReceivableDocumentHeaderDao;
     }
@@ -870,10 +847,6 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
 
     public void setCustomerInvoiceDocumentService(CustomerInvoiceDocumentService customerInvoiceDocumentService) {
         this.customerInvoiceDocumentService = customerInvoiceDocumentService;
-    }
-
-    public void setFinancialSystemDocumentHeaderDao(FinancialSystemDocumentHeaderDao financialSystemDocumentHeaderDao) {
-        this.financialSystemDocumentHeaderDao = financialSystemDocumentHeaderDao;
     }
 
     public void setDocumentService(DocumentService documentService) {
@@ -890,6 +863,10 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
 
     public void setNonAppliedHoldingDao(NonAppliedHoldingDao nonAppliedHoldingDao) {
         this.nonAppliedHoldingDao = nonAppliedHoldingDao;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }
 

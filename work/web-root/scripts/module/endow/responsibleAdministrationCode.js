@@ -22,7 +22,7 @@
  
  function setResponsibleAdministrationCodeDesc(responsibleAdministrationCodeFieldName, responsibleAdministrationCodeDescFieldName ){
  
-	var responsibleAdministrationCode = DWRUtil.getValue( responsibleAdministrationCodeFieldName );
+	var responsibleAdministrationCode = dwr.util.getValue( responsibleAdministrationCodeFieldName );
 
 	if (responsibleAdministrationCode =='') {
 		clearRecipients(responsibleAdministrationCodeDescFieldName, "");

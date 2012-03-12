@@ -16,6 +16,7 @@
 package org.kuali.kfs.sys.businessobject.lookup;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -26,27 +27,26 @@ import org.kuali.kfs.sys.batch.BatchJobStatus;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl;
-import org.kuali.rice.kim.bo.impl.KimAttributes;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 
 public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BatchJobStatusLookupableHelperServiceImpl.class);
 
     private SchedulerService schedulerService;
-    private KualiConfigurationService configurationService;
+    private ConfigurationService configurationService;
     private ParameterService parameterService;
     private KualiModuleService kualiModuleService;
     private IdentityManagementService identityManagementService;
@@ -96,7 +96,7 @@ public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHe
     }
     
     /***
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject, java.util.List)
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
@@ -106,17 +106,17 @@ public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHe
                 return getEmptyActionUrls();
             }
             String linkText = "Modify";
-            AttributeSet permissionDetails = new AttributeSet(1);
-            permissionDetails.put(KimAttributes.NAMESPACE_CODE, job.getNamespaceCode() );
+            Map<String,String> permissionDetails = new HashMap<String,String>(1);
+            permissionDetails.put(KimConstants.AttributeConstants.NAMESPACE_CODE, job.getNamespaceCode() );
             
             if ( !SpringContext.getBean(IdentityManagementService.class).hasPermissionByTemplateName(
                     GlobalVariables.getUserSession().getPerson().getPrincipalId(), 
-                    KNSConstants.KNS_NAMESPACE, 
+                    KRADConstants.KRAD_NAMESPACE, 
                     KFSConstants.PermissionTemplate.MODIFY_BATCH_JOB.name, 
                     permissionDetails ) ) {
                 linkText = "View";
             }
-            String href = getKualiConfigurationService().getPropertyString(KFSConstants.APPLICATION_URL_KEY) + "/batchModify.do?methodToCall=start&name="+(UrlFactory.encode(job.getName()))+("&group=")+(UrlFactory.encode(job.getGroup()));
+            String href = configurationService.getPropertyValueAsString(KFSConstants.APPLICATION_URL_KEY) + "/batchModify.do?methodToCall=start&name="+(UrlFactory.encode(job.getName()))+("&group=")+(UrlFactory.encode(job.getGroup()));
             List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
             AnchorHtmlData anchorHtmlData = new AnchorHtmlData(href, KFSConstants.START_METHOD, linkText);
             anchorHtmlDataList.add(anchorHtmlData);
@@ -126,7 +126,7 @@ public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHe
     }
 
     /***
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getActionUrlTitleText(org.kuali.rice.kns.bo.BusinessObject, java.lang.String, java.util.List)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getActionUrlTitleText(org.kuali.rice.krad.bo.BusinessObject, java.lang.String, java.util.List)
      */
     @Override
     protected String getActionUrlTitleText(BusinessObject businessObject, String displayText, List pkNames, BusinessObjectRestrictions businessObjectRestrictions){
@@ -134,7 +134,7 @@ public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHe
         String titleText = displayText+" "
             +getDataDictionaryService().getDataDictionary().getBusinessObjectEntry(getBusinessObjectClass().getName()).getObjectLabel()
             +" "
-            +getKualiConfigurationService().getPropertyString(TITLE_ACTION_URL_PREPENDTEXT_PROPERTY);
+            +configurationService.getPropertyValueAsString(TITLE_ACTION_URL_PREPENDTEXT_PROPERTY);
         titleText += "Name="+job.getName()+" Group="+job.getGroup();
         return titleText;
     }
@@ -147,7 +147,7 @@ public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHe
         this.parameterService = parameterService;
     }
 
-    public void setConfigurationService(KualiConfigurationService configurationService) {
+    public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
     }
 

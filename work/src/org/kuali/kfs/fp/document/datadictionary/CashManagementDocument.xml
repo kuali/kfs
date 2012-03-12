@@ -20,6 +20,7 @@
   <bean id="CashManagementDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
     <property name="documentTypeName" value="CMD"/>
     <property name="documentClass" value="org.kuali.kfs.fp.document.CashManagementDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.fp.document.CashManagementDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.fp.document.validation.impl.CashManagementDocumentRule"/>
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.fp.document.validation.impl.CashManagementDocumentPreRules"/>    
     
@@ -51,7 +52,7 @@
 
   <bean id="CashManagementDocument-campusCode" parent="CashManagementDocument-campusCode-parentBean"/>
 
-  <bean id="CashManagementDocument-campusCode-parentBean" abstract="true" parent="Campus-campusCode">
+  <bean id="CashManagementDocument-campusCode-parentBean" abstract="true" parent="Campus-code">
     <property name="name" value="campusCode"/>
     <property name="label" value="Verification Unit"/>
     <property name="shortLabel" value="Verification Unit"/>
@@ -88,7 +89,7 @@
     	</property>
 	</bean>
 	
-	<bean id="CashManagementDocument-DocumentValuePathGroup-InitiatorCampus" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+	<bean id="CashManagementDocument-DocumentValuePathGroup-InitiatorCampus" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
     	<property name="documentValues">
     		<list>
     			<value>documentHeader.workflowDocument.initiator.campusCode</value>
@@ -96,7 +97,7 @@
     	</property>
    	</bean>
    	
-   	<bean id="CashManagementDocument-RoutingType-InitiatorCampus" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+   	<bean id="CashManagementDocument-RoutingType-InitiatorCampus" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
 		        <ref bean="RoutingAttribute-campusCode"/>

@@ -21,18 +21,19 @@ import static org.kuali.kfs.module.bc.BCConstants.SalaryAdjustmentMeasurement.PE
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class SalaryAdjustmentMeasurementValueFinder extends KeyValuesBase {
 
     /**
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair(PERCENT.measurement, PERCENT.label));
-        keyValues.add(new KeyLabelPair(AMOUNT.measurement, AMOUNT.label));
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue(PERCENT.measurement, PERCENT.label));
+        keyValues.add(new ConcreteKeyValue(AMOUNT.measurement, AMOUNT.label));
 
         return keyValues;
     }

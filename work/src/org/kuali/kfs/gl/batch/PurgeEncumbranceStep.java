@@ -47,7 +47,7 @@ public class PurgeEncumbranceStep extends AbstractStep {
      * @see org.kuali.kfs.sys.batch.Step#execute(String, java.util.Date)
      */
     public boolean execute(String jobName, Date jobRunDate) {
-        String yearStr = getParameterService().getParameterValue(getClass(), KFSConstants.SystemGroupParameterNames.PURGE_GL_ENCUMBRANCE_T_BEFORE_YEAR);
+        String yearStr = getParameterService().getParameterValueAsString(getClass(), KFSConstants.SystemGroupParameterNames.PURGE_GL_ENCUMBRANCE_T_BEFORE_YEAR);
         LOG.info("PurgeEncumbranceStep was run with year = "+yearStr);
         int year = Integer.parseInt(yearStr);
         List charts = chartService.getAllChartCodes();

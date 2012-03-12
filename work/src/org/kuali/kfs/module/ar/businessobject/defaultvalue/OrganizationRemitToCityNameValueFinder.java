@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ar.businessobject.defaultvalue;
 
-import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
+import org.kuali.rice.krad.valuefinder.ValueFinder;
 
 /**
  * This class...
@@ -23,7 +23,7 @@ import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
 public class OrganizationRemitToCityNameValueFinder extends SystemInformationValueFinderBase implements ValueFinder {
 
     /**
-     * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
+     * @see org.kuali.rice.krad.valuefinder.ValueFinder#getValue()
      */
     public String getValue() {
         

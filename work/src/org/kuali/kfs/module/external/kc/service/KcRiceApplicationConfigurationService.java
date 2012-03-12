@@ -27,12 +27,12 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
 
 public interface KcRiceApplicationConfigurationService {
     /**
-     * @see org.kuali.rice.kns.service.RiceApplicationConfigurationService#getBaseInquiryUrl(java.lang.String)
+     * @see org.kuali.rice.krad.service.RiceApplicationConfigurationService#getBaseInquiryUrl(java.lang.String)
      */
     public String getBaseInquiryUrl(String businessObjectClassName);
 
     /**
-     * @see org.kuali.rice.kns.service.RiceApplicationConfigurationService#getBaseLookupUrl(java.lang.String)
+     * @see org.kuali.rice.krad.service.RiceApplicationConfigurationService#getBaseLookupUrl(java.lang.String)
      */
     public String getBaseLookupUrl(String businessObjectClassName);
 

@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.kuali.kfs.module.purap.businessobject.SensitiveData;
 import org.kuali.kfs.module.purap.businessobject.SensitiveDataAssignment;
-import org.kuali.kfs.module.purap.businessobject.SensitiveDataAssignmentDetail;
 
 public interface SensitiveDataDao {    
 

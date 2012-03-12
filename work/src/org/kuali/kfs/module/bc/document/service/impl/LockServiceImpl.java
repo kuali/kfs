@@ -40,8 +40,8 @@ import org.kuali.kfs.module.bc.exception.BudgetConstructionLockUnavailableExcept
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -253,7 +253,7 @@ public class LockServiceImpl implements LockService {
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.LockService#lockFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
-     *      org.kuali.rice.kim.bo.Person)
+     *      org.kuali.rice.kim.api.identity.Person)
      */
     @NonTransactional
     public BudgetConstructionLockStatus lockFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, Person person) {
@@ -290,7 +290,7 @@ public class LockServiceImpl implements LockService {
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.LockService#unlockFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
-     *      org.kuali.rice.kim.bo.Person)
+     *      org.kuali.rice.kim.api.identity.Person)
      */
     @Transactional
     public LockStatus unlockFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, Person person) {
@@ -304,7 +304,7 @@ public class LockServiceImpl implements LockService {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.LockService#unlockFunding(java.util.List, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kfs.module.bc.document.service.LockService#unlockFunding(java.util.List, org.kuali.rice.kim.api.identity.Person)
      */
     @Transactional
     public void unlockFunding(List<PendingBudgetConstructionAppointmentFunding> lockedFundings, Person person) {
@@ -378,7 +378,7 @@ public class LockServiceImpl implements LockService {
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.LockService#lockPosition(org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition,
-     *      org.kuali.rice.kim.bo.Person)
+     *      org.kuali.rice.kim.api.identity.Person)
      */
     @Transactional
     public BudgetConstructionLockStatus lockPosition(BudgetConstructionPosition position, Person person) {
@@ -499,7 +499,7 @@ public class LockServiceImpl implements LockService {
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.LockService#unlockPostion(org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition,
-     *      org.kuali.rice.kim.bo.Person)
+     *      org.kuali.rice.kim.api.identity.Person)
      */
     @Transactional
     public LockStatus unlockPostion(BudgetConstructionPosition position, Person person) {
@@ -510,7 +510,7 @@ public class LockServiceImpl implements LockService {
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.service.LockService#unlockPostion(java.util.List, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kfs.module.bc.document.service.LockService#unlockPostion(java.util.List, org.kuali.rice.kim.api.identity.Person)
      */
     @Transactional
     public void unlockPostion(List<BudgetConstructionPosition> lockedPositions, Person person) {
@@ -573,7 +573,7 @@ public class LockServiceImpl implements LockService {
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.LockService#lockTransaction(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
-     *      org.kuali.rice.kim.bo.Person)
+     *      org.kuali.rice.kim.api.identity.Person)
      */
     @Transactional
     public BudgetConstructionLockStatus lockTransaction(PendingBudgetConstructionAppointmentFunding appointmentFunding, Person person) {
@@ -653,7 +653,7 @@ public class LockServiceImpl implements LockService {
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.LockService#unlockTransaction(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
-     *      org.kuali.rice.kim.bo.Person)
+     *      org.kuali.rice.kim.api.identity.Person)
      */
     @Transactional
     public void unlockTransaction(PendingBudgetConstructionAppointmentFunding appointmentFunding, Person person) {
@@ -782,7 +782,7 @@ public class LockServiceImpl implements LockService {
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.LockService#isAccountLockedByUser(org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader,
-     *      org.kuali.rice.kim.bo.Person)
+     *      org.kuali.rice.kim.api.identity.Person)
      */
     @Transactional
     public boolean isAccountLockedByUser(BudgetConstructionHeader budgetConstructionHeader, Person person) {
@@ -820,7 +820,7 @@ public class LockServiceImpl implements LockService {
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.LockService#lockPendingBudgetConstructionAppointmentFundingRecords(java.util.List,
-     *      org.kuali.rice.kim.bo.Person)
+     *      org.kuali.rice.kim.api.identity.Person)
      */
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public List<PendingBudgetConstructionAppointmentFunding> lockPendingBudgetConstructionAppointmentFundingRecords(List<PendingBudgetConstructionAppointmentFunding> fundingRecords, Person user) throws BudgetConstructionLockUnavailableException {

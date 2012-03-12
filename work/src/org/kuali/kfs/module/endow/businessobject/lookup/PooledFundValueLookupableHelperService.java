@@ -22,10 +22,10 @@ import java.util.List;
 import org.kuali.kfs.module.endow.businessobject.PooledFundValue;
 import org.kuali.kfs.module.endow.document.service.PooledFundValueService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class PooledFundValueLookupableHelperService extends KualiLookupableHelperServiceImpl {
     
@@ -36,14 +36,14 @@ public class PooledFundValueLookupableHelperService extends KualiLookupableHelpe
      * @returns links to edit and copy maintenance action for the record with the most VAL_EFF_DT
      *          for a given Pooled Fund or links to copy maintenance action only for those records
      *          with older VAL_EFF_DT.
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject,
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject,
      *      java.util.List)
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
                
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();     
-        htmlDataList.add(getUrlData(businessObject, KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames));
+        htmlDataList.add(getUrlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames));
 
         PooledFundValue pooledFundValue = (PooledFundValue) businessObject;
         String pooledSecurityID = pooledFundValue.getPooledSecurityID();
@@ -51,7 +51,7 @@ public class PooledFundValueLookupableHelperService extends KualiLookupableHelpe
         PooledFundValueService pooledFundValueService = SpringContext.getBean(PooledFundValueService.class);
         Date theLatestEffectiveDate = pooledFundValueService.getLatestValueEffectiveDate(pooledSecurityID);
         if(valueEffectiveDate != null && valueEffectiveDate.equals(theLatestEffectiveDate)){
-            htmlDataList.add(getUrlData(businessObject, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
+            htmlDataList.add(getUrlData(businessObject, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
         }
                
         return htmlDataList;        

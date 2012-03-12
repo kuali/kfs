@@ -24,10 +24,10 @@ import java.util.Map;
 
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
 
 /**
  * Values finder for <code>ContractManager</code>.
@@ -43,13 +43,13 @@ public class ContractManagerValuesFinder extends KeyValuesBase {
 
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Map fieldValues = new HashMap();
-        fieldValues.put(KNSPropertyConstants.ACTIVE, true);
+        fieldValues.put(KRADPropertyConstants.ACTIVE, true);
         Collection codes = boService.findMatching(ContractManager.class, fieldValues);
         List labels = new ArrayList();
-        labels.add(new KeyLabelPair("", ""));
+        labels.add(new ConcreteKeyValue("", ""));
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
             ContractManager ContractManager = (ContractManager) iter.next();
-            labels.add(new KeyLabelPair(ContractManager.getContractManagerCode().toString(), ContractManager.getContractManagerName()));
+            labels.add(new ConcreteKeyValue(ContractManager.getContractManagerCode().toString(), ContractManager.getContractManagerName()));
         }
 
         return labels;

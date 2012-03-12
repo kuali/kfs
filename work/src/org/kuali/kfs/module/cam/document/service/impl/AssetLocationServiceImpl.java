@@ -29,15 +29,15 @@ import org.kuali.kfs.module.cam.document.service.AssetLocationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.bo.State;
-import org.kuali.rice.kns.datadictionary.DataDictionaryEntryBase;
-import org.kuali.rice.kns.document.DocumentBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.StateService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.datadictionary.DataDictionaryEntryBase;
+import org.kuali.rice.krad.document.DocumentBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.location.api.state.State;
+import org.kuali.rice.location.api.state.StateService;
 
 public class AssetLocationServiceImpl implements AssetLocationService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetLocationService.class);
@@ -341,7 +341,7 @@ public class AssetLocationServiceImpl implements AssetLocationService {
             if (!isBlank(fieldMap, LocationField.STATE_CODE, stateCode)) {
                 Map assetLocationMap = new HashMap();
                 assetLocationMap.put(KFSPropertyConstants.POSTAL_STATE_CODE, stateCode);
-                State locationState = SpringContext.getBean(StateService.class).getByPrimaryId(stateCode);
+                State locationState = SpringContext.getBean(StateService.class).getState(countryCode, stateCode);
                 if (ObjectUtils.isNull(locationState)) {
                     putError(fieldMap, LocationField.STATE_CODE, CamsKeyConstants.AssetLocation.ERROR_INVALID_OFF_CAMPUS_STATE, stateCode);
                     valid &= false;

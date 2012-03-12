@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 function loadAccountName(accountNumberFieldName, chartFieldName, accountNameFieldName){
-	var accountNumber = DWRUtil.getValue( accountNumberFieldName );
-	var chart = DWRUtil.getValue( chartFieldName );
+	var accountNumber = dwr.util.getValue( accountNumberFieldName );
+	var chart = dwr.util.getValue( chartFieldName );
 	
 	if (accountNumber =='' || chart == '') {
 		setRecipientValue(accountNameFieldName, "");
@@ -37,9 +37,9 @@ function loadAccountName(accountNumberFieldName, chartFieldName, accountNameFiel
  }
 
 function loadSubAccountName(subAccountNumberFieldName, accountNumberFieldName, chartFieldName, subAccountNameFieldName){
-	var subAccountNumber = DWRUtil.getValue( subAccountNumberFieldName );
-	var accountNumber = DWRUtil.getValue( accountNumberFieldName );
-	var chart = DWRUtil.getValue( chartFieldName );
+	var subAccountNumber = dwr.util.getValue( subAccountNumberFieldName );
+	var accountNumber = dwr.util.getValue( accountNumberFieldName );
+	var chart = dwr.util.getValue( chartFieldName );
 	
 	if (subAccountNumber == '' || accountNumber =='' || chart == '') {
 		setRecipientValue(subAccountNameFieldName, "");
@@ -61,7 +61,7 @@ function loadSubAccountName(subAccountNumberFieldName, accountNumberFieldName, c
  }
 
 function loadFinChartOfAccountDescription(chartFieldName, chartDescFieldName) {
-	var chart = DWRUtil.getValue( chartFieldName );
+	var chart = dwr.util.getValue( chartFieldName );
 
 	if (chart == '') {
 		setRecipientValue(chartDescFieldName, "");
@@ -83,8 +83,8 @@ function loadFinChartOfAccountDescription(chartFieldName, chartDescFieldName) {
 }
 
 function loadObjectCodeName(objectCodeFieldName, chartFieldName, objectCodeNameFieldName) {
-	var objectCode = DWRUtil.getValue( objectCodeFieldName );
-	var chart = DWRUtil.getValue( chartFieldName );
+	var objectCode = dwr.util.getValue( objectCodeFieldName );
+	var chart = dwr.util.getValue( chartFieldName );
 
 	if (objectCode == '' || chart == '') {
 		setRecipientValue(objectCodeNameFieldName, "");
@@ -106,10 +106,10 @@ function loadObjectCodeName(objectCodeFieldName, chartFieldName, objectCodeNameF
 }
 
 function loadSubObjectCodeName(subObjectCodeFieldName, chartFieldName, accountNumberFieldName, objectCodeFieldName, subObjectCodeNameFieldName) {
-	var subObjectCode = DWRUtil.getValue( subObjectCodeFieldName );
-	var chart = DWRUtil.getValue( chartFieldName );
-	var accountNumber = DWRUtil.getValue( accountNumberFieldName );
-	var objectCode = DWRUtil.getValue( objectCodeFieldName );
+	var subObjectCode = dwr.util.getValue( subObjectCodeFieldName );
+	var chart = dwr.util.getValue( chartFieldName );
+	var accountNumber = dwr.util.getValue( accountNumberFieldName );
+	var objectCode = dwr.util.getValue( objectCodeFieldName );
 
 	if (subObjectCode == '' || chart == '' || accountNumber == '' || objectCode == '') {
 		setRecipientValue(subObjectCodeNameFieldName, "");
@@ -131,7 +131,7 @@ function loadSubObjectCodeName(subObjectCodeFieldName, chartFieldName, accountNu
 }
 
 function loadProjectCodeName(projectCodeFieldName, projectNameFieldName) {
-    var projectCode = DWRUtil.getValue( projectCodeFieldName );
+    var projectCode = dwr.util.getValue( projectCodeFieldName );
 
 	if (projectCode=='') {
 		setRecipientValue(projectNameFieldName, "");

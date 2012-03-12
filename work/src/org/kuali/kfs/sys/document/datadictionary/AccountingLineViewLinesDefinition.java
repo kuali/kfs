@@ -19,12 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.document.web.AccountingLineViewLine;
 import org.kuali.kfs.sys.document.web.AccountingLineViewLineFillingElement;
 import org.kuali.kfs.sys.document.web.AccountingLineViewLines;
 import org.kuali.kfs.sys.document.web.TableJoining;
-import org.kuali.rice.kns.datadictionary.DataDictionaryDefinitionBase;
-import org.kuali.rice.kns.datadictionary.exception.AttributeValidationException;
+import org.kuali.rice.krad.datadictionary.DataDictionaryDefinitionBase;
+import org.kuali.rice.krad.datadictionary.exception.AttributeValidationException;
 
 /**
  * Data dictionary definition for a group of multiple lines to render.  This also renders blocks - though each block will be rendered as a line with an embedded table
@@ -36,7 +35,7 @@ public class AccountingLineViewLinesDefinition extends DataDictionaryDefinitionB
     /**
      * Validates that:
      * 1) there is at least one child line
-     * @see org.kuali.rice.kns.datadictionary.DataDictionaryDefinition#completeValidation(java.lang.Class, java.lang.Class)
+     * @see org.kuali.rice.krad.datadictionary.DataDictionaryDefinition#completeValidation(java.lang.Class, java.lang.Class)
      */
     public void completeValidation(Class rootBusinessObjectClass, Class otherBusinessObjectClass) {
         if (lines == null || lines.size() == 0) {

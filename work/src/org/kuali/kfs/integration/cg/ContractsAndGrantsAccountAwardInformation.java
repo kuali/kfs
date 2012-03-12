@@ -17,14 +17,13 @@ package org.kuali.kfs.integration.cg;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
-import org.kuali.rice.kns.bo.Inactivateable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 /**
  * Information about an award associated with an account.
  */
-public interface ContractsAndGrantsAccountAwardInformation extends Inactivateable, ExternalizableBusinessObject {
+public interface ContractsAndGrantsAccountAwardInformation extends MutableInactivatable, ExternalizableBusinessObject {
     
     /**
      * Gets the proposalNumber attribute.

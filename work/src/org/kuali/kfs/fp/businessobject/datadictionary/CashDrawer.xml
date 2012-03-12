@@ -67,7 +67,7 @@
 			<list>
 				<dd:relationship objectAttribute="campus">
 					<dd:primitiveAttribute source="campusCode"
-						target="campusCode" />
+						target="code" />
 				</dd:relationship>
 			</list>
 		</property>
@@ -79,7 +79,7 @@
 	<bean id="CashDrawer-campusCode" parent="CashDrawer-campusCode-parentBean" />
 
 	<bean id="CashDrawer-campusCode-parentBean" abstract="true"
-		parent="Campus-campusCode">
+		parent="Campus-code">
 		<property name="name" value="campusCode" />
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="Campus Code" />

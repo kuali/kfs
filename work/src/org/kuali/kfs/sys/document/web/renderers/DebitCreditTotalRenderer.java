@@ -24,7 +24,7 @@ import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.struts.taglib.bean.WriteTag;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 public class DebitCreditTotalRenderer extends TotalRendererBase {
     private String debitTotalProperty;
@@ -84,7 +84,7 @@ public class DebitCreditTotalRenderer extends TotalRendererBase {
             out.write("<td class=\"total-line\" style=\"border-left: 0px; white-space:nowrap;\">");            
             out.write("<strong>");
             
-            out.write(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(debitTotalLabelProperty));
+            out.write(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(debitTotalLabelProperty));
             out.write("&nbsp;");
             
             debitWriteTag.setPageContext(pageContext);
@@ -99,7 +99,7 @@ public class DebitCreditTotalRenderer extends TotalRendererBase {
             out.write("<td class=\"total-line\" style=\"border-left: 0px; white-space:nowrap;\">");            
             out.write("<strong>");
             
-            out.write(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(creditTotalLabelProperty));
+            out.write(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(creditTotalLabelProperty));
             out.write("&nbsp;");
             
             creditWriteTag.setPageContext(pageContext);

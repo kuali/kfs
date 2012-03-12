@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.module.ar.batch.vo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
 
 public class CustomerDigesterVO {
 
@@ -44,7 +44,7 @@ public class CustomerDigesterVO {
     private List<CustomerAddressDigesterVO> customerAddresses;
 
     public CustomerDigesterVO() {
-        customerAddresses = new TypedArrayList(CustomerAddressDigesterVO.class);
+        customerAddresses = new ArrayList<CustomerAddressDigesterVO>();
     }
 
     public String getCustomerNumber() {
@@ -201,7 +201,7 @@ public class CustomerDigesterVO {
 
     /**
      * This is a convenience method that adds a populated CustomerAddress object directly 
-     * to the contained TypedArrayList.
+     * to the contained ArrayList.
      * 
      * It's primarily used by the Customer Load batch process, for each of XML batch file 
      * digesting, though it can be used generally.

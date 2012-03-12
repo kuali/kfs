@@ -15,19 +15,23 @@
  */
 package org.kuali.kfs.module.ec.document.authorization;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.web.session.UserSession;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.action.ActionTaken;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Document Authorizer for the Effort Certification document.
@@ -37,31 +41,43 @@ public class EffortCertificationDocumentAuthorizer extends FinancialSystemTransa
     /**
      * Overridden to check if document error correction can be allowed here.
      * 
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#getDocumentActions(org.kuali.rice.kns.document.Document,
-     *      org.kuali.rice.kim.bo.Person, java.util.Set)
+     * @see org.kuali.rice.krad.document.authorization.DocumentAuthorizerBase#getDocumentActions(org.kuali.rice.krad.document.Document,
+     *      org.kuali.rice.kim.api.identity.Person, java.util.Set)
      */
     @Override
     public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActionsFromPresentationController) {
         Set<String> documentActionsToReturn = super.getDocumentActions(document, user, documentActionsFromPresentationController);
-        
-        String principalId = UserSession.getAuthenticatedUser().getPrincipalId();
-        try {
-            if (document.getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
-                Set<Person> priorApprovers = document.getDocumentHeader().getWorkflowDocument().getAllPriorApprovers();
-                for (Person priorApprover : priorApprovers) {
-                    if (principalId.equals(priorApprover.getPrincipalId())) {
-                        documentActionsToReturn.add(KNSConstants.KUALI_ACTION_CAN_EDIT);
-                        documentActionsToReturn.add(KNSConstants.KUALI_ACTION_CAN_SAVE);
-                    }
-                 }
-            }
-        }
-        catch (WorkflowException wfe) {
-            throw new RuntimeException("Unable to retrieve prior Approvers list");
+        UserSession userSession = GlobalVariables.getUserSession();
+        String principalId =  userSession.getPrincipalId();
+        if (document.getDocumentHeader().getWorkflowDocument().isEnroute()) {
+                Set<Person> priorApprovers = this.getPriorApprovers(document.getDocumentHeader().getWorkflowDocument());
+                  for (Person priorApprover : priorApprovers) {
+                      if (principalId.equals(priorApprover.getPrincipalId())) {
+                          documentActionsToReturn.add(KRADConstants.KUALI_ACTION_CAN_EDIT);
+                          documentActionsToReturn.add(KRADConstants.KUALI_ACTION_CAN_SAVE);
+                      }
+                  }
         }
         
         
         return documentActionsToReturn;
+    }
+    protected Set<Person> getPriorApprovers(WorkflowDocument workflowDocument) {
+        PersonService personService = KimApiServiceLocator.getPersonService();
+        List<ActionTaken> actionsTaken = workflowDocument.getActionsTaken();
+        Set<String> principalIds = new HashSet<String>();
+        Set<Person> persons = new HashSet<Person>();
+
+        for (ActionTaken actionTaken : actionsTaken) {
+            if (KewApiConstants.ACTION_TAKEN_APPROVED_CD.equals(actionTaken.getActionTaken())) {
+                String principalId = actionTaken.getPrincipalId();
+                if (!principalIds.contains(principalId)) {
+                    principalIds.add(principalId);
+                    persons.add(personService.getPerson(principalId));
+                }
+            }
+        }
+        return persons;
     }
 
     public boolean doPermissionExistsByTemplate(

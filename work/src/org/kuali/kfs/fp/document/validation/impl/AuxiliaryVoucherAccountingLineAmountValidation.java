@@ -30,8 +30,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * The Auxiliary Voucher's customization of the accounting line amount validation.
@@ -49,18 +49,18 @@ public class AuxiliaryVoucherAccountingLineAmountValidation extends GenericValid
 
         // check for negative or zero amounts
         if (KualiDecimal.ZERO.equals(amount)) { // if 0
-            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
-            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(false), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(buildMessageMapKeyPathForDebitCreditAmount(true), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(buildMessageMapKeyPathForDebitCreditAmount(false), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
 
             retval = false;
         }
         else if (amount.isNegative()) { // entered a negative number
             String debitCreditCode = accountingLineForValidation.getDebitCreditCode();
             if (StringUtils.isNotBlank(debitCreditCode) && GL_DEBIT_CODE.equals(debitCreditCode)) {
-                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(true), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(buildMessageMapKeyPathForDebitCreditAmount(true), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
             }
             else {
-                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(buildErrorMapKeyPathForDebitCreditAmount(false), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
+                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(buildMessageMapKeyPathForDebitCreditAmount(false), ERROR_ZERO_OR_NEGATIVE_AMOUNT, "an accounting line");
             }
 
             retval = false;
@@ -70,13 +70,13 @@ public class AuxiliaryVoucherAccountingLineAmountValidation extends GenericValid
     }
     
     /**
-     * This method looks at the current full key path that exists in the ErrorMap structure to determine how to build the error map
+     * This method looks at the current full key path that exists in the MessageMap structure to determine how to build the error map
      * for the special journal voucher credit and debit fields since they don't conform to the standard pattern of accounting lines.
      * 
      * @param isDebit boolean to determine whether or not value isDebit or not
      * @return String represents error map key to use
      */
-    protected String buildErrorMapKeyPathForDebitCreditAmount(boolean isDebit) {
+    protected String buildMessageMapKeyPathForDebitCreditAmount(boolean isDebit) {
         // determine if we are looking at a new line add or an update
         boolean isNewLineAdd = GlobalVariables.getMessageMap().getErrorPath().contains(NEW_SOURCE_ACCT_LINE_PROPERTY_NAME);
         isNewLineAdd |= GlobalVariables.getMessageMap().getErrorPath().contains(NEW_SOURCE_ACCT_LINE_PROPERTY_NAME);

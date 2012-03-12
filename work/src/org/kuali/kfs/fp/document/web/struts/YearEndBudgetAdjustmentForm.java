@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
-import org.kuali.kfs.fp.document.YearEndBudgetAdjustmentDocument;
 
 /**
  * form for <code>YearEndBudgetAdjustmentDocument</code> the only functional difference between the YearEnd version and the

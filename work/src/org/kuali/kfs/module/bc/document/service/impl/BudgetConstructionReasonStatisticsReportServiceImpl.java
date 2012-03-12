@@ -34,9 +34,9 @@ import org.kuali.kfs.module.bc.document.service.BudgetConstructionReasonStatisti
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper;
 import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -48,7 +48,7 @@ public class BudgetConstructionReasonStatisticsReportServiceImpl implements Budg
     BudgetConstructionReasonStatisticsReportDao budgetConstructionReasonStatisticsReportDao;
     BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService;
     private BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
-    KualiConfigurationService kualiConfigurationService;
+    ConfigurationService kualiConfigurationService;
     BusinessObjectService businessObjectService;
 
     /**
@@ -121,15 +121,15 @@ public class BudgetConstructionReasonStatisticsReportServiceImpl implements Budg
         String orgName = salaryTotalEntry.getOrganization().getOrganizationName();
         orgReasonStatisticsReportEntry.setOrganizationCode(salaryTotalEntry.getOrganizationCode());
         if (orgName == null) {
-            orgReasonStatisticsReportEntry.setOrganizationName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_ORGANIZATION_NAME));
+            orgReasonStatisticsReportEntry.setOrganizationName(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_ORGANIZATION_NAME));
         }
         else {
             orgReasonStatisticsReportEntry.setOrganizationName(orgName);
         }
         // set ChartCode and Desc
         if (chart == null) {
-            orgReasonStatisticsReportEntry.setChartOfAccountDescription(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
-            orgReasonStatisticsReportEntry.setChartOfAccountsCode(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
+            orgReasonStatisticsReportEntry.setChartOfAccountDescription(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
+            orgReasonStatisticsReportEntry.setChartOfAccountsCode(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
         }
         else {
             orgReasonStatisticsReportEntry.setChartOfAccountsCode(chart.getChartOfAccountsCode());
@@ -214,7 +214,7 @@ public class BudgetConstructionReasonStatisticsReportServiceImpl implements Budg
      * 
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 

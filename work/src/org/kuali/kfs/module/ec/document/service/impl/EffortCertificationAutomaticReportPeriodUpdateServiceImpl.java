@@ -17,7 +17,6 @@ package org.kuali.kfs.module.ec.document.service.impl;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
 import org.kuali.kfs.module.ec.dataaccess.EffortCertificationReportDefinitionDao;
 import org.kuali.kfs.module.ec.document.service.EffortCertificationAutomaticReportPeriodUpdateService;

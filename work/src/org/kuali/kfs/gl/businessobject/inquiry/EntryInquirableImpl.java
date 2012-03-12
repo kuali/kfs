@@ -19,11 +19,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 /**
  * This class is used to generate the URL for the user-defined attributes for the GL entry screen. It is entended the
@@ -128,7 +127,7 @@ public class EntryInquirableImpl extends AbstractGeneralLedgerInquirableImpl {
     }
 
     /**
-     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject,
+     * @see org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl#getInquiryUrl(org.kuali.rice.krad.bo.BusinessObject,
      *      java.lang.String)
      */
     @Override

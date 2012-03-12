@@ -21,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -54,21 +55,21 @@ import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.gl.service.PreScrubberService;
 import org.kuali.kfs.gl.service.impl.CollectorScrubberStatus;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.ParseException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * The base implementation of CollectorHelperService
@@ -83,7 +84,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
     private OriginEntryService originEntryService;
     private OriginEntryGroupService originEntryGroupService;
     private ParameterService parameterService;
-    private KualiConfigurationService configurationService;
+    private ConfigurationService configurationService;
     private DateTimeService dateTimeService;
     private BatchInputFileService batchInputFileService;
     private CollectorScrubberService collectorScrubberService;
@@ -334,25 +335,25 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
      * @param MessageMap the map into which to put errors encountered during validation
      * @return boolean - true if validation was successful, false it not
      */
-    protected boolean performValidation(CollectorBatch batch, MessageMap MessageMap) {
-        boolean valid = performCollectorHeaderValidation(batch, MessageMap);
+    protected boolean performValidation(CollectorBatch batch, MessageMap messageMap) {
+        boolean valid = performCollectorHeaderValidation(batch, messageMap);
         
         performUppercasing(batch);
 
-        boolean performDuplicateHeaderCheck = parameterService.getIndicatorParameter(CollectorStep.class, SystemGroupParameterNames.COLLECTOR_PERFORM_DUPLICATE_HEADER_CHECK);
+        boolean performDuplicateHeaderCheck = parameterService.getParameterValueAsBoolean(CollectorStep.class, SystemGroupParameterNames.COLLECTOR_PERFORM_DUPLICATE_HEADER_CHECK);
         if (valid && performDuplicateHeaderCheck) {
-            valid = duplicateHeaderCheck(batch, MessageMap);
+            valid = duplicateHeaderCheck(batch, messageMap);
         }
         if (valid) {
-            valid = checkForMixedDocumentTypes(batch, MessageMap);
-        }
-
-        if (valid) {
-            valid = checkForMixedBalanceTypes(batch, MessageMap);
+            valid = checkForMixedDocumentTypes(batch, messageMap);
         }
 
         if (valid) {
-            valid = checkDetailKeys(batch, MessageMap);
+            valid = checkForMixedBalanceTypes(batch, messageMap);
+        }
+
+        if (valid) {
+            valid = checkDetailKeys(batch, messageMap);
         }
 
         return valid;
@@ -516,7 +517,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
      * @param batch - batch to check document types
      * @return true if there is only one document type, false if multiple document types were found.
      */
-    protected boolean checkForMixedDocumentTypes(CollectorBatch batch, MessageMap MessageMap) {
+    protected boolean checkForMixedDocumentTypes(CollectorBatch batch, MessageMap messageMap) {
         boolean docTypesNotMixed = true;
 
         Set<String> batchDocumentTypes = new HashSet<String>();
@@ -526,7 +527,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
 
         if (batchDocumentTypes.size() > 1) {
             LOG.error("mixed document types found in batch");
-            MessageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.MIXED_DOCUMENT_TYPES);
+            messageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.MIXED_DOCUMENT_TYPES);
 
             docTypesNotMixed = false;
         }
@@ -540,7 +541,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
      * @param batch - batch to check balance types
      * @return true if there is only one balance type, false if multiple balance types were found
      */
-    protected boolean checkForMixedBalanceTypes(CollectorBatch batch, MessageMap MessageMap) {
+    protected boolean checkForMixedBalanceTypes(CollectorBatch batch, MessageMap messageMap) {
         boolean balanceTypesNotMixed = true;
 
         Set<String> balanceTypes = new HashSet<String>();
@@ -550,7 +551,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
 
         if (balanceTypes.size() > 1) {
             LOG.error("mixed balance types found in batch");
-            MessageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.MIXED_BALANCE_TYPES);
+            messageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.MIXED_BALANCE_TYPES);
 
             balanceTypesNotMixed = false;
         }
@@ -565,7 +566,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
      * @param batch - batch to validate
      * @return true if all detail records had matching keys, false otherwise
      */
-    protected boolean checkDetailKeys(CollectorBatch batch, MessageMap MessageMap) {
+    protected boolean checkDetailKeys(CollectorBatch batch, MessageMap messageMap) {
         boolean detailKeysFound = true;
 
         // build a Set of keys from the gl entries to compare with
@@ -578,7 +579,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
             String collectorDetailKey = generateCollectorDetailMatchingKey(collectorDetail, ", ");
             if (!glEntryKeys.contains(collectorDetailKey)) {
                 LOG.error("found detail key without a matching gl entry key " + collectorDetailKey);
-                MessageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.NONMATCHING_DETAIL_KEY, collectorDetailKey);
+                messageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.NONMATCHING_DETAIL_KEY, collectorDetailKey);
 
                 detailKeysFound = false;
             }
@@ -627,13 +628,13 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
      * @param batch - batch to check totals for
      * @return boolean - true if validation was successful, false it not
      */
-    protected boolean checkTrailerTotals(CollectorBatch batch, CollectorReportData collectorReportData, MessageMap MessageMap) {
+    protected boolean checkTrailerTotals(CollectorBatch batch, CollectorReportData collectorReportData, MessageMap messageMap) {
         boolean trailerTotalsMatch = true;
 
         int actualRecordCount = batch.getOriginEntries().size() + batch.getCollectorDetails().size();
         if (actualRecordCount != batch.getTotalRecords()) {
             LOG.error("trailer check on total count did not pass, expected count: " + String.valueOf(batch.getTotalRecords()) + ", actual count: " + String.valueOf(actualRecordCount));
-            MessageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.TRAILER_ERROR_COUNTNOMATCH, String.valueOf(batch.getTotalRecords()), String.valueOf(actualRecordCount));
+            messageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.TRAILER_ERROR_COUNTNOMATCH, String.valueOf(batch.getTotalRecords()), String.valueOf(actualRecordCount));
             trailerTotalsMatch = false;
         }
 
@@ -642,13 +643,13 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         if (batch.getOriginEntries().size() == 0) {
             if (!KualiDecimal.ZERO.equals(batch.getTotalAmount())) {
                 LOG.error("trailer total should be zero when there are no origin entries");
-                MessageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.TRAILER_ERROR_AMOUNT_SHOULD_BE_ZERO);
+                messageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.TRAILER_ERROR_AMOUNT_SHOULD_BE_ZERO);
             }
             return false;
         }
 
         // retrieve document types that balance by equal debits and credits
-        Collection<String> documentTypes = parameterService.getParameterValues(CollectorStep.class, KFSConstants.SystemGroupParameterNames.COLLECTOR_EQUAL_DC_TOTAL_DOCUMENT_TYPES);
+        Collection<String> documentTypes = new ArrayList<String>( parameterService.getParameterValuesAsString(CollectorStep.class, KFSConstants.SystemGroupParameterNames.COLLECTOR_EQUAL_DC_TOTAL_DOCUMENT_TYPES) );
 
         boolean equalDebitCreditTotal = false;
         for ( String documentType : documentTypes ) {
@@ -663,7 +664,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
             // credits must equal debits must equal total trailer amount
             if (!totals.getCreditAmount().equals(totals.getDebitAmount()) || !totals.getCreditAmount().equals(batch.getTotalAmount())) {
                 LOG.error("trailer check on total amount did not pass, debit should equal credit, should equal trailer total");
-                MessageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.TRAILER_ERROR_AMOUNTNOMATCH1, totals.getCreditAmount().toString(), totals.getDebitAmount().toString(), batch.getTotalAmount().toString());
+                messageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.TRAILER_ERROR_AMOUNTNOMATCH1, totals.getCreditAmount().toString(), totals.getDebitAmount().toString(), batch.getTotalAmount().toString());
                 trailerTotalsMatch = false;
             }
         }
@@ -672,7 +673,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
             KualiDecimal totalGlEntries = totals.getCreditAmount().add(totals.getDebitAmount()).add(totals.getOtherAmount());
             if (!totalGlEntries.equals(batch.getTotalAmount())) {
                 LOG.error("trailer check on total amount did not pass, sum of gl entry amounts should equal trailer total");
-                MessageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.TRAILER_ERROR_AMOUNTNOMATCH2, totalGlEntries.toString(), batch.getTotalAmount().toString());
+                messageMap.putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.Collector.TRAILER_ERROR_AMOUNTNOMATCH2, totalGlEntries.toString(), batch.getTotalAmount().toString());
                 trailerTotalsMatch = false;
             }
         }
@@ -698,7 +699,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
      * @return the name of the staging directory
      */
     public String getStagingDirectory() {
-        return configurationService.getPropertyString(KFSConstants.GL_COLLECTOR_STAGING_DIRECTORY);
+        return configurationService.getPropertyValueAsString(KFSConstants.GL_COLLECTOR_STAGING_DIRECTORY);
     }
 
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -718,7 +719,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         this.collectorScrubberService = collectorScrubberService;
     }
 
-    public void setConfigurationService(KualiConfigurationService configurationService) {
+    public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
     }
 

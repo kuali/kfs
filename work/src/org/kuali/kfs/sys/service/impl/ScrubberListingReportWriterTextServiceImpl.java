@@ -19,7 +19,7 @@ import java.io.File;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.service.DocumentNumberAwareReportWriterService;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class ScrubberListingReportWriterTextServiceImpl extends ReportWriterTextServiceImpl implements DocumentNumberAwareReportWriterService {
     private String documentNumber;
@@ -31,7 +31,7 @@ public class ScrubberListingReportWriterTextServiceImpl extends ReportWriterText
     public void destroy() {
         super.destroy();
         
-        documentNumber = KNSConstants.EMPTY_STRING;
+        documentNumber = KRADConstants.EMPTY_STRING;
     }
 
     /**

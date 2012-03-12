@@ -125,5 +125,5 @@
   <!-- workflow attributes -->
   <bean id="EffortCertificationReportDefinitionMaintenanceDocument-workflowAttributes" parent="EffortCertificationReportDefinitionMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="EffortCertificationReportDefinitionMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="EffortCertificationReportDefinitionMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

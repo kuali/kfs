@@ -262,7 +262,7 @@
 		<property name="required" value="true" />
 
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 
 	<bean id="LaborJournalVoucherDetail-subAccountNumber" parent="LaborJournalVoucherDetail-subAccountNumber-parentBean" />
@@ -342,7 +342,7 @@
 		<property name="shortLabel" value="Expired Override" />
 		<property name="maxLength" value="1" />
 		<property name="required" value="true" />
-		<property name="control" ref="CheckboxControl" />
+		<property name="control" ref="KfsCheckboxControl" />
 	</bean>
 	<bean id="LaborJournalVoucherDetail-nonFringeAccountOverride"
 		parent="LaborJournalVoucherDetail-nonFringeAccountOverride-parentBean" />
@@ -355,7 +355,7 @@
 		<property name="shortLabel" value="Non-fringe Override" />
 		<property name="maxLength" value="1" />
 		<property name="required" value="true" />
-		<property name="control" ref="CheckboxControl" />
+		<property name="control" ref="KfsCheckboxControl" />
 	</bean>
 	<bean id="LaborJournalVoucherDetail-objectBudgetOverride"
 		parent="LaborJournalVoucherDetail-objectBudgetOverride-parentBean" />
@@ -368,7 +368,7 @@
 		<property name="shortLabel" value="Non-Budgeted Override" />
 		<property name="maxLength" value="1" />
 		<property name="required" value="true" />
-		<property name="control" ref="CheckboxControl" />
+		<property name="control" ref="KfsCheckboxControl" />
 	</bean>
 	<bean id="LaborJournalVoucherDetail-financialDocumentLineDescription"
 		parent="LaborJournalVoucherDetail-financialDocumentLineDescription-parentBean" />
@@ -428,7 +428,7 @@
 		<property name="label" value="Gross Sales Amount" />
 		<property name="shortLabel" value="Gross Sales Amt." />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean
 		id="LaborJournalVoucherDetail-salesTax.financialDocumentTaxableSalesAmount"
@@ -441,7 +441,7 @@
 		<property name="label" value="Taxable Sales Amount" />
 		<property name="shortLabel" value="Taxable Sales Amt." />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="LaborJournalVoucherDetail-salesTax.financialDocumentSaleDate"
 		parent="LaborJournalVoucherDetail-salesTax.financialDocumentSaleDate-parentBean" />

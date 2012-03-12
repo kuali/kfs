@@ -30,7 +30,7 @@ public class CustomerAuthorizer extends FinancialSystemMaintenanceDocumentAuthor
     // Furthermore, System Super Users should be able to do everything, including BlanketApprove.
     
 ///**
-// * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.kns.document.Document, org.kuali.rice.kim.bo.Person)
+// * @see org.kuali.rice.krad.document.authorization.MaintenanceDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
 // */
 //@Override
 //public FinancialSystemDocumentActionFlags getDocumentActions(Document document) {
@@ -49,15 +49,15 @@ public class CustomerAuthorizer extends FinancialSystemMaintenanceDocumentAuthor
 //    }
 //
 //    // if user is not AR SUPERVISOR he cannot approve the customer creation document
-//    if (KNSConstants.MAINTENANCE_NEW_ACTION.equalsIgnoreCase(maintenanceAction) && !ARUtil.isUserInArSupervisorGroup(user)) {
+//    if (KRADConstants.MAINTENANCE_NEW_ACTION.equalsIgnoreCase(maintenanceAction) && !ARUtil.isUserInArSupervisorGroup(user)) {
 //
 //        actionFlags.setCanApprove(false);
 //        actionFlags.setCanBlanketApprove(false);
 //
 //    }
 //
-//    // if ((maintenanceAction.equalsIgnoreCase(KNSConstants.MAINTENANCE_EDIT_ACTION) ||
-//    // maintenanceAction.equalsIgnoreCase(KNSConstants.MAINTENANCE_COPY_ACTION)) && !isUserInArSupervisorGroup(user)) {
+//    // if ((maintenanceAction.equalsIgnoreCase(KRADConstants.MAINTENANCE_EDIT_ACTION) ||
+//    // maintenanceAction.equalsIgnoreCase(KRADConstants.MAINTENANCE_COPY_ACTION)) && !isUserInArSupervisorGroup(user)) {
 //    //
 //    // actionFlags.setCanRoute(false);
 //    // actionFlags.setCanSave(false);

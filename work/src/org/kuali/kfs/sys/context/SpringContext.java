@@ -33,29 +33,21 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.MemoryMonitor;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
-import org.kuali.rice.core.config.ConfigContext;
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.resourceloader.RiceResourceLoaderFactory;
-import org.kuali.rice.core.util.RiceConstants;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.spring.ClassPathXmlApplicationContext;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.springframework.aop.support.AopUtils;
-import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import uk.ltd.getahead.dwr.create.SpringCreator;
-
 @SuppressWarnings("deprecation")
 public class SpringContext {
-    protected static final Logger LOG = Logger.getLogger(SpringContext.class);
-    protected static final String APPLICATION_CONTEXT_DEFINITION = "spring-rice-startup.xml";
-    protected static final String TEST_CONTEXT_DEFINITION = "spring-rice-startup-test.xml";
+    private static final Logger LOG = Logger.getLogger(SpringContext.class);
     protected static final String MEMORY_MONITOR_THRESHOLD_KEY = "memory.monitor.threshold";
     protected static final String USE_QUARTZ_SCHEDULING_KEY = "use.quartz.scheduling";
     protected static ConfigurableApplicationContext applicationContext;
@@ -72,13 +64,13 @@ public class SpringContext {
     public static Object getService(String serviceName) {
         return GlobalResourceLoader.getService(serviceName);
     }
-    
+
     /**
      * Use this method to retrieve a spring bean when one of the following is the case. Pass in the type of the service interface,
      * NOT the service implementation. 1. there is only one bean of the specified type in our spring context 2. there is only one
      * bean of the specified type in our spring context, but you want the one whose bean id is the same as type.getSimpleName() with
      * the exception of the first letter being lower case in the former and upper case in the latter, For example, there are two
-     * beans of type DateTimeService in our context � dateTimeService and testDateTimeService. To retrieve the former, you should
+     * beans of type DateTimeService in our context dateTimeService and testDateTimeService. To retrieve the former, you should
      * specific DateTimeService.class as the type. To retrieve the latter, you should specify ConfigurableDateService.class as the
      * type. Unless you are writing a unit test and need to down cast to an implementation, you do not need to cast the result of
      * this method.
@@ -104,7 +96,7 @@ public class SpringContext {
                     bean = beansOfType.iterator().next();
                 }
             } else {
-                try { 
+                try {
                     bean = getBean(type, StringUtils.uncapitalize(type.getSimpleName()) );
                 } catch ( Exception ex ) {
                     // do nothing, let fall through
@@ -159,7 +151,7 @@ public class SpringContext {
             for ( String key : beansOfType.keySet() ) {
                 if ( !applicationContext.isSingleton(key) ) {
                     allOfTypeAreSingleton = false;
-                }                
+                }
             }
             if ( allOfTypeAreSingleton ) {
                 synchronized( SINGLETON_TYPES ) {
@@ -189,7 +181,7 @@ public class SpringContext {
                     LOG.debug("Bean with name and type not found in local context: " + name + "/" + type.getName() + " - calling GRL");
                 }
                 Object remoteServiceBean = getService( name );
-                if ( remoteServiceBean != null ) {                    
+                if ( remoteServiceBean != null ) {
                     if ( type.isAssignableFrom( AopUtils.getTargetClass(remoteServiceBean) ) ) {
                         bean = (T)remoteServiceBean;
                         // assume remote beans are services and thus singletons
@@ -222,55 +214,37 @@ public class SpringContext {
         return applicationContext.getBeanDefinitionNames();
     }
 
-    protected static void initializeApplicationContext() {
-        initializeApplicationContext(APPLICATION_CONTEXT_DEFINITION, true);
-    }
-    
-    protected static void initializeApplicationContextWithoutSchedule() {
-        initializeApplicationContext(APPLICATION_CONTEXT_DEFINITION, false);
-    }
-
-    protected static void initializeBatchApplicationContext() {
-        initializeApplicationContext(APPLICATION_CONTEXT_DEFINITION, true);
-    }
-
-    protected static void initializeTestApplicationContext() {
-        initializeApplicationContext(TEST_CONTEXT_DEFINITION, false);
-    }
-
-    protected static void close() throws Exception {
+    protected static void close() {
         if ( processWatchThread != null ) {
+            LOG.info("Shutting down the ProcessWatch thread" );
             if ( processWatchThread.isAlive() ) {
                 processWatchThread.stop();
             }
             processWatchThread = null;
         }
-        if ( applicationContext == null ) {
-            applicationContext = RiceResourceLoaderFactory.getSpringResourceLoader().getContext();
-        }
-        DisposableBean riceConfigurer = null;
+
         try {
-            riceConfigurer = (DisposableBean) applicationContext.getBean( "rice" );
-        } catch ( Exception ex ) {
-            LOG.debug( "Unable to get 'rice' bean - attempting to get from the Rice ConfigContext", ex );
-            riceConfigurer = (DisposableBean)ConfigContext.getObjectFromConfigHierarchy(RiceConstants.RICE_CONFIGURER_CONFIG_NAME);
+            if ( isInitialized() && getBean(Scheduler.class) != null ) {
+                if ( getBean(Scheduler.class).isStarted() ) {
+                    LOG.info( "Shutting Down scheduler" );
+                    getBean(Scheduler.class).shutdown();
+                }
+            }
+        } catch (SchedulerException ex) {
+            LOG.error( "Exception while shutting down the scheduler", ex );
         }
-        applicationContext = null;
-        if ( riceConfigurer != null ) {
-            riceConfigurer.destroy();
-        } else {
-            LOG.error( "Unable to close SpringContext - unable to get a handle to a RiceConfigurer object." );
+        LOG.info( "Stopping the MemoryMonitor thread" );
+        if ( memoryMonitor != null ) {
+            memoryMonitor.stop();
         }
-        ConfigContext.destroy();
-        PropertyLoadingFactoryBean.clear();
     }
 
     public static boolean isInitialized() {
         return applicationContext != null;
     }
-    
+
     private static void verifyProperInitialization() {
-        if (applicationContext == null) {
+        if (!isInitialized()) {
             LOG.fatal( "*****************************************************************" );
             LOG.fatal( "*****************************************************************" );
             LOG.fatal( "*****************************************************************" );
@@ -285,25 +259,18 @@ public class SpringContext {
             throw new IllegalStateException("Spring not initialized properly.  Initialization has begun and the application context is null.  Probably spring loaded bean is trying to use SpringContext.getBean() before the application context is initialized.");
         }
     }
+    static MemoryMonitor memoryMonitor;
+    static void initMemoryMonitor() {
+        if ( NumberUtils.isNumber(KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY))) {
+            if (Double.valueOf(KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY)) > 0) {
+                LOG.info( "Starting up MemoryMonitor thread" );
+                MemoryMonitor.setPercentageUsageThreshold(Double.valueOf(KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY)));
+                memoryMonitor = new MemoryMonitor("KFS Memory Monitor: Over " + KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY) + "% Memory Used");
+                memoryMonitor.addListener(new MemoryMonitor.Listener() {
+                    org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MemoryMonitor.class);
 
-    private static void initializeApplicationContext( String riceInitializationSpringFile, boolean initializeSchedule ) {
-        LOG.info( "Starting Spring context initialization" );
-        // use the base config file to bootstrap the real application context started by Rice
-        new ClassPathXmlApplicationContext(riceInitializationSpringFile);
-        // pull the Rice application context into here for further use and efficiency
-        applicationContext = RiceResourceLoaderFactory.getSpringResourceLoader().getContext();
-        LOG.info( "Completed Spring context initialization" );
-        
-        SpringCreator.setOverrideBeanFactory(applicationContext.getBeanFactory());
-        
-        if (Double.valueOf((getBean(KualiConfigurationService.class)).getPropertyString(MEMORY_MONITOR_THRESHOLD_KEY)) > 0) {
-            MemoryMonitor.setPercentageUsageThreshold(Double.valueOf((getBean(KualiConfigurationService.class)).getPropertyString(MEMORY_MONITOR_THRESHOLD_KEY)));
-            MemoryMonitor memoryMonitor = new MemoryMonitor(APPLICATION_CONTEXT_DEFINITION);
-            memoryMonitor.addListener(new MemoryMonitor.Listener() {
-                org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MemoryMonitor.class);
-
-                public void memoryUsageLow(String springContextId, Map<String, String> memoryUsageStatistics, String deadlockedThreadIds) {
-                    if ( LOG.isInfoEnabled() ) {
+                    @Override
+                    public void memoryUsageLow(String springContextId, Map<String, String> memoryUsageStatistics, String deadlockedThreadIds) {
                         StringBuilder logStatement = new StringBuilder(springContextId).append("\n\tMemory Usage");
                         for (String memoryType : memoryUsageStatistics.keySet()) {
                             logStatement.append("\n\t\t").append(memoryType.toUpperCase()).append(": ").append(memoryUsageStatistics.get(memoryType));
@@ -312,39 +279,23 @@ public class SpringContext {
                         for (Map.Entry<Thread, StackTraceElement[]> threadStackTrace : Thread.getAllStackTraces().entrySet()) {
                             logStatement.append("\n\t\tThread: name=").append(threadStackTrace.getKey().getName()).append(", id=").append(threadStackTrace.getKey().getId()).append(", priority=").append(threadStackTrace.getKey().getPriority()).append(", state=").append(threadStackTrace.getKey().getState());
                             for (StackTraceElement stackTraceElement : threadStackTrace.getValue()) {
-                                logStatement.append("\n\t\t\t" + stackTraceElement);
+                                logStatement.append("\n\t\t\t").append(stackTraceElement);
                             }
                         }
                         LOG.warn(logStatement);
+                        MemoryMonitor.setPercentageUsageThreshold(0.95);
                     }
-                    MemoryMonitor.setPercentageUsageThreshold(0.95);
-                }
-            });
+                });
+            }
+        } else {
+            LOG.warn( MEMORY_MONITOR_THRESHOLD_KEY + " is not a number: " + KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MEMORY_MONITOR_THRESHOLD_KEY) );
         }
-        if (getBean(KualiConfigurationService.class).getPropertyAsBoolean(USE_QUARTZ_SCHEDULING_KEY)) {
-            try {
-                if (initializeSchedule) {
-                    LOG.info("Attempting to initialize the scheduler");
-                    (getBean(SchedulerService.class)).initialize();
-                }
-                LOG.info("Starting the scheduler");
-                try {
-                    (getBean(Scheduler.class)).start();
-                } catch ( NullPointerException ex ) {
-                    LOG.error("Caught NPE while starting the scheduler", ex);
-                }
-            }
-            catch (NoSuchBeanDefinitionException e) {
-                LOG.info("Not initializing the scheduler because there is no scheduler bean");
-            }
-            catch (SchedulerException e) {
-                LOG.error("Caught exception while starting the scheduler", e);
-            }
-        }
-        
-        if ( getBean(KualiConfigurationService.class).getPropertyAsBoolean( "periodic.thread.dump" ) ) {
-            final long sleepPeriod = Long.parseLong( getBean(KualiConfigurationService.class).getPropertyString("periodic.thread.dump.seconds") ) * 1000;
-            final File logDir = new File( getBean(KualiConfigurationService.class).getPropertyString( "logs.directory" ) );
+    }
+
+    static void initMonitoringThread() {
+        if ( KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsBoolean( "periodic.thread.dump" ) ) {
+            final long sleepPeriod = Long.parseLong( KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString("periodic.thread.dump.seconds") ) * 1000;
+            final File logDir = new File( KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString( "logs.directory" ) );
             final File monitoringLogDir = new File( logDir, "monitoring" );
             if ( !monitoringLogDir.exists() ) {
                 monitoringLogDir.mkdir();
@@ -353,10 +304,11 @@ public class SpringContext {
                 LOG.info( "Starting the Periodic Thread Dump thread - dumping every " + (sleepPeriod/1000) + " seconds");
                 LOG.info( "Periodic Thread Dump Logs: " + monitoringLogDir.getAbsolutePath() );
             }
+            final DateFormat df = new SimpleDateFormat( "yyyyMMdd" );
+            final DateFormat tf = new SimpleDateFormat( "HH-mm-ss" );
             Runnable processWatch = new Runnable() {
-                DateFormat df = new SimpleDateFormat( "yyyyMMdd" );
-                DateFormat tf = new SimpleDateFormat( "HH-mm-ss" );
-                public void run() {                    
+                @Override
+                public void run() {
                     while ( true ) {
                         Date now = new Date();
                         File todaysLogDir = new File( monitoringLogDir, df.format(now) );
@@ -371,6 +323,7 @@ public class SpringContext {
                             Map<Thread,StackTraceElement[]> threads = Thread.getAllStackTraces();
                             List<Thread> sortedThreads = new ArrayList<Thread>( threads.keySet() );
                             Collections.sort( sortedThreads, new Comparator<Thread>() {
+                                @Override
                                 public int compare(Thread o1, Thread o2) {
                                     return o1.getName().compareTo( o2.getName() );
                                 }
@@ -402,6 +355,44 @@ public class SpringContext {
             processWatchThread = new Thread( processWatch, "ProcessWatch thread" );
             processWatchThread.setDaemon(true);
             processWatchThread.start();
-        }        
+        }
     }
+
+    static void initScheduler() {
+        if (KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsBoolean(USE_QUARTZ_SCHEDULING_KEY)) {
+            try {
+                LOG.info("Attempting to initialize the SchedulerService");
+                getBean(SchedulerService.class).initialize();
+                LOG.info("Starting the Quartz scheduler");
+                getBean(Scheduler.class).start();
+            } catch (NoSuchBeanDefinitionException e) {
+                LOG.warn("Not initializing the scheduler because there is no scheduler bean");
+            } catch ( Exception ex ) {
+                LOG.error("Caught Exception while starting the scheduler", ex);
+            }
+        }
+    }
+    
+    public static void registerSingletonBean(String beanId, Object bean) {
+        applicationContext.getBeanFactory().registerSingleton(beanId, bean);
+        //Cleaning caches
+        SINGLETON_BEANS_BY_NAME_CACHE.clear();
+        SINGLETON_BEANS_BY_TYPE_CACHE.clear();
+        SINGLETON_BEANS_OF_TYPE_CACHE.clear();
+    }
+
+//    private static void initializeApplicationContext( String riceInitializationSpringFile, boolean initializeSchedule ) {
+//        LOG.info( "Starting Spring context initialization" );
+//        // use the base config file to bootstrap the real application context started by Rice
+//        applicationContext = new ClassPathXmlApplicationContext(riceInitializationSpringFile);
+//        LOG.info( "Completed Spring context initialization" );
+//
+//        SpringCreator.setOverrideBeanFactory(applicationContext.getBeanFactory());
+//
+//        initMemoryMonitor();
+//        if ( initializeSchedule ) {
+//            initScheduler();
+//        }
+//        initMonitoringThread();
+//    }
 }

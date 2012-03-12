@@ -22,9 +22,9 @@ import java.util.List;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.sys.DynamicCollectionComparator;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * Value Finder for Asset Types.
@@ -40,10 +40,12 @@ public class AssetTypeValuesFinder extends KeyValuesBase {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection codes = boService.findAll(AssetType.class);
         List labels = new ArrayList();
-        labels.add(new KeyLabelPair("", ""));
+        labels.add(new ConcreteKeyValue("", ""));
         for (Object code : codes) {
             AssetType at = (AssetType) code;
-            labels.add(new KeyLabelPair(at.getCapitalAssetTypeCode(), at.getCapitalAssetTypeDescription()));
+            if(at.isActive()) {
+                labels.add(new ConcreteKeyValue(at.getCapitalAssetTypeCode(), at.getCapitalAssetTypeDescription()));
+            }
         }
 
         // sort alphabetically by asset type description

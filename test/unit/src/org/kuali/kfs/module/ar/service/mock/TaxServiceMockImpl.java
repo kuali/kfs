@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.kuali.kfs.sys.businessobject.TaxDetail;
 import org.kuali.kfs.sys.service.TaxService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * 

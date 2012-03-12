@@ -34,6 +34,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.BCConstants.SynchronizationCheckType;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
@@ -45,12 +46,13 @@ import org.kuali.kfs.module.bc.document.validation.event.SaveSalarySettingEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiInteger;
-import org.kuali.rice.kns.util.MessageMap;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * the base struts action for the detail salary setting
@@ -111,7 +113,7 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         // release all locks before closing the current expansion screen
         if (isClose && !salarySettingForm.isViewOnlyEntry() && salarySettingForm.isSalarySettingClosed()) {
             salarySettingForm.releasePositionAndFundingLocks();
-            if (form instanceof PositionSalarySettingForm){
+            if (form instanceof PositionSalarySettingForm) {
                 // handle case where there are no funding lines attached to position
                 this.unlockPositionOnly((PositionSalarySettingForm) form);
             }
@@ -149,7 +151,7 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         List<PendingBudgetConstructionAppointmentFunding> appointmentFundings = salarySettingForm.getAppointmentFundings();
 
         if (savableAppointmentFundings == null || savableAppointmentFundings.isEmpty()) {
-            GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED);
+            KNSGlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
@@ -172,7 +174,7 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
             salarySettingService.recalculateDerivedInformation(savableFunding);
 
             // validate the savable appointment funding lines
-            boolean isValid = this.invokeRules(new SaveSalarySettingEvent(KFSConstants.EMPTY_STRING, errorKeyPrefix, document, savableFunding));
+            boolean isValid = this.invokeRules(new SaveSalarySettingEvent(KFSConstants.EMPTY_STRING, errorKeyPrefix, document, savableFunding, this.getSynchronizationCheckType()));
             if (!isValid) {
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
@@ -198,7 +200,7 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
 
         this.clearPurgedAppointmentFundings(appointmentFundings);
 
-        GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED);
+        KNSGlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_SALARY_SETTING_SAVED);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -229,14 +231,14 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         }
 
         // check special case where emplid is vacant and force funding duration to none
-        String emplid = workingAppointmentFunding.getEmplid(); 
-        if (StringUtils.isNotEmpty(emplid) && StringUtils.equals(emplid, BCConstants.VACANT_EMPLID)){
+        String emplid = workingAppointmentFunding.getEmplid();
+        if (StringUtils.isNotEmpty(emplid) && StringUtils.equals(emplid, BCConstants.VACANT_EMPLID)) {
             workingAppointmentFunding.setAppointmentFundingDurationCode(BCConstants.AppointmentFundingDurationCodes.NONE.durationCode);
         }
         salarySettingService.recalculateDerivedInformation(workingAppointmentFunding);
 
         // validate the new appointment funding line
-        BudgetExpansionEvent addAppointmentFundingEvent = new AddAppointmentFundingEvent(KFSConstants.EMPTY_STRING, BCPropertyConstants.NEW_BCAF_LINE, document, appointmentFundings, workingAppointmentFunding);
+        BudgetExpansionEvent addAppointmentFundingEvent = new AddAppointmentFundingEvent(KFSConstants.EMPTY_STRING, BCPropertyConstants.NEW_BCAF_LINE, document, appointmentFundings, workingAppointmentFunding, this.getSynchronizationCheckType());
         boolean isValid = this.invokeRules(addAppointmentFundingEvent);
         if (!isValid) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -332,11 +334,10 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
     }
 
     /**
-     * unlock the position only, called as last action before a close or exit
-     * handling the case where there are no funding lines attached yet.
-     * 
+     * unlock the position only, called as last action before a close or exit handling the case where there are no funding lines
+     * attached yet.
      */
-    protected void unlockPositionOnly(PositionSalarySettingForm positionSalarySettingForm){
+    protected void unlockPositionOnly(PositionSalarySettingForm positionSalarySettingForm) {
 
         Integer universityFiscalYear = positionSalarySettingForm.getBudgetConstructionPosition().getUniversityFiscalYear();
         String positionNumber = positionSalarySettingForm.getBudgetConstructionPosition().getPositionNumber();
@@ -344,6 +345,14 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
 
         // unlock position
         SpringContext.getBean(LockService.class).unlockPosition(positionNumber, universityFiscalYear, principalId);
-        
+
     }
+
+    /**
+     * This should return the SynchronizationCheckType based on the context. SynchronizationCheckType.POSN is used in
+     * IncumbentSalarySetting and SynchronizationCheckType.EID is used in PositionSalarySetting
+     * 
+     * @return
+     */
+    public abstract SynchronizationCheckType getSynchronizationCheckType();
 }

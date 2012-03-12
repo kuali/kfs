@@ -55,16 +55,16 @@ import org.kuali.kfs.module.endow.document.service.UpdateAssetIncreaseDocumentTa
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
 import org.kuali.kfs.module.endow.util.GloabalVariablesExtractHelper;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KualiRuleService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -81,7 +81,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
     private PooledFundControlService pooledFundControlService;
     private BusinessObjectService businessObjectService;
     private DataDictionaryService dataDictionaryService;
-    private KualiConfigurationService configService;
+    private ConfigurationService configService;
     private CashSweepModelDao cashSweepModelDao;
     private KualiRuleService kualiRuleService;
     private ParameterService parameterService;
@@ -689,7 +689,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      * @return
      */
     private boolean getPurchaseNoRouteIndicator() {
-        String noRouteIndicator = parameterService.getParameterValue(CreateCashSweepTransactionsStep.class, EndowParameterKeyConstants.PURCHASE_NO_ROUTE_IND);
+        String noRouteIndicator = parameterService.getParameterValueAsString(CreateCashSweepTransactionsStep.class, EndowParameterKeyConstants.PURCHASE_NO_ROUTE_IND);
         return (EndowConstants.YES.equalsIgnoreCase(noRouteIndicator) ? true : false);
     }
 
@@ -699,7 +699,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      * @return
      */
     private boolean getSaleNoRouteIndicator() {
-        String noRouteIndicator = parameterService.getParameterValue(CreateCashSweepTransactionsStep.class, EndowParameterKeyConstants.SALE_NO_ROUTE_IND);
+        String noRouteIndicator = parameterService.getParameterValueAsString(CreateCashSweepTransactionsStep.class, EndowParameterKeyConstants.SALE_NO_ROUTE_IND);
         return (EndowConstants.YES.equalsIgnoreCase(noRouteIndicator) ? true : false);
     }
 
@@ -709,7 +709,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      * @return
      */
     private String getPurchaseDescription() {
-        return parameterService.getParameterValue(CreateCashSweepTransactionsStep.class, EndowParameterKeyConstants.PURCHASE_DESCRIPTION);
+        return parameterService.getParameterValueAsString(CreateCashSweepTransactionsStep.class, EndowParameterKeyConstants.PURCHASE_DESCRIPTION);
     }
 
     /**
@@ -718,7 +718,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      * @return
      */
     private String getSaleDescription() {
-        return parameterService.getParameterValue(CreateCashSweepTransactionsStep.class, EndowParameterKeyConstants.SALE_DESCRIPTION);
+        return parameterService.getParameterValueAsString(CreateCashSweepTransactionsStep.class, EndowParameterKeyConstants.SALE_DESCRIPTION);
     }
 
     /**
@@ -1007,7 +1007,7 @@ public class CreateCashSweepTransactionsServiceImpl implements CreateCashSweepTr
      * 
      * @param configService The configService to set.
      */
-    public void setConfigService(KualiConfigurationService configService) {
+    public void setConfigService(ConfigurationService configService) {
         this.configService = configService;
     }
 

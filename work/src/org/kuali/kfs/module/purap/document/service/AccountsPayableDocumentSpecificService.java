@@ -17,7 +17,7 @@ package org.kuali.kfs.module.purap.document.service;
 
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 
 /**
  * This interface is a non spring managed interface that is implemented by both PaymentRequestService and CreditMemoService

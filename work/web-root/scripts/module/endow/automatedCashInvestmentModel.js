@@ -29,7 +29,7 @@
  }
 
  function setACIModelDesc(aciModelIDFieldName, aciModelIDDescriptionFieldName, errorMessage){
-	var aciModelID = DWRUtil.getValue(aciModelIDFieldName);
+	var aciModelID = dwr.util.getValue(aciModelIDFieldName);
     
 	if (aciModelID =='') {
 		clearRecipients(aciModelIDDescriptionFieldName);

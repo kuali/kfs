@@ -32,6 +32,11 @@ public interface DisbursementVoucherExtractService {
     public boolean extractPayments();
     
     /**
+     * Pulls all disbursement voucher which pay checks and which are marked as "immediate payment" from the database and builds payment information for them 
+     */
+    public void extractImmediatePayments();
+    
+    /**
      * Cancels a disbursement voucher completely, because its payment has been canceled
      * @param dv the disbursement voucher to cancel
      */
@@ -56,4 +61,10 @@ public interface DisbursementVoucherExtractService {
      * @param processDate the date when the dv was paid
      */
     public abstract void markDisbursementVoucherAsPaid(DisbursementVoucherDocument dv, java.sql.Date processDate);
+    
+    /**
+     * Creates a batch payment for a single disbursement voucher
+     * @param disbursementVoucher the voucher to immediately extract
+     */
+    public abstract void extractImmediatePayment(DisbursementVoucherDocument disbursementVoucher);
 }

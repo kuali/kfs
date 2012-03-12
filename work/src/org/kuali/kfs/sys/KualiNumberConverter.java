@@ -15,23 +15,21 @@
  */
 package org.kuali.kfs.sys;
 
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.directwebremoting.ConversionException;
+import org.directwebremoting.extend.Converter;
+import org.directwebremoting.extend.ConverterManager;
+import org.directwebremoting.extend.InboundVariable;
+import org.directwebremoting.extend.OutboundContext;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 
-import uk.ltd.getahead.dwr.ConversionException;
-import uk.ltd.getahead.dwr.Converter;
-import uk.ltd.getahead.dwr.ConverterManager;
-import uk.ltd.getahead.dwr.InboundContext;
-import uk.ltd.getahead.dwr.InboundVariable;
-import uk.ltd.getahead.dwr.Messages;
-import uk.ltd.getahead.dwr.OutboundContext;
 import uk.ltd.getahead.dwr.compat.BaseV10Converter;
 
 /**
  * Converter for all Kuali Numbers (KualiDecimal & KualiInteger)
  * 
- * @see org.kuali.rice.kns.util.KualiDecimal
- * @see org.kuali.rice.kns.util.KualiInteger
+ * @see org.kuali.rice.core.api.util.type.KualiDecimal
+ * @see org.kuali.rice.core.api.util.type.KualiInteger
  */
 public class KualiNumberConverter extends BaseV10Converter implements Converter {
     /**
@@ -44,7 +42,7 @@ public class KualiNumberConverter extends BaseV10Converter implements Converter 
      * @see uk.ltd.getahead.dwr.Converter#convertInbound(java.lang.Class, java.util.List, uk.ltd.getahead.dwr.InboundVariable,
      *      uk.ltd.getahead.dwr.InboundContext)
      */
-    public Object convertInbound(Class paramType, InboundVariable iv, InboundContext inctx) throws ConversionException {
+    public Object convertInbound(Class paramType, InboundVariable iv) throws ConversionException {
         String value = iv.getValue();
         try {
             if (paramType == KualiDecimal.class) {
@@ -54,12 +52,13 @@ public class KualiNumberConverter extends BaseV10Converter implements Converter 
             if (paramType == KualiInteger.class) {
                 return new KualiInteger(value.trim());
             }
-
-            throw new ConversionException(Messages.getString("BigNumberConverter.NonPrimitive", paramType.getName())); //$NON-NLS-1$
+            String message = MessageBuilder.buildMessage("BigNumberConverter.NonPrimitive", paramType.getName()).getMessage();
+            throw new ConversionException(paramType,message);
         }
         catch (NumberFormatException ex) {
-            throw new ConversionException(Messages.getString("BigNumberConverter.FormatError", value, paramType.getName()), ex); //$NON-NLS-1$
-        }
+            String message = MessageBuilder.buildMessage("BigNumberConverter.FormatError", paramType.getName()).getMessage();
+            throw new ConversionException(paramType, message, ex);
+         }
     }
 
     /*

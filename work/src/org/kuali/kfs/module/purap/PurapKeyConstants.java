@@ -45,6 +45,7 @@ public class PurapKeyConstants {
     public static final String ERROR_FAX_NUMBER_PO_TRANSMISSION_TYPE = "error.faxNumber.PoTransmissionType";
     public static final String ERROR_INVALID_VENDOR_TYPE = "error.vendorType.invalid";
     public static final String ERROR_DEBARRED_VENDOR = "error.debarred.vendor";
+    public static final String WARNING_DEBARRED_VENDOR = "warning.debarred.vendor";
     public static final String ERROR_INACTIVE_VENDOR = "error.inactive.vendor";
     public static final String ERROR_NONEXIST_VENDOR = "error.nonexist.vendor";
     public static final String ERROR_NONEXIST_ASSIGNED_USER = "error.nonexist.assignedUser";
@@ -288,6 +289,7 @@ public class PurapKeyConstants {
 
     public static final String MESSAGE_DUPLICATE_CREDIT_MEMO_VENDOR_NUMBER = "message.duplicate.creditMemo.vendorNumber";
     public static final String MESSAGE_DUPLICATE_CREDIT_MEMO_VENDOR_NUMBER_DATE_AMOUNT = "message.duplicate.creditMemo.vendorNumber.date.amount";
+    public static final String ERROR_CREDIT_MEMO_REQUIRES_ATTACHMENT = "errors.creditMemo.attachmentRequired";
 
     // Receiving Line
     public static final String ERROR_RECEIVING_LINE_DOCUMENT_ACTIVE_FOR_PO = "errors.receivingLine.documentActiveForPo";
@@ -300,6 +302,7 @@ public class PurapKeyConstants {
     public static final String MESSAGE_DUPLICATE_RECEIVING_LINE_BILL_OF_LADING_NUMBER = "message.duplicate.receivingLine.billOfLadingNumber";
     public static final String MESSAGE_RECEIVING_LINEITEM_RETURN_NOTE_TEXT = "message.receiving.lineitem.return";
     public static final String MESSAGE_RECEIVING_LINEITEM_DAMAGE_NOTE_TEXT = "message.receiving.lineitem.damage";
+    public static final String WARNING_RECEIVING_LINEITEM_ADD_UNORDERED = "warning.receiving.lineitem.add.unordered";
     public static final String ERROR_RECEIVING_LINE_QTYRETURNED_GT_QTYRECEIVED = "errors.receivingLine.quantityReturnedGreaterThanQuantityReceived";
     public static final String ERROR_RECEIVING_LINE_QTYDAMAGED_GT_QTYRECEIVED = "errors.receivingLine.quantityDamagedGreaterThanQuantityReceived";
     
@@ -343,6 +346,8 @@ public class PurapKeyConstants {
     public static final String ERROR_REJECT_POITEM_OUTSTANDING_EMCUMBERED_AMOUNT = "errors.reject.poitem.outstanding.amt";
     public static final String ERROR_REJECT_POITEM_LESS_OUTSTANDING_EMCUMBERED_AMOUNT = "errors.reject.poitem.less.outstanding.amt";
     public static final String ERROR_REJECT_INVOICE_DUPLICATE = "errors.reject.invoice.duplicate";
+    public static final String ERROR_ELECTRONIC_INVOICE_GENERATION_PURCHASE_ORDER_NUMBER_EMPTY = "error.electronicInvoice.generate.purchase.order.number.empty";
+    public static final String ERROR_ELECTRONIC_INVOICE_GENERATION_PURCHASE_ORDER_DOES_NOT_EXIST = "error.electronicInvoice.generate.purchase.order.nonexisting";
     
     //B2B
     public static final String B2B_MULTIPLE_REQUISITIONS = "message.b2b.multiple.requisitions";

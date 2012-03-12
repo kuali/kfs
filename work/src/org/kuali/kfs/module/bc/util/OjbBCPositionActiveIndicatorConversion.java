@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.bc.util;
 
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionPositionConstants;
-import org.kuali.rice.kns.util.OjbCharBooleanConversion;
+import org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion;
 
 /**
  * Handles conversion of active indicator so as to piggy back onto the existing position effective status. Converts database values
@@ -29,7 +29,7 @@ public class OjbBCPositionActiveIndicatorConversion extends OjbCharBooleanConver
     public final static String INDICATOR_YES = "Y";
 
     /**
-     * @see org.kuali.rice.kns.util.OjbCharBooleanConversion#javaToSql(java.lang.Object)
+     * @see org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion#javaToSql(java.lang.Object)
      */
     @Override
     public Object javaToSql(Object source) {
@@ -46,7 +46,7 @@ public class OjbBCPositionActiveIndicatorConversion extends OjbCharBooleanConver
     }
 
     /**
-     * @see org.kuali.rice.kns.util.OjbCharBooleanConversion#sqlToJava(java.lang.Object)
+     * @see org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion#sqlToJava(java.lang.Object)
      */
     @Override
     public Object sqlToJava(Object source) {

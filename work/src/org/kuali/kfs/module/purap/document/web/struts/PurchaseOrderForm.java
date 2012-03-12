@@ -27,10 +27,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
 import org.kuali.kfs.module.purap.businessobject.PurApGenericAttributes;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
@@ -48,27 +47,28 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderAmendmentDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderSplitDocument;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
+import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.module.purap.util.PurApItemUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.util.KimConstants;
-import org.kuali.rice.kns.datadictionary.AttributeSecurity;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.datadictionary.AttributeSecurity;
+import org.kuali.rice.krad.service.NoteService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Struts Action Form for Purchase Order document.
@@ -97,7 +97,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     protected List<SensitiveData> sensitiveDatasAssigned = null;  // sensitive data entries currently assigned to the PO
 
     protected final String PURCHASING_PROCESSOR_ROLE_NAME = "Purchasing Processor";
-    
+
     /**
      * Constructs a PurchaseOrderForm instance and sets up the appropriately casted document.
      */
@@ -304,39 +304,37 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
         List<String> methodToCallList = Arrays.asList(new String[]{"printPurchaseOrderPDFOnly", "printingRetransmitPoOnly", "printPoQuoteListOnly"});
 
-        if (KNSConstants.DISPATCH_REQUEST_PARAMETER.equals(methodToCallParameterName) && methodToCallList.contains(methodToCallParameterValue)) {
+        if (KRADConstants.DISPATCH_REQUEST_PARAMETER.equals(methodToCallParameterName) && methodToCallList.contains(methodToCallParameterValue)) {
             return true;
         }
         return super.shouldMethodToCallParameterBeUsed(methodToCallParameterName, methodToCallParameterValue, request);
     }
 
     @Override
-    public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+    public void populateHeaderFields(WorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
-        
+
         String poIDstr = getPurchaseOrderDocument().getPurapDocumentIdentifier().toString();
-        
+
         //KFSMI-4576 masking/unmasking PO number...
         //If the document status is not FINAL then check for permissions
-        if (!workflowDocument.getRouteHeader().getDocRouteStatus().equalsIgnoreCase(KEWConstants.ROUTE_HEADER_FINAL_CD)) {
+        if (!workflowDocument.getStatus().equals(KewApiConstants.ROUTE_HEADER_FINAL_CD)) {
             String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
             String namespaceCode = KFSConstants.ParameterNamespaces.KNS;
             String permissionTemplateName = KimConstants.PermissionTemplateNames.FULL_UNMASK_FIELD;
-            
-            AttributeSet roleQualifiers = new AttributeSet();
-            
-            AttributeSet permissionDetails = new AttributeSet();
-            permissionDetails.put(KfsKimAttributes.COMPONENT_NAME, PurchaseOrderDocument.class.getSimpleName());
-            permissionDetails.put(KfsKimAttributes.PROPERTY_NAME, PurapPropertyConstants.PURAP_DOC_ID);
-            
+
+            Map<String,String> roleQualifiers = new HashMap<String,String>();
+
+            Map<String,String> permissionDetails = new HashMap<String,String>();
+            permissionDetails.put(KimConstants.AttributeConstants.COMPONENT_NAME, PurchaseOrderDocument.class.getSimpleName());
+            permissionDetails.put(KimConstants.AttributeConstants.PROPERTY_NAME, PurapPropertyConstants.PURAP_DOC_ID);
+
             IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
             Boolean isAuthorized = identityManagementService.isAuthorizedByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, roleQualifiers);
 
             //principalId is not authorized to see the PO number so mask the value.
             if (!isAuthorized) {
                 DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
-                AttributeSecurity attributeSecurity = dataDictionaryService.getAttributeSecurity(PurApGenericAttributes.class.getName(), PurapPropertyConstants.PURAP_DOC_ID);
-                attributeSecurity.setMask(false);
                 if (ObjectUtils.isNotNull(getPurchaseOrderDocument().getPurapDocumentIdentifier())) {
                     poIDstr = "";
                     int strLength = dataDictionaryService.getAttributeMaxLength(PurApGenericAttributes.class.getName(), PurapPropertyConstants.PURAP_DOC_ID);
@@ -346,7 +344,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
                }
             }
         }
-        
+
         if (ObjectUtils.isNotNull(getPurchaseOrderDocument().getPurapDocumentIdentifier())) {
             getDocInfo().add(new HeaderField("DataDictionary.PurchaseOrderDocument.attributes.purapDocumentIdentifier", poIDstr));
         }
@@ -364,23 +362,21 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     /**
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
      */
-    @Override
-    public void populate(HttpServletRequest request) {
-        PurchaseOrderDocument po = (PurchaseOrderDocument) this.getDocument();
+//    @Override
+ //   public void populate(HttpServletRequest request) {
+ //       super.populate(request);
+//
+ //       PurchaseOrderDocument po = (PurchaseOrderDocument)getDocument();
 
-        // call this to make sure it's refreshed from the database if need be since the populate setter doesn't do that
-        po.getDocumentBusinessObject();
-        
-        super.populate(request);
-        
-        if (ObjectUtils.isNotNull(po.getPurapDocumentIdentifier())) {
-            po.refreshDocumentBusinessObject();
-        }
-
-        for (org.kuali.rice.kns.bo.Note note : (java.util.List<org.kuali.rice.kns.bo.Note>) po.getDocumentBusinessObject().getBoNotes()) {
-            note.refreshReferenceObject("attachment");
-        }        
-    }
+        // RICE20 : need to determine what to do about documentBusinessObject
+//        if (ObjectUtils.isNotNull(po.getPurapDocumentIdentifier())) {
+//            po.refreshDocumentBusinessObject();
+//        }
+ //       NoteService noteService = SpringContext.getBean(NoteService.class);
+//        for (Note note : noteService.getByRemoteObjectId(po.getObjectId())) {
+ //           note.refreshReferenceObject("attachment");
+  //      }        
+  //  }
     
     /**
      * Processes validation rules having to do with any payment requests that the given purchase order may have. Specifically,
@@ -404,20 +400,20 @@ public class PurchaseOrderForm extends PurchasingFormBase {
 
                 for (PaymentRequestDocument pReq : pReqs) {
                     // skip exception docs
-                    if (pReq.getDocumentHeader().getWorkflowDocument().stateIsException()) {
+                    if (pReq.getDocumentHeader().getWorkflowDocument().isException()) {
                         continue;
                     }
                     // TODO NOTE for below, this could/should be changed to look at the first route level after full entry instead of
                     // being tied to AwaitingFiscal (in case full entry is moved)
                     // look for a doc that is currently routing, that will probably be the one that called this close if called from
                     // preq (with close po box)
-                    if (StringUtils.equalsIgnoreCase(pReq.getAppDocStatus(), PaymentRequestStatuses.APPDOC_AWAITING_FISCAL_REVIEW) && !StringUtils.equalsIgnoreCase(pReq.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames(), PurapConstants.PaymentRequestStatuses.NODE_ACCOUNT_REVIEW)) {
+                    if (StringUtils.equalsIgnoreCase(pReq.getAppDocStatus(), PaymentRequestStatuses.APPDOC_AWAITING_FISCAL_REVIEW) && !StringUtils.equalsIgnoreCase(pReq.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().toString(), PurapConstants.PaymentRequestStatuses.NODE_ACCOUNT_REVIEW)) {
                         // terminate the search since this close doc is probably being called by this doc, a doc should never be In
                         // Process and enroute in any other case
                         checkInProcess = false;
                         break;
                     }
-                    if (StringUtils.equalsIgnoreCase(pReq.getAppDocStatus(), PaymentRequestStatuses.APPDOC_IN_PROCESS)) {
+                    if (!SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(pReq)) {
                         hasInProcess = true;
                     }
                 }
@@ -610,7 +606,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      */
     protected boolean canPrintRetransmit() {
         // check PO status etc
-        boolean can = getPurchaseOrderDocument().getDocumentHeader().getWorkflowDocument().getDocumentType().equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT);
+        boolean can = getPurchaseOrderDocument().getDocumentHeader().getWorkflowDocument().getDocumentTypeName().equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT);
         can = can && editingMode.containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB);
         
         if (can) {
@@ -639,7 +635,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     protected boolean canSplitPo() {
         // PO must be in either "In Process" or "Awaiting Purchasing Review"
         boolean can = PurchaseOrderStatuses.APPDOC_IN_PROCESS.equals(getPurchaseOrderDocument().getAppDocStatus());
-        can = can && !getPurchaseOrderDocument().getDocumentHeader().getWorkflowDocument().stateIsEnroute(); 
+        can = can && !getPurchaseOrderDocument().getDocumentHeader().getWorkflowDocument().isEnroute(); 
         can = can || PurchaseOrderStatuses.APPDOC_AWAIT_PURCHASING_REVIEW.equals(getPurchaseOrderDocument().getAppDocStatus());
         
         // can't split a SplitPO Document, according to new specs
@@ -706,10 +702,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * Creates a MAP for all the buttons to appear on the Purchase Order Form, and sets the attributes of these buttons.
      * 
      * @return the button map created.
-     * 
-     * KRAD Conversion: Performs customization of extra buttons.
-     * 
-     * No data dictionary is involved.
      */
     protected Map<String, ExtraButton> createButtonsMap() {
         HashMap<String, ExtraButton> result = new HashMap<String, ExtraButton>();
@@ -849,10 +841,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * PurchaseOrderDocument.
      * 
      * @see org.kuali.rice.kns.web.struts.form.KualiForm#getExtraButtons()
-     * 
-     * KRAD Conversion: Performs customization of an extra button.
-     * 
-     * No data dictionary is involved.
      */
     @Override
     public List<ExtraButton> getExtraButtons() {

@@ -19,22 +19,22 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
-import org.kuali.kfs.module.purap.PurapParameterConstants.TaxParameters;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapRuleConstants;
+import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.kfs.module.purap.PurapParameterConstants.TaxParameters;
 import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
 import org.kuali.kfs.module.purap.businessobject.BulkReceivingView;
 import org.kuali.kfs.module.purap.businessobject.CorrectionReceivingView;
@@ -78,27 +78,28 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
-import org.kuali.rice.kew.service.WorkflowDocumentActions;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.InfrastructureException;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.parameter.ParameterEvaluator;
+import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.document.attribute.DocumentAttributeIndexingQueue;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.NoteService;
-import org.kuali.rice.kns.service.ParameterEvaluator;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.exception.InfrastructureException;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.NoteService;
+import org.kuali.rice.krad.service.PersistenceService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 @NonTransactional
 public class PurapServiceImpl implements PurapService {
@@ -169,7 +170,7 @@ public class PurapServiceImpl implements PurapService {
             for (Iterator<RequisitionView> iterator = reqViews.iterator(); iterator.hasNext();) {
                 RequisitionView view = (RequisitionView) iterator.next();
                 Document doc = documentService.getByDocumentHeaderId(view.getDocumentNumber());
-                doc.getDocumentHeader().getWorkflowDocument().saveRoutingData();
+                doc.getDocumentHeader().getWorkflowDocument().saveDocumentData();
             }
             
             //save purchase order routing data
@@ -177,7 +178,7 @@ public class PurapServiceImpl implements PurapService {
             for (Iterator<PurchaseOrderView> iterator = poViews.iterator(); iterator.hasNext();) {
                 PurchaseOrderView view = (PurchaseOrderView) iterator.next();
                 Document doc = documentService.getByDocumentHeaderId(view.getDocumentNumber());
-                doc.getDocumentHeader().getWorkflowDocument().saveRoutingData();
+                doc.getDocumentHeader().getWorkflowDocument().saveDocumentData();
             }
             
             //save payment request routing data
@@ -185,7 +186,7 @@ public class PurapServiceImpl implements PurapService {
             for (Iterator<PaymentRequestView> iterator = preqViews.iterator(); iterator.hasNext();) {
                 PaymentRequestView view = (PaymentRequestView) iterator.next();
                 Document doc = documentService.getByDocumentHeaderId(view.getDocumentNumber());
-                doc.getDocumentHeader().getWorkflowDocument().saveRoutingData();
+                doc.getDocumentHeader().getWorkflowDocument().saveDocumentData();
             }
             
             //save credit memo routing data
@@ -193,7 +194,7 @@ public class PurapServiceImpl implements PurapService {
             for (Iterator<CreditMemoView> iterator = cmViews.iterator(); iterator.hasNext();) {
                 CreditMemoView view = (CreditMemoView) iterator.next();
                 Document doc = documentService.getByDocumentHeaderId(view.getDocumentNumber());
-                doc.getDocumentHeader().getWorkflowDocument().saveRoutingData();
+                doc.getDocumentHeader().getWorkflowDocument().saveDocumentData();
             }
             
             //save line item receiving routing data
@@ -201,7 +202,7 @@ public class PurapServiceImpl implements PurapService {
             for (Iterator<LineItemReceivingView> iterator = lineViews.iterator(); iterator.hasNext();) {
                 LineItemReceivingView view = (LineItemReceivingView) iterator.next();
                 Document doc = documentService.getByDocumentHeaderId(view.getDocumentNumber());
-                doc.getDocumentHeader().getWorkflowDocument().saveRoutingData();
+                doc.getDocumentHeader().getWorkflowDocument().saveDocumentData();
             }
 
             //save correction receiving routing data
@@ -209,7 +210,7 @@ public class PurapServiceImpl implements PurapService {
             for (Iterator<CorrectionReceivingView> iterator = corrViews.iterator(); iterator.hasNext();) {
                 CorrectionReceivingView view = (CorrectionReceivingView) iterator.next();
                 Document doc = documentService.getByDocumentHeaderId(view.getDocumentNumber());
-                doc.getDocumentHeader().getWorkflowDocument().saveRoutingData();
+                doc.getDocumentHeader().getWorkflowDocument().saveDocumentData();
             }
             
             //save bulk receiving routing data
@@ -217,7 +218,7 @@ public class PurapServiceImpl implements PurapService {
             for (Iterator<BulkReceivingView> iterator = bulkViews.iterator(); iterator.hasNext();) {
                 BulkReceivingView view = (BulkReceivingView) iterator.next();
                 Document doc = documentService.getByDocumentHeaderId(view.getDocumentNumber());
-                doc.getDocumentHeader().getWorkflowDocument().saveRoutingData();
+                doc.getDocumentHeader().getWorkflowDocument().saveDocumentData();
             }
         }
         catch (WorkflowException e) {
@@ -417,7 +418,7 @@ public class PurapServiceImpl implements PurapService {
         String documentType = dataDictionaryService.getDocumentTypeNameByClass(document.getClass());
         
         try {
-            return parameterService.getParameterValues(Class.forName(PurapConstants.PURAP_DETAIL_TYPE_CODE_MAP.get(documentType)), PurapConstants.BELOW_THE_LINES_PARAMETER).toArray(new String[] {});
+            return parameterService.getParameterValuesAsString(Class.forName(PurapConstants.PURAP_DETAIL_TYPE_CODE_MAP.get(documentType)), PurapConstants.BELOW_THE_LINES_PARAMETER).toArray(new String[] {});
         }
         catch (ClassNotFoundException e) {
             throw new RuntimeException("The getBelowTheLineForDocument method of PurapServiceImpl was unable to resolve the document class for type: " + PurapConstants.PURAP_DETAIL_TYPE_CODE_MAP.get(documentType), e);
@@ -523,13 +524,13 @@ public class PurapServiceImpl implements PurapService {
             organizationParameter.setChartOfAccountsCode(chart);
             organizationParameter.setOrganizationCode(org);
             Map orgParamKeys = persistenceService.getPrimaryKeyFieldValues(organizationParameter);
-            orgParamKeys.put(KNSPropertyConstants.ACTIVE_INDICATOR, true);
+            orgParamKeys.put(KRADPropertyConstants.ACTIVE_INDICATOR, true);
             organizationParameter = (OrganizationParameter) businessObjectService.findByPrimaryKey(OrganizationParameter.class, orgParamKeys);
             purchaseOrderTotalLimit = (organizationParameter == null) ? null : organizationParameter.getOrganizationAutomaticPurchaseOrderLimit();
         }
         
         if (ObjectUtils.isNull(purchaseOrderTotalLimit)) {
-            String defaultLimit = parameterService.getParameterValue(RequisitionDocument.class, PurapParameterConstants.AUTOMATIC_PURCHASE_ORDER_DEFAULT_LIMIT_AMOUNT);
+            String defaultLimit = parameterService.getParameterValueAsString(RequisitionDocument.class, PurapParameterConstants.AUTOMATIC_PURCHASE_ORDER_DEFAULT_LIMIT_AMOUNT);
             purchaseOrderTotalLimit = new KualiDecimal(defaultLimit);
         }
 
@@ -553,7 +554,22 @@ public class PurapServiceImpl implements PurapService {
         return value;
     }
 
-
+    /**
+     * @see org.kuali.kfs.module.purap.document.service.PurapService#isPaymentRequestFullDocumentEntryCompleted(String)
+     */
+    public boolean isPaymentRequestFullDocumentEntryCompleted(String purapDocumentStatus) {
+        LOG.debug("isPaymentRequestFullDocumentEntryCompleted() started");
+        return PurapConstants.PaymentRequestStatuses.STATUS_ORDER.isFullDocumentEntryCompleted(purapDocumentStatus);
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.purap.document.service.PurapService#isVendorCreditMemoFullDocumentEntryCompleted(String)
+     */
+    public boolean isVendorCreditMemoFullDocumentEntryCompleted(String purapDocumentStatus) {
+        LOG.debug("isVendorCreditMemoFullDocumentEntryCompleted() started");
+        return PurapConstants.CreditMemoStatuses.STATUS_ORDER.isFullDocumentEntryCompleted(purapDocumentStatus);
+    }
+    
     /**
      * Main hook point for close/Reopen PO.
      * 
@@ -636,7 +652,7 @@ public class PurapServiceImpl implements PurapService {
 
         Integer poId = apDocument.getPurchaseOrderIdentifier();
         PurchaseOrderDocument purchaseOrderDocument = purchaseOrderService.getCurrentPurchaseOrder(poId);
-        if (!StringUtils.equalsIgnoreCase(purchaseOrderDocument.getDocumentHeader().getWorkflowDocument().getDocumentType(), docType)) {
+        if (!StringUtils.equalsIgnoreCase(purchaseOrderDocument.getDocumentHeader().getWorkflowDocument().getDocumentTypeName(), docType)) {
             // we are skipping the validation above because it would be too late to correct any errors (i.e. because in
             // post-processing)
             purchaseOrderService.createAndRoutePotentialChangeDocument(purchaseOrderDocument.getDocumentNumber(), docType, assemblePurchaseOrderNote(apDocument, docType, action), new ArrayList(), newStatus);
@@ -660,7 +676,7 @@ public class PurapServiceImpl implements PurapService {
             //save the note to the purchase order
             try{
                 Note noteObj = documentService.createNoteFromDocument(apDocument.getPurchaseOrderDocument(), poNote.toString());
-                documentService.addNoteToDocument(apDocument.getPurchaseOrderDocument(), noteObj);
+                apDocument.getPurchaseOrderDocument().addNote(noteObj);
                 noteService.save(noteObj);
             }catch(Exception e){
                 String errorMessage = "Error creating and saving close note for purchase order with document service";
@@ -734,7 +750,7 @@ public class PurapServiceImpl implements PurapService {
             // The root cause of this is that when some docs are retrieved manually using OJB criteria, ref objs such as doc header or workflow doc
             // aren't retrieved; the solution would be to add these refreshing when documents are retrieved in those OJB methods.
             if (document.getDocumentHeader() != null && document.getDocumentHeader().getDocumentNumber() == null) {
-                KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+                WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
                 document.refreshReferenceObject("documentHeader");               
                 document.getDocumentHeader().setWorkflowDocument(workflowDocument);
             }
@@ -743,8 +759,9 @@ public class PurapServiceImpl implements PurapService {
             // At this point, the work-flow status will not change for the current document, but the document status will.
             // This causes the search indices for the document to become out of synch, and will show a different status type
             // in the RICE lookup results screen.
-            WorkflowDocumentActions wrkflowDocActions = SpringContext.getBean(WorkflowDocumentActions.class);
-            wrkflowDocActions.indexDocument(Long.valueOf(document.getDocumentNumber()));
+            final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();                            
+            
+            documentAttributeIndexingQueue.indexDocument(document.getDocumentNumber());
         }
         catch (WorkflowException we) {
             String errorMsg = "Workflow error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + we.getMessage();
@@ -762,10 +779,8 @@ public class PurapServiceImpl implements PurapService {
      * @see org.kuali.kfs.module.purap.document.service.PurapService#isDocumentStoppedInRouteNode(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument, java.lang.String)
      */
     public boolean isDocumentStoppedInRouteNode(PurchasingAccountsPayableDocument document, String nodeName) {
-        List<String> currentRouteLevels = new ArrayList<String>();
-        KualiWorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
-        String[] names = document.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
-        currentRouteLevels = Arrays.asList(names);
+        WorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
+        Set<String> currentRouteLevels = workflowDoc.getCurrentNodeNames();
         if (currentRouteLevels.contains(nodeName) && workflowDoc.isApprovalRequested()) {
             return true;
         }
@@ -780,7 +795,7 @@ public class PurapServiceImpl implements PurapService {
 
         java.util.Date today = dateTimeService.getCurrentDate();
         java.util.Date closingDate = universityDateService.getLastDateOfFiscalYear(universityDateService.getCurrentFiscalYear());
-        int allowEncumberNext = (Integer.parseInt(parameterService.getParameterValue(RequisitionDocument.class, PurapRuleConstants.ALLOW_ENCUMBER_NEXT_YEAR_DAYS)));
+        int allowEncumberNext = (Integer.parseInt(parameterService.getParameterValueAsString(RequisitionDocument.class, PurapRuleConstants.ALLOW_ENCUMBER_NEXT_YEAR_DAYS)));
         int diffTodayClosing = dateTimeService.dateDiff(today, closingDate, false);
 
         if (ObjectUtils.isNotNull(closingDate) && ObjectUtils.isNotNull(today) && ObjectUtils.isNotNull(allowEncumberNext)) {
@@ -817,7 +832,7 @@ public class PurapServiceImpl implements PurapService {
         java.util.Date today = dateTimeService.getCurrentDate();
         Integer currentFY = universityDateService.getCurrentFiscalYear();
         java.util.Date closingDate = universityDateService.getLastDateOfFiscalYear(currentFY);
-        int allowApoDate = (Integer.parseInt(parameterService.getParameterValue(RequisitionDocument.class, PurapRuleConstants.ALLOW_APO_NEXT_FY_DAYS)));
+        int allowApoDate = (Integer.parseInt(parameterService.getParameterValueAsString(RequisitionDocument.class, PurapRuleConstants.ALLOW_APO_NEXT_FY_DAYS)));
         int diffTodayClosing = dateTimeService.dateDiff(today, closingDate, true);
 
         return diffTodayClosing <= allowApoDate;
@@ -851,7 +866,7 @@ public class PurapServiceImpl implements PurapService {
      */
     public void calculateTax(PurchasingAccountsPayableDocument purapDocument){
         
-          boolean salesTaxInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_SALES_TAX_IND);
+          boolean salesTaxInd = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_SALES_TAX_IND);
           boolean useTaxIndicator = purapDocument.isUseTaxIndicator();
           String deliveryState = getDeliveryState(purapDocument);
           String deliveryPostalCode = getDeliveryPostalCode(purapDocument);
@@ -981,7 +996,7 @@ public class PurapServiceImpl implements PurapService {
      * @see org.kuali.kfs.module.purap.document.service.PurapService#isDeliveryStateTaxable(java.lang.String)
      */
     public boolean isDeliveryStateTaxable(String deliveryState) {
-        ParameterEvaluator parmEval = SpringContext.getBean(ParameterService.class).getParameterEvaluator(KfsParameterConstants.PURCHASING_DOCUMENT.class, TaxParameters.TAXABLE_DELIVERY_STATES, deliveryState);
+        ParameterEvaluator parmEval = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(KfsParameterConstants.PURCHASING_DOCUMENT.class, TaxParameters.TAXABLE_DELIVERY_STATES, deliveryState);
         return parmEval.evaluationSucceeds();
     }
     
@@ -1048,8 +1063,8 @@ public class PurapServiceImpl implements PurapService {
             acctLine.refreshNonUpdateableReferences();
         }
         
-        fundParamEval = SpringContext.getBean(ParameterService.class).getParameterEvaluator(KfsParameterConstants.PURCHASING_DOCUMENT.class, fundParam, acctLine.getAccount().getSubFundGroup().getFundGroupCode());
-        subFundParamEval = SpringContext.getBean(ParameterService.class).getParameterEvaluator(KfsParameterConstants.PURCHASING_DOCUMENT.class, subFundParam, acctLine.getAccount().getSubFundGroupCode());
+        fundParamEval = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(KfsParameterConstants.PURCHASING_DOCUMENT.class, fundParam, acctLine.getAccount().getSubFundGroup().getFundGroupCode());
+        subFundParamEval = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(KfsParameterConstants.PURCHASING_DOCUMENT.class, subFundParam, acctLine.getAccount().getSubFundGroupCode());
 
         if( (isAllowedFound(fundParamEval) && (isAllowedFound(subFundParamEval) || isAllowedNotFound(subFundParamEval) || isDeniedNotFound(subFundParamEval))) ||
             (isAllowedNotFound(fundParamEval) && isAllowedFound(subFundParamEval)) ||
@@ -1081,8 +1096,8 @@ public class PurapServiceImpl implements PurapService {
         //refresh financial object level
         acctLine.getObjectCode().refreshReferenceObject("financialObjectLevel");
         
-        levelParamEval = SpringContext.getBean(ParameterService.class).getParameterEvaluator(KfsParameterConstants.PURCHASING_DOCUMENT.class, levelParam, acctLine.getObjectCode().getFinancialObjectLevelCode());
-        consolidationParamEval = SpringContext.getBean(ParameterService.class).getParameterEvaluator(KfsParameterConstants.PURCHASING_DOCUMENT.class, consolidationParam, acctLine.getObjectCode().getFinancialObjectLevel().getFinancialConsolidationObjectCode());
+        levelParamEval = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(KfsParameterConstants.PURCHASING_DOCUMENT.class, levelParam, acctLine.getObjectCode().getFinancialObjectLevelCode());
+        consolidationParamEval = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(KfsParameterConstants.PURCHASING_DOCUMENT.class, consolidationParam, acctLine.getObjectCode().getFinancialObjectLevel().getFinancialConsolidationObjectCode());
 
         if( (isAllowedFound(levelParamEval) && (isAllowedFound(consolidationParamEval) || isAllowedNotFound(consolidationParamEval) || isDeniedNotFound(consolidationParamEval))) ||
             (isAllowedNotFound(levelParamEval) && isAllowedFound(consolidationParamEval)) ||
@@ -1273,7 +1288,7 @@ public class PurapServiceImpl implements PurapService {
             fullOrderDiscount.getExtendedPrice().isNonZero()) {
             
             // empty
-            GlobalVariables.getMessageList().add("Full order discount accounts cleared and regenerated");
+            KNSGlobalVariables.getMessageList().add("Full order discount accounts cleared and regenerated");
             fullOrderDiscount.getSourceAccountingLines().clear();
             //total amount is pretax dollars
             totalAmount = purDoc.getTotalDollarAmountAboveLineItems().subtract(purDoc.getTotalTaxAmountAboveLineItems());
@@ -1283,7 +1298,7 @@ public class PurapServiceImpl implements PurapService {
             purapAccountingService.updateAccountAmounts(purDoc);
             
             //calculate tax
-            boolean salesTaxInd = SpringContext.getBean(KualiConfigurationService.class).getIndicatorParameter(PurapConstants.PURAP_NAMESPACE, "Document", PurapParameterConstants.ENABLE_SALES_TAX_IND);
+            boolean salesTaxInd = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean( KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_SALES_TAX_IND);
             boolean useTaxIndicator = purDoc.isUseTaxIndicator();
             
             if(salesTaxInd == true && (ObjectUtils.isNull(fullOrderDiscount.getItemTaxAmount()) && useTaxIndicator == false)){            
@@ -1333,11 +1348,11 @@ public class PurapServiceImpl implements PurapService {
             //Before generating the summary, lets replace the object code in a cloned accounts collection sothat we can 
             //consolidate all the modified object codes during summary generation.
             List<PurApItem> clonedTradeInItems = new ArrayList<PurApItem>();
-            Collection<String> objectSubTypesRequiringQty = SpringContext.getBean(ParameterService.class).getParameterValues(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.OBJECT_SUB_TYPES_REQUIRING_QUANTITY);
-            Collection<String> purchasingObjectSubTypes = SpringContext.getBean(ParameterService.class).getParameterValues( KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, PurapParameterConstants.PURCHASING_OBJECT_SUB_TYPES);
+            Collection<String> objectSubTypesRequiringQty = new ArrayList<String>( SpringContext.getBean(ParameterService.class).getParameterValuesAsString(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.OBJECT_SUB_TYPES_REQUIRING_QUANTITY) );
+            Collection<String> purchasingObjectSubTypes = new ArrayList<String>( SpringContext.getBean(ParameterService.class).getParameterValuesAsString( KfsParameterConstants.CAPITAL_ASSET_BUILDER_DOCUMENT.class, PurapParameterConstants.PURCHASING_OBJECT_SUB_TYPES) );
 
-             String tradeInCapitalObjectCode = SpringContext.getBean(ParameterService.class).getParameterValue(PurapConstants.PURAP_NAMESPACE, "Document", "TRADE_IN_OBJECT_CODE_FOR_CAPITAL_ASSET");
-             String tradeInCapitalLeaseObjCd = SpringContext.getBean(ParameterService.class).getParameterValue(PurapConstants.PURAP_NAMESPACE, "Document", "TRADE_IN_OBJECT_CODE_FOR_CAPITAL_LEASE");
+             String tradeInCapitalObjectCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(PurapConstants.PURAP_NAMESPACE, "Document", "TRADE_IN_OBJECT_CODE_FOR_CAPITAL_ASSET");
+             String tradeInCapitalLeaseObjCd = SpringContext.getBean(ParameterService.class).getParameterValueAsString(PurapConstants.PURAP_NAMESPACE, "Document", "TRADE_IN_OBJECT_CODE_FOR_CAPITAL_LEASE");
                         
             for(PurApItem item : purDoc.getTradeInItems()){
                PurApItem cloneItem = (PurApItem)ObjectUtils.deepCopy(item);

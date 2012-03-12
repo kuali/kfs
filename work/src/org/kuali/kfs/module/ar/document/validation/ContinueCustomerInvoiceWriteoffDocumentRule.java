@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ar.document.validation;
 
-import org.kuali.rice.kns.document.TransactionalDocument;
+import org.kuali.rice.krad.document.TransactionalDocument;
 
 public interface ContinueCustomerInvoiceWriteoffDocumentRule<F extends TransactionalDocument> {
 

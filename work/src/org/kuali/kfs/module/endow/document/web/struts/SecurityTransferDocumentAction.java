@@ -36,7 +36,7 @@ import org.kuali.kfs.module.endow.document.validation.event.RefreshTransactionLi
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
-import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.krad.service.KualiRuleService;
 
 public class SecurityTransferDocumentAction extends EndowmentTaxLotLinesDocumentActionBase {
 

@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.cam.util.distribution;
 
-import static org.kuali.rice.kns.util.KualiDecimal.ZERO;
+import static org.kuali.rice.core.api.util.type.KualiDecimal.ZERO;
 
 import java.util.Collection;
 import java.util.List;
@@ -24,7 +24,7 @@ import java.util.Map;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAssetDetail;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Provides distribution of asset payments to assets.

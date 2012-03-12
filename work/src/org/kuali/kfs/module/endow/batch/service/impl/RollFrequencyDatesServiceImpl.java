@@ -34,9 +34,9 @@ import org.kuali.kfs.module.endow.dataaccess.TicklerDao;
 import org.kuali.kfs.module.endow.document.service.FrequencyDatesService;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

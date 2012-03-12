@@ -21,9 +21,9 @@ import java.util.List;
 
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class BalanceDateValuesFinder extends KeyValuesBase {
 
@@ -37,7 +37,7 @@ public class BalanceDateValuesFinder extends KeyValuesBase {
         Date currentDate = kemService.getCurrentDate();
         String currentDateString = dateTimeService.toDateString(currentDate);
 
-        labels.add(new KeyLabelPair("", currentDateString));
+        labels.add(new ConcreteKeyValue("", currentDateString));
 
         return labels;
     }

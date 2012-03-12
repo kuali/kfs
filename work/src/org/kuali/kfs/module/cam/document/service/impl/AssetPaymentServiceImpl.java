@@ -50,12 +50,12 @@ import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -82,9 +82,10 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
      * @see org.kuali.kfs.module.cam.document.service.AssetPaymentService#isPaymentFederalOwned(org.kuali.kfs.module.cam.businessobject.AssetPayment)
      */
     public boolean isPaymentFederalOwned(AssetPayment assetPayment) {
-        assetPayment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
-        if (ObjectUtils.isNotNull(assetPayment.getFinancialObject())) {
-            return this.getParameterService().getParameterValues(Asset.class, CamsConstants.Parameters.FEDERAL_OWNED_OBJECT_SUB_TYPES).contains(assetPayment.getFinancialObject().getFinancialObjectSubTypeCode());
+        assetPayment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.OBJECT_CODE_CURRENT);
+        if (ObjectUtils.isNotNull(assetPayment.getObjectCodeCurrent())) {
+            String subTypeCode = assetPayment.getObjectCodeCurrent().getFinancialObjectSubTypeCode();
+            return this.getParameterService().getParameterValuesAsString(Asset.class, CamsConstants.Parameters.FEDERAL_OWNED_OBJECT_SUB_TYPES).contains(subTypeCode);
         }
         return false;
     }
@@ -142,7 +143,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
         processPayments(document);
     }
 
-    
+
     /**
      * Creates a new asset payment record for each new asset payment detail record and then save them
      * 
@@ -283,7 +284,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
     public boolean isNonDepreciableFederallyOwnedObjSubType(String objectSubType) {
         List<String> federallyOwnedObjectSubTypes = new ArrayList<String>();
         if (this.getParameterService().parameterExists(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES)) {
-            federallyOwnedObjectSubTypes = this.getParameterService().getParameterValues(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES);
+            federallyOwnedObjectSubTypes = new ArrayList<String>( this.getParameterService().getParameterValuesAsString(KfsParameterConstants.CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES) );
         }
         return federallyOwnedObjectSubTypes.contains(objectSubType);
     }
@@ -347,7 +348,7 @@ public class AssetPaymentServiceImpl implements AssetPaymentService {
      */
     public boolean hasDifferentObjectSubTypes(AssetPaymentDocument document) {
         List<String> subTypes = new ArrayList<String>();
-        subTypes = SpringContext.getBean(ParameterService.class).getParameterValues(Asset.class, CamsConstants.Parameters.OBJECT_SUB_TYPE_GROUPS);
+        subTypes = new ArrayList<String>( SpringContext.getBean(ParameterService.class).getParameterValuesAsString(Asset.class, CamsConstants.Parameters.OBJECT_SUB_TYPE_GROUPS) );
 
         List<AssetPaymentDetail> assetPaymentDetails = document.getSourceAccountingLines();
         List<String> validObjectSubTypes = new ArrayList<String>();

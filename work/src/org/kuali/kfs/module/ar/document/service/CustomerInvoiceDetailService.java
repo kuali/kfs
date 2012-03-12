@@ -18,7 +18,6 @@ package org.kuali.kfs.module.ar.document.service;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 

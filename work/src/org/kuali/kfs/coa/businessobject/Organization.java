@@ -17,7 +17,6 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.sql.Date;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.Properties;
 import java.util.Set;
 
@@ -25,28 +24,29 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.bo.PostalCode;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.PostalCodeService;
-import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.util.UrlFactory;
+import org.kuali.rice.location.api.campus.CampusService;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.location.api.postalcode.PostalCodeService;
+import org.kuali.rice.location.framework.campus.CampusEbo;
+import org.kuali.rice.location.framework.country.CountryEbo;
+import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
 
 /**
  * 
  */
-public class Organization extends PersistableBusinessObjectBase implements Inactivateable {
+public class Organization extends PersistableBusinessObjectBase implements MutableInactivatable {
     private static final Logger LOG = Logger.getLogger(Organization.class);
 
     private static final long serialVersionUID = 121873645110037203L;
 
+    public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + "Organization";
+    
     /**
      * Default no-arg constructor.
      */
@@ -81,7 +81,7 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
     private Account organizationDefaultAccount;
     private Person organizationManagerUniversal;
     private ResponsibilityCenter responsibilityCenter;
-    private Campus organizationPhysicalCampus;
+    private CampusEbo organizationPhysicalCampus;
     private OrganizationType organizationType;
     private Organization reportsToOrganization;
     private Chart reportsToChartOfAccounts;
@@ -89,8 +89,8 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
     private Account campusPlantAccount;
     private Chart organizationPlantChart;
     private Chart campusPlantChart;
-    private PostalCode postalZip;
-    private Country organizationCountry;
+    private PostalCodeEbo postalZip;
+    private CountryEbo organizationCountry;
 
     // HRMS Org fields
     private OrganizationExtension organizationExtension;
@@ -290,7 +290,7 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
     }
 
     public Person getOrganizationManagerUniversal() {
-        organizationManagerUniversal = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(organizationManagerUniversalId, organizationManagerUniversal);
+        organizationManagerUniversal = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(organizationManagerUniversalId, organizationManagerUniversal);
         return organizationManagerUniversal;
     }
 
@@ -328,8 +328,8 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
      * 
      * @return Returns the organizationPhysicalCampus
      */
-    public Campus getOrganizationPhysicalCampus() {
-        return organizationPhysicalCampus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, organizationPhysicalCampus, "organizationPhysicalCampus");
+    public CampusEbo getOrganizationPhysicalCampus() {
+        return organizationPhysicalCampus = StringUtils.isBlank( organizationPhysicalCampusCode)?null:((organizationPhysicalCampus!=null && organizationPhysicalCampus.getCode().equals( organizationPhysicalCampusCode))?organizationPhysicalCampus:CampusEbo.from(SpringContext.getBean(CampusService.class).getCampus( organizationPhysicalCampusCode)));
     }
 
     /**
@@ -338,7 +338,7 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
      * @param organizationPhysicalCampus The organizationPhysicalCampus to set.
      * @deprecated
      */
-    public void setOrganizationPhysicalCampus(Campus organizationPhysicalCampus) {
+    public void setOrganizationPhysicalCampus(CampusEbo organizationPhysicalCampus) {
         this.organizationPhysicalCampus = organizationPhysicalCampus;
     }
 
@@ -480,8 +480,8 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
      * 
      * @return Returns the organizationCountry.
      */
-    public Country getOrganizationCountry() {
-        organizationCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(organizationCountryCode, organizationCountry);
+    public CountryEbo getOrganizationCountry() {
+        organizationCountry = (organizationCountryCode == null)?null:( organizationCountry == null || !StringUtils.equals( organizationCountry.getCode(),organizationCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(organizationCountryCode)): organizationCountry;
         return organizationCountry;
     }
 
@@ -491,7 +491,7 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
      * @param organizationCountry The organizationCountry to set.
      * @deprecated
      */
-    public void setOrganizationCountry(Country organizationCountry) {
+    public void setOrganizationCountry(CountryEbo organizationCountry) {
         this.organizationCountry = organizationCountry;
     }
 
@@ -676,8 +676,8 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
      * 
      * @return Returns the postalZip.
      */
-    public PostalCode getPostalZip() {
-        postalZip = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(organizationCountryCode, organizationZipCode, postalZip);
+    public PostalCodeEbo getPostalZip() {
+        postalZip = (StringUtils.isBlank(organizationCountryCode) || StringUtils.isBlank( organizationZipCode))?null:( postalZip == null || !StringUtils.equals( postalZip.getCountryCode(),organizationCountryCode)|| !StringUtils.equals( postalZip.getCode(), organizationZipCode))?PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode(organizationCountryCode, organizationZipCode)): postalZip;
         return postalZip;
     }
 
@@ -686,7 +686,7 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
      * 
      * @param postalZip The postalZip to set.
      */
-    public void setPostalZip(PostalCode postalZip) {
+    public void setPostalZip(PostalCodeEbo postalZip) {
         this.postalZip = postalZip;
     }
 
@@ -742,18 +742,6 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
      */
     public void setOrganizationLine2Address(String organizationLine2Address) {
         this.organizationLine2Address = organizationLine2Address;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-
-        m.put("chartOfAccountsCode", this.chartOfAccountsCode);
-        m.put("organizationCode", this.organizationCode);
-
-        return m;
     }
 
     /**
@@ -866,7 +854,7 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
         params.put("active_ind", "true");
         params.put("ruleTemplateName", "KualiOrgReviewTemplate");
 
-        return UrlFactory.parameterizeUrl(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/Lookup.do", params);
+        return UrlFactory.parameterizeUrl(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.WORKFLOW_URL_KEY) + "/Lookup.do", params);
     }
 
     /**
@@ -940,7 +928,7 @@ public class Organization extends PersistableBusinessObjectBase implements Inact
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#refreshReferenceObject(java.lang.String)
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#refreshReferenceObject(java.lang.String)
      */
     @Override
     public void refreshReferenceObject(String referenceObjectName) {

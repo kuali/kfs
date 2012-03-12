@@ -22,57 +22,46 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
+import org.kuali.kfs.coa.identity.KfsKimDocDelegateMember;
+import org.kuali.kfs.coa.identity.KfsKimDocDelegateType;
+import org.kuali.kfs.coa.identity.KfsKimDocRoleMember;
 import org.kuali.kfs.coa.identity.KfsKimDocumentAttributeData;
 import org.kuali.kfs.coa.identity.OrgReviewRole;
-import org.kuali.kfs.coa.identity.OrgReviewRoleLookupableHelperServiceImpl;
 import org.kuali.kfs.coa.service.OrgReviewRoleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kim.bo.entity.KimPrincipal;
-import org.kuali.rice.kim.bo.group.dto.GroupInfo;
-import org.kuali.rice.kim.bo.role.dto.DelegateInfo;
-import org.kuali.rice.kim.bo.role.dto.DelegateMemberCompleteInfo;
-import org.kuali.rice.kim.bo.role.dto.DelegateTypeInfo;
-import org.kuali.rice.kim.bo.role.dto.KimRoleInfo;
-import org.kuali.rice.kim.bo.role.dto.RoleMemberCompleteInfo;
-import org.kuali.rice.kim.bo.role.dto.RoleResponsibilityActionInfo;
-import org.kuali.rice.kim.bo.role.dto.RoleResponsibilityInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeDefinitionMap;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.bo.types.dto.KimTypeInfo;
-import org.kuali.rice.kim.service.GroupService;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.service.KimTypeInfoService;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kim.service.support.KimTypeService;
-import org.kuali.rice.kim.util.KimCommonUtils;
-import org.kuali.rice.kim.util.KimConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.datadictionary.AttributeDefinition;
-import org.kuali.rice.kns.datadictionary.KimDataDictionaryAttributeDefinition;
-import org.kuali.rice.kns.datadictionary.KimNonDataDictionaryAttributeDefinition;
+import org.kuali.rice.core.api.delegation.DelegationType;
+import org.kuali.rice.core.api.membership.MemberType;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.common.attribute.KimAttribute;
+import org.kuali.rice.kim.api.group.Group;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.role.RoleMember;
+import org.kuali.rice.kim.api.role.RoleResponsibility;
+import org.kuali.rice.kim.api.role.RoleResponsibilityAction;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.kim.api.type.KimType;
+import org.kuali.rice.kim.api.type.KimTypeAttribute;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.document.MaintenanceLock;
-import org.kuali.rice.kns.exception.KualiException;
 import org.kuali.rice.kns.maintenance.Maintainable;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.maintenance.MaintenanceLock;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 
 public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
 
-    private transient static RoleManagementService roleManagementService;
-    private transient static GroupService groupService;
-    private transient static IdentityManagementService identityManagementService;
-    private transient static KimTypeInfoService typeInfoService;
     private transient static OrgReviewRoleService orgReviewRoleService;
-    
+
     @Override
     public boolean isExternalBusinessObject(){
         return true;
@@ -86,15 +75,19 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
     public void prepareBusinessObject(BusinessObject businessObject){
         OrgReviewRole orr = (OrgReviewRole)businessObject;
         //Assuming that this is the condition when the document is loaded on edit or copy
-        if((KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL.equals(orr.getMethodToCall()) ||
-                KNSConstants.MAINTENANCE_COPY_METHOD_TO_CALL.equals(orr.getMethodToCall())) &&
-                (StringUtils.isNotEmpty(orr.getODelMId()) || StringUtils.isNotEmpty(orr.getORMId()))){
-            Map<String, String> criteria;
+        
+        // The links on the lookup set barious variables, including the methodToCall on the "bo" class
+        // and the delegate or role IDs being edited/copied
+        
+        if( (KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL.equals(orr.getMethodToCall()) ||
+                KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL.equals(orr.getMethodToCall())) 
+                &&
+                (StringUtils.isNotEmpty(orr.getODelMId()) || StringUtils.isNotEmpty(orr.getORMId())) ){
+            // check if we have the information to create a delegation
             if(StringUtils.isNotEmpty(orr.getODelMId()) && !orr.isCreateDelegation()){
                 getOrgReviewRoleService().populateOrgReviewRoleFromDelegationMember(orr, orr.getODelMId());
                 
                 orr.setDelegate(true);
-                orr.setODelMId("");
             } else if(StringUtils.isNotEmpty(orr.getORMId())){
                 getOrgReviewRoleService().populateOrgReviewRoleFromRoleMember(orr, orr.getORMId());
                 
@@ -104,8 +97,10 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
                 } else {
                     orr.setDelegate(false);
                 }
-                orr.setORMId("");
             }
+            // blank these out, since it is a flag to init the object
+            orr.setORMId("");
+            orr.setODelMId(""); 
             if(orr.isCreateDelegation()){
                 orr.setPrincipalMemberPrincipalId(null);
                 orr.setPrincipalMemberPrincipalName(null);
@@ -120,9 +115,9 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         super.setBusinessObject(orr);
     }
     
-    public List<RoleResponsibilityActionInfo> getRoleRspActions(String roleMemberId){
-        return getRoleManagementService().getRoleMemberResponsibilityActionInfo(roleMemberId);
-    }
+//    public List<RoleResponsibilityAction> getRoleRspActions(String roleMemberId){
+//        return KimApiServiceLocator.getRoleService().getRoleMemberResponsibilityActions(roleMemberId);
+//    }
     
     @Override
     public void processAfterEdit(MaintenanceDocument document, Map<String,String[]> parameters){
@@ -133,27 +128,16 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
 
     @Override
     public void processAfterCopy(MaintenanceDocument document, Map<String,String[]> parameters){
+        super.processAfterCopy(document, parameters);
         OrgReviewRole orr = (OrgReviewRole)document.getOldMaintainableObject().getBusinessObject();
-        if(orr.isDelegate() || orr.isCreateDelegation())
+        if(orr.isDelegate() || orr.isCreateDelegation()) {
             orr.setDelegationMemberId("");
-        else
+        } else { 
             orr.setRoleMemberId("");
+        }
         orr.setCopy(true);
     }
 
-    /**
-     * 
-     * @see org.kuali.rice.kns.maintenance.Maintainable#prepareForSave()
-     */
-    public void prepareForSave() {
-        super.prepareForSave();        
-    }
-
-    private Boolean hasOrganizationHierarchy = null;
-    private Boolean hasAccountingOrganizationHierarchy = null;
-    private String closestOrgReviewRoleParentDocumentTypeName = null;
-    private Boolean shouldReviewTypesFieldBeReadOnly = null;
-    
     /**
      * Override the getSections method on this maintainable so that the document type name field
      * can be set to read-only for 
@@ -165,12 +149,11 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
     @Override
     public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
         List<Section> sections = super.getSections(document, oldMaintainable);
+        OrgReviewRole orr = (OrgReviewRole)document.getNewMaintainableObject().getBusinessObject();
         //If oldMaintainable is null, it means we are trying to get sections for the old part
         //If oldMaintainable is not null, it means we are trying to get sections for the new part
         //Refer to KualiMaintenanceForm lines 288-294
         if(oldMaintainable!=null){
-            OrgReviewRole orr = (OrgReviewRole)document.getNewMaintainableObject().getBusinessObject();
-            shouldReviewTypesFieldBeReadOnly(document);
             for (Section section : sections) {
                 for (Row row : section.getRows()) {
                     for (Field field : row.getFields()) {
@@ -183,7 +166,7 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
                         } else if(orr.isEditDelegation()){
                             prepareFieldsForEditDelegation(field, orr);
                         }
-                        prepareFieldsCommon(field);
+                        prepareFieldsCommon(orr,field);
                     }
                 }
             }
@@ -191,7 +174,6 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
             for (Section section : sections) {
                 for (Row row : section.getRows()) {
                     for (Field field : row.getFields()) {
-                        OrgReviewRole orr = (OrgReviewRole)document.getNewMaintainableObject().getBusinessObject();
                         if(orr.isCreateRoleMember() || orr.isCopyRoleMember() || orr.isEditRoleMember()){
                             //If the member being edited is not a delegate, do not show the delegation type code
                             if(OrgReviewRole.DELEGATION_TYPE_CODE.equals(field.getPropertyName())){
@@ -205,15 +187,23 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         return sections;
     }
 
-    private void prepareFieldsCommon(Field field){
+    private void prepareFieldsCommon(OrgReviewRole orr, Field field){
+
+        boolean hasOrganizationHierarchy = getOrgReviewRoleService().hasOrganizationHierarchy(orr.getFinancialSystemDocumentTypeCode());
+        String closestOrgReviewRoleParentDocumentTypeName = getOrgReviewRoleService().getClosestOrgReviewRoleParentDocumentTypeName(orr.getFinancialSystemDocumentTypeCode());
+        boolean isFSTransDoc = orr.getFinancialSystemDocumentTypeCode().equals(KFSConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT) || KFSConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT.equals(closestOrgReviewRoleParentDocumentTypeName);
+        boolean hasAccountingOrganizationHierarchy = getOrgReviewRoleService().hasAccountingOrganizationHierarchy(orr.getFinancialSystemDocumentTypeCode()) || isFSTransDoc;
+        boolean shouldReviewTypesFieldBeReadOnly = isFSTransDoc || hasOrganizationHierarchy || hasAccountingOrganizationHierarchy || 
+          (StringUtils.isNotEmpty(closestOrgReviewRoleParentDocumentTypeName) && closestOrgReviewRoleParentDocumentTypeName.equals(KFSConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT));
+        
         if(OrgReviewRole.REVIEW_ROLES_INDICATOR_FIELD_NAME.equals(field.getPropertyName())) {
-            if((shouldReviewTypesFieldBeReadOnly!=null && shouldReviewTypesFieldBeReadOnly))
+            if(shouldReviewTypesFieldBeReadOnly) {
                 field.setReadOnly(true);
+            }
         } else if(OrgReviewRole.FROM_AMOUNT_FIELD_NAME.equals(field.getPropertyName()) ||
                 OrgReviewRole.TO_AMOUNT_FIELD_NAME.equals(field.getPropertyName()) ||
                 OrgReviewRole.OVERRIDE_CODE_FIELD_NAME.equals(field.getPropertyName())) {
-            if((hasAccountingOrganizationHierarchy==null || !hasAccountingOrganizationHierarchy) &&  
-                    (shouldReviewTypesFieldBeReadOnly!=null && shouldReviewTypesFieldBeReadOnly)){
+            if(!hasAccountingOrganizationHierarchy && shouldReviewTypesFieldBeReadOnly){
                 field.setReadOnly(true);
             }
         }
@@ -276,27 +266,6 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         }
     }
     
-    private boolean shouldReviewTypesFieldBeReadOnly(MaintenanceDocument document){
-        OrgReviewRole orr = (OrgReviewRole)document.getNewMaintainableObject().getBusinessObject();
-        if(StringUtils.isEmpty(orr.getFinancialSystemDocumentTypeCode()))
-            return false;
-        OrgReviewRoleLookupableHelperServiceImpl orrLHSI = new OrgReviewRoleLookupableHelperServiceImpl();
-        hasOrganizationHierarchy = orrLHSI.hasOrganizationHierarchy(orr.getFinancialSystemDocumentTypeCode());
-        closestOrgReviewRoleParentDocumentTypeName = orrLHSI.getClosestOrgReviewRoleParentDocumentTypeName(orr.getFinancialSystemDocumentTypeCode());
-        boolean isFSTransDoc = orr.getFinancialSystemDocumentTypeCode().equals(KFSConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT) || KFSConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT.equals(closestOrgReviewRoleParentDocumentTypeName);
-        hasAccountingOrganizationHierarchy = orrLHSI.hasAccountingOrganizationHierarchy(orr.getFinancialSystemDocumentTypeCode()) || isFSTransDoc;
-        return shouldReviewTypesFieldBeReadOnly = isFSTransDoc || hasOrganizationHierarchy || hasAccountingOrganizationHierarchy || 
-          (StringUtils.isNotEmpty(closestOrgReviewRoleParentDocumentTypeName) && closestOrgReviewRoleParentDocumentTypeName.equals(KFSConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT));
-    }
-
-    /***
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map, org.kuali.rice.kns.document.MaintenanceDocument)
-     */
-    @Override
-    public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document){
-        super.refresh(refreshCaller, fieldValues, document);
-    }
-    
     /**
      * 
      * @see org.kuali.rice.kns.maintenance.Maintainable#saveBusinessObject()
@@ -306,51 +275,51 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         OrgReviewRole orr = (OrgReviewRole)getBusinessObject();
         if(orr.isDelegate() || orr.isCreateDelegation()){
             // Save delegation(s)
-            List<DelegateTypeInfo> objectsToSave = getDelegations(orr);
+            List<KfsKimDocDelegateType> objectsToSave = getDelegations(orr);
             if(objectsToSave!=null){
-                for(DelegateTypeInfo delegateInfo: objectsToSave){
-                    for(DelegateMemberCompleteInfo delegateMemberInfo: delegateInfo.getMembers()){
+                for(KfsKimDocDelegateType delegateInfo: objectsToSave){
+                    for(KfsKimDocDelegateMember delegateMemberInfo: delegateInfo.getMembers()){
                         java.sql.Date fromDate = null;
                         java.sql.Date toDate = null;
                         if ( delegateMemberInfo.getActiveFromDate() != null ) {
-                            fromDate = new java.sql.Date( delegateMemberInfo.getActiveFromDate().getTime() ); 
+                            fromDate = new java.sql.Date( delegateMemberInfo.getActiveFromDate().getMillis() ); 
                         }
                         if ( delegateMemberInfo.getActiveToDate() != null ) {
-                            toDate = new java.sql.Date( delegateMemberInfo.getActiveToDate().getTime() ); 
+                            toDate = new java.sql.Date( delegateMemberInfo.getActiveToDate().getMillis() ); 
                         }
-                        getRoleManagementService().saveDelegationMemberForRole(delegateMemberInfo.getDelegationMemberId(),
-                            delegateMemberInfo.getRoleMemberId(), delegateMemberInfo.getMemberId(), 
-                            delegateMemberInfo.getMemberTypeCode(), delegateMemberInfo.getDelegationTypeCode(), 
-                            delegateInfo.getRoleId(), delegateMemberInfo.getQualifier(), 
-                            fromDate, toDate);
+//                        KimApiServiceLocator.getRoleService().saveDelegationMemberForRole(delegateMemberInfo.getDelegationMemberId(),
+//                            delegateMemberInfo.getRoleMemberId(), delegateMemberInfo.getMemberId(), 
+//                            delegateMemberInfo.getType().getCode(), delegateInfo.getDelegationType().getCode(), 
+//                            delegateInfo.getRoleId(), delegateMemberInfo.getAttributes(), 
+//                            fromDate, toDate);
                     }
                 }
             }
         } else{
             // Save role member(s)
-            List<RoleMemberCompleteInfo> objectsToSave = getRoleMembers(orr);
-            RoleMemberCompleteInfo savedObject;
+            List<KfsKimDocRoleMember> objectsToSave = getRoleMembers(orr);
+            RoleMember savedRoleMember;
             if(objectsToSave!=null){
-                for(RoleMemberCompleteInfo roleMember: objectsToSave){
+                for(KfsKimDocRoleMember roleMember: objectsToSave){
                     java.sql.Date fromDate = null;
                     java.sql.Date toDate = null;
                     if ( roleMember.getActiveFromDate() != null ) {
-                        fromDate = new java.sql.Date( roleMember.getActiveFromDate().getTime() ); 
+                        fromDate = new java.sql.Date( roleMember.getActiveFromDate().getMillis() ); 
                     }
                     if ( roleMember.getActiveToDate() != null ) {
-                        toDate = new java.sql.Date( roleMember.getActiveToDate().getTime() ); 
+                        toDate = new java.sql.Date( roleMember.getActiveToDate().getMillis() ); 
                     }
-                    savedObject = getRoleManagementService().saveRoleMemberForRole(roleMember.getRoleMemberId(),
-                            roleMember.getMemberId(), roleMember.getMemberTypeCode(), roleMember.getRoleId(), 
-                            roleMember.getQualifier(), fromDate, toDate);
-                    List<RoleResponsibilityActionInfo> roleRspActionsToSave = getRoleRspActions(orr, roleMember);
+//                    savedRoleMember = KimApiServiceLocator.getRoleService().saveRoleMemberForRole(roleMember.getId(),
+//                            roleMember.getMemberId(), roleMember.getType().getCode(), roleMember.getRoleId(), 
+//                            roleMember.getAttributes(), fromDate, toDate);
+                    List<RoleResponsibilityAction> roleRspActionsToSave = getRoleRspActions(orr, roleMember);
                     if(roleRspActionsToSave!=null){
-                        for(RoleResponsibilityActionInfo rspActionInfo: roleRspActionsToSave){
-                            getRoleManagementService().saveRoleRspActions(
-                                    rspActionInfo.getRoleResponsibilityActionId(), roleMember.getRoleId(), 
-                                    rspActionInfo.getRoleResponsibilityId(), savedObject.getRoleMemberId(), 
-                                    rspActionInfo.getActionTypeCode(), rspActionInfo.getActionPolicyCode(), 
-                                    rspActionInfo.getPriorityNumber(), new Boolean(rspActionInfo.isForceAction()));
+                        for(RoleResponsibilityAction rspActionInfo: roleRspActionsToSave){
+//                            KimApiServiceLocator.getRoleService().saveRoleRspActions(
+//                                    rspActionInfo.getId(), roleMember.getRoleId(), 
+//                                    rspActionInfo.getRoleResponsibilityId(), savedRoleMember.getId(), 
+//                                    rspActionInfo.getActionTypeCode(), rspActionInfo.getActionPolicyCode(), 
+//                                    rspActionInfo.getPriorityNumber(), new Boolean(rspActionInfo.isForceAction()));
                         }
                     }
                 }
@@ -358,370 +327,229 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         }
     }
     
-    protected List<DelegateTypeInfo> getDelegations(OrgReviewRole orr){
-        List<DelegateMemberCompleteInfo> delegationMembers = new ArrayList<DelegateMemberCompleteInfo>();
+    protected List<KfsKimDocDelegateType> getDelegations(OrgReviewRole orr){
+//        List<DelegateMember> delegationMembers = new ArrayList<DelegateMember>();
         List<String> roleNamesToSaveFor = getRolesToSaveFor(orr.getRoleNamesToConsider(), orr.getReviewRolesIndicator());
-        List<DelegateTypeInfo> roleDelegations = new ArrayList<DelegateTypeInfo>();
-        DelegateTypeInfo roleDelegation;
-        KimRoleInfo roleInfo;
         if(roleNamesToSaveFor!=null){
+            List<KfsKimDocDelegateType> roleDelegations = new ArrayList<KfsKimDocDelegateType>(roleNamesToSaveFor.size());
             for(String roleName: roleNamesToSaveFor){
-                roleDelegation = new DelegateTypeInfo();
-                roleInfo = getRoleManagementService().getRoleByName(
-                        KFSConstants.SysKimConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName);
-                roleDelegation.setRoleId(roleInfo.getRoleId());
-                orr.setKimTypeId(roleInfo.getKimTypeId());
-                delegationMembers.addAll(getDelegationMembersToSave(orr));
-                roleDelegation.setMembers(delegationMembers);
+                Role roleInfo = getRoleInfo( KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName);
+                KfsKimDocDelegateType roleDelegation = new KfsKimDocDelegateType(roleInfo);
+                roleDelegation.setMembers(getDelegationMembersToSave(orr));
                 roleDelegations.add(roleDelegation);
             }
+            return roleDelegations;
         }
-        return roleDelegations;
+        return Collections.emptyList();
     }
 
-    private List<DelegateMemberCompleteInfo> getDelegationMembersToSave(OrgReviewRole orr){
-        List<DelegateMemberCompleteInfo> objectsToSave = new ArrayList<DelegateMemberCompleteInfo>();
-        String memberId;
-        DelegateMemberCompleteInfo delegationMember = null;
-        Map<String, Object> criteria;
-        if(orr.isEdit() && !orr.isCreateDelegation()){
-            delegationMember = (DelegateMemberCompleteInfo)getRoleManagementService().getDelegationMemberById(orr.getDelegationMemberId());
+    // note: this assumes that all use the KFS-SYS namespace
+    protected static final Map<String,Role> ROLE_CACHE = new HashMap<String, Role>();
+    
+    protected Role getRoleInfo( String namespaceCode, String roleName ) {
+        if ( roleName == null ) {
+            return null;
         }
-        if(StringUtils.isNotEmpty(orr.getRoleMemberRoleNamespaceCode()) && StringUtils.isNotEmpty(orr.getRoleMemberRoleName())){
-            if(delegationMember==null){
-                memberId = getRoleManagementService().getRoleIdByName(orr.getRoleMemberRoleNamespaceCode(), orr.getRoleMemberRoleName());
-                delegationMember = new DelegateMemberCompleteInfo();
-                delegationMember.setMemberId(memberId);
+        Role role = ROLE_CACHE.get(roleName);
+        if ( role == null ) {
+            role = KimApiServiceLocator.getRoleService().getRoleByNamespaceCodeAndName( KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName);
+            synchronized ( ROLE_CACHE ) {
+                ROLE_CACHE.put(roleName, role);
             }
-            delegationMember.setDelegationTypeCode(orr.getDelegationTypeCode());
-            delegationMember.setMemberTypeCode(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE);
-            delegationMember.setQualifier(getAttributes(orr, orr.getKimTypeId()));
-            delegationMember.setActiveFromDate(orr.getActiveFromDate());
-            delegationMember.setActiveToDate(orr.getActiveToDate());
-            delegationMember.setRoleMemberId(orr.getRoleMemberId());
-            objectsToSave.add(delegationMember);
-            delegationMember = null;
         }
-        if(StringUtils.isNotEmpty(orr.getGroupMemberGroupNamespaceCode()) && StringUtils.isNotEmpty(orr.getGroupMemberGroupName())){
-            if(delegationMember==null){
-                GroupInfo groupInfo = getGroupService().getGroupInfoByName(orr.getGroupMemberGroupNamespaceCode(), orr.getGroupMemberGroupName());
-                memberId = groupInfo.getGroupId();
-                delegationMember = new DelegateMemberCompleteInfo();
-                delegationMember.setMemberId(memberId);
-            }
-            delegationMember.setDelegationTypeCode(orr.getDelegationTypeCode());
-            delegationMember.setMemberTypeCode(KimConstants.KimUIConstants.MEMBER_TYPE_GROUP_CODE);
-            delegationMember.setQualifier(getAttributes(orr, orr.getKimTypeId()));
-            delegationMember.setActiveFromDate(orr.getActiveFromDate());
-            delegationMember.setActiveToDate(orr.getActiveToDate());
-            delegationMember.setRoleMemberId(orr.getRoleMemberId());
-            objectsToSave.add(delegationMember);
-            delegationMember = null;
-        }
-        if(StringUtils.isNotEmpty(orr.getPrincipalMemberPrincipalName())){
-            if(delegationMember==null){
-                KimPrincipal principal = getIdentityManagementService().getPrincipalByPrincipalName(orr.getPrincipalMemberPrincipalName());
-                delegationMember = new DelegateMemberCompleteInfo();
-                delegationMember.setMemberId(principal.getPrincipalId());
-            }
-            delegationMember.setDelegationTypeCode(orr.getDelegationTypeCode());
-            delegationMember.setMemberTypeCode(KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL_CODE);
-            delegationMember.setQualifier(getAttributes(orr, orr.getKimTypeId()));
-            delegationMember.setActiveFromDate(orr.getActiveFromDate());
-            delegationMember.setActiveToDate(orr.getActiveToDate());
-            delegationMember.setRoleMemberId(orr.getRoleMemberId());
-            objectsToSave.add(delegationMember);
-            delegationMember = null;
-        }
-        return objectsToSave;
+        return role;
     }
     
-    private List<RoleMemberCompleteInfo> getRoleMembersToSave(KimRoleInfo roleInfo, OrgReviewRole orr){
-        List<RoleMemberCompleteInfo> objectsToSave = new ArrayList<RoleMemberCompleteInfo>();
-        String memberId;
-        RoleMemberCompleteInfo roleMember = null;
+    private List<KfsKimDocDelegateMember> getDelegationMembersToSave(OrgReviewRole orr){
+        List<KfsKimDocDelegateMember> objectsToSave = new ArrayList<KfsKimDocDelegateMember>();
+        KfsKimDocDelegateMember delegationMember = null;
+        if(orr.isEdit() && !orr.isCreateDelegation()){
+            delegationMember = new KfsKimDocDelegateMember( KimApiServiceLocator.getRoleService().getDelegationMemberById(orr.getDelegationMemberId()) );
+        }
+
+        if(delegationMember==null){
+            delegationMember = new KfsKimDocDelegateMember();
+            if(StringUtils.isNotEmpty(orr.getRoleMemberRoleNamespaceCode()) && StringUtils.isNotEmpty(orr.getRoleMemberRoleName())){
+                String roleId = KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(orr.getRoleMemberRoleNamespaceCode(), orr.getRoleMemberRoleName());                
+                delegationMember.setMemberId(roleId);
+                delegationMember.setType(MemberType.ROLE);
+            } else if(StringUtils.isNotEmpty(orr.getGroupMemberGroupNamespaceCode()) && StringUtils.isNotEmpty(orr.getGroupMemberGroupName())){
+                Group groupInfo = KimApiServiceLocator.getGroupService().getGroupByNamespaceCodeAndName(orr.getGroupMemberGroupNamespaceCode(), orr.getGroupMemberGroupName());
+                delegationMember.setMemberId(groupInfo.getId());
+                delegationMember.setType(MemberType.GROUP);
+            } else if(StringUtils.isNotEmpty(orr.getPrincipalMemberPrincipalName())){
+                Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(orr.getPrincipalMemberPrincipalName());
+                delegationMember.setMemberId(principal.getPrincipalId());
+                delegationMember.setType(MemberType.PRINCIPAL);
+            }
+        }
+        delegationMember.setDelegationType(DelegationType.fromCode( orr.getDelegationTypeCode() ));
+        delegationMember.setAttributes(getAttributes(orr, orr.getKimTypeId()));
+        delegationMember.setActiveFromDate( new DateTime( orr.getActiveFromDate() ) );
+        delegationMember.setActiveToDate( new DateTime( orr.getActiveToDate() ) );
+        delegationMember.setRoleMemberId(orr.getRoleMemberId());
+        return Collections.singletonList(delegationMember);
+    }
+    
+    private List<KfsKimDocRoleMember> getRoleMembersToSave(Role roleInfo, OrgReviewRole orr){
+        KfsKimDocRoleMember roleMember = null;
         if(StringUtils.isNotEmpty(orr.getRoleMemberRoleNamespaceCode()) && StringUtils.isNotEmpty(orr.getRoleMemberRoleName())){
-            if(roleMember==null){
-                memberId = getRoleManagementService().getRoleIdByName(orr.getRoleMemberRoleNamespaceCode(), orr.getRoleMemberRoleName());
-                roleMember = new RoleMemberCompleteInfo();
-                roleMember.setRoleId(roleInfo.getRoleId());
-                roleMember.setMemberId(memberId);
-                roleMember.setMemberTypeCode(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE);
-                roleMember.setMemberId(memberId);
-            }                
-            if(orr.isEdit()){
-                roleMember.setRoleMemberId(orr.getRoleMemberId());
-            }
-            roleMember.setQualifier(getAttributes(orr, roleMember, roleInfo.getKimTypeId()));
-            roleMember.setActiveFromDate(orr.getActiveFromDate());
-            roleMember.setActiveToDate(orr.getActiveToDate());
-            objectsToSave.add(roleMember);
-            roleMember = null;
+            String memberId = KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(orr.getRoleMemberRoleNamespaceCode(), orr.getRoleMemberRoleName());
+            roleMember = new KfsKimDocRoleMember(roleInfo.getId(), MemberType.ROLE, memberId);
         }
-        if(StringUtils.isNotEmpty(orr.getGroupMemberGroupNamespaceCode()) && StringUtils.isNotEmpty(orr.getGroupMemberGroupName())){
-            if(roleMember==null){
-                GroupInfo groupInfo = getGroupService().getGroupInfoByName(orr.getGroupMemberGroupNamespaceCode(), orr.getGroupMemberGroupName());
-                memberId = groupInfo.getGroupId();
-                roleMember = new RoleMemberCompleteInfo();
-                roleMember.setMemberId(memberId);
+        if(roleMember==null){
+            if(StringUtils.isNotEmpty(orr.getGroupMemberGroupNamespaceCode()) && StringUtils.isNotEmpty(orr.getGroupMemberGroupName())){
+                Group groupInfo = KimApiServiceLocator.getGroupService().getGroupByNamespaceCodeAndName(orr.getGroupMemberGroupNamespaceCode(), orr.getGroupMemberGroupName());
+                roleMember = new KfsKimDocRoleMember(roleInfo.getId(), MemberType.GROUP, groupInfo.getId() );
             }
-            roleMember.setMemberTypeCode(KimConstants.KimUIConstants.MEMBER_TYPE_GROUP_CODE);
-            roleMember.setRoleId(roleInfo.getRoleId());
-            if(orr.isEdit()){
-                roleMember.setRoleMemberId(orr.getRoleMemberId());
-            }
-            List<RoleResponsibilityActionInfo> roleRspActionObjectsToSave = new ArrayList<RoleResponsibilityActionInfo>();
-            roleRspActionObjectsToSave.addAll(getRoleRspActions(orr, roleMember));
-            roleMember.setQualifier(getAttributes(orr, roleMember, roleInfo.getKimTypeId()));
-            roleMember.setActiveFromDate(orr.getActiveFromDate());
-            roleMember.setActiveToDate(orr.getActiveToDate());
-            objectsToSave.add(roleMember);
-            roleMember = null;
         }
-        if(StringUtils.isNotEmpty(orr.getPrincipalMemberPrincipalName())){
-            if(roleMember==null){
-                KimPrincipal principal = getIdentityManagementService().getPrincipalByPrincipalName(orr.getPrincipalMemberPrincipalName());
-                roleMember = new RoleMemberCompleteInfo();
-                roleMember.setMemberId(principal.getPrincipalId());
+        if(roleMember==null){
+            if(StringUtils.isNotEmpty(orr.getPrincipalMemberPrincipalName())){
+                Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(orr.getPrincipalMemberPrincipalName());
+                roleMember = new KfsKimDocRoleMember(roleInfo.getId(), MemberType.PRINCIPAL, principal.getPrincipalId());
             }
-            roleMember.setMemberTypeCode(KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL_CODE);
-            roleMember.setRoleId(roleInfo.getRoleId());
-            if(orr.isEdit()){
-                roleMember.setRoleMemberId(orr.getRoleMemberId());
-            }
-            List<RoleResponsibilityActionInfo> roleRspActionObjectsToSave = new ArrayList<RoleResponsibilityActionInfo>();
-            roleRspActionObjectsToSave.addAll(getRoleRspActions(orr, roleMember));
-            roleMember.setQualifier(getAttributes(orr, roleMember, roleInfo.getKimTypeId()));
-            roleMember.setActiveFromDate(orr.getActiveFromDate());
-            roleMember.setActiveToDate(orr.getActiveToDate());
-            objectsToSave.add(roleMember);
-            roleMember = null;
         }
-        return objectsToSave;
+        if(orr.isEdit()){
+            roleMember.setId(orr.getRoleMemberId());
+        }
+        roleMember.setAttributes(getAttributes(orr, roleInfo.getKimTypeId()));
+        roleMember.setActiveFromDate( new DateTime( orr.getActiveFromDate().getTime() ) );
+        roleMember.setActiveToDate( new DateTime( orr.getActiveToDate().getTime() ) );
+        return Collections.singletonList(roleMember);
     }
     
     private List<String> getRolesToSaveFor(List<String> roleNamesToConsider, String reviewRolesIndicator){
-        List<String> roleToSaveFor = new ArrayList<String>();
         if(roleNamesToConsider!=null){
+            List<String> roleToSaveFor = new ArrayList<String>();
             if(KFSConstants.COAConstants.ORG_REVIEW_ROLE_ORG_ACC_ONLY_CODE.equals(reviewRolesIndicator)){
-                roleToSaveFor.add(KFSConstants.SysKimConstants.ACCOUNTING_REVIEWER_ROLE_NAME);
+                roleToSaveFor.add(KFSConstants.SysKimApiConstants.ACCOUNTING_REVIEWER_ROLE_NAME);
             } else if(KFSConstants.COAConstants.ORG_REVIEW_ROLE_ORG_ONLY_CODE.equals(reviewRolesIndicator)){
-                roleToSaveFor.add(KFSConstants.SysKimConstants.ORGANIZATION_REVIEWER_ROLE_NAME);
+                roleToSaveFor.add(KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAME);
             } else{
                 roleToSaveFor.addAll(roleNamesToConsider);
             }
+            return roleToSaveFor;
+        } else {
+            return Collections.emptyList();
         }
-        return roleToSaveFor;
     }
     
-    protected List<RoleMemberCompleteInfo> getRoleMembers(OrgReviewRole orr){
-        List<RoleMemberCompleteInfo> objectsToSave = new ArrayList<RoleMemberCompleteInfo>();
+    protected List<KfsKimDocRoleMember> getRoleMembers(OrgReviewRole orr){
+        List<KfsKimDocRoleMember> objectsToSave = new ArrayList<KfsKimDocRoleMember>();
         List<String> roleNamesToSaveFor = getRolesToSaveFor(orr.getRoleNamesToConsider(), orr.getReviewRolesIndicator());
-        String roleId;
-        String memberId;
-        RoleMemberCompleteInfo roleMember = null;
-        KimRoleInfo roleInfo;
-        Map<String, Object> criteria;
         if(roleNamesToSaveFor!=null){
             for(String roleName: roleNamesToSaveFor){
-                roleId = getRoleManagementService().getRoleIdByName(
-                        KFSConstants.SysKimConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName);
-                roleInfo = getRoleManagementService().getRole(roleId);
+                Role roleInfo = getRoleInfo( KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName);
                 objectsToSave.addAll(getRoleMembersToSave(roleInfo, orr));
             }
         }
         return objectsToSave;
     }
     
-    public String getKimAttributeDefnId(AttributeDefinition definition){
-        if (definition instanceof KimDataDictionaryAttributeDefinition) {
-            return ((KimDataDictionaryAttributeDefinition)definition).getKimAttrDefnId();
-        } else {
-            return ((KimNonDataDictionaryAttributeDefinition)definition).getKimAttrDefnId();
-        }
-    }
-
-    public String getKimAttributeDefnId(AttributeDefinitionMap attributeDefinitions, String attributeName){
-        if(attributeDefinitions.values()!=null){
-            for(AttributeDefinition definition: attributeDefinitions.values()){
-                if(definition.getName().equals(attributeName))
-                    return getKimAttributeDefnId(definition);
+    protected KfsKimDocumentAttributeData getAttribute( String kimTypeId, String attributeName, String attributeValue ) {
+        if ( StringUtils.isNotBlank(attributeValue) ) {
+            KimAttribute attribute = getAttributeDefinition(kimTypeId, attributeName);
+            if( attribute != null ){
+                KfsKimDocumentAttributeData attributeData = new KfsKimDocumentAttributeData();
+                attributeData.setKimTypId(kimTypeId);
+                attributeData.setAttrVal(attributeValue);
+                attributeData.setKimAttrDefnId(attribute.getId());
+                attributeData.setKimAttribute(attribute);
+                return attributeData;
             }
         }
         return null;
     }
+
+    protected static final Map<String,Map<String,KimAttribute>> ATTRIBUTE_CACHE = new HashMap<String, Map<String,KimAttribute>>();
     
-    //protected String getKimAttributeId()
-    protected AttributeSet getAttributes(
-            OrgReviewRole orr, RoleMemberCompleteInfo roleMember, String kimTypeId){
-        KimTypeInfo kimType = getTypeInfoService().getKimType(kimTypeId);
-        KimTypeService typeService = KimCommonUtils.getKimTypeService(kimType);
-        AttributeDefinitionMap attributeDefinitions = typeService.getAttributeDefinitions(kimTypeId);
+    protected KimAttribute getAttributeDefinition( String kimTypeId, String attributeName ) {
+        // attempt to pull from cache
+        Map<String,KimAttribute> typeAttributes = ATTRIBUTE_CACHE.get(kimTypeId);
+        // if type has not been loaded, init
+        if ( typeAttributes == null ) {
+            KimType kimType = KimApiServiceLocator.getKimTypeInfoService().getKimType(kimTypeId);
+            if ( kimType != null ) {
+                List<KimTypeAttribute> attributes = kimType.getAttributeDefinitions();
+                typeAttributes = new HashMap<String, KimAttribute>();
+                if ( attributes != null ) {
+                    // build the map and put it into the cache
+                    for ( KimTypeAttribute att : attributes ) {
+                        typeAttributes.put( att.getKimAttribute().getAttributeName(), att.getKimAttribute() );
+                    }
+                }
+                synchronized ( ATTRIBUTE_CACHE ) {
+                    ATTRIBUTE_CACHE.put(kimTypeId, typeAttributes);
+                }
+            }
+        }
+        // now, see if the attribute is in there
+        if ( typeAttributes != null ) {
+            return typeAttributes.get(attributeName);
+        }
+        return null;
+    }
+    
+
+    protected Map<String,String> getAttributes(OrgReviewRole orr, String kimTypeId){
+        if( StringUtils.isBlank(kimTypeId) ) {
+            return Collections.emptyMap();
+        }
+
         List<KfsKimDocumentAttributeData> attributeDataList = new ArrayList<KfsKimDocumentAttributeData>();
-        KfsKimDocumentAttributeData attributeData = new KfsKimDocumentAttributeData();
-        //chart code
-        String attributeDefnId = getKimAttributeDefnId(attributeDefinitions, KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
-        if(StringUtils.isNotEmpty(attributeDefnId) && orr.getFinancialSystemDocumentTypeCode()!=null){
-            attributeData.setKimTypId(kimTypeId);
-            attributeData.setAttrVal(orr.getChartOfAccountsCode());
-            attributeData.setKimAttrDefnId(attributeDefnId);
-            attributeData.setKimAttribute(kimType.getAttributeDefinition(attributeDefnId));
-            attributeDataList.add(attributeData);
-        }
-        
-        //org code
-        attributeDefnId = getKimAttributeDefnId(attributeDefinitions, KfsKimAttributes.ORGANIZATION_CODE);
-        if(StringUtils.isNotEmpty(attributeDefnId) && orr.getFinancialSystemDocumentTypeCode()!=null){
-            attributeData = new KfsKimDocumentAttributeData();
-            attributeData.setKimTypId(kimTypeId);
-            attributeData.setAttrVal(orr.getOrganizationCode());
-            attributeData.setKimAttrDefnId(attributeDefnId);
-            attributeData.setKimAttribute(kimType.getAttributeDefinition(attributeDefnId));
-            attributeDataList.add(attributeData);
-        }
-        
-        //document type
-        attributeDefnId = getKimAttributeDefnId(attributeDefinitions, KfsKimAttributes.DOCUMENT_TYPE_NAME);
-        if(StringUtils.isNotEmpty(attributeDefnId) && orr.getFinancialSystemDocumentTypeCode()!=null){
-            attributeData = new KfsKimDocumentAttributeData();
-            attributeData.setKimTypId(kimTypeId);
-            attributeData.setAttrVal(orr.getFinancialSystemDocumentTypeCode());
-            attributeData.setKimAttrDefnId(attributeDefnId);
-            attributeData.setKimAttribute(kimType.getAttributeDefinition(attributeDefnId));
+        KfsKimDocumentAttributeData attributeData = getAttribute(kimTypeId, KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, orr.getChartOfAccountsCode());
+        if ( attributeData != null ) {
             attributeDataList.add(attributeData);
         }
 
-        //override code
-        attributeDefnId = getKimAttributeDefnId(attributeDefinitions, KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE);
-        if(StringUtils.isNotEmpty(attributeDefnId) && orr.getOverrideCode()!=null){
-            attributeData = new KfsKimDocumentAttributeData();
-            attributeData.setKimTypId(kimTypeId);
-            attributeData.setAttrVal(orr.getOverrideCode());
-            attributeData.setKimAttrDefnId(attributeDefnId);
-            attributeData.setKimAttribute(kimType.getAttributeDefinition(attributeDefnId));
+        attributeData = getAttribute(kimTypeId, KfsKimAttributes.ORGANIZATION_CODE, orr.getOrganizationCode());
+        if ( attributeData != null ) {
             attributeDataList.add(attributeData);
         }
-        
-        //from amount
-        attributeDefnId = getKimAttributeDefnId(attributeDefinitions, KfsKimAttributes.FROM_AMOUNT);
-        if(StringUtils.isNotEmpty(attributeDefnId)){
-            attributeData = new KfsKimDocumentAttributeData();
-            attributeData.setKimTypId(kimTypeId);
-            attributeData.setAttrVal(orr.getFromAmountStr());
-            attributeData.setKimAttrDefnId(attributeDefnId);
-            attributeData.setKimAttribute(kimType.getAttributeDefinition(attributeDefnId));
+
+        attributeData = getAttribute(kimTypeId, KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, orr.getFinancialSystemDocumentTypeCode());
+        if ( attributeData != null ) {
             attributeDataList.add(attributeData);
         }
-        
-        //to amount
-        attributeDefnId = getKimAttributeDefnId(attributeDefinitions, KfsKimAttributes.TO_AMOUNT);
-        if(StringUtils.isNotEmpty(attributeDefnId)){
-            attributeData = new KfsKimDocumentAttributeData();
-            attributeData.setKimTypId(kimTypeId);
-            attributeData.setAttrVal(orr.getToAmountStr());
-            attributeData.setKimAttrDefnId(attributeDefnId);
-            attributeData.setKimAttribute(kimType.getAttributeDefinition(attributeDefnId));
+
+        attributeData = getAttribute(kimTypeId, KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE, orr.getOverrideCode());
+        if ( attributeData != null ) {
             attributeDataList.add(attributeData);
         }
-        
+
+        attributeData = getAttribute(kimTypeId, KfsKimAttributes.FROM_AMOUNT, orr.getFromAmountStr());
+        if ( attributeData != null ) {
+            attributeDataList.add(attributeData);
+        }
+
+        attributeData = getAttribute(kimTypeId, KfsKimAttributes.TO_AMOUNT, orr.getToAmountStr());
+        if ( attributeData != null ) {
+            attributeDataList.add(attributeData);
+        }
+
         return orr.getQualifierAsAttributeSet(attributeDataList);
     }
     
-    protected AttributeSet getAttributes(OrgReviewRole orr, String kimTypeId){
-        if(StringUtils.isEmpty(kimTypeId)) return null;
-        
-        Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put("kimTypeId", kimTypeId);
-        KimTypeInfo kimType = getTypeInfoService().getKimType(kimTypeId);
-        KimTypeService typeService = KimCommonUtils.getKimTypeService(kimType);
-        AttributeDefinitionMap attributeDefinitions = typeService.getAttributeDefinitions(kimTypeId);
-        List<KfsKimDocumentAttributeData> attributeDataList = new ArrayList<KfsKimDocumentAttributeData>();
-        KfsKimDocumentAttributeData attributeData = new KfsKimDocumentAttributeData();
-        String attributeDefnId = getKimAttributeDefnId(attributeDefinitions, KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
-        if(StringUtils.isNotEmpty(attributeDefnId) && orr.getFinancialSystemDocumentTypeCode()!=null){
-            attributeData.setKimTypId(kimTypeId);
-            attributeData.setAttrVal(orr.getChartOfAccountsCode());
-            attributeData.setKimAttrDefnId(attributeDefnId);
-            attributeData.setKimAttribute(kimType.getAttributeDefinition(attributeDefnId));
-            attributeDataList.add(attributeData);
-        }
-        
-        //org code
-        attributeDefnId = getKimAttributeDefnId(attributeDefinitions, KfsKimAttributes.ORGANIZATION_CODE);
-        if(StringUtils.isNotEmpty(attributeDefnId) && orr.getFinancialSystemDocumentTypeCode()!=null){
-            attributeData = new KfsKimDocumentAttributeData();
-            attributeData.setKimTypId(kimTypeId);
-            attributeData.setAttrVal(orr.getOrganizationCode());
-            attributeData.setKimAttrDefnId(attributeDefnId);
-            attributeData.setKimAttribute(kimType.getAttributeDefinition(attributeDefnId));
-            attributeDataList.add(attributeData);
-        }
-
-        //document type
-        attributeDefnId = getKimAttributeDefnId(attributeDefinitions, KfsKimAttributes.DOCUMENT_TYPE_NAME);
-        if(StringUtils.isNotEmpty(attributeDefnId) && orr.getFinancialSystemDocumentTypeCode()!=null){
-            attributeData = new KfsKimDocumentAttributeData();
-            attributeData.setKimTypId(kimTypeId);
-            attributeData.setAttrVal(orr.getFinancialSystemDocumentTypeCode());
-            attributeData.setKimAttrDefnId(attributeDefnId);
-            attributeData.setKimAttribute(kimType.getAttributeDefinition(attributeDefnId));
-            attributeDataList.add(attributeData);
-        }
-
-        //override code
-        attributeDefnId = getKimAttributeDefnId(attributeDefinitions, KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE);
-        if(StringUtils.isNotEmpty(attributeDefnId) && orr.getOverrideCode()!=null){
-            attributeData = new KfsKimDocumentAttributeData();
-            attributeData.setKimTypId(kimTypeId);
-            attributeData.setAttrVal(orr.getOverrideCode());
-            attributeData.setKimAttrDefnId(attributeDefnId);
-            attributeData.setKimAttribute(kimType.getAttributeDefinition(attributeDefnId));
-            attributeDataList.add(attributeData);
-        }
-        
-        //from amount
-        attributeDefnId = getKimAttributeDefnId(attributeDefinitions, KfsKimAttributes.FROM_AMOUNT);
-        if(StringUtils.isNotEmpty(attributeDefnId) && orr.getFromAmount()!=null){
-            attributeData = new KfsKimDocumentAttributeData();
-            attributeData.setKimTypId(kimTypeId);
-            attributeData.setAttrVal(orr.getFromAmountStr());
-            attributeData.setKimAttrDefnId(attributeDefnId);
-            attributeData.setKimAttribute(kimType.getAttributeDefinition(attributeDefnId));
-            attributeDataList.add(attributeData);
-        }
-        
-        //to amount
-        attributeDefnId = getKimAttributeDefnId(attributeDefinitions, KfsKimAttributes.TO_AMOUNT);
-        if(StringUtils.isNotEmpty(attributeDefnId) && orr.getToAmount()!=null){
-            attributeData = new KfsKimDocumentAttributeData();
-            attributeData.setKimTypId(kimTypeId);
-            attributeData.setAttrVal(orr.getToAmountStr());
-            attributeData.setKimAttrDefnId(attributeDefnId);
-            attributeData.setKimAttribute(kimType.getAttributeDefinition(attributeDefnId));
-            attributeDataList.add(attributeData);
-        }
-        
-        return orr.getQualifierAsAttributeSet(attributeDataList);
-    }
-    
-    protected List<RoleResponsibilityActionInfo> getRoleRspActions(OrgReviewRole orr, RoleMemberCompleteInfo roleMember){
-        List<RoleResponsibilityActionInfo> roleRspActions = new ArrayList<RoleResponsibilityActionInfo>();
-        RoleResponsibilityActionInfo roleRspAction;
+    protected List<RoleResponsibilityAction> getRoleRspActions(OrgReviewRole orr, KfsKimDocRoleMember roleMember){
+        List<RoleResponsibilityAction> roleRspActions = new ArrayList<RoleResponsibilityAction>();
+        RoleResponsibilityAction.Builder roleRspAction;
         //Assuming that there is only one responsibility for an org role
         //Get it now given the role id
-        List<RoleResponsibilityInfo> roleResponsibilityInfos = ((List<RoleResponsibilityInfo>)getRoleManagementService().getRoleResponsibilities(roleMember.getRoleId()));
+        List<RoleResponsibility> roleResponsibilityInfos = ((List<RoleResponsibility>)KimApiServiceLocator.getRoleService().getRoleResponsibilities(roleMember.getRoleId()));
         //Assuming that there is only 1 responsibility for both the org review roles
-        if(roleResponsibilityInfos!=null && roleResponsibilityInfos.size()<1)
-            throw new KualiException("The Org Review Role id:"+roleMember.getRoleId()+" does not have any responsibility associated with it");
+        if(roleResponsibilityInfos!=null && roleResponsibilityInfos.size()<1) {
+            throw new RuntimeException("The Org Review Role id:"+roleMember.getRoleId()+" does not have any responsibility associated with it");
+        }
 
-        List<RoleResponsibilityActionInfo> origRoleRspActions = ((List<RoleResponsibilityActionInfo>)getRoleManagementService().getRoleMemberResponsibilityActionInfo(roleMember.getRoleMemberId()));
-        roleRspAction = new RoleResponsibilityActionInfo();
+        List<RoleResponsibilityAction> origRoleRspActions = ((List<RoleResponsibilityAction>)KimApiServiceLocator.getRoleService().getRoleMemberResponsibilityActions(roleMember.getId()));
+        
+        roleRspAction = RoleResponsibilityAction.Builder.create();
         if(origRoleRspActions!=null && origRoleRspActions.size()>0){
-            RoleResponsibilityActionInfo origActionInfo = origRoleRspActions.get(0);
-            roleRspAction.setRoleResponsibilityActionId(origActionInfo.getRoleResponsibilityActionId());
+            RoleResponsibilityAction origActionInfo = origRoleRspActions.get(0);
+            roleRspAction.setId(origActionInfo.getId());
         } 
-        roleRspAction.setRoleMemberId(roleMember.getRoleMemberId());
-        RoleResponsibilityInfo roleResponsibilityInfo = roleResponsibilityInfos.get(0);
+        roleRspAction.setRoleMemberId(roleMember.getId());
+        RoleResponsibility roleResponsibilityInfo = roleResponsibilityInfos.get(0);
         roleRspAction.setRoleResponsibilityId(roleResponsibilityInfo.getRoleResponsibilityId());
         roleRspAction.setActionTypeCode(orr.getActionTypeCode());
         roleRspAction.setActionPolicyCode(orr.getActionPolicyCode());
@@ -733,7 +561,7 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
             }
         }
         roleRspAction.setForceAction(orr.isForceAction());
-        roleRspActions.add(roleRspAction);
+        roleRspActions.add(roleRspAction.build());
         return roleRspActions;
     }
     
@@ -743,42 +571,15 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         }
         return orgReviewRoleService;
     }
-    
-    protected RoleManagementService getRoleManagementService(){
-        if(roleManagementService==null){
-            roleManagementService = SpringContext.getBean( RoleManagementService.class ); 
-        }
-        return roleManagementService;
-    }
 
-    protected GroupService getGroupService(){
-        if(groupService==null){
-            groupService = SpringContext.getBean( GroupService.class );
-        }
-        return groupService;
-    }
-
-    protected IdentityManagementService getIdentityManagementService(){
-        if(identityManagementService==null){
-            identityManagementService = SpringContext.getBean( IdentityManagementService.class ); 
-        }
-        return identityManagementService;
-    }
-
-    protected KimTypeInfoService getTypeInfoService(){
-        if(typeInfoService==null){
-            typeInfoService = SpringContext.getBean( KimTypeInfoService.class ); 
-        }
-        return typeInfoService;
-    }
-    
-    private DelegateInfo getDelegateMemberFromList(List<DelegateInfo> delegateMembers, String memberId, String memberTypeCode){
-        if(StringUtils.isEmpty(memberId) || StringUtils.isEmpty(memberTypeCode))
-            return null;
+    private KfsKimDocDelegateMember getDelegateMemberFromList(List<KfsKimDocDelegateMember> delegateMembers, String memberId, String memberTypeCode){
         if(delegateMembers!=null){
-            for(DelegateInfo info: delegateMembers){
+            if(StringUtils.isEmpty(memberId) || StringUtils.isEmpty(memberTypeCode)) {
+                return null;
+            }
+            for(KfsKimDocDelegateMember info: delegateMembers){
                 if(StringUtils.equals(info.getMemberId(), memberId) || 
-                        StringUtils.equals(info.getMemberTypeCode(), memberTypeCode)){
+                        StringUtils.equals(info.getType().getCode(), memberTypeCode)){
                     return info;
                 }
             }
@@ -789,13 +590,12 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
     @Override
     public Map populateBusinessObject(Map<String, String> fieldValues, MaintenanceDocument maintenanceDocument, String methodToCall) {
         String docTypeName = "";
-        OrgReviewRoleLookupableHelperServiceImpl orrLHSI = new OrgReviewRoleLookupableHelperServiceImpl();
         if(fieldValues.containsKey(OrgReviewRole.DOC_TYPE_NAME_FIELD_NAME)){
-            docTypeName = (String)fieldValues.get(OrgReviewRole.DOC_TYPE_NAME_FIELD_NAME);
+            docTypeName = fieldValues.get(OrgReviewRole.DOC_TYPE_NAME_FIELD_NAME);
         }
         if(KFSConstants.RETURN_METHOD_TO_CALL.equals(methodToCall) &&
            fieldValues.containsKey(OrgReviewRole.DOC_TYPE_NAME_FIELD_NAME) &&
-           orrLHSI.isValidDocumentTypeForOrgReview(docTypeName) == false){
+           getOrgReviewRoleService().isValidDocumentTypeForOrgReview(docTypeName) == false){
             
             GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + OrgReviewRole.DOC_TYPE_NAME_FIELD_NAME, KFSKeyConstants.ERROR_DOCUMENT_ORGREVIEW_INVALID_DOCUMENT_TYPE, docTypeName);            
             return new HashMap();

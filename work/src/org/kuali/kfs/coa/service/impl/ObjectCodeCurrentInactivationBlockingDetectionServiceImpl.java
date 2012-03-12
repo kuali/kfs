@@ -19,9 +19,9 @@ import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.datadictionary.InactivationBlockingMetadata;
-import org.kuali.rice.kns.service.impl.InactivationBlockingDetectionServiceImpl;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.datadictionary.InactivationBlockingMetadata;
+import org.kuali.rice.krad.service.impl.InactivationBlockingDetectionServiceImpl;
 
 /**
  * This class overrides the base Inactivation Blocking Detection Service.  It is intended to be used with ObjectCode or ObjectCodeCurrent BOs when they

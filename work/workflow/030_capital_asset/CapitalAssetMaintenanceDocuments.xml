@@ -25,13 +25,13 @@
         CAM
       </parent>
       <label>
-        Asset Payments
+        Asset Manual Payment
       </label>
       <docHandler>
         ${application.url}/camsAssetPayment.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
-        default.htm?turl=WordDocuments%2Fassetpayment.htm
+        default.htm?turl=WordDocuments%2Fassetmanualpayment.htm
       </helpDefinitionURL>
       <active>
         true

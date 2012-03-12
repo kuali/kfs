@@ -19,7 +19,7 @@ import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.sys.document.validation.BranchingValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 public class RequisitionCommodityCodeBranchingValidation extends BranchingValidation {
     
@@ -29,7 +29,7 @@ public class RequisitionCommodityCodeBranchingValidation extends BranchingValida
     
     @Override
     protected String determineBranch(AttributedDocumentEvent event) {
-        if (parameterService.getIndicatorParameter(RequisitionDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND)) {
+        if (parameterService.getParameterValueAsBoolean(RequisitionDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND)) {
             return COMMODITY_CODE_IS_REQUIRED;
         } else {
             return null;

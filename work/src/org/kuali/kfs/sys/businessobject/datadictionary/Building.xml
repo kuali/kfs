@@ -44,21 +44,21 @@
     <property name="relationships">
       <list>
         <dd:relationship objectAttribute="buildingAddressZip">
-            <dd:primitiveAttribute source="buildingAddressCountryCode" target="postalCountryCode"/> 
-            <dd:primitiveAttribute source="buildingAddressZipCode" target="postalCode"/>
+            <dd:primitiveAttribute source="buildingAddressCountryCode" target="countryCode"/> 
+            <dd:primitiveAttribute source="buildingAddressZipCode" target="code"/>
         </dd:relationship>
         <dd:relationship objectAttribute="buildingAddressState">
-        	<dd:primitiveAttribute source="buildingAddressCountryCode" target="postalCountryCode"/>
-            <dd:primitiveAttribute source="buildingAddressStateCode" target="postalStateCode"/>            
+        	<dd:primitiveAttribute source="buildingAddressCountryCode" target="countryCode"/>
+            <dd:primitiveAttribute source="buildingAddressStateCode" target="code"/>            
         </dd:relationship>
         <dd:relationship objectAttribute="buildingAddressCountry">
-            <dd:primitiveAttribute source="buildingAddressCountryCode" target="postalCountryCode"/>
+            <dd:primitiveAttribute source="buildingAddressCountryCode" target="code"/>
         </dd:relationship>
 		<dd:relationship objectAttribute="campus">
-        	<dd:primitiveAttribute source="campusCode" target="campusCode"/>
+        	<dd:primitiveAttribute source="campusCode" target="code"/>
         </dd:relationship>         
       </list>
-    </property>    
+    </property>
   </bean>
 
 <!-- Attribute Definitions -->
@@ -66,7 +66,7 @@
 
   <bean id="Building-campusCode" parent="Building-campusCode-parentBean"/>
 
-  <bean id="Building-campusCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Campus" p:sourceAttributeName="campusCode">
+  <bean id="Building-campusCode-parentBean" abstract="true" parent="Campus-code" >
     <property name="name" value="campusCode"/>
     <property name="label" value="Campus Code"/>
     <property name="shortLabel" value="Campus Code"/>
@@ -141,7 +141,7 @@
   </bean>
   <bean id="Building-buildingAddressStateCode" parent="Building-buildingAddressStateCode-parentBean"/>
 
-  <bean id="Building-buildingAddressStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State" p:sourceAttributeName="postalStateCode">
+  <bean id="Building-buildingAddressStateCode-parentBean" abstract="true" parent="State-code" >
     <property name="name" value="buildingAddressStateCode"/>
     <property name="label" value="Building Address State Code"/>
     <property name="shortLabel" value="Bldg. State"/>
@@ -150,14 +150,14 @@
       <bean parent="AnyCharacterValidationPattern" p:exactLength="2"/>
     </property>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.bo.options.StateValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.state.StateValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     
     
   </bean>
   <bean id="Building-buildingAddressZipCode" parent="Building-buildingAddressZipCode-parentBean"/>
 
-  <bean id="Building-buildingAddressZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode" p:sourceAttributeName="postalCode">
+  <bean id="Building-buildingAddressZipCode-parentBean" abstract="true" parent="PostalCode-code" >
     <property name="name" value="buildingAddressZipCode"/>
     <property name="label" value="Building Address Postal Code"/>
     <property name="shortLabel" value="Bldg. Postal Code"/>
@@ -167,7 +167,7 @@
   
    <bean id="Building-buildingAddressCountryCode" parent="Building-buildingAddressCountryCode-parentBean"/>
 
-  <bean id="Building-buildingAddressCountryCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Country" p:sourceAttributeName="postalCountryCode">
+  <bean id="Building-buildingAddressCountryCode-parentBean" abstract="true" parent="Country-code" >
     <property name="name" value="buildingAddressCountryCode"/>
     <property name="label" value="Building Address Country Code"/>
     <property name="shortLabel" value="Bldg. Country"/>
@@ -176,7 +176,7 @@
       <bean parent="AnyCharacterValidationPattern" p:exactLength="2"/>
     </property>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.bo.options.CountryValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     
     

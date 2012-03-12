@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.gl.businessobject;
 
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * This class represents a G/L Summary object which contains monthly amounts

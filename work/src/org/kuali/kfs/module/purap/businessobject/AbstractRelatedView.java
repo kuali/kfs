@@ -15,24 +15,24 @@
  */
 package org.kuali.kfs.module.purap.businessobject;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.dto.DocumentTypeDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.UnknownDocumentTypeException;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.doctype.DocumentType;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.NoteService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.datadictionary.exception.UnknownDocumentTypeException;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.NoteService;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Base class for Related View Business Objects.
@@ -44,7 +44,7 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
     private Integer purapDocumentIdentifier;
     private String documentNumber;
     private String poNumberMasked;
-    
+
     private List<Note> notes;
 
     public Integer getAccountsPayablePurchasingDocumentLinkIdentifier() {
@@ -73,7 +73,7 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
 
     public List<Note> getNotes() {
         if (notes == null) {
-            notes = new TypedArrayList(Note.class);
+            notes = new ArrayList<Note>();
             List<Note> tmpNotes = SpringContext.getBean(NoteService.class).getByRemoteObjectId(this.getObjectId());
             //FIXME if NoteService returns notes in descending order (newer ones first) then remove the following
             // reverse the order of notes retrieved so that newest note is in the front
@@ -88,18 +88,12 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
 
     public String getUrl() {
         String documentTypeName = this.getDocumentTypeName();
-        KualiWorkflowInfo kualiWorkflowInfo = SpringContext.getBean(KualiWorkflowInfo.class);
-        try {
-            DocumentTypeDTO docType = kualiWorkflowInfo.getDocType(documentTypeName);
-            String docHandlerUrl = docType.getDocTypeHandlerUrl();
-            int endSubString = docHandlerUrl.lastIndexOf("/");
-            String serverName = docHandlerUrl.substring(0, endSubString);
-            String handler = docHandlerUrl.substring(endSubString + 1, docHandlerUrl.lastIndexOf("?"));           
-            return serverName + "/" + KNSConstants.PORTAL_ACTION + "?channelTitle=" + docType.getName() + "&channelUrl=" + handler + "?" + KNSConstants.DISPATCH_REQUEST_PARAMETER + "=" + KNSConstants.DOC_HANDLER_METHOD +"&" + KNSConstants.PARAMETER_DOC_ID + "=" + this.getDocumentNumber() + "&" + KNSConstants.PARAMETER_COMMAND + "=" + KEWConstants.DOCSEARCH_COMMAND;
-        }
-        catch (WorkflowException e) {
-            throw new RuntimeException("Caught WorkflowException trying to get document handler URL from Workflow", e);
-        }
+        DocumentType docType = KewApiServiceLocator.getDocumentTypeService().getDocumentTypeByName(documentTypeName);
+        String docHandlerUrl = docType.getResolvedDocumentHandlerUrl();
+        int endSubString = docHandlerUrl.lastIndexOf("/");
+        String serverName = docHandlerUrl.substring(0, endSubString);
+        String handler = docHandlerUrl.substring(endSubString + 1, docHandlerUrl.lastIndexOf("?"));
+        return serverName + "/" + KRADConstants.PORTAL_ACTION + "?channelTitle=" + docType.getName() + "&channelUrl=" + handler + "?" + KRADConstants.DISPATCH_REQUEST_PARAMETER + "=" + KRADConstants.DOC_HANDLER_METHOD +"&" + KRADConstants.PARAMETER_DOC_ID + "=" + this.getDocumentNumber() + "&" + KRADConstants.PARAMETER_COMMAND + "=" + KewApiConstants.DOCSEARCH_COMMAND;
     }
 
     public String getDocumentIdentifierString() {
@@ -110,7 +104,6 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
         }
     }
     
-
     /**
      * Returns the document label according to the label specified in the data dictionary.
      * 
@@ -118,38 +111,38 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
      * @throws WorkflowException
      */
     public String getDocumentLabel() throws WorkflowException{
-        return SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByTypeName(getDocumentTypeName());      
+        return SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByTypeName(getDocumentTypeName());
     }
-    
-    /**
-     * @return the document type name for the documents pulled back by this RelatedView
-     */
-    public abstract String getDocumentTypeName();
     
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    public abstract String getDocumentTypeName();
+
+    /**
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         if (this.accountsPayablePurchasingDocumentLinkIdentifier != null) {
             m.put("accountsPayablePurchasingDocumentLinkIdentifier", this.accountsPayablePurchasingDocumentLinkIdentifier.toString());
         }
         return m;
     }
-    
+
     /**
      * Gets the poNumberMasked attribute.
-     * 
+     *
      * @return Returns the poNumberMasked
      */
-    
+
     public String getPoNumberMasked() {
         return poNumberMasked;
     }
 
-    /** 
+    /**
      * Sets the poNumberMasked attribute.
-     * 
+     *
      * @param poNumberMasked The poNumberMasked to set.
      */
     public void setPoNumberMasked(String poNumberMasked) {
@@ -159,7 +152,7 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
     public String getAppDocStatus() {
         Document document = findDocument(this.getDocumentNumber());
         if (ObjectUtils.isNotNull(document)) {
-            return document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getAppDocStatus();
+            return document.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus();
         }
         return "";
     }
@@ -188,7 +181,7 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
     public void setAppDocStatus(String appDocStatus){
         Document document = findDocument(this.getDocumentNumber());
         if (ObjectUtils.isNotNull(document)) {
-            document.getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(appDocStatus);
+            document.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(appDocStatus);
         }
     }
 }

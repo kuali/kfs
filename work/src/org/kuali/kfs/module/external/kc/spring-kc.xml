@@ -39,7 +39,6 @@
             <map>
 	            <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsUnit" value="org.kuali.kfs.module.external.kc.businessobject.UnitDTO" /> 
        			<entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsBudgetCategory" value="org.kuali.kfs.module.external.kc.businessobject.BudgetCategoryDTO" />
-                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsCfda" value="org.kuali.kfs.module.external.kc.businessobject.Cfda" />
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAward" value="org.kuali.kfs.module.external.kc.businessobject.Award"/>
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation" value="org.kuali.kfs.module.external.kc.businessobject.AwardAccount"/>
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAgency" value="org.kuali.kfs.module.external.kc.businessobject.Agency"/>
@@ -50,7 +49,6 @@
              <map>
 	            <entry key="org.kuali.kfs.module.external.kc.businessobject.UnitDTO" value="institutionalUnitService"/>
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.BudgetCategoryDTO" value="budgetCategoryService"/>
-       			<entry key="org.kuali.kfs.module.external.kc.businessobject.Cfda" value="cfdaService"/>
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.AwardAccount" value="awardAccountService"/>       			
              </map>
         </property>
@@ -60,7 +58,6 @@
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.Proposal" value="org.kuali.kra.institutionalproposal.home.InstitutionalProposal"/>
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.Agency" value="org.kuali.kra.bo.Sponsor"/>
       			<entry key="org.kuali.kfs.module.external.kc.businessobject.UnitDTO" value="org.kuali.kra.bo.Unit"/>
-      			<entry key="org.kuali.kfs.module.external.kc.businessobject.Cfda" value="org.kuali.kra.award.home.CFDA"/>
              </map>
         </property>        
         <property name="kfsToKcInquiryUrlParameterMapping">
@@ -69,9 +66,7 @@
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.Proposal.proposalNumber" value="proposalId"/>
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.Agency.agencyNumber" value="sponsorCode"/>
        			<entry key="org.kuali.kfs.module.external.kc.businessobject.Agency.primeAgencyNumber" value="sponsorCode"/>
-       			<entry key="org.kuali.kfs.module.external.kc.businessobject.UnitDTO.unitNumber" value="unitNumber"/>
-       			<entry key="org.kuali.kfs.module.external.kc.businessobject.Cfda.cfdaNumber" value="cfdaNumber"/>
-      			
+       			<entry key="org.kuali.kfs.module.external.kc.businessobject.UnitDTO.unitNumber" value="unitNumber"/>      			
              </map>
         </property>        
  		<property name="dataDictionaryPackages">
@@ -97,27 +92,27 @@
 	<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 	
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
             <bean parent="kfsService" p:service-ref="accountCreationService" p:localServiceName="accountCreationService" />
         </property>
     </bean>
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
             <bean parent="kfsService" p:service-ref="budgetAdjustmentService" p:localServiceName="budgetAdjustmentService" />
         </property>
     </bean>
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
             <bean parent="kfsService" p:service-ref="kcObjectCodeService" p:localServiceName="kcObjectCodeService" />
         </property>
     </bean>
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
             <bean parent="kfsService" p:service-ref="kcRiceApplicationConfigurationService" p:localServiceName="kcRiceApplicationConfigurationService" />
         </property>
     </bean>    
-    <bean class="org.kuali.rice.ksb.messaging.PropertyConditionalKSBExporter">
+    <bean class="org.kuali.rice.ksb.messaging.PropertyConditionalServiceBusExporter">
         <property name="remotedServiceRegistry" ref="enServiceInvoker"/>
         <property name="serviceDefinition">
             <bean parent="kfsJaxWsSoapService" p:service-ref="accountCreationService" p:localServiceName="accountCreationServiceSOAP" />
@@ -128,7 +123,7 @@
             </list>
         </property>
     </bean>
-    <bean class="org.kuali.rice.ksb.messaging.PropertyConditionalKSBExporter">
+    <bean class="org.kuali.rice.ksb.messaging.PropertyConditionalServiceBusExporter">
         <property name="remotedServiceRegistry" ref="enServiceInvoker"/>
         <property name="serviceDefinition">
             <bean parent="kfsJaxWsSoapService" p:service-ref="kcRiceApplicationConfigurationService" p:localServiceName="kcRiceApplicationConfigurationServiceSOAP" />
@@ -139,7 +134,7 @@
             </list>
         </property>
     </bean>
-    <bean class="org.kuali.rice.ksb.messaging.PropertyConditionalKSBExporter">
+    <bean class="org.kuali.rice.ksb.messaging.PropertyConditionalServiceBusExporter">
         <property name="remotedServiceRegistry" ref="enServiceInvoker"/>
         <property name="serviceDefinition">
             <bean parent="kfsJaxWsSoapService" p:service-ref="budgetAdjustmentService" p:localServiceName="budgetAdjustmentServiceSOAP" />
@@ -150,7 +145,7 @@
             </list>
         </property>
     </bean>
-    <bean class="org.kuali.rice.ksb.messaging.PropertyConditionalKSBExporter">
+    <bean class="org.kuali.rice.ksb.messaging.PropertyConditionalServiceBusExporter">
         <property name="remotedServiceRegistry" ref="enServiceInvoker"/>
         <property name="serviceDefinition">
             <bean parent="kfsJaxWsSoapService" p:service-ref="kcObjectCodeService" p:localServiceName="kcObjectCodeServiceSOAP" />
@@ -189,9 +184,7 @@
 	<bean id="budgetCategoryService" class="org.kuali.kfs.module.external.kc.service.impl.BudgetCategoryServiceImpl"/>
 	
 	<bean id="institutionalUnitService" class="org.kuali.kfs.module.external.kc.service.impl.UnitServiceImpl"/>
-		 	
-  	<bean id="cfdaService" class="org.kuali.kfs.module.external.kc.service.impl.CfdaServiceImpl"/>
-  	  	
+		 	  	  	
   	<bean id="awardAccountService" class="org.kuali.kfs.module.external.kc.service.impl.AwardAccountServiceImpl"/>  	
   	
 </beans>

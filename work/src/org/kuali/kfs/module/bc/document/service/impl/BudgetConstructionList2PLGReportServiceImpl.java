@@ -30,8 +30,8 @@ import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionList2PLGRep
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionList2PLGReportService;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -42,7 +42,7 @@ public class BudgetConstructionList2PLGReportServiceImpl implements BudgetConstr
 
     BudgetConstructionList2PLGReportDao budgetConstructionList2PLGReportDao;
     BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService;
-    KualiConfigurationService kualiConfigurationService;
+    ConfigurationService kualiConfigurationService;
     BusinessObjectService businessObjectService;
 
     public void updateList2PLGReport(String principalName, Integer universityFiscalYear) {
@@ -79,7 +79,7 @@ public class BudgetConstructionList2PLGReportServiceImpl implements BudgetConstr
         orgList2PLGReportEntry.setOrgChartOfAccountsCode(twoPlugListMoveEntry.getOrganizationChartOfAccountsCode());
 
         if (orgChartDesc == null) {
-            orgList2PLGReportEntry.setOrgChartOfAccountDescription(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
+            orgList2PLGReportEntry.setOrgChartOfAccountDescription(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
         }
         else {
             orgList2PLGReportEntry.setOrgChartOfAccountDescription(orgChartDesc);
@@ -87,7 +87,7 @@ public class BudgetConstructionList2PLGReportServiceImpl implements BudgetConstr
 
         orgList2PLGReportEntry.setOrganizationCode(twoPlugListMoveEntry.getOrganizationCode());
         if (orgName == null) {
-            orgList2PLGReportEntry.setOrganizationName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_ORGANIZATION_NAME));
+            orgList2PLGReportEntry.setOrganizationName(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_ORGANIZATION_NAME));
         }
         else {
             orgList2PLGReportEntry.setOrganizationName(orgName);
@@ -95,7 +95,7 @@ public class BudgetConstructionList2PLGReportServiceImpl implements BudgetConstr
 
         orgList2PLGReportEntry.setChartOfAccountsCode(twoPlugListMoveEntry.getChartOfAccountsCode());
         if (chartDesc == null) {
-            orgList2PLGReportEntry.setChartOfAccountDescription(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
+            orgList2PLGReportEntry.setChartOfAccountDescription(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
         }
         else {
             orgList2PLGReportEntry.setChartOfAccountDescription(chartDesc);
@@ -111,7 +111,7 @@ public class BudgetConstructionList2PLGReportServiceImpl implements BudgetConstr
 
         if (twoPlugListMoveEntry.getSubAccountNumber().equals(BCConstants.Report.DASHES_SUB_ACCOUNT_CODE)) {
             if (twoPlugListMoveEntry.getAccount().getAccountName() == null) {
-                orgList2PLGReportEntry.setAccountSubAccountName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_ACCOUNT_DESCRIPTION));
+                orgList2PLGReportEntry.setAccountSubAccountName(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_ACCOUNT_DESCRIPTION));
             }
             else
                 orgList2PLGReportEntry.setAccountSubAccountName(twoPlugListMoveEntry.getAccount().getAccountName());
@@ -119,13 +119,13 @@ public class BudgetConstructionList2PLGReportServiceImpl implements BudgetConstr
         else {
             try {
                 if (twoPlugListMoveEntry.getSubAccount().getSubAccountName() == null) {
-                    orgList2PLGReportEntry.setAccountSubAccountName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_SUB_ACCOUNT_DESCRIPTION));
+                    orgList2PLGReportEntry.setAccountSubAccountName(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_SUB_ACCOUNT_DESCRIPTION));
                 }
                 else
                     orgList2PLGReportEntry.setAccountSubAccountName(twoPlugListMoveEntry.getSubAccount().getSubAccountName());
             }
             catch (PersistenceBrokerException e) {
-                orgList2PLGReportEntry.setAccountSubAccountName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_SUB_ACCOUNT_DESCRIPTION));
+                orgList2PLGReportEntry.setAccountSubAccountName(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_SUB_ACCOUNT_DESCRIPTION));
             }
         }
         
@@ -159,7 +159,7 @@ public class BudgetConstructionList2PLGReportServiceImpl implements BudgetConstr
         this.businessObjectService = businessObjectService;
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 }

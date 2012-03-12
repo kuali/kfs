@@ -16,8 +16,8 @@
 package org.kuali.kfs.gl.businessobject;
 
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 /**
  * A representation of LedgerEntries, which are summaries that show up on Ledger Reports created by the scrubber and poster.

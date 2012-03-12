@@ -18,12 +18,10 @@ package org.kuali.kfs.fp.document;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.fp.businessobject.BasicFormatWithLineDescriptionAccountingLineParser;
 import org.kuali.kfs.fp.businessobject.CreditCardDetail;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
-import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
@@ -32,15 +30,15 @@ import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.web.format.CurrencyFormatter;
+import org.kuali.rice.krad.document.Copyable;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.SaveDocumentEvent;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This is the business object that represents the CreditCardReceipt document in Kuali. This is a transactional document that will
@@ -57,7 +55,9 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
 
     // monetary attributes
     protected KualiDecimal totalCreditCardAmount = KualiDecimal.ZERO;
-
+    protected String creditCardReceiptBankCode;
+    protected Bank bank;
+    
     /**
      * Default constructor that calls super.
      */
@@ -214,7 +214,7 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
     /**
      * Overrides super to call super and then also add in the new list of credit card receipts that have to be managed.
      * 
-     * @see org.kuali.rice.kns.document.TransactionalDocumentBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.krad.document.TransactionalDocumentBase#buildListOfDeletionAwareLists()
      */
     @Override
     public List buildListOfDeletionAwareLists() {
@@ -231,7 +231,7 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
      * @param sequenceHelper helper class for keep track of sequence for GLPEs
      * @return true if generation of GLPE's is successful for credit card receipt document
      * 
-     * @see org.kuali.rice.kns.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.rice.kns.document.FinancialDocument,org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
+     * @see org.kuali.rice.krad.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.rice.krad.document.FinancialDocument,org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
@@ -270,12 +270,60 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
     }
     
     /**
+     * Assigns default bank code
+     */
+    public void initiateDocument() {
+        // default bank code
+        Bank defaultBank = SpringContext.getBean(BankService.class).getDefaultBankByDocType(this.getClass());
+        if (defaultBank != null) {
+            this.creditCardReceiptBankCode = defaultBank.getBankCode();
+            this.bank = defaultBank;
+        }
+    }
+    
+    /**
      * Returns the default bank code for Credit Card Receipt documents.
      */
     protected Bank getOffsetBank() {
-        return SpringContext.getBean(BankService.class).getDefaultBankByDocType(this.getClass());
+        return SpringContext.getBean(BankService.class).getByPrimaryId(creditCardReceiptBankCode);
     }
     
+    /**
+     * Gets the creditCardReceiptBankCode attribute. 
+     * @return Returns the creditCardReceiptBankCode.
+     */
+    public String getCreditCardReceiptBankCode() {
+        return creditCardReceiptBankCode;
+    }
+
+
+    /**
+     * Sets the creditCardReceiptBankCode attribute value.
+     * @param creditCardReceiptBankCode The creditCardReceiptBankCode to set.
+     */
+    public void setCreditCardReceiptBankCode(String creditCardReceiptBankCode) {
+        this.creditCardReceiptBankCode = creditCardReceiptBankCode;
+    }
+
+
+    /**
+     * Gets the bank attribute. 
+     * @return Returns the bank.
+     */
+    public Bank getBank() {
+        return bank;
+    }
+
+
+    /**
+     * Sets the bank attribute value.
+     * @param bank The bank to set.
+     */
+    public void setBank(Bank bank) {
+        this.bank = bank;
+    }
+
+
     @Override
     public void postProcessSave(KualiDocumentEvent event) {
         super.postProcessSave(event);
@@ -286,7 +334,7 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
     }
     
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
         this.getCapitalAssetManagementModuleService().deleteDocumentAssetLocks(this); 
     }

@@ -36,21 +36,21 @@ import org.kuali.kfs.module.endow.document.service.EndowmentTransactionCodeServi
 import org.kuali.kfs.module.endow.document.service.FeeMethodService;
 import org.kuali.kfs.module.endow.document.service.SecurityService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.event.ApproveDocumentEvent;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class FeeMethodRule extends MaintenanceDocumentRuleBase {
 
     /**
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRule#processRouteDocument(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.kns.rules.MaintenanceDocumentRule#processRouteDocument(org.kuali.rice.krad.document.Document)
      */
     @Override
     public boolean processRouteDocument(Document document) {
@@ -69,7 +69,7 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRule#processApproveDocument(ApproveDocumentEvent)
+     * @see org.kuali.rice.kns.rules.MaintenanceDocumentRule#processApproveDocument(ApproveDocumentEvent)
      */
     @Override
     public boolean processApproveDocument(ApproveDocumentEvent approveEvent) {
@@ -492,7 +492,7 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
 
     /**
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument,
-     *      java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
+     *      java.lang.String, org.kuali.rice.krad.bo.PersistableBusinessObject)
      */
     @Override
     public boolean processAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject bo) {
@@ -886,7 +886,7 @@ public class FeeMethodRule extends MaintenanceDocumentRuleBase {
         MaintenanceDocument maintenanceDocument = (MaintenanceDocument) document;
         boolean isValid = true;
 
-        if (KNSConstants.MAINTENANCE_EDIT_ACTION.equals(maintenanceDocument.getNewMaintainableObject().getMaintenanceAction())) {
+        if (KRADConstants.MAINTENANCE_EDIT_ACTION.equals(maintenanceDocument.getNewMaintainableObject().getMaintenanceAction())) {
             FeeMethod newFeeMethod = (FeeMethod) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
             FeeMethod oldFeeMethod = (FeeMethod) maintenanceDocument.getOldMaintainableObject().getBusinessObject();
             String feeMethodCode = newFeeMethod.getCode();

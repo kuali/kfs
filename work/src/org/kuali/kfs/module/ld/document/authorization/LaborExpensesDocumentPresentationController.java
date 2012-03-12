@@ -22,8 +22,8 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.module.ld.LaborAuthorizationConstants;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * Document Presentation Controller for the Effort Certification document. allowsErrorCorrection property has been set to false in
@@ -34,7 +34,7 @@ public class LaborExpensesDocumentPresentationController extends FinancialSystem
     private static Log LOG = LogFactory.getLog(LaborExpensesDocumentPresentationController.class);
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canCopy(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canCopy(org.kuali.rice.krad.document.Document)
      */
     @Override
     public boolean canCopy(Document document) {
@@ -50,14 +50,14 @@ public class LaborExpensesDocumentPresentationController extends FinancialSystem
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.krad.document.Document)
      */
     @Override
     public Set<String> getEditModes(Document document) {
         Set<String> editModes = super.getEditModes(document);
         
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        if(workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        if(workflowDocument.isInitiated() || workflowDocument.isSaved()) {
             editModes.add(LaborAuthorizationConstants.ExpenseTransferEditMode.LEDGER_BALANCE_IMPORTING);
         }
         

@@ -25,8 +25,8 @@ import org.kuali.kfs.module.bc.exception.PositionNotFoundException;
 import org.kuali.kfs.module.bc.service.HumanResourcesPayrollService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -37,7 +37,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public class HumanResourcesPayrollServiceImpl implements HumanResourcesPayrollService {
     HumanResourcesPayrollDao humanResourcesPayrollDao;
-    private PersonService<Person> personService;
+    private PersonService personService;
     
     /**
      * This is just a bootstrap implementation. Should be replaced by the real integration with the payroll/hr system.
@@ -107,7 +107,7 @@ public class HumanResourcesPayrollServiceImpl implements HumanResourcesPayrollSe
     /**
      * @return Returns the personService.
      */
-    protected PersonService<Person> getPersonService() {
+    protected PersonService getPersonService() {
         if(personService==null)
             personService = SpringContext.getBean(PersonService.class);
         return personService;

@@ -24,7 +24,6 @@ import java.math.BigDecimal;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.service.ElectronicInvoiceMappingService;
 
 public class ElectronicInvoiceDetailRequestSummary {
   

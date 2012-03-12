@@ -22,9 +22,9 @@ import java.util.List;
 
 import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * Value Finder for Recurring Payment Types.
@@ -40,10 +40,10 @@ public class RecurringPaymentTypeValuesFinder extends KeyValuesBase {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection codes = boService.findAll(RecurringPaymentType.class);
         List labels = new ArrayList();
-        labels.add(new KeyLabelPair("", ""));
+        labels.add(new ConcreteKeyValue("", ""));
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
             RecurringPaymentType rpt = (RecurringPaymentType) iter.next();
-            labels.add(new KeyLabelPair(rpt.getRecurringPaymentTypeCode(), rpt.getRecurringPaymentTypeDescription()));
+            labels.add(new ConcreteKeyValue(rpt.getRecurringPaymentTypeCode(), rpt.getRecurringPaymentTypeDescription()));
         }
         return labels;
     }

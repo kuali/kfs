@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.batch.report;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -22,7 +23,6 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * 
@@ -56,7 +56,7 @@ public class CustomerLoadBatchErrors {
         if (error == null) return;
         
         //  stick the constructor-passed entry in
-        batchErrors.put(error.getCustomerName(), new TypedArrayList(CustomerLoadBatchError.class));
+        batchErrors.put(error.getCustomerName(), new ArrayList<CustomerLoadBatchError>());
         batchErrors.get(error.getCustomerName()).add(error);
         errorCount++;
     }
@@ -97,7 +97,7 @@ public class CustomerLoadBatchErrors {
             throw new IllegalArgumentException("Parameter 'error' passed in was null.");
         }
         if (!batchErrors.containsKey(error.getCustomerName())) {
-            batchErrors.put(error.getCustomerName(), new TypedArrayList(CustomerLoadBatchError.class));
+            batchErrors.put(error.getCustomerName(), new ArrayList<CustomerLoadBatchError>());
         }
         batchErrors.get(error.getCustomerName()).add(error);
         errorCount++;

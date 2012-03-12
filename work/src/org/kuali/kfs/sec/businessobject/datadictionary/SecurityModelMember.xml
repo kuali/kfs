@@ -57,25 +57,25 @@
   
   <bean id="SecurityModelMember-memberId" parent="SecurityModelMember-memberId-parentBean"/>
 
-  <bean id="SecurityModelMember-memberId-parentBean" abstract="true" parent="RoleMemberImpl-memberId">
+  <bean id="SecurityModelMember-memberId-parentBean" abstract="true" parent="RoleMemberBo-memberId">
     <property name="name" value="memberId"/>
   </bean>
   
   <bean id="SecurityModelMember-memberTypeCode" parent="SecurityModelMember-memberTypeCode-parentBean"/>
 
-  <bean id="SecurityModelMember-memberTypeCode-parentBean" abstract="true" parent="RoleMemberImpl-memberTypeCode">
+  <bean id="SecurityModelMember-memberTypeCode-parentBean" abstract="true" parent="RoleMemberBo-typeCode">
     <property name="name" value="memberTypeCode"/>
   </bean>
   
   <bean id="SecurityModelMember-activeFromDate" parent="SecurityModelMember-activeFromDate-parentBean"/>
   
-  <bean id="SecurityModelMember-activeFromDate-parentBean" abstract="true" parent="RoleMemberImpl-activeFromDate">
+  <bean id="SecurityModelMember-activeFromDate-parentBean" abstract="true" parent="RoleMemberBo-activeFromDate">
     <property name="name" value="activeFromDate"/>
   </bean>
   
   <bean id="SecurityModelMember-activeToDate" parent="SecurityModelMember-activeToDate-parentBean"/>
 
-  <bean id="SecurityModelMember-activeToDate-parentBean" abstract="true" parent="RoleMemberImpl-activeToDate">
+  <bean id="SecurityModelMember-activeToDate-parentBean" abstract="true" parent="RoleMemberBo-activeToDate">
     <property name="name" value="activeToDate"/>
   </bean> 
   

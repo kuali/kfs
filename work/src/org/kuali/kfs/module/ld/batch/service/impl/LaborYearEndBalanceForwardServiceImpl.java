@@ -25,6 +25,7 @@ import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -35,8 +36,8 @@ import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.gl.report.PosterOutputSummaryReport;
 import org.kuali.kfs.module.ld.LaborConstants;
-import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.LaborConstants.YearEnd;
+import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.batch.LaborYearEndBalanceForwardStep;
 import org.kuali.kfs.module.ld.batch.service.LaborYearEndBalanceForwardService;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
@@ -52,11 +53,11 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -85,7 +86,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * @see org.kuali.kfs.module.ld.batch.service.LaborYearEndBalanceForwardService#forwardBalance()
      */
     public void forwardBalance() {
-        Integer fiscalYear = Integer.valueOf(parameterService.getParameterValue(LaborYearEndBalanceForwardStep.class, YearEnd.OLD_FISCAL_YEAR));
+        Integer fiscalYear = Integer.valueOf(parameterService.getParameterValueAsString(LaborYearEndBalanceForwardStep.class, YearEnd.OLD_FISCAL_YEAR));
         this.forwardBalance(fiscalYear);
     }
 
@@ -107,10 +108,10 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
         Map<String, Integer> reportSummary = this.constructReportSummary();
         PosterOutputSummaryReport posterOutputSummaryReport = new PosterOutputSummaryReport();
 
-        List<String> processableBalanceTypeCodes = this.getProcessableBalanceTypeCode(options);
-        List<String> processableObjectTypeCodes = this.getProcessableObjectTypeCodes(options);
-        List<String> subFundGroupCodes = this.getSubFundGroupProcessed();
-        List<String> fundGroupCodes = this.getFundGroupProcessed();
+        Collection<String> processableBalanceTypeCodes = this.getProcessableBalanceTypeCode(options);
+        Collection<String> processableObjectTypeCodes = this.getProcessableObjectTypeCodes(options);
+        Collection<String> subFundGroupCodes = this.getSubFundGroupProcessed();
+        Collection<String> fundGroupCodes = this.getFundGroupProcessed();
 
         // create files
         String balanceForwardsFileName = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.BALANCE_FORWARDS_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
@@ -276,8 +277,8 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * 
      * @return the fund group codes that are acceptable by year-end process
      */
-    protected List<String> getFundGroupProcessed() {
-        return parameterService.getParameterValues(LaborYearEndBalanceForwardStep.class, YearEnd.FUND_GROUP_PROCESSED);
+    protected Collection<String> getFundGroupProcessed() {
+        return parameterService.getParameterValuesAsString(LaborYearEndBalanceForwardStep.class, YearEnd.FUND_GROUP_PROCESSED);
     }
 
     /**
@@ -285,8 +286,8 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * 
      * @return the fund group codes that are acceptable by year-end process
      */
-    protected List<String> getSubFundGroupProcessed() {
-        return parameterService.getParameterValues(LaborYearEndBalanceForwardStep.class, YearEnd.SUB_FUND_GROUP_PROCESSED);
+    protected Collection<String> getSubFundGroupProcessed() {
+        return parameterService.getParameterValuesAsString(LaborYearEndBalanceForwardStep.class, YearEnd.SUB_FUND_GROUP_PROCESSED);
     }
 
     /**
@@ -345,7 +346,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * @param processedObjectTypeCodes the object type codes processed by this job
      * @param documentTypeCode the document type code of posted entries
      */
-    protected void fillParametersReportWriter(Date runDate, Integer closingYear, List<String> processedFundGroups, List<String> processedSubFundGroups, String originationCode, List<String> processedBalanceTypeCodes, List<String> processedObjectTypeCodes, String documentTypeCode) {
+    protected void fillParametersReportWriter(Date runDate, Integer closingYear, Collection<String> processedFundGroups, Collection<String> processedSubFundGroups, String originationCode, Collection<String> processedBalanceTypeCodes, Collection<String> processedObjectTypeCodes, String documentTypeCode) {
         laborBalanceForwardReportWriterService.writeParameterLine("%32s %10s", GeneralLedgerConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM, runDate.toString());
         laborBalanceForwardReportWriterService.writeParameterLine("%32s %10s", LaborConstants.YearEnd.OLD_FISCAL_YEAR, closingYear);
         laborBalanceForwardReportWriterService.writeParameterLine("%32s %10s", LaborConstants.YearEnd.FUND_GROUP_PROCESSED, StringUtils.join(processedFundGroups, ", "));
@@ -376,7 +377,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * @return the document type code of the transaction posted by year-end process
      */
     protected String getDocumentTypeCode() {
-        return parameterService.getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_DOCUMENT_TYPE);
+        return parameterService.getParameterValueAsString(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_DOCUMENT_TYPE);
     }
 
     /**
@@ -385,7 +386,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * @return the origination code of the transaction posted by year-end process
      */
     protected String getOriginationCode() {
-        return parameterService.getParameterValue(LaborYearEndBalanceForwardStep.class, YearEnd.ORIGINATION_CODE);
+        return parameterService.getParameterValueAsString(LaborYearEndBalanceForwardStep.class, YearEnd.ORIGINATION_CODE);
     }
 
     /**
@@ -394,7 +395,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * @return the description of the transaction posted by year-end process
      */
     protected String getDescription() {
-        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(LaborKeyConstants.MESSAGE_YEAR_END_TRANSACTION_DESCRIPTON);
+        return SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(LaborKeyConstants.MESSAGE_YEAR_END_TRANSACTION_DESCRIPTON);
     }
 
     /**

@@ -21,8 +21,8 @@ import java.util.Map;
 
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.businessobject.FeeTypeCode;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 public class FeeTypeCodeLookupableHelperService extends KualiLookupableHelperServiceImpl {
 

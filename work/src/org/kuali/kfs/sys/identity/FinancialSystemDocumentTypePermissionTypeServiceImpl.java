@@ -17,12 +17,13 @@ package org.kuali.kfs.sys.identity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kim.bo.role.dto.KimPermissionInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kns.service.impl.DocumentTypePermissionTypeServiceImpl;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.permission.Permission;
+import org.kuali.rice.krad.kim.DocumentTypePermissionTypeServiceImpl;
 
 /**
  * 
@@ -32,24 +33,24 @@ import org.kuali.rice.kns.service.impl.DocumentTypePermissionTypeServiceImpl;
 public class FinancialSystemDocumentTypePermissionTypeServiceImpl extends DocumentTypePermissionTypeServiceImpl {
 
     /**
-     * @see org.kuali.rice.kns.service.impl.DocumentTypePermissionTypeServiceImpl#performPermissionMatches(org.kuali.rice.kim.bo.types.dto.AttributeSet, java.util.List)
+     * @see org.kuali.rice.krad.service.impl.DocumentTypePermissionTypeServiceImpl#performPermissionMatches(org.kuali.rice.kim.bo.types.dto.AttributeSet, java.util.List)
      */
     @Override
-    protected List<KimPermissionInfo> performPermissionMatches(AttributeSet requestedDetails,
-            List<KimPermissionInfo> permissionsList) {
-        String documentTypeName = requestedDetails.get(KfsKimAttributes.DOCUMENT_TYPE_NAME);
+    protected List<Permission> performPermissionMatches(Map<String,String> requestedDetails,
+            List<Permission> permissionsList) {
+        String documentTypeName = requestedDetails.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME);
         // loop over the permissions, checking the non-document-related ones
-        for ( KimPermissionInfo kpi : permissionsList ) {
+        for ( Permission kpi : permissionsList ) {
             // special handling when the permission is "Claim Electronic Payment"
             // if it is present and matches, then it takes priority
             if(KFSConstants.PermissionTemplate.CLAIM_ELECTRONIC_PAYMENT.name.equals(kpi.getTemplate().getName())){
-                String qualifierDocumentTypeName = kpi.getDetails().get(KfsKimAttributes.DOCUMENT_TYPE_NAME);
+                String qualifierDocumentTypeName = kpi.getAttributes().get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME);
                 if ( documentTypeName==null && qualifierDocumentTypeName==null || 
                         (StringUtils.isNotEmpty(documentTypeName) && StringUtils.isNotEmpty(qualifierDocumentTypeName) 
                                 && documentTypeName.equals(qualifierDocumentTypeName))
     
                         ) {
-                    List<KimPermissionInfo> matchingPermissions = new ArrayList<KimPermissionInfo>();
+                    List<Permission> matchingPermissions = new ArrayList<Permission>();
                     matchingPermissions.add( kpi );
                     return matchingPermissions;
                 }           

@@ -19,6 +19,7 @@
 
   <bean id="PayeeType-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.pdp.businessobject.PayeeType"/>
+    <property name="titleAttribute" value="code"/>    
     <property name="inquiryDefinition">
       <ref bean="PayeeType-inquiryDefinition"/>
     </property>
@@ -30,6 +31,7 @@
       <list>
         <ref bean="PayeeType-code"/>
         <ref bean="PayeeType-name"/>
+        <ref bean="PayeeType-achEligible"/>
       </list>
     </property>
   </bean>
@@ -64,6 +66,14 @@
     </property>
   </bean>
   
+  <bean id="PayeeType-achEligible" parent="GenericAttributes-genericBoolean-parentBean">
+  	<property name="name" value="achEligible"/>
+  	<property name="label" value="ACH Eligible"/>
+  	<property name="shortLabel" value="ACHEligible"/>
+  	<property name="required" value="true"/>
+  </bean>
+  
+  
 <!-- Business Object Inquiry Definition -->
 
 
@@ -86,10 +96,11 @@
       <list>
         <bean parent="FieldDefinition" p:attributeName="code"/>
         <bean parent="FieldDefinition" p:attributeName="name"/>        
+              <bean parent="FieldDefinition" p:attributeName="achEligible"/>
       </list>
     </property>
   </bean>
-  
+
 <!-- Business Object Lookup Definition -->
 
 
@@ -111,13 +122,14 @@
       <list>
         <bean parent="FieldDefinition" p:attributeName="code"/>
         <bean parent="FieldDefinition" p:attributeName="name"/>
-        
+        <bean parent="FieldDefinition" p:attributeName="achEligible"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
         <bean parent="FieldDefinition" p:attributeName="code"/>
         <bean parent="FieldDefinition" p:attributeName="name"/>
+        <bean parent="FieldDefinition" p:attributeName="achEligible"/>
       </list>
     </property>
   </bean>

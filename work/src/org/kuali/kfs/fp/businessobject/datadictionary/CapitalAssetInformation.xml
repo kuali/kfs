@@ -112,7 +112,7 @@
   <bean id="CapitalAssetInformation-capitalAssetLineAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="capitalAssetLineAmount"/>
     
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="CapitalAssetInformation-capitalAssetLineNumber" parent="CapitalAssetInformation-capitalAssetLineNumber-parentBean"/>
 

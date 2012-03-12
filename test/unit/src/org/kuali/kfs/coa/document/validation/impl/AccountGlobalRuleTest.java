@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.coa.document.validation.impl;
 
-import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalMessageMapEmpty;
 
 import org.kuali.kfs.coa.businessobject.AccountGlobal;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -138,7 +138,7 @@ public class AccountGlobalRuleTest extends ChartRuleTestBase {
 
         // run the test
         testDefaultExistenceCheck(newAccountGlobals, "organizationCode", false);
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
     }
 
     private void setUsersThatExist() {
@@ -156,7 +156,7 @@ public class AccountGlobalRuleTest extends ChartRuleTestBase {
 
         // run the test
         testDefaultExistenceCheck(newAccountGlobals, "accountStateCode", false);
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
     }
 }
 

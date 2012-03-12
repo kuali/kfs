@@ -15,9 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.web.struts;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,10 +25,9 @@ import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.document.BulkReceivingDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.ExtraButton;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class BulkReceivingForm extends FinancialSystemTransactionalDocumentFormBase {
     
@@ -81,9 +78,9 @@ public class BulkReceivingForm extends FinancialSystemTransactionalDocumentFormB
             extraButtons.add(createBulkReceivingContinueButton());
             extraButtons.add(createClearInitFieldsButton());
         }
-        else if (getBulkReceivingDocument().getDocumentHeader().getWorkflowDocument().stateIsEnroute() || 
-                getBulkReceivingDocument().getDocumentHeader().getWorkflowDocument().stateIsProcessed() || 
-                getBulkReceivingDocument().getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+        else if (getBulkReceivingDocument().getDocumentHeader().getWorkflowDocument().isEnroute() || 
+                getBulkReceivingDocument().getDocumentHeader().getWorkflowDocument().isProcessed() || 
+                getBulkReceivingDocument().getDocumentHeader().getWorkflowDocument().isFinal()) {
             extraButtons.add(createPrintReceivingTicketButton());
         }
             
@@ -136,7 +133,7 @@ public class BulkReceivingForm extends FinancialSystemTransactionalDocumentFormB
     
     @Override
     public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
-        if (KNSConstants.DISPATCH_REQUEST_PARAMETER.equals(methodToCallParameterName) && "printReceivingTicket".equals(methodToCallParameterValue)) {
+        if (KRADConstants.DISPATCH_REQUEST_PARAMETER.equals(methodToCallParameterName) && "printReceivingTicket".equals(methodToCallParameterValue)) {
             return true;
         }
         return super.shouldMethodToCallParameterBeUsed(methodToCallParameterName, methodToCallParameterValue, request);

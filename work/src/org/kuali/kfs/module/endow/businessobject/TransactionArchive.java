@@ -18,6 +18,7 @@ package org.kuali.kfs.module.endow.businessobject;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -25,12 +26,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
-import org.kuali.rice.kew.doctype.service.DocumentTypeService;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Business Object for Holding Tax Lot table
@@ -69,23 +69,10 @@ public class TransactionArchive extends PersistableBusinessObjectBase {
     
     public TransactionArchive()
     {
-        archiveSecurities   = new TypedArrayList(TransactionArchiveSecurity.class);
+        archiveSecurities   = new ArrayList<TransactionArchiveSecurity>();
         principalCashAmount = new BigDecimal(BigInteger.ZERO, 2);
         incomeCashAmount    = new BigDecimal(BigInteger.ZERO, 2);
         corpusAmount        = new BigDecimal(BigInteger.ZERO, 2);
-    }
-    
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> m = new LinkedHashMap<String, Object>();
-        m.put(EndowPropertyConstants.TRANSACTION_ARCHIVE_DOCUMENT_NUMBER, this.documentNumber);
-        m.put(EndowPropertyConstants.TRANSACTION_ARCHIVE_LINE_NUMBER, this.lineNumber);
-        m.put(EndowPropertyConstants.TRANSACTION_ARCHIVE_LINE_TYPE_CODE, this.lineTypeCode);
-        
-        return m;
     }
 
     /**
@@ -143,7 +130,7 @@ public class TransactionArchive extends PersistableBusinessObjectBase {
     public String getDocumentTypeResults() {
         
         DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
-        DocumentType documentType = documentTypeService.findByName(typeCode);
+        org.kuali.rice.kew.api.doctype.DocumentType documentType = documentTypeService.getDocumentTypeByName(typeCode);
         
         StringBuilder result = new StringBuilder();
         result.append("[" + typeCode + "," + " ,");

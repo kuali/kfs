@@ -29,7 +29,7 @@ import java.util.Map;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;

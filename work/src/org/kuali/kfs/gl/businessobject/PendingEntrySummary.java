@@ -19,8 +19,8 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 /**
  * An OriginEntryInformation wrapper which helpfully summarizes data for the pending entry report
@@ -124,10 +124,10 @@ public class PendingEntrySummary extends TransientBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> pkHashMap = new LinkedHashMap<String, String>();
         pkHashMap.put("documentTypeCode", this.getDocumentTypeCode());
         pkHashMap.put("documentNumber", this.getDocumentNumber());

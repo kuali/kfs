@@ -106,7 +106,7 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="21"/>
     </property>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="BudgetAdjustmentSourceAccountingLine-baseBudgetAdjustmentAmount" parent="BudgetAdjustmentSourceAccountingLine-baseBudgetAdjustmentAmount-parentBean"/>
 
@@ -121,7 +121,7 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="21"/>
     </property>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth1LineAmount" parent="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth1LineAmount-parentBean"/>
 
@@ -136,7 +136,7 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="21"/>
     </property>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth2LineAmount" parent="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth2LineAmount-parentBean"/>
 
@@ -151,7 +151,7 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="21"/>
     </property>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth3LineAmount" parent="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth3LineAmount-parentBean"/>
 
@@ -166,7 +166,7 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="21"/>
     </property>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth4LineAmount" parent="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth4LineAmount-parentBean"/>
 
@@ -181,7 +181,7 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="21"/>
     </property>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth5LineAmount" parent="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth5LineAmount-parentBean"/>
 
@@ -196,7 +196,7 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="21"/>
     </property>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth6LineAmount" parent="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth6LineAmount-parentBean"/>
 
@@ -211,7 +211,7 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="21"/>
     </property>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth7LineAmount" parent="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth7LineAmount-parentBean"/>
 
@@ -226,7 +226,7 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="21"/>
     </property>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth8LineAmount" parent="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth8LineAmount-parentBean"/>
 
@@ -241,7 +241,7 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="21"/>
     </property>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth9LineAmount" parent="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth9LineAmount-parentBean"/>
 
@@ -256,7 +256,7 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="21"/>
     </property>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth10LineAmount" parent="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth10LineAmount-parentBean"/>
 
@@ -271,7 +271,7 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="21"/>
     </property>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth11LineAmount" parent="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth11LineAmount-parentBean"/>
 
@@ -286,7 +286,7 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="21"/>
     </property>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth12LineAmount" parent="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth12LineAmount-parentBean"/>
 
@@ -301,7 +301,7 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="21"/>
     </property>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="BudgetAdjustmentSourceAccountingLine-objectCode.financialObjectTypeCode" parent="BudgetAdjustmentSourceAccountingLine-objectCode.financialObjectTypeCode-parentBean"/>
 
@@ -430,7 +430,7 @@
     <property name="name" value="amount"/>
     <property name="required" value="true"/>
     
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="BudgetAdjustmentSourceAccountingLine-subAccountNumber" parent="BudgetAdjustmentSourceAccountingLine-subAccountNumber-parentBean"/>
 
@@ -599,7 +599,7 @@
     <property name="label" value="Gross Sales Amount"/>
     <property name="shortLabel" value="Gross Sales Amt."/>
     
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="BudgetAdjustmentSourceAccountingLine-salesTax.financialDocumentTaxableSalesAmount" parent="BudgetAdjustmentSourceAccountingLine-salesTax.financialDocumentTaxableSalesAmount-parentBean"/>
 
@@ -608,7 +608,7 @@
     <property name="label" value="Taxable Sales Amount"/>
     <property name="shortLabel" value="Taxable Sales Amt."/>
     
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="BudgetAdjustmentSourceAccountingLine-salesTax.financialDocumentSaleDate" parent="BudgetAdjustmentSourceAccountingLine-salesTax.financialDocumentSaleDate-parentBean"/>
 

@@ -15,16 +15,16 @@
  */
 package org.kuali.kfs.coa.businessobject;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.KualiCodeBase;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.KualiCodeBase;
 
 /**
  * This class...
  */
-public class IndirectCostRecoveryType extends KualiCodeBase implements Inactivateable {
+public class IndirectCostRecoveryType extends KualiCodeBase implements MutableInactivatable {
     
     private String code;
     private String name;
@@ -32,7 +32,7 @@ public class IndirectCostRecoveryType extends KualiCodeBase implements Inactivat
     private List indirectCostRecoveryExclusionTypeDetails;
 
     public IndirectCostRecoveryType () {
-        indirectCostRecoveryExclusionTypeDetails = new TypedArrayList(IndirectCostRecoveryExclusionType.class);
+        indirectCostRecoveryExclusionTypeDetails = new ArrayList<IndirectCostRecoveryExclusionType>();
     }
 
     public String getCode() {

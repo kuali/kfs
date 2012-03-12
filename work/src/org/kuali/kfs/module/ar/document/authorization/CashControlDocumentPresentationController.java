@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.ar.document.authorization;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -29,10 +27,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
 import org.kuali.kfs.sys.service.BankService;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.gl.service.EntryService;
-import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.krad.document.Document;
 
 public class CashControlDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
 
@@ -41,9 +37,9 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
         Set<String> editModes = super.getEditModes(document);
 
         CashControlDocument cashControlDocument = (CashControlDocument) document;
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
-        if ((workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) && !(cashControlDocument.getElectronicPaymentClaims().size() > 0)) {
+        if ((workflowDocument.isInitiated() || workflowDocument.isSaved()) && !(cashControlDocument.getElectronicPaymentClaims().size() > 0)) {
             editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_PAYMENT_MEDIUM);
             editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_DETAILS);
             editModes.add(ArAuthorizationConstants.CashControlDocumentEditMode.EDIT_REF_DOC_NBR);
@@ -59,7 +55,7 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
         }
 
         // if the document is in routing, then we have some special rules
-        if (workflowDocument.stateIsEnroute()) {
+        if (workflowDocument.isEnroute()) {
 
             // if doc is cash-type then payment app link always shows, once its in routing
             if (ArConstants.PaymentMediumCode.CASH.equalsIgnoreCase(cashControlDocument.getCustomerPaymentMediumCode())) {
@@ -136,9 +132,9 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
         // check if there is at least one Application Document approved
         for (CashControlDetail cashControlDetail : cashControlDocument.getCashControlDetails()) {
             PaymentApplicationDocument applicationDocument = cashControlDetail.getReferenceFinancialDocument();
-            KualiWorkflowDocument workflowDocument = applicationDocument.getDocumentHeader().getWorkflowDocument();
+            WorkflowDocument workflowDocument = applicationDocument.getDocumentHeader().getWorkflowDocument();
 
-            if (workflowDocument != null && workflowDocument.stateIsApproved()) {
+            if (workflowDocument != null && workflowDocument.isApproved()) {
                 result = true;
                 break;
             }
@@ -157,9 +153,9 @@ public class CashControlDocumentPresentationController extends FinancialSystemTr
         for (CashControlDetail cashControlDetail : cashControlDocument.getCashControlDetails()) {
 
             PaymentApplicationDocument applicationDocument = cashControlDetail.getReferenceFinancialDocument();
-            KualiWorkflowDocument workflowDocument = applicationDocument.getDocumentHeader().getWorkflowDocument();
+            WorkflowDocument workflowDocument = applicationDocument.getDocumentHeader().getWorkflowDocument();
 
-            if (!(workflowDocument.stateIsApproved() || workflowDocument.stateIsFinal())) {
+            if (!(workflowDocument.isApproved() || workflowDocument.isFinal())) {
                 result = false;
                 break;
             }

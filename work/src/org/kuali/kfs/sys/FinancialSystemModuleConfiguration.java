@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.sys.batch.dataaccess.FiscalYearMaker;
-import org.kuali.rice.kns.bo.ModuleConfiguration;
+import org.kuali.rice.krad.bo.ModuleConfiguration;
 
 /**
  * Slim subclass to enforce class hierarchy not enforced by the parent class' contract.

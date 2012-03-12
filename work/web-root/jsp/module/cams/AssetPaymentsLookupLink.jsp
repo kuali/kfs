@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ page import="org.kuali.rice.kns.util.KNSConstants"%>
+<%@ page import="org.kuali.rice.krad.util.KRADConstants"%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <!-- Make sure it isn't a fabrication -->

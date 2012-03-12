@@ -2,31 +2,16 @@
 
   <bean id="SecurityModelDefinition" parent="SecurityModelDefinition-parentBean"/>
 
-  <bean id="SecurityModelDefinition-parentBean" abstract="true" parent="BusinessObjectEntry">
+  <bean id="SecurityModelDefinition-parentBean" abstract="true" parent="AbstractSecurityModelDefinition-parentBean">
     <property name="businessObjectClass" value="org.kuali.kfs.sec.businessobject.SecurityModelDefinition"/>
-    <property name="inquiryDefinition">
-      <ref bean="SecurityModelDefinition-inquiryDefinition"/>
-    </property>
-    <property name="titleAttribute" value="definitionId"/>
+    <property name="inquiryDefinition" ref="SecurityModelDefinition-inquiryDefinition"/>
     <property name="objectLabel" value="Security Model Definition"/>
     <property name="attributes">
-      <list>
+      <list merge="true">
         <ref bean="SecurityModelDefinition-modelDefinitionId"/>
         <ref bean="SecurityModelDefinition-modelId"/>
-        <ref bean="SecurityModelDefinition-definitionId"/>
-        <ref bean="SecurityModelDefinition-securityDefinition.name"/>
-        <ref bean="SecurityModelDefinition-constraintCode"/>
-        <ref bean="SecurityModelDefinition-operatorCode"/>
-        <ref bean="SecurityModelDefinition-attributeValue"/>
-        <ref bean="SecurityModelDefinition-overrideDeny"/>
-        <ref bean="SecurityModelDefinition-active"/>
       </list>
     </property>
-    <property name="inactivationBlockingDefinitions">
-      <list>
-        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="securityDefinition"/>
-      </list>
-    </property>    
   </bean>
 
 <!-- Attribute Definitions -->
@@ -51,92 +36,12 @@
     <property name="name" value="modelId"/>
   </bean>
 
-  <bean id="SecurityModelDefinition-definitionId" parent="SecurityModelDefinition-definitionId-parentBean"/>
-
-  <bean id="SecurityModelDefinition-definitionId-parentBean" abstract="true" parent="SecurityDefinition-id">
-    <property name="name" value="definitionId"/>
-    <property name="control">
-      <bean parent="HiddenControlDefinition"/>
-    </property>
-  </bean>
-  
-  <bean id="SecurityModelDefinition-securityDefinition.name" parent="SecurityModelDefinition-securityDefinition.name-parentBean"/>
-
-  <bean id="SecurityModelDefinition-securityDefinition.name-parentBean" abstract="true" parent="SecurityDefinition-name">
-    <property name="name" value="securityDefinition.name"/>
-  </bean>
-  
-  <bean id="SecurityModelDefinition-constraintCode" parent="SecurityModelDefinition-constraintCode-parentBean"/>
-
-  <bean id="SecurityModelDefinition-constraintCode-parentBean" abstract="true" parent="Parameter-parameterConstraintCode">
-    <property name="name" value="constraintCode"/>
-    <property name="label" value="Constraint Code"/>
-  </bean>
-  
-  <bean id="SecurityModelDefinition-operatorCode" parent="SecurityModelDefinition-operatorCode-parentBean"/>
-
-  <bean id="SecurityModelDefinition-operatorCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="operatorCode"/>
-    <property name="forceUppercase" value="false"/>
-    <property name="label" value="Operator"/>
-    <property name="shortLabel" value="Operator"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <bean parent="CharsetValidationPattern" p:validChars="&lt;=&gt;"/>
-    </property>
-    <property name="required" value="true"/>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sec.businessobject.options.SecurityOperatorCodeFinder"/>
-    </property>
-  </bean>
-  
-  <bean id="SecurityModelDefinition-attributeValue" parent="SecurityModelDefinition-attributeValue-parentBean"/>
-
-  <bean id="SecurityModelDefinition-attributeValue-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="attributeValue"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Attribute Value"/>
-    <property name="shortLabel" value="Attr Val"/>
-    <property name="maxLength" value="400"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="false"/>
-    </property>
-    <property name="required" value="true"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="100"/>
-    </property>
-  </bean>
-  
-  <bean id="SecurityModelDefinition-overrideDeny" parent="SecurityModelDefinition-overrideDeny-parentBean"/>
-
-  <bean id="SecurityModelDefinition-overrideDeny-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="overrideDeny"/>
-    <property name="forceUppercase" value="true"/>
-    <property name="label" value="Override Deny"/>
-    <property name="shortLabel" value="Ovrd Deny"/>
-    <property name="maxLength" value="1"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="required" value="false"/>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition"/>
-    </property>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
-  </bean>  
-     
-  <bean id="SecurityModelDefinition-active" parent="SecurityModelDefinition-active-parentBean"/>
-
-  <bean id="SecurityModelDefinition-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-    <property name="name" value="active"/>
-    <property name="shortLabel" value="Active"/>
-  </bean>
   
 <!-- Business Object Inquiry Definition -->
 
   <bean id="SecurityModelDefinition-inquiryDefinition" parent="SecurityModelDefinition-inquiryDefinition-parentBean"/>
 
-  <bean id="SecurityModelDefinition-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+  <bean id="SecurityModelDefinition-inquiryDefinition-parentBean" abstract="true" parent="AbstractSecurityModelDefinition-inquiryDefinition">
     <property name="title" value="Security Model Definition Inquiry"/>
     <property name="inquirySections">
       <list>
@@ -146,9 +51,7 @@
   </bean>
 
   <bean id="SecurityModelDefinition-inquirySectionDefinition" parent="SecurityModelDefinition-inquirySectionDefinition-parentBean"/>
-  <bean id="SecurityModelDefinition-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
-    <property name="title" value=""/>
-    <property name="numberOfColumns" value="1"/>
+  <bean id="SecurityModelDefinition-inquirySectionDefinition-parentBean" parent="AbstractSecurityModelDefinition-inquirySectionDefinition" abstract="true">
     <property name="inquiryFields">
       <list>
         <bean parent="FieldDefinition" p:attributeName="modelDefinitionId"/>
@@ -162,8 +65,5 @@
       </list>
     </property>
  </bean>
-        
-<!-- Business Object Lookup Definition -->
-
 
 </beans>

@@ -15,12 +15,7 @@
  */
 package org.kuali.kfs.module.ld.document.authorization;
 
-import org.kuali.kfs.module.ld.LaborPropertyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
-import org.kuali.kfs.sys.document.web.AccountingLineViewField;
 
 /**
  * Labor Document Implements special document authorization for the labor expense documents.

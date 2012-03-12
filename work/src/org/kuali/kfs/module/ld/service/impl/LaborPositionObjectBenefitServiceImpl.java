@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.kuali.kfs.module.ld.businessobject.PositionObjectBenefit;
 import org.kuali.kfs.module.ld.service.LaborPositionObjectBenefitService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class provides its clients with access to labor position object benefit entries in the backend data store.

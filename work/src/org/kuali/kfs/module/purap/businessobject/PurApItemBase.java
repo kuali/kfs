@@ -27,10 +27,9 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.util.PurApObjectUtils;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Purap Item Base Business Object.
@@ -67,9 +66,9 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
      */
     public PurApItemBase() {
         itemTypeCode = PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE;
-        sourceAccountingLines = new TypedArrayList(getAccountingLineClass());
-        baselineSourceAccountingLines = new TypedArrayList(getAccountingLineClass());
-        useTaxItems = new TypedArrayList(getUseTaxClass());
+        sourceAccountingLines = new ArrayList();
+        baselineSourceAccountingLines = new ArrayList();
+        useTaxItems = new ArrayList();
         resetAccount();
     }
 
@@ -312,7 +311,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
      * instances at indices before that one are not being instantiated. So changing the code below will cause adding lines to break
      * if you add more than one item to the list.
      * 
-     * @see org.kuali.rice.kns.document.FinancialDocument#getTargetAccountingLine(int)
+     * @see org.kuali.rice.krad.document.FinancialDocument#getTargetAccountingLine(int)
      */
     public PurApAccountingLine getSourceAccountingLine(int index) {
         return (PurApAccountingLine) getSourceAccountingLines().get(index);
@@ -355,9 +354,9 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     }
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.krad.document.DocumentBase#buildListOfDeletionAwareLists()
      */
-    @Override
+    
     public List buildListOfDeletionAwareLists() {
         List managedLists = new ArrayList();
 
@@ -367,9 +366,9 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         if (this.itemIdentifier != null) {
             m.put("requisitionItemIdentifier", this.itemIdentifier.toString());

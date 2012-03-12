@@ -2,7 +2,6 @@
 package org.kuali.kfs.module.external.kc.businessobject;
 
 import java.io.Serializable;
-import java.util.LinkedHashMap;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -170,15 +169,13 @@ public class BudgetCategoryDTO implements ContractsAndGrantsBudgetCategory, Seri
         this.description = value;
     }
 
-    @Override
-    /* RICE_20_DELETE */public void prepareForWorkflow() {}
-    
+
     public void refresh() {}
 
-    /* RICE_20_DELETE */protected LinkedHashMap toStringMapper() {
-        /* RICE_20_DELETE */LinkedHashMap<String,String> m = new LinkedHashMap<String,String>();
-        /* RICE_20_DELETE */m.put("BudgetCategoryDTO", this.budgetCategoryCode);
-        /* RICE_20_DELETE */return m;
-    /* RICE_20_DELETE */}
+    
+        
+        
+        
+    
 
 }

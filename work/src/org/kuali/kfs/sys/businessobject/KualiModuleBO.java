@@ -15,9 +15,7 @@
  */
 package org.kuali.kfs.sys.businessobject;
 
-import java.util.LinkedHashMap;
-
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 public class KualiModuleBO extends TransientBusinessObjectBase {
     private String moduleName;
@@ -60,31 +58,5 @@ public class KualiModuleBO extends TransientBusinessObjectBase {
     public void setModuleName(String moduleName) {
         this.moduleName = moduleName;
     }
-
-    @Override
-    public String toString() {
-        // TODO Auto-generated method stub
-        return super.toString();
-    }
-
-
-    @Override
-    protected String toStringBuilder(LinkedHashMap fieldValues) {
-        // TODO Auto-generated method stub
-        return super.toStringBuilder(fieldValues);
-    }
-
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-
-        m.put("name", getModuleName());
-        m.put("code", getModuleCode());
-        m.put("id", getModuleId());
-
-        return m;
-    }
-
 
 }

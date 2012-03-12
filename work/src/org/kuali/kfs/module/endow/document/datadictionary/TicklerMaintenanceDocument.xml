@@ -43,7 +43,6 @@
     	<property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     	<property name="webScriptFiles" >
 		      <list>
-			        <value>../dwr/interface/KEMService.js</value>
 			        <value>../scripts/module/endow/tickler.js</value>
 		      </list>
 	    </property>
@@ -174,7 +173,7 @@
           <property name="maintainableFields">
             <list>
               <bean parent="MaintainableFieldDefinition" 
-                    p:name="assignedToGroup.groupName" 
+                    p:name="assignedToGroup.name" 
                     p:required="true" 
                     />
   			  <bean parent="MaintainableFieldDefinition" 

@@ -22,9 +22,10 @@ import java.util.List;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAppointmentFundingReasonCode;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * a value finder built from the budget construction appointment funding reason codes
@@ -39,8 +40,8 @@ public class AppointmentFundingReasonValuesFinder extends KeyValuesBase {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection<BudgetConstructionAppointmentFundingReasonCode> reasonCodes = boService.findAll(BudgetConstructionAppointmentFundingReasonCode.class);
 
-        List<KeyLabelPair> reasonCodeKeyLabels = new ArrayList<KeyLabelPair>();
-        reasonCodeKeyLabels.add(new KeyLabelPair(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
+        List<KeyValue> reasonCodeKeyLabels = new ArrayList<KeyValue>();
+        reasonCodeKeyLabels.add(new ConcreteKeyValue(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
 
         for (BudgetConstructionAppointmentFundingReasonCode reasonCode : reasonCodes) {
             if (!reasonCode.isActive()) {
@@ -48,7 +49,7 @@ public class AppointmentFundingReasonValuesFinder extends KeyValuesBase {
             }
 
             String code = reasonCode.getAppointmentFundingReasonCode();
-            reasonCodeKeyLabels.add(new KeyLabelPair(code, code));
+            reasonCodeKeyLabels.add(new ConcreteKeyValue(code, code));
         }
 
         return reasonCodeKeyLabels;

@@ -19,7 +19,7 @@ import org.kuali.kfs.pdp.businessobject.LoadPaymentStatus;
 import org.kuali.kfs.pdp.businessobject.PaymentFileLoad;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.InitiateDirectory;
-import org.kuali.rice.kns.util.MessageMap;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * Handles processing (validation, loading, and reporting) of incoming payment files.

@@ -74,7 +74,6 @@
         </property>
         <property name="externalizableBusinessObjectImplementations">
             <map>
-                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsCfda" value="org.kuali.kfs.integration.cg.businessobject.CFDA" />
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation" value="org.kuali.kfs.integration.cg.businessobject.AwardAccount" />
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAward" value="org.kuali.kfs.integration.cg.businessobject.Award" />
                 <entry key="org.kuali.kfs.integration.cg.ContractAndGrantsProposal" value="org.kuali.kfs.integration.cg.businessobject.Proposal" />
@@ -146,7 +145,7 @@
     </bean>
 
     <bean id="purapModuleConfiguration"  parent="purapModuleConfiguration-parentBean"/>
-    <bean id="purapModuleConfiguration-parentBean" class="org.kuali.rice.kns.bo.ModuleConfiguration" abstract="true">
+    <bean id="purapModuleConfiguration-parentBean" class="org.kuali.rice.krad.bo.ModuleConfiguration" abstract="true">
         <property name="namespaceCode" value="KFS-PURAP" />
         <property name="initializeDataDictionary" value="true" />
         <property name="packagePrefixes">

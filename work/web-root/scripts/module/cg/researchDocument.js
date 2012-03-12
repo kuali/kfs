@@ -52,7 +52,7 @@ function onblur_agencyNumber( agencyNumberField, boName ) {
 
 
 function singleKeyLookup( dwrFunction, primaryKeyField, boName, propertyName ) {
-    var primaryKeyValue = DWRUtil.getValue( primaryKeyField ).trim();
+    var primaryKeyValue = dwr.util.getValue( primaryKeyField ).trim();
     var targetFieldName = findElPrefix( primaryKeyField ) + "." + boName + "." + propertyName;
     if (primaryKeyValue == "") {
         clearRecipients( targetFieldName );
@@ -63,7 +63,7 @@ function singleKeyLookup( dwrFunction, primaryKeyField, boName, propertyName ) {
 
 function singleKeyLookupDiff( dwrFunction, primaryKeyField, boName, propertyName, fieldName ) {
 // lookup with different property namd and field name
-    var primaryKeyValue = DWRUtil.getValue( primaryKeyField ).trim();
+    var primaryKeyValue = dwr.util.getValue( primaryKeyField ).trim();
     var targetFieldName
     if (boName=="") {
     	targetFieldName = findElPrefix( primaryKeyField ) + "." + fieldName;
@@ -107,8 +107,8 @@ function makeDwrSingleReply( boName, propertyName, targetFieldName ) {
 
 function organizationNameLookup( anyFieldOnProposalOrganization ) {
     var elPrefix = findElPrefix( anyFieldOnProposalOrganization.name );
-    var chartOfAccountsCode = DWRUtil.getValue( elPrefix + ".chartOfAccountsCode" ).toUpperCase().trim();
-    var organizationCode = DWRUtil.getValue( elPrefix + ".organizationCode" ).toUpperCase().trim();
+    var chartOfAccountsCode = dwr.util.getValue( elPrefix + ".chartOfAccountsCode" ).toUpperCase().trim();
+    var organizationCode = dwr.util.getValue( elPrefix + ".organizationCode" ).toUpperCase().trim();
     var targetFieldName = elPrefix + ".organization.organizationName";
     if (chartOfAccountsCode == "" || organizationCode == "") {
         clearRecipients( targetFieldName );
@@ -128,7 +128,7 @@ function personIDLookup( userIdField ) {
 }
 
 function loadPersonInfo( userIdFieldName, universalIdFieldName, userNameFieldName ) {
-    var userId = DWRUtil.getValue( userIdFieldName ).trim();
+    var userId = dwr.util.getValue( userIdFieldName ).trim();
 
     if (userId == "") {
         clearRecipients( universalIdFieldName );
@@ -181,7 +181,7 @@ function budgetNameLookup( documentNumberField ) {
 
 function loadBudgetInfo( documentNumberField, personNameFieldName, agencyNameFieldName, budgetDocumentNumberFieldName ) {
     //alert("loadBudgetInfo"+documentNumberField)
-    var documentNumber = DWRUtil.getValue( documentNumberField ).trim();
+    var documentNumber = dwr.util.getValue( documentNumberField ).trim();
 
     if (documentNumber == "") {
         clearRecipients( budgetDocumentNumberFieldName );
@@ -237,7 +237,7 @@ function cfdaLookup( cfdaField ) {
 
 
 function loadCfdaInfo( cfdaField, titleNameFieldName, routingFormCfdaFieldName ) {
-    var cfdaNumber = DWRUtil.getValue( cfdaField ).trim();
+    var cfdaNumber = dwr.util.getValue( cfdaField ).trim();
 
     if (cfdaNumber == "") {
         clearRecipients( routingFormCfdaFieldName );
@@ -323,9 +323,9 @@ function accountNameLookup( anyFieldOnAwardAccount ) {
     var coaCodeField=kualiElements[elPrefix + ".chartOfAccountsCode"];
     var chartOfAccountsCode=''
     if (coaCodeField!=null) {
-        chartOfAccountsCode = DWRUtil.getValue( elPrefix + ".chartOfAccountsCode" ).toUpperCase().trim();
+        chartOfAccountsCode = dwr.util.getValue( elPrefix + ".chartOfAccountsCode" ).toUpperCase().trim();
     }
-    var accountNumber = DWRUtil.getValue( elPrefix + ".accountNumber" ).toUpperCase().trim();
+    var accountNumber = dwr.util.getValue( elPrefix + ".accountNumber" ).toUpperCase().trim();
     var targetFieldName = elPrefix + ".account.accountName";
     if (accountNumber=='') {
 		clearRecipients(targetFieldName);
@@ -433,9 +433,9 @@ function setRecipientNotFoundValue(recipientBase, value, isError ) {
     var containerDiv = document.getElementById(recipientBase + divSuffix);
     if (containerDiv) {
 		if (value == '') {
-			DWRUtil.setValue( containerDiv.id, "&nbsp;" );
+			dwr.util.setValue( containerDiv.id, "&nbsp;" );
 		} else {
-			DWRUtil.setValue( containerDiv.id, value, isError?null:{escapeHtml:true} );
+			dwr.util.setValue( containerDiv.id, value, isError?null:{escapeHtml:true} );
 		}
 	}
 }

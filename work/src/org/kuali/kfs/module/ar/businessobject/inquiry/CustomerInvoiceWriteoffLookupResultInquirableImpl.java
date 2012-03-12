@@ -17,8 +17,6 @@ package org.kuali.kfs.module.ar.businessobject.inquiry;
 
 import java.util.Properties;
 
-import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
@@ -26,13 +24,13 @@ import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.util.UrlFactory;
 
 public class CustomerInvoiceWriteoffLookupResultInquirableImpl extends KfsInquirableImpl {
 
@@ -45,7 +43,7 @@ public class CustomerInvoiceWriteoffLookupResultInquirableImpl extends KfsInquir
      */
     public HtmlData getInquiryUrl(BusinessObject businessObject, String attributeName) {
 
-        AnchorHtmlData inquiryHref = new AnchorHtmlData(KNSConstants.EMPTY_STRING, KNSConstants.EMPTY_STRING);
+        AnchorHtmlData inquiryHref = new AnchorHtmlData(KRADConstants.EMPTY_STRING, KRADConstants.EMPTY_STRING);
         if (ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER.equals(attributeName)) {
             String baseUrl = KFSConstants.INQUIRY_ACTION;
             Properties parameters = new Properties();
@@ -57,7 +55,7 @@ public class CustomerInvoiceWriteoffLookupResultInquirableImpl extends KfsInquir
         } else if (ArPropertyConstants.CustomerInvoiceDocumentFields.DOCUMENT_NUMBER.equals(attributeName) ){
             
             String documentNumber = ObjectUtils.getPropertyValue((CustomerInvoiceDocument)businessObject, attributeName).toString();
-            inquiryHref.setHref(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + documentNumber + "&command=displayDocSearchView");
+            inquiryHref.setHref(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + documentNumber + "&command=displayDocSearchView");
         }
         return inquiryHref;
     }

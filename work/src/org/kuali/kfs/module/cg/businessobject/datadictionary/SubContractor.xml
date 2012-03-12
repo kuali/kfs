@@ -45,13 +45,13 @@
 			<list>
 				<dd:relationship objectAttribute="subcontractorState">
 					<dd:primitiveAttribute source="subcontractorCountryCode"
-						target="postalCountryCode" />
+						target="countryCode" />
 					<dd:primitiveAttribute source="subcontractorStateCode"
-						target="postalStateCode" />
+						target="code" />
 				</dd:relationship>
 				<dd:relationship objectAttribute="subcontractorCountry">
 					<dd:primitiveAttribute source="subcontractorCountryCode"
-						target="postalCountryCode" />
+						target="code" />
 				</dd:relationship>
 			</list>
 		</property>
@@ -141,9 +141,7 @@
 	<bean id="SubContractor-subcontractorStateCode" parent="SubContractor-subcontractorStateCode-parentBean" />
 
 	<bean id="SubContractor-subcontractorStateCode-parentBean"
-		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
-		p:sourceAttributeName="postalStateCode">
+		abstract="true" parent="State-code">
 		<property name="name" value="subcontractorStateCode" />
 		<property name="label" value="State Code" />
 		<property name="shortLabel" value="State" />
@@ -151,18 +149,14 @@
 	<bean id="SubContractor-subcontractorZipCode" parent="SubContractor-subcontractorZipCode-parentBean" />
 
 	<bean id="SubContractor-subcontractorZipCode-parentBean" abstract="true"
-		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
-		p:sourceAttributeName="postalCode">
+		parent="PostalCode-code">
 		<property name="name" value="subcontractorZipCode" />
 		<property name="required" value="true" />
 	</bean>
 	<bean id="SubContractor-subcontractorCountryCode" parent="SubContractor-subcontractorCountryCode-parentBean" />
 
 	<bean id="SubContractor-subcontractorCountryCode-parentBean"
-		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Country"
-		p:sourceAttributeName="postalCountryCode">
+		abstract="true" parent="Country-code">
 		<property name="name" value="subcontractorCountryCode" />
 		<property name="shortLabel" value="Country" />
 		<property name="maxLength" value="15" />

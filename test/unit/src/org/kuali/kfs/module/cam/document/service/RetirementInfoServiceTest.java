@@ -26,8 +26,8 @@ import org.kuali.kfs.module.cam.document.service.impl.RetirementInfoServiceImpl;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.impl.ParameterServiceImpl;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.impl.parameter.ParameterServiceImpl;
 import org.kuali.rice.kns.util.DateUtils;
 
 public class RetirementInfoServiceTest extends KualiTestBase {
@@ -52,7 +52,7 @@ public class RetirementInfoServiceTest extends KualiTestBase {
     private ParameterServiceImpl createParameterService() {
         return new ParameterServiceImpl() {
             @Override
-            public List<String> getParameterValues(Class componentClass, String parameterName) {
+            public List<String> getParameterValuesAsString(Class componentClass, String parameterName) {
                 List<String> values = new ArrayList<String>();
                 values.add("O");
                 values.add("R");

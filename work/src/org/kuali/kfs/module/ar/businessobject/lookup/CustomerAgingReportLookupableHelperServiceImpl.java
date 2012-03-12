@@ -41,29 +41,29 @@ import org.kuali.kfs.module.ar.web.struts.CustomerAgingReportForm;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.web.format.BooleanFormatter;
+import org.kuali.rice.core.web.format.CollectionFormatter;
+import org.kuali.rice.core.web.format.DateFormatter;
+import org.kuali.rice.core.web.format.Formatter;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.service.BusinessObjectAuthorizationService;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
-import org.kuali.rice.kns.web.format.BooleanFormatter;
-import org.kuali.rice.kns.web.format.CollectionFormatter;
-import org.kuali.rice.kns.web.format.DateFormatter;
-import org.kuali.rice.kns.web.format.Formatter;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.ResultRow;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 
 public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
@@ -97,7 +97,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     private String processingOrBillingChartCode;
     private String accountChartCode;
     private String orgCode;
-    private String nbrDaysForLastBucket = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerAgingReportDetail.class, "CUSTOMER_INVOICE_AGE"); // ArConstants.CUSTOMER_INVOICE_AGE);
+    private String nbrDaysForLastBucket = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerAgingReportDetail.class, "CUSTOMER_INVOICE_AGE"); // ArConstants.CUSTOMER_INVOICE_AGE);
     // default is 120 days
     private String cutoffdate91toSYSPRlabel = "91-" + nbrDaysForLastBucket + " days";
     private String cutoffdateSYSPRplus1orMorelabel = Integer.toString((Integer.parseInt(nbrDaysForLastBucket)) + 1) + "+ days";
@@ -236,11 +236,11 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
     @Override
     protected Properties getParameters(BusinessObject bo, Map fieldConversions, String lookupImpl, List pkNames) {
         Properties parameters = new Properties();
-        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, KNSConstants.RETURN_METHOD_TO_CALL);
-        parameters.put(KNSConstants.DOC_FORM_KEY, getDocFormKey());
-        parameters.put(KNSConstants.REFRESH_CALLER, lookupImpl);
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.RETURN_METHOD_TO_CALL);
+        parameters.put(KRADConstants.DOC_FORM_KEY, getDocFormKey());
+        parameters.put(KRADConstants.REFRESH_CALLER, lookupImpl);
         if (getReferencesToRefresh() != null) {
-            parameters.put(KNSConstants.REFERENCES_TO_REFRESH, getReferencesToRefresh());
+            parameters.put(KRADConstants.REFERENCES_TO_REFRESH, getReferencesToRefresh());
         }
 
         for (Object o : getReturnKeys()) {
@@ -248,7 +248,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
 
             Object fieldVal = ObjectUtils.getPropertyValue(bo, fieldNm);
             if (fieldVal == null) {
-                fieldVal = KNSConstants.EMPTY_STRING;
+                fieldVal = KRADConstants.EMPTY_STRING;
             }
 
             // Encrypt value if it is a secure field
@@ -331,7 +331,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
                         Formatter formatter = col.getFormatter();
 
                         // pick off result column from result list, do formatting
-                        String propValue = KNSConstants.EMPTY_STRING;
+                        String propValue = KRADConstants.EMPTY_STRING;
                         Object prop = ObjectUtils.getPropertyValue(element, col.getPropertyName());
 
                         // set comparator and formatter based on property type

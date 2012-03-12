@@ -19,16 +19,17 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.SessionDocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 public class CashControlDocumentForm extends FinancialSystemTransactionalDocumentFormBase {
-    protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashControlDocumentForm.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashControlDocumentForm.class);
 
     protected CashControlDetail newCashControlDetail;
     protected String processingChartOfAccCodeAndOrgCode;
@@ -39,14 +40,12 @@ public class CashControlDocumentForm extends FinancialSystemTransactionalDocumen
      * Constructs a CashControlDocumentForm.java.
      */
     public CashControlDocumentForm() {
-
         super();
-
     }
 
     @Override
     protected String getDefaultDocumentTypeName() {
-        return "CTRL";
+        return KFSConstants.FinancialDocumentTypeCodes.CASH_CONTROL;
     }
     
     /**
@@ -54,41 +53,36 @@ public class CashControlDocumentForm extends FinancialSystemTransactionalDocumen
      */
     @Override
     public void populate(HttpServletRequest request) {
-
         super.populate(request);
 
-        CashControlDocument ccDoc = getCashControlDocument();
-
         if (hasDocumentId()) {
+            CashControlDocument ccDoc = getCashControlDocument();
 
             // apply populate to PaymentApplicationDocuments
             for (CashControlDetail cashControlDetail : ccDoc.getCashControlDetails()) {
-
-                // populate workflowDocument in documentHeader, if needed
-                try {
-                    KualiWorkflowDocument workflowDocument = null;
-                    if (GlobalVariables.getUserSession().getWorkflowDocument(cashControlDetail.getReferenceFinancialDocumentNumber()) != null) {
-                        workflowDocument = GlobalVariables.getUserSession().getWorkflowDocument(cashControlDetail.getReferenceFinancialDocumentNumber());
-                    }
-                    else {
-                        // gets the workflow document from doc service, doc service will also set the workflow document in the
-                        // user's session
-                        Document retrievedDocument = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(cashControlDetail.getReferenceFinancialDocumentNumber());
-                        if (retrievedDocument == null) {
-                            throw new WorkflowException("Unable to get retrieve document # " + cashControlDetail.getReferenceFinancialDocumentNumber() + " from document service getByDocumentHeaderId");
+                if ( !cashControlDetail.getReferenceFinancialDocument().getDocumentHeader().hasWorkflowDocument() ) {
+                    // populate workflowDocument in documentHeader, if needed
+                    try {
+                        WorkflowDocument workflowDocument = SpringContext.getBean(SessionDocumentService.class).getDocumentFromSession(GlobalVariables.getUserSession(), cashControlDetail.getReferenceFinancialDocumentNumber());
+                        
+                        if (workflowDocument == null) {                        
+                            // gets the workflow document from doc service
+                            workflowDocument = SpringContext.getBean(WorkflowDocumentService.class).loadWorkflowDocument(cashControlDetail.getReferenceFinancialDocumentNumber(), GlobalVariables.getUserSession().getPerson() );
+                            SpringContext.getBean(SessionDocumentService.class).addDocumentToUserSession(GlobalVariables.getUserSession(), workflowDocument);
+                            if (workflowDocument == null) {
+                                throw new WorkflowException("Unable to get retrieve document # " + cashControlDetail.getReferenceFinancialDocumentNumber() + " from document service getByDocumentHeaderId");
+                            }
                         }
-                        workflowDocument = retrievedDocument.getDocumentHeader().getWorkflowDocument();
+    
+                        cashControlDetail.getReferenceFinancialDocument().getDocumentHeader().setWorkflowDocument(workflowDocument);
                     }
-
-                    cashControlDetail.getReferenceFinancialDocument().getDocumentHeader().setWorkflowDocument(workflowDocument);
-                }
-                catch (WorkflowException e) {
-                    LOG.warn("Error while instantiating workflowDoc", e);
-                    throw new RuntimeException("error populating documentHeader.workflowDocument", e);
+                    catch (WorkflowException e) {
+                        LOG.warn("Error while instantiating workflowDoc: " + cashControlDetail.getReferenceFinancialDocumentNumber(), e);
+                        throw new RuntimeException("error populating documentHeader.workflowDocument", e);
+                    }
                 }
             }
         }
-
     }
 
     /**

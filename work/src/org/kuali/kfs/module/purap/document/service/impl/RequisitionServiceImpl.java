@@ -17,6 +17,7 @@ package org.kuali.kfs.module.purap.document.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -47,26 +48,26 @@ import org.kuali.kfs.vnd.businessobject.VendorCommodityCode;
 import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kew.dto.DocumentSearchCriteriaDTO;
-import org.kuali.rice.kew.dto.DocumentSearchResultRowDTO;
-import org.kuali.rice.kew.dto.KeyValueDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kew.util.KEWPropertyConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.UnknownDocumentTypeException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
+import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
+import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.docsearch.service.DocumentSearchService;
+import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.datadictionary.exception.UnknownDocumentTypeException;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -83,16 +84,15 @@ public class RequisitionServiceImpl implements RequisitionService {
     private DateTimeService dateTimeService;
     private DocumentService documentService;
     private KualiRuleService ruleService;
-    private KualiConfigurationService kualiConfigurationService;
+    private ConfigurationService kualiConfigurationService;
     private ParameterService parameterService;
-    private PersonService<Person> personService;
+    private PersonService personService;
     private PostalCodeValidationService postalCodeValidationService;
     private PurapService purapService;
     private RequisitionDao requisitionDao;
     private UniversityDateService universityDateService;
     private VendorService vendorService;
-    private KualiWorkflowInfo workflowInfoService;
-
+ 
     public PurchasingCapitalAssetItem createCamsItem(PurchasingDocument purDoc, PurApItem purapItem) {
         PurchasingCapitalAssetItem camsItem = new RequisitionCapitalAssetItem();
         camsItem.setItemIdentifier(purapItem.getItemIdentifier());
@@ -148,8 +148,8 @@ public class RequisitionServiceImpl implements RequisitionService {
             note = PurapConstants.REQ_REASON_NOT_APO + note;
             try {
                 Note apoNote = documentService.createNoteFromDocument(requisition, note);
-                documentService.addNoteToDocument(requisition, apoNote);
-            }
+                requisition.addNote(apoNote);
+              }
             catch (Exception e) {
                 throw new RuntimeException(PurapConstants.REQ_UNABLE_TO_CREATE_NOTE + " " + e);
             }
@@ -215,6 +215,9 @@ public class RequisitionServiceImpl implements RequisitionService {
             if (requisition.getVendorRestrictedIndicator() != null && requisition.getVendorRestrictedIndicator()) {
                 return "Selected vendor is marked as restricted.";
             }
+            if (vendorDetail.isVendorDebarred()) {
+                return "Selected vendor is marked as a debarred vendor";
+            }
             requisition.setVendorDetail(vendorDetail);
 
             if ((!PurapConstants.RequisitionSources.B2B.equals(requisitionSource)) && ObjectUtils.isNull(requisition.getVendorContractGeneratedIdentifier())) {
@@ -236,7 +239,7 @@ public class RequisitionServiceImpl implements RequisitionService {
 
         // These are needed for commodity codes. They are put in here so that
         // we don't have to loop through items too many times.
-        String purchaseOrderRequiresCommodityCode = parameterService.getParameterValue(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);
+        String purchaseOrderRequiresCommodityCode = parameterService.getParameterValueAsString(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);
         boolean commodityCodeRequired = purchaseOrderRequiresCommodityCode.equals("Y");
         
         for (Iterator iter = requisition.getItems().iterator(); iter.hasNext();) {
@@ -376,35 +379,34 @@ public class RequisitionServiceImpl implements RequisitionService {
      */
     protected List<String> getDocumentsNumbersAwaitingContractManagerAssignment() {
         List<String> requisitionDocumentNumbers = new ArrayList<String>();
+             
+        DocumentSearchCriteria.Builder documentSearchCriteriaDTO = DocumentSearchCriteria.Builder.create();
+        //Search for status of P and F        
+        documentSearchCriteriaDTO.setDocumentStatuses(Arrays.asList(DocumentStatus.PROCESSED, DocumentStatus.FINAL));
+        documentSearchCriteriaDTO.setDocumentTypeName(PurapConstants.REQUISITION_DOCUMENT_TYPE);
+        documentSearchCriteriaDTO.setSaveName(null);
         
-        DocumentSearchCriteriaDTO documentSearchCriteriaDTO = new DocumentSearchCriteriaDTO();
-        //Search for status of P and F
-        documentSearchCriteriaDTO.setDocRouteStatus(KEWConstants.ROUTE_HEADER_PROCESSED_CD + "," + KEWConstants.ROUTE_HEADER_FINAL_CD);
-        documentSearchCriteriaDTO.setDocTypeFullName(PurapConstants.REQUISITION_DOCUMENT_TYPE);
-        
-        try {
-            List<DocumentSearchResultRowDTO> reqDocumentsList = workflowInfoService.performDocumentSearch(documentSearchCriteriaDTO).getSearchResults();
+        DocumentSearchService documentSearch = KEWServiceLocator.getDocumentSearchService();
+        DocumentSearchResults results = documentSearch.lookupDocuments(null, documentSearchCriteriaDTO.build());
 
-            Map<String, KeyValueDTO> searchResultDTOMap = new HashMap<String, KeyValueDTO>();
-            for (DocumentSearchResultRowDTO reqDocument : reqDocumentsList) {
+        String documentHeaderId = null;
+
+        for (DocumentSearchResult result : results.getSearchResults()) {
+            documentHeaderId = result.getDocument().getDocumentId();
+            Document document = findDocument(documentHeaderId);
+            
+            if (document != null) {
                 
-                searchResultDTOMap.clear();
-                //flatten the KeyValueDTO list into a Map
-                for (KeyValueDTO keyValueDTO : reqDocument.getFieldValues()) {
-                    searchResultDTOMap.put(keyValueDTO.getKey(), keyValueDTO);
-                }
                 
                 ///use the appDocStatus from the KeyValueDTO result to look up contract manager assignment status
                 if (PurapConstants.RequisitionStatuses.APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN.equalsIgnoreCase(
-                        searchResultDTOMap.get(KEWPropertyConstants.DOC_SEARCH_RESULT_PROPERTY_NAME_DOC_STATUS).getUserDisplayValue())){
+                        document.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus())){
                     //found the matched Awaiting Contract Manager Assignment status, retrieve the routeHeaderId and add to the list
-                    requisitionDocumentNumbers.add(searchResultDTOMap.get(KEWPropertyConstants.DOC_SEARCH_RESULT_PROPERTY_NAME_ROUTE_HEADER_ID).getUserDisplayValue());
+                    requisitionDocumentNumbers.add(document.getDocumentNumber());
                 }
-                
+            }else{
+                LOG.error("Document is NULL.  It should never have been null");                
             }
-        } 
-        catch (WorkflowException ex) {
-            LOG.error("Exception encountered on finding the documents");            
         }
         
         return requisitionDocumentNumbers;
@@ -484,7 +486,7 @@ public class RequisitionServiceImpl implements RequisitionService {
         this.vendorService = vendorService;
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 
@@ -499,19 +501,10 @@ public class RequisitionServiceImpl implements RequisitionService {
     /**
      * @return Returns the personService.
      */
-    protected PersonService<Person> getPersonService() {
+    protected PersonService getPersonService() {
         if(personService==null)
             personService = SpringContext.getBean(PersonService.class);
         return personService;
-    }
-
-    /**	
-     * Sets the workflowInfoService attribute.
-     * 
-     * @param workflowInfoService The workflowInfoService to set.
-     */
-    public void setWorkflowInfoService(KualiWorkflowInfo workflowInfoService) {
-        this.workflowInfoService = workflowInfoService;
     }
 
 }

@@ -29,12 +29,13 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.location.framework.country.CountryEbo;
 
 @ConfigureContext
 public class PurchaseOrderQuotePdfTest extends KualiTestBase {
@@ -81,7 +82,7 @@ public class PurchaseOrderQuotePdfTest extends KualiTestBase {
         poqv.setVendorPhoneNumber("1-800-DUSTY-CELL");
         poqv.setVendorPostalCode("48864");
 
-        Country country = countryService.getByPrimaryId("US");
+        CountryEbo country = CountryEbo.from(countryService.getCountry("US"));
         poqv.setVendorCountry(country);
         PurchaseOrderItem poi = new PurchaseOrderItem();
         ItemType it = new ItemType();
@@ -118,7 +119,7 @@ public class PurchaseOrderQuotePdfTest extends KualiTestBase {
      */
     public void testGeneratePOQuotePDF() throws Exception {
 
-        String environment = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.ENVIRONMENT_KEY);
+        String environment = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY);
 
         poQuotePdf.generatePOQuotePDF(po, poqv, "East Lansing", "EL", getLogoImageName(), bao, environment);
         bao.writeTo(fo);

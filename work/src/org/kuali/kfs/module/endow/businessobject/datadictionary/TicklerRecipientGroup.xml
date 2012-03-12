@@ -39,14 +39,12 @@
 					<property name="objectAttributeName" value="assignedToGroup" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="groupId"
-								p:targetName="groupId" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="groupId" p:targetName="id" />
 						</list>
 					</property>
 					<property name="supportAttributes">
 						<list>
-							<bean parent="SupportAttributeDefinition" p:sourceName="assignedToGroup.groupName"
-								p:targetName="groupName" />
+							<bean parent="SupportAttributeDefinition" p:sourceName="assignedToGroup.name" p:targetName="name" />
 						</list>
 					</property>
 				</bean>
@@ -58,55 +56,24 @@
 
 	<!--  Group ID -->
 	<bean id="TicklerRecipientGroup-groupId" parent="TicklerRecipientGroup-groupId-parentBean" />
-	<bean id="TicklerRecipientGroup-groupId-parentBean" parent="AttributeDefinition"
-		abstract="true" p:name="groupId" p:label="Group" p:shortLabel="Group"
-		p:maxLength="40" p:required="false">
+	<bean id="TicklerRecipientGroup-groupId-parentBean" parent="Group-id"
+		abstract="true" p:name="groupId" p:required="false">
 		<property name="control">
 			<bean parent="HiddenControlDefinition" />
 		</property>
 	</bean>
 
-
-	<bean id="TicklerRecipientGroup-assignedToGroup.groupId"
-		parent="TicklerRecipientGroup-assignedToGroup.groupId-parentBean" />
-	<bean id="TicklerRecipientGroup-assignedToGroup.groupId-parentBean"
-		parent="AttributeDefinition" abstract="true" p:name="assignedToGroup.groupId"
-		p:label="Group" p:shortLabel="Group" p:maxLength="40" p:required="false">
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="30" />
-		</property>
-	</bean>
-
 	<!--  Group Name -->
 
-	<bean id="TicklerRecipientGroup-assignedToGroup.groupName"
-		parent="TicklerRecipientGroup-assignedToGroup.groupName-parentBean" />
+	<bean id="TicklerRecipientGroup-assignedToGroupNamespaceForLookup" parent="TicklerRecipientGroup-assignedToGroupNamespaceForLookup-parentBean" />
+	<bean id="TicklerRecipientGroup-assignedToGroupNamespaceForLookup-parentBean"
+		parent="Group-namespaceCode" abstract="true"
+		p:name="assignedToGroupNamespaceForLookup" p:required="false" />
 
-	<bean id="TicklerRecipientGroup-assignedToGroup.groupName-parentBean"
-		abstract="true" parent="TicklerRecipientGroup-assignedToGroupNameForLookup">
-		<property name="name" value="assignedToGroup.groupName" />
-	</bean>
-
-	<bean id="TicklerRecipientGroup-assignedToGroupNamespaceForLookup"
-		parent="TicklerRecipientGroup-assignedToGroupNamespaceForLookup-parentBean" />
-
-	<bean
-		id="TicklerRecipientGroup-assignedToGroupNamespaceForLookup-parentBean"
-		parent="Parameter-parameterNamespaceCode" abstract="true"
-		p:name="assignedToGroupNamespaceForLookup" p:label="Group Namespace"
-		p:shortLabel="Group Namespace" p:required="false">
-	</bean>
-
-	<bean id="TicklerRecipientGroup-assignedToGroupNameForLookup"
-		parent="TicklerRecipientGroup-assignedToGroupNameForLookup-parentBean" />
+	<bean id="TicklerRecipientGroup-assignedToGroupNameForLookup" parent="TicklerRecipientGroup-assignedToGroupNameForLookup-parentBean" />
 	<bean id="TicklerRecipientGroup-assignedToGroupNameForLookup-parentBean"
-		parent="AttributeDefinition" abstract="true" p:name="assignedToGroup.groupName"
-		p:label="Group Name" p:shortLabel="Group Name" p:maxLength="40"
-		p:required="false">
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="30" />
-		</property>
-	</bean>
+		parent="Group-name" abstract="true" p:name="assignedToGroup.name"
+		p:required="false" />
 
 
 	<!-- Tickler Number -->
@@ -151,7 +118,7 @@
 		<property name="numberOfColumns" value="1" />
 		<property name="inquiryFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="assignedToGroup.groupName" />
+				<bean parent="FieldDefinition" p:attributeName="assignedToGroup.name" />
 				<bean parent="FieldDefinition" p:attributeName="number" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
@@ -172,7 +139,7 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="groupId" />
 				<bean parent="FieldDefinition" p:attributeName="assignedToGroupNamespaceForLookup" />
-				<bean parent="FieldDefinition" p:attributeName="assignedToGroup.groupName"
+				<bean parent="FieldDefinition" p:attributeName="assignedToGroup.name"
 					p:forceLookup="true" />
 				<bean parent="FieldDefinition" p:attributeName="number" />
 				<bean parent="FieldDefinition" p:attributeName="active" />

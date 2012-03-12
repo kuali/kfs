@@ -18,13 +18,13 @@ package org.kuali.kfs.vnd.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Possible reasons why a Vendor may become inactivated.
  */
-public class VendorInactiveReason extends PersistableBusinessObjectBase implements Inactivateable{
+public class VendorInactiveReason extends PersistableBusinessObjectBase implements MutableInactivatable{
 
     private String vendorInactiveReasonCode;
     private String vendorInactiveReasonDescription;
@@ -65,9 +65,9 @@ public class VendorInactiveReason extends PersistableBusinessObjectBase implemen
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("vendorInactiveReasonCode", this.vendorInactiveReasonCode);
 

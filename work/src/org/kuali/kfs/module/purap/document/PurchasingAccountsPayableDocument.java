@@ -22,8 +22,8 @@ import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.location.api.country.Country;
 
 
 /**
@@ -204,7 +204,7 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument, P
 
     public List<PurApItem> getItems();
 
-    public void setItems(List items);
+    public void setItems(List<PurApItem> items);
 
     public String getVendorNumber();
 

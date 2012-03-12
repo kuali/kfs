@@ -17,8 +17,8 @@ package org.kuali.kfs.integration.purap;
 
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
-import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 
 public interface CapitalAssetLocation  extends ExternalizableBusinessObject{

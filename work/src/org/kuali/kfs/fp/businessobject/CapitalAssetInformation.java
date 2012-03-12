@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.fp.businessobject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -26,11 +27,10 @@ import org.kuali.kfs.integration.cam.CapitalAssetManagementAssetType;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CapitalAssetInformation extends PersistableBusinessObjectBase {
 
@@ -65,11 +65,11 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
     public CapitalAssetInformation() {
         super();
         setCapitalAssetLineAmount(KualiDecimal.ZERO);
-        capitalAssetInformationDetails = new TypedArrayList(CapitalAssetInformationDetail.class);
-        capitalAssetAccountsGroupDetails = new TypedArrayList(CapitalAssetAccountsGroupDetails.class);
+        capitalAssetInformationDetails = new ArrayList<CapitalAssetInformationDetail>();
+        capitalAssetAccountsGroupDetails = new ArrayList<CapitalAssetAccountsGroupDetails>();
     }
 
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         m.put(KFSPropertyConstants.CAPITAL_ASSET_LINE_NUMBER, this.getCapitalAssetLineNumber());

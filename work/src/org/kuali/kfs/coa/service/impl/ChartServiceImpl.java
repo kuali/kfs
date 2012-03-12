@@ -18,60 +18,72 @@ package org.kuali.kfs.coa.service.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.kfs.coa.dataaccess.ChartDao;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.spring.Cached;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.cache.annotation.Cacheable;
 
 /**
  * This class is the service implementation for the Chart structure. This is the default, Kuali delivered implementation.
  */
 @NonTransactional
 public class ChartServiceImpl implements ChartService {
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ChartServiceImpl.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ChartServiceImpl.class);
 
-    private ChartDao chartDao;
-    private RoleManagementService roleManagementService;
-    private PersonService<Person> personService;
+    protected BusinessObjectService businessObjectService;
+    protected RoleService roleService;
+    protected PersonService personService;
     protected ParameterService parameterService;
 
     /**
      * @see org.kuali.kfs.coa.service.ChartService#getByPrimaryId(java.lang.String)
      */
+    @Cacheable(value=Chart.CACHE_NAME,key="'chartOfAccountsCode='+#p0")
     public Chart getByPrimaryId(String chartOfAccountsCode) {
-        return (Chart) SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(Chart.class, chartOfAccountsCode);
+        Map<String, Object> pkMap = new HashMap<String, Object>();
+        pkMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        return businessObjectService.findByPrimaryKey(Chart.class, pkMap);
     }
 
     /**
      * @see org.kuali.kfs.coa.service.ChartService#getUniversityChart()
      */
+    @Cacheable(value=Chart.CACHE_NAME,key="UniversityChart")
     public Chart getUniversityChart() {
         // 1. find the organization with the type which reports to itself
-        final String organizationReportsToSelfParameterValue = parameterService.getParameterValue(Organization.class, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES);
-        return chartDao.getUniversityChart(organizationReportsToSelfParameterValue);
+        String organizationReportsToSelfParameterValue = parameterService.getParameterValueAsString(Organization.class, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES);
+        
+        Map<String,String> orgCriteria = new HashMap<String, String>(2);
+        orgCriteria.put(KFSPropertyConstants.ORGANIZATION_TYPE_CODE, organizationReportsToSelfParameterValue);
+        orgCriteria.put(KFSPropertyConstants.ACTIVE, KFSConstants.ACTIVE_INDICATOR);
+        Collection<Organization> orgs = businessObjectService.findMatching(Organization.class, orgCriteria);
+        if ( orgs != null && !orgs.isEmpty() ) {
+            return getByPrimaryId(orgs.iterator().next().getChartOfAccountsCode());
+        }
+        
+        return null;
     }
 
     /**
      * @see org.kuali.kfs.coa.service.ChartService#getAllChartCodes()
      */
+    @Cacheable(value=Chart.CACHE_NAME,key="AllChartCodes")
     public List<String> getAllChartCodes() {
-        Collection<Chart> charts = chartDao.getAll();
+        Collection<Chart> charts = businessObjectService.findAllOrderBy(Chart.class, "chartOfAccountsCode", true);
         List<String> chartCodes = new ArrayList<String>();
         for (Chart chart : charts) {
             chartCodes.add(chart.getChartOfAccountsCode());
@@ -84,15 +96,13 @@ public class ChartServiceImpl implements ChartService {
     /**
      * @see org.kuali.module.chart.service.getReportsToHierarchy()
      */
-    @Cached
+    @Cacheable(value=Chart.CACHE_NAME,key="ReportsToHierarchy")
     public Map<String, String> getReportsToHierarchy() {
-
         LOG.debug("getReportsToHierarchy");
-        Map<String, String> reportsToHierarchy = new HashMap();
+        Map<String, String> reportsToHierarchy = new HashMap<String, String>();
 
-        Iterator iter = getAllChartCodes().iterator();
-        while (iter.hasNext()) {
-            Chart chart = (Chart) getByPrimaryId((String) iter.next());
+        for ( String chartCode : getAllChartCodes() ) {
+            Chart chart = businessObjectService.findBySinglePrimaryKey(Chart.class, chartCode);
 
             if (LOG.isDebugEnabled()) {
                 LOG.debug("adding " + chart.getChartOfAccountsCode() + "-->" + chart.getReportsToChartOfAccountsCode());
@@ -103,22 +113,8 @@ public class ChartServiceImpl implements ChartService {
         return reportsToHierarchy;
     }
 
-    /**
-     * @see org.kuali.kfs.coa.service.ChartService#getChartsThatUserIsResponsibleFor(org.kuali.rice.kns.bo.user.KualiUser)
-     */
-    public List getChartsThatUserIsResponsibleFor(Person person) {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("retrieving chartsResponsible list for user " + person.getName());
-        }
-
-        // gets the list of accounts that the user is the Fiscal Officer of
-        List chartList = chartDao.getChartsThatUserIsResponsibleFor(person);
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("retrieved chartsResponsible list for user " + person.getName());
-        }
-        return chartList;
-    }
-
+    @Override
+    @Cacheable(value=Chart.CACHE_NAME,key="UniversityChart")
     public boolean isParentChart(String potentialChildChartCode, String potentialParentChartCode) {
         if ((potentialChildChartCode == null) || (potentialParentChartCode == null)) {
             throw new IllegalArgumentException("The isParentChartCode method requires a non-null potentialChildChartCode and potentialParentChartCode");
@@ -138,17 +134,15 @@ public class ChartServiceImpl implements ChartService {
         }
     }
 
-    /**
-     * @see org.kuali.kfs.coa.service.ChartService#getChartManager(java.lang.String)
-     */
+    @Override
     public Person getChartManager(String chartOfAccountsCode) {
         String chartManagerId = null;
         Person chartManager = null;
 
-        AttributeSet qualification = new AttributeSet();
+        Map<String,String> qualification = new HashMap<String,String>();
         qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
 
-        Collection<String> chartManagerList = roleManagementService.getRoleMemberPrincipalIds(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimConstants.CHART_MANAGER_KIM_ROLE_NAME, qualification);
+        Collection<String> chartManagerList = getRoleService().getRoleMemberPrincipalIds(KFSConstants.CoreModuleNamespaces.KFS, KFSConstants.SysKimApiConstants.CHART_MANAGER_KIM_ROLE_NAME, qualification);
 
         if (!chartManagerList.isEmpty()) {
             chartManagerId = chartManagerList.iterator().next();
@@ -161,54 +155,23 @@ public class ChartServiceImpl implements ChartService {
         return chartManager;
     }
 
-    /**
-     * @return Returns the chartDao.
-     */
-    public ChartDao getChartDao() {
-        return chartDao;
+    public RoleService getRoleService() {
+        if ( roleService == null ) {
+            roleService = SpringContext.getBean(RoleService.class);
+        }
+        return roleService;
     }
-
-    /**
-     * @param chartDao The chartDao to set.
-     */
-    public void setChartDao(ChartDao chartDao) {
-        this.chartDao = chartDao;
-    }
-
-    /**
-     * Gets the roleManagementService attribute.
-     * 
-     * @return Returns the roleManagementService.
-     */
-    public RoleManagementService getRoleManagementService() {
-        return roleManagementService;
-    }
-
-    /**
-     * Sets the roleManagementService attribute value.
-     * 
-     * @param roleManagementService The roleManagementService to set.
-     */
-    public void setRoleManagementService(RoleManagementService roleManagementService) {
-        this.roleManagementService = roleManagementService;
-    }
-
-    /**
-     * @return Returns the personService.
-     */
-    protected PersonService<Person> getPersonService() {
+    protected PersonService getPersonService() {
         if (personService == null)
             personService = SpringContext.getBean(PersonService.class);
         return personService;
     }
 
-    /**
-     * Sets the parameterService.
-     * 
-     * @param parameterService
-     */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
 }

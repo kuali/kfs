@@ -31,14 +31,13 @@
               description="boolean indicating if this field is rendered as highlighted (to indicate old/new value change)" %>
                <%@ attribute name="forceRequired" required="false" %>
                
-<script language="JavaScript" type="text/javascript" src="dwr/interface/PersonService.js"></script>
 <script language="JavaScript" type="text/javascript" src="scripts/sys/objectInfo.js"></script>
 
 <kul:htmlControlAttribute property="${userIdFieldName}" 
                     attributeEntry="${DataDictionary['PersonImpl'].attributes.employeeId}" forceRequired="${forceRequired}"
                     onblur="loadEmplInfo( '${userIdFieldName}', '${userNameFieldName}' );${onblur}" readOnly="${readOnly}"/>
 <c:if test="${!readOnly}">
-	<kul:lookup boClassName="org.kuali.rice.kim.bo.Person" 
+	<kul:lookup boClassName="org.kuali.rice.kim.api.identity.Person" 
 		        fieldConversions="${fieldConversions}" 
 				lookupParameters="${lookupParameters}" 
 				fieldLabel="${label}" 

@@ -16,17 +16,18 @@
 package org.kuali.kfs.module.bc.util;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.bc.BCParameterKeyConstants;
+import org.kuali.kfs.module.bc.batch.GenesisBatchStep;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPayRateHolding;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
-import org.kuali.kfs.module.bc.batch.GenesisBatchStep;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * A convenient utility that can delegate the calling client to retrieve system parameters of budget construction module.
@@ -39,8 +40,8 @@ public class BudgetParameterFinder {
      * 
      * @return the biweekly pay type codes setup in system parameters
      */
-    public static List<String> getBiweeklyPayTypeCodes() {
-        return parameterService.getParameterValues(BudgetConstructionDocument.class, BCParameterKeyConstants.BIWEEKLY_PAY_TYPE_CODES);
+    public static Collection<String> getBiweeklyPayTypeCodes() {
+        return parameterService.getParameterValuesAsString(BudgetConstructionDocument.class, BCParameterKeyConstants.BIWEEKLY_PAY_TYPE_CODES);
     }
 
     /**
@@ -49,7 +50,7 @@ public class BudgetParameterFinder {
      * @return the annual working hours setup in system paremters
      */
     public static Integer getAnnualWorkingHours() {
-        String annualWorkingHours = parameterService.getParameterValue(BudgetConstructionDocument.class, BCParameterKeyConstants.ANNUAL_WORKING_HOURS);
+        String annualWorkingHours = parameterService.getParameterValueAsString(BudgetConstructionDocument.class, BCParameterKeyConstants.ANNUAL_WORKING_HOURS);
 
         return Integer.valueOf(StringUtils.trim(annualWorkingHours));
     }
@@ -60,7 +61,7 @@ public class BudgetParameterFinder {
      * @return the weekly working hours setup in system paremters
      */
     public static Integer getWeeklyWorkingHours() {
-        String weeklyWorkingHours = parameterService.getParameterValue(BudgetConstructionDocument.class, BCParameterKeyConstants.WEEKLY_WORKING_HOURS);
+        String weeklyWorkingHours = parameterService.getParameterValueAsString(BudgetConstructionDocument.class, BCParameterKeyConstants.WEEKLY_WORKING_HOURS);
 
         return Integer.valueOf(StringUtils.trim(weeklyWorkingHours));
     }
@@ -81,8 +82,8 @@ public class BudgetParameterFinder {
      * 
      * @return the sub fund group codes not allowed 2plg generation setup in system parameters
      */
-    public static List<String> getNotGenerate2PlgSubFundGroupCodes() {
-        return parameterService.getParameterValues(BudgetConstructionDocument.class, BCParameterKeyConstants.GENERATE_2PLG_SUB_FUND_GROUPS);
+    public static Collection<String> getNotGenerate2PlgSubFundGroupCodes() {
+        return parameterService.getParameterValuesAsString(BudgetConstructionDocument.class, BCParameterKeyConstants.GENERATE_2PLG_SUB_FUND_GROUPS);
     }
 
     /**
@@ -90,8 +91,8 @@ public class BudgetParameterFinder {
      * 
      * @return the biweekly pay object codes setup in system parameters
      */
-    public static List<String> getBiweeklyPayObjectCodes() {
-        return parameterService.getParameterValues(BudgetConstructionPayRateHolding.class, BCParameterKeyConstants.BIWEEKLY_PAY_OBJECT_CODES);
+    public static Collection<String> getBiweeklyPayObjectCodes() {
+        return parameterService.getParameterValuesAsString(BudgetConstructionPayRateHolding.class, BCParameterKeyConstants.BIWEEKLY_PAY_OBJECT_CODES);
     }
 
     /**
@@ -99,8 +100,8 @@ public class BudgetParameterFinder {
      * 
      * @return the revenue object types allowed in budget setup in system parameters
      */
-    public static List<String> getRevenueObjectTypes() {
-        return parameterService.getParameterValues(BudgetConstructionDocument.class, BCParameterKeyConstants.REVENUE_OBJECT_TYPES);
+    public static Collection<String> getRevenueObjectTypes() {
+        return parameterService.getParameterValuesAsString(BudgetConstructionDocument.class, BCParameterKeyConstants.REVENUE_OBJECT_TYPES);
     }
 
     /**
@@ -108,8 +109,8 @@ public class BudgetParameterFinder {
      * 
      * @return the expenditure object types allowed in budget setup in system parameters
      */
-    public static List<String> getExpenditureObjectTypes() {
-        return parameterService.getParameterValues(BudgetConstructionDocument.class, BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES);
+    public static Collection<String> getExpenditureObjectTypes() {
+        return parameterService.getParameterValuesAsString(BudgetConstructionDocument.class, BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES);
     }
 
     /**
@@ -117,8 +118,8 @@ public class BudgetParameterFinder {
      * 
      * @return the budget aggregation codes setup in system parameters
      */
-    public static List<String> getBudgetAggregationCodes() {
-        return parameterService.getParameterValues(BudgetConstructionDocument.class, BCParameterKeyConstants.BUDGET_AGGREGATION_CODES);
+    public static Collection<String> getBudgetAggregationCodes() {
+        return parameterService.getParameterValuesAsString(BudgetConstructionDocument.class, BCParameterKeyConstants.BUDGET_AGGREGATION_CODES);
     }
 
     /**
@@ -126,8 +127,8 @@ public class BudgetParameterFinder {
      * 
      * @return the fringe benefit designator codes setup in system parameters
      */
-    public static List<String> getFringeBenefitDesignatorCodes() {
-        return parameterService.getParameterValues(BudgetConstructionDocument.class, BCParameterKeyConstants.FRINGE_BENEFIT_DESIGNATOR_CODES);
+    public static Collection<String> getFringeBenefitDesignatorCodes() {
+        return parameterService.getParameterValuesAsString(BudgetConstructionDocument.class, BCParameterKeyConstants.FRINGE_BENEFIT_DESIGNATOR_CODES);
     }
 
     /**
@@ -135,8 +136,8 @@ public class BudgetParameterFinder {
      * 
      * @return the salary setting fund groups setup in system parameters
      */
-    public static List<String> getSalarySettingFundGroups() {
-        return parameterService.getParameterValues(BudgetConstructionDocument.class, BCParameterKeyConstants.SALARY_SETTING_FUND_GROUPS);
+    public static Collection<String> getSalarySettingFundGroups() {
+        return parameterService.getParameterValuesAsString(BudgetConstructionDocument.class, BCParameterKeyConstants.SALARY_SETTING_FUND_GROUPS);
     }
 
     /**
@@ -144,8 +145,8 @@ public class BudgetParameterFinder {
      * 
      * @return the salary setting sub fund groups setup in system parameters
      */
-    public static List<String> getSalarySettingSubFundGroups() {
-        return parameterService.getParameterValues(BudgetConstructionDocument.class, BCParameterKeyConstants.SALARY_SETTING_SUB_FUND_GROUPS);
+    public static Collection<String> getSalarySettingSubFundGroups() {
+        return parameterService.getParameterValuesAsString(BudgetConstructionDocument.class, BCParameterKeyConstants.SALARY_SETTING_SUB_FUND_GROUPS);
     }
 
     /**
@@ -153,7 +154,7 @@ public class BudgetParameterFinder {
      * maintained within the KFS.
      */
     public static boolean getPayrollIncumbentFeedIndictor() {
-        return parameterService.getIndicatorParameter(BudgetConstructionIntendedIncumbent.class, BCParameterKeyConstants.EXTERNAL_INCUMBENT_FEED_IND);
+        return parameterService.getParameterValueAsBoolean(BudgetConstructionIntendedIncumbent.class, BCParameterKeyConstants.EXTERNAL_INCUMBENT_FEED_IND);
     }
 
     /**
@@ -161,7 +162,7 @@ public class BudgetParameterFinder {
      * within the KFS.
      */
     public static boolean getPayrollPositionFeedIndicator() {
-        return parameterService.getIndicatorParameter(BudgetConstructionPosition.class, BCParameterKeyConstants.EXTERNAL_POSITION_FEED_IND);
+        return parameterService.getParameterValueAsBoolean(BudgetConstructionPosition.class, BCParameterKeyConstants.EXTERNAL_POSITION_FEED_IND);
     }
     
     /**
@@ -170,7 +171,7 @@ public class BudgetParameterFinder {
     
     public static Integer getBaseFiscalYear()
     {
-        String yearValue = parameterService.getParameterValue(GenesisBatchStep.class, BCParameterKeyConstants.SOURCE_FISCAL_YEAR);
+        String yearValue = parameterService.getParameterValueAsString(GenesisBatchStep.class, BCParameterKeyConstants.SOURCE_FISCAL_YEAR);
         return (Integer.valueOf(StringUtils.trim(yearValue)));
     }
 }

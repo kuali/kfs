@@ -21,7 +21,7 @@ import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_DOCUMENT_SOURCE_SECTION_NO
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class validates to make sure that at least one payment line is available for the document

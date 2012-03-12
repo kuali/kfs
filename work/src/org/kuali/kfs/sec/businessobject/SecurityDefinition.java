@@ -20,16 +20,15 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiInteger;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Defines a restriction that can be given to a model or principal. A restriction defines the attribute that is restricted on, and the action(s) that are being restricted. A KIM
  * permission and role is created from a definition record
  */
-public class SecurityDefinition extends PersistableBusinessObjectBase implements Inactivateable {
+public class SecurityDefinition extends PersistableBusinessObjectBase implements MutableInactivatable {
     private KualiInteger id;
     private String name;
     private String description;
@@ -52,7 +51,7 @@ public class SecurityDefinition extends PersistableBusinessObjectBase implements
     public SecurityDefinition() {
         super();
 
-        definitionDocumentTypes = new TypedArrayList(SecurityDefinitionDocumentType.class);
+        definitionDocumentTypes = new ArrayList<SecurityDefinitionDocumentType>();
 
         restrictViewAccountingLine = false;
         restrictEditAccountingLine = false;
@@ -381,16 +380,66 @@ public class SecurityDefinition extends PersistableBusinessObjectBase implements
         this.definitionDocumentTypes = definitionDocumentTypes;
     }
 
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
     @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-
-        m.put(KFSPropertyConstants.ID, this.id);
-
-        return m;
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("SecurityDefinition [");
+        if (id != null) {
+            builder.append("id=");
+            builder.append(id);
+            builder.append(", ");
+        }
+        if (name != null) {
+            builder.append("name=");
+            builder.append(name);
+            builder.append(", ");
+        }
+        if (description != null) {
+            builder.append("description=");
+            builder.append(description);
+            builder.append(", ");
+        }
+        if (roleId != null) {
+            builder.append("roleId=");
+            builder.append(roleId);
+            builder.append(", ");
+        }
+        if (attributeId != null) {
+            builder.append("attributeId=");
+            builder.append(attributeId);
+            builder.append(", ");
+        }
+        builder.append("restrictViewAccountingLine=");
+        builder.append(restrictViewAccountingLine);
+        builder.append(", restrictEditAccountingLine=");
+        builder.append(restrictEditAccountingLine);
+        builder.append(", restrictViewDocument=");
+        builder.append(restrictViewDocument);
+        builder.append(", restrictEditDocument=");
+        builder.append(restrictEditDocument);
+        builder.append(", restrictViewNotesAndAttachments=");
+        builder.append(restrictViewNotesAndAttachments);
+        builder.append(", restrictLookup=");
+        builder.append(restrictLookup);
+        builder.append(", restrictGLInquiry=");
+        builder.append(restrictGLInquiry);
+        builder.append(", restrictLaborInquiry=");
+        builder.append(restrictLaborInquiry);
+        builder.append(", active=");
+        builder.append(active);
+        builder.append(", ");
+        if (securityAttribute != null) {
+            builder.append("securityAttribute=");
+            builder.append(securityAttribute);
+            builder.append(", ");
+        }
+        if (definitionDocumentTypes != null) {
+            builder.append("definitionDocumentTypes=");
+            builder.append(definitionDocumentTypes);
+        }
+        builder.append("]");
+        return builder.toString();
     }
+
 
 }

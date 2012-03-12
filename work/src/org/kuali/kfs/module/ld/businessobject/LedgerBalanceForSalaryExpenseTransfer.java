@@ -21,8 +21,8 @@ import java.util.Collection;
 import org.kuali.kfs.integration.ld.SegmentedBusinessObject;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborPropertyConstants.AccountingPeriodProperties;
-import org.kuali.rice.kns.util.KNSUtils;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.KRADUtils;
 
 /**
  * Labor business object specifically for SalaryExpenseTransferDocument ledger balance import functionality.
@@ -60,6 +60,6 @@ public class LedgerBalanceForSalaryExpenseTransfer extends LedgerBalance impleme
         String periodCode = LaborConstants.periodCodeMapping.get(segmentedPropertyName);
         KualiDecimal periodAmount = getAmount(periodCode);
         
-        return KNSUtils.convertDecimalIntoInteger(periodAmount);
+        return KRADUtils.convertDecimalIntoInteger(periodAmount);
     }
 }

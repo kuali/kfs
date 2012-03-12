@@ -26,9 +26,9 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.fp.businessobject.Check;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.kfs.fp.document.service.CashReceiptCoverSheetService;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -111,8 +111,8 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
      * @see org.kuali.kfs.fp.document.validation.impl.CashReceiptDocumentRule#isCoverSheetPrintable(org.kuali.kfs.fp.document.CashReceiptFamilyBase)
      */
     public boolean isCoverSheetPrintingAllowed(CashReceiptDocument crDoc) {
-        KualiWorkflowDocument workflowDocument = crDoc.getDocumentHeader().getWorkflowDocument();
-        return !(workflowDocument.stateIsCanceled() || workflowDocument.stateIsInitiated() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsException() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsSaved());
+        WorkflowDocument workflowDocument = crDoc.getDocumentHeader().getWorkflowDocument();
+        return !(workflowDocument.isCanceled() || workflowDocument.isInitiated() || workflowDocument.isDisapproved() || workflowDocument.isException() || workflowDocument.isDisapproved() || workflowDocument.isSaved());
     }
     
     /**
@@ -162,8 +162,8 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
             AcroFields populatedCoverSheet = stamper.getAcroFields();
             
             populatedCoverSheet.setField(DOCUMENT_NUMBER_FIELD, document.getDocumentNumber());
-            populatedCoverSheet.setField(INITIATOR_FIELD, document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId());
-            populatedCoverSheet.setField(CREATED_DATE_FIELD, document.getDocumentHeader().getWorkflowDocument().getCreateDate().toString());
+            populatedCoverSheet.setField(INITIATOR_FIELD, document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
+            populatedCoverSheet.setField(CREATED_DATE_FIELD, document.getDocumentHeader().getWorkflowDocument().getDateCreated().toString());
             populatedCoverSheet.setField(AMOUNT_FIELD, document.getTotalDollarAmount().toString());
             populatedCoverSheet.setField(ORG_DOC_NUMBER_FIELD, document.getDocumentHeader().getOrganizationDocumentNumber());
             populatedCoverSheet.setField(CAMPUS_FIELD, document.getCampusLocationCode());

@@ -55,15 +55,15 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.Campus;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.location.api.campus.Campus;
+import org.kuali.rice.location.api.campus.CampusService;
 
 
 /**
@@ -159,7 +159,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
     public String processCreateAsset(PurchasingAccountsPayableItemAsset selectedItem, List<PurchasingAccountsPayableDocument> purApDocs, PurApLineSession purApLineSession, Integer requisitionIdentifier) throws WorkflowException {
         // Create new CAMS asset global document
         MaintenanceDocument newDocument = (MaintenanceDocument) documentService.getNewDocument(CamsConstants.DocumentTypeName.ASSET_ADD_GLOBAL);
-        newDocument.getNewMaintainableObject().setMaintenanceAction(KNSConstants.MAINTENANCE_NEW_ACTION);
+        newDocument.getNewMaintainableObject().setMaintenanceAction(KRADConstants.MAINTENANCE_NEW_ACTION);
         if (ObjectUtils.isNotNull(selectedItem) && ObjectUtils.isNotNull(selectedItem.getPurchasingAccountsPayableDocument())) {
             newDocument.getDocumentHeader().setDocumentDescription(DOCUMENT_DESC_PREFIX + selectedItem.getPurchasingAccountsPayableDocument().getDocumentTypeCode() + " " + selectedItem.getDocumentNumber());
         }
@@ -449,7 +449,7 @@ public class PurApLineDocumentServiceImpl implements PurApLineDocumentService {
     protected boolean checkCampusCodeValid(String campusCode) {
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(CabPropertyConstants.AssetGlobalDocumentCreate.CAMPUS_CODE, campusCode);
-        Campus campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).getExternalizableBusinessObject(Campus.class, criteria);
+        Campus campus = SpringContext.getBean(CampusService.class).getCampus(campusCode/*RICE_20_REFACTORME  criteria */);
         return ObjectUtils.isNotNull(campus) && campus.isActive();
     }
 

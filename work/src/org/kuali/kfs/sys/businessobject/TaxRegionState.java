@@ -17,24 +17,25 @@ package org.kuali.kfs.sys.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.StateService;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.State;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.location.framework.country.CountryEbo;
+import org.kuali.rice.location.framework.state.StateEbo;
 
-public class TaxRegionState extends PersistableBusinessObjectBase implements Inactivateable {
+public class TaxRegionState extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String postalCountryCode;
     private String stateCode;
     private String taxRegionCode;
     private boolean active;
 
-    private Country country;
-    private State state;
+    private CountryEbo country;
+    private StateEbo state;
     private TaxRegion taxRegion;
 
     public boolean isActive() {
@@ -72,19 +73,12 @@ public class TaxRegionState extends PersistableBusinessObjectBase implements Ina
         this.taxRegionCode = taxRegionCode;
     }
 
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put("stateCode", this.stateCode);
-        m.put("taxRegionCode", this.taxRegionCode);
-        return m;
-    }
-
-    public State getState() {
-        state = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(postalCountryCode, stateCode, state);
+    public StateEbo getState() {
+        state = (StringUtils.isBlank(postalCountryCode) || StringUtils.isBlank( stateCode))?null:( state == null || !StringUtils.equals( state.getCountryCode(),postalCountryCode)|| !StringUtils.equals( state.getCode(), stateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState(postalCountryCode, stateCode)): state;
         return state;
     }
 
-    public void setState(State state) {
+    public void setState(StateEbo state) {
         this.state = state;
     }
 
@@ -110,8 +104,8 @@ public class TaxRegionState extends PersistableBusinessObjectBase implements Ina
      * Gets the country attribute. 
      * @return Returns the country.
      */
-    public Country getCountry() {
-        country = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(postalCountryCode, country);
+    public CountryEbo getCountry() {
+        country = (postalCountryCode == null)?null:( country == null || !StringUtils.equals( country.getCode(),postalCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(postalCountryCode)): country;
         return country;
     }
 
@@ -119,7 +113,7 @@ public class TaxRegionState extends PersistableBusinessObjectBase implements Ina
      * Sets the country attribute value.
      * @param country The country to set.
      */
-    public void setCountry(Country country) {
+    public void setCountry(CountryEbo country) {
         this.country = country;
     }
 }

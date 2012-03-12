@@ -27,16 +27,16 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.dao.LookupDao;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
-import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.ResultRow;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.dao.LookupDao;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -63,7 +63,7 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
             }
         }
         String organizationReferenceId = fieldValues.remove("generatingAccountingLine.organizationReferenceId");
-        List<PersistableBusinessObject> resultsList = (List)lookupDao.findCollectionBySearchHelper(ElectronicPaymentClaim.class, fieldValues, unbounded, false, null);
+        List<PersistableBusinessObject> resultsList = (List)lookupDao.findCollectionBySearchHelper(ElectronicPaymentClaim.class, fieldValues, unbounded, false);
         if (!StringUtils.isBlank(organizationReferenceId)) {
             
             List<PersistableBusinessObject> prunedResults = pruneResults(resultsList, organizationReferenceId);
@@ -158,7 +158,7 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
     }
 
     /**
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#isResultReturnable(org.kuali.rice.kns.bo.BusinessObject)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#isResultReturnable(org.kuali.rice.krad.bo.BusinessObject)
      */
     @Override
     public boolean isResultReturnable(BusinessObject claimAsBO) {
@@ -187,7 +187,7 @@ public class ElectronicPaymentClaimLookupableHelperServiceImpl extends AbstractL
         for (ResultRow row : (Collection<ResultRow>)resultTable) {
             for (Column col : row.getColumns()) {
                 if (StringUtils.equals("referenceFinancialDocumentNumber", col.getPropertyName()) && StringUtils.isNotBlank(col.getPropertyValue())) {
-                    String propertyURL = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + col.getPropertyValue() + "&command=displayDocSearchView";
+                    String propertyURL = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + col.getPropertyValue() + "&command=displayDocSearchView";
                     AnchorHtmlData htmlData = new AnchorHtmlData(propertyURL, "", col.getPropertyValue());
                     htmlData.setTitle(col.getPropertyValue());
                     col.setColumnAnchor(htmlData);

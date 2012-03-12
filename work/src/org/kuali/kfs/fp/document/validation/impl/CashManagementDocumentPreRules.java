@@ -17,21 +17,17 @@ package org.kuali.kfs.fp.document.validation.impl;
 
 import java.text.MessageFormat;
 
-import org.kuali.kfs.fp.businessobject.AdvanceDepositDetail;
 import org.kuali.kfs.fp.businessobject.Deposit;
-import org.kuali.kfs.fp.document.AdvanceDepositDocument;
 import org.kuali.kfs.fp.document.CashManagementDocument;
-import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
-import org.kuali.kfs.fp.document.NonCheckDisbursementDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * Performs warning checks and prompts for CashManagement.
@@ -73,7 +69,7 @@ public class CashManagementDocumentPreRules extends PromptBeforeValidationBase {
 
             // if bank is inactive and continuation is active, prompt user to use continuation bank
             if (bank != null && !bank.isActive() && bank.getContinuationBank().isActive()) {
-                String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.QUESTION_BANK_INACTIVE);
+                String questionText = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.QUESTION_BANK_INACTIVE);
                 questionText = MessageFormat.format(questionText, deposit.getDepositBankCode(), bank.getContinuationBankCode());
 
                 boolean useContinuation = super.askOrAnalyzeYesNoQuestion(KFSConstants.USE_CONTINUATION_BANK_QUESTION + questionIndex, questionText);

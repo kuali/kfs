@@ -23,18 +23,20 @@ import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
+import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.vnd.VendorUtils;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class VendorCreditMemoInitTabReferenceNumberValidation extends GenericValidation {
 
     private PaymentRequestService paymentRequestService;
+    private PurapService purapService;
     private PurchaseOrderService purchaseOrderService;
     private VendorService vendorService;
     
@@ -58,6 +60,7 @@ public class VendorCreditMemoInitTabReferenceNumberValidation extends GenericVal
                     GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(PurapPropertyConstants.PAYMENT_REQUEST_ID, PurapKeyConstants.ERROR_CREDIT_MEMO_PAYMENT_REQEUEST_INVALID, preqNumber.toString());
                     valid = false;
                 }
+// RICE20 : !purapService.isFullDocumentEntryCompleted(preq) ||
                 else if ((PurapConstants.PaymentRequestStatuses.APPDOC_IN_PROCESS.equals(preq.getAppDocStatus())) || (PurapConstants.PaymentRequestStatuses.CANCELLED_STATUSES.contains(preq.getAppDocStatus()))) {
                     GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(PurapPropertyConstants.PAYMENT_REQUEST_ID, PurapKeyConstants.ERROR_CREDIT_MEMO_PAYMENT_REQEUEST_INVALID_SATATUS, preqNumber.toString());
                     valid = false;
@@ -117,6 +120,14 @@ public class VendorCreditMemoInitTabReferenceNumberValidation extends GenericVal
 
     public void setVendorService(VendorService vendorService) {
         this.vendorService = vendorService;
+    }
+
+    public PurapService getPurapService() {
+        return purapService;
+    }
+
+    public void setPurapService(PurapService purapService) {
+        this.purapService = purapService;
     }
 
 }

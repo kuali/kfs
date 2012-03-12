@@ -22,22 +22,23 @@ import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.AutomatedCashInvestmentModel;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 public class AutomatedCashInvestmentModelValuesFinder extends KeyValuesBase {
     
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
 
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection<AutomatedCashInvestmentModel> codes = boService.findAll(AutomatedCashInvestmentModel.class);
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
+        List<KeyValue> labels = new ArrayList<KeyValue>();
         
-        labels.add(new KeyLabelPair("", ""));
+        labels.add(new ConcreteKeyValue("", ""));
         for (Iterator<AutomatedCashInvestmentModel> iter = codes.iterator(); iter.hasNext();) {
             AutomatedCashInvestmentModel automatedCashInvestmentModel = (AutomatedCashInvestmentModel) iter.next();
-            labels.add(new KeyLabelPair(automatedCashInvestmentModel.getAciModelID(), automatedCashInvestmentModel.getAciModelName()));
+            labels.add(new ConcreteKeyValue(automatedCashInvestmentModel.getAciModelID().toString(), automatedCashInvestmentModel.getAciModelName()));
         }
 
         return labels;

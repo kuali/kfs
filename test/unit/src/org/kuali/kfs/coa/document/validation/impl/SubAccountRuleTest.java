@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.coa.document.validation.impl;
 
-import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
-import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapSize;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalMessageMapEmpty;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalMessageMapSize;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
@@ -25,9 +25,8 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.fixture.SubAccountFixture;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 @ConfigureContext(session = khuntley)
 public class SubAccountRuleTest extends ChartRuleTestBase {
@@ -103,11 +102,11 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
         rule = (SubAccountRule) setupMaintDocRule(newSubAccount, rule.getClass());
 
         // confirm that there are no errors to begin with
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
 
         // run the rule, should return true
         assertEquals(true, rule.checkForPartiallyEnteredReportingFields());
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
 
     }
 
@@ -119,11 +118,11 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
         rule = (SubAccountRule) setupMaintDocRule(newSubAccount, rule.getClass());
 
         // confirm that there are no errors to begin with
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
 
         // run the rule, should return true
         assertEquals(true, rule.checkForPartiallyEnteredReportingFields());
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
 
     }
 
@@ -135,11 +134,11 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
         rule = (SubAccountRule) setupMaintDocRule(newSubAccount, rule.getClass());
 
         // confirm that there are no errors to begin with
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
 
         // run the rule, should return true
         assertEquals(true, rule.checkForPartiallyEnteredReportingFields());
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
 
     }
 
@@ -151,11 +150,11 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
         rule = (SubAccountRule) setupMaintDocRule(newSubAccount, rule.getClass());
 
         // confirm that there are no errors to begin with
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
 
         // run the rule, should return true
         assertEquals(true, rule.checkForPartiallyEnteredReportingFields());
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
 
     }
 
@@ -166,14 +165,14 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
         rule = (SubAccountRule) setupMaintDocRule(newSubAccount, rule.getClass());
 
         // confirm that there are no errors to begin with
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
 
         // run the rule, should return true
         boolean result = rule.checkForPartiallyEnteredReportingFields();
         assertEquals(false, result);
-        assertGlobalErrorMapSize(1);
+        assertGlobalMessageMapSize(1);
         assertGlobalErrorExists(KFSKeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_RPTCODE_ALL_FIELDS_IF_ANY_FIELDS);
-        GlobalVariables.getMessageMap().clear();
+        GlobalVariables.getMessageMap().clearErrorMessages();
     }
 
     public void testCheckForPartiallyEnteredReportingFields_notAllFinReportCodesEntered() {
@@ -213,7 +212,7 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
         rule = (SubAccountRule) setupMaintDocRule(newSubAccount, rule.getClass());
 
         // confirm that there are no errors to begin with
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
         assertEquals(true, rule.checkCgRules(maintDoc));
         
         //System.out.println( GlobalVariables.getMessageMap().entrySet() );
@@ -228,10 +227,10 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
         rule = (SubAccountRule) setupMaintDocRule(newSubAccount, rule.getClass());
 
         // confirm that there are no errors to begin with
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
         assertEquals(false, rule.checkCgRules(maintDoc));
         assertFieldErrorExists(fieldName, KFSKeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_INVALI_SUBACCOUNT_TYPE_CODES);
-        assertGlobalErrorMapSize(1);
+        assertGlobalMessageMapSize(1);
     }
 
     /**

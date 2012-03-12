@@ -35,16 +35,16 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemMaintenanceDocumentEntry;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.PreCommitSuite;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.datadictionary.AttributeDefinition;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
-import org.kuali.rice.kns.datadictionary.DataDictionary;
-import org.kuali.rice.kns.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.InquiryDefinition;
 import org.kuali.rice.kns.datadictionary.InquirySectionDefinition;
 import org.kuali.rice.kns.datadictionary.LookupDefinition;
 import org.kuali.rice.kns.datadictionary.MaintainableSectionDefinition;
-import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.krad.datadictionary.AttributeDefinition;
+import org.kuali.rice.krad.datadictionary.DataDictionary;
+import org.kuali.rice.krad.datadictionary.DocumentEntry;
+import org.kuali.rice.krad.service.DataDictionaryService;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
@@ -59,7 +59,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
     public final static String BUSINESS_OBJECT_PATH_QUALIFIER = "businessobject/datadictionary";
     public final static String DOCUMENT_PATH_QUALIFIER = "document/datadictionary";
     public final static String RICE_PACKAGE_NAME_PREFIX = "org.kuali.rice";
-    public final static String INACTIVATEABLE_INTERFACE_CLASS = Inactivateable.class.getName();
+    public final static String INACTIVATEABLE_INTERFACE_CLASS = MutableInactivatable.class.getName();
     public final static String ACTIVE_FIELD_NAME = "active";
     
     public void testAllDataDictionaryDocumentTypesExistInWorkflowDocumentTypeTable() throws Exception {
@@ -141,16 +141,17 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
     
     public void testActiveFieldExistInLookupAndResultSection() throws Exception{
         List<Class<?>> noActiveFieldClassList = new ArrayList<Class<?>>();
-        List<Class<?>> notImplementInactivateableList = new ArrayList<Class<?>>();
+        List<Class<?>> notImplementInactivatableList = new ArrayList<Class<?>>();
         List<Class<?>> defaultValueWrongList = new ArrayList<Class<?>>();
         
-        for(BusinessObjectEntry businessObjectEntry:dataDictionary.getBusinessObjectEntries().values()){
+        for(org.kuali.rice.krad.datadictionary.BusinessObjectEntry kradBusinessObjectEntry:dataDictionary.getBusinessObjectEntries().values()){
+            BusinessObjectEntry businessObjectEntry = (BusinessObjectEntry) kradBusinessObjectEntry;
             if ( !businessObjectEntry.getBusinessObjectClass().getName().startsWith(RICE_PACKAGE_NAME_PREFIX)
                     && !INACTIVATEABLE_LOOKUP_IGNORE_CLASSES.contains(businessObjectEntry.getBusinessObjectClass().getName())
                     && !INACTIVATEABLE_LOOKUP_IGNORE_PACKAGES.contains(businessObjectEntry.getBusinessObjectClass().getPackage().getName()) ) {
                 try {
                     LookupDefinition lookupDefinition = businessObjectEntry.getLookupDefinition();
-                    // Class implements Inactivateable but active field not used on Lookup.
+                    // Class implements MutableInactivatable but active field not used on Lookup.
                     if(Class.forName(INACTIVATEABLE_INTERFACE_CLASS).isAssignableFrom(businessObjectEntry.getBusinessObjectClass())) {
                         if(lookupDefinition != null && !(lookupDefinition.getLookupFieldNames().contains(ACTIVE_FIELD_NAME) && lookupDefinition.getResultFieldNames().contains(ACTIVE_FIELD_NAME))){
                             noActiveFieldClassList.add(businessObjectEntry.getBusinessObjectClass());
@@ -162,9 +163,9 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
                             }
                         }
                     }else{
-                        // Lookup show active flag, but class does not implement Inactivateable.
+                        // Lookup show active flag, but class does not implement MutableInactivatable.
                         if(lookupDefinition != null && (lookupDefinition.getLookupFieldNames().contains(ACTIVE_FIELD_NAME) || lookupDefinition.getResultFieldNames().contains(ACTIVE_FIELD_NAME))){
-                            notImplementInactivateableList.add(businessObjectEntry.getBusinessObjectClass());
+                            notImplementInactivatableList.add(businessObjectEntry.getBusinessObjectClass());
                         }
                     }
                 }
@@ -175,9 +176,9 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         }
         String errorString = "";
         if (noActiveFieldClassList.size()!=0) errorString=errorString+"Missing Active Field: "+formatErrorStringGroupByModule(noActiveFieldClassList);
-        if (notImplementInactivateableList.size()!=0) errorString=errorString+"Inactivateable not implemented: "+formatErrorStringGroupByModule(notImplementInactivateableList);
+        if (notImplementInactivatableList.size()!=0) errorString=errorString+"Inactivatable not implemented: "+formatErrorStringGroupByModule(notImplementInactivatableList);
         if (defaultValueWrongList.size()!=0) errorString=errorString+"Wrong default value: "+formatErrorStringGroupByModule(defaultValueWrongList);
-        assertEquals(errorString, 0, noActiveFieldClassList.size()+notImplementInactivateableList.size()+defaultValueWrongList.size());
+        assertEquals(errorString, 0, noActiveFieldClassList.size()+notImplementInactivatableList.size()+defaultValueWrongList.size());
     }
     private String formatErrorStringGroupByModule(List<Class<?>> failedList){
         Map<String,Set<String>> listMap = new HashMap<String, Set<String>>();
@@ -203,7 +204,8 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
 
     public void testAllBusinessObjectsHaveObjectLabel() throws Exception {
         List<Class<?>> noObjectLabelClassList = new ArrayList<Class<?>>();
-        for(BusinessObjectEntry businessObjectEntry:dataDictionary.getBusinessObjectEntries().values()){
+        for(org.kuali.rice.krad.datadictionary.BusinessObjectEntry kradBusinessObjectEntry:dataDictionary.getBusinessObjectEntries().values()){
+            BusinessObjectEntry businessObjectEntry = (BusinessObjectEntry) kradBusinessObjectEntry;
             if (StringUtils.isBlank(businessObjectEntry.getObjectLabel())) {
                 noObjectLabelClassList.add(businessObjectEntry.getBusinessObjectClass());
             }

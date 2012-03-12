@@ -28,14 +28,12 @@ import org.kuali.kfs.coa.service.SubObjectTrickleDownInactivationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemGlobalMaintainable;
-import org.kuali.rice.kns.bo.GlobalBusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.document.MaintenanceLock;
-import org.kuali.rice.kns.maintenance.KualiGlobalMaintainableImpl;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.bo.GlobalBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.maintenance.MaintenanceLock;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class provides some specific functionality for the {@link ObjectCodeGlobal} maintenance document refresh - sets the current
@@ -134,7 +132,7 @@ public class ObjectCodeGlobalMaintainableImpl extends FinancialSystemGlobalMaint
             if (isInactivatingObjectCode(objectCode)) {
                 // if it turns out that the object code does not have associated sub-objects (either because the object code doesn't exist or doesn't have sub-objects)
                 // then the generateTrickleDownMaintenanceLocks method returns an empty list 
-                maintenanceLocks.addAll(subObjectTrickleDownInactivationService.generateTrickleDownMaintenanceLocks(objectCode, documentNumber));
+                maintenanceLocks.addAll(subObjectTrickleDownInactivationService.generateTrickleDownMaintenanceLocks(objectCode, getDocumentNumber()));
             }
         }
         return maintenanceLocks;
@@ -174,7 +172,7 @@ public class ObjectCodeGlobalMaintainableImpl extends FinancialSystemGlobalMaint
                     boService.save(objectCode);
                     
                     if (isInactivatingObjectCode(objectCode, objectCodeActiveStatusCache)) {
-                        subObjectTrickleDownInactivationService.trickleDownInactivateSubObjects(objectCode, documentNumber);
+                        subObjectTrickleDownInactivationService.trickleDownInactivateSubObjects(objectCode, getDocumentNumber());
                     }
                 }
             }
@@ -202,8 +200,8 @@ public class ObjectCodeGlobalMaintainableImpl extends FinancialSystemGlobalMaint
     }
     
     protected String buildObjectCodeCachingKey(ObjectCode objectCode) {
-        return objectCode.getUniversityFiscalYear() + KNSConstants.Maintenance.AFTER_VALUE_DELIM + objectCode.getChartOfAccountsCode() + 
-                KNSConstants.Maintenance.AFTER_VALUE_DELIM + objectCode.getFinancialObjectCode(); 
+        return objectCode.getUniversityFiscalYear() + KRADConstants.Maintenance.LOCK_AFTER_VALUE_DELIM + objectCode.getChartOfAccountsCode() + 
+                KRADConstants.Maintenance.LOCK_AFTER_VALUE_DELIM + objectCode.getFinancialObjectCode(); 
     }
     
     protected Map<String, Boolean> buildObjectCodeActiveStatusCache(ObjectCodeGlobal objectCodeGlobal) {

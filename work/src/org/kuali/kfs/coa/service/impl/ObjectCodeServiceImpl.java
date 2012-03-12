@@ -30,8 +30,8 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.spring.CacheNoCopy;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.cache.annotation.Cacheable;
 
 /**
  * This class is the service implementation for the ObjectCode structure. This is the default implementation, that is delivered with
@@ -59,7 +59,7 @@ public class ObjectCodeServiceImpl implements ObjectCodeService {
      * @see org.kuali.kfs.coa.service.ObjectCodeService#getByPrimaryIdWithCaching(java.lang.Integer, java.lang.String,
      *      java.lang.String)
      */
-    @CacheNoCopy
+    @Cacheable(value=ObjectCode.CACHE_NAME, key="'universityFiscalYear=' + #p0 + '|' + 'chartOfAccountsCode=' + #p1 + '|' + 'financialObjectCode=' + #p2")
     public ObjectCode getByPrimaryIdWithCaching(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode) {
         Map<String, Object> keys = new HashMap<String, Object>();
         keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);

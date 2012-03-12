@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.fixture.AccountingLineFixture;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public enum PurApAccountingLineFixture {
     BASIC_ACCOUNT_1(null, // accountIdentifier;

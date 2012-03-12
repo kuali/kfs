@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,7 +27,6 @@ import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetFabrication;
-import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.defaultvalue.NextAssetNumberFinder;
 import org.kuali.kfs.module.cam.document.service.AssetLocationService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
@@ -39,28 +38,25 @@ import org.kuali.kfs.module.cam.util.MaintainableWorkflowUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.maintenance.Maintainable;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.ui.Section;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.maintenance.MaintenanceLock;
+import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * This class implements custom data preparation for displaying asset edit screen.
  */
 
 public class AssetMaintainableImpl extends FinancialSystemMaintainable {
-    
+
     private static final Logger LOG = Logger.getLogger(AssetMaintainableImpl.class);
-    
+
     private Asset asset;
     private Asset copyAsset;
     private boolean fabricationOn;
@@ -80,7 +76,7 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
     /**
      * We are using a substitute mechanism for asset locking which can lock on assets when rule check passed. Return empty list from
      * this method.
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#generateMaintenanceLocks()
      */
     @Override
@@ -89,15 +85,15 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
     }
 
     /**
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.krad.bo.DocumentHeader)
      */
     @Override
     public void doRouteStatusChange(DocumentHeader documentHeader) {
         super.doRouteStatusChange(documentHeader);
-        KualiWorkflowDocument workflowDoc = documentHeader.getWorkflowDocument();
+        WorkflowDocument workflowDoc = documentHeader.getWorkflowDocument();
         // release lock for asset edit...
-        if ((this.getBusinessObject() instanceof Asset && !(this.getBusinessObject() instanceof AssetFabrication)) && (workflowDoc.stateIsCanceled() || workflowDoc.stateIsDisapproved() || workflowDoc.stateIsProcessed() || workflowDoc.stateIsFinal())) {
-            this.getCapitalAssetManagementModuleService().deleteAssetLocks(documentNumber, null);
+        if ((this.getBusinessObject() instanceof Asset && !(this.getBusinessObject() instanceof AssetFabrication)) && (workflowDoc.isCanceled() || workflowDoc.isDisapproved() || workflowDoc.isProcessed() || workflowDoc.isFinal())) {
+            this.getCapitalAssetManagementModuleService().deleteAssetLocks(getDocumentNumber(), null);
         }
     }
 
@@ -111,6 +107,7 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
      * @param document Maintenance Document used for editing
      * @param parameters Parameters available
      */
+    @Override
     public void processAfterEdit(MaintenanceDocument document, Map parameters) {
         initializeAttributes(document);
         // Identifies the latest location information
@@ -145,9 +142,9 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
     /**
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map,
      *      org.kuali.rice.kns.document.MaintenanceDocument)
-     * 
+     *
      * KRAD Conversion: Performs customization of the core sections.
-     * 
+     *
      * Uses data dictionary for bo Asset to get the core section ids to set section titles.
      */
     @Override
@@ -162,13 +159,13 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
                 }
             }
         }
-        
+
         return sections;
     }
 
     /**
      * This method gets old and new maintainable objects and creates convenience handles to them
-     * 
+     *
      * @param document Asset Edit Document
      */
     private void initializeAttributes(MaintenanceDocument document) {
@@ -182,22 +179,22 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
 
         setFabricationOn(document.getNewMaintainableObject().getBusinessObject() instanceof AssetFabrication);
     }
-    
+
     /**
      * KFSMI-5964: added refresh to Asset object after retrieve to prevent updated depreciation data from
      * wiped on existing saved/enrouted maint. doc
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterRetrieve()
      */
     @Override
     public void processAfterRetrieve() {
-        
+
         //Asset only
-        if (this.getBusinessObject() instanceof Asset && MaintainableWorkflowUtils.isDocumentSavedOrEnroute(documentNumber)) {
+        if (this.getBusinessObject() instanceof Asset && MaintainableWorkflowUtils.isDocumentSavedOrEnroute(getDocumentNumber())) {
 
             Asset asset = (Asset)getBusinessObject();
             asset.refreshReferenceObject(CamsPropertyConstants.Asset.ASSET_PAYMENTS);
-            
+
             PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
             paymentSummaryService.calculateAndSetPaymentSummary(asset);
         }
@@ -229,7 +226,8 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
             asset.setVendorName(CamsConstants.Asset.VENDOR_NAME_CONSTRUCTED);
             asset.setInventoryStatusCode(CamsConstants.InventoryStatusCode.CAPITAL_ASSET_UNDER_CONSTRUCTION);
             asset.setPrimaryDepreciationMethodCode(CamsConstants.Asset.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
-            asset.setCapitalAssetTypeCode(SpringContext.getBean(ParameterService.class).getParameterValue(Asset.class, CamsConstants.Parameters.DEFAULT_FABRICATION_ASSET_TYPE_CODE));
+            asset.setCapitalAssetTypeCode(SpringContext.getBean(ParameterService.class).getParameterValueAsString(Asset.class, CamsConstants.Parameters.DEFAULT_FABRICATION_ASSET_TYPE_CODE));
+            asset.setManufacturerName(SpringContext.getBean(ParameterService.class).getParameterValueAsString(Asset.class, CamsConstants.Parameters.DEFAULT_FABRICATION_ASSET_MANUFACTURER));
             getAssetService().setFiscalPeriod(asset);
         }
         // setup offCampusLocation
@@ -260,9 +258,8 @@ public class AssetMaintainableImpl extends FinancialSystemMaintainable {
         Iterator<String> fpDocumentNumbers = getFpLinks().iterator();
         while (fpDocumentNumbers.hasNext()) {
             String aDocumentNumber = fpDocumentNumbers.next();
-            KualiWorkflowInfo kualiWorkflowInfo = SpringContext.getBean(KualiWorkflowInfo.class);
             try {
-                String docTypeName = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(aDocumentNumber).getDocumentHeader().getWorkflowDocument().getDocumentType();
+                String docTypeName = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(aDocumentNumber).getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
                 documentInfo.add(FINANCIAL_DOC_NAME_MAP.get(docTypeName) + "-" + aDocumentNumber);
             }
             catch (WorkflowException e) {

@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.fp.document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.fp.businessobject.CapitalAccountingLines;
-import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * class which defines behavior common for capital accounting lines.
@@ -34,7 +34,7 @@ import org.kuali.rice.kns.util.TypedArrayList;
      */
     public CapitalAccountingLinesDocumentBase() {
         super();
-        capitalAccountingLines = new TypedArrayList(CapitalAccountingLines.class);
+        capitalAccountingLines = new ArrayList<CapitalAccountingLines>();
     }
     
     /**
@@ -43,6 +43,9 @@ import org.kuali.rice.kns.util.TypedArrayList;
      * @return Returns the capitalAccountingLines
      */
     public List<CapitalAccountingLines> getCapitalAccountingLines() {
+        if ( capitalAccountingLines == null ) {
+            capitalAccountingLines = new ArrayList<CapitalAccountingLines>();
+        }
         return capitalAccountingLines;
     }
 

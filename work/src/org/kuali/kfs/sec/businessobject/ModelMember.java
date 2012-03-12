@@ -18,14 +18,14 @@ package org.kuali.kfs.sec.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sec.SecPropertyConstants;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 
 /**
  * Represents a member who can be assigned to a model. Can be of Person, Role, or Group type
  */
-public class ModelMember extends PersistableBusinessObjectBase implements Inactivateable {
+public class ModelMember extends PersistableBusinessObjectBase implements MutableInactivatable {
     private String memberId;
     private String memberName;
     private String memberTypeCode;
@@ -396,10 +396,10 @@ public class ModelMember extends PersistableBusinessObjectBase implements Inacti
 
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
 
         m.put(SecPropertyConstants.MEMBER_TYPE_CODE, this.memberTypeCode);

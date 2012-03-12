@@ -18,13 +18,13 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Electronic Invoice Reject Reason Type Code Business Object.
  */
-public class ElectronicInvoiceRejectReasonType extends PersistableBusinessObjectBase implements Inactivateable{
+public class ElectronicInvoiceRejectReasonType extends PersistableBusinessObjectBase implements MutableInactivatable{
 
     private String invoiceRejectReasonTypeCode;
     private String invoiceRejectReasonTypeDescription;
@@ -83,9 +83,9 @@ public class ElectronicInvoiceRejectReasonType extends PersistableBusinessObject
     }
     
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("invoiceRejectReasonTypeCode", this.invoiceRejectReasonTypeCode);
         return m;

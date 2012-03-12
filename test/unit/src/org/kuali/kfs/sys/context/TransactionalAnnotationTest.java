@@ -24,11 +24,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
-import org.kuali.kfs.coa.service.impl.SubFundGroupServiceImpl;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.PreCommitSuite;
-import org.springframework.aop.framework.AopProxyUtils;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.BeanIsAbstractException;
 @AnnotationTestSuite(PreCommitSuite.class)
 @ConfigureContext
@@ -127,7 +126,7 @@ public class TransactionalAnnotationTest extends KualiTestBase {
             if (bean != null) {
                 Class<? extends Object> beanClass = bean.getClass();
                 if (beanClass.getName().startsWith("$Proxy")) {
-                    beanClass = AopProxyUtils.getTargetClass(bean);
+                    beanClass = AopUtils.getTargetClass(bean);
                 }
                 if (beanClass.getName().startsWith("org.kuali") 
                         && !Modifier.isAbstract(beanClass.getModifiers()) 

@@ -20,11 +20,10 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemType;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * Values finder for CapitalAssetSystemTypes
@@ -40,10 +39,10 @@ public class CapitalAssetSystemTypeValuesFinder extends KeyValuesBase {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection types = boService.findAll(CapitalAssetSystemType.class);
         List labels = new ArrayList();
-        labels.add(new KeyLabelPair("", ""));
+        labels.add(new ConcreteKeyValue("", ""));
         for (Object type : types) {
             CapitalAssetSystemType camsType = (CapitalAssetSystemType)type;           
-            labels.add(new KeyLabelPair(camsType.getCapitalAssetSystemTypeCode(), camsType.getCapitalAssetSystemTypeDescription()));
+            labels.add(new ConcreteKeyValue(camsType.getCapitalAssetSystemTypeCode(), camsType.getCapitalAssetSystemTypeDescription()));
         }
 
         return labels;

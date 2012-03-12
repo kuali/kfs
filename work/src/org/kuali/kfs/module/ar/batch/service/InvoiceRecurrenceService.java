@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.ar.batch.service;
 
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public interface InvoiceRecurrenceService {
 

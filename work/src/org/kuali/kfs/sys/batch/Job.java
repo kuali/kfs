@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,6 +17,9 @@ package org.kuali.kfs.sys.batch;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -28,12 +31,14 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.context.ProxyUtils;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.rice.core.api.CoreConstants;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.quartz.InterruptableJob;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
@@ -50,6 +55,7 @@ public class Job implements StatefulJob, InterruptableJob {
     public static final String STEP_RUN_PARM_NM = "RUN_IND";
     public static final String STEP_RUN_ON_DATE_PARM_NM = "RUN_DATE";
     public static final String STEP_USER_PARM_NM = "USER";
+    public static final String RUN_DATE_CUTOFF_PARM_NM = "RUN_DATE_CUTOFF_TIME";
     private static final Logger LOG = Logger.getLogger(Job.class);
     private SchedulerService schedulerService;
     private ParameterService parameterService;
@@ -63,6 +69,7 @@ public class Job implements StatefulJob, InterruptableJob {
     /**
      * @see org.quartz.Job#execute(org.quartz.JobExecutionContext)
      */
+    @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         workerThread = Thread.currentThread();
         if (isNotRunnable()) {
@@ -144,16 +151,16 @@ public class Job implements StatefulJob, InterruptableJob {
         else {
             LOG.info(new StringBuffer("Started processing step: ").append(currentStepNumber).append("=").append(step.getName()).append(" for user ").append(GlobalVariables.getUserSession().getPrincipalName()));
         }
-        
+
         if (!skipStep(parameterService, step, jobRunDate)) {
-            
+
             Step unProxiedStep = (Step) ProxyUtils.getTargetIfProxied(step);
             Class stepClass = unProxiedStep.getClass();
             GlobalVariables.clear();
-            
+
             String stepUserName = KFSConstants.SYSTEM_USER;
             if (parameterService.parameterExists(stepClass, STEP_USER_PARM_NM)) {
-                stepUserName = parameterService.getParameterValue(stepClass, STEP_USER_PARM_NM);
+                stepUserName = parameterService.getParameterValueAsString(stepClass, STEP_USER_PARM_NM);
             }
             if (LOG.isInfoEnabled()) {
                 LOG.info(new StringBuffer("Creating user session for step: ").append(step.getName()).append("=").append(stepUserName));
@@ -185,44 +192,48 @@ public class Job implements StatefulJob, InterruptableJob {
         return continueJob;
     }
 
-    
+
     /**
      * This method determines whether the Job should not run the Step based on the RUN_IND and RUN_DATE Parameters.
-     * When RUN_IND exists and equals 'Y' it takes priority and does not consult RUN_DATE. 
+     * When RUN_IND exists and equals 'Y' it takes priority and does not consult RUN_DATE.
      * If RUN_DATE exists, but contains an empty value the step will not be skipped.
      */
     protected static boolean skipStep(ParameterService parameterService, Step step, Date jobRunDate) {
         Step unProxiedStep = (Step) ProxyUtils.getTargetIfProxied(step);
         Class stepClass = unProxiedStep.getClass();
-        
+
         DateTimeService dTService = SpringContext.getBean(DateTimeService.class);
-        String dateFormat = parameterService.getParameterValue(KNSConstants.KNS_NAMESPACE, KNSConstants.DetailTypes.ALL_DETAIL_TYPE, KNSConstants.SystemGroupParameterNames.DATE_TO_STRING_FORMAT_FOR_USER_INTERFACE);
-        
+        String dateFormat = parameterService.getParameterValueAsString(KRADConstants.KRAD_NAMESPACE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, CoreConstants.DATE_TO_STRING_FORMAT_FOR_USER_INTERFACE);
+
         //RUN_IND takes priority: when RUN_IND exists and RUN_IND=Y always run the Step
         //RUN_DATE: when RUN_DATE exists, but the value is empty run the Step
-        
+
         boolean runIndExists = parameterService.parameterExists(stepClass, STEP_RUN_PARM_NM);
-        boolean runInd = (runIndExists ? parameterService.getIndicatorParameter(stepClass, STEP_RUN_PARM_NM) : true);
-        
+        boolean runInd = (runIndExists ? parameterService.getParameterValueAsBoolean(stepClass, STEP_RUN_PARM_NM) : true);
+
         boolean runDateExists = parameterService.parameterExists(stepClass, STEP_RUN_ON_DATE_PARM_NM);
-        boolean runDateIsEmpty = (runDateExists ? StringUtils.isEmpty(parameterService.getParameterValue(stepClass, STEP_RUN_ON_DATE_PARM_NM)) : true);
-        boolean runDateContainsTodaysDate = (runDateExists ? parameterService.getParameterValues(stepClass, STEP_RUN_ON_DATE_PARM_NM).contains(dTService.toString(jobRunDate, dateFormat)): true);
+        boolean runDateIsEmpty = (runDateExists ? StringUtils.isEmpty(parameterService.getParameterValueAsString(stepClass, STEP_RUN_ON_DATE_PARM_NM)) : true);
+        Collection<String> runDates = null;
+        if (runDateExists) {
+            runDates = parameterService.getParameterValuesAsString(stepClass, STEP_RUN_ON_DATE_PARM_NM);
+        }
+        boolean runDateContainsTodaysDate = (runDateExists ? runDates.contains(dTService.toString(jobRunDate, dateFormat)) : true);
 
         if (!runInd && !runDateExists) {
             if (LOG.isInfoEnabled()) {
                 LOG.info("Skipping step due to system parameter: " + STEP_RUN_PARM_NM +" for "+ stepClass.getName());
-            }            
-            return true;
-        }
-        else if (!runInd && !runDateIsEmpty && !runDateContainsTodaysDate) {
-            if (LOG.isInfoEnabled()) {
-                LOG.info("Skipping step due to system parameters: " + STEP_RUN_PARM_NM + " and " + STEP_RUN_ON_DATE_PARM_NM +" for "+ stepClass.getName());
             }
             return true;
         }
-        else if (!runIndExists && !runDateIsEmpty && !runDateContainsTodaysDate) {
+        else if (!runInd && !runDateIsEmpty && !runDateContainsTodaysDate && isPastCutoffWindow(jobRunDate, runDates)) {
             if (LOG.isInfoEnabled()) {
-                LOG.info("Skipping step due to system parameter: " + STEP_RUN_ON_DATE_PARM_NM +" for "+ stepClass.getName());
+                LOG.info("Skipping step due to system parameters: " + STEP_RUN_PARM_NM + ", " + STEP_RUN_ON_DATE_PARM_NM + " and " + RUN_DATE_CUTOFF_PARM_NM + " for "+ stepClass.getName());
+            }
+            return true;
+        }
+        else if (!runIndExists && !runDateIsEmpty && !runDateContainsTodaysDate && isPastCutoffWindow(jobRunDate, runDates)) {
+            if (LOG.isInfoEnabled()) {
+                LOG.info("Skipping step due to system parameters: " + STEP_RUN_PARM_NM + ", " + STEP_RUN_ON_DATE_PARM_NM + " and " + RUN_DATE_CUTOFF_PARM_NM + " for "+ stepClass.getName());
             }
             return true;
         }
@@ -231,9 +242,36 @@ public class Job implements StatefulJob, InterruptableJob {
         }
     }
 
+    public static boolean isPastCutoffWindow(Date date, Collection<String> runDates) {
+        DateTimeService dTService = SpringContext.getBean(DateTimeService.class);
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        Calendar jobRunDate = dTService.getCalendar(date);
+        if (parameterService.parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_BATCH.class, RUN_DATE_CUTOFF_PARM_NM)) {
+            String[] cutOffTime = StringUtils.split(parameterService.getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_BATCH.class, RUN_DATE_CUTOFF_PARM_NM), ':');
+            Calendar runDate = null;
+            for (String runDateStr : runDates) {
+                try {
+                    runDate = dTService.getCalendar(dTService.convertToDate(runDateStr));
+                    runDate.add(Calendar.DAY_OF_YEAR, 1);
+                    runDate.set(Calendar.HOUR_OF_DAY, Integer.parseInt(cutOffTime[0]));
+                    runDate.set(Calendar.MINUTE, Integer.parseInt(cutOffTime[1]));
+                    runDate.set(Calendar.SECOND, Integer.parseInt(cutOffTime[2]));
+                }
+                catch (ParseException e) {
+                    LOG.error("ParseException occured parsing " + runDateStr, e);
+                }
+                if (jobRunDate.before(runDate)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     /**
      * @throws UnableToInterruptJobException
      */
+    @Override
     public void interrupt() throws UnableToInterruptJobException {
         // ask the step to interrupt
         if (currentStep != null) {
@@ -282,7 +320,7 @@ public class Job implements StatefulJob, InterruptableJob {
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
-    
+
     protected String jobDataMapToString(JobDataMap jobDataMap) {
         StringBuilder buf = new StringBuilder();
         buf.append("{");
@@ -306,7 +344,7 @@ public class Job implements StatefulJob, InterruptableJob {
         buf.append("}");
         return buf.toString();
     }
-    
+
     protected String getMachineName() {
         try {
             return InetAddress.getLocalHost().getHostName();

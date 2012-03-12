@@ -23,13 +23,13 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCodeCurrent;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCodeCurrent;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class CreditCardVendor extends PersistableBusinessObjectBase implements Inactivateable {
+public class CreditCardVendor extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String financialDocumentCreditCardVendorNumber;
     private String financialDocumentCreditCardVendorName;
@@ -515,9 +515,9 @@ public class CreditCardVendor extends PersistableBusinessObjectBase implements I
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("financialDocumentCreditCardVendorNumber", this.financialDocumentCreditCardVendorNumber);
         return m;

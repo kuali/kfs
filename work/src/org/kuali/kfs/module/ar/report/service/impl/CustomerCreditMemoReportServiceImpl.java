@@ -28,7 +28,7 @@ import org.kuali.kfs.module.ar.report.util.CustomerCreditMemoReportDataHolder;
 import org.kuali.kfs.sys.KFSConstants.ReportGeneration;
 import org.kuali.kfs.sys.report.ReportInfo;
 import org.kuali.kfs.sys.service.ReportGenerationService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -55,7 +55,7 @@ public class CustomerCreditMemoReportServiceImpl implements CustomerCreditMemoRe
         String subReportTemplateClassPath;
         Map<String, String> subReports; 
         
-        if (parameterService.getIndicatorParameter("KFS-AR", "Document", ArConstants.ENABLE_SALES_TAX_IND)) {
+        if (parameterService.getParameterValueAsBoolean("KFS-AR", "Document", ArConstants.ENABLE_SALES_TAX_IND)) {
             reportFileName = customerCreditMemoReportInfo.getReportFileName();
             reportDirectory = customerCreditMemoReportInfo.getReportsDirectory();
             reportTemplateClassPath = customerCreditMemoReportInfo.getReportTemplateClassPath();

@@ -15,16 +15,17 @@
  */
 package org.kuali.kfs.pdp.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.pdp.businessobject.PayeeACHAccount;
 import org.kuali.kfs.pdp.service.AchService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * @see org.kuali.kfs.pdp.service.AchService
@@ -62,6 +63,19 @@ public class AchServiceImpl implements AchService {
         }
     }
 
+    /**
+     * @see org.kuali.kfs.pdp.service.AchService#getActiveAchAccounts()
+     */
+    public List<PayeeACHAccount> getActiveAchAccounts() {
+        LOG.debug("getActivePayeeAchAccounts() started");
+
+        Map<String, Object> fields = new HashMap<String, Object>();
+        fields.put(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
+        Collection<PayeeACHAccount> accounts = businessObjectService.findMatchingOrderBy(PayeeACHAccount.class, fields, PdpPropertyConstants.PAYEE_IDENTIFIER_TYPE_CODE, true);
+        
+        return new ArrayList<PayeeACHAccount>(accounts);
+    }
+    
     /**
      * Sets the businessObjectService attribute value.
      * 

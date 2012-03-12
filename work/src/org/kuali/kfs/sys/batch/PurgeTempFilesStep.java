@@ -21,7 +21,7 @@ import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 /**
  * 
@@ -29,7 +29,7 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
  */
 public class PurgeTempFilesStep extends AbstractStep {
     
-    private KualiConfigurationService kualiConfigurationService;
+    private ConfigurationService kualiConfigurationService;
     
     /**
      * Deletes all files in the temp directory that are over 1 day old
@@ -39,7 +39,7 @@ public class PurgeTempFilesStep extends AbstractStep {
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
         Calendar calendar = getDateTimeService().getCurrentCalendar();
         calendar.add(Calendar.DATE, -1);
-        String location = kualiConfigurationService.getPropertyString(KFSConstants.TEMP_DIRECTORY_KEY) + File.separator;
+        String location = kualiConfigurationService.getPropertyValueAsString(KFSConstants.TEMP_DIRECTORY_KEY) + File.separator;
         deleteTempBefore(location, calendar.getTimeInMillis());
         return true;
     }
@@ -81,7 +81,7 @@ public class PurgeTempFilesStep extends AbstractStep {
      * Sets the configurationService attribute value.
      * @param configurationService The configurationService to set.
      */
-    public void setKualiConfigurationService(KualiConfigurationService configurationService) {
+    public void setConfigurationService(ConfigurationService configurationService) {
         this.kualiConfigurationService = configurationService;
     }
     

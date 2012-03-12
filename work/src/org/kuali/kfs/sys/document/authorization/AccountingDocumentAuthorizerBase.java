@@ -25,10 +25,8 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * DocumentAuthorizer containing common, reusable document-level authorization code for financial (i.e. Transactional) documents
@@ -50,9 +48,9 @@ public class AccountingDocumentAuthorizerBase extends FinancialSystemTransaction
     }
     
     @Override
-    protected void addRoleQualification(BusinessObject businessObject, Map<String,String> attributes) {
-        super.addRoleQualification(businessObject, attributes);
-        Document document = (Document)businessObject;
+    protected void addRoleQualification(Object dataObject, Map<String,String> attributes) {
+        super.addRoleQualification(dataObject, attributes);
+        Document document = (Document)dataObject;
         // add the document amount
         if ( ((AccountingDocument)document).getSourceTotal() != null && ((FinancialSystemDocumentHeader)document.getDocumentHeader()).getFinancialDocumentTotalAmount() != null ) {
             attributes.put(KfsKimAttributes.FINANCIAL_DOCUMENT_TOTAL_AMOUNT, ((FinancialSystemDocumentHeader)document.getDocumentHeader()).getFinancialDocumentTotalAmount().toString());

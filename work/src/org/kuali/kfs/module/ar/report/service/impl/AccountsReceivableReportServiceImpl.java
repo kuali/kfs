@@ -71,19 +71,19 @@ import org.kuali.kfs.module.ar.report.util.SortTransaction;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.web.format.CurrencyFormatter;
-import org.kuali.rice.kns.web.format.PhoneNumberFormatter;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
+import org.kuali.rice.core.web.format.PhoneNumberFormatter;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.location.api.country.CountryService;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -93,7 +93,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
 
     private DateTimeService dateTimeService;
     private DocumentService documentService;
-    private PersonService<Person> personService;
+    private PersonService personService;
     private ParameterService parameterService;
 
     private PhoneNumberFormatter phoneNumberFormatter = new PhoneNumberFormatter();
@@ -114,7 +114,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         Map<String, String> creditMemoMap = new HashMap<String, String>();
         creditMemoMap.put("docNumber", creditMemo.getDocumentNumber());
         creditMemoMap.put("refDocNumber", invoice.getDocumentNumber());
-        Date date = creditMemo.getDocumentHeader().getDocumentFinalDate();
+        Date date = creditMemo.getFinancialSystemDocumentHeader().getDocumentFinalDate();
         if (ObjectUtils.isNotNull(date)) {
             creditMemoMap.put("createDate", dateTimeService.toDateString(date));
         }
@@ -131,9 +131,9 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         }
         else {
             billCityStateZip = generateCityStateZipLine(invoice.getBillingCityName(), invoice.getBillingAddressInternationalProvinceName(), invoice.getBillingInternationalMailCode());
-            Country country = SpringContext.getBean(CountryService.class).getByPrimaryId(invoice.getBillingCountryCode());
+            Country country = SpringContext.getBean(CountryService.class).getCountry(invoice.getBillingCountryCode());
             if (ObjectUtils.isNotNull(country)) {
-                customerMap.put("billToCountry", country.getPostalCountryName());
+                customerMap.put("billToCountry", country.getName());
             }
         }
         customerMap.put("billToCityStateZip", billCityStateZip);
@@ -165,7 +165,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         invoiceMap.put("headerField", (ObjectUtils.isNull(invoice.getInvoiceHeaderText()) ? "" : invoice.getInvoiceHeaderText()));
         invoiceMap.put("billingOrgName", invoice.getBilledByOrganization().getOrganizationName());
         invoiceMap.put("pretaxAmount", invoice.getInvoiceItemPreTaxAmountTotal().toString());
-        boolean salesTaxInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter("KFS-AR", "Document", ArConstants.ENABLE_SALES_TAX_IND);
+        boolean salesTaxInd = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean("KFS-AR", "Document", ArConstants.ENABLE_SALES_TAX_IND);
         if (salesTaxInd) {
             invoiceMap.put("taxAmount", invoice.getInvoiceItemTaxAmountTotal().toString());
             // KualiDecimal taxPercentage = invoice.getStateTaxPercent().add(invoice.getLocalTaxPercent());
@@ -257,7 +257,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
             }
             else {
                 billCityStateZip = generateCityStateZipLine(billToAddr.getCustomerCityName(), billToAddr.getCustomerAddressInternationalProvinceName(), billToAddr.getCustomerInternationalMailCode());
-                customerMap.put("billToCountry", billToAddr.getCustomerCountry().getPostalCountryName());
+                customerMap.put("billToCountry", billToAddr.getCustomerCountry().getName());
             }
             customerMap.put("billToCityStateZip", billCityStateZip);
         }
@@ -271,7 +271,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
             }
             else {
                 shipCityStateZip = generateCityStateZipLine(shipToAddr.getCustomerCityName(), shipToAddr.getCustomerAddressInternationalProvinceName(), shipToAddr.getCustomerInternationalMailCode());
-                customerMap.put("shipToCountry", shipToAddr.getCustomerCountry().getPostalCountryName());
+                customerMap.put("shipToCountry", shipToAddr.getCustomerCountry().getName());
             }
             customerMap.put("shipToCityStateZip", shipCityStateZip);
         }
@@ -301,11 +301,11 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         invoiceMap.put("customerOrg", invoice.getBilledByOrganizationCode());
         invoiceMap.put("docNumber", invoice.getDocumentNumber());
         invoiceMap.put("invoiceDueDate", dateTimeService.toDateString(invoice.getInvoiceDueDate()));
-        invoiceMap.put("createDate", dateTimeService.toDateString(invoice.getDocumentHeader().getWorkflowDocument().getCreateDate()));
+        invoiceMap.put("createDate", dateTimeService.toDateString(invoice.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate()));
         invoiceMap.put("invoiceAttentionLineText", StringUtils.upperCase(invoice.getInvoiceAttentionLineText()));
         invoiceMap.put("billingOrgName", invoice.getBilledByOrganization().getOrganizationName());
         invoiceMap.put("pretaxAmount", currencyFormatter.format(invoice.getInvoiceItemPreTaxAmountTotal()).toString());
-        boolean salesTaxInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter("KFS-AR", "Document", ArConstants.ENABLE_SALES_TAX_IND);
+        boolean salesTaxInd = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean("KFS-AR", "Document", ArConstants.ENABLE_SALES_TAX_IND);
         if (salesTaxInd) {
             invoiceMap.put("taxAmount", currencyFormatter.format(invoice.getInvoiceItemTaxAmountTotal()).toString());
             invoiceMap.put("taxPercentage", ""); // suppressing this as its useless ... see KULAR-415
@@ -402,7 +402,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
             }
             else {
                 billCityStateZip = generateCityStateZipLine(billToAddr.getCustomerCityName(), billToAddr.getCustomerAddressInternationalProvinceName(), billToAddr.getCustomerInternationalMailCode());
-                customerMap.put("billToCountry", billToAddr.getCustomerCountry().getPostalCountryName());
+                customerMap.put("billToCountry", billToAddr.getCustomerCountry().getName());
             }
             customerMap.put("billToCityStateZip", billCityStateZip);
         }
@@ -506,8 +506,8 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
             if (date == null) {
                 reports.add(generateInvoice(doc));
             }
-            else if (dateTimeService.toDateString(doc.getDocumentHeader().getWorkflowDocument().getCreateDate()) != null) {
-                if (dateTimeService.toDateString(doc.getDocumentHeader().getWorkflowDocument().getCreateDate()).equals(dateTimeService.toDateString(date))) {
+            else if (dateTimeService.toDateString(doc.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate()) != null) {
+                if (dateTimeService.toDateString(doc.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate()).equals(dateTimeService.toDateString(date))) {
                     reports.add(generateInvoice(doc));
                 }
             }
@@ -528,8 +528,8 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
             if (date == null) {
                 reports.add(generateInvoice(doc));
             }
-            else if (dateTimeService.toDateString(doc.getDocumentHeader().getWorkflowDocument().getCreateDate()) != null) {
-                if (dateTimeService.toDateString(doc.getDocumentHeader().getWorkflowDocument().getCreateDate()).equals(dateTimeService.toDateString(date))) {
+            else if (dateTimeService.toDateString(doc.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate()) != null) {
+                if (dateTimeService.toDateString(doc.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate()).equals(dateTimeService.toDateString(date))) {
                     reports.add(generateInvoice(doc));
                 }
             }
@@ -548,8 +548,8 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
             if (date == null) {
                 reports.add(generateInvoice(invoice));
             }
-            else if (dateTimeService.toDateString(invoice.getDocumentHeader().getWorkflowDocument().getCreateDate()) != null) {
-                if (dateTimeService.toDateString(invoice.getDocumentHeader().getWorkflowDocument().getCreateDate()).equals(dateTimeService.toDateString(date))) {
+            else if (dateTimeService.toDateString(invoice.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate()) != null) {
+                if (dateTimeService.toDateString(invoice.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate()).equals(dateTimeService.toDateString(date))) {
                     reports.add(generateInvoice(invoice));
                 }
             }
@@ -655,7 +655,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         // This is where all the magic will begin
         for (CustomerInvoiceDocument invoice : invoiceList) {
 
-            if (invoice.getDocumentHeader().getFinancialDocumentStatusCode().equals(KFSConstants.DocumentStatusCodes.APPROVED)) {
+            if (invoice.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode().equals(KFSConstants.DocumentStatusCodes.APPROVED)) {
                 if (invoice.isOpenInvoiceIndicator()) {
 
                     // if it is detailed report, take only invoices that have not reported yet
@@ -693,7 +693,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
                             try {
                                 doc.populateCustomerCreditMemoDetailsAfterLoad();
                                 CustomerCreditMemoDocument creditMemoDoc = (CustomerCreditMemoDocument)documentService.getByDocumentHeaderId(doc.getDocumentNumber());
-                                CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(creditMemoDoc.getDocumentHeader(),
+                                CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(creditMemoDoc.getFinancialSystemDocumentHeader(),
                                             //creditMemoDoc.getInvoice().getAccountsReceivableDocumentHeader().getProcessingOrganization(),
                                             invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(),
                                             ArConstants.CREDIT_MEMO_DOC_TYPE, doc.getTotalDollarAmount());                            
@@ -710,7 +710,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
                             try {
                                 //doc.populateCustomerCreditMemoDetailsAfterLoad();
                                 PaymentApplicationDocument paymentApplicationDoc = (PaymentApplicationDocument)documentService.getByDocumentHeaderId(doc.getDocumentNumber());
-                                CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(paymentApplicationDoc.getDocumentHeader(),
+                                CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(paymentApplicationDoc.getFinancialSystemDocumentHeader(),
                                         invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(),
                                         ArConstants.PAYMENT_DOC_TYPE, doc.getInvoiceItemAppliedAmount());                            
                                 statementDetailsByCustomer.add(detail);
@@ -723,7 +723,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
                         Collection<CustomerInvoiceWriteoffDocument> writeoffs = writeoffService.getCustomerCreditMemoDocumentByInvoiceDocument(invoice.getDocumentNumber());
                         for (CustomerInvoiceWriteoffDocument doc : writeoffs) {
                             try {
-                                CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(doc.getDocumentHeader(),
+                                CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(doc.getFinancialSystemDocumentHeader(),
                                         invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(),
                                         ArConstants.WRITEOFF_DOC_TYPE, doc.getTotalDollarAmount());                            
                                 statementDetailsByCustomer.add(detail);
@@ -734,7 +734,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
                     }
                      
                     // add invoice
-                    CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(invoice.getDocumentHeader(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), ArConstants.INVOICE_DOC_TYPE, invoice.getTotalDollarAmount());
+                    CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(invoice.getFinancialSystemDocumentHeader(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), ArConstants.INVOICE_DOC_TYPE, invoice.getTotalDollarAmount());
                     if (detail != null) {
                         statementDetailsByCustomer.add(detail);    
                         statementDetailsForGivenBillingOrg.put(customerNumber, statementDetailsByCustomer);
@@ -847,7 +847,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
     }
     
     protected String calculateDueDate() {
-        String parameterValue = getParameterService().getParameterValue(CustomerBillingStatement.class, ArConstants.DUE_DATE_DAYS);
+        String parameterValue = getParameterService().getParameterValueAsString(CustomerBillingStatement.class, ArConstants.DUE_DATE_DAYS);
         Calendar cal = Calendar.getInstance();
         cal.setTime(dateTimeService.getCurrentDate());
         cal.add(Calendar.DATE, Integer.parseInt(parameterValue));
@@ -900,7 +900,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
     /**
      * @return Returns the personService.
      */
-    protected PersonService<Person> getPersonService() {
+    protected PersonService getPersonService() {
         if (personService == null)
             personService = SpringContext.getBean(PersonService.class);
         return personService;

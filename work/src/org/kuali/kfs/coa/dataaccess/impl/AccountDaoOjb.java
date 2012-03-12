@@ -30,10 +30,10 @@ import org.kuali.kfs.coa.dataaccess.AccountDao;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountResponsibility;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class is the OJB implementation of the AccountDao interface.
@@ -75,7 +75,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
     }
 
     /**
-     * @see org.kuali.kfs.coa.dataaccess.AccountDao#determineUserResponsibilityOnAccount(org.kuali.rice.kim.bo.Person,
+     * @see org.kuali.kfs.coa.dataaccess.AccountDao#determineUserResponsibilityOnAccount(org.kuali.rice.kim.api.identity.Person,
      *      org.kuali.kfs.coa.businessobject.Account, java.sql.Date)
      */
     public boolean determineUserResponsibilityOnAccount(Person person, Account account, Date currentSqlDate) {

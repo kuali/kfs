@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
-import org.kuali.kfs.fp.document.CapitalAssetEditable;
-import org.kuali.kfs.fp.document.YearEndDistributionOfIncomeAndExpenseDocument;
 
 /**
  * form for <code>YearEndDistributionOfIncomeAndExpenseDocument</code> the only functional difference between the YearEnd version

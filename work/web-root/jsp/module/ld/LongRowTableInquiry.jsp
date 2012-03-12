@@ -105,7 +105,7 @@
 				<c:forEach items="${row.columns}" var="column" varStatus="status">
 					
 					<c:choose>
-						<c:when test="${column.formatter.implementationClass == 'org.kuali.rice.kns.web.format.CurrencyFormatter'}">
+						<c:when test="${column.formatter.implementationClass == 'org.kuali.rice.core.web.format.CurrencyFormatter'}">
 							<display:column class="numbercell" media="${(status.index < columnLength) ? 'all' : 'csv excel xml'}"
 								decorator="org.kuali.rice.kns.web.ui.FormatAwareDecorator"
 								comparator="${column.comparator}" title="${column.columnTitle}" sortable="true">

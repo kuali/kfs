@@ -66,6 +66,16 @@ public class AssetType implements CapitalAssetManagementAssetType {
 		this.capitalAssetTypeDescription = capitalAssetTypeDescription;
 	}
 
+	   /**
+     * Gets the movingIndicator attribute.
+     * 
+     * @return Returns the movingIndicator
+     * 
+     */
+    public boolean isMovingIndicator() { 
+        return false;
+    }
+
     public void prepareForWorkflow() {}
     public void refresh() {}
 

@@ -15,18 +15,13 @@
  */
 package org.kuali.kfs.module.purap.util;
 
-import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import static org.kuali.kfs.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_INVALID_NUMERIC_VALUE;
 import static org.kuali.kfs.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_ITEM_PROPERTY;
 import static org.kuali.kfs.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_WRONG_PROPERTY_NUMBER;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
@@ -41,6 +36,11 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.CrossSectionSuite;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.util.AutoPopulatingList;
 
 /**
  * Test class for testing <code>{@link ItemParser}</code>
@@ -86,7 +86,7 @@ public class ItemParserTest extends KualiTestBase {
         String errorPath = PurapConstants.ITEM_TAB_ERRORS;
         String errorKey = ERROR_ITEMPARSER_EMPTY_PROPERTY_VALUE;
         assertTrue(GlobalVariables.getMessageMap().containsMessageKey(errorKey));
-        TypedArrayList params = GlobalVariables.getMessageMap().getMessages(errorPath);
+        ArrayList params = GlobalVariables.getMessageMap().getMessages(errorPath);
         for (int i=0; i<params.size(); i++) {
             ErrorMessage errmsg = (ErrorMessage)params.get(i);
             if (errmsg.getErrorKey().equals(errorKey)) {
@@ -109,7 +109,7 @@ public class ItemParserTest extends KualiTestBase {
         String errorPath = PurapConstants.ITEM_TAB_ERRORS;
         String errorKey = ERROR_ITEMPARSER_INVALID_NUMERIC_VALUE;
         assertTrue(GlobalVariables.getMessageMap().containsMessageKey(errorKey));
-        TypedArrayList params = GlobalVariables.getMessageMap().getMessages(errorPath);
+        AutoPopulatingList<ErrorMessage> params = GlobalVariables.getMessageMap().getMessages(errorPath);
         for (int i=0; i<params.size(); i++) {
             ErrorMessage errmsg = (ErrorMessage)params.get(i);
             if (errmsg.getErrorKey().equals(errorKey)) {

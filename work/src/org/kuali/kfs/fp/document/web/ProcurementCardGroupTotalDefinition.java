@@ -16,7 +16,6 @@
 package org.kuali.kfs.fp.document.web;
 
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupTotalDefinition;
-import org.kuali.kfs.sys.document.web.renderers.GroupTotalRenderer;
 import org.kuali.kfs.sys.document.web.renderers.Renderer;
 
 /**

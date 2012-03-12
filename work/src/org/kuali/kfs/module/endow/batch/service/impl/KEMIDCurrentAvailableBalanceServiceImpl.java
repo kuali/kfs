@@ -19,7 +19,7 @@ import java.util.Collection;
 
 import org.kuali.kfs.module.endow.batch.service.KEMIDCurrentAvailableBalanceService;
 import org.kuali.kfs.module.endow.businessobject.KEMIDCurrentAvailableBalance;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class implements the AvailableCashService.
@@ -31,28 +31,28 @@ public class KEMIDCurrentAvailableBalanceServiceImpl implements KEMIDCurrentAvai
 
     /**
      * @see org.kuali.kfs.module.endow.batch.service.AvailableCashUpdateService#clearAvailableCash()
-     * Method to clear all the records in the kEMIDCurrentAvailableBalance table
+     * Method to clear all the records in the kemidCurrentAvailableBalance table
      */
     public void clearAllAvailableCash() {
         LOG.info("Step1: Clearing all available cash records");
         
         Collection<KEMIDCurrentAvailableBalance> KEMIDCurrentAvailableBalances = businessObjectService.findAll(KEMIDCurrentAvailableBalance.class);
 
-        for (KEMIDCurrentAvailableBalance kEMIDCurrentAvailableBalance : KEMIDCurrentAvailableBalances) {
-            businessObjectService.delete(kEMIDCurrentAvailableBalance);
+        for (KEMIDCurrentAvailableBalance kemidCurrentAvailableBalance : KEMIDCurrentAvailableBalances) {
+            businessObjectService.delete(kemidCurrentAvailableBalance);
         }
     }
     
     /**
      * @see org.kuali.kfs.module.endow.batch.service.AvailableCashUpdateService#InsertAvailableCash(KemidCurrentCash)
-     * Method to clear all the records in the kEMIDCurrentAvailableBalance table
+     * Method to clear all the records in the kemidCurrentAvailableBalance table
      */
-    public void InsertAvailableCash(KEMIDCurrentAvailableBalance kEMIDCurrentAvailableBalance) {
-        if (kEMIDCurrentAvailableBalance == null) {
-            throw new IllegalArgumentException("invalid (null) kEMIDCurrentAvailableBalance");
+    public void InsertAvailableCash(KEMIDCurrentAvailableBalance kemidCurrentAvailableBalance) {
+        if (kemidCurrentAvailableBalance == null) {
+            throw new IllegalArgumentException("invalid (null) kemidCurrentAvailableBalance");
         }
         
-        businessObjectService.save(kEMIDCurrentAvailableBalance);
+        businessObjectService.save(kemidCurrentAvailableBalance);
     } 
     
     /**

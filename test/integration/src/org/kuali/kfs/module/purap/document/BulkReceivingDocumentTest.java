@@ -24,12 +24,12 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class BulkReceivingDocumentTest extends KualiTestBase {
     
@@ -48,9 +48,9 @@ public class BulkReceivingDocumentTest extends KualiTestBase {
         doc.prepareForSave();
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         routeDocument(doc, "routing bulk receiving document", documentService);
-        WorkflowTestUtils.waitForStatusChange(doc.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);        
+        WorkflowTestUtils.waitForStatusChange(doc.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);        
         Document document = documentService.getByDocumentHeaderId(doc.getDocumentNumber());
-        assertTrue("Document should now be final.", doc.getDocumentHeader().getWorkflowDocument().stateIsFinal());
+        assertTrue("Document should now be final.", doc.getDocumentHeader().getWorkflowDocument().isFinal());
     }
     
     @ConfigureContext(session = parke, shouldCommitTransactions=true)
@@ -66,9 +66,9 @@ public class BulkReceivingDocumentTest extends KualiTestBase {
         BulkReceivingDocument doc = BulkReceivingDocumentFixture.SIMPLE_DOCUMENT_FOR_PO.createBulkReceivingDocument(po);
         doc.prepareForSave();
         routeDocument(doc, "routing bulk receiving document", documentService);
-        WorkflowTestUtils.waitForStatusChange(doc.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);        
+        WorkflowTestUtils.waitForStatusChange(doc.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);        
         Document document = documentService.getByDocumentHeaderId(doc.getDocumentNumber());
-        assertTrue("Document should now be final.", doc.getDocumentHeader().getWorkflowDocument().stateIsFinal());
+        assertTrue("Document should now be final.", doc.getDocumentHeader().getWorkflowDocument().isFinal());
         
     }
 

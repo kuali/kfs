@@ -17,14 +17,14 @@ package org.kuali.kfs.coa.businessobject.options;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.SubFundGroupType;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * This class creates a new finder for our forms view (creates a drop-down of {@link SubFundGroupType}s)
@@ -39,11 +39,11 @@ public class SubFundGroupTypeValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         Collection<SubFundGroupType> subFundGroupTypeCodes = SpringContext.getBean(KeyValuesService.class).findAll(SubFundGroupType.class);
-        List<KeyLabelPair> subFundGroupTypeKeyLabels = new ArrayList<KeyLabelPair>();
-        subFundGroupTypeKeyLabels.add(new KeyLabelPair("", ""));
+        List<KeyValue> subFundGroupTypeKeyLabels = new ArrayList<KeyValue>();
+        subFundGroupTypeKeyLabels.add(new ConcreteKeyValue("", ""));
         for (SubFundGroupType element : subFundGroupTypeCodes) {
             if(element.isActive()) {
-                subFundGroupTypeKeyLabels.add(new KeyLabelPair(element.getSubFundGroupTypeCode(), element.getSubFundGroupTypeCode() + " - " + element.getSubFundGroupTypeDescription()));
+                subFundGroupTypeKeyLabels.add(new ConcreteKeyValue(element.getSubFundGroupTypeCode(), element.getSubFundGroupTypeCode() + " - " + element.getSubFundGroupTypeDescription()));
             }
         }
 

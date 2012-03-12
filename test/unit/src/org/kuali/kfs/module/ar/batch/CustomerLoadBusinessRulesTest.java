@@ -19,6 +19,7 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.kuali.kfs.module.ar.batch.service.CustomerLoadService;
@@ -28,8 +29,9 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.util.AutoPopulatingList;
 
 @ConfigureContext(session = khuntley)
 public class CustomerLoadBusinessRulesTest extends KualiTestBase {
@@ -53,12 +55,12 @@ public class CustomerLoadBusinessRulesTest extends KualiTestBase {
         boolean result = false;
         List<MaintenanceDocument> customerMaintDocs = new ArrayList<MaintenanceDocument>();
         
-        assertTrue("GlobalVariables MessageMap should be empty.", GlobalVariables.getMessageMap().isEmpty());
+        assertTrue("GlobalVariables MessageMap should be empty.", GlobalVariables.getMessageMap().hasErrors());
         
         result = customerLoadService.validateAndPrepare(customerVOs, customerMaintDocs, true);
-        showErrorMap();
+        showMessageMap();
         
-        assertTrue("The Validation should have produced no error messages.", GlobalVariables.getMessageMap().isEmpty());
+        assertTrue("The Validation should have produced no error messages.", GlobalVariables.getMessageMap().hasErrors());
         
     }
     
@@ -68,16 +70,16 @@ public class CustomerLoadBusinessRulesTest extends KualiTestBase {
      * application in normal circumstances at all.
      * 
      */
-    private void showErrorMap() {
+    private void showMessageMap() {
 
-        if (GlobalVariables.getMessageMap().isEmpty()) {
+        if (GlobalVariables.getMessageMap().hasErrors()) {
             return;
         }
 
-        Set<String> errorMapKeys = GlobalVariables.getMessageMap().keySet();
-        ArrayList<ErrorMessage> errorMapEntry;
+        Set<String> errorMapKeys = ((Map<String, String>) GlobalVariables.getMessageMap()).keySet();
+        AutoPopulatingList<ErrorMessage> errorMapEntry;
         for (String errorMapKey : errorMapKeys) {
-            errorMapEntry = (ArrayList<ErrorMessage>) GlobalVariables.getMessageMap().get(errorMapKey);
+            errorMapEntry = (AutoPopulatingList<ErrorMessage>) (GlobalVariables.getMessageMap()).getMessages(errorMapKey);
             for (ErrorMessage errorMessage : errorMapEntry) {
                 
                 if (errorMessage.getMessageParameters() == null) {

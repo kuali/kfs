@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.bc.util;
 
-import org.kuali.rice.kns.util.OjbCharBooleanConversion;
+import org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion;
 
 /**
  * Handles conversion of active indicator so as to piggy back onto appointmentFundingDeleteIndicator by reversing the values.

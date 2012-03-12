@@ -152,15 +152,12 @@
 		            documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
 		
 		    <gl:generalLedgerPendingEntries />
-		
-		    <kul:notes 
-		    	notesBo="${KualiForm.document.documentBusinessObject.boNotes}" 
-		    	noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}"  		    	
-		    	attachmentTypesValuesFinderClass="${DataDictionary.PurchaseOrderDocument.attachmentTypesValuesFinderClass}">
-		          <html:messages id="warnings" property="noteWarning" message="true">
+			
+			<kul:notes />
+
+		    <html:messages id="warnings" property="noteWarning" message="true">
 		            &nbsp;&nbsp;&nbsp;<bean:write name="warnings"/><br><br>
-		          </html:messages>
-		    </kul:notes> 
+		    </html:messages>
 
 		    <kul:adHocRecipients />
 		

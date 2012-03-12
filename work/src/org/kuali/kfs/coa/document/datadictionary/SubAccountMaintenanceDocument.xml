@@ -51,8 +51,6 @@
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.coa.document.validation.impl.SubAccountPreRules"/>
     <property name="webScriptFiles">
       <list>
-        <value>../dwr/interface/AccountService.js</value>
-        <value>../dwr/interface/A21SubAccountService.js</value>                  
         <value>../scripts/coa/subAccountDocument.js</value>  
       </list>
     </property>

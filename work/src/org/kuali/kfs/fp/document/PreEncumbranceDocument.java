@@ -1,12 +1,12 @@
 /*
  * Copyright 2005-2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,16 +15,13 @@
  */
 package org.kuali.kfs.fp.document;
 
-import static org.kuali.rice.kns.util.AssertionUtils.assertThat;
 import static org.kuali.kfs.sys.KFSConstants.BALANCE_TYPE_PRE_ENCUMBRANCE;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.fp.businessobject.PreEncumbranceDocumentAccountingLineParser;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.AccountingLineParser;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
@@ -34,9 +31,9 @@ import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.service.HomeOriginationService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.document.Copyable;
 
 /**
  * The Pre-Encumbrance document provides the capability to record encumbrances independently of purchase orders, travel, or Physical
@@ -83,7 +80,7 @@ public class PreEncumbranceDocument extends AccountingDocumentBase implements Co
 
     /**
      * Overrides the base implementation to return "Encumbrance".
-     * 
+     *
      * @see org.kuali.kfs.sys.document.AccountingDocument#getSourceAccountingLinesSectionTitle()
      */
     @Override
@@ -93,7 +90,7 @@ public class PreEncumbranceDocument extends AccountingDocumentBase implements Co
 
     /**
      * Overrides the base implementation to return "Disencumbrance".
-     * 
+     *
      * @see org.kuali.kfs.sys.document.AccountingDocument#getTargetAccountingLinesSectionTitle()
      */
     @Override
@@ -102,19 +99,20 @@ public class PreEncumbranceDocument extends AccountingDocumentBase implements Co
     }
 
     /**
-     * This method limits valid debits to only expense object type codes.  Additionally, an 
-     * IllegalStateException will be thrown if the accounting line passed in is not an expense, 
-     * is an error correction with a positive dollar amount or is not an error correction and 
-     * has a negative amount. 
-     * 
+     * This method limits valid debits to only expense object type codes.  Additionally, an
+     * IllegalStateException will be thrown if the accounting line passed in is not an expense,
+     * is an error correction with a positive dollar amount or is not an error correction and
+     * has a negative amount.
+     *
      * @param transactionalDocument The document the accounting line being checked is located in.
      * @param accountingLine The accounting line being analyzed.
      * @return True if the accounting line given is a debit accounting line, false otherwise.
-     * 
+     *
      * @see IsDebitUtils#isDebitConsideringSection(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
-     * @see org.kuali.rice.kns.rule.AccountingLineRule#isDebit(org.kuali.rice.kns.document.FinancialDocument,
-     *      org.kuali.rice.kns.bo.AccountingLine)
+     * @see org.kuali.rice.krad.rule.AccountingLineRule#isDebit(org.kuali.rice.krad.document.FinancialDocument,
+     *      org.kuali.rice.krad.bo.AccountingLine)
      */
+    @Override
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         AccountingLine accountingLine = (AccountingLine)postable;
         // if not expense, or positive amount on an error-correction, or negative amount on a non-error-correction, throw exception
@@ -125,18 +123,18 @@ public class PreEncumbranceDocument extends AccountingDocumentBase implements Co
 
         return !isDebitUtils.isDebitConsideringSection(this, accountingLine);
     }
-    
+
     /**
-     * This method contains PreEncumbrance document specific general ledger pending entry explicit entry 
-     * attribute assignments.  These attributes include financial balance type code, reversal date and 
+     * This method contains PreEncumbrance document specific general ledger pending entry explicit entry
+     * attribute assignments.  These attributes include financial balance type code, reversal date and
      * transaction encumbrance update code.
-     * 
+     *
      * @param financialDocument The document which contains the explicit entry.
      * @param accountingLine The accounting line the explicit entry is generated from.
      * @param explicitEntry The explicit entry being updated.
-     * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.rice.kns.document.FinancialDocument,
-     *      org.kuali.rice.kns.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
+     *
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.rice.krad.document.FinancialDocument,
+     *      org.kuali.rice.krad.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     @Override
     public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry) {
@@ -152,7 +150,6 @@ public class PreEncumbranceDocument extends AccountingDocumentBase implements Co
             explicitEntry.setTransactionEncumbranceUpdateCode(KFSConstants.ENCUMB_UPDT_DOCUMENT_CD);
         }
         else {
-            assertThat(accountingLine.isTargetAccountingLine(), accountingLine);
             explicitEntry.setTransactionEncumbranceUpdateCode(KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
             explicitEntry.setReferenceFinancialSystemOriginationCode(SpringContext.getBean(HomeOriginationService.class).getHomeOrigination().getFinSystemHomeOriginationCode());
             explicitEntry.setReferenceFinancialDocumentNumber(accountingLine.getReferenceNumber());
@@ -168,7 +165,7 @@ public class PreEncumbranceDocument extends AccountingDocumentBase implements Co
         super.toCopy();
         refreshReversalDate();
     }
-    
+
     /**
      * If the reversal date on this document is in need of refreshing, refreshes the reveral date.  THIS METHOD MAY CHANGE DOCUMENT STATE!
      * @return true if the reversal date ended up getting refreshed, false otherwise

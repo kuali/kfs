@@ -206,30 +206,13 @@
 
 	<bean id="procurementCardCreateDocumentService"  parent="procurementCardCreateDocumentService-parentBean"/>
 	<bean id="procurementCardCreateDocumentService-parentBean" class="org.kuali.kfs.fp.batch.service.impl.ProcurementCardCreateDocumentServiceImpl" abstract="true">
-		<property name="parameterService">
-			<ref bean="parameterService" />
-		</property>
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-		<property name="documentService">
-			<ref bean="documentService" />
-		</property>
-		<property name="dataDictionaryService">
-			<ref bean="dataDictionaryService" />
-		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
-		<property name="workflowDocumentService">
-			<ref bean="workflowDocumentService" />
-		</property>
-		<property name="accountingLineRuleUtil">
-			<ref bean="accountingLineRuleHelperService" />
-		</property>
-		<property name="capitalAssetBuilderModuleService">
-			<ref bean="capitalAssetBuilderModuleService" />
-		</property>
+		<property name="parameterService" ref="parameterService" />
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="documentService" ref="documentService" />
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="accountingLineRuleUtil" ref="accountingLineRuleHelperService" />
+		<property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
 	</bean>
 
 	<bean id="procurementCardLoadTransactionsService"  parent="procurementCardLoadTransactionsService-parentBean"/>
@@ -250,17 +233,14 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-		<property name="workflowDocumentService">
-			<ref bean="workflowDocumentService" />
-		</property>
 		<property name="cashManagementDao">
 			<ref bean="cashManagementDao" />
 		</property>
 		<property name="cashDrawerService">
 			<ref bean="cashDrawerService" />
 		</property>
-		<property name="parameterService">
-			<ref bean="parameterService" />
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
 		</property>
 		<property name="dictionaryValidationService" ref="dictionaryValidationService" />
 	</bean>
@@ -290,7 +270,8 @@
 		</property>
 	</bean>
 
-	<bean id="procurementCardLoadStep" class="org.kuali.kfs.fp.batch.ProcurementCardLoadStep" parent="step">
+	<bean id="procurementCardLoadStep" parent="procurementCardLoadStep-parentBean"/>
+	<bean id="procurementCardLoadStep-parentBean" abstract="true" class="org.kuali.kfs.fp.batch.ProcurementCardLoadStep" parent="step">
 		<property name="procurementCardLoadTransactionsService">
 			<ref bean="procurementCardLoadTransactionsService" />
 		</property>
@@ -446,10 +427,10 @@
 		</property>			
 		<property name="disbursementVoucherPaymentReasonService">
 			<ref bean="disbursementVoucherPaymentReasonService" />
-		</property>	
-	    <property name="personService">
-			<ref bean="personService" />
 		</property>		
+		<property name="disbursementVoucherPayeeService">
+			<ref bean="disbursementVoucherPayeeService" />
+		</property>
 	</bean>
 	
 	<bean id="disbursementPayeeInquirable" class="org.kuali.kfs.fp.businessobject.inquirable.DisbursementPayeeInquirableImpl" scope="prototype" parent="kualiInquirable"/>
@@ -486,23 +467,9 @@
 	
 	<bean id="paymentMethodRoleTypeService"  parent="paymentMethodRoleTypeService-parentBean"/>
 	<bean id="paymentMethodRoleTypeService-parentBean" class="org.kuali.kfs.fp.identity.PaymentMethodRoleTypeServiceImpl" abstract="true"/>
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-	  <property name="serviceDefinition">
-	    <bean parent="kfsService"
-	      p:service-ref="paymentMethodRoleTypeService"
-	      p:localServiceName="paymentMethodRoleTypeService" />
-	  </property>
-	</bean>
 	
 	<bean id="cashReceiptInitiatorDerivedRoleTypeService"  parent="cashReceiptInitiatorDerivedRoleTypeService-parentBean"/>
 	<bean id="cashReceiptInitiatorDerivedRoleTypeService-parentBean" class="org.kuali.kfs.fp.identity.CashReceiptInitiatorDerivedRoleTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-	  <property name="serviceDefinition">
-	    <bean parent="kfsService"
-	      p:service-ref="cashReceiptInitiatorDerivedRoleTypeService"
-	      p:localServiceName="cashReceiptInitiatorDerivedRoleTypeService" />
-	  </property>
-	</bean>
 	
 	<bean id="yearEndPendingEntryService" parent="yearEndPendingEntryService-parentBean" />
     
@@ -534,6 +501,7 @@
 	<import resource="document/validation/configuration/PreEncumbranceValidation.xml" />
 	<import resource="document/validation/configuration/ProcurementCardValidation.xml" />
 	<import resource="document/validation/configuration/DisbursementVoucherValidation.xml" />
+	<import resource="spring-fp-bus-exports.xml"/>
 
 </beans>
 

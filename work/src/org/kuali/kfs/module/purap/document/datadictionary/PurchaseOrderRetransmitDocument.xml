@@ -21,7 +21,8 @@
     <property name="documentTypeName" value="PORT"/>
     <property name="sessionDocument" value="true"/>
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderRetransmitDocument"/>
-    <property name="businessRulesClass" value="org.kuali.rice.kns.rules.TransactionalDocumentRuleBase"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderRetransmitDocument"/>
+    <property name="businessRulesClass" value="org.kuali.rice.krad.rules.TransactionalDocumentRuleBase"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderRetransmitDocumentPresentationController"/>
     <property name="importedLineParserClass" value="org.kuali.kfs.module.purap.businessobject.PurApAccountingLineParser" />
@@ -54,7 +55,7 @@
     <!-- workflow attributes -->
     <bean id="PurchaseOrderRetransmitDocument-workflowAttributes" parent="PurchaseOrderRetransmitDocument-workflowAttributes-parentBean"/>
   
-    <bean id="PurchaseOrderRetransmitDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
+    <bean id="PurchaseOrderRetransmitDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true">
     	<property name="searchingTypeDefinitions">
     		<ref bean="SearchingTypeDefinitions-PurchaseOrderDocumentFamily"/>
     	</property>

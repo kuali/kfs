@@ -32,7 +32,6 @@ import org.kuali.kfs.gl.report.LedgerSummaryReport;
 import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.gl.service.impl.EnterpriseFeederStatusAndErrorMessagesWrapper;
 import org.kuali.kfs.sys.Message;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class reads origin entries in a flat file format, reconciles them, and loads them into the origin entry table. 

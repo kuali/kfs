@@ -24,11 +24,11 @@ import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.bo.Inactivateable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class ReceivingThreshold extends PersistableBusinessObjectBase implements Inactivateable{
+public class ReceivingThreshold extends PersistableBusinessObjectBase implements MutableInactivatable{
 
     private Integer thresholdIdentifier;
     private String chartOfAccountsCode;
@@ -55,8 +55,8 @@ public class ReceivingThreshold extends PersistableBusinessObjectBase implements
     public ReceivingThreshold(){
     }
     
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         
         LinkedHashMap returnMap = new LinkedHashMap();
         

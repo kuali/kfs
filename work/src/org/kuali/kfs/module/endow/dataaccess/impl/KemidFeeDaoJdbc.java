@@ -18,7 +18,7 @@ package org.kuali.kfs.module.endow.dataaccess.impl;
 import java.sql.Date;
 
 import org.kuali.kfs.module.endow.dataaccess.KemidFeeDao;
-import org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc;
+import org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJdbc;
 import org.springframework.dao.DataAccessException;
 
 public class KemidFeeDaoJdbc extends PlatformAwareDaoBaseJdbc implements KemidFeeDao {

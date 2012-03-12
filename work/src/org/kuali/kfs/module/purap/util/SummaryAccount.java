@@ -15,11 +15,11 @@
  */
 package org.kuali.kfs.module.purap.util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.businessobject.PurApSummaryItem;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * 
@@ -37,13 +37,13 @@ public class SummaryAccount {
      */
     public SummaryAccount() {
         super();
-        items = new TypedArrayList(PurApSummaryItem.class);
+        items = new ArrayList<PurApSummaryItem>();
     }
 
     public SummaryAccount(SourceAccountingLine account) {
         super();
         setAccount(account);
-        items = new TypedArrayList(PurApSummaryItem.class);
+        items = new ArrayList<PurApSummaryItem>();
     }
 
     public SourceAccountingLine getAccount() {

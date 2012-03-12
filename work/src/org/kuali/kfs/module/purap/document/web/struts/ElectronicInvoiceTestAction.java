@@ -15,38 +15,37 @@
  */
 package org.kuali.kfs.module.purap.document.web.struts;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.io.StringBufferInputStream;
+import java.util.List;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.upload.FormFile;
-import org.kuali.kfs.module.purap.batch.ElectronicInvoiceInputFileType;
-import org.kuali.kfs.module.purap.businessobject.ElectronicInvoice;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.util.ElectronicInvoiceUtils;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.PaymentTermType;
-import org.kuali.rice.kns.exception.AuthorizationException;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.RiceConstants;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
+import org.kuali.rice.krad.exception.AuthorizationException;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADUtils;
 
 /**
  * Struts Action for printing Purap documents outside of a document action
@@ -56,7 +55,24 @@ public class ElectronicInvoiceTestAction extends KualiAction {
     
     private static final String AREA_C0DE = "areaCode";
     private static final String PHONE_NUMBER = "phoneNumber";
+    
+    protected static volatile DocumentService documentService;
 
+    /**
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // TODO Uncomment the following code. This method doesn't need override. 
+        // It's here as a temp get-around for a bug complaining method "generate" cannot be found 
+        String methodToCall = findMethodToCall(form, request);
+        if (StringUtils.equals(methodToCall, "generate")) {
+            return generate(mapping, form, request, response);
+        }
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
     /**
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm, java.lang.String)
      * 
@@ -64,105 +80,70 @@ public class ElectronicInvoiceTestAction extends KualiAction {
      */
     @Override
     protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
-        if (SpringContext.getBean(KualiConfigurationService.class).isProductionEnvironment()) {
+        if (KRADUtils.isProductionEnvironment()) {
             //this process is not available for production
             throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), methodToCall, this.getClass().getSimpleName());
         }
     }
-
-    @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-        
+    
+    /**
+     * Generates Electronic Invoice xml file from a Purchase Order, for testing purpose only.     
+     */
+    public ActionForward generate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         checkAuthorization(form, "");
+
+        ElectronicInvoiceTestForm testForm = (ElectronicInvoiceTestForm)form;
+        String poDocNumber = testForm.getPoDocNumber();
+        LOG.info("Generating Electronic Invoice XML file for Purchase Order Document " + poDocNumber);
+        PurchaseOrderService poService = SpringContext.getBean(PurchaseOrderService.class);
+        PurchaseOrderDocument po = null;
         
-        //get parameters - are we doing upload xml or create based on PO?
-        String action = request.getParameter("action");
+        if (StringUtils.isBlank(poDocNumber)) {
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_DOCUMENT_NUMBER, PurapKeyConstants.ERROR_ELECTRONIC_INVOICE_GENERATION_PURCHASE_ORDER_NUMBER_EMPTY, new String[] { poDocNumber} );
+            return mapping.findForward(RiceConstants.MAPPING_BASIC);
+        }
+        if (!getDocumentService().documentExists(poDocNumber)) {
+            GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_DOCUMENT_NUMBER, PurapKeyConstants.ERROR_ELECTRONIC_INVOICE_GENERATION_PURCHASE_ORDER_DOES_NOT_EXIST, poDocNumber);
+            return mapping.findForward(RiceConstants.MAPPING_BASIC);
+        }
         
-        String currDate = ElectronicInvoiceUtils.getDateDisplayText(dateTimeService.getCurrentDate()); // getting date in kfs format
-        
-        if ("postXML".equalsIgnoreCase(action)) {
-            // get the file and send the contents to the eInvoice mechanism and display the results
-            ElectronicInvoiceTestForm rejectForm = (ElectronicInvoiceTestForm) form;
-            FormFile xmlFile = rejectForm.getXmlFile();
-            if (xmlFile != null) {
-                if (!StringUtils.isEmpty(xmlFile.getFileName())) {
-                    if (xmlFile.getFileName().endsWith(".xml")) {
-                        
-                        BatchInputFileService batchInputFileService = SpringContext.getBean(BatchInputFileService.class);
-                        ElectronicInvoiceInputFileType batchType = SpringContext.getBean(ElectronicInvoiceInputFileType.class);
-                        
-                        byte[] fileByteContent = IOUtils.toByteArray(xmlFile.getInputStream());
+        try {
+            po = poService.getPurchaseOrderByDocumentNumber(poDocNumber);
+        }
+        catch (Exception e) {
+            throw e;
+        }
 
-                        Object parsedObject = batchInputFileService.parse(batchType, fileByteContent);
-                        ElectronicInvoice eInvoice = (ElectronicInvoice)parsedObject;
-                        eInvoice.setFileName(xmlFile.getFileName());
-                        
-                        if (parsedObject != null) {
-                            boolean validateSuccessful = batchInputFileService.validate(batchType, parsedObject);
+        response.setHeader("Cache-Control", "max-age=30");
+        response.setContentType("application/xml");
+        StringBuffer sbContentDispValue = new StringBuffer();
+        String useJavascript = request.getParameter("useJavascript");
+        if (useJavascript == null || useJavascript.equalsIgnoreCase("false")) {
+            sbContentDispValue.append("attachment");
+        }
+        else {
+            sbContentDispValue.append("inline");
+        }
+        StringBuffer sbFilename = new StringBuffer();
+        sbFilename.append("PO_");
+        sbFilename.append(poDocNumber);
+        sbFilename.append(".xml");
+        sbContentDispValue.append("; filename=");
+        sbContentDispValue.append(sbFilename);
+        response.setHeader("Content-disposition", sbContentDispValue.toString());
 
-                            if (validateSuccessful) {
-                                InputStream saveStream = new ByteArrayInputStream(fileByteContent);
-                                batchInputFileService.save(GlobalVariables.getUserSession().getPerson(), batchType, ""+RandomUtils.nextInt(), saveStream, parsedObject);
-                            }
-                        }
-                    } else {
-                        throw new RuntimeException("Invalid file type " + xmlFile.getFileName());
-                    }
-                } else {
-                    throw new RuntimeException("Invalid file name " + xmlFile.getFileName());
-                }
-            } else {
-                throw new RuntimeException("Error getting xml file");
+        // lookup the PO and fill in the XML with valid data
+        if (po != null) {
+            String duns = "";
+            if (po.getVendorDetail() != null) {
+                duns = StringUtils.defaultString(po.getVendorDetail().getVendorDunsNumber());
             }
-        } else if ("returnXML".equalsIgnoreCase(action)) {
-            
-            String poDocNumber = request.getParameter("poDocNumber");
-            
-            LOG.info("Generating xml for the po - " + poDocNumber);
-            
-            PurchaseOrderService poService = SpringContext.getBean(PurchaseOrderService.class);
-            PurchaseOrderDocument po = null;
-            try{
-                po = poService.getPurchaseOrderByDocumentNumber(poDocNumber);
-            }catch(Exception e){
-                throw e;
-            }
-            
-            response.setHeader("Cache-Control", "max-age=30");
-            response.setContentType("application/xml");
 
-            StringBuffer sbContentDispValue = new StringBuffer();
-            String useJavascript = request.getParameter("useJavascript");
-            if (useJavascript == null || useJavascript.equalsIgnoreCase("false")) {
-                sbContentDispValue.append("attachment");
-            }
-            else {
-                sbContentDispValue.append("inline");
-            }
-            StringBuffer sbFilename = new StringBuffer();
-            sbFilename.append("PO_");
-            sbFilename.append(poDocNumber);
-            sbFilename.append(".xml");
-            sbContentDispValue.append("; filename=");
-            sbContentDispValue.append(sbFilename);
-
-            response.setHeader("Content-disposition", sbContentDispValue.toString());
-
+            DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+            String currDate = ElectronicInvoiceUtils.getDateDisplayText(dateTimeService.getCurrentDate()); // getting date in kfs format
+            String vendorNumber = po.getVendorDetail().getVendorNumber();
             
-            // lookup the PO and fill in the XML will valid data
-            
-            if (po != null) {   
-                
-                String duns = "";
-                if (po.getVendorDetail() != null){
-                    duns = StringUtils.defaultString(po.getVendorDetail().getVendorDunsNumber());
-                }
-                
-                String vendorNumber = po.getVendorDetail().getVendorNumber();
-                
-                String eInvoiceFile = 
-                
+            String eInvoiceFile =
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "\n<!-- ******Testing tool generated XML****** Version 1.2." +
                 "\n\n  Generated On " + currDate + " for PO " + po.getPurapDocumentIdentifier() + " (Doc# " + poDocNumber + ") -->\n\n" +   
@@ -211,7 +192,7 @@ public class ElectronicInvoiceTestAction extends KualiAction {
                 "                          <State>" + StringUtils.defaultString(po.getVendorStateCode()) + "</State>\n" +
                 "                          <PostalCode>" + StringUtils.defaultString(po.getVendorPostalCode()) + "</PostalCode>\n" +
                 "                          <Country isoCountryCode=\"" + StringUtils.defaultString(po.getVendorCountryCode()) + "\">\n" +
-                "                              " + StringUtils.defaultString(po.getVendorCountry().getPostalCountryName()) + "\n" +
+                "                              " + StringUtils.defaultString(po.getVendorCountry().getName()) + "\n" +
                 "                          </Country>\n" +
                 "                      </PostalAddress>\n" +
                 "                  </Contact>\n" +
@@ -229,9 +210,10 @@ public class ElectronicInvoiceTestAction extends KualiAction {
                 "              <!-- No junk values in Items-->\n";
                 
                                for (int i = 0; i < po.getItems().size(); i++) {
-                                   PurchaseOrderItem item = (PurchaseOrderItem)po.getItem(i);
-                                   if (!item.getItemType().isAdditionalChargeIndicator()){
-                                       eInvoiceFile = eInvoiceFile + getPOItemXMLChunk((PurchaseOrderItem)po.getItem(i));
+                                   List items = po.getItems();
+                                   PurchaseOrderItem item = (PurchaseOrderItem) items.get(i);
+                                  if (!item.getItemType().isAdditionalChargeIndicator()){
+                                       eInvoiceFile = eInvoiceFile + getPOItemXMLChunk(item);
                                    }
                                }
                 
@@ -273,25 +255,14 @@ public class ElectronicInvoiceTestAction extends KualiAction {
                 "  </Request>\n" +
                 "</cXML>";
 
-//                response.setContentLength(eInvoiceFile.length());
-
-                ServletOutputStream sos;
-
-                sos = response.getOutputStream();
-                
-                ByteArrayOutputStream baOutStream = new ByteArrayOutputStream();
-                StringBufferInputStream inStream = new StringBufferInputStream(eInvoiceFile);
-                convert(baOutStream, inStream);
-//                
-//                baOutStream.flush();
-                response.setContentLength(baOutStream.size());
-
-//                ServletOutputStream sosTemp = response.getOutputStream();
-                baOutStream.writeTo(sos);
-                sos.flush();
-                
-                return null;
-            }
+            ServletOutputStream sos;
+            sos = response.getOutputStream();
+            ByteArrayOutputStream baOutStream = new ByteArrayOutputStream();
+            StringBufferInputStream inStream = new StringBufferInputStream(eInvoiceFile);
+            convert(baOutStream, inStream);         
+            response.setContentLength(baOutStream.size());
+            baOutStream.writeTo(sos);
+            sos.flush();
         }
 
       return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -362,14 +333,11 @@ public class ElectronicInvoiceTestAction extends KualiAction {
         String returnXML = "";
         
         if (StringUtils.isNotEmpty(deliveryDate)){
-            returnXML = returnXML + "              <InvoiceDetailShipping shippingDate=\"" +  deliveryDate + "\"> <!--Delivery reqd date -->\n";
+            returnXML += "              <InvoiceDetailShipping shippingDate=\"" +  deliveryDate + "\"> <!--Delivery reqd date -->\n";
         }else{
-            returnXML = returnXML + "              <InvoiceDetailShipping> <!-- shipTo address same as billTo-->\n";
+            returnXML += "              <InvoiceDetailShipping> <!-- shipTo address same as billTo-->\n";
         }
-
-        returnXML = returnXML + 
-                    getContactXMLChunk("shipTo",po) +
-                    "              </InvoiceDetailShipping>\n";
+        returnXML += getContactXMLChunk("shipTo",po) + "              </InvoiceDetailShipping>\n";        
         
         return returnXML;
         
@@ -394,12 +362,11 @@ public class ElectronicInvoiceTestAction extends KualiAction {
         "                      </PostalAddress>\n";
         
         if (StringUtils.isNotEmpty(po.getDeliveryToEmailAddress())){
-            returnXML = returnXML + 
-            "                      <Email name=\"" + po.getDeliveryToEmailAddress() + "\">" + po.getDeliveryToEmailAddress() + "</Email>\n";
+            returnXML += "                      <Email name=\"" + po.getDeliveryToEmailAddress() + "\">" + po.getDeliveryToEmailAddress() + "</Email>\n";
         }
         
         if (StringUtils.isNotEmpty(po.getDeliveryToPhoneNumber())){
-            returnXML = returnXML + 
+            returnXML +=  
             "                      <Phone name=\"" + po.getDeliveryToPhoneNumber() + "\">\n" +
             "                          <TelephoneNumber>\n" +
             "                              <CountryCode isoCountryCode=\"US\">1</CountryCode>\n" +
@@ -409,13 +376,8 @@ public class ElectronicInvoiceTestAction extends KualiAction {
             "                      </Phone>\n";
         }    
         
-        returnXML = returnXML + 
-//        "                      <URL name=\"sampleCompanyURL\">www.abc.com</URL>\n" +
-        "                  </Contact>\n";
-        
-        
-        return returnXML;
-        
+        returnXML += "                  </Contact>\n";                
+        return returnXML;        
     }
     
     private String getPhoneNumber(String whichPart,String phNo){
@@ -444,6 +406,14 @@ public class ElectronicInvoiceTestAction extends KualiAction {
             return false;
         }
     }
-    
+ 
+    /**
+     * @return the default implementation of the KRAD DocumentService
+     */
+    protected DocumentService getDocumentService() {
+        if (documentService == null) {
+            documentService = KRADServiceLocatorWeb.getDocumentService();
+        }
+        return documentService;
+    }
 }
-

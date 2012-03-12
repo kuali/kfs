@@ -15,20 +15,18 @@
  */
 package org.kuali.kfs.coa.document.validation.impl;
 
-import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalMessageMapEmpty;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 
 @ConfigureContext(session = khuntley)
@@ -91,7 +89,7 @@ public class OrgRuleTest extends ChartRuleTestBase {
         org = (Organization) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Organization.class, getPrimaryKeysForTopLevelOrg(OrgKeys.getGoodTopLevelOrgKeys()));
         maintDoc = this.newMaintDoc(org);
         testDefaultExistenceCheck(org, "organizationCode", false);
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
     }
 
     /**

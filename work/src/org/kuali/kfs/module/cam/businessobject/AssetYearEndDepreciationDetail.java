@@ -15,12 +15,9 @@
  */
 package org.kuali.kfs.module.cam.businessobject;
 
-import org.kuali.kfs.module.cam.businessobject.Asset;
-import org.kuali.kfs.module.cam.businessobject.AssetRetirementGlobal;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.GlobalBusinessObjectDetailBase;
-
 import java.util.LinkedHashMap;
+
+import org.kuali.rice.krad.bo.GlobalBusinessObjectDetailBase;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)

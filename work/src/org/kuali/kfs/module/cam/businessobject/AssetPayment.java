@@ -22,20 +22,20 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.ObjectCodeCurrent;
 import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
-import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.kew.service.impl.KEWModuleService;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -81,6 +81,7 @@ public class AssetPayment extends PersistableBusinessObjectBase {
     private Chart chartOfAccounts;
     private SubAccount subAccount;
     private ObjectCode financialObject;
+    private ObjectCodeCurrent objectCodeCurrent;
     private Account account;
     private SubObjectCode financialSubObject;
     private ProjectCode project;
@@ -1132,7 +1133,7 @@ public class AssetPayment extends PersistableBusinessObjectBase {
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap<String, String> toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         m.put("capitalAssetNumber", this.capitalAssetNumber.toString());
         m.put("paymentSequenceNumber", this.paymentSequenceNumber.toString());
@@ -1190,4 +1191,30 @@ public class AssetPayment extends PersistableBusinessObjectBase {
     public void setYearToDate(KualiDecimal yearToDate) {
         this.yearToDate = yearToDate;
     }
+    
+    /**
+     * 
+     * Get the current year object code
+     * @return Returns the current year object code
+     */
+    public ObjectCodeCurrent getObjectCodeCurrent() {
+        return objectCodeCurrent;
+    }
+    
+    
+    /**
+     * 
+     * Sets the current year object code
+     * @param financialCurrentObject
+     */
+    public void setObjectCodeCurrent(ObjectCodeCurrent objectCodeCurrent) {
+        this.objectCodeCurrent = objectCodeCurrent;
+    }
+    
+    
+    
+
+    
+    
+    
 }

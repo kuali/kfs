@@ -46,7 +46,7 @@ public class PosterOutputSummaryBalanceTypeFiscalYearAndPeriodTotal extends Post
     /**
      * @see org.kuali.kfs.gl.businessobject.PosterOutputSummaryBalanceTypeFiscalYearTotal#getSummaryMessageName()
      */
-    @Override
+    
     protected String getSummaryMessageName() {
         return KFSKeyConstants.MESSAGE_REPORT_POSTER_OUTPUT_SUMMARY_BALANCE_TYPE_FISCAL_YEAR_AND_PERIOD_TOTAL;
     }
@@ -61,10 +61,10 @@ public class PosterOutputSummaryBalanceTypeFiscalYearAndPeriodTotal extends Post
 
     /**
      * A map of the "keys" of this transient business object
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap pks = new LinkedHashMap<String, Object>();
         pks.put("universityFiscalYear", this.getUniversityFiscalYear());
         pks.put("fiscalPeriodCode",this.getFiscalPeriodCode());

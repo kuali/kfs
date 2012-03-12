@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Tax District Rate business object.
@@ -53,11 +53,4 @@ public class TaxRegionRate extends PersistableBusinessObjectBase {
     public void setTaxRate(BigDecimal taxRate) {
         this.taxRate = taxRate;
     }
-
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
 }

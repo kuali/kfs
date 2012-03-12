@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.validation;
 
-import org.kuali.rice.kns.document.TransactionalDocument;
+import org.kuali.rice.krad.document.TransactionalDocument;
 
 /**
  * Continue Purap Rule Interface

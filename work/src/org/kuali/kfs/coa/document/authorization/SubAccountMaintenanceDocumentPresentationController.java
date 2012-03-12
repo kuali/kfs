@@ -36,7 +36,7 @@ public class SubAccountMaintenanceDocumentPresentationController extends Financi
     };
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
+     * @see org.kuali.rice.krad.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
      * 
      * This methods adds the extra COA code fields that are PKs of nested reference accounts but don't exist in the BO as FKs
      * to the readOnlyPropertyNames set when accounts can't cross charts. 

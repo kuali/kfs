@@ -22,6 +22,7 @@
     
     <property name="documentTypeName" value="LLJV"/>
     <property name="documentClass" value="org.kuali.kfs.module.ld.document.LaborJournalVoucherDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.module.ld.document.LaborJournalVoucherDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase"/>
     
@@ -126,14 +127,14 @@
   <!-- workflow attributes -->
   <bean id="LaborJournalVoucherDocument-workflowAttributes" parent="LaborJournalVoucherDocument-workflowAttributes-parentBean"/>
   
-  <bean id="LaborJournalVoucherDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="LaborJournalVoucherDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
   
   <!-- Validations -->
   
   <bean id="LaborJournalVoucherDocument-validations" parent="LaborJournalVoucherDocument-validations-parentBean"/> 
   <bean id="LaborJournalVoucherDocument-validations-parentBean" abstract="true"  class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
-		<map>
+		<map key-type="java.lang.Class">
 			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
 				<value>LaborJournalVoucherDocument-routeDocumentValidation</value>

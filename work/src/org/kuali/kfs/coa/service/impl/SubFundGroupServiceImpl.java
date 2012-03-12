@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.coa.service.impl;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.FundGroup;
@@ -24,10 +24,11 @@ import org.kuali.kfs.coa.dataaccess.SubFundGroupDao;
 import org.kuali.kfs.coa.service.SubFundGroupService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This service implementation is the default implementation of the SubFundGroup service that is delivered with Kuali.
@@ -45,11 +46,11 @@ public class SubFundGroupServiceImpl implements SubFundGroupService {
             return false;
         }
         else if (fundGroupDenotesContractsAndGrants()) {
-            return parameterService.getParameterEvaluator(Account.class, KFSConstants.ChartApcParms.ACCOUNT_CG_DENOTING_VALUE, subFundGroup.getFundGroupCode()).evaluationSucceeds();
+            return /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(Account.class, KFSConstants.ChartApcParms.ACCOUNT_CG_DENOTING_VALUE, subFundGroup.getFundGroupCode()).evaluationSucceeds();
     //      return getContractsAndGrantsDenotingValue(subFundGroup.getFundGroupCode());
         }
         else {
-            return parameterService.getParameterEvaluator(Account.class, KFSConstants.ChartApcParms.ACCOUNT_CG_DENOTING_VALUE, subFundGroup.getSubFundGroupCode()).evaluationSucceeds();
+            return /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(Account.class, KFSConstants.ChartApcParms.ACCOUNT_CG_DENOTING_VALUE, subFundGroup.getSubFundGroupCode()).evaluationSucceeds();
 
            //return getContractsAndGrantsDenotingValue(subFundGroup.getSubFundGroupCode());
         }
@@ -84,8 +85,8 @@ public class SubFundGroupServiceImpl implements SubFundGroupService {
     /**
      * @see org.kuali.kfs.coa.service.SubFundGroupService#getContractsAndGrantsDenotingValues()
      */
-    public List<String> getContractsAndGrantsDenotingValues() {
-        return parameterService.getParameterValues(Account.class, KFSConstants.ChartApcParms.ACCOUNT_CG_DENOTING_VALUE);
+    public Collection<String> getContractsAndGrantsDenotingValues() {
+        return parameterService.getParameterValuesAsString(Account.class, KFSConstants.ChartApcParms.ACCOUNT_CG_DENOTING_VALUE);
     }
     
     
@@ -93,7 +94,7 @@ public class SubFundGroupServiceImpl implements SubFundGroupService {
      * @see org.kuali.kfs.coa.service.SubFundGroupService#getContractsAndGrantsDenotingValueForMessage()
      */
     public String getContractsAndGrantsDenotingValueForMessage() {
-        return parameterService.getParameterEvaluator(Account.class, KFSConstants.ChartApcParms.ACCOUNT_CG_DENOTING_VALUE).getParameterValuesForMessage();
+        return /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(Account.class, KFSConstants.ChartApcParms.ACCOUNT_CG_DENOTING_VALUE).getParameterValuesForMessage();
     }
 
     /**
@@ -102,7 +103,7 @@ public class SubFundGroupServiceImpl implements SubFundGroupService {
      * @return false if there is no value
      */
     protected boolean fundGroupDenotesContractsAndGrants() {
-        return parameterService.getIndicatorParameter(Account.class, KFSConstants.ChartApcParms.ACCOUNT_FUND_GROUP_DENOTES_CG);
+        return parameterService.getParameterValueAsBoolean(Account.class, KFSConstants.ChartApcParms.ACCOUNT_FUND_GROUP_DENOTES_CG);
     }
 
     /**

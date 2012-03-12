@@ -27,22 +27,22 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumben
 import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.web.format.BooleanFormatter;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.UrlFactory;
-import org.kuali.rice.kns.web.format.BooleanFormatter;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 
 /**
  * Lookupable helper service implementation for the intended incumbent lookup..
  */
 public class IntendedIncumbentLookupableHelperServiceImpl extends SelectLookupableHelperServiceImpl {
-    public KualiConfigurationService kualiConfigurationService;
+    public ConfigurationService kualiConfigurationService;
 
     /**
-     * @see org.kuali.rice.kns.lookup.LookupableHelperService#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List, java.util.List pkNames)
+     * @see org.kuali.rice.kns.lookup.LookupableHelperService#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject, java.util.List, java.util.List pkNames)
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
@@ -62,7 +62,7 @@ public class IntendedIncumbentLookupableHelperServiceImpl extends SelectLookupab
 
     /***
      * 
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getActionUrlHref(org.kuali.rice.kns.bo.BusinessObject, java.lang.String, java.util.List)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getActionUrlHref(org.kuali.rice.krad.bo.BusinessObject, java.lang.String, java.util.List)
      */
     @Override
     protected String getActionUrlHref(BusinessObject businessObject, String methodToCall, List pkNames){
@@ -126,8 +126,8 @@ public class IntendedIncumbentLookupableHelperServiceImpl extends SelectLookupab
         String[] universityFiscalYear = (String[]) super.getParameters().get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear[0]);
 
-        if (requestParameters.containsKey(KNSConstants.DOC_FORM_KEY)) {
-            String[] requestParm = (String[]) requestParameters.get(KNSConstants.DOC_FORM_KEY);
+        if (requestParameters.containsKey(KRADConstants.DOC_FORM_KEY)) {
+            String[] requestParm = (String[]) requestParameters.get(KRADConstants.DOC_FORM_KEY);
             parameters.put(BCConstants.RETURN_FORM_KEY, requestParm[0]);
         }
         else  if (requestParameters.containsKey(KFSConstants.FORM_KEY)) {
@@ -240,7 +240,7 @@ public class IntendedIncumbentLookupableHelperServiceImpl extends SelectLookupab
      *
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 

@@ -20,23 +20,17 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.integration.ld.LaborLedgerPendingEntryForSearching;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferSourceAccountingLine;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferTargetAccountingLine;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
-import org.kuali.kfs.sys.document.validation.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
-import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.document.Copyable;
 
 /**
  * Labor Base class for Expense Transfer Documents
@@ -156,7 +150,7 @@ public abstract class LaborExpenseTransferDocumentBase extends LaborLedgerPostin
     /**
      * Overrides the base implementation to return "From".
      * 
-     * @see org.kuali.rice.kns.document.AccountingDocument#getSourceAccountingLinesSectionTitle()
+     * @see org.kuali.rice.krad.document.AccountingDocument#getSourceAccountingLinesSectionTitle()
      */
     public String getSourceAccountingLinesSectionTitle() {
         return KFSConstants.FROM;
@@ -165,7 +159,7 @@ public abstract class LaborExpenseTransferDocumentBase extends LaborLedgerPostin
     /**
      * Overrides the base implementation to return "To".
      * 
-     * @see org.kuali.rice.kns.document.AccountingDocument#getTargetAccountingLinesSectionTitle()
+     * @see org.kuali.rice.krad.document.AccountingDocument#getTargetAccountingLinesSectionTitle()
      */
     public String getTargetAccountingLinesSectionTitle() {
         return KFSConstants.TO;

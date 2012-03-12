@@ -147,7 +147,7 @@
 		<property name="label" value="Account Line Annual Balance Amount" />
 		<property name="shortLabel" value="Account Line Annual Balance Amount" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="CashBalance-beginningBalanceLineAmount" parent="CashBalance-beginningBalanceLineAmount-parentBean" />
 
@@ -157,7 +157,7 @@
 		<property name="label" value="Beginning Balance Line Amount" />
 		<property name="shortLabel" value="Beginning Balance Line Amount" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="CashBalance-contractsGrantsBeginningBalanceAmount"
 		parent="CashBalance-contractsGrantsBeginningBalanceAmount-parentBean" />
@@ -168,7 +168,7 @@
 		<property name="label" value="Contracts Grants Beginning Balance Amount" />
 		<property name="shortLabel" value="CG Amount" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="CashBalance-month1Amount" parent="CashBalance-month1Amount-parentBean" />
 
@@ -176,7 +176,7 @@
 		parent="GenericAttributes-genericAmount">
 		<property name="name" value="month1Amount" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="CashBalance-month2Amount" parent="CashBalance-month2Amount-parentBean" />
 
@@ -184,7 +184,7 @@
 		parent="GenericAttributes-genericAmount">
 		<property name="name" value="month2Amount" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="CashBalance-month3Amount" parent="CashBalance-month3Amount-parentBean" />
 
@@ -192,7 +192,7 @@
 		parent="GenericAttributes-genericAmount">
 		<property name="name" value="month3Amount" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="CashBalance-month4Amount" parent="CashBalance-month4Amount-parentBean" />
 
@@ -200,7 +200,7 @@
 		parent="GenericAttributes-genericAmount">
 		<property name="name" value="month4Amount" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="CashBalance-month5Amount" parent="CashBalance-month5Amount-parentBean" />
 
@@ -208,7 +208,7 @@
 		parent="GenericAttributes-genericAmount">
 		<property name="name" value="month5Amount" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="CashBalance-month6Amount" parent="CashBalance-month6Amount-parentBean" />
 
@@ -216,7 +216,7 @@
 		parent="GenericAttributes-genericAmount">
 		<property name="name" value="month6Amount" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="CashBalance-month7Amount" parent="CashBalance-month7Amount-parentBean" />
 
@@ -224,7 +224,7 @@
 		parent="GenericAttributes-genericAmount">
 		<property name="name" value="month7Amount" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="CashBalance-month8Amount" parent="CashBalance-month8Amount-parentBean" />
 
@@ -232,7 +232,7 @@
 		parent="GenericAttributes-genericAmount">
 		<property name="name" value="month8Amount" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="CashBalance-month9Amount" parent="CashBalance-month9Amount-parentBean" />
 
@@ -240,7 +240,7 @@
 		parent="GenericAttributes-genericAmount">
 		<property name="name" value="month9Amount" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="CashBalance-month10Amount" parent="CashBalance-month10Amount-parentBean" />
 
@@ -248,7 +248,7 @@
 		parent="GenericAttributes-genericAmount">
 		<property name="name" value="month10Amount" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="CashBalance-month11Amount" parent="CashBalance-month11Amount-parentBean" />
 
@@ -256,7 +256,7 @@
 		parent="GenericAttributes-genericAmount">
 		<property name="name" value="month11Amount" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="CashBalance-month12Amount" parent="CashBalance-month12Amount-parentBean" />
 
@@ -264,7 +264,7 @@
 		parent="GenericAttributes-genericAmount">
 		<property name="name" value="month12Amount" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="CashBalance-month13Amount" parent="CashBalance-month13Amount-parentBean" />
 
@@ -272,7 +272,7 @@
 		parent="GenericAttributes-genericAmount">
 		<property name="name" value="month13Amount" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="CashBalance-timestamp" parent="CashBalance-timestamp-parentBean" />
 
@@ -305,7 +305,7 @@
 		<property name="label" value="Available Cash Balance" />
 		<property name="shortLabel" value="Available Cash Balance" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 
     <bean id="CashBalance-objectCode.financialObjectLevelCode" parent="CashBalance-objectCode.financialObjectLevelCode-parentBean"/>

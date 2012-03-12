@@ -22,7 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.DonorStatementCode;
 import org.kuali.kfs.module.endow.document.service.DonorStatementCodeService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class DonorStatementCodeServiceImpl implements DonorStatementCodeService {
 

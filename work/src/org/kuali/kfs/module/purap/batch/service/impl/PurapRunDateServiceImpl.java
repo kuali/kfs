@@ -23,7 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.batch.service.PurapRunDateService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants.PURCHASING_BATCH;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 public class PurapRunDateServiceImpl implements PurapRunDateService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurapRunDateServiceImpl.class);
@@ -167,7 +167,7 @@ public class PurapRunDateServiceImpl implements PurapRunDateService {
      *         particular, 0 <= hour <= 23, 0 <= minute <= 59, and 0 <= second <= 59
      */
     protected String retrieveCutoffTimeValue() {
-        String value = parameterService.getParameterValue(PURCHASING_BATCH.class, PurapParameterConstants.PRE_DISBURSEMENT_EXTRACT_CUTOFF_TIME);
+        String value = parameterService.getParameterValueAsString(PURCHASING_BATCH.class, PurapParameterConstants.PRE_DISBURSEMENT_EXTRACT_CUTOFF_TIME);
         if (StringUtils.isBlank(value)) {
             LOG.info("Unable to retrieve parameter for PURAP process cutoff date.  Defaulting to no cutoff time (i.e. midnight)");
             value = null;

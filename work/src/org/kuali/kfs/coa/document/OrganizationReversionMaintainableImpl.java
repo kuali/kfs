@@ -28,15 +28,14 @@ import org.kuali.kfs.coa.service.OrganizationReversionDetailTrickleDownInactivat
 import org.kuali.kfs.coa.service.OrganizationReversionService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class provides some specific functionality for the {@link OrganizationReversion} maintenance document inner class for doing
@@ -68,7 +67,7 @@ public class OrganizationReversionMaintainableImpl extends FinancialSystemMainta
     /**
      * pre-populate the static list of details with each category
      * 
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#setBusinessObject(org.kuali.rice.kns.bo.BusinessObject)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#setBusinessObject(org.kuali.rice.krad.bo.BusinessObject)
      */
     public void setBusinessObject(PersistableBusinessObject businessObject) {
 
@@ -77,7 +76,7 @@ public class OrganizationReversionMaintainableImpl extends FinancialSystemMainta
         List<OrganizationReversionDetail> details = organizationReversion.getOrganizationReversionDetail();
 
         if (details == null) {
-            details = new TypedArrayList(OrganizationReversionDetail.class);
+            details = new ArrayList<OrganizationReversionDetail>();
             organizationReversion.setOrganizationReversionDetail(details);
         }
 
@@ -123,7 +122,7 @@ public class OrganizationReversionMaintainableImpl extends FinancialSystemMainta
      */
     protected boolean isInactivatingOrganizationReversion() {
         // the account has to be closed on the new side when editing in order for it to be possible that we are closing the account
-        if (KNSConstants.MAINTENANCE_EDIT_ACTION.equals(getMaintenanceAction()) && !((OrganizationReversion) getBusinessObject()).isActive()) {
+        if (KRADConstants.MAINTENANCE_EDIT_ACTION.equals(getMaintenanceAction()) && !((OrganizationReversion) getBusinessObject()).isActive()) {
             OrganizationReversion existingOrganizationReversionFromDB = retrieveExistingOrganizationReversion();
             if (ObjectUtils.isNotNull(existingOrganizationReversionFromDB)) {
                 // now see if the original account was not closed, in which case, we are closing the account
@@ -141,7 +140,7 @@ public class OrganizationReversionMaintainableImpl extends FinancialSystemMainta
      */
     protected boolean isActivatingOrganizationReversion() {
         // the account has to be closed on the new side when editing in order for it to be possible that we are closing the account
-        if (KNSConstants.MAINTENANCE_EDIT_ACTION.equals(getMaintenanceAction()) && ((OrganizationReversion) getBusinessObject()).isActive()) {
+        if (KRADConstants.MAINTENANCE_EDIT_ACTION.equals(getMaintenanceAction()) && ((OrganizationReversion) getBusinessObject()).isActive()) {
             OrganizationReversion existingOrganizationReversionFromDB = retrieveExistingOrganizationReversion();
             if (ObjectUtils.isNotNull(existingOrganizationReversionFromDB)) {
                 // now see if the original account was not closed, in which case, we are closing the account
@@ -175,9 +174,9 @@ public class OrganizationReversionMaintainableImpl extends FinancialSystemMainta
         super.saveBusinessObject();
         
         if (isActivatingOrgReversion) {
-            SpringContext.getBean(OrganizationReversionDetailTrickleDownInactivationService.class).trickleDownActiveOrganizationReversionDetails((OrganizationReversion)getBusinessObject(), documentNumber);
+            SpringContext.getBean(OrganizationReversionDetailTrickleDownInactivationService.class).trickleDownActiveOrganizationReversionDetails((OrganizationReversion)getBusinessObject(), getDocumentNumber());
         } else if (isInactivatingOrgReversion) {
-            SpringContext.getBean(OrganizationReversionDetailTrickleDownInactivationService.class).trickleDownInactiveOrganizationReversionDetails((OrganizationReversion)getBusinessObject(), documentNumber);
+            SpringContext.getBean(OrganizationReversionDetailTrickleDownInactivationService.class).trickleDownInactiveOrganizationReversionDetails((OrganizationReversion)getBusinessObject(), getDocumentNumber());
         }
     }
 

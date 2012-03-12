@@ -25,7 +25,7 @@ import javax.servlet.jsp.tagext.Tag;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.taglib.html.HiddenTag;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.web.taglib.html.KNSImageTag;
 
 /**
@@ -133,7 +133,7 @@ public class AccountingLineTableHeaderRenderer implements Renderer {
         subheading.append(accountingLineImportInstructionsUrl);
         subheading.append("\" target=\"helpWindow\">");
         subheading.append("<img src=\"");
-        subheading.append(SpringContext.getBean(KualiConfigurationService.class).getPropertyString("kr.externalizable.images.url"));
+        subheading.append(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("kr.externalizable.images.url"));
         subheading.append("my_cp_inf.gif\" title=\"Accounting Lines Help\" src=\"Accounting Lines Help\" hspace=\"5\" border=\"0\" align=\"middle\" />");
         subheading.append("</a>");
         
@@ -158,7 +158,7 @@ public class AccountingLineTableHeaderRenderer implements Renderer {
         showHideTag.setPageContext(pageContext);
         showHideTag.setParent(parentTag);
         showHideTag.setProperty("methodToCall."+toggle+"Details");
-        showHideTag.setSrc(SpringContext.getBean(KualiConfigurationService.class).getPropertyString("kr.externalizable.images.url")+"det-"+toggle+".gif");
+        showHideTag.setSrc(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("kr.externalizable.images.url")+"det-"+toggle+".gif");
         showHideTag.setAlt(toggle+" transaction details");
         showHideTag.setTitle(toggle+" transaction details");
         

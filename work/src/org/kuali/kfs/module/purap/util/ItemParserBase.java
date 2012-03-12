@@ -49,13 +49,12 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kns.exception.InfrastructureException;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.core.web.format.FormatException;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.web.format.FormatException;
+import org.kuali.rice.krad.exception.InfrastructureException;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class ItemParserBase implements ItemParser {
 
@@ -75,7 +74,7 @@ public class ItemParserBase implements ItemParser {
         //Check the ENABLE_COMMODITY_CODE_IND system parameter. If it's Y then 
         //we should return the DEFAULT_FORMAT, otherwise
         //we should return the COMMODITY_CODE_DISABLED_FORMAT
-        boolean enableCommodityCode = SpringContext.getBean(ParameterService.class).getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_COMMODITY_CODE_IND);
+        boolean enableCommodityCode = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_COMMODITY_CODE_IND);
         if (enableCommodityCode) {
             return DEFAULT_FORMAT;
         }
@@ -239,12 +238,12 @@ public class ItemParserBase implements ItemParser {
     protected void populateExtraAttributes( PurApItem item, String documentNumber ) {     
         if (item.getItemQuantity() != null) {
             String paramName = PurapParameterConstants.DEFAULT_QUANTITY_ITEM_TYPE;
-            String itemTypeCode = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(PurapConstants.PURAP_NAMESPACE, "Document", paramName);            
+            String itemTypeCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(PurapConstants.PURAP_NAMESPACE, "Document", paramName);            
             item.setItemTypeCode(itemTypeCode);
         }
         else {
             String paramName = PurapParameterConstants.DEFAULT_NON_QUANTITY_ITEM_TYPE;
-            String itemTypeCode = SpringContext.getBean(KualiConfigurationService.class).getParameterValue(PurapConstants.PURAP_NAMESPACE, "Document", paramName);
+            String itemTypeCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(PurapConstants.PURAP_NAMESPACE, "Document", paramName);
             item.setItemTypeCode(itemTypeCode);
         }
         if (item instanceof RequisitionItem)

@@ -24,7 +24,6 @@ import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.taglib.html.HiddenTag;
-import org.springframework.web.util.HtmlUtils;
 
 /**
  * Render which displays a field that can't be input directly but could be changed when other fields change.

@@ -20,12 +20,12 @@
   <bean id="GLInterfaceBatchtExceptionTableRowValues-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.module.endow.businessobject.GLInterfaceBatchExceptionTableRowValues"/>
     
-    <property name="objectLabel" value="GL Interface Batcht Exception Table Row Values"/>
+    <property name="objectLabel" value="GL Interface Batch Exception Table Row Values"/>
     <property name="attributes">
       <list>
       	<ref bean="GLInterfaceBatchtExceptionTableRowValues-documentType"/>
-        <ref bean="GLInterfaceBatchtExceptionTableRowValues-eDocNumber"/>
-        <ref bean="GLInterfaceBatchtExceptionTableRowValues-kEMID"/>
+        <ref bean="GLInterfaceBatchtExceptionTableRowValues-documentNumber"/>
+        <ref bean="GLInterfaceBatchtExceptionTableRowValues-kemid"/>
         <ref bean="GLInterfaceBatchtExceptionTableRowValues-incomeAmount"/>
         <ref bean="GLInterfaceBatchtExceptionTableRowValues-principalAmount"/>
         <ref bean="GLInterfaceBatchtExceptionTableRowValues-securityCost"/>
@@ -41,16 +41,14 @@
 	<property name="name" value="documentType"></property>	
 	<property name="maxLength" value="10"></property>
   </bean>
-  <bean id="GLInterfaceBatchtExceptionTableRowValues-eDocNumber" parent="GLInterfaceBatchtExceptionTableRowValues-eDocNumber-parentBean"/>
+  
+  <bean id="GLInterfaceBatchtExceptionTableRowValues-documentNumber" parent="GLInterfaceBatchtExceptionTableRowValues-documentNumber-parentBean"/>
+  <bean id="GLInterfaceBatchtExceptionTableRowValues-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber" />
 
-  <bean id="GLInterfaceBatchtExceptionTableRowValues-eDocNumber-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
-	<property name="name" value="eDocNumber"></property>	
-	<property name="maxLength" value="10"></property>
-  </bean>
-  <bean id="GLInterfaceBatchtExceptionTableRowValues-kEMID" parent="GLInterfaceBatchtExceptionTableRowValues-kEMID-parentBean"/>
+  <bean id="GLInterfaceBatchtExceptionTableRowValues-kemid" parent="GLInterfaceBatchtExceptionTableRowValues-kemid-parentBean"/>
 
-  <bean id="GLInterfaceBatchtExceptionTableRowValues-kEMID-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
-	<property name="name" value="kEMID"></property>	
+  <bean id="GLInterfaceBatchtExceptionTableRowValues-kemid-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
+	<property name="name" value="kemid"></property>	
 	<property name="maxLength" value="10"></property>
   </bean>
   <bean id="GLInterfaceBatchtExceptionTableRowValues-incomeAmount" parent="GLInterfaceBatchtExceptionTableRowValues-incomeAmount-parentBean"/>
@@ -58,34 +56,34 @@
   <bean id="GLInterfaceBatchtExceptionTableRowValues-incomeAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="incomeAmount"/>
     <property name="maxLength" value="20"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="GLInterfaceBatchtExceptionTableRowValues-principalAmount" parent="GLInterfaceBatchtExceptionTableRowValues-principalAmount-parentBean"/>
 
   <bean id="GLInterfaceBatchtExceptionTableRowValues-principalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="principalAmount"/>
     <property name="maxLength" value="20"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>  
   <bean id="GLInterfaceBatchtExceptionTableRowValues-securityCost" parent="GLInterfaceBatchtExceptionTableRowValues-securityCost-parentBean"/>
 
   <bean id="GLInterfaceBatchtExceptionTableRowValues-securityCost-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="securityCost"/>
     <property name="maxLength" value="20"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean> 
   <bean id="GLInterfaceBatchtExceptionTableRowValues-longTermGainLoss" parent="GLInterfaceBatchtExceptionTableRowValues-longTermGainLoss-parentBean"/>
   <bean id="GLInterfaceBatchtExceptionTableRowValues-longTermGainLoss-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="longTermGainLoss"/>
     <property name="maxLength" value="20"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="GLInterfaceBatchtExceptionTableRowValues-shortTermGainLoss" parent="GLInterfaceBatchtExceptionTableRowValues-shortTermGainLoss-parentBean"/>
 
   <bean id="GLInterfaceBatchtExceptionTableRowValues-shortTermGainLoss-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="shortTermGainLoss"/>
     <property name="maxLength" value="20"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
 </beans>

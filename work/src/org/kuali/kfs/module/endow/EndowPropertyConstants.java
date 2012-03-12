@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.endow;
 
-import org.kuali.rice.kns.util.KualiInteger;
 
 
 public class EndowPropertyConstants {

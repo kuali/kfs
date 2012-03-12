@@ -23,8 +23,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.ObjectCodeService;
+import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
@@ -53,25 +56,25 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.LedgerPostingMaintainable;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.parameter.ParameterEvaluator;
+import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.document.MaintenanceLock;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterEvaluator;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.maintenance.MaintenanceLock;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global assets
  */
 public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalMaintainableImpl.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalMaintainableImpl.class);
 
     protected static final String REQUIRES_REVIEW = "RequiresReview";
 
@@ -81,13 +84,13 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getWorkflowEngineDocumentIdsToLock()
      */
     @Override
-    public List<Long> getWorkflowEngineDocumentIdsToLock() {
+    public List<String> getWorkflowEngineDocumentIdsToLock() {
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
         if (ObjectUtils.isNotNull(assetGlobal) && assetGlobal.isCapitalAssetBuilderOriginIndicator()) {
-            String poDocId = SpringContext.getBean(CapitalAssetBuilderModuleService.class).getCurrentPurchaseOrderDocumentNumber(this.documentNumber);
+            String poDocId = SpringContext.getBean(CapitalAssetBuilderModuleService.class).getCurrentPurchaseOrderDocumentNumber(getDocumentNumber());
             if (StringUtils.isNotBlank(poDocId)) {
-                List<Long> documentIds = new ArrayList<Long>();
-                documentIds.add(new Long(poDocId));
+                List<String> documentIds = new ArrayList<String>();
+                documentIds.add(poDocId);
                 return documentIds;
             }
         }
@@ -99,15 +102,14 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
      */
     @Override
     protected boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        if (REQUIRES_REVIEW.equals(nodeName))
-            return !isAccountAndOrganizationReviewRequired();
+        if (REQUIRES_REVIEW.equals(nodeName)) return !isAccountAndOrganizationReviewRequired();
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \"" + nodeName + "\"");
     }
 
     /**
      * check whether or not isCapitalAssetBuilderOriginIndicator
      */
-    protected boolean isAccountAndOrganizationReviewRequired() {
+    protected boolean isAccountAndOrganizationReviewRequired(){
         return ((AssetGlobal) getBusinessObject()).isCapitalAssetBuilderOriginIndicator();
     }
 
@@ -157,10 +159,11 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
 
         // CSU 6702 BEGIN
-        String docType = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
-        ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(KFSConstants.CoreModuleNamespaces.KFS, KfsParameterConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.DETAIL_PARAMETER_TYPE, KfsParameterConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.FISCAL_PERIOD_SELECTION_DOCUMENT_TYPES, docType);
+        String docType = document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
+        ParameterEvaluatorService parameterEvaluatorService = SpringContext.getBean(ParameterEvaluatorService.class);
+        ParameterEvaluator evaluator = parameterEvaluatorService.getParameterEvaluator(KFSConstants.CoreModuleNamespaces.KFS, KfsParameterConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.DETAIL_PARAMETER_TYPE,  KfsParameterConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.FISCAL_PERIOD_SELECTION_DOCUMENT_TYPES, docType);
         if (evaluator.evaluationSucceeds() && isPeriod13(assetGlobal) ) {
-            Integer closingYear = new Integer(SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM));
+            Integer closingYear = new Integer(SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM));
             String closingDate = getClosingDate(closingYear);
             try {
                 if (ObjectUtils.isNotNull(assetGlobal.getPostingYear()) ) {
@@ -184,11 +187,8 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
      * @param assetGlobal
      * @return Asset
      */
-    private Asset getAsset(AssetGlobal assetGlobal) {
-        HashMap<Object, Object> map = new HashMap<Object, Object>();
-        map.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, assetGlobal.getSeparateSourceCapitalAssetNumber());
-        Asset asset = (Asset) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Asset.class, map);
-        return asset;
+    protected Asset getAsset(AssetGlobal assetGlobal) {
+        return SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(Asset.class, assetGlobal.getSeparateSourceCapitalAssetNumber());
     }
 
     /**
@@ -197,11 +197,8 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
      * @param assetGlobal
      * @return AssetOrganization
      */
-    private AssetOrganization getAssetOrganization(AssetGlobal assetGlobal) {
-        HashMap<Object, Object> map = new HashMap<Object, Object>();
-        map.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, assetGlobal.getSeparateSourceCapitalAssetNumber());
-        AssetOrganization assetOrganization = (AssetOrganization) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(AssetOrganization.class, map);
-        return assetOrganization;
+    protected AssetOrganization getAssetOrganization(AssetGlobal assetGlobal) {
+        return SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(AssetOrganization.class, assetGlobal.getSeparateSourceCapitalAssetNumber());
     }
 
     /**
@@ -426,7 +423,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
             assetPaymentDetail.setSequenceNumber(assetGlobal.incrementFinancialDocumentLineNumber());
             // Set for document number and document type code
             if (getAssetGlobalService().existsInGroup(getAssetGlobalService().getNonNewAcquisitionCodeGroup(), assetGlobal.getAcquisitionTypeCode())) {
-                assetPaymentDetail.setExpenditureFinancialDocumentNumber(documentNumber);
+                assetPaymentDetail.setExpenditureFinancialDocumentNumber(getDocumentNumber());
                 assetPaymentDetail.setExpenditureFinancialDocumentTypeCode(CamsConstants.DocumentTypeName.ASSET_ADD_GLOBAL);
                 assetPaymentDetail.setExpenditureFinancialSystemOriginationCode(KFSConstants.ORIGIN_CODE_KUALI);
             }
@@ -466,7 +463,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
         super.prepareForSave();
         AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
         List<AssetGlobalDetail> assetSharedDetails = assetGlobal.getAssetSharedDetails();
-        List<AssetGlobalDetail> newDetails = new TypedArrayList(AssetGlobalDetail.class);
+        List<AssetGlobalDetail> newDetails = new ArrayList<AssetGlobalDetail>();
         AssetGlobalDetail newAssetGlobalDetail = null;
         if (!assetSharedDetails.isEmpty() && !assetSharedDetails.get(0).getAssetGlobalUniqueDetails().isEmpty()) {
 
@@ -588,10 +585,6 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
         setAssetTotalAmountFromPersistence(assetGlobal);
     }
 
-   
-
-
-
     private void setAssetTotalAmountFromPersistence(AssetGlobal assetGlobal) {
         KualiDecimal minAssetTotalAmount = getAssetGlobalService().totalPaymentByAsset(assetGlobal, false);
         KualiDecimal maxAssetTotalAmount = getAssetGlobalService().totalPaymentByAsset(assetGlobal, true);
@@ -650,7 +643,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
 
         // button actions for Asset Separate document
         if (getAssetGlobalService().isAssetSeparate(assetGlobal) && sharedDetailsList.size() >= 1) {
-            String[] customAction = parameters.get(KNSConstants.CUSTOM_ACTION);
+            String[] customAction = parameters.get(KRADConstants.CUSTOM_ACTION);
 
             // calculate equal source total amounts and set separate source amount fields
             if (customAction != null && CamsConstants.AssetSeparate.CALCULATE_EQUAL_SOURCE_AMOUNTS_BUTTON.equals(customAction[0])) {
@@ -701,7 +694,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
         }
     }
 
-    /**
+    /** 
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
      */
     @Override
@@ -711,16 +704,16 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
         List<GeneralLedgerPendingEntry> generalLedgerPendingEntries = assetGlobal.getGeneralLedgerPendingEntries();
         new AssetGlobalGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) documentHeader).doRouteStatusChange(generalLedgerPendingEntries);
 
-        KualiWorkflowDocument workflowDoc = documentHeader.getWorkflowDocument();
+        WorkflowDocument workflowDoc = documentHeader.getWorkflowDocument();
 
         // force pretagDetail active indicators back to true
-        if (workflowDoc.stateIsCanceled()) {
+        if (workflowDoc.isCanceled()) {
             if (ObjectUtils.isNotNull(assetGlobal)) {
                 List<AssetGlobalDetail> assetGlobalDetailsList = assetGlobal.getAssetGlobalDetails();
                 if (ObjectUtils.isNotNull(assetGlobalDetailsList)) {
                     for (AssetGlobalDetail assetGlobaldetails : assetGlobalDetailsList) {
                         if (assetGlobaldetails.getCampusTagNumber() != null && !assetGlobaldetails.getCampusTagNumber().isEmpty()) {
-                            HashMap<Object, Object> map = new HashMap<Object, Object>();
+                            Map<String, String> map = new HashMap<String, String>();
                             map.put(CabPropertyConstants.PretagDetail.CAMPUS_TAG_NUMBER, assetGlobaldetails.getCampusTagNumber());
                             List<PretagDetail> pretagDetailList = (List<PretagDetail>) SpringContext.getBean(BusinessObjectService.class).findMatching(PretagDetail.class, map);
                             if (ObjectUtils.isNotNull(pretagDetailList)) {
@@ -737,8 +730,8 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
 
         // release lock for separate source asset...We don't include stateIsFinal since document always go to 'processed' first.
         AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
-        if (assetGlobalService.isAssetSeparate(assetGlobal) && (workflowDoc.stateIsCanceled() || workflowDoc.stateIsDisapproved() || workflowDoc.stateIsProcessed())) {
-            this.getCapitalAssetManagementModuleService().deleteAssetLocks(documentNumber, null);
+        if (assetGlobalService.isAssetSeparate(assetGlobal) && (workflowDoc.isCanceled() || workflowDoc.isDisapproved() || workflowDoc.isProcessed())) {
+            this.getCapitalAssetManagementModuleService().deleteAssetLocks(getDocumentNumber(), null);
         }
 
         // notify CAB of document status change
@@ -775,8 +768,6 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
         assetSharedDetail.setBuildingCode(asset.getBuildingCode());
         assetSharedDetail.setBuildingRoomNumber(asset.getBuildingRoomNumber());
     }
-    
-
     // CSU 6702 BEGIN
     /**
      * Checks for Accounting Period 13
@@ -826,7 +817,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
      */
     private void doPeriod13Changes(AssetGlobal assetGlobal) {
         if (isPeriod13(assetGlobal)) {
-            Integer closingYear = new Integer(SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM));
+            Integer closingYear = new Integer(SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM));
             String closingDate = getClosingDate(closingYear);
             try {
                 updateAssetGlobalForPeriod13(assetGlobal, closingYear, closingDate);
@@ -852,4 +843,33 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
         assetGlobal.setLastInventoryDate(getDateTimeService().getCurrentSqlDate());
     }
     // CSU 6702 END
+
+    /**
+     * @see org.kuali.kfs.sys.document.FinancialSystemMaintainable#populateChartOfAccountsCodeFields()
+     * 
+     * Special treatment is needed to populate the chart code from the account number field in AssetPaymentDetails, 
+     * as these fields aren't PKs of BO class in the collection.  
+     */
+    @Override
+    protected void populateChartOfAccountsCodeFields() {
+        super.populateChartOfAccountsCodeFields();
+              
+        AccountService acctService = SpringContext.getBean(AccountService.class);    
+        PersistableBusinessObject newAccount = getNewCollectionLine(CamsPropertyConstants.AssetGlobal.ASSET_PAYMENT_DETAILS);
+        String accountNumber = (String)ObjectUtils.getPropertyValue(newAccount, KFSPropertyConstants.ACCOUNT_NUMBER);
+        String coaCode = null;
+        
+        Account account = acctService.getUniqueAccountForAccountNumber(accountNumber);            
+        if (ObjectUtils.isNotNull(account)) {
+            coaCode = account.getChartOfAccountsCode();
+        }
+        
+        try {
+            ObjectUtils.setObjectProperty(newAccount, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, coaCode); 
+        }
+        catch (Exception e) {
+            LOG.error("Error in setting property value for " + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        } 
+    }        
+
 }

@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.gl.Constant;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.valuefinder.ValueFinder;
 
 /**
  * An implmentation of ValueFinder that allows the balance inquiries to choose whether to include or exclude cost share entries
@@ -31,7 +31,7 @@ public class CostShareOptionFinder extends KeyValuesBase implements ValueFinder 
     /**
      * Returns the default value for this ValueFinder, in this case, exclude cost share entries
      * @return a String with the default key
-     * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
+     * @see org.kuali.rice.krad.valuefinder.ValueFinder#getValue()
      */
     public String getValue() {
         return Constant.COST_SHARE_EXCLUDE;
@@ -44,8 +44,8 @@ public class CostShareOptionFinder extends KeyValuesBase implements ValueFinder 
      */
     public List getKeyValues() {
         List labels = new ArrayList();
-        labels.add(new KeyLabelPair(Constant.COST_SHARE_INCLUDE, Constant.COST_SHARE_INCLUDE));
-        labels.add(new KeyLabelPair(Constant.COST_SHARE_EXCLUDE, Constant.COST_SHARE_EXCLUDE));
+        labels.add(new ConcreteKeyValue(Constant.COST_SHARE_INCLUDE, Constant.COST_SHARE_INCLUDE));
+        labels.add(new ConcreteKeyValue(Constant.COST_SHARE_EXCLUDE, Constant.COST_SHARE_EXCLUDE));
         return labels;
     }
 }

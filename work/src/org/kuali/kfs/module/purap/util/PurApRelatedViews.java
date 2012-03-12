@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,7 +18,9 @@ package org.kuali.kfs.module.purap.util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
@@ -36,23 +38,21 @@ import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.util.KimConstants;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.UnknownDocumentTypeException;
+import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.datadictionary.exception.UnknownDocumentTypeException;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class PurApRelatedViews {
     private String documentNumber;
     private Integer accountsPayablePurchasingDocumentLinkIdentifier;
-    
+
     private transient List<RequisitionView> relatedRequisitionViews;
     private transient List<PurchaseOrderView> relatedPurchaseOrderViews;
     private transient List<PaymentRequestView> relatedPaymentRequestViews;
@@ -61,11 +61,11 @@ public class PurApRelatedViews {
     private transient List<CreditMemoView> paymentHistoryCreditMemoViews;
     private transient List<LineItemReceivingView> relatedLineItemReceivingViews;
     private transient List<CorrectionReceivingView> relatedCorrectionReceivingViews;
-    private transient List<BulkReceivingView> relatedBulkReceivingViews;    
+    private transient List<BulkReceivingView> relatedBulkReceivingViews;
     private transient List<PurchaseOrderViewGroup> groupedRelatedPurchaseOrderViews;
     private transient List<ReceivingViewGroup> groupedRelatedReceivingViews;
     private transient List<ElectronicInvoiceRejectView> relatedRejectViews;
-    
+
     public PurApRelatedViews(String documentNumber, Integer accountsPayablePurchasingDocumentLinkIdentifier) {
         super();
         this.documentNumber = documentNumber;
@@ -73,7 +73,7 @@ public class PurApRelatedViews {
     }
 
     /**
-     * Reset all related view lists to null. 
+     * Reset all related view lists to null.
      */
     public void resetRelatedViews() {
         relatedRequisitionViews = null;
@@ -89,7 +89,7 @@ public class PurApRelatedViews {
         groupedRelatedReceivingViews = null;
         relatedRejectViews = null;
     }
-    
+
     public List updateRelatedView(Class<?> clazz, List<? extends AbstractRelatedView> relatedList, boolean removeCurrentDocument) {
         if (relatedList == null) {
             relatedList = SpringContext.getBean(PurapService.class).getRelatedViews(clazz, accountsPayablePurchasingDocumentLinkIdentifier);
@@ -104,7 +104,7 @@ public class PurApRelatedViews {
                 }
             }
         }
-        
+
         return relatedList;
     }
 
@@ -112,30 +112,30 @@ public class PurApRelatedViews {
      * masks the po number if the po is unappoved yet.  If the document status is not FINAL then
      * check for permission for purapDocumentIdentifier field.  If NOT permitted to view the value
      * then mask the value with * and setting this value in poNumberMasked property.
-     * 
+     *
      * @param view
      */
     protected void maskPONumberIfUnapproved(AbstractRelatedView view) {
         Document document = findDocument(view.getDocumentNumber());
 
         String poIDstr = "";
-        
+
         if (ObjectUtils.isNotNull(view.getPurapDocumentIdentifier())) {
             poIDstr = view.getPurapDocumentIdentifier().toString();
         }
-        
+
         if (document != null) {
-            if (!document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equalsIgnoreCase(KEWConstants.ROUTE_HEADER_FINAL_CD)) {
+            if (!document.getDocumentHeader().getWorkflowDocument().getStatus().equals(DocumentStatus.FINAL)) {
                 String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
                 String namespaceCode = KFSConstants.ParameterNamespaces.KNS;
                 String permissionTemplateName = KimConstants.PermissionTemplateNames.FULL_UNMASK_FIELD;
-                
-                AttributeSet roleQualifiers = new AttributeSet();
-                
-                AttributeSet permissionDetails = new AttributeSet();
-                permissionDetails.put(KfsKimAttributes.COMPONENT_NAME, PurchaseOrderDocument.class.getSimpleName());
-                permissionDetails.put(KfsKimAttributes.PROPERTY_NAME, PurapPropertyConstants.PURAP_DOC_ID);
-                
+
+                Map<String,String> roleQualifiers = new HashMap<String,String>();
+
+                Map<String,String> permissionDetails = new HashMap<String,String>();
+                permissionDetails.put(KimConstants.AttributeConstants.COMPONENT_NAME, PurchaseOrderDocument.class.getSimpleName());
+                permissionDetails.put(KimConstants.AttributeConstants.PROPERTY_NAME, PurapPropertyConstants.PURAP_DOC_ID);
+
                 IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
                 Boolean isAuthorized = identityManagementService.isAuthorizedByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, roleQualifiers);
                 if (!isAuthorized) {
@@ -148,10 +148,10 @@ public class PurApRelatedViews {
                 }
             }
         }
-        
+
         view.setPoNumberMasked(poIDstr);
     }
-    
+
     /**
      * This method finds the document for the given document header id
      * @param documentHeaderId
@@ -159,7 +159,7 @@ public class PurApRelatedViews {
      */
     protected Document findDocument(String documentHeaderId) {
         Document document = null;
-        
+
         try {
             document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentHeaderId);
         }
@@ -167,10 +167,10 @@ public class PurApRelatedViews {
         } catch (UnknownDocumentTypeException ex) {
             // don't blow up just because a document type is not installed (but don't return it either)
         }
-        
+
         return document;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#getRelatedRequisitionViews()
      */
@@ -183,33 +183,35 @@ public class PurApRelatedViews {
         relatedRejectViews = updateRelatedView(ElectronicInvoiceRejectView.class, relatedRejectViews, true);
         return relatedRejectViews;
     }
-    
+
     /**
      * Obtains a list of related PurchaseOrderViews, first ordered by POIDs descending, then by document numbers descending;
-     * thus POs with newer POIDs will be in the front, and within the same POID, the current PO will be in the front. 
-     * 
+     * thus POs with newer POIDs will be in the front, and within the same POID, the current PO will be in the front.
+     *
      * @return  A list of <PurchaseOrderView> with newer POs in the front.
      */
     public List<PurchaseOrderView> getRelatedPurchaseOrderViews() {
-        if (relatedPurchaseOrderViews != null)
+        if (relatedPurchaseOrderViews != null) {
             return relatedPurchaseOrderViews;
-        
+        }
+
         // Obtain a list which is sorted by workflow document ID descending.
         relatedPurchaseOrderViews = updateRelatedView(PurchaseOrderView.class, relatedPurchaseOrderViews, true);
-        
+
         // Sort the list.
-        Collections.sort(relatedPurchaseOrderViews, 
+        Collections.sort(relatedPurchaseOrderViews,
                 new Comparator<PurchaseOrderView>() {
+                    @Override
                     public int compare(PurchaseOrderView v1, PurchaseOrderView v2) {
-                        if ((v1 != null) && (v2 != null) && 
+                        if ((v1 != null) && (v2 != null) &&
                             (v1.getPurapDocumentIdentifier() != null) &&
                             (v2.getPurapDocumentIdentifier() != null)) {
                             // sort by POID descending
-                            int compare = -v1.getPurapDocumentIdentifier().compareTo(v2.getPurapDocumentIdentifier());                            
+                            int compare = -v1.getPurapDocumentIdentifier().compareTo(v2.getPurapDocumentIdentifier());
                             // if POIDs are the same, sort by document number descending; usually current PO has biggest documentNumber
                             if (compare == 0) {
                                 compare = v1.getPurchaseOrderCurrentIndicator() ? -1 :
-                                    v2.getPurchaseOrderCurrentIndicator() ? 1 : 
+                                    v2.getPurchaseOrderCurrentIndicator() ? 1 :
                                     -v1.getDocumentNumber().compareTo(v2.getDocumentNumber());
                             }
                             return compare;
@@ -218,28 +220,29 @@ public class PurApRelatedViews {
                     }
                 }
         );
-        
-        return relatedPurchaseOrderViews;        
+
+        return relatedPurchaseOrderViews;
     }
-    
+
     /**
      * Groups related PurchaseOrderViews by POIDs descending, and within each group order POs by document numbers descending;
-     * thus groups of newer POIDs will be in the front, and within each group, more current POs will be in the front. 
-     * 
+     * thus groups of newer POIDs will be in the front, and within each group, more current POs will be in the front.
+     *
      * @return  A list of <PurchaseOrderViewGroup> with newer POs in the front.
      * @see org.kuali.kfs.module.purap.util.PurApRelatedViews.getRelatedPurchaseOrderViews
      * @see org.kuali.kfs.module.purap.businessobject.PurchaseOrderView
      */
     public List<PurchaseOrderViewGroup> getGroupedRelatedPurchaseOrderViews() {
-        if (groupedRelatedPurchaseOrderViews != null)
+        if (groupedRelatedPurchaseOrderViews != null) {
             return groupedRelatedPurchaseOrderViews;
-        
+        }
+
         /*
-         * This extra layer of grouping is necessary in order to display the notes for a group of 
-         * related POChange documents (which should have identical POID) after that group, 
-         * and before any other related groups which may result from PO splitting (with different POIDs).  
+         * This extra layer of grouping is necessary in order to display the notes for a group of
+         * related POChange documents (which should have identical POID) after that group,
+         * and before any other related groups which may result from PO splitting (with different POIDs).
          * With direct use of relatedPurchaseOrderViews, location of the end of the group is problematic.
-         */        
+         */
         groupedRelatedPurchaseOrderViews = new ArrayList<PurchaseOrderViewGroup>();
         PurchaseOrderViewGroup group = new PurchaseOrderViewGroup();
         int previousPOID = 0;
@@ -247,7 +250,7 @@ public class PurApRelatedViews {
         for(PurchaseOrderView view : relatedPurchaseOrderViews) {
             if (previousPOID == 0) {
                 previousPOID = view.getPurapDocumentIdentifier();
-                
+
             }
             if( view.getPurapDocumentIdentifier() == previousPOID ) {
                 group.getViews().add(view);
@@ -262,10 +265,10 @@ public class PurApRelatedViews {
                 groupedRelatedPurchaseOrderViews.add(group);
             }
         }
-        
-        return groupedRelatedPurchaseOrderViews;    
-    }    
-    
+
+        return groupedRelatedPurchaseOrderViews;
+    }
+
     /**
      * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument#getRelatedPaymentRequestViews()
      */
@@ -284,7 +287,7 @@ public class PurApRelatedViews {
 
     /**
      * Gets the Payment History Payment Request Views for this document.
-     * 
+     *
      * @return the list of Payment History Payment Request Views.
      */
     public List<PaymentRequestView> getPaymentHistoryPaymentRequestViews() {
@@ -294,7 +297,7 @@ public class PurApRelatedViews {
 
     /**
      * Gets the Payment History Credit Memo Views for this document.
-     * 
+     *
      * @return the list of Payment History Credit Memo Views.
      */
     public List<CreditMemoView> getPaymentHistoryCreditMemoViews() {
@@ -317,42 +320,43 @@ public class PurApRelatedViews {
         relatedCorrectionReceivingViews = updateRelatedView(CorrectionReceivingView.class, relatedCorrectionReceivingViews, true);
         return relatedCorrectionReceivingViews;
     }
-    
+
     public List<BulkReceivingView> getRelatedBulkReceivingViews() {
         relatedBulkReceivingViews = updateRelatedView(BulkReceivingView.class, relatedBulkReceivingViews, true);
         return relatedBulkReceivingViews;
     }
-    
+
     /**
      * Groups related LineItemReceivingView and its CorrectionReceivingViews, with more recent receiving groups in the front;
-     * and within each group, with more recent corrections in the front. 
-     * 
+     * and within each group, with more recent corrections in the front.
+     *
      * @return  A list of ReceivingCorrectionViewGroups.
      */
     public List<ReceivingViewGroup> getGroupedRelatedReceivingViews() {
-        if (groupedRelatedReceivingViews != null)
+        if (groupedRelatedReceivingViews != null) {
             return groupedRelatedReceivingViews;
-        
+        }
+
         groupedRelatedReceivingViews = new ArrayList<ReceivingViewGroup>();
         PurapService purapService = SpringContext.getBean(PurapService.class);
         List<LineItemReceivingView> liviews = purapService.getRelatedViews(LineItemReceivingView.class, accountsPayablePurchasingDocumentLinkIdentifier);
         List<CorrectionReceivingView> crviews = purapService.getRelatedViews(CorrectionReceivingView.class, accountsPayablePurchasingDocumentLinkIdentifier);
-        
+
         // both LineItemReceivingViews and CorrectionReceivingViews are already in order with most recent first, so no need to sort
         for (LineItemReceivingView liview : liviews) {
-            ReceivingViewGroup group = new ReceivingViewGroup(); 
+            ReceivingViewGroup group = new ReceivingViewGroup();
             group.lineItemView = liview; // could be current document
             for (CorrectionReceivingView crview : crviews) {
-                if (StringUtils.equals(crview.getLineItemReceivingDocumentNumber(), liview.getDocumentNumber()) && 
-                        !documentNumber.equals(crview.getDocumentNumber())) {// exclude current document                
+                if (StringUtils.equals(crview.getLineItemReceivingDocumentNumber(), liview.getDocumentNumber()) &&
+                        !documentNumber.equals(crview.getDocumentNumber())) {// exclude current document
                     group.addCorrectionView(crview);
                 }
             }
             groupedRelatedReceivingViews.add(group);
         }
-                
-        return groupedRelatedReceivingViews;    
-    }        
+
+        return groupedRelatedReceivingViews;
+    }
 
     /**
      * A container for a List<PurchaseOrderView>, to be used by a nested c:forEach tag
@@ -360,7 +364,7 @@ public class PurApRelatedViews {
      */
     public class PurchaseOrderViewGroup {
         protected List<PurchaseOrderView> views = new ArrayList<PurchaseOrderView>();
-        
+
         protected PurchaseOrderViewGroup() {
         }
 
@@ -368,14 +372,14 @@ public class PurApRelatedViews {
             return views;
         }
     }
-    
+
     /**
      * A container for a LineItemReceivingView and a list of its associated CorrectionReceivingViews.
      */
     public class ReceivingViewGroup {
         protected LineItemReceivingView lineItemView;
         protected List<CorrectionReceivingView> correctionViews = new ArrayList<CorrectionReceivingView>();
-        
+
         protected ReceivingViewGroup() {
         }
 
@@ -390,10 +394,10 @@ public class PurApRelatedViews {
         public void addCorrectionView(CorrectionReceivingView correctionView) {
             correctionViews.add(correctionView);
         }
-        
+
         public boolean getIsLineItemViewCurrentDocument() {
             return (lineItemView != null && documentNumber.equals(lineItemView.getDocumentNumber()));
         }
     }
-    
+
 }

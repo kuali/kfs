@@ -25,8 +25,8 @@ import org.kuali.kfs.module.cg.dataaccess.CloseDao;
 import org.kuali.kfs.module.cg.document.ProposalAwardCloseDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.util.TransactionalServiceUtils;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.krad.util.TransactionalServiceUtils;
 
 /**
  * @see CloseDao
@@ -74,17 +74,15 @@ public class CloseDaoOjb extends PlatformAwareDaoBaseOjb implements CloseDao {
         rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
 
         rqbc.addOrderByDescending(KFSPropertyConstants.DOCUMENT_NUMBER);
+        getPersistenceBrokerTemplate().clearCache();
+        if ( getPersistenceBrokerTemplate().getCount(rqbc) == 0) return null;
 
         Iterator<?> documentHeaderIdsIterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
 
-        if (documentHeaderIdsIterator.hasNext()) {
-            Object[] result = (Object[]) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(documentHeaderIdsIterator);
-            if (result[0] != null) {
-                return result[0].toString();
-            }
-            else {
-                return null;
-            }
+
+        Object[] result = (Object[]) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(documentHeaderIdsIterator);
+        if (result[0] != null) {
+            return result[0].toString();
         }
         else {
             return null;

@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.fp.document.service;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.kuali.kfs.fp.businessobject.DisbursementPayee;
 import org.kuali.kfs.fp.businessobject.PaymentReasonCode;
@@ -44,7 +44,7 @@ public interface DisbursementVoucherPaymentReasonService {
      * @param payeeTypeCodes the given payee type codes
      * @return true if the given payee is qualified for the payment with the given reason code; otherwise, return false
      */
-    public boolean isPayeeQualifiedForPayment(DisbursementPayee payee, String paymentReasonCode, List<String> payeeTypeCodes);
+    public boolean isPayeeQualifiedForPayment(DisbursementPayee payee, String paymentReasonCode, Collection<String> payeeTypeCodes);
 
     /**
      * determine whether the given payment reason is a non-employee travel payment reason
@@ -96,7 +96,7 @@ public interface DisbursementVoucherPaymentReasonService {
 
     /**
      * determine whether the given payment reason is of type that is specified by the given type parameter name. The type parameter
-     * must be defined as an application parameter(@see org.kuali.rice.kns.bo.Parameter)
+     * must be defined as an application parameter(@see org.kuali.rice.core.api.parameter.Parameter)
      * 
      * @param typeParameterName the given type parameter name
      * @param paymentReasonCode the given reason code
@@ -117,7 +117,7 @@ public interface DisbursementVoucherPaymentReasonService {
      * @param paymentReasonCode the given payment reason
      * @return the payee type codes valid for the given payment reason
      */
-    public List<String> getPayeeTypesByPaymentReason(String paymentReasonCode);
+    public Collection<String> getPayeeTypesByPaymentReason(String paymentReasonCode);
 
     /**
      * get the payment reason with its primary key: the given payment reason code
@@ -149,5 +149,5 @@ public interface DisbursementVoucherPaymentReasonService {
      * @param paymentReasonCode the given payment reason code
      * @return the vendor owership type codes for the given payment reason code if any; otherwise, null
      */
-    public List<String> getVendorOwnershipTypesByPaymentReason(String paymentReasonCode);
+    public Collection<String> getVendorOwnershipTypesByPaymentReason(String paymentReasonCode);
 }

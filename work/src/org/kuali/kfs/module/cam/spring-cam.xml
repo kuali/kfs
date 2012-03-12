@@ -99,6 +99,8 @@
 <!-- ********* Begin of depreciation batch beans ********** -->
 	<bean id="assetDepreciationService"  parent="assetDepreciationService-parentBean"/>
 	<bean id="assetDepreciationService-parentBean" class="org.kuali.kfs.module.cam.batch.service.impl.AssetDepreciationServiceImpl" abstract="true">											       
+	    <property name="cronExpression" value="0 * * ? * 5#3"/>
+	    <property name="mailService" ref="mailService" />											       
         <property name="parameterService">
             <ref bean="parameterService" />
         </property>
@@ -111,7 +113,7 @@
         <property name="camsReportService">
             <ref bean="camsReportService" />
         </property>        
-		<property name="kualiConfigurationService">
+		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>                
 		<property name="generalLedgerPendingEntryService">
@@ -120,35 +122,20 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
-		<property name="universityDateDao">
-			<ref bean="universityDateDao" />
-		</property>
-		<property name="workflowDocumentService">
-			<ref bean="workflowDocumentService" />
-		</property>		
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>		
-	    <property name="optionsService">
-			<ref bean="optionsService" />
-		</property>			
     </bean>
 
 	<bean id="depreciableAssetsDao" parent="platformAwareDao" class="org.kuali.kfs.module.cam.document.dataaccess.impl.DepreciableAssetsDaoOjb">
-		<property name="universityDateDao">
-			<ref bean="universityDateDao" />
-		</property>
 		<property name="depreciationBatchDao">
 			<ref bean="depreciationBatchDao" />
 		</property>		                				                		
 	</bean>
 	<bean id="depreciationBatchDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.module.cam.document.dataaccess.impl.DepreciationBatchDaoJdbc">
-		<property name="universityDateDao">
-			<ref bean="universityDateDao" />
-		</property>		
 		<!-- CSU 6702 BEGIN -->
 		<property name="parameterService">
             <ref bean="parameterService" />
@@ -379,7 +366,7 @@
 			<ref bean="documentService" />
 		</property>
 		<property name="workflowDocumentService">
-			<ref bean="workflowDocumentService" />
+			<ref bean="rice.kew.workflowDocumentService" />
 		</property>
 	  	<property name="parameterService" ref="parameterService" />							
 	  	<property name="dateTimeService" ref="dateTimeService" />
@@ -394,7 +381,7 @@
 
     <bean id="assetBarcodeInventoryInputFileService"  parent="assetBarcodeInventoryInputFileService-parentBean"/>
     <bean id="assetBarcodeInventoryInputFileService-parentBean" abstract="true"  class="org.kuali.kfs.module.cam.batch.service.impl.AssetBarcodeInventoryInputFileServiceImpl">
-		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
+		<property name="configurationService" ref="kualiConfigurationService" />
 	</bean>
 	
 <!-- END of Asset Bar Code inventory batch job -->
@@ -423,13 +410,6 @@
 	
 	<bean id="assetDerivedRoleTypeService" parent="assetDerivedRoleTypeService-parentBean"/> 
 	<bean id="assetDerivedRoleTypeService-parentBean" class="org.kuali.kfs.module.cam.identity.AssetDerivedRoleTypeServiceImpl" abstract="true"/>
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-	  <property name="serviceDefinition">
-	    <bean parent="kfsService"
-	      p:service-ref="assetDerivedRoleTypeService"
-	      p:localServiceName="assetDerivedRoleTypeService" />
-	  </property>
-	</bean>
 	
 	<bean id="assetObjectCodeFiscalYearMaker" parent="FiscalYearMaker">
 		<property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetObjectCode" /> 
@@ -444,4 +424,5 @@
     	<property name="capitalAssetLockDao" ref="capitalAssetLockDao" />
     </bean>
     <!-- End Asset Lock beans -->
+    <import resource="spring-cam-bus-exports.xml"/>
 </beans>

@@ -18,8 +18,7 @@ package org.kuali.kfs.sec.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sec.SecPropertyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 
 /**
@@ -134,7 +133,7 @@ public class AccessSecurityRestrictionInfo extends TransientBusinessObjectBase {
     }
 
     
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
 
         m.put(SecPropertyConstants.SECURITY_ATTRIBUTE_NAME, this.securityAttributeName);

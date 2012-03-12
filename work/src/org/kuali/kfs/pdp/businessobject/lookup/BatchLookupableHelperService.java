@@ -30,25 +30,26 @@ import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.service.BatchMaintenanceService;
 import org.kuali.kfs.pdp.service.PdpAuthorizationService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.dao.LookupDao;
-import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.web.format.BooleanFormatter;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.UrlFactory;
-import org.kuali.rice.kns.web.format.BooleanFormatter;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.dao.LookupDao;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 
 /**
  * This class allows custom handling of Batches within the lookup framework.
  */
 public class BatchLookupableHelperService extends KualiLookupableHelperServiceImpl {
     private BatchMaintenanceService batchMaintenanceService;
-    private KualiConfigurationService configurationService;
+    private ConfigurationService configurationService;
     private LookupDao lookupDao;
     private PdpAuthorizationService pdpAuthorizationService;
 
@@ -77,7 +78,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
                             String[] errorMsgs = StringUtils.split(errorList, PdpParameterConstants.ERROR_KEY_LIST_SEPARATOR);
                             for (String error : errorMsgs) {
                                 if (StringUtils.isNotEmpty(error)) {
-                                    GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, error);
+                                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, error);
                                 }
                             }
                         }
@@ -87,7 +88,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
                     if (parameters.containsKey(PdpParameterConstants.MESSAGE_PARAM)) {
                         String[] messageRequestParm = (String[]) parameters.get(PdpParameterConstants.MESSAGE_PARAM);
                         String message = messageRequestParm[0];
-                        GlobalVariables.getMessageList().add(message);
+                        KNSGlobalVariables.getMessageList().add(message);
                     }
                 }
             }
@@ -98,7 +99,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
     }
 
     /**
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject,
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.rice.krad.bo.BusinessObject,
      *      java.lang.String)
      */
     @Override
@@ -109,18 +110,18 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
             Properties params = new Properties();
             params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
             params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, PaymentDetail.class.getName());
-            params.put(KNSConstants.DOC_FORM_KEY, "88888888");
+            params.put(KRADConstants.DOC_FORM_KEY, "88888888");
             params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
-            params.put(KFSConstants.BACK_LOCATION, configurationService.getPropertyString(KNSConstants.APPLICATION_URL_KEY) + "/" + KFSConstants.MAPPING_PORTAL + ".do");
+            params.put(KFSConstants.BACK_LOCATION, configurationService.getPropertyValueAsString(KRADConstants.APPLICATION_URL_KEY) + "/" + KFSConstants.MAPPING_PORTAL + ".do");
             params.put(PdpPropertyConstants.PaymentDetail.PAYMENT_GROUP_BATCH_ID, UrlFactory.encode(String.valueOf(batch.getId())));
-            String url = UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
+            String url = UrlFactory.parameterizeUrl(KRADConstants.LOOKUP_ACTION, params);
             inquiryUrl.setHref(url);
         }
         return inquiryUrl;
     }
 
     /**
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject,
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject,
      *      java.util.List)
      */
     @Override
@@ -133,7 +134,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
             List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
             String linkText = KFSConstants.EMPTY_STRING;
             String url = KFSConstants.EMPTY_STRING;
-            String basePath = configurationService.getPropertyString(KFSConstants.APPLICATION_URL_KEY) + "/" + PdpConstants.Actions.BATCH_SEARCH_DETAIL_ACTION;
+            String basePath = configurationService.getPropertyValueAsString(KFSConstants.APPLICATION_URL_KEY) + "/" + PdpConstants.Actions.BATCH_SEARCH_DETAIL_ACTION;
 
             if ( pdpAuthorizationService.hasCancelPaymentPermission(person.getPrincipalId()) && batchMaintenanceService.doBatchPaymentsHaveOpenOrHeldStatus(batchId)) {
 
@@ -142,7 +143,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
                 params.put(PdpParameterConstants.BatchConstants.BATCH_ID_PARAM, UrlFactory.encode(String.valueOf(batchId)));
                 url = UrlFactory.parameterizeUrl(basePath, params);
 
-                linkText = configurationService.getPropertyString(PdpKeyConstants.BatchConstants.LinkText.CANCEL_BATCH);
+                linkText = configurationService.getPropertyValueAsString(PdpKeyConstants.BatchConstants.LinkText.CANCEL_BATCH);
 
                 AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url, PdpConstants.ActionMethods.CONFIRM_CANCEL_ACTION, linkText);
                 anchorHtmlDataList.add(anchorHtmlData);
@@ -157,7 +158,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
                     params.put(PdpParameterConstants.BatchConstants.BATCH_ID_PARAM, UrlFactory.encode(String.valueOf(batchId)));
                     url = UrlFactory.parameterizeUrl(basePath, params);
 
-                    linkText = configurationService.getPropertyString(PdpKeyConstants.BatchConstants.LinkText.REMOVE_BATCH_HOLD);
+                    linkText = configurationService.getPropertyValueAsString(PdpKeyConstants.BatchConstants.LinkText.REMOVE_BATCH_HOLD);
 
                     AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url, PdpConstants.ActionMethods.CONFIRM_REMOVE_HOLD_ACTION, linkText);
                     anchorHtmlDataList.add(anchorHtmlData);
@@ -169,7 +170,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
                     params.put(PdpParameterConstants.BatchConstants.BATCH_ID_PARAM, UrlFactory.encode(String.valueOf(batchId)));
                     url = UrlFactory.parameterizeUrl(basePath, params);
 
-                    linkText = configurationService.getPropertyString(PdpKeyConstants.BatchConstants.LinkText.HOLD_BATCH);
+                    linkText = configurationService.getPropertyValueAsString(PdpKeyConstants.BatchConstants.LinkText.HOLD_BATCH);
                     AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url, PdpConstants.ActionMethods.CONFIRM_HOLD_ACTION, linkText);
                     anchorHtmlDataList.add(anchorHtmlData);
                 }
@@ -197,8 +198,8 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
         String batchIdValue = (String) fieldValues.get(PdpPropertyConstants.BatchConstants.BATCH_ID);
         String paymentCountValue = (String) fieldValues.get(PdpPropertyConstants.BatchConstants.PAYMENT_COUNT);
         String paymentTotalAmountValue = (String) fieldValues.get(PdpPropertyConstants.BatchConstants.PAYMENT_TOTAL_AMOUNT);
-        String fileCreationTimeValueLower = (String) fieldValues.get(KNSConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX + PdpPropertyConstants.BatchConstants.FILE_CREATION_TIME);
-        String fileCreationTimeValueUpper = (String) fieldValues.get(KNSConstants.LOOKUP_DEFAULT_RANGE_SEARCH_UPPER_BOUND_LABEL + PdpPropertyConstants.BatchConstants.FILE_CREATION_TIME);
+        String fileCreationTimeValueLower = (String) fieldValues.get(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX + PdpPropertyConstants.BatchConstants.FILE_CREATION_TIME);
+        String fileCreationTimeValueUpper = (String) fieldValues.get(KRADConstants.LOOKUP_DEFAULT_RANGE_SEARCH_UPPER_BOUND_LABEL + PdpPropertyConstants.BatchConstants.FILE_CREATION_TIME);
         String chartCodeValue = (String) fieldValues.get(PdpPropertyConstants.BatchConstants.CHART_CODE);
         String orgCodeValue = (String) fieldValues.get(PdpPropertyConstants.BatchConstants.ORG_CODE);
         String subUnitCodeValue = (String) fieldValues.get(PdpPropertyConstants.BatchConstants.SUB_UNIT_CODE);
@@ -215,12 +216,12 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
             else if (StringUtils.isBlank(fileCreationTimeValueLower) || StringUtils.isBlank(fileCreationTimeValueUpper)) {
                 // If we have one (but not both) dates the user must enter either the chartCode, orgCode, or subUnitCode
                 if (StringUtils.isBlank(chartCodeValue) && StringUtils.isBlank(orgCodeValue) && StringUtils.isBlank(subUnitCodeValue)) {
-                    GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_BATCH_CRITERIA_SOURCE_MISSING);
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_BATCH_CRITERIA_SOURCE_MISSING);
                 }
             }
         }
 
-        if (!GlobalVariables.getMessageMap().isEmpty()) {
+        if (!GlobalVariables.getMessageMap().hasErrors()) {
             throw new ValidationException("errors in search criteria");
         }
     }
@@ -230,16 +231,16 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
      * 
      * @return the configurationService
      */
-    public KualiConfigurationService getConfigurationService() {
+    public ConfigurationService getConfigurationService() {
         return configurationService;
     }
 
     /**
      * This method sets the configurationService.
      * 
-     * @param configurationService KualiConfigurationService
+     * @param configurationService ConfigurationService
      */
-    public void setConfigurationService(KualiConfigurationService configurationService) {
+    public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
     }
 

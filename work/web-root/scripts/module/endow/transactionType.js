@@ -22,7 +22,7 @@
   
  function setFeeTransactionTypeDescription(FeeTransactionTypeFieldName, feeTransactionTypeDescriptionFieldName){
  
-	var feeTransactionType = DWRUtil.getValue(FeeTransactionTypeFieldName);
+	var feeTransactionType = dwr.util.getValue(FeeTransactionTypeFieldName);
     
 	if (feeTransactionType =='') {
 		clearRecipients(feeTransactionTypeDescriptionFieldName);

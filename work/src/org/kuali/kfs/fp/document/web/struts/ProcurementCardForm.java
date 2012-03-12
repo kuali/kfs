@@ -37,14 +37,12 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
-import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.datadictionary.DataDictionary;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.datadictionary.DataDictionary;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * This class is the form class for the ProcurementCard document. This method extends the parent KualiTransactionalDocumentFormBase
@@ -103,8 +101,8 @@ public class ProcurementCardForm extends CapitalAccountingLinesFormBase implemen
     public ProcurementCardForm() {
         super();
         
-        this.newTargetLines = new TypedArrayList(ProcurementCardTargetAccountingLine.class);
-        capitalAssetInformation = new TypedArrayList(CapitalAssetInformation.class);
+        this.newTargetLines = new ArrayList<ProcurementCardTargetAccountingLine>();
+        capitalAssetInformation = new ArrayList<CapitalAssetInformation>();
     }
 
     @Override
@@ -116,7 +114,7 @@ public class ProcurementCardForm extends CapitalAccountingLinesFormBase implemen
      * @return The retreived APC string used for the dispute url.
      */
     public String getDisputeURL() {
-        return SpringContext.getBean(ParameterService.class).getParameterValue(ProcurementCardDocument.class, DISPUTE_URL_PARM_NM);
+        return SpringContext.getBean(ParameterService.class).getParameterValueAsString(ProcurementCardDocument.class, DISPUTE_URL_PARM_NM);
     }
 
 
@@ -176,7 +174,7 @@ public class ProcurementCardForm extends CapitalAccountingLinesFormBase implemen
             int count = 0;
             while (!canEditAnyAccountingLine.booleanValue() && count < transactionDetail.getTargetAccountingLines().size()) {
                 final TargetAccountingLine accountingLine = (TargetAccountingLine)transactionDetail.getTargetAccountingLines().get(count);
-                if (accountingLineAuthorizer.hasEditPermissionOnAccountingLine(((ProcurementCardDocument)getDocument()), accountingLine, getAccountingLineCollectionName(), currentUser, getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT))) {
+                if (accountingLineAuthorizer.hasEditPermissionOnAccountingLine(((ProcurementCardDocument)getDocument()), accountingLine, getAccountingLineCollectionName(), currentUser, getDocumentActions().containsKey(KRADConstants.KUALI_ACTION_CAN_EDIT))) {
                     canEditAnyAccountingLine = Boolean.TRUE;
                 }
                 count += 1;

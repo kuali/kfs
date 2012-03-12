@@ -16,10 +16,8 @@
 package org.kuali.kfs.module.cab.businessobject;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 
-import org.kuali.kfs.module.cam.businessobject.AssetType;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -84,16 +82,6 @@ public class GeneralLedgerEntryAsset extends PersistableBusinessObjectBase {
      */
     public void setCapitalAssetManagementDocumentNumber(String capitalAssetManagementDocumentNumber) {
         this.capitalAssetManagementDocumentNumber = capitalAssetManagementDocumentNumber;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> m = new LinkedHashMap<String, Object>();
-        m.put("capitalAssetBuilderLineNumber", this.capitalAssetBuilderLineNumber);
-        m.put("generalLedgerAccountIdentifier", this.generalLedgerAccountIdentifier);
-        return m;
     }
 
     /**

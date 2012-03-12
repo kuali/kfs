@@ -19,12 +19,13 @@ import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.impl.BankCodeValidation;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.ParameterEvaluator;
+import org.kuali.rice.core.api.parameter.ParameterEvaluator;
+import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 
 public class AccountsPayableBankCodeValidation extends GenericValidation {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsPayableBankCodeValidation.class);
@@ -36,12 +37,12 @@ public class AccountsPayableBankCodeValidation extends GenericValidation {
      */
     public boolean validate(AttributedDocumentEvent event) {
         LOG.debug("validate start");
-
+        
         AccountsPayableDocumentBase apDocument = (AccountsPayableDocumentBase) accountingDocumentForValidation;
 
         boolean isValid = true;
         if (isDocumentTypeUsingBankCode(apDocument)) {
-            isValid = BankCodeValidation.validate(apDocument.getBankCode(), PurapPropertyConstants.BANK_CODE, false, true);
+            isValid = BankCodeValidation.validate(apDocument, apDocument.getBankCode(), PurapPropertyConstants.BANK_CODE, false, true);
         }
 
         return isValid;
@@ -54,14 +55,13 @@ public class AccountsPayableBankCodeValidation extends GenericValidation {
      * @return true if {@link KFSParameterKeyConstants.BANK_CODE_DOCUMENT_TYPES} contains this document type
      */
     private boolean isDocumentTypeUsingBankCode(AccountsPayableDocumentBase apDocument) {
-        String documentTypeName = apDocument.getDocumentHeader().getWorkflowDocument().getDocumentType();
-        ParameterEvaluator evaluator = KNSServiceLocator.getParameterService().getParameterEvaluator(Bank.class, KFSParameterKeyConstants.BANK_CODE_DOCUMENT_TYPES, documentTypeName);
+        String documentTypeName = apDocument.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
+        ParameterEvaluator evaluator = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(Bank.class, KFSParameterKeyConstants.BANK_CODE_DOCUMENT_TYPES, documentTypeName);
         return evaluator.evaluationSucceeds();
     }
 
     /**
      * Sets the accountingDocumentForValidation attribute value.
-     * 
      * @param accountingDocumentForValidation The accountingDocumentForValidation to set.
      */
     public void setAccountingDocumentForValidation(AccountingDocument accountingDocumentForValidation) {
@@ -69,8 +69,7 @@ public class AccountsPayableBankCodeValidation extends GenericValidation {
     }
 
     /**
-     * Gets the accountingDocumentForValidation attribute.
-     * 
+     * Gets the accountingDocumentForValidation attribute. 
      * @return Returns the accountingDocumentForValidation.
      */
     public AccountingDocument getAccountingDocumentForValidation() {

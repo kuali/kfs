@@ -42,20 +42,17 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
-import org.kuali.rice.core.util.RiceConstants;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.RiceConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
-import org.kuali.rice.kns.web.ui.ExtraButton;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This is the action class for the CapitalAccountingLinesActionBase.
@@ -340,21 +337,21 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
      */
     protected List<CapitalAccountingLines> removeOrphanCapitalAccountingLines(List<CapitalAccountingLines> capitalAccountingLines, AccountingDocument tdoc) {
         List<CapitalAccountingLines> newCapitalAccountingLines = new ArrayList<CapitalAccountingLines>();
-        
-        List<AccountingLine> sourceAccountLines = tdoc.getSourceAccountingLines();
-        for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
-            if (removeOrphanCapitalAccountingLine(sourceAccountLines, capitalAccountingLine)) {
-                newCapitalAccountingLines.add(capitalAccountingLine);
+        if ( capitalAccountingLines != null ) {
+            List<AccountingLine> sourceAccountLines = tdoc.getSourceAccountingLines();
+            for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
+                if (removeOrphanCapitalAccountingLine(sourceAccountLines, capitalAccountingLine)) {
+                    newCapitalAccountingLines.add(capitalAccountingLine);
+                }
+            }
+            
+            List<AccountingLine> targetAccountLines = tdoc.getTargetAccountingLines();
+            for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
+                if (removeOrphanCapitalAccountingLine(targetAccountLines, capitalAccountingLine)) {
+                    newCapitalAccountingLines.add(capitalAccountingLine);
+                }
             }
         }
-        
-        List<AccountingLine> targetAccountLines = tdoc.getTargetAccountingLines();
-        for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
-            if (removeOrphanCapitalAccountingLine(targetAccountLines, capitalAccountingLine)) {
-                newCapitalAccountingLines.add(capitalAccountingLine);
-            }
-        }
-        
         return newCapitalAccountingLines;
     }
     
@@ -761,7 +758,7 @@ public abstract class CapitalAccountingLinesActionBase extends CapitalAssetInfor
         CapitalAccountingLinesFormBase calfb = (CapitalAccountingLinesFormBase) form;
         
         if (question == null) {
-            String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.WARNING_NOT_SAME_OBJECT_SUB_TYPES);
+            String questionText = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.WARNING_NOT_SAME_OBJECT_SUB_TYPES);
             return this.performQuestionWithoutInput(mapping, form, request, response, KFSConstants.OBJECT_SUB_TYPES_DIFFERENT_QUESTION, questionText, KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "");
         }
         else {

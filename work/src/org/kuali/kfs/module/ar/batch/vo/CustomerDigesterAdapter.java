@@ -22,9 +22,9 @@ import org.kuali.kfs.module.ar.batch.report.CustomerLoadBatchErrors;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
-import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * 
@@ -59,7 +59,7 @@ public class CustomerDigesterAdapter {
      * parameter errorMap.  
      * 
      * @param customerDigesterVO The VO full of String values to convert from.
-     * @param errorMap An empty ErrorMap collection to add errors to.  Only new errors will be added.
+     * @param errorMap An empty MessageMap collection to add errors to.  Only new errors will be added.
      * @return A populated Customer object, from the VO.
      */
     public Customer convert(CustomerDigesterVO customerDigesterVO, CustomerLoadBatchErrors errors) {

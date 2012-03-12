@@ -19,7 +19,7 @@ import java.sql.Date;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public enum AccountFixture {
     ACTIVE_ACCOUNT(null, null, false, null, null, "2101-09-30"), CLOSED_ACCOUNT(null, null, true, null, null, null), EXPIRIED_ACCOUNT(null, "1031467", false, "BL", "2331489", "2001-09-30"), EXPIRIED_ACCOUNT_NO_CONTINUATION(null, null, false, null, null, "2001-09-30"), EXPIRIED_ACCOUNT_EXPIRIED_AND_OPEN_CONTINUATION(null, "fixture1", false, "BL", "4631644", "2001-09-30"), EXPIRIED_ACCOUNT_EXPIRIED_AND_CLOSED_CONTINUATION(null, "fixture1", false, "BL", "4031425", "2001-09-30"), ACCOUNT_PRESENCE_ACCOUNT("BL", "4031416", false, null, null, null), ACCOUNT_NON_PRESENCE_ACCOUNT("BA", "6044900", false, null, null, null), ACCOUNT_PRESENCE_ACCOUNT_WITH_EXPIRED("BL", "4831483", false, null, null, "2001-09-30"), ACCOUNT_PRESENCE_ACCOUNT_BUT_CLOSED("BL", "4831483", false, null, null, null), ;

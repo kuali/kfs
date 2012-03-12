@@ -19,7 +19,6 @@ import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinitio
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.dataaccess.impl.FiscalYearMakerImpl;
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
 /**
  * Performs custom population of report definition records for a new year being created in the fiscal year maker process
@@ -28,7 +27,7 @@ public class EffortCertificationReportDefinitionFiscalYearMakerImpl extends Fisc
 
     /**
      * @see org.kuali.kfs.coa.dataaccess.impl.FiscalYearMakerImpl#changeForNewYear(java.lang.Integer,
-     *      org.kuali.rice.kns.bo.PersistableBusinessObject)
+     *      org.kuali.rice.krad.bo.PersistableBusinessObject)
      */
     @Override
     public void changeForNewYear(Integer baseFiscalYear, FiscalYearBasedBusinessObject currentRecord) {

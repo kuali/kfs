@@ -32,8 +32,8 @@ import org.kuali.kfs.fp.businessobject.CoinDetail;
 import org.kuali.kfs.fp.businessobject.CurrencyDetail;
 import org.kuali.kfs.fp.document.dataaccess.CashManagementDao;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.util.TransactionalServiceUtils;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.krad.util.TransactionalServiceUtils;
 import org.springframework.dao.DataAccessException;
 
 public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements CashManagementDao {
@@ -53,11 +53,7 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
         criteria.addColumnIsNull("ITM_CLOSED_DT");
 
         QueryByCriteria openItemsQuery = QueryFactory.newQuery(CashieringItemInProcess.class, criteria);
-        Iterator iter = getPersistenceBrokerTemplate().getIteratorByQuery(openItemsQuery);
-        while (iter.hasNext()) {
-            openItems.add((CashieringItemInProcess) iter.next());
-        }
-        return openItems;
+        return new ArrayList<CashieringItemInProcess>( getPersistenceBrokerTemplate().getCollectionByQuery(openItemsQuery) );
     }
 
     /**

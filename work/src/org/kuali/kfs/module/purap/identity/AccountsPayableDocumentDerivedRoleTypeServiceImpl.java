@@ -16,8 +16,10 @@
 package org.kuali.kfs.module.purap.identity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
@@ -25,14 +27,13 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.impl.KimAttributes;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
+import org.kuali.rice.krad.service.DocumentService;
 
-public class AccountsPayableDocumentDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
+public class AccountsPayableDocumentDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsPayableDocumentDerivedRoleTypeServiceImpl.class);
     
     protected static final String FISCAL_OFFICER_ROLE_NAME = "Fiscal Officer";
@@ -42,33 +43,33 @@ public class AccountsPayableDocumentDerivedRoleTypeServiceImpl extends KimDerive
     /**
      * Overridden to check if the current user has document reviewer permission based on the data in the document.
      * 
-     * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#(java.lang.String, java.util.List, java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
+     * @see org.kuali.rice.kns.kim.role.RoleTypeServiceBase#(java.lang.String, java.util.List, java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
     @Override
-    public boolean hasApplicationRole(String principalId, List<String> groupIds, String namespaceCode, String roleName, AttributeSet qualification) {
+    public boolean hasDerivedRole(String principalId, List<String> groupIds, String namespaceCode, String roleName, Map<String,String> qualification) {
     
-        String docId = new String(qualification.get(KimAttributes.DOCUMENT_NUMBER));
+        String docId = new String(qualification.get(KimConstants.AttributeConstants.DOCUMENT_NUMBER));
         
         List roleIds = new ArrayList();
-        roleIds.add(SpringContext.getBean(RoleManagementService.class).getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, FISCAL_OFFICER_ROLE_NAME));
-        roleIds.add(SpringContext.getBean(RoleManagementService.class).getRoleIdByName(PurapConstants.PURAP_NAMESPACE, SUB_ACCOUNT_ROLE_NAME));
-        roleIds.add(SpringContext.getBean(RoleManagementService.class).getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, ACCOUNTING_REVIEWER_ROLE_NAME    ));
+        roleIds.add(SpringContext.getBean(RoleService.class).getRoleIdByNamespaceCodeAndName(KFSConstants.CoreModuleNamespaces.KFS, FISCAL_OFFICER_ROLE_NAME));
+        roleIds.add(SpringContext.getBean(RoleService.class).getRoleIdByNamespaceCodeAndName(PurapConstants.PURAP_NAMESPACE, SUB_ACCOUNT_ROLE_NAME));
+        roleIds.add(SpringContext.getBean(RoleService.class).getRoleIdByNamespaceCodeAndName(KFSConstants.CoreModuleNamespaces.KFS, ACCOUNTING_REVIEWER_ROLE_NAME    ));
         
         try {
             AccountsPayableDocument apDocument = (AccountsPayableDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
             for (Iterator iter = apDocument.getSourceAccountingLines().iterator(); iter.hasNext();) {
                 SourceAccountingLine accountingLine = (SourceAccountingLine) iter.next();
                 
-                AttributeSet roleQualifier = new AttributeSet();
-                roleQualifier.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, apDocument.getDocumentHeader().getWorkflowDocument().getDocumentType());
-                roleQualifier.put(KfsKimAttributes.FINANCIAL_DOCUMENT_TOTAL_AMOUNT, apDocument.getDocumentHeader().getFinancialDocumentTotalAmount().toString());
+                Map<String,String> roleQualifier = new HashMap<String,String>();
+                roleQualifier.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, apDocument.getDocumentHeader().getWorkflowDocument().getDocumentTypeName());
+                roleQualifier.put(KfsKimAttributes.FINANCIAL_DOCUMENT_TOTAL_AMOUNT, apDocument.getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount().toString());
                 roleQualifier.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, accountingLine.getChartOfAccountsCode());
                 roleQualifier.put(KfsKimAttributes.ORGANIZATION_CODE, accountingLine.getAccount().getOrganizationCode());
                 roleQualifier.put(KfsKimAttributes.ACCOUNT_NUMBER, accountingLine.getAccountNumber());
                 roleQualifier.put(KfsKimAttributes.SUB_ACCOUNT_NUMBER, accountingLine.getSubAccountNumber());
                 roleQualifier.put(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE, accountingLine.getOverrideCode());
 
-                if (SpringContext.getBean(RoleManagementService.class).principalHasRole(principalId, roleIds, roleQualifier)) {
+                if (SpringContext.getBean(RoleService.class).principalHasRole(principalId, roleIds, roleQualifier)) {
                     return true;
                 }
                 

@@ -21,6 +21,7 @@
     <property name="documentTypeName" value="RCVB"/>
     <property name="sessionDocument" value="true"/>
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.BulkReceivingDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.module.purap.document.BulkReceivingDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.ReceivingDocumentAuthorizerBase"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.BulkReceivingDocumentPresentationController"/>
@@ -105,7 +106,7 @@
     <property name="relationships">
       <list>
         <dd:relationship objectAttribute="vendorCountry">
-            <dd:primitiveAttribute source="vendorCountryCode" target="postalCountryCode"/>
+            <dd:primitiveAttribute source="vendorCountryCode" target="code"/>
         </dd:relationship>
         <dd:relationship objectAttribute="deliveryCampus">
             <dd:primitiveAttribute source="deliveryCampusCode" target="campusCode"/>
@@ -233,7 +234,7 @@
   
   <bean id="BulkReceivingDocument-deliveryCampusName" parent="BulkReceivingDocument-deliveryCampusName-parentBean"/>
 
-  <bean id="BulkReceivingDocument-deliveryCampusName-parentBean" abstract="true" parent="Campus-campusName">
+  <bean id="BulkReceivingDocument-deliveryCampusName-parentBean" abstract="true" parent="Campus-name">
     <property name="name" value="deliveryCampusName"/>
     <property name="label" value="Campus"/>
     <property name="required" value="false"/>
@@ -691,7 +692,7 @@
  
   <bean id="BulkReceivingDocument-validations-parentBean" abstract="true"  class="org.springframework.beans.factory.config.MapFactoryBean">
  		<property name="sourceMap">
-			<map>
+			<map key-type="java.lang.Class">
 				<entry>
 					<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
 					<value>BulkReceivingDocument-routeDocumentValidation</value>
@@ -707,12 +708,12 @@
   <!-- workflow attributes -->
   <bean id="BulkReceivingDocument-workflowAttributes" parent="BulkReceivingDocument-workflowAttributes-parentBean"/>
   
-  <bean id="BulkReceivingDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
+  <bean id="BulkReceivingDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true">
       <property name="searchingTypeDefinitions">
           <list>
-              <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">                    
+              <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">                    
                   <property name="searchingAttribute">
-                      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+                      <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.BulkReceivingDocument"/>
                           <property name="attributeName" value="sensitive"/>
                           <property name="showAttributeInSearchCriteria" value="false"/>
@@ -725,9 +726,9 @@
                       </list>
                   </property>
               </bean>
-      	      <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+      	      <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
-    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    			      <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.BulkReceivingDocument"/>
     					  <property name="attributeName" value="vendorName"/>
     					  <property name="showAttributeInSearchCriteria" value="false"/>
@@ -740,9 +741,9 @@
     				  </list>
     			  </property>
     		  </bean>
-    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		  <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
-    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    			      <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.BulkReceivingDocument"/>
     					  <property name="attributeName" value="vendorNumber"/>
     					  <property name="showAttributeInSearchCriteria" value="true"/>
@@ -755,9 +756,9 @@
     				  </list>
     			  </property>
     		  </bean>
-    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		  <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
-    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    			      <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.BulkReceivingDocument"/>
     					  <property name="attributeName" value="purchaseOrderIdentifier"/>
     					  <property name="showAttributeInSearchCriteria" value="true"/>
@@ -770,9 +771,9 @@
     				  </list>
     			  </property>
     		  </bean>
-    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		  <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
-    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    			      <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.BulkReceivingDocument"/>
     					  <property name="attributeName" value="shipmentBillOfLadingNumber"/>
     					  <property name="showAttributeInSearchCriteria" value="true"/>
@@ -785,9 +786,9 @@
     				  </list>
     			  </property>
     		  </bean>
-    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		  <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
-    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    			      <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.BulkReceivingDocument"/>
     					  <property name="attributeName" value="shipmentPackingSlipNumber"/>
     					  <property name="showAttributeInSearchCriteria" value="true"/>
@@ -800,9 +801,9 @@
     				  </list>
     			  </property>
     		  </bean>
-    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		  <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
-    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    			      <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.BulkReceivingDocument"/>
     					  <property name="attributeName" value="shipmentReferenceNumber"/>
     					  <property name="showAttributeInSearchCriteria" value="true"/>
@@ -815,9 +816,9 @@
     				  </list>
     			  </property>
     		  </bean>
-    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		  <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
-    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    			      <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.BulkReceivingDocument"/>
     					  <property name="attributeName" value="carrierCode"/>
     					  <property name="showAttributeInSearchCriteria" value="true"/>
@@ -829,9 +830,9 @@
     				  </list>
     			  </property>
     		  </bean>           
-    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    			<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
-    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    			      <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.BulkReceivingDocument"/>
     					  <property name="attributeName" value="workflowStatusForResult"/>
     					  <property name="showAttributeInSearchCriteria" value="false"/>

@@ -17,7 +17,6 @@ package org.kuali.kfs.gl.service.impl;
 
 import org.kuali.kfs.gl.service.PreScrubberService;
 import org.kuali.kfs.sys.service.DocumentNumberAwareReportWriterService;
-import org.kuali.kfs.sys.service.impl.ReportWriterTextServiceImpl;
 import org.kuali.kfs.sys.service.impl.ScrubberListingReportWriterTextServiceImpl;
 
 public class PreScrubberReportWriterTextServiceImpl extends ScrubberListingReportWriterTextServiceImpl implements DocumentNumberAwareReportWriterService {

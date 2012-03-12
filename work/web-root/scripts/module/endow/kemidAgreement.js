@@ -21,7 +21,7 @@ function loadKemidAgreementStatusDate(kemidAgreementStatusCodeFieldName) {
 	setKemidAgreementStatusDate(kemidAgreementStatusCodeFieldName, kemidAgreementStatusDateFieldName);
 }
 function setKemidAgreementStatusDate(kemidAgreementStatusCodeFieldName, kemidAgreementStatusDateFieldName) {
-	var kemidAgreementStatusCode = DWRUtil.getValue(kemidAgreementStatusCodeFieldName);
+	var kemidAgreementStatusCode = dwr.util.getValue(kemidAgreementStatusCodeFieldName);
 	
 	var dwrReply = {callback:function (data) {
 		if (data != null) {

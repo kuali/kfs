@@ -62,5 +62,5 @@
   <!-- workflow attributes -->
   <bean id="TravelMileageRateMaintenanceDocument-workflowAttributes" parent="TravelMileageRateMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="TravelMileageRateMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="TravelMileageRateMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

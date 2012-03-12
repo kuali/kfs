@@ -17,7 +17,6 @@ package org.kuali.kfs.module.ec.document.validation.impl;
 
 import java.util.List;
 
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.integration.ld.LaborModuleService;
@@ -39,15 +38,18 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.datadictionary.DataDictionary;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
-import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.datadictionary.DataDictionary;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.TransactionalDocumentRuleBase;
+import org.kuali.rice.krad.rules.rule.event.ApproveDocumentEvent;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.NoteService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * To define the rules that may be applied to the effort certification document, a transactional document
@@ -128,7 +130,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
     }
 
     /**
-     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.rule.event.ApproveDocumentEvent)
+     * @see org.kuali.rice.krad.rules.DocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.krad.rule.event.ApproveDocumentEvent)
      */
     @Override
     public boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
@@ -150,7 +152,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
     }
 
     /**
-     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.krad.document.Document)
      */
     @Override
     public boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -169,8 +171,9 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         }
 
         if (EffortCertificationDocumentRuleUtil.isEffortPercentChangedFromPersisted(effortCertificationDocument)) {
-            List<Note> notes = effortCertificationDocument.getDocumentHeader().getBoNotes();
-            
+            NoteService noteService = KRADServiceLocator.getNoteService();
+            List<Note> notes = noteService.getByRemoteObjectId( effortCertificationDocument.getObjectId());
+             
             boolean noteHasBeenAdded = false;
             for(Note note : notes) {
                 if(note.isNewCollectionRecord()) {
@@ -199,7 +202,8 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         effortCertificationDocument.refreshReferenceObject(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_DEFINITION);
         EffortCertificationReportDefinition reportDefinition = effortCertificationDocument.getEffortCertificationReportDefinition();
         if (effortCertificationReportDefinitionService.hasApprovedEffortCertification(emplid, reportDefinition)) {
-            List<Note> notes = effortCertificationDocument.getDocumentHeader().getBoNotes();
+            NoteService noteService = KRADServiceLocator.getNoteService();
+            List<Note> notes = noteService.getByRemoteObjectId( effortCertificationDocument.getObjectId());
             if (notes == null || notes.isEmpty()) {
                 reportError(EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS, EffortKeyConstants.ERROR_NOTE_REQUIRED_WHEN_APPROVED_EFFORT_CERTIFICATION_EXIST, emplid, reportDefinition.getUniversityFiscalYear().toString(), reportDefinition.getEffortCertificationReportNumber());
                 return false;
@@ -313,12 +317,11 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
 
     /**
      * determine if the business rule needs to be bypassed. If the given document is in the state of initiation, bypass
-     * 
      * @param effortCertificationDocument the given document
      * @return true if the given document is in the state of initiation; otherwise, false
      */
     protected boolean bypassBusinessRuleIfInitiation(EffortCertificationDocument effortCertificationDocument) {
-        return effortCertificationDocument.getDocumentHeader().getWorkflowDocument().stateIsInitiated();
+        return effortCertificationDocument.getDocumentHeader().getWorkflowDocument().isInitiated();
     }
 
     /**

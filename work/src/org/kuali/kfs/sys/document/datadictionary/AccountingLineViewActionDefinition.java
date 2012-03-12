@@ -18,7 +18,7 @@ package org.kuali.kfs.sys.document.datadictionary;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.web.AccountingLineViewActionsField;
 import org.kuali.kfs.sys.document.web.TableJoining;
-import org.kuali.rice.kns.datadictionary.DataDictionaryDefinitionBase;
+import org.kuali.rice.krad.datadictionary.DataDictionaryDefinitionBase;
 
 public class AccountingLineViewActionDefinition extends DataDictionaryDefinitionBase implements AccountingLineViewRenderableElementDefinition {
     private String actionMethod;
@@ -70,7 +70,7 @@ public class AccountingLineViewActionDefinition extends DataDictionaryDefinition
 
     /**
      * Since this metadata definition has no children, there's nothing to validate and this method checks nothing.
-     * @see org.kuali.rice.kns.datadictionary.DataDictionaryDefinition#completeValidation(java.lang.Class, java.lang.Class)
+     * @see org.kuali.rice.krad.datadictionary.DataDictionaryDefinition#completeValidation(java.lang.Class, java.lang.Class)
      */
     public void completeValidation(Class rootBusinessObjectClass, Class otherBusinessObjectClass) {
         // not checkin' nothing

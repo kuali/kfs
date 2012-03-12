@@ -16,14 +16,14 @@
 package org.kuali.kfs.fp.businessobject.options;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.fp.businessobject.TaxIncomeClassCode;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * This class returns list of tax income class value pairs.
@@ -35,11 +35,11 @@ public class TaxIncomeClassValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List<TaxIncomeClassCode> boList = (List<TaxIncomeClassCode>) SpringContext.getBean(KeyValuesService.class).findAllOrderBy(TaxIncomeClassCode.class, "name", true);
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", ""));
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", ""));
         for (TaxIncomeClassCode element : boList) {
             if(element.isActive()) {
-                keyValues.add(new KeyLabelPair(element.getCode(), element.getCodeAndDescription()));
+                keyValues.add(new ConcreteKeyValue(element.getCode(), element.getCodeAndDescription()));
             }
         }
 

@@ -22,7 +22,7 @@
  
  function setPurposeCodeDesc( purposeCodeFieldName, purposeCodeDescFieldName ){
  
-	var purposeCode = DWRUtil.getValue( purposeCodeFieldName );
+	var purposeCode = dwr.util.getValue( purposeCodeFieldName );
 
 	if (purposeCode =='') {
 		clearRecipients(purposeCodeDescFieldName, "");

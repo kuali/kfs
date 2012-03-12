@@ -15,12 +15,11 @@
  */
 package org.kuali.kfs.module.endow;
 
-import org.kuali.kfs.sys.ParameterKeyConstants;
 
 /**
  * Parameter name constants for system parameters used by the kfs endowment.
  */
-public class EndowParameterKeyConstants implements ParameterKeyConstants {
+public class EndowParameterKeyConstants {
     public static class AvailableCashUpdateConstants {
         public static final String AVAILABLE_CASH_PERCENT = "AVAILABLE_CASH_PERCENT";
     }

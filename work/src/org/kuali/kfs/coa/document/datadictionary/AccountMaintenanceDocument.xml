@@ -66,8 +66,6 @@
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.coa.document.authorization.AccountDocumentPresentationController"/>
     <property name="webScriptFiles">
       <list>
-        <value>../dwr/interface/SubFundGroupService.js</value>
-        <value>../dwr/interface/AccountService.js</value>
         <value>../scripts/coa/accountDocument.js</value>
       </list>
     </property>
@@ -207,9 +205,9 @@
 		
 		<property name="searchingTypeDefinitions">
     		<list>
-    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    			<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Account"/>
     						<property name="attributeName" value="organizationCode"/>
     					</bean>
@@ -220,9 +218,9 @@
     					</list>
     				</property>
     			</bean>
-    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    			<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Account"/>
     						<property name="attributeName" value="accountFiscalOfficerSystemIdentifierForSearching"/>
     					</bean>
@@ -233,9 +231,9 @@
     					</list>
     				</property>
     			</bean>
-    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    			<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Account"/>
     						<property name="attributeName" value="accountsSupervisorySystemsIdentifierForSearching"/>
     					</bean>
@@ -246,9 +244,9 @@
     					</list>
     				</property>
     			</bean>
-    			<bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    			<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Account"/>
     						<property name="attributeName" value="accountManagerSystemIdentifierForSearching"/>
     					</bean>
@@ -263,19 +261,19 @@
     	</property>
 	</bean>
 	
-	<bean id="AccountMaintenanceDocument-RoutingAttribute-AccountFiscalOfficerSystemIdentifier" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+	<bean id="AccountMaintenanceDocument-RoutingAttribute-AccountFiscalOfficerSystemIdentifier" class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
     	<property name="qualificationAttributeName" value="accountFiscalOfficerSystemIdentifier"/>
 	</bean>
 	
-	<bean id="AccountMaintenanceDocument-RoutingAttribute-AccountsSupervisorySystemsIdentifier" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+	<bean id="AccountMaintenanceDocument-RoutingAttribute-AccountsSupervisorySystemsIdentifier" class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
     	<property name="qualificationAttributeName" value="accountsSupervisorySystemsIdentifier"/>
 	</bean>
 	
-	<bean id="AccountMaintenanceDocument-RoutingAttribute-Award" class="org.kuali.rice.kns.datadictionary.RoutingAttribute">
+	<bean id="AccountMaintenanceDocument-RoutingAttribute-Award" class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
     	<property name="qualificationAttributeName" value="contractsAndGrantsAccountResponsibilityId"/>
 	</bean>
 	
-   	<bean id="AccountMaintenanceDocument-DocumentValuePathGroup-AccountOfficersAndAccount" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+   	<bean id="AccountMaintenanceDocument-DocumentValuePathGroup-AccountOfficersAndAccount" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
 		<property name="documentValues">
 	   		<list>
 	   			<value>newMaintainableObject.businessObject.accountFiscalOfficerSystemIdentifier</value>
@@ -286,7 +284,7 @@
    		</property>
    	</bean>
    	
-   	 <bean id="AccountMaintenanceDocument-DocumentValuePathGroup-Award" class="org.kuali.rice.kns.datadictionary.DocumentValuePathGroup">
+   	 <bean id="AccountMaintenanceDocument-DocumentValuePathGroup-Award" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
 		<property name="documentValues">
 	   		<list>
 	   			<value>newMaintainableObject.businessObject.contractsAndGrantsAccountResponsibilityId</value>
@@ -294,7 +292,7 @@
    		</property>
    	</bean>
 
-	<bean id="AccountMaintenanceDocument-RoutingType-Account" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+	<bean id="AccountMaintenanceDocument-RoutingType-Account" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
 		        <ref bean="AccountMaintenanceDocument-RoutingAttribute-AccountFiscalOfficerSystemIdentifier"/>
@@ -310,7 +308,7 @@
     	</property>
     </bean>
   
-  <bean id="AccountMaintenanceDocument-RoutingType-Award" class="org.kuali.rice.kns.datadictionary.RoutingTypeDefinition">
+  <bean id="AccountMaintenanceDocument-RoutingType-Award" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
     	<property name="routingAttributes">
     		<list>
 		        <ref bean="AccountMaintenanceDocument-RoutingAttribute-Award"/>

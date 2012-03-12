@@ -15,7 +15,9 @@
  */
 package org.kuali.kfs.module.ld.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -35,8 +37,8 @@ import org.kuali.kfs.module.ld.util.DebitCreditUtil;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
 public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService {
@@ -56,9 +58,11 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
     /**
      * @see org.kuali.kfs.module.ld.service.LaborLedgerBalanceService#findBalancesForFiscalYear(Integer, Map, List)
      */
-    @NonTransactional
+
+    @Override
+    @NonTransactional        
     public Iterator<LedgerBalance> findBalancesForFiscalYear(Integer fiscalYear, Map<String, String> fieldValues, List<String> encumbranceBalanceTypes) {
-        return laborLedgerBalanceDao.findBalancesForFiscalYear(fiscalYear, fieldValues, encumbranceBalanceTypes);
+      return laborLedgerBalanceDao.findBalancesForFiscalYear(fiscalYear, fieldValues, encumbranceBalanceTypes);
     }
 
     /**
@@ -224,8 +228,13 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
      *      java.util.List, java.util.List)
      */
     @NonTransactional
-    public Iterator<LedgerBalanceForYearEndBalanceForward> findBalancesForFiscalYear(Integer fiscalYear, Map<String, String> fieldValues, List<String> subFundGroupCodes, List<String> fundGroupCodes) {
-        return laborLedgerBalanceDao.findBalancesForFiscalYear(fiscalYear, fieldValues, subFundGroupCodes, fundGroupCodes);
+    @Override
+    public Iterator<LedgerBalanceForYearEndBalanceForward> findBalancesForFiscalYear(Integer fiscalYear, Map<String, String> fieldValues, Collection<String> subFundGroupCodes, Collection<String> fundGroupCodes) {
+        List<String> fundGroupCodesList = new ArrayList<String>(fundGroupCodes);
+        Collections.sort(fundGroupCodesList);
+        List<String> subFundGroupCodesList = new ArrayList<String>(subFundGroupCodes);
+        Collections.sort(subFundGroupCodesList);
+        return laborLedgerBalanceDao.findBalancesForFiscalYear(fiscalYear, fieldValues, subFundGroupCodesList, fundGroupCodesList);
     }
 
     /**

@@ -27,10 +27,10 @@ import org.kuali.kfs.module.endow.document.service.HoldingHistoryService;
 import org.kuali.kfs.module.endow.document.service.HoldingHistoryValueAdjustmentDocumentService;
 import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -98,7 +98,7 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
             Document document = findDocumentForMarketValueUpdate(documentHeaderId);
             
             if (document != null) {
-                if (document.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+                if (document.getDocumentHeader().getWorkflowDocument().isFinal()) {
                     // the state of the document is final.. so processing the document.
                     if (updateHoldingHistoryRecords(holdingHistoryValueAdjustmentDocument)) {
                         //update the HoldingHistoryValueAdjustmentDocument's transactionPosted column to Y
@@ -152,7 +152,7 @@ public class HoldingHistoryMarketValuesUpdateServiceImpl implements HoldingHisto
      * @param ehva
      */
     protected void getExceptionReportTableRowValues(HoldingHistoryValueAdjustmentDocument ehva) {
-        String documentTypeName = ehva.getDocumentHeader().getWorkflowDocument().getDocumentType();
+        String documentTypeName = ehva.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
         
         holdingHistoryMarketValueExceptionRowValues.setColumnHeading1(documentTypeName);
         holdingHistoryMarketValueExceptionRowValues.setColumnHeading2(ehva.getSecurityId());

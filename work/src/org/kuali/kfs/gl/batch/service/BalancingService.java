@@ -116,9 +116,11 @@ public interface BalancingService {
     
     /**
      * Removes the data from the History tables.
-     * 
      */
-    
     public abstract void clearHistories();
     
+    /**
+     * Returns filenames used by process. Comma separated
+     */
+    public abstract String getFilenames();
 }

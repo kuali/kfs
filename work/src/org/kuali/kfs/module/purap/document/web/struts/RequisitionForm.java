@@ -29,11 +29,11 @@ import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetLocation
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItemCapitalAsset;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Struts Action Form for Requisition document.
@@ -49,6 +49,12 @@ public class RequisitionForm extends PurchasingFormBase {
         super();
     }
 
+    /**
+     * Gets the documentType attribute.
+     * 
+     * @return Returns the documentType
+     */
+    
     @Override
     protected String getDefaultDocumentTypeName() {
         return "REQS";
@@ -67,8 +73,7 @@ public class RequisitionForm extends PurchasingFormBase {
     * 
     * Use of data dictionary for bo RequisitionDocument.
     */
-    //remove requisition status and leave the appDocStatus -kfsmi- 4592
-    public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+    public void populateHeaderFields(WorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
         if (ObjectUtils.isNotNull(this.getRequisitionDocument().getPurapDocumentIdentifier())) {
             getDocInfo().add(new HeaderField("DataDictionary.RequisitionDocument.attributes.purapDocumentIdentifier", ((RequisitionDocument) this.getDocument()).getPurapDocumentIdentifier().toString()));
@@ -80,7 +85,7 @@ public class RequisitionForm extends PurchasingFormBase {
             String reqStatus = "";
             String appDocStatus ="";
                        
-            appDocStatus = workflowDocument.getRouteHeader().getAppDocStatus();
+            appDocStatus = workflowDocument.getApplicationDocumentStatus();
             if (!StringUtils.isEmpty(appDocStatus)) {
                 reqStatus = appDocStatus;
             }
@@ -98,7 +103,7 @@ public class RequisitionForm extends PurchasingFormBase {
      */
     @Override
     public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
-        if (KNSConstants.DISPATCH_REQUEST_PARAMETER.equals(methodToCallParameterName) && 
+        if (KRADConstants.DISPATCH_REQUEST_PARAMETER.equals(methodToCallParameterName) && 
            ("displayB2BRequisition".equals(methodToCallParameterValue))) {
             return true;
         }
@@ -178,7 +183,7 @@ public class RequisitionForm extends PurchasingFormBase {
 
     @Override
     public boolean canUserCalculate(){        
-        return documentActions != null && documentActions.containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT) &&        
+        return documentActions != null && documentActions.containsKey(KRADConstants.KUALI_ACTION_CAN_EDIT) &&        
         !getRequisitionDocument().isDocumentStoppedInRouteNode(RequisitionStatuses.NODE_ORG_REVIEW);
     }    
 }

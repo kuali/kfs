@@ -22,9 +22,9 @@ import java.util.List;
 
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * This class...
@@ -47,10 +47,10 @@ public class FiscalYearValuesFinder extends KeyValuesBase {
         }
         Collections.sort(optionList, fiscalYearComparator);
         List labels = new ArrayList();
-        labels.add(new KeyLabelPair("", ""));
+        labels.add(new ConcreteKeyValue("", ""));
         for (Iterator iter = optionList.iterator(); iter.hasNext();) {
             SystemOptions options = (SystemOptions) iter.next();
-            labels.add(new KeyLabelPair(options.getUniversityFiscalYear().toString(), options.getUniversityFiscalYear().toString()));
+            labels.add(new ConcreteKeyValue(options.getUniversityFiscalYear().toString(), options.getUniversityFiscalYear().toString()));
         }
 
         return labels;

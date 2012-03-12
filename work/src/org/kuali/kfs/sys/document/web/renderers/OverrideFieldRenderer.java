@@ -243,7 +243,7 @@ public class OverrideFieldRenderer extends FieldRendererBase {
         if (!readOnly && overrideNeededValue.equals("No")) {
             overrideHiddenTag.setValue("No");
         } else {
-            overrideHiddenTag.setValue(HtmlUtils.htmlEscape(getField().getPropertyValue()));
+            overrideHiddenTag.setValue(getField().getPropertyValue());
         }
         overrideHiddenTag.doStartTag();
         overrideHiddenTag.doEndTag();
@@ -274,7 +274,7 @@ public class OverrideFieldRenderer extends FieldRendererBase {
         overrideNeededTag.setPageContext(pageContext);
         overrideNeededTag.setParent(parentTag);
         overrideNeededTag.setProperty(overrideNeededProperty);
-        overrideNeededTag.setValue(HtmlUtils.htmlEscape(overrideNeededValue));
+        overrideNeededTag.setValue(overrideNeededValue);
         overrideNeededTag.doStartTag();
         overrideNeededTag.doEndTag();
     }

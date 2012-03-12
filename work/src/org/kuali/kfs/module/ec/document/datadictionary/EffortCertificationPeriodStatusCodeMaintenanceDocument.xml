@@ -61,5 +61,5 @@
   <!-- workflow attributes -->
   <bean id="EffortCertificationPeriodStatusCodeMaintenanceDocument-workflowAttributes" parent="EffortCertificationPeriodStatusCodeMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="EffortCertificationPeriodStatusCodeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="EffortCertificationPeriodStatusCodeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

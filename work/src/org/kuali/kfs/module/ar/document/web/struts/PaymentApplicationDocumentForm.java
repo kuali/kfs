@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonAppliedHolding;
@@ -40,12 +41,12 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.util.KimConstants;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class PaymentApplicationDocumentForm extends FinancialSystemTransactionalDocumentFormBase {
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(PaymentApplicationDocumentForm.class);;
@@ -62,13 +63,13 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
 
     protected List<PaymentApplicationInvoiceApply> invoiceApplications;
     protected List<CustomerInvoiceDocument> invoices;
-    
+
     //  used for non-cash-control pay app docs
     protected List<PaymentApplicationDocument> nonAppliedControlDocs;
     protected List<NonAppliedHolding> nonAppliedControlHoldings;
     protected Map<String,KualiDecimal> nonAppliedControlAllocations;
     protected Map<String,KualiDecimal> distributionsFromControlDocs;
-    
+
     /**
      * Constructs a PaymentApplicationDocumentForm.java.
      */
@@ -87,9 +88,9 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
 
     @Override
     protected String getDefaultDocumentTypeName() {
-        return "APP";
+        return ArConstants.PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE;
     }
-    
+
     @Override
     public void reset(ActionMapping mapping, ServletRequest request) {
         super.reset(mapping, request);
@@ -101,7 +102,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
-        
+
         // Set the next non-invoiced line number
         PaymentApplicationDocument paymentApplicationDocument = getPaymentApplicationDocument();
         if (ObjectUtils.isNotNull(paymentApplicationDocument.getNonInvoicedDistributions())) {
@@ -113,11 +114,11 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
                 }
             }
         }
-        
+
         if (null == getNextNonInvoicedLineNumber()) {
             setNextNonInvoicedLineNumber(1);
         }
-        
+
         // This step doesn't affect anything persisted to the database. It allows proper calculation
         // of amounts for the display.
         String customerNumber = null;
@@ -139,7 +140,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
                 customerNumber = arHeader.getCustomerNumber();
             }
         }
-        
+
         if(ObjectUtils.isNull(getSelectedInvoiceApplication())) {
             if(ObjectUtils.isNull(invoices) || invoices.isEmpty()) {
                 if(ObjectUtils.isNotNull(customerNumber)) {
@@ -163,11 +164,11 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
 
         //  clear any existing
         invoiceApplications.clear();
-        
+
         if (invoices == null || invoices.isEmpty()) {
             return;
         }
-        
+
         for (CustomerInvoiceDocument invoice : invoices) {
             PaymentApplicationInvoiceApply invoiceApplication = new PaymentApplicationInvoiceApply(payAppDocNumber, invoice);
             addInvoiceApplication(invoiceApplication);
@@ -181,7 +182,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         }
         return m;
     }
-    
+
     public Integer getNextNonInvoicedLineNumber() {
         return nextNonInvoicedLineNumber;
     }
@@ -199,7 +200,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
 
     /**
      * This method gets the payment application document
-     * 
+     *
      * @return the payment application document
      */
     public PaymentApplicationDocument getPaymentApplicationDocument() {
@@ -207,7 +208,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     }
 
     /**
-     * For a given invoiceDocNumber and invoiceItemNumber, this method will return any paidApplieds 
+     * For a given invoiceDocNumber and invoiceItemNumber, this method will return any paidApplieds
      * that match those two fields, if any exists.  Otherwise it will return null.
      */
     public InvoicePaidApplied getPaidAppliedForInvoiceDetail(String invoiceDocNumber, Integer invoiceItemNumber) {
@@ -228,7 +229,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         }
         return null;
     }
-    
+
     public String getSelectedInvoiceDocumentNumber() {
         return selectedInvoiceDocumentNumber;
     }
@@ -254,19 +255,19 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
                 detailApplications = new ArrayList<PaymentApplicationInvoiceDetailApply>();
             }
         }
-        return detailApplications; 
+        return detailApplications;
     }
 
     public List<PaymentApplicationInvoiceApply> getNonSelectedInvoiceApplications() {
         String selectedInvoiceNumber = getSelectedInvoiceApplication().getDocumentNumber();
-        
+
         List<PaymentApplicationInvoiceApply> nonSelectedInvoiceApplications = new ArrayList<PaymentApplicationInvoiceApply>();
         for (PaymentApplicationInvoiceApply invoiceApplication : invoiceApplications) {
             if (!invoiceApplication.getDocumentNumber().equalsIgnoreCase(selectedInvoiceNumber)) {
                 nonSelectedInvoiceApplications.add(invoiceApplication);
             }
         }
-        return nonSelectedInvoiceApplications; 
+        return nonSelectedInvoiceApplications;
     }
 
     public List<PaymentApplicationInvoiceApply> getInvoiceApplications() {
@@ -290,7 +291,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     public List<CustomerInvoiceDocument> getInvoices() {
         return invoices;
     }
-    
+
     public void setInvoices(ArrayList<CustomerInvoiceDocument> invoices) {
         this.invoices = invoices;
     }
@@ -304,11 +305,11 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     }
 
     /**
-     * 
-     * This special casing for negative applieds is a display issue.  We basically dont 
-     * want to ever display that they applied a negative amount, even while they may 
+     *
+     * This special casing for negative applieds is a display issue.  We basically dont
+     * want to ever display that they applied a negative amount, even while they may
      * have an unsaved document with negative applications that are failing validations.
-     * 
+     *
      * @return
      */
     public KualiDecimal getTotalApplied() {
@@ -320,16 +321,16 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
             return KualiDecimal.ZERO;
         }
     }
-    
+
     public KualiDecimal getUnallocatedBalance() {
         return getTotalFromControl().subtract(getTotalApplied());
     }
-    
+
     /**
-     * 
-     * Returns the control total available for this document, whether its 
+     *
+     * Returns the control total available for this document, whether its
      * a cash-control style payapp, or a nonapplied style payapp.
-     * 
+     *
      * @return
      */
     public KualiDecimal getTotalFromControl() {
@@ -341,10 +342,10 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
             return getNonAppliedControlAvailableUnappliedAmount();
         }
     }
-    
+
     /**
      * This method retrieves a specific customer invoice detail from the list, by array index
-     * 
+     *
      * @param index the index of the customer invoice detail to retrieve
      * @return a CustomerInvoiceDetail
      */
@@ -355,7 +356,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
 
     /**
      * This method retrieves a specific customer invoice from the list, by array index
-     * 
+     *
      * @param index the index of the customer invoice to retrieve
      * @return a CustomerInvoiceDocument
      */
@@ -391,13 +392,13 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
 
     /**
      * This method gets the previous invoice document number
-     * 
+     *
      * @return the previous invoice document number
      */
     public String getPreviousInvoiceDocumentNumber() {
         CustomerInvoiceDocument _previousInvoiceDocument = null;
 
-        PaymentApplicationInvoiceApply invoiceApplication = getSelectedInvoiceApplication(); 
+        PaymentApplicationInvoiceApply invoiceApplication = getSelectedInvoiceApplication();
         CustomerInvoiceDocument selectedInvoiceDocument = invoiceApplication == null ? null : invoiceApplication.getInvoice();
         if (null == selectedInvoiceDocument || 2 > invoices.size()) {
             _previousInvoiceDocument = null;
@@ -425,13 +426,13 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
 
     /**
      * This method gets the next invoice document number
-     * 
+     *
      * @return the next invoice document number
      */
     public String getNextInvoiceDocumentNumber() {
         CustomerInvoiceDocument _nextInvoiceDocument = null;
 
-        PaymentApplicationInvoiceApply invoiceApplication = getSelectedInvoiceApplication(); 
+        PaymentApplicationInvoiceApply invoiceApplication = getSelectedInvoiceApplication();
         CustomerInvoiceDocument selectedInvoiceDocument = invoiceApplication == null ? null : invoiceApplication.getInvoice();
         if (null == selectedInvoiceDocument || 2 > invoices.size()) {
             _nextInvoiceDocument = null;
@@ -455,7 +456,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
 
     /**
      * This method gets the Cash Control document for the payment application document
-     * 
+     *
      * @return the cash control document
      */
     public CashControlDocument getCashControlDocument() {
@@ -495,7 +496,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         }
         return null;
     }
-    
+
     public void addInvoiceApplication(PaymentApplicationInvoiceApply invoiceApplicationToAdd) {
         if (invoiceApplicationToAdd == null) {
             throw new RuntimeException("The parameter passed in [invoiceApplicationToAdd] was null.");
@@ -542,10 +543,10 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     }
 
     /**
-     * 
-     * Returns the total amount of previously NonApplied funds available 
+     *
+     * Returns the total amount of previously NonApplied funds available
      * to apply to invoices and other applications on this document.
-     * 
+     *
      * @return
      */
     public KualiDecimal getNonAppliedControlAvailableUnappliedAmount() {
@@ -555,7 +556,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         }
         return amount;
     }
-    
+
     public List<NonAppliedHolding> getNonAppliedControlHoldings() {
         return nonAppliedControlHoldings;
     }
@@ -563,9 +564,9 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
     public void setNonAppliedControlHoldings(List<NonAppliedHolding> nonAppliedControlHoldings) {
         this.nonAppliedControlHoldings = nonAppliedControlHoldings;
     }
-    
+
     /**
-     * 
+     *
      * Used for when the doc is final, to show the control docs section.
      * @return
      */
@@ -575,9 +576,9 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         }
         return distributionsFromControlDocs;
     }
-    
+
     /**
-     * 
+     *
      * Used for when the doc is live, to show the control docs section.
      * @return
      */
@@ -587,7 +588,7 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         }
         return nonAppliedControlAllocations;
     }
-    
+
     public void setNonAppliedControlAllocations(Map<String, KualiDecimal> nonAppliedControlAllocations) {
         this.nonAppliedControlAllocations = nonAppliedControlAllocations;
     }
@@ -614,18 +615,18 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
                         try {
                             populateForProperty(propertyName, KimConstants.KIM_ATTRIBUTE_BOOLEAN_FALSE_STR_VALUE_DISPLAY, parameterMap);
                         } catch (RuntimeException ex) {
-                            
+
                         }
-                    }  
+                    }
                     else if ( !StringUtils.isBlank(propertyName) && parameterMap.get(propertyName) != null && parameterMap.get(propertyName).length >= 1 && parameterMap.get(propertyName)[0].equalsIgnoreCase("on") ) {
                         try {
-                            populateForProperty(propertyName, KimConstants.KIM_ATTRIBUTE_BOOLEAN_TRUE_STR_VALUE_DISPLAY, parameterMap); 
+                            populateForProperty(propertyName, KimConstants.KIM_ATTRIBUTE_BOOLEAN_TRUE_STR_VALUE_DISPLAY, parameterMap);
                         } catch (RuntimeException ex) {
-                            
+
                         }
                     }
                 }
             }
         }    }
-    
+
 }

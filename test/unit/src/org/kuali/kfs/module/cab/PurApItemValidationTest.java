@@ -17,24 +17,18 @@ package org.kuali.kfs.module.cab;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashSet;
-
+import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.ObjectLevel;
 import org.kuali.kfs.coa.businessobject.ObjectSubType;
-import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.module.cab.businessobject.AssetTransactionType;
-import org.kuali.kfs.module.purap.businessobject.RecurringPaymentType;
 import org.kuali.kfs.module.purap.fixture.PurchasingCapitalAssetFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.MaintenanceRuleTestBase;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.MessageList;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 @ConfigureContext(session = khuntley)
 public class PurApItemValidationTest extends MaintenanceRuleTestBase {
@@ -43,7 +37,7 @@ public class PurApItemValidationTest extends MaintenanceRuleTestBase {
     
     protected void setUp() throws Exception {
         super.setUp();
-        GlobalVariables.setMessageList(new MessageList());
+        KNSGlobalVariables.setMessageList(new MessageList());
         if( null == cabModuleService ) {
             cabModuleService = SpringContext.getBean(CapitalAssetBuilderModuleService.class);
         }

@@ -18,19 +18,18 @@ package org.kuali.kfs.module.purap.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.AttachmentTypeCodes;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class VendorCreditMemoAttachmentTypeValuesFinder extends KeyValuesBase {
 
     public List getKeyValues() {
         List keyValues = new ArrayList();
         
-        keyValues.add(new KeyLabelPair("", ""));
-        keyValues.add(new KeyLabelPair(AttachmentTypeCodes.ATTACHMENT_TYPE_CM_IMAGE, AttachmentTypeCodes.ATTACHMENT_TYPE_CM_IMAGE));
-        keyValues.add(new KeyLabelPair(AttachmentTypeCodes.ATTACHMENT_TYPE_OTHER, AttachmentTypeCodes.ATTACHMENT_TYPE_OTHER));
+        keyValues.add(new ConcreteKeyValue("", ""));
+        keyValues.add(new ConcreteKeyValue(AttachmentTypeCodes.ATTACHMENT_TYPE_CM_IMAGE, AttachmentTypeCodes.ATTACHMENT_TYPE_CM_IMAGE));
+        keyValues.add(new ConcreteKeyValue(AttachmentTypeCodes.ATTACHMENT_TYPE_OTHER, AttachmentTypeCodes.ATTACHMENT_TYPE_OTHER));
 
         return keyValues;
     }

@@ -20,8 +20,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.kuali.kfs.gl.businessobject.AccountBalance;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -44,8 +44,8 @@ public abstract class AbstractBatchTransactionalCachingService implements Wrappi
     }
 
     static final class NonExistentReferenceBusinessObject extends PersistableBusinessObjectBase {        
-        @Override
-        protected LinkedHashMap toStringMapper() {
+        
+        protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
             throw new UnsupportedOperationException();
         }
     }

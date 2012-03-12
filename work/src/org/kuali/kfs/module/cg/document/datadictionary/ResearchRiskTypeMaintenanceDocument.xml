@@ -64,5 +64,5 @@
     <!-- workflow attributes -->
   <bean id="ResearchRiskTypeMaintenanceDocument-workflowAttributes" parent="ResearchRiskTypeMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="ResearchRiskTypeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="ResearchRiskTypeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

@@ -16,15 +16,6 @@
 package org.kuali.kfs.gl.businessobject;
 
 import java.util.LinkedHashMap;
-import java.util.List;
-
-import org.apache.commons.lang.ArrayUtils;
-import org.kuali.kfs.coa.service.ObjectTypeService;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * This class represents a poster output summary entry
@@ -49,10 +40,10 @@ public class PosterOutputSummaryEntry extends PosterOutputSummaryBalanceTypeFisc
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap pks = new LinkedHashMap<String, Object>();
         pks.put("universityFiscalYear", this.getUniversityFiscalYear());
         pks.put("fiscalPeriodCode",this.getFiscalPeriodCode());

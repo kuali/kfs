@@ -21,6 +21,7 @@
     <property name="allowsErrorCorrection" value="true"/>
     <property name="documentTypeName" value="DI"/>
     <property name="documentClass" value="org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument"/> 
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.DistributionOfIncomeAndExpenseDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.DistributionOfIncomeAndExpenseDocumentPresentationController"/>
@@ -52,7 +53,7 @@
   
   <bean id="DistributionOfIncomeAndExpenseDocument-validations-parentBean"  abstract="true" class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
-		<map>
+		<map key-type="java.lang.Class">
 			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
 				<value>DistributionOfIncomeAndExpense-routeDocumentValidation</value>

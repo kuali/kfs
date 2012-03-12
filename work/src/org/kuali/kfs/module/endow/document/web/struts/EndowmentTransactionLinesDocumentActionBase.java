@@ -60,14 +60,14 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 
 public abstract class EndowmentTransactionLinesDocumentActionBase extends FinancialSystemTransactionalDocumentActionBase {
 
@@ -626,7 +626,7 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
 
 
         // when we return from the lookup, our next request's method to call is going to be refresh
-        etlForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
+        etlForm.registerEditableProperty(KRADConstants.DISPATCH_REQUEST_PARAMETER);
 
         EndowmentTransactionLine etLine;
         if (isSource) {
@@ -637,7 +637,7 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
         }
 
         // build out base path for return location, use config service
-        String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+        String basePath = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.APPLICATION_URL_KEY);
 
         // this hack sets the return anchor we want to return too after the inquiry
         // do this here so it gets into the session stored form version
@@ -647,13 +647,13 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
         }
 
         // build out the actual form key that will be used to retrieve the form on refresh
-        String callerDocFormKey = GlobalVariables.getUserSession().addObject(form);
+        String callerDocFormKey = GlobalVariables.getUserSession().addObjectWithGeneratedKey(form);
 
         // now add required parameters
         Properties params = new Properties();
         params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
         params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, boName);
-        params.put(KFSConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObject(form));
+        params.put(KFSConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObjectWithGeneratedKey(form));
         params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
         params.put(KFSConstants.RETURN_LOCATION_PARAMETER, basePath + mapping.getPath() + ".do");
 

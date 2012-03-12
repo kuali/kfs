@@ -16,20 +16,20 @@
 package org.kuali.kfs.module.purap.identity;
 
 import java.util.Arrays;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
+import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 
 
-public class SensitiveDataRoleTypeServiceImpl extends KimRoleTypeServiceBase {
+public class SensitiveDataRoleTypeServiceImpl extends RoleTypeServiceBase {
     
-/* RICE_20_DELETE */    {
-/* RICE_20_DELETE */        requiredAttributes.add(PurapKimAttributes.SENSITIVE_DATA_CODE);
-/* RICE_20_DELETE */        checkRequiredAttributes = false; // role document bombs for this doc if this is set to true
-/* RICE_20_DELETE */    }
 
-    protected boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
+
+
+
+
+    protected boolean performMatch(Map<String,String> qualification, Map<String,String> roleQualifier) {
         if ( qualification == null ) {
             return false;
         }

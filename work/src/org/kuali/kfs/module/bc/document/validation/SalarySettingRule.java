@@ -17,8 +17,9 @@ package org.kuali.kfs.module.bc.document.validation;
 
 import java.util.List;
 
+import org.kuali.kfs.module.bc.BCConstants.SynchronizationCheckType;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * Rule classes wishing to respond to that event should implement this interface.
@@ -31,7 +32,7 @@ public interface SalarySettingRule extends BusinessRule {
      * @param appointmentFunding the given appointment funding
      * @return true if the appointment funding can pass all rule before saved, otherwise, false
      */
-    public boolean processSaveAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding);
+    public boolean processSaveAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, SynchronizationCheckType synchronizationCheckType);
 
     /**
      * process the rules before the given appointment funding is saved
@@ -48,7 +49,7 @@ public interface SalarySettingRule extends BusinessRule {
      * @param appointmentFunding the given appointment funding
      * @return true if the appointment funding can pass all rule before created, otherwise, false
      */
-    public boolean processAddAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> existingAppointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding);
+    public boolean processAddAppointmentFunding(List<PendingBudgetConstructionAppointmentFunding> existingAppointmentFundings, PendingBudgetConstructionAppointmentFunding appointmentFunding, SynchronizationCheckType synchronizationCheckType);
 
     /**
      * process the rules before adjusting the salary amount of the given appointment funding

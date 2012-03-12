@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,49 +16,47 @@
 package org.kuali.kfs.module.endow.businessobject;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.rice.kim.bo.Group;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.kim.framework.group.GroupEbo;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class Tickler extends PersistableBusinessObjectBase implements Inactivateable {
-    
-    private String number;
-    private String typeCode;
-    private String frequencyCode;
-    private Date nextDueDate;
-    private String detail;
-    private Date entryDate;
-    private Date terminationDate;
-    private boolean active;
-    
-    private String groupId;
+public class Tickler extends PersistableBusinessObjectBase implements MutableInactivatable {
+
+    protected String number;
+    protected String typeCode;
+    protected String frequencyCode;
+    protected Date nextDueDate;
+    protected String detail;
+    protected Date entryDate;
+    protected Date terminationDate;
+    protected boolean active;
+
+    protected String groupId;
     protected String assignedToGroupNamespaceForLookup;
     protected String assignedToGroupNameForLookup;
-    private Group groupLookup;
-    
-    private TicklerTypeCode type;
-    private FrequencyCode frequency;
-    
+    protected GroupEbo groupLookup;
+
+    protected TicklerTypeCode type;
+    protected FrequencyCode frequency;
+
     // Collections
-    private List<TicklerKEMID> kemIds;
-    private List<TicklerSecurity> securities;
-    private List<TicklerRecipientPrincipal> recipientPrincipals;
-    private List<TicklerRecipientGroup> recipientGroups;
-    
+    protected List<TicklerKEMID> kemIds;
+    protected List<TicklerSecurity> securities;
+    protected List<TicklerRecipientPrincipal> recipientPrincipals;
+    protected List<TicklerRecipientGroup> recipientGroups;
+
     public Tickler()
     {
         super();
-        kemIds = new TypedArrayList(TicklerKEMID.class);
-        securities = new TypedArrayList(TicklerSecurity.class);
-        recipientPrincipals = new TypedArrayList(TicklerRecipientPrincipal.class);
-        recipientGroups = new TypedArrayList(TicklerRecipientGroup.class);
+        kemIds = new ArrayList<TicklerKEMID>();
+        securities = new ArrayList<TicklerSecurity>();
+        recipientPrincipals = new ArrayList<TicklerRecipientPrincipal>();
+        recipientGroups = new ArrayList<TicklerRecipientGroup>();
     }
-    
+
     public String getNumber() {
         return number;
     }
@@ -99,10 +97,12 @@ public class Tickler extends PersistableBusinessObjectBase implements Inactivate
         this.terminationDate = terminationDate;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -171,15 +171,6 @@ public class Tickler extends PersistableBusinessObjectBase implements Inactivate
         this.type = type;
     }
 
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap<String, String> toStringMapper() {
-        LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
-        m.put(EndowPropertyConstants.TICKLER_NUMBER, getNumber());
-        return m;
-    }
-
     public String getAssignedToGroupNamespaceForLookup() {
         return assignedToGroupNamespaceForLookup;
     }
@@ -196,11 +187,11 @@ public class Tickler extends PersistableBusinessObjectBase implements Inactivate
         this.assignedToGroupNameForLookup = assignedToGroupNameForLookup;
     }
 
-    public Group getGroupLookup() {
+    public GroupEbo getGroupLookup() {
         return groupLookup;
     }
 
-    public void setGroupLookup(Group groupLookup) {
+    public void setGroupLookup(GroupEbo groupLookup) {
         this.groupLookup = groupLookup;
     }
 
@@ -211,6 +202,6 @@ public class Tickler extends PersistableBusinessObjectBase implements Inactivate
     public void setGroupId(String groupId) {
         this.groupId = groupId;
     }
-    
-    
+
+
 }

@@ -18,6 +18,7 @@ package org.kuali.kfs.module.bc.businessobject;
 
 import java.math.BigDecimal;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -32,19 +33,15 @@ import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.module.bc.util.SalarySettingCalculator;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.KualiInteger;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class PendingBudgetConstructionAppointmentFunding extends PersistableBusinessObjectBase implements Inactivateable {
+public class PendingBudgetConstructionAppointmentFunding extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;
@@ -104,9 +101,9 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
      * Default constructor.
      */
     public PendingBudgetConstructionAppointmentFunding() {
-        budgetConstructionSalaryFunding = new TypedArrayList(BudgetConstructionSalaryFunding.class);
-        bcnCalculatedSalaryFoundationTracker = new TypedArrayList(BudgetConstructionCalculatedSalaryFoundationTracker.class);
-        budgetConstructionAppointmentFundingReason = new TypedArrayList(BudgetConstructionAppointmentFundingReason.class);
+        budgetConstructionSalaryFunding = new ArrayList<BudgetConstructionSalaryFunding>();
+        bcnCalculatedSalaryFoundationTracker = new ArrayList<BudgetConstructionCalculatedSalaryFoundationTracker>();
+        budgetConstructionAppointmentFundingReason = new ArrayList<BudgetConstructionAppointmentFundingReason>();
         positionObjectChangeIndicator = false;  // assume pos change indicators false until set
         positionSalaryChangeIndicator = false;
         active = true; // assume active is true until set otherwise
@@ -919,9 +916,9 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
 
         if (this.universityFiscalYear != null) {
@@ -949,11 +946,11 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#afterLookup(org.apache.ojb.broker.PersistenceBroker)
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#afterLookup(org.apache.ojb.broker.PersistenceBroker)
      */
     @Override
-    public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.afterLookup(persistenceBroker);
+    protected void postLoad() {
+        super.postLoad();
 
         this.setPersistedDeleteIndicator(this.isAppointmentFundingDeleteIndicator());
         this.setNewLineIndicator(false);
@@ -1086,7 +1083,7 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
     @Override
     public List buildListOfDeletionAwareLists() {

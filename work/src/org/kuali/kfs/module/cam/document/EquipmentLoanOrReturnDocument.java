@@ -19,25 +19,26 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.bo.PostalCode;
-import org.kuali.rice.kns.bo.State;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.PostalCodeService;
-import org.kuali.rice.kns.service.StateService;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.SaveDocumentEvent;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.location.api.postalcode.PostalCodeService;
+import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.location.framework.country.CountryEbo;
+import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
+import org.kuali.rice.location.framework.state.StateEbo;
 
 
 public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalDocumentBase {
@@ -63,14 +64,14 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
     protected String borrowerStoragePhoneNumber;
     protected Long capitalAssetNumber;
 
-    protected State borrowerState;
-    protected State borrowerStorageState;
-    protected Country borrowerCountry;
-    protected Country borrowerStorageCountry;
+    protected StateEbo borrowerState;
+    protected StateEbo borrowerStorageState;
+    protected CountryEbo borrowerCountry;
+    protected CountryEbo borrowerStorageCountry;
     protected Person borrowerPerson;
     protected Asset asset;
-    protected PostalCode borrowerPostalZipCode;
-    protected PostalCode borrowerStoragePostalZipCode;
+    protected PostalCodeEbo borrowerPostalZipCode;
+    protected PostalCodeEbo borrowerStoragePostalZipCode;
 
     // sets document status (i.e. new loan, return, or renew)
     protected boolean newLoan;
@@ -106,8 +107,8 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * 
      * @return Returns the borrowerCountry
      */
-    public Country getBorrowerCountry() {
-        borrowerCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(borrowerCountryCode, borrowerCountry);
+    public CountryEbo getBorrowerCountry() {
+        borrowerCountry = (borrowerCountryCode == null)?null:( borrowerCountry == null || !StringUtils.equals( borrowerCountry.getCode(),borrowerCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(borrowerCountryCode)): borrowerCountry;
         return borrowerCountry;
     }
 
@@ -116,7 +117,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * 
      * @param borrowerCountry The borrowerCountry to set.
      */
-    public void setBorrowerCountry(Country borrowerCountry) {
+    public void setBorrowerCountry(CountryEbo borrowerCountry) {
         this.borrowerCountry = borrowerCountry;
     }
 
@@ -125,8 +126,8 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * 
      * @return Returns the borrowerState
      */
-    public State getBorrowerState() {
-        borrowerState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(borrowerCountryCode, borrowerStateCode, borrowerState);
+    public StateEbo getBorrowerState() {
+        borrowerState = (StringUtils.isBlank(borrowerCountryCode) || StringUtils.isBlank( borrowerStateCode))?null:( borrowerState == null || !StringUtils.equals( borrowerState.getCountryCode(),borrowerCountryCode)|| !StringUtils.equals( borrowerState.getCode(), borrowerStateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState(borrowerCountryCode, borrowerStateCode)): borrowerState;
         return borrowerState;
     }
 
@@ -135,7 +136,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * 
      * @param borrowerState The borrowerState to set.
      */
-    public void setBorrowerState(State borrowerState) {
+    public void setBorrowerState(StateEbo borrowerState) {
         this.borrowerState = borrowerState;
     }
 
@@ -144,8 +145,8 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * 
      * @return Returns the borrowerStorageCountry
      */
-    public Country getBorrowerStorageCountry() {
-        borrowerStorageCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(borrowerStorageCountryCode, borrowerStorageCountry);
+    public CountryEbo getBorrowerStorageCountry() {
+        borrowerStorageCountry = (borrowerStorageCountryCode == null)?null:( borrowerStorageCountry == null || !StringUtils.equals( borrowerStorageCountry.getCode(),borrowerStorageCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(borrowerStorageCountryCode)): borrowerStorageCountry;
         return borrowerStorageCountry;
     }
 
@@ -154,7 +155,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * 
      * @param borrowerStorageCountry The borrowerStorageCountry to set.
      */
-    public void setBorrowerStorageCountry(Country borrowerStorageCountry) {
+    public void setBorrowerStorageCountry(CountryEbo borrowerStorageCountry) {
         this.borrowerStorageCountry = borrowerStorageCountry;
     }
 
@@ -163,8 +164,8 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * 
      * @return Returns the getBorrowerStorageState
      */
-    public State getBorrowerStorageState() {
-        borrowerStorageState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(borrowerStorageCountryCode, borrowerStorageStateCode, borrowerStorageState);
+    public StateEbo getBorrowerStorageState() {
+        borrowerStorageState = (StringUtils.isBlank(borrowerStorageCountryCode) || StringUtils.isBlank( borrowerStorageStateCode))?null:( borrowerStorageState == null || !StringUtils.equals( borrowerStorageState.getCountryCode(),borrowerStorageCountryCode)|| !StringUtils.equals( borrowerStorageState.getCode(), borrowerStorageStateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState(borrowerStorageCountryCode, borrowerStorageStateCode)): borrowerStorageState;
         return borrowerStorageState;
     }
 
@@ -173,7 +174,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * 
      * @param borrowerStorageState The borrowerStorageState to set.
      */
-    public void setBorrowerStorageState(State borrowerStorageState) {
+    public void setBorrowerStorageState(StateEbo borrowerStorageState) {
         this.borrowerStorageState = borrowerStorageState;
     }
 
@@ -183,7 +184,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * @return Returns the borrowerPerson
      */
     public Person getBorrowerPerson() {
-        borrowerPerson = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(borrowerUniversalIdentifier, borrowerPerson);
+        borrowerPerson = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(borrowerUniversalIdentifier, borrowerPerson);
         return borrowerPerson;
     }
 
@@ -399,8 +400,8 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * 
      * @return Returns the borrowerPostalZipCode
      */
-    public PostalCode getBorrowerPostalZipCode() {
-        borrowerPostalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(borrowerCountryCode, borrowerZipCode, borrowerPostalZipCode);
+    public PostalCodeEbo getBorrowerPostalZipCode() {
+        borrowerPostalZipCode = (StringUtils.isBlank(borrowerCountryCode) || StringUtils.isBlank( borrowerZipCode))?null:( borrowerPostalZipCode == null || !StringUtils.equals( borrowerPostalZipCode.getCountryCode(),borrowerCountryCode)|| !StringUtils.equals( borrowerPostalZipCode.getCode(), borrowerZipCode))?PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode(borrowerCountryCode, borrowerZipCode)): borrowerPostalZipCode;
         return borrowerPostalZipCode;
     }
 
@@ -409,7 +410,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * 
      * @param borrowerPostalZipCode The borrowerPostalZipCode to set.
      */
-    public void setBorrowerPostalZipCode(PostalCode borrowerPostalZipCode) {
+    public void setBorrowerPostalZipCode(PostalCodeEbo borrowerPostalZipCode) {
         this.borrowerPostalZipCode = borrowerPostalZipCode;
     }
 
@@ -418,8 +419,8 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * 
      * @param borrowerStoragePostalZipCode The borrowerStoragePostalZipCode to set.
      */
-    public PostalCode getBorrowerStoragePostalZipCode() {
-        borrowerStoragePostalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(borrowerStorageCountryCode, borrowerStorageZipCode, borrowerStoragePostalZipCode);
+    public PostalCodeEbo getBorrowerStoragePostalZipCode() {
+        borrowerStoragePostalZipCode = (StringUtils.isBlank(borrowerStorageCountryCode) || StringUtils.isBlank( borrowerStorageZipCode))?null:( borrowerStoragePostalZipCode == null || !StringUtils.equals( borrowerStoragePostalZipCode.getCountryCode(),borrowerStorageCountryCode)|| !StringUtils.equals( borrowerStoragePostalZipCode.getCode(), borrowerStorageZipCode))?PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode(borrowerStorageCountryCode, borrowerStorageZipCode)): borrowerStoragePostalZipCode;
         return borrowerStoragePostalZipCode;
     }
 
@@ -428,7 +429,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * 
      * @return Returns the borrowerStoragePostalZipCode
      */
-    public void setborrowerStoragePostalZipCode(PostalCode borrowerStoragePostalZipCode) {
+    public void setborrowerStoragePostalZipCode(PostalCodeEbo borrowerStoragePostalZipCode) {
         this.borrowerStoragePostalZipCode = borrowerStoragePostalZipCode;
     }
 
@@ -546,12 +547,12 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
     }
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#postProcessSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
+     * @see org.kuali.rice.krad.document.DocumentBase#postProcessSave(org.kuali.rice.krad.rule.event.KualiDocumentEvent)
      */
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#postProcessSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
+     * @see org.kuali.rice.krad.document.DocumentBase#postProcessSave(org.kuali.rice.krad.rule.event.KualiDocumentEvent)
      */
-    @Override
+    
     public void postProcessSave(KualiDocumentEvent event) {
         super.postProcessSave(event);
 
@@ -574,28 +575,28 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
     /**
      * If the document final, unlock the document
      * 
-     * @see org.kuali.rice.kns.document.DocumentBase#doRouteStatusChange()
+     * @see org.kuali.rice.krad.document.DocumentBase#doRouteStatusChange()
      */
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
 
-        KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
 
-        if (workflowDocument.stateIsProcessed()) {
+        if (workflowDocument.isProcessed()) {
             SpringContext.getBean(EquipmentLoanOrReturnService.class).processApprovedEquipmentLoanOrReturn(this);
         }
 
-        // Remove asset lock when doc status change. We don't include stateIsFinal since document always go to 'processed' first.
-        if (workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsProcessed()) {
+        // Remove asset lock when doc status change. We don't include isFinal since document always go to 'processed' first.
+        if (workflowDocument.isCanceled() || workflowDocument.isDisapproved() || workflowDocument.isProcessed()) {
             this.getCapitalAssetManagementModuleService().deleteAssetLocks(this.getDocumentNumber(), null);
         }
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap<String, String> toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         m.put("documentNumber", this.documentNumber);
         return m;

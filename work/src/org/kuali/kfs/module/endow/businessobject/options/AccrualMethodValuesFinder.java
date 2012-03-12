@@ -22,9 +22,9 @@ import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.AccrualMethod;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * This class defines a value finder for AccrualMethod
@@ -41,7 +41,7 @@ public class AccrualMethodValuesFinder extends KeyValuesBase {
 
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
             AccrualMethod accrualMethod = (AccrualMethod) iter.next();
-            labels.add(new KeyLabelPair(accrualMethod.getCode(), accrualMethod.getName()));
+            labels.add(new ConcreteKeyValue(accrualMethod.getCode(), accrualMethod.getName()));
         }
 
         return labels;

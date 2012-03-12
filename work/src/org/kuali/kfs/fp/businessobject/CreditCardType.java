@@ -18,13 +18,13 @@ package org.kuali.kfs.fp.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * This class represents the different types of credit card types
  */
-public class CreditCardType extends PersistableBusinessObjectBase implements Inactivateable {
+public class CreditCardType extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String financialDocumentCreditCardTypeCode;
     private String financialDocumentCreditCardCompanyName;
@@ -76,9 +76,9 @@ public class CreditCardType extends PersistableBusinessObjectBase implements Ina
 
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("financialDocumentCreditCardTypeCode", this.financialDocumentCreditCardTypeCode);
         return m;

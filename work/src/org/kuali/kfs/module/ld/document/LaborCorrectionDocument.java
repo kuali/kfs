@@ -28,8 +28,8 @@ import org.kuali.kfs.sys.batch.BatchSpringContext;
 import org.kuali.kfs.sys.batch.Step;
 import org.kuali.kfs.sys.context.ProxyUtils;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 
 /**
  * labor Document class for the Labor Ledger Correction Process.
@@ -46,28 +46,28 @@ public class LaborCorrectionDocument extends GeneralLedgerCorrectionProcessDocum
 
     /**
      * @param change
-     * @see org.kuali.rice.kns.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteLevelChangeDTO)
+     * @see org.kuali.rice.krad.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteLevelChangeDTO)
      */
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         // NOTE: DO NOT call the super implementation.  It has the GLCP processing logic which should not be run here.
         // The code below is copied from the super.super implementation:
-        if (getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
-            getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CANCELLED);
-        } else if (getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
-            getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.ENROUTE);
+        if (getDocumentHeader().getWorkflowDocument().isCanceled()) {
+            getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CANCELLED);
+        } else if (getDocumentHeader().getWorkflowDocument().isEnroute()) {
+            getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.ENROUTE);
         }
-        if (getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
-            getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.DISAPPROVED);
+        if (getDocumentHeader().getWorkflowDocument().isDisapproved()) {
+            getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.DISAPPROVED);
         }
-        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-            getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
+        if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
+            getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
         }
         if ( LOG.isInfoEnabled() ) {
-            LOG.info("Document: " + statusChangeEvent.getRouteHeaderId() + " -- Status is: " + getDocumentHeader().getFinancialDocumentStatusCode());
+            LOG.info("Document: " + statusChangeEvent.getDocumentId() + " -- Status is: " + getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
         }
         // End of super.super code
-        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+        if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
             String docId = getDocumentNumber();
             if ( LOG.isInfoEnabled() ) {
                 LOG.info( "Document " + docId + " moving to Processed Status - starting final processing");

@@ -16,7 +16,10 @@
 package org.kuali.kfs.module.bc.identity;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.identity.OrganizationOptionalHierarchyRoleTypeServiceImpl;
@@ -30,21 +33,24 @@ import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kim.service.support.impl.PassThruRoleTypeServiceBase;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
+import org.kuali.rice.core.api.uif.RemotableAttributeError;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.role.PassThruRoleTypeServiceBase;
+import org.kuali.rice.kim.api.role.RoleMembership;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.util.MessageMap;
 
 public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceBase implements BudgetConstructionNoAccessMessageSetting {
-    private BudgetConstructionProcessorService budgetConstructionProcessorService;
-    private RoleManagementService roleManagementService;
-    private BudgetDocumentService budgetDocumentService;
+    protected BudgetConstructionProcessorService budgetConstructionProcessorService;
+    protected BudgetDocumentService budgetDocumentService;
     
     @Override
-    public AttributeSet convertQualificationForMemberRoles(String namespaceCode, String roleName, String memberRoleNamespaceCode, String memberRoleName, AttributeSet qualification) {
-        AttributeSet newQualification = new AttributeSet();
+    public Map<String,String> convertQualificationForMemberRoles(String namespaceCode, String roleName, String memberRoleNamespaceCode, String memberRoleName, Map<String,String> qualification) {
+        Map<String,String> newQualification = new HashMap<String,String>();
 
         if(qualification!=null && !qualification.isEmpty()){
             String universityFiscalYear = qualification.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
@@ -55,21 +61,21 @@ public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceB
             String accountReportExists = qualification.get(BCPropertyConstants.ACCOUNT_REPORTS_EXIST);
     
             Integer organizationLevelCode = qualification.get(BCPropertyConstants.ORGANIZATION_LEVEL_CODE)!=null?Integer.parseInt(qualification.get(BCPropertyConstants.ORGANIZATION_LEVEL_CODE)):null;
-            if (BCConstants.KimConstants.BC_PROCESSOR_ROLE_NAME.equals(memberRoleName)) {
-                if (BCConstants.KimConstants.DOCUMENT_EDITOR_ROLE_NAME.equals(roleName) && (organizationLevelCode!=null && organizationLevelCode.intValue() == 0)) {
+            if (BCConstants.KimApiConstants.BC_PROCESSOR_ROLE_NAME.equals(memberRoleName)) {
+                if (BCConstants.KimApiConstants.DOCUMENT_EDITOR_ROLE_NAME.equals(roleName) && (organizationLevelCode!=null && organizationLevelCode.intValue() == 0)) {
                     organizationCode = UNMATCHABLE_QUALIFICATION;
                 }
             }
             else {
                 if (organizationLevelCode!=null && organizationLevelCode.intValue() != 0) {
-                    if (BCConstants.KimConstants.DOCUMENT_EDITOR_ROLE_NAME.equals(roleName) || Boolean.TRUE.toString().equals(accountReportExists)) {
+                    if (BCConstants.KimApiConstants.DOCUMENT_EDITOR_ROLE_NAME.equals(roleName) || Boolean.TRUE.toString().equals(accountReportExists)) {
                         accountNumber = UNMATCHABLE_QUALIFICATION;
                     }
                 }
             }
     
             String descendHierarchy = OrganizationOptionalHierarchyRoleTypeServiceImpl.DESCEND_HIERARCHY_FALSE_VALUE;
-            if (BCConstants.KimConstants.DOCUMENT_VIEWER_ROLE_NAME.equals(roleName)) {
+            if (BCConstants.KimApiConstants.DOCUMENT_VIEWER_ROLE_NAME.equals(roleName)) {
                 descendHierarchy = OrganizationOptionalHierarchyRoleTypeServiceImpl.DESCEND_HIERARCHY_TRUE_VALUE;
     
                 newQualification.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
@@ -82,8 +88,8 @@ public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceB
             newQualification.put(KfsKimAttributes.ORGANIZATION_CODE, organizationCode);
             newQualification.put(KfsKimAttributes.DESCEND_HIERARCHY, descendHierarchy);
             newQualification.put(BCPropertyConstants.ACCOUNT_REPORTS_EXIST, accountReportExists);
-            if (qualification.containsKey(KfsKimAttributes.DOCUMENT_TYPE_NAME)) {
-                newQualification.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, qualification.get(KfsKimAttributes.DOCUMENT_TYPE_NAME));
+            if (qualification.containsKey(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)) {
+                newQualification.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, qualification.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME));
             }
         }
         return newQualification;
@@ -95,18 +101,19 @@ public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceB
 
     /**
      * @see org.kuali.kfs.module.bc.identity.BudgetConstructionNoAccessMessageSetting#setNoAccessMessage(org.kuali.kfs.module.bc.document.BudgetConstructionDocument,
-     *      org.kuali.rice.kim.bo.Person, org.kuali.rice.kns.util.MessageMap)
+     *      org.kuali.rice.kim.api.identity.Person, org.kuali.rice.krad.util.MessageMap)
      */
     public void setNoAccessMessage(BudgetConstructionDocument document, Person user, MessageMap messageMap) {
-        AttributeSet qualification = new AttributeSet();
+        Map<String,String> qualification = new HashMap<String,String>(3);
         qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, document.getChartOfAccountsCode());
         qualification.put(KfsKimAttributes.ACCOUNT_NUMBER, document.getAccountNumber());
-        qualification.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, BCConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
+        qualification.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, BCConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
 
-        List<String> roleId = new ArrayList<String>();
-        roleId.add(roleManagementService.getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimConstants.FISCAL_OFFICER_KIM_ROLE_NAME));
+        RoleService roleService = KimApiServiceLocator.getRoleService();
 
-        boolean isFiscalOfficerOrDelegate = roleManagementService.principalHasRole(user.getPrincipalId(), roleId, qualification);
+        boolean isFiscalOfficerOrDelegate = roleService.principalHasRole(user.getPrincipalId()
+                , Collections.singletonList(roleService.getRoleIdByNamespaceCodeAndName(KFSConstants.CoreModuleNamespaces.KFS, KFSConstants.SysKimApiConstants.FISCAL_OFFICER_KIM_ROLE_NAME))
+                , qualification);
         boolean isBCProcessor = false;
         boolean isProcessorInAccountHierarchy = false;
 
@@ -138,54 +145,41 @@ public class DocumentDerivedRoleTypeServiceImpl extends PassThruRoleTypeServiceB
         }
     }
 
-    /**
-     * @return Returns the budgetConstructionProcessorService.
-     */
-    protected BudgetConstructionProcessorService getBudgetConstructionProcessorService() {
-        return budgetConstructionProcessorService;
-    }
-
-    /**
-     * @param budgetConstructionProcessorService The budgetConstructionProcessorService to set.
-     */
     public void setBudgetConstructionProcessorService(BudgetConstructionProcessorService budgetConstructionProcessorService) {
         this.budgetConstructionProcessorService = budgetConstructionProcessorService;
     }
 
-    /**
-     * @return Returns the roleManagementService.
-     */
-    protected RoleManagementService getRoleManagementService() {
-        return roleManagementService;
-    }
-
-    /**
-     * @param roleManagementService The roleManagementService to set.
-     */
-    public void setRoleManagementService(RoleManagementService roleManagementService) {
-        this.roleManagementService = roleManagementService;
-    }
-
-    /**
-     * @return Returns the budgetDocumentService.
-     */
-    protected BudgetDocumentService getBudgetDocumentService() {
-        return budgetDocumentService;
-    }
-
-    /**
-     * @param budgetDocumentService The budgetDocumentService to set.
-     */
     public void setBudgetDocumentService(BudgetDocumentService budgetDocumentService) {
         this.budgetDocumentService = budgetDocumentService;
     }
 
-    public List<KeyLabelPair> getAttributeValidValues(String kimTypeId, String attributeName) {
-        // TODO Auto-generated method stub
-        return new ArrayList<KeyLabelPair>(0);
+    public List<KeyValue> getAttributeValidValues(String kimTypeId, String attributeName) {
+        return Collections.emptyList();
     }
 
     public List<String> getQualifiersForExactMatch() {
-        return new ArrayList<String>(); 
+        return Collections.emptyList();
+    }
+
+    public List<RoleMembership> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, Map<String, String> qualification) throws RiceIllegalArgumentException {
+        return Collections.emptyList();
+    }
+
+    public List<RoleMembership> getRoleMembersFromDerivedRole(String namespaceCode, String roleName, Map<String, String> qualification) throws RiceIllegalArgumentException {
+        return Collections.emptyList();
+    }
+
+    public List<RoleMembership> sortRoleMembers(List<RoleMembership> roleMembers) throws RiceIllegalArgumentException {
+        return Collections.emptyList();
+    }
+    
+    @Override
+    public List<RemotableAttributeError> validateUniqueAttributes(String kimTypeId, Map<String, String> newAttributes, Map<String, String> oldAttributes) throws RiceIllegalArgumentException {
+        return Collections.emptyList();
+    }
+    
+    @Override
+    public List<RemotableAttributeError> validateUnmodifiableAttributes(String kimTypeId, Map<String, String> originalAttributes, Map<String, String> newAttributes) throws RiceIllegalArgumentException {
+        return Collections.emptyList();
     }
 }

@@ -25,9 +25,9 @@ import javax.xml.ws.Service;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.ksb.messaging.ServiceInfo;
-import org.kuali.rice.ksb.messaging.service.ServiceRegistry;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.ksb.api.registry.ServiceInfo;
+import org.kuali.rice.ksb.api.registry.ServiceRegistry;
 
 public abstract class KfsService extends Service {
     protected static final Logger LOG = Logger.getLogger(KfsService.class);
@@ -37,21 +37,20 @@ public abstract class KfsService extends Service {
     }
  
     public static String getWebServiceServerName() {
-       return  SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.KC_APPLICATION_URL_KEY);
+       return  SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.KC_APPLICATION_URL_KEY);
     }
     
     protected static URL getWsdl(QName qname) throws MalformedURLException {
         URL url = null;
         String webServiceServer =  getWebServiceServerName();
 
-        //FIXME KC needs to get the services exposed and working on the KSB for this to work
         if (webServiceServer == null) {
             // look for service on the KSB registry
             ServiceRegistry serviceRegistry = SpringContext.getBean(ServiceRegistry.class);
-            List<ServiceInfo> wsdlServices = serviceRegistry.fetchActiveByName(qname);
+            List<ServiceInfo> wsdlServices = serviceRegistry.getOnlineServicesByName(qname);
             if (wsdlServices.size() > 0 ) {
                 ServiceInfo serviceInfo = wsdlServices.get(0);
-                String wsdlName = serviceInfo.getActualEndpointUrl() + "?wsdl";
+                String wsdlName = serviceInfo.getEndpointUrl() + "?wsdl";
                 url = new URL(wsdlName);
             }
         } else {

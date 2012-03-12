@@ -18,6 +18,7 @@ package org.kuali.kfs.sys.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.fp.document.AdvanceDepositDocument;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
 import org.kuali.kfs.fp.document.CreditCardReceiptDocument;
@@ -36,11 +37,11 @@ import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.document.TransactionalDocument;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.document.TransactionalDocument;
+import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * IsDebitTestUtils
@@ -54,8 +55,8 @@ public class IsDebitTestUtils {
         public static final KualiDecimal NEGATIVE = new KualiDecimal("-5");
     }
 
-    private static Map<Class<? extends TransactionalDocument>, String> sourceLines = new HashMap<Class<? extends TransactionalDocument>, String>();
-    private static Map<Class<? extends TransactionalDocument>, String> targetLines = new HashMap<Class<? extends TransactionalDocument>, String>();
+    private static Map<String, String> sourceLines = new HashMap<String, String>();
+    private static Map<String, String> targetLines = new HashMap<String, String>();
 
     private static class BaChartObjectCodes {
         public static final String EXPENSE = "5000";
@@ -75,28 +76,28 @@ public class IsDebitTestUtils {
 
 
     static {
-        sourceLines.put(AdvanceDepositDocument.class, ImportLines.WITH_DESCRIPTION);
-        sourceLines.put(CashReceiptDocument.class, ImportLines.WITH_DESCRIPTION);
-        sourceLines.put(CreditCardReceiptDocument.class, ImportLines.WITH_DESCRIPTION);
-        sourceLines.put(DisbursementVoucherDocument.class, ImportLines.WITH_DESCRIPTION);
-        sourceLines.put(DistributionOfIncomeAndExpenseDocument.class, ImportLines.DEFAULT);
-        sourceLines.put(GeneralErrorCorrectionDocument.class, ImportLines.WITH_ORIGIN_CODE_AND_REF_NUM_AND_DESCRIPTION);
-        sourceLines.put(IndirectCostAdjustmentDocument.class, ImportLines.WITHOUT_OBJECT_CODE);
-        sourceLines.put(InternalBillingDocument.class, ImportLines.DEFAULT);
-        sourceLines.put(NonCheckDisbursementDocument.class, ImportLines.WITH_REF_NUM_AND_DESCRIPTION);
-        sourceLines.put(PreEncumbranceDocument.class, ImportLines.DEFAULT);
-        sourceLines.put(ServiceBillingDocument.class, ImportLines.WITH_DESCRIPTION);
-        sourceLines.put(TransferOfFundsDocument.class, ImportLines.DEFAULT);
+        sourceLines.put("AD", ImportLines.WITH_DESCRIPTION);
+        sourceLines.put("CR", ImportLines.WITH_DESCRIPTION);
+        sourceLines.put("CCR", ImportLines.WITH_DESCRIPTION);
+        sourceLines.put("DV", ImportLines.WITH_DESCRIPTION);
+        sourceLines.put("DI", ImportLines.DEFAULT);
+        sourceLines.put("GEC", ImportLines.WITH_ORIGIN_CODE_AND_REF_NUM_AND_DESCRIPTION);
+        sourceLines.put("ICA", ImportLines.WITHOUT_OBJECT_CODE);
+        sourceLines.put("IB", ImportLines.DEFAULT);
+        sourceLines.put("ND", ImportLines.WITH_REF_NUM_AND_DESCRIPTION);
+        sourceLines.put("PE", ImportLines.DEFAULT);
+        sourceLines.put("SB", ImportLines.WITH_DESCRIPTION);
+        sourceLines.put("TF", ImportLines.DEFAULT);
     }
 
     static {
-        targetLines.put(DistributionOfIncomeAndExpenseDocument.class, ImportLines.DEFAULT);
-        targetLines.put(GeneralErrorCorrectionDocument.class, ImportLines.WITH_ORIGIN_CODE_AND_REF_NUM_AND_DESCRIPTION);
-        targetLines.put(IndirectCostAdjustmentDocument.class, ImportLines.WITHOUT_OBJECT_CODE);
-        targetLines.put(InternalBillingDocument.class, ImportLines.DEFAULT);
-        targetLines.put(PreEncumbranceDocument.class, ImportLines.WITH_REF_NUM);
-        targetLines.put(ServiceBillingDocument.class, ImportLines.WITH_DESCRIPTION);
-        targetLines.put(TransferOfFundsDocument.class, ImportLines.DEFAULT);
+        targetLines.put("DI", ImportLines.DEFAULT);
+        targetLines.put("GEC", ImportLines.WITH_ORIGIN_CODE_AND_REF_NUM_AND_DESCRIPTION);
+        targetLines.put("ICA", ImportLines.WITHOUT_OBJECT_CODE);
+        targetLines.put("IB", ImportLines.DEFAULT);
+        targetLines.put("PE", ImportLines.WITH_REF_NUM);
+        targetLines.put("SB", ImportLines.WITH_DESCRIPTION);
+        targetLines.put("TF", ImportLines.DEFAULT);
     }
 
     /**
@@ -117,7 +118,7 @@ public class IsDebitTestUtils {
      */
     public static AccountingDocument getErrorCorrectionDocument(DocumentService documentService, Class<? extends AccountingDocument> documentClass) throws WorkflowException {
         AccountingDocument financialDocument = getDocument(documentService, documentClass);
-        financialDocument.getDocumentHeader().setFinancialDocumentInErrorNumber("fakeErrorCorrection");
+        financialDocument.getFinancialSystemDocumentHeader().setFinancialDocumentInErrorNumber("fakeErrorCorrection");
 
         return financialDocument;
     }
@@ -126,17 +127,19 @@ public class IsDebitTestUtils {
         String unparsedLine = null;
         AccountingLine line = null;
         if (SourceAccountingLine.class.isAssignableFrom(lineClass)) {
-            unparsedLine = sourceLines.get(financialDocument.getClass());
+            unparsedLine = sourceLines.get(getDocumentTypeCode(financialDocument));
             if (unparsedLine == null) {
                 throw new IllegalArgumentException("no value found in sourceMap for: " + financialDocument.getClass() + ";" + lineClass);
             }
+            unparsedLine = removeChartIfNotNeeded(unparsedLine);
             line = financialDocument.getAccountingLineParser().parseSourceAccountingLine(financialDocument, unparsedLine);
         }
         else if (TargetAccountingLine.class.isAssignableFrom(lineClass)) {
-            unparsedLine = targetLines.get(financialDocument.getClass());
+            unparsedLine = targetLines.get(getDocumentTypeCode(financialDocument));
             if (unparsedLine == null) {
                 throw new IllegalArgumentException("no value found in targetMap for: " + financialDocument.getClass() + ";" + lineClass);
             }
+            unparsedLine = removeChartIfNotNeeded(unparsedLine);
             line = financialDocument.getAccountingLineParser().parseTargetAccountingLine(financialDocument, unparsedLine);
         }
         else {
@@ -146,6 +149,30 @@ public class IsDebitTestUtils {
         line.setAmount(amount);
         line.setFinancialObjectCode(objectCode);
         return line;
+    }
+    
+    /**
+     * Returns the document type name for the given document
+     * @param financialDocument the document to find a doc type name for
+     * @return the doc type name
+     */
+    private static String getDocumentTypeCode(AccountingDocument financialDocument) {
+        final DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+        final String docTypeName = dataDictionaryService.getDocumentTypeNameByClass(financialDocument.getClass());
+        return docTypeName;
+    }
+    
+    /**
+     * Checks if accounts can cross charts; if not, removes chart from accounting line
+     * @param accountingLine the accounting line to potentially correct
+     * @return the accounting line, with perhaps the chart removed
+     */
+    private static String removeChartIfNotNeeded(String accountingLine) {
+        final AccountService accountService = SpringContext.getBean(AccountService.class);
+        final String updatedAccountingLine = (!accountService.accountsCanCrossCharts()) ?
+                accountingLine.substring(3) :
+                accountingLine;
+        return updatedAccountingLine;
     }
 
     /**

@@ -40,7 +40,7 @@
 	var terminationDate = document.getElementById(elPrefix + '.terminationDate');
 	var terminationDatePicker = document.getElementById(elPrefix + '.terminationDate_datepicker');
 	
-	var activeChecked = DWRUtil.getValue( activeFieldName.name );
+	var activeChecked = dwr.util.getValue( activeFieldName.name );
 	
 	if(activeChecked)
 	{

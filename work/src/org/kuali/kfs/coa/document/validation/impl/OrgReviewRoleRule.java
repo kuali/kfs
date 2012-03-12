@@ -16,50 +16,51 @@
 package org.kuali.kfs.coa.document.validation.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.coa.identity.KfsKimDocDelegateMember;
+import org.kuali.kfs.coa.identity.KfsKimDocRoleMember;
 import org.kuali.kfs.coa.identity.KfsKimDocumentAttributeData;
 import org.kuali.kfs.coa.identity.OrgReviewRole;
-import org.kuali.kfs.coa.identity.OrgReviewRoleLookupableHelperServiceImpl;
+import org.kuali.kfs.coa.service.OrgReviewRoleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kim.bo.entity.KimPrincipal;
-import org.kuali.rice.kim.bo.group.dto.GroupInfo;
-import org.kuali.rice.kim.bo.role.dto.DelegateMemberCompleteInfo;
-import org.kuali.rice.kim.bo.role.dto.KimRoleInfo;
-import org.kuali.rice.kim.bo.role.dto.RoleMemberCompleteInfo;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.bo.types.dto.KimTypeInfo;
-import org.kuali.rice.kim.service.GroupService;
-import org.kuali.rice.kim.service.KimTypeInfoService;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kim.service.RoleService;
-import org.kuali.rice.kim.service.UiDocumentService;
-import org.kuali.rice.kim.util.KimConstants;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.core.api.criteria.PredicateUtils;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.membership.MemberType;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.common.delegate.DelegateMember;
+import org.kuali.rice.kim.api.group.Group;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.role.DelegateMemberQueryResults;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.role.RoleMember;
+import org.kuali.rice.kim.api.role.RoleMemberQueryResults;
+import org.kuali.rice.kim.api.role.RoleMembership;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.kim.api.type.KimType;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class represents the business rules for the maintenance of {@link AccountGlobal} business objects
  */
 public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
+    private static final Logger LOG = Logger.getLogger(OrgReviewRoleRule.class);
 
-    protected UiDocumentService uiDocumentService;
-    protected transient static GroupService groupService;
-    protected transient static KimTypeInfoService typeInfoService;
-    protected static Logger LOG = Logger.getLogger(OrgReviewRoleRule.class);
-
+    private transient static OrgReviewRoleService orgReviewRoleService;
+    
     /**
      * Need to override to avoid the primary key check which (wrongly) assumes that the object's PKs can be found in the persistence service.
      * 
@@ -74,21 +75,18 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
     public boolean processRouteDocument(Document document) {
         boolean valid = super.processRouteDocument(document);
         OrgReviewRole orr = (OrgReviewRole)((MaintenanceDocument)document).getNewMaintainableObject().getBusinessObject();
-        OrgReviewRoleLookupableHelperServiceImpl lookupableHelperService = new OrgReviewRoleLookupableHelperServiceImpl();
-        lookupableHelperService.validateDocumentType(orr.getFinancialSystemDocumentTypeCode());
-        if(orr!=null){
-            if(!orr.hasAnyMember()){
-                valid = false;
-                putFieldError("principalMemberPrincipalName", KFSKeyConstants.NO_MEMBER_SELECTED);
+        if(!orr.hasAnyMember()){
+            valid = false;
+            putFieldError( OrgReviewRole.PRINCIPAL_NAME_FIELD_NAME, KFSKeyConstants.NO_MEMBER_SELECTED);
+        } else{
+            getOrgReviewRoleService().validateDocumentType(orr.getFinancialSystemDocumentTypeCode());
+            validateRoleMembersToSave(orr);
+            if(orr.isDelegate()){
+                // Save delegation(s)
+                valid = validateDelegation(orr, ((MaintenanceDocument)document).isEdit());
             } else{
-                validateRoleMembersToSave(orr);
-                if(orr.isDelegate()){
-                    // Save delegation(s)
-                    valid = validateDelegation(orr, ((MaintenanceDocument)document).isEdit());
-                } else{
-                    // Save role member(s)
-                    valid = validateRoleMember(orr, ((MaintenanceDocument)document).isEdit());
-                }
+                // Save role member(s)
+                valid = validateRoleMember(orr, ((MaintenanceDocument)document).isEdit());
             }
         }
         return valid;
@@ -99,7 +97,7 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
         boolean valid = true;
         String memberId;
         if(StringUtils.isNotEmpty(orr.getPrincipalMemberPrincipalName())){
-            KimPrincipal principal = getIdentityManagementService().getPrincipalByPrincipalName(orr.getPrincipalMemberPrincipalName());
+            Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(orr.getPrincipalMemberPrincipalName());
             if(principal == null || StringUtils.isEmpty(principal.getPrincipalId())){
                 GlobalVariables.getMessageMap().putError(MAINTAINABLE_ERROR_PATH+"."+OrgReviewRole.PRINCIPAL_NAME_FIELD_NAME, 
                         KFSKeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL);
@@ -107,7 +105,7 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
             }
         }
         if(StringUtils.isNotEmpty(orr.getRoleMemberRoleName())){
-            memberId = getRoleService().getRoleIdByName(orr.getRoleMemberRoleNamespaceCode(), orr.getRoleMemberRoleName());
+            memberId = KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(orr.getRoleMemberRoleNamespaceCode(), orr.getRoleMemberRoleName());
             if(memberId == null){
                 GlobalVariables.getMessageMap().putError(MAINTAINABLE_ERROR_PATH+"."+OrgReviewRole.ROLE_NAME_FIELD_NAME, 
                         KFSKeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, KimConstants.KimUIConstants.MEMBER_TYPE_ROLE);
@@ -115,8 +113,8 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
             }
         }
         if(StringUtils.isNotEmpty(orr.getGroupMemberGroupName())){
-            GroupInfo groupInfo = getGroupService().getGroupInfoByName(orr.getGroupMemberGroupNamespaceCode(), orr.getGroupMemberGroupName());
-            if(groupInfo == null || StringUtils.isEmpty(groupInfo.getGroupId())){
+            Group groupInfo = KimApiServiceLocator.getGroupService().getGroupByNamespaceCodeAndName(orr.getGroupMemberGroupNamespaceCode(), orr.getGroupMemberGroupName());
+            if(groupInfo == null || StringUtils.isEmpty(groupInfo.getId())){
                 GlobalVariables.getMessageMap().putError(MAINTAINABLE_ERROR_PATH+"."+OrgReviewRole.GROUP_NAME_FIELD_NAME, 
                         KFSKeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, KimConstants.KimUIConstants.MEMBER_TYPE_GROUP);
                 valid = false;
@@ -131,25 +129,24 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
         String roleId;
         if(!isEdit && orr.getRoleNamesToConsider()!=null){
             for(String roleName: orr.getRoleNamesToConsider()){
-                roleId = SpringContext.getBean(RoleService.class).getRoleIdByName(
-                        KFSConstants.SysKimConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName);
+                roleId = KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(
+                        KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName);
                 Map<String, String> criteria = new HashMap<String, String>();
                 criteria.put(KimConstants.PrimaryKeyConstants.ROLE_ID, roleId);
-                List<DelegateMemberCompleteInfo> roleDelegationMembers = getRoleService().findDelegateMembersCompleteInfo(criteria);
+                DelegateMemberQueryResults results = KimApiServiceLocator.getRoleService().findDelegateMembers(QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ROLE_ID, roleId))));
+                List<DelegateMember> roleDelegationMembers = results.getResults(); 
                 
-                DelegateMemberCompleteInfo member;
-                String memberId;
                 //validate if the newly entered delegation members are already assigned to the role
                 if(roleDelegationMembers!=null){
-                    for(DelegateMemberCompleteInfo delegationMember: roleDelegationMembers){
-                        member = orr.getDelegationMemberOfType(delegationMember.getMemberTypeCode());
-                        if(member!=null && StringUtils.isNotEmpty(member.getMemberName())){
-                            memberId = getUiDocumentService().getMemberIdByName(member.getMemberTypeCode(), member.getMemberNamespaceCode(), member.getMemberName());
-                            boolean attributesUnique = areAttributesUnique(orr, delegationMember.getQualifier());
-                            if(!attributesUnique && member!=null && StringUtils.isNotEmpty(memberId) && memberId.equals(delegationMember.getMemberId())
-                                    && (StringUtils.isNotEmpty(orr.getRoleMemberId()) && StringUtils.isNotEmpty(delegationMember.getRoleMemberId()) 
+                    for(DelegateMember delegationMember: roleDelegationMembers){
+                        KfsKimDocDelegateMember member = orr.getDelegationMemberOfType(delegationMember.getType().getCode());
+                        if(member!=null && StringUtils.isNotBlank(member.getMemberName())){
+                            String memberId = getMemberIdByName(member.getType(), member.getMemberNamespaceCode(), member.getMemberName());
+                            boolean attributesUnique = areAttributesUnique(orr, delegationMember.getAttributes());
+                            if(!attributesUnique && member!=null && StringUtils.isNotBlank(memberId) && memberId.equals(delegationMember.getMemberId())
+                                    && (StringUtils.isNotBlank(orr.getRoleMemberId()) && StringUtils.isNotBlank(delegationMember.getRoleMemberId()) 
                                             && orr.getRoleMemberId().equals(delegationMember.getRoleMemberId()))){
-                               putFieldError(orr.getDelegationMemberFieldName(member), KFSKeyConstants.ALREADY_ASSIGNED_MEMBER);
+                               putFieldError(orr.getMemberFieldName(member.getType()), KFSKeyConstants.ALREADY_ASSIGNED_MEMBER);
                                valid = false;
                             }
                         }
@@ -160,15 +157,15 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
         if(StringUtils.isNotEmpty(orr.getRoleMemberId())){
             valid = validateAmounts(orr);
             //TODO: put from and to amounts validation here
-            Map<String, String> criteria = new HashMap<String, String>();
-            criteria.put("roleMemberId", orr.getRoleMemberId());
-            List<RoleMemberCompleteInfo> roleMembers = getRoleService().findRoleMembersCompleteInfo(criteria);
-            RoleMemberCompleteInfo roleMember = null;
-            if(roleMembers!=null && roleMembers.size()>0)
+            RoleMemberQueryResults roleMemberResults = KimApiServiceLocator.getRoleService().findRoleMembers(QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ROLE_MEMBER_ID, orr.getRoleMemberId()))));
+            List<RoleMember> roleMembers = roleMemberResults.getResults();
+            RoleMember roleMember = null;
+            if(roleMembers!=null && !roleMembers.isEmpty() ) {
                 roleMember = roleMembers.get(0);
-            KimRoleInfo roleInfo = getRoleService().getRole(roleMember.getRoleId());
-            KimTypeInfo typeInfo = getTypeInfoService().getKimType(roleInfo.getKimTypeId());
-            List<KfsKimDocumentAttributeData> attributes = orr.getAttributeSetAsQualifierList(typeInfo, roleMember.getQualifier());
+            }
+            Role roleInfo = KimApiServiceLocator.getRoleService().getRole(roleMember.getRoleId());
+            KimType typeInfo = KimApiServiceLocator.getKimTypeInfoService().getKimType(roleInfo.getKimTypeId());
+            List<KfsKimDocumentAttributeData> attributes = orr.getAttributeSetAsQualifierList(typeInfo, roleMember.getAttributes());
             if(roleMember!=null && attributes!=null){
                 for(KfsKimDocumentAttributeData attribute: attributes){
                     if(KfsKimAttributes.FROM_AMOUNT.equals(attribute.getKimAttribute().getAttributeName())){
@@ -215,25 +212,25 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
         valid = validateAmounts(orr);
         if(!isEdit && orr.getRoleNamesToConsider()!=null){
             for(String roleName: orr.getRoleNamesToConsider()){
-                roleId = getRoleService().getRoleIdByName(
-                        KFSConstants.SysKimConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName);
+                roleId = KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(
+                        KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName);
                 //validate if the newly entered role members are already assigned to the role
                 Map<String, Object> criteria = new HashMap<String, Object>();
                 criteria.put(KimConstants.PrimaryKeyConstants.ROLE_ID, roleId);
                 List<String> roleIds = new ArrayList<String>();
                 roleIds.add(roleId);
-                List<RoleMembershipInfo> roleMembershipInfoList = getRoleService().getFirstLevelRoleMembers(roleIds);
-                RoleMemberCompleteInfo member;
-                String memberId;
+                List<RoleMembership> roleMembershipInfoList = KimApiServiceLocator.getRoleService().getFirstLevelRoleMembers(roleIds);
+                KfsKimDocRoleMember member = null;
+                String memberId = null;
                 if(roleMembershipInfoList!=null){
-                    for(RoleMembershipInfo roleMembershipInfo: roleMembershipInfoList){
-                        member = orr.getRoleMemberOfType(roleMembershipInfo.getMemberTypeCode());
+                    for(RoleMembership roleMembershipInfo: roleMembershipInfoList){
+                        member = orr.getRoleMemberOfType(roleMembershipInfo.getType().getCode());
                         if(member!=null && StringUtils.isNotEmpty(member.getMemberName())){
-                            memberId = getUiDocumentService().getMemberIdByName(member.getMemberTypeCode(), member.getMemberNamespaceCode(), member.getMemberName());
+                            memberId = getMemberIdByName(member.getType(), member.getMemberNamespaceCode(), member.getMemberName());
                             attributesUnique = areAttributesUnique(orr, roleMembershipInfo.getQualifier());
                             if(!attributesUnique && member!=null && StringUtils.isNotEmpty(memberId) && memberId.equals(roleMembershipInfo.getMemberId()) && 
-                                    member.getMemberTypeCode().equals(roleMembershipInfo.getMemberTypeCode())){
-                               putFieldError(orr.getMemberFieldName(member), KFSKeyConstants.ALREADY_ASSIGNED_MEMBER);
+                                    member.getType().equals(roleMembershipInfo.getType())){
+                               putFieldError(orr.getMemberFieldName(member.getType()), KFSKeyConstants.ALREADY_ASSIGNED_MEMBER);
                                valid = false;
                             }
                         }
@@ -244,60 +241,41 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
         return valid;
     }
 
-    protected boolean areAttributesUnique(OrgReviewRole orr, AttributeSet attributeSet){
+    public String getMemberIdByName(MemberType memberType, String memberNamespaceCode, String memberName){
+        String memberId = "";
+        if(MemberType.PRINCIPAL.equals(memberType)){
+            Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(memberName);
+            if(principal!=null) {
+                memberId = principal.getPrincipalId();
+            }
+
+       } else if(MemberType.GROUP.equals(memberType)){
+            Group groupInfo = getGroupService().getGroupByNamespaceCodeAndName(memberNamespaceCode, memberName);
+            if (groupInfo!=null) {
+                memberId = groupInfo.getId();
+            }
+
+        } else if(MemberType.ROLE.equals(memberType)){
+            memberId = KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(memberNamespaceCode, memberName);
+        }
+        return memberId;
+    }
+    
+    protected boolean areAttributesUnique(OrgReviewRole orr, Map<String,String> attributeSet){
         String docTypeName = orr.getFinancialSystemDocumentTypeCode();
         String chartOfAccountCode = orr.getChartOfAccountsCode();
         String organizationCode = orr.getOrganizationCode();
         boolean uniqueAttributes = 
-            !StringUtils.equals(docTypeName, getAttributeValue(attributeSet, KfsKimAttributes.DOCUMENT_TYPE_NAME)) ||
-            !StringUtils.equals(chartOfAccountCode, getAttributeValue(attributeSet, KfsKimAttributes.CHART_OF_ACCOUNTS_CODE)) ||
-            !StringUtils.equals(organizationCode, getAttributeValue(attributeSet, KfsKimAttributes.ORGANIZATION_CODE));
+            !StringUtils.equals(docTypeName, attributeSet.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)) ||
+            !StringUtils.equals(chartOfAccountCode, attributeSet.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE)) ||
+            !StringUtils.equals(organizationCode, attributeSet.get(KfsKimAttributes.ORGANIZATION_CODE));
         return uniqueAttributes;
     }
-    
-    protected String getAttributeValue(AttributeSet aSet, String attributeName){
-        if(StringUtils.isEmpty(attributeName)) return null;
-        for(String attributeNameKey: aSet.keySet()){
-            if(attributeName.equals(attributeNameKey))
-                return aSet.get(attributeNameKey);
+
+    protected OrgReviewRoleService getOrgReviewRoleService(){
+        if(orgReviewRoleService==null){
+            orgReviewRoleService = SpringContext.getBean( OrgReviewRoleService.class );
         }
-        return null;
-    }
-
-    protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-        return super.processCustomRouteDocumentBusinessRules(document);
-    }
-
-    /**
-     * Gets the uiDocumentService attribute. 
-     * @return Returns the uiDocumentService.
-     */
-    public UiDocumentService getUiDocumentService() {
-        if(this.uiDocumentService==null){
-            this.uiDocumentService = SpringContext.getBean(UiDocumentService.class);
-        }
-        return this.uiDocumentService;
-    }
-
-    /**
-     * Sets the uiDocumentService attribute value.
-     * @param uiDocumentService The uiDocumentService to set.
-     */
-    public void setUiDocumentService(UiDocumentService uiDocumentService) {
-        this.uiDocumentService = uiDocumentService;
-    }
-
-    protected KimTypeInfoService getTypeInfoService(){
-        if(typeInfoService==null){
-            typeInfoService = SpringContext.getBean(KimTypeInfoService.class);
-        }
-        return typeInfoService;
-    }
-
-    protected GroupService getGroupService(){
-        if(groupService==null){
-            groupService = SpringContext.getBean(GroupService.class);
-        }
-        return groupService;
+        return orgReviewRoleService;
     }
 }

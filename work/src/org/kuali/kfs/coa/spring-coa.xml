@@ -54,6 +54,12 @@
 		<property name="jobNames">
 			<list>
 				<value>populatePriorYearDataJob</value>
+				<value>cfdaJob</value>
+			</list>
+		</property>
+		<property name="triggerNames">
+			<list>
+				<value>cfdaJobTrigger</value>
 			</list>
 		</property>
         <property name="fiscalYearMakers">
@@ -94,12 +100,24 @@
 			<ref bean="parameterService" />
 		</property>
 	</bean>
+	
+	<bean id="AccountReferenceExemption" abstract="true" parent="AccountReferenceExemption-parentBean"/>
+	<bean id="AccountReferenceExemption-parentBean" abstract="true" class="org.kuali.kfs.coa.service.impl.AccountReferencePersistenceExemption">
+		<property name="chartOfAccountsCodePropertyName" value="chartOfAccountsCode"/>
+		<property name="accountNumberPropertyName" value="accountNumber"/>
+	</bean>
 
-	<bean id="AccountPersistenceStructureService"  parent="AccountPersistenceStructureService-parentBean"/>
-	<bean id="AccountPersistenceStructureService-parentBean" class="org.kuali.kfs.coa.service.impl.AccountPersistenceStructureServiceImpl" abstract="true">
+	<bean id="AccountPersistenceStructureService" parent="AccountPersistenceStructureService-parentBean" />
+	
+	<bean id="AccountPersistenceStructureService-parentBean" abstract="true" class="org.kuali.kfs.coa.service.impl.AccountPersistenceStructureServiceImpl">
 		<property name="persistenceStructureServiceJpa" ref="persistenceStructureServiceJpa" />
     	<property name="persistenceStructureServiceOjb" ref="persistenceStructureServiceOjb" />
     	<property name="maintenanceDocumentDictionaryService" ref="maintenanceDocumentDictionaryService" />
+    	<property name="accountReferencePersistenceExemptions">
+    		<list>
+    			<bean parent="AccountReferenceExemption" p:parentBusinessObjectClass="org.kuali.kfs.coa.businessobject.Organization" p:accountNumberPropertyName="organizationDefaultAccountNumber"/> 
+    		</list>
+    	</property>
 	</bean>
 
 	<bean id="projectCodeService"  parent="projectCodeService-parentBean"/>
@@ -118,6 +136,7 @@
 
 	<bean id="subObjectCodeService"  parent="subObjectCodeService-parentBean"/>
 	<bean id="subObjectCodeService-parentBean" class="org.kuali.kfs.coa.service.impl.SubObjectCodeServiceImpl" abstract="true">
+
 		<property name="universityDateService">
 			<ref bean="universityDateService" />
 		</property>
@@ -141,12 +160,7 @@
 		
 	<bean id="chartService"  parent="chartService-parentBean"/>
 	<bean id="chartService-parentBean" class="org.kuali.kfs.coa.service.impl.ChartServiceImpl" abstract="true">
-		<property name="chartDao">
-			<ref bean="chartDao" />
-		</property>
-		<property name="roleManagementService">
-			<ref bean="kimRoleManagementService" />
-		</property>
+		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="parameterService" ref="parameterService" />
 	</bean>
 
@@ -247,9 +261,6 @@
 	<bean id="accountDelegateGlobalDao" parent="platformAwareDao"
 		class="org.kuali.kfs.coa.dataaccess.impl.AccountDelegateGlobalDaoOjb" />
 
-	<bean id="chartDao" parent="platformAwareDao"
-		class="org.kuali.kfs.coa.dataaccess.impl.ChartDaoOjb"/>
-
 	<bean id="objectCodeDao" parent="platformAwareDao"
 		class="org.kuali.kfs.coa.dataaccess.impl.ObjectCodeDaoOjb" />
 
@@ -337,7 +348,7 @@
 		</property>
 	</bean>
 	
-	<bean id="populatePriorYearDataJob" parent="unscheduledJobDescriptor">
+	<bean id="populatePriorYearDataJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="updatePriorYearDataStep" />
@@ -357,7 +368,7 @@
 		<property name="noteService">
 			<ref bean="noteService" />
 		</property>
-		<property name="kualiConfigurationService">
+		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
 		<property name="documentHeaderService">
@@ -386,7 +397,7 @@
 		<property name="documentHeaderService">
 			<ref bean="documentHeaderService" />
 		</property>
-    	<property name="kualiConfigurationService">
+    	<property name="configurationService">
     		<ref bean="kualiConfigurationService"/>
     	</property>
     </bean>
@@ -403,7 +414,7 @@
 		<property name="documentHeaderService">
 			<ref bean="documentHeaderService" />
 		</property>
-    	<property name="kualiConfigurationService">
+    	<property name="configurationService">
     		<ref bean="kualiConfigurationService"/>
     	</property>
     </bean>
@@ -415,7 +426,7 @@
         <property name="businessObjectService">
     		<ref bean="businessObjectService"/>
     	</property>
-    	<property name="businessObjectMetaDataService">
+    	<property name="dataObjectMetaDataService">
     		<ref bean="businessObjectMetaDataService"/>
     	</property>
     	<property name="persistenceService">
@@ -429,7 +440,7 @@
         <property name="businessObjectService">
     		<ref bean="businessObjectService"/>
     	</property>
-    	<property name="businessObjectMetaDataService">
+    	<property name="dataObjectMetaDataService">
     		<ref bean="businessObjectMetaDataService"/>
     	</property>
     	<property name="universityDateService">
@@ -443,29 +454,17 @@
         <property name="businessObjectService">
     		<ref bean="businessObjectService"/>
     	</property>
-    	<property name="businessObjectMetaDataService">
+    	<property name="dataObjectMetaDataService">
     		<ref bean="businessObjectMetaDataService"/>
     	</property>
     </bean>
     
     <bean name="chartRoleTypeService" parent="chartRoleTypeService-parentBean"/>
 	<bean name="chartRoleTypeService-parentBean" abstract="true"  class="org.kuali.kfs.coa.identity.ChartRoleTypeServiceImpl" />
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-		<property name="serviceDefinition">
-			<bean parent="kfsService" p:service-ref="chartRoleTypeService"
-				p:localServiceName="chartRoleTypeService" />
-		</property>
-	</bean>
 
 	<bean name="organizationRoleTypeService" parent="organizationRoleTypeService-parentBean"/>
 	<bean name="organizationRoleTypeService-parentBean" abstract="true" 
 		class="org.kuali.kfs.coa.identity.OrganizationRoleTypeServiceImpl" />
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-		<property name="serviceDefinition">
-			<bean parent="kfsService" p:service-ref="organizationRoleTypeService"
-				p:localServiceName="organizationRoleTypeService" />
-		</property>
-	</bean>
     
 	<bean id="organizationHierarchyAwareRoleTypeService" abstract="true">
 		<property name="chartService" ref="chartService" />
@@ -475,44 +474,19 @@
 	<bean id="organizationOptionalHierarchyQualifierRoleTypeService-parentBean" abstract="true" 
 		class="org.kuali.kfs.coa.identity.OrganizationOptionalHierarchyRoleTypeServiceImpl"
 		parent="organizationHierarchyAwareRoleTypeService" />
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-		<property name="serviceDefinition">
-			<bean parent="kfsService" p:service-ref="organizationOptionalHierarchyQualifierRoleTypeService"
-				p:localServiceName="organizationOptionalHierarchyQualifierRoleTypeService" />
-		</property>
-	</bean>
 
 	<bean id="organizationHierarchyReviewRoleTypeService" parent="organizationHierarchyReviewRoleTypeService-parentBean"/>
 	<bean id="organizationHierarchyReviewRoleTypeService-parentBean" abstract="true" 
 		class="org.kuali.kfs.coa.identity.OrganizationHierarchyReviewRoleTypeServiceImpl"
 		parent="organizationHierarchyAwareRoleTypeService" />
-  <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-    <property name="serviceDefinition">
-			<bean parent="kfsService" p:service-ref="organizationHierarchyReviewRoleTypeService"
-				p:localServiceName="organizationHierarchyReviewRoleTypeService" />
-    	</property>
-    </bean>
     
     <bean id="accountingOrganizationHierarchyReviewRoleTypeService" parent="accountingOrganizationHierarchyReviewRoleTypeService-parentBean"/>
 	<bean id="accountingOrganizationHierarchyReviewRoleTypeService-parentBean" abstract="true" 
 		class="org.kuali.kfs.coa.identity.AccountingOrganizationHierarchyReviewRoleTypeServiceImpl"
 		parent="organizationHierarchyAwareRoleTypeService" />
-  <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-    <property name="serviceDefinition">
-      <bean parent="kfsService"
-				p:service-ref="accountingOrganizationHierarchyReviewRoleTypeService"
-				p:localServiceName="accountingOrganizationHierarchyReviewRoleTypeService" />
-		</property>
-    </bean>
 	
     <bean id="accountRoleTypeService" parent="accountRoleTypeService-parentBean"/>	
     <bean id="accountRoleTypeService-parentBean" abstract="true"  class="org.kuali.kfs.coa.identity.AccountRoleTypeServiceImpl"/>
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-	  <property name="serviceDefinition">
-			<bean parent="kfsService" p:service-ref="accountRoleTypeService"
-	      p:localServiceName="accountRoleTypeService" />
-	  </property>
-	</bean>
 	
 	<bean id="accountDerivedRoleTypeService" parent="accountDerivedRoleTypeService-parentBean"/>
 	<bean id="accountDerivedRoleTypeService-parentBean"
@@ -522,32 +496,14 @@
 		</property>
 		<property name="accountDelegateService" ref="accountDelegateService" />
 	</bean>
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-	  <property name="serviceDefinition">
-			<bean parent="kfsService" p:service-ref="accountDerivedRoleTypeService"
-	      p:localServiceName="accountDerivedRoleTypeService" />
-	  </property>
-	</bean>
 
 	<bean id="subAccountReviewRoleTypeService" parent="subAccountReviewRoleTypeService-parentBean"/>
 	<bean id="subAccountReviewRoleTypeService-parentBean"
 		class="org.kuali.kfs.coa.identity.SubAccountReviewRoleTypeServiceImpl" abstract="true" />
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-		<property name="serviceDefinition">
-			<bean parent="kfsService" p:service-ref="subAccountReviewRoleTypeService"
-				p:localServiceName="subAccountReviewRoleTypeService" />
-		</property>
-	</bean>
 
 	<bean id="subFundReviewRoleTypeService" parent="subFundReviewRoleTypeService-parentBean"/>
 	<bean id="subFundReviewRoleTypeService-parentBean"
 		class="org.kuali.kfs.coa.identity.SubFundReviewRoleTypeServiceImpl" abstract="true" />
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-		<property name="serviceDefinition">
-			<bean parent="kfsService" p:service-ref="subFundReviewRoleTypeService"
-				p:localServiceName="subFundReviewRoleTypeService" />
-		</property>
-	</bean>
 
 	<bean id="chartDerivedRoleTypeService" parent="chartDerivedRoleTypeService-parentBean"/>
 	<bean id="chartDerivedRoleTypeService-parentBean"
@@ -556,32 +512,13 @@
 			<ref bean="organizationService" />
 		</property>
 	</bean>
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-		<property name="serviceDefinition">
-			<bean parent="kfsService" p:service-ref="chartDerivedRoleTypeService"
-				p:localServiceName="chartDerivedRoleTypeService" />
-		</property>
-	</bean>
     	
 	<bean id="organizationGroupTypeService" parent="organizationGroupTypeService-parentBean"/>
 	<bean id="organizationGroupTypeService-parentBean"
 		class="org.kuali.kfs.coa.identity.OrganizationGroupTypeServiceImpl" abstract="true" />
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-		<property name="serviceDefinition">
-			<bean parent="kfsService" p:service-ref="organizationGroupTypeService"
-				p:localServiceName="organizationGroupTypeService" />
-		</property>
-	</bean>
 	
 	<bean id="contractsAndGrantsResponsibilityRoleTypeService"  parent="contractsAndGrantsResponsibilityRoleTypeService-parentBean"/>
 	<bean id="contractsAndGrantsResponsibilityRoleTypeService-parentBean" class="org.kuali.kfs.coa.identity.ContractsAndGrantsResponsibilityRoleTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-	  <property name="serviceDefinition">
-	    <bean parent="kfsService"
-	      p:service-ref="contractsAndGrantsResponsibilityRoleTypeService"
-	      p:localServiceName="contractsAndGrantsResponsibilityRoleTypeService" />
-	  </property>
-	</bean>
 
 	<bean id="organizationReversionFiscalYearMaker" parent="FiscalYearMaker">
 		<property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.OrganizationReversion" /> 
@@ -642,6 +579,7 @@
 	<bean id="orgReviewRoleLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" parent="kualiLookupable" scope="prototype">
         <property name="lookupableHelperService">
             <bean class="org.kuali.kfs.coa.identity.OrgReviewRoleLookupableHelperServiceImpl" parent="lookupableHelperService">
+            	<property name="orgReviewRoleService" ref="orgReviewRoleService" />
             </bean>
         </property>
     </bean>
@@ -661,10 +599,39 @@
     	
 	<bean id="chartLedgerReferenceValuePreparedStatementCachingDao" parent="preparedStatementCachingDao" class="org.kuali.kfs.coa.batch.dataaccess.impl.LedgerReferenceValuePreparedStatementCachingDaoJdbc" />
 
-	<bean id="orgReviewRoleService"  parent="orgReviewRoleService-parentBean"/>
-	<bean id="orgReviewRoleService-parentBean" class="org.kuali.kfs.coa.service.impl.OrgReviewRoleServiceImpl" abstract="true" >
-		<property name="roleManagementService" ref="kimRoleManagementService" />
-		<property name="kimTypeInfoService" ref="kimTypeInfoService" />
+	<bean id="orgReviewRoleService" class="org.kuali.kfs.coa.service.impl.OrgReviewRoleServiceImpl" />
+	 <bean id="cfdaService" class="org.kuali.kfs.coa.service.impl.CfdaServiceImpl">
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+    </bean>
+       
+	
+    <bean id="cfdaBatchStep" class="org.kuali.kfs.coa.batch.CfdaBatchStep" parent="step">
+        <property name="cfdaService">
+            <ref bean="cfdaService" />
+        </property>
+        <property name="mailService">
+            <ref bean="mailService" />
+        </property>
+        <property name="parameterService">
+            <ref bean="parameterService" />
+        </property>
+        <property name="configurationService" ref="kualiConfigurationService" />
+    </bean>
+
+    <bean id="cfdaJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="cfdaBatchStep" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="cfdaJobTrigger" parent="cronTrigger">
+		<property name="jobName" value="cfdaJob" />
+		<property name="cronExpression" value="00 00 00 1 1,4,7,10  ?" />
 	</bean>
 	 
+	 <import resource="spring-coa-bus-exports.xml"/>
 </beans>

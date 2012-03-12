@@ -23,7 +23,7 @@ import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 
 public class ElectronicInvoiceRejectItem extends PersistableBusinessObjectBase {
@@ -684,9 +684,9 @@ public class ElectronicInvoiceRejectItem extends PersistableBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("invoiceRejectItemIdentifier", this.invoiceRejectItemIdentifier);
         return m;

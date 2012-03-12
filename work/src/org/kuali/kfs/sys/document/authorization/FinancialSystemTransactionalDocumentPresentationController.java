@@ -16,8 +16,6 @@
 package org.kuali.kfs.sys.document.authorization;
 
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
 
 /**

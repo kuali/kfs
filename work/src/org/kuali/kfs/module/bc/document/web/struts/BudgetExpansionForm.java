@@ -19,10 +19,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.MessageList;
-import org.kuali.rice.kns.util.MessageMap;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * Holds properties necessary for expansion screen handling.
@@ -225,7 +225,7 @@ public class BudgetExpansionForm extends KualiForm {
      * Helper method to check document actions Map for can edit entry
      */
     public boolean isEditAllowed() {
-        return getDocumentActions().keySet().contains(KNSConstants.KUALI_ACTION_CAN_EDIT);
+        return getDocumentActions().keySet().contains(KRADConstants.KUALI_ACTION_CAN_EDIT);
     }
 
     /**

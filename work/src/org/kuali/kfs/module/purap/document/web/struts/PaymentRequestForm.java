@@ -20,26 +20,24 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants.PaymentRequestEditMode;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
-import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Struts Action Form for Payment Request document.
@@ -84,7 +82,7 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
     }
 
     @Override
-    public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
+    public void populateHeaderFields(WorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
         if (ObjectUtils.isNotNull(this.getPaymentRequestDocument().getPurapDocumentIdentifier())) {
             getDocInfo().add(new HeaderField("DataDictionary.PaymentRequestDocument.attributes.purapDocumentIdentifier", ((PaymentRequestDocument) this.getDocument()).getPurapDocumentIdentifier().toString()));
@@ -96,7 +94,7 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
             String preqStatus = "";
             String appDocStatus ="";
                        
-            appDocStatus = workflowDocument.getRouteHeader().getAppDocStatus();
+            appDocStatus = workflowDocument.getApplicationDocumentStatus();
             if (!StringUtils.isEmpty(appDocStatus)) {
                 preqStatus = appDocStatus;
             }
@@ -130,8 +128,8 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
     public List<ExtraButton> getExtraButtons() {        
         extraButtons.clear(); // clear out the extra buttons array
         PaymentRequestDocument paymentRequestDocument = this.getPaymentRequestDocument();
-        String externalImageURL = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.RICE_EXTERNALIZABLE_IMAGES_URL_KEY);
-        String appExternalImageURL = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
+        String externalImageURL = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.RICE_EXTERNALIZABLE_IMAGES_URL_KEY);
+        String appExternalImageURL = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
         
         if (canContinue()) {
             addExtraButton("methodToCall.continuePREQ", externalImageURL + "buttonsmall_continue.gif", "Continue");
@@ -207,7 +205,7 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
         boolean can = !SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(getPaymentRequestDocument());
         
         // check user authorization: whoever can edit can calculate
-        can = can && documentActions.containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT);
+        can = can && documentActions.containsKey(KRADConstants.KUALI_ACTION_CAN_EDIT);
 
         //FIXME this is temporary so that calculate will show up at tax
         can = can || editingMode.containsKey(PaymentRequestEditMode.TAX_AREA_EDITABLE);
@@ -220,7 +218,7 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
      */
     @Override
     public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
-        if (KNSConstants.DISPATCH_REQUEST_PARAMETER.equals(methodToCallParameterName) && 
+        if (KRADConstants.DISPATCH_REQUEST_PARAMETER.equals(methodToCallParameterName) && 
            ("changeUseTaxIndicator".equals(methodToCallParameterValue))) {
             return true;
         }

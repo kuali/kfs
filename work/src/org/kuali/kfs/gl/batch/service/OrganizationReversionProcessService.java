@@ -17,8 +17,6 @@ package org.kuali.kfs.gl.batch.service;
 
 import java.util.Map;
 
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
-
 /**
  * An interface declaring the methods needed to run the organization reversion process
  */

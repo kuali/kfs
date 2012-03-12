@@ -36,8 +36,8 @@ import org.kuali.kfs.module.cam.document.web.struts.AssetBarCodeInventoryInputFi
 import org.kuali.kfs.sys.FileUtil;
 import org.kuali.kfs.sys.batch.BatchInputFileSetType;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kim.api.identity.Person;
 
 /**
  * Batch input type for the barcode inventory document.
@@ -108,7 +108,7 @@ public class AssetBarcodeInventoryInputFileType implements BatchInputFileSetType
      * @param fileUserIdentifer String representing user who uploaded file
      * @return String enterprise feeder formated file name string using information from user and file user identifier
      * 
-     * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#getFileName(java.lang.String, org.kuali.rice.kim.bo.Person, java.lang.String)
+     * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#getFileName(java.lang.String, org.kuali.rice.kim.api.identity.Person, java.lang.String)
      */
     public String getFileName(String fileType, String principalName, String fileUserIdentifer, Date creationDate) {
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
@@ -176,7 +176,7 @@ public class AssetBarcodeInventoryInputFileType implements BatchInputFileSetType
      * @param fileUserIdentifier the file identifier
      * @return String done file name
      * 
-     * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#getDoneFileName(org.kuali.rice.kim.bo.Person, java.lang.String)
+     * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#getDoneFileName(org.kuali.rice.kim.api.identity.Person, java.lang.String)
      */
     public String getDoneFileName(Person user, String fileUserIdentifer, Date creationDate) {
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
@@ -197,7 +197,7 @@ public class AssetBarcodeInventoryInputFileType implements BatchInputFileSetType
      * @param files list of files objects
      * @return Set containing all user identifiers from list of files
      * 
-     * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#extractFileUserIdentifiers(org.kuali.rice.kim.bo.Person, java.util.List)
+     * @see org.kuali.kfs.sys.batch.BatchInputFileSetType#extractFileUserIdentifiers(org.kuali.rice.kim.api.identity.Person, java.util.List)
      */
     public Set<String> extractFileUserIdentifiers(Person user, List<File> files) {
         Set<String> extractedFileUserIdentifiers = new TreeSet<String>();

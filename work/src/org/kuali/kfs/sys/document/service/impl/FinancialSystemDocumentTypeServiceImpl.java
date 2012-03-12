@@ -17,16 +17,16 @@ package org.kuali.kfs.sys.document.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.LedgerPostingDocument;
 import org.kuali.kfs.sys.document.LedgerPostingMaintainable;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentTypeService;
-import org.kuali.rice.kew.dto.DocumentTypeDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.service.WorkflowInfo;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kew.api.doctype.DocumentType;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * Default implementation of the FinancialSystemDocumentTypeService
@@ -41,7 +41,7 @@ public class FinancialSystemDocumentTypeServiceImpl implements FinancialSystemDo
      * @see org.kuali.kfs.coa.service.AccountDelegateService#isFinancialSystemDocumentType(java.lang.String)
      */
     public boolean isFinancialSystemDocumentType(String documentTypeCode) {
-        return isActiveCurrentChildDocumentType(documentTypeCode, KFSConstants.ROOT_DOCUMENT_TYPE, new WorkflowInfo());
+        return isActiveCurrentChildDocumentType(documentTypeCode, KFSConstants.ROOT_DOCUMENT_TYPE);
     }
     
     /**
@@ -49,21 +49,20 @@ public class FinancialSystemDocumentTypeServiceImpl implements FinancialSystemDo
      * given parent document type code
      * @param documentTypeCode the document type to check
      * @param parentDocumentTypeCode the parent document type code that the documentTypeCode should either represent or be an active, current child of
-     * @param workflowInfo a workflowInfo object to help us
      * @return true if the doc type is a child or represents the parent document type, false otherwise
      */
-    protected boolean isActiveCurrentChildDocumentType(String documentTypeCode, String parentDocumentTypeCode, WorkflowInfo workflowInfo) {
+    protected boolean isActiveCurrentChildDocumentType(String documentTypeCode, String parentDocumentTypeCode) {
         if (StringUtils.isBlank(documentTypeCode)) return false;
         if (documentTypeCode.equals(parentDocumentTypeCode)) return true;
-        try {
-            if (!workflowInfo.isCurrentActiveDocumentType(documentTypeCode)) return false;
+        
+        DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);        
 
-            final DocumentTypeDTO documentType = workflowInfo.getDocType(documentTypeCode);
-            if (StringUtils.isBlank(documentType.getDocTypeParentName())) return false;
-            return isActiveCurrentChildDocumentType(documentType.getDocTypeParentName(), parentDocumentTypeCode, workflowInfo);
-        } catch (WorkflowException we) {
-            throw new RuntimeException("Could not retrieve document type "+documentTypeCode, we);
-        }
+        if (!documentTypeService.isActiveByName(documentTypeCode)) return false;
+        final DocumentType documentType = documentTypeService.getDocumentTypeByName(documentTypeCode);
+        String parentId = documentType.getParentId();
+        String parentName = documentTypeService.getNameById(parentId);
+        if (StringUtils.isBlank(parentName)) return false;
+        return isActiveCurrentChildDocumentType(parentName, parentDocumentTypeCode);
     }
 
     /**
@@ -104,7 +103,7 @@ public class FinancialSystemDocumentTypeServiceImpl implements FinancialSystemDo
      * @return true if the documentTypeCode is a current active child of the Financial System Ledger Only document type, false otherwise
      */
     protected boolean isFinancialSystemLedgerOnlyDocumentType(String documentTypeCode) {
-        return isActiveCurrentChildDocumentType(documentTypeCode, KFSConstants.FINANCIAL_SYSTEM_LEDGER_ONLY_ROOT_DOCUMENT_TYPE, new WorkflowInfo());
+        return isActiveCurrentChildDocumentType(documentTypeCode, KFSConstants.FINANCIAL_SYSTEM_LEDGER_ONLY_ROOT_DOCUMENT_TYPE);
     }
 
     /**

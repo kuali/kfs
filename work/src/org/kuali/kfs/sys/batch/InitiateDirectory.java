@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.sys.batch;
 
-import java.io.File;
 import java.util.List;
 
 /**

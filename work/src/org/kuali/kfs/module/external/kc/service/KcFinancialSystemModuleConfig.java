@@ -15,10 +15,7 @@
  */
 package org.kuali.kfs.module.external.kc.service;
 
-import java.util.List;
 import java.util.Map;
-
-import org.kuali.rice.kns.service.ModuleService;
 
 public interface KcFinancialSystemModuleConfig {
     public Map<Class, String>  getExternalizableBusinessObjectServiceImplementations();    

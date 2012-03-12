@@ -111,8 +111,8 @@ public class SecKimAttributes extends KfsKimAttributes {
 
 
     @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         return m;
     }

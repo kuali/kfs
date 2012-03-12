@@ -18,7 +18,7 @@
 <%@ attribute name="viewList" required="true" %>
 <%@ attribute name="limitByPoId" required="false" %>
 
-<c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentType}" />
+<c:set var="documentType" value="${KualiForm.document.documentHeader.workflowDocument.documentTypeName}" />
 
 <logic:notEmpty name="KualiForm" property="${viewList}">
     <logic:iterate id="view" name="KualiForm" property="${viewList}" indexId="viewCtr">

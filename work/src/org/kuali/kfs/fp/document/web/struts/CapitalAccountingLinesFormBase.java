@@ -15,14 +15,8 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
-import java.util.List;
-
 import org.kuali.kfs.fp.businessobject.CapitalAccountingLine;
-import org.kuali.kfs.fp.businessobject.CapitalAccountingLines;
-import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * This class is the struts base form for financial form documents that need

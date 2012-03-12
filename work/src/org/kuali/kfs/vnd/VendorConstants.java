@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -42,6 +42,15 @@ public class VendorConstants {
     public static final String VENDOR_ADDRESS_LOOKUPABLE_IMPL = "vendorAddressLookupable";
     public static final String VENDOR_CONTRACT_LOOKUPABLE_IMPL = "vendorContractLookupable";
     public static final int MAX_VENDOR_NAME_LENGTH = 45;
+    public static final String VENDOR_EXCLUDE_FILE_TYPE_INDENTIFIER = "vendorExcludeInputFileType";
+    public static final String EXCLUDED_MATCHED_VENDOR_STATUS = "M";
+    public static final String NON_EXCLUDED_MATCHED_VENDOR_STATUS = "N";
+    public static final String DEBARRED_VENDOR_UNPROCESSED = "U";
+    public static final String DEBARRED_VENDOR_CONFIRMED = "C";
+    public static final String DEBARRED_VENDOR_DENIED = "D";
+    public static final String DEBARRED_VENDOR_UNPROCESSED_LABEL = "Unprocessed";
+    public static final String DEBARRED_VENDOR_CONFIRMED_LABEL = "Confirmed";
+    public static final String DEBARRED_VENDOR_DENIED_LABEL = "Denied";
 
     // Vendor Tax Types
     public static final String TAX_TYPE_FEIN = "FEIN";

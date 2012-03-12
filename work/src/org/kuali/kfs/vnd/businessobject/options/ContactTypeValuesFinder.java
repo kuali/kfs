@@ -22,9 +22,9 @@ import java.util.List;
 
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.ContactType;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * Values finder for <code>ContactType</code>.
@@ -41,10 +41,10 @@ public class ContactTypeValuesFinder extends KeyValuesBase {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection codes = boService.findAll(ContactType.class);
         List labels = new ArrayList();
-        labels.add(new KeyLabelPair("", ""));
+        labels.add(new ConcreteKeyValue("", ""));
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
             ContactType contactType = (ContactType) iter.next();
-            labels.add(new KeyLabelPair(contactType.getVendorContactTypeCode(), contactType.getVendorContactTypeDescription()));
+            labels.add(new ConcreteKeyValue(contactType.getVendorContactTypeCode(), contactType.getVendorContactTypeDescription()));
         }
 
         return labels;

@@ -21,8 +21,8 @@ import java.util.Map;
 import org.kuali.kfs.module.cg.businessobject.Agency;
 import org.kuali.kfs.module.cg.service.AgencyService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.spring.Cached;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.cache.annotation.Cacheable;
 
 /**
  * Implementation of the Agency service.
@@ -34,7 +34,7 @@ public class AgencyServiceImpl implements AgencyService {
     /**
      * @see org.kuali.kfs.module.cg.service.AgencyService#getByPrimaryId(String)
      */
-    @Cached
+    @Cacheable(value=Agency.CACHE_NAME,key="agencyNumber")
     public Agency getByPrimaryId(String agencyNumber) {
         return (Agency) businessObjectService.findByPrimaryKey(Agency.class, mapPrimaryKeys(agencyNumber));
     }

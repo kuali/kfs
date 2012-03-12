@@ -22,7 +22,7 @@ import java.util.Map;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.util.TransactionalServiceUtils;
+import org.kuali.rice.krad.util.TransactionalServiceUtils;
 
 @ConfigureContext
 public class TestUnitTestSqlDao extends KualiTestBase {

@@ -19,8 +19,8 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 /**
  * This class is an empty derived class 
@@ -49,8 +49,8 @@ private KualiDecimal unpaidBalanceSYSPRplus1orMore = KualiDecimal.ZERO;
         super();
     }
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         // TODO Auto-generated method stub
         return null;
     }

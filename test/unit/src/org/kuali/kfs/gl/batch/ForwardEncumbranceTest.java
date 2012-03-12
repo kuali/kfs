@@ -18,9 +18,6 @@ package org.kuali.kfs.gl.batch;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import org.kuali.kfs.coa.service.A21SubAccountService;
-import org.kuali.kfs.coa.service.PriorYearAccountService;
-import org.kuali.kfs.coa.service.SubFundGroupService;
 import org.kuali.kfs.gl.batch.service.EncumbranceClosingOriginEntryGenerationService;
 import org.kuali.kfs.gl.batch.service.impl.OriginEntryOffsetPair;
 import org.kuali.kfs.gl.businessobject.Encumbrance;
@@ -29,7 +26,7 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Tests that the forward encumbrance process is generating cost share encumbrance forwarding origin entries correctly

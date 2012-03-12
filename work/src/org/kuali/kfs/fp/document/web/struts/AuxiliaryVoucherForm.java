@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
-import static org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRuleConstants.AUXILIARY_VOUCHER_ACCOUNTING_PERIOD_GRACE_PERIOD;
 import static org.kuali.kfs.sys.KFSConstants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE;
 import static org.kuali.kfs.sys.KFSConstants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE;
 import static org.kuali.kfs.sys.KFSConstants.AuxiliaryVoucher.RECODE_DOC_TYPE;
@@ -29,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
+import org.joda.time.DateTime;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.fp.document.AuxiliaryVoucherDocument;
@@ -36,9 +36,10 @@ import org.kuali.kfs.fp.document.validation.impl.AuxiliaryVoucherDocumentRuleCon
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * Struts form so <code>{@link AuxiliaryVoucherDocument}</code> can be accessed and modified through UI.
@@ -128,7 +129,10 @@ public class AuxiliaryVoucherForm extends VoucherForm {
             getAuxiliaryVoucherDocument().setReversalDate(null);
         }
         else if (getAuxiliaryVoucherDocument().getTypeCode().equals(RECODE_DOC_TYPE)) {
-            getAuxiliaryVoucherDocument().setReversalDate(new java.sql.Date(getDocument().getDocumentHeader().getWorkflowDocument().getCreateDate().getTime()));
+            DateTime ts = new DateTime(getAuxiliaryVoucherDocument().getDocumentHeader().getWorkflowDocument().getDateCreated());
+            Date newts = new Date(ts.getMillis());
+            
+            getAuxiliaryVoucherDocument().setReversalDate(newts);
         }
     }
 
@@ -233,7 +237,7 @@ public class AuxiliaryVoucherForm extends VoucherForm {
             boolean result = false;
             if (o instanceof AccountingPeriod) {
                 AccountingPeriod period = (AccountingPeriod) o;
-                result = parameterService.getParameterEvaluator(AuxiliaryVoucherDocument.class, AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_PERIOD_CODES, period.getUniversityFiscalPeriodCode()).evaluationSucceeds();
+                result = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(AuxiliaryVoucherDocument.class, AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_PERIOD_CODES, period.getUniversityFiscalPeriodCode()).evaluationSucceeds();
                 if (result) {
                     result = (period.getUniversityFiscalYear().equals( currentFiscalYear ));
                     if (result) {

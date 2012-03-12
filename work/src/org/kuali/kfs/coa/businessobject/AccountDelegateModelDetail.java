@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,18 +19,20 @@ package org.kuali.kfs.coa.businessobject;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
+import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
-import org.kuali.rice.kew.service.impl.KEWModuleService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ *
  */
-public class AccountDelegateModelDetail extends PersistableBusinessObjectBase implements Inactivateable {
+public class AccountDelegateModelDetail extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String chartOfAccountsCode;
     private String organizationCode;
@@ -64,7 +66,7 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
 
     /**
      * Gets the chartOfAccountsCode attribute.
-     * 
+     *
      * @return Returns the chartOfAccountsCode
      */
     public String getChartOfAccountsCode() {
@@ -73,7 +75,7 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
 
     /**
      * Sets the chartOfAccountsCode attribute.
-     * 
+     *
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -83,7 +85,7 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
 
     /**
      * Gets the organizationCode attribute.
-     * 
+     *
      * @return Returns the organizationCode
      */
     public String getOrganizationCode() {
@@ -92,7 +94,7 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
 
     /**
      * Sets the organizationCode attribute.
-     * 
+     *
      * @param organizationCode The organizationCode to set.
      */
     public void setOrganizationCode(String organizationCode) {
@@ -102,7 +104,7 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
 
     /**
      * Gets the accountDelegateModelName attribute.
-     * 
+     *
      * @return Returns the accountDelegateModelName
      */
     public String getAccountDelegateModelName() {
@@ -111,7 +113,7 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
 
     /**
      * Sets the accountDelegateModelName attribute.
-     * 
+     *
      * @param accountDelegateModelName The accountDelegateModelName to set.
      */
     public void setAccountDelegateModelName(String organizationRoutingModelName) {
@@ -121,7 +123,7 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
 
     /**
      * Gets the accountDelegateUniversalId attribute.
-     * 
+     *
      * @return Returns the accountDelegateUniversalId
      */
     public String getAccountDelegateUniversalId() {
@@ -130,7 +132,7 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
 
     /**
      * Sets the accountDelegateUniversalId attribute.
-     * 
+     *
      * @param accountDelegateUniversalId The accountDelegateUniversalId to set.
      */
     public void setAccountDelegateUniversalId(String accountDelegateUniversalId) {
@@ -140,17 +142,17 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
 
     /**
      * Gets the accountDelegate attribute.
-     * 
+     *
      * @return Returns the accountDelegate.
      */
     public Person getAccountDelegate() {
-        accountDelegate = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(accountDelegateUniversalId, accountDelegate);
+        accountDelegate = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(accountDelegateUniversalId, accountDelegate);
         return accountDelegate;
     }
 
     /**
      * Sets the accountDelegate attribute value.
-     * 
+     *
      * @param accountDelegate The accountDelegate to set.
      */
     public void setAccountDelegate(Person accountDelegate) {
@@ -159,7 +161,7 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
 
     /**
      * Gets the financialDocumentTypeCode attribute.
-     * 
+     *
      * @return Returns the financialDocumentTypeCode
      */
     public String getFinancialDocumentTypeCode() {
@@ -168,7 +170,7 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
 
     /**
      * Sets the financialDocumentTypeCode attribute.
-     * 
+     *
      * @param financialDocumentTypeCode The financialDocumentTypeCode to set.
      */
     public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
@@ -176,16 +178,28 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
     }
 
     /**
-     * Gets the financialSystemDocumentTypeCode attribute. 
+     * Gets the financialSystemDocumentTypeCode attribute.
      * @return Returns the financialSystemDocumentTypeCode.
      */
     public DocumentTypeEBO getFinancialSystemDocumentTypeCode() {
-        return financialSystemDocumentTypeCode = SpringContext.getBean(KEWModuleService.class).retrieveExternalizableBusinessObjectIfNecessary(this, financialSystemDocumentTypeCode, "financialSystemDocumentTypeCode");
+        if ( StringUtils.isBlank( financialDocumentTypeCode ) ) {
+            financialSystemDocumentTypeCode = null;
+        } else {
+            if ( financialSystemDocumentTypeCode == null || !StringUtils.equals(financialDocumentTypeCode, financialSystemDocumentTypeCode.getName() ) ) {
+                org.kuali.rice.kew.api.doctype.DocumentType temp = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(financialDocumentTypeCode);
+                if ( temp != null ) {
+                    financialSystemDocumentTypeCode = DocumentType.from( temp );
+                } else {
+                    financialSystemDocumentTypeCode = null;
+                }
+            }
+        }
+        return financialSystemDocumentTypeCode;
     }
 
     /**
      * Gets the approvalFromThisAmount attribute.
-     * 
+     *
      * @return Returns the approvalFromThisAmount
      */
     public KualiDecimal getApprovalFromThisAmount() {
@@ -194,7 +208,7 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
 
     /**
      * Sets the approvalFromThisAmount attribute.
-     * 
+     *
      * @param approvalFromThisAmount The approvalFromThisAmount to set.
      */
     public void setApprovalFromThisAmount(KualiDecimal approvalFromThisAmount) {
@@ -204,7 +218,7 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
 
     /**
      * Gets the approvalToThisAmount attribute.
-     * 
+     *
      * @return Returns the approvalToThisAmount
      */
     public KualiDecimal getApprovalToThisAmount() {
@@ -213,7 +227,7 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
 
     /**
      * Sets the approvalToThisAmount attribute.
-     * 
+     *
      * @param approvalToThisAmount The approvalToThisAmount to set.
      */
     public void setApprovalToThisAmount(KualiDecimal approvalToThisAmount) {
@@ -223,7 +237,7 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
 
     /**
      * Gets the accountDelegatePrimaryRoutingIndicator attribute.
-     * 
+     *
      * @return Returns the accountDelegatePrimaryRoutingIndicator
      */
     public boolean getAccountDelegatePrimaryRoutingIndicator() {
@@ -232,7 +246,7 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
 
     /**
      * Sets the accountDelegatePrimaryRoutingIndicator attribute.
-     * 
+     *
      * @param accountDelegatePrimaryRoutingCode The accountDelegatePrimaryRoutingIndicator to set.
      */
     public void setAccountDelegatePrimaryRoutingIndicator(boolean accountDelegatePrimaryRoutingCode) {
@@ -242,7 +256,7 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
 
     /**
      * Gets the accountDelegateStartDate attribute.
-     * 
+     *
      * @return Returns the accountDelegateStartDate
      */
     public Date getAccountDelegateStartDate() {
@@ -251,7 +265,7 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
 
     /**
      * Sets the accountDelegateStartDate attribute.
-     * 
+     *
      * @param accountDelegateStartDate The accountDelegateStartDate to set.
      */
     public void setAccountDelegateStartDate(Date accountDelegateStartDate) {
@@ -260,16 +274,17 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
 
     /**
      * Gets the active attribute.
-     * 
+     *
      * @return Returns the active.
      */
+    @Override
     public boolean isActive() {
         return active;
     }
 
     /**
      * Sets the active attribute value.
-     * 
+     *
      * @param active The active to set.
      */
     public void setActive(boolean active) {
@@ -278,7 +293,7 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
 
     /**
      * Gets the chartOfAccounts attribute.
-     * 
+     *
      * @return Returns the chartOfAccounts
      */
     public Chart getChartOfAccounts() {
@@ -287,7 +302,7 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
 
     /**
      * Sets the chartOfAccounts attribute.
-     * 
+     *
      * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated
      */
@@ -296,9 +311,9 @@ public class AccountDelegateModelDetail extends PersistableBusinessObjectBase im
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("organizationCode", this.organizationCode);

@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,45 +16,31 @@
 package org.kuali.kfs.module.endow.businessobject;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
 
-import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.Role;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.framework.role.RoleEbo;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class KemidAuthorizations extends PersistableBusinessObjectBase {
 
-    private String kemid;
-    private KualiInteger roleSequenceNumber;
-    private String roleId;
-    private String rolePrincipalId;
-    private Date roleTerminationDate;
-    private boolean active;
+    protected String kemid;
+    protected KualiInteger roleSequenceNumber;
+    protected String roleId;
+    protected String rolePrincipalId;
+    protected Date roleTerminationDate;
+    protected boolean active;
 
-    private KEMID kemidObjRef;
-    private Role role;
-    private Person rolePrincipal;
-
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
-        m.put(EndowPropertyConstants.KEMID, this.kemid);
-        m.put(EndowPropertyConstants.KEMID_AUTHORIZATIONS_ROLE_SEQ_NBR, String.valueOf(this.roleSequenceNumber));
-        m.put(EndowPropertyConstants.KEMID_AUTHORIZATIONS_ROLE_ID, this.roleId);
-        m.put(EndowPropertyConstants.KEMID_AUTHORIZATIONS_ROLE_PRNCPL_ID, rolePrincipalId);
-        return m;
-    }
+    protected KEMID kemidObjRef;
+    protected RoleEbo role;
+    protected Person rolePrincipal;
 
     /**
      * Gets the kemid.
-     * 
+     *
      * @return kemid
      */
     public String getKemid() {
@@ -63,7 +49,7 @@ public class KemidAuthorizations extends PersistableBusinessObjectBase {
 
     /**
      * Sets the kemid.
-     * 
+     *
      * @param kemid
      */
     public void setKemid(String kemid) {
@@ -72,7 +58,7 @@ public class KemidAuthorizations extends PersistableBusinessObjectBase {
 
     /**
      * Gets the roleSequenceNumber.
-     * 
+     *
      * @return roleSequenceNumber
      */
     public KualiInteger getRoleSequenceNumber() {
@@ -81,7 +67,7 @@ public class KemidAuthorizations extends PersistableBusinessObjectBase {
 
     /**
      * Sets the roleSequenceNumber.
-     * 
+     *
      * @param roleSequenceNumber
      */
     public void setRoleSequenceNumber(KualiInteger roleSequenceNumber) {
@@ -90,7 +76,7 @@ public class KemidAuthorizations extends PersistableBusinessObjectBase {
 
     /**
      * Gets the roleId.
-     * 
+     *
      * @return roleId
      */
     public String getRoleId() {
@@ -99,7 +85,7 @@ public class KemidAuthorizations extends PersistableBusinessObjectBase {
 
     /**
      * Sets the roleId.
-     * 
+     *
      * @param roleId
      */
     public void setRoleId(String roleId) {
@@ -108,7 +94,7 @@ public class KemidAuthorizations extends PersistableBusinessObjectBase {
 
     /**
      * Gets the rolePrincipalId.
-     * 
+     *
      * @return rolePrincipalId
      */
     public String getRolePrincipalId() {
@@ -117,7 +103,7 @@ public class KemidAuthorizations extends PersistableBusinessObjectBase {
 
     /**
      * Sets the rolePrincipalId.
-     * 
+     *
      * @param rolePrincipalId
      */
     public void setRolePrincipalId(String rolePrincipalId) {
@@ -126,7 +112,7 @@ public class KemidAuthorizations extends PersistableBusinessObjectBase {
 
     /**
      * Gets the roleTerminationDate.
-     * 
+     *
      * @return roleTerminationDate
      */
     public Date getRoleTerminationDate() {
@@ -135,7 +121,7 @@ public class KemidAuthorizations extends PersistableBusinessObjectBase {
 
     /**
      * Sets the roleTerminationDate.
-     * 
+     *
      * @param roleTerminationDate
      */
     public void setRoleTerminationDate(Date roleTerminationDate) {
@@ -144,7 +130,7 @@ public class KemidAuthorizations extends PersistableBusinessObjectBase {
 
     /**
      * Gets the active indicator.
-     * 
+     *
      * @return active
      */
     public boolean isActive() {
@@ -153,7 +139,7 @@ public class KemidAuthorizations extends PersistableBusinessObjectBase {
 
     /**
      * Sets the active indicator.
-     * 
+     *
      * @param active
      */
     public void setActive(boolean active) {
@@ -162,7 +148,7 @@ public class KemidAuthorizations extends PersistableBusinessObjectBase {
 
     /**
      * Gets the kemidObjRef.
-     * 
+     *
      * @return kemidObjRef
      */
     public KEMID getKemidObjRef() {
@@ -171,7 +157,7 @@ public class KemidAuthorizations extends PersistableBusinessObjectBase {
 
     /**
      * Sets the kemidObjRef.
-     * 
+     *
      * @param kemidObjRef
      */
     public void setKemidObjRef(KEMID kemidObjRef) {
@@ -180,36 +166,36 @@ public class KemidAuthorizations extends PersistableBusinessObjectBase {
 
     /**
      * Gets the role.
-     * 
+     *
      * @return role
      */
-    public Role getRole() {
-        role = SpringContext.getBean(RoleManagementService.class).getRole(roleId);
+    public RoleEbo getRole() {
+        role = RoleEbo.from( SpringContext.getBean(RoleService.class).getRole(roleId) );
         return role;
     }
 
     /**
      * Sets the role.
-     * 
+     *
      * @param role
      */
-    public void setRole(Role role) {
+    public void setRole(RoleEbo role) {
         this.role = role;
     }
 
     /**
      * Gets the rolePrincipal.
-     * 
+     *
      * @return rolePrincipal
      */
     public Person getRolePrincipal() {
-        rolePrincipal = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(rolePrincipalId, rolePrincipal);
+        rolePrincipal = SpringContext.getBean(PersonService.class).updatePersonIfNecessary(rolePrincipalId, rolePrincipal);
         return rolePrincipal;
     }
 
     /**
      * Sets the rolePrincipal.
-     * 
+     *
      * @param rolePrincipal
      */
     public void setRolePrincipal(Person rolePrincipal) {

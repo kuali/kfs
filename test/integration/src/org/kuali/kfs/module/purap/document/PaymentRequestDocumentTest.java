@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -48,12 +48,12 @@ import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.PaymentTermType;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.SequenceAccessorService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class is used to create and test populated Payment Request Documents of various kinds.
@@ -70,12 +70,14 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
     private PaymentRequestDocument paymentRequestDocument = null;
     protected static PurchaseOrderDocument purchaseOrderDocument = null;
 
+    @Override
     protected void setUp() throws Exception {
         documentService = SpringContext.getBean(DocumentService.class);
         purchaseOrderService = SpringContext.getBean(PurchaseOrderService.class);
         super.setUp();
     }
 
+    @Override
     protected void tearDown() throws Exception {
         paymentRequestDocument = null;
         super.tearDown();
@@ -135,14 +137,14 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
         changeCurrentUser(rorenfro);
         paymentRequestDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docId);
         assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(paymentRequestDocument, ACCOUNT_REVIEW));
-        assertTrue("Document should be enroute.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute());
+        assertTrue("Document should be enroute.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isEnroute());
         assertTrue("rorenfro should have an approve request.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
         documentService.approveDocument(paymentRequestDocument, "Test approving as rorenfro", null);
 
-        WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
+        WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);
 
         paymentRequestDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docId);
-        assertTrue("Document should now be final.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());
+        assertTrue("Document should now be final.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isFinal());
     }
 
     // Commented due to Jira issue preventing documents created by PREQ from going to final
@@ -156,15 +158,15 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
     public final void testClosePo() throws Exception {
         // route a preq and mark the close po indicator
         /*
-                purchaseOrderDocument = createPurchaseOrderDocument(PurchaseOrderDocumentFixture.CLOSE_PO_WITH_PREQ, true);        
-         
-                paymentRequestDocument = createPaymentRequestDocument(PaymentRequestDocumentFixture.CLOSE_PO_WITH_PREQ, 
+                purchaseOrderDocument = createPurchaseOrderDocument(PurchaseOrderDocumentFixture.CLOSE_PO_WITH_PREQ, true);
+
+                paymentRequestDocument = createPaymentRequestDocument(PaymentRequestDocumentFixture.CLOSE_PO_WITH_PREQ,
                         purchaseOrderDocument, true, new KualiDecimal[] {new KualiDecimal(100)});
 
                 final String docId = paymentRequestDocument.getDocumentNumber();
                 final String poDocId = paymentRequestDocument.getPurchaseOrderDocument().getDocumentNumber();
                 Thread.sleep(5000);  // attempt to make sure any other async processing on this document is done
-                
+
                 // another attempt to solve the problem of OptimisticLockException in the call to routeDocument... still no good.
         //        for (int i = 0; i < 10; i++) {
         //            try {
@@ -175,20 +177,20 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
         //                Thread.sleep(6000);
         //            }
         //        }
-                WorkflowTestUtils.waitForNodeChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);                       
+                WorkflowTestUtils.waitForNodeChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);
 
                 // now route
                 changeCurrentUser(rorenfro);
                 paymentRequestDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docId);
                 assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(paymentRequestDocument, ACCOUNT_REVIEW));
-                assertTrue("Document should be enroute.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute());
+                assertTrue("Document should be enroute.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isEnroute());
                 assertTrue("rorenfro should have an approve request.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
-                documentService.approveDocument(paymentRequestDocument, "Test approving as rorenfro", null); 
+                documentService.approveDocument(paymentRequestDocument, "Test approving as rorenfro", null);
 
-                WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
+                WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);
 
                 // check if the purchase order document is closed
-                PurchaseOrderDocument purchaseOrderDocument =(PurchaseOrderDocument) purchaseOrderService.getCurrentPurchaseOrder(paymentRequestDocument.getPurchaseOrderDocument().getPurapDocumentIdentifier()); //documentService.getByDocumentHeaderId(poDocId); 
+                PurchaseOrderDocument purchaseOrderDocument =(PurchaseOrderDocument) purchaseOrderService.getCurrentPurchaseOrder(paymentRequestDocument.getPurchaseOrderDocument().getPurapDocumentIdentifier()); //documentService.getByDocumentHeaderId(poDocId);
                 assertTrue( "Purchase order should be closed.", PurchaseOrderStatuses.CLOSED.equals( purchaseOrderDocument.getStatusCode() ) );
                 */
     }
@@ -198,68 +200,68 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
     public final void testReopenPo() throws Exception {
         // route a preq and mark the close po indicator
         /*
-        purchaseOrderDocument = createPurchaseOrderDocument(PurchaseOrderDocumentFixture.REOPEN_PO_WITH_PREQ, true);        
-        paymentRequestDocument = createPaymentRequestDocument(PaymentRequestDocumentFixture.REOPEN_PO_WITH_PREQ, 
+        purchaseOrderDocument = createPurchaseOrderDocument(PurchaseOrderDocumentFixture.REOPEN_PO_WITH_PREQ, true);
+        paymentRequestDocument = createPaymentRequestDocument(PaymentRequestDocumentFixture.REOPEN_PO_WITH_PREQ,
                 purchaseOrderDocument, true, new KualiDecimal[] {new KualiDecimal(100)});
 
         final String docId = paymentRequestDocument.getDocumentNumber();
         final String poDocId = paymentRequestDocument.getPurchaseOrderDocument().getDocumentNumber();
         AccountingDocumentTestUtils.routeDocument(paymentRequestDocument, documentService);
-        WorkflowTestUtils.waitForNodeChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);                       
+        WorkflowTestUtils.waitForNodeChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);
 
         //close po
         changeCurrentUser(parke);
         purchaseOrderDocument.setStatusCode(PurchaseOrderStatuses.CLOSED);
         AccountingDocumentTestUtils.testSaveDocument(purchaseOrderDocument, documentService);
         purchaseOrderDocument =(PurchaseOrderDocument) documentService.getByDocumentHeaderId(poDocId);
-        
+
         // now route
         changeCurrentUser(rorenfro);
         paymentRequestDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docId);
         assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(paymentRequestDocument, ACCOUNT_REVIEW));
-        assertTrue("Document should be enroute.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute());
+        assertTrue("Document should be enroute.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isEnroute());
         assertTrue("rorenfro should have an approve request.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
-        documentService.approveDocument(paymentRequestDocument, "Test approving as rorenfro", null); 
+        documentService.approveDocument(paymentRequestDocument, "Test approving as rorenfro", null);
 
-        WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
+        WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);
 
         // check if the purchase order document is open
-        PurchaseOrderDocument purchaseOrderDocument =(PurchaseOrderDocument)purchaseOrderService.getCurrentPurchaseOrder(paymentRequestDocument.getPurchaseOrderDocument().getPurapDocumentIdentifier()); //documentService.getByDocumentHeaderId(poDocId); 
-        assertTrue( "Purchase order should be opened.", PurchaseOrderStatuses.OPEN.equals( purchaseOrderDocument.getStatusCode() ) );  
+        PurchaseOrderDocument purchaseOrderDocument =(PurchaseOrderDocument)purchaseOrderService.getCurrentPurchaseOrder(paymentRequestDocument.getPurchaseOrderDocument().getPurapDocumentIdentifier()); //documentService.getByDocumentHeaderId(poDocId);
+        assertTrue( "Purchase order should be opened.", PurchaseOrderStatuses.OPEN.equals( purchaseOrderDocument.getStatusCode() ) );
         */
     }
 
     @ConfigureContext(session = appleton, shouldCommitTransactions = false)
     public final void testRequestCancel() throws Exception {
         // route a preq and mark the preq as requested cancel
-        /*purchaseOrderDocument = createPurchaseOrderDocument(PurchaseOrderDocumentFixture.PO_APPROVAL_REQUIRED, false);        
-        paymentRequestDocument = createPaymentRequestDocument(PaymentRequestDocumentFixture.PREQ_APPROVAL_REQUIRED, 
+        /*purchaseOrderDocument = createPurchaseOrderDocument(PurchaseOrderDocumentFixture.PO_APPROVAL_REQUIRED, false);
+        paymentRequestDocument = createPaymentRequestDocument(PaymentRequestDocumentFixture.PREQ_APPROVAL_REQUIRED,
                 purchaseOrderDocument, true, new KualiDecimal[] {new KualiDecimal(100)});
 
         final String docId = paymentRequestDocument.getDocumentNumber();
         final String poDocId = paymentRequestDocument.getPurchaseOrderDocument().getDocumentNumber();
-        AccountingDocumentTestUtils.testRouteDocument(paymentRequestDocument, documentService);              
+        AccountingDocumentTestUtils.testRouteDocument(paymentRequestDocument, documentService);
         WorkflowTestUtils.waitForNodeChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);
-        
-        paymentRequestDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docId);        
-        PaymentRequestDocumentActionAuthorizer preqAA = new PaymentRequestDocumentActionAuthorizer(paymentRequestDocument);                
+
+        paymentRequestDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docId);
+        PaymentRequestDocumentActionAuthorizer preqAA = new PaymentRequestDocumentActionAuthorizer(paymentRequestDocument);
         assertTrue( "Payment Request should allow remove request cancel.", preqAA.canRemoveRequestCancel() );*/
     }
 
     @ConfigureContext(session = appleton, shouldCommitTransactions = false)
     public final void testRequestHold() throws Exception {
         // route a preq and mark the preq as requested hold
-        /*purchaseOrderDocument = createPurchaseOrderDocument(PurchaseOrderDocumentFixture.REQUEST_HOLD_PREQ, false);        
-        paymentRequestDocument = createPaymentRequestDocument(PaymentRequestDocumentFixture.REQUEST_HOLD_PREQ, 
+        /*purchaseOrderDocument = createPurchaseOrderDocument(PurchaseOrderDocumentFixture.REQUEST_HOLD_PREQ, false);
+        paymentRequestDocument = createPaymentRequestDocument(PaymentRequestDocumentFixture.REQUEST_HOLD_PREQ,
                 purchaseOrderDocument, true, new KualiDecimal[] {new KualiDecimal(100)});
 
         final String docId = paymentRequestDocument.getDocumentNumber();
         final String poDocId = paymentRequestDocument.getPurchaseOrderDocument().getDocumentNumber();
         AccountingDocumentTestUtils.routeDocument(paymentRequestDocument, documentService);
-        WorkflowTestUtils.waitForNodeChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);                       
+        WorkflowTestUtils.waitForNodeChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);
 
-        paymentRequestDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docId);        
-        PaymentRequestDocumentActionAuthorizer preqAA = new PaymentRequestDocumentActionAuthorizer(paymentRequestDocument);                
+        paymentRequestDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docId);
+        PaymentRequestDocumentActionAuthorizer preqAA = new PaymentRequestDocumentActionAuthorizer(paymentRequestDocument);
         assertTrue( "Payment Request should allow remove hold.", preqAA.canRemoveHold());*/
     }
 
@@ -268,7 +270,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
     }
 
     /**
-     * 
+     *
      * Test Usetax and split accounting
      * @throws Exception
      */
@@ -327,17 +329,17 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
         changeCurrentUser(rorenfro);
         paymentRequestDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docId);
         assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(paymentRequestDocument, ACCOUNT_REVIEW));
-        assertTrue("Document should be enroute.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute());
+        assertTrue("Document should be enroute.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isEnroute());
         assertTrue("rorenfro should have an approve request.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
 
         // TODO: This assert needs to be based on non-DB data. Until this is re-written, it will have to be manually changed every time the DB changes.
         // assertTrue("total values should be 183", paymentRequestDocument.getTotalDollarAmount().equals(new KualiDecimal(183)));
         documentService.approveDocument(paymentRequestDocument, "Test approving as rorenfro", null);
 
-        WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
+        WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);
 
         paymentRequestDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docId);
-        assertTrue("Document should now be final.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());
+        assertTrue("Document should now be final.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isFinal());
 
         // paymentRequestDocument.getItems();
 
@@ -346,7 +348,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
     /**
      * Creates a purchase order document with a provided purchase order document.
      * At a minimum saves the document, but can additionally route the document (stipulation: coded to work only for budget review).
-     * 
+     *
      * @param poFixture - purchase order document fixture to source test data
      * @param routePO - An option to route the purchase order if set to true
      * @return
@@ -375,12 +377,12 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
         if (routePO) {
             AccountingDocumentTestUtils.testRouteDocument(po, documentService);
             WorkflowTestUtils.waitForStatusChange(po.getDocumentHeader().getWorkflowDocument(), "F");
-            /*WorkflowTestUtils.waitForNodeChange(po.getDocumentHeader().getWorkflowDocument(), BUDGET_REVIEW);            
-            
+            /*WorkflowTestUtils.waitForNodeChange(po.getDocumentHeader().getWorkflowDocument(), BUDGET_REVIEW);
+
             changeCurrentUser(butt);
             po =(PurchaseOrderDocument) documentService.getByDocumentHeaderId(poDocId);
             AccountingDocumentTestUtils.approveDocument(po, documentService);
-            WorkflowTestUtils.waitForStatusChange(po.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
+            WorkflowTestUtils.waitForStatusChange(po.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);
             */
             po = (PurchaseOrderDocument) documentService.getByDocumentHeaderId(poDocId);
         }
@@ -389,7 +391,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
     }
 
     /* Populates the Purchase Order Item using the info contained in this fixture with split accounting 30/70
-     * 
+     *
      * @return the populated Purchase Order Item.
      */
     private PurchaseOrderItem createPoItem() {
@@ -416,7 +418,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
 
         itemIdentifier = sas.getNextAvailableSequenceNumber("PO_ITM_ID", PurchaseOrderDocument.class).intValue();
         PurchaseOrderItemUseTax newItemUseTax = new PurchaseOrderItemUseTax();
-        newItemUseTax.setAutoIncrementSet(true);
+//        newItemUseTax.setAutoIncrementSet(true);
         newItemUseTax.setChartOfAccountsCode(chart_code);
         newItemUseTax.setAccountNumber("0102395");
         newItemUseTax.setFinancialObjectCode("9016");
@@ -427,7 +429,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
 
         itemIdentifier = sas.getNextAvailableSequenceNumber("PO_ITM_ID", PurchaseOrderDocument.class).intValue();
         newItemUseTax = new PurchaseOrderItemUseTax();
-        newItemUseTax.setAutoIncrementSet(true);
+//        newItemUseTax.setAutoIncrementSet(true);
         newItemUseTax.setChartOfAccountsCode(chart_code);
         newItemUseTax.setAccountNumber("0102395");
         newItemUseTax.setFinancialObjectCode("9015");
@@ -438,7 +440,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
 
         itemIdentifier = sas.getNextAvailableSequenceNumber("PO_ITM_ID", PurchaseOrderDocument.class).intValue();
         newItemUseTax = new PurchaseOrderItemUseTax();
-        newItemUseTax.setAutoIncrementSet(true);
+//        newItemUseTax.setAutoIncrementSet(true);
         newItemUseTax.setChartOfAccountsCode(chart_code);
         newItemUseTax.setAccountNumber("0102395");
         newItemUseTax.setFinancialObjectCode("9016");
@@ -470,7 +472,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
     }
 
     /**
-     * 
+     *
      * generate list of usetax items to test with
      * @return
      * @throws Exception
@@ -484,7 +486,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
 
     /**
      * Creates a new payment request document and additionally saves it.
-     * 
+     *
      * @param preqFixture - The payment request document fixture to source test data from
      * @param po - The purchase order to copy select values from and to link to the payment request document
      * @param copyPoItems - An option to copy the items from the purchase order if set to true
@@ -527,7 +529,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
     /**
      * Populates fields on a payment request with data from a purchase order, but
      * does not copy the purchase order items.
-     * 
+     *
      * @param preq
      * @param po
      */
@@ -596,7 +598,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
      * Updates the quanities for each payment request item in order.
      * Also updates the extended price for above and below the line items,
      * and finally updates the amounts for each accounting line.
-     * 
+     *
      * @param preq
      * @param quantityList
      */

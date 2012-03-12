@@ -31,7 +31,7 @@ import org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsService
 import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
 import org.kuali.kfs.module.bc.util.BudgetConstructionUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -41,7 +41,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetConstructionLevelSummaryReportService {
 
     BudgetConstructionLevelSummaryReportDao budgetConstructionLevelSummaryReportDao;
-    KualiConfigurationService kualiConfigurationService;
+    ConfigurationService kualiConfigurationService;
     BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
 
     /**
@@ -115,7 +115,7 @@ public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetCo
         orgLevelSummaryReportEntry.setOrgChartOfAccountsCode(levelSummary.getOrganizationChartOfAccountsCode());
 
         if (orgChartDesc == null) {
-            orgLevelSummaryReportEntry.setOrgChartOfAccountDescription(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
+            orgLevelSummaryReportEntry.setOrgChartOfAccountDescription(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
         }
         else {
             orgLevelSummaryReportEntry.setOrgChartOfAccountDescription(orgChartDesc);
@@ -123,7 +123,7 @@ public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetCo
 
         orgLevelSummaryReportEntry.setOrganizationCode(levelSummary.getOrganizationCode());
         if (orgName == null) {
-            orgLevelSummaryReportEntry.setOrganizationName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_ORGANIZATION_NAME));
+            orgLevelSummaryReportEntry.setOrganizationName(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_ORGANIZATION_NAME));
         }
         else {
             orgLevelSummaryReportEntry.setOrganizationName(orgName);
@@ -131,7 +131,7 @@ public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetCo
 
         orgLevelSummaryReportEntry.setChartOfAccountsCode(levelSummary.getChartOfAccountsCode());
         if (chartDesc == null) {
-            orgLevelSummaryReportEntry.setChartOfAccountDescription(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
+            orgLevelSummaryReportEntry.setChartOfAccountDescription(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION));
         }
         else {
             orgLevelSummaryReportEntry.setChartOfAccountDescription(chartDesc);
@@ -139,7 +139,7 @@ public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetCo
 
         orgLevelSummaryReportEntry.setFundGroupCode(levelSummary.getSubFundGroup().getFundGroupCode());
         if (fundGroupDes == null) {
-            orgLevelSummaryReportEntry.setFundGroupName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_FUNDGROUP_NAME));
+            orgLevelSummaryReportEntry.setFundGroupName(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_FUNDGROUP_NAME));
         }
         else {
             orgLevelSummaryReportEntry.setFundGroupName(fundGroupDes);
@@ -147,7 +147,7 @@ public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetCo
 
         orgLevelSummaryReportEntry.setSubFundGroupCode(levelSummary.getSubFundGroupCode());
         if (subFundGroupDes == null) {
-            orgLevelSummaryReportEntry.setSubFundGroupDescription(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_SUBFUNDGROUP_DESCRIPTION));
+            orgLevelSummaryReportEntry.setSubFundGroupDescription(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_SUBFUNDGROUP_DESCRIPTION));
         }
         else {
             orgLevelSummaryReportEntry.setSubFundGroupDescription(subFundGroupDes);
@@ -163,8 +163,8 @@ public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetCo
         orgLevelSummaryReportEntry.setHeader31("FTE");
         orgLevelSummaryReportEntry.setHeader40("FTE");
         orgLevelSummaryReportEntry.setHeader4("Amount");
-        orgLevelSummaryReportEntry.setHeader5(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_HEADER_CHANGE));
-        orgLevelSummaryReportEntry.setHeader6(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_HEADER_CHANGE));
+        orgLevelSummaryReportEntry.setHeader5(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.MSG_REPORT_HEADER_CHANGE));
+        orgLevelSummaryReportEntry.setHeader6(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.MSG_REPORT_HEADER_CHANGE));
         orgLevelSummaryReportEntry.setConsHdr("");
 
         // For page break for objectLevelCode
@@ -182,7 +182,7 @@ public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetCo
     public void buildReportsBody(BudgetConstructionOrgLevelSummaryReport orgLevelSummaryReportEntry, BudgetConstructionLevelSummary levelSummary) {
 
         if (levelSummary.getFinancialObjectLevel() == null) {
-            orgLevelSummaryReportEntry.setFinancialObjectLevelName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_OBJECT_LEVEL_NAME));
+            orgLevelSummaryReportEntry.setFinancialObjectLevelName(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_OBJECT_LEVEL_NAME));
         }
         else {
             orgLevelSummaryReportEntry.setFinancialObjectLevelName(levelSummary.getFinancialObjectLevel().getFinancialObjectLevelName());
@@ -245,10 +245,10 @@ public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetCo
                 orgLevelSummaryReportEntry.setGrossPercentChange(BudgetConstructionReportHelper.calculatePercent(gexpAndTypeAmountChange, gexpAndTypeTotal.getGrossFinancialBeginningBalanceLineAmount()));
 
                 if (levelSummary.getIncomeExpenseCode().equals(BCConstants.Report.INCOME_EXP_TYPE_A)) {
-                    orgLevelSummaryReportEntry.setTypeDesc(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_INCOME_EXP_DESC_UPPERCASE_REVENUE));
+                    orgLevelSummaryReportEntry.setTypeDesc(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.MSG_REPORT_INCOME_EXP_DESC_UPPERCASE_REVENUE));
                 }
                 else {
-                    orgLevelSummaryReportEntry.setTypeDesc(kualiConfigurationService.getPropertyString(BCKeyConstants.MSG_REPORT_INCOME_EXP_DESC_EXPENDITURE_NET_TRNFR));
+                    orgLevelSummaryReportEntry.setTypeDesc(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.MSG_REPORT_INCOME_EXP_DESC_EXPENDITURE_NET_TRNFR));
                 }
                 orgLevelSummaryReportEntry.setTypePositionCsfLeaveFteQuantity(BudgetConstructionReportHelper.setDecimalDigit(gexpAndTypeTotal.getTypePositionCsfLeaveFteQuantity(), 2, true));
                 orgLevelSummaryReportEntry.setTypePositionCsfFullTimeEmploymentQuantity(BudgetConstructionReportHelper.setDecimalDigit(gexpAndTypeTotal.getTypePositionCsfFullTimeEmploymentQuantity(), 2, true));
@@ -495,7 +495,7 @@ public class BudgetConstructionLevelSummaryReportServiceImpl implements BudgetCo
         this.budgetConstructionReportsServiceHelper = budgetConstructionReportsServiceHelper;
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 }

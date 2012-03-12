@@ -19,13 +19,10 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 public class CustomerInvoiceWriteoffLookupResult extends TransientBusinessObjectBase{
     
@@ -40,7 +37,7 @@ public class CustomerInvoiceWriteoffLookupResult extends TransientBusinessObject
     private List<CustomerInvoiceDocument> customerInvoiceDocuments;    
     
     public CustomerInvoiceWriteoffLookupResult(){
-        customerInvoiceDocuments = new TypedArrayList(CustomerInvoiceDocument.class);
+        customerInvoiceDocuments = new ArrayList<CustomerInvoiceDocument>();
     }
     
     public String getCollectionStatus() {
@@ -117,8 +114,8 @@ public class CustomerInvoiceWriteoffLookupResult extends TransientBusinessObject
         return customerInvoiceDocumentAttributesForDisplay;
     }
     
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         // TODO Auto-generated method stub
         return null;
     }

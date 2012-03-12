@@ -24,9 +24,9 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.kfs.module.purap.businessobject.NegativePaymentRequestApprovalLimit;
 import org.kuali.kfs.module.purap.document.dataaccess.NegativePaymentRequestApprovalLimitDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
 
 /**
  * OJB Implementation of NegativePaymentRequestApprovalLimitDao.
@@ -82,7 +82,7 @@ public class NegativePaymentRequestApprovalLimitDaoOjb extends PlatformAwareDaoB
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.dataaccess.NegativePaymentRequestApprovalLimitDao#findAboveLimit(org.kuali.rice.kns.util.KualiDecimal)
+     * @see org.kuali.kfs.module.purap.document.dataaccess.NegativePaymentRequestApprovalLimitDao#findAboveLimit(org.kuali.rice.core.api.util.type.KualiDecimal)
      */
     public Collection<NegativePaymentRequestApprovalLimit> findAboveLimit(KualiDecimal limit) {
         LOG.debug("Entering findAboveLimit(KualiDecimal)");
@@ -95,7 +95,7 @@ public class NegativePaymentRequestApprovalLimitDaoOjb extends PlatformAwareDaoB
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.document.dataaccess.NegativePaymentRequestApprovalLimitDao#findBelowLimit(org.kuali.rice.kns.util.KualiDecimal)
+     * @see org.kuali.kfs.module.purap.document.dataaccess.NegativePaymentRequestApprovalLimitDao#findBelowLimit(org.kuali.rice.core.api.util.type.KualiDecimal)
      */
     public Collection<NegativePaymentRequestApprovalLimit> findBelowLimit(KualiDecimal limit) {
         LOG.debug("Entering findBelowLimit(KualiDecimal)");
@@ -113,7 +113,7 @@ public class NegativePaymentRequestApprovalLimitDaoOjb extends PlatformAwareDaoB
      */
     protected Criteria buildActiveCriteria(){
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(KNSPropertyConstants.ACTIVE, true);
+        criteria.addEqualTo(KRADPropertyConstants.ACTIVE, true);
         
         return criteria;
     }

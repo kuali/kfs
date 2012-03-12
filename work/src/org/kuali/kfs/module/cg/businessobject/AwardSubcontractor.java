@@ -18,15 +18,15 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * This class represents an association between an award and a subcontractor. It's like a reference to the subcontractor from the
  * award. This way an award can maintain a collection of these references instead of owning subcontractors directly.
  */
-public class AwardSubcontractor extends PersistableBusinessObjectBase implements Inactivateable {
+public class AwardSubcontractor extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String awardSubcontractorAmendmentNumber;
     private String awardSubcontractorNumber;
@@ -238,25 +238,25 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase implements
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.Inactivateable#setActive(boolean)
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#setActive(boolean)
      */
     public void setActive(boolean active) {
         this.active = active;
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.Inactivateable#isActive()
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#isActive()
      */
     public boolean isActive() {
         return active;
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
     @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("awardSubcontractorAmendmentNumber", this.awardSubcontractorAmendmentNumber);
         m.put("awardSubcontractorNumber", this.awardSubcontractorNumber);

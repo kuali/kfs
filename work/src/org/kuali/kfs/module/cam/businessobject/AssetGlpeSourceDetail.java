@@ -20,8 +20,8 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class AssetGlpeSourceDetail extends PersistableBusinessObjectBase implements GeneralLedgerPendingEntrySourceDetail {
     private String accountNumber;
@@ -262,8 +262,8 @@ public class AssetGlpeSourceDetail extends PersistableBusinessObjectBase impleme
     }
 
 
-    @Override
-    protected LinkedHashMap<String, String> toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
         map.put("accountNumber", this.accountNumber);
         map.put("amount", this.chartOfAccountsCode);
@@ -326,7 +326,7 @@ public class AssetGlpeSourceDetail extends PersistableBusinessObjectBase impleme
      * We have to return from this method directly since this is not a real persistent class and if we call super, it will run into
      * "Class not found in OJB repository" exception.
      * 
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#refresh()
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#refresh()
      */
     @Override
     public void refresh() {
@@ -338,7 +338,7 @@ public class AssetGlpeSourceDetail extends PersistableBusinessObjectBase impleme
      * We have to return from this method directly since this is not a real persistent class and if we call super, it will run into
      * "Class not found in OJB repository" exception.
      * 
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#refreshNonUpdateableReferences()
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#refreshNonUpdateableReferences()
      */
     @Override
     public void refreshNonUpdateableReferences() {
@@ -350,7 +350,7 @@ public class AssetGlpeSourceDetail extends PersistableBusinessObjectBase impleme
      * We have to return from this method directly since this is not a real persistent class and if we call super, it will run into
      * "Class not found in OJB repository" exception.
      * 
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#refreshReferenceObject(java.lang.String)
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#refreshReferenceObject(java.lang.String)
      */
     @Override
     public void refreshReferenceObject(String referenceObjectName) {

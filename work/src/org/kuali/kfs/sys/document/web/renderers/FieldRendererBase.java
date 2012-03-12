@@ -23,9 +23,9 @@ import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Base class for all renderers which render fields
@@ -242,7 +242,7 @@ public abstract class FieldRendererBase implements FieldRenderer {
      */
     private String getRiceImageBase() {
         if (riceImageBase == null) {
-            riceImageBase = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KNSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
+            riceImageBase = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KRADConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
         }
         return riceImageBase;
     }

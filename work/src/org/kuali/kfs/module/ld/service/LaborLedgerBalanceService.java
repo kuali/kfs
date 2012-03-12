@@ -51,7 +51,7 @@ public interface LaborLedgerBalanceService {
      * @return an Iterator over all balances for a given year and search criteria that include the accounts of balances must belong
      *         to the given sub fund group or fund group
      */
-    public Iterator<LedgerBalanceForYearEndBalanceForward> findBalancesForFiscalYear(Integer fiscalYear, Map<String, String> fieldValues, List<String> subFundGroupCodes, List<String> fundGroupCodes);
+    public Iterator<LedgerBalanceForYearEndBalanceForward> findBalancesForFiscalYear(Integer fiscalYear, Map<String, String> fieldValues, Collection<String> subFundGroupCodes, Collection<String> fundGroupCodes);
 
     /**
      * This method gets the size of balance entries according to input fields and values

@@ -17,37 +17,40 @@ package org.kuali.kfs.coa.identity;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.coa.service.OrganizationService;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kim.bo.role.dto.DelegateInfo;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.support.KimDelegationTypeService;
-import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.common.delegate.DelegateMember;
+import org.kuali.rice.kim.api.role.RoleMembership;
+import org.kuali.rice.kim.api.role.RoleMembership.Builder;
+import org.kuali.rice.kim.framework.common.delegate.DelegationTypeService;
+import org.kuali.rice.kim.impl.common.delegate.DelegateMemberBo;
+import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 
-public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends KimRoleTypeServiceBase implements KimDelegationTypeService {
+public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends RoleTypeServiceBase implements DelegationTypeService {
     private static final Logger LOG = Logger.getLogger(OrganizationHierarchyAwareRoleTypeServiceBase.class);
     protected ChartService chartService;
     protected OrganizationService organizationService;
     protected static final String DOCUMENT_TYPE_NAME = "ORR";
 
-// RICE_20_INSERT    List<String> workflowRoutingAttributes = new ArrayList<String>(2);
+   List<String> workflowRoutingAttributes = new ArrayList<String>(2);
     {
         workflowRoutingAttributes.add( KfsKimAttributes.CHART_OF_ACCOUNTS_CODE );
         workflowRoutingAttributes.add( KfsKimAttributes.ORGANIZATION_CODE );
     }    
     
-// RICE_20_INSERT    @Override
-// RICE_20_INSERT    public List<String> getWorkflowRoutingAttributes(String routeLevel) {
-// RICE_20_INSERT        return Collections.unmodifiableList(workflowRoutingAttributes);
-// RICE_20_INSERT    }
+   @Override
+   public List<String> getWorkflowRoutingAttributes(String routeLevel) {
+       return Collections.unmodifiableList(workflowRoutingAttributes);
+   }
     
     @Override
     public String getWorkflowDocumentTypeName() {
@@ -74,21 +77,21 @@ public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends KimR
     }
     
     @Override
-    public AttributeSet convertQualificationForMemberRoles(String namespaceCode, String roleName, String memberRoleNamespaceCode, String memberRoleName, AttributeSet qualification) {
+    public Map<String,String> convertQualificationForMemberRoles(String namespaceCode, String roleName, String memberRoleNamespaceCode, String memberRoleName, Map<String,String> qualification) {
         if ( qualification == null ) {
             return null;
         }
         // only attempt the conversion if :
         // (a) there is not already a campus code provided by the document 
         // and (b) we have a chart and organization to resolve
-        if ( StringUtils.isBlank( qualification.get(KfsKimAttributes.CAMPUS_CODE ) )
+        if ( StringUtils.isBlank( qualification.get(KimConstants.AttributeConstants.CAMPUS_CODE ) )
                 && StringUtils.isNotBlank( KfsKimAttributes.CHART_OF_ACCOUNTS_CODE)
                 && StringUtils.isNotBlank( KfsKimAttributes.ORGANIZATION_CODE ) ) {
-            AttributeSet newQualification = new AttributeSet(qualification);
+            Map<String,String> newQualification = new HashMap<String,String>(qualification);
             try {
                 Organization org = organizationService.getByPrimaryId(qualification.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE), qualification.get(KfsKimAttributes.ORGANIZATION_CODE));
                 if ( org != null ) {
-                    newQualification.put(KfsKimAttributes.CAMPUS_CODE, org.getOrganizationPhysicalCampusCode());
+                    newQualification.put(KimConstants.AttributeConstants.CAMPUS_CODE, org.getOrganizationPhysicalCampusCode());
                 } else {
                     if ( LOG.isDebugEnabled() ) {
                         LOG.debug( "Invalid Chart/Org passed to convertQualificationForMemberRoles: " + namespaceCode + "/" + roleName + "/" + memberRoleNamespaceCode + "/" + memberRoleName + "/" + qualification );
@@ -103,16 +106,16 @@ public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends KimR
         }
     }
 
-    public boolean doesDelegationQualifierMatchQualification(AttributeSet qualification, AttributeSet delegationQualifier) {
-        return performMatch(translateInputAttributeSet(qualification), delegationQualifier);
+    public boolean doesDelegationQualifierMatchQualification(Map<String,String> qualification, Map<String,String> delegationQualifier) {
+        return performMatch(translateInputAttributes(qualification), delegationQualifier);
     }
 
-    public List<DelegateInfo> doDelegationQualifiersMatchQualification(AttributeSet qualification, List<DelegateInfo> delegationMemberList) {
-        AttributeSet translatedQualification = translateInputAttributeSet(qualification);
-        List<DelegateInfo> matchingMemberships = new ArrayList<DelegateInfo>();
-        for (DelegateInfo dmi : delegationMemberList) {
-            if (performMatch(translatedQualification, dmi.getQualifier())) {
-                matchingMemberships.add(dmi);
+    public List<DelegateMember> doDelegationQualifiersMatchQualification(Map<String,String> qualification, List<DelegateMemberBo> delegationMemberList) {
+        Map<String,String> translatedQualification = translateInputAttributes(qualification);
+        List<DelegateMember> matchingMemberships = new ArrayList<DelegateMember>();
+        for (DelegateMemberBo dmi : delegationMemberList) {
+             if (performMatch(translatedQualification, dmi.getQualifier())) {
+                matchingMemberships.add(DelegateMemberBo.to(dmi));
             }
         }
         return matchingMemberships;
@@ -127,17 +130,17 @@ public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends KimR
         this.chartService = chartService;
     }
     
-    @Override
-    public List<RoleMembershipInfo> sortRoleMembers(List<RoleMembershipInfo> roleMembers) {
+
+    public List<RoleMembership> sortRoleMembers(List<RoleMembership> roleMembers) {
         List<SortableRoleMembershipHolder> listToSort = new ArrayList<SortableRoleMembershipHolder>( roleMembers.size() );
         // build the sortable list
-        for ( RoleMembershipInfo rmi : roleMembers ) {
+        for ( RoleMembership rmi : roleMembers ) {
             listToSort.add( new SortableRoleMembershipHolder( rmi ) );
         }
         // sort it
         Collections.sort(listToSort);
         // restore them to the list in their sorted order
-        roleMembers.clear();
+        List<RoleMembership> newRoleMembers = new ArrayList<RoleMembership>(); // need a new list, because roleMembers is not mutable
         int group = 0; // counter for the group number to add to the roleSortingCode
         String lastRoleSortingCode = "";
         for ( SortableRoleMembershipHolder srmh : listToSort ) {
@@ -145,24 +148,25 @@ public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends KimR
                 group++;
                 lastRoleSortingCode = srmh.rmi.getRoleSortingCode();
             }
-            
-            srmh.rmi.setRoleSortingCode( StringUtils.leftPad(Integer.toString(group), 3, '0') + "/" + srmh.rmi.getRoleSortingCode() );
-            roleMembers.add( srmh.rmi );
+            Builder builder = RoleMembership.Builder.create( srmh.rmi);
+            builder.setRoleSortingCode(StringUtils.leftPad(Integer.toString(group), 3, '0') + "/" + srmh.rmi.getRoleSortingCode() );
+            newRoleMembers.add(builder.build());
         }
-        return roleMembers;
+        return newRoleMembers;
     }
 
     protected class SortableRoleMembershipHolder implements Comparable<SortableRoleMembershipHolder> {
         
         public String chart;
         public String org;
-        public RoleMembershipInfo rmi;
+        public RoleMembership rmi;
         
-        public SortableRoleMembershipHolder( RoleMembershipInfo rmi ) {
-            this.rmi = rmi;
+        public SortableRoleMembershipHolder( RoleMembership rmi ) {
             chart = rmi.getQualifier().get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
             org = rmi.getQualifier().get(KfsKimAttributes.ORGANIZATION_CODE);
-            rmi.setRoleSortingCode( chart+"-"+org );
+            Builder builder = RoleMembership.Builder.create(rmi);
+            builder.setRoleSortingCode(chart+"-"+org);
+            this.rmi = builder.build();
         }
         
         public int compareTo(SortableRoleMembershipHolder o) {

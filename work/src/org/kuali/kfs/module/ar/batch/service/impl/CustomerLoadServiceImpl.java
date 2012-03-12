@@ -57,18 +57,18 @@ import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.InitiateDirectoryBase;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.exception.ParseException;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.MessageMap;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.MessageMap;
 
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
@@ -89,7 +89,7 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
     
     private BatchInputFileService batchInputFileService;
     private CustomerService customerService;
-    private KualiConfigurationService configService;
+    private ConfigurationService configService;
     private DocumentService docService;
     private ParameterService parameterService;
     private OrganizationService orgService;
@@ -373,8 +373,8 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
     /**
      * @see org.kuali.kfs.module.ar.batch.service.CustomerLoadService#validateAndPrepare(java.util.List, java.util.List, boolean)
      */
-    public boolean validateAndPrepare(List<CustomerDigesterVO> customerUploads, List<MaintenanceDocument> customerMaintDocs, boolean useGlobalErrorMap) {
-        return validateCustomers(customerUploads, customerMaintDocs, new CustomerLoadFileResult(), useGlobalErrorMap);
+    public boolean validateAndPrepare(List<CustomerDigesterVO> customerUploads, List<MaintenanceDocument> customerMaintDocs, boolean useGlobalMessageMap) {
+        return validateCustomers(customerUploads, customerMaintDocs, new CustomerLoadFileResult(), useGlobalMessageMap);
     }
     
     /**
@@ -384,10 +384,10 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
      * @param customerUploads
      * @param customerMaintDocs
      * @param reporter
-     * @param useGlobalErrorMap
+     * @param useGlobalMessageMap
      * @return
      */
-    protected boolean validateCustomers(List<CustomerDigesterVO> customerUploads, List<MaintenanceDocument> customerMaintDocs, CustomerLoadFileResult reporter, boolean useGlobalErrorMap) {
+    protected boolean validateCustomers(List<CustomerDigesterVO> customerUploads, List<MaintenanceDocument> customerMaintDocs, CustomerLoadFileResult reporter, boolean useGlobalMessageMap) {
         
         //  fail if empty or null list
         if (customerUploads == null) {
@@ -396,7 +396,7 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
         }
         if (customerUploads.isEmpty()) {
             reporter.addFileErrorMessage("An empty list of Customer uploads was passed in for validation.  As a result, no validation can be done.");
-            if (useGlobalErrorMap) {
+            if (useGlobalMessageMap) {
                 GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_SAVE, new String[] { "An empty list of Customer uploads was passed in for validation.  As a result, no validation was done." });
             }
             return false;
@@ -406,7 +406,7 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
         boolean docSucceeded = true;
         
         //  check to make sure the input file doesnt have more docs than we allow in one batch file
-        String maxRecordsString = parameterService.getParameterValue(CustomerLoadStep.class, MAX_RECORDS_PARM_NAME);
+        String maxRecordsString = parameterService.getParameterValueAsString(CustomerLoadStep.class, MAX_RECORDS_PARM_NAME);
         if (StringUtils.isBlank(maxRecordsString) || !StringUtils.isNumeric(maxRecordsString)) {
             criticalError("Expected 'Max Records Per Document' System Parameter is not available.");
         }
@@ -414,7 +414,7 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
         if (customerUploads.size() > maxRecords.intValue()) {
             LOG.error("Too many records passed in for this file.  " + customerUploads.size() + " were passed in, and the limit is " + maxRecords + ".  As a result, no validation was done.");
             reporter.addFileErrorMessage("Too many records passed in for this file.  " + customerUploads.size() + " were passed in, and the limit is " + maxRecords + ".  As a result, no validation was done.");
-            if (useGlobalErrorMap) {
+            if (useGlobalMessageMap) {
                 GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_SAVE, new String[] { "Too many records passed in for this file.  " + customerUploads.size() + " were passed in, and the limit is " + maxRecords + ".  As a result, no validation was done." });
             }
             return false;
@@ -479,10 +479,10 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
 
             //  set the maintainable actions, so isNew and isEdit on the maint doc return correct values
             if (isNew) {
-                transientMaintDoc.getNewMaintainableObject().setMaintenanceAction(KNSConstants.MAINTENANCE_NEW_ACTION);
+                transientMaintDoc.getNewMaintainableObject().setMaintenanceAction(KRADConstants.MAINTENANCE_NEW_ACTION);
             }
             else {
-                transientMaintDoc.getNewMaintainableObject().setMaintenanceAction(KNSConstants.MAINTENANCE_EDIT_ACTION);
+                transientMaintDoc.getNewMaintainableObject().setMaintenanceAction(KRADConstants.MAINTENANCE_EDIT_ACTION);
             }
 
             //  report whether the customer is an Add or an Edit
@@ -514,7 +514,7 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
         }
         
         //  put any errors back in global vars
-        if (useGlobalErrorMap) {
+        if (useGlobalMessageMap) {
             addBatchErrorsToGlobalVariables(fileBatchErrors);
         }
 
@@ -821,7 +821,7 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
         for (String errorProperty : errorKeys) {
             errorMessages = (List<ErrorMessage>) messageMap.getErrorMessagesForProperty(errorProperty);
             for (ErrorMessage errorMessage : errorMessages) {
-                errorKeyString = configService.getPropertyString(errorMessage.getErrorKey()); 
+                errorKeyString = configService.getPropertyValueAsString(errorMessage.getErrorKey()); 
                 messageParams = errorMessage.getMessageParameters();
                 
                 // MessageFormat.format only seems to replace one 
@@ -1062,7 +1062,7 @@ public class CustomerLoadServiceImpl extends InitiateDirectoryBase implements Cu
         this.customerService = customerService;
     }
 
-    public void setConfigService(KualiConfigurationService configService) {
+    public void setConfigService(ConfigurationService configService) {
         this.configService = configService;
     }
 

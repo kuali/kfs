@@ -17,9 +17,7 @@ package org.kuali.kfs.gl.service;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.PrintStream;
-import java.sql.Date;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -27,11 +25,7 @@ import java.util.Map;
 
 import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
-import org.kuali.kfs.gl.businessobject.OriginEntryStatistics;
 import org.kuali.kfs.gl.businessobject.PosterOutputSummaryEntry;
-import org.kuali.kfs.gl.businessobject.Transaction;
-import org.kuali.kfs.sys.Message;
 
 /**
  * An interface of methods to interact with Origin Entries

@@ -43,7 +43,7 @@ public class PurgeBalanceStep extends AbstractStep {
      * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String)
      */
     public boolean execute(String jobName, Date jobRunDate) {
-        String yearStr = getParameterService().getParameterValue(getClass(), KFSConstants.SystemGroupParameterNames.PURGE_GL_BALANCE_T_BEFORE_YEAR);
+        String yearStr = getParameterService().getParameterValueAsString(getClass(), KFSConstants.SystemGroupParameterNames.PURGE_GL_BALANCE_T_BEFORE_YEAR);
         LOG.info("PurgeBalanceStep was run with year = "+yearStr);
         int year = Integer.parseInt(yearStr);
         List charts = chartService.getAllChartCodes();

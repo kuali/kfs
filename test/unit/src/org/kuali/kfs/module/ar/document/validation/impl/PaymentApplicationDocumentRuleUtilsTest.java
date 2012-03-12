@@ -18,7 +18,7 @@ package org.kuali.kfs.module.ar.document.validation.impl;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 @ConfigureContext
 public class PaymentApplicationDocumentRuleUtilsTest extends KualiTestBase {

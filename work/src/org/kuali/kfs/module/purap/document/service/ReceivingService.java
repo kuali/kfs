@@ -18,11 +18,11 @@ package org.kuali.kfs.module.purap.document.service;
 import java.util.HashMap;
 import java.util.List;
 
-import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.CorrectionReceivingDocument;
-import org.kuali.kfs.module.purap.document.ReceivingDocument;
 import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.document.ReceivingDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public interface ReceivingService {
 
@@ -181,4 +181,13 @@ public interface ReceivingService {
      * Returns true, if the po is active for receiving document creation
      */
     public boolean isPurchaseOrderActiveForLineItemReceivingDocumentCreation(Integer poId);
+    
+    /**
+     * Checks if there're newly added items in the given LineItemReceivingDocument.
+     * 
+     * @param rlDoc the given LineItemReceivingDocument
+     * @return true if there're newly added (unordered) items; false otherwise.
+     */
+    public boolean hasNewUnorderedItem(LineItemReceivingDocument rlDoc);
+    
 }

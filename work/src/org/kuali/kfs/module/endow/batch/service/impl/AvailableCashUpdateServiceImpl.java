@@ -28,9 +28,9 @@ import org.kuali.kfs.module.endow.businessobject.KemidCurrentCash;
 import org.kuali.kfs.module.endow.document.service.HoldingTaxLotService;
 import org.kuali.kfs.module.endow.document.service.KEMIDService;
 import org.kuali.kfs.module.endow.document.service.KemidCurrentCashService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.Guid;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -43,8 +43,8 @@ public class AvailableCashUpdateServiceImpl implements AvailableCashUpdateServic
     protected ParameterService parameterService;
     protected KemidCurrentCashService kemidCurrentCashService;
     protected HoldingTaxLotService holdingTaxLotService;
-    protected KEMIDService kEMIDService;
-    protected KEMIDCurrentAvailableBalanceService kEMIDCurrentAvailableBalanceService;
+    protected KEMIDService kemidService;
+    protected KEMIDCurrentAvailableBalanceService kemidCurrentAvailableBalanceService;
     /**
      * Constructs a AvailableCashUpdateServiceImpl instance
      */
@@ -61,22 +61,22 @@ public class AvailableCashUpdateServiceImpl implements AvailableCashUpdateServic
         
         if (systemParametersForSummarizeAvailableSpendableFundsJobExist()) {
             //Step 1: remove all the records from END_AVAIL_CSH_T table
-            kEMIDCurrentAvailableBalanceService.clearAllAvailableCash();
+            kemidCurrentAvailableBalanceService.clearAllAvailableCash();
            
             //Step 2: Retrieve all KEMID records where CLOSED_IND set to N
-            Collection<KEMID> kemIdRecords = kEMIDService.getAllKemIdWithClosedIndicatorNo();
+            Collection<KEMID> kemIdRecords = kemidService.getAllKemIdWithClosedIndicatorNo();
             //process the records in the collection
             for (KEMID kemIdRecord : kemIdRecords) {
-                KEMIDCurrentAvailableBalance kEMIDCurrentAvailableBalance = new KEMIDCurrentAvailableBalance();
+                KEMIDCurrentAvailableBalance kemidCurrentAvailableBalance = new KEMIDCurrentAvailableBalance();
                 String kemId = kemIdRecord.getKemid();
-                kEMIDCurrentAvailableBalance.setKemid(kemId);
+                kemidCurrentAvailableBalance.setKemid(kemId);
                 LOG.info("Calculate sum for available income cash and available principal cash for the kemid: " + kemId);                        
-                kEMIDCurrentAvailableBalance.setAvailableIncomeCash(getAvailableIncomeCash(kemId));
-                kEMIDCurrentAvailableBalance.setAvailablePrincipalCash(getAvailablePrincipalCash(kemId, kemIdRecord.getPrincipalRestrictionCode()));
-                kEMIDCurrentAvailableBalance.setAvailableTotalCash(kEMIDCurrentAvailableBalance.getAvailableIncomeCash().add(kEMIDCurrentAvailableBalance.getAvailablePrincipalCash()));
-                kEMIDCurrentAvailableBalance.setObjectId(new Guid().toString());
-                kEMIDCurrentAvailableBalance.setVersionNumber(1L);
-                kEMIDCurrentAvailableBalanceService.InsertAvailableCash(kEMIDCurrentAvailableBalance);
+                kemidCurrentAvailableBalance.setAvailableIncomeCash(getAvailableIncomeCash(kemId));
+                kemidCurrentAvailableBalance.setAvailablePrincipalCash(getAvailablePrincipalCash(kemId, kemIdRecord.getPrincipalRestrictionCode()));
+                kemidCurrentAvailableBalance.setAvailableTotalCash(kemidCurrentAvailableBalance.getAvailableIncomeCash().add(kemidCurrentAvailableBalance.getAvailablePrincipalCash()));
+                kemidCurrentAvailableBalance.setObjectId(new Guid().toString());
+                kemidCurrentAvailableBalance.setVersionNumber(1L);
+                kemidCurrentAvailableBalanceService.InsertAvailableCash(kemidCurrentAvailableBalance);
             }
         }
         
@@ -150,7 +150,7 @@ public class AvailableCashUpdateServiceImpl implements AvailableCashUpdateServic
     protected BigDecimal getAvailablePrincipalCash(String kemId, String typePrincipalRestrictedCode) {
         BigDecimal availablePrincipalCash = BigDecimal.ZERO;
         
-        if (kEMIDService.isTrueEndowment(kemId)) {
+        if (kemidService.isTrueEndowment(kemId)) {
             return availablePrincipalCash;
         }
         
@@ -224,36 +224,36 @@ public class AvailableCashUpdateServiceImpl implements AvailableCashUpdateServic
     }
     
     /**
-     * gets the kEMIDService
+     * gets the kemidService
      * 
-     * @param kEMIDService The kEMIDService to get.
+     * @param kemidService The kemidService to get.
      */    
-    protected KEMIDService getkEMIDService() {
-        return kEMIDService;
+    protected KEMIDService getkemidService() {
+        return kemidService;
     }
 
     /**
-     * gets the kEMIDService
+     * gets the kemidService
      * 
-     * @param kEMIDService The kEMIDService to get.
+     * @param kemidService The kemidService to get.
      */    
-    public void setkEMIDService(KEMIDService kEMIDService) {
-        this.kEMIDService = kEMIDService;
+    public void setkemidService(KEMIDService kemidService) {
+        this.kemidService = kemidService;
     }
 
     /**
-     * Gets the kEMIDCurrentAvailableBalanceService attribute. 
-     * @return Returns the kEMIDCurrentAvailableBalanceService.
+     * Gets the kemidCurrentAvailableBalanceService attribute. 
+     * @return Returns the kemidCurrentAvailableBalanceService.
      */
-    protected KEMIDCurrentAvailableBalanceService getkEMIDCurrentAvailableBalanceService() {
-        return kEMIDCurrentAvailableBalanceService;
+    protected KEMIDCurrentAvailableBalanceService getkemidCurrentAvailableBalanceService() {
+        return kemidCurrentAvailableBalanceService;
     }
 
     /**
-     * Sets the kEMIDCurrentAvailableBalanceService attribute value.
-     * @param kEMIDCurrentAvailableBalanceService The kEMIDCurrentAvailableBalanceService to set.
+     * Sets the kemidCurrentAvailableBalanceService attribute value.
+     * @param kemidCurrentAvailableBalanceService The kemidCurrentAvailableBalanceService to set.
      */
-    public void setkEMIDCurrentAvailableBalanceService(KEMIDCurrentAvailableBalanceService kEMIDCurrentAvailableBalanceService) {
-        this.kEMIDCurrentAvailableBalanceService = kEMIDCurrentAvailableBalanceService;
+    public void setkemidCurrentAvailableBalanceService(KEMIDCurrentAvailableBalanceService kemidCurrentAvailableBalanceService) {
+        this.kemidCurrentAvailableBalanceService = kemidCurrentAvailableBalanceService;
     }
 }

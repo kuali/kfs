@@ -42,11 +42,11 @@ import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -57,7 +57,7 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsAccountUpdateServiceImpl.class);
 
     private DateTimeService dateTimeService;
-    private KualiConfigurationService kualiConfigurationService;
+    private ConfigurationService kualiConfigurationService;
     private BalanceDao balanceDao;
     private SufficientFundBalancesDao sufficientFundBalancesDao;
     private SufficientFundRebuildDao sufficientFundRebuildDao;
@@ -99,7 +99,7 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
      * @return the fiscal year
      */
     protected Integer getFiscalYear() {
-        String val = SpringContext.getBean(ParameterService.class).getParameterValue(SufficientFundsAccountUpdateStep.class, GeneralLedgerConstants.FISCAL_YEAR_PARM);
+        String val = SpringContext.getBean(ParameterService.class).getParameterValueAsString(SufficientFundsAccountUpdateStep.class, GeneralLedgerConstants.FISCAL_YEAR_PARM);
         return Integer.parseInt(val);
     }
 
@@ -171,7 +171,7 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
             if ((!KFSConstants.SF_TYPE_ACCOUNT.equals(sfrb.getAccountFinancialObjectTypeCode())) && (!KFSConstants.SF_TYPE_OBJECT.equals(sfrb.getAccountFinancialObjectTypeCode()))) {
                 ++sfrbRecordsReadCount;
                 transactionErrors = new ArrayList<Message>();
-                addTransactionError(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_INVALID_SF_OBJECT_TYPE_CODE));
+                addTransactionError(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_INVALID_SF_OBJECT_TYPE_CODE));
                 ++warningCount;
                 ++sfrbNotDeletedCount;
                 reportWriterService.writeError(sfrb, transactionErrors);
@@ -205,7 +205,7 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
         options = (SystemOptions)boService.findBySinglePrimaryKey(SystemOptions.class, universityFiscalYear);
 
         if (options == null) {
-            throw new IllegalStateException(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_UNIV_DATE_NOT_FOUND));
+            throw new IllegalStateException(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_UNIV_DATE_NOT_FOUND));
         }
     }
 
@@ -268,7 +268,7 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
             Iterator balancesIterator = balanceDao.findAccountBalances(universityFiscalYear, sfrb.getChartOfAccountsCode(), sfrb.getAccountNumberFinancialObjectCode(), sfrbAccount.getAccountSufficientFundsCode());
 
             if (balancesIterator == null) {
-                addTransactionError(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_BALANCE_NOT_FOUND_FOR) + universityFiscalYear + ")");
+                addTransactionError(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_BALANCE_NOT_FOUND_FOR) + universityFiscalYear + ")");
                 ++warningCount;
                 ++sfrbNotDeletedCount;
                 return;
@@ -318,7 +318,7 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
             }
          }
         else {
-            addTransactionError(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_INVALID_ACCOUNT_SF_CODE_FOR));
+            addTransactionError(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_INVALID_ACCOUNT_SF_CODE_FOR));
             ++warningCount;
             ++sfrbNotDeletedCount;
             return;
@@ -446,7 +446,7 @@ public class SufficientFundsAccountUpdateServiceImpl implements SufficientFundsA
         this.dateTimeService = dateTimeService;
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 

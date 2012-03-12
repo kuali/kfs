@@ -32,8 +32,8 @@ import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.kfs.module.purap.util.PurApItemUtils;
 import org.kuali.kfs.module.purap.util.PurApObjectUtils;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Payment Request Item Business Object.
@@ -146,7 +146,8 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
             PurchaseOrderDocument po = getPaymentRequest().getPurchaseOrderDocument();
             PurchaseOrderItem poi = null;
             if (this.getItemType().isLineItemIndicator()) {
-                poi = (PurchaseOrderItem) po.getItem(this.getItemLineNumber().intValue() - 1);
+                List<PurchaseOrderItem> items = po.getItems();
+                poi = items.get(this.getItemLineNumber().intValue() - 1);
                 // throw error if line numbers don't match
             }
             else {

@@ -275,7 +275,7 @@
 				</c:if>
 				
 				<c:forEach items="${row.columns}" var="column" varStatus="loopStatus">
-          <c:set var="colClass" value="${ fn:startsWith(column.formatter, 'org.kuali.rice.kns.web.format.CurrencyFormatter') ? 'numbercell' : 'infocell' }" />
+          <c:set var="colClass" value="${ fn:startsWith(column.formatter, 'org.kuali.rice.core.web.format.CurrencyFormatter') ? 'numbercell' : 'infocell' }" />
 					<c:choose>
 						<%--NOTE: Check if exporting first, as this should be outputted without extra HTML formatting --%>
 						<c:when	test="${param['d-16544-e'] != null}">

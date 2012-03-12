@@ -19,11 +19,8 @@ import java.io.File;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.XmlBatchInputFileTypeBase;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 public class CustomerInvoiceWriteoffBatchInputFileType extends XmlBatchInputFileTypeBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceWriteoffBatchInputFileType.class);
@@ -35,7 +32,7 @@ public class CustomerInvoiceWriteoffBatchInputFileType extends XmlBatchInputFile
     
     /**
      * 
-     * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileName(org.kuali.rice.kim.bo.Person, java.lang.Object, java.lang.String)
+     * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileName(org.kuali.rice.kim.api.identity.Person, java.lang.Object, java.lang.String)
      */
     public String getFileName(String principalName, Object parsedFileContents, String fileUserIdentifer) {
         

@@ -18,8 +18,8 @@ package org.kuali.kfs.sys.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * This class returns list containg O = Open or C = Closed
@@ -31,8 +31,8 @@ public class DebitCreditValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair("C", "Credit"));
-        keyValues.add(new KeyLabelPair("D", "Debit"));
+        keyValues.add(new ConcreteKeyValue("C", "Credit"));
+        keyValues.add(new ConcreteKeyValue("D", "Debit"));
         return keyValues;
     }
 

@@ -17,11 +17,11 @@
 package org.kuali.kfs.coa.businessobject;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.Collection;
 import java.util.List;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * 
@@ -30,32 +30,32 @@ public class A21SubAccount extends PersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 2983753447370117974L;
 
-    private String chartOfAccountsCode;
-    private String accountNumber;
-    private String subAccountNumber;
-    private String subAccountTypeCode;
-    private String indirectCostRecoveryTypeCode;
-    private String financialIcrSeriesIdentifier;
-    private boolean offCampusCode;
-    private String costShareChartOfAccountCode;
-    private String costShareSourceAccountNumber;
-    private String costShareSourceSubAccountNumber;
+    protected String chartOfAccountsCode;
+    protected String accountNumber;
+    protected String subAccountNumber;
+    protected String subAccountTypeCode;
+    protected String indirectCostRecoveryTypeCode;
+    protected String financialIcrSeriesIdentifier;
+    protected boolean offCampusCode;
+    protected String costShareChartOfAccountCode;
+    protected String costShareSourceAccountNumber;
+    protected String costShareSourceSubAccountNumber;
 
-    private Chart costShareChartOfAccount;
-    private Account costShareAccount;
-    private SubAccount costShareSourceSubAccount;
-    private IndirectCostRecoveryType indirectCostRecoveryType;
-    private Chart chartOfAccounts;
-    private Account account;
+    protected Chart costShareChartOfAccount;
+    protected Account costShareAccount;
+    protected SubAccount costShareSourceSubAccount;
+    protected IndirectCostRecoveryType indirectCostRecoveryType;
+    protected Chart chartOfAccounts;
+    protected Account account;
     
-    private List<A21IndirectCostRecoveryAccount> a21IndirectCostRecoveryAccounts;
+    protected List<A21IndirectCostRecoveryAccount> a21IndirectCostRecoveryAccounts;
 
     /**
      * 
      */
     public A21SubAccount() {
         super();
-        a21IndirectCostRecoveryAccounts = new TypedArrayList(A21IndirectCostRecoveryAccount.class);
+        a21IndirectCostRecoveryAccounts = new ArrayList<A21IndirectCostRecoveryAccount>();
     }
 
     /**
@@ -374,27 +374,14 @@ public class A21SubAccount extends PersistableBusinessObjectBase {
     public void setA21IndirectCostRecoveryAccounts(List<A21IndirectCostRecoveryAccount> a21IndirectCostRecoveryAccounts) {
         this.a21IndirectCostRecoveryAccounts = a21IndirectCostRecoveryAccounts;
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap map = new LinkedHashMap();
-        map.put("chartOfAccountsCode", getChartOfAccountsCode());
-        map.put("accountNumber", getAccountNumber());
-        map.put("subAccountNumber", getSubAccountNumber());
-        return map;
-    }
     
     /**
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
     @Override
     public List buildListOfDeletionAwareLists() {
-        List<List> managedLists = super.buildListOfDeletionAwareLists();
-        managedLists.add(getA21IndirectCostRecoveryAccounts());
+        List<Collection<PersistableBusinessObject>> managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add( new ArrayList<PersistableBusinessObject>( getA21IndirectCostRecoveryAccounts() ) );
         return managedLists;
     }
 

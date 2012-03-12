@@ -37,4 +37,16 @@ public class SecPropertyConstants {
     public static final String SECURITY_ATTRIBUTE_NAME_NESTED = "securityAttribute.name";
     public static final String SECURITY_PERSON_PRINCIPAL_NAME = "securityPerson.principalName";
     public static final String TEMPLATE_ID = "templateId";
+    public final static String ROLE_ID = "roleId";
+    public final static String ROLE_NAME = "roleName";
+    public final static String GROUP_ID = "groupId";
+    public final static String GROUP_NAME = "groupName";
+    public final static String PRINCIPAL_ID = "principalId";
+    public final static String PRINCIPAL_NAME = "principalName";
+    public static final String FIRST_NAME = "firstName";
+    public static final String MIDDLE_NAME = "middleName";
+    public static final String LAST_NAME = "lastName";
+    public static final String ENTITY_ID = "entityId";
+    public static final String EMPLOYEE_ID = "employeeId";
+    public final static String EMAIL_ADDRESS = "emailAddress";
 }

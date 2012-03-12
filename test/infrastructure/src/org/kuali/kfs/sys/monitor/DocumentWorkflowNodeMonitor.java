@@ -15,33 +15,34 @@
  */
 package org.kuali.kfs.sys.monitor;
 
-import org.apache.commons.lang.StringUtils;
+import java.util.Iterator;
+import java.util.Set;
+
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
+import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 /**
  * Watches the workflow document and indicates valueChanged when either the status or the current node changes.
  */
 public class DocumentWorkflowNodeMonitor extends ChangeMonitor {
 
-    private Long docHeaderId;
+    private String docHeaderId;
     private String initiatorPrincipalIdId;
     private String desiredNodeName;
 
-    public DocumentWorkflowNodeMonitor(KualiWorkflowDocument document, String desiredNodeName) throws WorkflowException {
-        this.docHeaderId = document.getRouteHeaderId();
+    public DocumentWorkflowNodeMonitor(WorkflowDocument document, String desiredNodeName) throws WorkflowException {
+        this.docHeaderId = document.getDocumentId();
         this.initiatorPrincipalIdId = document.getInitiatorPrincipalId();
         this.desiredNodeName = desiredNodeName;
     }
 
     public boolean valueChanged() throws Exception {
-        KualiWorkflowDocument document = SpringContext.getBean(WorkflowDocumentService.class).createWorkflowDocument(docHeaderId, SpringContext.getBean(PersonService.class).getPerson(initiatorPrincipalIdId));
-        String currentNodeName = document.getCurrentRouteNodeNames();
-        // currently in Kuali there is no parallel branching so we can only ever be at one node
-        return StringUtils.equals( desiredNodeName, currentNodeName);
+        WorkflowDocument document = SpringContext.getBean(WorkflowDocumentService.class).loadWorkflowDocument(docHeaderId, SpringContext.getBean(PersonService.class).getPerson(initiatorPrincipalIdId));
+        return WorkflowTestUtils.isAtNode(document, desiredNodeName);
     }
 
 }

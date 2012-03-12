@@ -31,7 +31,7 @@ import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.krad.service.KualiRuleService;
 
 public class CorpusAdjustmentDocumentAction extends EndowmentTransactionLinesDocumentActionBase {
 

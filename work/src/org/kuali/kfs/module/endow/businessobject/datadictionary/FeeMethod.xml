@@ -98,7 +98,7 @@
 				p:size="26" />
 		</property>
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 
 	<bean id="FeeMethod-code" parent="FeeMethod-code-parentBean" />
@@ -257,7 +257,7 @@
 				p:size="7" />
 		</property>
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="FeeMethod-minimumFeeThreshold" parent="FeeMethod-minimumFeeThreshold-parentBean" />
 
@@ -275,7 +275,7 @@
 				p:size="7" />
 		</property>
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="FeeMethod-feeTypeCode" parent="FeeMethod-feeTypeCode-parentBean" />
 

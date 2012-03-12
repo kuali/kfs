@@ -15,14 +15,11 @@
  */
 package org.kuali.kfs.gl.batch;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.kuali.kfs.gl.batch.service.CollectorReportService;
 import org.kuali.kfs.gl.batch.service.CollectorService;
 import org.kuali.kfs.gl.report.CollectorReportData;
-import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
 import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
 

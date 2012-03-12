@@ -20,6 +20,7 @@
   <bean id="BarcodeInventoryErrorDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
     <property name="documentTypeName" value="BCIE"/>
     <property name="documentClass" value="org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.cam.document.validation.impl.BarcodeInventoryErrorDocumentRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.cam.document.authorization.BarcodeInventoryErrorDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.cam.document.authorization.BarcodeInventoryErrorDocumentPresentationController"/>
@@ -98,27 +99,24 @@
   </bean>
 
   <bean id="BarcodeInventoryErrorDocument-currentCampusCode" parent="BarcodeInventoryErrorDocument-currentCampusCode-parentBean"/>
-  <bean id="BarcodeInventoryErrorDocument-currentCampusCode-parentBean" abstract="true" parent="Campus-campusCode">
+  <bean id="BarcodeInventoryErrorDocument-currentCampusCode-parentBean" abstract="true" parent="Campus-code">
     <property name="name" value="currentCampusCode"/>
     <property name="required" value="false"/>    
   </bean>
 
   <bean id="BarcodeInventoryErrorDocument-currentBuildingNumber" parent="BarcodeInventoryErrorDocument-currentBuildingNumber-parentBean"/>
-  <bean id="BarcodeInventoryErrorDocument-currentBuildingNumber-parentBean" abstract="true" parent="Room-buildingCode">
+  <bean id="BarcodeInventoryErrorDocument-currentBuildingNumber-parentBean" abstract="true" parent="Asset-buildingCode">
   	<property name="name" value="currentBuildingNumber"/>
-    <property name="required" value="false"/>  	
   </bean>
 
   <bean id="BarcodeInventoryErrorDocument-currentRoom" parent="BarcodeInventoryErrorDocument-currentRoom-parentBean"/>
-  <bean id="BarcodeInventoryErrorDocument-currentRoom-parentBean" abstract="true" parent="Room-buildingRoomNumber">
-  	<property name="name" value="currentRoom"/>
-    <property name="required" value="false"/>  	  
+  <bean id="BarcodeInventoryErrorDocument-currentRoom-parentBean" abstract="true" parent="Asset-buildingRoomNumber">
+  	<property name="name" value="currentRoom"/> 	  
   </bean>
 
   <bean id="BarcodeInventoryErrorDocument-currentSubroom" parent="BarcodeInventoryErrorDocument-currentSubroom-parentBean"/>
   <bean id="BarcodeInventoryErrorDocument-currentSubroom-parentBean" abstract="true" parent="Asset-buildingSubRoomNumber">
-  	<property name="name" value="currentSubroom"/>
-    <property name="required" value="false"/>  	  
+  	<property name="name" value="currentSubroom"/> 
   </bean>
 
   <bean id="BarcodeInventoryErrorDocument-currentConditionCode" parent="BarcodeInventoryErrorDocument-currentConditionCode-parentBean"/>
@@ -155,27 +153,24 @@
   </bean>
 		
   <bean id="BarcodeInventoryErrorDocument-newCampusCode" parent="BarcodeInventoryErrorDocument-newCampusCode-parentBean"/>
-  <bean id="BarcodeInventoryErrorDocument-newCampusCode-parentBean" abstract="true" parent="Campus-campusCode">
+  <bean id="BarcodeInventoryErrorDocument-newCampusCode-parentBean" abstract="true" parent="Campus-code">
     <property name="name" value="newCampusCode"/>
     <property name="required" value="false"/>    
   </bean>
 
   <bean id="BarcodeInventoryErrorDocument-newBuildingNumber" parent="BarcodeInventoryErrorDocument-newBuildingNumber-parentBean"/>
-  <bean id="BarcodeInventoryErrorDocument-newBuildingNumber-parentBean" abstract="true" parent="Room-buildingCode">
-  	<property name="name" value="newBuildingNumber"/>
-    <property name="required" value="false"/>  	
+  <bean id="BarcodeInventoryErrorDocument-newBuildingNumber-parentBean" abstract="true" parent="Asset-buildingCode">
+  	<property name="name" value="newBuildingNumber"/>	
   </bean>
 
   <bean id="BarcodeInventoryErrorDocument-newRoom" parent="BarcodeInventoryErrorDocument-newRoom-parentBean"/>
-  <bean id="BarcodeInventoryErrorDocument-newRoom-parentBean" abstract="true" parent="Room-buildingRoomNumber">
-  	<property name="name" value="newRoom"/> 
-    <property name="required" value="false"/>  	 
+  <bean id="BarcodeInventoryErrorDocument-newRoom-parentBean" abstract="true" parent="Asset-buildingRoomNumber">
+  	<property name="name" value="newRoom"/> 	 
   </bean>
 
   <bean id="BarcodeInventoryErrorDocument-newSubroom" parent="BarcodeInventoryErrorDocument-newSubroom-parentBean"/>
   <bean id="BarcodeInventoryErrorDocument-newSubroom-parentBean" abstract="true" parent="Asset-buildingSubRoomNumber">
-  	<property name="name" value="newSubroom"/>
-    <property name="required" value="false"/>  	  
+  	<property name="name" value="newSubroom"/> 	  
   </bean>
 
   <bean id="BarcodeInventoryErrorDocument-newConditionCode" parent="BarcodeInventoryErrorDocument-newConditionCode-parentBean"/>
@@ -186,6 +181,6 @@
 
  <!-- workflow attributes -->
   <bean id="BarcodeInventoryErrorDocument-workflowAttributes" parent="BarcodeInventoryErrorDocument-workflowAttributes-parentBean"/>
-  <bean id="BarcodeInventoryErrorDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
+  <bean id="BarcodeInventoryErrorDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true">
   </bean>
 </beans>

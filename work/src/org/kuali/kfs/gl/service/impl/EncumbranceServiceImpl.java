@@ -22,7 +22,7 @@ import org.kuali.kfs.gl.businessobject.Encumbrance;
 import org.kuali.kfs.gl.dataaccess.EncumbranceDao;
 import org.kuali.kfs.gl.service.EncumbranceService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -90,20 +90,22 @@ public class EncumbranceServiceImpl implements EncumbranceService {
     /**
      * Given the fieldValues, forms a query and finds the open encumbrances that match it
      * @param fieldValues the values to form an encumbrance query out of
+     * @param includeZeroEncumbrances
      * @return an Iterator full of qualifying encumbrances
      * @see org.kuali.kfs.gl.service.EncumbranceService#findOpenEncumbrance(java.util.Map)
      */
-    public Iterator findOpenEncumbrance(Map fieldValues) {
-        return encumbranceDao.findOpenEncumbrance(fieldValues);
+    public Iterator findOpenEncumbrance(Map fieldValues, boolean includeZeroEncumbrances) {
+        return encumbranceDao.findOpenEncumbrance(fieldValues, includeZeroEncumbrances);
     }
 
     /**
      * Returns the count of all open encumbrances in the database, matching the given field values
      * @param fieldValues the field values to build an encumbrance query out of
+     * @param includeZeroEncumbrances
      * @return the number of qualifying open encumbrances
      * @see org.kuali.kfs.gl.service.EncumbranceService#getOpenEncumbranceCount(java.util.Map)
      */
-    public Integer getOpenEncumbranceRecordCount(Map fieldValues) {
-        return encumbranceDao.getOpenEncumbranceRecordCount(fieldValues);
+    public Integer getOpenEncumbranceRecordCount(Map fieldValues, boolean includeZeroEncumbrances) {
+        return encumbranceDao.getOpenEncumbranceRecordCount(fieldValues, includeZeroEncumbrances);
     }
 }

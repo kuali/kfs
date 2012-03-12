@@ -19,10 +19,9 @@ import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
 
 public class PurchasingAccountsPayableNewIndividualItemValidation extends GenericValidation {
 
@@ -41,12 +40,7 @@ public class PurchasingAccountsPayableNewIndividualItemValidation extends Generi
     }
 
     protected String getDocumentTypeLabel(String documentTypeName) {
-        try {
-            return SpringContext.getBean(KualiWorkflowInfo.class).getDocType(documentTypeName).getDocTypeLabel();
-        }
-        catch (WorkflowException e) {
-            throw new RuntimeException("Caught Exception trying to get Workflow Document Type", e);
-        }
+            return SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(documentTypeName).getLabel();
     }
     public ParameterService getParameterService() {
         return parameterService;

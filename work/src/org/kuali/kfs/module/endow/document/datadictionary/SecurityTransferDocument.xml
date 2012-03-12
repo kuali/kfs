@@ -21,6 +21,7 @@
     
     <property name="documentTypeName" value="EST"/>
     <property name="documentClass" value="org.kuali.kfs.module.endow.document.SecurityTransferDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.module.endow.document.SecurityTransferDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.endow.document.validation.impl.SecurityTransferDocumentRules"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.endow.document.authorization.SecurityTransferDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.endow.document.authorization.SecurityTransferDocumentPresentationController"/>

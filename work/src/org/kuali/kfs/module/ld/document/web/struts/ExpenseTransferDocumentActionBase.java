@@ -37,34 +37,29 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine;
-import org.kuali.kfs.module.ld.businessobject.ExpenseTransferSourceAccountingLine;
-import org.kuali.kfs.module.ld.businessobject.ExpenseTransferTargetAccountingLine;
 import org.kuali.kfs.module.ld.businessobject.LaborAccountingLineOverride;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.module.ld.document.LaborExpenseTransferDocumentBase;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineOverride;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
 import org.kuali.kfs.sys.service.SegmentedLookupResultsService;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.document.TransactionalDocument;
-import org.kuali.rice.kns.rule.event.KualiDocumentEventBase;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.document.TransactionalDocument;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEventBase;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.service.PersistenceService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 
 /**
  * Base Struts Action class for Benefit Expense Transfer Document.
@@ -108,7 +103,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
         ExpenseTransferDocumentFormBase financialDocumentForm = (ExpenseTransferDocumentFormBase) form;
         
         // when we return from the lookup, our next request's method to call is going to be refresh
-        financialDocumentForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
+        financialDocumentForm.registerEditableProperty(KRADConstants.DISPATCH_REQUEST_PARAMETER);
         
         TransactionalDocument document = financialDocumentForm.getTransactionalDocument();
 
@@ -168,7 +163,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
 
         // now add required parameters
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, "search");
-        parameters.put(KFSConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObject(form));
+        parameters.put(KFSConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObjectWithGeneratedKey(form));
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, boClassName);
         parameters.put(KFSConstants.RETURN_LOCATION_PARAMETER, basePath + mapping.getPath() + ".do");
         //parameters.put(GeneralLedgerConstants.LookupableBeanKeys.SEGMENTED_LOOKUP_FLAG_NAME, Boolean.TRUE.toString());
@@ -454,20 +449,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
         }
     }
 
-    /**
-     * Clear all overrides that are not needed.
-     * 
-     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#clearOverridesThatBecameUnneeded(org.kuali.kfs.sys.businessobject.AccountingLine)
-     */
-    @Override
-    protected void clearOverridesThatBecameUnneeded(AccountingLine formLine) {
-        AccountingLineOverride currentlyNeeded = LaborAccountingLineOverride.determineNeededOverrides(formLine);
-        AccountingLineOverride currentOverride = AccountingLineOverride.valueOf(formLine.getOverrideCode());
-        if (!currentOverride.isValidMask(currentlyNeeded)) {
-            // todo: handle unsupported combinations of overrides (not a problem until we allow certain multiple overrides)
-        }
-        formLine.setOverrideCode(currentOverride.mask(currentlyNeeded).getCode());
-    }
+
 
     /**
      * For given accounting line, set the corresponding override code

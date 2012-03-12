@@ -22,9 +22,8 @@ import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * Performs prompts and other pre business rule checks for the Accounts Payable Document (and its children).
@@ -40,7 +39,7 @@ public abstract class AccountsPayableDocumentPreRulesBase extends PurapDocumentP
      * Asks for an override if the document hasn't reached full entry and the entered amount does not
      * match the total amount of all items.
      * 
-     * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.krad.document.Document)
      */
     @Override
     public boolean doPrompts(Document document){
@@ -100,7 +99,7 @@ public abstract class AccountsPayableDocumentPreRulesBase extends PurapDocumentP
      */
     public String createInvoiceNoMatchQuestionText(AccountsPayableDocument accountsPayableDocument){
 
-        String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.AP_QUESTION_CONFIRM_INVOICE_MISMATCH); 
+        String questionText = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PurapKeyConstants.AP_QUESTION_CONFIRM_INVOICE_MISMATCH); 
         questionText = StringUtils.replace(questionText, "{0}", getDocumentName());
         
         return questionText;        

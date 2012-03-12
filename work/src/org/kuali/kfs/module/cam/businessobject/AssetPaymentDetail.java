@@ -19,15 +19,18 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.kew.service.impl.KEWModuleService;
-import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Accounting line for the asset payment document.
@@ -50,6 +53,7 @@ public class AssetPaymentDetail extends SourceAccountingLine {
     private AccountingPeriod financialDocumentPostingPeriod;
     private DocumentTypeEBO expenditureFinancialSystemDocumentTypeCode;
     private OriginationCode expenditureFinancialSystemOrigination;
+    private Account account;
 
 
 
@@ -81,10 +85,11 @@ public class AssetPaymentDetail extends SourceAccountingLine {
         this.setAmount(assetPayment.getAccountChargeAmount());
     }
     
+
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap<String,String> toStringMapper() {
+    protected LinkedHashMap<String,String> assetPaymentToStringMapper() {
         LinkedHashMap<String,String> m = new LinkedHashMap<String,String>();
         m.put("documentNumber", this.getDocumentNumber());
         m.put("sequenceNumber", this.getSequenceNumber() == null ? "" : this.getSequenceNumber().toString());
@@ -110,10 +115,16 @@ public class AssetPaymentDetail extends SourceAccountingLine {
      * @return
      */
     public String getAssetPaymentDetailKey() {
-        LinkedHashMap<String,String> m = toStringMapper();
-        m.put("expenditureFinancialDocumentTypeCode",this.getExpenditureFinancialDocumentTypeCode());
-        m.put("expenditureFinancialDocumentNumber",this.getExpenditureFinancialDocumentNumber());
-        return toStringBuilder(m);
+        LinkedHashMap<String,String> paymentMap = assetPaymentToStringMapper();
+        paymentMap.put("expenditureFinancialDocumentTypeCode",this.getExpenditureFinancialDocumentTypeCode());
+        paymentMap.put("expenditureFinancialDocumentNumber",this.getExpenditureFinancialDocumentNumber());
+        
+        //use SHORT_PREFIX_STYLE so that memory address is not part of the toString output
+        ToStringBuilder builder = new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE);
+        for (String key : paymentMap.keySet()){
+            builder.append(key, paymentMap.get(key));
+        }
+        return paymentMap.toString();
     }
 
     public String getExpenditureFinancialSystemOriginationCode() {
@@ -216,6 +227,26 @@ public class AssetPaymentDetail extends SourceAccountingLine {
 
     public void setExpenditureFinancialSystemOrigination(OriginationCode expenditureFinancialSystemOrigination) {
         this.expenditureFinancialSystemOrigination = expenditureFinancialSystemOrigination;
+    }
+    
+    /**
+     * Gets the account attribute.
+     * 
+     * @return Returns the account
+     * 
+     */
+    public Account getAccount() {
+        return account;
+    }
+
+    /**
+     * Sets the account attribute.
+     * 
+     * @param account The account to set.
+     * @deprecated
+     */
+    public void setAccount(Account account) {
+        this.account = account;
     }
     
     public KualiDecimal getAmount() {

@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,6 +17,7 @@ package org.kuali.kfs.module.ar.document.service.impl;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -33,27 +34,28 @@ import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
 import org.kuali.kfs.module.ar.document.service.InvoiceRecurrenceDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.DateUtils;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class InvoiceRecurrenceDocumentServiceImpl implements InvoiceRecurrenceDocumentService {
-    
+
     private ParameterService parameterService;
     private BusinessObjectService businessObjectService;
-    
+
     /**
      * @see org.kuali.kfs.module.ar.document.service.AccountsReceivableTaxService#isCustomerInvoiceDetailTaxable(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument, org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail)
      */
+    @Override
     public boolean isCustomerInvoiceDetailTaxable(CustomerInvoiceDocument customerInvoiceDocument, CustomerInvoiceDetail customerInvoiceDetail) {
 
         //check if sales tax is enabled
-        if( !parameterService.getIndicatorParameter(KfsParameterConstants.ACCOUNTS_RECEIVABLE_DOCUMENT.class, ArConstants.ENABLE_SALES_TAX_IND) ){
+        if( !parameterService.getParameterValueAsBoolean(KfsParameterConstants.ACCOUNTS_RECEIVABLE_DOCUMENT.class, ArConstants.ENABLE_SALES_TAX_IND) ){
             return false;
         }
 
@@ -63,12 +65,12 @@ public class InvoiceRecurrenceDocumentServiceImpl implements InvoiceRecurrenceDo
                 return false;
             }
         }
-        
+
         //check item if the taxable indicator is checked
         if (!customerInvoiceDetail.isTaxableIndicator()) {
             return false;
         }
-        
+
         //check item if item is taxable
         /*
         if( StringUtils.isNotEmpty(customerInvoiceDetail.getInvoiceItemCode()) ){
@@ -77,30 +79,31 @@ public class InvoiceRecurrenceDocumentServiceImpl implements InvoiceRecurrenceDo
             criteria.put("chartOfAccountsCode", customerInvoiceDocument.getAccountsReceivableDocumentHeader().getProcessingChartOfAccountCode());
             criteria.put("organizationCode", customerInvoiceDocument.getAccountsReceivableDocumentHeader().getProcessingOrganizationCode());
             CustomerInvoiceItemCode customerInvoiceItemCode = (CustomerInvoiceItemCode) businessObjectService.findByPrimaryKey(CustomerInvoiceItemCode.class, criteria);
-            
+
             if (ObjectUtils.isNotNull(customerInvoiceItemCode) && !customerInvoiceItemCode.isTaxableIndicator()){
                 return false;
             }
         }
         */
-        
-        //if address of billing org's postal code isn't the same as shipping address, return false??? 
-        
+
+        //if address of billing org's postal code isn't the same as shipping address, return false???
+
         return true;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.ar.document.service.AccountsReceivableTaxService#getPostalCodeForTaxation(org.kuali.kfs.module.ar.document.CustomerInvoiceDocument)
      */
+    @Override
     public String getPostalCodeForTaxation(CustomerInvoiceDocument document) {
-        
+
         String postalCode = null;
         String customerNumber = document.getAccountsReceivableDocumentHeader().getCustomerNumber();
         Integer shipToAddressIdentifier = document.getCustomerShipToAddressIdentifier();
-        
+
         //if customer number or ship to address id isn't provided, go to org options
         if (ObjectUtils.isNotNull(shipToAddressIdentifier) && StringUtils.isNotEmpty(customerNumber) ) {
-            
+
             CustomerAddressService customerAddressService = SpringContext.getBean(CustomerAddressService.class);
             CustomerAddress customerShipToAddress = customerAddressService.getByPrimaryKey(customerNumber, shipToAddressIdentifier);
             if( ObjectUtils.isNotNull(customerShipToAddress) ){
@@ -117,30 +120,31 @@ public class InvoiceRecurrenceDocumentServiceImpl implements InvoiceRecurrenceDo
                 postalCode = organizationOptions.getOrganizationPostalZipCode();
             }
 
-           
+
         }
         return postalCode;
-    }        
+    }
 
     /**
      * @see org.kuali.kfs.module.ar.document.service.InvoiceRecurrenceService#isInvoiceApproved(String)
      */
+    @Override
     public boolean isInvoiceApproved( String invoiceNumber ) {
         boolean success = true;
-        
+
         if (ObjectUtils.isNull(invoiceNumber)) {
             return success;
         }
-        
+
         CustomerInvoiceDocument customerInvoiceDocument = null;
         try {
             customerInvoiceDocument = (CustomerInvoiceDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(invoiceNumber);
         } catch (WorkflowException e){
-            
+
         }
         if (ObjectUtils.isNotNull(customerInvoiceDocument)) {
-            KualiWorkflowDocument workflowDocument = customerInvoiceDocument.getDocumentHeader().getWorkflowDocument();
-            if (!(workflowDocument.stateIsApproved())) {
+            WorkflowDocument workflowDocument = customerInvoiceDocument.getDocumentHeader().getWorkflowDocument();
+            if (!(workflowDocument.isApproved())) {
                 success = false;
             }
         }
@@ -149,10 +153,11 @@ public class InvoiceRecurrenceDocumentServiceImpl implements InvoiceRecurrenceDo
         }
         return success;
     }
-        
+
     /**
      * @see org.kuali.kfs.module.ar.document.service.InvoiceRecurrenceService#isValidRecurrenceBeginDate(Date)
      */
+    @Override
     public boolean isValidRecurrenceBeginDate(Date beginDate) {
         boolean success = true;
         if (ObjectUtils.isNull(beginDate)) {
@@ -165,13 +170,14 @@ public class InvoiceRecurrenceDocumentServiceImpl implements InvoiceRecurrenceDo
         }
         return success;
     }
-        
+
     /**
      * @see org.kuali.kfs.module.ar.document.service.InvoiceRecurrenceService#isValidRecurrenceEndDate(Date)
      */
+    @Override
     public boolean isValidRecurrenceEndDate(Date beginDate, Date endDate) {
         boolean success = true;
-        if (ObjectUtils.isNull(beginDate) || 
+        if (ObjectUtils.isNull(beginDate) ||
             ObjectUtils.isNull(endDate)) {
             return success;
         }
@@ -183,13 +189,14 @@ public class InvoiceRecurrenceDocumentServiceImpl implements InvoiceRecurrenceDo
         }
         return success;
     }
-        
+
     /**
      * @see org.kuali.kfs.module.ar.document.service.InvoiceRecurrenceService#isValidEndDateAndTotalRecurrenceNumber(Date,Date,int,String)
      */
+    @Override
     public boolean isValidEndDateAndTotalRecurrenceNumber( Date recurrenceBeginDate, Date recurrenceEndDate, Integer totalRecurrenceNumber, String recurrenceIntervalCode ) {
 
-        if (ObjectUtils.isNull(recurrenceBeginDate) || 
+        if (ObjectUtils.isNull(recurrenceBeginDate) ||
             ObjectUtils.isNull(recurrenceIntervalCode) ||
             ObjectUtils.isNull(recurrenceEndDate) ||
             ObjectUtils.isNull(totalRecurrenceNumber)) {
@@ -204,7 +211,7 @@ public class InvoiceRecurrenceDocumentServiceImpl implements InvoiceRecurrenceDo
         Date endDate = recurrenceEndDate;
         Calendar nextCalendar = Calendar.getInstance();
         Date nextDate = beginDate;
-                
+
         int totalRecurrences = 0;
         int addCounter = 0;
         String intervalCode = recurrenceIntervalCode;
@@ -233,13 +240,14 @@ public class InvoiceRecurrenceDocumentServiceImpl implements InvoiceRecurrenceDo
         if (totalRecurrences != totalRecurrenceNumber.intValue()) {
             return false;
         }
-        
+
         return true;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.ar.document.service.InvoiceRecurrenceService#isValidEndDateOrTotalRecurrenceNumber(Date,int)
      */
+    @Override
     public boolean isValidEndDateOrTotalRecurrenceNumber( Date endDate, Integer totalRecurrenceNumber ) {
         boolean success = true;
         if (ObjectUtils.isNull(endDate) && ObjectUtils.isNull(totalRecurrenceNumber)) {
@@ -251,6 +259,7 @@ public class InvoiceRecurrenceDocumentServiceImpl implements InvoiceRecurrenceDo
     /**
      * @see org.kuali.kfs.module.ar.document.service.InvoiceRecurrenceService#isValidMaximumNumberOfRecurrences(int,String)
      */
+    @Override
     public boolean isValidMaximumNumberOfRecurrences( Integer totalRecurrenceNumber, String intervalCode ) {
 
         if (ObjectUtils.isNull(intervalCode) ||
@@ -259,7 +268,7 @@ public class InvoiceRecurrenceDocumentServiceImpl implements InvoiceRecurrenceDo
         }
         Integer maximumRecurrencesByInterval;
         if (ObjectUtils.isNotNull(intervalCode)) {
-            List<String> maximumRecurrences = SpringContext.getBean(ParameterService.class).getParameterValues(InvoiceRecurrence.class, ArConstants.MAXIMUM_RECURRENCES_BY_INTERVAL, intervalCode);
+            List<String> maximumRecurrences = new ArrayList<String>( SpringContext.getBean(ParameterService.class).getSubParameterValuesAsString(InvoiceRecurrence.class, ArConstants.MAXIMUM_RECURRENCES_BY_INTERVAL, intervalCode) );
             if (maximumRecurrences.size() > 0 && StringUtils.isNotBlank(maximumRecurrences.get(0))) {
                 maximumRecurrencesByInterval = Integer.valueOf(maximumRecurrences.get(0));
                 if (totalRecurrenceNumber > maximumRecurrencesByInterval) {
@@ -269,14 +278,15 @@ public class InvoiceRecurrenceDocumentServiceImpl implements InvoiceRecurrenceDo
         }
         return true;
     }
-        
+
     /**
      * @see org.kuali.kfs.module.ar.document.service.InvoiceRecurrenceService#isValidInitiator(String)
      */
+    @Override
     public boolean isValidInitiator( String initiator ) {
         return true;
     }
-        
+
     public ParameterService getParameterService() {
         return parameterService;
     }

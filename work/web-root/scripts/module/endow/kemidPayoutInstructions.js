@@ -17,7 +17,7 @@
  function setKemidPayoutInstructionToKemid(kemidFieldName){
 	var elPrefix = findElPrefix( kemidFieldName.name );
 	var kemidPayoutInstructionToKemidFieldName = elPrefix + ".add.kemidPayoutInstructions.payIncomeToKemid";
-	var kemid = DWRUtil.getValue( kemidFieldName );
+	var kemid = dwr.util.getValue( kemidFieldName );
 	
 	setRecipientValue( kemidPayoutInstructionToKemidFieldName, kemid );
  }

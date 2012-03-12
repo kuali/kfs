@@ -38,8 +38,8 @@ import org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsService
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -48,7 +48,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements BudgetConstructionAccountSalaryDetailReportService {
 
-    private KualiConfigurationService kualiConfigurationService;
+    private ConfigurationService kualiConfigurationService;
     private BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
     private SalarySettingService salarySettingService;
 
@@ -101,7 +101,7 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
                 chartOfAccountDescription = pendingAppointmentFunding.getChartOfAccounts().getFinChartOfAccountDescription();
             }
             catch (PersistenceBrokerException e) {
-                chartOfAccountDescription = kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION);
+                chartOfAccountDescription = kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION);
             }
         }
         else {
@@ -121,28 +121,28 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
         String fundGroupName = pendingAppointmentFunding.getAccount().getSubFundGroup().getFundGroup().getName();
 
         if (orgName == null) {
-            accountSalaryDetailReport.setOrganizationName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_ORGANIZATION_NAME));
+            accountSalaryDetailReport.setOrganizationName(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_ORGANIZATION_NAME));
         }
         else {
             accountSalaryDetailReport.setOrganizationName(orgName);
         }
 
         if (fundGroupCode == null) {
-            accountSalaryDetailReport.setFundGroupCode(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_FUNDGROUP_CODE));
+            accountSalaryDetailReport.setFundGroupCode(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_FUNDGROUP_CODE));
         }
         else {
             accountSalaryDetailReport.setFundGroupCode(fundGroupCode);
         }
 
         if (fundGroupName == null) {
-            accountSalaryDetailReport.setFundGroupName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_FUNDGROUP_NAME));
+            accountSalaryDetailReport.setFundGroupName(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_FUNDGROUP_NAME));
         }
         else {
             accountSalaryDetailReport.setFundGroupName(fundGroupName);
         }
 
         if (accountName == null) {
-            accountSalaryDetailReport.setAccountName(kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_ACCOUNT_DESCRIPTION));
+            accountSalaryDetailReport.setAccountName(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_ACCOUNT_DESCRIPTION));
         }
         else {
             accountSalaryDetailReport.setAccountName(accountName);
@@ -155,7 +155,7 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
                 subAccountName = pendingAppointmentFunding.getSubAccount().getSubAccountName();
             }
             catch (PersistenceBrokerException e) {
-                subAccountName = kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_SUB_ACCOUNT_DESCRIPTION);
+                subAccountName = kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_SUB_ACCOUNT_DESCRIPTION);
             }
         }
         accountSalaryDetailReport.setSubAccountName(subAccountName);
@@ -261,7 +261,7 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
                         objectCodeName = pendingAppointmentFunding.getFinancialObject().getFinancialObjectCodeName();
                     }
                     catch (PersistenceBrokerException e) {
-                        objectCodeName = kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_OBJECT_NAME);
+                        objectCodeName = kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_OBJECT_NAME);
                     }
                 }
                 else {
@@ -355,7 +355,7 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
      * 
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 

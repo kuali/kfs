@@ -21,7 +21,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 
 /**
  * for those cases when admins claim a payment without an associated document
@@ -32,7 +32,7 @@ public class ElectronicPaymentClaimingDocumentGenerationStrategyImpl implements 
     private ElectronicPaymentClaimingService electronicPaymentClaimingService;
 
     /**
-     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#createDocumentFromElectronicPayments(java.util.List, org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#createDocumentFromElectronicPayments(java.util.List, org.kuali.rice.kim.api.identity.Person)
      */
     public String createDocumentFromElectronicPayments(List<ElectronicPaymentClaim> electronicPayments, Person user) {
         return null;
@@ -69,7 +69,7 @@ public class ElectronicPaymentClaimingDocumentGenerationStrategyImpl implements 
     }
 
     /**
-     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#userMayUseToClaim(org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy#userMayUseToClaim(org.kuali.rice.kim.api.identity.Person)
      */
     public boolean userMayUseToClaim(Person claimingUser) {
         return electronicPaymentClaimingService.isAuthorizedForClaimingElectronicPayment(claimingUser, null);

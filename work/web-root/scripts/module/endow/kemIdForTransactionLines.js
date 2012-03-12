@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 function loadTransactionLineKEMIDShortTitle(kemidFieldName, kemidShortTitleFieldName){
-	var kemid = DWRUtil.getValue( kemidFieldName );
+	var kemid = dwr.util.getValue( kemidFieldName );
 	
 	if (kemid =='') {
 		setRecipientValue(kemidShortTitleFieldName, "");

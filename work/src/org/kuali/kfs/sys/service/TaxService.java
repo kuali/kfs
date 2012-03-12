@@ -19,7 +19,7 @@ import java.sql.Date;
 import java.util.List;
 
 import org.kuali.kfs.sys.businessobject.TaxDetail;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public interface TaxService {
     

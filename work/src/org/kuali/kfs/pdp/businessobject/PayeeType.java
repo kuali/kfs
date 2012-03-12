@@ -15,10 +15,7 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
-import java.util.LinkedHashMap;
-
-import org.kuali.rice.kns.bo.KualiCodeBase;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.KualiCodeBase;
 
 /**
  * 
@@ -26,7 +23,17 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
  */
 public class PayeeType extends KualiCodeBase {
 
+    private boolean achEligible;
+    
     public PayeeType() {
     }
 
+    public boolean isAchEligible() {
+        return achEligible;
+    }
+
+    public void setAchEligible(boolean achEligible) {
+        this.achEligible = achEligible;
+    }
+    
 }

@@ -18,7 +18,6 @@ package org.kuali.kfs.module.ld.util;
 import java.io.BufferedReader;
 import java.io.File;
 
-import org.kuali.kfs.gl.batch.service.impl.FilteringOriginEntryFileIterator.OriginEntryFilter;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 
 public class FilteringLaborOriginEntryFileIterator extends LaborOriginEntryFileIterator {

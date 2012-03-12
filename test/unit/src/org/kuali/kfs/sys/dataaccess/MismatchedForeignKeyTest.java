@@ -22,7 +22,7 @@ import java.util.Map;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.database.platform.OracleDatabasePlatform;
+import org.kuali.rice.core.framework.persistence.platform.OracleDatabasePlatform;
 
 @ConfigureContext
 public class MismatchedForeignKeyTest extends KualiTestBase {

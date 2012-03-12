@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,11 +25,9 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.gl.batch.ScrubberStep;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.PurapConstants.AccountsPayableSharedStatuses;
-import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
@@ -52,20 +50,23 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.NoteService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.action.DocumentActionParameters;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.NoteService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -79,12 +80,12 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     protected ParameterService parameterService;
     protected DateTimeService dateTimeService;
     protected PurchaseOrderService purchaseOrderService;
-    protected AccountService accountService;           
+    protected AccountService accountService;
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
-   
+
     public void setPurapService(PurapService purapService) {
         this.purapService = purapService;
     }
@@ -116,6 +117,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.AccountsPayableService#getExpiredOrClosedAccountList(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
+    @Override
     public HashMap<String, ExpiredOrClosedAccountEntry> getExpiredOrClosedAccountList(AccountsPayableDocument document) {
 
         // Retrieve a list of accounts and replacement accounts, where accounts or closed or expired.
@@ -128,6 +130,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
      * @see org.kuali.kfs.module.purap.document.service.AccountsPayableService#generateExpiredOrClosedAccountNote(org.kuali.kfs.module.purap.document.AccountsPayableDocument,
      *      java.util.HashMap)
      */
+    @Override
     public void generateExpiredOrClosedAccountNote(AccountsPayableDocument document, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
 
         // create a note of all the replacement accounts
@@ -140,30 +143,31 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.AccountsPayableService#generateExpiredOrClosedAccountWarning(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
+    @Override
     public void generateExpiredOrClosedAccountWarning(AccountsPayableDocument document) {
 
         // get user
         Person user = GlobalVariables.getUserSession().getPerson();
 
         // get parameter to see if fiscal officers may see the continuation account warning
-        String showContinuationAccountWaringFO = parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PURAP_AP_SHOW_CONTINUATION_ACCOUNT_WARNING_FISCAL_OFFICERS);
+        String showContinuationAccountWaringFO = parameterService.getParameterValueAsString(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PURAP_AP_SHOW_CONTINUATION_ACCOUNT_WARNING_FISCAL_OFFICERS);
 
         // get parameter to see if ap users may see the continuation account warning
-        String showContinuationAccountWaringAP = parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PURAP_AP_SHOW_CONTINUATION_ACCOUNT_WARNING_AP_USERS);
+        String showContinuationAccountWaringAP = parameterService.getParameterValueAsString(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PURAP_AP_SHOW_CONTINUATION_ACCOUNT_WARNING_AP_USERS);
 
         // versus doing it in their respective documents (preq, credit memo)
         // document is past full entry and
         // user is a fiscal officer and a system parameter is set to allow viewing
         // and if the continuation account indicator is set
         if (isFiscalUser(document, user) && "Y".equals(showContinuationAccountWaringFO) && (document.isContinuationAccountIndicator())) {
-            GlobalVariables.getMessageList().add(PurapKeyConstants.MESSAGE_CLOSED_OR_EXPIRED_ACCOUNTS_REPLACED);
+            KNSGlobalVariables.getMessageList().add(PurapKeyConstants.MESSAGE_CLOSED_OR_EXPIRED_ACCOUNTS_REPLACED);
         }
 
         // document is past full entry and
         // user is an AP User and a system parameter is set to allow viewing
         // and if the continuation account indicator is set
         if (isAPUser(document, user) && "Y".equals(showContinuationAccountWaringAP) && (document.isContinuationAccountIndicator())) {
-            GlobalVariables.getMessageList().add(PurapKeyConstants.MESSAGE_CLOSED_OR_EXPIRED_ACCOUNTS_REPLACED);
+            KNSGlobalVariables.getMessageList().add(PurapKeyConstants.MESSAGE_CLOSED_OR_EXPIRED_ACCOUNTS_REPLACED);
         }
 
     }
@@ -172,6 +176,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
      * @see org.kuali.kfs.module.purap.document.service.AccountsPayableService#processExpiredOrClosedAccount(org.kuali.kfs.module.purap.businessobject.PurApAccountingLineBase,
      *      java.util.HashMap)
      */
+    @Override
     public void processExpiredOrClosedAccount(PurApAccountingLineBase acctLineBase, HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList) {
 
         ExpiredOrClosedAccountEntry accountEntry = null;
@@ -192,9 +197,9 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
 
     /**
      * Creates and adds a note indicating accounts replaced and what they replaced and attaches it to the document.
-     * 
+     *
      * @param document  The accounts payable document to which we're adding the note.
-     * @param accounts  The HashMap where the keys are the string representations of the chart and account of the 
+     * @param accounts  The HashMap where the keys are the string representations of the chart and account of the
      *                  original account and the values are the ExpiredOrClosedAccountEntry.
      */
     protected void addContinuationAccountsNote(AccountsPayableDocument document, HashMap<String, ExpiredOrClosedAccountEntry> accounts) {
@@ -226,7 +231,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
         if (sb.toString().length() > 0) {
             try {
                 Note resetNote = documentService.createNoteFromDocument(document, sb.toString());
-                documentService.addNoteToDocument(document, resetNote);
+                document.addNote(resetNote);
             }
             catch (Exception e) {
                 throw new RuntimeException(PurapConstants.REQ_UNABLE_TO_CREATE_NOTE + " " + e);
@@ -235,83 +240,95 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     }
 
     /**
-     * Gets the replacement account for the specified closed account. 
+     * Gets the replacement account for the specified closed account.
      * In this case it's the continuation account of the the specified account.
-     * 
+     *
      * @param account the specified account which is closed.
-     * @document the document the account is associated with.    
+     * @document the document the account is associated with.
      * @return the replacement account for the specified account.
      */
     protected Account getReplaceAccountForClosedAccount(Account account, AccountsPayableDocument document) {
-        if (account == null) return null; // this should never happen        
+        if (account == null)
+         {
+            return null; // this should never happen
+        }
         Account continueAccount = accountService.getByPrimaryId(account.getContinuationFinChrtOfAcctCd(), account.getContinuationAccountNumber());
         return continueAccount;
     }
 
     /**
-     * Gets the replacement account for the specified expired account. 
+     * Gets the replacement account for the specified expired account.
      * In this case it's the continuation account of the the specified account.
-     * 
+     *
      * @param account the specified account which is expired.
-     * @document the document the account is associated with.    
+     * @document the document the account is associated with.
      * @return the replacement account for the specified account.
      */
     protected Account getReplaceAccountForExpiredAccount(Account account, AccountsPayableDocument document) {
-        if (account == null) return null; // this should never happen        
+        if (account == null)
+         {
+            return null; // this should never happen
+        }
         Account continueAccount = accountService.getByPrimaryId(account.getContinuationFinChrtOfAcctCd(), account.getContinuationAccountNumber());
         return continueAccount;
     }
-    
+
     /**
      * Generates a list of replacement accounts for expired or closed accounts, as well as for expired/closed accounts without a continuation account.
-     * 
+     *
      * @param document  The accounts payable document from which we're obtaining the purchase order id to be used
      *                  to obtain the purchase order document, whose accounts we'll use to generate the list of
      *                  replacement accounts for expired or closed accounts.
-     * @return          The HashMap where the keys are the string representations of the chart and account 
+     * @return          The HashMap where the keys are the string representations of the chart and account
      *                  of the original account and the values are the ExpiredOrClosedAccountEntry.
      */
-    protected HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountsList(AccountsPayableDocument document) {     
+    protected HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountsList(AccountsPayableDocument document) {
         // retrieve po from apdoc
         PurchaseOrderDocument po = document.getPurchaseOrderDocument();
         if (po == null && document instanceof VendorCreditMemoDocument) {
             PaymentRequestDocument preq = ((VendorCreditMemoDocument)document).getPaymentRequestDocument();
-            if (preq == null)   return null; // this should never happen 
+            if (preq == null)
+             {
+                return null; // this should never happen
+            }
             po = ((VendorCreditMemoDocument)document).getPaymentRequestDocument().getPurchaseOrderDocument();
         }
-        if (po == null) return null; // this should never happen 
+        if (po == null)
+         {
+            return null; // this should never happen
+        }
 
         // initialize
-        List<SourceAccountingLine> acctLines = purapAccountingService.generateSummary(po.getItemsActiveOnly());            
+        List<SourceAccountingLine> acctLines = purapAccountingService.generateSummary(po.getItemsActiveOnly());
         HashMap<String, ExpiredOrClosedAccountEntry> eocAcctMap = new HashMap<String, ExpiredOrClosedAccountEntry>();
 
         // loop through accounting lines
         for (SourceAccountingLine acctLine : acctLines) {
             Account account = accountService.getByPrimaryId(acctLine.getChartOfAccountsCode(), acctLine.getAccountNumber());
             Account repAccount = null;
-            boolean replace = false;            
-            
+            boolean replace = false;
+
             // 1. if the account is closed, get the continuation account as replacement
             if (!account.isActive()) {
-                repAccount = getReplaceAccountForClosedAccount(account, document);         
+                repAccount = getReplaceAccountForClosedAccount(account, document);
                 replace = true;
-            }            
+            }
             // 2. if the account is C&G and is expired for more than 90 days, get the continuation account as replacement
             else if (account.isExpired()) {
                 // retrieve extension limit (grace period)
-                String expirationExtensionDays = parameterService.getParameterValue(ScrubberStep.class, KFSConstants.SystemGroupParameterNames.GL_SCRUBBER_VALIDATION_DAYS_OFFSET);
+                String expirationExtensionDays = parameterService.getParameterValueAsString(ScrubberStep.class, KFSConstants.SystemGroupParameterNames.GL_SCRUBBER_VALIDATION_DAYS_OFFSET);
                 int expirationExtensionDaysInt = 90; // default to 90 days (approximately 3 months)
                 if (expirationExtensionDays.trim().length() > 0) {
                     expirationExtensionDaysInt = new Integer(expirationExtensionDays).intValue();
                 }
                 // if account is C&G and expired beyond grace period then get replacement
                 if ((account.isForContractsAndGrants() && dateTimeService.dateDiff(account.getAccountExpirationDate(), dateTimeService.getCurrentDate(), true) > expirationExtensionDaysInt)) {
-                    repAccount = getReplaceAccountForExpiredAccount(account, document); 
+                    repAccount = getReplaceAccountForExpiredAccount(account, document);
                     replace = true;
                 }
-                // otherwise if the account is not C&G, or it's expired within the grace period, do nothing         
+                // otherwise if the account is not C&G, or it's expired within the grace period, do nothing
             }
-            
+
             // if replacement needed, set up ExpiredOrClosedAccount entry and add it to the eocAcctMap
             if (replace) {
                 ExpiredOrClosedAccountEntry eocAcctEntry = new ExpiredOrClosedAccountEntry();
@@ -326,21 +343,22 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
                 }
                 eocAcctEntry.setOriginalAccount(originAcct);
                 eocAcctEntry.setReplacementAccount(replaceAcct);
-                eocAcctMap.put(createChartAccountString(originAcct), eocAcctEntry);                 
-            }               
-        }           
+                eocAcctMap.put(createChartAccountString(originAcct), eocAcctEntry);
+            }
+        }
 
-        return eocAcctMap;      
+        return eocAcctMap;
     }
 
     /**
      * Generates a list of replacement accounts for expired or closed accounts, as well as for expired/closed accounts without a continuation account.
-     * 
+     *
      * @param document  The purchase order document whose accounts we'll use to generate the list of
      *                  replacement accounts for expired or closed accounts.
-     * @return          The HashMap where the keys are the string representations of the chart and account 
+     * @return          The HashMap where the keys are the string representations of the chart and account
      *                  of the original account and the values are the ExpiredOrClosedAccountEntry.
      */
+    @Override
     public HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountsList(PurchaseOrderDocument po) {
         HashMap<String, ExpiredOrClosedAccountEntry> list = new HashMap<String, ExpiredOrClosedAccountEntry>();
         ExpiredOrClosedAccountEntry entry = null;
@@ -350,7 +368,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
 
         if (po != null) {
             // get list of active accounts
-            List<SourceAccountingLine> accountList = purapAccountingService.generateSummary(po.getItemsActiveOnly());            
+            List<SourceAccountingLine> accountList = purapAccountingService.generateSummary(po.getItemsActiveOnly());
 
             // loop through accounts
             for (SourceAccountingLine poAccountingLine : accountList) {
@@ -385,7 +403,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
                 }
                 else if (account.isExpired()) {
                     Account continuationAccount = accountService.getByPrimaryId(account.getContinuationFinChrtOfAcctCd(), account.getContinuationAccountNumber());
-                    String expirationExtensionDays = parameterService.getParameterValue(ScrubberStep.class, KFSConstants.SystemGroupParameterNames.GL_SCRUBBER_VALIDATION_DAYS_OFFSET);
+                    String expirationExtensionDays = parameterService.getParameterValueAsString(ScrubberStep.class, KFSConstants.SystemGroupParameterNames.GL_SCRUBBER_VALIDATION_DAYS_OFFSET);
                     int expirationExtensionDaysInt = 3 * 30; // default to 90 days (approximately 3 months)
 
                     if (expirationExtensionDays.trim().length() > 0) {
@@ -421,10 +439,10 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
         }
         return list;
     }
-    
+
     /**
      * Creates a chart-account string.
-     * 
+     *
      * @param ecAccount  The account whose chart and account number we're going to use to create the resulting String for this method.
      * @return           The string representing the chart and account number of the given ecAccount.
      */
@@ -440,7 +458,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
 
     /**
      * Determines if the user is a fiscal officer.  Currently this only checks the doc and workflow status for approval requested
-     * 
+     *
      * @param document  The document to be used to check the status code and whether the workflow approval is requested.
      * @param user      The current user.
      * @return          boolean true if the user is a fiscal officer.
@@ -457,7 +475,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
 
     /**
      * Determines if the user is an AP user.  Currently this only checks the doc and workflow status for approval requested
-     * 
+     *
      * @param document  The document to be used to check the status code and whether the workflow approval is requested.
      * @param user      The current user.
      * @return          boolean true if the user is an AP User.
@@ -465,32 +483,34 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     protected boolean isAPUser(AccountsPayableDocument document, Person user) {
         boolean isFiscalUser = false;
 
-        if ((PaymentRequestStatuses.APPDOC_AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(document.getAppDocStatus()) && 
+        if ((PaymentRequestStatuses.APPDOC_AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(document.getAppDocStatus()) &&
              document.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) ||
              PaymentRequestStatuses.APPDOC_IN_PROCESS.equals(document.getAppDocStatus())) {
                 isFiscalUser = true;
         }
 
         return isFiscalUser;
-    }    
-    
+    }
+
     /**
      * @see org.kuali.kfs.module.purap.document.service.AccountsPayableService#cancelAccountsPayableDocument(org.kuali.kfs.module.purap.document.AccountsPayableDocument, java.lang.String)
      */
+    @Override
     public void cancelAccountsPayableDocument(AccountsPayableDocument apDocument, String currentNodeName) {
         if (purapService.isFullDocumentEntryCompleted(apDocument)) {
             purapGeneralLedgerService.generateEntriesCancelAccountsPayableDocument(apDocument);
         }
         AccountsPayableDocumentSpecificService accountsPayableDocumentSpecificService = apDocument.getDocumentSpecificService();
-        accountsPayableDocumentSpecificService.updateStatusByNode(currentNodeName, apDocument);        
+        accountsPayableDocumentSpecificService.updateStatusByNode(currentNodeName, apDocument);
 
         // close/reopen purchase order.
         accountsPayableDocumentSpecificService.takePurchaseOrderCancelAction(apDocument);
     }
-    
+
     /**
      * @see org.kuali.kfs.module.purap.document.service.AccountsPayableService#cancelAccountsPayableDocumentByCheckingDocumentStatus(org.kuali.kfs.module.purap.document.AccountsPayableDocument, java.lang.String)
      */
+    @Override
     public void cancelAccountsPayableDocumentByCheckingDocumentStatus(AccountsPayableDocument document, String noteText) throws Exception {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
 
@@ -502,20 +522,26 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
             //while awaiting AP approval, just call regular disapprove logic as user will have action request
             documentService.disapproveDocument(document, noteText);
         }
+        else if (document instanceof PaymentRequestDocument && PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_FISCAL_REVIEW.equals(document.getAppDocStatus()) && ((PaymentRequestDocument)document).isPaymentRequestedCancelIndicator()) {
+            // special logic to disapprove PREQ as the fiscal officer
+            DocumentActionParameters.Builder p = DocumentActionParameters.Builder.create(document.getDocumentNumber(), document.getLastActionPerformedByPersonId());
+            p.setAnnotation("Document cancelled after requested cancel by "+GlobalVariables.getUserSession().getPrincipalName());
+            KewApiServiceLocator.getWorkflowDocumentActionsService().disapprove( p.build() );
+        }
         else {
             UserSession originalUserSession = GlobalVariables.getUserSession();
-            KualiWorkflowDocument originalWorkflowDocument = document.getDocumentHeader().getWorkflowDocument();
+            WorkflowDocument originalWorkflowDocument = document.getDocumentHeader().getWorkflowDocument();
             //any other time, perform special logic to cancel the document
-            if (!document.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+            if (!document.getDocumentHeader().getWorkflowDocument().isApproved()) {
                 try {
                     // person canceling may not have an action requested on the document
                     Person userRequestedCancel = SpringContext.getBean(PersonService.class).getPerson(document.getLastActionPerformedByPersonId());
                     GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
-                    
+
                     WorkflowDocumentService workflowDocumentService =  SpringContext.getBean(WorkflowDocumentService.class);
-                    KualiWorkflowDocument newWorkflowDocument = workflowDocumentService.createWorkflowDocument(Long.valueOf(document.getDocumentNumber()), GlobalVariables.getUserSession().getPerson());
+                    WorkflowDocument newWorkflowDocument = workflowDocumentService.loadWorkflowDocument(document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName(), GlobalVariables.getUserSession().getPerson());
                     document.getDocumentHeader().setWorkflowDocument(newWorkflowDocument);
-                    
+
                     String annotation = "Document Cancelled by user " + originalUserSession.getPerson().getName() + " (" + originalUserSession.getPerson().getPrincipalName() + ")";
                     if (ObjectUtils.isNotNull(userRequestedCancel)) {
                         annotation.concat(" per request of user " + userRequestedCancel.getName() + " (" + userRequestedCancel.getPrincipalName() + ")");
@@ -530,28 +556,29 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
             else {
                 // call gl method here (no reason for post processing since workflow done)
                 SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(document, "");
-                document.getDocumentHeader().getWorkflowDocument().logDocumentAction("Document Cancelled by user " + originalUserSession.getPerson().getName() + " (" + originalUserSession.getPerson().getPrincipalName() + ")");
+                document.getDocumentHeader().getWorkflowDocument().logAnnotation("Document Cancelled by user " + originalUserSession.getPerson().getName() + " (" + originalUserSession.getPerson().getPrincipalName() + ")");
             }
         }
-                    
+
         Note noteObj = documentService.createNoteFromDocument(document, noteText);
-        documentService.addNoteToDocument(document, noteObj);
-        SpringContext.getBean(NoteService.class).save(noteObj);      
+        document.addNote(noteObj);
+        SpringContext.getBean(NoteService.class).save(noteObj);
     }
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.AccountsPayableService#performLogicForFullEntryCompleted(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
      */
+    @Override
     public void performLogicForFullEntryCompleted(PurchasingAccountsPayableDocument purapDocument) {
         AccountsPayableDocument apDocument = (AccountsPayableDocument)purapDocument;
         AccountsPayableDocumentSpecificService accountsPayableDocumentSpecificService = apDocument.getDocumentSpecificService();
-        
+
         // eliminate unentered items
         purapService.deleteUnenteredItems(apDocument);
-        
+
         // change accounts from percents to dollars
         purapAccountingService.updateAccountAmounts(apDocument);
-        
+
         //set the AP approval date always when the GL entries are created (treated more of an AP processed date)
         apDocument.setAccountsPayableApprovalTimestamp(dateTimeService.getCurrentTimestamp());
 
@@ -560,12 +587,13 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
 
         // do GL entries for document creation
         accountsPayableDocumentSpecificService.generateGLEntriesCreateAccountsPayableDocument(apDocument);
-        
+
     }
 
     /**
      * @see org.kuali.kfs.module.purap.document.service.AccountsPayableService#updateItemList(org.kuali.kfs.module.purap.document.AccountsPayableDocument)
      */
+    @Override
     public void updateItemList(AccountsPayableDocument apDocument) {
         // don't run the following if past full entry
         if (purapService.isFullDocumentEntryCompleted(apDocument)) {
@@ -667,7 +695,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
 
     /**
      * Updates fields that could've been changed on amendment.
-     * 
+     *
      * @param sourceItem   The purchase order item from which we're getting the unit price, catalog number and description to be set in the destItem.
      * @param destItem     The payment request item to which we're setting the unit price, catalog number and description.
      */
@@ -679,7 +707,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
 
     /**
      * Updates encumberances.
-     * 
+     *
      * @param preqItem  The payment request item from which we're obtaining the item quantity, unit price and extended price.
      * @param poItem    The purchase order item from which we're obtaining the invoice total quantity, unit price and invoice total amount.
      * @param cmItem    The credit memo item whose invoice total quantity, unit price and extended price are to be updated.
@@ -699,7 +727,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
 
     /**
      * Updates the encumberance related fields.
-     * 
+     *
      * @param purchaseOrderItem  The purchase order item from which we're obtaining the invoice total quantity, unit price and invoice total amount.
      * @param cmItem             The credit memo item whose invoice total quantity, unit price and extended price are to be updated.
      */
@@ -712,6 +740,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.AccountsPayableService#purchaseOrderItemEligibleForPayment(org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem)
      */
+    @Override
     public boolean purchaseOrderItemEligibleForPayment(PurchaseOrderItem poi) {
         if (ObjectUtils.isNull(poi)) {
             throw new RuntimeException("item null in purchaseOrderItemEligibleForPayment ... this should never happen");
@@ -737,20 +766,21 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
             return false;
         }
     }
-    
+
     /**
      * @see org.kuali.kfs.module.purap.document.service.AccountsPayableService#canCopyAccountingLinesWithZeroAmount()
      */
+    @Override
     public boolean canCopyAccountingLinesWithZeroAmount() {
         boolean canCopyLine = false;
-        
+
         // get parameter to see if accounting line with zero dollar amount can be copied from PO to PREQ.
-        String copyZeroAmountLine = parameterService.getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.COPY_ACCOUNTING_LINES_WITH_ZERO_AMOUNT_FROM_PO_TO_PREQ_IND);
-        
+        String copyZeroAmountLine = parameterService.getParameterValueAsString(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.COPY_ACCOUNTING_LINES_WITH_ZERO_AMOUNT_FROM_PO_TO_PREQ_IND);
+
         if ("Y".equalsIgnoreCase(copyZeroAmountLine)) {
             return true;
         }
-        
+
         return canCopyLine;
     }
 

@@ -18,6 +18,7 @@ package org.kuali.kfs.fp.service;
 import static org.kuali.kfs.sys.fixture.AccountingLineFixture.LINE18;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.mhkozlow;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -28,10 +29,10 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * This class tests the Check service.
@@ -66,7 +67,7 @@ public class CheckServiceTest extends KualiTestBase {
     @ConfigureContext(session = mhkozlow, shouldCommitTransactions = true)
     public void testLifecycle() throws Exception {
         boolean deleteSucceeded = false;
-        List retrievedChecks = SpringContext.getBean(CheckService.class).getByDocumentHeaderId(documentNumber);
+        List retrievedChecks = new ArrayList(SpringContext.getBean(CheckService.class).getByDocumentHeaderId(documentNumber));
         assertTrue(retrievedChecks.size() == 0);
 
         Check savedCheck = null;
@@ -77,7 +78,7 @@ public class CheckServiceTest extends KualiTestBase {
             savedCheck = check;
 
             // retrieve it
-            retrievedChecks = SpringContext.getBean(CheckService.class).getByDocumentHeaderId(documentNumber);
+            retrievedChecks = new ArrayList(SpringContext.getBean(CheckService.class).getByDocumentHeaderId(documentNumber));
             assertTrue(retrievedChecks.size() > 0);
             retrievedCheck = (Check) retrievedChecks.get(0);
 
@@ -91,13 +92,13 @@ public class CheckServiceTest extends KualiTestBase {
         }
 
         // verify that the delete succeeded
-        retrievedChecks = SpringContext.getBean(CheckService.class).getByDocumentHeaderId(documentNumber);
+        retrievedChecks = new ArrayList(SpringContext.getBean(CheckService.class).getByDocumentHeaderId(documentNumber));
         assertTrue(retrievedChecks.size() == 0);
 
     }
 
     private void clearTestData() {
-        List retrievedChecks = SpringContext.getBean(CheckService.class).getByDocumentHeaderId(documentNumber);
+        List retrievedChecks = new ArrayList(SpringContext.getBean(CheckService.class).getByDocumentHeaderId(documentNumber));
         if (retrievedChecks.size() > 0) {
             for (Iterator i = retrievedChecks.iterator(); i.hasNext();) {
                 SpringContext.getBean(BusinessObjectService.class).delete((Check) i.next());

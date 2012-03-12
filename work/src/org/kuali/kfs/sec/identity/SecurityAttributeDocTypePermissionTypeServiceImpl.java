@@ -16,19 +16,16 @@
 package org.kuali.kfs.sec.identity;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sec.SecConstants;
-import org.kuali.kfs.sec.businessobject.options.SecurityDefinitionDocumentTypeFinder;
-import org.kuali.rice.kew.dto.DocumentTypeDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.service.WorkflowInfo;
-import org.kuali.rice.kim.bo.role.dto.KimPermissionInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.util.KimCommonUtils;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.api.doctype.DocumentType;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.permission.Permission;
 
 
 /**
@@ -37,21 +34,21 @@ import org.kuali.rice.kim.util.KimCommonUtils;
 public class SecurityAttributeDocTypePermissionTypeServiceImpl extends SecurityAttributePermissionTypeServiceImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SecurityAttributeDocTypePermissionTypeServiceImpl.class);
 
-/* RICE_20_DELETE */    {
-/* RICE_20_DELETE */        requiredAttributes.add(SecKimAttributes.DOCUMENT_TYPE_NAME);
-/* RICE_20_DELETE */        checkRequiredAttributes = false;
-/* RICE_20_DELETE */    }
+
+
+
+
 
     /**
-     * @see org.kuali.rice.kim.service.support.impl.KimPermissionTypeServiceBase#performPermissionMatches(org.kuali.rice.kim.bo.types.dto.AttributeSet, java.util.List)
+     * @see org.kuali.rice.kns.kim.permission.PermissionTypeServiceBase#performPermissionMatches(org.kuali.rice.kim.bo.types.dto.AttributeSet, java.util.List)
      */
     @Override
-    protected List<KimPermissionInfo> performPermissionMatches(AttributeSet requestedDetails, List<KimPermissionInfo> permissionsList) {
-        List<KimPermissionInfo> matchingPermissions = new ArrayList<KimPermissionInfo>();
+    protected List<Permission> performPermissionMatches(Map<String,String> requestedDetails, List<Permission> permissionsList) {
+        List<Permission> matchingPermissions = new ArrayList<Permission>();
 
-        for (KimPermissionInfo kpi : permissionsList) {
-            String documentTypeNameMatch = requestedDetails.get(SecKimAttributes.DOCUMENT_TYPE_NAME);
-            String documentTypeName = kpi.getDetails().get(SecKimAttributes.DOCUMENT_TYPE_NAME);
+        for (Permission kpi : permissionsList) {
+            String documentTypeNameMatch = requestedDetails.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME);
+            String documentTypeName = kpi.getAttributes().get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME);
 
             boolean docTypeMatch = false;
             if (SecConstants.ALL_DOCUMENT_TYPE_NAME.equals(documentTypeName)) {
@@ -64,7 +61,7 @@ public class SecurityAttributeDocTypePermissionTypeServiceImpl extends SecurityA
                 docTypeMatch = isParentDocType(documentTypeNameMatch, documentTypeName);
             }
 
-            if (docTypeMatch && isDetailMatch(requestedDetails, kpi.getDetails())) {
+            if (docTypeMatch && isDetailMatch(requestedDetails, kpi.getAttributes())) {
                 matchingPermissions.add(kpi);
             }
         }
@@ -80,27 +77,18 @@ public class SecurityAttributeDocTypePermissionTypeServiceImpl extends SecurityA
      * @return boolean true if the first document type is a child of the second
      */
     protected boolean isParentDocType(String docTypeName, String potentialParentDocTypeName) {
-        WorkflowInfo workflowInfo = new WorkflowInfo();
-
-        DocumentTypeDTO documentType = null;
-        try {
-            documentType = workflowInfo.getDocType(docTypeName);
-            String parentDocTypeName = documentType.getDocTypeParentName();
-
-            if (StringUtils.equals(docTypeName, parentDocTypeName)) {
-                return true;
-            }
-            else if ((documentType.getDocTypeParentId() == null) || documentType.getDocTypeParentId().equals(documentType.getDocTypeId())) {
-                return false;
-            }
-            else {
-                return isParentDocType(parentDocTypeName, potentialParentDocTypeName);
-            }
+        DocumentType documentType = null;
+        documentType = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(docTypeName);
+        
+        if ( documentType == null || StringUtils.isBlank( documentType.getParentId() ) ) {
+            return false;
         }
-        catch (WorkflowException e) {
-            LOG.error("Invalid document type found " + docTypeName);
-            throw new RuntimeException("Invalid document type found: " + docTypeName);
-        }
+        
+        DocumentType parentDocType = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeById(documentType.getParentId());
+        if ( parentDocType == null ) {
+            return false;
+        }            
+        return isParentDocType(parentDocType.getName(), potentialParentDocTypeName);
     }
 
 }

@@ -63,12 +63,12 @@ import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.businessobject.LaborOriginEntryFieldUtil;
 import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
 import org.kuali.kfs.module.ld.util.FilteringLaborOriginEntryFileIterator;
-import org.kuali.kfs.module.ld.util.LaborOriginEntryFileIterator;
 import org.kuali.kfs.module.ld.util.FilteringLaborOriginEntryFileIterator.LaborOriginEntryFilter;
+import org.kuali.kfs.module.ld.util.LaborOriginEntryFileIterator;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSParameterKeyConstants.LdParameterConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
-import org.kuali.kfs.sys.KFSParameterKeyConstants.LdParameterConstants;
 import org.kuali.kfs.sys.batch.service.WrappingBatchService;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -76,13 +76,14 @@ import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.service.DocumentNumberAwareReportWriterService;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterEvaluator;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.parameter.ParameterEvaluator;
+import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.PersistenceService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class has the logic for the scrubber. It is required because the scrubber process needs instance variables. Instance
@@ -102,7 +103,7 @@ public class LaborScrubberProcess {
     private DateTimeService dateTimeService;
     private OffsetDefinitionService offsetDefinitionService;
     private ObjectCodeService objectCodeService;
-    private KualiConfigurationService kualiConfigurationService;
+    private ConfigurationService kualiConfigurationService;
     private UniversityDateDao universityDateDao;
     private PersistenceService persistenceService;
     private ScrubberValidator scrubberValidator;
@@ -170,7 +171,7 @@ public class LaborScrubberProcess {
                                 DateTimeService dateTimeService, 
                                 OffsetDefinitionService offsetDefinitionService, 
                                 ObjectCodeService objectCodeService, 
-                                KualiConfigurationService kualiConfigurationService, 
+                                ConfigurationService kualiConfigurationService, 
                                 UniversityDateDao universityDateDao, 
                                 PersistenceService persistenceService, 
                                 ScrubberValidator scrubberValidator, 
@@ -300,7 +301,7 @@ public class LaborScrubberProcess {
 
         universityRunDate = laborAccountingCycleCachingService.getUniversityDate(runDate);
         if (universityRunDate == null) {
-            throw new IllegalStateException(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_UNIV_DATE_NOT_FOUND));
+            throw new IllegalStateException(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_UNIV_DATE_NOT_FOUND));
         }
         setOffsetString();
         setDescriptions();
@@ -475,7 +476,7 @@ public class LaborScrubberProcess {
                                 unitOfWork = new UnitOfWorkInfo(scrubbedEntry);
                             }
                             KualiDecimal transactionAmount = scrubbedEntry.getTransactionLedgerEntryAmount();
-                            ParameterEvaluator offsetFiscalPeriods = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.OFFSET_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode());
+                            ParameterEvaluator offsetFiscalPeriods = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.OFFSET_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode());
                             BalanceType scrubbedEntryBalanceType = laborAccountingCycleCachingService.getBalanceType(scrubbedEntry.getFinancialBalanceTypeCode());
                             if (scrubbedEntryBalanceType.isFinancialOffsetGenerationIndicator() && offsetFiscalPeriods.evaluationSucceeds()) {
                                 if (scrubbedEntry.isDebit()) {
@@ -567,11 +568,11 @@ public class LaborScrubberProcess {
      * Get all the transaction descriptions from the param table
      */
     protected void setDescriptions() {
-        offsetDescription = kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_GENERATED_OFFSET);
-        capitalizationDescription = kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_GENERATED_CAPITALIZATION);
-        liabilityDescription = kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_GENERATED_LIABILITY);
-        costShareDescription = kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_GENERATED_COST_SHARE);
-        transferDescription = kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_GENERATED_TRANSFER);
+        offsetDescription = kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.MSG_GENERATED_OFFSET);
+        capitalizationDescription = kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.MSG_GENERATED_CAPITALIZATION);
+        liabilityDescription = kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.MSG_GENERATED_LIABILITY);
+        costShareDescription = kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.MSG_GENERATED_COST_SHARE);
+        transferDescription = kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.MSG_GENERATED_TRANSFER);
     }
 
     /**
@@ -763,7 +764,7 @@ public class LaborScrubberProcess {
     }
 
     protected void initCutoffTime() {
-        String cutoffTime = SpringContext.getBean(ParameterService.class).getParameterValue(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.SCRUBBER_CUTOFF_TIME);
+        String cutoffTime = SpringContext.getBean(ParameterService.class).getParameterValueAsString(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.SCRUBBER_CUTOFF_TIME);
         if (StringUtils.isBlank(cutoffTime)) {
             LOG.debug("Cutoff time system parameter not found");
             unsetCutoffTimeForPreviousDay();
@@ -846,7 +847,7 @@ public class LaborScrubberProcess {
         // then demerge all other entries for this document; otherwise, only
         // pull the entry with the error and don't demerge anything else.
         //
-        List<String> demergeDocumentTypes = parameterService.getParameterValues(
+        Collection<String> demergeDocumentTypes = parameterService.getParameterValuesAsString(
                 LaborScrubberStep.class,
                 LdParameterConstants.DEMERGE_DOCUMENT_TYPES);
 

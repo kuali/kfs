@@ -18,7 +18,7 @@ package org.kuali.kfs.module.ec.util;
 import static org.kuali.kfs.sys.KFSConstants.CurrencyTypeAmounts.HUNDRED_DOLLAR_AMOUNT;
 
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * To hold the payroll amount and percent

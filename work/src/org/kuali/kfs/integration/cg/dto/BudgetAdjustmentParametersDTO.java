@@ -19,8 +19,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.integration.cg.dto.BudgetAdjustmentParametersDTO.Details;
-
 public class BudgetAdjustmentParametersDTO implements Serializable {
 
     // goes into document header

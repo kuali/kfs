@@ -34,8 +34,7 @@ import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.fixture.AccountingLineFixture;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public enum PurapAccountingServiceFixture {
     
@@ -177,7 +176,7 @@ public enum PurapAccountingServiceFixture {
      * @return          The same document, with the totals and source accounting line lists added to its items
      */
     private RequisitionDocument augmentRequisitionDocument(RequisitionDocument req) {
-        List<RequisitionItem> augmentedItems = new TypedArrayList(RequisitionItem.class);
+        List<RequisitionItem> augmentedItems = new ArrayList<RequisitionItem>();
         for(RequisitionItem item : (List<RequisitionItem>)req.getItems()) {
             item.setTotalAmount(this.totalAmount);
             item.setSourceAccountingLines(purApAccountingLineList);        
@@ -216,7 +215,7 @@ public enum PurapAccountingServiceFixture {
      * @return          The same document, with the totals and source accounting line lists add to its items
      */
     private PaymentRequestDocument augmentPaymentRequestDocument(PaymentRequestDocument preq) {
-        List<PaymentRequestItem> augmentedItems = new TypedArrayList(PaymentRequestItem.class);
+        List<PaymentRequestItem> augmentedItems = new ArrayList<PaymentRequestItem>();
         for(PaymentRequestItem item : (List<PaymentRequestItem>)preq.getItems()) {
             item.setTotalAmount(this.totalAmount);
             item.setSourceAccountingLines(purApAccountingLineList);        
@@ -250,7 +249,7 @@ public enum PurapAccountingServiceFixture {
     
     
     private VendorCreditMemoDocument augmentVendorCreditMemoDocument(VendorCreditMemoDocument vcm) {
-        List<CreditMemoItem> augmentedItems = new TypedArrayList(CreditMemoItem.class);
+        List<CreditMemoItem> augmentedItems = new ArrayList<CreditMemoItem>();
         for(CreditMemoItem item : (List<CreditMemoItem>)vcm.getItems()) {
             item.setTotalAmount(this.totalAmount);
             item.setSourceAccountingLines(purApAccountingLineList);        

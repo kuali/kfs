@@ -71,6 +71,6 @@
   <!-- workflow attributes -->
   <bean id="HigherEducationFunctionMaintenanceDocument-workflowAttributes" parent="HigherEducationFunctionMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="HigherEducationFunctionMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="HigherEducationFunctionMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
   
 </beans>

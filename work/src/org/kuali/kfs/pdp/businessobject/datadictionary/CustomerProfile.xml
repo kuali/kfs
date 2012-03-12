@@ -89,7 +89,7 @@
           <property name="objectAttributeName" value="postalCode"/>
           <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition" p:sourceName="zipCode" p:targetName="postalCode"/>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="zipCode" p:targetName="code"/>
             </list>
           </property>
         </bean>
@@ -97,7 +97,7 @@
           <property name="objectAttributeName" value="state"/>
           <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition" p:sourceName="stateCode" p:targetName="postalStateCode"/>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="stateCode" p:targetName="code"/>
             </list>
           </property>
         </bean>
@@ -105,7 +105,7 @@
           <property name="objectAttributeName" value="country"/>
           <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition" p:sourceName="countryCode" p:targetName="postalCountryCode"/>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="countryCode" p:targetName="code"/>
             </list>
           </property>
         </bean>
@@ -113,7 +113,7 @@
               <property name="objectAttributeName" value="defaultProcessingCampus"/>
               <property name="primitiveAttributes">
                 <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="defaultPhysicalCampusProcessingCode" p:targetName="campusCode"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="defaultPhysicalCampusProcessingCode" p:targetName="code"/>
                 </list>
               </property>
     		</bean>
@@ -189,7 +189,7 @@
   </bean>
   
   <bean id="CustomerProfile-defaultPhysicalCampusProcessingCode" parent="CustomerProfile-defaultPhysicalCampusProcessingCode-parentBean"/>
-  <bean id="CustomerProfile-defaultPhysicalCampusProcessingCode-parentBean" abstract="true" parent="Campus-campusCode">
+  <bean id="CustomerProfile-defaultPhysicalCampusProcessingCode-parentBean" abstract="true" parent="Campus-code">
     <property name="name" value="defaultPhysicalCampusProcessingCode"/>
     <property name="label" value="Campus Process Location"/>
     <property name="shortLabel" value="Campus Process Location"/>
@@ -328,21 +328,15 @@
   </bean>
   
   <bean id="CustomerProfile-zipCode" parent="CustomerProfile-zipCode-parentBean"/>
-  <bean id="CustomerProfile-zipCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CustomerProfile-zipCode-parentBean" abstract="true" parent="PostalCode-code">
     <property name="name" value="zipCode"/>
     <property name="label" value="Zip"/>
     <property name="shortLabel" value="Zip"/>
     <property name="required" value="false"/>
-    <property name="maxLength" value="20"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="20"/>
-    </property>
   </bean>
   
   <bean id="CustomerProfile-countryCode" parent="CustomerProfile-countryCode-parentBean"/>
-  <bean id="CustomerProfile-countryCode-parentBean" abstract="true" parent="VendorGenericAttributes-countryCode">
-    <property name="name" value="countryCode"/>
-  </bean>
+  <bean id="CustomerProfile-countryCode-parentBean" abstract="true" parent="VendorGenericAttributes-countryCode" />
   
   <bean id="CustomerProfile-fileThresholdAmount" parent="CustomerProfile-fileThresholdAmount-parentBean"/>
   <bean id="CustomerProfile-fileThresholdAmount-parentBean" abstract="true" parent="AttributeDefinition">
@@ -558,9 +552,7 @@
     <property name="shortLabel" value="Accounting Edit Required"/>
     <property name="required" value="false"/>
     <property name="maxLength" value="1"/>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNOnlyValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
+    <property name="control" ref="IndicatorYNOnlySelectControl" />
   </bean>
   
   <bean id="CustomerProfile-payeeIdRequired" parent="CustomerProfile-payeeIdRequired-parentBean"/>
@@ -570,9 +562,7 @@
     <property name="shortLabel" value="Payee ID Required"/>
     <property name="required" value="false"/>
     <property name="maxLength" value="1"/>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNOnlyValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
+    <property name="control" ref="IndicatorYNOnlySelectControl" />
   </bean>
   
   <bean id="CustomerProfile-ownershipCodeRequired" parent="CustomerProfile-ownershipCodeRequired-parentBean"/>
@@ -582,9 +572,7 @@
     <property name="shortLabel" value="Ownership Codes Required"/>
     <property name="required" value="false"/>
     <property name="maxLength" value="1"/>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNOnlyValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
+    <property name="control" ref="IndicatorYNOnlySelectControl" />
   </bean>
   
   <bean id="CustomerProfile-adviceCreate" parent="CustomerProfile-adviceCreate-parentBean"/>
@@ -594,9 +582,7 @@
     <property name="shortLabel" value="ACH Advice Flag"/>
     <property name="required" value="false"/>
     <property name="maxLength" value="1"/>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNOnlyValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
+    <property name="control" ref="IndicatorYNOnlySelectControl" />
   </bean>
   
   <bean id="CustomerProfile-employeeCheck" parent="CustomerProfile-employeeCheck-parentBean"/>
@@ -606,9 +592,7 @@
     <property name="shortLabel" value="Employee Check Indicator"/>
     <property name="required" value="false"/>
     <property name="maxLength" value="1"/>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNOnlyValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
+    <property name="control" ref="IndicatorYNOnlySelectControl" />
   </bean>
   
   <bean id="CustomerProfile-nraReview" parent="CustomerProfile-nraReview-parentBean"/>
@@ -618,9 +602,7 @@
     <property name="shortLabel" value="NRA Check Indicator"/>
     <property name="required" value="false"/>
     <property name="maxLength" value="1"/>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNOnlyValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
+    <property name="control" ref="IndicatorYNOnlySelectControl" />
   </bean>
   
   <bean id="CustomerProfile-relieveLiabilities" parent="CustomerProfile-relieveLiabilities-parentBean"/>
@@ -630,9 +612,7 @@
     <property name="shortLabel" value="Relieve Liabilities"/>
     <property name="required" value="false"/>
     <property name="maxLength" value="1"/>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNOnlyValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
+    <property name="control" ref="IndicatorYNOnlySelectControl" />
   </bean>
   
   <bean id="CustomerProfile-achTransactionType" parent="CustomerProfile-achTransactionType-parentBean"/>

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.vnd.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -22,9 +23,9 @@ import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorParameterConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.service.TaxNumberService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.web.format.FormatException;
+import org.kuali.rice.core.web.format.FormatException;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TaxNumberServiceImpl implements TaxNumberService {
 
@@ -44,7 +45,7 @@ public class TaxNumberServiceImpl implements TaxNumberService {
     public String formatToDefaultFormat(String taxNbr) throws FormatException {
         String digits = taxNbr.replaceAll("\\D", "");
 
-        Integer defaultTaxNumberDigits = new Integer(parameterService.getParameterValue(VendorDetail.class, VendorParameterConstants.DEFAULT_TAX_NUMBER_DIGITS));
+        Integer defaultTaxNumberDigits = new Integer(parameterService.getParameterValueAsString(VendorDetail.class, VendorParameterConstants.DEFAULT_TAX_NUMBER_DIGITS));
 
         if (digits.length() < defaultTaxNumberDigits) {
             throw new FormatException("Tax number has fewer than " + defaultTaxNumberDigits + " digits.", KFSKeyConstants.ERROR_CUSTOM, taxNbr);
@@ -105,7 +106,7 @@ public class TaxNumberServiceImpl implements TaxNumberService {
     public boolean isValidTaxNumber(String taxNbr, String taxType) {
         String[] ssnFormats = parseSSNFormats();
         String[] feinFormats = parseFEINFormats();
-        Integer defaultTaxNumberDigits = new Integer(parameterService.getParameterValue(VendorDetail.class, "DEFAULT_TAX_NUMBER_DIGITS"));
+        Integer defaultTaxNumberDigits = new Integer(parameterService.getParameterValueAsString(VendorDetail.class, "DEFAULT_TAX_NUMBER_DIGITS"));
 
         if (taxNbr.length() != defaultTaxNumberDigits || !isStringAllNumbers(taxNbr)) {
             return false;
@@ -158,7 +159,7 @@ public class TaxNumberServiceImpl implements TaxNumberService {
      */
     public String[] parseSSNFormats() {
         if (ObjectUtils.isNull(taxNumberFormats)) {
-            taxNumberFormats = parameterService.getParameterValues(VendorDetail.class, VendorParameterConstants.TAX_SSN_NUMBER_FORMATS);
+            taxNumberFormats = new ArrayList<String>( parameterService.getParameterValuesAsString(VendorDetail.class, VendorParameterConstants.TAX_SSN_NUMBER_FORMATS) );
         }
         return taxNumberFormats.toArray(new String[] {});
     }
@@ -171,7 +172,7 @@ public class TaxNumberServiceImpl implements TaxNumberService {
      */
     public String[] parseFEINFormats() {
         if (ObjectUtils.isNull(feinNumberFormats)) {
-            feinNumberFormats = parameterService.getParameterValues(VendorDetail.class, VendorParameterConstants.TAX_FEIN_NUMBER_FORMATS);
+            feinNumberFormats = new ArrayList<String>( parameterService.getParameterValuesAsString(VendorDetail.class, VendorParameterConstants.TAX_FEIN_NUMBER_FORMATS) );
         }
         return feinNumberFormats.toArray(new String[] {});
     }
@@ -184,7 +185,7 @@ public class TaxNumberServiceImpl implements TaxNumberService {
      */
     public String[] parseNotAllowedTaxNumbers() {
         if (ObjectUtils.isNull(notAllowedTaxNumbers)) {
-            notAllowedTaxNumbers = parameterService.getParameterValues(VendorDetail.class, VendorParameterConstants.NOT_ALLOWED_TAX_NUMBERS);
+            notAllowedTaxNumbers = new ArrayList<String>( parameterService.getParameterValuesAsString(VendorDetail.class, VendorParameterConstants.NOT_ALLOWED_TAX_NUMBERS) );
         }
         return notAllowedTaxNumbers.toArray(new String[] {});
     }

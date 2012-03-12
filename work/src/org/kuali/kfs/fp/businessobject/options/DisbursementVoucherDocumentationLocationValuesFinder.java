@@ -21,9 +21,10 @@ import java.util.List;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * This class returns list of documentation location value pairs.
@@ -35,10 +36,10 @@ public class DisbursementVoucherDocumentationLocationValuesFinder extends KeyVal
      */
     public List getKeyValues() {
         List<DisbursementVoucherDocumentationLocation> boList = (List<DisbursementVoucherDocumentationLocation>) SpringContext.getBean(KeyValuesService.class).findAllOrderBy(DisbursementVoucherDocumentationLocation.class, KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_NAME, true);
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         for (DisbursementVoucherDocumentationLocation element : boList) {
             if(element.isActive()) {
-                keyValues.add(new KeyLabelPair(element.getDisbursementVoucherDocumentationLocationCode(), element.getDisbursementVoucherDocumentationLocationCode() + " - " + element.getDisbursementVoucherDocumentationLocationName()));
+                keyValues.add(new ConcreteKeyValue(element.getDisbursementVoucherDocumentationLocationCode(), element.getDisbursementVoucherDocumentationLocationCode() + " - " + element.getDisbursementVoucherDocumentationLocationName()));
             }
         }
 

@@ -21,14 +21,12 @@ import java.util.List;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintenanceDocument;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
-import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.engine.RouteHelper;
-import org.kuali.rice.kew.engine.node.SimpleResult;
 import org.kuali.rice.kew.engine.node.SplitNode;
 import org.kuali.rice.kew.engine.node.SplitResult;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.DocumentService;
 
 public class SimpleBooleanSplitNode implements SplitNode {
 
@@ -37,8 +35,7 @@ public class SimpleBooleanSplitNode implements SplitNode {
      */
     public SplitResult process(RouteContext context, RouteHelper helper) throws Exception {
         SplitResult result = null;
-        
-        String documentID = context.getDocument().getRouteHeaderId().toString();
+        String documentID = context.getDocument().getDocumentId();
         Document document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentID);
         String nodeName = context.getNodeInstance().getRouteNode().getRouteNodeName();
         if (document instanceof FinancialSystemTransactionalDocument) {

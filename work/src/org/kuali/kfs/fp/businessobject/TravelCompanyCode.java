@@ -16,13 +16,13 @@
 
 package org.kuali.kfs.fp.businessobject;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.KualiCodeBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.KualiCodeBase;
 
 /**
  * This class is used to represent a travel company code business object.
  */
-public class TravelCompanyCode extends KualiCodeBase implements Inactivateable {
+public class TravelCompanyCode extends KualiCodeBase implements MutableInactivatable {
     private TravelExpenseTypeCode travelExpenseTypeCode;
 
     /**

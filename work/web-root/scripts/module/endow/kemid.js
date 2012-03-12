@@ -20,7 +20,7 @@ function loadKEMIDShortTitle(kemidFieldName){
  }
  
 function setKEMIDShortTitle( kemidFieldName, kemidShortTitleFieldName ){
-	var kemid = DWRUtil.getValue( kemidFieldName );
+	var kemid = dwr.util.getValue( kemidFieldName );
     
 	if (kemid =='') {
 		clearRecipients(kemidShortTitleFieldName, "");

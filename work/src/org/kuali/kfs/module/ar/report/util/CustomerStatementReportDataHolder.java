@@ -20,8 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
-
 /**
  * To group and hold the data presented to working reports of extract process
  */

@@ -23,6 +23,7 @@
     
     <property name="documentTypeName" value="EIRT"/>
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.ElectronicInvoiceRejectDocumentRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.ElectronicInvoiceRejectDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableDocumentPresentationController"/>
@@ -296,7 +297,7 @@
     <property name="name" value="invoiceResearchIndicatorForSearching"/>
     <property name="label" value="Research Indicator"/>
     <property name="control">
-      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.IndicatorValuesFinder" p:includeKeyInLabel="false"/>
     </property>     
   </bean>
   
@@ -1532,12 +1533,12 @@
   <!-- workflow attributes -->
   <bean id="ElectronicInvoiceRejectDocument-workflowAttributes" parent="ElectronicInvoiceRejectDocument-workflowAttributes-parentBean"/>
   
-  <bean id="ElectronicInvoiceRejectDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
+  <bean id="ElectronicInvoiceRejectDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true">
       <property name="searchingTypeDefinitions">
           <list>
-      	      <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+      	      <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
-    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    			      <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument"/>
     					  <property name="attributeName" value="invoiceFileNumber"/>    	
     					  <property name="showAttributeInSearchCriteria" value="true"/>
@@ -1550,9 +1551,9 @@
     				  </list>
     			  </property>
     		  </bean>
-              <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+              <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
-    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    			      <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument"/>
     					  <property name="attributeName" value="purapDocumentIdentifier"/>
     					  <property name="showAttributeInSearchCriteria" value="false"/>
@@ -1565,9 +1566,9 @@
     				  </list>
     			  </property>
     		  </bean>    	
-    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		  <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
-    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    			      <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument"/>
     					  <property name="attributeName" value="purchaseOrderIdentifier"/>
     					  <property name="showAttributeInSearchCriteria" value="true"/>
@@ -1580,9 +1581,9 @@
     				  </list>
     			  </property>
     		  </bean> 	  
-    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		  <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
-    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    			      <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument"/>
     					  <property name="attributeName" value="vendorNumber"/>
     					  <property name="showAttributeInSearchCriteria" value="true"/>
@@ -1594,9 +1595,9 @@
     				  </list>
     			  </property>
     		  </bean> 
-    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+    		  <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
     				<property name="searchingAttribute">
-    					<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.vnd.businessobject.VendorDetail"/>
     						<property name="attributeName" value="vendorName"/>
     						<property name="showAttributeInSearchCriteria" value="false"/>
@@ -1609,9 +1610,9 @@
     					</list>
     				</property>
     			</bean>
-    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		  <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
-    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    			      <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument"/>
     					  <property name="attributeName" value="vendorDunsNumber"/>
     				  </bean>
@@ -1622,9 +1623,9 @@
     				  </list>
     			  </property>
     		  </bean> 
-    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		  <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
-    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    			      <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument"/>
     					  <property name="attributeName" value="purchaseOrderDeliveryCampusCode"/>
     					  <property name="showAttributeInSearchCriteria" value="true"/>
@@ -1637,9 +1638,9 @@
     				  </list>
     			  </property>
     		  </bean> 
-    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		  <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
-    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    			      <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument"/>
     					  <property name="attributeName" value="invoiceFileTimeStampForSearch"/>
     					  <property name="showAttributeInSearchCriteria" value="true"/>
@@ -1652,9 +1653,9 @@
     				  </list>
     			  </property>
     		  </bean> 
-    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		  <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
-    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    			      <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument"/>
     					  <property name="attributeName" value="accountsPayableApprovalDateForSearch"/>
     					  <property name="showAttributeInSearchCriteria" value="true"/>
@@ -1667,9 +1668,9 @@
     				  </list>
     			  </property>
     		  </bean> 
-    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		  <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
-    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    			      <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument"/>
     					  <property name="attributeName" value="invoiceResearchIndicatorForSearching"/>
     					  <property name="showAttributeInSearchCriteria" value="true"/>
@@ -1681,9 +1682,9 @@
     				  </list>
     			  </property>
     		  </bean>
-    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		  <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
-    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    			      <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument"/>
     					  <property name="attributeName" value="invoiceResearchIndicatorForResult"/>
     					  <property name="showAttributeInSearchCriteria" value="false"/>
@@ -1696,9 +1697,9 @@
     				  </list>
     			  </property>
     		  </bean>  
-    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		  <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
-    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    			      <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument"/>
     					  <property name="attributeName" value="workflowStatusForResult"/>
     					  <property name="showAttributeInSearchCriteria" value="false"/>
@@ -1711,9 +1712,9 @@
     				  </list>
     			  </property>
     		  </bean>
-    		  <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">      				
+    		  <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">      				
     		      <property name="searchingAttribute">
-    			      <bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+    			      <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
                           <property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument"/>
     					  <property name="attributeName" value="grandTotalAmount"/>
     					  <property name="showAttributeInSearchCriteria" value="true"/>

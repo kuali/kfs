@@ -48,7 +48,7 @@
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="campusCode"
-								p:targetName="campusCode" />
+								p:targetName="code" />
 						</list>
 					</property>
 				</bean>
@@ -81,7 +81,7 @@
 		<property name="label" value="Campus" />
 		<property name="control">
 			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder"
+				p:valuesFinderClass="org.kuali.rice.location.framework.campus.CampusValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>

@@ -55,7 +55,7 @@
     <property name="label" value="Organization APO Limit"/>
     <property name="shortLabel" value="Organization APO Limit"/>
     <property name="required" value="false"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
 
   <bean id="OrganizationParameter-activeIndicator" parent="OrganizationParameter-activeIndicator-parentBean"/>

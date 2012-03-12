@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 1.0//EN" "http://www.getahead.ltd.uk/dwr/dwr10.dtd">
+<!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 3.0//EN" "http://getahead.org/dwr/dwr30.dtd">
 
 <dwr>
 	<init>
@@ -28,14 +28,14 @@
 			<param name="beanName" value="originationCodeService" />
 			<include method="getByPrimaryKey" />
 		</create>
-		<convert converter="bean" match="org.kuali.rice.kns.bo.PostalCode">
-			<param name="include" value="postalCode,postalStateCode,postalCityName,buildingCode,buildingRoomNumber" />
+		<convert converter="bean" match="org.kuali.rice.location.api.postalcode.PostalCode">
+			<param name="include" value="postalCode,stateCode,cityName,buildingCode,buildingRoomNumber" />
 		</convert>
 		<create creator="spring" javascript="PostalCodeService">
 			<param name="beanName" value="postalCodeService" />
 			<include method="getByPrimaryId" />
 		</create>
-	    <convert match="org.kuali.rice.kns.util.KualiDecimal" converter="kualinumber" />
+	    <convert match="org.kuali.rice.core.api.util.type.KualiDecimal" converter="kualinumber" />
 	    <convert converter="bean" match="org.kuali.kfs.sys.businessobject.Bank">
 	   		<param name="include" value="bankCode,bankName,bankShortName" />
 	   	</convert>

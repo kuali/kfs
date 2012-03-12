@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,8 +25,7 @@ import java.util.Set;
 import org.kuali.kfs.module.cam.batch.AssetPaymentInfo;
 import org.kuali.kfs.module.cam.document.dataaccess.DepreciationBatchDao;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.kfs.sys.businessobject.UniversityDate;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -34,6 +33,7 @@ public class MockDepreciationBatchDao implements DepreciationBatchDao {
     private DepreciationBatchDao impl;
     private List<String> assetPaymentsStr = new ArrayList<String>();
 
+    @Override
     public void updateAssetPayments(List<AssetPaymentInfo> assetPayments, Integer fiscalMonth) {
         impl.updateAssetPayments(assetPayments, fiscalMonth);
         for (AssetPaymentInfo assetPaymentInfo : assetPayments) {
@@ -42,35 +42,41 @@ public class MockDepreciationBatchDao implements DepreciationBatchDao {
         }
     }
 
+    @Override
     public Integer getFullyDepreciatedAssetCount() {
         return impl.getFullyDepreciatedAssetCount();
     }
 
-    public Collection<AssetPaymentInfo> getListOfDepreciableAssetPaymentInfo(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate, List<String> notAcceptedAssetStatus, List<String> federallyOwnedObjectSubTypes) {
-        return impl.getListOfDepreciableAssetPaymentInfo(fiscalYear, fiscalMonth, depreciationDate, notAcceptedAssetStatus, federallyOwnedObjectSubTypes);
+    @Override
+    public Collection<AssetPaymentInfo> getListOfDepreciableAssetPaymentInfo(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate) {
+        return impl.getListOfDepreciableAssetPaymentInfo(fiscalYear, fiscalMonth, depreciationDate);
     }
 
+    @Override
     public void resetPeriodValuesWhenFirstFiscalPeriod(Integer fiscalPeriod) throws Exception {
         impl.resetPeriodValuesWhenFirstFiscalPeriod(fiscalPeriod);
     }
 
+    @Override
     public void savePendingGLEntries(List<GeneralLedgerPendingEntry> glPendingEntries) {
         impl.savePendingGLEntries(glPendingEntries);
 
     }
 
-    public void updateAssetsCreatedInLastFiscalPeriod(Integer fiscalMonth, Integer fiscalYear, final UniversityDate lastFiscalYearDate, List<String> movableEquipmentObjectSubTypes) {
-        impl.updateAssetsCreatedInLastFiscalPeriod(fiscalMonth, fiscalYear, lastFiscalYearDate, movableEquipmentObjectSubTypes);
+    @Override
+    public void updateAssetsCreatedInLastFiscalPeriod(Integer fiscalMonth, Integer fiscalYear) {
+        impl.updateAssetsCreatedInLastFiscalPeriod(fiscalMonth, fiscalYear);
 
     }
 
+    @Override
     public Map<Long, KualiDecimal> getPrimaryDepreciationBaseAmountForSV() {
         return impl.getPrimaryDepreciationBaseAmountForSV();
     }
 
     /**
      * Gets the assetPaymentsStr attribute.
-     * 
+     *
      * @return Returns the assetPaymentsStr.
      */
     public List<String> getAssetPaymentsStr() {
@@ -79,7 +85,7 @@ public class MockDepreciationBatchDao implements DepreciationBatchDao {
 
     /**
      * Sets the assetPaymentsStr attribute value.
-     * 
+     *
      * @param assetPaymentsStr The assetPaymentsStr to set.
      */
     public void setAssetPaymentsStr(List<String> assetPaymentsStr) {
@@ -88,7 +94,7 @@ public class MockDepreciationBatchDao implements DepreciationBatchDao {
 
     /**
      * Gets the impl attribute.
-     * 
+     *
      * @return Returns the impl.
      */
     public DepreciationBatchDao getImpl() {
@@ -97,29 +103,34 @@ public class MockDepreciationBatchDao implements DepreciationBatchDao {
 
     /**
      * Sets the impl attribute value.
-     * 
+     *
      * @param impl The impl to set.
      */
     public void setImpl(DepreciationBatchDao impl) {
         this.impl = impl;
     }
 
-    public Object[] getAssetAndPaymentCount(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate, boolean includePending, List<String> notAcceptedAssetStatus, List<String> federallyOwnedObjectSubTypes) {
-        return impl.getAssetAndPaymentCount(fiscalYear, fiscalMonth, depreciationDate, includePending, notAcceptedAssetStatus, federallyOwnedObjectSubTypes);
+    @Override
+    public Object[] getAssetAndPaymentCount(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate, boolean includePending) {
+        return impl.getAssetAndPaymentCount(fiscalYear, fiscalMonth, depreciationDate, includePending);
     }
 
-    public Object[] getFederallyOwnedAssetAndPaymentCount(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate, List<String> notAcceptedAssetStatus, List<String> federallyOwnedObjectSubTypes) {
-        return impl.getFederallyOwnedAssetAndPaymentCount(fiscalYear, fiscalMonth, depreciationDate, notAcceptedAssetStatus, federallyOwnedObjectSubTypes);
+    @Override
+    public Object[] getFederallyOwnedAssetAndPaymentCount(Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate) {
+        return impl.getFederallyOwnedAssetAndPaymentCount(fiscalYear, fiscalMonth, depreciationDate);
     }
 
+    @Override
     public Integer getRetireDocLockedAssetCount() {
         return impl.getRetireDocLockedAssetCount();
     }
 
+    @Override
     public Integer getTransferDocLockedAssetCount() {
         return impl.getTransferDocLockedAssetCount();
     }
 
+    @Override
     public Set<Long> getLockedAssets() {
         return impl.getLockedAssets();
     }

@@ -26,12 +26,15 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.namespace.QName;
 
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
@@ -40,15 +43,15 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.FinancialSystemModuleConfiguration;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.entity.KimPrincipal;
-import org.kuali.rice.kim.bo.impl.KimAttributes;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.util.KimConstants;
-import org.kuali.rice.kns.bo.ModuleConfiguration;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.ModuleService;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.identity.AuthenticationService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.krad.bo.ModuleConfiguration;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class BatchFileUploadServlet extends HttpServlet {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BatchFileUploadServlet.class);
@@ -56,21 +59,21 @@ public class BatchFileUploadServlet extends HttpServlet {
     protected void checkAuthorization( HttpServletRequest request ) {
         boolean authorized = false;
 //        String principalName = GlobalVariables.getUserSession().getPrincipalName();
-        String principalName = SpringContext.getBean(IdentityManagementService.class).getAuthenticatedPrincipalName(request);
+        String principalName = ((AuthenticationService) GlobalResourceLoader.getResourceLoader().getService(new QName("kimAuthenticationService"))).getPrincipalName(request);
         LOG.info("Logged In User: " + principalName);
         if ( StringUtils.isNotBlank(principalName) ) {
-            KimPrincipal principal = SpringContext.getBean(IdentityManagementService.class).getPrincipalByPrincipalName( principalName );
+            Principal principal = SpringContext.getBean(IdentityManagementService.class).getPrincipalByPrincipalName( principalName );
             if ( principal != null ) {
 //        if ( StringUtils.isNotBlank(principalName) ) {
-//            KimPrincipalInfo principal = SpringContext.getBean(IdentityManagementService.class).getPrincipalByPrincipalName(principalName);
+//            Principal principal = SpringContext.getBean(IdentityManagementService.class).getPrincipalByPrincipalName(principalName);
 //            if ( principal != null ) {
                 String principalId = principal.getPrincipalId();
-                AttributeSet permissionDetails = new AttributeSet();
-                permissionDetails.put( KimAttributes.DOCUMENT_TYPE_NAME, "GLCP");
-                authorized = SpringContext.getBean(IdentityManagementService.class).isAuthorizedByTemplateName( principalId, KNSConstants.KUALI_RICE_SYSTEM_NAMESPACE, KimConstants.PermissionTemplateNames.INITIATE_DOCUMENT, permissionDetails, null );
+                Map<String,String> permissionDetails = new HashMap<String,String>();
+                permissionDetails.put( KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, "GLCP");
+                authorized = SpringContext.getBean(IdentityManagementService.class).isAuthorizedByTemplateName( principalId, KRADConstants.KUALI_RICE_SYSTEM_NAMESPACE, KimConstants.PermissionTemplateNames.INITIATE_DOCUMENT, permissionDetails, null );
                 if ( !authorized ) {
-                    permissionDetails.put( KimAttributes.DOCUMENT_TYPE_NAME, "LLCP");
-                    authorized = SpringContext.getBean(IdentityManagementService.class).isAuthorizedByTemplateName( principalId, KNSConstants.KUALI_RICE_SYSTEM_NAMESPACE, KimConstants.PermissionTemplateNames.INITIATE_DOCUMENT, permissionDetails, null );
+                    permissionDetails.put( KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, "LLCP");
+                    authorized = SpringContext.getBean(IdentityManagementService.class).isAuthorizedByTemplateName( principalId, KRADConstants.KUALI_RICE_SYSTEM_NAMESPACE, KimConstants.PermissionTemplateNames.INITIATE_DOCUMENT, permissionDetails, null );
                 }
             }
         }

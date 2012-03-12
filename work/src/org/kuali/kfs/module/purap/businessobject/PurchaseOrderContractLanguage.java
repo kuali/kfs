@@ -20,14 +20,14 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Purchase Order Contract Language Business Object.
  */
-public class PurchaseOrderContractLanguage extends PersistableBusinessObjectBase implements Inactivateable{
+public class PurchaseOrderContractLanguage extends PersistableBusinessObjectBase implements MutableInactivatable{
 
     private Integer purchaseOrderContractLanguageIdentifier;
     private String campusCode;
@@ -83,9 +83,9 @@ public class PurchaseOrderContractLanguage extends PersistableBusinessObjectBase
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         if (this.purchaseOrderContractLanguageIdentifier != null) {
             m.put("purchaseOrderContractLanguageIdentifier", this.purchaseOrderContractLanguageIdentifier.toString());

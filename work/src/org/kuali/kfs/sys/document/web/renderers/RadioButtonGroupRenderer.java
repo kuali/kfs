@@ -24,7 +24,7 @@ import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.document.web.util.RendererUtil;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue;
 
 /**
  * Renders a control as a group of radio buttons
@@ -59,18 +59,18 @@ public class RadioButtonGroupRenderer extends FieldRendererBase {
     protected String buildRadioButtons() {
         StringBuilder radioButtons = new StringBuilder();
         for (Object keyLabelPairAsObject : getField().getFieldValidValues()) {
-            radioButtons.append(buildRadioButton((KeyLabelPair)keyLabelPairAsObject));
+            radioButtons.append(buildRadioButton((KeyValue)keyLabelPairAsObject));
         }
         return radioButtons.toString();
     }
     
     /**
-     * Given a KeyLabelPair, generates a radio buttion representing it
+     * Given a KeyValue, generates a radio buttion representing it
      * @param keyLabelPair the key label pair to turn into a radio button
      * @param propertyPrefix the property path from the form to the business object being rendered
      * @return the HTML for the represented radio button
      */
-    protected String buildRadioButton(KeyLabelPair keyLabelPair) {
+    protected String buildRadioButton(KeyValue keyLabelPair) {
         StringBuilder radioButton = new StringBuilder();
         
         radioButton.append("<input type=\"radio\"");
@@ -102,7 +102,7 @@ public class RadioButtonGroupRenderer extends FieldRendererBase {
         }
         
         radioButton.append(" /> ");
-        radioButton.append(keyLabelPair.getLabel());
+        radioButton.append(keyLabelPair.getValue());
         radioButton.append(" ");
         
         return radioButton.toString();

@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.gl.service.EntryService;
 import org.kuali.kfs.module.ar.ArAuthorizationConstants;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
@@ -40,17 +39,17 @@ import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
-import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.TransactionalDocumentRuleBase;
+import org.kuali.rice.krad.rules.rule.event.ApproveDocumentEvent;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class holds the business rules for the AR Cash Control Document
@@ -60,7 +59,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashControlDocumentRule.class);
 
     /**
-     * @see org.kuali.rice.kns.rules.TransactionalDocumentRuleBase#processCustomSaveDocumentBusinessRules(Document)
+     * @see org.kuali.rice.krad.rules.TransactionalDocumentRuleBase#processCustomSaveDocumentBusinessRules(Document)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
@@ -73,7 +72,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
         MessageMap errorMap = GlobalVariables.getMessageMap();
 
-        if (errorMap.isEmpty()) {
+        if (errorMap.hasErrors()) {
             isValid &= checkRefDocNumber(ccDocument);
             isValid &= validateCashControlDetails(ccDocument);
         }
@@ -83,7 +82,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
     }
 
     /**
-     * @see org.kuali.rice.kns.rules.TransactionalDocumentRuleBase#processCustomRouteDocumentBusinessRules(Document)
+     * @see org.kuali.rice.krad.rules.TransactionalDocumentRuleBase#processCustomRouteDocumentBusinessRules(Document)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -104,7 +103,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
     }
 
     /**
-     * @see org.kuali.rice.kns.rules.TransactionalDocumentRuleBase#processCustomApproveDocumentBusinessRules(Document)
+     * @see org.kuali.rice.krad.rules.TransactionalDocumentRuleBase#processCustomApproveDocumentBusinessRules(Document)
      */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
@@ -263,7 +262,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.validation.AddCashControlDetailRule#processAddCashControlDetailBusinessRules(org.kuali.rice.kns.document.TransactionalDocument,
+     * @see org.kuali.kfs.module.ar.document.validation.AddCashControlDetailRule#processAddCashControlDetailBusinessRules(org.kuali.rice.krad.document.TransactionalDocument,
      *      org.kuali.kfs.module.ar.businessobject.CashControlDetail)
      */
     public boolean processAddCashControlDetailBusinessRules(CashControlDocument transactionalDocument, CashControlDetail cashControlDetail) {
@@ -400,9 +399,9 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
 
             CashControlDetail cashControlDetail = cashControlDocument.getCashControlDetail(i);
             PaymentApplicationDocument applicationDocument = cashControlDetail.getReferenceFinancialDocument();
-            KualiWorkflowDocument workflowDocument = applicationDocument.getDocumentHeader().getWorkflowDocument();
+            WorkflowDocument workflowDocument = applicationDocument.getDocumentHeader().getWorkflowDocument();
 
-            if (!(workflowDocument.stateIsApproved() || workflowDocument.stateIsFinal())) {
+            if (!(workflowDocument.isApproved() || workflowDocument.isFinal())) {
                 allAppDocsApproved = false;
 
                 String propertyName = KFSPropertyConstants.CASH_CONTROL_DETAIL + "[" + i + "]";
@@ -422,7 +421,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.validation.DeleteCashControlDetailRule#processDeleteCashControlDetailBusinessRules(org.kuali.rice.kns.document.TransactionalDocument,
+     * @see org.kuali.kfs.module.ar.document.validation.DeleteCashControlDetailRule#processDeleteCashControlDetailBusinessRules(org.kuali.rice.krad.document.TransactionalDocument,
      *      org.kuali.kfs.module.ar.businessobject.CashControlDetail)
      */
     public boolean processDeleteCashControlDetailBusinessRules(CashControlDocument transactionalDocument, CashControlDetail cashControlDetail) {
@@ -434,7 +433,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
     }
 
     /**
-     * @see org.kuali.kfs.module.ar.document.validation.GenerateReferenceDocumentRule#processGenerateReferenceDocumentBusinessRules(org.kuali.rice.kns.document.TransactionalDocument)
+     * @see org.kuali.kfs.module.ar.document.validation.GenerateReferenceDocumentRule#processGenerateReferenceDocumentBusinessRules(org.kuali.rice.krad.document.TransactionalDocument)
      */
     public boolean processGenerateReferenceDocumentBusinessRules(CashControlDocument transactionalDocument) {
 

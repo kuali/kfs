@@ -20,8 +20,8 @@ import java.util.List;
 
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 
 public class ScheduledJobStatusValuesFinder extends KeyValuesBase {
@@ -30,7 +30,7 @@ public class ScheduledJobStatusValuesFinder extends KeyValuesBase {
         List labels = new ArrayList();
 
         for (String status : SpringContext.getBean(SchedulerService.class).getJobStatuses()) {
-            labels.add(new KeyLabelPair(status, status));
+            labels.add(new ConcreteKeyValue(status, status));
         }
         return labels;
     }

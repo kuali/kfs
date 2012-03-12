@@ -22,9 +22,10 @@ import java.util.List;
 import org.kuali.kfs.module.cg.businessobject.AwardStatus;
 import org.kuali.kfs.module.cg.businessobject.ProposalStatus;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * Allows some filtering of document search criteria.
@@ -37,22 +38,22 @@ public class DocumentSearchStatusCriteriaValuesFinder extends KeyValuesBase {
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
-        labels.add(new KeyLabelPair("", ""));
+        List<KeyValue> labels = new ArrayList<KeyValue>();
+        labels.add(new ConcreteKeyValue("", ""));
 
-        labels.add(new KeyLabelPair(" ", "AWARD STATUSES"));
+        labels.add(new ConcreteKeyValue(" ", "AWARD STATUSES"));
         Collection<AwardStatus> awardCodes = SpringContext.getBean(KeyValuesService.class).findAll(AwardStatus.class);
         for (AwardStatus awardStatus : awardCodes) {
             if (awardStatus.isActive()) {
-                labels.add(new KeyLabelPair(awardStatus.getAwardStatusCode(), STATUS_SPACE_PREFIX + awardStatus.getAwardStatusCode() + "-" + awardStatus.getAwardStatusDescription()));
+                labels.add(new ConcreteKeyValue(awardStatus.getAwardStatusCode(), STATUS_SPACE_PREFIX + awardStatus.getAwardStatusCode() + "-" + awardStatus.getAwardStatusDescription()));
             }
         }
 
-        labels.add(new KeyLabelPair(" ", "PROPOSAL STATUSES"));
+        labels.add(new ConcreteKeyValue(" ", "PROPOSAL STATUSES"));
         Collection<ProposalStatus> proposalCodes = SpringContext.getBean(KeyValuesService.class).findAll(ProposalStatus.class);
         for (ProposalStatus proposalStatus : proposalCodes) {
             if (proposalStatus.isActive()) {
-                labels.add(new KeyLabelPair(proposalStatus.getProposalStatusCode(), STATUS_SPACE_PREFIX + proposalStatus.getProposalStatusCode() + "-" + proposalStatus.getProposalStatusDescription()));
+                labels.add(new ConcreteKeyValue(proposalStatus.getProposalStatusCode(), STATUS_SPACE_PREFIX + proposalStatus.getProposalStatusCode() + "-" + proposalStatus.getProposalStatusDescription()));
             }
         }
 

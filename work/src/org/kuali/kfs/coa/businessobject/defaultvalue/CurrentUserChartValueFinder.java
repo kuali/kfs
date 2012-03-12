@@ -18,9 +18,9 @@ package org.kuali.kfs.coa.businessobject.defaultvalue;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.valuefinder.ValueFinder;
 
 /**
  * This class represents a value finder that returns the currently logged in user's default chart of accounts code.
@@ -30,7 +30,7 @@ public class CurrentUserChartValueFinder implements ValueFinder {
     /**
      * This method returns the current user's default chart of accounts code.
      * 
-     * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
+     * @see org.kuali.rice.krad.valuefinder.ValueFinder#getValue()
      */
     public String getValue() {
         Person currentUser = GlobalVariables.getUserSession().getPerson();

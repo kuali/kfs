@@ -15,12 +15,11 @@
  */
 package org.kuali.kfs.vnd;
 
-import org.kuali.kfs.sys.ParameterKeyConstants;
 
 /**
  * Holds constants for Vendor business parameters.
  */
-public class VendorParameterConstants implements ParameterKeyConstants {
+public class VendorParameterConstants {
     public static final String DEFAULT_TAX_NUMBER_DIGITS = "DEFAULT_TAX_NUMBER_DIGITS";
     public static final String NOT_ALLOWED_TAX_NUMBERS = "TAX_NUMBERS";
     public static final String TAX_FEIN_NUMBER_FORMATS = "TAX_FEIN_NUMBER_FORMATS";
@@ -32,5 +31,6 @@ public class VendorParameterConstants implements ParameterKeyConstants {
     public static final String PHONE_NUMBER_FORMATS = "GENERIC_PHONE_NUMBER_FORMATS";
     public static final String DEFAULT_PHONE_NUMBER_DIGITS = "GENERIC_DEFAULT_PHONE_NUMBER_LENGTH";
     public static final String OVERRIDE_VENDOR_DOC_TITLE = "OVERRIDE_DOCUMENT_TITLE_IND";
+    public static final String EXCLUSION_AND_DEBARRED_VENDOR_TYPES = "EXCLUSION_AND_DEBARRED_VENDOR_TYPES";
     
 }

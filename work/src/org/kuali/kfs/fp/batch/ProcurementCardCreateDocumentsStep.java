@@ -26,6 +26,15 @@ import org.kuali.kfs.sys.batch.AbstractStep;
 public class ProcurementCardCreateDocumentsStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardCreateDocumentsStep.class);
     private ProcurementCardCreateDocumentService procurementCardDocumentService;
+    
+    /**
+     * Name of the parameter to use to check if ProcurementCardDefault accounting defaults are turned on
+     */
+    public static final String USE_ACCOUNTING_DEFAULT_PARAMETER_NAME = "PROCUREMENT_CARD_ACCOUNTING_DEFAULT_IND";
+    /**
+     * Name of the parameter to use to check if ProcurementCardDefault card holder defaults are turned on
+     */
+    public static final String USE_CARD_HOLDER_DEFAULT_PARAMETER_NAME = "PROCUREMENT_CARD_HOLDER_DEFAULT_IND";
 
     /**
      * @see org.kuali.kfs.sys.batch.Step#execute(java.lang.String, java.util.Date)

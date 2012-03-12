@@ -16,14 +16,14 @@
 package org.kuali.kfs.module.endow.businessobject;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class EndowmentRecurringCashTransfer extends PersistableBusinessObjectBase implements Inactivateable {
+public class EndowmentRecurringCashTransfer extends PersistableBusinessObjectBase implements MutableInactivatable {
     
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EndowmentRecurringCashTransfer.class);
     
@@ -53,8 +53,8 @@ public class EndowmentRecurringCashTransfer extends PersistableBusinessObjectBas
      */
     public EndowmentRecurringCashTransfer() {
         super();
-        kemidTarget = new TypedArrayList(EndowmentRecurringCashTransferKEMIDTarget.class);
-        glTarget = new TypedArrayList(EndowmentRecurringCashTransferGLTarget.class);
+        kemidTarget = new ArrayList<EndowmentRecurringCashTransferKEMIDTarget>();
+        glTarget = new ArrayList<EndowmentRecurringCashTransferGLTarget>();
         
 //      setTransferNumber(NextTransferNumberFinder.getLongValue().toString());
     }
@@ -171,7 +171,7 @@ public class EndowmentRecurringCashTransfer extends PersistableBusinessObjectBas
         this.active = active;
     }
 
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("transferNumber", this.transferNumber);
         return m;

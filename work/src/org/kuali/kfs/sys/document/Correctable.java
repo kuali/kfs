@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.sys.document;
 
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 /**
  * Defines methods a Correctable document must implement.

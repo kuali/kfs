@@ -30,18 +30,17 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.FieldUtils;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * A container which holds a single accounting line and the elements which will render it
  */
-public class RenderableAccountingLineContainer implements RenderableElement, AccountingLineRenderingContext {
+public class RenderableAccountingLineContainer implements AccountingLineRenderingContext {
     private List<AccountingLineTableRow> rows;
     private List<AccountingLineViewAction> actions;
     private AccountingLine accountingLine;
@@ -137,6 +136,21 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
         int maxCells = 0;
         for (AccountingLineTableRow row : rows) {
             final int maxRowCellCount = row.getChildCellCount();
+            if (maxCells < maxRowCellCount) {
+                maxCells = maxRowCellCount;
+            }
+        }
+        return maxCells;
+    }
+    
+    /**
+     * Determines how many cells this container will say it wants to render
+     * @see org.kuali.kfs.sys.document.web.AccountingLineRenderingContext#getRenderableCellCount()
+     */
+    public int getRenderableCellCount() {
+        int maxCells = 0;
+        for (AccountingLineTableRow row : rows) {
+            final int maxRowCellCount = row.getChildRenderableCount();
             if (maxCells < maxRowCellCount) {
                 maxCells = maxRowCellCount;
             }
@@ -260,7 +274,7 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
     public void populateValuesForFields() {
         FieldUtils.populateFieldsFromBusinessObject(getFieldsForAccountingLine(), accountingLine);
         
-        BusinessObjectEntry boDDEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(getAccountingLine().getClass().getName());
+        org.kuali.rice.krad.datadictionary.BusinessObjectEntry boDDEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(getAccountingLine().getClass().getName());
         
         for (Field field : getFieldsForAccountingLine()) {
             setUnconvertedValueIfNecessary(field);
@@ -289,7 +303,7 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
      * 
      * KRAD Conversion: Customization of the fields - No use of data dictionary
      */
-    protected void setShouldShowSecure(Field field, BusinessObjectEntry boDDEntry) {
+    protected void setShouldShowSecure(Field field, org.kuali.rice.krad.datadictionary.BusinessObjectEntry boDDEntry) {
         // TODO: FIX
         
         // from Warren:  k... org.kuali.rice.kns.service.BusinessObjectAuthorizationService.getMaintenanceDocumentRestrictions(MaintenanceDocument, Person) has the determination of what restrictions there should be
@@ -361,7 +375,7 @@ public class RenderableAccountingLineContainer implements RenderableElement, Acc
      */
     public boolean isFieldModifyable(String fieldName) {
         Person currentUser = GlobalVariables.getUserSession().getPerson();
-        final boolean pageIsEditable = getForm().getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT);
+        final boolean pageIsEditable = getForm().getDocumentActions().containsKey(KRADConstants.KUALI_ACTION_CAN_EDIT);
         return accountingLineAuthorizer.hasEditPermissionOnField(getAccountingDocument(), accountingLine, this.accountingLineProperty, fieldName, editableLine, pageIsEditable, currentUser);
     }
 

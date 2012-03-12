@@ -26,8 +26,8 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
 import org.kuali.kfs.sys.document.web.AccountingLineRenderingContext;
 import org.kuali.kfs.sys.document.web.AccountingLineViewAction;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class AssetPaymentAccountingLineAuthorizer extends AccountingLineAuthorizerBase {
 
@@ -47,7 +47,7 @@ public class AssetPaymentAccountingLineAuthorizer extends AccountingLineAuthoriz
 
     /**
      * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase#isGroupReadOnly(org.kuali.kfs.sys.document.AccountingDocument,
-     *      java.lang.String, org.kuali.rice.kim.bo.Person)
+     *      java.lang.String, org.kuali.rice.kim.api.identity.Person)
      */
     @Override
     public boolean isGroupEditable(AccountingDocument accountingDocument, List<? extends AccountingLineRenderingContext> accountingLineRenderingContexts, Person currentUser) {
@@ -75,7 +75,7 @@ public class AssetPaymentAccountingLineAuthorizer extends AccountingLineAuthoriz
         else {
             if (!isFromCab && accountingLineRenderingContext.allowDelete()) {
                 AccountingLineViewAction deleteAction = this.getDeleteAction(accountingLineRenderingContext.getAccountingLine(), accountingLinePropertyName, accountingLineIndex, groupTitle);
-                actionMap.put(KNSConstants.DELETE_METHOD, deleteAction);
+                actionMap.put(KRADConstants.DELETE_METHOD, deleteAction);
             }
 
             AccountingLineViewAction balanceInquiryAction = this.getBalanceInquiryAction(accountingLineRenderingContext.getAccountingLine(), accountingLinePropertyName, accountingLineIndex, groupTitle);

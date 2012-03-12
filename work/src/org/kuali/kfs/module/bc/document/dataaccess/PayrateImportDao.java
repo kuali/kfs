@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.bc.document.dataaccess;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPayRateHolding;
@@ -29,6 +30,6 @@ public interface PayrateImportDao {
      * @param budgetYear
      * @return
      */
-    List<PendingBudgetConstructionAppointmentFunding> getFundingRecords(BudgetConstructionPayRateHolding holdingRecord, Integer budgetYear, List objectCodeValues);
+    List<PendingBudgetConstructionAppointmentFunding> getFundingRecords(BudgetConstructionPayRateHolding holdingRecord, Integer budgetYear, Collection<String> objectCodeValues);
     
 }

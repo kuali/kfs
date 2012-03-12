@@ -29,11 +29,12 @@ import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.MessageList;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.krad.util.UrlFactory;
 
 /**
  * Handles close action to implement Budget return to caller (expansion screen) flow.
@@ -49,8 +50,18 @@ public class BudgetExpansionAction extends KualiAction {
 
         BudgetExpansionForm budgetExpansionForm = (BudgetExpansionForm) form;
 
+        // we lost the session now recover back to the selection screen
+        if (budgetExpansionForm.getMethodToCall() != null && budgetExpansionForm.getMethodToCall().equals("performLost")) {
+            Properties parameters = new Properties();
+            parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.LOAD_EXPANSION_SCREEN_METHOD_SESSION_TIMEOUT);
+
+            String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.BC_SELECTION_ACTION, parameters);
+
+            return new ActionForward(lookupUrl, true);
+        }
+
         // check for session timeout if not initial (re)load of BC selection
-        if (!(mapping.getType().endsWith("BudgetConstructionSelectionAction") && (budgetExpansionForm.getMethodToCall().equals(BCConstants.LOAD_EXPANSION_SCREEN_METHOD) || budgetExpansionForm.getMethodToCall().equals(BCConstants.LOAD_EXPANSION_SCREEN_METHOD_SESSION_TIMEOUT)))) {
+        if (budgetExpansionForm.getMethodToCall() == null || !(mapping.getType().endsWith("BudgetConstructionSelectionAction") && (budgetExpansionForm.getMethodToCall().equals(BCConstants.LOAD_EXPANSION_SCREEN_METHOD) || budgetExpansionForm.getMethodToCall().equals(BCConstants.LOAD_EXPANSION_SCREEN_METHOD_SESSION_TIMEOUT)))) {
 
             Boolean isBCHeartBeating = (Boolean) GlobalVariables.getUserSession().retrieveObject(BCConstants.BC_HEARTBEAT_SESSIONFLAG);
             if (isBCHeartBeating == null) {
@@ -59,22 +70,14 @@ public class BudgetExpansionAction extends KualiAction {
                 if (form instanceof SalarySettingBaseForm){
                     SalarySettingBaseForm salarySettingBaseForm = (SalarySettingBaseForm) form;
                     if (!salarySettingBaseForm.isBudgetByAccountMode()){
-                        GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_PREVIOUS_SESSION_TIMEOUT);
+                        KNSGlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_PREVIOUS_SESSION_TIMEOUT);
                         return mapping.findForward(BCConstants.MAPPING_ORGANIZATION_SALARY_SETTING_RETURNING);
                     }
                 }
-                if (budgetExpansionForm.isMainWindow()){
-                    Properties parameters = new Properties();
-                    parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.LOAD_EXPANSION_SCREEN_METHOD_SESSION_TIMEOUT);
 
-                    String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.BC_SELECTION_ACTION, parameters);
-
-                    return new ActionForward(lookupUrl, true);
-                }
-                else {
-                    GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_PREVIOUS_SESSION_TIMEOUT);
-                    return mapping.findForward(BCConstants.MAPPING_LOST_SESSION_RETURNING);
-                }
+                // do generic case session lost
+                KNSGlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_PREVIOUS_SESSION_TIMEOUT);
+                return mapping.findForward(BCConstants.MAPPING_LOST_SESSION_RETURNING);
             }
         }
 
@@ -158,7 +161,7 @@ public class BudgetExpansionAction extends KualiAction {
     public void moveCallBackMessagesInPlace() {
         MessageList messagesList = (MessageList) GlobalVariables.getUserSession().retrieveObject(BCPropertyConstants.CALL_BACK_MESSAGES);
         if (messagesList != null) {
-            GlobalVariables.getMessageList().addAll(messagesList);
+            KNSGlobalVariables.getMessageList().addAll(messagesList);
         }
 
         MessageMap messageMap = (MessageMap) GlobalVariables.getUserSession().retrieveObject(BCPropertyConstants.CALL_BACK_ERRORS);

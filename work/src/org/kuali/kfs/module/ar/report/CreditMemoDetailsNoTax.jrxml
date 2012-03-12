@@ -48,9 +48,9 @@
 	<field name="creditMemoItemUnitOfMeasureCode" class="java.lang.String"/>
 	<field name="creditMemoItemDescription" class="java.lang.String"/>
 	<field name="creditMemoItemCode" class="java.lang.String"/>
-	<field name="creditMemoItemUnitPrice" class="org.kuali.rice.kns.util.KualiDecimal"/>
-	<field name="creditMemoItemTotalAmount" class="org.kuali.rice.kns.util.KualiDecimal"/>
-	<field name="creditMemoItemTaxAmount" class="org.kuali.rice.kns.util.KualiDecimal"/>
+	<field name="creditMemoItemUnitPrice" class="org.kuali.rice.core.api.util.type.KualiDecimal"/>
+	<field name="creditMemoItemTotalAmount" class="org.kuali.rice.core.api.util.type.KualiDecimal"/>
+	<field name="creditMemoItemTaxAmount" class="org.kuali.rice.core.api.util.type.KualiDecimal"/>
 
 
 		<group  name="details" minHeightToStartNewPage="265" >

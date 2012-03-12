@@ -21,7 +21,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 import org.kuali.kfs.gl.businessobject.LedgerEntryHistory;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Labor business object for LedgerEntryHistory

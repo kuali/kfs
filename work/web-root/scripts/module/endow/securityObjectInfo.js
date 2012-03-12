@@ -15,7 +15,7 @@
  */
 function loadSecurityInfoFromTo( securityIdFieldName ) 
 {
-    var securityId = DWRUtil.getValue( securityIdFieldName ).toUpperCase();
+    var securityId = dwr.util.getValue( securityIdFieldName ).toUpperCase();
     
     // Selecting the type of Security - Source or Target
     var securityType= null;
@@ -61,7 +61,7 @@ function loadSecurityInfoFromTo( securityIdFieldName )
 
 function loadSecurityInfo( securityIdFieldName ) 
 {
-	var securityId = DWRUtil.getValue( securityIdFieldName ).toUpperCase();
+	var securityId = dwr.util.getValue( securityIdFieldName ).toUpperCase();
 	
 	// Selecting the type of Security - Source or Target
 	var securityType= null;

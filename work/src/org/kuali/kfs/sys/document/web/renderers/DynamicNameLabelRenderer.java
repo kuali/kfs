@@ -49,7 +49,7 @@ public class DynamicNameLabelRenderer implements Renderer {
 
     /**
      * 
-     * @see org.kuali.kfs.sys.document.web.renderers.Renderer#render(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag, org.kuali.rice.kns.bo.BusinessObject)
+     * @see org.kuali.kfs.sys.document.web.renderers.Renderer#render(javax.servlet.jsp.PageContext, javax.servlet.jsp.tagext.Tag, org.kuali.rice.krad.bo.BusinessObject)
      */
     public void render(PageContext pageContext, Tag parentTag) throws JspException {
         JspWriter out = pageContext.getOut();
@@ -79,7 +79,7 @@ public class DynamicNameLabelRenderer implements Renderer {
         valuePersistingTag.setPageContext(pageContext);
         valuePersistingTag.setParent(parentTag);
         valuePersistingTag.setProperty(fieldName);
-        valuePersistingTag.setValue(HtmlUtils.htmlEscape(fieldValue));
+        valuePersistingTag.setValue(fieldValue);
         
         valuePersistingTag.doStartTag();
         valuePersistingTag.doEndTag();

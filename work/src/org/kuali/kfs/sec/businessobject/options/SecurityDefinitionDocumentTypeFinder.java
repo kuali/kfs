@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,18 +16,18 @@
 package org.kuali.kfs.sec.businessobject.options;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import org.kuali.kfs.sec.SecConstants;
-import org.kuali.kfs.sec.document.SecurityDefinitionMaintainableImpl;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kew.dto.DocumentTypeDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.service.WorkflowInfo;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.doctype.DocumentType;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 
 /**
@@ -39,32 +39,26 @@ public class SecurityDefinitionDocumentTypeFinder extends KeyValuesBase {
     /**
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List getKeyValues() {
-        List activeLabels = new ArrayList();
+    @Override
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> activeLabels = new ArrayList<KeyValue>();
 
         // add option to include all document types
-        activeLabels.add(new KeyLabelPair(SecConstants.ALL_DOCUMENT_TYPE_NAME, SecConstants.ALL_DOCUMENT_TYPE_NAME));
+        activeLabels.add(new ConcreteKeyValue(SecConstants.ALL_DOCUMENT_TYPE_NAME, SecConstants.ALL_DOCUMENT_TYPE_NAME));
 
-        WorkflowInfo workflowInfo = new WorkflowInfo();
+        Collection<String> documentTypes = SpringContext.getBean(ParameterService.class).getParameterValuesAsString(SecConstants.ACCESS_SECURITY_NAMESPACE_CODE, SecConstants.ALL_PARAMETER_DETAIL_COMPONENT, SecConstants.SecurityParameterNames.ACCESS_SECURITY_DOCUMENT_TYPES);
 
-        List<String> documentTypes = SpringContext.getBean(ParameterService.class).getParameterValues(SecConstants.ACCESS_SECURITY_NAMESPACE_CODE, SecConstants.ALL_PARAMETER_DETAIL_COMPONENT, SecConstants.SecurityParameterNames.ACCESS_SECURITY_DOCUMENT_TYPES);
-     
         // copy list so it can be sorted (since it is unmodifiable)
         List<String> sortedDocumentTypes = new ArrayList<String>(documentTypes);
         Collections.sort(sortedDocumentTypes);
-        
+
         for (String documentTypeName : sortedDocumentTypes) {
-            DocumentTypeDTO documentType = null;
-            try {
-                documentType = workflowInfo.getDocType(documentTypeName);
-            }
-            catch (WorkflowException e) {
-                LOG.error("Invalid document type configured for security: " + documentTypeName);
-                throw new RuntimeException("Invalid document type configured for security: " + documentTypeName);
-            }
+            DocumentType documentType = KewApiServiceLocator.getDocumentTypeService().getDocumentTypeByName(documentTypeName);
 
             if (documentType != null) {
-                activeLabels.add(new KeyLabelPair(documentTypeName, documentType.getDocTypeLabel()));
+                activeLabels.add(new ConcreteKeyValue(documentTypeName, documentType.getLabel()));
+            } else {
+                LOG.warn( "Unknown document type in " + SecConstants.SecurityParameterNames.ACCESS_SECURITY_DOCUMENT_TYPES + " parameter: " + documentTypeName );
             }
         }
 

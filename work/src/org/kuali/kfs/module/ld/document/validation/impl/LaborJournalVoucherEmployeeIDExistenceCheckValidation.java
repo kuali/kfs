@@ -21,20 +21,15 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ld.LaborConstants;
-import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.businessobject.LaborJournalVoucherDetail;
-import org.kuali.kfs.module.ld.document.LaborJournalVoucherDocument;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Validates that a labor journal voucher document's accounting lines have valid Employee ID 
@@ -73,7 +68,7 @@ public class LaborJournalVoucherEmployeeIDExistenceCheckValidation extends Gener
         Map criteria = new HashMap();
         criteria.put(KFSPropertyConstants.PERSON_PAYROLL_IDENTIFIER, employeeid);
         
-        Collection emplidMatches = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).findPeople(criteria);
+        Collection emplidMatches = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).findPeople(criteria);
         if (emplidMatches == null || emplidMatches.isEmpty()) {
             String label = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(LaborJournalVoucherDetail.class.getName()).getAttributeDefinition(KFSPropertyConstants.EMPLID).getLabel();
             GlobalVariables.getMessageMap().putError(KFSPropertyConstants.EMPLID, KFSKeyConstants.ERROR_EXISTENCE, label) ;

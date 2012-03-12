@@ -22,9 +22,9 @@ import java.util.List;
 
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.OwnershipCategory;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * Values Finder for <code>OwnershipCategory</code>.
@@ -41,10 +41,10 @@ public class VendorOwnershipCategoryValuesFinder extends KeyValuesBase {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection codes = boService.findAll(OwnershipCategory.class);
         List labels = new ArrayList();
-        labels.add(new KeyLabelPair("", ""));
+        labels.add(new ConcreteKeyValue("", ""));
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
             OwnershipCategory oc = (OwnershipCategory) iter.next();
-            labels.add(new KeyLabelPair(oc.getVendorOwnershipCategoryCode(), oc.getVendorOwnershipCategoryDescription()));
+            labels.add(new ConcreteKeyValue(oc.getVendorOwnershipCategoryCode(), oc.getVendorOwnershipCategoryDescription()));
         }
 
         return labels;

@@ -30,12 +30,12 @@ import org.kuali.kfs.coa.service.SubObjectTrickleDownInactivationService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.document.MaintenanceLock;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.maintenance.MaintenanceLock;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class overrides the saveBusinessObject() method which is called during post process from the KualiPostProcessor so that it
@@ -61,8 +61,8 @@ public class KualiAccountMaintainableImpl extends FinancialSystemMaintainable {
         // if we're closing the account, then rely on the trickle-down inactivation services to trickle-down inactivate the
         // sub-accounts
         if (isClosingAccount) {
-            SpringContext.getBean(SubAccountTrickleDownInactivationService.class).trickleDownInactivateSubAccounts((Account) getBusinessObject(), documentNumber);
-            SpringContext.getBean(SubObjectTrickleDownInactivationService.class).trickleDownInactivateSubObjects((Account) getBusinessObject(), documentNumber);
+            SpringContext.getBean(SubAccountTrickleDownInactivationService.class).trickleDownInactivateSubAccounts((Account) getBusinessObject(), getDocumentNumber());
+            SpringContext.getBean(SubObjectTrickleDownInactivationService.class).trickleDownInactivateSubObjects((Account) getBusinessObject(), getDocumentNumber());
         }
     }
 
@@ -87,8 +87,8 @@ public class KualiAccountMaintainableImpl extends FinancialSystemMaintainable {
         boolean isClosingAccount = false;
 
         if (isClosingAccount()) {
-            maintenanceLocks.addAll(SpringContext.getBean(SubAccountTrickleDownInactivationService.class).generateTrickleDownMaintenanceLocks((Account) getBusinessObject(), documentNumber));
-            maintenanceLocks.addAll(SpringContext.getBean(SubObjectTrickleDownInactivationService.class).generateTrickleDownMaintenanceLocks((Account) getBusinessObject(), documentNumber));
+            maintenanceLocks.addAll(SpringContext.getBean(SubAccountTrickleDownInactivationService.class).generateTrickleDownMaintenanceLocks((Account) getBusinessObject(), getDocumentNumber()));
+            maintenanceLocks.addAll(SpringContext.getBean(SubObjectTrickleDownInactivationService.class).generateTrickleDownMaintenanceLocks((Account) getBusinessObject(), getDocumentNumber()));
         }
         return maintenanceLocks;
     }
@@ -101,7 +101,7 @@ public class KualiAccountMaintainableImpl extends FinancialSystemMaintainable {
 
     protected boolean isClosingAccount() {
         // the account has to be closed on the new side when editing in order for it to be possible that we are closing the account
-        if (KNSConstants.MAINTENANCE_EDIT_ACTION.equals(getMaintenanceAction()) && !((Account) getBusinessObject()).isActive()) {
+        if (KRADConstants.MAINTENANCE_EDIT_ACTION.equals(getMaintenanceAction()) && !((Account) getBusinessObject()).isActive()) {
             Account existingAccountFromDB = retrieveExistingAccountFromDB();
             if (ObjectUtils.isNotNull(existingAccountFromDB)) {
                 // now see if the original account was not closed, in which case, we are closing the account
@@ -139,7 +139,7 @@ public class KualiAccountMaintainableImpl extends FinancialSystemMaintainable {
         super.refresh(refreshCaller, fieldValues, document);
         Account newAcct = (Account) document.getNewMaintainableObject().getBusinessObject();
         Account oldAcct = (Account) document.getOldMaintainableObject().getBusinessObject();
-        if (KNSConstants.MAINTENANCE_COPY_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction())) {
+        if (KRADConstants.MAINTENANCE_COPY_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction())) {
             if (ObjectUtils.isNull(newAcct.getAccountGuideline())) {
                 newAcct.setAccountGuideline(oldAcct.getAccountGuideline());
             }

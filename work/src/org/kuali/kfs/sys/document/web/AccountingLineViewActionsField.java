@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.sys.document.web;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.jsp.JspException;
@@ -26,7 +25,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.renderers.ActionsRenderer;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.web.ui.Field;
 
 /**
@@ -110,7 +109,7 @@ public class AccountingLineViewActionsField extends FieldTableJoiningWithHeader 
      * @see org.kuali.kfs.sys.document.web.TableJoiningWithHeader#createHeaderLabel()
      */
     public HeaderLabel createHeaderLabel() {
-        return new LiteralHeaderLabel(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.AccountingLineViewRendering.ACCOUNTING_LINE_ACTIONS_LABEL));
+        return new LiteralHeaderLabel(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.AccountingLineViewRendering.ACCOUNTING_LINE_ACTIONS_LABEL));
     }
 
     /**

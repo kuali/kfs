@@ -18,8 +18,8 @@ package org.kuali.kfs.fp.businessobject;
 import java.util.Map;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 
 
 /**

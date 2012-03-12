@@ -15,17 +15,21 @@
  */
 package org.kuali.kfs.sys.document.service.impl;
 
+import java.text.DecimalFormat;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.gl.service.impl.StringHelper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.service.OptionsService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Default implementation of the DebitDeterminerService.
@@ -35,7 +39,7 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
     protected static final String isDebitCalculationIllegalStateExceptionMessage = "an invalid debit/credit check state was detected";
     protected static final String isErrorCorrectionIllegalStateExceptionMessage = "invalid (error correction) document not allowed";
     protected static final String isInvalidLineTypeIllegalArgumentExceptionMessage = "invalid accounting line type";
-    
+
     private AccountingDocumentRuleHelperService accountingDocumentRuleUtil;
     private OptionsService optionsService;
 
@@ -235,7 +239,7 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
      * @see org.kuali.kfs.sys.document.service.DebitDeterminerService#isErrorCorrection(org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource)
      */
     public boolean isErrorCorrection(GeneralLedgerPendingEntrySource poster) {
-        return StringUtils.isNotBlank(poster.getDocumentHeader().getFinancialDocumentInErrorNumber());
+        return StringUtils.isNotBlank(poster.getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber());
     }
 
     /**
@@ -304,56 +308,94 @@ public class DebitDeterminerServiceImpl implements DebitDeterminerService {
         return returnboolean;
     }
 
-    /**
-     * @see org.kuali.kfs.sys.document.service.DebitDeterminerService#isRevenue(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
-     */
-    public boolean isRevenue(GeneralLedgerPendingEntrySourceDetail postable) {
-        LOG.debug("isRevenue(AccountingLine) - start");
-
-        boolean returnboolean = !isExpense(postable);
-        LOG.debug("isRevenue(AccountingLine) - end");
-        return returnboolean;
+    public String getConvertedAmount(String objectType , String debitCreditCode , String amount ) {
+        SystemOptions systemOption = optionsService.getCurrentYearOptions();
+        
+        // If entries lack a debit and credit code that means they're budget entries and should already be signed appropriately + or -.
+        // so we should just be able to grab those without having to do any change.
+        if(StringHelper.isNullOrEmpty(debitCreditCode)) {
+            return amount;
+        }
+        
+        if(systemOption.getFinancialObjectTypeAssetsCd().equals(objectType)
+                ||systemOption.getFinObjTypeExpendNotExpCode().equals(objectType)  
+                ||systemOption.getFinObjTypeExpenditureexpCd().equals(objectType)
+                ||systemOption.getFinObjTypeExpendNotExpCode().equals(objectType) 
+                ||systemOption.getFinancialObjectTypeTransferExpenseCd().equals(objectType)) {
+           
+            if  (KFSConstants.GL_CREDIT_CODE.equals(debitCreditCode)) {
+                amount = "-" + amount;
+            }   
+        }
+        else if (systemOption.getFinObjTypeCshNotIncomeCd().equals(objectType)
+                || systemOption.getFinObjectTypeFundBalanceCd().equals(objectType)
+                || systemOption.getFinObjectTypeIncomecashCode().equals(objectType)
+                || systemOption.getFinObjTypeCshNotIncomeCd().equals(objectType)
+                || systemOption.getFinObjectTypeLiabilitiesCode().equals(objectType)
+                || systemOption.getFinancialObjectTypeTransferIncomeCd().equals(objectType)) {
+            if (KFSConstants.GL_DEBIT_CODE.equals(debitCreditCode)) {
+              amount = "-" + amount;
+            }
+          
+        }
+      
+        return amount;
     }
 
-    /**
-     * Sets the accountingDocumentRuleUtils attribute value.
-     * @param accountingDocumentRuleUtils The accountingDocumentRuleUtils to set.
-     */
-    public void setAccountingDocumentRuleUtils(AccountingDocumentRuleHelperService accountingDocumentRuleUtil) {
-        this.accountingDocumentRuleUtil = accountingDocumentRuleUtil;
-    }
 
-    /**
-     * Sets the optionsService attribute value.
-     * @param optionsService The optionsService to set.
-     */
-    public void setOptionsService(OptionsService optionsService) {
-        this.optionsService = optionsService;
-    }
 
-    /**
-     * Gets the isDebitCalculationIllegalStateExceptionMessage attribute. 
-     * @return Returns the isDebitCalculationIllegalStateExceptionMessage.
-     */
-    public String getDebitCalculationIllegalStateExceptionMessage() {
-        return isDebitCalculationIllegalStateExceptionMessage;
-    }
 
-    /**
-     * Gets the isErrorCorrectionIllegalStateExceptionMessage attribute. 
-     * @return Returns the isErrorCorrectionIllegalStateExceptionMessage.
-     */
-    public String getErrorCorrectionIllegalStateExceptionMessage() {
-        return isErrorCorrectionIllegalStateExceptionMessage;
-    }
 
-    /**
-     * Gets the isInvalidLineTypeIllegalArgumentExceptionMessage attribute. 
-     * @return Returns the isInvalidLineTypeIllegalArgumentExceptionMessage.
-     */
-    public String getInvalidLineTypeIllegalArgumentExceptionMessage() {
-        return isInvalidLineTypeIllegalArgumentExceptionMessage;
-    }
+/**
+ * @see org.kuali.kfs.sys.document.service.DebitDeterminerService#isRevenue(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
+ */
+public boolean isRevenue(GeneralLedgerPendingEntrySourceDetail postable) {
+    LOG.debug("isRevenue(AccountingLine) - start");
 
-    
+    boolean returnboolean = !isExpense(postable);
+    LOG.debug("isRevenue(AccountingLine) - end");
+    return returnboolean;
+}
+
+/**
+ * Sets the accountingDocumentRuleUtils attribute value.
+ * @param accountingDocumentRuleUtils The accountingDocumentRuleUtils to set.
+ */
+public void setAccountingDocumentRuleUtils(AccountingDocumentRuleHelperService accountingDocumentRuleUtil) {
+    this.accountingDocumentRuleUtil = accountingDocumentRuleUtil;
+}
+
+/**
+ * Sets the optionsService attribute value.
+ * @param optionsService The optionsService to set.
+ */
+public void setOptionsService(OptionsService optionsService) {
+    this.optionsService = optionsService;
+}
+
+/**
+ * Gets the isDebitCalculationIllegalStateExceptionMessage attribute. 
+ * @return Returns the isDebitCalculationIllegalStateExceptionMessage.
+ */
+public String getDebitCalculationIllegalStateExceptionMessage() {
+    return isDebitCalculationIllegalStateExceptionMessage;
+}
+
+/**
+ * Gets the isErrorCorrectionIllegalStateExceptionMessage attribute. 
+ * @return Returns the isErrorCorrectionIllegalStateExceptionMessage.
+ */
+public String getErrorCorrectionIllegalStateExceptionMessage() {
+    return isErrorCorrectionIllegalStateExceptionMessage;
+}
+
+/**
+ * Gets the isInvalidLineTypeIllegalArgumentExceptionMessage attribute. 
+ * @return Returns the isInvalidLineTypeIllegalArgumentExceptionMessage.
+ */
+public String getInvalidLineTypeIllegalArgumentExceptionMessage() {
+    return isInvalidLineTypeIllegalArgumentExceptionMessage;
+}
+
+
 }

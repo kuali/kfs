@@ -28,18 +28,18 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentClaimingService {
     private org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicPaymentClaimingServiceImpl.class);
@@ -64,7 +64,7 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
         int summariesPerNote;
         List<String> noteTexts = new ArrayList<String>();
         try {
-            summariesPerNote = Integer.parseInt(parameterService.getParameterValue(ElectronicPaymentClaim.class, ELECTRONIC_FUNDS_CLAIM_SUMMARIES_PER_NOTE_PARAMETER));
+            summariesPerNote = Integer.parseInt(parameterService.getParameterValueAsString(ElectronicPaymentClaim.class, ELECTRONIC_FUNDS_CLAIM_SUMMARIES_PER_NOTE_PARAMETER));
             int i = 0;
             while (i < claims.size()) {
                 String noteText = constructNoteText(claims, i, summariesPerNote);
@@ -132,7 +132,7 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
     }
 
     /**
-     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingService#getClaimingDocumentChoices(org.kuali.rice.kim.bo.Person)
+     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingService#getClaimingDocumentChoices(org.kuali.rice.kim.api.identity.Person)
      */
     public List<ElectronicPaymentClaimingDocumentGenerationStrategy> getClaimingDocumentChoices(Person user) {
         List<ElectronicPaymentClaimingDocumentGenerationStrategy> documentChoices = new ArrayList<ElectronicPaymentClaimingDocumentGenerationStrategy>();
@@ -182,7 +182,7 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
     }
 
     /**
-     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingService#declaimElectronicPaymentClaimsForDocument(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingService#declaimElectronicPaymentClaimsForDocument(org.kuali.rice.krad.document.Document)
      */
     public void declaimElectronicPaymentClaimsForDocument(Document document) {
         Map<String, String> searchKeys = new HashMap<String, String>();
@@ -197,7 +197,7 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
     }
 
     /**
-     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingService#isAuthorizedForClaimingElectronicPayment(org.kuali.rice.kim.bo.Person,
+     * @see org.kuali.kfs.sys.service.ElectronicPaymentClaimingService#isAuthorizedForClaimingElectronicPayment(org.kuali.rice.kim.api.identity.Person,
      *      java.lang.String, java.lang.String)
      */
     public boolean isAuthorizedForClaimingElectronicPayment(Person user, String workflowDocumentTypeName) {
@@ -205,8 +205,8 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
         String namespaceCode = KFSConstants.ParameterNamespaces.KFS;
         String permissionTemplateName = KFSConstants.PermissionTemplate.CLAIM_ELECTRONIC_PAYMENT.name;
 
-        AttributeSet permissionDetails = new AttributeSet();
-        permissionDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, workflowDocumentTypeName);      
+        Map<String,String> permissionDetails = new HashMap<String,String>();
+        permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, workflowDocumentTypeName);      
 
         IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
         boolean isAuthorized = identityManagementService.hasPermissionByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails);
@@ -236,7 +236,7 @@ public class ElectronicPaymentClaimingServiceImpl implements ElectronicPaymentCl
      * @return true if the accounting line does represent an electronic payment, false otherwise
      */
     public boolean representsElectronicFundAccount(AccountingLine accountingLine) {
-        return parameterService.getParameterEvaluator(AdvanceDepositDocument.class, ELECTRONIC_PAYMENT_CLAIM_ACCOUNTS_PARAMETER, accountingLine.getChartOfAccountsCode(), accountingLine.getAccountNumber()).evaluationSucceeds();
+        return /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(AdvanceDepositDocument.class, ELECTRONIC_PAYMENT_CLAIM_ACCOUNTS_PARAMETER, accountingLine.getChartOfAccountsCode(), accountingLine.getAccountNumber()).evaluationSucceeds();
     }
 
     /**

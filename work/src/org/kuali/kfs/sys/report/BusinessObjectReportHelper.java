@@ -24,16 +24,16 @@ import java.util.Map;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.core.web.format.BigDecimalFormatter;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
+import org.kuali.rice.core.web.format.Formatter;
+import org.kuali.rice.core.web.format.IntegerFormatter;
+import org.kuali.rice.core.web.format.KualiIntegerCurrencyFormatter;
+import org.kuali.rice.core.web.format.LongFormatter;
+import org.kuali.rice.core.web.format.PercentageFormatter;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.web.format.BigDecimalFormatter;
-import org.kuali.rice.kns.web.format.CurrencyFormatter;
-import org.kuali.rice.kns.web.format.Formatter;
-import org.kuali.rice.kns.web.format.IntegerFormatter;
-import org.kuali.rice.kns.web.format.KualiIntegerCurrencyFormatter;
-import org.kuali.rice.kns.web.format.LongFormatter;
-import org.kuali.rice.kns.web.format.PercentageFormatter;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Helper class for business objects to assist formatting them for error reporting. Utilizes spring injection for modularization and
@@ -294,7 +294,8 @@ public class BusinessObjectReportHelper {
                 int width = cellWidthList.get(index);
                 String alignment = (allowRightAlignment && cellAlignmentList.get(index).equals(RIGHT_ALIGNMENT)) ? StringUtils.EMPTY : "-";
                 if(width > 0) {
-                    singleRowFormat = singleRowFormat.append("%").append(alignment).append(width).append("s ");
+                    // following translates to %<alignment><width>.<precision>s where the precision for Strings forces a maxLength
+                    singleRowFormat = singleRowFormat.append("%").append(alignment).append(width).append("." + width).append("s ");
                 }
             }
             

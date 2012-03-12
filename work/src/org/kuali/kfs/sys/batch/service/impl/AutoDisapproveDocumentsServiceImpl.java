@@ -15,38 +15,40 @@
  */
 package org.kuali.kfs.sys.batch.service.impl;
 
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 
+import org.joda.time.DateTime;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.batch.AutoDisapproveDocumentsStep;
 import org.kuali.kfs.sys.batch.service.AutoDisapproveDocumentsService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.rice.kew.doctype.bo.DocumentType;
-import org.kuali.rice.kew.doctype.service.DocumentTypeService;
-import org.kuali.rice.kew.dto.DocumentSearchCriteriaDTO;
-import org.kuali.rice.kew.dto.DocumentSearchResultDTO;
-import org.kuali.rice.kew.dto.DocumentSearchResultRowDTO;
-import org.kuali.rice.kew.dto.KeyValueDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.service.WorkflowInfo;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.UnknownDocumentTypeException;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.NoteService;
-import org.kuali.rice.kns.service.ParameterEvaluator;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.parameter.ParameterEvaluator;
+import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.WorkflowRuntimeException;
+import org.kuali.rice.kew.api.doctype.DocumentType;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
+import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
+import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
+import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.docsearch.service.DocumentSearchService;
+import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.datadictionary.exception.UnknownDocumentTypeException;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.NoteService;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -64,7 +66,7 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
     private ParameterService parameterService;
     
     private NoteService noteService;
-    private PersonService<Person> personService;
+    private PersonService personService;
     
     private ReportWriterService autoDisapproveErrorReportWriterService;
     
@@ -89,7 +91,7 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
                 Person systemUser = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
                 
                 String principalId = systemUser.getPrincipalId();
-                String annotationForAutoDisapprovalDocument = getParameterService().getParameterValue(AutoDisapproveDocumentsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_ANNOTATION);                
+                String annotationForAutoDisapprovalDocument = getParameterService().getParameterValueAsString(AutoDisapproveDocumentsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_ANNOTATION);                
                 
                 Date documentCompareDate = getDocumentCompareDateParameter();
                 success = processAutoDisapproveDocuments(principalId, annotationForAutoDisapprovalDocument, documentCompareDate);
@@ -215,7 +217,7 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
       boolean autoDisapproveCanRun = true;
       
       // IF trunc(SYSDATE - 14/24) = v_yec_cncl_doc_run_dt THEN...FIS CODE equivalent here...
-      String yearEndAutoDisapproveRunDate = getParameterService().getParameterValue(AutoDisapproveDocumentsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_DOCUMENT_STEP_RUN_DATE);
+      String yearEndAutoDisapproveRunDate = getParameterService().getParameterValueAsString(AutoDisapproveDocumentsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_DOCUMENT_STEP_RUN_DATE);
       
       String today = getDateTimeService().toDateString(getDateTimeService().getCurrentDate());
       
@@ -230,7 +232,8 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
     }
     
     /**
-     * This method will use documentsearchcriteriaDTO to search for the documents that are in enroute status and disapproves them
+     * This method will use DocumentSearchCriteria to search for the documents that are in enroute status and disapproves them
+     * 
      * @param principalId The principal id which is KFS-SYS System user to run the process under.
      * @param annotation The annotation to be set as note in the note of the document.
      * @param documentCompareDate The document create date to compare to
@@ -238,25 +241,18 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
     protected boolean processAutoDisapproveDocuments(String principalId, String annotation, Date documentCompareDate) {
         boolean success = true;
         
-        WorkflowInfo workflowInfo = new WorkflowInfo();
-        
-        DocumentSearchCriteriaDTO documentSearchCriteriaDTO = new DocumentSearchCriteriaDTO();
-        documentSearchCriteriaDTO.setDocRouteStatus(KEWConstants.ROUTE_HEADER_ENROUTE_CD);
-        documentSearchCriteriaDTO.setSaveSearchForUser(false);
+        DocumentSearchCriteria.Builder criteria = DocumentSearchCriteria.Builder.create();
+        criteria.setDocumentStatuses(Collections.singletonList(DocumentStatus.ENROUTE));
+        criteria.setSaveName(null);
         
         try {
-            DocumentSearchResultDTO documentSearchResultDTO = workflowInfo.performDocumentSearch(principalId, documentSearchCriteriaDTO);
-            List<DocumentSearchResultRowDTO> autoDisapproveDocumentsList = documentSearchResultDTO.getSearchResults();
-
+            DocumentSearchService documentSearch = KEWServiceLocator.getDocumentSearchService();
+            DocumentSearchResults results = documentSearch.lookupDocuments(principalId, criteria.build());
+            
             String documentHeaderId = null;
             
-            for (DocumentSearchResultRowDTO autoDisapproveDocument : autoDisapproveDocumentsList) {
-                for (KeyValueDTO keyValueDTO : autoDisapproveDocument.getFieldValues()) {
-                    if (keyValueDTO.getKey().equals(WORKFLOW_DOCUMENT_HEADER_ID_SEARCH_RESULT_KEY)) {
-                        documentHeaderId = keyValueDTO.getUserDisplayValue();
-                    }
-                }
-                
+            for (DocumentSearchResult result : results.getSearchResults()) {
+                documentHeaderId = result.getDocument().getDocumentId();
                 Document document = findDocumentForAutoDisapproval(documentHeaderId);
                 if (document != null) {
                     if (checkIfDocumentEligibleForAutoDispproval(document)) {
@@ -264,30 +260,27 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
                             try {
                                 autoDisapprovalYearEndDocument(document, annotation);
                                 LOG.info("The document with header id: " + documentHeaderId + " is automatically disapproved by this job.");
-                            }
-                            catch (Exception e) {
+                            }catch (Exception e) {
                                 LOG.error("Exception encountered trying to auto disapprove the document " + e.getMessage());
                                 String message = ("Exception encountered trying to auto disapprove the document: ").concat(documentHeaderId);                                    
                                 autoDisapproveErrorReportWriterService.writeFormattedMessageLine(message); 
                             }
-                        }
-                        else {
+                        }else {
                             LOG.info("Year End Auto Disapproval Exceptions:  The document: " + documentHeaderId + " is NOT AUTO DISAPPROVED.");
                         }
                     } 
-                }
-                else {
+                }else{
                         LOG.error("Document is NULL.  It should never have been null");
                         String message = ("Error: Document with id: ").concat(documentHeaderId).concat(" - Document is NULL.  It should never have been null");
                         autoDisapproveErrorReportWriterService.writeFormattedMessageLine(message);                         
                 }
             } 
-       } catch (WorkflowException wfe) {
+       } catch (WorkflowRuntimeException wfre) {
             success = false;
             LOG.warn("Error with workflow search for documents for auto disapproval");
             String message = ("Error with workflow search for documents for auto disapproval.  The auto disapproval job is stopped.");
             autoDisapproveErrorReportWriterService.writeFormattedMessageLine(message);                                     
-            }
+        }
        
        return success;
     }
@@ -300,15 +293,13 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
     protected boolean checkIfDocumentEligibleForAutoDispproval(Document document) {
         boolean documentEligible = false;
      
-        String yearEndAutoDisapproveParentDocumentType = getParameterService().getParameterValue(AutoDisapproveDocumentsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_PARENT_DOCUMENT_TYPE);
+        String yearEndAutoDisapproveParentDocumentType = getParameterService().getParameterValueAsString(AutoDisapproveDocumentsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_PARENT_DOCUMENT_TYPE);
      
-        DocumentType parentDocumentType = (DocumentType) getDocumentTypeService().findByName(yearEndAutoDisapproveParentDocumentType);
+        DocumentType parentDocumentType = (DocumentType) getDocumentTypeService().getDocumentTypeByName(yearEndAutoDisapproveParentDocumentType);
         
-        String documentTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
-        DocumentType childDocumentType = (DocumentType) getDocumentTypeService().findByName(documentTypeName);
-     
-        documentEligible = parentDocumentType.isParentOf(childDocumentType);
-     
+        String documentTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
+        DocumentType childDocumentType = (DocumentType) getDocumentTypeService().getDocumentTypeByName(documentTypeName);
+        documentEligible = childDocumentType.getParentId().equals(parentDocumentType.getId());     
         return documentEligible;
     }
     
@@ -320,7 +311,7 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
     protected Date getDocumentCompareDateParameter() {
         Date documentCompareDate = null;
         
-        String yearEndAutoDisapproveDocumentDate = getParameterService().getParameterValue(AutoDisapproveDocumentsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_DOCUMENT_CREATE_DATE);
+        String yearEndAutoDisapproveDocumentDate = getParameterService().getParameterValueAsString(AutoDisapproveDocumentsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_DOCUMENT_CREATE_DATE);
         
         if (ObjectUtils.isNull(yearEndAutoDisapproveDocumentDate)) {
             LOG.warn("Exception: System Parameter YEAR_END_AUTO_DISAPPROVE_DOCUMENT_CREATE_DATE can not be determined.");
@@ -383,14 +374,14 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
 
         String documentNumber =  document.getDocumentHeader().getDocumentNumber();
         
-        Timestamp documentCreateDate = document.getDocumentHeader().getWorkflowDocument().getCreateDate();
+        DateTime documentCreateDate = document.getDocumentHeader().getWorkflowDocument().getDateCreated();
         
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(documentCompareDate);
         String strCompareDate = calendar.getTime().toString();
         
         try {
-            createDate = getDateTimeService().convertToSqlDate(documentCreateDate);
+            createDate = getDateTimeService().convertToSqlDate(documentCreateDate.toString());
         }
         catch (ParseException pe){
             LOG.error("Document create date can not be determined.");
@@ -403,9 +394,9 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
         String strCreateDate = calendar.getTime().toString();
         
         if (createDate.before(documentCompareDate) || createDate.equals(documentCompareDate)) {
-            String documentTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
+            String documentTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
             
-            ParameterEvaluator evaluatorDocumentType = getParameterService().getParameterEvaluator(AutoDisapproveDocumentsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_DOCUMENT_TYPES, documentTypeName);
+            ParameterEvaluator evaluatorDocumentType = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(AutoDisapproveDocumentsStep.class, KFSParameterKeyConstants.YearEndAutoDisapprovalConstants.YEAR_END_AUTO_DISAPPROVE_DOCUMENT_TYPES, documentTypeName);
             exceptionToDisapprove = !evaluatorDocumentType.evaluationSucceeds();
             if (exceptionToDisapprove) {
                 LOG.info("Document Id: " + documentNumber + " - Exception to Auto Disapprove:  Document's type: " + documentTypeName + " is in the System Parameter For Document Types Exception List.");
@@ -427,10 +418,11 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
      *     
      */
     protected void autoDisapprovalYearEndDocument(Document document, String annotationForAutoDisapprovalDocument)  throws Exception {
-        Note approveNote = noteService.createNote(new Note(), document.getDocumentHeader());
+        Person systemUser = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);      
+        
+        Note approveNote = noteService.createNote(new Note(), document.getDocumentHeader(), systemUser.getPrincipalId());
         approveNote.setNoteText(annotationForAutoDisapprovalDocument);
 
-        Person systemUser = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
         approveNote.setAuthorUniversalIdentifier(systemUser.getPrincipalId());
         
         noteService.save(approveNote);
@@ -517,7 +509,7 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
     /**
      * @return Returns the personService.
      */
-    protected PersonService<Person> getPersonService() {
+    protected PersonService getPersonService() {
         if(personService==null)
             personService = SpringContext.getBean(PersonService.class);
         return personService;

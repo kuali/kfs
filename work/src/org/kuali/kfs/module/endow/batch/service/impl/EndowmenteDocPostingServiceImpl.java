@@ -46,10 +46,10 @@ import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.service.PendingTransactionDocumentService;
 import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -86,8 +86,7 @@ public class EndowmenteDocPostingServiceImpl implements EndowmenteDocPostingServ
 
             // Determine the class type from it's document type name, and use it to retrieve the
             // correct object type from the DB.
-            Class<?> clazz = dataDictionaryService.getDocumentClassByTypeName(pendingEntry.getDocumentType());
-            EndowmentTransactionalDocumentBase tranDoc = (EndowmentTransactionalDocumentBase) businessObjectService.findBySinglePrimaryKey(clazz, pendingEntry.getDocumentNumber());
+        	EndowmentTransactionalDocumentBase tranDoc = (EndowmentTransactionalDocumentBase) businessObjectService.findBySinglePrimaryKey(dataDictionaryService.getDocumentClassByTypeName(pendingEntry.getDocumentType()), pendingEntry.getDocumentNumber());
 
             // Only want to process EndowmentTransactionLinesDocumentBase parent types.
             if (tranDoc instanceof EndowmentTransactionLinesDocumentBase) {

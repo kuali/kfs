@@ -22,9 +22,9 @@ import java.util.List;
 
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.VendorInactiveReason;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * Values finder for <code>VendorInactiveReason</code>.
@@ -41,10 +41,10 @@ public class InactiveReasonValuesFinder extends KeyValuesBase {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection inactiveReasons = boService.findAll(VendorInactiveReason.class);
         List labels = new ArrayList();
-        labels.add(new KeyLabelPair("", ""));
+        labels.add(new ConcreteKeyValue("", ""));
         for (Iterator iter = inactiveReasons.iterator(); iter.hasNext();) {
             VendorInactiveReason reason = (VendorInactiveReason) iter.next();
-            labels.add(new KeyLabelPair(reason.getVendorInactiveReasonCode(), reason.getVendorInactiveReasonDescription()));
+            labels.add(new ConcreteKeyValue(reason.getVendorInactiveReasonCode(), reason.getVendorInactiveReasonDescription()));
         }
 
         return labels;

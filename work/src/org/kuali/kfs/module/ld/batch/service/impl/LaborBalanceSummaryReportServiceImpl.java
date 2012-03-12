@@ -24,22 +24,18 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.PosterSummaryReportStep;
-import org.kuali.kfs.gl.batch.service.impl.OriginEntryFileIterator;
 import org.kuali.kfs.gl.businessobject.GlSummary;
 import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
-import org.kuali.kfs.gl.businessobject.Reversal;
 import org.kuali.kfs.gl.report.PosterOutputSummaryReport;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.batch.service.LaborBalanceSummaryReportService;
 import org.kuali.kfs.module.ld.businessobject.LaborBalanceSummary;
-import org.kuali.kfs.module.ld.businessobject.LaborOriginEntry;
 import org.kuali.kfs.module.ld.service.LaborLedgerBalanceService;
 import org.kuali.kfs.module.ld.util.LaborOriginEntryFileIterator;
 import org.kuali.kfs.sys.FileUtil;
@@ -48,8 +44,8 @@ import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.service.FiscalYearAwareReportWriterService;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * Implements a set of methods that can generate labor balance summary reports
@@ -86,9 +82,9 @@ public class LaborBalanceSummaryReportServiceImpl implements LaborBalanceSummary
     public void generateBalanceSummaryReports(Date runDate) {
         LOG.debug("generateBalanceSummaryReports(Date) started");
 
-        String yearEndPeriodLowerBound = parameterService.getParameterValue(PosterSummaryReportStep.class, CURRENT_YEAR_LOWER);
-        String lastDayOfFiscalYear = parameterService.getParameterValue(PosterSummaryReportStep.class, CURRENT_AND_LAST_YEAR);
-        String yearEndPeriodUpperBound = parameterService.getParameterValue(PosterSummaryReportStep.class, CURRENT_YEAR_UPPER);
+        String yearEndPeriodLowerBound = parameterService.getParameterValueAsString(PosterSummaryReportStep.class, CURRENT_YEAR_LOWER);
+        String lastDayOfFiscalYear = parameterService.getParameterValueAsString(PosterSummaryReportStep.class, CURRENT_AND_LAST_YEAR);
+        String yearEndPeriodUpperBound = parameterService.getParameterValueAsString(PosterSummaryReportStep.class, CURRENT_YEAR_UPPER);
 
         Integer currentYear = optionsService.getCurrentYearOptions().getUniversityFiscalYear();
         this.generateBalanceSummaryReports(currentYear, runDate);

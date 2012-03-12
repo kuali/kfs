@@ -17,8 +17,8 @@ package org.kuali.kfs.vnd;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Utility class with helper methods for Vendor processing 
@@ -139,7 +139,7 @@ public class VendorUtils {
      * @return
      */
     public static String buildMessageText(String messageKey, String... parameters) {
-        String result = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(messageKey);
+        String result = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(messageKey);
         if (ObjectUtils.isNotNull(parameters)) {
             for (int i = 0; i < parameters.length; i++) {
                 result = StringUtils.replace(result, "{" + i + "}", parameters[i]);

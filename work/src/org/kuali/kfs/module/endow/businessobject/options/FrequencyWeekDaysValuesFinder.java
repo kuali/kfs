@@ -19,8 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.EndowConstants;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * This class defines a values finder for the week day part in the frequency code.
@@ -31,14 +32,14 @@ public class FrequencyWeekDaysValuesFinder extends KeyValuesBase {
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
+        List<KeyValue> labels = new ArrayList<KeyValue>();
 
-        labels.add(new KeyLabelPair("", ""));
-        labels.add(new KeyLabelPair(EndowConstants.FrequencyWeekDays.MONDAY, "Monday"));
-        labels.add(new KeyLabelPair(EndowConstants.FrequencyWeekDays.TUESDAY, "Tuesday"));
-        labels.add(new KeyLabelPair(EndowConstants.FrequencyWeekDays.WEDNESDAY, "Wednesday"));
-        labels.add(new KeyLabelPair(EndowConstants.FrequencyWeekDays.THURSDAY, "Thursday"));
-        labels.add(new KeyLabelPair(EndowConstants.FrequencyWeekDays.FRIDAY, "Friday"));
+        labels.add(new ConcreteKeyValue("", ""));
+        labels.add(new ConcreteKeyValue(EndowConstants.FrequencyWeekDays.MONDAY, "Monday"));
+        labels.add(new ConcreteKeyValue(EndowConstants.FrequencyWeekDays.TUESDAY, "Tuesday"));
+        labels.add(new ConcreteKeyValue(EndowConstants.FrequencyWeekDays.WEDNESDAY, "Wednesday"));
+        labels.add(new ConcreteKeyValue(EndowConstants.FrequencyWeekDays.THURSDAY, "Thursday"));
+        labels.add(new ConcreteKeyValue(EndowConstants.FrequencyWeekDays.FRIDAY, "Friday"));
 
         return labels;
     }

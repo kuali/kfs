@@ -17,8 +17,8 @@ package org.kuali.kfs.sys.spring.datadictionary;
 
 import java.util.ArrayList;
 
-import org.kuali.rice.kns.datadictionary.PrimitiveAttributeDefinition;
-import org.kuali.rice.kns.datadictionary.SupportAttributeDefinition;
+import org.kuali.rice.krad.datadictionary.PrimitiveAttributeDefinition;
+import org.kuali.rice.krad.datadictionary.SupportAttributeDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.ParserContext;
 import org.springframework.util.StringUtils;

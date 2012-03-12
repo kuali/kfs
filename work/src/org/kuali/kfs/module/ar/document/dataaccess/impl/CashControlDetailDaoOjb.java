@@ -21,7 +21,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.document.dataaccess.CashControlDetailDao;
-import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class CashControlDetailDaoOjb extends PlatformAwareDaoBaseOjb implements CashControlDetailDao {
 

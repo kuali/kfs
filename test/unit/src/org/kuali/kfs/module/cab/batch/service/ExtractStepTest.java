@@ -24,7 +24,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kfs.module.cab.CabConstants;
-import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.batch.ExtractProcessLog;
 import org.kuali.kfs.module.cab.batch.ExtractStep;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
@@ -36,8 +35,8 @@ import org.kuali.kfs.sys.batch.Step;
 import org.kuali.kfs.sys.context.ProxyUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class tests the extract step involved in CAB Batch job
@@ -135,7 +134,7 @@ public class ExtractStepTest extends BatchTestBase {
 
         // assert the extract date value
         SimpleDateFormat fmt = new SimpleDateFormat("MM/dd/yyyy");
-        assertEquals(fmt.format(currentSqlDate), findCabExtractTimeParam().getParameterValue().substring(0, 10));
+        assertEquals(fmt.format(currentSqlDate), findCabExtractTimeParam().getValue().substring(0, 10));
     }
  // END NO RUN SETUP     
 }

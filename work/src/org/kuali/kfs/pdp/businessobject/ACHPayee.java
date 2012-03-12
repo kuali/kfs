@@ -17,11 +17,11 @@ package org.kuali.kfs.pdp.businessobject;
 
 import org.kuali.kfs.fp.businessobject.DisbursementPayee;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.KualiCode;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.KualiCode;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
-public class ACHPayee extends DisbursementPayee implements Inactivateable {
+public class ACHPayee extends DisbursementPayee implements MutableInactivatable {
     private String entityId;
 
     public ACHPayee() {

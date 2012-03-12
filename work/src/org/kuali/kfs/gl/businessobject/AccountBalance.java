@@ -31,10 +31,10 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.ReportBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Just as Balance is a summarization of Entry, so AccountBalance is a summarization of Balance.
@@ -172,8 +172,8 @@ public class AccountBalance extends PersistableBusinessObjectBase implements Rep
      * @return
      */
     public String getAccountingCategoryExpenseCode(){
-        ParameterService parameterService = SpringContext.getBean(org.kuali.rice.kns.service.ParameterService.class);
-        String accountingCategoryExpenseCode = parameterService.getParameterValue(AccountBalanceByConsolidation.class, GeneralLedgerConstants.BASIC_ACCOUNTING_CATEGORY_REPRESENTING_EXPENSES);
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        String accountingCategoryExpenseCode = parameterService.getParameterValueAsString(AccountBalanceByConsolidation.class, GeneralLedgerConstants.BASIC_ACCOUNTING_CATEGORY_REPRESENTING_EXPENSES);
         return accountingCategoryExpenseCode;
     }
 
@@ -227,9 +227,9 @@ public class AccountBalance extends PersistableBusinessObjectBase implements Rep
     /*
      * (non-Javadoc)
      * 
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
 
         LinkedHashMap map = new LinkedHashMap();
         map.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, getUniversityFiscalYear());

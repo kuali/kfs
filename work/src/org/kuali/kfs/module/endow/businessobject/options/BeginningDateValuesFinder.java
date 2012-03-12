@@ -20,18 +20,19 @@ import java.util.List;
 
 import org.kuali.kfs.module.endow.document.service.MonthEndDateService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class BeginningDateValuesFinder extends KeyValuesBase {
 
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
 
         MonthEndDateService monthEndDateService = SpringContext.getBean(MonthEndDateService.class);
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
+        List<KeyValue> labels = new ArrayList<KeyValue>();
         List<String> monthEndDates = monthEndDateService.getBeginningDates();
         for (String monthEndDate : monthEndDates) {
-            labels.add(new KeyLabelPair(monthEndDate, monthEndDate));
+            labels.add(new ConcreteKeyValue(monthEndDate, monthEndDate));
         }
         return labels;
     }

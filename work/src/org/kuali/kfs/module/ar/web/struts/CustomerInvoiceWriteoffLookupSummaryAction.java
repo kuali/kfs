@@ -33,9 +33,10 @@ import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class CustomerInvoiceWriteoffLookupSummaryAction extends KualiAction {
 
@@ -102,7 +103,7 @@ public class CustomerInvoiceWriteoffLookupSummaryAction extends KualiAction {
         
         customerInvoiceWriteoffLookupSummaryForm.setSentToBatch(true);
         
-        GlobalVariables.getMessageList().add(ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_BATCH_SENT);
+        KNSGlobalVariables.getMessageList().add(ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_BATCH_SENT);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     

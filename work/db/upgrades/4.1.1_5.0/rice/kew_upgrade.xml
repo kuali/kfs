@@ -1,0 +1,34 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+	
+	<changeSet author="jksmith" id="KFSMI7019_CHANGE_MPAY_LBL">
+		<comment>Changes the label for the document type MPAY to the more accurate Asset Manual Payment</comment>
+		<update tableName="KREW_DOC_TYP_T">
+			<column name="LBL" value="Asset Manual Payment"/>
+			<where>DOC_TYP_NM = 'MPAY' and CUR_IND = 1 and ACTV_IND = 1</where>
+		</update>
+	</changeSet>
+	
+	<changeSet author="jksmith" id="KFSMI6964_UPDATE_DOC_TYPE_HELP_URL">
+		<comment>Updates the help urls for the MPAY (asset manual payment) and ALOC (asset location) document types.</comment>
+		<update tableName="KREW_DOC_TYP_T">
+			<column name="HELP_DEF_URL" value="default.htm?turl=WordDocuments%2Fassetmanualpayment.htm" />
+			<where>DOC_TYP_NM = 'MPAY' and CUR_IND = 1 AND ACTV_IND = 1</where>
+		</update>
+		<update tableName="KREW_DOC_TYP_T">
+			<column name="HELP_DEF_URL" value="default.htm?turl=WordDocuments%2Fassetlocationglobal.htm" />
+			<where>DOC_TYP_NM = 'ALOC' and CUR_IND = 1 AND ACTV_IND = 1</where>
+		</update>
+	</changeSet>
+	
+	
+	<changeSet author="jksmith" id="KFSCNTRB56_UPDATE_CFDM_PARENT_DOC_TYPE">
+		<comment>Changes the parent document type of the CFDA maintenance document, CFDM, so that it's parent is COSM, the Chart of Accounts simple maintenance document type.</comment>
+		<update tableName="KREW_DOC_TYP_T">
+			<column name="PARNT_ID" valueNumeric="(select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'COSM' and cur_ind = 1 and actv_ind = 1) " type="BIGINT"/>
+			<where>doc_typ_nm = 'CFDM' and cur_ind = 1 and actv_ind = 1</where>
+		</update>
+	</changeSet>
+	
+</databaseChangeLog>

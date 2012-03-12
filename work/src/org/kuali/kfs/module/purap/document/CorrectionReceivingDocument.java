@@ -1,12 +1,12 @@
 /*
  * Copyright 2008-2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.purap.document;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.businessobject.Carrier;
@@ -29,10 +29,9 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.location.framework.country.CountryEbo;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -42,64 +41,65 @@ public class CorrectionReceivingDocument extends ReceivingDocumentBase {
     protected String lineItemReceivingDocumentNumber;
     //Collections
     protected List<CorrectionReceivingItem> items;
-    
+
     protected LineItemReceivingDocument lineItemReceivingDocument;
-    
+
     /**
      * Default constructor.
      */
     public CorrectionReceivingDocument() {
         super();
-        items = new TypedArrayList(getItemClass());
+        items = new ArrayList<CorrectionReceivingItem>();
     }
 
     public void populateCorrectionReceivingFromReceivingLine(LineItemReceivingDocument rlDoc){
-        
+
         //populate receiving line document from purchase order
         this.setPurchaseOrderIdentifier( rlDoc.getPurchaseOrderIdentifier() );
         this.getDocumentHeader().setDocumentDescription( rlDoc.getDocumentHeader().getDocumentDescription());
         this.getDocumentHeader().setOrganizationDocumentNumber( rlDoc.getDocumentHeader().getOrganizationDocumentNumber() );
-        this.setAccountsPayablePurchasingDocumentLinkIdentifier( rlDoc.getAccountsPayablePurchasingDocumentLinkIdentifier() );        
+        this.setAccountsPayablePurchasingDocumentLinkIdentifier( rlDoc.getAccountsPayablePurchasingDocumentLinkIdentifier() );
         this.setLineItemReceivingDocumentNumber(rlDoc.getDocumentNumber());
-        
+
         //copy receiving line items
         for (LineItemReceivingItem rli : (List<LineItemReceivingItem>) rlDoc.getItems()) {
-            this.getItems().add(new CorrectionReceivingItem(rli, this));            
+            this.getItems().add(new CorrectionReceivingItem(rli, this));
         }
-        
+
     }
-    
+
+
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
-        
-        if(this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
+
+        if(this.getDocumentHeader().getWorkflowDocument().isProcessed()) {
             SpringContext.getBean(ReceivingService.class).completeCorrectionReceivingDocument(this);
         }
         super.doRouteStatusChange(statusChangeEvent);
     }
-    
+
     /**
      * Gets the lineItemReceivingDocumentNumber attribute.
-     * 
+     *
      * @return Returns the lineItemReceivingDocumentNumber
-     * 
+     *
      */
-    public String getLineItemReceivingDocumentNumber() { 
+    public String getLineItemReceivingDocumentNumber() {
         return lineItemReceivingDocumentNumber;
     }
-    
+
     /**
      * Sets the lineItemReceivingDocumentNumber attribute.
-     * 
+     *
      * @param lineItemReceivingDocumentNumber The lineItemReceivingDocumentNumber to set.
-     * 
+     *
      */
     public void setLineItemReceivingDocumentNumber(String lineItemReceivingDocumentNumber) {
         this.lineItemReceivingDocumentNumber = lineItemReceivingDocumentNumber;
     }
 
     /**
-     * Gets the lineItemReceivingDocument attribute. 
+     * Gets the lineItemReceivingDocument attribute.
      * @return Returns the lineItemReceivingDocument.
      */
     public LineItemReceivingDocument getLineItemReceivingDocument() {
@@ -112,7 +112,7 @@ public class CorrectionReceivingDocument extends ReceivingDocumentBase {
         super.processAfterRetrieve();
         refreshLineReceivingDocument();
     }
-    
+
     protected void refreshLineReceivingDocument(){
         if(ObjectUtils.isNull(lineItemReceivingDocument) || lineItemReceivingDocument.getDocumentNumber() == null){
             this.refreshReferenceObject("lineItemReceivingDocument");
@@ -125,8 +125,9 @@ public class CorrectionReceivingDocument extends ReceivingDocumentBase {
             }
         }
     }
-    
-    public Integer getPurchaseOrderIdentifier() { 
+
+    @Override
+    public Integer getPurchaseOrderIdentifier() {
         if (ObjectUtils.isNull(super.getPurchaseOrderIdentifier())){
             refreshLineReceivingDocument();
             if (ObjectUtils.isNotNull(lineItemReceivingDocument)){
@@ -135,7 +136,7 @@ public class CorrectionReceivingDocument extends ReceivingDocumentBase {
         }
         return super.getPurchaseOrderIdentifier();
     }
-    
+
     /**
      * Sets the lineItemReceivingDocument attribute value.
      * @param lineItemReceivingDocument The lineItemReceivingDocument to set.
@@ -145,27 +146,22 @@ public class CorrectionReceivingDocument extends ReceivingDocumentBase {
         this.lineItemReceivingDocument = lineItemReceivingDocument;
     }
 
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
-        m.put("documentNumber", this.documentNumber);
-        return m;
-    }
-
+    @Override
     public Class getItemClass() {
         return CorrectionReceivingItem.class;
     }
 
+    @Override
     public List getItems() {
         return items;
     }
 
+    @Override
     public void setItems(List items) {
         this.items = items;
     }
 
+    @Override
     public ReceivingItem getItem(int pos) {
         return (ReceivingItem) items.get(pos);
     }
@@ -331,7 +327,7 @@ public class CorrectionReceivingDocument extends ReceivingDocumentBase {
     }
 
     @Override
-    public Country getVendorCountry() {
+    public CountryEbo getVendorCountry() {
         return getLineItemReceivingDocument().getVendorCountry();
     }
 
@@ -384,7 +380,8 @@ public class CorrectionReceivingDocument extends ReceivingDocumentBase {
     public String getVendorStateCode() {
         return getLineItemReceivingDocument().getVendorStateCode();
     }
-    
+
+    @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(this.getItems());

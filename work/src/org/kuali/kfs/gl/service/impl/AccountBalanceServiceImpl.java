@@ -37,8 +37,8 @@ import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -49,7 +49,7 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceServiceImpl.class);
 
     AccountBalanceDao accountBalanceDao;
-    KualiConfigurationService kualiConfigurationService;
+    ConfigurationService kualiConfigurationService;
     protected UniversityDateService universityDateService;
     protected OptionsService optionsService;
 
@@ -124,13 +124,13 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
         
         // Put the total lines at the beginning of the list
         List results = new ArrayList();
-        AccountBalance income = new AccountBalance(kualiConfigurationService.getPropertyString(KFSKeyConstants.AccountBalanceService.INCOME));
-        AccountBalance incomeTransfers = new AccountBalance(kualiConfigurationService.getPropertyString(KFSKeyConstants.AccountBalanceService.INCOME_FROM_TRANSFERS));
-        AccountBalance incomeTotal = new AccountBalance(kualiConfigurationService.getPropertyString(KFSKeyConstants.AccountBalanceService.INCOME_TOTAL));
-        AccountBalance expense = new AccountBalance(kualiConfigurationService.getPropertyString(KFSKeyConstants.AccountBalanceService.EXPENSE));
-        AccountBalance expenseTransfers = new AccountBalance(kualiConfigurationService.getPropertyString(KFSKeyConstants.AccountBalanceService.EXPENSE_FROM_TRANSFERS));
-        AccountBalance expenseTotal = new AccountBalance(kualiConfigurationService.getPropertyString(KFSKeyConstants.AccountBalanceService.EXPENSE_TOTAL));
-        AccountBalance total = new AccountBalance(kualiConfigurationService.getPropertyString(KFSKeyConstants.AccountBalanceService.TOTAL));
+        AccountBalance income = new AccountBalance(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.AccountBalanceService.INCOME));
+        AccountBalance incomeTransfers = new AccountBalance(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.AccountBalanceService.INCOME_FROM_TRANSFERS));
+        AccountBalance incomeTotal = new AccountBalance(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.AccountBalanceService.INCOME_TOTAL));
+        AccountBalance expense = new AccountBalance(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.AccountBalanceService.EXPENSE));
+        AccountBalance expenseTransfers = new AccountBalance(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.AccountBalanceService.EXPENSE_FROM_TRANSFERS));
+        AccountBalance expenseTotal = new AccountBalance(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.AccountBalanceService.EXPENSE_TOTAL));
+        AccountBalance total = new AccountBalance(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.AccountBalanceService.TOTAL));
 
         results.add(income);
         results.add(incomeTransfers);
@@ -464,7 +464,7 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
     /**
      * @param kcs
      */
-    public void setKualiConfigurationService(KualiConfigurationService kcs) {
+    public void setConfigurationService(ConfigurationService kcs) {
         kualiConfigurationService = kcs;
     }
 

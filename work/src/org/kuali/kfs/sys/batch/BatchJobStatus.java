@@ -22,7 +22,7 @@ import java.util.Map;
 
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 import org.quartz.JobDetail;
 
 public class BatchJobStatus extends TransientBusinessObjectBase {
@@ -114,8 +114,8 @@ public class BatchJobStatus extends TransientBusinessObjectBase {
         return getSteps().size();
     }
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
 
         m.put("name", getName());

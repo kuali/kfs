@@ -31,9 +31,9 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.util.Guid;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.service.DocumentService;
 
 @ConfigureContext(session = parke, shouldCommitTransactions=false)
 
@@ -256,7 +256,7 @@ public class ThresholdTest extends KualiTestBase {
       String docId = poDocument.getDocumentNumber();
       DocumentService documentService = SpringContext.getBean(DocumentService.class);
       poDocument.prepareForSave();       
-      assertFalse("R".equals(poDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
+      assertFalse("R".equals(poDocument.getDocumentHeader().getWorkflowDocument().getStatus()));
       AccountingDocumentTestUtils.routeDocument(poDocument, "saving copy source document", null, documentService);
       WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), "F");
       

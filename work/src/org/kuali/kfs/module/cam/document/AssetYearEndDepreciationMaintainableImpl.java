@@ -15,12 +15,15 @@
  */
 package org.kuali.kfs.module.cam.document;
 
-import org.kuali.kfs.module.cam.businessobject.AssetYearEndDepreciation;
-import org.kuali.kfs.module.cam.businessobject.AssetYearEndDepreciationDetail;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.module.cam.CamsConstants;
-import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
@@ -34,24 +37,16 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
-import org.kuali.kfs.sys.document.LedgerPostingMaintainable;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.datadictionary.MaintainableSectionDefinition;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.document.MaintenanceLock;
-import org.kuali.rice.kns.lookup.LookupUtils;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.MaintenanceUtils;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-
-import java.util.*;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.maintenance.MaintenanceLock;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 
 /**
@@ -84,7 +79,7 @@ public class AssetYearEndDepreciationMaintainableImpl extends FinancialSystemMai
     public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> parameters) {
         super.processAfterEdit(document, parameters);
 
-        AssetYearEndDepreciation assetYearEndDepreciation = (AssetYearEndDepreciation) document.getOldMaintainableObject().getBusinessObject();
+        AssetYearEndDepreciation assetYearEndDepreciation = (AssetYearEndDepreciation) document.getOldMaintainableObject().getDataObject();
 
         List<AssetYearEndDepreciationDetail> assetYearEndDepreciationDetails = assetYearEndDepreciation.getAssetYearEndDepreciationDetails();
         for (AssetYearEndDepreciationDetail assetYearEndDepreciationDetail : assetYearEndDepreciationDetails) {
@@ -99,11 +94,10 @@ public class AssetYearEndDepreciationMaintainableImpl extends FinancialSystemMai
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#addMultipleValueLookupResults(org.kuali.rice.kns.document.MaintenanceDocument,
      *      java.lang.String, java.util.Collection, boolean, org.kuali.rice.kns.bo.PersistableBusinessObject)
      */
-    @Override
     public void addMultipleValueLookupResults(MaintenanceDocument document, String collectionName, Collection<PersistableBusinessObject> rawValues, boolean needsBlank, PersistableBusinessObject bo) {
 
         Collection<AssetYearEndDepreciationDetail> maintCollection = (Collection<AssetYearEndDepreciationDetail>) ObjectUtils.getPropertyValue(bo, collectionName);
-        String docTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentType();
+        String docTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
 
         List<String> duplicateIdentifierFieldsFromDataDictionary = getDuplicateIdentifierFieldsFromDataDictionary(docTypeName, collectionName);
         List<String> existingIdentifierList = getMultiValueIdentifierList(maintCollection, duplicateIdentifierFieldsFromDataDictionary);
@@ -173,7 +167,7 @@ public class AssetYearEndDepreciationMaintainableImpl extends FinancialSystemMai
     public void doRouteStatusChange(DocumentHeader documentHeader) {
         super.doRouteStatusChange(documentHeader);
         AssetYearEndDepreciation assetYearEndDepreciation = (AssetYearEndDepreciation) getBusinessObject();
-        if (documentHeader.getWorkflowDocument().stateIsEnroute()) {
+        if (documentHeader.getWorkflowDocument().isEnroute()) {
             // display a message for asset not generating ledger entries when it is federally owned
             boolean allPaymentsFederalOwned = true;
             List<AssetYearEndDepreciationDetail> assetYearEndDepreciationDetails = assetYearEndDepreciation.getAssetYearEndDepreciationDetails();
@@ -189,15 +183,15 @@ public class AssetYearEndDepreciationMaintainableImpl extends FinancialSystemMai
             // }
         }
         // all approvals have been processed, the retirement date is set to the approval date
-        if (documentHeader.getWorkflowDocument().stateIsProcessed()) {
+        if (documentHeader.getWorkflowDocument().isProcessed()) {
             SpringContext.getBean(BusinessObjectService.class).save(assetYearEndDepreciation);
         }
         new AssetRetirementGeneralLedgerPendingEntrySource((FinancialSystemDocumentHeader) documentHeader).doRouteStatusChange(assetYearEndDepreciation.getGeneralLedgerPendingEntries());
 
         // release the lock when document status changed as following...
-        KualiWorkflowDocument workflowDoc = documentHeader.getWorkflowDocument();
-        if (workflowDoc.stateIsCanceled() || workflowDoc.stateIsDisapproved() || workflowDoc.stateIsProcessed() || workflowDoc.stateIsFinal()) {
-            this.getCapitalAssetManagementModuleService().deleteAssetLocks(documentNumber, null);
+        WorkflowDocument workflowDoc = documentHeader.getWorkflowDocument();
+        if (workflowDoc.isCanceled() || workflowDoc.isDisapproved() || workflowDoc.isProcessed() || workflowDoc.isFinal()) {
+            this.getCapitalAssetManagementModuleService().deleteAssetLocks(documentHeader.getDocumentNumber(), null);
         }
     }
 

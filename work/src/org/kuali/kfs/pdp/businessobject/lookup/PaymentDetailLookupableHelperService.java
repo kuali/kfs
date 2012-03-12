@@ -32,24 +32,23 @@ import org.kuali.kfs.pdp.businessobject.PaymentDetail;
 import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
 import org.kuali.kfs.pdp.service.PdpAuthorizationService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.lookup.LookupableSpringContext;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.web.format.BooleanFormatter;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.UrlFactory;
-import org.kuali.rice.kns.web.format.BooleanFormatter;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 
 public class PaymentDetailLookupableHelperService extends KualiLookupableHelperServiceImpl {
     public static final String PDP_PAYMENTDETAIL_KEY = "PDPHOLDKEY";
-    private KualiConfigurationService kualiConfigurationService;
+    private ConfigurationService kualiConfigurationService;
     private PdpAuthorizationService pdpAuthorizationService;
 
     /**
@@ -77,7 +76,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
                             String[] errorMsgs = StringUtils.split(errorList, PdpParameterConstants.ERROR_KEY_LIST_SEPARATOR);
                             for (String error : errorMsgs) {
                                 if (StringUtils.isNotEmpty(error)) {
-                                    GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, error);
+                                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, error);
                                 }
                             }
                         }
@@ -87,7 +86,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
                     if (parameters.containsKey(PdpParameterConstants.MESSAGE_PARAM)) {
                         String[] messageRequestParm = (String[]) parameters.get(PdpParameterConstants.MESSAGE_PARAM);
                         String message = messageRequestParm[0];
-                        GlobalVariables.getMessageList().add(message);
+                        KNSGlobalVariables.getMessageList().add(message);
                     }
                 }
             }
@@ -138,8 +137,8 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
         String disbursementTypeCodeValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_DISBURSEMENT_TYPE_CODE);
         String paymentStatusCodeValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_STATUS_CODE);
         String netPaymentAmountValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_NET_AMOUNT);
-        String disbursementDateValueLower = (String) fieldValues.get(KNSConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX + PdpPropertyConstants.PaymentDetail.PAYMENT_DISBURSEMENT_DATE);
-        String disbursementDateValueUpper = (String) fieldValues.get(KNSConstants.LOOKUP_DEFAULT_RANGE_SEARCH_UPPER_BOUND_LABEL + PdpPropertyConstants.PaymentDetail.PAYMENT_DISBURSEMENT_DATE);
+        String disbursementDateValueLower = (String) fieldValues.get(KRADConstants.LOOKUP_RANGE_LOWER_BOUND_PROPERTY_PREFIX + PdpPropertyConstants.PaymentDetail.PAYMENT_DISBURSEMENT_DATE);
+        String disbursementDateValueUpper = (String) fieldValues.get(KRADConstants.LOOKUP_DEFAULT_RANGE_SEARCH_UPPER_BOUND_LABEL + PdpPropertyConstants.PaymentDetail.PAYMENT_DISBURSEMENT_DATE);
         String paymentDateValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_DATE);
         String disbursementNbrValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_DISBURSEMENT_NUMBER);
         String chartCodeValue = (String) fieldValues.get(PdpPropertyConstants.PaymentDetail.PAYMENT_CHART_CODE);
@@ -181,11 +180,11 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
      * @param fieldValues
      */
     protected void buildAndStoreReturnUrl(Map<String, String> fieldValues) {       
-        String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+        String basePath = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.APPLICATION_URL_KEY);
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
         parameters.put(KFSConstants.BACK_LOCATION, basePath + "/" + KFSConstants.MAPPING_PORTAL + ".do");
-        parameters.put(KNSConstants.DOC_FORM_KEY, "88888888");
+        parameters.put(KRADConstants.DOC_FORM_KEY, "88888888");
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, PaymentDetail.class.getName());
         parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
         parameters.put(KFSConstants.SUPPRESS_ACTIONS, "false");
@@ -196,7 +195,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
         
     
     /**
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject,
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject,
      *      java.util.List)
      */
     @Override
@@ -209,7 +208,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
             List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
             String linkText = KFSConstants.EMPTY_STRING;
             String url = KFSConstants.EMPTY_STRING;
-            String basePath = kualiConfigurationService.getPropertyString(KFSConstants.APPLICATION_URL_KEY) + "/" + PdpConstants.Actions.PAYMENT_DETAIL_ACTION;
+            String basePath = kualiConfigurationService.getPropertyValueAsString(KFSConstants.APPLICATION_URL_KEY) + "/" + PdpConstants.Actions.PAYMENT_DETAIL_ACTION;
 
             boolean showCancel = paymentDetailStatus != null && ((paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.OPEN) && pdpAuthorizationService.hasCancelPaymentPermission(person.getPrincipalId())) || (paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.HELD_CD) && pdpAuthorizationService.hasCancelPaymentPermission(person.getPrincipalId())) || ((paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.HELD_TAX_EMPLOYEE_CD) || paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_CD) || paymentDetailStatus.equalsIgnoreCase(PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_EMPL_CD)) && pdpAuthorizationService.hasRemovePaymentTaxHoldPermission(person.getPrincipalId())));
 
@@ -221,7 +220,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
 
                 url = UrlFactory.parameterizeUrl(basePath, params);
 
-                linkText = kualiConfigurationService.getPropertyString(PdpKeyConstants.PaymentDetail.LinkText.CANCEL_PAYMENT);
+                linkText = kualiConfigurationService.getPropertyValueAsString(PdpKeyConstants.PaymentDetail.LinkText.CANCEL_PAYMENT);
 
                 AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url, PdpConstants.ActionMethods.CONFIRM_CANCEL_ACTION, linkText);
                 anchorHtmlDataList.add(anchorHtmlData);
@@ -234,7 +233,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
                 params.put(PdpParameterConstants.PaymentDetail.DETAIL_ID_PARAM, UrlFactory.encode(String.valueOf(paymentDetailId)));
                 url = UrlFactory.parameterizeUrl(basePath, params);
 
-                linkText = kualiConfigurationService.getPropertyString(PdpKeyConstants.PaymentDetail.LinkText.HOLD_PAYMENT);
+                linkText = kualiConfigurationService.getPropertyValueAsString(PdpKeyConstants.PaymentDetail.LinkText.HOLD_PAYMENT);
 
                 AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url, PdpConstants.ActionMethods.CONFIRM_HOLD_ACTION, linkText);
                 anchorHtmlDataList.add(anchorHtmlData);
@@ -247,7 +246,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
                 params.put(PdpParameterConstants.PaymentDetail.DETAIL_ID_PARAM, UrlFactory.encode(String.valueOf(paymentDetailId)));
                 url = UrlFactory.parameterizeUrl(basePath, params);
 
-                linkText = kualiConfigurationService.getPropertyString(PdpKeyConstants.PaymentDetail.LinkText.REMOVE_HTXN_HOLD);
+                linkText = kualiConfigurationService.getPropertyValueAsString(PdpKeyConstants.PaymentDetail.LinkText.REMOVE_HTXN_HOLD);
 
                 AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url, PdpConstants.ActionMethods.CONFIRM_REMOVE_HOLD_ACTION, linkText);
                 anchorHtmlDataList.add(anchorHtmlData);
@@ -262,7 +261,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
                 params.put(PdpParameterConstants.PaymentDetail.DETAIL_ID_PARAM, UrlFactory.encode(String.valueOf(paymentDetailId)));
                 url = UrlFactory.parameterizeUrl(basePath, params);
 
-                linkText = kualiConfigurationService.getPropertyString(PdpKeyConstants.PaymentDetail.LinkText.REMOVE_IMMEDIATE_PRINT);
+                linkText = kualiConfigurationService.getPropertyValueAsString(PdpKeyConstants.PaymentDetail.LinkText.REMOVE_IMMEDIATE_PRINT);
 
                 AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url, PdpConstants.ActionMethods.CONFIRM_REMOVE_IMMEDIATE_PRINT_ACTION, linkText);
                 anchorHtmlDataList.add(anchorHtmlData);
@@ -278,7 +277,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
                 params.put(PdpParameterConstants.PaymentDetail.DETAIL_ID_PARAM, UrlFactory.encode(String.valueOf(paymentDetailId)));
                 url = UrlFactory.parameterizeUrl(basePath, params);
 
-                linkText = kualiConfigurationService.getPropertyString(PdpKeyConstants.PaymentDetail.LinkText.SET_IMMEDIATE_PRINT);
+                linkText = kualiConfigurationService.getPropertyValueAsString(PdpKeyConstants.PaymentDetail.LinkText.SET_IMMEDIATE_PRINT);
 
                 AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url, PdpConstants.ActionMethods.CONFIRM_SET_IMMEDIATE_PRINT_ACTION, linkText);
                 anchorHtmlDataList.add(anchorHtmlData);
@@ -294,7 +293,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
                 params.put(PdpParameterConstants.PaymentDetail.DETAIL_ID_PARAM, UrlFactory.encode(String.valueOf(paymentDetailId)));
                 url = UrlFactory.parameterizeUrl(basePath, params);
 
-                linkText = kualiConfigurationService.getPropertyString(PdpKeyConstants.PaymentDetail.LinkText.REMOVE_PAYMENT_HOLD);
+                linkText = kualiConfigurationService.getPropertyValueAsString(PdpKeyConstants.PaymentDetail.LinkText.REMOVE_PAYMENT_HOLD);
 
                 AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url, PdpConstants.ActionMethods.CONFIRM_REMOVE_HOLD_ACTION, linkText);
                 anchorHtmlDataList.add(anchorHtmlData);
@@ -310,7 +309,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
                 params.put(PdpParameterConstants.PaymentDetail.DETAIL_ID_PARAM, UrlFactory.encode(String.valueOf(paymentDetailId)));
                 url = UrlFactory.parameterizeUrl(basePath, params);
 
-                linkText = kualiConfigurationService.getPropertyString(PdpKeyConstants.PaymentDetail.LinkText.CANCEL_DISBURSEMENT);
+                linkText = kualiConfigurationService.getPropertyValueAsString(PdpKeyConstants.PaymentDetail.LinkText.CANCEL_DISBURSEMENT);
 
                 AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url, PdpConstants.ActionMethods.CONFIRM_DISBURSEMENT_CANCEL_ACTION, linkText);
                 anchorHtmlDataList.add(anchorHtmlData);
@@ -324,7 +323,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
                 params.put(PdpParameterConstants.PaymentDetail.DETAIL_ID_PARAM, UrlFactory.encode(String.valueOf(paymentDetailId)));
                 url = UrlFactory.parameterizeUrl(basePath, params);
 
-                linkText = kualiConfigurationService.getPropertyString(PdpKeyConstants.PaymentDetail.LinkText.REISSUE);
+                linkText = kualiConfigurationService.getPropertyValueAsString(PdpKeyConstants.PaymentDetail.LinkText.REISSUE);
 
                 AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url, PdpConstants.ActionMethods.CONFIRM_REISSUE_ACTION, linkText);
                 anchorHtmlDataList.add(anchorHtmlData);                
@@ -339,7 +338,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
                 params.put(PdpParameterConstants.PaymentDetail.DETAIL_ID_PARAM, UrlFactory.encode(String.valueOf(paymentDetailId)));
                 url = UrlFactory.parameterizeUrl(basePath, params);
 
-                linkText = kualiConfigurationService.getPropertyString(PdpKeyConstants.PaymentDetail.LinkText.REISSUE_CANCEL);
+                linkText = kualiConfigurationService.getPropertyValueAsString(PdpKeyConstants.PaymentDetail.LinkText.REISSUE_CANCEL);
 
                 AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url, PdpConstants.ActionMethods.CONFIRM_REISSUE_CANCEL_ACTION, linkText);
                 anchorHtmlDataList.add(anchorHtmlData);
@@ -507,7 +506,7 @@ public class PaymentDetailLookupableHelperService extends KualiLookupableHelperS
      * 
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 

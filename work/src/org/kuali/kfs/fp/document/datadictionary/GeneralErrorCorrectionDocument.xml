@@ -21,6 +21,7 @@
     <property name="allowsErrorCorrection" value="true"/>
     <property name="documentTypeName" value="GEC"/>
     <property name="documentClass" value="org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.fp.document.GeneralErrorCorrectionDocument"/> 
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase"/>
     <property name="importedLineParserClass" value="org.kuali.kfs.fp.businessobject.GeneralErrorCorrectionDocumentAccountingLineParser" />
@@ -52,7 +53,7 @@
   
   <bean id="GeneralErrorCorrectionDocument-validations-parentBean"  abstract="true" class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
-		<map>
+		<map key-type="java.lang.Class">
 			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
 				<value>GeneralErrorCorrection-routeDocumentValidation</value>

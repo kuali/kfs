@@ -56,17 +56,10 @@
 		<property name="jobNames">
 			<list>
 				<value>closeJob</value>
-				<value>cfdaJob</value>
-			</list>
-		</property>
-		<property name="triggerNames">
-			<list>
-				<value>cfdaJobTrigger</value>
 			</list>
 		</property>
 		<property name="externalizableBusinessObjectImplementations">
             <map>
-                <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsCfda" value="org.kuali.kfs.module.cg.businessobject.CFDA" />
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation" value="org.kuali.kfs.module.cg.businessobject.AwardAccount" />
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAward" value="org.kuali.kfs.module.cg.businessobject.Award" />
                 <entry key="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation" value="org.kuali.kfs.module.cg.businessobject.AwardAccount" />
@@ -158,39 +151,6 @@
         </property>
     </bean>
 
-    <bean id="cfdaService"  parent="cfdaService-parentBean"/>
-    <bean id="cfdaService-parentBean" class="org.kuali.kfs.module.cg.service.impl.CfdaServiceImpl" abstract="true">
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property>
-    </bean>
-	
-    <bean id="cfdaBatchStep" class="org.kuali.kfs.module.cg.batch.CfdaBatchStep" parent="step">
-        <property name="cfdaService">
-            <ref bean="cfdaService" />
-        </property>
-        <property name="mailService">
-            <ref bean="mailService" />
-        </property>
-        <property name="parameterService">
-            <ref bean="parameterService" />
-        </property>
-        <property name="configurationService" ref="kualiConfigurationService" />
-    </bean>
-
-    <bean id="cfdaJob" parent="scheduledJobDescriptor">
-		<property name="steps">
-			<list>
-				<ref bean="cfdaBatchStep" />
-			</list>
-		</property>
-	</bean>
-
-	<bean id="cfdaJobTrigger" parent="cronTrigger">
-		<property name="jobName" value="cfdaJob" />
-		<property name="cronExpression" value="00 00 00 1 1,4,7,10  ?" />
-	</bean>
-
     <bean id="closeBatchStep" class="org.kuali.kfs.module.cg.batch.CloseBatchStep" parent="step">
         <property name="closeService">
             <ref bean="closeService" />
@@ -213,16 +173,8 @@
 	</bean>
    
     <bean id="researchRiskReviewRoleTypeService" parent="researchRiskReviewRoleTypeService-parentBean"/>
-    <bean id="researchRiskReviewRoleTypeService-parentBean" class="org.kuali.kfs.module.cg.identity.ResearchRiskReviewRoleTypeServiceImpl" abstract="true"/>    
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-	  <property name="serviceDefinition">
-	    <bean parent="kfsService"
-	      p:service-ref="researchRiskReviewRoleTypeService"
-	      p:localServiceName="researchRiskReviewRoleTypeService" />
-	  </property>
-	</bean>
+    <bean id="researchRiskReviewRoleTypeService-parentBean" class="org.kuali.kfs.module.cg.identity.ResearchRiskReviewRoleTypeServiceImpl" abstract="true"/>   
 
-   
-
+	<import resource="spring-cg-bus-exports.xml"/>
 </beans>
 

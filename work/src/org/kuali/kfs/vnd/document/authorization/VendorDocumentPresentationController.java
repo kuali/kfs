@@ -20,16 +20,16 @@ import java.util.Set;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class VendorDocumentPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
 
     @Override
-    public Set<String> getConditionallyReadOnlySectionIds(MaintenanceDocument document) {
+    public Set<String> getConditionallyReadOnlySectionIds(org.kuali.rice.krad.maintenance.MaintenanceDocument document) {
         Set<String> conditionallyReadOnlySectionIds = super.getConditionallyReadOnlySectionIds(document);
-        VendorDetail vendor = (VendorDetail)document.getNewMaintainableObject().getBusinessObject();
+        VendorDetail vendor = (VendorDetail)document.getNewMaintainableObject().getDataObject();
 
         if (!vendor.isVendorParentIndicator()) {
             // make some sections read only, e.g. supplier diversity cause they're on the header

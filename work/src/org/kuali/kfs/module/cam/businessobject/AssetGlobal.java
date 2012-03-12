@@ -17,9 +17,9 @@ package org.kuali.kfs.module.cam.businessobject;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
-
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -31,18 +31,17 @@ import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.GlobalBusinessObject;
-import org.kuali.rice.kns.bo.GlobalBusinessObjectDetail;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.GlobalBusinessObject;
+import org.kuali.rice.krad.bo.GlobalBusinessObjectDetail;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -125,10 +124,10 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      * Default constructor.
      */
     public AssetGlobal() {
-        assetGlobalDetails = new TypedArrayList(AssetGlobalDetail.class);
-        assetSharedDetails = new TypedArrayList(AssetGlobalDetail.class);
-        assetPaymentDetails = new TypedArrayList(AssetPaymentDetail.class);
-        this.generalLedgerPendingEntries = new TypedArrayList(GeneralLedgerPendingEntry.class);
+        assetGlobalDetails = new ArrayList<AssetGlobalDetail>();
+        assetSharedDetails = new ArrayList<AssetGlobalDetail>();
+        assetPaymentDetails = new ArrayList<AssetPaymentDetail>();
+        this.generalLedgerPendingEntries = new ArrayList<GeneralLedgerPendingEntry>();
     }
 
     /**
@@ -718,7 +717,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap<String, String> toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         m.put("documentNumber", this.documentNumber);
         return m;
@@ -790,7 +789,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      * @return Returns the assetRepresentative.
      */
     public Person getAssetRepresentative() {
-        assetRepresentative = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(representativeUniversalIdentifier, assetRepresentative);
+        assetRepresentative = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(representativeUniversalIdentifier, assetRepresentative);
         return assetRepresentative;
     }
 
@@ -904,7 +903,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         if (this.documentNumber == null || !SpringContext.getBean(AssetGlobalService.class).isAssetSeparate(this)) {
             return null;
         }
-        DocumentRouteHeaderValue routeHeader = SpringContext.getBean(RouteHeaderService.class).getRouteHeader(Long.valueOf(this.documentNumber));
+        DocumentRouteHeaderValue routeHeader = SpringContext.getBean(RouteHeaderService.class).getRouteHeader(this.documentNumber);
         if (routeHeader != null && routeHeader.getApprovedDate() != null) {
             return new Date(routeHeader.getApprovedDate().getTime());
         }
@@ -957,10 +956,10 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     @Override
-    public List buildListOfDeletionAwareLists() {
-        List<List> managedLists = super.buildListOfDeletionAwareLists();
-        managedLists.add(getAssetGlobalDetails());
-        managedLists.add(getAssetPaymentDetails());
+    public List<Collection<PersistableBusinessObject>> buildListOfDeletionAwareLists() {
+        List<Collection<PersistableBusinessObject>> managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add( new ArrayList<PersistableBusinessObject>(getAssetGlobalDetails()));
+        managedLists.add( new ArrayList<PersistableBusinessObject>(getAssetPaymentDetails()));
         return managedLists;
     }
 

@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,14 +32,14 @@ import org.kuali.kfs.module.endow.document.service.impl.FrequencyCodeServiceImpl
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class FeeMethodDocumentPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
 
     @Override
     public Set<String> getConditionallyReadOnlyPropertyNames(MaintenanceDocument document) {
         Set<String> readOnlyPropertyNames = super.getConditionallyReadOnlyPropertyNames(document);
-        
+
         FeeMethod feeMethod = (FeeMethod) document.getNewMaintainableObject().getBusinessObject();
 
         String frequencyCode = feeMethod.getFeeFrequencyCode();
@@ -58,7 +58,7 @@ public class FeeMethodDocumentPresentationController extends FinancialSystemMain
 
         String feeMethodCode = feeMethod.getCode();
         // the frequency code on a Fee Method cannot be changed if that Fee Method is used on at least one KEMID
-        if (KNSConstants.MAINTENANCE_EDIT_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction()) && StringUtils.isNotEmpty(feeMethodCode)) {
+        if (KRADConstants.MAINTENANCE_EDIT_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction()) && StringUtils.isNotEmpty(feeMethodCode)) {
             FeeMethodService feeMethodService = SpringContext.getBean(FeeMethodService.class);
             if (feeMethodService.isFeeMethodUsedOnAnyKemid(feeMethodCode)) {
                 readOnlyPropertyNames.add(EndowPropertyConstants.FEE_METHOD_FREQUENCY_CODE);
@@ -69,10 +69,10 @@ public class FeeMethodDocumentPresentationController extends FinancialSystemMain
     }
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
+     * @see org.kuali.rice.krad.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
-    public Set<String> getConditionallyReadOnlySectionIds(MaintenanceDocument document) {
+    public Set<String> getConditionallyReadOnlySectionIds(org.kuali.rice.krad.maintenance.MaintenanceDocument document) {
         Set<String> readOnlySectionIds = super.getConditionallyReadOnlySectionIds(document);
 
         // make all the tabs read only to begin with
@@ -82,8 +82,8 @@ public class FeeMethodDocumentPresentationController extends FinancialSystemMain
         readOnlySectionIds.add(EndowConstants.FeeMethod.TRANSACTION_TYPES_TAB_ID);
         readOnlySectionIds.add(EndowConstants.FeeMethod.ENDOWMENT_TRANSACTION_CODES_TAB_ID);
 
-        FeeMethod feeMethod = (FeeMethod) document.getNewMaintainableObject().getBusinessObject();
-        FeeMethod oldFeeMethod = (FeeMethod) document.getOldMaintainableObject().getBusinessObject();
+        FeeMethod feeMethod = (FeeMethod)document.getNewMaintainableObject().getDataObject();
+        FeeMethod oldFeeMethod = (FeeMethod)document.getOldMaintainableObject().getDataObject();
 
         String feeTypeCode = feeMethod.getFeeTypeCode();
 
@@ -102,22 +102,22 @@ public class FeeMethodDocumentPresentationController extends FinancialSystemMain
 
             List<FeeClassCode> feeClassCodes = (List<FeeClassCode>) feeMethod.getFeeClassCodes();
             feeClassCodes.clear();
-            
+
             List<FeeClassCode> oldFeeClassCodes = (List<FeeClassCode>) oldFeeMethod.getFeeClassCodes();
             oldFeeClassCodes.clear();
-            
+
             List<FeeSecurity> feeSecurity = (List<FeeSecurity>) feeMethod.getFeeSecurity();
             feeSecurity.clear();
-            
+
             List<FeeSecurity> olFeeSecurity = (List<FeeSecurity>) oldFeeMethod.getFeeSecurity();
             olFeeSecurity.clear();
-            
+
        //     List<FeePaymentType> feePaymentTypes = (List<FeePaymentType>) feeMethod.getFeePaymentTypes();
        //     feePaymentTypes.clear();
-            
+
        //     List<FeePaymentType> oldFeePaymentTypes = (List<FeePaymentType>) oldFeeMethod.getFeePaymentTypes();
        //     oldFeePaymentTypes.clear();
-            
+
             return readOnlySectionIds;
         }
 

@@ -72,5 +72,5 @@
   <!-- workflow attributes -->
   <bean id="NegativePaymentRequestApprovalLimitMaintenanceDocument-workflowAttributes" parent="NegativePaymentRequestApprovalLimitMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="NegativePaymentRequestApprovalLimitMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="NegativePaymentRequestApprovalLimitMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

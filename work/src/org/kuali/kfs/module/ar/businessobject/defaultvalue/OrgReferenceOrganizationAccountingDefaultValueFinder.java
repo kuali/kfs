@@ -15,14 +15,14 @@
  */
 package org.kuali.kfs.module.ar.businessobject.defaultvalue;
 
-import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
+import org.kuali.rice.krad.valuefinder.ValueFinder;
 
 public class OrgReferenceOrganizationAccountingDefaultValueFinder extends ObjectOrganizationAccountingDefaultValueFinder implements ValueFinder {
 
     /**
      * Returns default org reference ID from organization accounting default if BO is not null.
      * 
-     * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
+     * @see org.kuali.rice.krad.valuefinder.ValueFinder#getValue()
      */
     public String getValue() {
         return (organizationAccountingDefault != null)? organizationAccountingDefault.getDefaultInvoiceOrganizationReferenceIdentifier() : "";

@@ -22,7 +22,6 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizerBase;
-import org.kuali.kfs.sys.document.web.AccountingLineViewField;
 
 /**
  * The line authorizer for Budget Adjustment documents, which makes the base amount read only if it can't be edited for the given

@@ -19,7 +19,7 @@ import java.io.Serializable;
 
 import javax.persistence.Transient;
 
-import org.kuali.rice.kim.bo.types.dto.KimTypeAttributeInfo;
+import org.kuali.rice.kim.api.common.attribute.KimAttribute;
 
 public class KfsKimDocumentAttributeData implements Serializable {
 
@@ -29,7 +29,7 @@ public class KfsKimDocumentAttributeData implements Serializable {
     private String kimTypId;
     private String kimAttrDefnId;
     private String attrVal = "";
-    private KimTypeAttributeInfo kimAttribute;
+    private KimAttribute kimAttribute;
     @Transient
     private String qualifierKey;
 
@@ -78,14 +78,14 @@ public class KfsKimDocumentAttributeData implements Serializable {
     /**
      * @return the kimAttribute
      */
-    public KimTypeAttributeInfo getKimAttribute() {
+    public KimAttribute getKimAttribute() {
         return this.kimAttribute;
     }
 
     /**
      * @param kimAttribute the kimAttribute to set
      */
-    public void setKimAttribute(KimTypeAttributeInfo kimAttribute) {
+    public void setKimAttribute(KimAttribute kimAttribute) {
         this.kimAttribute = kimAttribute;
     }
 

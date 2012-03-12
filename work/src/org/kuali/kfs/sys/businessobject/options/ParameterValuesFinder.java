@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * This class gets all the values of a parameter and then builds a list of key label pairs out of them, using each parameter value
@@ -42,13 +42,13 @@ public class ParameterValuesFinder extends KeyValuesBase {
 
     public List getKeyValues() {
         List keyLabels = new ArrayList();
-        List<String> parameterValues = SpringContext.getBean(ParameterService.class).getParameterValues(this.componentClass, this.parameterName);
+        List<String> parameterValues = new ArrayList<String>( SpringContext.getBean(ParameterService.class).getParameterValuesAsString(this.componentClass, this.parameterName) );
         if (insertBlankRow) {
-            keyLabels.add(new KeyLabelPair("", ""));
+            keyLabels.add(new ConcreteKeyValue("", ""));
         }
         if (parameterValues != null) {
             for (String parameterValue : parameterValues) {
-                keyLabels.add(new KeyLabelPair(parameterValue, parameterValue));
+                keyLabels.add(new ConcreteKeyValue(parameterValue, parameterValue));
             }
         }
         return keyLabels;

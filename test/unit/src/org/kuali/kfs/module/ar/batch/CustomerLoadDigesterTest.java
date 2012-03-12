@@ -18,6 +18,7 @@ package org.kuali.kfs.module.ar.batch;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -30,7 +31,6 @@ import org.apache.commons.io.IOUtils;
 import org.kuali.kfs.module.ar.batch.vo.CustomerDigesterVO;
 import org.kuali.kfs.sys.exception.ParseException;
 import org.kuali.kfs.sys.exception.XmlErrorHandler;
-import org.kuali.rice.kns.util.TypedArrayList;
 
 public class CustomerLoadDigesterTest extends TestCase {
 
@@ -76,7 +76,7 @@ public class CustomerLoadDigesterTest extends TestCase {
         
         assertTrue("Parsed object List should contain at least one item.", (parsedObjects.size() >= 1));
         
-        parsedCustomerList = new TypedArrayList(CustomerDigesterVO.class);
+        parsedCustomerList = new ArrayList<CustomerDigesterVO>();
         
         //  look at every item, make sure its of type Customer 
         Integer i = 0;

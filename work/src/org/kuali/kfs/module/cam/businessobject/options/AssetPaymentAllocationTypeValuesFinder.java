@@ -21,9 +21,10 @@ import java.util.List;
 
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentAllocationType;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * Find all the {@link AssetPaymentDistributionType} values.
@@ -34,12 +35,12 @@ public class AssetPaymentAllocationTypeValuesFinder extends KeyValuesBase {
     /**
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         KeyValuesService service = SpringContext.getBean(KeyValuesService.class);
         Collection<AssetPaymentAllocationType> codes = service.findAll(AssetPaymentAllocationType.class);
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
+        List<KeyValue> labels = new ArrayList<KeyValue>();
         for (AssetPaymentAllocationType value : codes) {
-            labels.add(new KeyLabelPair(value.getAllocationCode(), value.getAllocationName()));
+            labels.add(new ConcreteKeyValue(value.getAllocationCode(), value.getAllocationName()));
         }
 
         return labels;

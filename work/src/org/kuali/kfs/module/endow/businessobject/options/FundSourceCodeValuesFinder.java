@@ -22,25 +22,26 @@ import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.FundSourceCode;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 public class FundSourceCodeValuesFinder extends KeyValuesBase {
 
     /**
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
 
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection<FundSourceCode> codes = boService.findAll(FundSourceCode.class);
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
+        List<KeyValue> labels = new ArrayList<KeyValue>();
         
-        labels.add(new KeyLabelPair("", ""));
+        labels.add(new ConcreteKeyValue("", ""));
         for (Iterator<FundSourceCode> iter = codes.iterator(); iter.hasNext();) {
             FundSourceCode fundSourceCode = (FundSourceCode) iter.next();
-            labels.add(new KeyLabelPair(fundSourceCode.getCode(), fundSourceCode.getName()));
+            labels.add(new ConcreteKeyValue(fundSourceCode.getCode(), fundSourceCode.getName()));
         }
 
         return labels;

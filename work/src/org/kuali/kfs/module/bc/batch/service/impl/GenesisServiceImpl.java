@@ -15,24 +15,23 @@
  */
 package org.kuali.kfs.module.bc.batch.service.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.bc.batch.dataaccess.GenesisDao;
 import org.kuali.kfs.module.bc.batch.service.BudgetConstructionHumanResourcesPayrollInterfaceService;
 import org.kuali.kfs.module.bc.batch.service.GenesisService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Transactional
 public class GenesisServiceImpl implements GenesisService {
 
     /* settings for common fields for all document headers for budget construction */
 
-    private GenesisDao genesisDao;
-    private BudgetConstructionHumanResourcesPayrollInterfaceService budgetConstructionHumanResourcesPayrollInterfaceService;
+    protected GenesisDao genesisDao;
+    protected BudgetConstructionHumanResourcesPayrollInterfaceService budgetConstructionHumanResourcesPayrollInterfaceService;
 
     private static Logger LOG = org.apache.log4j.Logger.getLogger(GenesisServiceImpl.class);
 

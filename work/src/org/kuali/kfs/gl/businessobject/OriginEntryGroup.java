@@ -19,7 +19,7 @@ import java.sql.Date;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class OriginEntryGroup extends PersistableBusinessObjectBase {
 
@@ -50,7 +50,7 @@ public class OriginEntryGroup extends PersistableBusinessObjectBase {
         super();
     }
 
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap map = new LinkedHashMap();
         map.put("id", id);
         return map;

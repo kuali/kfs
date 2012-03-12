@@ -16,12 +16,9 @@
 package org.kuali.kfs.sys.service;
 
 import java.util.List;
-import java.util.Map;
 
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.Message;
-import org.kuali.kfs.sys.report.BusinessObjectReportHelper;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 /**
  * Service interface defines methods that are relevant to writing a report

@@ -29,7 +29,7 @@
  }
 
  function setCAECodeDesc(caeCodeFieldName, caeCodeDescriptionFieldName, errorMessage){
-	var caeCode = DWRUtil.getValue(caeCodeFieldName);
+	var caeCode = dwr.util.getValue(caeCodeFieldName);
     
 	if (caeCode =='') {
 		clearRecipients(caeCodeDescriptionFieldName);

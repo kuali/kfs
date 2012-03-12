@@ -28,16 +28,15 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KualiTestConstants;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.service.ConfigurableDateService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.kfs.sys.service.ConfigurableDateService;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springmodules.orm.ojb.OjbOperationException;
-
-import com.opensymphony.oscache.general.GeneralCacheAdministrator;
 
 /**
  * This class should be extended by all Kuali unit tests.
@@ -48,14 +47,14 @@ import com.opensymphony.oscache.general.GeneralCacheAdministrator;
 
 public abstract class KualiTestBase extends TestCase implements KualiTestConstants {
     private static final Logger LOG = Logger.getLogger(KualiTestBase.class);
-    private static boolean log4jConfigured = false;
-    private static RuntimeException configurationFailure;
-    private static boolean springContextInitialized = false;
-    private static boolean batchScheduleInitialized = false;
-    private static TransactionStatus transactionStatus;
-    private static UserNameFixture userSessionUsername;
+    protected static boolean log4jConfigured = false;
+    protected static RuntimeException configurationFailure;
+    protected static boolean springContextInitialized = false;
+    protected static boolean batchScheduleInitialized = false;
+    protected static TransactionStatus transactionStatus;
+    protected static UserNameFixture userSessionUsername;
     protected static UserSession userSession;
-    private static Set<String> generatedFiles = new HashSet<String>();
+    protected static Set<String> generatedFiles = new HashSet<String>();
 
     /**
      * Determines whether to actually run the test using the RelatesTo annotation, onfigures the appropriate context using the
@@ -113,7 +112,7 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
                 if ( springContextInitialized ) {
                     LOG.info( "clearing caches" );
                     clearMethodCache();
-                    SpringContext.getBean(ParameterService.class).clearCache();
+                    clearParameterCache();
                 }
             }
         }
@@ -144,17 +143,14 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
         }
     }
 
+    @CacheEvict(allEntries=true, value = { "" })
     protected void clearMethodCache() {
-        GeneralCacheAdministrator cache = (GeneralCacheAdministrator)SpringContext.getBean("methodResultsCacheAdministrator");
-        cache.flushAll();
-        cache = (GeneralCacheAdministrator)SpringContext.getBean("methodResultsCacheNoCopyAdministrator");
-        cache.flushAll();
     }
     
-    protected boolean testTransactionIsRollbackOnly() {
-        return (transactionStatus != null) && (transactionStatus.isRollbackOnly());
+    @CacheEvict(value={Parameter.Cache.NAME}, allEntries = true)
+    protected void clearParameterCache() {
     }
-
+    
     protected void changeCurrentUser(UserNameFixture sessionUser) throws Exception {
         GlobalVariables.setUserSession(new UserSession(sessionUser.toString()));
     }
@@ -184,7 +180,7 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
         }
         if (!springContextInitialized) {
             try {
-                SpringContext.initializeTestApplicationContext();
+                KFSTestStartup.initializeKfsTestContext();
                 springContextInitialized = true;
             }
             catch (RuntimeException e) {
@@ -200,7 +196,9 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
             LOG.info("Starting test transaction that will be rolled back");
             DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
             defaultTransactionDefinition.setTimeout(3600);
+//            defaultTransactionDefinition.setReadOnly(true);
             transactionStatus = getTransactionManager().getTransaction(defaultTransactionDefinition);
+            transactionStatus.setRollbackOnly();
         }
         else {
             LOG.info("Test transaction not used");
@@ -209,22 +207,23 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
         UserNameFixture sessionUser = contextConfiguration.session();
         if (sessionUser != UserNameFixture.NO_SESSION) {
             GlobalVariables.setUserSession(new UserSession(sessionUser.toString()));
-            /* RICE_20_DELETE */ org.kuali.rice.kew.web.session.UserSession.setAuthenticatedUser(
-            /* RICE_20_DELETE */         new org.kuali.rice.kew.web.session.UserSession(
-            /* RICE_20_DELETE */                 GlobalVariables.getUserSession().getPrincipalId())
-            /* RICE_20_DELETE */          );
         }
     }
 
     private void endTestTransaction() {
         if (transactionStatus != null) {
             LOG.info("rolling back transaction");
-            getTransactionManager().rollback(transactionStatus);
+            try {
+                getTransactionManager().rollback(transactionStatus);
+            }
+            catch (Exception ex) {
+                LOG.error( "Error rolling back transaction", ex );
+            }
         }
     }
 
-    private PlatformTransactionManager getTransactionManager() {
-        return SpringContext.getBean(PlatformTransactionManager.class);
+    protected PlatformTransactionManager getTransactionManager() {
+        return (PlatformTransactionManager) SpringContext.getService("transactionManager");
     }
 
     private Method getMethod(String methodName) {

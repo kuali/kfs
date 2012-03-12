@@ -16,18 +16,18 @@
 package org.kuali.kfs.module.ar.businessobject;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class Customer extends PersistableBusinessObjectBase implements Inactivateable {
+public class Customer extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String customerNumber;
     private String customerName;
@@ -60,7 +60,7 @@ public class Customer extends PersistableBusinessObjectBase implements Inactivat
      * Default constructor.
      */
     public Customer() {
-        customerAddresses = new TypedArrayList(CustomerAddress.class);
+        customerAddresses = new ArrayList<CustomerAddress>();
     }
 
     /**
@@ -440,10 +440,10 @@ public class Customer extends PersistableBusinessObjectBase implements Inactivat
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
     @SuppressWarnings("unchecked")
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("customerNumber", this.customerNumber);
         return m;

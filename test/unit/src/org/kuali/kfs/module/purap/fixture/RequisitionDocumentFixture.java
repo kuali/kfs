@@ -24,7 +24,7 @@ import org.kuali.kfs.module.purap.fixture.TaxFixture.TaxTestCaseFixture;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.fixture.CommodityCodeFixture;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public enum RequisitionDocumentFixture {
 

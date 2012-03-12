@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +26,6 @@ import org.kuali.kfs.fp.document.AdvanceDepositDocument;
 import org.kuali.kfs.fp.document.CapitalAssetEditable;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
-import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * This class is the struts form for Advance Deposit document.
@@ -44,7 +44,7 @@ public class AdvanceDepositForm extends CapitalAccountingLinesFormBase implement
         advanceDepositDetail.setDefautBankCode();
         setNewAdvanceDeposit(advanceDepositDetail);
 
-        capitalAssetInformation = new TypedArrayList(CapitalAssetInformation.class);
+        capitalAssetInformation = new ArrayList<CapitalAssetInformation>();
         this.capitalAccountingLine.setCanCreateAsset(false); //This document can only edit asset information
     }
 

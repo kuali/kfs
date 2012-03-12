@@ -17,7 +17,7 @@ package org.kuali.kfs.module.ar.report.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.report.service.OCRLineService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * This class...

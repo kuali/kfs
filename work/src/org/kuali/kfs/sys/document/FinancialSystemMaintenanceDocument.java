@@ -20,20 +20,18 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.exception.WorkflowRuntimeException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kew.api.WorkflowRuntimeException;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.krad.bo.DocumentHeader;
 
 /**
  * This class is used by the system to use financial specific objects and data for maintenance documents
  */
 public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase {
-    protected static final Logger LOG = Logger.getLogger(FinancialSystemMaintenanceDocument.class);
+    private static final Logger LOG = Logger.getLogger(FinancialSystemMaintenanceDocument.class);
 
     protected FinancialSystemDocumentHeader documentHeader;
 
@@ -53,7 +51,7 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
     }
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#getDocumentHeader()
+     * @see org.kuali.rice.krad.document.DocumentBase#getDocumentHeader()
      */
     @Override
     public FinancialSystemDocumentHeader getDocumentHeader() {
@@ -61,7 +59,7 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
     }
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#setDocumentHeader(org.kuali.rice.kns.bo.DocumentHeader)
+     * @see org.kuali.rice.krad.document.DocumentBase#setDocumentHeader(org.kuali.rice.krad.bo.DocumentHeader)
      */
     @Override
     public void setDocumentHeader(DocumentHeader documentHeader) {
@@ -72,31 +70,19 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
     }
 
     /**
-     * If the document has a total amount, call method on document to get the total and set in doc header.
-     * 
-     * @see org.kuali.rice.kns.document.Document#prepareForSave()
-     */
-//    @Override
-//    public void prepareForSave() {
-//        if (this instanceof AmountTotaling) {
-//            getDocumentHeader().setFinancialDocumentTotalAmount(((AmountTotaling) this).getTotalDollarAmount());
-//        }
-//    }
-
-    /**
      * This is the default implementation which ensures that document note attachment references are loaded.
      * 
-     * @see org.kuali.rice.kns.document.Document#processAfterRetrieve()
+     * @see org.kuali.rice.krad.document.Document#processAfterRetrieve()
      */
     @Override
     public void processAfterRetrieve() {
         // set correctedByDocumentId manually, since OJB doesn't maintain that relationship
         try {
-            DocumentHeader correctingDocumentHeader = SpringContext.getBean(FinancialSystemDocumentHeaderDao.class).getCorrectingDocumentHeader(getDocumentHeader().getWorkflowDocument().getRouteHeaderId().toString());
+            DocumentHeader correctingDocumentHeader = SpringContext.getBean(FinancialSystemDocumentHeaderDao.class).getCorrectingDocumentHeader(getDocumentHeader().getWorkflowDocument().getDocumentId());
             if (correctingDocumentHeader != null) {
                 getDocumentHeader().setCorrectedByDocumentId(correctingDocumentHeader.getDocumentNumber());
             }
-        } catch (WorkflowException e) {
+        } catch (RuntimeException e) {
             LOG.error("Received WorkflowException trying to get route header id from workflow document");
             throw new WorkflowRuntimeException(e);
         }
@@ -109,42 +95,37 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
     /**
      * This is the default implementation which checks for a different workflow statuses, and updates the Kuali status accordingly.
      * 
-     * @see org.kuali.rice.kns.document.Document#doRouteStatusChange()
+     * @see org.kuali.rice.krad.document.Document#doRouteStatusChange()
      */
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
-        if (getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
+        if (getDocumentHeader().getWorkflowDocument().isCanceled()) {
             getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CANCELLED);
         }
-        else if (getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
+        else if (getDocumentHeader().getWorkflowDocument().isEnroute()) {
             getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.ENROUTE);
         }
-        if (getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
+        if (getDocumentHeader().getWorkflowDocument().isDisapproved()) {
             getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.DISAPPROVED);
         }
-        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+        if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
             getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
         }
-        LOG.info("Status is: " + getDocumentHeader().getFinancialDocumentStatusCode());
+        if ( LOG.isInfoEnabled() ) {
+            LOG.info("Status is: " + getDocumentHeader().getFinancialDocumentStatusCode());
+        }
         
         super.doRouteStatusChange(statusChangeEvent);
     }
     
     public boolean answerSplitNodeQuestion(String nodeName) {
+        if (getNewMaintainableObject() == null) {
+            throw new UnsupportedOperationException("Cannot access Maintainable class to answer split node question");
+        }
         if (getNewMaintainableObject() instanceof FinancialSystemMaintainable) {
-            FinancialSystemMaintainable fsMaintainable = (FinancialSystemMaintainable)getNewMaintainableObject();
-
-            if (fsMaintainable == null) {
-                throw new UnsupportedOperationException("Cannot access Maintainable class to answer split node question");
-            }
-            return fsMaintainable.answerSplitNodeQuestion(nodeName);
+            return ((FinancialSystemMaintainable)getNewMaintainableObject()).answerSplitNodeQuestion(nodeName);
         } else if (getNewMaintainableObject() instanceof FinancialSystemGlobalMaintainable) {
-            FinancialSystemGlobalMaintainable fsMaintainable = (FinancialSystemGlobalMaintainable)getNewMaintainableObject();
-
-            if (fsMaintainable == null) {
-                throw new UnsupportedOperationException("Cannot access Maintainable class to answer split node question");
-            }
-            return fsMaintainable.answerSplitNodeQuestion(nodeName);
+            return ((FinancialSystemGlobalMaintainable)getNewMaintainableObject()).answerSplitNodeQuestion(nodeName);
         } else {
             throw new UnsupportedOperationException("Maintainable for "+getNewMaintainableObject().getBoClass().getName()+" does not extend org.kuali.kfs.sys.document.FinancialSystemMaintainable nor org.kuali.kfs.sys.document.FinancialSystemGlobalMaintainable and therefore cannot answer split node question");
         }
@@ -177,7 +158,7 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
     protected String[] getInitiatorPrimaryDepartmentCode() {
         PersonService personService = SpringContext.getBean(PersonService.class);
         
-        String netID = documentHeader.getWorkflowDocument().getInitiatorNetworkId();
+        String netID = documentHeader.getWorkflowDocument().getInitiatorPrincipalId();
         Person person =  personService.getPersonByPrincipalName(netID);
        
         String deptCode = person.getPrimaryDepartmentCode();

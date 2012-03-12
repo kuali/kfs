@@ -16,12 +16,12 @@
 
 package org.kuali.kfs.module.external.kc.businessobject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAward;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 /**
  * Defines a financial award object.
@@ -46,7 +46,7 @@ public class Award implements ContractsAndGrantsAward {
      * Default no-args constructor.
      */
     public Award() {
-        awardAccounts = new TypedArrayList(AwardAccount.class);
+        awardAccounts = new ArrayList<AwardAccount>();
     }
     
     /**
@@ -71,7 +71,7 @@ public class Award implements ContractsAndGrantsAward {
      * @return a String to represent this field on the inquiry
      */
     public String getAwardInquiryTitle() {
-        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(AWARD_INQUIRY_TITLE_PROPERTY);
+        return SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(AWARD_INQUIRY_TITLE_PROPERTY);
     }
 
 

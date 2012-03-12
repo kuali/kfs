@@ -21,7 +21,7 @@ import static org.kuali.kfs.sys.KFSPropertyConstants.REVERSAL_DATE;
 import org.kuali.kfs.fp.document.AuxiliaryVoucherDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * A validation that checks the reversal date on the AuxiliaryVoucher.

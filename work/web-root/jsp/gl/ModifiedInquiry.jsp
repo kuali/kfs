@@ -31,7 +31,7 @@
 	<html-el:hidden name="KualiForm" property="conversionFields" />
 	<html-el:hidden name="KualiForm" property="hideReturnLink" />
 	<kul:errors errorTitle="Errors found in Search Criteria:" />
-	<table width="1200px" cellspacing="0" cellpadding="0">
+	<table width="1000px" cellspacing="0" cellpadding="0">
 		<tr>
 			<td width="1%"><img
 				src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif"
@@ -108,7 +108,7 @@
 						<c:choose>
 
 							<c:when
-								test="${column.formatter.implementationClass == 'org.kuali.rice.kns.web.format.CurrencyFormatter'}">
+								test="${column.formatter.implementationClass == 'org.kuali.rice.core.web.format.CurrencyFormatter'}">
 
 								<display:column class="numbercell" sortable="true"
 									decorator="org.kuali.rice.kns.web.ui.FormatAwareDecorator"

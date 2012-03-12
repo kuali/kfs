@@ -87,7 +87,7 @@
 					
 
 <%--
-					<kul:inquiry boClassName="org.kuali.rice.kns.bo.DocumentType" keyValues="documentTypeCode=${laborLedgerPendingEntry.financialDocumentTypeCode}" render="true">
+					<kul:inquiry boClassName="org.kuali.rice.krad.bo.DocumentType" keyValues="documentTypeCode=${laborLedgerPendingEntry.financialDocumentTypeCode}" render="true">
 						<html:hidden property="document.laborLedgerPendingEntry[${ctr}].financialDocumentTypeCode" write="true"/>
 					</kul:inquiry>
 --%>

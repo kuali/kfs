@@ -47,12 +47,12 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 
 public class EndowmentAccountingLinesDocumentActionBase extends EndowmentTransactionLinesDocumentActionBase {
     protected static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(EndowmentAccountingLinesDocumentActionBase.class);
@@ -299,7 +299,7 @@ public class EndowmentAccountingLinesDocumentActionBase extends EndowmentTransac
 
 
         // when we return from the lookup, our next request's method to call is going to be refresh
-        etlForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
+        etlForm.registerEditableProperty(KRADConstants.DISPATCH_REQUEST_PARAMETER);
 
         EndowmentAccountingLine etLine;
         if (isSource) {
@@ -310,7 +310,7 @@ public class EndowmentAccountingLinesDocumentActionBase extends EndowmentTransac
         }
 
         // build out base path for return location, use config service
-        String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+        String basePath = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.APPLICATION_URL_KEY);
 
         // this hack sets the return anchor we want to return too after the inquiry
         // do this here so it gets into the session stored form version
@@ -320,7 +320,7 @@ public class EndowmentAccountingLinesDocumentActionBase extends EndowmentTransac
         }
 
         // build out the actual form key that will be used to retrieve the form on refresh
-        String callerDocFormKey = GlobalVariables.getUserSession().addObject(form);
+        String callerDocFormKey = GlobalVariables.getUserSession().addObjectWithGeneratedKey(form);
 
         // now add required parameters
         Properties params = new Properties();
@@ -355,7 +355,7 @@ public class EndowmentAccountingLinesDocumentActionBase extends EndowmentTransac
         String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + KFSConstants.BALANCE_INQUIRY_REPORT_MENU_ACTION, params);
 
         // register that we're going to come back w/ to this form w/ a refresh methodToCall
-        etlForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
+        etlForm.registerEditableProperty(KRADConstants.DISPATCH_REQUEST_PARAMETER);
 
         return new ActionForward(lookupUrl, true);
     }

@@ -24,9 +24,8 @@ import org.kuali.kfs.module.ec.EffortPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 public class DuplicateCertificationsReport extends TransientBusinessObjectBase {
 
@@ -92,8 +91,8 @@ public class DuplicateCertificationsReport extends TransientBusinessObjectBase {
         this.emplid = emplid;
     }
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, this.universityFiscalYear);
         m.put(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_NUMBER, this.effortCertificationReportNumber);
@@ -108,10 +107,10 @@ public class DuplicateCertificationsReport extends TransientBusinessObjectBase {
      * @return Returns the employee.
      */
     public Person getEmployee() {
-        Map<String, Object> searchCriteria = new HashMap<String, Object>();
+        Map<String, String> searchCriteria = new HashMap<String, String>();
         searchCriteria.put(KFSPropertyConstants.PERSON_PAYROLL_IDENTIFIER, getEmplid());
 
-        return new ArrayList<Person>(SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).findPeople(searchCriteria)).get(0);
+        return new ArrayList<Person>(SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).findPeople(searchCriteria)).get(0);
     }
 
     /**

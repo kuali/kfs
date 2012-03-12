@@ -17,16 +17,12 @@ package org.kuali.kfs.module.ar.businessobject;
 
 import java.sql.Date;
 import java.util.LinkedHashMap;
-import java.util.List;
 
-import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.gl.businessobject.TransientBalanceInquiryAttributes;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class CustomerBillingStatement extends PersistableBusinessObjectBase {
 
@@ -35,10 +31,10 @@ public class CustomerBillingStatement extends PersistableBusinessObjectBase {
     private Date reportedDate;
     
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap<String, String> toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         m.put("CUSTOMERNUMBER", customerNumber);
         return m;
@@ -92,7 +88,7 @@ public class CustomerBillingStatement extends PersistableBusinessObjectBase {
      */
     public String getStatementFormat() {        
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        return parameterService.getParameterValue(CustomerBillingStatement.class, ArConstants.DEFAULT_FORMAT);       
+        return parameterService.getParameterValueAsString(CustomerBillingStatement.class, ArConstants.DEFAULT_FORMAT);       
     }
     
     /**
@@ -101,7 +97,7 @@ public class CustomerBillingStatement extends PersistableBusinessObjectBase {
      */
     public String getIncludeZeroBalanceCustomers() {
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        return parameterService.getParameterValue(CustomerBillingStatement.class, ArConstants.INCLUDE_ZERO_BALANCE_CUSTOMERS);       
+        return parameterService.getParameterValueAsString(CustomerBillingStatement.class, ArConstants.INCLUDE_ZERO_BALANCE_CUSTOMERS);       
     }
     
 }

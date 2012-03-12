@@ -3,7 +3,7 @@
  */
 package org.kuali.kfs.sys.businessobject;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public interface FiscalYearBasedBusinessObject extends PersistableBusinessObject {
 

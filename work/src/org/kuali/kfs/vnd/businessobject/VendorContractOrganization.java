@@ -21,10 +21,10 @@ import java.util.LinkedHashMap;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * A relation between a particular <code>Org</code> and a <code>VendorContract</code> indicating that the Org uses this Vendor
@@ -33,7 +33,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  * @see org.kuali.kfs.vnd.businessobject.VendorContract
  * @see org.kuali.kfs.coa.businessobject.Org
  */
-public class VendorContractOrganization extends PersistableBusinessObjectBase implements VendorRoutingComparable, Inactivateable {
+public class VendorContractOrganization extends PersistableBusinessObjectBase implements VendorRoutingComparable, MutableInactivatable {
 
     private Integer vendorContractGeneratedIdentifier;
     private String chartOfAccountsCode;
@@ -168,9 +168,9 @@ public class VendorContractOrganization extends PersistableBusinessObjectBase im
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         if (this.vendorContractGeneratedIdentifier != null) {
             m.put("vendorContractGeneratedIdentifier", this.vendorContractGeneratedIdentifier.toString());

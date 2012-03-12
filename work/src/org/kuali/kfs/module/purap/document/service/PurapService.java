@@ -17,19 +17,16 @@ package org.kuali.kfs.module.purap.document.service;
 
 import java.sql.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
-import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurapItemOperations;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.Parameter;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * Defines methods that must be implemented by classes providing a PurapService. 
@@ -129,6 +126,23 @@ public interface PurapService {
      * @return a boolean to indicate if document has completed full entry mode
      */
     public boolean isFullDocumentEntryCompleted(PurchasingAccountsPayableDocument purapDocument);
+
+    /**
+     * Determines if full entry mode has ended for this Payment Request status
+     * 
+     * @param purapDocumentStatus String
+     * @return a boolean to indicate if document has completed full entry mode
+     */
+    public boolean isPaymentRequestFullDocumentEntryCompleted(String purapDocumentStatus);
+    
+    /**
+     * Determines if full entry mode has ended for this Vendor Credit Memo status
+     * 
+     * @param purapDocumentStatus String
+     * @return a boolean to indicate if document has completed full entry mode
+     */
+    public boolean isVendorCreditMemoFullDocumentEntryCompleted(String purapDocumentStatus);
+        
 
     /**
      * Create a close or reopen purchase order document.

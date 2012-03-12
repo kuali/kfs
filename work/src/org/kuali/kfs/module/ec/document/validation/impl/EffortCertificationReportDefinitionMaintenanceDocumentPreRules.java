@@ -21,10 +21,10 @@ import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinitio
 import org.kuali.kfs.module.ec.document.service.EffortCertificationAutomaticReportPeriodUpdateService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * Checks warnings and prompts for EffortCertifictionReportDefinition Maintenance Document
@@ -32,7 +32,7 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 public class EffortCertificationReportDefinitionMaintenanceDocumentPreRules extends PromptBeforeValidationBase {
 
     /**
-     * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.krad.document.Document)
      */
     @Override
     public boolean doPrompts(Document arg0) {
@@ -60,7 +60,7 @@ public class EffortCertificationReportDefinitionMaintenanceDocumentPreRules exte
         
         boolean isOverlapping = reportPeriodUpdateService.isAnOverlappingReportDefinition(reportDefinition);
         if (isOverlapping) {
-            String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(EffortKeyConstants.QUESTION_OVERLAPPING_REPORT_DEFINITION);
+            String questionText = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(EffortKeyConstants.QUESTION_OVERLAPPING_REPORT_DEFINITION);
 
             boolean correctOverlappingReportDefinition = super.askOrAnalyzeYesNoQuestion(EffortConstants.GENERATE_EFFORT_CERTIFICATION_REPORT_DEFINITION_QUESTION_ID, questionText);
             if (correctOverlappingReportDefinition) {

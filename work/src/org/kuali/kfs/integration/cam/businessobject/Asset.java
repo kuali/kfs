@@ -18,7 +18,7 @@ package org.kuali.kfs.integration.cam.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.integration.cam.CapitalAssetManagementAsset;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -63,9 +63,9 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap<String, String> toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         if (this.capitalAssetNumber != null) {
             m.put("capitalAssetNumber", this.capitalAssetNumber.toString());

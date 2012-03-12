@@ -21,8 +21,8 @@ import java.sql.Timestamp;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.SequenceAccessorService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.SequenceAccessorService;
 
 public enum PurchaseOrderVendorQuoteFixture {
     BASIC_VENDOR_QUOTE_1(

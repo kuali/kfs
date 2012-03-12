@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.ar.document.dataaccess;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 

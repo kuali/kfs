@@ -23,7 +23,7 @@
  
  function setFundSourceDesc( fundSourceCodeFieldName, fundSourceCodeDescFieldName ){
 	 
-	var fundSourceCode = DWRUtil.getValue( fundSourceCodeFieldName );
+	var fundSourceCode = dwr.util.getValue( fundSourceCodeFieldName );
 
 	if (fundSourceCode =='') {
 		clearRecipients(fundSourceCodeDescFieldName, "");

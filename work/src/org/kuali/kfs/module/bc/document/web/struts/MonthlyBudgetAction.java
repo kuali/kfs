@@ -37,12 +37,13 @@ import org.kuali.kfs.module.bc.document.validation.event.SaveMonthlyBudgetEvent;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 
 public class MonthlyBudgetAction extends BudgetExpansionAction {
@@ -163,10 +164,10 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
 
                 // total is different than annual
                 Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-                KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
+                ConfigurationService kualiConfiguration = SpringContext.getBean(ConfigurationService.class);
                 if (question == null || !(KFSConstants.CONFIRMATION_QUESTION.equals(question))){
                     // ask question if not already asked
-                    String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(BCKeyConstants.QUESTION_CONFIRM_MONTHLY_OVERRIDE);
+                    String questionText = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(BCKeyConstants.QUESTION_CONFIRM_MONTHLY_OVERRIDE);
                     questionText = StringUtils.replace(questionText, "{0}", pbglRequestAmount.toString());
                     questionText = StringUtils.replace(questionText, "{1}", monthTotalAmount.toString());
 
@@ -178,7 +179,7 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
 
                         // yes do the override for non-salary line and save
                         SpringContext.getBean(BudgetDocumentService.class).saveMonthlyBudget(monthlyBudgetForm, budgetConstructionMonthly);
-                        GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_MONTHLY_ANNUAL_OVERRIDE_SAVED);
+                        KNSGlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_MONTHLY_ANNUAL_OVERRIDE_SAVED);
                         monthlyBudgetForm.setMonthlyPersisted(true);
                     }
                 }
@@ -186,7 +187,7 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
             else {
                 // total is same as annual do the save with no confirmation
                 SpringContext.getBean(BudgetDocumentService.class).saveMonthlyBudget(monthlyBudgetForm, budgetConstructionMonthly);
-                GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);
+                KNSGlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);
                 monthlyBudgetForm.setMonthlyPersisted(true);
             }
         }
@@ -201,12 +202,12 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
 
         if (!monthlyBudgetForm.isMonthlyReadOnly()) {
             Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-            KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
+            ConfigurationService kualiConfiguration = SpringContext.getBean(ConfigurationService.class);
 
             // logic for close question
             if (question == null) {
                 // ask question if not already asked
-                return this.performQuestionWithoutInput(mapping, form, request, response, KFSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, kualiConfiguration.getPropertyString(KFSKeyConstants.QUESTION_SAVE_BEFORE_CLOSE), KFSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_CLOSE, "");
+                return this.performQuestionWithoutInput(mapping, form, request, response, KFSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, kualiConfiguration.getPropertyValueAsString(KFSKeyConstants.QUESTION_SAVE_BEFORE_CLOSE), KFSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_CLOSE, "");
             }
             else {
                 Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
@@ -282,12 +283,12 @@ public class MonthlyBudgetAction extends BudgetExpansionAction {
         // don't really need this test since the delete button isn't displayed in readOnly mode
         if (!monthlyBudgetForm.isSystemViewOnly() && monthlyBudgetForm.isEditAllowed()) {
             Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-            KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
+            ConfigurationService kualiConfiguration = SpringContext.getBean(ConfigurationService.class);
 
             // logic for delete question
             if (question == null) {
                 // ask question if not already asked
-                return this.performQuestionWithoutInput(mapping, form, request, response, KFSConstants.DOCUMENT_DELETE_QUESTION, kualiConfiguration.getPropertyString(BCKeyConstants.QUESTION_DELETE), KFSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_CLOSE, "");
+                return this.performQuestionWithoutInput(mapping, form, request, response, KFSConstants.DOCUMENT_DELETE_QUESTION, kualiConfiguration.getPropertyValueAsString(BCKeyConstants.QUESTION_DELETE), KFSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_CLOSE, "");
             }
             else {
                 Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);

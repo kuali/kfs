@@ -20,7 +20,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 import org.kuali.kfs.integration.cg.ContractAndGrantsProposal;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * See functional documentation.

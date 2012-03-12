@@ -15,11 +15,9 @@
  */
 package org.kuali.kfs.pdp.dataaccess;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.pdp.businessobject.PaymentGroup;
-import org.kuali.kfs.pdp.businessobject.PaymentProcess;
 
 public interface PaymentGroupDao {
 

@@ -15,13 +15,10 @@
  */
 package org.kuali.kfs.vnd.businessobject;
 
-import java.util.LinkedHashMap;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-import org.kuali.kfs.vnd.VendorPropertyConstants;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-
-public class VendorCommodityCode extends PersistableBusinessObjectBase implements Inactivateable {
+public class VendorCommodityCode extends PersistableBusinessObjectBase implements MutableInactivatable {
 
 	private Integer vendorHeaderGeneratedIdentifier;
 	private Integer vendorDetailAssignedIdentifier;
@@ -178,36 +175,4 @@ public class VendorCommodityCode extends PersistableBusinessObjectBase implement
         this.commodityCode = commodityCode;
     }
 
-    /**
-	 * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
-        if (this.vendorHeaderGeneratedIdentifier != null) {
-            m.put(VendorPropertyConstants.VENDOR_HEADER_GENERATED_ID, this.vendorHeaderGeneratedIdentifier.toString());
-        }
-        if (this.vendorDetailAssignedIdentifier != null) {
-            m.put(VendorPropertyConstants.VENDOR_DETAIL_ASSIGNED_ID, this.vendorDetailAssignedIdentifier.toString());
-        }
-        m.put(VendorPropertyConstants.PURCHASING_COMMODITY_CODE, this.purchasingCommodityCode);
-	    return m;
-    }
-	
-    /**
-     * This method overrides the superclass method to return the description of the commodity code.
-     * 
-     * @param mapper A LinkedHashMap
-     * @return A String rendition of this object.
-     */
-    @Override
-    public String toStringBuilder(LinkedHashMap mapper) {
-        if (commodityCode != null) {
-
-            return commodityCode.getCommodityDescription();
-        }
-        else {
-
-            return super.toStringBuilder(mapper);
-        }
-    }
 }

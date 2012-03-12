@@ -187,50 +187,30 @@
   </bean>
   <bean id="VendorHeader-vendorW8BenReceivedIndicator" parent="VendorHeader-vendorW8BenReceivedIndicator-parentBean" />
 
-  <bean id="VendorHeader-vendorW8BenReceivedIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="VendorHeader-vendorW8BenReceivedIndicator-parentBean" abstract="true" parent="VendorGenericAttributes-yesNoWithBlankIndicator">
     <property name="name" value="vendorW8BenReceivedIndicator" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="W-8BEN Received" />
     <property name="shortLabel" value="W-8BEN Received" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNNullValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
   </bean>
   <bean id="VendorHeader-vendorW9ReceivedIndicator" parent="VendorHeader-vendorW9ReceivedIndicator-parentBean" />
 
-  <bean id="VendorHeader-vendorW9ReceivedIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="VendorHeader-vendorW9ReceivedIndicator-parentBean" abstract="true" parent="VendorGenericAttributes-yesNoWithBlankIndicator">
     <property name="name" value="vendorW9ReceivedIndicator" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="W9 Received" />
     <property name="shortLabel" value="W9 Received" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNNullValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
   </bean>
   <bean id="VendorHeader-vendorDebarredIndicator" parent="VendorHeader-vendorDebarredIndicator-parentBean" />
 
-  <bean id="VendorHeader-vendorDebarredIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="VendorHeader-vendorDebarredIndicator-parentBean" abstract="true" parent="VendorGenericAttributes-yesNoWithBlankIndicator">
     <property name="name" value="vendorDebarredIndicator" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Debarred" />
     <property name="shortLabel" value="Debarred" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNNullValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
   </bean>
   <bean id="VendorHeader-vendorForeignIndicator" parent="VendorHeader-vendorForeignIndicator-parentBean" />
 
-  <bean id="VendorHeader-vendorForeignIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="VendorHeader-vendorForeignIndicator-parentBean" abstract="true" parent="VendorGenericAttributes-yesNoWithoutBlankIndicator">
     <property name="name" value="vendorForeignIndicator" />
-    <property name="forceUppercase" value="false" />
     <property name="label" value="Is this a foreign vendor" />
     <property name="shortLabel" value="Is Foreign" />
-    <property name="maxLength" value="1" />
-    <property name="control" >
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNOnlyValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
   </bean>
 </beans>

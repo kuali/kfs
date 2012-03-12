@@ -30,10 +30,10 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class ArCoreTestUtils extends Assert {
 
@@ -50,7 +50,7 @@ public class ArCoreTestUtils extends Assert {
 
         invoice.updateDiscountAndParentLineReferences();
         
-        assertTrue("Document should be Final", invoice.getDocumentHeader().getWorkflowDocument().stateIsFinal());
+        assertTrue("Document should be Final", invoice.getDocumentHeader().getWorkflowDocument().isFinal());
         assertEquals("OpenAmount wrong.", expectedOpenAmount, invoice.getOpenAmount());
         assertEquals("TotalAmount wrong.", expectedTotalAmount, invoice.getTotalDollarAmount());
         assertEquals("Discounts wrong size.", numDiscounts, invoice.getDiscounts().size());

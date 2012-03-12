@@ -16,7 +16,6 @@
 package org.kuali.kfs.sys.document.service;
 
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.document.AccountingDocument;
 
 /**
  * Methods needed by a service which creates non-standard dynamic name labels for accounting line views

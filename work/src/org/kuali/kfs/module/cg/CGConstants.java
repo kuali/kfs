@@ -17,13 +17,11 @@ package org.kuali.kfs.module.cg;
 
 import java.util.Calendar;
 
-import org.kuali.rice.core.util.JSTLConstants;
-import org.kuali.rice.kns.util.KualiInteger;
 
 /**
  * Constants specific to the Contracts and Grants module.
  */
-public class CGConstants extends JSTLConstants {
+public class CGConstants {
     
     public static final String CG_NAMESPACE_CODE = "KFS-CG";
 
@@ -41,10 +39,6 @@ public class CGConstants extends JSTLConstants {
 
     public static final String DROPDOWN_LIST_SELECT = "select:";
 
-    // System Parameters
-    public static final String RESULT_SUMMARY_TO_EMAIL_ADDRESSES = "RESULT_SUMMARY_TO_EMAIL_ADDRESSES";
-
-    public static final String SOURCE_URL_PARAMETER = "SOURCE_URL";
     
     public static final String MANUAL_BASE = "MN";
     public static final String MODIFIED_TOTAL_DIRECT_COST = "MT";
@@ -76,7 +70,7 @@ public class CGConstants extends JSTLConstants {
 
     public static final String MAXIMUM_ACCOUNT_RESPONSIBILITY_ID = "MAXIMUM_ACCOUNT_RESPONSIBILITY_ID";
 
-    public static class CGKimConstants{
+    public static class CGKimApiConstants{
         public static final String AWARD_ROUTING_NODE_NAME = "Award";
         public static final String MANAGEMENT_ROUTING_NODE_NAME = "Management";
         public static final String UNPROCESSED_ROUTING_NODE_NAME = "Unprocessed";

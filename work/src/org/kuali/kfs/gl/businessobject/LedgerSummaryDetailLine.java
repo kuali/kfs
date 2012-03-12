@@ -16,7 +16,6 @@
 package org.kuali.kfs.gl.businessobject;
 
 import java.util.Comparator;
-import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -161,17 +160,4 @@ public class LedgerSummaryDetailLine extends LedgerBalanceTypeSummaryTotalLine {
 
     public static String[] keyFields = new String[] { KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, "universityAccountPeriodCode" };
 
-    /**
-     * @see org.kuali.kfs.gl.businessobject.LedgerSummaryTotalLine#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap stringMapper = super.toStringMapper();
-        stringMapper.put("financialBalanceTypeCode", this.getFinancialBalanceTypeCode());
-        stringMapper.put("financialSystemOriginationCode", this.getFinancialSystemOriginationCode());
-        stringMapper.put("universityFiscalYear", this.getUniversityFiscalYear());
-        stringMapper.put("universityAccountPeriodCode", this.getUniversityAccountPeriodCode());
-
-        return stringMapper;
-    }
 }

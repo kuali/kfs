@@ -15,11 +15,10 @@
  */
 package org.kuali.kfs.module.ld.batch.service;
 
-import org.kuali.kfs.gl.batch.service.AccountingCycleCachingService;
 import org.kuali.kfs.gl.businessobject.OriginEntryTestBase;
 import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 public class LaborOriginEntryTestBase extends OriginEntryTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborOriginEntryTestBase.class);
@@ -47,7 +46,7 @@ public class LaborOriginEntryTestBase extends OriginEntryTestBase {
      */
     @Override
     protected String getBatchDirectoryName() {
-        String stagingDirectory = SpringContext.getBean(KualiConfigurationService.class).getPropertyString("staging.directory");
+        String stagingDirectory = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("staging.directory");
         return stagingDirectory + "/ld/originEntry";
     }
 }

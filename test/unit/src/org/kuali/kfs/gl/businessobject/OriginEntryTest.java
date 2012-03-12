@@ -15,10 +15,7 @@
  */
 package org.kuali.kfs.gl.businessobject;
 
-import java.util.List;
-
 import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.TestUtils;
 

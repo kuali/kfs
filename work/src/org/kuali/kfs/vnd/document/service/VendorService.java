@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.vnd.document.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
@@ -22,7 +23,7 @@ import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorHeader;
 import org.kuali.kfs.vnd.businessobject.VendorRoutingComparable;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public interface VendorService {
 
@@ -103,7 +104,7 @@ public interface VendorService {
      * @param campus String - Campus of the desired default sought.
      * @return VendorAddress Desired default address; return null is possible if no defaults set.
      */
-    public VendorAddress getVendorDefaultAddress(List<VendorAddress> addresses, String addressType, String campus);
+    public VendorAddress getVendorDefaultAddress(Collection<VendorAddress> addresses, String addressType, String campus);
 
     /**
      * Checks to see if a the Vendor Document associated with the given document ID should route to the route path branch in

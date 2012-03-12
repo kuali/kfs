@@ -23,11 +23,11 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
+import org.kuali.rice.location.api.campus.CampusService;
+import org.kuali.rice.location.framework.campus.CampusEbo;
 
 /**
  * This class represents a cash drawer used in cash management document. It contains amounts for 
@@ -59,7 +59,7 @@ public class CashDrawer extends PersistableBusinessObjectBase {
     private KualiDecimal financialDocumentMiscellaneousAdvanceAmount;
 
     private String referenceFinancialDocumentNumber;
-    private Campus campus;
+    private CampusEbo campus;
 
     /**
      * Default constructor.
@@ -1072,23 +1072,23 @@ public class CashDrawer extends PersistableBusinessObjectBase {
     /**
      * @return the campus associated with this cash drawer
      */
-    public Campus getCampus() {
-        if (campusCode != null && (campus == null || !campus.getCampusCode().equals(campusCode))) {
+    public CampusEbo getCampus() {
+        if (campusCode != null && (campus == null || !campus.getCode().equals(campusCode))) {
             campus = retrieveCampus();
         }
         return campus;
     }
     
-    private Campus retrieveCampus() {
+    private CampusEbo retrieveCampus() {
         Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put(KNSPropertyConstants.CAMPUS_CODE, campusCode);
-        return campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).getExternalizableBusinessObject(Campus.class, criteria);
+        criteria.put(KRADPropertyConstants.CAMPUS_CODE, campusCode);
+        return campus = CampusEbo.from(SpringContext.getBean(CampusService.class).getCampus(campusCode/*RICE_20_REFACTORME  criteria */));
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         @SuppressWarnings("rawtypes")
         LinkedHashMap m = new LinkedHashMap();
         m.put("campusCode", this.campusCode);

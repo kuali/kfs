@@ -30,7 +30,7 @@ import org.kuali.kfs.gl.document.service.CorrectionDocumentService;
 import org.kuali.kfs.gl.document.web.CorrectionDocumentEntryMetadata;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiTableRenderFormMetadata;
 import org.kuali.rice.kns.web.ui.Column;
@@ -674,12 +674,12 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
     /**
      * Adds the origin entry max file size to the list of max file sizes.
      * 
-     * @see org.kuali.rice.kns.web.struts.pojo.PojoFormBase#customInitMaxUploadSizes()
+     * @see org.kuali.rice.kns.web.struts.form.pojo.PojoFormBase#customInitMaxUploadSizes()
      */
     @Override
     protected void customInitMaxUploadSizes() {
         super.customInitMaxUploadSizes();
-        addMaxUploadSize(SpringContext.getBean(ParameterService.class).getParameterValue(GeneralLedgerCorrectionProcessDocument.class, KFSConstants.ORIGIN_ENTRY_IMPORT_MAX_FILE_SIZE_PARM_NM));
+        addMaxUploadSize(SpringContext.getBean(ParameterService.class).getParameterValueAsString(GeneralLedgerCorrectionProcessDocument.class, KFSConstants.ORIGIN_ENTRY_IMPORT_MAX_FILE_SIZE_PARM_NM));
     }
 
 }

@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,9 +51,9 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.MessageBuilder;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -144,11 +145,13 @@ public class LaborPosterServiceImpl implements LaborPosterService {
             String currentLine = INPUT_GLE_FILE_br.readLine();
 
             while (currentLine != null) {
+                LaborOriginEntry laborOriginEntry = null;
+                
                 try {
                     lineNumber++;
                     if (!StringUtils.isEmpty(currentLine) && !StringUtils.isBlank(currentLine.trim())) {
-                        LaborOriginEntry laborOriginEntry = new LaborOriginEntry();
-
+                        laborOriginEntry = new LaborOriginEntry();
+                    
                         // checking parsing process and stop poster when it has errors.
                         List<Message> parsingError = new ArrayList<Message>();
                         parsingError = laborOriginEntry.setFromTextFileForBatch(currentLine, lineNumber);
@@ -175,10 +178,11 @@ public class LaborPosterServiceImpl implements LaborPosterService {
 
                     currentLine = INPUT_GLE_FILE_br.readLine();
                 }
-                catch (RuntimeException ioe) {
+                catch (RuntimeException re) {
                     // catch here again, it should be from postSingleEntryIntoLaborLedger
-                    LOG.error("postLaborLedgerEntries stopped due to: " + ioe.getMessage() + " on line number : " + loadedCount, ioe);
-                    throw new RuntimeException("Unable to execute: " + ioe.getMessage() + " on line number : " + loadedCount, ioe);
+                    LOG.error("postLaborLedgerEntries stopped due to: " + re.getMessage() + " on line number : " + loadedCount, re);
+                    LOG.error("laborOriginEntry failure occured on: " + laborOriginEntry == null ? null : laborOriginEntry.toString());
+                    throw new RuntimeException("Unable to execute: " + re.getMessage() + " on line number : " + loadedCount, re);
                 }
             }
 
@@ -401,8 +405,8 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      * 
      * @return a set of the balance type codes that are bypassed by Labor Poster
      */
-    public List<String> getBalanceTypesNotProcessed() {
-        return parameterService.getParameterValues(LaborPosterStep.class, Poster.BALANCE_TYPES_NOT_PROCESSED);
+    public Collection<String> getBalanceTypesNotProcessed() {
+        return parameterService.getParameterValuesAsString(LaborPosterStep.class, Poster.BALANCE_TYPES_NOT_PROCESSED);
     }
 
     /**
@@ -410,8 +414,8 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      * 
      * @return a set of the fiscal period codes that are bypassed by Labor Poster
      */
-    public List<String> getPeriodCodesNotProcessed() {
-        return parameterService.getParameterValues(LaborPosterStep.class, Poster.PERIOD_CODES_NOT_PROCESSED);
+    public Collection<String> getPeriodCodesNotProcessed() {
+        return parameterService.getParameterValuesAsString(LaborPosterStep.class, Poster.PERIOD_CODES_NOT_PROCESSED);
     }
 
     /**

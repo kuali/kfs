@@ -21,7 +21,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.businessobject.FundSourceCode;
 import org.kuali.kfs.module.endow.document.service.FundSourceService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class FundSourceServiceImpl implements FundSourceService {
 

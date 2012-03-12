@@ -26,10 +26,10 @@ import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.service.DocumentService;
 
 @ConfigureContext(session = khuntley)
 public class CashControlDocumentServiceTest extends KualiTestBase {
@@ -83,7 +83,7 @@ public class CashControlDocumentServiceTest extends KualiTestBase {
         PaymentApplicationDocument applicationDocument2 = (PaymentApplicationDocument) documentService.getByDocumentHeaderId(applicationDocument.getDocumentNumber());
 
         assertNotNull(applicationDocument2);
-        assertTrue(applicationDocument2.getDocumentHeader().getWorkflowDocument().stateIsSaved());
+        assertTrue(applicationDocument2.getDocumentHeader().getWorkflowDocument().isSaved());
     }
 
     private CashControlDocument createCashControlDocumentWithOneDetail() {

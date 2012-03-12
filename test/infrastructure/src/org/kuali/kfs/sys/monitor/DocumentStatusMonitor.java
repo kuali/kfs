@@ -16,10 +16,10 @@
 package org.kuali.kfs.sys.monitor;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.kfs.sys.document.FinancialSystemMaintenanceDocument;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * DocumentStatusMonitor
@@ -39,7 +39,7 @@ public class DocumentStatusMonitor extends ChangeMonitor {
         Document d = documentService.getByDocumentHeaderId(docHeaderId.toString());
         String currentStatus = null;
         if (d instanceof FinancialSystemTransactionalDocument) {
-            currentStatus = ((FinancialSystemTransactionalDocument) d).getDocumentHeader().getFinancialDocumentStatusCode();
+            currentStatus = ((FinancialSystemTransactionalDocument) d).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode();
         } else if (d instanceof FinancialSystemMaintenanceDocument) {
             currentStatus = ((FinancialSystemMaintenanceDocument) d).getDocumentHeader().getFinancialDocumentStatusCode();
         } else {

@@ -24,8 +24,8 @@ import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.CodeDescriptionFormatterBase;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class SubFundGroupCodeDescriptionFormatter extends CodeDescriptionFormatterBase {
 

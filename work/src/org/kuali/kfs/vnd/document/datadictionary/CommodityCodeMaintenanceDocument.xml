@@ -94,5 +94,5 @@
   <!-- workflow attributes -->
   <bean id="CommodityCodeMaintenanceDocument-workflowAttributes" parent="CommodityCodeMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="CommodityCodeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="CommodityCodeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

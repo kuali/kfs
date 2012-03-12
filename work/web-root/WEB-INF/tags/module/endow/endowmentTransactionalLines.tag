@@ -15,8 +15,6 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
-<script type='text/javascript' src="dwr/interface/KEMIDService.js"></script>
-<script type='text/javascript' src="dwr/interface/EndowmentTransactionCodeService.js"></script>
 <script language="JavaScript" type="text/javascript" src="scripts/module/endow/endowmentTransactionCode.js"></script>
 <script language="JavaScript" type="text/javascript" src="scripts/module/endow/kemIdForTransactionLines.js"></script>
 

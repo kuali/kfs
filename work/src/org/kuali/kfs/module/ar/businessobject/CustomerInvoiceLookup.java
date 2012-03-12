@@ -18,7 +18,7 @@ package org.kuali.kfs.module.ar.businessobject;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class CustomerInvoiceLookup extends PersistableBusinessObjectBase {
     
@@ -32,7 +32,7 @@ public class CustomerInvoiceLookup extends PersistableBusinessObjectBase {
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
+
     protected LinkedHashMap<String,String> toStringMapper() {
         LinkedHashMap<String,String> m = new LinkedHashMap<String,String>();      
         m.put("invoiceNumber", this.invoiceNumber);

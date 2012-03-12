@@ -18,8 +18,8 @@ package org.kuali.kfs.fp.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * This class returns list of currency type value pairs.
@@ -31,8 +31,8 @@ public class ForeignBankIndicatorValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair("false", "Wire to U.S. Bank"));
-        keyValues.add(new KeyLabelPair("true", "Wire to Foreign Bank"));
+        keyValues.add(new ConcreteKeyValue("false", "Wire to U.S. Bank"));
+        keyValues.add(new ConcreteKeyValue("true", "Wire to Foreign Bank"));
 
         return keyValues;
     }

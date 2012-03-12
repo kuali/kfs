@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,31 +17,31 @@
 package org.kuali.kfs.module.cam.document.validation.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.module.cam.CamsConstants;
+import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
 import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
-import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetLocationGlobal;
 import org.kuali.kfs.module.cam.businessobject.AssetLocationGlobalDetail;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.util.KimCommonUtils;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Business rules applicable to AssetLocationGlobal documents.
@@ -64,7 +64,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Processes rules when routing this global.
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
@@ -97,9 +97,9 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
         }
         success &= super.processCustomRouteDocumentBusinessRules(documentCopy);
 
-        KualiWorkflowDocument workflowDoc = documentCopy.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDoc = documentCopy.getDocumentHeader().getWorkflowDocument();
         // adding asset locks
-        if (!GlobalVariables.getMessageMap().hasErrors() && (workflowDoc.stateIsInitiated() || workflowDoc.stateIsSaved())) {
+        if (!GlobalVariables.getMessageMap().hasErrors() && (workflowDoc.isInitiated() || workflowDoc.isSaved())) {
             success &= setAssetLocks(documentCopy);
         }
 
@@ -108,7 +108,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * retrieve asset numbers need to be locked.
-     * 
+     *
      * @param assetLocationGlobal
      * @return
      */
@@ -124,7 +124,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Locking for asset numbers.
-     * 
+     *
      * @param documentCopy
      * @param assetLocationGlobal
      * @return
@@ -141,9 +141,9 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Process rules for any new {@link AssetLocationGlobalDetail} that is added to this global.
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument,
-     *      java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
+     *      java.lang.String, org.kuali.rice.krad.bo.PersistableBusinessObject)
      */
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument documentCopy, String collectionName, PersistableBusinessObject bo) {
@@ -173,7 +173,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Asset user authorization.
-     * 
+     *
      * @param assetLocationGlobalDetail
      * @return boolean
      */
@@ -184,12 +184,10 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
             assetLocationGlobalDetail.refreshReferenceObject(CamsPropertyConstants.AssetLocationGlobalDetail.ASSET);
             assetLocationGlobalDetail.getAsset().refreshReferenceObject(CamsPropertyConstants.Asset.ORGANIZATION_OWNER_ACCOUNT);
 
-            AttributeSet qualification = new AttributeSet();
+            Map<String,String> qualification = new HashMap<String,String>();
             qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, assetLocationGlobalDetail.getAsset().getOrganizationOwnerChartOfAccountsCode());
             qualification.put(KfsKimAttributes.ORGANIZATION_CODE, assetLocationGlobalDetail.getAsset().getOrganizationOwnerAccount().getOrganizationCode());
-            AttributeSet permissionDetails = new AttributeSet();
-            permissionDetails.putAll(KimCommonUtils.getNamespaceAndComponentSimpleName(Asset.class));
-            if (!SpringContext.getBean(IdentityManagementService.class).isAuthorized(GlobalVariables.getUserSession().getPerson().getPrincipalId(), CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.MAINTAIN_ASSET_LOCATION, permissionDetails, qualification)) {
+            if (!SpringContext.getBean(IdentityManagementService.class).isAuthorized(GlobalVariables.getUserSession().getPerson().getPrincipalId(), CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.MAINTAIN_ASSET_LOCATION, qualification)) {
                 success &= false;
                 GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetLocationGlobal.CAPITAL_ASSET_NUMBER, CamsKeyConstants.AssetLocationGlobal.ERROR_ASSET_AUTHORIZATION, new String[] { GlobalVariables.getUserSession().getPerson().getPrincipalName(), assetLocationGlobalDetail.getCapitalAssetNumber().toString() });
             }
@@ -200,7 +198,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validate if any {@link AssetLocationGlobalDetail} exist.
-     * 
+     *
      * @param assetLocationGlobal
      * @return boolean
      */
@@ -217,7 +215,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validate the capital {@link Asset}. This method also calls {@link AssetService} while validating retired {@link Asset}.
-     * 
+     *
      * @param assetLocationGlobalDetail
      * @return boolean
      */
@@ -242,7 +240,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validate {@link Campus} code.
-     * 
+     *
      * @param assetLocationGlobalDetail
      * @return boolean
      */
@@ -263,7 +261,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validate {@link Building} code.
-     * 
+     *
      * @param assetLocationGlobalDetail
      * @return boolean
      */
@@ -284,7 +282,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validate building {@link Room} number.
-     * 
+     *
      * @param assetLocationGlobalDetail
      * @return boolean
      */
@@ -305,7 +303,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validate tag number.
-     * 
+     *
      * @param assetLocationGlobalDetail
      * @return boolean
      */
@@ -322,7 +320,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validate duplicate tag number. This method also calls {@link AssetService}.
-     * 
+     *
      * @param assetLocationGlobalDetail
      * @return boolean
      */
@@ -360,7 +358,7 @@ public class AssetLocationGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Check required fields after a new asset location has been added.
-     * 
+     *
      * @param assetLocationGlobalDetail
      * @return boolean
      */

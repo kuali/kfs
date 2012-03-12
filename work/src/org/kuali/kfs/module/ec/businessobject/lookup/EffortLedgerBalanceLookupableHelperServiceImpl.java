@@ -28,12 +28,12 @@ import org.kuali.kfs.module.ec.service.EffortCertificationReportDefinitionServic
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.OptionsService;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.core.api.search.SearchOperator;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.util.BeanPropertyComparator;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.util.BeanPropertyComparator;
 
 public class EffortLedgerBalanceLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
@@ -47,9 +47,8 @@ public class EffortLedgerBalanceLookupableHelperServiceImpl extends KualiLookupa
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        Map<String, Object> searchFieldValues = this.getSearchFieldValues(fieldValues);
+        Map<String, String> searchFieldValues = this.getSearchFieldValues(fieldValues);
         List<String> defaultSortColumns = this.getDefaultSortColumns();
-
         List<? extends BusinessObject> searchResults = (List<? extends BusinessObject>) getLookupService().findCollectionBySearch(getBusinessObjectClass(), searchFieldValues);
 
         if (defaultSortColumns.size() > 0) {
@@ -65,7 +64,7 @@ public class EffortLedgerBalanceLookupableHelperServiceImpl extends KualiLookupa
      * @param fieldValues the given field values
      * @return the real search field value map built from the given field values
      */
-    private Map<String, Object> getSearchFieldValues(Map<String, String> fieldValues) {
+    private Map<String, String> getSearchFieldValues(Map<String, String> fieldValues) {
         String reportYear = fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         String reportNumber = fieldValues.get(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_NUMBER);
 
@@ -75,20 +74,20 @@ public class EffortLedgerBalanceLookupableHelperServiceImpl extends KualiLookupa
 
         EffortCertificationReportDefinition reportDefiniton = effortCertificationReportDefinitionService.findReportDefinitionByPrimaryKey(primaryKeys);
 
-        Map<String, Object> searchFieldValues = new HashMap<String, Object>();
+        Map<String, String> searchFieldValues = new HashMap<String, String>();
         searchFieldValues.putAll(fieldValues);
         searchFieldValues.remove(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_NUMBER);
 
         String fiscalYears = KFSConstants.EMPTY_STRING;
         String expenseObjectTypeCodes = KFSConstants.EMPTY_STRING;
         for (Integer fiscalYear : reportDefiniton.getReportPeriods().keySet()) {
-            fiscalYears += fiscalYear + KNSConstants.OR_LOGICAL_OPERATOR;
-            expenseObjectTypeCodes += optionsService.getOptions(fiscalYear).getFinObjTypeExpenditureexpCd() + KNSConstants.OR_LOGICAL_OPERATOR;
+            fiscalYears += fiscalYear + SearchOperator.OR.op();
+            expenseObjectTypeCodes += optionsService.getOptions(fiscalYear).getFinObjTypeExpenditureexpCd() + SearchOperator.OR.op();
         }
         searchFieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYears);
         searchFieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, expenseObjectTypeCodes);
 
-        String balanceTypeCodes = KFSConstants.BALANCE_TYPE_ACTUAL + KNSConstants.OR_LOGICAL_OPERATOR + KFSConstants.BALANCE_TYPE_A21;
+        String balanceTypeCodes = KFSConstants.BALANCE_TYPE_ACTUAL + SearchOperator.OR.op() + KFSConstants.BALANCE_TYPE_A21;
         searchFieldValues.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, balanceTypeCodes);
 
         return searchFieldValues;

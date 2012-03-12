@@ -44,8 +44,9 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
 import org.kuali.kfs.sys.fixture.AccountingLineFixture;
+import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.ParameterService;
 
 @ConfigureContext(session = parke, shouldCommitTransactions=true)
 public class PurchasingAccountsPayableDocumentRuleTest extends
@@ -91,7 +92,7 @@ public class PurchasingAccountsPayableDocumentRuleTest extends
                     parameterString)) {
                 fail("Parameter does not exist:  "+parameterString+" for "+documentType);
             }
-            else if (parameterService.getParameterEvaluator(Class.forName(PurapConstants.PURAP_DETAIL_TYPE_CODE_MAP.get(documentType)), 
+            else if (/*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(Class.forName(PurapConstants.PURAP_DETAIL_TYPE_CODE_MAP.get(documentType)), 
                     parameterString, item.getItemTypeCode()).evaluationSucceeds()) {
                 
                 RequisitionDocument doc = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();

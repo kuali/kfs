@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.gl.Constant;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.valuefinder.ValueFinder;
 
 /**
  * An implementation of ValueFinder that allows balance inquiries to choose between consolidated results or detailed results
@@ -36,9 +36,9 @@ public class ConsolidationOptionFinder extends KeyValuesBase implements ValueFin
      */
     public List getKeyValues() {
         List labels = new ArrayList();
-        labels.add(new KeyLabelPair(Constant.CONSOLIDATION, Constant.CONSOLIDATION));
-        labels.add(new KeyLabelPair(Constant.DETAIL, Constant.DETAIL));
-        labels.add(new KeyLabelPair(Constant.EXCLUDE_SUBACCOUNTS, Constant.EXCLUDE_SUBACCOUNTS));
+        labels.add(new ConcreteKeyValue(Constant.CONSOLIDATION, Constant.CONSOLIDATION));
+        labels.add(new ConcreteKeyValue(Constant.DETAIL, Constant.DETAIL));
+        labels.add(new ConcreteKeyValue(Constant.EXCLUDE_SUBACCOUNTS, Constant.EXCLUDE_SUBACCOUNTS));
 
         return labels;
     }
@@ -46,7 +46,7 @@ public class ConsolidationOptionFinder extends KeyValuesBase implements ValueFin
     /**
      * Gets the default value for this ValueFinder, in this case CONSOLIDATED
      * @return a String with the default value for this ValueFinder
-     * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
+     * @see org.kuali.rice.krad.valuefinder.ValueFinder#getValue()
      */
     public String getValue() {
         return Constant.CONSOLIDATION;

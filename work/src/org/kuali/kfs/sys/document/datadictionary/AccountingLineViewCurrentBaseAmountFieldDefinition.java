@@ -21,14 +21,13 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.AccountingLineRenderingService;
 import org.kuali.kfs.sys.document.web.AccountingLineViewCurrentBaseAmount;
 import org.kuali.kfs.sys.document.web.TableJoining;
-import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
-import org.kuali.rice.kns.datadictionary.DataDictionary;
 import org.kuali.rice.kns.datadictionary.MaintainableFieldDefinition;
-import org.kuali.rice.kns.datadictionary.exception.AttributeValidationException;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.FieldUtils;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.FieldBridge;
+import org.kuali.rice.krad.datadictionary.DataDictionary;
+import org.kuali.rice.krad.datadictionary.exception.AttributeValidationException;
 
 /**
  * The definition for an amount field which reports both current and base amounts
@@ -66,7 +65,7 @@ public class AccountingLineViewCurrentBaseAmountFieldDefinition extends Maintain
         Field realField = FieldUtils.getPropertyField(accountingLineClass, propertyName, false);
         FieldBridge.setupField(realField, this, null);
         if (useShortLabels) {
-            BusinessObjectEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(accountingLineClass.getName());
+            org.kuali.rice.krad.datadictionary.BusinessObjectEntry boEntry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(accountingLineClass.getName());
             realField.setFieldLabel(boEntry.getAttributeDefinition(propertyName).getShortLabel());
         }
         return realField;

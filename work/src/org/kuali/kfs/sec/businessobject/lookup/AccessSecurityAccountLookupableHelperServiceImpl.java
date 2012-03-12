@@ -22,8 +22,7 @@ import org.kuali.kfs.coa.businessobject.lookup.KualiAccountLookupableHelperServi
 import org.kuali.kfs.sec.SecKeyConstants;
 import org.kuali.kfs.sec.service.AccessSecurityService;
 import org.kuali.kfs.sec.util.SecUtil;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 
 /**
@@ -43,7 +42,7 @@ public class AccessSecurityAccountLookupableHelperServiceImpl extends KualiAccou
         int resultSizeBeforeRestrictions = results.size();
         accessSecurityService.applySecurityRestrictionsForLookup(results, GlobalVariables.getUserSession().getPerson());
 
-        SecUtil.compareListSizeAndAddMessageIfChanged(resultSizeBeforeRestrictions, results, SecKeyConstants.MESSAGE_LOOKUP_RESULTS_RESTRICTED);
+        accessSecurityService.compareListSizeAndAddMessageIfChanged(resultSizeBeforeRestrictions, results, SecKeyConstants.MESSAGE_LOOKUP_RESULTS_RESTRICTED);
 
         return results;
     }
@@ -59,7 +58,7 @@ public class AccessSecurityAccountLookupableHelperServiceImpl extends KualiAccou
         int resultSizeBeforeRestrictions = results.size();
         accessSecurityService.applySecurityRestrictionsForLookup(results, GlobalVariables.getUserSession().getPerson());
         
-        SecUtil.compareListSizeAndAddMessageIfChanged(resultSizeBeforeRestrictions, results, SecKeyConstants.MESSAGE_LOOKUP_RESULTS_RESTRICTED);
+        accessSecurityService.compareListSizeAndAddMessageIfChanged(resultSizeBeforeRestrictions, results, SecKeyConstants.MESSAGE_LOOKUP_RESULTS_RESTRICTED);
 
         return results;
     }

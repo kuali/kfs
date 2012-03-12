@@ -16,11 +16,12 @@
 package org.kuali.kfs.integration.cg;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 
 public class ContractsAndGrantsModuleServiceNoOp implements ContractsAndGrantsModuleService {
 
@@ -46,7 +47,7 @@ public class ContractsAndGrantsModuleServiceNoOp implements ContractsAndGrantsMo
         return true;
     }
 
-    public boolean isAwardedByFederalAgency(String chartOfAccountsCode, String accountNumber, List<String> federalAgencyTypeCodes) {
+    public boolean isAwardedByFederalAgency(String chartOfAccountsCode, String accountNumber, Collection<String> federalAgencyTypeCodes) {
         LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
         return false;
     }

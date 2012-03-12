@@ -19,8 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.EndowConstants;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * This class defines a values finder for the monthly occurence part in the frequency code
@@ -31,10 +32,10 @@ public class FrequencyMonthlyOccurenceValuesFinder extends KeyValuesBase {
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
+        List<KeyValue> labels = new ArrayList<KeyValue>();
 
-        labels.add(new KeyLabelPair(EndowConstants.FrequencyMonthly.DATE, "Date"));
-        labels.add(new KeyLabelPair(EndowConstants.FrequencyMonthly.MONTH_END, "Month End"));
+        labels.add(new ConcreteKeyValue(EndowConstants.FrequencyMonthly.DATE, "Date"));
+        labels.add(new ConcreteKeyValue(EndowConstants.FrequencyMonthly.MONTH_END, "Month End"));
 
         return labels;
     }

@@ -49,21 +49,21 @@ import org.kuali.kfs.module.endow.document.service.KemidCurrentCashService;
 import org.kuali.kfs.module.endow.document.validation.event.AddEndowmentAccountingLineEvent;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.AdHocRouteRecipient;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.bo.AdHocRouteRecipient;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -80,7 +80,7 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
     private KemidCurrentCashService kemidCurrentCashService;
     private HoldingTaxLotService holdingTaxLotService;
 
-    private KualiConfigurationService configService;
+    private ConfigurationService configService;
     private DataDictionaryService dataDictionaryService;
 
     private ReportWriterService recurringCashTransferTransactionsExceptionReportWriterService;
@@ -176,7 +176,7 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
                 }
             }
             // check ALLOW_NEGATIVE_BALANCE_IND and if it is ok then route
-            boolean allowNegativeBalanceInd = parameterService.getIndicatorParameter(CreateRecurringCashTransferTransactionsStep.class, EndowParameterKeyConstants.ALLOW_NEGATIVE_BALANCE_IND);
+            boolean allowNegativeBalanceInd = parameterService.getParameterValueAsBoolean(CreateRecurringCashTransferTransactionsStep.class, EndowParameterKeyConstants.ALLOW_NEGATIVE_BALANCE_IND);
             // boolean allowNegativeBalanceInd = true;
             if (!allowNegativeBalanceInd && totalSourceTransaction.isLessEqual(cashEquivalents)) {
                 // report exception
@@ -258,7 +258,7 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
             }
 
             // check ALLOW_NEGATIVE_BALANCE_IND and if it is ok then route
-            boolean allowNegativeBalanceInd = parameterService.getIndicatorParameter(CreateRecurringCashTransferTransactionsStep.class, EndowParameterKeyConstants.ALLOW_NEGATIVE_BALANCE_IND);
+            boolean allowNegativeBalanceInd = parameterService.getParameterValueAsBoolean(CreateRecurringCashTransferTransactionsStep.class, EndowParameterKeyConstants.ALLOW_NEGATIVE_BALANCE_IND);
             // boolean allowNegativeBalanceInd = true;
             if (!allowNegativeBalanceInd && totalSourceTransaction.isLessEqual(cashEquivalents)) {
                 // report exception
@@ -502,7 +502,7 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
 
             // Set values for doc
             DocumentHeader docHeader = cashTransferDoc.getDocumentHeader();
-            String description = parameterService.getParameterValue(CreateRecurringCashTransferTransactionsStep.class, EndowParameterKeyConstants.DESCRIPTION);
+            String description = parameterService.getParameterValueAsString(CreateRecurringCashTransferTransactionsStep.class, EndowParameterKeyConstants.DESCRIPTION);
             docHeader.setDocumentDescription(description);
             cashTransferDoc.setDocumentHeader(docHeader);
             cashTransferDoc.setTransactionSourceTypeCode(EndowConstants.TransactionSourceTypeCode.RECURRING);
@@ -588,7 +588,7 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
 
             // Set values for doc
             DocumentHeader docHeader = endowmentToGLTransferOfFundsDocument.getDocumentHeader();
-            String description = parameterService.getParameterValue(CreateRecurringCashTransferTransactionsStep.class, EndowParameterKeyConstants.DESCRIPTION);
+            String description = parameterService.getParameterValueAsString(CreateRecurringCashTransferTransactionsStep.class, EndowParameterKeyConstants.DESCRIPTION);
             docHeader.setDocumentDescription(description);
             endowmentToGLTransferOfFundsDocument.setDocumentHeader(docHeader);
             endowmentToGLTransferOfFundsDocument.setTransactionSourceTypeCode(EndowConstants.TransactionSourceTypeCode.RECURRING);
@@ -604,7 +604,7 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
     }
 
     protected boolean getNoRouteParameterAsBoolean() {
-        String noRouteIndParm = parameterService.getParameterValue(CreateRecurringCashTransferTransactionsStep.class, EndowParameterKeyConstants.NO_ROUTE_IND);
+        String noRouteIndParm = parameterService.getParameterValueAsString(CreateRecurringCashTransferTransactionsStep.class, EndowParameterKeyConstants.NO_ROUTE_IND);
         if (noRouteIndParm.equals(EndowConstants.YES)) {
             return true;
         }
@@ -622,16 +622,16 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
 
         MessageMap errorMap = GlobalVariables.getMessageMap();
 
-        Set<String> errorKeys = errorMap.keySet();
+        Set<String> errorKeys = errorMap.getAllPropertiesWithErrors();
         List<ErrorMessage> errorMessages = null;
         Object[] messageParams;
         String errorKeyString;
         String errorString;
 
         for (String errorProperty : errorKeys) {
-            errorMessages = (List<ErrorMessage>) errorMap.get(errorProperty);
+            errorMessages = (List<ErrorMessage>) errorMap.getErrorMessagesForProperty(errorProperty);
             for (ErrorMessage errorMessage : errorMessages) {
-                errorKeyString = configService.getPropertyString(errorMessage.getErrorKey());
+                errorKeyString = configService.getPropertyValueAsString(errorMessage.getErrorKey());
                 messageParams = errorMessage.getMessageParameters();
 
                 // MessageFormat.format only seems to replace one
@@ -651,7 +651,7 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
         }
 
         // clear the stuff out of globalvars, as we need to reformat it and put it back
-        GlobalVariables.getMessageMap().clear();
+        GlobalVariables.getMessageMap().clearErrorMessages();
         return result;
     }
 
@@ -777,7 +777,7 @@ public class CreateRecurringCashTransferTransactionsServiceImpl implements Creat
      * 
      * @param configService
      */
-    public void setConfigService(KualiConfigurationService configService) {
+    public void setConfigService(ConfigurationService configService) {
         this.configService = configService;
     }
 

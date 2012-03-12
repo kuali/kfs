@@ -20,13 +20,12 @@
 package org.kuali.kfs.module.purap.businessobject;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class ElectronicInvoiceLoadSummary extends PersistableBusinessObjectBase {
   
@@ -259,9 +258,9 @@ public class ElectronicInvoiceLoadSummary extends PersistableBusinessObjectBase 
   }
 
 /**
-   * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+   * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
    */
-  protected LinkedHashMap toStringMapper() {
+  protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
       LinkedHashMap m = new LinkedHashMap();
       m.put("invoiceLoadSummaryIdentifier", this.invoiceLoadSummaryIdentifier);
       return m;

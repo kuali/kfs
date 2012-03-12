@@ -37,7 +37,6 @@
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.module.bc.document.validation.impl.BudgetConstructionPositionPreRules"/>
     <property name="webScriptFiles">
       <list>
-        <value>../dwr/interface/BudgetConstructionPosition.js</value>
         <value>../scripts/module/bc/budgetConstructionPositionDocument.js</value>
       </list>
     </property>
@@ -88,6 +87,6 @@
   <!-- workflow attributes -->
   <bean id="BudgetConstructionPositionMaintenanceDocument-workflowAttributes" parent="BudgetConstructionPositionMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="BudgetConstructionPositionMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
+  <bean id="BudgetConstructionPositionMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true">
   </bean>
 </beans>

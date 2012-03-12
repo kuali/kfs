@@ -153,9 +153,11 @@
 					                fieldConversions="chartOfAccountsCode:${newAccountingLine}.chartOfAccountsCode"
 					                lookupParameters="${newAccountingLine}.chartOfAccountsCode:chartOfAccountsCode" />
 				    <br/>
+				    <%-- FIXME  dwr is broken
 					<div id="${newAccountingLine}.chart.finChartOfAccountDescription.div" class="fineprint">
             			<kul:htmlControlAttribute attributeEntry="${lineAttributes.kemid}" property="${newAccountingLine}.chart.finChartOfAccountDescription" readOnly="true" />
-            		</div>					                
+            		</div>	
+            		--%>				                
 				</td>
                 <td class="infoline">
                 <kul:htmlControlAttribute attributeEntry="${lineAttributes.accountNumber}" property="${newAccountingLine}.accountNumber"
@@ -165,8 +167,13 @@
 					                lookupParameters="${newAccountingLine}.accountNumber:accountNumber,${newAccountingLine}.chartOfAccountsCode:chartOfAccountsCode"/>
 				    <br/>
 					<div id="document.${newAccountingLine}.accountNumber.name.div" class="fineprint">
+            			<kul:htmlControlAttribute attributeEntry="${lineAttributes.accountNumber}" property="${newAccountingLine}.account" extraReadOnlyProperty="${newAccountingLine}.account.accountName" readOnly="true" />
+            		</div>
+				     <%-- FIXME  dwr is broken
+					<div id="document.${newAccountingLine}.accountNumber.name.div" class="fineprint">
             			<kul:htmlControlAttribute attributeEntry="${lineAttributes.account.accountName}" property="${newAccountingLine}.account.accountName" readOnly="true" />
             		</div>
+            		--%>
             	</td>
                 <td class="infoline">
                 	<kul:htmlControlAttribute attributeEntry="${lineAttributes.subAccountNumber}" 
@@ -176,9 +183,11 @@
 					                fieldConversions="subAccountNumber:${newAccountingLine}.subAccountNumber,accountNumber:${newAccountingLine}.accountNumber,chartOfAccountsCode:${newAccountingLine}.chartOfAccountsCode"
 					                lookupParameters="${newAccountingLine}.subAccountNumber:subAccountNumber,${newAccountingLine}.accountNumber:accountNumber,${newAccountingLine}.chartOfAccountsCode:chartOfAccountsCode" />                		
  					<br/>
+ 					 <%-- FIXME  dwr is broken
 					<div id="document.${newAccountingLine}.subAccount.name.div" class="fineprint">
             			<kul:htmlControlAttribute attributeEntry="${lineAttributes.subAccount.subAccountName}" property="${newAccountingLine}.subAccount.subAccountName" readOnly="true" />
-            		</div>                		
+            		</div>  
+            		--%>              		
                 </td>
                 <td class="infoline">
                 	<kul:htmlControlAttribute attributeEntry="${lineAttributes.financialObjectCode}" 
@@ -187,10 +196,12 @@
                     <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.ObjectCode"
 					            fieldConversions="financialObjectCode:${newAccountingLine}.financialObjectCode,chartOfAccountsCode:${newAccountingLine}.chartOfAccountsCode"
 					            lookupParameters="${newAccountingLine}.financialObjectCode:financialObjectCode,${newAccountingLine}.chartOfAccountsCode:chartOfAccountsCode" />
-					<br/>
+					<br/>					
+					 <%-- FIXME  dwr is broken
 					<div id="document.${newAccountingLine}.objectCode.financialObjectCodeName.div" class="fineprint">
             			<kul:htmlControlAttribute attributeEntry="${lineAttributes.objectCode.financialObjectCodeName}" property="${newAccountingLine}.objectCode.financialObjectCodeName" readOnly="true" />
-            		</div>					                
+            		</div>	
+            		--%>				                
                 </td>
                     	
                 <td class="infoline">
@@ -201,9 +212,11 @@
 					            fieldConversions="financialSubObjectCode:${newAccountingLine}.financialSubObjectCode,chartOfAccountsCode:${newAccountingLine}.chartOfAccountsCode,accountNumber:${newAccountingLine}.accountNumber,financialObjectCode:${newAccountingLine}.financialObjectCode" 
 					            lookupParameters="${newAccountingLine}.financialSubObjectCode:financialSubObjectCode,${newAccountingLine}.chartOfAccountsCode:chartOfAccountsCode,${newAccountingLine}.accountNumber:accountNumber,${newAccountingLine}.financialObjectCode:financialObjectCode" />
 					<br/>
+					 <%--FIXME  dwr is broken
 					<div id="document.${newAccountingLine}.subObjectCode.financialSubObjectCodeName.div" class="fineprint">
             			<kul:htmlControlAttribute attributeEntry="${lineAttributes.subObjectCode.financialSubObjectCodeName}" property="${newAccountingLine}.subObjectCode.financialSubObjectCodeName" readOnly="true" />
             		</div>
+            		 --%>
                 </td>
                 <td class="infoline">
                 	<kul:htmlControlAttribute attributeEntry="${lineAttributes.projectCode}" 
@@ -213,9 +226,16 @@
 					            fieldConversions="code:${newAccountingLine}.projectCode"
 					            lookupParameters="${newAccountingLine}.projectCode:code" />
 					<br/>
+
+					<div id="document.${newAccountingLine}.project.name.div" class="fineprint">
+            			<kul:htmlControlAttribute attributeEntry="${lineAttributes.projectCode}" property="${newAccountingLine}.project" extraReadOnlyProperty="${newAccountingLine}.project.name" readOnly="true" />
+            		</div>
+					
+					 <%-- FIXME  dwr is broken
 					<div id="document.${newAccountingLine}.project.name.div" class="fineprint">
             			<kul:htmlControlAttribute attributeEntry="${lineAttributes.project.name}" property="${newAccountingLine}.project.name" readOnly="true" />
             		</div>
+            		--%>
                 </td>
                 <td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.organizationReferenceId}" property="${newAccountingLine}.organizationReferenceId"/></td>
                 <td class="infoline"><kul:htmlControlAttribute attributeEntry="${lineAttributes.amount}" property="${newAccountingLine}.amount" styleClass="right"/></td>
@@ -248,9 +268,11 @@
 					                fieldConversions="chartOfAccountsCode:${transLines}[${ctr}].chartOfAccountsCode"
 					                lookupParameters="${transLines}[${ctr}].chartOfAccountsCode:chartOfAccountsCode" />
 				    <br/>
+				     <%-- FIXME  dwr is broken
 					<div id="${transLines}[${ctr}].chart.finChartOfAccountDescription.div" class="fineprint">
             			<kul:htmlControlAttribute attributeEntry="${lineAttributes.kemid}" property="${transLines}[${ctr}].chart.finChartOfAccountDescription" readOnly="true" />
-            		</div>					                
+            		</div>	
+            		--%>				                
 				</td>
                 <td class="datacell">
                 	<kul:htmlControlAttribute attributeEntry="${lineAttributes.accountNumber}" property="${transLines}[${ctr}].accountNumber"
@@ -261,10 +283,15 @@
 					                fieldConversions="accountNumber:${transLines}[${ctr}].accountNumber,chartOfAccountsCode:${transLines}[${ctr}].chartOfAccountsCode"
 					                lookupParameters="${transLines}[${ctr}].accountNumber:accountNumber,${transLines}[${ctr}].chartOfAccountsCode:chartOfAccountsCode"/>
 					</c:if>
-				    <br/>
+					<div id="document.${transLines}[${ctr}].accountNumber.name.div" class="fineprint">
+            			<kul:htmlControlAttribute attributeEntry="${lineAttributes.accountNumber}" property="${transLines}[${ctr}].account" extraReadOnlyProperty="${transLines}[${ctr}].account.accountName" readOnly="true" />
+            		</div>
+				    
+				     <%-- FIXME  dwr is broken
 					<div id="document.${transLines}[${ctr}].accountNumber.name.div" class="fineprint">
             			<kul:htmlControlAttribute attributeEntry="${lineAttributes.account.accountName}" property="${transLines}[${ctr}].account.accountName" readOnly="true" />
             		</div>
+            		--%>
                 
                 </td>
                 <td class="datacell">
@@ -276,9 +303,11 @@
 					                fieldConversions="subAccountNumber:${transLines}[${ctr}].subAccountNumber,accountNumber:${transLines}[${ctr}].accountNumber,chartOfAccountsCode:${transLines}[${ctr}].chartOfAccountsCode"
 					                lookupParameters="${transLines}[${ctr}].subAccountNumber:subAccountNumber,${transLines}[${ctr}].accountNumber:accountNumber,${transLines}[${ctr}].chartOfAccountsCode:chartOfAccountsCode" />                		
  					<br/>
+ 					 <%-- FIXME  dwr is broken
 					<div id="document.${transLines}[${ctr}].subAccount.name.div" class="fineprint">
             			<kul:htmlControlAttribute attributeEntry="${lineAttributes.subAccount.subAccountName}" property="${transLines}[${ctr}].subAccount.subAccountName" readOnly="true" />
-            		</div>                  		
+            		</div> 
+            		--%>                 		
                 </td>
                 <td class="datacell">
                 	<kul:htmlControlAttribute attributeEntry="${lineAttributes.financialObjectCode}" 
@@ -289,9 +318,11 @@
 					            fieldConversions="financialObjectCode:${transLines}[${ctr}].financialObjectCode,chartOfAccountsCode:${transLines}[${ctr}].chartOfAccountsCode"
 					            lookupParameters="${transLines}[${ctr}].financialObjectCode:financialObjectCode,${transLines}[${ctr}].chartOfAccountsCode:chartOfAccountsCode" />	            		
 					<br/>
+					 <%--FIXME  dwr is broken
 					<div id="document.${transLines}[${ctr}].objectCode.financialObjectCodeName.div" class="fineprint">
             			<kul:htmlControlAttribute attributeEntry="${lineAttributes.objectCode.financialObjectCodeName}" property="${transLines}[${ctr}].objectCode.financialObjectCodeName" readOnly="true" />
-            		</div>	            		
+            		</div>	 
+            		 --%>           		
 	            </td>
                 <td class="datacell">
                 	<kul:htmlControlAttribute attributeEntry="${lineAttributes.financialSubObjectCode}"
@@ -302,9 +333,11 @@
 					            fieldConversions="financialSubObjectCode:${transLines}[${ctr}].financialSubObjectCode,chartOfAccountsCode:${transLines}[${ctr}].chartOfAccountsCode,accountNumber:${transLines}[${ctr}].accountNumber,financialObjectCode:${transLines}[${ctr}].financialObjectCode" 
 					            lookupParameters="${transLines}[${ctr}].financialSubObjectCode:financialSubObjectCode,${transLines}[${ctr}].chartOfAccountsCode:chartOfAccountsCode,${transLines}[${ctr}].accountNumber:accountNumber,${transLines}[${ctr}].financialObjectCode:financialObjectCode" />
 					<br/>
+					 <%-- FIXME  dwr is broken
 					<div id="document.${transLines}[${ctr}].subObjectCode.financialSubObjectCodeName.div" class="fineprint">
             			<kul:htmlControlAttribute attributeEntry="${lineAttributes.subObjectCode.financialSubObjectCodeName}" property="${transLines}[${ctr}].subObjectCode.financialSubObjectCodeName" readOnly="true" />
             		</div>
+            		--%>
                 </td>
                 <td class="datacell">
                 	<kul:htmlControlAttribute attributeEntry="${lineAttributes.projectCode}" 
@@ -315,9 +348,11 @@
 					                fieldConversions="code:${transLines}[${ctr}].projectCode"
 					                lookupParameters="${transLines}[${ctr}].projectCode:code" />
 					<br/>
+					 <%-- FIXME  dwr is broken
 					<div id="document.${transLines}[${ctr}].project.name.div" class="fineprint">
             			<kul:htmlControlAttribute attributeEntry="${lineAttributes.project.name}" property="${transLines}[${ctr}].project.name" readOnly="true" />
-            		</div>                		
+            		</div>  
+            		--%>              		
                 </td>
                 <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.organizationReferenceId}" property="${transLines}[${ctr}].organizationReferenceId" readOnly="${readOnly}"/></td>
                 <td class="datacell"><kul:htmlControlAttribute attributeEntry="${lineAttributes.amount}" property="${transLines}[${ctr}].amount" styleClass="right" readOnly="${readOnly}"/></td>

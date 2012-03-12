@@ -18,7 +18,7 @@ package org.kuali.kfs.module.endow.document.service;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 
 /**
  * MonthEndDateService interface to provide the method to get month end date id

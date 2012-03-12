@@ -39,99 +39,6 @@
     
     <taskdef classpathref="cobertura.classpath" resource="tasks.properties" />
 
-	<property name="local.env.config.file" location="${user.home}/kfs-build.properties" />
-	
-	<target name="check-for-kfs-build">
-		<if>
-			<not>
-				<available file="${local.env.config.file}" />
-			</not>
-			<then>
-    			<property name="input.default.base.directory" location="${basedir}/.."/>
-    			<property name="input.default.datasource.ojb.platform" value="Oracle9i"/>
-    			<property name="input.default.datasource.username" value="kuldev"/>
-    			<property name="input.default.datasource.password" value="kuldev"/>
-    			<property name="input.default.mysql.datasource.url" value="jdbc:mysql://localhost:3306/${input.default.datasource.username}"/>
-    			<property name="input.default.oracle.datasource.url" value="jdbc:oracle:thin:@esdbk02.uits.indiana.edu:1521:KUALI"/>
-				<echo>
-*******************************************************************************					
-Welcome to the Kuali Financial System, the most advanced financial information system
-ever developed by a consortium of educational institutions fed up with paying
-vendors for products which did not meet the needs of higher education.
-					
-It looks like you have never attempted to build KFS before (at least on this system.)
-
-Let me ask you a few questions about your environment.
-*******************************************************************************
-				</echo>	
-				<input message="Do you have a PhD in Kualiology?" 
-					validargs="yes,no" 
-					defaultvalue="no" 
-					addproperty="input.kualiology" />
-				<if>
-					<equals arg1="yes" arg2="${input.kualiology}" />
-					<then>
-						<echo>
-
-
-If you say so...exiting...you're on your own. :)
-
-						</echo>
-						<fail />
-					</then>
-				</if>
-				
-    			<input message="What is your base directory?  This would be the directory containing your eclipse workspace." 
-    				defaultvalue="${input.default.base.directory}" 
-    				addproperty="input.base.directory" />
-				
-    			<input message="What type of database will you be using for development?"
-    				validargs="Oracle9i,MySQL"
-    				defaultvalue="${input.default.datasource.ojb.platform}" 
-    				addproperty="input.datasource.ojb.platform" />
-				<if>
-					<equals arg1="MySQL" arg2="${input.datasource.ojb.platform}" />
-					<then>
-		    			<input message="And where is this database?  (Don't forget the schema name suffix.)"
-		    				defaultvalue="${input.default.mysql.datasource.url}" 
-		    				addproperty="input.mysql.datasource.url" />
-					</then>
-					<else>
-		    			<input message="And where is this database?"
-		    				defaultvalue="${input.default.oracle.datasource.url}" 
-		    				addproperty="input.oracle.datasource.url" />
-					</else>
-				</if>
-    			<input message="Where are my tables in that database? (user/schema name)"
-    				defaultvalue="${input.default.datasource.username}" 
-    				addproperty="input.datasource.username" />
-    			<input message="What is the password for that account? (I promise I won't tell...)"
-    				defaultvalue="${input.default.datasource.password}" 
-    				addproperty="input.datasource.password" />
-
-				<copy tofile="${local.env.config.file}" file="build/external/user/template-kfs-build.properties" verbose="true">
-					<filterset begintoken="@" endtoken="@">
-						<filter token="input.base.directory" value="${input.base.directory}" />
-						<filter token="input.datasource.ojb.platform" value="${input.datasource.ojb.platform}" />
-						<filter token="input.datasource.username" value="${input.datasource.username}" />
-						<filter token="input.datasource.password" value="${input.datasource.password}" />
-						<filter token="input.mysql.datasource.url" value="${input.mysql.datasource.url}" />
-						<filter token="input.oracle.datasource.url" value="${input.oracle.datasource.url}" />
-					</filterset>
-				</copy>
-				<copy todir="${user.home}" file="build/external/log4j.properties" verbose="true" />
-				<echo>
-*******************************************************************************					
-That's it!  You should now be able to run KFS from the command line.  For further
-setup instructions within Eclipse, please visit:
-					
-https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
-*******************************************************************************
-				</echo>	
-			</then>
-		</if>
-	</target>
-	
 	<target name="check-rice-lib">
 		<if>
 			<not>
@@ -144,16 +51,8 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 		</if>
 	</target>
 	
-	<target name="dist-local" if="is.local.build" depends="check-rice-lib,clean,filter-project,filter-local,dist-local-rice,overlay-additional-web-content,filter-project-schema" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
+	<target name="dist-local" if="is.local.build" depends="check-rice-lib,clean,filter-project,filter-local,dist-local-rice,overlay-additional-web-content,overlay-additional-schema,filter-project-schema" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
 		<copy file="${metainf.directory}/${context.file}" tofile="${appserver.localhost.dir}/kfs-${build.environment}.xml" overwrite="true" />
-		<if>
-			<isset property="institution.lib.directory" />
-			<then>
-				<copy todir="${lib.directory}" overwrite="true">
-					<fileset dir="${institution.lib.directory}" includes="*.jar" />
-				</copy>
-			</then>
-		</if>
 	</target>
 	
 	<target name="dist-local-rice" if="is.local.build" depends="init-properties">
@@ -167,6 +66,27 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 	</target>
 
 	<target name="test-local" depends="dist-local,make-tests,test" description="Run all unit tests and format results"/>
+	
+	<target name="filter-libraries" depends="init-properties" description="Copies over institutional lib libraries to the application's library directory">
+		<mkdir dir="${lib.directory}" />
+				
+		<copy todir="${lib.directory}" verbose="true">
+			<fileset dir="${build.rice.lib.directory}">
+			    <include name="*.jar"/>
+			</fileset>
+			<fileset dir="${build.kfs.lib.directory}">
+			    <include name="*.jar"/>
+			</fileset>
+		</copy>
+		<if>
+			<isset property="institution.lib.directory" />
+			<then>
+				<copy todir="${lib.directory}" overwrite="true">
+					<fileset dir="${institution.lib.directory}" includes="*.jar" />
+				</copy>
+			</then>
+		</if>
+	</target>
 
 	<target name="echo-properties" depends="init-properties" description="Print all build properties that have been set">
 		<echoproperties />
@@ -245,6 +165,8 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 		<tstamp><format property="build.version" pattern="MM/dd/yyyy hh:mm aa" /></tstamp>
 	  	<tstamp><format property="current.year" pattern="yyyy" locale="en,US" /></tstamp>
 
+		<property name="fail.when.compile.fails" value="true"/>
+		
 		<condition property="context.docbase" value=' docBase="${basedir}${file.separator}work${file.separator}web-root"' else="">
 			<isset property="is.local.build" />
 		</condition>
@@ -287,6 +209,8 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 		<condition property="datasource.driver.class" value="${p6spy.driver.class}"><isset property="use.p6spy.local" /></condition>
 		<condition property="datasource.driver.class" value="${mysql.driver.class}" else="${oracle.driver.class}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
 		<condition property="p6spy.real.driver.class" value="${mysql.driver.class}" else="${oracle.driver.class}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
+		<condition property="pool.datasource.class" value="${non.xa.pool.datasource.class}"><not><equals arg1="${connection.pool.impl}" arg2="XAPool" /></not></condition>
+		<condition property="pool.datasource.class" value="${mysql.pool.datasource.class}" else="${oracle.pool.datasource.class}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
 		<condition property="datasource.ojb.sequence.manager" value="${mysql.ojb.sequence.manager}" else="${oracle.ojb.sequence.manager}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
 
 		<property name="rice.server.datasource.driver.class" value="${datasource.driver.class}" />
@@ -358,7 +282,7 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 				<istrue value="${module.purchasing.enabled}"/>
 			</and>
 		</condition>
-		<condition property="internal.access.security.rice.spring.files" value="${access.security.rice.spring.files}" else="">
+		<condition property="internal.access.security.krad.override.spring.files" value="${access.security.krad.override.spring.files}" else="">
 			<istrue value="${module.access.security.enabled}"/>
 		</condition>
 		
@@ -376,8 +300,10 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 				  value="${core.spring.source.files}${internal.access.security.core.spring.files}${integration.spring.files}${optional.module.spring.source.files}${institution.spring.source.files}" />
 		<property name="spring.test.files" 
 			      value="${core.spring.test.files}${optional.module.spring.test.files}${institution.spring.test.files}" />	
+        <property name="krad.override.spring.files" 
+        		  value="${kfs.krad.override.spring.files}${internal.access.security.krad.override.spring.files}" />
         <property name="kfs.rice.override.spring.files" 
-        		  value="${base.kfs.rice.override.spring.files}${internal.access.security.rice.spring.files}${internal.batch.spring.files}" />
+        		  value="${base.kfs.rice.override.spring.files}${internal.batch.spring.files}" />
 	</target>
 	
 	<target name="init-rice-properties" depends="init-property-files">
@@ -387,16 +313,26 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 		    # local - used in development - embedding everything, including web content
 		    # embedded - using standalone rice server but running KEW / KIM services locally
 			# remote - accessing KIM core services over the KSB - not currently supported by KFS for KEW - KSB is always local  -->
-		<condition property="kim.mode" value="embedded" else="local"><equals arg1="${rice.standalone}" arg2="true" /></condition>
-		<condition property="kew.mode" value="embedded" else="local"><equals arg1="${rice.standalone}" arg2="true" /></condition>
+		<condition property="kim.mode" value="EMBEDDED" else="LOCAL"><equals arg1="${rice.standalone}" arg2="true" /></condition>
+		<condition property="kew.mode" value="EMBEDDED" else="LOCAL"><equals arg1="${rice.standalone}" arg2="true" /></condition>
+		<condition property="coreservice.mode" value="REMOTE" else="LOCAL"><equals arg1="${rice.standalone}" arg2="true" /></condition>
+		<condition property="ksb.mode" value="REMOTE" else="LOCAL"><equals arg1="${rice.standalone}" arg2="true" /></condition>
+		<condition property="location.mode" value="REMOTE" else="LOCAL"><equals arg1="${rice.standalone}" arg2="true" /></condition>
 		<condition property="rice.url" value="${appserver.url}/${rice.application}-${build.environment}" else="${application.url}">
 		    <istrue value="${rice.standalone}" />
 		</condition>
-        <property name="rice.kr.url" value="${rice.url}/${rice.application}"/>
-        <property name="rice.kim.url" value="${rice.url}/${kim.application}"/>
-        <property name="rice.kew.url" value="${rice.url}/${kew.application}"/>
+        <property name="rice.core.url" value="${rice.url}/core"/>
+        <property name="rice.kr.url" value="${rice.url}/kr"/>
+        <property name="rice.krad.url" value="${rice.url}/kr-krad"/>
+        <property name="rice.kim.url" value="${rice.url}/kim"/>
+        <property name="rice.kew.url" value="${rice.url}/kew"/>
+        <property name="rice.krms.url" value="${rice.url}/krms"/>
+        <property name="rice.ken.url" value="${rice.url}/ken"/>
         <property name="rice.externalizable.images.url" value="${application.url}/kr/static/images/"/>
+		<property name="rice.ksb.message.persistence" value="true"/>
+		<!-- RICE20 : temp comment out until Rice configuration issue fixed  
 		<condition property="rice.ksb.message.persistence" value="false" else="true"><isset property="is.local.build" /></condition>
+		-->
 		<condition property="rice.ksb.use.quartz.database" value="true" else="false">
 			<and>
 				<istrue value="${use.quartz.scheduling}" />
@@ -405,6 +341,18 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 		</condition>
 		<condition property="rice.kew.exception.routing.immediate" value="true" else="false"><isfalse value="${use.quartz.scheduling}" /></condition>
 
+		<if>
+			<and>
+				<isset property="institution.log4j.properties.file" />
+					<not>	        	
+						<equals arg1="" arg2="${institution.log4j.properties.file}" trim="true" />
+					</not>
+			</and>
+			<then>
+				<loadfile property="institutional.log4j" srcfile="${institution.log4j.properties.file}"><filterchain><expandproperties/></filterchain></loadfile>
+			</then>
+		</if>
+		
 		<loadfile property="rice.config" srcfile="${build.appserver.directory}/standalone-rice-config.xml"><filterchain><expandproperties/></filterchain></loadfile>
 	
 	</target>
@@ -475,7 +423,7 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 		
 	</target>
 
-	<target name="init-make-references" depends="init-properties,check-rice-lib">
+	<target name="init-make-references" depends="init-properties,check-rice-lib,filter-libraries">
 		<path id="compile.source.classpath">
 			<fileset dir="${build.kfs.lib.directory}" includes="*.jar" />
 			<fileset dir="${build.rice.lib.directory}" includes="*.jar" />
@@ -535,12 +483,7 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 		</delete>
 	</target>
 	
-	<target name="clean-spring-ide" depends="init-properties">
-		<delete dir="${rice.datadictionary.directory}" failonerror="false" />
-		<delete file="${spring.ide.support.file}" failonerror="false" />
-	</target>
-
-	<target name="clean-project" depends="init-properties,clean-help,clean-rice,clean-spring-ide">
+	<target name="clean-project" depends="init-properties,clean-help,clean-rice">
 		<delete failonerror="false" includeemptydirs="true">
 			<fileset dir="${basedir}">
 				<include name="${source.directory}/${configuration.file}" />
@@ -594,15 +537,11 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 			<fileset dir="${appserver.localhost.dir}" includes="kfs-*.xml" />
 		</delete>
 	</target>
-
+ 
 	<target name="filter-project-log4j" unless="use.p6spy.local" depends="init-properties">
-	    <if> <!-- we can only copy this file to the app server IF we are running a local build.  Otherwise, we need to assume that it is
-	    already there. -->
-	        <isset property="is.local.build" />
-	        <then>
-        		<copy file="${build.directory}/${log4j.library.file}" todir="${appserver.lib.dir}"/>
-            </then>
-        </if>
+		<copy todir="${lib.directory}">
+			<fileset dir="${build.directory}" includes="log4j*.jar" />
+		</copy>
 	</target>
 
 	<target name="filter-project-p6spy" if="use.p6spy.local" depends="filter-project-log4j">
@@ -610,7 +549,9 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 	    already there. -->
 	        <isset property="is.local.build" />
 	        <then>
-        		<copy file="${build.directory}/${log4j.library.file}" todir="${appserver.lib.dir}"/>
+        		<copy todir="${appserver.lib.dir}">
+        			<fileset dir="${build.directory}" includes="log4j*.jar" />
+        		</copy>
             </then>
         </if>
 	</target>
@@ -620,7 +561,7 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 	</target>
 
 	<target name="filter-project-rice" unless="dont.filter.project.rice" depends="init-properties,clean-rice">
-		<echo message="Copying Rice Web Content from ${build.appserver.directory}/${rice.server.war.file.name}" />
+		<echo message="Copying Rice Web Content from ${rice.server.war.directory}/${rice.server.war.file.name}" />
 		<!--
 		<if>
 			<isset property="rice.standalone.flag" />
@@ -629,10 +570,11 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 			</then>
 		</if>
 		-->
-		<unzip dest="${webroot.directory}" src="${build.appserver.directory}/${rice.server.war.file.name}">
+		<unzip dest="${webroot.directory}" src="${build.appserver.directory}/${rice.server.war.file.name}" >
 			<patternset>
 				<exclude name="META-INF/**"/>
-				<exclude name="WEB-INF/*"/>
+				<exclude name="WEB-INF/web.xml"/>
+				<exclude name="WEB-INF/struts-config.xml"/>
 				<exclude name="WEB-INF/classes/**"/>
 				<exclude name="WEB-INF/lib/**"/>
 				<exclude name="**/rice-portal/**"/>
@@ -647,50 +589,9 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 		</unzip>
 	</target>
 	
-  	<target name="filter-project-spring-ide" unless="dont.filter.project.spring.ide" depends="init-properties">
-		<echo message="Reading Properties: ${properties.directory}/springide.properties" />
-		<property file="${properties.directory}/springide.properties" />
-		<delete dir="${rice.datadictionary.directory}" failonerror="false" quiet="true"/>
-		<mkdir dir="${rice.datadictionary.directory}"/>
-		<unjar dest="${rice.datadictionary.directory}">
-			<patternset>
-				<include name="${spring.ide.support.datadictionary.files}"/>
-				<exclude name="**/conversion/**"/>
-			</patternset>
-			<fileset dir="${build.kfs.lib.directory}">
-				<include name="${rice.name}-*-*.jar" />
-			</fileset>
-		</unjar>
-		<path id="rice.datadictionary.files"><fileset dir="${rice.datadictionary.directory}" includes="${spring.ide.support.datadictionary.files}"><contains casesensitive="true" text="&lt;beans"/></fileset></path>
-		<path id="kfs.datadictionary.files"><fileset dir="${source.directory}" includes="${spring.ide.support.datadictionary.files}"><contains casesensitive="true" text="&lt;beans"/></fileset></path>
-		<path id="kfs.service.files"><fileset dir="${source.directory}" includes="**/*.xml" excludes="${spring.ide.support.datadictionary.files}"><contains casesensitive="true" text="&lt;beans"/></fileset></path>
-  		
-    	<echo append="false" file="${spring.ide.support.file}" message="${spring.ide.support.file.prefix}" />
-		<for param="spring.file.path"><path refid="rice.datadictionary.files" /><sequential><echo append="true" file="${spring.ide.support.file}" message="${spring.ide.support.file.line.prefix}@{spring.file.path}${spring.ide.support.file.line.suffix}" /></sequential></for>
-		<for param="spring.file.path"><path refid="kfs.datadictionary.files" /><sequential><echo append="true" file="${spring.ide.support.file}" message="${spring.ide.support.file.line.prefix}@{spring.file.path}${spring.ide.support.file.line.suffix}" /></sequential></for>
-		<for param="spring.file.path"><path refid="kfs.service.files" /><sequential><echo append="true" file="${spring.ide.support.file}" message="${spring.ide.support.file.line.prefix}@{spring.file.path}${spring.ide.support.file.line.suffix}" /></sequential></for>
-    	<echo append="true" file="${spring.ide.support.file}" message="${spring.ide.support.file.datadictionary}" />
-		<for param="spring.file.path"><path refid="rice.datadictionary.files" /><sequential><echo append="true" file="${spring.ide.support.file}" message="${spring.ide.support.file.line.prefix}@{spring.file.path}${spring.ide.support.file.line.suffix}" /></sequential></for>
-		<for param="spring.file.path"><path refid="kfs.datadictionary.files" /><sequential><echo append="true" file="${spring.ide.support.file}" message="${spring.ide.support.file.line.prefix}@{spring.file.path}${spring.ide.support.file.line.suffix}" /></sequential></for>
-    	<echo append="true" file="${spring.ide.support.file}" message="${spring.ide.support.file.services}" />
-		<for param="spring.file.path"><path refid="kfs.service.files" /><sequential><echo append="true" file="${spring.ide.support.file}" message="${spring.ide.support.file.line.prefix}@{spring.file.path}${spring.ide.support.file.line.suffix}" /></sequential></for>
-    	<echo append="true" file="${spring.ide.support.file}" message="${spring.ide.support.file.suffix}" />
-		<replace file="${spring.ide.support.file}" token="${basedir}${file.separator}" />
-		<replace file="${spring.ide.support.file}" token="${file.separator}" value="/" />
-  	</target>
 	
-	<target name="filter-project" depends="filter-project-p6spy,filter-project-help,filter-project-rice,filter-project-spring-ide,check-rice-lib">
-		<mkdir dir="${lib.directory}" />
-		
-		<copy todir="${lib.directory}" verbose="true">
-			<fileset dir="${build.rice.lib.directory}">
-			    <include name="*.jar"/>
-			</fileset>
-			<fileset dir="${build.kfs.lib.directory}">
-			    <include name="*.jar"/>
-			</fileset>
-		</copy>
-		
+	<target name="filter-project" depends="filter-project-p6spy,filter-project-help,filter-project-rice,check-rice-lib,filter-libraries">
+	
 		<echo file="${source.directory}/${configuration.file}" message="${configuration}" />
 	    <if>
 	        <isset property="institutional.configuration" />
@@ -757,6 +658,12 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 		<mkdir dir="${settings.directory}" />
 		<echo file="${log4j.settings.file}" message="${log4j}" />
 		<if>
+			<isset property="institutional.log4j"/>
+			<then>
+				<echo append="true" file="${log4j.settings.file}" message="${line.separator}${institutional.log4j}"/>
+			</then>
+		</if>
+		<if>
 			<isset property="institution.settings.directory" />
 			<then>
 				<copy todir="${settings.directory}" overwrite="true">
@@ -804,9 +711,10 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 	<target name="make-foundation-source" depends="init-make-references,filter-project" unless="dont.make.source">
 		<mkdir dir="${war.classes.directory}" />
 	    <echo message="Compiling Source from ${source.directory} into ${war.classes.directory}" />
-		<javac destdir="${war.classes.directory}" srcdir="${source.directory}" includeantruntime="false"
-			   debug="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
-			<classpath refid="compile.source.classpath" />
+		<javac destdir="${war.classes.directory}" srcdir="${source.directory}" includeantruntime="false" source="1.6" target="1.6" failonerror="${fail.when.compile.fails}"
+			   debug="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}" excludes="${source.compile.excludes}">
+			<classpath refid="compile.source.classpath" />			
+			<compilerarg line="-Xmaxerrs 500"/>
 		</javac>
 		<copy todir="${war.classes.directory}">
 			<fileset dir="${source.directory}" includes="${non.java.resources}" />
@@ -816,15 +724,12 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 	<target name="make-additional-source" if="institution.source.directory" unless="dont.make.source" depends="init-make-references,filter-project">
         <echo message="Compiling Source from ${institution.source.directory} into ${war.classes.directory}" />
         <javac destdir="${war.classes.directory}" srcdir="${institution.source.directory}"
-               debug="true" fork="true" 
-               memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
+               debug="true" fork="true"  source="1.6" target="1.6" failonerror="${fail.when.compile.fails}"
+               memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}" excludes="${source.compile.excludes}">
             <!-- add the just compiled files to the classpath for compiling the customizations -->
             <classpath>
                 <pathelement location="${war.classes.directory}"/>
                 <path refid="compile.source.classpath" />
-                <fileset dir="${institution.lib.directory}">
-                    <include name="*.jar"/>
-                </fileset>
             </classpath>
         </javac>
         <copy todir="${war.classes.directory}" overwrite="true" verbose="true">
@@ -834,24 +739,38 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 
 	<target name="make-tests" depends="make-foundation-tests,make-additional-tests">
 		<delete file="${test.directory}/cobertura.ser" quiet="true" />
-        <cobertura-instrument maxmemory="1g" datafile="${test.directory}/cobertura.ser">
-        	<includeClasses regex=".*org\.kuali\..*" />
-        	<excludeClasses regex=".*org\.kuali\.rice\..*" />
-    		<excludeClasses regex=".*Test.*" />
-    		<excludeClasses regex=".*Suite.*" />
-    		<excludeClasses regex=".*Fixture.*" />
-            <ignore regex="org.apache.log4j.*" />
-        	<ignore regex=".*LOG\..*"/>
-        	<ignore regex=".*System\.out.*"/>
-        	<instrumentationclasspath refid="run.tests.classpath" />
-        </cobertura-instrument>	
+		<if>
+			<not><isset property="no.cobertura" /></not>
+			<then>
+		        <cobertura-instrument maxmemory="1g" datafile="${test.directory}/cobertura.ser">
+		        	<includeClasses regex=".*org\.kuali\..*" />
+		        	<excludeClasses regex=".*org\.kuali\.rice\..*" />
+		    		<excludeClasses regex=".*Test.*" />
+		    		<excludeClasses regex=".*Suite.*" />
+		    		<excludeClasses regex=".*Fixture.*" />
+		            <ignore regex="org.apache.log4j.*" />
+		        	<ignore regex=".*LOG\..*"/>
+		        	<ignore regex=".*System\.out.*"/>
+		        	<instrumentationclasspath refid="run.tests.classpath" />
+		        </cobertura-instrument>
+			</then>
+		</if>
 	</target>
 
 	<target name="make-foundation-tests" depends="init-make-references,filter-project">
 		<mkdir dir="${test.classes.directory}" />
+		<echo>*********************************************
+Compiling Tests
+Source Paths: ${source.directory}
+              ${test.infrastructure.source.directory}
+              ${test.unit.source.directory}
+              ${test.integration.source.directory}
+Includes: ${tests.compile.includes}
+Excludes: ${tests.compile.excludes}
+*********************************************</echo>
 		<javac destdir="${test.classes.directory}" 
-	 	    source="1.5" target="1.5"
-			debug="true" nowarn="true" 
+	 	    source="1.6" target="1.6"
+			debug="true" nowarn="true" failonerror="${fail.when.compile.fails}" 
 			optimize="true" fork="true" 
 			memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}"
 			includes="${tests.compile.includes}"
@@ -861,13 +780,12 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 			<src path="${test.infrastructure.source.directory}" />
 			<src path="${test.unit.source.directory}" />
 			<src path="${test.integration.source.directory}" />
+			<compilerarg line="-Xmaxerrs 500"/>
 		</javac>
 		<copy todir="${test.classes.directory}">
 			<fileset dir="${test.infrastructure.source.directory}" includes="${tests.non.java.resources}" excludes="${tests.compile.excludes}" />
 			<fileset dir="${test.unit.source.directory}" includes="${tests.non.java.resources}" excludes="${tests.compile.excludes}" />
 			<fileset dir="${test.integration.source.directory}" includes="${tests.non.java.resources}" excludes="${tests.compile.excludes}" />
-		</copy>
-		<copy todir="${test.classes.directory}">
 			<fileset dir="${source.directory}" includes="${non.java.resources}" excludes="${tests.compile.excludes}" />
 		</copy>
 	</target>
@@ -875,7 +793,8 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 	<target name="make-additional-tests" depends="init-make-references,filter-project" if="institution.test.source.directory">
         <echo message="Compiling Test Source from ${institution.test.source.directory} into ${test.classes.directory}" />
         <javac destdir="${test.classes.directory}" debug="true" nowarn="true" 
-        	   optimize="true" fork="true" 
+		 	    source="1.6" target="1.6"
+        	   optimize="true" fork="true" failonerror="${fail.when.compile.fails}" 
         	   memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}"
 			   includes="${tests.compile.includes}"
 			   excludes="${tests.compile.excludes}">
@@ -931,6 +850,10 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 				<fileset dir="${test.unit.source.directory}" includes="${tests.includes}" excludes="${tests.excludes}" />
 				<fileset dir="${test.integration.source.directory}" includes="${tests.includes}" excludes="${tests.excludes}" />
 			</batchtest>
+			<!-- run institution tests if possible -->
+			<batchtest todir="${test.xml.results.directory}" if="institution.test.source.directory">
+				<fileset dir="${institution.test.source.directory}" includes="${tests.includes}" excludes="${tests.excludes}" />
+			</batchtest>
 			<test name="org.kuali.kfs.sys.context.${tests.shutdown.class}" todir="${test.xml.results.directory}" />
 		</junit>
 		<mkdir dir="${test.html.results.directory}" />
@@ -942,21 +865,32 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 		</junitreport>
 		<echo message="Generated test results: ${test.html.results.directory}/index.html" />
 
-        <cobertura-report format="xml" maxmemory="1g" datafile="${test.directory}/cobertura.ser" destdir="${test.directory}/cobertura" >
-            <fileset dir="${source.directory}">
-                <include name="**/*.java" />
-            </fileset><!--
-            <fileset dir="${src.dir.main}">
-                <include name="**/*.java" />
-            </fileset>
-            -->
-        </cobertura-report>
+		<if>
+			<not><isset property="no.cobertura" /></not>
+			<then>
+		        <cobertura-report format="xml" maxmemory="1g" datafile="${test.directory}/cobertura.ser" destdir="${test.directory}/cobertura" >
+		            <fileset dir="${source.directory}">
+		                <include name="**/*.java" />
+		            </fileset><!--
+		            <fileset dir="${src.dir.main}">
+		                <include name="**/*.java" />
+		            </fileset>
+		            -->
+		        </cobertura-report>
+			</then>
+		</if>
 		<delete dir="${all.temp.directory}" failonerror="false" />
 	</target>
 
 	<target name="dist-external" depends="init-properties">
 		<mkdir dir="temp"/>
 		<echo file="temp/${log4j.file}" message="${log4j}" />
+		<if>
+			<isset property="institutional.log4j"/>
+			<then>
+				<echo append="true" file="temp/${log4j.file}" message="${line.separator}${institutional.log4j}"/>
+			</then>
+		</if>
 		<if>
 			<isset property="institution.settings.directory" />
 			<then>
@@ -990,18 +924,10 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
 		<zip destfile="${deploy.working.directory}/skel.zip" basedir="${build.work.directory}" />
 	</target>
 	
-	<target name="dist" depends="make-source,overlay-additional-web-content,filter-project-schema">
+	<target name="dist" depends="make-source,overlay-additional-web-content,overlay-additional-schema,filter-project-schema">
 		<copy todir="${war.directory}">
 			<fileset dir="${webroot.directory}" excludes="WEB-INF/classes/**/**" />
 		</copy>
-		<if>
-			<isset property="institution.lib.directory" />
-			<then>
-				<copy todir="${war.directory}/WEB-INF/lib" overwrite="true">
-					<fileset dir="${institution.lib.directory}" includes="*.jar" />
-				</copy>
-			</then>
-		</if>
 		<jar jarfile="kfs-${build.environment}.war" basedir="${war.directory}" compress="false" />
 	</target>
 
@@ -1012,7 +938,15 @@ https://wiki.kuali.org/display/KULDOC/Eclipse+Development+Environment+4
             </fileset>
         </copy>
     </target>
-	
+
+	<target name="overlay-additional-schema" depends="init-properties" if="institution.schema.directory">
+	        <copy todir="${build.project.directory}/xsd" preservelastmodified="true" overwrite="true">
+	            <fileset dir="${institution.schema.directory}">
+	                <include name="**/*" />
+	            </fileset>
+	        </copy>
+	 </target>
+
 	<target name="continuous-integration" depends="clean-all,make-tests,test">
 		<fail if="tests.failed" message="Tests failed" />
 	</target>
@@ -1045,10 +979,11 @@ The workflow files you want to run must exist in the pending subdirectory and wi
             </then>
         </if>
     	<echo message="Running Workflow Importer on ${workflow.dir}" />
-        <java classname="org.kuali.kfs.sys.WorkflowImporter" fork="true">
+        <java classname="org.kuali.kfs.sys.context.WorkflowImporter" fork="true">
             <jvmarg value="-Xms512m" />
             <jvmarg value="-Xmx1g" />
             <jvmarg value="-XX:MaxPermSize=256m" />
+        	<jvmarg value="-Drice.krad.componentPublishing.enabled=false" />
             <arg value="${workflow.dir}" />
             <classpath>
                 <pathelement location="${war.classes.directory}" />

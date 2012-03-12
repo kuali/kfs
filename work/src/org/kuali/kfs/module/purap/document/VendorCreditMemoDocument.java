@@ -18,17 +18,16 @@ package org.kuali.kfs.module.purap.document;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapParameterConstants;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.PurapConstants.CREDIT_MEMO_TYPE_LABELS;
 import org.kuali.kfs.module.purap.PurapConstants.CreditMemoStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PurapDocTypeCodes;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItemUseTax;
 import org.kuali.kfs.module.purap.document.service.AccountsPayableDocumentSpecificService;
@@ -43,19 +42,18 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.NoteService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.service.NoteService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 /**
  * Credit Memo Document Business Object. Contains the fields associated with the main document table.
@@ -112,36 +110,6 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
         }
     }
     
-    @Override
-    public String getAppDocStatus(){
-        KualiWorkflowDocument workflowDocument = getWorkflowDocument();
-        
-        return workflowDocument.getRouteHeader().getAppDocStatus();
-    }
-    
-    /**
-     * method to retrieve the workflow document for the given documentHeader.
-     * 
-     * @return workflowDocument
-     */
-    public KualiWorkflowDocument getWorkflowDocument() {
-        KualiWorkflowDocument workflowDocument = null;
-        try {
-            workflowDocument = SpringContext.getBean(WorkflowDocumentService.class).createWorkflowDocument(Long.valueOf(getDocumentNumber()), GlobalVariables.getUserSession().getPerson());
-        }
-        catch (WorkflowException we) {
-            throw new RuntimeException(we);
-        }
-        return workflowDocument;
-    }
-    
-    @Override    
-    public void setAppDocStatus(String appDocStatus){
-        KualiWorkflowDocument workflowDocument = getWorkflowDocument();
-            
-        workflowDocument.getRouteHeader().setAppDocStatus(appDocStatus);
-    }
-    
     /**
      * Initializes the values for a new document.
      */
@@ -168,7 +136,7 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
         // Clearing document overview fields
         getDocumentHeader().setDocumentDescription(null);
         getDocumentHeader().setExplanation(null);
-        getDocumentHeader().setFinancialDocumentTotalAmount(null);
+        getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(null);
         getDocumentHeader().setOrganizationDocumentNumber(null);
 
         // Clearing document Init fields
@@ -196,10 +164,6 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
         return type;
     }
 
-    /**
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#isBoNotesSupport()
-     */
-    @Override
     public boolean isBoNotesSupport() {
         return true;
     }
@@ -212,7 +176,7 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
     public boolean getPurchaseOrderNotes() {
         boolean hasNotes = false;
 
-        ArrayList poNotes = SpringContext.getBean(NoteService.class).getByRemoteObjectId((this.getPurchaseOrderIdentifier()).toString());
+        List<Note> poNotes = SpringContext.getBean(NoteService.class).getByRemoteObjectId((this.getPurchaseOrderIdentifier()).toString());
         if (poNotes.size() > 0) {
             hasNotes = true;
         }
@@ -233,19 +197,21 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
     }
     
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#doRouteStatusChange()
+     * @see org.kuali.rice.krad.document.DocumentBase#doRouteStatusChange()
      */
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         LOG.debug("doRouteStatusChange() started");
         super.doRouteStatusChange(statusChangeEvent);
         try {
             // DOCUMENT PROCESSED
-            if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+            if (this.getDocumentHeader().getWorkflowDocument().isProcessed()) {
                 updateAndSaveAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_COMPLETE);
+
+                return;
             }
             // DOCUMENT DISAPPROVED
-            else if (this.getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
+            else if (this.getDocumentHeader().getWorkflowDocument().isDisapproved()) {
                 String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
                 
                 String disapprovalStatus = CreditMemoStatuses.getCreditMemoAppDocDisapproveStatuses().get(nodeName);
@@ -261,12 +227,12 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
                 }
             }
             // DOCUMENT CANCELED
-            else if (this.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
-                String currentNodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
+            else if (getDocumentHeader().getWorkflowDocument().isCanceled()) {
+                String currentNodeName = getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().iterator().next();
                 SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(this, currentNodeName);
             }
         }
-        catch (WorkflowException e) {
+        catch (Exception e) {
             logAndThrowRuntimeException("Error saving routing data while saving document with id " + getDocumentNumber(), e);
         }
     }
@@ -290,11 +256,11 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#getDocumentTitle()
+     * @see org.kuali.rice.krad.document.DocumentBase#getDocumentTitle()
      */
     @Override
     public String getDocumentTitle() {
-        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(VendorCreditMemoDocument.class, PurapParameterConstants.PURAP_OVERRIDE_CM_DOC_TITLE)) {
+        if (SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(VendorCreditMemoDocument.class, PurapParameterConstants.PURAP_OVERRIDE_CM_DOC_TITLE)) {
             return getCustomDocumentTitle();
         }
         return super.getDocumentTitle();
@@ -635,7 +601,7 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
     /**
      * Credit Memo document is first populated on Continue AP Event, and then prepareForSave continues.
      * 
-     * @see org.kuali.rice.kns.document.Document#prepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
+     * @see org.kuali.rice.krad.document.Document#prepareForSave(org.kuali.rice.krad.rule.event.KualiDocumentEvent)
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
@@ -653,7 +619,7 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
      */
     @Override
     protected boolean isAttachmentRequired() {
-        return StringUtils.equalsIgnoreCase("Y", SpringContext.getBean(ParameterService.class).getParameterValue(VendorCreditMemoDocument.class, PurapParameterConstants.PURAP_CM_REQUIRE_ATTACHMENT));
+        return StringUtils.equalsIgnoreCase("Y", SpringContext.getBean(ParameterService.class).getParameterValueAsString(VendorCreditMemoDocument.class, PurapParameterConstants.PURAP_CM_REQUIRE_ATTACHMENT));
     }
 
     /**
@@ -712,7 +678,7 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
      * @return - true if document does not have an image attached, false otherwise
      */
     public boolean documentHasNoImagesAttached() {
-        List boNotes = this.getDocumentBusinessObject().getBoNotes();
+        List boNotes = this.getNotes();
         if (ObjectUtils.isNotNull(boNotes)) {
             for (Object obj : boNotes) {
                 Note note = (Note) obj;

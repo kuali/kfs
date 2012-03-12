@@ -18,16 +18,17 @@ package org.kuali.kfs.coa.document.validation.impl;
 import java.sql.Date;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryAccount;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.PostalCode;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.PostalCodeService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.location.api.postalcode.PostalCode;
+import org.kuali.rice.location.api.postalcode.PostalCodeService;
 
 /**
  * PreRules checks for the Account that needs to occur while still in the Struts processing. This includes defaults, confirmations,
@@ -40,7 +41,7 @@ public class AccountPreRules extends MaintenancePreRulesBase {
     protected static final String DEFAULT_STATE_CODE = "Account.Defaults.StateCode";
     protected static final String DEFAULT_ACCOUNT_TYPE_CODE = "Account.Defaults.AccountType";
 
-    protected KualiConfigurationService configService;
+    protected ConfigurationService configService;
     protected AccountService accountService;
     protected PostalCodeService postalZipCodeService;
     protected Account newAccount;
@@ -58,7 +59,7 @@ public class AccountPreRules extends MaintenancePreRulesBase {
 
     public AccountPreRules() {
         accountService = SpringContext.getBean(AccountService.class);
-        configService = SpringContext.getBean(KualiConfigurationService.class);
+        configService = SpringContext.getBean(ConfigurationService.class);
         postalZipCodeService = SpringContext.getBean(PostalCodeService.class);
     }
 
@@ -188,15 +189,17 @@ public class AccountPreRules extends MaintenancePreRulesBase {
          */
 
         // TODO: this is not needed any more, is in maintdoc xml defaults
-        Date ts = new Date(maintenanceDocument.getDocumentHeader().getWorkflowDocument().getCreateDate().getTime());
+        DateTime ts = new DateTime(maintenanceDocument.getDocumentHeader().getWorkflowDocument().getDateCreated());
+        Date newts = new Date(ts.getMillis());
+        
         if (ts != null) {
             // On new Accounts AccountCreateDate is defaulted to the doc creation date
             if (newAccount.getAccountCreateDate() == null) {
-                newAccount.setAccountCreateDate(ts);
+                newAccount.setAccountCreateDate(newts);
             }
             // On new Accounts acct_effect_date is defaulted to the doc creation date
             if (newAccount.getAccountEffectiveDate() == null) {
-                newAccount.setAccountEffectiveDate(ts);
+                newAccount.setAccountEffectiveDate(newts);
             }
         }
     }
@@ -211,12 +214,12 @@ public class AccountPreRules extends MaintenancePreRulesBase {
         // acct_zip_cd, acct_state_cd, acct_city_nm all are populated by looking up
         // the zip code and getting the state and city from that
         if (!StringUtils.isBlank(newAccount.getAccountZipCode())) {
-            PostalCode zip = postalZipCodeService.getByPostalCodeInDefaultCountry(newAccount.getAccountZipCode());
+            PostalCode zip = postalZipCodeService.getPostalCode( "US"/*RICE_20_REFACTORME*/, newAccount.getAccountZipCode() );
 
             // If user enters a valid zip code, override city name and state code entered by user
             if (ObjectUtils.isNotNull(zip)) { // override old user inputs
-                newAccount.setAccountCityName(zip.getPostalCityName());
-                newAccount.setAccountStateCode(zip.getPostalStateCode());
+                newAccount.setAccountCityName(zip.getCityName());
+                newAccount.setAccountStateCode(zip.getStateCode());
             }
         }
     }

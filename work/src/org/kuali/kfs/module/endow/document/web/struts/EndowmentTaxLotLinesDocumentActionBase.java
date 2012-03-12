@@ -36,8 +36,8 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public abstract class EndowmentTaxLotLinesDocumentActionBase extends EndowmentTransactionLinesDocumentActionBase {
 
@@ -246,7 +246,7 @@ public abstract class EndowmentTaxLotLinesDocumentActionBase extends EndowmentTr
      */
     protected int getTaxLotToDelete(HttpServletRequest request) {
         int selectedTaxLot = -1;
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
             String lotNumber = StringUtils.substringBetween(parameterName, ".taxLot", ".");
             selectedTaxLot = Integer.parseInt(lotNumber);

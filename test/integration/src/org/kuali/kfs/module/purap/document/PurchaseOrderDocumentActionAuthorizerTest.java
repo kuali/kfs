@@ -32,8 +32,8 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
-import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
+import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * This class is used to test the authorization of the
@@ -92,7 +92,7 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         AccountingDocumentTestUtils.routeDocument(poDocument, "saving copy source document", null, documentService);
         WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), "F");      
-        assertTrue("Document should now be final.", poDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());
+        assertTrue("Document should now be final.", poDocument.getDocumentHeader().getWorkflowDocument().isFinal());
 
         PurchaseOrderService purchaseOrderService = SpringContext.getBean(PurchaseOrderService.class);
         PurchaseOrderDocument poRetransmitDocument = purchaseOrderService.createAndRoutePotentialChangeDocument(poDocument.getDocumentNumber(), PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, null, null, "RTPE");
@@ -128,7 +128,7 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         AccountingDocumentTestUtils.routeDocument(poDocument, "saving copy source document", null, documentService);
         WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), "F");      
-        assertTrue("Document should now be final.", poDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());
+        assertTrue("Document should now be final.", poDocument.getDocumentHeader().getWorkflowDocument().isFinal());
 
         PurchaseOrderService purchaseOrderService = SpringContext.getBean(PurchaseOrderService.class);
         PurchaseOrderDocument poRetransmitDocument = purchaseOrderService.createAndRoutePotentialChangeDocument(poDocument.getDocumentNumber(), PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, null, null, "RTPE");        
@@ -163,7 +163,7 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
 //        poDocument.prepareForSave();       
 //        AccountingDocumentTestUtils.routeDocument(poDocument, "saving copy source document", null, documentService);
 //        WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), "F");        
-//        assertTrue("Document should now be final.", poDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());
+//        assertTrue("Document should now be final.", poDocument.getDocumentHeader().getWorkflowDocument().isFinal());
 //        
 //        PurchaseOrderDocumentActionAuthorizer auth = new PurchaseOrderDocumentActionAuthorizer(poDocument, editMode, documentActions);
 //        assertTrue(auth.canFirstTransmitPrintPo());

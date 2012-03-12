@@ -24,17 +24,17 @@ import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.CurrentTaxLotBalance;
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLot;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CurrentTaxLotBalanceLookupableHelperService extends KualiLookupableHelperServiceImpl {
 
     /**
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject,
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject,
      *      java.util.List)
      */
     @Override
@@ -54,7 +54,7 @@ public class CurrentTaxLotBalanceLookupableHelperService extends KualiLookupable
         HoldingTaxLot holdingTaxLot = (HoldingTaxLot) businessObjectService.findByPrimaryKey(HoldingTaxLot.class, primaryKeys);
 
         if (ObjectUtils.isNotNull(holdingTaxLot)) {
-            anchorHtmlDataList.add(getUrlData(holdingTaxLot, KNSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
+            anchorHtmlDataList.add(getUrlData(holdingTaxLot, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames));
         }
         return anchorHtmlDataList;
     }

@@ -18,8 +18,6 @@ package org.kuali.kfs.gl.batch.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.coa.businessobject.Account;
-
 public class IndirectCostRecoveryGenerationMetadata {
     private String indirectCostRecoveryTypeCode;
     private String financialIcrSeriesIdentifier;

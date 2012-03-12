@@ -97,5 +97,5 @@
     <!-- workflow attributes -->
   <bean id="IndirectCostRecoveryTypeMaintenanceDocument-workflowAttributes" parent="IndirectCostRecoveryTypeMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="IndirectCostRecoveryTypeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="IndirectCostRecoveryTypeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

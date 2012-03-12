@@ -1,108 +1,115 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-	<!--
-		Copyright 2006-2009 The Kuali Foundation Licensed under the
-		Educational Community License, Version 2.0 (the "License"); you may
-		not use this file except in compliance with the License. You may
-		obtain a copy of the License at
-		http://www.opensource.org/licenses/ecl2.php Unless required by
-		applicable law or agreed to in writing, software distributed under the
-		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-		CONDITIONS OF ANY KIND, either express or implied. See the License for
-		the specific language governing permissions and limitations under the
-		License.
-	-->
-	<bean id="LedgerEntry" parent="LedgerEntry-parentBean" />
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+ Copyright 2006-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
 
-	<bean id="LedgerEntry-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass"
-			value="org.kuali.kfs.module.ld.businessobject.LedgerEntry" />
-		<property name="objectLabel" value="Labor Ledger Entry" />
+  <bean id="LedgerEntry" parent="LedgerEntry-parentBean"/>
 
-		<property name="inquiryDefinition">
-			<ref bean="LedgerEntry-inquiryDefinition" />
-		</property>
-		<property name="lookupDefinition">
-			<ref bean="LedgerEntry-lookupDefinition" />
-		</property>
-		<property name="attributes">
-			<list>
-				<ref bean="LedgerEntry-universityFiscalYear" />
-				<ref bean="LedgerEntry-subAccountNumber" />
-				<ref bean="LedgerEntry-accountNumber" />
-				<ref bean="LedgerEntry-chartOfAccountsCode" />
-				<ref bean="LedgerEntry-financialBalanceTypeCode" />
-				<ref bean="LedgerEntry-financialObjectCode" />
-				<ref bean="LedgerEntry-financialObjectTypeCode" />
-				<ref bean="LedgerEntry-financialSubObjectCode" />
-				<ref bean="LedgerEntry-earnCode" />
-				<ref bean="LedgerEntry-emplid" />
-				<ref bean="LedgerEntry-employeeRecord" />
-				<ref bean="LedgerEntry-documentNumber" />
-				<ref bean="LedgerEntry-financialDocumentReversalDate" />
-				<ref bean="LedgerEntry-financialDocumentTypeCode" />
-				<ref bean="LedgerEntry-financialSystemOriginationCode" />
-				<ref bean="LedgerEntry-grade" />
-				<ref bean="LedgerEntry-hrmsCompany" />
-				<ref bean="LedgerEntry-laborLedgerOriginalAccountNumber" />
-				<ref bean="LedgerEntry-laborLedgerOriginalChartOfAccountsCode" />
-				<ref bean="LedgerEntry-laborLedgerOriginalFinancialObjectCode" />
-				<ref bean="LedgerEntry-laborLedgerOriginalFinancialSubObjectCode" />
-				<ref bean="LedgerEntry-laborLedgerOriginalSubAccountNumber" />
-				<ref bean="LedgerEntry-organizationDocumentNumber" />
-				<ref bean="LedgerEntry-organizationReferenceId" />
-				<ref bean="LedgerEntry-payGroup" />
-				<ref bean="LedgerEntry-payPeriodEndDate" />
-				<ref bean="LedgerEntry-payrollEndDateFiscalPeriodCode" />
-				<ref bean="LedgerEntry-payrollEndDateFiscalYear" />
-				<ref bean="LedgerEntry-positionNumber" />
-				<ref bean="LedgerEntry-projectCode" />
-				<ref bean="LedgerEntry-referenceFinancialDocumentNumber" />
-				<ref bean="LedgerEntry-referenceFinancialDocumentTypeCode" />
-				<ref bean="LedgerEntry-referenceFinancialSystemOriginationCode" />
-				<ref bean="LedgerEntry-runIdentifier" />
-				<ref bean="LedgerEntry-salaryAdministrationPlan" />
-				<ref bean="LedgerEntry-setid" />
-				<ref bean="LedgerEntry-transactionDate" />
-				<ref bean="LedgerEntry-transactionDateTimeStamp" />
-				<ref bean="LedgerEntry-transactionDebitCreditCode" />
-				<ref bean="LedgerEntry-transactionEncumbranceUpdateCode" />
-				<ref bean="LedgerEntry-transactionLedgerEntryAmount" />
-				<ref bean="LedgerEntry-transactionLedgerEntryDescription" />
-				<ref bean="LedgerEntry-transactionLedgerEntrySequenceNumber" />
-				<ref bean="LedgerEntry-transactionPostingDate" />
-				<ref bean="LedgerEntry-transactionTotalHours" />
-				<ref bean="LedgerEntry-universityFiscalPeriodCode" />
-				<ref bean="LedgerEntry-dummyBusinessObject.pendingEntryOption" />
-			</list>
-		</property>
-		<property name="relationships">
-			<list>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="financialSystemDocumentTypeCode" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="financialDocumentTypeCode"
-								p:targetName="name" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="referenceFinancialSystemDocumentTypeCode" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="referenceFinancialDocumentTypeCode"
-								p:targetName="name" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
-	</bean>
+  <bean id="LedgerEntry-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.module.ld.businessobject.LedgerEntry"/>
+    <property name="objectLabel" value="Labor Ledger Entry"/>
+    
+    <property name="inquiryDefinition">
+      <ref bean="LedgerEntry-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="LedgerEntry-lookupDefinition"/>
+    </property>
+    <property name="attributes">
+      <list>
+        <ref bean="LedgerEntry-universityFiscalYear"/>
+        <ref bean="LedgerEntry-subAccountNumber"/>
+        <ref bean="LedgerEntry-accountNumber"/>
+        <ref bean="LedgerEntry-chartOfAccountsCode"/>
+        <ref bean="LedgerEntry-financialBalanceTypeCode"/>
+        <ref bean="LedgerEntry-financialObjectCode"/>
+        <ref bean="LedgerEntry-financialObjectTypeCode"/>
+        <ref bean="LedgerEntry-financialSubObjectCode"/>
+        <ref bean="LedgerEntry-earnCode"/>
+        <ref bean="LedgerEntry-emplid"/>
+        <ref bean="LedgerEntry-employeeRecord"/>
+        <ref bean="LedgerEntry-documentNumber"/>
+        <ref bean="LedgerEntry-financialDocumentReversalDate"/>
+        <ref bean="LedgerEntry-financialDocumentTypeCode"/>
+        <ref bean="LedgerEntry-financialSystemOriginationCode"/>
+        <ref bean="LedgerEntry-grade"/>
+        <ref bean="LedgerEntry-hrmsCompany"/>
+        <ref bean="LedgerEntry-laborLedgerOriginalAccountNumber"/>
+        <ref bean="LedgerEntry-laborLedgerOriginalChartOfAccountsCode"/>
+        <ref bean="LedgerEntry-laborLedgerOriginalFinancialObjectCode"/>
+        <ref bean="LedgerEntry-laborLedgerOriginalFinancialSubObjectCode"/>
+        <ref bean="LedgerEntry-laborLedgerOriginalSubAccountNumber"/>
+        <ref bean="LedgerEntry-organizationDocumentNumber"/>
+        <ref bean="LedgerEntry-organizationReferenceId"/>
+        <ref bean="LedgerEntry-payGroup"/>
+        <ref bean="LedgerEntry-payPeriodEndDate"/>
+        <ref bean="LedgerEntry-payrollEndDateFiscalPeriodCode"/>
+        <ref bean="LedgerEntry-payrollEndDateFiscalYear"/>
+        <ref bean="LedgerEntry-positionNumber"/>
+        <ref bean="LedgerEntry-projectCode"/>
+        <ref bean="LedgerEntry-referenceFinancialDocumentNumber"/>
+        <ref bean="LedgerEntry-referenceFinancialDocumentTypeCode"/>
+        <ref bean="LedgerEntry-referenceFinancialSystemOriginationCode"/>
+        <ref bean="LedgerEntry-runIdentifier"/>
+        <ref bean="LedgerEntry-salaryAdministrationPlan"/>
+        <ref bean="LedgerEntry-setid"/>
+        <ref bean="LedgerEntry-transactionDate"/>
+        <ref bean="LedgerEntry-transactionDateTimeStamp"/>
+        <ref bean="LedgerEntry-transactionDebitCreditCode"/>
+        <ref bean="LedgerEntry-transactionEncumbranceUpdateCode"/>
+        <ref bean="LedgerEntry-transactionLedgerEntryAmount"/>
+        <ref bean="LedgerEntry-transactionLedgerEntryDescription"/>
+        <ref bean="LedgerEntry-transactionLedgerEntrySequenceNumber"/>
+        <ref bean="LedgerEntry-transactionPostingDate"/>
+        <ref bean="LedgerEntry-transactionTotalHours"/>
+        <ref bean="LedgerEntry-universityFiscalPeriodCode"/>
+        <ref bean="LedgerEntry-dummyBusinessObject.pendingEntryOption"/>
+        <ref bean="LedgerEntry-employee.name" />
+      </list>
+    </property>
+    <property name="relationships">
+    	<list>
+    		<bean parent="RelationshipDefinition">
+    			<property name="objectAttributeName" value="financialSystemDocumentTypeCode"/>
+		        <property name="primitiveAttributes">
+		        	<list>
+		            	<bean parent="PrimitiveAttributeDefinition" p:sourceName="financialDocumentTypeCode" p:targetName="name"/>
+		            </list>
+		        </property>
+    		</bean>
+    		<bean parent="RelationshipDefinition">
+    			<property name="objectAttributeName" value="referenceFinancialSystemDocumentTypeCode"/>
+		        <property name="primitiveAttributes">
+		        	<list>
+		            	<bean parent="PrimitiveAttributeDefinition" p:sourceName="referenceFinancialDocumentTypeCode" p:targetName="name"/>
+		            </list>
+		        </property>
+    		</bean>
+    		<bean parent="RelationshipDefinition">
+    			<property name="objectAttributeName" value="employee"/>
+		        <property name="primitiveAttributes">
+		        	<list>
+		            	<bean parent="PrimitiveAttributeDefinition" p:sourceName="emplid" p:targetName="employeeId"/>
+		            </list>
+		        </property>
+    		</bean>
+    	</list>
+    </property>
+  </bean>
 
-	<!-- Attribute Definitions -->
+<!-- Attribute Definitions -->
 
 
 	<bean id="LedgerEntry-universityFiscalYear" parent="LedgerEntry-universityFiscalYear-parentBean" />
@@ -659,17 +666,20 @@
 		</property>
 	</bean>
 
-	<bean id="LedgerEntry-dummyBusinessObject.pendingEntryOption"
-		parent="LedgerEntry-dummyBusinessObject.pendingEntryOption-parentBean" />
-	<bean id="LedgerEntry-dummyBusinessObject.pendingEntryOption-parentBean"
-		abstract="true" parent="TransientBalanceInquiryAttributes-pendingEntryOption">
-		<property name="name" value="dummyBusinessObject.pendingEntryOption" />
-	</bean>
+  <bean id="LedgerEntry-dummyBusinessObject.pendingEntryOption" parent="LedgerEntry-dummyBusinessObject.pendingEntryOption-parentBean"/>
+  <bean id="LedgerEntry-dummyBusinessObject.pendingEntryOption-parentBean" abstract="true" parent="TransientBalanceInquiryAttributes-pendingEntryOption">
+    <property name="name" value="dummyBusinessObject.pendingEntryOption"/>
+  </bean>
+  
+  <bean id="LedgerEntry-employee.name" parent="LedgerEntry-employee.name-parentBean"/>
+  <bean id="LedgerEntry-employee.name-parentBean" abstract="true" parent="PersonImpl-name">
+  	<property name="name" value="employee.name"/>
+  </bean>
 
-	<!-- Business Object Inquiry Definition -->
+<!-- Business Object Inquiry Definition -->
 
 
-	<bean id="LedgerEntry-inquiryDefinition" parent="LedgerEntry-inquiryDefinition-parentBean" />
+  <bean id="LedgerEntry-inquiryDefinition" parent="LedgerEntry-inquiryDefinition-parentBean"/>
 
 	<bean id="LedgerEntry-inquiryDefinition-parentBean" abstract="true"
 		parent="InquiryDefinition">
@@ -737,10 +747,10 @@
 		</property>
 	</bean>
 
-	<!-- Business Object Lookup Definition -->
+<!-- Business Object Lookup Definition -->
 
 
-	<bean id="LedgerEntry-lookupDefinition" parent="LedgerEntry-lookupDefinition-parentBean" />
+  <bean id="LedgerEntry-lookupDefinition" parent="LedgerEntry-lookupDefinition-parentBean"/>
 
 	<bean id="LedgerEntry-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">

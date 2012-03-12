@@ -1,25 +1,17 @@
 <data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
     <ruleAttribute>
+      <name>KFSDocumentSearchCustomizer</name>
+      <label>KFS Document Search Customizer</label>
+      <className>org.kuali.kfs.sys.document.workflow.KFSDocumentSearchCustomizer</className>
+      <type>DocumentSearchCustomizer</type>
+    </ruleAttribute>
+    <ruleAttribute>
       <name>FinancialSystemSearchableAttribute</name>
-      <className>org.kuali.kfs.sys.document.workflow.FinancialSystemSearchableAttribute</className>
+      <className>org.kuali.kfs.sys.document.workflow.KFSDocumentSearchCustomizer</className>
       <label>Financial System Searchable Attribute</label>
       <description>Financial System Searchable Attribute</description>
       <type>SearchableAttribute</type>
-    </ruleAttribute>
-    <ruleAttribute>
-      <name>FinancialSystemDocumentSearchResultProcessorAttribute</name>
-      <className>org.kuali.kfs.sys.document.workflow.DataDictionaryDocumentSearchCustomizer</className>
-      <label>Financial System Document Search Result Processor Attribute</label>
-      <description>Financial System Document Search Result Processor Attribute</description>
-      <type>DocumentSearchResultProcessorAttribute</type>
-    </ruleAttribute>
-    <ruleAttribute>
-      <name>FinancialSystemDocumentSearchGeneratorAttribute</name>
-      <className>org.kuali.kfs.sys.document.workflow.DataDictionaryDocumentSearchCustomizer</className>
-      <label>Financial System Document Search Generator Attribute</label>
-      <description>Financial System Document Search Generator Attribute</description>
-      <type>DocumentSearchGeneratorAttribute</type>
     </ruleAttribute>
     <ruleAttribute>
       <name>NoFyiActionListAttribute</name>
@@ -54,19 +46,10 @@
       </active>
       <attributes>
         <attribute>
-          <name>
-            FinancialSystemSearchableAttribute
-          </name>
+          <name>FinancialSystemSearchableAttribute</name>
         </attribute>
         <attribute>
-          <name>
-            FinancialSystemDocumentSearchResultProcessorAttribute
-          </name>
-        </attribute>
-        <attribute>
-          <name>
-            FinancialSystemDocumentSearchGeneratorAttribute
-          </name>
+          <name>KFSDocumentSearchCustomizer</name>
         </attribute>
       </attributes>
       <routingVersion>

@@ -16,6 +16,7 @@
 package org.kuali.kfs.pdp.batch.service.impl;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -28,6 +29,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
 import org.kuali.kfs.pdp.batch.service.ExtractPaymentService;
@@ -43,17 +45,16 @@ import org.kuali.kfs.pdp.dataaccess.ProcessDao;
 import org.kuali.kfs.pdp.service.PaymentDetailService;
 import org.kuali.kfs.pdp.service.PaymentGroupService;
 import org.kuali.kfs.pdp.service.PdpEmailService;
-import org.kuali.kfs.sys.FileUtil;
 import org.kuali.kfs.sys.batch.InitiateDirectoryBase;
 import org.kuali.kfs.sys.businessobject.Bank;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.location.api.country.CountryService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -70,7 +71,7 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
     protected ProcessDao processDao;
     protected PdpEmailService paymentFileEmailService;
     protected BusinessObjectService businessObjectService;
-    protected KualiConfigurationService kualiConfigurationService;
+    protected ConfigurationService kualiConfigurationService;
     protected CountryService countryService;
 
     // Set this to true to run this process without updating the database. This
@@ -106,7 +107,7 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
         Date processDate = dateTimeService.getCurrentDate();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-        String checkCancelledFilePrefix = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.ExtractPayment.CHECK_CANCEL_FILENAME);
+        String checkCancelledFilePrefix = this.kualiConfigurationService.getPropertyValueAsString(PdpKeyConstants.ExtractPayment.CHECK_CANCEL_FILENAME);
         checkCancelledFilePrefix = MessageFormat.format(checkCancelledFilePrefix, new Object[] { null });
 
         String filename = getOutputFile(checkCancelledFilePrefix, processDate);
@@ -158,6 +159,7 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
             }
 
             writeCloseTag(os, 0, "canceledChecks");
+            createDoneFile(filename);
         }
         catch (IOException ie) {
             LOG.error("extractCanceledChecks() Problem reading file:  " + filename, ie);
@@ -186,7 +188,7 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         PaymentStatus extractedStatus = (PaymentStatus) this.businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.EXTRACTED);
 
-        String achFilePrefix = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.ExtractPayment.ACH_FILENAME);
+        String achFilePrefix = this.kualiConfigurationService.getPropertyValueAsString(PdpKeyConstants.ExtractPayment.ACH_FILENAME);
         achFilePrefix = MessageFormat.format(achFilePrefix, new Object[] { null });
 
         String filename = getOutputFile(achFilePrefix, processDate);
@@ -198,6 +200,7 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
         BufferedWriter os = null;
 
         writeExtractAchFile(extractedStatus, filename, processDate, sdf);
+        createDoneFile(filename);
 
     }
 
@@ -211,7 +214,7 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         PaymentStatus extractedStatus = (PaymentStatus) this.businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.EXTRACTED);
 
-        String checkFilePrefix = this.kualiConfigurationService.getPropertyString(PdpKeyConstants.ExtractPayment.CHECK_FILENAME);
+        String checkFilePrefix = this.kualiConfigurationService.getPropertyValueAsString(PdpKeyConstants.ExtractPayment.CHECK_FILENAME);
         checkFilePrefix = MessageFormat.format(checkFilePrefix, new Object[] { null });
 
         String filename = getOutputFile(checkFilePrefix, processDate);
@@ -322,6 +325,7 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
                 }
             }
             writeCloseTag(os, 0, "checks");
+            createDoneFile(filename);
         }
         catch (IOException ie) {
             LOG.error("extractChecks() Problem reading file:  " + filename, ie);
@@ -527,9 +531,9 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
         writeTag(os, indent + 2, "zipCd", pg.getZipCd());
         
         // get country name for code
-        Country country = countryService.getByPrimaryId(pg.getCountry());
+        Country country = countryService.getCountry(pg.getCountry());
         if (country != null) {
-            writeTag(os, indent + 2, "country", country.getPostalCountryName());
+            writeTag(os, indent + 2, "country", country.getName());
         }
         else {
             writeTag(os, indent + 2, "country", pg.getCountry());
@@ -542,6 +546,31 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
         }
         writeCloseTag(os, indent, "payee");
     }
+    
+    /**
+     * Creates a '.done' file with the name of the original file.
+     */
+    protected void createDoneFile(String filename) {
+        String doneFileName =  StringUtils.substringBeforeLast(filename,".") + ".done";
+        File doneFile = new File(doneFileName);
+        
+        if (!doneFile.exists()) {
+            boolean doneFileCreated = false;
+            try {
+                doneFileCreated = doneFile.createNewFile();
+            }
+            catch (IOException e) {
+                LOG.error("unable to create done file " + doneFileName, e);
+                throw new RuntimeException("Errors encountered while saving the file: Unable to create .done file " + doneFileName, e);
+            }
+
+            if (!doneFileCreated) {
+                LOG.error("unable to create done file " + doneFileName);
+                throw new RuntimeException("Errors encountered while saving the file: Unable to create .done file " + doneFileName);
+            }
+        }
+    }
+
 
     protected String escapeString(String input) {
         String output = input.replaceAll("\\&", "&amp;");
@@ -634,7 +663,7 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
         this.businessObjectService = businessObjectService;
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 

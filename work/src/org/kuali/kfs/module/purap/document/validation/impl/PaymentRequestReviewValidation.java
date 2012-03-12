@@ -16,16 +16,11 @@
 package org.kuali.kfs.module.purap.document.validation.impl;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
-import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
-import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 public class PaymentRequestReviewValidation extends GenericValidation {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestReviewValidation.class);

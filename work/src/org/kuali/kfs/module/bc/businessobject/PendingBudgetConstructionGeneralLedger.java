@@ -35,12 +35,11 @@ import org.kuali.kfs.module.bc.util.SalarySettingCalculator;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.KualiInteger;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KualiModuleService;
 
 public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessObjectBase {
 
@@ -82,7 +81,7 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
     public PendingBudgetConstructionGeneralLedger() {
         super();
 
-        budgetConstructionMonthly = new TypedArrayList(BudgetConstructionMonthly.class);
+        budgetConstructionMonthly = new ArrayList<BudgetConstructionMonthly>();
     }
 
     /**
@@ -586,9 +585,9 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
 
         if (this.universityFiscalYear != null) {

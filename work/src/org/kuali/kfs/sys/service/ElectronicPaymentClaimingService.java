@@ -16,13 +16,12 @@
 package org.kuali.kfs.sys.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.kfs.fp.document.AdvanceDepositDocument;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * A service which helps in the claiming of ElectronicPaymentClaim records

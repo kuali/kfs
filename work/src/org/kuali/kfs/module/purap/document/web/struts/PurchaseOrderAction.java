@@ -68,25 +68,26 @@ import org.kuali.kfs.vnd.VendorConstants.AddressTypes;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
-import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.BlankFormFile;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.util.UrlFactory;
 
 /**
  * Struts Action for Purchase Order document.
@@ -169,7 +170,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchasingAccountsPayableFormBase purchasingForm = (PurchasingAccountsPayableFormBase) form;
 
         PurchaseOrderDocument purDocument = (PurchaseOrderDocument) purchasingForm.getDocument();
-        PurchaseOrderItem item = (PurchaseOrderItem) purDocument.getItem(getSelectedLine(request));
+        List items = purDocument.getItems();
+        PurchaseOrderItem item = (PurchaseOrderItem) items.get(getSelectedLine(request));
         item.setItemActiveIndicator(false);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -206,16 +208,16 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         String noteText = "";
 
         try {
-            KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
+            ConfigurationService kualiConfiguration = SpringContext.getBean(ConfigurationService.class);
 
             // Start in logic for confirming the proposed operation.
             if (ObjectUtils.isNull(question)) {
                 String message = "";
                 if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT)) {
-                    message = kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_SPLIT_QUESTION_TEXT);
+                    message = kualiConfiguration.getPropertyValueAsString(PurapKeyConstants.PURCHASE_ORDER_SPLIT_QUESTION_TEXT);
                 }
                 else {
-                    String key = kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_DOCUMENT);
+                    String key = kualiConfiguration.getPropertyValueAsString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_DOCUMENT);
                     message = StringUtils.replace(key, "{0}", operation); 
                 }
                 // Ask question if not already asked.
@@ -255,7 +257,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                         }
 
                         String message = "";
-                        String key = kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_DOCUMENT);
+                        String key = kualiConfiguration.getPropertyValueAsString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_DOCUMENT);
                         message = StringUtils.replace(key, "{0}", operation);
 
                         return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, questionType, message, KFSConstants.CONFIRMATION_QUESTION, questionType, "", reason, PurapKeyConstants.ERROR_PURCHASE_ORDER_REASON_REQUIRED, KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME, new Integer(reasonLimit).toString());
@@ -314,7 +316,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                     // Assume at this point document was created properly and 'po' variable is new PurchaseOrderDocument created
                     kualiDocumentFormBase.setDocument(po);
                     kualiDocumentFormBase.setDocId(po.getDocumentNumber());
-                    kualiDocumentFormBase.setDocTypeName(po.getDocumentHeader().getWorkflowDocument().getDocumentType());
+                    kualiDocumentFormBase.setDocTypeName(po.getDocumentHeader().getWorkflowDocument().getDocumentTypeName());
 
                     Note newNote = new Note();
                     if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
@@ -329,7 +331,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                     insertBONote(mapping, kualiDocumentFormBase, request, response);
                 }
                 if (StringUtils.isNotEmpty(messageType)) {
-                    GlobalVariables.getMessageList().add(messageType);
+                    KNSGlobalVariables.getMessageList().add(messageType);
                 }
             }
             if (ObjectUtils.isNotNull(returnActionForward)) {
@@ -337,7 +339,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             }
             else {
 
-                return this.performQuestionWithoutInput(mapping, form, request, response, confirmType, kualiConfiguration.getPropertyString(messageType), PODocumentsStrings.SINGLE_CONFIRMATION_QUESTION, questionType, "");
+                return this.performQuestionWithoutInput(mapping, form, request, response, confirmType, kualiConfiguration.getPropertyValueAsString(messageType), PODocumentsStrings.SINGLE_CONFIRMATION_QUESTION, questionType, "");
             }
         }
         catch (ValidationException ve) {
@@ -548,7 +550,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             
             purchaseOrderForm.setDocument(splitPO);
             purchaseOrderForm.setDocId(splitPO.getDocumentNumber());
-            purchaseOrderForm.setDocTypeName(splitPO.getDocumentHeader().getWorkflowDocument().getDocumentType());
+            purchaseOrderForm.setDocTypeName(splitPO.getDocumentHeader().getWorkflowDocument().getDocumentTypeName());
             try {
                 loadDocument(purchaseOrderForm);
             }
@@ -1339,17 +1341,17 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      */
     protected void checkForPOWarnings(PurchaseOrderDocument po, ActionMessages messages) {
         // "This is not the current version of this Purchase Order." (curr_ind = N and doc status is not enroute)
-        if (!po.isPurchaseOrderCurrentIndicator() && !po.getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
-            GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PURCHASE_ORDER_NOT_CURRENT);
+        if (!po.isPurchaseOrderCurrentIndicator() && !po.getDocumentHeader().getWorkflowDocument().isEnroute()) {
+            KNSGlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PURCHASE_ORDER_NOT_CURRENT);
         }
         // "This document is a pending action. This is not the current version of this Purchase Order" (curr_ind = N and doc status
         // is enroute)
-        if (!po.isPurchaseOrderCurrentIndicator() && po.getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
-            GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PURCHASE_ORDER_PENDING_ACTION_NOT_CURRENT);
+        if (!po.isPurchaseOrderCurrentIndicator() && po.getDocumentHeader().getWorkflowDocument().isEnroute()) {
+            KNSGlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PURCHASE_ORDER_PENDING_ACTION_NOT_CURRENT);
         }
         // "There is a pending action on this Purchase Order." (pend_action = Y)
         if (po.isPendingActionIndicator()) {
-            GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PURCHASE_ORDER_PENDING_ACTION);
+            KNSGlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PURCHASE_ORDER_PENDING_ACTION);
         }
 
         if (!po.isPurchaseOrderCurrentIndicator()) {
@@ -1443,7 +1445,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         Calendar currentCalendar = dateTimeService.getCurrentCalendar();
         Date currentSqlDate = new java.sql.Date(currentCalendar.getTimeInMillis());
         document.setPurchaseOrderQuoteInitializationDate(currentSqlDate);        
-        document.getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(PurchaseOrderStatuses.APPDOC_QUOTE);
+        document.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurchaseOrderStatuses.APPDOC_QUOTE);
         
         document.setStatusChange(PurchaseOrderStatuses.APPDOC_QUOTE);
         document.refreshReferenceObject(PurapPropertyConstants.STATUS);
@@ -1560,8 +1562,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         
         // use question framework to make sure they REALLY want to complete the quote...
         // since the html table tags are not supported for now, the awarded vendor info is displayed without them.   
-//        String message = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_CONFIRM_AWARD);
-//        String vendorRow = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_CONFIRM_AWARD_ROW);
+//        String message = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_CONFIRM_AWARD);
+//        String vendorRow = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_CONFIRM_AWARD_ROW);
 //
 //        String tempRows = "";
 //        for (PurchaseOrderVendorQuote poQuote : document.getPurchaseOrderVendorQuotes()) {
@@ -1595,7 +1597,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 //        }
 //        message = StringUtils.replace(message, "{0}", tempRows);
         // without the html table tags
-        StringBuffer awardedVendorInfo = new StringBuffer(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_CONFIRM_AWARD));
+        StringBuffer awardedVendorInfo = new StringBuffer(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_CONFIRM_AWARD));
         int awardNbr = 0;
         for (PurchaseOrderVendorQuote poQuote : document.getPurchaseOrderVendorQuotes()) {
             
@@ -1670,7 +1672,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 document.setVendorCountryCode(pova.getVendorCountryCode());
                 document.setVendorFaxNumber(pova.getVendorFaxNumber());
                 
-                document.getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS);
+                document.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS);
                 
                 document.setStatusChange(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS);
                 SpringContext.getBean(PurapService.class).saveDocumentNoValidation(document);
@@ -1704,7 +1706,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             }
         }
 
-        String message = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_CONFIRM_CANCEL_QUOTE);
+        String message = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_CONFIRM_CANCEL_QUOTE);
         Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
 
         if (question == null) {
@@ -1724,11 +1726,11 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 document.getPurchaseOrderVendorQuotes().clear();
                 Note cancelNote = new Note();
                 cancelNote.setAuthorUniversalIdentifier(GlobalVariables.getUserSession().getPerson().getPrincipalId());
-                String reasonPrefix = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.PURCHASE_ORDER_CANCEL_QUOTE_NOTE_TEXT);
+                String reasonPrefix = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PurapKeyConstants.PURCHASE_ORDER_CANCEL_QUOTE_NOTE_TEXT);
                 cancelNote.setNoteText(reasonPrefix + reason);
                 document.addNote(cancelNote);
                 
-                document.getDocumentHeader().getWorkflowDocument().getRouteHeader().setAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS);
+                document.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS);
                 
                 //being required to add notes about changing po status even though i'm not changing status
                 document.setStatusChange(null);
@@ -1747,13 +1749,13 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         // this should probably be moved into a protected instance variable
-        KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
+        ConfigurationService kualiConfiguration = SpringContext.getBean(ConfigurationService.class);
 
         // logic for cancel question
         if (question == null) {
 
             // ask question if not already asked
-            return this.performQuestionWithoutInput(mapping, form, request, response, KFSConstants.DOCUMENT_CANCEL_QUESTION, kualiConfiguration.getPropertyString("document.question.cancel.text"), KFSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_CANCEL, "");
+            return this.performQuestionWithoutInput(mapping, form, request, response, KFSConstants.DOCUMENT_CANCEL_QUESTION, kualiConfiguration.getPropertyValueAsString("document.question.cancel.text"), KFSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_CANCEL, "");
         }
         else {
             Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
@@ -1782,8 +1784,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 
         if (StringUtils.isNotBlank(po.getAppDocStatus()) && StringUtils.isNotBlank(po.getStatusChange()) && (!StringUtils.equals(po.getAppDocStatus(), po.getStatusChange()))) {
 
-            KualiWorkflowDocument workflowDocument = po.getDocumentHeader().getWorkflowDocument();
-            if (ObjectUtils.isNull(workflowDocument) || workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
+            WorkflowDocument workflowDocument = po.getDocumentHeader().getWorkflowDocument();
+            if (ObjectUtils.isNull(workflowDocument) || workflowDocument.isInitiated() || workflowDocument.isSaved()) {
 
                 return this.askSaveQuestions(mapping, form, request, response, PODocumentsStrings.MANUAL_STATUS_CHANGE_QUESTION);
             }
@@ -1808,12 +1810,12 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
         Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         String reason = request.getParameter(KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
-        KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
+        ConfigurationService kualiConfiguration = SpringContext.getBean(ConfigurationService.class);
         ActionForward forward = mapping.findForward(KFSConstants.MAPPING_BASIC);
         String notePrefix = "";
 
         if (StringUtils.equals(questionType, PODocumentsStrings.MANUAL_STATUS_CHANGE_QUESTION) && ObjectUtils.isNull(question)) {
-            String message = kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_MANUAL_STATUS_CHANGE);
+            String message = kualiConfiguration.getPropertyValueAsString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_MANUAL_STATUS_CHANGE);
             try {
 
                 return this.performQuestionWithInput(mapping, form, request, response, questionType, message, KFSConstants.CONFIRMATION_QUESTION, questionType, "");
@@ -1836,7 +1838,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 manuallyChangeableStatuses.put(PurchaseOrderStatuses.APPDOC_WAITING_FOR_VENDOR, "Waiting for Vendor");
                 manuallyChangeableStatuses.put(PurchaseOrderStatuses.APPDOC_WAITING_FOR_DEPARTMENT, "Waiting for Department");
 
-                String key = kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_MANUAL_STATUS_CHANGE_NOTE_PREFIX);
+                String key = kualiConfiguration.getPropertyValueAsString(PurapKeyConstants.PURCHASE_ORDER_MANUAL_STATUS_CHANGE_NOTE_PREFIX);
                 String oldStatus = manuallyChangeableStatuses.get(po.getAppDocStatus());
                 String newStatus = manuallyChangeableStatuses.get(po.getStatusChange());
                 key = StringUtils.replace(key, "{0}", (StringUtils.isBlank(oldStatus) ? " " : oldStatus));
@@ -1860,7 +1862,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 try {
                     if (StringUtils.equals(questionType, PODocumentsStrings.MANUAL_STATUS_CHANGE_QUESTION)) {
 
-                        return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, questionType, kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_MANUAL_STATUS_CHANGE), KFSConstants.CONFIRMATION_QUESTION, questionType, "", reason, PurapKeyConstants.ERROR_PURCHASE_ORDER_REASON_REQUIRED, KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME, new Integer(reasonLimit).toString());
+                        return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, questionType, kualiConfiguration.getPropertyValueAsString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_MANUAL_STATUS_CHANGE), KFSConstants.CONFIRMATION_QUESTION, questionType, "", reason, PurapKeyConstants.ERROR_PURCHASE_ORDER_REASON_REQUIRED, KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME, new Integer(reasonLimit).toString());
                     }
                 }
                 catch (Exception e) {

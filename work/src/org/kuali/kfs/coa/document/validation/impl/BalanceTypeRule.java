@@ -23,17 +23,17 @@ import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class BalanceTypeRule extends MaintenanceDocumentRuleBase {
 
     /**
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processRouteDocument(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processRouteDocument(org.kuali.rice.krad.document.Document)
      */
     @Override
     public boolean processRouteDocument(Document document) {
@@ -43,7 +43,7 @@ public class BalanceTypeRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processSaveDocument(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processSaveDocument(org.kuali.rice.krad.document.Document)
      */
     @Override
     public boolean processSaveDocument(Document document) {
@@ -59,7 +59,7 @@ public class BalanceTypeRule extends MaintenanceDocumentRuleBase {
      */
     protected boolean isInactivating(MaintenanceDocument document) {
         if (!document.isEdit() || document.getOldMaintainableObject() == null) return false;
-        return ((Inactivateable)document.getOldMaintainableObject().getBusinessObject()).isActive() && !((Inactivateable)document.getNewMaintainableObject().getBusinessObject()).isActive();
+        return ((Inactivatable)document.getOldMaintainableObject().getBusinessObject()).isActive() && !((Inactivatable)document.getNewMaintainableObject().getBusinessObject()).isActive();
     }
 
     /**

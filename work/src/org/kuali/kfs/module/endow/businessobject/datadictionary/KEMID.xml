@@ -853,7 +853,7 @@
 		<property name="inquiryFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="roleId" />
-				<bean parent="FieldDefinition" p:attributeName="role.roleName" />
+				<bean parent="FieldDefinition" p:attributeName="role.name" />
 				<bean parent="FieldDefinition" p:attributeName="rolePrincipal.principalName" />
 				<bean parent="FieldDefinition" p:attributeName="roleTerminationDate" />
 				<bean parent="FieldDefinition" p:attributeName="active" />

@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.gl.report;
 
-import java.util.Set;
-
 import org.kuali.kfs.sys.service.ReportWriterService;
 
 public class PreScrubberReport {

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -33,18 +34,16 @@ import org.kuali.kfs.module.bc.document.service.BudgetConstructionProcessorServi
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.module.bc.document.service.BudgetParameterService;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
-import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
-import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.KualiInteger;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.service.PersistenceService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 
 public class BudgetConstructionForm extends FinancialSystemTransactionalDocumentFormBase {
@@ -101,9 +100,9 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
         // create objects used to hold data filled later either from this.populate or Action.loadDocument
         this.setNewExpenditureLine(new PendingBudgetConstructionGeneralLedger());
         this.setNewRevenueLine(new PendingBudgetConstructionGeneralLedger());
-        this.setAccountOrgHierLevels(new TypedArrayList(BudgetConstructionAccountOrganizationHierarchy.class));
-        this.setPullupLevelKeyLabels(new TypedArrayList(BCKeyLabelPair.class));
-        this.setPushdownLevelKeyLabels(new TypedArrayList(BCKeyLabelPair.class));
+        this.setAccountOrgHierLevels(new ArrayList<BudgetConstructionAccountOrganizationHierarchy>());
+        this.setPullupLevelKeyLabels(new ArrayList<BCKeyLabelPair>());
+        this.setPushdownLevelKeyLabels(new ArrayList<BCKeyLabelPair>());
 
         LOG.debug("creating BudgetConstructionForm");
     }
@@ -923,7 +922,7 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
      * Helper method to check document actions Map for can edit entry
      */
     public boolean isEditAllowed() {
-        return getDocumentActions().keySet().contains(KNSConstants.KUALI_ACTION_CAN_EDIT);
+        return getDocumentActions().keySet().contains(KRADConstants.KUALI_ACTION_CAN_EDIT);
     }
 
     /**

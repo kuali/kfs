@@ -19,8 +19,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports;
-
 public interface BudgetConstructionOrganizationReportsDao {
 
     /**

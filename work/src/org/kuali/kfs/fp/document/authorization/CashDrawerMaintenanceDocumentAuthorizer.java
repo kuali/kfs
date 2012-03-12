@@ -19,8 +19,7 @@ import java.util.Map;
 
 import org.kuali.kfs.fp.businessobject.CashDrawer;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kim.api.KimConstants;
 
 /**
  * Overridden to add extra role qualifications
@@ -29,26 +28,26 @@ public class CashDrawerMaintenanceDocumentAuthorizer extends FinancialSystemMain
 
     /**
      * Overridden to add the cash drawer's campus code to the qualification
-     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase#addRoleQualification(org.kuali.rice.kns.bo.BusinessObject, java.util.Map)
+     * @see org.kuali.rice.krad.document.authorization.MaintenanceDocumentAuthorizerBase#addRoleQualification(org.kuali.rice.krad.bo.BusinessObject, java.util.Map)
      */
     @Override
-    protected void addRoleQualification(BusinessObject businessObject, Map<String, String> qualifications) {
-        super.addRoleQualification(businessObject, qualifications);
+    protected void addRoleQualification(Object dataObject, Map<String, String> qualifications) {
+        super.addRoleQualification(dataObject, qualifications);
         
-        if (businessObject instanceof CashDrawer) {
-            final CashDrawer cashDrawer = (CashDrawer)businessObject;
-            qualifications.put(KfsKimAttributes.CAMPUS_CODE, cashDrawer.getCampusCode());
+        if (dataObject instanceof CashDrawer) {
+            final CashDrawer cashDrawer = (CashDrawer)dataObject;
+            qualifications.put(KimConstants.AttributeConstants.CAMPUS_CODE, cashDrawer.getCampusCode());
         }
     }
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase#addPermissionDetails(org.kuali.rice.kns.bo.BusinessObject, java.util.Map)
+     * @see org.kuali.rice.krad.document.authorization.MaintenanceDocumentAuthorizerBase#addPermissionDetails(org.kuali.rice.krad.bo.BusinessObject, java.util.Map)
      */
     @Override
-    protected void addPermissionDetails(BusinessObject businessObject, Map<String, String> permissionDetails) {
-        super.addPermissionDetails(businessObject, permissionDetails);
-        if (businessObject instanceof CashDrawer) {
-            permissionDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, "CDS");
+    protected void addPermissionDetails(Object dataObject, Map<String, String> permissionDetails) {
+        super.addPermissionDetails(dataObject, permissionDetails);
+        if (dataObject instanceof CashDrawer) {
+            permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, "CDS");
         }
     }
 

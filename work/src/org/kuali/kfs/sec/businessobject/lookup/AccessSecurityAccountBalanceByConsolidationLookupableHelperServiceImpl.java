@@ -34,10 +34,10 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.lookup.CollectionIncomplete;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 
 /**
@@ -46,7 +46,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class AccessSecurityAccountBalanceByConsolidationLookupableHelperServiceImpl extends AccountBalanceByConsolidationLookupableHelperServiceImpl {
     protected AccessSecurityService accessSecurityService;
     protected ObjectTypeService objectTypeService;
-    protected KualiConfigurationService kualiConfigurationService;
+    protected ConfigurationService kualiConfigurationService;
 
     /**
      * Checks security on the detail balance records, if user does not have access to view any of those records they are removed and total lines
@@ -67,7 +67,7 @@ public class AccessSecurityAccountBalanceByConsolidationLookupableHelperServiceI
             int resultSizeBeforeRestrictions = details.size();
             accessSecurityService.applySecurityRestrictionsForGLInquiry(details, GlobalVariables.getUserSession().getPerson());
 
-            SecUtil.compareListSizeAndAddMessageIfChanged(resultSizeBeforeRestrictions, details, SecKeyConstants.MESSAGE_BALANCE_INQUIRY_RESULTS_RESTRICTED);
+            accessSecurityService.compareListSizeAndAddMessageIfChanged(resultSizeBeforeRestrictions, details, SecKeyConstants.MESSAGE_BALANCE_INQUIRY_RESULTS_RESTRICTED);
 
             // if details have changed we need to update totals
             if (resultSizeBeforeRestrictions != details.size()) {
@@ -109,13 +109,13 @@ public class AccessSecurityAccountBalanceByConsolidationLookupableHelperServiceI
         List expenseObjectTypes = objectTypeService.getBasicExpenseObjectTypes(universityFiscalYear);
         String expenseTransferObjectType = objectTypeService.getExpenseTransferObjectType(universityFiscalYear);
 
-        AccountBalance income = new AccountBalance(kualiConfigurationService.getPropertyString(KFSKeyConstants.AccountBalanceService.INCOME));
-        AccountBalance incomeTransfers = new AccountBalance(kualiConfigurationService.getPropertyString(KFSKeyConstants.AccountBalanceService.INCOME_FROM_TRANSFERS));
-        AccountBalance incomeTotal = new AccountBalance(kualiConfigurationService.getPropertyString(KFSKeyConstants.AccountBalanceService.INCOME_TOTAL));
-        AccountBalance expense = new AccountBalance(kualiConfigurationService.getPropertyString(KFSKeyConstants.AccountBalanceService.EXPENSE));
-        AccountBalance expenseTransfers = new AccountBalance(kualiConfigurationService.getPropertyString(KFSKeyConstants.AccountBalanceService.EXPENSE_FROM_TRANSFERS));
-        AccountBalance expenseTotal = new AccountBalance(kualiConfigurationService.getPropertyString(KFSKeyConstants.AccountBalanceService.EXPENSE_TOTAL));
-        AccountBalance total = new AccountBalance(kualiConfigurationService.getPropertyString(KFSKeyConstants.AccountBalanceService.TOTAL));
+        AccountBalance income = new AccountBalance(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.AccountBalanceService.INCOME));
+        AccountBalance incomeTransfers = new AccountBalance(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.AccountBalanceService.INCOME_FROM_TRANSFERS));
+        AccountBalance incomeTotal = new AccountBalance(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.AccountBalanceService.INCOME_TOTAL));
+        AccountBalance expense = new AccountBalance(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.AccountBalanceService.EXPENSE));
+        AccountBalance expenseTransfers = new AccountBalance(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.AccountBalanceService.EXPENSE_FROM_TRANSFERS));
+        AccountBalance expenseTotal = new AccountBalance(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.AccountBalanceService.EXPENSE_TOTAL));
+        AccountBalance total = new AccountBalance(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.AccountBalanceService.TOTAL));
 
         totals.add(income);
         totals.add(incomeTransfers);
@@ -210,7 +210,7 @@ public class AccessSecurityAccountBalanceByConsolidationLookupableHelperServiceI
      * 
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 

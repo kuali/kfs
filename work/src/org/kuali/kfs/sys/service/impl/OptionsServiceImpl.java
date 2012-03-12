@@ -21,8 +21,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.spring.CacheNoCopy;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.cache.annotation.Cacheable;
 
 @NonTransactional
 public class OptionsServiceImpl implements OptionsService {
@@ -30,7 +30,7 @@ public class OptionsServiceImpl implements OptionsService {
 
     private UniversityDateService universityDateService;
 
-    @CacheNoCopy
+    @Cacheable(value=SystemOptions.CACHE_NAME, key="'{getCurrentYearOptions}'")
     public SystemOptions getCurrentYearOptions() {
         LOG.debug("getCurrentYearOptions() started");
         Integer fy = universityDateService.getCurrentFiscalYear();

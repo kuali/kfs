@@ -16,6 +16,7 @@
 package org.kuali.kfs.coa.businessobject;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -26,13 +27,12 @@ import org.kuali.kfs.coa.service.OrganizationReversionService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.GlobalBusinessObject;
-import org.kuali.rice.kns.bo.GlobalBusinessObjectDetail;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.PersistenceStructureService;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.bo.GlobalBusinessObject;
+import org.kuali.rice.krad.bo.GlobalBusinessObjectDetail;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.PersistenceStructureService;
 
 /**
  * The representation of a Global Organization Reversion. A Global Organization Reversion is made up of three sections: 1. The
@@ -40,36 +40,36 @@ import org.kuali.rice.kns.util.TypedArrayList;
  * 2. A list of the appropriate Object Reversion Details 3. A list of Organizations to apply the Organization Reversion to
  */
 public class OrganizationReversionGlobal extends PersistableBusinessObjectBase implements GlobalBusinessObject {
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionGlobal.class);
-    private String documentNumber;
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionGlobal.class);
+    protected String documentNumber;
 
-    private Integer universityFiscalYear;
-    private String budgetReversionChartOfAccountsCode;
-    private String budgetReversionAccountNumber;
-    private Boolean carryForwardByObjectCodeIndicator;
-    private String cashReversionFinancialChartOfAccountsCode;
-    private String cashReversionAccountNumber;
+    protected Integer universityFiscalYear;
+    protected String budgetReversionChartOfAccountsCode;
+    protected String budgetReversionAccountNumber;
+    protected Boolean carryForwardByObjectCodeIndicator;
+    protected String cashReversionFinancialChartOfAccountsCode;
+    protected String cashReversionAccountNumber;
 
-    private Account cashReversionAccount;
-    private Account budgetReversionAccount;
-    private Chart budgetReversionChartOfAccounts;
-    private Chart cashReversionFinancialChartOfAccounts;
-    private SystemOptions universityFiscal;
+    protected Account cashReversionAccount;
+    protected Account budgetReversionAccount;
+    protected Chart budgetReversionChartOfAccounts;
+    protected Chart cashReversionFinancialChartOfAccounts;
+    protected SystemOptions universityFiscal;
 
-    private List<OrganizationReversionGlobalDetail> organizationReversionGlobalDetails;
-    private List<OrganizationReversionGlobalOrganization> organizationReversionGlobalOrganizations;
+    protected List<OrganizationReversionGlobalDetail> organizationReversionGlobalDetails;
+    protected List<OrganizationReversionGlobalOrganization> organizationReversionGlobalOrganizations;
 
     public OrganizationReversionGlobal() {
         super();
-        organizationReversionGlobalDetails = new TypedArrayList(OrganizationReversionGlobalDetail.class);
-        organizationReversionGlobalOrganizations = new TypedArrayList(OrganizationReversionGlobalOrganization.class);
+        organizationReversionGlobalDetails = new ArrayList<OrganizationReversionGlobalDetail>();
+        organizationReversionGlobalOrganizations = new ArrayList<OrganizationReversionGlobalOrganization>();
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap stringMapper = new LinkedHashMap();
         stringMapper.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         stringMapper.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, this.universityFiscalYear);
@@ -344,7 +344,7 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.GlobalBusinessObject#generateDeactivationsToPersist() As global organization reversions only update
+     * @see org.kuali.rice.krad.bo.GlobalBusinessObject#generateDeactivationsToPersist() As global organization reversions only update
      *      existing records, deactivations will never be produced by creating one; thus, this method always returns an empty list.
      */
     public List<PersistableBusinessObject> generateDeactivationsToPersist() {
@@ -352,7 +352,7 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.GlobalBusinessObject#generateGlobalChangesToPersist() This creates a list of changes to be made to the
+     * @see org.kuali.rice.krad.bo.GlobalBusinessObject#generateGlobalChangesToPersist() This creates a list of changes to be made to the
      *      existing Organization Reversion records impacted by this global reversion.
      */
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
@@ -411,7 +411,7 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
      * 
      * @return a map of all organization reversion change details, keyed by OrganizationReversionCategory
      */
-    private Map<String, OrganizationReversionGlobalDetail> rearrangeOrganizationReversionDetailsAsMap() {
+    protected Map<String, OrganizationReversionGlobalDetail> rearrangeOrganizationReversionDetailsAsMap() {
         Map<String, OrganizationReversionGlobalDetail> orgRevMap = new HashMap<String, OrganizationReversionGlobalDetail>();
         for (OrganizationReversionGlobalDetail orgRevDetail : this.getOrganizationReversionGlobalDetails()) {
             if (!StringUtils.isBlank(orgRevDetail.getOrganizationReversionObjectCode()) || !StringUtils.isBlank(orgRevDetail.getOrganizationReversionCode())) {
@@ -422,7 +422,7 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.GlobalBusinessObject#getAllDetailObjects() This returns a list of all the detail objects held within
+     * @see org.kuali.rice.krad.bo.GlobalBusinessObject#getAllDetailObjects() This returns a list of all the detail objects held within
      *      this main global organization reversion container.
      */
     public List<? extends GlobalBusinessObjectDetail> getAllDetailObjects() {
@@ -433,7 +433,7 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.GlobalBusinessObject#isPersistable() returns whether this global object reversion can be stored in the
+     * @see org.kuali.rice.krad.bo.GlobalBusinessObject#isPersistable() returns whether this global object reversion can be stored in the
      *      database, which is really a question of whether it and all of its details have all of their appropriate primary keys
      *      set.
      */
@@ -461,14 +461,14 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
     @Override
     public List buildListOfDeletionAwareLists() {
-        List<List> managedLists = super.buildListOfDeletionAwareLists();
+        List<Collection<PersistableBusinessObject>> managedLists = super.buildListOfDeletionAwareLists();
 
-        managedLists.add(getOrganizationReversionGlobalDetails());
-        managedLists.add(getOrganizationReversionGlobalOrganizations());
+        managedLists.add( new ArrayList<PersistableBusinessObject>( getOrganizationReversionGlobalDetails() ) );
+        managedLists.add( new ArrayList<PersistableBusinessObject>( getOrganizationReversionGlobalOrganizations() ) );
 
         return managedLists;
     }

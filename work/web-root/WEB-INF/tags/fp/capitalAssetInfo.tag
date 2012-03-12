@@ -20,7 +20,6 @@
 
 <%@ attribute name="readOnly" required="false" description="Whether the capital asset information should be read only" %>	
 
-<script language="JavaScript" type="text/javascript" src="dwr/interface/VendorService.js"></script>
 <script language="JavaScript" type="text/javascript" src="scripts/vnd/objectInfo.js"></script>
 	
 <c:set var="attributes" value="${DataDictionary.CapitalAssetInformation.attributes}" />	

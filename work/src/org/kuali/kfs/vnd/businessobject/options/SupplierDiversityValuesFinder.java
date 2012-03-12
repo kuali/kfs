@@ -22,9 +22,9 @@ import java.util.List;
 
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.SupplierDiversity;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * Values Finder for <code>SupplierDiversity</code>.
@@ -41,10 +41,10 @@ public class SupplierDiversityValuesFinder extends KeyValuesBase {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection sds = boService.findAll(SupplierDiversity.class);
         List labels = new ArrayList();
-        labels.add(new KeyLabelPair("", ""));
+        labels.add(new ConcreteKeyValue("", ""));
         for (Iterator iter = sds.iterator(); iter.hasNext();) {
             SupplierDiversity sd = (SupplierDiversity) iter.next();
-            labels.add(new KeyLabelPair(sd.getVendorSupplierDiversityCode(), sd.getVendorSupplierDiversityDescription()));
+            labels.add(new ConcreteKeyValue(sd.getVendorSupplierDiversityCode(), sd.getVendorSupplierDiversityDescription()));
         }
 
         return labels;

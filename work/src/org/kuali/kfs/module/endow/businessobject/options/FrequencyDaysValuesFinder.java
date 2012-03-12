@@ -18,8 +18,9 @@ package org.kuali.kfs.module.endow.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * This class defined a value finder for the days part in the frequency code.
@@ -30,17 +31,17 @@ public class FrequencyDaysValuesFinder extends KeyValuesBase {
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
-        labels.add(new KeyLabelPair("", ""));
+        List<KeyValue> labels = new ArrayList<KeyValue>();
+        labels.add(new ConcreteKeyValue("", ""));
 
         for (int i = 1; i <= 9; i++) {
             String prefix = "0";
             String value = prefix + String.valueOf(i);
-            labels.add(new KeyLabelPair(value, value));
+            labels.add(new ConcreteKeyValue(value, value));
         }
         
         for (int i = 10; i <= 31; i++) {
-            labels.add(new KeyLabelPair(String.valueOf(i), String.valueOf(i)));
+            labels.add(new ConcreteKeyValue(String.valueOf(i), String.valueOf(i)));
         }
         return labels;
     }

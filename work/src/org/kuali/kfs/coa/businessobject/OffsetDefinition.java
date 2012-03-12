@@ -1,12 +1,12 @@
 /*
  * Copyright 2005-2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,17 +15,17 @@
  */
 package org.kuali.kfs.coa.businessobject;
 
-import java.util.LinkedHashMap;
-
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
+import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
-import org.kuali.rice.kew.service.impl.KEWModuleService;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ *
  */
 public class OffsetDefinition extends PersistableBusinessObjectBase implements FiscalYearBasedBusinessObject {
 
@@ -52,25 +52,27 @@ public class OffsetDefinition extends PersistableBusinessObjectBase implements F
 
     /**
      * Gets the universityFiscalYear attribute.
-     * 
+     *
      * @return Returns the universityFiscalYear
      */
+    @Override
     public Integer getUniversityFiscalYear() {
         return universityFiscalYear;
     }
 
     /**
      * Sets the universityFiscalYear attribute.
-     * 
+     *
      * @param universityFiscalYear The universityFiscalYear to set.
      */
+    @Override
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
     }
 
     /**
      * Gets the universityFiscal attribute.
-     * 
+     *
      * @return Returns the universityFiscal
      */
     public SystemOptions getUniversityFiscal() {
@@ -79,7 +81,7 @@ public class OffsetDefinition extends PersistableBusinessObjectBase implements F
 
     /**
      * Sets the universityFiscal attribute.
-     * 
+     *
      * @param universityFiscal The universityFiscal to set.
      * @deprecated
      */
@@ -89,7 +91,7 @@ public class OffsetDefinition extends PersistableBusinessObjectBase implements F
 
     /**
      * Gets the financialDocumentTypeCode attribute.
-     * 
+     *
      * @return Returns the financialDocumentTypeCode
      */
 
@@ -99,7 +101,7 @@ public class OffsetDefinition extends PersistableBusinessObjectBase implements F
 
     /**
      * Sets the financialDocumentTypeCode attribute.
-     * 
+     *
      * @param financialDocumentTypeCode The financialDocumentTypeCode to set.
      */
     public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
@@ -108,7 +110,7 @@ public class OffsetDefinition extends PersistableBusinessObjectBase implements F
 
     /**
      * Gets the financialBalanceTypeCode attribute.
-     * 
+     *
      * @return Returns the financialBalanceTypeCode
      */
     public String getFinancialBalanceTypeCode() {
@@ -117,7 +119,7 @@ public class OffsetDefinition extends PersistableBusinessObjectBase implements F
 
     /**
      * Sets the financialBalanceTypeCode attribute.
-     * 
+     *
      * @param financialBalanceTypeCode The financialBalanceTypeCode to set.
      */
     public void setFinancialBalanceTypeCode(String financialBalanceTypeCode) {
@@ -126,7 +128,7 @@ public class OffsetDefinition extends PersistableBusinessObjectBase implements F
 
     /**
      * Returns the BalanceType object associated with this OffsetDefinition
-     * 
+     *
      * @return the balanceType
      */
     public BalanceType getFinancialBalanceType() {
@@ -135,7 +137,7 @@ public class OffsetDefinition extends PersistableBusinessObjectBase implements F
 
     /**
      * Sets the balanceType from the balanceTypeCode
-     * 
+     *
      * @param financialBalanceType
      * @deprecated
      */
@@ -145,7 +147,7 @@ public class OffsetDefinition extends PersistableBusinessObjectBase implements F
 
     /**
      * Gets the financialObjectCode attribute.
-     * 
+     *
      * @return Returns the financialObjectCode
      */
 
@@ -155,7 +157,7 @@ public class OffsetDefinition extends PersistableBusinessObjectBase implements F
 
     /**
      * Sets the financialObjectCode attribute.
-     * 
+     *
      * @param financialObjectCode The financialObjectCode to set.
      */
     public void setFinancialObjectCode(String financialObjectCode) {
@@ -164,7 +166,7 @@ public class OffsetDefinition extends PersistableBusinessObjectBase implements F
 
     /**
      * Gets the financialObject attribute.
-     * 
+     *
      * @return Returns the financialObject
      */
 
@@ -174,7 +176,7 @@ public class OffsetDefinition extends PersistableBusinessObjectBase implements F
 
     /**
      * Sets the financialObject attribute.
-     * 
+     *
      * @param financialObject The financialObject to set.
      * @deprecated
      */
@@ -184,7 +186,7 @@ public class OffsetDefinition extends PersistableBusinessObjectBase implements F
 
     /**
      * Gets the chartOfAccounts attribute.
-     * 
+     *
      * @return Returns the chartOfAccounts
      */
 
@@ -194,7 +196,7 @@ public class OffsetDefinition extends PersistableBusinessObjectBase implements F
 
     /**
      * Sets the chartOfAccountsCode attribute.
-     * 
+     *
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -203,7 +205,7 @@ public class OffsetDefinition extends PersistableBusinessObjectBase implements F
 
     /**
      * Gets the chartOfAccounts object
-     * 
+     *
      * @return a Chart object
      */
     public Chart getChartOfAccounts() {
@@ -212,7 +214,7 @@ public class OffsetDefinition extends PersistableBusinessObjectBase implements F
 
     /**
      * Sets the chartOfAccountsCode attribute.
-     * 
+     *
      * @param chartOfAccountsCode The chartOfAccounts to set.
      * @deprecated
      */
@@ -222,33 +224,33 @@ public class OffsetDefinition extends PersistableBusinessObjectBase implements F
 
     /**
      * Gets the financialSystemDocumentTypeCode attribute.
-     * 
+     *
      * @return Returns the financialSystemDocumentTypeCode.
      */
     public DocumentTypeEBO getFinancialSystemDocumentTypeCode() {
-        return financialSystemDocumentTypeCode = SpringContext.getBean(KEWModuleService.class).retrieveExternalizableBusinessObjectIfNecessary(this, financialSystemDocumentTypeCode, "financialSystemDocumentTypeCode");
+        if ( StringUtils.isBlank( financialDocumentTypeCode ) ) {
+            financialSystemDocumentTypeCode = null;
+        } else {
+            if ( financialSystemDocumentTypeCode == null || !StringUtils.equals(financialDocumentTypeCode, financialSystemDocumentTypeCode.getName() ) ) {
+                org.kuali.rice.kew.api.doctype.DocumentType temp = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(financialDocumentTypeCode);
+                if ( temp != null ) {
+                    financialSystemDocumentTypeCode = DocumentType.from( temp );
+                } else {
+                    financialSystemDocumentTypeCode = null;
+                }
+            }
+        }
+        return financialSystemDocumentTypeCode;
     }
 
     /**
      * This method (a hack by any other name...) returns a string so that an offset Definition can have a link to view its own
      * inquiry page after a look up
-     * 
+     *
      * @return the String "View Offset Definition"
      */
     public String getOffsetDefinitionViewer() {
         return "View Offset Definition";
-    }
-
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put("universityFiscalYear", this.universityFiscalYear);
-        m.put("chartOfAccountsCode", this.chartOfAccountsCode);
-        m.put("documentTypeCode", this.financialDocumentTypeCode);
-        m.put("balanceTypeCode", this.financialBalanceTypeCode);
-        return m;
     }
 
 

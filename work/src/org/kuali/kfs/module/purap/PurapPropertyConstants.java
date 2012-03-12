@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.purap;
 
-import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Property name constants.
@@ -218,6 +217,9 @@ public class PurapPropertyConstants {
     //ASSIGN CONTRACT MANAGER DOCUMENT
     public static final String REQUISITION_IDENTIFIER = "requisitionIdentifier";
     public static final String VENDOR_NAME = "vendorName";
+    
+    // ELECTRONIC INVOICE GENERATION
+    public static final String PURCHASE_ORDER_DOCUMENT_NUMBER = "poDocNumber";
     
     //BULK RECEIVING DOCUMENT
     public static final String VENDOR_DATE = "vendorName";

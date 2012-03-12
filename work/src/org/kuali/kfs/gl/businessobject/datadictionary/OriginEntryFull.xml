@@ -327,7 +327,7 @@
 			<bean parent="TextControlDefinition" p:size="21" />
 		</property>
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 	<bean id="OriginEntryFull-transactionLedgerEntryDescription"
 		parent="OriginEntryFull-transactionLedgerEntryDescription-parentBean" />

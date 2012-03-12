@@ -42,7 +42,6 @@
     
     <property name="webScriptFiles">
       <list>
-        <value>../dwr/interface/AccountService.js</value>
         <value>../scripts/coa/accountDocument.js</value>
       </list>
     </property>            
@@ -83,5 +82,5 @@
   <!-- workflow attributes -->
   <bean id="WireChargeMaintenanceDocument-workflowAttributes" parent="WireChargeMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="WireChargeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="WireChargeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

@@ -21,9 +21,10 @@ import java.util.List;
 
 import org.kuali.kfs.module.cg.businessobject.GrantDescription;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * Gets a custom-formatted list of {@link GrantDescription} values.
@@ -37,12 +38,12 @@ public class GrantDescriptionValuesFinder extends KeyValuesBase {
 
         Collection<GrantDescription> codes = SpringContext.getBean(KeyValuesService.class).findAll(GrantDescription.class);
 
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
-        labels.add(new KeyLabelPair("", ""));
+        List<KeyValue> labels = new ArrayList<KeyValue>();
+        labels.add(new ConcreteKeyValue("", ""));
 
         for (GrantDescription code : codes) {
             if (code.isActive()) {
-                labels.add(new KeyLabelPair(code.getGrantDescriptionCode(), code.getGrantDescriptionCode() + " - " + code.getGrantDescription()));
+                labels.add(new ConcreteKeyValue(code.getGrantDescriptionCode(), code.getGrantDescriptionCode() + " - " + code.getGrantDescription()));
             }
         }
 

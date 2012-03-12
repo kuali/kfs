@@ -1,12 +1,12 @@
 /*
  * Copyright 2008-2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,30 +39,26 @@ import org.apache.commons.collections.bidimap.TreeBidiMap;
 import org.apache.commons.lang.StringUtils;
 import org.apache.cxf.common.logging.LogUtils;
 import org.apache.cxf.endpoint.ServerImpl;
+import org.directwebremoting.util.LogErrorHandler;
+import org.hibernate.util.DTDEntityResolver;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.core.util.ClassLoaderUtils;
-import org.kuali.rice.kns.datadictionary.AttributeDefinition;
-import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
-import org.kuali.rice.kns.datadictionary.DataDictionary;
-import org.kuali.rice.kns.datadictionary.DocumentEntry;
-import org.kuali.rice.kns.datadictionary.InactivationBlockingDefinition;
+import org.kuali.rice.core.api.util.ClassLoaderUtils;
+import org.kuali.rice.kns.datadictionary.KNSDocumentEntry;
 import org.kuali.rice.kns.datadictionary.MaintainableCollectionDefinition;
 import org.kuali.rice.kns.datadictionary.MaintainableFieldDefinition;
 import org.kuali.rice.kns.datadictionary.MaintainableItemDefinition;
 import org.kuali.rice.kns.datadictionary.MaintainableSectionDefinition;
-import org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry;
-import org.kuali.rice.kns.datadictionary.TransactionalDocumentEntry;
-import org.kuali.rice.kns.datadictionary.control.ControlDefinition;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.ModuleService;
+import org.kuali.rice.krad.datadictionary.AttributeDefinition;
+import org.kuali.rice.krad.datadictionary.DataDictionary;
+import org.kuali.rice.krad.datadictionary.InactivationBlockingDefinition;
+import org.kuali.rice.krad.datadictionary.control.ControlDefinition;
+import org.kuali.rice.krad.service.DataDictionaryService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-
-import uk.ltd.getahead.dwr.impl.DTDEntityResolver;
-import uk.ltd.getahead.dwr.util.LogErrorHandler;
 
 public class CheckModularization {
 
@@ -77,10 +73,10 @@ public class CheckModularization {
         OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.put("KFS-LD", "ld");
         OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.put("KFS-PURAP", "purap");
     }
-    
+
     private static final Map<String, String> OPTIONAL_SPRING_FILE_SUFFIX_TO_NAMESPACE_CODES =
             new TreeBidiMap(OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX).inverseBidiMap();
-    
+
     private static final Map<String, String> SYSTEM_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX = new HashMap<String, String>();
     static {
         SYSTEM_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.put("KFS-COA", "coa");
@@ -90,23 +86,23 @@ public class CheckModularization {
         SYSTEM_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.put("KFS-SYS", "sys");
         SYSTEM_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.put("KFS-VND", "vnd");
     }
-    
+
     private static Map<String,List<String>> PACKAGE_PREFIXES_BY_MODULE = new HashMap<String, List<String>>();
     private static Map<String,List<String>> OJB_FILES_BY_MODULE = new HashMap<String, List<String>>();
     private static Map<String,List<String>> DWR_FILES_BY_MODULE = new HashMap<String, List<String>>();
-    
+
     private static String MODULE_SPRING_PATH_PATTERN = "org/kuali/kfs/module/{0}/spring-{0}.xml";
-    
+
     /*
      * open up classpath:configuration.properties - get locations of spring files?
      * alter the spring.source.files property and re-save
      * hold original version and restore?
-     * 
+     *
      * use location of config.properties as the class root for scanning source files?
      * How do you test .class files for symbols?
      */
-    static String coreSpringFiles; 
-    static String coreSpringTestFiles; 
+    static String coreSpringFiles;
+    static String coreSpringTestFiles;
     static File configPropertiesFile;
     public static void main(String[] args) {
         CheckModularization mt = new CheckModularization();
@@ -122,24 +118,24 @@ public class CheckModularization {
 
             LogUtils.getL7dLogger(ServerImpl.class).setLevel(Level.SEVERE);
             try {
-                SpringContext.initializeTestApplicationContext();                
+                SpringContextForBatchRunner.initializeKfs();
                 KualiModuleService kualiModuleService = (KualiModuleService)SpringContext.getBean(KualiModuleService.class);
-                
+
                 for ( ModuleService module : kualiModuleService.getInstalledModuleServices() ) {
                     PACKAGE_PREFIXES_BY_MODULE.put(module.getModuleConfiguration().getNamespaceCode(), module.getModuleConfiguration().getPackagePrefixes() );
                     OJB_FILES_BY_MODULE.put(module.getModuleConfiguration().getNamespaceCode(), module.getModuleConfiguration().getDatabaseRepositoryFilePaths() );
                     DWR_FILES_BY_MODULE.put(module.getModuleConfiguration().getNamespaceCode(), module.getModuleConfiguration().getScriptConfigurationFilePaths() );
                 }
-                
+
             } catch ( Exception ex ) {
                 ex.printStackTrace();
             } finally {
                 stopSpringContext();
             }
-            
+
             // bring up Spring once to get all the configuration information, store by namespace code
             // list of core namespaces, all others must be independent
-            
+
             // test class references
             boolean testsPassed = true;
             System.out.println( "**************************************************");
@@ -179,7 +175,7 @@ public class CheckModularization {
                 System.out.println( "SUCCEEDED" );
             }
 //            testsPassed &= mt.testDd();
-            
+
             if ( !testsPassed ) {
                 System.exit(1);
             }
@@ -190,13 +186,13 @@ public class CheckModularization {
         }
         System.exit(0);
     }
-    
-    
+
+
     protected String buildOptionalModuleSpringFileList( ModuleGroup moduleGroup ) {
         StringBuffer sb = new StringBuffer();
         sb.append( MessageFormat.format(MODULE_SPRING_PATH_PATTERN, OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.get( moduleGroup.namespaceCode ) ) );
         for ( String depMod : moduleGroup.optionalModuleDependencyNamespaceCodes ) {
-            sb.append( ',' );            
+            sb.append( ',' );
             sb.append( MessageFormat.format(MODULE_SPRING_PATH_PATTERN, OPTIONAL_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.get( depMod ) ) );
         }
         return sb.toString();
@@ -206,7 +202,7 @@ public class CheckModularization {
     boolean dwrTestSucceeded = true;
     StringBuffer ddErrorMessage = new StringBuffer("The following optional modules have interdependencies in DD class references:");
     boolean ddTestSucceeded = true;
-    
+
     public boolean testSpring() throws Exception {
         boolean testSucceeded = true;
         StringBuffer errorMessage = new StringBuffer();
@@ -217,7 +213,7 @@ public class CheckModularization {
         if ( !testSucceeded ) {
             errorMessage.insert( 0, "The Core modules have dependencies on the optional modules:\n" );
         }
-        
+
         errorMessage.append( "The following optional modules have interdependencies in Spring configuration:\n");
         List<ModuleGroup> optionalModuleGroups = retrieveOptionalModuleGroups();
         for (ModuleGroup optionalModuleGroup : optionalModuleGroups) {
@@ -244,7 +240,7 @@ public class CheckModularization {
             configProps.setProperty( "validate.ebo.references", "false" );
             configProps.store( new FileOutputStream( configPropertiesFile ), "Testing Module: " + optionalModuleGroup.namespaceCode );
             configProps.load( new FileInputStream( configPropertiesFile ) );
-            SpringContext.initializeTestApplicationContext();
+            SpringContextForBatchRunner.initializeKfs();
             dwrTestSucceeded &= testDwrModuleConfiguration(optionalModuleGroup, dwrErrorMessage);
             ddTestSucceeded &= testDdModuleConfiguration(optionalModuleGroup, ddErrorMessage);
             return true;
@@ -306,14 +302,14 @@ public class CheckModularization {
         }
         return testSucceeded;
     }
-    
+
     protected boolean testDwr() throws Exception {
         if (!dwrTestSucceeded) {
             System.out.print(dwrErrorMessage.append("\n\n").toString());
         }
         return dwrTestSucceeded;
     }
-    
+
     protected boolean testDwrModuleConfiguration(ModuleGroup moduleGroup, StringBuffer errorMessage) throws Exception {
         List<String> dwrFiles = DWR_FILES_BY_MODULE.get(moduleGroup.namespaceCode);
         boolean testSucceeded = true;
@@ -325,13 +321,13 @@ public class CheckModularization {
         }
         return testSucceeded;
     }
-    
+
     protected boolean testDwrModuleConfiguration(String dwrFileName, Document dwrDocument, ModuleGroup moduleGroup, StringBuffer errorMessage) throws Exception {
        boolean beanClassNamesOK = testDwrBeanClassNames(dwrFileName, dwrDocument, moduleGroup, errorMessage);
        boolean springServicesOK = testDwrSpringServices(dwrFileName, dwrDocument, moduleGroup, errorMessage);
        return beanClassNamesOK && springServicesOK;
     }
-    
+
     protected boolean testDwrBeanClassNames(String dwrFileName, Document dwrDocument, ModuleGroup moduleGroup, StringBuffer errorMessage) {
         boolean testSucceeded = true;
         List<String> dwrBeanClassNames = retrieveDwrBeanClassNames(dwrDocument);
@@ -356,10 +352,10 @@ public class CheckModularization {
         }
         return testSucceeded;
     }
-    
+
     protected boolean testDwrSpringServices(String dwrFileName, Document dwrDocument, ModuleGroup moduleGroup, StringBuffer errorMessage) {
         boolean testSucceeded = true;
-        
+
         try {
             List<String> serviceNames = retrieveDwrServiceNames(dwrDocument);
             for (String serviceName : serviceNames) {
@@ -381,15 +377,15 @@ public class CheckModularization {
             e.printStackTrace();
             return testSucceeded = false;
         }
-        
+
         return testSucceeded;
     }
 
-    
+
     protected Document generateDwrConfigDocument(String fileName) throws Exception {
         DefaultResourceLoader resourceLoader = new DefaultResourceLoader(ClassLoaderUtils.getDefaultClassLoader());
         InputStream in = resourceLoader.getResource(fileName).getInputStream();
-        
+
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setValidating(true);
 
@@ -400,7 +396,7 @@ public class CheckModularization {
         Document doc = db.parse(in);
         return doc;
     }
-    
+
     protected List<String> retrieveDwrServiceNames(Document dwrDocument) {
         List<String> serviceNames = new ArrayList<String>();
         // service names are in "create" elements
@@ -420,12 +416,12 @@ public class CheckModularization {
                         }
                     }
                 }
-                
+
             }
         }
         return serviceNames;
     }
-    
+
     protected List<String> retrieveDwrBeanClassNames(Document dwrDocument) {
         List<String> classNames = new ArrayList<String>();
         // class names are in "convert" elements
@@ -443,17 +439,17 @@ public class CheckModularization {
         }
         return classNames;
     }
-    
+
     protected boolean testDd() throws Exception {
         if (!ddTestSucceeded) {
             System.out.print(ddErrorMessage.append("\n\n").toString());
         }
         return ddTestSucceeded;
     }
-    
+
     protected boolean testDdModuleConfiguration( ModuleGroup moduleGroup, StringBuffer errorMessage ) {
         boolean testPassed = true;
-        
+
         List<String> disallowedPackagesForModule = new ArrayList<String>();
         for ( String otherNamespace : PACKAGE_PREFIXES_BY_MODULE.keySet() ) {
             // if an optional module
@@ -468,12 +464,12 @@ public class CheckModularization {
         System.out.println( "---Processing DD for Module: " + moduleGroup.namespaceCode );
         System.out.println( "---Disallowed packages: " + disallowedPackagesForModule );
         DataDictionary dd = SpringContext.getBean(DataDictionaryService.class).getDataDictionary();
-        Collection<BusinessObjectEntry> bos = dd.getBusinessObjectEntries().values();
-        for ( BusinessObjectEntry bo : bos ) {
+        Collection<org.kuali.rice.krad.datadictionary.BusinessObjectEntry> bos = dd.getBusinessObjectEntries().values();
+        for ( org.kuali.rice.krad.datadictionary.BusinessObjectEntry bo : bos ) {
             // only check bos for the current module (or all modules if checking the core)
-            if ( ("KFS-SYS".equals( moduleGroup.namespaceCode) 
+            if ( ("KFS-SYS".equals( moduleGroup.namespaceCode)
                     || doesPackagePrefixMatch( bo.getFullClassName(), PACKAGE_PREFIXES_BY_MODULE.get( moduleGroup.namespaceCode ) ))
-                    && !bo.getFullClassName().startsWith("org.kuali.rice") ) {                               
+                    && !bo.getFullClassName().startsWith("org.kuali.rice") ) {
                 try {
                     if ( bo.getInactivationBlockingDefinitions() != null ) {
                         for ( InactivationBlockingDefinition ibd : bo.getInactivationBlockingDefinitions() ) {
@@ -488,7 +484,7 @@ public class CheckModularization {
                             }
                         }
                     }
-                    
+
                     for ( AttributeDefinition ad : bo.getAttributes() ) {
                         try {
                             ControlDefinition cd = ad.getControl();
@@ -512,44 +508,46 @@ public class CheckModularization {
                 }
             }
         }
-        
-        for ( DocumentEntry de : dd.getDocumentEntries().values() ) {
-            if ( (de instanceof MaintenanceDocumentEntry && ("KFS-SYS".equals( moduleGroup.namespaceCode) || doesPackagePrefixMatch( ((MaintenanceDocumentEntry)de).getBusinessObjectClass().getName(), PACKAGE_PREFIXES_BY_MODULE.get( moduleGroup.namespaceCode )) ))
-                    || (de instanceof TransactionalDocumentEntry && ("KFS-SYS".equals( moduleGroup.namespaceCode) || doesPackagePrefixMatch( de.getDocumentClass().getName(), PACKAGE_PREFIXES_BY_MODULE.get( moduleGroup.namespaceCode ))) ) ) {
+
+        for ( org.kuali.rice.krad.datadictionary.DocumentEntry de : dd.getDocumentEntries().values() ) {
+            if ( (de instanceof org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry && ("KFS-SYS".equals( moduleGroup.namespaceCode)
+                    || doesPackagePrefixMatch( ((org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry)de).getDataObjectClass().getName(), PACKAGE_PREFIXES_BY_MODULE.get( moduleGroup.namespaceCode )) ))
+                    || (de instanceof org.kuali.rice.kns.datadictionary.TransactionalDocumentEntry && ("KFS-SYS".equals( moduleGroup.namespaceCode) || doesPackagePrefixMatch( de.getDocumentClass().getName(), PACKAGE_PREFIXES_BY_MODULE.get( moduleGroup.namespaceCode ))) ) ) {
+                KNSDocumentEntry knsDocEntry = (KNSDocumentEntry)de;
                 try {
-                    if ( de instanceof MaintenanceDocumentEntry ) {
-                        MaintenanceDocumentEntry mde = (MaintenanceDocumentEntry)de;
-                        validateDdDocumentClassReference("Invalid Maintainable Class", mde.getMaintainableClass(), moduleGroup.namespaceCode, de.getDocumentTypeName(), null, disallowedPackagesForModule);
+                    if ( de instanceof org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry ) {
+                        org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry mde = (org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry)de;
+                        validateDdDocumentClassReference("Invalid Maintainable Class", mde.getMaintainableClass(), moduleGroup.namespaceCode, knsDocEntry.getDocumentTypeName(), null, disallowedPackagesForModule);
                         for ( MaintainableSectionDefinition msd : mde.getMaintainableSections() ) {
                             for ( MaintainableItemDefinition mid : msd.getMaintainableItems() ) {
                                 if ( mid instanceof MaintainableCollectionDefinition ) {
-                                    testPassed &= checkMaintainableCollection(moduleGroup.namespaceCode, de.getDocumentTypeName(), (MaintainableCollectionDefinition)mid, disallowedPackagesForModule);
+                                    testPassed &= checkMaintainableCollection(moduleGroup.namespaceCode, knsDocEntry.getDocumentTypeName(), (MaintainableCollectionDefinition)mid, disallowedPackagesForModule);
                                 }
                                 if ( mid instanceof MaintainableFieldDefinition ) {
-                                    testPassed &= checkMaintainableField( moduleGroup.namespaceCode, de.getDocumentTypeName(), (MaintainableFieldDefinition)mid, disallowedPackagesForModule);
+                                    testPassed &= checkMaintainableField( moduleGroup.namespaceCode, knsDocEntry.getDocumentTypeName(), (MaintainableFieldDefinition)mid, disallowedPackagesForModule);
                                 }
                             }
                         }
                     } else { // trans doc
-                        
+
                     }
-                    validateDdDocumentClassReference("Invalid Business Rules Class", de.getBusinessRulesClass(), moduleGroup.namespaceCode, de.getDocumentTypeName(), null, disallowedPackagesForModule);
-                    validateDdDocumentClassReference("Invalid DerivedValuesSetterClass", de.getDerivedValuesSetterClass(), moduleGroup.namespaceCode, de.getDocumentTypeName(), null, disallowedPackagesForModule);
-                    validateDdDocumentClassReference("Invalid DocumentAuthorizerClass", de.getDocumentAuthorizerClass(), moduleGroup.namespaceCode, de.getDocumentTypeName(), null, disallowedPackagesForModule);
-                    validateDdDocumentClassReference("Invalid DocumentPresentationControllerClass", de.getDocumentPresentationControllerClass(), moduleGroup.namespaceCode, de.getDocumentTypeName(), null, disallowedPackagesForModule);
-                    validateDdDocumentClassReference("Invalid DocumentSearchGeneratorClass", de.getDocumentSearchGeneratorClass(), moduleGroup.namespaceCode, de.getDocumentTypeName(), null, disallowedPackagesForModule);
-                    validateDdDocumentClassReference("Invalid PromptBeforeValidationClass", de.getPromptBeforeValidationClass(), moduleGroup.namespaceCode, de.getDocumentTypeName(), null, disallowedPackagesForModule);
+                    validateDdDocumentClassReference("Invalid Business Rules Class", knsDocEntry.getBusinessRulesClass(), moduleGroup.namespaceCode, knsDocEntry.getDocumentTypeName(), null, disallowedPackagesForModule);
+                    validateDdDocumentClassReference("Invalid DerivedValuesSetterClass", knsDocEntry.getDerivedValuesSetterClass(), moduleGroup.namespaceCode, knsDocEntry.getDocumentTypeName(), null, disallowedPackagesForModule);
+                    validateDdDocumentClassReference("Invalid DocumentAuthorizerClass", knsDocEntry.getDocumentAuthorizerClass(), moduleGroup.namespaceCode, knsDocEntry.getDocumentTypeName(), null, disallowedPackagesForModule);
+                    validateDdDocumentClassReference("Invalid DocumentPresentationControllerClass", knsDocEntry.getDocumentPresentationControllerClass(), moduleGroup.namespaceCode, knsDocEntry.getDocumentTypeName(), null, disallowedPackagesForModule);
+//                    validateDdDocumentClassReference("Invalid DocumentSearchGeneratorClass", knsDocEntry.getDocumentSearchGeneratorClass(), moduleGroup.namespaceCode, knsDocEntry.getDocumentTypeName(), null, disallowedPackagesForModule);
+                    validateDdDocumentClassReference("Invalid PromptBeforeValidationClass", knsDocEntry.getPromptBeforeValidationClass(), moduleGroup.namespaceCode, knsDocEntry.getDocumentTypeName(), null, disallowedPackagesForModule);
                 } catch ( Exception ex ) {
-                    addDdDocumentError("Exception validating Document", moduleGroup.namespaceCode, de.getDocumentTypeName(), null, ex.getClass().getName() + " : " + ex.getMessage() );
-                    System.err.println( "Exception validating Document: " + de.getDocumentTypeName() );
+                    addDdDocumentError("Exception validating Document", moduleGroup.namespaceCode, knsDocEntry.getDocumentTypeName(), null, ex.getClass().getName() + " : " + ex.getMessage() );
+                    System.err.println( "Exception validating Document: " + knsDocEntry.getDocumentTypeName() );
                     testPassed = false;
                 }
             }
         }
-        
+
         return testPassed;
     }
-    
+
     protected void addDdBusinessObjectError( String errorType, String namespaceCode, String businessObjectClassName, String attributeName, String problemClassName ) {
         ddErrorMessage.append( "\n" ).append( namespaceCode ).append( " - BO: " );
         ddErrorMessage.append( businessObjectClassName );
@@ -571,7 +569,7 @@ public class CheckModularization {
             throw new RuntimeException(e);
         }
     }
-    
+
     protected boolean validateDdBusinessObjectClassReference( String errorType, Class<? extends Object> testClass, String namespaceCode, String businessObjectClassName, String attributeName, List<String> disallowedPackages ) {
         if ( testClass != null ) {
             if ( doesPackagePrefixMatch(testClass.getName(), disallowedPackages) ) {
@@ -600,7 +598,7 @@ public class CheckModularization {
         }
         return true;
     }
-    
+
     protected boolean checkMaintainableCollection( String namespaceCode, String documentTypeName, MaintainableCollectionDefinition collection, List<String> disallowedPackages ) {
         boolean testPassed = true;
         testPassed &= validateDdDocumentClassReference("Invalid Collection BO Class", collection.getBusinessObjectClass(), namespaceCode, documentTypeName, collection.getName(), disallowedPackages);
@@ -609,9 +607,9 @@ public class CheckModularization {
             testPassed &= checkMaintainableField( namespaceCode, documentTypeName, mfd, disallowedPackages);
         }
         for ( MaintainableCollectionDefinition mcd : collection.getMaintainableCollections() ) {
-            testPassed &= checkMaintainableCollection( namespaceCode, documentTypeName, mcd, disallowedPackages);            
+            testPassed &= checkMaintainableCollection( namespaceCode, documentTypeName, mcd, disallowedPackages);
         }
-        
+
         return testPassed;
     }
     protected boolean checkMaintainableField( String namespaceCode, String documentTypeName, MaintainableFieldDefinition field, List<String> disallowedPackages ) {
@@ -627,7 +625,7 @@ public class CheckModularization {
         }
         return testPassed;
     }
-    
+
     protected boolean doesPackagePrefixMatch( String className, List<String> packagePrefixList ) {
         for ( String pkg : packagePrefixList ) {
             if ( className.startsWith(pkg) ) {
@@ -635,59 +633,59 @@ public class CheckModularization {
             }
         }
         return false;
-    }        
-    
+    }
+
     public class ModuleGroup {
         public String namespaceCode;
         public HashSet<String> optionalModuleDependencyNamespaceCodes = new HashSet<String>();
-        
+
         public ModuleGroup() {
             // TODO Auto-generated constructor stub
         }
-        
+
         public ModuleGroup( String namespaceCode ) {
             this.namespaceCode = namespaceCode;
         }
-        
+
         @Override
         public String toString() {
             return namespaceCode + (optionalModuleDependencyNamespaceCodes.isEmpty()?"":(" - depends on: " + optionalModuleDependencyNamespaceCodes));
         }
     }
-    
+
     public List<ModuleGroup> retrieveModuleGroups() throws Exception {
         List<ModuleGroup> moduleGroups = new ArrayList<ModuleGroup>();
-        
+
         for (String systemNamespaceCode : SYSTEM_NAMESPACE_CODES_TO_SPRING_FILE_SUFFIX.keySet()) {
             ModuleGroup systemModuleGroup = new ModuleGroup();
             systemModuleGroup.namespaceCode = systemNamespaceCode;
             moduleGroups.add(systemModuleGroup);
         }
-        
+
         moduleGroups.addAll(retrieveOptionalModuleGroups());
-        
+
         return moduleGroups;
     }
-    
+
     public List<ModuleGroup> retrieveOptionalModuleGroups() throws Exception {
         Document designXmlDocument = getDesignXmlDocument();
         List<Element> optionalModuleDefinitions = retrieveOptionalModuleDefinitions(designXmlDocument);
         List<ModuleGroup> optionalModuleGroups = new ArrayList<ModuleGroup>();
-        
+
         for (Element optionalModuleDefinition : optionalModuleDefinitions) {
             ModuleGroup optionalModuleGroup = buildOptionalModuleGroup(optionalModuleDefinition);
             if (optionalModuleGroup != null) {
                 optionalModuleGroups.add(optionalModuleGroup);
             }
         }
-        
+
         return optionalModuleGroups;
     }
-    
+
     public Document getDesignXmlDocument() throws Exception {
         DefaultResourceLoader resourceLoader = new DefaultResourceLoader(ClassLoaderUtils.getDefaultClassLoader());
         InputStream in = resourceLoader.getResource(DefaultResourceLoader.CLASSPATH_URL_PREFIX + "design.xml").getInputStream();
-        
+
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
         DocumentBuilder db = dbf.newDocumentBuilder();
@@ -695,11 +693,11 @@ public class CheckModularization {
         Document doc = db.parse(in);
         return doc;
     }
-    
+
     public List<Element> retrieveOptionalModuleDefinitions(Document designXmlDocument) throws Exception {
         List<Element> optionalModuleDefinitions = new ArrayList<Element>();
         Element root = designXmlDocument.getDocumentElement();
-        
+
         // in the design.xml file, an optional module/package is specified by a <package> tag that does not have the needdeclarations attribute equal false
         NodeList packages = root.getElementsByTagName("package");
         for (int i = 0; i < packages.getLength(); i++) {
@@ -710,7 +708,7 @@ public class CheckModularization {
         }
         return optionalModuleDefinitions;
     }
-    
+
     public ModuleGroup buildOptionalModuleGroup(Element optionalPackageElement) {
         ModuleGroup moduleGroup = null;
         if (OPTIONAL_SPRING_FILE_SUFFIX_TO_NAMESPACE_CODES.containsKey(optionalPackageElement.getAttribute("name"))) {
@@ -731,7 +729,7 @@ public class CheckModularization {
         }
         return moduleGroup;
     }
-    
+
     protected static void stopSpringContext() {
         try {
             SpringContext.close();

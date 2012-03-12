@@ -21,11 +21,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.odmg.OJB;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
@@ -59,17 +57,15 @@ import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.rule.event.ApproveDocumentEvent;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.rules.rule.event.ApproveDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.location.api.country.Country;
+import org.kuali.rice.location.api.country.CountryService;
 
 /**
  * Base class for Purchasing Documents.
@@ -143,6 +139,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     protected String vendorShippingPaymentTermsCode;
     protected String capitalAssetSystemTypeCode;
     protected String capitalAssetSystemStateCode;
+    protected String justification;
 
     // NOT PERSISTED IN DB
     protected String supplierDiversityLabel;
@@ -179,8 +176,8 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     public PurchasingDocumentBase() {
         super();
         
-        purchasingCapitalAssetItems = new TypedArrayList(getPurchasingCapitalAssetItemClass());
-        purchasingCapitalAssetSystems = new TypedArrayList(getPurchasingCapitalAssetSystemClass());
+        purchasingCapitalAssetItems = new ArrayList();
+        purchasingCapitalAssetSystems = new ArrayList();
     }
 
     public abstract PurchasingDocumentSpecificService getDocumentSpecificService();
@@ -358,11 +355,11 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
 
     public String getBillingCountryName() {
-        Country country = SpringContext.getBean(CountryService.class).getByPrimaryId(getBillingCountryCode());
+        Country country = SpringContext.getBean(CountryService.class).getCountry(getBillingCountryCode());
         //if (country == null)
         //    country = SpringContext.getBean(CountryService.class).getDefaultCountry();
         if (country != null)
-            return country.getPostalCountryName();
+            return country.getName();
         return null;
     }
    
@@ -431,11 +428,11 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
 
     public String getReceivingCountryName() {
-        Country country = SpringContext.getBean(CountryService.class).getByPrimaryId(getReceivingCountryCode());
+        Country country = SpringContext.getBean(CountryService.class).getCountry(getReceivingCountryCode());
         //if (country == null)
         //    country = SpringContext.getBean(CountryService.class).getDefaultCountry();
         if (country != null)
-            return country.getPostalCountryName();
+            return country.getName();
         return null;
     }
 
@@ -564,9 +561,9 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
 
     public String getDeliveryCountryName() {
-        Country country = SpringContext.getBean(CountryService.class).getByPrimaryId(getDeliveryCountryCode());
+        Country country = SpringContext.getBean(CountryService.class).getCountry(getDeliveryCountryCode());
         if (country != null)
-            return country.getPostalCountryName();
+            return country.getName();
         return null;
     }
 
@@ -1096,6 +1093,22 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         this.capitalAssetSystemStateCode = capitalAssetSystemStateCode;
     }
 
+    /**
+     * Gets the justification attribute. 
+     * @return Returns the justification.
+     */
+    public String getJustification() {
+        return justification;
+    }
+
+    /**
+     * Sets the justification attribute value.
+     * @param justification The justification to set.
+     */
+    public void setJustification(String justification) {
+        this.justification = justification;
+    }
+
     public CapitalAssetSystemType getCapitalAssetSystemType() {
         if(ObjectUtils.isNull(capitalAssetSystemType)){
             this.refreshReferenceObject("capitalAssetSystemType");
@@ -1207,7 +1220,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
      * Overrides the method in PurchasingAccountsPayableDocumentBase to remove the
      * purchasingCapitalAssetSystem when the system type is either ONE or MULT.
      * 
-     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#prepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#prepareForSave(org.kuali.rice.krad.rule.event.KualiDocumentEvent)
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {

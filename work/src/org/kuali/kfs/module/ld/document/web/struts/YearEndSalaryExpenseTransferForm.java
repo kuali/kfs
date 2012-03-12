@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ld.document.web.struts;
 
-import org.kuali.kfs.module.ld.document.YearEndSalaryExpenseTransferDocument;
 
 /**
  * Class representing the Year End Salary Expense Transfer Document Form.

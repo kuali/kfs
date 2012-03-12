@@ -20,10 +20,10 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.datadictionary.InactivationBlockingMetadata;
-import org.kuali.rice.kns.service.impl.InactivationBlockingDetectionServiceImpl;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.datadictionary.InactivationBlockingMetadata;
+import org.kuali.rice.krad.service.impl.InactivationBlockingDetectionServiceImpl;
 
 /**
  * This class is used when the offset definition represents the object that is blocking other records from being inactivated.
@@ -36,7 +36,7 @@ public class OffsetDefinitionInactivationBlockingDetectionServiceImpl extends In
     protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OffsetDefinitionInactivationBlockingDetectionServiceImpl.class);
     /**
      * Overriding to let blocking records through
-     * @see org.kuali.rice.kns.service.impl.InactivationBlockingDetectionServiceImpl#listAllBlockerRecords(org.kuali.rice.kns.bo.BusinessObject, org.kuali.rice.kns.datadictionary.InactivationBlockingMetadata)
+     * @see org.kuali.rice.krad.service.impl.InactivationBlockingDetectionServiceImpl#listAllBlockerRecords(org.kuali.rice.krad.bo.BusinessObject, org.kuali.rice.krad.datadictionary.InactivationBlockingMetadata)
      */
     public Collection<BusinessObject> listAllBlockerRecords(BusinessObject blockedBo, InactivationBlockingMetadata inactivationBlockingMetadata) {
         Collection<BusinessObject> blockingRecords = new ArrayList<BusinessObject>();
@@ -52,7 +52,7 @@ public class OffsetDefinitionInactivationBlockingDetectionServiceImpl extends In
             Collection<? extends BusinessObject> potentialBlockingRecords = businessObjectService.findMatching(
                     inactivationBlockingMetadata.getBlockingReferenceBusinessObjectClass(), queryMap);
             for (Iterator<? extends BusinessObject> iterator = potentialBlockingRecords.iterator(); iterator.hasNext();) {
-                Inactivateable businessObject = (Inactivateable) iterator.next();
+                MutableInactivatable businessObject = (MutableInactivatable) iterator.next();
                 blockingRecords.add((BusinessObject) businessObject);
             }
         }
@@ -62,7 +62,7 @@ public class OffsetDefinitionInactivationBlockingDetectionServiceImpl extends In
     
     /**
      * Overriding to say that any record of the same PK is blocking..
-     * @see org.kuali.rice.kns.service.impl.InactivationBlockingDetectionServiceImpl#hasABlockingRecord(org.kuali.rice.kns.bo.BusinessObject, org.kuali.rice.kns.datadictionary.InactivationBlockingMetadata)
+     * @see org.kuali.rice.krad.service.impl.InactivationBlockingDetectionServiceImpl#hasABlockingRecord(org.kuali.rice.krad.bo.BusinessObject, org.kuali.rice.krad.datadictionary.InactivationBlockingMetadata)
      */
     public boolean hasABlockingRecord(BusinessObject blockedBo, InactivationBlockingMetadata inactivationBlockingMetadata) {
         boolean hasBlockingRecord = false;

@@ -20,10 +20,8 @@ import java.math.BigDecimal;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kfs.module.ld.LaborConstants;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kim.api.identity.Person;
 
 /**
  * Labor business object for Employee Funding.

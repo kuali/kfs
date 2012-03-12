@@ -19,9 +19,8 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 /**
  * Holds fields needed to run a security simulation and the display results
@@ -190,7 +189,7 @@ public class AccessSecuritySimulation extends TransientBusinessObjectBase {
      * @return Returns the securityPerson.
      */
     public Person getSecurityPerson() {
-        securityPerson = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(principalId, securityPerson);
+        securityPerson = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(principalId, securityPerson);
         return securityPerson;
     }
 
@@ -205,8 +204,8 @@ public class AccessSecuritySimulation extends TransientBusinessObjectBase {
     }
 
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
 
         m.put(KFSPropertyConstants.PRINCIPAL_ID, this.principalId);

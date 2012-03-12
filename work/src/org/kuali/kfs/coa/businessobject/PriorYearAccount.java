@@ -19,29 +19,27 @@ package org.kuali.kfs.coa.businessobject;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.coa.service.SubFundGroupService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.PostalCode;
-import org.kuali.rice.kns.bo.State;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.PostalCodeService;
-import org.kuali.rice.kns.service.StateService;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.location.api.campus.CampusService;
+import org.kuali.rice.location.api.postalcode.PostalCodeService;
+import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.location.framework.campus.CampusEbo;
+import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
+import org.kuali.rice.location.framework.state.StateEbo;
 
 /**
  * 
  */
-public class PriorYearAccount extends PersistableBusinessObjectBase implements AccountIntf, Inactivateable {
+public class PriorYearAccount extends PersistableBusinessObjectBase implements AccountIntf, MutableInactivatable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PriorYearAccount.class);
 
     private String chartOfAccountsCode;
@@ -94,8 +92,8 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
     private Chart chartOfAccounts;
     private Organization organization;
     private AccountType accountType;
-    private Campus accountPhysicalCampus;
-    private State accountState;
+    private CampusEbo accountPhysicalCampus;
+    private StateEbo accountState;
     private SubFundGroup subFundGroup;
     private HigherEducationFunction financialHigherEdFunction;
     private RestrictedStatus accountRestrictedStatus;
@@ -107,7 +105,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
     private Person accountFiscalOfficerUser;
     private Person accountSupervisoryUser;
     private Person accountManagerUser;
-    private PostalCode postalZipCode;
+    private PostalCodeEbo postalZipCode;
     private BudgetRecordingLevel budgetRecordingLevel;
     private SufficientFundsCode sufficientFundsCode;
 
@@ -134,7 +132,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      * Default no-arg constructor.
      */
     public PriorYearAccount() {
-        indirectCostRecoveryAccounts = new TypedArrayList(PriorYearIndirectCostRecoveryAccount.class);
+        indirectCostRecoveryAccounts = new ArrayList<PriorYearIndirectCostRecoveryAccount>();
     }
 
     /**
@@ -727,8 +725,8 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      * 
      * @return Returns the accountPhysicalCampus
      */
-    public Campus getAccountPhysicalCampus() {
-        return accountPhysicalCampus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, accountPhysicalCampus, "accountPhysicalCampus");
+    public CampusEbo getAccountPhysicalCampus() {
+        return accountPhysicalCampus = StringUtils.isBlank( accountPhysicalCampusCode)?null:((accountPhysicalCampus!=null && accountPhysicalCampus.getCode().equals( accountPhysicalCampusCode))?accountPhysicalCampus:CampusEbo.from(SpringContext.getBean(CampusService.class).getCampus( accountPhysicalCampusCode)));
     }
 
     /**
@@ -737,7 +735,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      * @param accountPhysicalCampus The accountPhysicalCampus to set.
      * @deprecated
      */
-    public void setAccountPhysicalCampus(Campus accountPhysicalCampus) {
+    public void setAccountPhysicalCampus(CampusEbo accountPhysicalCampus) {
         this.accountPhysicalCampus = accountPhysicalCampus;
     }
 
@@ -746,8 +744,8 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      * 
      * @return Returns the accountState
      */
-    public State getAccountState() {
-        accountState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary( accountStateCode, accountState);
+    public StateEbo getAccountState() {
+        accountState = (StringUtils.isBlank( accountStateCode))?null:( accountState == null||!StringUtils.equals( accountState.getCode(), accountStateCode))? StateEbo.from( SpringContext.getBean(StateService.class).getState("US"/*REFACTORME*/, accountStateCode) ): accountState;
         return accountState;
     }
 
@@ -757,7 +755,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      * @param state
      * @deprecated
      */
-    public void setAccountState(State state) {
+    public void setAccountState(StateEbo state) {
         this.accountState = state;
     }
 
@@ -896,7 +894,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
     }
 
     public Person getAccountFiscalOfficerUser() {
-        accountFiscalOfficerUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(accountFiscalOfficerSystemIdentifier, accountFiscalOfficerUser);
+        accountFiscalOfficerUser = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(accountFiscalOfficerSystemIdentifier, accountFiscalOfficerUser);
         return accountFiscalOfficerUser;
     }
 
@@ -910,7 +908,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
     }
 
     public Person getAccountManagerUser() {
-        accountManagerUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(accountManagerSystemIdentifier, accountManagerUser);
+        accountManagerUser = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(accountManagerSystemIdentifier, accountManagerUser);
         return accountManagerUser;
     }
 
@@ -924,7 +922,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
 
 
     public Person getAccountSupervisoryUser() {
-        accountSupervisoryUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(accountsSupervisorySystemsIdentifier, accountSupervisoryUser);
+        accountSupervisoryUser = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(accountsSupervisorySystemsIdentifier, accountSupervisoryUser);
         return accountSupervisoryUser;
     }
 
@@ -1293,8 +1291,8 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      * 
      * @return Returns the postalZipCode.
      */
-    public PostalCode getPostalZipCode() {
-        postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPostalCodeInDefaultCountryIfNecessary(accountZipCode, postalZipCode);
+    public PostalCodeEbo getPostalZipCode() {
+        postalZipCode = (accountZipCode == null)?null:( postalZipCode == null || !StringUtils.equals( postalZipCode.getCode(),accountZipCode))? PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode("US"/*RICE20_REFACTORME*/,accountZipCode)): postalZipCode;
         return postalZipCode;
     }
 
@@ -1303,7 +1301,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
      * 
      * @param postalZipCode The postalZipCode to set.
      */
-    public void setPostalZipCode(PostalCode postalZipCode) {
+    public void setPostalZipCode(PostalCodeEbo postalZipCode) {
         this.postalZipCode = postalZipCode;
     }
 
@@ -1342,20 +1340,6 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
     public void setSufficientFundsCode(SufficientFundsCode sufficientFundsCode) {
         this.sufficientFundsCode = sufficientFundsCode;
     }
-
-
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-
-        m.put("chartCode", this.chartOfAccountsCode);
-        m.put("accountNumber", this.accountNumber);
-
-        return m;
-    }
-
 
     /**
      * Implementing equals since I need contains to behave reasonably in a hashed datastructure.

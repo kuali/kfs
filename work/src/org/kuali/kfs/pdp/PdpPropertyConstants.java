@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.pdp;
 
-import org.kuali.rice.kns.authorization.AuthorizationConstants.EditMode;
 
 /**
  * Contains property name constants.
@@ -46,9 +45,9 @@ public class PdpPropertyConstants {
     
     public static final String PAYEE_IDENTIFIER_TYPE_CODE = "payeeIdentifierTypeCode";
     public static final String PAYEE_ID_NUMBER = "payeeIdNumber";
+    public static final String PAYEE_NAME = "payeeName";
+    public static final String PAYEE_EMAIL_ADDRESS = "payeeEmailAddress";
     public static final String ACH_TRANSACTION_TYPE = "achTransactionType";
-    public static final String PAYEE_SOCIAL_SECURITY_NUMBER = "payeeSocialSecurityNumber";
-    public static final String PAYEE_FEDERAL_EMPLOYER_IDENTIFICATION_NUMBER = "payeeFederalEmployerIdentificationNumber";
     public static final String PAYEE_CODE = "code";
     
     public static final String CHART_DB_COLUMN_NAME = "fin_coa_cd";
@@ -64,7 +63,6 @@ public class PdpPropertyConstants {
     public static final String PHYS_CAMPUS_PROCESS_CODE = "physicalCampusProcessCode";
     public static final String BEGIN_DISBURSEMENT_NBR = "beginDisbursementNbr";
     public static final String END_DISBURSEMENT_NBR = "endDisbursementNbr";
-    public static final String PAYEE_NAME = "payeeName";
     public static final String PAYMENT_GROUP = "paymentGroup";
     public static final String PAYMENT_GROUP_HISTORY = "paymentGroupHistory";
     public static final String PROCESS_IND = "processInd";

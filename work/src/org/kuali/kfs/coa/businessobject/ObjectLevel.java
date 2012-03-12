@@ -17,18 +17,16 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * 
  */
-public class ObjectLevel extends PersistableBusinessObjectBase implements Inactivateable {
+public class ObjectLevel extends PersistableBusinessObjectBase implements MutableInactivatable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectLevel.class);
 
     private String chartOfAccountsCode;
@@ -203,9 +201,9 @@ public class ObjectLevel extends PersistableBusinessObjectBase implements Inacti
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
 
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
@@ -218,9 +216,8 @@ public class ObjectLevel extends PersistableBusinessObjectBase implements Inacti
         this.chartOfAccountsCode = chart;
     }
 
-    @Override
-    public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.beforeUpdate(persistenceBroker);
+    @Override protected void preUpdate() {
+        super.preUpdate();
         try {
             // KULCOA-549: update the sufficient funds table
             // get the current data from the database
@@ -234,14 +231,14 @@ public class ObjectLevel extends PersistableBusinessObjectBase implements Inacti
                     sfr.setChartOfAccountsCode(originalObjLevel.getChartOfAccountsCode());
                     sfr.setAccountNumberFinancialObjectCode(originalObjLevel.getFinancialConsolidationObjectCode());
                     if (boService.retrieve(sfr) == null) {
-                        persistenceBroker.store(sfr);
+                        boService.save(sfr);
                     }
                     sfr = new SufficientFundRebuild();
                     sfr.setAccountFinancialObjectTypeCode(SufficientFundRebuild.REBUILD_OBJECT);
                     sfr.setChartOfAccountsCode(getChartOfAccountsCode());
                     sfr.setAccountNumberFinancialObjectCode(getFinancialConsolidationObjectCode());
                     if (boService.retrieve(sfr) == null) {
-                        persistenceBroker.store(sfr);
+                        boService.save(sfr);
                     }
                 }
             }

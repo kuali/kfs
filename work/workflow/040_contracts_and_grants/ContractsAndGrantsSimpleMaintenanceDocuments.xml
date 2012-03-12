@@ -280,25 +280,5 @@
         2
       </routingVersion>
     </documentType>
-    <documentType>
-      <name>
-        CFDM
-      </name>
-      <parent>
-        CGSM
-      </parent>
-      <label>
-        Catalog of Federal Domestic Assistance
-      </label>
-      <helpDefinitionURL>
-        default.htm?turl=WordDocuments%2Fcatalogoffederaldomesticassistance.htm
-      </helpDefinitionURL>
-      <active>
-        true
-      </active>
-      <routingVersion>
-        2
-      </routingVersion>
-    </documentType>
   </documentTypes>
 </data>

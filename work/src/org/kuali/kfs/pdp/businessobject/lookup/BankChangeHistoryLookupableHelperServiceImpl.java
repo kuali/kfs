@@ -15,17 +15,13 @@
  */
 package org.kuali.kfs.pdp.businessobject.lookup;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
-import org.kuali.kfs.pdp.businessobject.BankChangeHistory;
-import org.kuali.kfs.pdp.businessobject.PaymentGroupHistory;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 /**
  * Performs search on PaymentGroupHistory for changed bank records and constructs BankChangeHistory report objects.

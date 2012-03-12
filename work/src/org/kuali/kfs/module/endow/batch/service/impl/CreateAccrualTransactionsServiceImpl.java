@@ -42,14 +42,14 @@ import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.validation.event.AddTransactionLineEvent;
 import org.kuali.kfs.module.endow.util.GloabalVariablesExtractHelper;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KualiRuleService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -64,7 +64,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
     private HoldingTaxLotService holdingTaxLotService;
     private SecurityDao securityDao;
     private DocumentService documentService;
-    private KualiConfigurationService configService;
+    private ConfigurationService configService;
     private KualiRuleService kualiRuleService;
     protected ParameterService parameterService;
 
@@ -298,7 +298,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
         try {
 
             cashIncreaseDocument = (CashIncreaseDocument) documentService.getNewDocument(getCashIncreaseDocumentType());
-            String documentDescription = parameterService.getParameterValue(CreateAccrualTransactionsStep.class, EndowParameterKeyConstants.DESCRIPTION);
+            String documentDescription = parameterService.getParameterValueAsString(CreateAccrualTransactionsStep.class, EndowParameterKeyConstants.DESCRIPTION);
             cashIncreaseDocument.getDocumentHeader().setDocumentDescription(documentDescription);
             cashIncreaseDocument.setTransactionSourceTypeCode(EndowConstants.TransactionSourceTypeCode.AUTOMATED);
             cashIncreaseDocument.setTransactionSubTypeCode(EndowConstants.TransactionSubTypeCode.CASH);
@@ -338,7 +338,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
 
         if (rulesPassed) {
 
-            String noRouteIndVal = parameterService.getParameterValue(CreateAccrualTransactionsStep.class, EndowParameterKeyConstants.NO_ROUTE_IND);
+            String noRouteIndVal = parameterService.getParameterValueAsString(CreateAccrualTransactionsStep.class, EndowParameterKeyConstants.NO_ROUTE_IND);
             boolean noRouteIndicator = EndowConstants.YES.equalsIgnoreCase(noRouteIndVal) ? true : false;
 
             try {
@@ -499,7 +499,7 @@ public class CreateAccrualTransactionsServiceImpl implements CreateAccrualTransa
      * 
      * @param configService
      */
-    public void setConfigService(KualiConfigurationService configService) {
+    public void setConfigService(ConfigurationService configService) {
         this.configService = configService;
     }
 

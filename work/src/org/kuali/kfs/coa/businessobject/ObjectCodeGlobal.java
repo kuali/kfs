@@ -17,6 +17,7 @@
 package org.kuali.kfs.coa.businessobject;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -26,13 +27,12 @@ import org.kuali.kfs.coa.service.ChartService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.GlobalBusinessObject;
-import org.kuali.rice.kns.bo.GlobalBusinessObjectDetail;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.GlobalBusinessObject;
+import org.kuali.rice.krad.bo.GlobalBusinessObjectDetail;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * 
@@ -72,7 +72,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
     private MandatoryTransferEliminationCode finObjMandatoryTrnfrelim;
     private FederalFundedCode financialFederalFunded;
 
-    private List<ObjectCodeGlobalDetail> objectCodeGlobalDetails;
+    private Collection<ObjectCodeGlobalDetail> objectCodeGlobalDetails;
 
     /**
      * Default constructor.
@@ -80,7 +80,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
     public ObjectCodeGlobal() {
 
 
-        objectCodeGlobalDetails = new TypedArrayList(ObjectCodeGlobalDetail.class);
+        objectCodeGlobalDetails = new ArrayList<ObjectCodeGlobalDetail>();
 
     }
 
@@ -637,15 +637,15 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap<String,String> toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String,String> m = new LinkedHashMap<String,String>();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         return m;
     }
 
-    public List<ObjectCodeGlobalDetail> getObjectCodeGlobalDetails() {
+    public Collection<ObjectCodeGlobalDetail> getObjectCodeGlobalDetails() {
         return objectCodeGlobalDetails;
     }
 
@@ -654,7 +654,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
     }
 
     /**
-     * @see org.kuali.rice.kns.document.GlobalBusinessObject#getGlobalChangesToDelete()
+     * @see org.kuali.rice.krad.document.GlobalBusinessObject#getGlobalChangesToDelete()
      */
     public List<PersistableBusinessObject> generateDeactivationsToPersist() {
         return null;
@@ -663,7 +663,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
     /**
      * This returns a list of Object Codes to Update and/or Add
      * 
-     * @see org.kuali.rice.kns.document.GlobalBusinessObject#applyGlobalChanges()
+     * @see org.kuali.rice.krad.document.GlobalBusinessObject#applyGlobalChanges()
      */
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
         LOG.debug("applyGlobalChanges");
@@ -742,17 +742,17 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
     }
 
     public List<? extends GlobalBusinessObjectDetail> getAllDetailObjects() {
-        return getObjectCodeGlobalDetails();
+        return new ArrayList<GlobalBusinessObjectDetail>( getObjectCodeGlobalDetails() );
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
     @Override
-    public List buildListOfDeletionAwareLists() {
-        List<List> managedLists = super.buildListOfDeletionAwareLists();
+    public List<Collection<PersistableBusinessObject>> buildListOfDeletionAwareLists() {
+        List<Collection<PersistableBusinessObject>> managedLists = super.buildListOfDeletionAwareLists();
 
-        managedLists.add(getObjectCodeGlobalDetails());
+        managedLists.add( new ArrayList<PersistableBusinessObject>( getObjectCodeGlobalDetails() ) );
 
         return managedLists;
     }

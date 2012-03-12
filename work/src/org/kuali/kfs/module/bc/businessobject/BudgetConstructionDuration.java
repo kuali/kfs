@@ -18,13 +18,13 @@ package org.kuali.kfs.module.bc.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class BudgetConstructionDuration extends PersistableBusinessObjectBase implements Inactivateable {
+public class BudgetConstructionDuration extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String appointmentDurationCode;
     private String appointmentDurationDescription;
@@ -93,9 +93,9 @@ public class BudgetConstructionDuration extends PersistableBusinessObjectBase im
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("appointmentDurationCode", this.appointmentDurationCode);
         return m;

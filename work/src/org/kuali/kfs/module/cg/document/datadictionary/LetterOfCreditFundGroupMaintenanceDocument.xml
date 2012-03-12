@@ -61,5 +61,5 @@
     <!-- workflow attributes -->
   <bean id="LetterOfCreditFundGroupMaintenanceDocument-workflowAttributes" parent="LetterOfCreditFundGroupMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="LetterOfCreditFundGroupMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="LetterOfCreditFundGroupMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

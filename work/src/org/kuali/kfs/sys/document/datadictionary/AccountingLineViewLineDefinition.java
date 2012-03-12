@@ -24,8 +24,8 @@ import org.kuali.kfs.sys.document.web.AccountingLineViewLine;
 import org.kuali.kfs.sys.document.web.AccountingLineViewLineFillingElement;
 import org.kuali.kfs.sys.document.web.RenderableElement;
 import org.kuali.kfs.sys.document.web.TableJoining;
-import org.kuali.rice.kns.datadictionary.DataDictionaryDefinitionBase;
-import org.kuali.rice.kns.datadictionary.exception.AttributeValidationException;
+import org.kuali.rice.krad.datadictionary.DataDictionaryDefinitionBase;
+import org.kuali.rice.krad.datadictionary.exception.AttributeValidationException;
 
 /**
  * Data dictionary definition of a collection of elements which will be rendered as one table row in the table of each accounting line.
@@ -37,7 +37,7 @@ public class AccountingLineViewLineDefinition extends DataDictionaryDefinitionBa
     /**
      * Validates that:
      * 1) there is at least one child element
-     * @see org.kuali.rice.kns.datadictionary.DataDictionaryDefinition#completeValidation(java.lang.Class, java.lang.Class)
+     * @see org.kuali.rice.krad.datadictionary.DataDictionaryDefinition#completeValidation(java.lang.Class, java.lang.Class)
      */
     public void completeValidation(Class rootBusinessObjectClass, Class otherBusinessObjectClass) {
         if (cells == null || cells.size() == 0) {

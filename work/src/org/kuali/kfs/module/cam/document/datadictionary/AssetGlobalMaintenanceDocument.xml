@@ -59,8 +59,6 @@
     </property> 
     <property name="webScriptFiles">
       <list>
-        <value>../dwr/interface/AccountService.js</value>
-        <value>../dwr/interface/AccountingPeriodService.js</value>
         <value>../scripts/module/cams/assetGlobalMaintenanceDocument.js</value>
       </list>
     </property>
@@ -218,49 +216,52 @@
     <property name="title" value="Add Payments"/>
     <property name="maintainableItems">
       <list>      	
-        <bean parent="MaintainableCollectionDefinition">
-          <property name="name" value="assetPaymentDetails"/>
-          <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail"/>
-          <property name="summaryTitle" value="Asset Payment"/>
-          <property name="summaryFields">
-            <list>
-              <bean parent="MaintainableFieldDefinition" p:name="sequenceNumber"/>
-            </list>
-          </property>
-          <property name="maintainableFields">
-            <list>
-              <bean parent="MaintainableFieldDefinition" p:name="sequenceNumber" p:unconditionallyReadOnly="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:readOnlyAfterAdd="true" p:required="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:readOnlyAfterAdd="true" p:required="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="subAccountNumber" p:readOnlyAfterAdd="true"/>
+        <bean parent="AssetGlobalMaintenanceDocument-AddPayments-MaintainableCollectionDefinition"/>
+        <bean parent="MaintainableSubSectionHeaderDefinition" p:name="Total Payment Amount"/>
+        <bean parent="MaintainableFieldDefinition" p:name="totalAssetPaymentAmount" p:unconditionallyReadOnly="true"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="AssetGlobalMaintenanceDocument-AddPayments-MaintainableCollectionDefinition" parent="AssetGlobalMaintenanceDocument-AddPayments-MaintainableCollectionDefinition-parentBean"/>
+  <bean id="AssetGlobalMaintenanceDocument-AddPayments-MaintainableCollectionDefinition-parentBean" abstract="true" parent="MaintainableCollectionDefinition">
+       <property name="name" value="assetPaymentDetails"/>
+       <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail"/>
+       <property name="summaryTitle" value="Asset Payment"/>
+       <property name="summaryFields">
+         <list>
+           <bean parent="MaintainableFieldDefinition" p:name="sequenceNumber"/>
+         </list>
+       </property>
+       <property name="maintainableFields">
+         <list>
+           <bean parent="MaintainableFieldDefinition" p:name="sequenceNumber" p:unconditionallyReadOnly="true"/>
+           <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:readOnlyAfterAdd="true" p:required="true"/>
+           <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:readOnlyAfterAdd="true" p:required="true" p:webUILeaveFieldFunction="onblur_accountNumber_pay"/>
+           <bean parent="MaintainableFieldDefinition" p:name="subAccountNumber" p:readOnlyAfterAdd="true"/>
               <!-- CSU 6702 BEGIN -->
               <bean parent="MaintainableFieldDefinition" p:readOnlyAfterAdd="true" p:name="financialObjectCode" p:required="true" p:overrideLookupClass="org.kuali.kfs.coa.businessobject.ObjectCode" p:overrideFieldConversions="chartOfAccountsCode:chartOfAccountsCode,financialObjectCode:financialObjectCode"/>
               <!-- bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:readOnlyAfterAdd="true" p:required="true" p:overrideLookupClass="org.kuali.kfs.coa.businessobject.ObjectCode" p:overrideFieldConversions="chartOfAccountsCode:chartOfAccountsCode,financialObjectCode:financialObjectCode"/ -->
               <!-- CSU 6702 END -->              
-              <bean parent="MaintainableFieldDefinition" p:name="financialSubObjectCode" p:readOnlyAfterAdd="true" p:overrideLookupClass="org.kuali.kfs.coa.businessobject.SubObjectCode" p:overrideFieldConversions="financialSubObjectCode:financialSubObjectCode,chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber,financialObjectCode:financialObjectCode"/>
-              <bean parent="MaintainableFieldDefinition" p:name="projectCode" p:readOnlyAfterAdd="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="organizationReferenceId" p:readOnlyAfterAdd="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="expenditureFinancialSystemOriginationCode" p:readOnlyAfterAdd="true"/>                    
-              <bean parent="MaintainableFieldDefinition" p:name="expenditureFinancialDocumentNumber" p:readOnlyAfterAdd="true" p:required="false"/>
-              <bean parent="MaintainableFieldDefinition" p:name="expenditureFinancialDocumentTypeCode" p:readOnlyAfterAdd="true" p:required="false"/>
-              <bean parent="MaintainableFieldDefinition" p:name="purchaseOrderNumber" p:readOnlyAfterAdd="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="requisitionNumber" p:readOnlyAfterAdd="true"/>
+           <bean parent="MaintainableFieldDefinition" p:name="financialSubObjectCode" p:readOnlyAfterAdd="true" p:overrideLookupClass="org.kuali.kfs.coa.businessobject.SubObjectCode" p:overrideFieldConversions="financialSubObjectCode:financialSubObjectCode,chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber,financialObjectCode:financialObjectCode"/>
+           <bean parent="MaintainableFieldDefinition" p:name="projectCode" p:readOnlyAfterAdd="true"/>
+           <bean parent="MaintainableFieldDefinition" p:name="organizationReferenceId" p:readOnlyAfterAdd="true"/>
+           <bean parent="MaintainableFieldDefinition" p:name="expenditureFinancialSystemOriginationCode" p:readOnlyAfterAdd="true"/>                    
+           <bean parent="MaintainableFieldDefinition" p:name="expenditureFinancialDocumentNumber" p:readOnlyAfterAdd="true" p:required="false"/>
+           <bean parent="MaintainableFieldDefinition" p:name="expenditureFinancialDocumentTypeCode" p:overrideLookupClass="org.kuali.kfs.module.cam.businessobject.AssetPaymentDocumentType" p:overrideFieldConversions="expenditureFinancialDocumentTypeCode:expenditureFinancialDocumentTypeCode" p:readOnlyAfterAdd="true" p:required="false"/>
+           <bean parent="MaintainableFieldDefinition" p:name="purchaseOrderNumber" p:readOnlyAfterAdd="true"/>
+           <bean parent="MaintainableFieldDefinition" p:name="requisitionNumber" p:readOnlyAfterAdd="true"/>
               <!-- CSU 6702 BEGIN -->
               <bean parent="MaintainableFieldDefinition" p:name="expenditureFinancialDocumentPostedDate" p:required="false" p:readOnlyAfterAdd="true"/>
               <bean parent="MaintainableFieldDefinition" p:name="postingYear" p:readOnlyAfterAdd="true" p:unconditionallyReadOnly="false"/>
               <!-- bean parent="MaintainableFieldDefinition" p:name="expenditureFinancialDocumentPostedDate" p:required="false" p:webUILeaveFieldFunction="onblur_postingYearAndPeriodCode" p:webUILeaveFieldCallbackFunction="postingYearAndPeriodCode_Callback" p:readOnlyAfterAdd="true"/ -->
               <!-- bean parent="MaintainableFieldDefinition" p:name="postingYear" p:unconditionallyReadOnly="true"/ -->
               <!-- CSU 6702 END -->
-              <bean parent="MaintainableFieldDefinition" p:name="postingPeriodCode" p:unconditionallyReadOnly="true" />
-              <bean parent="MaintainableFieldDefinition" p:name="amount" p:readOnlyAfterAdd="true" p:required="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
-            </list>
-          </property>
-        </bean>
-        <bean parent="MaintainableSubSectionHeaderDefinition" p:name="Total Payment Amount"/>
-        <bean parent="MaintainableFieldDefinition" p:name="totalAssetPaymentAmount" p:unconditionallyReadOnly="true"/>
-      </list>
-    </property>
+           <bean parent="MaintainableFieldDefinition" p:name="postingPeriodCode" p:unconditionallyReadOnly="true" />
+           <bean parent="MaintainableFieldDefinition" p:name="amount" p:readOnlyAfterAdd="true" p:required="true"/>
+           <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
+         </list>
+       </property>
   </bean>
 
   <bean id="AssetGlobalMaintenanceDocument-AssetInformation" parent="AssetGlobalMaintenanceDocument-AssetInformation-parentBean"/>
@@ -295,9 +296,9 @@
   <bean id="AssetGlobalMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     <property name="searchingTypeDefinitions">
       <list>
-	    <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+	    <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
 	    	<property name="searchingAttribute">
-	    		<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+	    		<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
 	    			<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset"/>
 	    			<property name="attributeName" value="campusTagNumber"/>
 	    		</bean>
@@ -309,9 +310,9 @@
 	    	</property>
 	    </bean>
     
-	    <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+	    <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
 	    	<property name="searchingAttribute">
-	    		<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+	    		<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
 	    			<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset"/>
 	    			<property name="attributeName" value="organizationOwnerChartOfAccountsCode"/>
 	    		</bean>
@@ -323,9 +324,9 @@
 	    	</property>
 	    </bean>
     
-	    <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+	    <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
 	    	<property name="searchingAttribute">
-	    		<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+	    		<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
 	    			<property name="businessObjectClassName" value="org.kuali.kfs.coa.businessobject.Organization"/>
 	    			<property name="attributeName" value="organizationCode"/>
 	    		</bean>
@@ -337,9 +338,9 @@
 	    	</property>
 	    </bean>
     
-	    <bean class="org.kuali.rice.kns.datadictionary.SearchingTypeDefinition">
+	    <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
 	    	<property name="searchingAttribute">
-	    		<bean class="org.kuali.rice.kns.datadictionary.SearchingAttribute">
+	    		<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
 	    			<property name="businessObjectClassName" value="org.kuali.kfs.module.cam.businessobject.Asset"/>
 	    			<property name="attributeName" value="organizationOwnerAccountNumber"/>
 	    		</bean>

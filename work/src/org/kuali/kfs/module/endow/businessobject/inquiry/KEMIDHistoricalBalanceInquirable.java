@@ -25,17 +25,17 @@ import org.kuali.kfs.module.endow.businessobject.KEMIDHistoricalBalanceDetail;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.util.UrlFactory;
 
 public class KEMIDHistoricalBalanceInquirable extends KfsInquirableImpl {
 
     /**
-     * @see org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject,
+     * @see org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl#getInquiryUrl(org.kuali.rice.krad.bo.BusinessObject,
      *      java.lang.String, boolean)
      */
     @Override
@@ -46,9 +46,9 @@ public class KEMIDHistoricalBalanceInquirable extends KfsInquirableImpl {
             Properties params = new Properties();
             params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
             params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, KEMIDHistoricalBalanceDetail.class.getName());
-            params.put(KNSConstants.DOC_FORM_KEY, "88888888");
+            params.put(KRADConstants.DOC_FORM_KEY, "88888888");
             params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
-            params.put(KFSConstants.BACK_LOCATION, SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KNSConstants.APPLICATION_URL_KEY) + "/" + KFSConstants.MAPPING_PORTAL + ".do");
+            params.put(KFSConstants.BACK_LOCATION, SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KRADConstants.APPLICATION_URL_KEY) + "/" + KFSConstants.MAPPING_PORTAL + ".do");
             params.put(KFSConstants.LOOKUP_READ_ONLY_FIELDS, EndowPropertyConstants.KEMID_HIST_BAL_DET_KEMID + "," + EndowPropertyConstants.KEMID_HIST_BAL_DET_PURPOSE_CODE + "," + EndowPropertyConstants.KEMID_HIST_BAL_DET_DATE_ID + "," + EndowPropertyConstants.KEMID_HIST_BAL_DET_KEMID_CLOSED_INDICATOR + "," + EndowPropertyConstants.KEMID_HIST_BAL_DET_KEMID_SHORT_TTL + "," + EndowPropertyConstants.KEMID_HIST_BAL_DET_KEMID_PURPOSE_DESC);
             params.put(EndowPropertyConstants.KEMID_HIST_BAL_DET_KEMID, UrlFactory.encode(String.valueOf(historicalBalance.getKemid())));
             params.put(EndowPropertyConstants.KEMID_HIST_BAL_DET_PURPOSE_CODE, UrlFactory.encode(historicalBalance.getKemidObj().getPurposeCode()));
@@ -57,7 +57,7 @@ public class KEMIDHistoricalBalanceInquirable extends KfsInquirableImpl {
             params.put(EndowPropertyConstants.KEMID_HIST_BAL_DET_KEMID_SHORT_TTL, historicalBalance.getKemidObj().getShortTitle());
             params.put(EndowPropertyConstants.KEMID_HIST_BAL_DET_KEMID_PURPOSE_DESC, historicalBalance.getKemidObj().getPurpose().getName());
 
-            String url = UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
+            String url = UrlFactory.parameterizeUrl(KRADConstants.LOOKUP_ACTION, params);
 
             Map<String, String> fieldList = new HashMap<String, String>();
             fieldList.put(EndowPropertyConstants.KEMID_HIST_BAL_DET_KEMID, historicalBalance.getKemid().toString());

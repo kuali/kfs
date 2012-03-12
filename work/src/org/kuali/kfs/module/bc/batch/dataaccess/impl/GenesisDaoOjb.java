@@ -61,21 +61,21 @@ import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointme
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionConstants;
 import org.kuali.kfs.sys.KFSConstants.ParameterValues;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.dao.DocumentDao;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.KualiInteger;
-import org.kuali.rice.kns.util.TransactionalServiceUtils;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.dao.DocumentDao;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.util.TransactionalServiceUtils;
 
 
 public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implements GenesisDao {
@@ -590,9 +590,9 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
      *  document tables and set all the dates to final and save the initial "action taken") will give acceptable performance.  
      */
 
-    private HashSet<String> currentBCHeaderKeys = new HashSet<String>(1);
+    protected HashSet<String> currentBCHeaderKeys = new HashSet<String>(1);
     // these routines are used to merge CSF and CSF Override
-    private HashMap<String, String[]> CSFTrackerKeys = new HashMap<String, String[]>(1);
+    protected HashMap<String, String[]> CSFTrackerKeys = new HashMap<String, String[]>(1);
 
     protected void createNewDocumentsCleanUp() {
         currentBCHeaderKeys.clear();
@@ -600,14 +600,14 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     }
 
     // counters
-    Long documentsToCreateinNTS = new Long(0);
-    Long documentsSkippedinNTS = new Long(0);
-    Long documentsCreatedinNTS = new Long(0);
-    Long documentsCSFCreatedinNTS = new Long(0);
-    Long documentsGLCreatedinNTS = new Long(0);
+    protected Long documentsToCreateinNTS = new Long(0);
+    protected Long documentsSkippedinNTS = new Long(0);
+    protected Long documentsCreatedinNTS = new Long(0);
+    protected Long documentsCSFCreatedinNTS = new Long(0);
+    protected Long documentsGLCreatedinNTS = new Long(0);
 
-    Long proxyCandidatesReadinTS = new Long(0);
-    Long proxyBCHeadersCreatedinTS = new Long(0);
+    protected Long proxyCandidatesReadinTS = new Long(0);
+    protected Long proxyBCHeadersCreatedinTS = new Long(0);
 
     //
     // this is the new document creation mechanism that works with embedded workflow
@@ -849,7 +849,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
         newBCHdr.setBudgetTransactionLockUserIdentifier(BCConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
         newBCHdr.setBudgetLockUserIdentifier(BCConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
         newBCHdr.setVersionNumber(DEFAULT_VERSION_NUMBER);
-        FinancialSystemDocumentHeader kualiDocumentHeader = newBCHdr.getDocumentHeader();
+        FinancialSystemDocumentHeader kualiDocumentHeader = newBCHdr.getFinancialSystemDocumentHeader();
         newBCHdr.setDocumentNumber(newBCHdr.getDocumentHeader().getDocumentNumber());
         kualiDocumentHeader.setOrganizationDocumentNumber(newBCHdr.getUniversityFiscalYear().toString());
         kualiDocumentHeader.setFinancialDocumentStatusCode(KFSConstants.INITIAL_KUALI_DOCUMENT_STATUS_CD);
@@ -987,9 +987,9 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
      *  *********************************************************************************    
      */
 
-    private HashMap<String, BudgetConstructionAccountReports> acctRptsToMap = new HashMap<String, BudgetConstructionAccountReports>(1);
-    private HashMap<String, BudgetConstructionOrganizationReports> orgRptsToMap = new HashMap<String, BudgetConstructionOrganizationReports>(1);
-    private HashMap<String, BudgetConstructionAccountOrganizationHierarchy> acctOrgHierMap = new HashMap<String, BudgetConstructionAccountOrganizationHierarchy>(1);
+    protected HashMap<String, BudgetConstructionAccountReports> acctRptsToMap = new HashMap<String, BudgetConstructionAccountReports>(1);
+    protected HashMap<String, BudgetConstructionOrganizationReports> orgRptsToMap = new HashMap<String, BudgetConstructionOrganizationReports>(1);
+    protected HashMap<String, BudgetConstructionAccountOrganizationHierarchy> acctOrgHierMap = new HashMap<String, BudgetConstructionAccountOrganizationHierarchy>(1);
 
     protected void organizationHierarchyCleanUp() {
         acctRptsToMap.clear();
@@ -1001,11 +1001,11 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     //  these are the values at the root of the organization tree
     //  they report to themselves, and they are at the highest level of every 
     //  organization's reporting chain
-    private String rootChart;
-    private String rootOrganization;
+    protected String rootChart;
+    protected String rootOrganization;
 
-    private Integer nHeadersBackToZero = 0;
-    private Integer nHeadersSwitchingLevels = 0;
+    protected Integer nHeadersBackToZero = 0;
+    protected Integer nHeadersSwitchingLevels = 0;
 
 
     /*
@@ -1334,9 +1334,9 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     //   saved to the pending budget construction general ledger
     // --bCHdrFromGL contains one entry for each potentially new key for the budget
     //   construction header table.
-    private HashMap<String, PendingBudgetConstructionGeneralLedger> pBGLFromGL = new HashMap<String, PendingBudgetConstructionGeneralLedger>(1);
-    private HashMap<String, String> documentNumberFromBCHdr = new HashMap<String, String>(1);
-    private HashMap<String, Integer> skippedPBGLKeys = new HashMap();
+    protected HashMap<String, PendingBudgetConstructionGeneralLedger> pBGLFromGL = new HashMap<String, PendingBudgetConstructionGeneralLedger>(1);
+    protected HashMap<String, String> documentNumberFromBCHdr = new HashMap<String, String>(1);
+    protected HashMap<String, Integer> skippedPBGLKeys = new HashMap();
 
     protected void pBGLCleanUp() {
         pBGLFromGL.clear();
@@ -1345,25 +1345,25 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
 
     // these are the indexes for each of the fields returned in the select list
     // of the SQL statement
-    private Integer sqlChartOfAccountsCode = 0;
-    private Integer sqlAccountNumber = 1;
-    private Integer sqlSubAccountNumber = 2;
-    private Integer sqlObjectCode = 3;
-    private Integer sqlSubObjectCode = 4;
-    private Integer sqlBalanceTypeCode = 5;
-    private Integer sqlObjectTypeCode = 6;
-    private Integer sqlAccountLineAnnualBalanceAmount = 7;
-    private Integer sqlBeginningBalanceLineAmount = 8;
+    protected Integer sqlChartOfAccountsCode = 0;
+    protected Integer sqlAccountNumber = 1;
+    protected Integer sqlSubAccountNumber = 2;
+    protected Integer sqlObjectCode = 3;
+    protected Integer sqlSubObjectCode = 4;
+    protected Integer sqlBalanceTypeCode = 5;
+    protected Integer sqlObjectTypeCode = 6;
+    protected Integer sqlAccountLineAnnualBalanceAmount = 7;
+    protected Integer sqlBeginningBalanceLineAmount = 8;
 
-    private Integer nGLHeadersAdded = new Integer(0);
-    private Integer nGLRowsAdded = new Integer(0);
-    private Integer nGLRowsUpdated = new Integer(0);
-    private Integer nCurrentPBGLRows = new Integer(0);
-    private Integer nGLBBRowsZeroNet = new Integer(0);
-    private Integer nGLBBRowsRead = new Integer(0);
-    private Integer nGLRowsMatchingPBGL = new Integer(0);
-    private Integer nGLBBKeysRead = new Integer(0);
-    private Integer nGLBBRowsSkipped = new Integer(0);
+    protected Integer nGLHeadersAdded = new Integer(0);
+    protected Integer nGLRowsAdded = new Integer(0);
+    protected Integer nGLRowsUpdated = new Integer(0);
+    protected Integer nCurrentPBGLRows = new Integer(0);
+    protected Integer nGLBBRowsZeroNet = new Integer(0);
+    protected Integer nGLBBRowsRead = new Integer(0);
+    protected Integer nGLRowsMatchingPBGL = new Integer(0);
+    protected Integer nGLBBKeysRead = new Integer(0);
+    protected Integer nGLBBRowsSkipped = new Integer(0);
 
     // public methods
 
@@ -1789,9 +1789,9 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
      *      construction.
      */
 
-    private HashMap<String, String[]> baseYearInactiveObjects = new HashMap<String, String[]>(1);
-    private HashMap<String, String[]> gLBBObjects = new HashMap<String, String[]>(1);
-    private Integer nInactiveBBObjectCodes = new Integer(0);
+    protected HashMap<String, String[]> baseYearInactiveObjects = new HashMap<String, String[]>(1);
+    protected HashMap<String, String[]> gLBBObjects = new HashMap<String, String[]>(1);
+    protected Integer nInactiveBBObjectCodes = new Integer(0);
 
     protected void objectClassRICleanUp() {
         baseYearInactiveObjects.clear();
@@ -1913,23 +1913,23 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
      */
 
     // the set of new BCSF objects to be written
-    private HashMap<String, BudgetConstructionCalculatedSalaryFoundationTracker> bCSF = new HashMap<String, BudgetConstructionCalculatedSalaryFoundationTracker>(1);
+    protected HashMap<String, BudgetConstructionCalculatedSalaryFoundationTracker> bCSF = new HashMap<String, BudgetConstructionCalculatedSalaryFoundationTracker>(1);
     // hashmap to hold the document numbers for each accounting key in the header
-    private HashMap<String, String> bcHdrDocNumbers = new HashMap<String, String>(1);
+    protected HashMap<String, String> bcHdrDocNumbers = new HashMap<String, String>(1);
     // hashset to hold the accounting string for each pending GL entry
-    private HashSet<String> currentPBGLKeys = new HashSet<String>(1);
+    protected HashSet<String> currentPBGLKeys = new HashSet<String>(1);
     // hashMap for finding the object type of "detailed position" object codes
-    private HashMap<String, String> detailedPositionObjectTypes = new HashMap<String, String>(1);
+    protected HashMap<String, String> detailedPositionObjectTypes = new HashMap<String, String>(1);
     // keys for deleted or vacant rows present in the override CSF: none of these keys
     // will load to BCSF from either the override or actual CSF (even if they
     // are active in the actual CSF) 
-    private HashSet<String> csfOverrideKeys = new HashSet<String>(1);;
+    protected HashSet<String> csfOverrideKeys = new HashSet<String>(1);;
     // EMPLID's in CSF which have more than one active row
     // we budget in whole dollars, while payroll deals in pennies
     // we will use this for our complicated rounding algorithm, to keep the total budget base salary within a dollar of the payroll salary
-    private HashMap<String, roundMechanism> keysNeedingRounding = new HashMap<String, roundMechanism>(1);
+    protected HashMap<String, roundMechanism> keysNeedingRounding = new HashMap<String, roundMechanism>(1);
     // we need the position normal work months to write a new appointment funding row: the normal work months is the "months appointment"
-    private HashMap<String, Integer> positionNormalWorkMonths = new HashMap<String, Integer>(1);
+    protected HashMap<String, Integer> positionNormalWorkMonths = new HashMap<String, Integer>(1);
 
     protected void buildAppointmentFundingCleanUp() {
         bCSF.clear();
@@ -1944,22 +1944,22 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     //
     // counters
     //
-    Integer CSFRowsRead = new Integer(0);
-    Integer CSFRowsVacant = new Integer(0);
-    Integer CSFVacantsConsolidated = new Integer(0);
-    Integer CSFOverrideDeletesRead = new Integer(0);
-    Integer CSFOverrideRead = new Integer(0);
-    Integer CSFOverrideVacant = new Integer(0);
-    Integer CSFForBCSF = new Integer(0);
-    Integer CSFCurrentGLRows = new Integer(0);
-    Integer CSFCurrentBCAFRows = new Integer(0);
-    Integer CSFBCSFRowsMatchingGL = new Integer(0);
-    Integer CSFBCSFRowsMatchingBCAF = new Integer(0);
-    Integer CSFNewGLRows = new Integer(0);
-    Integer CSFNewBCAFRows = new Integer(0);
-    Integer CSFBCAFRowsMarkedDeleted = new Integer(0);
-    Integer CSFBCAFRowsMissing = new Integer(0);
-    Integer CSFBadObjectsSkipped = new Integer(0);
+    protected Integer CSFRowsRead = new Integer(0);
+    protected Integer CSFRowsVacant = new Integer(0);
+    protected Integer CSFVacantsConsolidated = new Integer(0);
+    protected Integer CSFOverrideDeletesRead = new Integer(0);
+    protected Integer CSFOverrideRead = new Integer(0);
+    protected Integer CSFOverrideVacant = new Integer(0);
+    protected Integer CSFForBCSF = new Integer(0);
+    protected Integer CSFCurrentGLRows = new Integer(0);
+    protected Integer CSFCurrentBCAFRows = new Integer(0);
+    protected Integer CSFBCSFRowsMatchingGL = new Integer(0);
+    protected Integer CSFBCSFRowsMatchingBCAF = new Integer(0);
+    protected Integer CSFNewGLRows = new Integer(0);
+    protected Integer CSFNewBCAFRows = new Integer(0);
+    protected Integer CSFBCAFRowsMarkedDeleted = new Integer(0);
+    protected Integer CSFBCAFRowsMissing = new Integer(0);
+    protected Integer CSFBadObjectsSkipped = new Integer(0);
 
     public void buildAppointmentFundingAndBCSF(Integer BaseYear) {
         /*********************************************************************
@@ -2582,10 +2582,10 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     }
 
     //     these are the four values used to decide whether the current appointment funding row, missing from BCSF, has been entered by a user or is due to a CSF row that has since gone away
-    String notOnLeave = new String(BCConstants.AppointmentFundingDurationCodes.NONE.durationCode);
-    KualiInteger rqstAmount = new KualiInteger(0);
-    BigDecimal pctTime = new BigDecimal(0);
-    BigDecimal FTE = new BigDecimal(0);
+    protected String notOnLeave = new String(BCConstants.AppointmentFundingDurationCodes.NONE.durationCode);
+    protected KualiInteger rqstAmount = new KualiInteger(0);
+    protected BigDecimal pctTime = new BigDecimal(0);
+    protected BigDecimal FTE = new BigDecimal(0);
 
     protected void untouchedAppointmentFunding(PendingBudgetConstructionAppointmentFunding bcaf) {
         //     this checks to see whether the missing row could have come in from CSF earlier, but the CSF row which created it is not inactive.  
@@ -2678,7 +2678,7 @@ public class GenesisDaoOjb extends BudgetConstructionBatchHelperDaoOjb implement
     }
 
     //     this is an inner class which will store the data we need to perform the rounding, and supply the methods as well    
-    KualiDecimal shavePennies = new KualiDecimal(100);
+    protected KualiDecimal shavePennies = new KualiDecimal(100);
 
     protected class roundMechanism {
         //     the idea here is that people split over many lines could lose or gain several dollars if we rounded each salary line individually.  so, we do the following.

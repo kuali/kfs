@@ -16,7 +16,7 @@
  function loadUseCriteriaCodeDesc(useCriteriaCodeFieldName){
 	var elPrefix = findElPrefix(useCriteriaCodeFieldName.name);
 	var useCriteriaCodeDescFieldName = elPrefix + ".useCriteria.name";
-	var useCriteriaCode = DWRUtil.getValue(useCriteriaCodeFieldName);
+	var useCriteriaCode = dwr.util.getValue(useCriteriaCodeFieldName);
 	
 	setUseCriteriaCodeDescription(useCriteriaCode, useCriteriaCodeDescFieldName);
 }

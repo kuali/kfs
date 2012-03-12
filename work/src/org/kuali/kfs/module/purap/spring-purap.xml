@@ -152,6 +152,11 @@
         <property name="bankService" ref="bankService" />
         <property name="dataDictionaryService" ref="dataDictionaryService" />
         <property name="purapAccountingService" ref="purapAccountingService" />
+        <property name="lockedDocuments">
+        	<list>
+        		<value>PREQ</value>
+        	</list>
+        </property>
 	</bean>
     <bean id="requisitionService" parent="requisitionService-parentBean"/>
 
@@ -160,7 +165,7 @@
         <property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService"/>
         <property name="dateTimeService" ref="dateTimeService"/>
 		<property name="documentService" ref="documentService"/>
-        <property name="kualiConfigurationService" ref="kualiConfigurationService"/>
+        <property name="configurationService" ref="kualiConfigurationService"/>
         <property name="parameterService" ref="parameterService"/>
         <property name="postalCodeValidationService" ref="postalCodeValidationService"/>
     	<property name="purapService" ref="purapService"/>
@@ -168,7 +173,6 @@
     	<property name="ruleService" ref="kualiRuleService"/>
         <property name="universityDateService" ref="universityDateService"/>
         <property name="vendorService" ref="vendorService"/>
-        <property name="workflowInfoService" ref="workflowInfoService" />
 	</bean>
     <bean id="purapService" parent="purapService-parentBean"/>
 
@@ -262,7 +266,6 @@
         <property name="vendorService" ref="vendorService" />
         <property name="dataDictionaryService" ref="dataDictionaryService" />
         <property name="universityDateService" ref="universityDateService"/>
-        <property name="workflowInfoService" ref="workflowInfoService" />
     </bean>
 	
 	<bean id="creditMemoDao" parent="platformAwareDao" class="org.kuali.kfs.module.purap.document.dataaccess.impl.CreditMemoDaoOjb" />
@@ -273,7 +276,7 @@
 		<property name="creditMemoDao" ref="creditMemoDao" />
         <property name="dataDictionaryService" ref="dataDictionaryService" />
         <property name="documentService" ref="documentService" />
-        <property name="kualiConfigurationService" ref="kualiConfigurationService" />
+        <property name="configurationService" ref="kualiConfigurationService" />
         <property name="noteService" ref="noteService" />
         <property name="paymentRequestService" ref="paymentRequestService" />
         <property name="purapAccountingService" ref="purapAccountingService" />
@@ -282,7 +285,6 @@
         <property name="purchaseOrderService" ref="purchaseOrderService" />
         <property name="vendorService" ref="vendorService" />
         <property name="workflowDocumentService" ref="workflowDocumentService" />
-        <property name="workflowInfoService" ref="workflowInfoService" />
     </bean>
     <bean id="printService" parent="printService-parentBean"/>
     
@@ -290,13 +292,13 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="parameterService" ref="parameterService" />
         <property name="imageService" ref="imageService" />
-        <property name="kualiConfigurationService" ref="kualiConfigurationService" />
+        <property name="configurationService" ref="kualiConfigurationService" />
         <property name="purchaseOrderParameters" ref="purchaseOrderParameters"/>
 	</bean>
 	
 	<bean id="faxService" parent="faxService-parentBean"/>		
 	<bean id="faxService-parentBean" class="org.kuali.kfs.module.purap.document.service.impl.FaxServiceImpl" abstract="true">
-		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
+		<property name="configurationService" ref="kualiConfigurationService" />
 		<property name="parameterService" ref="parameterService" />
         <property name="vendorService" ref="vendorService" />
 		<property name="businessObjectService" ref="businessObjectService" />
@@ -312,12 +314,11 @@
         <property name="purapService" ref="purapService" />
         <property name="noteService" ref="noteService" />
         <property name="purchaseOrderDao" ref="purchaseOrderDao" />
-        <property name="workflowDocumentService" ref="workflowDocumentService" />
-        <property name="kualiConfigurationService" ref="kualiConfigurationService" />
+        <property name="workflowDocumentService" ref="rice.kew.workflowDocumentService" />
+        <property name="configurationService" ref="kualiConfigurationService" />
         <property name="kualiRuleService" ref="kualiRuleService" />
         <property name="vendorService" ref="vendorService" />
         <property name="purapWorkflowIntegrationService" ref="purapWorkflowIntegrationService" />
-        <property name="workflowInfoService" ref="workflowInfoService" />
         <property name="maintenanceDocumentService" ref="maintenanceDocumentService" />
         <property name="parameterService" ref="parameterService" />
         <property name="mailService" ref="mailService" />
@@ -339,8 +340,8 @@
     <bean id="thresholdLookupableHelperService" parent="thresholdLookupableHelperService-parentBean" scope="prototype" />
 	
 	<bean id="thresholdLookupableHelperService-parentBean" class="org.kuali.kfs.module.purap.businessobject.lookup.ThresholdLookupableHelperService" parent="lookupableHelperService" scope="prototype" abstract="true" />
-	
-	<bean id="thresholdLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
+	<bean id="thresholdLookupable" parent="thresholdLookupable-parentBean" scope="prototype" />
+	<bean id="thresholdLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
 	    <property name="lookupableHelperService" ref="thresholdLookupableHelperService" />
 	</bean>
 	<bean id="b2BShoppingService" parent="b2BShoppingService-parentBean"/>
@@ -348,7 +349,7 @@
 	<bean id="b2BShoppingService-parentBean" class="org.kuali.kfs.module.purap.document.service.impl.B2BShoppingServiceImpl" abstract="true">
         <property name="b2bDao" ref="b2bDao"/>
         <property name="businessObjectService" ref="businessObjectService" />
-        <property name="kualiConfigurationService" ref="kualiConfigurationService"/>
+        <property name="configurationService" ref="kualiConfigurationService"/>
         <property name="documentService" ref="documentService"/>
         <property name="parameterService" ref="parameterService"/>
         <property name="persistenceService" ref="persistenceService"/>
@@ -415,18 +416,14 @@
         <property name="purchaseOrderService" ref="purchaseOrderService" />
         <property name="receivingDao" ref="receivingDao" />
         <property name="workflowDocumentService" ref="workflowDocumentService" />
-        <property name="parameterService" ref="parameterService" />        
 	</bean>
 	<bean id="bulkReceivingService" parent="bulkReceivingService-parentBean"/>
 	
 	<bean id="bulkReceivingService-parentBean" class="org.kuali.kfs.module.purap.document.service.impl.BulkReceivingServiceImpl" abstract="true">
         <property name="bulkReceivingDao" ref="bulkReceivingDao" />
 	    <property name="configurationService" ref="kualiConfigurationService" />
-        <property name="dateTimeService" ref="dateTimeService"/>
         <property name="documentService" ref="documentService" />
-        <property name="noteService" ref="noteService" />
         <property name="printService" ref="printService" />
-        <property name="purapService" ref="purapService" />
         <property name="purchaseOrderService" ref="purchaseOrderService" />
         <property name="workflowDocumentService" ref="workflowDocumentService" />
 	</bean>
@@ -576,11 +573,6 @@
 				<ref bean="autoApprovePaymentRequestsStep" />
 			</list>
 		</property>
-		<property name="dependencies">
-			<map>
-				<entry key="processPdpCancelsAndPaidJob" value="softDependency" />
-			</map>
-		</property>
 	</bean>
 	
 	<bean id="receivingPaymentRequestJob" parent="scheduledJobDescriptor">
@@ -616,7 +608,7 @@
 		<property name="vendorService" ref="vendorService"/>
 		<property name="purchaseOrderService" ref="purchaseOrderService" />
         <property name="paymentRequestService" ref="paymentRequestService" />
-        <property name="kualiConfigurationService" ref="kualiConfigurationService"/>
+        <property name="configurationService" ref="kualiConfigurationService"/>
         <property name="dateTimeService" ref="dateTimeService" />
         <property name="parameterService" ref="parameterService" />
 	</bean>
@@ -648,7 +640,8 @@
     <property name="batchInputFileType" ref="electronicInvoiceInputFileType" />
 	</bean>
 	
-	<bean id="electronicInvoiceInputFileType" class="org.kuali.kfs.module.purap.batch.ElectronicInvoiceInputFileType">
+	<bean id="electronicInvoiceInputFileType" parent="electronicInvoiceInputFileType-parentBean"/>
+	<bean id="electronicInvoiceInputFileType-parentBean" abstract="true" class="org.kuali.kfs.module.purap.batch.ElectronicInvoiceInputFileType">
     	<property name="directoryPath">
 	       <value>${staging.directory}/purap/electronicInvoice</value>
 	    </property>
@@ -705,53 +698,22 @@
 	<bean id="relatedDocumentDerivedRoleTypeService" parent="relatedDocumentDerivedRoleTypeService-parentBean"/>
 
     <bean id="relatedDocumentDerivedRoleTypeService-parentBean" class="org.kuali.kfs.module.purap.identity.RelatedDocumentDerivedRoleTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-	  <property name="serviceDefinition">
-	    <bean parent="kfsService"
-	      p:service-ref="relatedDocumentDerivedRoleTypeService"
-	      p:localServiceName="relatedDocumentDerivedRoleTypeService" />
-	  </property>
-	</bean>
+    
 	<bean id="accountsPayableDocumentDerivedRoleTypeService" parent="accountsPayableDocumentDerivedRoleTypeService-parentBean"/>
 
     <bean id="accountsPayableDocumentDerivedRoleTypeService-parentBean" class="org.kuali.kfs.module.purap.identity.AccountsPayableDocumentDerivedRoleTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-      <property name="serviceDefinition">
-        <bean parent="kfsService"
-          p:service-ref="accountsPayableDocumentDerivedRoleTypeService"
-          p:localServiceName="accountsPayableDocumentDerivedRoleTypeService" />
-      </property>
-    </bean>
+		
 	<bean id="paymentRequestHoldCancelInitiatorDerivedRoleTypeService" parent="paymentRequestHoldCancelInitiatorDerivedRoleTypeService-parentBean"/>
 
     <bean id="paymentRequestHoldCancelInitiatorDerivedRoleTypeService-parentBean" class="org.kuali.kfs.module.purap.identity.PaymentRequestHoldCancelInitiatorDerivedRoleTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-	  <property name="serviceDefinition">
-	    <bean parent="kfsService"
-	      p:service-ref="paymentRequestHoldCancelInitiatorDerivedRoleTypeService"
-	      p:localServiceName="paymentRequestHoldCancelInitiatorDerivedRoleTypeService" />
-	  </property>
-	</bean>
+		
 	<bean id="potentiallySensitiveDocumentRoleTypeService" parent="potentiallySensitiveDocumentRoleTypeService-parentBean"/>
 
     <bean id="potentiallySensitiveDocumentRoleTypeService-parentBean" class="org.kuali.kfs.module.purap.identity.PotentiallySensitiveDocumentRoleTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-	  <property name="serviceDefinition">
-	    <bean parent="kfsService"
-	      p:service-ref="potentiallySensitiveDocumentRoleTypeService"
-	      p:localServiceName="potentiallySensitiveDocumentRoleTypeService" />
-	  </property>
-	</bean>
+		
 	<bean id="sensitiveDataRoleTypeService" parent="sensitiveDataRoleTypeService-parentBean"/>
 
     <bean id="sensitiveDataRoleTypeService-parentBean" class="org.kuali.kfs.module.purap.identity.SensitiveDataRoleTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-	  <property name="serviceDefinition">
-	    <bean parent="kfsService"
-	      p:service-ref="sensitiveDataRoleTypeService"
-	      p:localServiceName="sensitiveDataRoleTypeService" />
-	  </property>
-	</bean>
 		
 	<bean id="purchaseOrderParameters" parent="PurchaseOrderParameters-parentBean" scope="prototype"/>	
 	<bean id="PurchaseOrderParameters-parentBean" class="org.kuali.kfs.module.purap.pdf.PurchaseOrderTransmitParameters" scope="prototype" abstract="true" />
@@ -764,6 +726,6 @@
 	<import resource="document/validation/configuration/PaymentRequestValidation.xml" />
 	<import resource="document/validation/configuration/VendorCreditMemoValidation.xml" />
 	<import resource="document/validation/configuration/BulkReceivingValidation.xml" />
-	
+	<import resource="spring-purap-bus-exports.xml"/>
 </beans>
 

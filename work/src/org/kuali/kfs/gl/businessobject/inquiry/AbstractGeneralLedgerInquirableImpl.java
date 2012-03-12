@@ -30,21 +30,21 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.api.doctype.DocumentType;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
-import org.kuali.rice.kew.doctype.service.DocumentTypeService;
-import org.kuali.rice.kew.dto.DocumentTypeDTO;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.datadictionary.AttributeDefinition;
-import org.kuali.rice.kns.datadictionary.DataDictionaryEntryBase;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.PersistenceStructureService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.datadictionary.AttributeDefinition;
+import org.kuali.rice.krad.datadictionary.DataDictionaryEntryBase;
+import org.kuali.rice.krad.service.PersistenceStructureService;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.util.UrlFactory;
 
 /**
  * This class is the template class for the customized inqurable implementations used to generate balance inquiry screens.
@@ -55,7 +55,7 @@ public abstract class AbstractGeneralLedgerInquirableImpl extends KfsInquirableI
     private BusinessObject businessObject; 
     
     /**
-     * @see org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String, boolean)
+     * @see org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl#getInquiryUrl(org.kuali.rice.krad.bo.BusinessObject, java.lang.String, boolean)
      */
     @Override
     public HtmlData getInquiryUrl(BusinessObject businessObject, String attributeName, boolean forceInquiry) {
@@ -71,7 +71,7 @@ public abstract class AbstractGeneralLedgerInquirableImpl extends KfsInquirableI
      */
     public HtmlData getInquiryUrl(BusinessObject businessObject, String attributeName) {
         this.setBusinessObject(businessObject);
-        AnchorHtmlData inquiryHref = new AnchorHtmlData(KNSConstants.EMPTY_STRING, KNSConstants.EMPTY_STRING);
+        AnchorHtmlData inquiryHref = new AnchorHtmlData(KRADConstants.EMPTY_STRING, KRADConstants.EMPTY_STRING);
         BusinessObjectDictionaryService businessDictionary = SpringContext.getBean(BusinessObjectDictionaryService.class);
         PersistenceStructureService persistenceStructureService = SpringContext.getBean(PersistenceStructureService.class);
 
@@ -412,7 +412,7 @@ public abstract class AbstractGeneralLedgerInquirableImpl extends KfsInquirableI
      * @return {@link HtmlData} representing inquiry URL
      */
     protected HtmlData getDocTypeInquiryUrl(String docTypeCode) {
-        DocumentTypeDTO docTypeDTO = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeVO(docTypeCode);
+        DocumentType docTypeDTO = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(docTypeCode);
         if ( docTypeDTO == null ) {
             return new AnchorHtmlData();
         }
@@ -422,10 +422,10 @@ public abstract class AbstractGeneralLedgerInquirableImpl extends KfsInquirableI
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
         parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocumentTypeEBO.class.getName());
         parameters.put(KFSConstants.DOC_FORM_KEY, "88888888");
-        parameters.put(KFSPropertyConstants.DOCUMENT_TYPE_ID, docTypeDTO.getDocTypeId().toString());
+        parameters.put(KFSPropertyConstants.DOCUMENT_TYPE_ID, docTypeDTO.getId().toString());
 
         Map<String, String> inquiryFields = new HashMap<String, String>();
-        inquiryFields.put(KFSPropertyConstants.DOCUMENT_TYPE_ID, docTypeDTO.getDocTypeId().toString());
+        inquiryFields.put(KFSPropertyConstants.DOCUMENT_TYPE_ID, docTypeDTO.getId().toString());
 
         return getHyperLink(DocumentTypeEBO.class, inquiryFields, UrlFactory.parameterizeUrl(baseUrl, parameters));
     }

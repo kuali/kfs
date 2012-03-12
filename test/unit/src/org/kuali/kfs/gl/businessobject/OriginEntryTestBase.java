@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -37,14 +37,13 @@ import org.kuali.kfs.gl.batch.service.AccountingCycleCachingService;
 import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
-import org.kuali.rice.kns.service.ConfigurableDateService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.kfs.sys.service.ConfigurableDateService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.service.PersistenceService;
 
 /**
  * OriginEntryTestBase...the uberpowerful base of a lot of GL tests.  Basically, this class provides
@@ -57,14 +56,14 @@ public class OriginEntryTestBase extends KualiTestBase {
     protected ConfigurableDateService dateTimeService;
     protected PersistenceService persistenceService;
     protected UnitTestSqlDao unitTestSqlDao = null;
-    protected KualiConfigurationService kualiConfigurationService = null;
+    protected ConfigurationService kualiConfigurationService = null;
     protected OriginEntryService originEntryService = null;
     protected AccountingCycleCachingService accountingCycleCachingService = null;
-    
+
     protected Date date;
     protected String batchDirectory;
     protected String builtDirectory;
-    
+
     protected String testingYear;
     protected String testingPeriodCode;
 
@@ -92,20 +91,20 @@ public class OriginEntryTestBase extends KualiTestBase {
         date = dateTimeService.getCurrentDate();
 
         // Other objects needed for the tests
-        persistenceService = SpringContext.getBean(PersistenceService.class);
+        persistenceService = SpringContext.getBean(PersistenceService.class, "persistenceServiceOjb");
         unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
-        kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+        kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
         originEntryService = SpringContext.getBean(OriginEntryService.class);
-        
-        batchDirectory = this.getBatchDirectoryName();        
+
+        batchDirectory = this.getBatchDirectoryName();
         buildBatchDirectory(batchDirectory);
-        
+
         accountingCycleCachingService = SpringContext.getBean(AccountingCycleCachingService.class);
         accountingCycleCachingService.initialize();
-        
+
         // Set all enhancements to off
         resetAllEnhancementFlags();
-        
+
         testingYear = TestUtils.getFiscalYearForTesting().toString();
         testingPeriodCode = TestUtils.getPeriodCodeForTesting();
     }
@@ -117,20 +116,20 @@ public class OriginEntryTestBase extends KualiTestBase {
     @Override
     protected void tearDown() throws Exception {
         removeBatchDirectory(batchDirectory);
-        
+
         if (accountingCycleCachingService != null) {
             accountingCycleCachingService.destroy();
         }
     }
-    
+
     /**
      * get the name of the batch directory
      * @return the name of the batch directory
      */
     protected String getBatchDirectoryName() {
-        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString("staging.directory")+"/gl/test_directory/originEntry";
+        return SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("staging.directory")+"/gl/test_directory/originEntry";
     }
-    
+
     /**
      * Recursively ensures that the whole of the path of the batch directory exists
      */
@@ -138,12 +137,12 @@ public class OriginEntryTestBase extends KualiTestBase {
         String[] directoryPieces = batchDirectory.split("/");
         StringBuilder builtDirectorySoFar = new StringBuilder();
         StringBuilder directoryToRemoveSoFar = new StringBuilder();
-        
+
         for (String directoryPiece : directoryPieces) {
             if (!StringUtils.isBlank(directoryPiece)) {
                 builtDirectorySoFar.append('/');
                 builtDirectorySoFar.append(directoryPiece);
-                
+
                 File dir = new File(builtDirectorySoFar.toString());
                 if (!dir.exists()) {
                     directoryToRemoveSoFar.append('/');
@@ -152,27 +151,27 @@ public class OriginEntryTestBase extends KualiTestBase {
                 }
             }
         }
-        
+
         builtDirectory = directoryToRemoveSoFar.toString();
     }
-    
+
     /**
      * Removes any directories added as part of building the batch directory
      */
     protected void removeBatchDirectory(String batchDirectory) {
         String unbuiltDirectory = batchDirectory.substring(0, batchDirectory.length()-builtDirectory.length());
-        
+
         String pathToUnbuild = new String(batchDirectory);
         while (!unbuiltDirectory.equals(pathToUnbuild)) {
             File pathToUnbuildFile = new File(pathToUnbuild);
             clearAllFilesInDirectory(pathToUnbuildFile);
             pathToUnbuildFile.delete();
-            
+
             int lastSeperator = pathToUnbuild.lastIndexOf('/');
             pathToUnbuild = pathToUnbuild.substring(0, lastSeperator);
         }
     }
-    
+
     /**
      * Removes all the files within the given directory
      * @param dir the directory to delete files from
@@ -199,14 +198,14 @@ public class OriginEntryTestBase extends KualiTestBase {
             this.baseFileName = baseFileName;
             this.transactionLine = transactionLine;
         }
-        
+
         /**
          * @return the base file name
          */
         public String getBaseFileName() {
             return this.baseFileName;
         }
-        
+
         /**
          * @return the transaction line
          */
@@ -218,12 +217,13 @@ public class OriginEntryTestBase extends KualiTestBase {
     /**
      * An inner class to filter only the files for this batch run
      */
-    
+
     class BatchFilenameFilter implements FilenameFilter {
-        
+
         /**
          * @see java.io.FilenameFilter#accept(java.io.File, java.lang.String)
          */
+        @Override
         public boolean accept(File dir, String name) {
             return name.endsWith(GeneralLedgerConstants.BatchFileSystem.EXTENSION);
         }
@@ -232,7 +232,7 @@ public class OriginEntryTestBase extends KualiTestBase {
     /**
      * Given a type code and a bunch of transactions, creates a new backup file and adds all
      * the transactions to that file
-     * 
+     *
      * @param baseFileName the type code of the new file
      * @param transactions an array of String-formatted entries to save into the file
      */
@@ -254,9 +254,9 @@ public class OriginEntryTestBase extends KualiTestBase {
      * Deletes everything in the expenditure transaction table
      */
     protected void clearExpenditureTable() {
-        unitTestSqlDao.sqlCommand("delete from GL_EXPEND_TRN_T");
+        unitTestSqlDao.sqlCommand("delete from GL_EXPEND_TRN_MT");
     }
-    
+
     /**
      * Deletes everything in the sufficient fund balance table
      */
@@ -266,7 +266,7 @@ public class OriginEntryTestBase extends KualiTestBase {
 
     /**
      * Deletes all entries in the entry table with the given chart code and account number
-     * 
+     *
      * @param fin_coa_cd the chart code of entries to delete
      * @param account_nbr the account number of entries to delete
      */
@@ -301,7 +301,7 @@ public class OriginEntryTestBase extends KualiTestBase {
     protected void clearGlAccountBalanceTable() {
         unitTestSqlDao.sqlCommand("delete from GL_ACCT_BALANCES_T");
     }
-    
+
     /**
      * Deletes all files in the batch test directory
      */
@@ -311,11 +311,11 @@ public class OriginEntryTestBase extends KualiTestBase {
             file.delete();
         }
     }
-    
+
     /**
      * Check all the entries in the file against the data passed in EntryHolder[]. If any of them are different, assert an
      * error.
-     * 
+     *
      * @param fileCount the expected number of files
      * @param requiredEntries an array of expected String-formatted entries to check against
      */
@@ -351,6 +351,7 @@ public class OriginEntryTestBase extends KualiTestBase {
         //it will sort the files in alphabetical order by type; entries within the groups (files) should be sorted the same
         //I don't foresee a problem with this...
         Comparator<EntryHolder> entryHolderComparator = new Comparator<EntryHolder>() {
+            @Override
             public int compare(EntryHolder o1, EntryHolder o2) {
                 int groupCompareResult = o1.baseFileName.compareTo(o2.baseFileName);
                 if (groupCompareResult == 0) {
@@ -412,32 +413,32 @@ public class OriginEntryTestBase extends KualiTestBase {
      * @throws Exception if the parameters could not be reset for some reason
      */
     protected void resetAllEnhancementFlags() throws Exception {
-        setApplicationConfigurationFlag((Class) FLEXIBLE_OFFSET_ENABLED_FLAG[0], (String) FLEXIBLE_OFFSET_ENABLED_FLAG[1], false);
+        setApplicationConfigurationFlag((Class<?>) FLEXIBLE_OFFSET_ENABLED_FLAG[0], (String) FLEXIBLE_OFFSET_ENABLED_FLAG[1], false);
     }
 
     /**
      * Resets a parameter for the sake of the unit test
-     * 
+     *
      * @param componentClass the module class of the parameter
      * @param name the name of the parameter to reset
      * @param value the new value for the parameter
      * @throws Exception thrown if some vague thing goes wrong
      */
-    protected void setApplicationConfigurationFlag(Class componentClass, String name, boolean value) throws Exception {
+    protected void setApplicationConfigurationFlag(Class<?> componentClass, String name, boolean value) throws Exception {
         TestUtils.setSystemParameter(componentClass, name, value ? "Y" : "N");
     }
 
 
     /**
      * Outputs the entire contents of a List to System.out
-     * 
+     *
      * @param list a List, presumably of Origin entries, but really, it could be anything
      * @param name the name of the list to display in the output
      */
-    protected void traceList(List list, String name) {
+    protected void traceList(List<?> list, String name) {
         trace("StartList " + name + "( " + list.size() + " elements): ", 0);
 
-        for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+        for (Iterator<?> iterator = list.iterator(); iterator.hasNext();) {
             trace(iterator.next(), 1);
         }
 
@@ -447,7 +448,7 @@ public class OriginEntryTestBase extends KualiTestBase {
 
     /**
      * Writes an object to standard out
-     * 
+     *
      * @param o the object to output, after..
      * @param tabIndentCount the number of tabs to push the object output
      */

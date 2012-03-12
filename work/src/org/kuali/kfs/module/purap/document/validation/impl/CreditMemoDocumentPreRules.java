@@ -22,9 +22,9 @@ import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.web.format.CurrencyFormatter;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * Business rule(s) applicable to the Credit Memo document.
@@ -39,7 +39,7 @@ public class CreditMemoDocumentPreRules extends AccountsPayableDocumentPreRulesB
     }
 
     /**
-     * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.krad.document.Document)
      */
     @Override
     public boolean doPrompts(Document document) {
@@ -72,7 +72,7 @@ public class CreditMemoDocumentPreRules extends AccountsPayableDocumentPreRulesB
         questionTextBuffer.append("[tr][td leftTd]Total credit processed prior to restocking fee:[/td][td rightTd]").append((String)cf.format(cm.getLineItemTotal())).append("[/td][/tr]");
         
         //if sales tax is enabled, show additional summary lines
-        boolean salesTaxInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_SALES_TAX_IND);                
+        boolean salesTaxInd = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.ENABLE_SALES_TAX_IND);                
         if(salesTaxInd){
             questionTextBuffer.append("[tr][td leftTd]Grand Total Prior to Tax:[/td][td rightTd]").append((String)cf.format(cm.getGrandPreTaxTotal())).append("[/td][/tr]");
             questionTextBuffer.append("[tr][td leftTd]Grand Total Tax:[/td][td rightTd]").append((String)cf.format(cm.getGrandTaxAmount())).append("[/td][/tr]");

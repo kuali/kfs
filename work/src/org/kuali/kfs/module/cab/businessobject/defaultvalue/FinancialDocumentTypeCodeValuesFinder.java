@@ -18,16 +18,17 @@ package org.kuali.kfs.module.cab.businessobject.defaultvalue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class FinancialDocumentTypeCodeValuesFinder extends KeyValuesBase {
     // The list is hard coded to achieve this specific order of display
     // Bad thing is when new record is added to database it wont reflect here
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("PREQ", "PREQ - Payment Request"));
-        keyValues.add(new KeyLabelPair("CM", "CM - Credit Memo"));
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("PREQ", "PREQ - Payment Request"));
+        keyValues.add(new ConcreteKeyValue("CM", "CM - Credit Memo"));
         return keyValues;
     }
 

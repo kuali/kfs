@@ -19,10 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.State;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.StateService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.location.api.state.State;
+import org.kuali.rice.location.api.state.StateService;
 
 public class StateCodeValuesFinder extends KeyValuesBase {
 
@@ -31,12 +32,12 @@ public class StateCodeValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
 
-        List<State> codes = SpringContext.getBean(StateService.class).findAllStates();
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
-        labels.add(new KeyLabelPair("", ""));
+        List<State> codes = SpringContext.getBean(StateService.class).findAllStatesInCountry("US");
+        List<KeyValue> labels = new ArrayList<KeyValue>();
+        labels.add(new ConcreteKeyValue("", ""));
         for (State state : codes) {
             if(state.isActive()) {
-                labels.add(new KeyLabelPair(state.getPostalStateCode(), state.getPostalStateCode()));
+                labels.add(new ConcreteKeyValue(state.getCode(), state.getCode()));
             }
         }
 

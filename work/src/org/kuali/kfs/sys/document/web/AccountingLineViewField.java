@@ -37,13 +37,13 @@ import org.kuali.kfs.sys.document.service.AccountingLineFieldRenderingTransforma
 import org.kuali.kfs.sys.document.service.AccountingLineRenderingService;
 import org.kuali.kfs.sys.document.web.renderers.DynamicNameLabelRenderer;
 import org.kuali.kfs.sys.document.web.renderers.FieldRenderer;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.lookup.LookupUtils;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.PersistenceStructureService;
 import org.kuali.rice.kns.util.FieldUtils;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.PersistenceStructureService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Represents a field (plus, optionally, a dynamic name field) to be rendered as part of an accounting line.
@@ -218,12 +218,12 @@ public class AccountingLineViewField extends FieldTableJoiningWithHeader impleme
                 String accessibleTitle = getField().getFieldLabel();
 
                 if (renderingContext.isNewLine()) {
-                    String format = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.LABEL_NEW_ACCOUNTING_LINE_FIELD);
+                    String format = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.LABEL_NEW_ACCOUNTING_LINE_FIELD);
                     accessibleTitle = MessageFormat.format(format, accessibleTitle, renderingContext.getGroupLabel());
                 }
                 else {
                     Integer lineNumber = renderingContext.getCurrentLineCount() + 1;
-                    String format = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.LABEL_ACCOUNTING_LINE_FIELD);
+                    String format = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.LABEL_ACCOUNTING_LINE_FIELD);
                     accessibleTitle = MessageFormat.format(format, accessibleTitle, renderingContext.getGroupLabel(), lineNumber);
                 }
 

@@ -21,12 +21,11 @@ import java.util.Properties;
 
 import org.kuali.kfs.coa.businessobject.AccountDelegateGlobal;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 /**
  * This class overrides the getBackLocation, getReturnUrl, setFieldConversions and getActionUrls for
@@ -56,7 +55,7 @@ public class OrganizationRoutingModelNameLookupableHelperServiceImpl extends Kua
      * </ul>
      * {@link KFSConstants.DISPATCH_REQUEST_PARAMETER}
      *
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getReturnUrl(org.kuali.rice.kns.bo.BusinessObject, java.util.Map,
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getReturnUrl(org.kuali.rice.krad.bo.BusinessObject, java.util.Map,
      *      java.lang.String)
      */
     @Override
@@ -90,7 +89,7 @@ public class OrganizationRoutingModelNameLookupableHelperServiceImpl extends Kua
     /**
      * Overrides base implementation to remove the action urls if we are initializing the delegate model
      *
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject, java.util.List)
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {

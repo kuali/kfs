@@ -17,16 +17,17 @@ package org.kuali.kfs.pdp.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.PostalCode;
-import org.kuali.rice.kns.bo.State;
-import org.kuali.rice.kns.service.PostalCodeService;
-import org.kuali.rice.kns.service.StateService;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.location.api.postalcode.PostalCodeService;
+import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
+import org.kuali.rice.location.framework.state.StateEbo;
 
-public class ACHBank extends PersistableBusinessObjectBase implements Inactivateable {
+public class ACHBank extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String bankRoutingNumber;
     private String bankOfficeCode;
@@ -45,8 +46,8 @@ public class ACHBank extends PersistableBusinessObjectBase implements Inactivate
     private String bankDataViewCode;
     private boolean active;
     
-    private State bankState;
-    private PostalCode postalCode;
+    private StateEbo bankState;
+    private PostalCodeEbo postalCode;
     
     /**
      * Default constructor.
@@ -395,8 +396,8 @@ public class ACHBank extends PersistableBusinessObjectBase implements Inactivate
      * 
      * @return Returns the bankState.
      */
-    public State getBankState() {
-        bankState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(bankStateCode, bankState);
+    public StateEbo getBankState() {
+        bankState = (StringUtils.isBlank(bankStateCode))?null:( bankState == null||!StringUtils.equals( bankState.getCode(),bankStateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState("US"/*REFACTORME*/,bankStateCode)): bankState;
         return bankState;
     }
 
@@ -405,14 +406,14 @@ public class ACHBank extends PersistableBusinessObjectBase implements Inactivate
      * 
      * @return Returns the postalCode.
      */
-    public PostalCode getPostalCode() {
-        postalCode = SpringContext.getBean(PostalCodeService.class).getByPostalCodeInDefaultCountryIfNecessary(bankZipCode, postalCode);
+    public PostalCodeEbo getPostalCode() {
+        postalCode = (bankZipCode == null)?null:( postalCode == null || !StringUtils.equals( postalCode.getCode(),bankZipCode))?PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode("US"/*RICE20_REFACTORME*/,bankZipCode)): postalCode;
         return postalCode;
     }
     
     /**
      * 
-     * @see org.kuali.rice.kns.bo.Inactivateable#isActive()
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#isActive()
      */
     public boolean isActive() {
         return active;
@@ -420,16 +421,16 @@ public class ACHBank extends PersistableBusinessObjectBase implements Inactivate
     
     /**
      * 
-     * @see org.kuali.rice.kns.bo.Inactivateable#setActive(boolean)
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#setActive(boolean)
      */
     public void setActive(boolean active) {
         this.active = active;
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(PdpPropertyConstants.BANK_ROUTING_NUMBER, this.bankRoutingNumber);
         return m;

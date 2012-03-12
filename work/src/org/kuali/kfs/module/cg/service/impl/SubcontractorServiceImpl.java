@@ -21,8 +21,8 @@ import java.util.Map;
 import org.kuali.kfs.module.cg.businessobject.SubContractor;
 import org.kuali.kfs.module.cg.service.SubcontractorService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.spring.Cached;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.cache.annotation.Cacheable;
 
 /**
  * Implementation of the Subcontractor service.
@@ -34,7 +34,7 @@ public class SubcontractorServiceImpl implements SubcontractorService {
     /**
      * @see org.kuali.kfs.module.cg.service.SubcontractorService#getByPrimaryId(String)
      */
-    @Cached
+    @Cacheable(value=SubContractor.CACHE_NAME,key="subcontractorNumber")
     public SubContractor getByPrimaryId(String subcontractorNumber) {
         return (SubContractor) businessObjectService.findByPrimaryKey(SubContractor.class, mapPrimaryKeys(subcontractorNumber));
     }

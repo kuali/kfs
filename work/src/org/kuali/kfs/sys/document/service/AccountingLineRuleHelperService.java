@@ -23,7 +23,7 @@ import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.rice.kns.datadictionary.DataDictionary;
+import org.kuali.rice.krad.datadictionary.DataDictionary;
 
 public interface AccountingLineRuleHelperService {
     /**

@@ -24,30 +24,23 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
-import org.kuali.kfs.module.ar.businessobject.Customer;
-import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
-import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerOpenItemReportService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.lookup.CollectionIncomplete;
-import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.web.format.DateFormatter;
+import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.comparator.CellComparatorHelper;
-import org.kuali.rice.kns.web.format.DateFormatter;
-import org.kuali.rice.kns.web.format.Formatter;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.ResultRow;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
@@ -108,11 +101,11 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
     @Override
     protected Properties getParameters(BusinessObject bo, Map fieldConversions, String lookupImpl, List pkNames) {
         Properties parameters = new Properties();
-        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, KNSConstants.RETURN_METHOD_TO_CALL);
-        parameters.put(KNSConstants.DOC_FORM_KEY, getDocFormKey());
-        parameters.put(KNSConstants.REFRESH_CALLER, lookupImpl);
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.RETURN_METHOD_TO_CALL);
+        parameters.put(KRADConstants.DOC_FORM_KEY, getDocFormKey());
+        parameters.put(KRADConstants.REFRESH_CALLER, lookupImpl);
         if (getReferencesToRefresh() != null) {
-            parameters.put(KNSConstants.REFERENCES_TO_REFRESH, getReferencesToRefresh());
+            parameters.put(KRADConstants.REFERENCES_TO_REFRESH, getReferencesToRefresh());
         }
 
         String encryptedList = "";
@@ -123,7 +116,7 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
 
             Object fieldVal = ObjectUtils.getPropertyValue(bo, fieldNm);
             if (fieldVal == null) {
-                fieldVal = KNSConstants.EMPTY_STRING;
+                fieldVal = KRADConstants.EMPTY_STRING;
             }
 
             // Encrypt value if it is a secure field
@@ -196,7 +189,7 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
                 Formatter formatter = col.getFormatter();
                 
                 // pick off result column from result list, do formatting
-                String propValue = KNSConstants.EMPTY_STRING;
+                String propValue = KRADConstants.EMPTY_STRING;
                 Object prop = ObjectUtils.getPropertyValue(element, col.getPropertyName());
 
                 // formatters
@@ -220,7 +213,7 @@ public class CustomerOpenItemReportLookupableHelperServiceImpl extends KualiLook
 
                 if (StringUtils.isNotBlank(propValue)) {
                     if (StringUtils.equals(KFSConstants.CustomerOpenItemReport.DOCUMENT_NUMBER, col.getPropertyName())) {
-                        String propertyURL = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + propValue + "&command=displayDocSearchView";
+                        String propertyURL = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + propValue + "&command=displayDocSearchView";
                         col.setPropertyURL(propertyURL);
                     } else if (StringUtils.equals(KFSConstants.CustomerOpenItemReport.UNPAID_UNAPPLIED_AMOUNT, col.getPropertyName())){
                         String documentNumber = ObjectUtils.getPropertyValue(element, KFSConstants.CustomerOpenItemReport.DOCUMENT_NUMBER).toString();

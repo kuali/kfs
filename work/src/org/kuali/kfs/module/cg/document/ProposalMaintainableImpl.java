@@ -31,12 +31,11 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.AssertionUtils;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Methods for the Proposal maintenance document UI.
@@ -137,7 +136,6 @@ public class ProposalMaintainableImpl extends FinancialSystemMaintainable {
      */
     private void initResearchRiskTypes() {
         List<ProposalResearchRisk> risks = getProposal().getProposalResearchRisks();
-        AssertionUtils.assertThat(risks.isEmpty());
         // no requirement to exclude any risk types (except inactive ones, which the service excludes anyway)
         final String[] riskTypeCodesToExclude = new String[0];
         List<ResearchRiskType> researchRiskTypes = SpringContext.getBean(RoutingFormResearchRiskService.class).getResearchRiskTypes(riskTypeCodesToExclude);

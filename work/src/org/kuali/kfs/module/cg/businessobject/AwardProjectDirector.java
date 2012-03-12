@@ -20,16 +20,15 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.impl.PersonImpl;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * This class represents an association between an award and a project director. It's like a reference to the project director from
  * the award. This way an award can maintain a collection of these references instead of owning project directors directly.
  */
-public class AwardProjectDirector extends PersistableBusinessObjectBase implements Primaryable, CGProjectDirector, Inactivateable {
+public class AwardProjectDirector extends PersistableBusinessObjectBase implements Primaryable, CGProjectDirector, MutableInactivatable {
 
     private String principalId;
     private Long proposalNumber;
@@ -40,7 +39,7 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
     private Person projectDirector;
     
     private final String userLookupRoleNamespaceCode = KFSConstants.ParameterNamespaces.KFS;
-    private final String userLookupRoleName = KFSConstants.SysKimConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR;
+    private final String userLookupRoleName = KFSConstants.SysKimApiConstants.CONTRACTS_AND_GRANTS_PROJECT_DIRECTOR;
 
     /**
      * Default no-args constructor.
@@ -120,7 +119,7 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
      * @see org.kuali.kfs.module.cg.businessobject.CGProjectDirector#getProjectDirector()
      */
     public Person getProjectDirector() {
-        projectDirector = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(principalId, projectDirector);
+        projectDirector = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(principalId, projectDirector);
         return projectDirector;
     }
 
@@ -139,14 +138,14 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.Inactivateable#isActive()
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#isActive()
      */
     public boolean isActive() {
         return active;
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.Inactivateable#setActive(boolean)
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#setActive(boolean)
      */
     public void setActive(boolean active) {
         this.active = active;
@@ -167,11 +166,11 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
     @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("principalId", this.principalId);
         if (this.proposalNumber != null) {

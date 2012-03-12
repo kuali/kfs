@@ -16,7 +16,6 @@
 package org.kuali.kfs.fp.document.web.struts;
 
 import org.kuali.kfs.fp.document.CapitalAssetEditable;
-import org.kuali.kfs.fp.document.ServiceBillingDocument;
 
 /**
  * This class is the action form for Service Billing.

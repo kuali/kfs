@@ -58,10 +58,10 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 @ConfigureContext(session = kfs, shouldCommitTransactions=true)
 public class CreateCapitalGainLossDistributionTransactionServiceImplTest extends KualiTestBase {
@@ -195,14 +195,14 @@ public class CreateCapitalGainLossDistributionTransactionServiceImplTest extends
         //short term
         HoldingAdjustmentDocument had1 = createGainLossDistributionTransactionsServiceImpl.generateHoldingAdjustmentDocument(true, pooledFundValue.getPooledSecurityID());
         if (ObjectUtils.isNotNull(had1)) {
-            assertTrue("The description for Short Term does not match.", had1.getDocumentHeader().getDocumentDescription().equals(parameterService.getParameterValue(CreateGainLossDistributionTransactionsStep.class, EndowParameterKeyConstants.SHORT_TERM_GAIN_LOSS_DESCRIPTION)));
+            assertTrue("The description for Short Term does not match.", had1.getDocumentHeader().getDocumentDescription().equals(parameterService.getParameterValueAsString(CreateGainLossDistributionTransactionsStep.class, EndowParameterKeyConstants.SHORT_TERM_GAIN_LOSS_DESCRIPTION)));
         }
         removeDocumentFromTables(had1.getDocumentNumber());
         
         //long term
         HoldingAdjustmentDocument had2 = createGainLossDistributionTransactionsServiceImpl.generateHoldingAdjustmentDocument(false, pooledFundValue.getPooledSecurityID());
         if (ObjectUtils.isNotNull(had2)) {
-            assertTrue("The description for Short Term does not match.", had2.getDocumentHeader().getDocumentDescription().equals(parameterService.getParameterValue(CreateGainLossDistributionTransactionsStep.class, EndowParameterKeyConstants.LONG_TERM_GAIN_LOSS_DESCRIPTION)));
+            assertTrue("The description for Short Term does not match.", had2.getDocumentHeader().getDocumentDescription().equals(parameterService.getParameterValueAsString(CreateGainLossDistributionTransactionsStep.class, EndowParameterKeyConstants.LONG_TERM_GAIN_LOSS_DESCRIPTION)));
         }   
         removeDocumentFromTables(had2.getDocumentNumber());
         
@@ -220,7 +220,7 @@ public class CreateCapitalGainLossDistributionTransactionServiceImplTest extends
         
         HoldingAdjustmentDocument had1 = createGainLossDistributionTransactionsServiceImpl.generateHoldingAdjustmentDocument(true, pooledFundValue.getPooledSecurityID());
         if (ObjectUtils.isNotNull(had1)) {
-            assertTrue("The description for Short Term does not match.", had1.getDocumentHeader().getDocumentDescription().equals(parameterService.getParameterValue(CreateGainLossDistributionTransactionsStep.class, EndowParameterKeyConstants.SHORT_TERM_GAIN_LOSS_DESCRIPTION)));
+            assertTrue("The description for Short Term does not match.", had1.getDocumentHeader().getDocumentDescription().equals(parameterService.getParameterValueAsString(CreateGainLossDistributionTransactionsStep.class, EndowParameterKeyConstants.SHORT_TERM_GAIN_LOSS_DESCRIPTION)));
         }
         createGainLossDistributionTransactionsServiceImpl.addSecurityDetails(had1, pooledFundValue.getPooledSecurityID(), holdingTaxLot.getRegistrationCode());
         assertTrue("Problem adding security details.", had1.getSourceTransactionSecurity().getRegistrationCode().equalsIgnoreCase(EndowTestConstants.TEST_REGISTRATION_CD_COMMITTED));

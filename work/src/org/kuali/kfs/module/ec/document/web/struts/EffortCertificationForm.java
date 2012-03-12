@@ -43,16 +43,16 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.bo.BusinessObjectRelationship;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.inquiry.Inquirable;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.service.PersistenceStructureService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.bo.DataObjectRelationship;
+import org.kuali.rice.krad.service.PersistenceStructureService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Action form for Effort Certification Document.
@@ -78,7 +78,6 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
     
     /**
      * initialize a new detail line
-     * 
      * @return the initialized detail line
      */
     public EffortCertificationDetail createNewDetailLine() {
@@ -142,17 +141,17 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
      * 
      * @return the relationship metadata for the detail line fields
      */
-    public Map<String, BusinessObjectRelationship> getRelationshipMetadata() {
+    public Map<String, DataObjectRelationship> getRelationshipMetadata() {
         LOG.debug("getRelationshipMetadata() start");
 
         PersistenceStructureService persistenceStructureService = SpringContext.getBean(PersistenceStructureService.class);
 
-        Map<String, BusinessObjectRelationship> relationshipMetadata = new HashMap<String, BusinessObjectRelationship>();
+        Map<String, DataObjectRelationship> relationshipMetadata = new HashMap<String, DataObjectRelationship>();
         for (String attributeName : this.getInquirableFieldNames()) {
             Map<String, Class<? extends BusinessObject>> primitiveReference = LookupUtils.getPrimitiveReference(newDetailLine, attributeName);
 
             if (primitiveReference != null && !primitiveReference.isEmpty()) {
-                BusinessObjectRelationship primitiveRelationship = this.getPrimitiveBusinessObjectRelationship(persistenceStructureService.getRelationshipMetadata(newDetailLine.getClass(), attributeName));
+                DataObjectRelationship primitiveRelationship = this.getPrimitiveDataObjectRelationship(persistenceStructureService.getRelationshipMetadata(newDetailLine.getClass(), attributeName));
                 relationshipMetadata.put(attributeName, primitiveRelationship);
             }
         }
@@ -189,12 +188,12 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
      * @param relationshipMetadata the relationship metadata that contains the primitive relationship
      * @return the primitive relationship for an attribute from a set of relationships.
      */
-    protected BusinessObjectRelationship getPrimitiveBusinessObjectRelationship(Map<String, BusinessObjectRelationship> relationshipMetadata) {
+    protected DataObjectRelationship getPrimitiveDataObjectRelationship(Map<String, DataObjectRelationship> relationshipMetadata) {
         int minCountOfKeys = Integer.MAX_VALUE;
-        BusinessObjectRelationship primitiveRelationship = null;
+        DataObjectRelationship primitiveRelationship = null;
 
         for (String attribute : relationshipMetadata.keySet()) {
-            BusinessObjectRelationship currentRelationship = relationshipMetadata.get(attribute);
+            DataObjectRelationship currentRelationship = relationshipMetadata.get(attribute);
 
             Map<String, String> parentToChildReferences = currentRelationship.getParentToChildReferences();
             if (parentToChildReferences.size() < minCountOfKeys) {
@@ -348,7 +347,71 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
 
         return completeURL.concat(queryString.toString());
     }
+    
+   
+    /**
+     * Gets the fieldInfo attribute.
+     * 
+     * @return Returns the fieldInfo.
+     */
+    protected Map<String, String> getFieldInfo(EffortCertificationDetail detailLine) {
+        LOG.info("getFieldInfo(List<EffortCertificationDetail>) start");
 
+        //Map<String, String> fieldInfo = new HashMap<String, String>();
+        EffortCertificationDocument document = (EffortCertificationDocument) this.getDocument();
+        KualiDecimal totalOriginalPayrollAmount = document.getTotalOriginalPayrollAmount();
+
+        
+            detailLine.refreshNonUpdateableReferences();
+
+            Map<String, String> fieldInfoForAttribute = new HashMap<String, String>();
+            
+            fieldInfoForAttribute.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, ObjectUtils.isNotNull(detailLine.getChartOfAccounts())? detailLine.getChartOfAccounts().getFinChartOfAccountDescription(): "");
+
+            String accountInfo = buildAccountInfo(detailLine.getAccount());
+            fieldInfoForAttribute.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountInfo);
+
+            SubAccount subAccount = detailLine.getSubAccount();
+            if (ObjectUtils.isNotNull(subAccount)) {
+                fieldInfoForAttribute.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, subAccount.getSubAccountName());
+            }
+
+            ObjectCode objectCode = detailLine.getFinancialObject();
+            if (ObjectUtils.isNotNull(objectCode)) {
+                fieldInfoForAttribute.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode.getFinancialObjectCodeName());
+            }
+
+            Account sourceAccount = detailLine.getSourceAccount();
+            if (ObjectUtils.isNotNull(sourceAccount)) {
+                fieldInfoForAttribute.put(EffortPropertyConstants.SOURCE_ACCOUNT_NUMBER, sourceAccount.getAccountName());
+            }
+
+            Chart sourceChart = detailLine.getSourceChartOfAccounts();
+            if (ObjectUtils.isNotNull(sourceChart)) {
+                fieldInfoForAttribute.put(EffortPropertyConstants.SOURCE_CHART_OF_ACCOUNTS_CODE, sourceChart.getFinChartOfAccountDescription());
+            }
+
+            KualiDecimal originalPayrollAmount = detailLine.getEffortCertificationOriginalPayrollAmount();
+            String actualOriginalPercent = PayrollAmountHolder.recalculateEffortPercentAsString(totalOriginalPayrollAmount, originalPayrollAmount);
+            fieldInfoForAttribute.put(EffortPropertyConstants.EFFORT_CERTIFICATION_CALCULATED_OVERALL_PERCENT, actualOriginalPercent);
+
+            //fieldInfo.add(fieldInfoForAttribute);
+        
+
+        return fieldInfoForAttribute;
+    }
+    
+    /**
+     * Gets the fieldInfo attribute.
+     * 
+     * @return Returns the fieldInfo.
+     */
+    public Map<String, String> getDetailLineFieldInfo() {
+        LOG.info("getSummarizedDetailLineFieldInfo() start");
+
+        return this.getFieldInfo(this.getNewDetailLine());
+    }
+    
     /**
      * Gets the fieldInfo attribute.
      * 
@@ -400,7 +463,8 @@ public class EffortCertificationForm extends FinancialSystemTransactionalDocumen
 
         return fieldInfo;
     }
-
+    
+  
     /**
      * get the inquirable implmentation
      * 

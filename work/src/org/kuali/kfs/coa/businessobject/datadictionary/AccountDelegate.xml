@@ -172,7 +172,7 @@
 		<property name="label" value="Approval From This Amount" />
 		<property name="shortLabel" value="FromAmt" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 
 	<bean id="AccountDelegate-finDocApprovalToThisAmount" parent="AccountDelegate-finDocApprovalToThisAmount-parentBean" />
@@ -182,7 +182,7 @@
 		<property name="label" value="Approval To This Amount" />
 		<property name="shortLabel" value="ToAmt" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.CurrencyFormatter" />
+			value="org.kuali.rice.core.web.format.CurrencyFormatter" />
 	</bean>
 
 	<bean id="AccountDelegate-accountsDelegatePrmrtIndicator"

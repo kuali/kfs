@@ -32,10 +32,10 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Struts Action Form for Purchasing documents.
@@ -379,7 +379,7 @@ public abstract class PurchasingFormBase extends PurchasingAccountsPayableFormBa
     public List<ExtraButton> getExtraButtons() {
         extraButtons.clear();
         
-        String appExternalImageURL = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
+        String appExternalImageURL = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
 
         // add the calculate button if the user can edit
         if (canUserCalculate()) {
@@ -422,7 +422,7 @@ public abstract class PurchasingFormBase extends PurchasingAccountsPayableFormBa
     }
 
     public boolean canUserCalculate(){        
-        return documentActions != null && documentActions.containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT);       
+        return documentActions != null && documentActions.containsKey(KRADConstants.KUALI_ACTION_CAN_EDIT);       
     }
 
 
@@ -438,6 +438,6 @@ public abstract class PurchasingFormBase extends PurchasingAccountsPayableFormBa
      * @return the URL to the line item import instructions
      */
     public String getLineItemImportInstructionsUrl() {
-        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY) + SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.LINE_ITEM_IMPORT);
+        return SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY) + SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.LINE_ITEM_IMPORT);
     }
 }

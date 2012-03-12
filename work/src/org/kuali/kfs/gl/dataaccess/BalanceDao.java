@@ -24,7 +24,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
-import org.kuali.rice.kns.service.ParameterEvaluator;
+import org.kuali.rice.core.api.parameter.ParameterEvaluator;
 
 /**
  * The DAO interface that declares methods needed to query the database about balances
@@ -38,7 +38,7 @@ public interface BalanceDao {
      * @param balanceTypeCodes a list of balance type codes of balances to search for
      * @return iterator of reported on java.lang.Object arrays with the report data
      */
-    public Iterator<Object[]> getGlSummary(int universityFiscalYear, List<String> balanceTypeCodes);
+    public Iterator<Object[]> getGlSummary(int universityFiscalYear, Collection<String> balanceTypeCodes);
 
     /**
      * Given a transaction, finds the balance record it would affect
@@ -70,7 +70,7 @@ public interface BalanceDao {
      * @param encumbranceBalanceTypes a list of encumbrance Balance Types
      * @return the records of cash balance entries
      */
-    public Iterator<Balance> lookupCashBalance(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes);
+    public Iterator<Balance> lookupCashBalance(Map fieldValues, boolean isConsolidated, Collection<String> encumbranceBalanceTypes);
 
     /**
      * This method gets the size collection of cash balance entries or entry groups according to input fields and values
@@ -80,7 +80,7 @@ public interface BalanceDao {
      * @param encumbranceBalanceTypes a list of encumbrance balance types
      * @return the size collection of cash balance entry groups
      */
-    public Integer getDetailedCashBalanceRecordCount(Map fieldValues, List<String> encumbranceBalanceTypes);
+    public Integer getDetailedCashBalanceRecordCount(Map fieldValues, Collection<String> encumbranceBalanceTypes);
 
     /**
      * This method gets the size collection of cash balance entry groups according to input fields and values if the entries are
@@ -90,7 +90,7 @@ public interface BalanceDao {
      * @param encumbranceBalanceTypes a list of encumbrance balance types
      * @return the size collection of cash balance entry groups
      */
-    public int getConsolidatedCashBalanceRecordCount(Map fieldValues, List<String> encumbranceBalanceTypes);
+    public int getConsolidatedCashBalanceRecordCount(Map fieldValues, Collection<String> encumbranceBalanceTypes);
 
     /**
      * This method finds the records of balance entries according to input fields and values
@@ -100,7 +100,7 @@ public interface BalanceDao {
      * @param encumbranceBalanceTypes a list of encumbrance balance types
      * @return the records of balance entries
      */
-    public Iterator findBalance(Map fieldValues, boolean isConsolidated, List<String> encumbranceBalanceTypes);
+    public Iterator findBalance(Map fieldValues, boolean isConsolidated, Collection<String> encumbranceBalanceTypes);
 
     /**
      * This method gets the size collection of balance entry groups according to input fields and values if the entries are required
@@ -110,7 +110,7 @@ public interface BalanceDao {
      * @param encumbranceBalanceTypes a list of encumbrance balance types
      * @return the size collection of balance entry groups
      */
-    public Iterator getConsolidatedBalanceRecordCount(Map fieldValues, List<String> encumbranceBalanceTypes);
+    public Iterator getConsolidatedBalanceRecordCount(Map fieldValues, Collection<String> encumbranceBalanceTypes);
 
     /**
      * Returns the balance entries for the given year, chart, and account.
@@ -176,7 +176,7 @@ public interface BalanceDao {
      * @param currentYearOptions current year options
      * @return an Iterator of nominal activity balances
      */
-    public Iterator<Balance> findNominalActivityBalancesForFiscalYear(Integer year, List<String> nominalActivityObjectTypeCodes, SystemOptions currentYearOptions);
+    public Iterator<Balance> findNominalActivityBalancesForFiscalYear(Integer year, Collection<String> nominalActivityObjectTypeCodes, SystemOptions currentYearOptions);
 
     /**
      * Returns the balances specifically to be forwarded to the next fiscal year, based on the "general" rule
@@ -186,7 +186,7 @@ public interface BalanceDao {
      * @param generalBalanceForwardBalanceTypesArray an array of general Balance Forward Balance Types
      * @return an Iterator full of Balances
      */
-    public Iterator<Balance> findGeneralBalancesToForwardForFiscalYear(Integer year, List<String> generalForwardBalanceObjectTypes, String[] generalBalanceForwardBalanceTypesArray);
+    public Iterator<Balance> findGeneralBalancesToForwardForFiscalYear(Integer year, Collection<String> generalForwardBalanceObjectTypes, Collection<String> generalBalanceForwardBalanceTypesArray);
 
     /**
      * Returns the C&G balances specifically to be forwarded to the next fiscal year, based on the "cumulative" rule
@@ -198,7 +198,7 @@ public interface BalanceDao {
      * @param cumulativeBalanceForwardBalanceTypesArray an array of cumulative Balance Forward Balance Types
      * @return and Iterator chuck full of Balances
      */
-    public Iterator<Balance> findCumulativeBalancesToForwardForFiscalYear(Integer year, List<String> cumulativeForwardBalanceObjectTypes, List<String> contractsAndGrantsDenotingValues, final String[] subFundGroupsForCumulativeBalanceForwardingArray, String[] cumulativeBalanceForwardBalanceTypesArray, boolean fundGroupDenotesCGInd);
+    public Iterator<Balance> findCumulativeBalancesToForwardForFiscalYear(Integer year, Collection<String> cumulativeForwardBalanceObjectTypes, Collection<String> contractsAndGrantsDenotingValues, Collection<String> subFundGroupsForCumulativeBalanceForwardingArray, Collection<String> cumulativeBalanceForwardBalanceTypesArray, boolean fundGroupDenotesCGInd);
 
     /**
      * Returns the balances that would specifically be picked up by the Organization Reversion year end process

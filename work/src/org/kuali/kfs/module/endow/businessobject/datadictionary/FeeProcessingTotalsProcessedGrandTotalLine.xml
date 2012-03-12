@@ -24,7 +24,7 @@
     <property name="attributes">
       <list>
       	<ref bean="FeeProcessingTotalsProcessedGrandTotalLine-feeMethodCode"/>
-        <ref bean="FeeProcessingTotalsProcessedGrandTotalLine-eDocNumber"/>
+        <ref bean="FeeProcessingTotalsProcessedGrandTotalLine-documentNumber"/>
       	<ref bean="FeeProcessingTotalsProcessedGrandTotalLine-linesGenerated"/>
         <ref bean="FeeProcessingTotalsProcessedGrandTotalLine-totalIncomeAmount"/>
         <ref bean="FeeProcessingTotalsProcessedGrandTotalLine-totalPrincipalAmount"/>
@@ -37,12 +37,9 @@
     <property name="name" value="feeMethodCode"/>
   	<property name="maxLength" value="30"/>
   </bean>  
-  <bean id="FeeProcessingTotalsProcessedGrandTotalLine-eDocNumber" parent="FeeProcessingTotalsProcessedGrandTotalLine-eDocNumber-parentBean"/>
-  
-  <bean id="FeeProcessingTotalsProcessedGrandTotalLine-eDocNumber-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
-  	<property name="name" value="eDocNumber"/>
-  	<property name="maxLength" value="20"/>
-  </bean>
+  <bean id="FeeProcessingTotalsProcessedGrandTotalLine-documentNumber" parent="FeeProcessingTotalsProcessedGrandTotalLine-documentNumber-parentBean"/> 
+  <bean id="FeeProcessingTotalsProcessedGrandTotalLine-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber" />
+
   <bean id="FeeProcessingTotalsProcessedGrandTotalLine-linesGenerated" parent="FeeProcessingTotalsProcessedGrandTotalLine-linesGenerated-parentBean"/>
 
   <bean id="FeeProcessingTotalsProcessedGrandTotalLine-linesGenerated-parentBean"  abstract="true" parent="GenericAttributes-itemSequenceNumber">
@@ -55,14 +52,14 @@
   <bean id="FeeProcessingTotalsProcessedGrandTotalLine-totalIncomeAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="totalIncomeAmount"/>
     <property name="maxLength" value="22"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="FeeProcessingTotalsProcessedGrandTotalLine-totalPrincipalAmount" parent="FeeProcessingTotalsProcessedGrandTotalLine-totalPrincipalAmount-parentBean"/>    
 
   <bean id="FeeProcessingTotalsProcessedGrandTotalLine-totalPrincipalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="totalPrincipalAmount"/>
 	<property name="maxLength" value="22"/>    
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
 
 </beans>

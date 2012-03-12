@@ -15,33 +15,20 @@
  */
 package org.kuali.kfs.module.cab.dataaccess.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.cxf.common.util.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry;
 import org.kuali.kfs.module.cab.dataaccess.ReconciliationDao;
-import org.kuali.kfs.module.ld.LaborConstants;
-import org.kuali.kfs.module.ld.businessobject.AccountStatusBaseFunds;
-import org.kuali.kfs.module.ld.businessobject.EmployeeFunding;
-import org.kuali.kfs.module.ld.businessobject.LaborCalculatedSalaryFoundationTracker;
-import org.kuali.kfs.module.ld.dataaccess.LaborCalculatedSalaryFoundationTrackerDao;
-import org.kuali.kfs.module.ld.util.ConsolidationUtil;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.ObjectUtil;
-import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 /**
  * This is the data access object for ReconciliationService

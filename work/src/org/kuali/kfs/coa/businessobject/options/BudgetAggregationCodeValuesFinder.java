@@ -21,9 +21,10 @@ import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.BudgetAggregationCode;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * This class returns list of Budget Aggregation Code type value pairs.
@@ -51,11 +52,11 @@ public class BudgetAggregationCodeValuesFinder extends KeyValuesBase {
         Collections.sort(budgetAggregationCodes, new BudgetAggregationCodeComparator());
 
         // create a new list (code, descriptive-name)
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
+        List<KeyValue> labels = new ArrayList<KeyValue>();
 
         for (BudgetAggregationCode budgetAggregationCode : budgetAggregationCodes) {
             if(budgetAggregationCode.isActive()) {
-                labels.add(new KeyLabelPair(budgetAggregationCode.getCode(), budgetAggregationCode.getCodeAndDescription()));
+                labels.add(new ConcreteKeyValue(budgetAggregationCode.getCode(), budgetAggregationCode.getCodeAndDescription()));
             }
         }
 

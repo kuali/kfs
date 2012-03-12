@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.ec.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,9 +30,9 @@ import org.kuali.kfs.module.ec.service.EffortCertificationDetailBuildService;
 import org.kuali.kfs.module.ec.service.EffortCertificationDocumentBuildService;
 import org.kuali.kfs.module.ec.util.LedgerBalanceConsolidationHelper;
 import org.kuali.kfs.module.ec.util.PayrollAmountHolder;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -48,8 +49,8 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
      * @see org.kuali.kfs.module.ec.service.EffortCertificationDocumentBuildService#removeExistingDocumentBuild(java.util.Map)
      */
     public void removeExistingDocumentBuild(Map<String, String> fieldValues) {
-        List<PersistableBusinessObject> documents = (List<PersistableBusinessObject>) businessObjectService.findMatching(EffortCertificationDocumentBuild.class, fieldValues);
-        businessObjectService.delete(documents);
+         Collection<EffortCertificationDocumentBuild> documents = businessObjectService.findMatching(EffortCertificationDocumentBuild.class, fieldValues);
+        businessObjectService.delete((PersistableBusinessObject) documents);
     }
 
     /**
@@ -77,7 +78,7 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
     public EffortCertificationDocumentBuild generateDocumentBuild(Integer postingYear, EffortCertificationReportDefinition reportDefinition, List<LaborLedgerBalance> ledgerBalances) {
         Map<Integer, Set<String>> reportPeriods = reportDefinition.getReportPeriods();
 
-        KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(ledgerBalances, reportPeriods);
+        KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(ledgerBalances, reportPeriods, true);
         PayrollAmountHolder payrollAmountHolder = new PayrollAmountHolder(totalAmount, KualiDecimal.ZERO, 0);
 
         LaborLedgerBalance headOfBalanceList = ledgerBalances.get(0);
@@ -101,7 +102,7 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
     }
 
     /**
-     * populate a dument build object through the given information
+     * populate a document build object through the given information
      * 
      * @param reportDefinition the given report definition
      * @param ledgerBalance the given ledger balance

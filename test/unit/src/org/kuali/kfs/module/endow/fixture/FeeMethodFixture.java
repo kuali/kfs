@@ -20,8 +20,8 @@ import java.sql.Date;
 
 import org.kuali.kfs.module.endow.businessobject.FeeMethod;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public enum FeeMethodFixture {
     // Fee Methode Fixture

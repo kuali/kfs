@@ -227,7 +227,7 @@
     <property name="name" value="accountChargeAmount"/>
     <property name="label" value="Amount"/>
     <property name="shortLabel" value="Amount"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="AssetPayment-accountNumber" parent="AssetPayment-accountNumber-parentBean"/>
@@ -239,7 +239,7 @@
     <property name="name" value="accumulatedPrimaryDepreciationAmount"/>
     <property name="label" value="Accumulated Depreciation Amount"/>
     <property name="shortLabel" value="Accum. Depr. Amt."/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="AssetPayment-capitalAssetNumber" parent="AssetPayment-capitalAssetNumber-parentBean"/>
@@ -337,7 +337,7 @@
     <property name="name" value="period10Depreciation1Amount"/>
     <property name="label" value="Period10 Depreciation Amount"/>
     <property name="shortLabel" value="Amount"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="AssetPayment-period11Depreciation1Amount" parent="AssetPayment-period11Depreciation1Amount-parentBean"/>
@@ -345,7 +345,7 @@
     <property name="name" value="period11Depreciation1Amount"/>
     <property name="label" value="Period11 Depreciation Amount"/>
     <property name="shortLabel" value="Amount"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="AssetPayment-period12Depreciation1Amount" parent="AssetPayment-period12Depreciation1Amount-parentBean"/>
@@ -353,7 +353,7 @@
     <property name="name" value="period12Depreciation1Amount"/>
     <property name="label" value="Period12 Depreciation Amount"/>
     <property name="shortLabel" value="Amount"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="AssetPayment-period1Depreciation1Amount" parent="AssetPayment-period1Depreciation1Amount-parentBean"/>
@@ -361,7 +361,7 @@
     <property name="name" value="period1Depreciation1Amount"/>
     <property name="label" value="Period1 Depreciation Amount"/>
     <property name="shortLabel" value="Amount"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="AssetPayment-period2Depreciation1Amount" parent="AssetPayment-period2Depreciation1Amount-parentBean"/>
@@ -369,7 +369,7 @@
     <property name="name" value="period2Depreciation1Amount"/>
     <property name="label" value="Period2 Depreciation Amount"/>
     <property name="shortLabel" value="Amount"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="AssetPayment-period3Depreciation1Amount" parent="AssetPayment-period3Depreciation1Amount-parentBean"/>
@@ -377,7 +377,7 @@
     <property name="name" value="period3Depreciation1Amount"/>
     <property name="label" value="Period3 Depreciation Amount"/>
     <property name="shortLabel" value="Amount"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="AssetPayment-period4Depreciation1Amount" parent="AssetPayment-period4Depreciation1Amount-parentBean"/>
@@ -385,7 +385,7 @@
     <property name="name" value="period4Depreciation1Amount"/>
     <property name="label" value="Period4 Depreciation Amount"/>
     <property name="shortLabel" value="Amount"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="AssetPayment-period5Depreciation1Amount" parent="AssetPayment-period5Depreciation1Amount-parentBean"/>
@@ -393,7 +393,7 @@
     <property name="name" value="period5Depreciation1Amount"/>
     <property name="label" value="Period5 Depreciation Amount"/>
     <property name="shortLabel" value="Amount"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="AssetPayment-period6Depreciation1Amount" parent="AssetPayment-period6Depreciation1Amount-parentBean"/>
@@ -401,7 +401,7 @@
     <property name="name" value="period6Depreciation1Amount"/>
     <property name="label" value="Period6 Depreciation Amount"/>
     <property name="shortLabel" value="Amount"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="AssetPayment-period7Depreciation1Amount" parent="AssetPayment-period7Depreciation1Amount-parentBean"/>
@@ -409,7 +409,7 @@
     <property name="name" value="period7Depreciation1Amount"/>
     <property name="label" value="Period7 Depreciation Amount"/>
     <property name="shortLabel" value="Amount"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="AssetPayment-period8Depreciation1Amount" parent="AssetPayment-period8Depreciation1Amount-parentBean"/>
@@ -417,7 +417,7 @@
     <property name="name" value="period8Depreciation1Amount"/>
     <property name="label" value="Period8 Depreciation Amount"/>
     <property name="shortLabel" value="Amount"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="AssetPayment-period9Depreciation1Amount" parent="AssetPayment-period9Depreciation1Amount-parentBean"/>
@@ -425,7 +425,7 @@
     <property name="name" value="period9Depreciation1Amount"/>
     <property name="label" value="Period9 Depreciation Amount"/>
     <property name="shortLabel" value="Amount"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="AssetPayment-previousYearPrimaryDepreciationAmount" parent="AssetPayment-previousYearPrimaryDepreciationAmount-parentBean"/>
@@ -433,7 +433,7 @@
     <property name="name" value="previousYearPrimaryDepreciationAmount"/>
     <property name="label" value="Previous Year Depreciation Amount"/>
     <property name="shortLabel" value="Amount"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="AssetPayment-primaryDepreciationBaseAmount" parent="AssetPayment-primaryDepreciationBaseAmount-parentBean"/>
@@ -441,7 +441,7 @@
     <property name="name" value="primaryDepreciationBaseAmount"/>
     <property name="label" value="Primary Depreciation Base Amount"/>
     <property name="shortLabel" value="Amount"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="AssetPayment-projectCode" parent="AssetPayment-projectCode-parentBean"/>
@@ -507,7 +507,7 @@
     <property name="name" value="yearToDate"/>
     <property name="label" value="Year to Date"/>
     <property name="shortLabel" value="yearToDate"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="AssetPayment-financialObject.financialObjectSubTypeCode" parent="AssetPayment-financialObject.financialObjectSubTypeCode-parentBean"/>
   <bean id="AssetPayment-financialObject.financialObjectSubTypeCode-parentBean" abstract="true" parent="ObjectCode-financialObjectSubTypeCode">

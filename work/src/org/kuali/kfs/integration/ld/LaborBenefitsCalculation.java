@@ -17,11 +17,9 @@ package org.kuali.kfs.integration.ld;
 
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.integration.ld.LaborLedgerBenefitsType;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
-import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.util.KualiPercent;
+import org.kuali.rice.core.api.util.type.KualiPercent;
+import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 
 public interface LaborBenefitsCalculation extends ExternalizableBusinessObject  {

@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,10 +30,19 @@ public interface DepreciableAssetsDao {
      * @param documentNumber Document number that will be print out in the report
      * @param fiscalYear fiscal year of the date in depreciation
      * @param fiscalMonth fiscal month of the date in depreciation
-     * @param depreciationDateAsString a String representing the depreciation date that will be print out
+     * @param depreciationDate depreciation date that will be print out
+     * @param a Collection of all AssetObjectCodes
      * @return
      */
-    public List<String[]> generateStatistics(boolean beforeDepreciationReport, List<String> documentNumbers, Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate, String depreciationDateAsString, int fiscalStartMonth, List<String> depreExpObjCodes, List<String> accumulatedDepreciationObjCodes, List<String> notAcceptedAssetStatus, List<String> federallyOwnedObjectSubTypes);
+    public List<String[]> generateStatistics(boolean beforeDepreciationReport, List<String> documentNumbers, Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate, Collection<AssetObjectCode> assetObjectCodes);
 
+
+    /**
+     * This method retrieves a list of valid asset object codes for a particular fiscal year
+     * 
+     * @param fiscalYear
+     * @return Collection<AssetObjectCode>
+     */
+    public Collection<AssetObjectCode> getAssetObjectCodes(Integer fiscalYear);
 
 }

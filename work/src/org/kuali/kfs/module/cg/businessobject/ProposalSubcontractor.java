@@ -18,15 +18,15 @@ package org.kuali.kfs.module.cg.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * 
  */
-public class ProposalSubcontractor extends PersistableBusinessObjectBase implements Inactivateable {
+public class ProposalSubcontractor extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String proposalSubcontractorNumber;
     private Long proposalNumber;
@@ -171,9 +171,9 @@ public class ProposalSubcontractor extends PersistableBusinessObjectBase impleme
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("proposalSubcontractorNumber", this.proposalSubcontractorNumber);
         if (this.proposalNumber != null) {

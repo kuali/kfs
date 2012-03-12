@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Business Object for Holding Tax Lot table
@@ -43,19 +43,6 @@ public class TransactionArchiveSecurity extends PersistableBusinessObjectBase {
     
     // Referenced objects:
     protected Security security;
-
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> m = new LinkedHashMap<String, Object>();
-        m.put(EndowPropertyConstants.TRANSACTION_ARCHIVE_DOCUMENT_NUMBER, this.documentNumber);
-        m.put(EndowPropertyConstants.TRANSACTION_ARCHIVE_LINE_NUMBER, this.lineNumber);
-        m.put(EndowPropertyConstants.TRANSACTION_ARCHIVE_LINE_TYPE_CODE, this.lineTypeCode);
-        
-        return m;
-    }
 
     /**
      * Gets the security attribute. 

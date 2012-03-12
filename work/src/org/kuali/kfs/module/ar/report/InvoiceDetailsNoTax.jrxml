@@ -47,8 +47,8 @@
 	<field name="invoiceItemDescription" class="java.lang.String"/>
 	<field name="invoiceItemCode" class="java.lang.String"/>
 	<field name="invoiceItemUnitPrice" class="java.math.BigDecimal"/>
-	<field name="amount" class="org.kuali.rice.kns.util.KualiDecimal"/>
-	<field name="invoiceItemTaxAmount" class="org.kuali.rice.kns.util.KualiDecimal"/>
+	<field name="amount" class="org.kuali.rice.core.api.util.type.KualiDecimal"/>
+	<field name="invoiceItemTaxAmount" class="org.kuali.rice.core.api.util.type.KualiDecimal"/>
 
 		<background>
 			<band height="0"  isSplitAllowed="true" >

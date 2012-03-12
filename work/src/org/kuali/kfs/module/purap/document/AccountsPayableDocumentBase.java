@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,7 +18,6 @@ package org.kuali.kfs.module.purap.document;
 import java.sql.Timestamp;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.AccountsPayableItem;
 import org.kuali.kfs.module.purap.businessobject.PurApItemUseTax;
@@ -33,18 +32,18 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
-import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteLevelChange;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Accounts Payable Document Base
  */
 public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPayableDocumentBase implements AccountsPayableDocument {
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsPayableDocumentBase.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsPayableDocumentBase.class);
 
     // SHARED FIELDS BETWEEN PAYMENT REQUEST AND CREDIT MEMO
     protected Timestamp accountsPayableApprovalTimestamp;
@@ -61,9 +60,9 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     protected boolean closePurchaseOrderIndicator;
     protected boolean reopenPurchaseOrderIndicator;
     protected String bankCode;
-    
+
     protected boolean unmatchedOverride; // not persisted
-    
+
     // NOT PERSISTED IN DB
     // BELOW USED BY ROUTING
     protected String chartOfAccountsCode;
@@ -79,7 +78,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     protected CampusParameter processingCampus;
     protected transient PurchaseOrderDocument purchaseOrderDocument;
     protected Bank bank;
-    
+
     /**
      * Constructs a AccountsPayableDocumentBase
      */
@@ -98,7 +97,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
 
     /**
      * Overriding to stop the deleting of general ledger entries.
-     * 
+     *
      * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#removeGeneralLedgerPendingEntries()
      */
     @Override
@@ -109,6 +108,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     /**
      * @see org.kuali.kfs.module.purap.document.AccountsPayableDocument#requiresAccountsPayableReviewRouting()
      */
+    @Override
     public boolean requiresAccountsPayableReviewRouting() {
         return !approvalAtAccountsPayableReviewAllowed();
     }
@@ -116,20 +116,21 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     /**
      * @see org.kuali.kfs.module.purap.document.AccountsPayableDocument#approvalAtAccountsPayableReviewAllowed()
      */
+    @Override
     public boolean approvalAtAccountsPayableReviewAllowed() {
         return !(isAttachmentRequired() && documentHasNoImagesAttached());
     }
 
     /**
      * Checks whether an attachment is required
-     * 
+     *
      * @return - true if attachment is required, otherwise false
      */
     protected abstract boolean isAttachmentRequired();
 
     /**
      * Checks all documents notes for attachments and to be overriden by sub class
-     * 
+     *
      * @return - true if document does not have an image attached, false otherwise
      */
     public abstract boolean documentHasNoImagesAttached();
@@ -151,8 +152,8 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
 
     /**
      * Calls a custom prepare for save method, as the super class does GL entry creation that causes problems with AP documents.
-     * 
-     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#prepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
+     *
+     * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#prepareForSave(org.kuali.rice.krad.rule.event.KualiDocumentEvent)
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
@@ -166,16 +167,16 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
 
     /**
      * Helper method to be called from custom prepare for save and to be overriden by sub class.
-     * 
+     *
      * @return - Po Document Type
      */
     public abstract String getPoDocumentTypeForAccountsPayableDocumentCancel();
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#handleRouteLevelChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteLevelChangeDTO)
+     * @see org.kuali.rice.krad.document.DocumentBase#handleRouteLevelChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteLevelChangeDTO)
      */
     @Override
-    public void doRouteLevelChange(DocumentRouteLevelChangeDTO levelChangeEvent) {
+    public void doRouteLevelChange(DocumentRouteLevelChange levelChangeEvent) {
         LOG.debug("handleRouteLevelChange() started");
         super.doRouteLevelChange(levelChangeEvent);
         saveDocumentFromPostProcessing();
@@ -207,7 +208,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
 
     /**
      * Hook to allow processing after a route level is passed.
-     * 
+     *
      * @param newNodeName - current route level
      * @param oldNodeName - previous route level
      * @return - true if process completes to valid state
@@ -216,7 +217,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
 
     /**
      * Retrieves node details object based on name.
-     * 
+     *
      * @param nodeName - route level
      * @return - Information about the supplied route level
      */
@@ -228,86 +229,107 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     public abstract void saveDocumentFromPostProcessing();
 
     // GETTERS AND SETTERS
+    @Override
     public Integer getPurchaseOrderIdentifier() {
         return purchaseOrderIdentifier;
     }
 
+    @Override
     public void setPurchaseOrderIdentifier(Integer purchaseOrderIdentifier) {
         this.purchaseOrderIdentifier = purchaseOrderIdentifier;
     }
 
+    @Override
     public String getAccountsPayableProcessorIdentifier() {
         return accountsPayableProcessorIdentifier;
     }
 
+    @Override
     public void setAccountsPayableProcessorIdentifier(String accountsPayableProcessorIdentifier) {
         this.accountsPayableProcessorIdentifier = accountsPayableProcessorIdentifier;
     }
 
+    @Override
     public String getLastActionPerformedByPersonId() {
         return lastActionPerformedByPersonId;
     }
 
+    @Override
     public void setLastActionPerformedByPersonId(String lastActionPerformedByPersonId) {
         this.lastActionPerformedByPersonId = lastActionPerformedByPersonId;
     }
 
+    @Override
     public String getProcessingCampusCode() {
         return processingCampusCode;
     }
 
+    @Override
     public void setProcessingCampusCode(String processingCampusCode) {
         this.processingCampusCode = processingCampusCode;
     }
 
+    @Override
     public Timestamp getAccountsPayableApprovalTimestamp() {
         return accountsPayableApprovalTimestamp;
     }
 
+    @Override
     public void setAccountsPayableApprovalTimestamp(Timestamp accountsPayableApprovalTimestamp) {
         this.accountsPayableApprovalTimestamp = accountsPayableApprovalTimestamp;
     }
 
+    @Override
     public Timestamp getExtractedTimestamp() {
         return extractedTimestamp;
     }
 
+    @Override
     public void setExtractedTimestamp(Timestamp extractedTimestamp) {
         this.extractedTimestamp = extractedTimestamp;
     }
 
+    @Override
     public boolean isHoldIndicator() {
         return holdIndicator;
     }
 
+    @Override
     public void setHoldIndicator(boolean holdIndicator) {
         this.holdIndicator = holdIndicator;
     }
 
+    @Override
     public String getNoteLine1Text() {
         return noteLine1Text;
     }
 
+    @Override
     public void setNoteLine1Text(String noteLine1Text) {
         this.noteLine1Text = noteLine1Text;
     }
 
+    @Override
     public String getNoteLine2Text() {
         return noteLine2Text;
     }
 
+    @Override
     public void setNoteLine2Text(String noteLine2Text) {
         this.noteLine2Text = noteLine2Text;
     }
 
+    @Override
     public String getNoteLine3Text() {
         return noteLine3Text;
     }
 
+    @Override
     public void setNoteLine3Text(String noteLine3Text) {
         this.noteLine3Text = noteLine3Text;
     }
 
+    @Override
     public CampusParameter getProcessingCampus() {
         return processingCampus;
     }
@@ -339,6 +361,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     /**
      * @see org.kuali.kfs.module.purap.document.AccountsPayableDocument#getPurchaseOrderDocument()
      */
+    @Override
     public PurchaseOrderDocument getPurchaseOrderDocument() {
         if ((ObjectUtils.isNull(purchaseOrderDocument) || ObjectUtils.isNull(purchaseOrderDocument.getPurapDocumentIdentifier())) && (ObjectUtils.isNotNull(getPurchaseOrderIdentifier()))) {
             setPurchaseOrderDocument(SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(this.getPurchaseOrderIdentifier()));
@@ -349,6 +372,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     /**
      * @see org.kuali.kfs.module.purap.document.AccountsPayableDocument#setPurchaseOrderDocument(org.kuali.kfs.module.purap.document.PurchaseOrderDocument)
      */
+    @Override
     public void setPurchaseOrderDocument(PurchaseOrderDocument purchaseOrderDocument) {
         if (ObjectUtils.isNull(purchaseOrderDocument)) {
             // KUALI-PURAP 1185 PO Id not being set to null, instead throwing error on main screen that value is invalid.
@@ -378,7 +402,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     public void setReopenPurchaseOrderIndicator(boolean reopenPurchaseOrderIndicator) {
         this.reopenPurchaseOrderIndicator = reopenPurchaseOrderIndicator;
     }
-    
+
     public String getBankCode() {
         return bankCode;
     }
@@ -409,12 +433,12 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
      * Retrieves the universal user object for the last person to perform an action on the document.
      */
     public Person getLastActionPerformedByUser() {
-    	return SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).getPerson(getLastActionPerformedByPersonId());
+    	return SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).getPerson(getLastActionPerformedByPersonId());
     }
 
     /**
      * Retrieves the person name for the last person to perform an action on the document.
-     * 
+     *
      * @return - the person's name who last performed an action on the document.
      */
     public String getLastActionPerformedByPersonName() {
@@ -435,46 +459,55 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         this.debitCreditCodeForGLEntries = debitCreditCodeForGLEntries;
     }
 
+    @Override
     public boolean isUnmatchedOverride() {
         return unmatchedOverride;
     }
 
+    @Override
     public void setUnmatchedOverride(boolean unmatchedOverride) {
         this.unmatchedOverride = unmatchedOverride;
     }
- 
+
     public boolean getExtractedIndicatorForSearching() {
         return extractedTimestamp != null;
     }
-    
+
     public boolean isHoldIndicatorForSearching() {
         return holdIndicator;
     }
-    
+
     /**
      * @see org.kuali.kfs.module.purap.document.AccountsPayableDocument#getGrandTotal()
      */
+    @Override
     public abstract KualiDecimal getGrandTotal();
 
     /**
      * @see org.kuali.kfs.module.purap.document.AccountsPayableDocument#getInitialAmount()
      */
+    @Override
     public abstract KualiDecimal getInitialAmount();
 
+    @Override
     public boolean isContinuationAccountIndicator() {
         return continuationAccountIndicator;
     }
 
+    @Override
     public void setContinuationAccountIndicator(boolean continuationAccountIndicator) {
         this.continuationAccountIndicator = continuationAccountIndicator;
     }
 
+    @Override
     public boolean isExtracted() {
         return (ObjectUtils.isNotNull(getExtractedTimestamp()));
     }
 
+    @Override
     public abstract AccountsPayableDocumentSpecificService getDocumentSpecificService();
 
+    @Override
     public AccountsPayableItem getAPItemFromPOItem(PurchaseOrderItem poi) {
         for (AccountsPayableItem preqItem : (List<AccountsPayableItem>) this.getItems()) {
             if (preqItem.getItemType().isLineItemIndicator()) {
@@ -492,6 +525,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     /**
      * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#getItemClass()
      */
+    @Override
     public Class getItemClass() {
         return null;
     }
@@ -499,6 +533,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     /**
      * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#getPurApSourceDocumentIfPossible()
      */
+    @Override
     public PurchasingAccountsPayableDocument getPurApSourceDocumentIfPossible() {
         return null;
     }
@@ -506,6 +541,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     /**
      * @see org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase#getPurApSourceDocumentLabelIfPossible()
      */
+    @Override
     public String getPurApSourceDocumentLabelIfPossible() {
         return null;
     }
@@ -513,7 +549,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     public void updateExtendedPriceOnItems() {
         for (AccountsPayableItem item : (List<AccountsPayableItem>) getItems()) {
             item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
-    
+
             final KualiDecimal itemExtendedPrice = (item.getExtendedPrice()==null)?KualiDecimal.ZERO:item.getExtendedPrice();;
             if (item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
                 KualiDecimal newExtendedPrice = item.calculateExtendedPrice();
@@ -523,9 +559,10 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     }
 
     /**
-     * 
+     *
      * @see org.kuali.kfs.module.purap.document.AccountsPayableDocument#getTotalRemitAmount()
      */
+    @Override
     public KualiDecimal getTotalRemitTax() {
         if(!this.isUseTaxIndicator()) {
             return (KualiDecimal.ZERO.equals(this.getTotalTaxAmount()))?null:this.getTotalTaxAmount();
@@ -549,36 +586,38 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         return value;
     }
 
+    @Override
     public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PurApItemUseTax offsetUseTax) {
-        this.offsetUseTax = offsetUseTax; 
+        this.offsetUseTax = offsetUseTax;
         boolean value = this.generateGeneralLedgerPendingEntries(glpeSourceDetail, sequenceHelper);
         this.offsetUseTax = null;
         return value;
     }
-    
+
     public String getHoldIndicatorForResult(){
         return isHoldIndicator() ? "Yes" : "No";
     }
-    
+
     public String getProcessingCampusCodeForSearch(){
         return getProcessingCampusCode();
     }
-    
+
     public String getDocumentChartOfAccountsCodeForSearching(){
         return getPurchaseOrderDocument().getChartOfAccountsCode();
     }
-    
+
     public String getDocumentOrganizationCodeForSearching(){
         return getPurchaseOrderDocument().getOrganizationCode();
     }
-    
+
     /**
      * @return workflow document type for the purap document
      */
     public String getDocumentType() {
         return SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(this.getClass());
     }
-    
+
+    @Override
     public boolean shouldGiveErrorForEmptyAccountsProration() {
         return true;
     }

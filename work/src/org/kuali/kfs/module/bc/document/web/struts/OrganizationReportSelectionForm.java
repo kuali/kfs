@@ -15,13 +15,13 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionObjectPick;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionReasonCodePick;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionReportThresholdSettings;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionSubFundPick;
-import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * Struts Action Form for the Organization Report Selection Screen.
@@ -46,9 +46,9 @@ public class OrganizationReportSelectionForm extends BudgetExpansionForm {
     public OrganizationReportSelectionForm() {
         super();
 
-        subFundPickList = new TypedArrayList(BudgetConstructionSubFundPick.class);
-        objectCodePickList = new TypedArrayList(BudgetConstructionObjectPick.class);
-        reasonCodePickList = new TypedArrayList(BudgetConstructionReasonCodePick.class);
+        subFundPickList = new ArrayList<BudgetConstructionSubFundPick>();
+        objectCodePickList = new ArrayList<BudgetConstructionObjectPick>();
+        reasonCodePickList = new ArrayList<BudgetConstructionReasonCodePick>();
 
         budgetConstructionReportThresholdSettings = new BudgetConstructionReportThresholdSettings();
     }

@@ -17,7 +17,7 @@ package org.kuali.kfs.fp.document;
 
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 @ConfigureContext
 public class CashReceiptFamilyTestUtil {

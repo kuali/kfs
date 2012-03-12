@@ -18,7 +18,8 @@ package org.kuali.kfs.sys.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 
 /**
@@ -26,6 +27,8 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
  */
 public class HomeOrigination extends PersistableBusinessObjectBase {
 
+    public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + "HomeOrigination";
+    
     private String finSystemHomeOriginationCode;
     private OriginationCode originationCode;
 
@@ -57,9 +60,9 @@ public class HomeOrigination extends PersistableBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("finSystemHomeOriginationCode", this.finSystemHomeOriginationCode);
         return m;

@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -30,13 +29,13 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.util.KIMPropertyConstants;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.impl.KIMPropertyConstants;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
 
-public class DisbursementPayee extends TransientBusinessObjectBase implements Inactivateable {
+public class DisbursementPayee extends TransientBusinessObjectBase implements MutableInactivatable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementPayee.class);
 
     private String payeeIdNumber;
@@ -56,8 +55,6 @@ public class DisbursementPayee extends TransientBusinessObjectBase implements In
     
     private String principalId;
     
-    public final static String addressPattern = "{0}, {1}, {2} {3}";
-
     /**
      * Constructs a DisbursementPayee.java.
      */
@@ -68,104 +65,14 @@ public class DisbursementPayee extends TransientBusinessObjectBase implements In
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
         map.put(KFSPropertyConstants.PAYEE_ID_NUMBER, this.payeeIdNumber);
         map.put(KFSPropertyConstants.PAYEE_TYPE_CODE, this.payeeTypeCode);
         map.put(KFSPropertyConstants.PAYEE_NAME, this.payeeName);
 
         return map;
-    }
-
-    /**
-     * convert the field names between Payee and Vendor
-     * 
-     * @return a field name map of Payee and Vendor. The map key is a field name of Payee, and its value is a field name of Vendor
-     */
-    public static Map<String, String> getFieldConversionBetweenPayeeAndVendor() {
-        Map<String, String> fieldConversionMap = new HashMap<String, String>();
-
-        fieldConversionMap.put(KFSPropertyConstants.TAX_NUMBER, VendorPropertyConstants.VENDOR_TAX_NUMBER);
-
-        fieldConversionMap.put(KFSPropertyConstants.VENDOR_NAME, KFSPropertyConstants.VENDOR_NAME);
-        fieldConversionMap.put(KFSPropertyConstants.VENDOR_NUMBER, KFSPropertyConstants.VENDOR_NUMBER);
-
-        fieldConversionMap.put(KFSPropertyConstants.PERSON_FIRST_NAME, VendorPropertyConstants.VENDOR_FIRST_NAME);
-        fieldConversionMap.put(KFSPropertyConstants.PERSON_LAST_NAME, VendorPropertyConstants.VENDOR_LAST_NAME);
-
-        fieldConversionMap.put(KNSPropertyConstants.ACTIVE, KFSPropertyConstants.ACTIVE_INDICATOR);
-
-        return fieldConversionMap;
-    }
-
-    /**
-     * convert the field names between Payee and Person
-     * 
-     * @return a field name map of Payee and Person. The map key is a field name of Payee, and its value is a field name of Person
-     */
-    public static Map<String, String> getFieldConversionBetweenPayeeAndPerson() {
-        Map<String, String> fieldConversionMap = new HashMap<String, String>();
-
-    //    fieldConversionMap.put(KFSPropertyConstants.TAX_NUMBER, KIMPropertyConstants.Person.EXTERNAL_ID);
-
-        fieldConversionMap.put(KFSPropertyConstants.PERSON_FIRST_NAME, KIMPropertyConstants.Person.FIRST_NAME);
-        fieldConversionMap.put(KFSPropertyConstants.PERSON_LAST_NAME, KIMPropertyConstants.Person.LAST_NAME);
-
-        fieldConversionMap.put(KFSPropertyConstants.EMPLOYEE_ID, KIMPropertyConstants.Person.EMPLOYEE_ID);
-        fieldConversionMap.put(KNSPropertyConstants.ACTIVE, KNSPropertyConstants.ACTIVE);
-
-        return fieldConversionMap;
-    }
-
-    /**
-     * build a payee object from the given vendor object
-     * 
-     * @param vendorDetail the given vendor object
-     * @return a payee object built from the given vendor object
-     */
-    public static DisbursementPayee getPayeeFromVendor(VendorDetail vendorDetail) {
-        DisbursementPayee disbursementPayee = new DisbursementPayee();
-
-        disbursementPayee.setActive(vendorDetail.isActiveIndicator());
-
-        disbursementPayee.setPayeeIdNumber(vendorDetail.getVendorNumber());
-        disbursementPayee.setPayeeName(vendorDetail.getAltVendorName());
-        disbursementPayee.setTaxNumber(vendorDetail.getVendorHeader().getVendorTaxNumber());
-
-        String vendorTypeCode = vendorDetail.getVendorHeader().getVendorTypeCode();
-        String payeeTypeCode = getVendorPayeeTypeCodeMapping().get(vendorTypeCode);
-        disbursementPayee.setPayeeTypeCode(payeeTypeCode);
-
-        String vendorAddress = MessageFormat.format(addressPattern, vendorDetail.getDefaultAddressLine1(), vendorDetail.getDefaultAddressCity(), vendorDetail.getDefaultAddressStateCode(), vendorDetail.getDefaultAddressCountryCode());
-        disbursementPayee.setAddress(vendorAddress);
-
-        return disbursementPayee;
-    }
-
-    /**
-     * build a payee object from the given person object
-     * 
-     * @param person the given person object
-     * @return a payee object built from the given person object
-     */
-    public static DisbursementPayee getPayeeFromPerson(Person person) {
-        DisbursementPayee disbursementPayee = new DisbursementPayee();
-
-        disbursementPayee.setActive(person.isActive());
-
-        disbursementPayee.setPayeeIdNumber(person.getEmployeeId());
-        disbursementPayee.setPrincipalId(person.getPrincipalId());
-        
-        disbursementPayee.setPayeeName(person.getName());
-        disbursementPayee.setTaxNumber(KFSConstants.BLANK_SPACE);
-        
-        disbursementPayee.setPayeeTypeCode(DisbursementVoucherConstants.DV_PAYEE_TYPE_EMPLOYEE);
-
-        String personAddress = MessageFormat.format(addressPattern, person.getAddressLine1(), person.getAddressCityName(), person.getAddressStateCode(), person.getAddressCountryCode());
-        disbursementPayee.setAddress(personAddress);
-
-        return disbursementPayee;
     }
 
     /**
@@ -420,15 +327,4 @@ public class DisbursementPayee extends TransientBusinessObjectBase implements In
         this.principalId = principalId;
     }
 
-    // do mapping between vendor type code and payee type code 
-    private static Map<String, String> getVendorPayeeTypeCodeMapping() {
-        Map<String, String> payeeVendorTypeCodeMapping = new HashMap<String, String>();
-
-        payeeVendorTypeCodeMapping.put(VendorConstants.VendorTypes.PURCHASE_ORDER, DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR);
-        payeeVendorTypeCodeMapping.put(VendorConstants.VendorTypes.DISBURSEMENT_VOUCHER, DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR);
-        payeeVendorTypeCodeMapping.put(VendorConstants.VendorTypes.REVOLVING_FUND, DisbursementVoucherConstants.DV_PAYEE_TYPE_REVOLVING_FUND_VENDOR);
-        payeeVendorTypeCodeMapping.put(VendorConstants.VendorTypes.SUBJECT_PAYMENT, DisbursementVoucherConstants.DV_PAYEE_TYPE_SUBJECT_PAYMENT_VENDOR);
-
-        return payeeVendorTypeCodeMapping;
-    }
 }

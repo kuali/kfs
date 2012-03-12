@@ -21,6 +21,7 @@
     <property name="allowsErrorCorrection" value="true"/>
     <property name="documentTypeName" value="BA"/>
     <property name="documentClass" value="org.kuali.kfs.fp.document.BudgetAdjustmentDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.fp.document.BudgetAdjustmentDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.fp.document.authorization.BudgetAdjustmentDocumentPresentationController"/>    
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentDocumentPreRules"/>
@@ -108,7 +109,7 @@
   
   <bean id="BudgetAdjustmentDocument-validations-parentBean" abstract="true" class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
-		<map>
+		<map key-type="java.lang.Class">
 			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
 				<value>BudgetAdjustment-routeDocumentValidation</value>

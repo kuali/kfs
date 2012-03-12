@@ -18,12 +18,12 @@ package org.kuali.kfs.pdp.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.businessobject.PayeeType;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 public class PayeeAchIdTypeValuesFinder extends KeyValuesBase {
 
@@ -31,13 +31,12 @@ public class PayeeAchIdTypeValuesFinder extends KeyValuesBase {
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @SuppressWarnings("unchecked")
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         List<PayeeType> boList = (List) SpringContext.getBean(KeyValuesService.class).findAll(PayeeType.class);
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", ""));
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         for (PayeeType element : boList) {
-            if (PdpConstants.PayeeIdTypeCodes.VENDOR_ID.equals(element.getCode()) || PdpConstants.PayeeIdTypeCodes.EMPLOYEE.equals(element.getCode()) || PdpConstants.PayeeIdTypeCodes.ENTITY.equals(element.getCode())) {
-                keyValues.add(new KeyLabelPair(element.getCode(), element.getName()));
+            if (element.isAchEligible()) {
+                keyValues.add(new ConcreteKeyValue(element.getCode(), element.getName()));
             }
         }
 

@@ -56,14 +56,14 @@
   <bean id="GLInterfaceBatchtTotalsProcessedTableRowValues-debitAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="debitAmount"/>
     <property name="maxLength" value="22"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="GLInterfaceBatchtTotalsProcessedTableRowValues-creditAmount" parent="GLInterfaceBatchtTotalsProcessedTableRowValues-creditAmount-parentBean"/>
 
   <bean id="GLInterfaceBatchtTotalsProcessedTableRowValues-creditAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="creditAmount"/>
     <property name="maxLength" value="22"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>  
   <bean id="GLInterfaceBatchtTotalsProcessedTableRowValues-numberOfEntries" parent="GLInterfaceBatchtTotalsProcessedTableRowValues-numberOfEntries-parentBean"/>
 

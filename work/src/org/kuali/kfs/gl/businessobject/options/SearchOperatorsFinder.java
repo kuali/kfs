@@ -18,8 +18,8 @@ package org.kuali.kfs.gl.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * An extension of KeyValueBase that gives the user a choice of search operator options
@@ -34,15 +34,15 @@ public class SearchOperatorsFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List activeLabels = new ArrayList();
-        activeLabels.add(new KeyLabelPair("eq", "Equals"));
-        activeLabels.add(new KeyLabelPair("ne", "Not equal to"));
-        activeLabels.add(new KeyLabelPair("gt", "Greater than"));
-        activeLabels.add(new KeyLabelPair("ge", "Greater than or equal"));
-        activeLabels.add(new KeyLabelPair("lt", "Less than"));
-        activeLabels.add(new KeyLabelPair("le", "Less than or equal"));
-        activeLabels.add(new KeyLabelPair("sw", "Starts with"));
-        activeLabels.add(new KeyLabelPair("ew", "Ends with"));
-        activeLabels.add(new KeyLabelPair("ct", "Contains"));
+        activeLabels.add(new ConcreteKeyValue("eq", "Equals"));
+        activeLabels.add(new ConcreteKeyValue("ne", "Not equal to"));
+        activeLabels.add(new ConcreteKeyValue("gt", "Greater than"));
+        activeLabels.add(new ConcreteKeyValue("ge", "Greater than or equal"));
+        activeLabels.add(new ConcreteKeyValue("lt", "Less than"));
+        activeLabels.add(new ConcreteKeyValue("le", "Less than or equal"));
+        activeLabels.add(new ConcreteKeyValue("sw", "Starts with"));
+        activeLabels.add(new ConcreteKeyValue("ew", "Ends with"));
+        activeLabels.add(new ConcreteKeyValue("ct", "Contains"));
         return activeLabels;
     }
 }

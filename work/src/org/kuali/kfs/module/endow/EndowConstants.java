@@ -15,13 +15,10 @@
  */
 package org.kuali.kfs.module.endow;
 
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.core.util.JSTLConstants;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 
-public class EndowConstants extends JSTLConstants {
+public class EndowConstants {
 
     public static final String KFS_ENDOW_ROLE_NAMESPACE = "KFS-ENDOW";
 
@@ -297,7 +294,7 @@ public class EndowConstants extends JSTLConstants {
     public static final class HistoryHoldingValueAdjustmentValuationCodes {
         public static final String HISTORY_VALUE_ADJUSTMENT_VALUATION_METHOD_FOR_UNIT_VALUE = "U";
         public static final String HISTORY_VALUE_ADJUSTMENT_VALUATION_METHOD_FOR_MARKET_VALUE = "M";
-        public static final String HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS = "holdingHistory*";
+        public static final String HISTORY_VALUE_ADJUSTMENT_DETAILS_ERRORS = "document.holdingHistoryValueAdjustment.";
     }
 
     // Consolidated Object Code Constants

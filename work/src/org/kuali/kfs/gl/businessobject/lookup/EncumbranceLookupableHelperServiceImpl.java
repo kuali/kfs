@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.gl.batch.service.EncumbranceCalculator;
 import org.kuali.kfs.gl.businessobject.Encumbrance;
@@ -31,10 +32,10 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * An extension of KualiLookupableImpl to support encumbrance lookups
@@ -49,7 +50,7 @@ public class EncumbranceLookupableHelperServiceImpl extends AbstractGeneralLedge
      * @param bo the business object with a property being drilled down on
      * @param propertyName the name of the property being drilled down on
      * @return a String with the URL of the property
-     * @see org.kuali.rice.kns.lookup.Lookupable#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
+     * @see org.kuali.rice.kns.lookup.Lookupable#getInquiryUrl(org.kuali.rice.krad.bo.BusinessObject, java.lang.String)
      */
     @Override
     public HtmlData getInquiryUrl(BusinessObject businessObject, String propertyName) {
@@ -118,16 +119,19 @@ public class EncumbranceLookupableHelperServiceImpl extends AbstractGeneralLedge
 
         // get the pending entry option. This method must be prior to the get search results
         String pendingEntryOption = this.getSelectedPendingEntryOption(fieldValues);
+        
+        final String zeroEncumbranceOption = getSelectedZeroEncumbranceOption(fieldValues); // store in a temporary variable, because the method removes the key from the map
+        final boolean includeZeroEncumbrances = (StringUtils.isBlank(zeroEncumbranceOption) || zeroEncumbranceOption.equals(Constant.ZERO_ENCUMBRANCE_INCLUDE));
 
         // get the search result collection
-        Iterator encumbranceIterator = encumbranceService.findOpenEncumbrance(fieldValues);
+        Iterator encumbranceIterator = encumbranceService.findOpenEncumbrance(fieldValues, includeZeroEncumbrances);
         Collection searchResultsCollection = this.buildEncumbranceCollection(encumbranceIterator);
 
         // update search results according to the selected pending entry option
         updateByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, false, false);
 
         // get the actual size of all qualified search results
-        Integer recordCount = encumbranceService.getOpenEncumbranceRecordCount(fieldValues);
+        Integer recordCount = encumbranceService.getOpenEncumbranceRecordCount(fieldValues, includeZeroEncumbrances);
         Long actualSize = OJBUtility.getResultActualSize(searchResultsCollection, recordCount, fieldValues, new Encumbrance());
 
         return this.buildSearchResultList(searchResultsCollection, actualSize);
@@ -172,6 +176,15 @@ public class EncumbranceLookupableHelperServiceImpl extends AbstractGeneralLedge
             encumbranceCollection.add(encumrbance);
         }
         return encumbranceCollection;
+    }
+    
+    /**
+     * Method tests to see if the user selected to include or exclude zero encumbrances
+     * @param fieldValues the lookup field values
+     * @return the value of the zero encumbrance option
+     */
+    protected String getSelectedZeroEncumbranceOption(Map fieldValues) {
+        return (String)fieldValues.remove(Constant.ZERO_ENCUMBRANCE_OPTION);
     }
 
     /**

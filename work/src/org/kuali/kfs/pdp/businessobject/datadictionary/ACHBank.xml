@@ -53,7 +53,7 @@
           <property name="objectAttributeName" value="bankState"/>
           <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition" p:sourceName="bankStateCode" p:targetName="postalStateCode"/>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="bankStateCode" p:targetName="code"/>
             </list>
           </property>
         </bean>
@@ -61,7 +61,7 @@
           <property name="objectAttributeName" value="postalCode"/>
           <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition" p:sourceName="bankZipCode" p:targetName="postalCode"/>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="bankZipCode" p:targetName="code"/>
             </list>
           </property>
         </bean>
@@ -203,12 +203,12 @@
   </bean>
   <bean id="ACHBank-bankStateCode" parent="ACHBank-bankStateCode-parentBean"/>
 
-  <bean id="ACHBank-bankStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State" p:sourceAttributeName="postalStateCode">
+  <bean id="ACHBank-bankStateCode-parentBean" abstract="true" parent="State-code">
     <property name="name" value="bankStateCode"/>
   </bean>
   <bean id="ACHBank-bankZipCode" parent="ACHBank-bankZipCode-parentBean"/>
 
-  <bean id="ACHBank-bankZipCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode" p:sourceAttributeName="postalCode">
+  <bean id="ACHBank-bankZipCode-parentBean" abstract="true" parent="PostalCode-code">
     <property name="name" value="bankZipCode"/>
     <property name="label" value="Bank Zip Code"/>
     <property name="shortLabel" value="Bank Zip Code"/>

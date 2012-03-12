@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,27 +15,32 @@
  */
 package org.kuali.kfs.sys.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.core.api.parameter.ParameterEvaluator;
+import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Default implementation of the <code>BankService</code> interface.
- * 
+ *
  * @see org.kuali.kfs.fp.service.BankService
  */
 public class BankServiceImpl implements BankService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BankServiceImpl.class);
-    
+
     private BusinessObjectService businessObjectService;
     private DataDictionaryService dataDictionaryService;
     private ParameterService parameterService;
@@ -43,6 +48,7 @@ public class BankServiceImpl implements BankService {
     /**
      * @see org.kuali.kfs.fp.service.BankService#getByPrimaryId(java.lang.String)
      */
+    @Override
     public Bank getByPrimaryId(String bankCode) {
         Map primaryKeys = new HashMap();
         primaryKeys.put(KFSPropertyConstants.BANK_CODE, bankCode);
@@ -53,19 +59,20 @@ public class BankServiceImpl implements BankService {
     /**
      * @see org.kuali.kfs.sys.service.BankService#getDefaultBankByDocType(java.lang.String)
      */
+    @Override
     public Bank getDefaultBankByDocType(String documentTypeCode) {
         if (parameterService.parameterExists(Bank.class, KFSParameterKeyConstants.DEFAULT_BANK_BY_DOCUMENT_TYPE)) {
-            List<String> parmValues = parameterService.getParameterValues(Bank.class, KFSParameterKeyConstants.DEFAULT_BANK_BY_DOCUMENT_TYPE, documentTypeCode);
+            List<String> parmValues = new ArrayList<String>( parameterService.getParameterValuesAsString(Bank.class, KFSParameterKeyConstants.DEFAULT_BANK_BY_DOCUMENT_TYPE) );
             if (parmValues != null && !parmValues.isEmpty()) {
                 String defaultBankCode = parmValues.get(0);
-                
+
                 Bank defaultBank = this.getByPrimaryId(defaultBankCode);
-                
+
                 // check active status, if not return continuation bank if active
-                if (!defaultBank.isActive() && defaultBank.getContinuationBank() != null && defaultBank.getContinuationBank().isActive()) {
+                if ( defaultBank != null && !defaultBank.isActive() && defaultBank.getContinuationBank() != null && defaultBank.getContinuationBank().isActive()) {
                     return defaultBank.getContinuationBank();
                 }
-                
+
                 return defaultBank;
             }
         }
@@ -75,9 +82,10 @@ public class BankServiceImpl implements BankService {
     /**
      * @see org.kuali.kfs.sys.service.BankService#getDefaultBankByDocType(java.lang.Class)
      */
-    public Bank getDefaultBankByDocType(Class documentClass) {
+    @Override
+    public Bank getDefaultBankByDocType(Class<?> documentClass) {
         final String documentTypeCode = getDataDictionaryService().getDocumentTypeNameByClass(documentClass);
-        
+
         if (StringUtils.isBlank(documentTypeCode)) {
             throw new RuntimeException("Document type not found for document class: " + documentClass.getName());
         }
@@ -87,13 +95,27 @@ public class BankServiceImpl implements BankService {
     /**
      * @see org.kuali.kfs.sys.service.BankService#isBankSpecificationEnabled()
      */
+    @Override
     public boolean isBankSpecificationEnabled() {
-        return parameterService.getIndicatorParameter(Bank.class, KFSParameterKeyConstants.ENABLE_BANK_SPECIFICATION_IND);
+        return parameterService.getParameterValueAsBoolean(Bank.class, KFSParameterKeyConstants.ENABLE_BANK_SPECIFICATION_IND);
+    }
+
+    /**
+     * @see org.kuali.kfs.sys.service.BankService#isBankSpecificationEnabledForDocument(java.lang.Class)
+     */
+    @Override
+    public boolean isBankSpecificationEnabledForDocument(Class<?> documentClass) {
+        final String documentTypeCode = getDataDictionaryService().getDocumentTypeNameByClass(documentClass);
+        if (ArrayUtils.contains(PERMANENT_BANK_SPECIFICATION_ENABLED_DOCUMENT_TYPES, documentTypeCode)) {
+            return true;
+        }
+        final ParameterEvaluator evaluator = SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(Bank.class, KFSParameterKeyConstants.BANK_CODE_DOCUMENT_TYPES, documentTypeCode);
+        return evaluator.evaluationSucceeds();
     }
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -101,7 +123,7 @@ public class BankServiceImpl implements BankService {
     }
 
     /**
-     * Gets the dataDictionaryService attribute. 
+     * Gets the dataDictionaryService attribute.
      * @return Returns the dataDictionaryService.
      */
     public DataDictionaryService getDataDictionaryService() {
@@ -118,7 +140,7 @@ public class BankServiceImpl implements BankService {
 
     /**
      * Sets the parameterService attribute value.
-     * 
+     *
      * @param parameterService The parameterService to set.
      */
     public void setParameterService(ParameterService parameterService) {

@@ -18,8 +18,8 @@ package org.kuali.kfs.fp.document.validation.impl;
 import static org.kuali.kfs.sys.KFSConstants.ACCOUNTING_LINE_ERRORS;
 import static org.kuali.kfs.sys.KFSKeyConstants.ERROR_DOCUMENT_PC_TRANSACTION_TOTAL_ACCTING_LINE_TOTAL_NOT_EQUAL;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTransactionDetail;
@@ -28,11 +28,9 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Validates that an accounting line does not have a capital object object code 
@@ -50,13 +48,20 @@ public class ProcurementCardAccountAccessibilityValidation extends GenericValida
         boolean isValid = false;
         ProcurementCardDocument pcDocument = (ProcurementCardDocument) getAccountingDocumentForValidation();
 
-        KualiWorkflowDocument workflowDocument = pcDocument.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDocument = pcDocument.getDocumentHeader().getWorkflowDocument();
+       
+        Set<String> activeNodes = workflowDocument.getCurrentNodeNames();
+        if (workflowDocument.isEnroute() && activeNodes.contains(KFSConstants.RouteLevelNames.ACCOUNT_REVIEW_FULL_EDIT)) {
+            isValid = true;
+        }
+        /*
         List<String> activeNodes = null;
         String[] names = workflowDocument.getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
         activeNodes = Arrays.asList(names);
-        if (workflowDocument.stateIsEnroute() && activeNodes.contains(KFSConstants.RouteLevelNames.ACCOUNT_REVIEW_FULL_EDIT)) {
+        if (workflowDocument.isEnroute() && activeNodes.contains(KFSConstants.RouteLevelNames.ACCOUNT_REVIEW_FULL_EDIT)) {
             isValid = true;
         }
+        */
         return isValid;
     }
 

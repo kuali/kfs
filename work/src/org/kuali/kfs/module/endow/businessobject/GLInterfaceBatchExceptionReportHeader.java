@@ -42,10 +42,10 @@ public class GLInterfaceBatchExceptionReportHeader extends EndowmentExceptionRep
 
     /**
      * A map of the "keys" of this transient business object
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap pks = new LinkedHashMap<String, Object>();
         pks.put("columnHeading1",this.getColumnHeading1());
         pks.put("columnHeading2",this.getColumnHeading2());

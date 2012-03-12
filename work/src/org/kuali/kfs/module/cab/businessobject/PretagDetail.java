@@ -1,12 +1,12 @@
 /*
  * Copyright 2008-2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,12 +18,13 @@ package org.kuali.kfs.module.cab.businessobject;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.location.api.campus.CampusService;
+import org.kuali.rice.location.framework.campus.CampusEbo;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -44,7 +45,7 @@ public class PretagDetail extends PersistableBusinessObjectBase {
     private String nationalStockNumber;
     private boolean active;
 
-    private Campus campus;
+    private CampusEbo campus;
     private Building building;
     private Room buildingRoom;
 
@@ -57,7 +58,7 @@ public class PretagDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the purchaseOrderNumber attribute.
-     * 
+     *
      * @return Returns the purchaseOrderNumber
      */
     public String getPurchaseOrderNumber() {
@@ -66,7 +67,7 @@ public class PretagDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the purchaseOrderNumber attribute.
-     * 
+     *
      * @param purchaseOrderNumber The purchaseOrderNumber to set.
      */
     public void setPurchaseOrderNumber(String purchaseOrderNumber) {
@@ -76,7 +77,7 @@ public class PretagDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the itemLineNumber attribute.
-     * 
+     *
      * @return Returns the itemLineNumber.
      */
     public Integer getItemLineNumber() {
@@ -85,7 +86,7 @@ public class PretagDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the itemLineNumber attribute value.
-     * 
+     *
      * @param itemLineNumber The itemLineNumber to set.
      */
     public void setItemLineNumber(Integer itemLineNumber) {
@@ -94,7 +95,7 @@ public class PretagDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the campusTagNumber attribute.
-     * 
+     *
      * @return Returns the campusTagNumber
      */
     public String getCampusTagNumber() {
@@ -103,7 +104,7 @@ public class PretagDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the campusTagNumber attribute.
-     * 
+     *
      * @param campusTagNumber The campusTagNumber to set.
      */
     public void setCampusTagNumber(String campusTagNumber) {
@@ -113,7 +114,7 @@ public class PretagDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the serialNumber attribute.
-     * 
+     *
      * @return Returns the serialNumber
      */
     public String getSerialNumber() {
@@ -122,7 +123,7 @@ public class PretagDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the serialNumber attribute.
-     * 
+     *
      * @param serialNumber The serialNumber to set.
      */
     public void setSerialNumber(String serialNumber) {
@@ -132,7 +133,7 @@ public class PretagDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the organizationTagNumber attribute.
-     * 
+     *
      * @return Returns the organizationTagNumber
      */
     public String getOrganizationTagNumber() {
@@ -141,7 +142,7 @@ public class PretagDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the organizationTagNumber attribute.
-     * 
+     *
      * @param organizationTagNumber The organizationTagNumber to set.
      */
     public void setOrganizationTagNumber(String organizationTagNumber) {
@@ -151,7 +152,7 @@ public class PretagDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the campusCode attribute.
-     * 
+     *
      * @return Returns the campusCode
      */
     public String getCampusCode() {
@@ -160,7 +161,7 @@ public class PretagDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the campusCode attribute.
-     * 
+     *
      * @param campusCode The campusCode to set.
      */
     public void setCampusCode(String campusCode) {
@@ -170,7 +171,7 @@ public class PretagDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the buildingCode attribute.
-     * 
+     *
      * @return Returns the buildingCode
      */
     public String getBuildingCode() {
@@ -179,7 +180,7 @@ public class PretagDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the buildingCode attribute.
-     * 
+     *
      * @param buildingCode The buildingCode to set.
      */
     public void setBuildingCode(String buildingCode) {
@@ -189,7 +190,7 @@ public class PretagDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the buildingRoomNumber attribute.
-     * 
+     *
      * @return Returns the buildingRoomNumber
      */
     public String getBuildingRoomNumber() {
@@ -198,7 +199,7 @@ public class PretagDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the buildingRoomNumber attribute.
-     * 
+     *
      * @param buildingRoomNumber The buildingRoomNumber to set.
      */
     public void setBuildingRoomNumber(String buildingRoomNumber) {
@@ -208,7 +209,7 @@ public class PretagDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the buildingSubRoomNumber attribute.
-     * 
+     *
      * @return Returns the buildingSubRoomNumber
      */
     public String getBuildingSubRoomNumber() {
@@ -217,7 +218,7 @@ public class PretagDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the buildingSubRoomNumber attribute.
-     * 
+     *
      * @param buildingSubRoomNumber The buildingSubRoomNumber to set.
      */
     public void setBuildingSubRoomNumber(String buildingSubRoomNumber) {
@@ -227,7 +228,7 @@ public class PretagDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the pretagTagCreateDate attribute.
-     * 
+     *
      * @return Returns the pretagTagCreateDate
      */
     public Date getPretagTagCreateDate() {
@@ -236,7 +237,7 @@ public class PretagDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the pretagTagCreateDate attribute.
-     * 
+     *
      * @param pretagTagCreateDate The pretagTagCreateDate to set.
      */
     public void setPretagTagCreateDate(Date pretagTagCreateDate) {
@@ -245,7 +246,7 @@ public class PretagDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the governmentTagNumber attribute.
-     * 
+     *
      * @return Returns the governmentTagNumber.
      */
     public String getGovernmentTagNumber() {
@@ -254,7 +255,7 @@ public class PretagDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the governmentTagNumber attribute value.
-     * 
+     *
      * @param governmentTagNumber The governmentTagNumber to set.
      */
     public void setGovernmentTagNumber(String governmentTagNumber) {
@@ -263,7 +264,7 @@ public class PretagDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the nationalStockNumber attribute.
-     * 
+     *
      * @return Returns the nationalStockNumber.
      */
     public String getNationalStockNumber() {
@@ -272,7 +273,7 @@ public class PretagDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the nationalStockNumber attribute value.
-     * 
+     *
      * @param nationalStockNumber The nationalStockNumber to set.
      */
     public void setNationalStockNumber(String nationalStockNumber) {
@@ -281,7 +282,7 @@ public class PretagDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the active attribute.
-     * 
+     *
      * @return Returns the active.
      */
     public boolean isActive() {
@@ -290,7 +291,7 @@ public class PretagDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the active attribute value.
-     * 
+     *
      * @param active The active to set.
      */
     public void setActive(boolean active) {
@@ -299,26 +300,26 @@ public class PretagDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the campus attribute.
-     * 
+     *
      * @return Returns the campus
      */
-    public Campus getCampus() {
-        return campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, campus, "campus");
+    public CampusEbo getCampus() {
+        return campus = StringUtils.isBlank( campusCode)?null:((campus!=null && campus.getCode().equals( campusCode))?campus:CampusEbo.from(SpringContext.getBean(CampusService.class).getCampus( campusCode)));
     }
 
     /**
      * Sets the campus attribute.
-     * 
+     *
      * @param campus The campus to set.
      * @deprecated
      */
-    public void setCampus(Campus campus) {
+    public void setCampus(CampusEbo campus) {
         this.campus = campus;
     }
 
     /**
      * Gets the building attribute.
-     * 
+     *
      * @return Returns the building.
      */
     public Building getBuilding() {
@@ -327,7 +328,7 @@ public class PretagDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the building attribute value.
-     * 
+     *
      * @param building The building to set.
      * @deprecated
      */
@@ -337,7 +338,7 @@ public class PretagDetail extends PersistableBusinessObjectBase {
 
     /**
      * Gets the buildingRoom attribute.
-     * 
+     *
      * @return Returns the buildingRoom.
      */
     public Room getBuildingRoom() {
@@ -346,7 +347,7 @@ public class PretagDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the buildingRoom attribute value.
-     * 
+     *
      * @param buildingRoom The buildingRoom to set.
      * @deprecated
      */
@@ -355,9 +356,9 @@ public class PretagDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("purchaseOrderNumber", this.purchaseOrderNumber);
         if (this.itemLineNumber != null) {

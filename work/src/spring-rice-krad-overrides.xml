@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2007-2008 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:p="http://www.springframework.org/schema/p" 
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd" default-lazy-init="false">
+
+<!-- KNS -->
+    <bean id="kualiInquirable" class="org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl" scope="prototype" />
+
+<!-- KRAD -->
+	<bean id="kualiModuleService" class="org.kuali.kfs.sys.service.impl.KfsKualiModuleServiceImpl"/>
+
+
+	<bean id="documentHelperService" class="org.kuali.kfs.sys.service.impl.DocumentHelperServiceImpl" >
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+	</bean> 
+
+  	<bean id="postProcessorService" class="org.kuali.kfs.sys.service.impl.PostProcessorServiceImpl">
+		<property name="documentService" ref="documentService" />
+	</bean>
+
+    <bean id="documentHeaderDao" parent="platformAwareDao" class="org.kuali.kfs.sys.document.dataaccess.impl.FinancialSystemDocumentHeaderDaoOjb">
+    	<property name="documentHeaderBaseClass" value="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" />
+    </bean>
+    
+    <bean id="dictionaryValidationService" class="org.kuali.rice.kns.service.impl.DictionaryValidationServiceImpl">
+	    <property name="dataDictionaryService">
+	      <ref bean="dataDictionaryService"/>
+	    </property>
+	    <property name="businessObjectService">
+	      <ref bean="businessObjectService"/>
+	    </property>
+	    <property name="documentDictionaryService">
+	      <ref bean="documentDictionaryService"/>
+	    </property>
+	    <property name="persistenceService">
+	      <ref bean="persistenceService"/>
+	    </property>
+	    <property name="persistenceStructureService">
+	      <ref bean="persistenceStructureService"/>
+	    </property>
+	    <!-- Collection constraint processors are classes that determine if a feature of a collection of objects satisfies some constraint -->
+	    <property name="collectionConstraintProcessors">
+	      <list>
+	        <bean class="org.kuali.rice.krad.datadictionary.validation.processor.CollectionSizeConstraintProcessor"/>
+	      </list>
+	    </property>
+	    <!-- Element constraint processors are classes that determine if a passed value is valid for a specific constraint at the individual object or object attribute level
+	     The order matters here because case adds additional constraints to the queue for other processors to pick up-->
+	    <property name="elementConstraintProcessors">
+	      <list>
+	        <bean class="org.kuali.rice.krad.datadictionary.validation.processor.CaseConstraintProcessor"
+	              parent="mandatoryElementConstraintProcessor"/>
+	        <bean class="org.kuali.rice.krad.datadictionary.validation.processor.SimpleConstraintProcessor"
+	              parent="mandatoryElementConstraintProcessor"/>
+	        <bean class="org.kuali.rice.krad.datadictionary.validation.processor.ExistenceConstraintProcessor"/>
+	        <bean class="org.kuali.rice.krad.datadictionary.validation.processor.DataTypeConstraintProcessor"
+	              parent="mandatoryElementConstraintProcessor"/>
+	        <bean class="org.kuali.rice.krad.datadictionary.validation.processor.RangeConstraintProcessor"
+	              parent="mandatoryElementConstraintProcessor"/>
+	        <bean class="org.kuali.rice.krad.datadictionary.validation.processor.LengthConstraintProcessor"
+	              parent="mandatoryElementConstraintProcessor"/>
+	        <bean class="org.kuali.rice.krad.datadictionary.validation.processor.ValidCharactersConstraintProcessor"
+	              parent="mandatoryElementConstraintProcessor"/>
+	        <bean class="org.kuali.rice.krad.datadictionary.validation.processor.PrerequisiteConstraintProcessor"
+	              parent="mandatoryElementConstraintProcessor"/>
+	        <bean class="org.kuali.rice.krad.datadictionary.validation.processor.MustOccurConstraintProcessor"
+	              parent="mandatoryElementConstraintProcessor"/>
+	      </list>
+	    </property>
+	    <!-- Constraint providers are classes that map specific constraint types to a constraint resolver, which takes a constrainable definition -->
+	    <property name="constraintProviders">
+	      <list>
+	        <bean class="org.kuali.rice.krad.datadictionary.validation.constraint.provider.AttributeDefinitionConstraintProvider">
+	          <!--
+	                          individual constraint resolvers can be injected as a map keyed by constraint type as string, or the default
+	                          resolvers can be instantiated into the map by adding 'init-method="init"' to the bean declaration above
+	                      -->
+	          <property name="resolverMap">
+	            <map>
+	              <entry key="org.kuali.rice.krad.datadictionary.validation.constraint.SimpleConstraint">
+	                <ref bean="dictionaryValidationSimpleConstraintResolver"/>
+	              </entry>
+	              <entry key="org.kuali.rice.krad.datadictionary.validation.constraint.CaseConstraint">
+	                <ref bean="dictionaryValidationCaseConstraintResolver"/>
+	              </entry>
+	              <entry key="org.kuali.rice.krad.datadictionary.validation.constraint.ExistenceConstraint">
+	                <ref bean="dictionaryValidationDefinitionConstraintResolver"/>
+	              </entry>
+	              <entry key="org.kuali.rice.krad.datadictionary.validation.constraint.DataTypeConstraint">
+	                <ref bean="dictionaryValidationDefinitionConstraintResolver"/>
+	              </entry>
+	              <entry key="org.kuali.rice.krad.datadictionary.validation.constraint.LengthConstraint">
+	                <ref bean="dictionaryValidationDefinitionConstraintResolver"/>
+	              </entry>
+	              <entry key="org.kuali.rice.krad.datadictionary.validation.constraint.ValidCharactersConstraint">
+	                <ref bean="dictionaryValidationValidCharactersConstraintResolver"/>
+	              </entry>
+	              <entry key="org.kuali.rice.krad.datadictionary.validation.constraint.PrerequisiteConstraint">
+	                <ref bean="dictionaryValidationPrerequisiteConstraintsResolver"/>
+	              </entry>
+	              <entry key="org.kuali.rice.krad.datadictionary.validation.constraint.MustOccurConstraint">
+	                <ref bean="dictionaryValidationMustOccurConstraintsResolver"/>
+	              </entry>
+	              <entry key="org.kuali.rice.krad.datadictionary.validation.constraint.CollectionSizeConstraint">
+	                <ref bean="dictionaryValidationDefinitionConstraintResolver"/>
+	              </entry>
+	            </map>
+	          </property>
+	        </bean>
+	        <bean class="org.kuali.rice.krad.datadictionary.validation.constraint.provider.ComplexAttributeDefinitionConstraintProvider"/>
+	        <bean class="org.kuali.rice.krad.datadictionary.validation.constraint.provider.DataObjectEntryConstraintProvider">
+	          <!--
+	                          individual constraint resolvers can be injected as a map keyed by constraint type as string, or the default
+	                          resolvers can be instantiated into the map by adding 'init-method="init"' to the bean declaration above
+	                      -->
+	          <property name="resolverMap">
+	            <map>
+	              <entry key="org.kuali.rice.krad.datadictionary.validation.constraint.MustOccurConstraint">
+	                <ref bean="dictionaryValidationMustOccurConstraintsResolver"/>
+	              </entry>
+	            </map>
+	          </property>
+	        </bean>
+	      </list>
+	    </property>    
+    </bean>
+
+</beans>

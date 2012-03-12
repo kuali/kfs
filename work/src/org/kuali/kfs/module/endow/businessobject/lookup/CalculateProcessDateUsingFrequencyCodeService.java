@@ -21,7 +21,7 @@ import java.util.Calendar;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.document.service.KEMService;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 public class CalculateProcessDateUsingFrequencyCodeService {
 

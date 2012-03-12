@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.sys.batch.service;
 
-import java.io.File;
 import java.util.List;
 
 import org.kuali.kfs.sys.batch.FilePurgeCustomAge;

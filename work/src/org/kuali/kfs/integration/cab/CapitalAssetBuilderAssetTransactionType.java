@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.integration.cab;
 
-import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
+import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 public interface CapitalAssetBuilderAssetTransactionType extends ExternalizableBusinessObject {
     

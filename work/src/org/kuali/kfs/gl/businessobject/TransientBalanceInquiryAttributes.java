@@ -18,8 +18,8 @@ package org.kuali.kfs.gl.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.gl.OJBUtility;
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 /**
  * This class represents the transient balance inquiry attributes which is typically used as a "dummy business object"
@@ -39,6 +39,8 @@ public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBa
     private String reportingSortCode;
     private String consolidationReportingSortCode;
     private String levelObjectCode;
+    private String debitCreditOption;
+    private String zeroEncumbranceOption;
 
 
     /**
@@ -52,9 +54,9 @@ public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBa
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         return (LinkedHashMap) OJBUtility.buildPropertyMap(this);
     }
 
@@ -272,5 +274,40 @@ public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBa
      */
     public void setBlankLineOption(String blankLineOption) {
         this.blankLineOption = blankLineOption;
+    }
+    
+    
+    /**
+     * 
+     * Gets the debitCreditOption attribute value.
+     * 
+     * @return Returns the debitCreditOption
+     */
+    public String getDebitCreditOption() {
+        return debitCreditOption;
+    }
+
+    /**
+     * 
+     * Sets the debitCreditOption attribute
+     * @param debitCreditOption The debitCreditOption to set.
+     */
+    public void setDebitCreditOption(String debitCreditOption) {
+        this.debitCreditOption = debitCreditOption;
+    }
+
+    /**
+     * @return the include option for encumbrances which have gone to zero
+     */
+    public String getZeroEncumbranceOption() {
+        return zeroEncumbranceOption;
+    }
+
+    /**
+     * Sets the include option for encumbrances which have gone to zero
+     * @param includeZeroEncumbranceOption the include option for encumbrances which have gone to zero
+     */
+    public void setZeroEncumbranceOption(String zeroEncumbranceOption) {
+        this.zeroEncumbranceOption = zeroEncumbranceOption;
     }
 }

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.cab.document.web.struts;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,13 +29,12 @@ import org.kuali.kfs.module.cab.document.service.GlAndPurApHelperService;
 import org.kuali.kfs.module.cab.document.service.PurApInfoService;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class PurApLineForm extends KualiForm {
     private static final Logger LOG = Logger.getLogger(PurApLineAction.class);
@@ -59,12 +59,12 @@ public class PurApLineForm extends KualiForm {
 
 
     public PurApLineForm() {
-        this.purApDocs = new TypedArrayList(PurchasingAccountsPayableDocument.class);
+        this.purApDocs = new ArrayList<PurchasingAccountsPayableDocument>();
     }
 
     @Override
     public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
-        if (StringUtils.equals(methodToCallParameterName, KNSConstants.DISPATCH_REQUEST_PARAMETER) && StringUtils.equals(methodToCallParameterValue, CabConstants.Actions.START)) {
+        if (StringUtils.equals(methodToCallParameterName, KRADConstants.DISPATCH_REQUEST_PARAMETER) && StringUtils.equals(methodToCallParameterValue, CabConstants.Actions.START)) {
             return true;
         }
         return super.shouldMethodToCallParameterBeUsed(methodToCallParameterName, methodToCallParameterValue, request);
@@ -290,7 +290,7 @@ public class PurApLineForm extends KualiForm {
     public void populate(HttpServletRequest request) {
         super.populate(request);
 
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
             // populate collection index
             String purApDocIndex = StringUtils.substringBetween(parameterName, CabConstants.DOT_DOC, ".");
@@ -339,7 +339,7 @@ public class PurApLineForm extends KualiForm {
         String docHandlerLink = "";
         if (StringUtils.isNotBlank(this.documentNumber)) {
             try {
-                String docTypeName = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(this.documentNumber).getDocumentHeader().getWorkflowDocument().getDocumentType();
+                String docTypeName = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(this.documentNumber).getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
                 docHandlerLink = SpringContext.getBean(GlAndPurApHelperService.class).getDocHandlerUrl(this.documentNumber, docTypeName);
             }
             catch (WorkflowException e) {

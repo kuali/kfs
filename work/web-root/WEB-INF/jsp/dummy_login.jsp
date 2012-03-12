@@ -1,17 +1,19 @@
 <%--
- Copyright 2007-2009 The Kuali Foundation
 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
+    Copyright 2005-2012 The Kuali Foundation
 
- http://www.opensource.org/licenses/ecl2.php
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp" %>
 
@@ -46,7 +48,7 @@
         }
 
         table#login th {
-            height: 30 px;
+            height: 30px;
             padding-top: .8em;
             padding-bottom: .8em;
             color: #a02919;
@@ -71,10 +73,18 @@
             padding-bottom: .6em;
         }
 
+        div.build {
+            float: right;
+            color: #dfdda9;
+            margin: .3em;
+        }
+
     </style>
   </head>
 
 <body OnLoad="document.loginForm.__login_user.focus();">
+
+<div class="build">${ConfigProperties.version} (${ConfigProperties.datasource.ojb.platform})</div>
 
 <form name="loginForm" action="" method="post">
 

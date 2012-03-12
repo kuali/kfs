@@ -22,11 +22,10 @@ import java.util.Set;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineViewDebitCreditAmountFieldDefinition;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineViewFieldDefinition;
 import org.kuali.kfs.sys.document.service.AccountingLineFieldRenderingTransformation;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.web.ui.Field;
 
 /**
@@ -151,7 +150,7 @@ public class AccountingLineViewDebitCreditAmountLayoutElement implements TableJo
         AccountingLineTableCell headerCell = new AccountingLineTableCell();
         headerCell.setRendersAsHeader(true);
         final String propertyName = isDebit ? getDebitPropertyName() : getCreditPropertyName();
-        final String label = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(propertyName); 
+        final String label = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(propertyName); 
         headerCell.addRenderableElement(new LiteralHeaderLabel(label));
         return headerCell;
     }

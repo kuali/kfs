@@ -20,9 +20,7 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.kuali.rice.core.util.JSTLConstants;
-
-public class KcConstants  extends JSTLConstants {
+public class KcConstants {
     
     public static final String KC_NAMESPACE_URI = "KC";        
     public static final String MAXIMUM_ACCOUNT_RESPONSIBILITY_ID = "MAXIMUM_ACCOUNT_RESPONSIBILITY_ID";

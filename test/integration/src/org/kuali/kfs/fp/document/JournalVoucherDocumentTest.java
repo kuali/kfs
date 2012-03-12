@@ -42,14 +42,15 @@ import org.kuali.kfs.sys.fixture.AccountingLineFixture;
 import org.kuali.kfs.sys.monitor.ChangeMonitor;
 import org.kuali.kfs.sys.monitor.DocumentStatusMonitor;
 import org.kuali.kfs.sys.monitor.DocumentWorkflowStatusMonitor;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.document.Copyable;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class is used to test JournalVoucherDocument.
@@ -79,7 +80,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
      * Had to override b/c there are too many differences between the JV and the standard document structure (i.e. GLPEs generate
      * differently, routing isn't standard, etc).
      * 
-     * @see org.kuali.rice.kns.document.AccountingDocumentTestBase#testConvertIntoCopy()
+     * @see org.kuali.rice.krad.document.AccountingDocumentTestBase#testConvertIntoCopy()
      */
     @ConfigureContext(session = dfogle, shouldCommitTransactions = true)
     public void testConvertIntoCopy() throws Exception {
@@ -147,7 +148,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
      * Had to override b/c there are too many differences between the JV and the standard document structure (i.e. GLPEs generate
      * differently, routing isn't standard, etc).
      * 
-     * @see org.kuali.rice.kns.document.AccountingDocumentTestBase#testConvertIntoErrorCorrection()
+     * @see org.kuali.rice.krad.document.AccountingDocumentTestBase#testConvertIntoErrorCorrection()
      */
     @ConfigureContext(session = dfogle, shouldCommitTransactions = true)
     public void testConvertIntoErrorCorrection() throws Exception {
@@ -182,11 +183,11 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         document = (AccountingDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentHeaderId);
         // collect some preCorrect data
         String preCorrectId = document.getDocumentNumber();
-        String preCorrectCorrectsId = document.getDocumentHeader().getFinancialDocumentInErrorNumber();
+        String preCorrectCorrectsId = document.getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber();
 
         int preCorrectPECount = document.getGeneralLedgerPendingEntries().size();
         // int preCorrectNoteCount = document.getDocumentHeader().getNotes().size();
-        String preCorrectStatus = document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
+        DocumentStatus preCorrectStatus = document.getDocumentHeader().getWorkflowDocument().getStatus();
 
         ArrayList preCorrectSourceLines = (ArrayList) ObjectUtils.deepCopy(new ArrayList(document.getSourceAccountingLines()));
         ArrayList preCorrectTargetLines = (ArrayList) ObjectUtils.deepCopy(new ArrayList(document.getTargetAccountingLines()));
@@ -212,7 +213,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         // DocumentNote note = document.getDocumentHeader().getNote(0);
         // assertTrue(note.getFinancialDocumentNoteText().indexOf("correction") != -1);
         // correctsId should be equal to old id
-        String correctsId = document.getDocumentHeader().getFinancialDocumentInErrorNumber();
+        String correctsId = document.getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber();
         assertEquals(preCorrectId, correctsId);
         // accounting lines should have sign reversed on amounts
         List postCorrectSourceLines = document.getSourceAccountingLines();
@@ -240,17 +241,17 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
     /**
      * Override b/c the status changing is flakey with this doc b/c routing is special (goes straight to final).
      * 
-     * @see org.kuali.rice.kns.document.DocumentTestBase#testRouteDocument()
+     * @see org.kuali.rice.krad.document.DocumentTestBase#testRouteDocument()
      */
     // @RelatesTo(JiraIssue.KULRNE4926)
     @ConfigureContext(session = dfogle, shouldCommitTransactions = true)
     public void testRouteDocument() throws Exception {
         // save the original doc, wait for status change
         Document document = buildDocument();
-        assertFalse("R".equals(document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
+        assertFalse("R".equals(document.getDocumentHeader().getWorkflowDocument().getStatus()));
         SpringContext.getBean(DocumentService.class).routeDocument(document, "saving copy source document", null);
         // jv docs go straight to final
-        WorkflowTestUtils.waitForStatusChange(document.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
+        WorkflowTestUtils.waitForStatusChange(document.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);
         // also check the Kuali (not Workflow) document status
         DocumentStatusMonitor statusMonitor = new DocumentStatusMonitor(SpringContext.getBean(DocumentService.class), document.getDocumentHeader().getDocumentNumber(), KFSConstants.DocumentStatusCodes.APPROVED);
         assertTrue(ChangeMonitor.waitUntilChange(statusMonitor, 240, 5));

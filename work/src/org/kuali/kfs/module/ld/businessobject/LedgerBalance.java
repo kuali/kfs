@@ -30,9 +30,9 @@ import org.kuali.kfs.integration.ld.LaborLedgerObject;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 
 /**
  * Labor business object for LedgerBalance.
@@ -253,7 +253,7 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
      * @return getFinancialBalanceTypeCode
      * @see org.kuali.kfs.gl.businessobject.Balance#getBalanceTypeCode()
      */
-    @Override
+    
     public String getBalanceTypeCode() {
         return this.getFinancialBalanceTypeCode();
     }
@@ -331,7 +331,7 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
      * Adds amounts in a period.
      * 
      * @param period, amount
-     * @see org.kuali.kfs.gl.businessobject.Balance#addAmount(java.lang.String, org.kuali.rice.kns.util.KualiDecimal)
+     * @see org.kuali.kfs.gl.businessobject.Balance#addAmount(java.lang.String, org.kuali.rice.core.api.util.type.KualiDecimal)
      */
     @Override
     public void addAmount(String period, KualiDecimal amount) {
@@ -539,7 +539,7 @@ public class LedgerBalance extends Balance implements LaborLedgerBalance{
      * @see org.kuali.kfs.gl.businessobject.Balance#toStringMapper()
      */
     @Override
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap map = new LinkedHashMap();
         map.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, getUniversityFiscalYear());
         map.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, getChartOfAccountsCode());

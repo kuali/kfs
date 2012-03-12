@@ -20,6 +20,7 @@
   <bean id="CorrectionReceivingDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
     <property name="documentTypeName" value="RCVC"/>
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.CorrectionReceivingDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.module.purap.document.CorrectionReceivingDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.CorrectionReceivingDocumentRule"/>
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.module.purap.document.validation.impl.LineItemReceivingDocumentPreRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.ReceivingDocumentAuthorizerBase"/>
@@ -73,7 +74,7 @@
     <property name="relationships">
       <list>
         <dd:relationship objectAttribute="vendorCountry">
-            <dd:primitiveAttribute source="vendorCountryCode" target="postalCountryCode"/>
+            <dd:primitiveAttribute source="vendorCountryCode" target="code"/>
         </dd:relationship>
         <bean parent="RelationshipDefinition">
              <property name="objectAttributeName" value="vendorDetail"/>

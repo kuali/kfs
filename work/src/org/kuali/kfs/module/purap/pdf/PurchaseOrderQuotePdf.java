@@ -45,8 +45,8 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
@@ -189,7 +189,7 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
                 if (deliveryCampus == null) {
                     throw new RuntimeException(" delivery campus is null");
                 }
-                String campusName = deliveryCampus.getCampus().getCampusName();
+                String campusName = deliveryCampus.getCampus().getName();
                 if (campusName == null) {
                    
                     throw new RuntimeException("Campus Information is missing - campusName: " + campusName);
@@ -295,7 +295,7 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
         }
 
         if (!KFSConstants.COUNTRY_CODE_UNITED_STATES.equalsIgnoreCase(poqv.getVendorCountryCode()) && poqv.getVendorCountryCode() != null) {
-            vendorInfo.append("     " + poqv.getVendorCountry().getPostalCountryName() + "\n\n");
+            vendorInfo.append("     " + poqv.getVendorCountry().getName() + "\n\n");
         }
         else {
             vendorInfo.append("     \n\n");

@@ -21,9 +21,9 @@ import org.kuali.kfs.module.endow.businessobject.MonthEndDate;
 import org.kuali.kfs.module.endow.businessobject.Security;
 import org.kuali.kfs.module.endow.businessobject.SecurityValuationMethod;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.krad.document.Copyable;
 
 /**
  * This is the transactional document that is used to record a modification to the 
@@ -179,7 +179,7 @@ public class HoldingHistoryValueAdjustmentDocument extends FinancialSystemTransa
      * @see org.kuali.kfs.module.endow.document.EndowmentTransactionalDocumentBase#doRouteStatusChange()
      */
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent){
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent){
         //override the action defined in EndowmentTransactionalDocumentBase.
         //since we don't need to post any transaction from this document type to
         //the endowment transaction archive tables

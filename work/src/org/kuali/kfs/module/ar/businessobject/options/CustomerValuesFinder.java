@@ -20,9 +20,10 @@ import java.util.List;
 
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 public class CustomerValuesFinder extends KeyValuesBase {
 
@@ -30,10 +31,10 @@ public class CustomerValuesFinder extends KeyValuesBase {
     public List getKeyValues() {
 
         List<Customer> boList = (List) SpringContext.getBean(KeyValuesService.class).findAll(Customer.class);
-        List<KeyLabelPair> keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair("", ""));
+        List<KeyValue> keyValues = new ArrayList();
+        keyValues.add(new ConcreteKeyValue("", ""));
         for (Customer element : boList) {
-            keyValues.add(new KeyLabelPair(element.getCustomerNumber(), element.getCustomerName()));
+            keyValues.add(new ConcreteKeyValue(element.getCustomerNumber(), element.getCustomerName()));
         }
 
         return keyValues;

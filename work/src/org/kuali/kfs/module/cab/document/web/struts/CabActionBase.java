@@ -25,12 +25,12 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.cab.CabKeyConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.util.RiceConstants;
-import org.kuali.rice.kew.dto.RouteHeaderDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.util.RiceConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
+import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.springmodules.orm.ojb.OjbOperationException;
 
 public class CabActionBase extends KualiAction {
@@ -58,7 +58,7 @@ public class CabActionBase extends KualiAction {
         }
         return returnForward;
     }
-    
+
 
     /**
      * This method will process the view document request by clicking on a specific document.
@@ -72,22 +72,18 @@ public class CabActionBase extends KualiAction {
      */
     public ActionForward viewDoc(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String documentId = request.getParameter("documentNumber");
-        KualiWorkflowInfo kualiWorkflowInfo = SpringContext.getBean(KualiWorkflowInfo.class);
-        try {
-            RouteHeaderDTO routeHeader = kualiWorkflowInfo.getRouteHeader(Long.valueOf(documentId));
-            String docHandlerUrl = routeHeader.getDocumentUrl();
-            if (docHandlerUrl.indexOf("?") == -1) {
-                docHandlerUrl += "?";
-            }
-            else {
-                docHandlerUrl += "&";
-            }
 
-            docHandlerUrl += "docId=" + documentId + "&" + "command=displayDocSearchView";
-            return new ActionForward(docHandlerUrl, true);
+        DocumentRouteHeaderValue routeHeader = KEWServiceLocator.getRouteHeaderService().getRouteHeader(documentId);
+        String docHandlerUrl = routeHeader.getDocumentHandlerUrl();
+        if (docHandlerUrl.indexOf("?") == -1) {
+            docHandlerUrl += "?";
         }
-        catch (WorkflowException e) {
-            throw new RuntimeException("Caught WorkflowException trying to get document handler URL from Workflow", e);
+        else {
+            docHandlerUrl += "&";
         }
+
+        docHandlerUrl += "docId=" + documentId + "&" + "command=displayDocSearchView";
+        return new ActionForward(docHandlerUrl, true);
+
     }
 }

@@ -16,11 +16,8 @@
 package org.kuali.kfs.sys.batch;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
-import org.apache.commons.lang.ArrayUtils;
-import org.kuali.kfs.sys.FileUtil;
 import org.kuali.kfs.sys.batch.service.FilePurgeService;
 
 /**

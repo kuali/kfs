@@ -16,7 +16,6 @@
 package org.kuali.kfs.gl.dataaccess.impl;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.Iterator;
 
 import org.apache.ojb.broker.query.Criteria;
@@ -29,9 +28,9 @@ import org.kuali.kfs.gl.dataaccess.EntryDao;
 import org.kuali.kfs.gl.dataaccess.LedgerEntryBalancingDao;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TransactionalServiceUtils;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.util.TransactionalServiceUtils;
 
 /**
  * An OJB implementation of EntryDao

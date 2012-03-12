@@ -17,33 +17,33 @@ package org.kuali.kfs.sec.identity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kim.bo.role.dto.KimPermissionInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.support.impl.KimPermissionTypeServiceBase;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.permission.Permission;
+import org.kuali.rice.kns.kim.permission.PermissionTypeServiceBase;
 
 /**
  * Type service for Access Security Permissions that restrict based on property name
  */
-public class SecurityAttributePermissionTypeServiceImpl extends KimPermissionTypeServiceBase {
+public class SecurityAttributePermissionTypeServiceImpl extends PermissionTypeServiceBase {
 
-/* RICE_20_DELETE */    {
-/* RICE_20_DELETE */        requiredAttributes.add(SecKimAttributes.PROPERTY_NAME);
-/* RICE_20_DELETE */        checkRequiredAttributes = false;
-/* RICE_20_DELETE */    }
+
+
+
+
 
     /**
-     * @see org.kuali.rice.kim.service.support.impl.KimPermissionTypeServiceBase#performPermissionMatches(org.kuali.rice.kim.bo.types.dto.AttributeSet,
+     * @see org.kuali.rice.kns.kim.permission.PermissionTypeServiceBase#performPermissionMatches(org.kuali.rice.kim.bo.types.dto.AttributeSet,
      *      java.util.List)
      */
     @Override
-    protected List<KimPermissionInfo> performPermissionMatches(AttributeSet requestedDetails, List<KimPermissionInfo> permissionsList) {
-        List<KimPermissionInfo> matchingPermissions = new ArrayList<KimPermissionInfo>();
+    protected List<Permission> performPermissionMatches(Map<String,String> requestedDetails, List<Permission> permissionsList) {
+        List<Permission> matchingPermissions = new ArrayList<Permission>();
 
-        for (KimPermissionInfo kpi : permissionsList) {
-            if (isDetailMatch(requestedDetails, kpi.getDetails())) {
+        for (Permission kpi : permissionsList) {
+            if (isDetailMatch(requestedDetails, kpi.getAttributes())) {
                 matchingPermissions.add(kpi);
             }
         }
@@ -54,13 +54,13 @@ public class SecurityAttributePermissionTypeServiceImpl extends KimPermissionTyp
     /**
      * Performs match on property name
      * 
-     * @param requestedDetails AttributeSet containing details to match on
-     * @param permissionDetails AttributeSet containing details associated with permission
+     * @param requestedDetails Map<String,String> containing details to match on
+     * @param permissionDetails Map<String,String> containing details associated with permission
      * @return boolean true if details match, false otherwise
      */
-    protected boolean isDetailMatch(AttributeSet requestedDetails, AttributeSet permissionDetails) {
-        String propertyNameMatch = requestedDetails.get(SecKimAttributes.PROPERTY_NAME);
-        String propertyName = permissionDetails.get(SecKimAttributes.PROPERTY_NAME);
+    protected boolean isDetailMatch(Map<String,String> requestedDetails, Map<String,String> permissionDetails) {
+        String propertyNameMatch = requestedDetails.get(KimConstants.AttributeConstants.PROPERTY_NAME);
+        String propertyName = permissionDetails.get(KimConstants.AttributeConstants.PROPERTY_NAME);
 
         if (StringUtils.equals(propertyNameMatch, propertyName)) {
             return true;

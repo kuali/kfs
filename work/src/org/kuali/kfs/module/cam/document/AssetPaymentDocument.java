@@ -41,15 +41,14 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.kfs.sys.document.AmountTotaling;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.krad.document.Copyable;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.SaveDocumentEvent;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Capital assets document class for the asset payment document
@@ -68,7 +67,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 		super();
 		this.setAllocationFromFPDocuments(false);
 		assetPaymentAllocationTypeCode = CamsPropertyConstants.AssetPaymentAllocation.ASSET_DISTRIBUTION_DEFAULT_CODE;
-		this.setAssetPaymentAssetDetail(new TypedArrayList(AssetPaymentAssetDetail.class));		
+		this.setAssetPaymentAssetDetail(new ArrayList<AssetPaymentAssetDetail>());		
 	}
 
 	/**
@@ -117,19 +116,19 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 	 * Lock on purchase order document since post processor will update PO
 	 * document by adding notes.
 	 * 
-	 * @see org.kuali.rice.kns.document.DocumentBase#getWorkflowEngineDocumentIdsToLock()
+	 * @see org.kuali.rice.krad.document.DocumentBase#getWorkflowEngineDocumentIdsToLock()
 	 */
 	@Override
-	public List<Long> getWorkflowEngineDocumentIdsToLock() {
+	public List<String> getWorkflowEngineDocumentIdsToLock() {
+	    List<String> documentIds = null;
 		if (this.isCapitalAssetBuilderOriginIndicator()) {
 			String poDocId = SpringContext.getBean(CapitalAssetBuilderModuleService.class).getCurrentPurchaseOrderDocumentNumber(this.getDocumentNumber());
 			if (StringUtils.isNotBlank(poDocId)) {
-				List<Long> documentIds = new ArrayList<Long>();
-				documentIds.add(new Long(poDocId));
-				return documentIds;
+			    documentIds = new ArrayList<String>();
+				documentIds.add(poDocId);
 			}
 		}
-		return null;
+		return documentIds;
 	}
 
 	/**
@@ -161,7 +160,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 	}
 
 	/**
-	 * @see org.kuali.rice.kns.document.DocumentBase#postProcessSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
+	 * @see org.kuali.rice.krad.document.DocumentBase#postProcessSave(org.kuali.rice.krad.rule.event.KualiDocumentEvent)
 	 */
 	@Override
 	public void postProcessSave(KualiDocumentEvent event) {
@@ -195,18 +194,18 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 	 * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#doRouteStatusChange()
 	 */
 	@Override
-	public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+	public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
 		super.doRouteStatusChange(statusChangeEvent);
-		KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
+		WorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
 
 		// Update asset payment table with the approved asset detail records.
-		if (workflowDocument.stateIsProcessed()) {
+		if (workflowDocument.isProcessed()) {
 			SpringContext.getBean(AssetPaymentService.class).processApprovedAssetPayment(this);
 		}
 
 		// Remove asset lock when doc status change. We don't include
-		// stateIsFinal since document always go to 'processed' first.
-		if (workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsProcessed()) {
+		// isFinal since document always go to 'processed' first.
+		if (workflowDocument.isCanceled() || workflowDocument.isDisapproved() || workflowDocument.isProcessed()) {
 			this.getCapitalAssetManagementModuleService().deleteAssetLocks(this.getDocumentNumber(), null);
 		}
 
@@ -216,7 +215,7 @@ public class AssetPaymentDocument extends AccountingDocumentBase implements Copy
 	}
 
 	/**
-	 * @see org.kuali.kfs.sys.document.AccountingDocumentBase#prepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
+	 * @see org.kuali.kfs.sys.document.AccountingDocumentBase#prepareForSave(org.kuali.rice.krad.rule.event.KualiDocumentEvent)
 	 */
 	@Override
 	public void prepareForSave(KualiDocumentEvent event) {

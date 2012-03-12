@@ -26,11 +26,10 @@ import org.kuali.kfs.module.bc.document.web.struts.MonthlyBudgetAction;
 import org.kuali.kfs.module.bc.document.web.struts.OrganizationSelectionTreeAction;
 import org.kuali.kfs.module.bc.document.web.struts.QuickSalarySettingAction;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants.ParameterValues;
-import org.kuali.rice.core.util.JSTLConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 
-public class BCConstants extends JSTLConstants {
+public class BCConstants {
     public static final String BUDGET_CONSTRUCTION_NAMESPACE = "KFS-BC";
 
     // max depth to check runaway account organization hierarchy builds
@@ -549,7 +548,7 @@ public class BCConstants extends JSTLConstants {
         public static final String SYSTEM_VIEW_ONLY = "systemViewOnly";
     }
     
-    public class KimConstants {
+    public class KimApiConstants {
         public static final String BC_PROCESSOR_ROLE_NAME = "Processor";
         public static final String USE_ORG_SALARY_SETTING_PERMISSION_NAME = "Use Organization Salary Setting";
         public static final String EDIT_BCAF_PERMISSION_NAME = "Edit Appointment Funding";

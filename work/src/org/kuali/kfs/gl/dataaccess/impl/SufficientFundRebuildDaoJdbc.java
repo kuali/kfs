@@ -16,7 +16,7 @@
 package org.kuali.kfs.gl.dataaccess.impl;
 
 import org.kuali.kfs.gl.dataaccess.SufficientFundRebuildDao;
-import org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc;
+import org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJdbc;
 
 /**
  * This class...

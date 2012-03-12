@@ -24,11 +24,11 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class CustomerBank extends PersistableBusinessObjectBase implements Inactivateable {
+public class CustomerBank extends PersistableBusinessObjectBase implements MutableInactivatable {
     private KualiInteger customerId;
     private String bankCode;
     private String disbursementTypeCode;
@@ -152,10 +152,10 @@ public class CustomerBank extends PersistableBusinessObjectBase implements Inact
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(PdpPropertyConstants.CUSTOMER_ID, this.customerId);
         m.put(PdpPropertyConstants.DISBURSEMENT_TYPE_CODE, this.disbursementTypeCode);
@@ -166,7 +166,7 @@ public class CustomerBank extends PersistableBusinessObjectBase implements Inact
 
     /**
      * 
-     * @see org.kuali.rice.kns.bo.Inactivateable#isActive()
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#isActive()
      */
     public boolean isActive() {
         return active;
@@ -174,7 +174,7 @@ public class CustomerBank extends PersistableBusinessObjectBase implements Inact
     
     /**
      * 
-     * @see org.kuali.rice.kns.bo.Inactivateable#setActive(boolean)
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#setActive(boolean)
      */
     public void setActive(boolean active) {
         this.active = active;

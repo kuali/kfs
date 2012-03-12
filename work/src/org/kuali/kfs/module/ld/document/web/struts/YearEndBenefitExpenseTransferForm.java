@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ld.document.web.struts;
 
-import org.kuali.kfs.module.ld.document.YearEndBenefitExpenseTransferDocument;
 
 /**
  * Struts Action Form for the Year End Benefit Expense Transfer Document.

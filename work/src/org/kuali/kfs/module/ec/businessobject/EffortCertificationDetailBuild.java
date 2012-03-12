@@ -77,18 +77,6 @@ public class EffortCertificationDetailBuild extends EffortCertificationDetail {
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    @SuppressWarnings("unchecked")
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = super.toStringMapper();
-        if (this.effortCertificationBuildNumber != null) {
-            m.put("effortCertificationBuildNumber", this.effortCertificationBuildNumber.toString());
-        }
-        return m;
-    }
-
-    /**
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override

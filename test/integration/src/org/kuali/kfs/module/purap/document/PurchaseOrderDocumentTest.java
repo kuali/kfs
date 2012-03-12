@@ -38,8 +38,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
-import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
+import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * Used to create and test populated Purchase Order Documents of various kinds. 
@@ -85,10 +85,10 @@ public class PurchaseOrderDocumentTest extends KualiTestBase {
         PurchaseOrderDocument poDocument = buildSimpleDocument();
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         poDocument.prepareForSave();       
-        assertFalse("R".equals(poDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
+        assertFalse("R".equals(poDocument.getDocumentHeader().getWorkflowDocument().getStatus()));
         AccountingDocumentTestUtils.routeDocument(poDocument, "test annotation", null, documentService);
         WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), "F");        
-        assertTrue("Document should now be final.", poDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());
+        assertTrue("Document should now be final.", poDocument.getDocumentHeader().getWorkflowDocument().isFinal());
     }
 
     @ConfigureContext(session = parke, shouldCommitTransactions=true)
@@ -110,7 +110,7 @@ public class PurchaseOrderDocumentTest extends KualiTestBase {
     public static void assertMatch(PurchaseOrderDocument doc1, PurchaseOrderDocument doc2) {
         // match header
         Assert.assertEquals(doc1.getDocumentNumber(), doc2.getDocumentNumber());
-        Assert.assertEquals(doc1.getDocumentHeader().getWorkflowDocument().getDocumentType(), doc2.getDocumentHeader().getWorkflowDocument().getDocumentType());
+        Assert.assertEquals(doc1.getDocumentHeader().getWorkflowDocument().getDocumentTypeName(), doc2.getDocumentHeader().getWorkflowDocument().getDocumentTypeName());
 
         // match posting year
         if (StringUtils.isNotBlank(doc1.getPostingPeriodCode()) && StringUtils.isNotBlank(doc2.getPostingPeriodCode())) {

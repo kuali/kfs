@@ -20,8 +20,6 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Collection;
 
-import org.kuali.rice.kns.util.KualiDecimal;
-
 /**
  * Value object to carry the system parameters associated with CAB Batch
  */

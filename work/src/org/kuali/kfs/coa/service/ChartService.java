@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 
 /**
  * This interface defines methods that a Chart Service must provide
@@ -55,14 +55,6 @@ public interface ChartService {
      */
     public Map<String, String> getReportsToHierarchy();
 
-    /**
-     * Retrieves a list of chart objects that the User is responsible for
-     * 
-     * @param kualiUser
-     * @return
-     */
-    public List getChartsThatUserIsResponsibleFor(Person kualiUser);
-    
     /**
      * Returns the chart manager form KIM for the given chart code
      * 

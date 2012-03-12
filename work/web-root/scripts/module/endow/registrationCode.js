@@ -58,7 +58,7 @@
  */    
  function setRegistrationCodeDescription( registrationCodeFieldName, registrationCodeDescriptionFieldName ){
  
-	var registrationCode = DWRUtil.getValue( registrationCodeFieldName );
+	var registrationCode = dwr.util.getValue( registrationCodeFieldName );
     
 	if (registrationCode =='') {
 		clearRecipients(registrationCodeDescriptionFieldName, "");

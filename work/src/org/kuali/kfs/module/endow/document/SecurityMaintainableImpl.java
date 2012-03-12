@@ -27,15 +27,14 @@ import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintenanceDocument;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.DocumentHeader;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.springframework.util.StringUtils;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class SecurityMaintainableImpl extends KualiMaintainableImpl {
 
@@ -43,18 +42,18 @@ public class SecurityMaintainableImpl extends KualiMaintainableImpl {
     private Security newSecurity;
 
     /**
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.krad.bo.DocumentHeader)
      */
     @Override
     public void doRouteStatusChange(DocumentHeader documentHeader) {
         super.doRouteStatusChange(documentHeader);
 
-        KualiWorkflowDocument workflowDoc = documentHeader.getWorkflowDocument();
+        WorkflowDocument workflowDoc = documentHeader.getWorkflowDocument();
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         FinancialSystemMaintenanceDocument maintDoc = null;
 
         try {
-            maintDoc = (FinancialSystemMaintenanceDocument) documentService.getByDocumentHeaderId(this.documentNumber);
+            maintDoc = (FinancialSystemMaintenanceDocument) documentService.getByDocumentHeaderId(getDocumentNumber());
         }
         catch (WorkflowException e) {
             throw new RuntimeException(e);
@@ -63,7 +62,7 @@ public class SecurityMaintainableImpl extends KualiMaintainableImpl {
         initializeAttributes(maintDoc);
 
         // This code is only executed when the final approval occurs
-        if (workflowDoc.stateIsProcessed()) {
+        if (workflowDoc.isProcessed()) {
 
             // if user changed unit price, copy old unit price in previous unit value
             if (!ObjectUtils.equals(newSecurity.getUnitValue(), oldSecurity.getUnitValue())) {

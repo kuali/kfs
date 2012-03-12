@@ -19,8 +19,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.web.format.Formatter;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.web.format.Formatter;
 
 public class CashDrawerStatusCodeFormatter extends Formatter {
     private final String CLOSED_CD;
@@ -34,13 +34,13 @@ public class CashDrawerStatusCodeFormatter extends Formatter {
 
     public CashDrawerStatusCodeFormatter() {
         CLOSED_CD = KFSConstants.CashDrawerConstants.STATUS_CLOSED;
-        CLOSED_MSG = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.CashDrawer.CASH_DRAWER_STATUS_CLOSED);
+        CLOSED_MSG = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.CashDrawer.CASH_DRAWER_STATUS_CLOSED);
 
         OPEN_CD = KFSConstants.CashDrawerConstants.STATUS_OPEN;
-        OPEN_MSG = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.CashDrawer.CASH_DRAWER_STATUS_OPEN);
+        OPEN_MSG = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.CashDrawer.CASH_DRAWER_STATUS_OPEN);
 
         LOCKED_CD = KFSConstants.CashDrawerConstants.STATUS_LOCKED;
-        LOCKED_MSG = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.CashDrawer.CASH_DRAWER_STATUS_LOCKED);
+        LOCKED_MSG = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.CashDrawer.CASH_DRAWER_STATUS_LOCKED);
     }
 
 

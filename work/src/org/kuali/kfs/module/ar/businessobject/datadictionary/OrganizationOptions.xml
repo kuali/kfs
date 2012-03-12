@@ -60,19 +60,19 @@
 			<list>
 				<dd:relationship objectAttribute="organizationRemitToState">
 					<dd:primitiveAttribute source="organizationRemitToStateCode"
-						target="postalStateCode" />
+						target="code" />
 				</dd:relationship>
 				<dd:relationship objectAttribute="orgRemitToZipCode">
 					<dd:primitiveAttribute source="organizationRemitToZipCode"
-						target="postalCode" />
+						target="code" />
 				</dd:relationship>
 				<dd:relationship objectAttribute="orgPostalZipCode">
 					<dd:primitiveAttribute source="organizationPostalZipCode"
-						target="postalCode" />
+						target="code" />
 				</dd:relationship>
 				<dd:relationship objectAttribute="orgPostalCountryCode">
 					<dd:primitiveAttribute source="organizationPostalCountryCode"
-						target="postalCountryCode" />
+						target="code" />
 				</dd:relationship>
 
 			</list>
@@ -334,9 +334,7 @@
 		parent="OrganizationOptions-organizationRemitToStateCode-parentBean" />
 
 	<bean id="OrganizationOptions-organizationRemitToStateCode-parentBean"
-		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
-		p:sourceAttributeName="postalStateCode">
+		abstract="true" parent="State-code">
 		<property name="name" value="organizationRemitToStateCode" />
 		<property name="control">
 			<bean parent="SelectControlDefinition"
@@ -348,9 +346,7 @@
 		parent="OrganizationOptions-organizationRemitToZipCode-parentBean" />
 
 	<bean id="OrganizationOptions-organizationRemitToZipCode-parentBean"
-		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
-		p:sourceAttributeName="postalCode">
+		abstract="true" parent="PostalCode-code">
 		<property name="name" value="organizationRemitToZipCode" />
 		<property name="required" value="true" />
 	</bean>
@@ -391,9 +387,7 @@
 		parent="OrganizationOptions-organizationPostalZipCode-parentBean" />
 
 	<bean id="OrganizationOptions-organizationPostalZipCode-parentBean"
-		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
-		p:sourceAttributeName="postalCode">
+		abstract="true" parent="PostalCode-code">
 		<property name="name" value="organizationPostalZipCode" />
 		<property name="label" value="Organization Postal Code" />
 		<property name="shortLabel" value="Org Postal Cd" />
@@ -404,9 +398,7 @@
 		parent="OrganizationOptions-organizationPostalCountryCode-parentBean" />
 
 	<bean id="OrganizationOptions-organizationPostalCountryCode-parentBean"
-		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
-		p:sourceAttributeName="postalCountryCode">
+		abstract="true" parent="PostalCode-code">
 		<property name="name" value="organizationPostalCountryCode" />
 		<property name="label" value="Organization Postal Country Code" />
 		<property name="shortLabel" value="Org Country Cd" />

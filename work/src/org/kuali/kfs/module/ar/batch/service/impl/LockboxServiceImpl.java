@@ -45,18 +45,21 @@ import org.kuali.kfs.module.ar.document.service.PaymentApplicationDocumentServic
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.docsearch.service.SearchableAttributeProcessingService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.doctype.DocumentType;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
+import org.kuali.rice.kew.api.document.attribute.DocumentAttributeIndexingQueue;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lowagie.text.Chunk;
@@ -80,7 +83,7 @@ import com.lowagie.text.pdf.PdfWriter;
 public class LockboxServiceImpl implements LockboxService {
     private static Logger LOG = org.apache.log4j.Logger.getLogger(LockboxServiceImpl.class);;
 
-    private PersonService<Person> personService;
+    private PersonService personService;
     private DocumentService documentService;
     private SystemInformationService systemInformationService;
     private AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;
@@ -265,8 +268,10 @@ public class LockboxServiceImpl implements LockboxService {
                     throw new RuntimeException("A Exception was thrown while trying to save the CashControl document.", e);
                 }
                 
-                //  write the detail and payapp lines to the report
-                routePayAppWithoutBusinessRules(payAppDocNumber, "CREATED & SAVED by Lockbox batch");
+                //write the detail and payapp lines to the report
+                
+                //KFSMI-6719
+                //routePayAppWithoutBusinessRules(payAppDocNumber, "CREATED & SAVED by Lockbox batch");
                 writeCashControlDetailLine(pdfdoc, detail.getFinancialDocumentLineAmount(), detail.getCustomerPaymentDescription());
                 writePayAppLine(pdfdoc, detail.getReferenceFinancialDocumentNumber(), "CREATED & SAVED");
                 writeSummaryDetailLine(pdfdoc, "INVOICE NUMBER NOT PARSEABLE");
@@ -449,9 +454,13 @@ public class LockboxServiceImpl implements LockboxService {
         //  route without business rules 
         LOG.info("   attempting to route without business rules the PayApp Doc.");
         try {
-           payAppDoc.getDocumentHeader().getWorkflowDocument().routeDocument(annotation);
-            final SearchableAttributeProcessingService searchableAttributeProcessingService = SpringContext.getBean(SearchableAttributeProcessingService.class);
-            searchableAttributeProcessingService.indexDocument(new Long(payAppDoc.getDocumentNumber()));
+           payAppDoc.getDocumentHeader().getWorkflowDocument().route(annotation);
+           
+           //RICE20 replaced searchableAttributeProcessingService.indexDocument with DocumentAttributeIndexingQueue.indexDocument
+           DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
+           DocumentType documentType = documentTypeService.getDocumentTypeByName(payAppDoc.getFinancialDocumentTypeCode());
+           DocumentAttributeIndexingQueue queue = KewApiServiceLocator.getDocumentAttributeIndexingQueue(documentType.getApplicationId());
+           queue.indexDocument(payAppDoc.getDocumentNumber());
         }
         catch (Exception e) {
             LOG.error("A Exception was thrown while trying to route (without business rules) PayAppDoc #" + payAppDoc.getDocumentNumber() + ".", e);
@@ -654,7 +663,7 @@ public class LockboxServiceImpl implements LockboxService {
     /**
      * @return Returns the personService.
      */
-    protected PersonService<Person> getPersonService() {
+    protected PersonService getPersonService() {
         if(personService==null)
             personService = SpringContext.getBean(PersonService.class);
         return personService;

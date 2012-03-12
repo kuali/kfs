@@ -37,10 +37,10 @@ import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.TestDataPreparator;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 @ConfigureContext(session = kfs)
 public class EffortCertificationDocumentServiceTest extends KualiTestBase {
@@ -129,7 +129,7 @@ public class EffortCertificationDocumentServiceTest extends KualiTestBase {
         assertTrue(TestDataPreparator.hasSameElements(expectedDocuments, documentList, documentKeyFields));
 
         for (EffortCertificationDocument document : documentList) {
-            assertEquals(KFSConstants.DocumentStatusCodes.ENROUTE, document.getDocumentHeader().getFinancialDocumentStatusCode());
+            assertEquals(KFSConstants.DocumentStatusCodes.ENROUTE, document.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
         }
     }
 

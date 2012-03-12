@@ -16,13 +16,13 @@
 
 package org.kuali.kfs.fp.businessobject;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.KualiCodeBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.KualiCodeBase;
 
 /**
  * This class is used to represent a tax income class code business object.
  */
-public class TaxIncomeClassCode extends KualiCodeBase implements Inactivateable {
+public class TaxIncomeClassCode extends KualiCodeBase implements MutableInactivatable {
 
     /**
      * Default no-arg constructor.

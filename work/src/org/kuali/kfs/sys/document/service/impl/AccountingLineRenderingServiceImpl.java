@@ -23,8 +23,6 @@ import java.util.Map;
 import javax.servlet.jsp.PageContext;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.kuali.kfs.coa.service.AccountService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
@@ -43,7 +41,6 @@ import org.kuali.kfs.sys.document.web.renderers.CheckboxRenderer;
 import org.kuali.kfs.sys.document.web.renderers.CurrencyRenderer;
 import org.kuali.kfs.sys.document.web.renderers.DateRenderer;
 import org.kuali.kfs.sys.document.web.renderers.DropDownRenderer;
-import org.kuali.kfs.sys.document.web.renderers.DynamicReadOnlyRender;
 import org.kuali.kfs.sys.document.web.renderers.FieldRenderer;
 import org.kuali.kfs.sys.document.web.renderers.HiddenRenderer;
 import org.kuali.kfs.sys.document.web.renderers.RadioButtonGroupRenderer;
@@ -51,15 +48,14 @@ import org.kuali.kfs.sys.document.web.renderers.ReadOnlyRenderer;
 import org.kuali.kfs.sys.document.web.renderers.TextAreaRenderer;
 import org.kuali.kfs.sys.document.web.renderers.TextRenderer;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
-import org.kuali.rice.kns.datadictionary.AttributeDefinition;
-import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.datadictionary.MaintainableFieldDefinition;
-import org.kuali.rice.kns.datadictionary.validation.ValidationPattern;
 import org.kuali.rice.kns.datadictionary.validation.fieldlevel.DateValidationPattern;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.krad.datadictionary.AttributeDefinition;
+import org.kuali.rice.krad.datadictionary.validation.ValidationPattern;
 
 /**
  * The default implementation of the AccountingLineRenderingService
@@ -234,7 +230,7 @@ public class AccountingLineRenderingServiceImpl implements AccountingLineRenderi
      * @return true if the property does use date validation, false otherwise
      */
     protected boolean usesDateValidation(String propertyName, Object businessObject) {
-        final BusinessObjectEntry entry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(businessObject.getClass().getName());
+        final org.kuali.rice.krad.datadictionary.BusinessObjectEntry entry = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(businessObject.getClass().getName());
         AttributeDefinition attributeDefinition = entry.getAttributeDefinition(propertyName);
         
         if (attributeDefinition == null) {
@@ -376,7 +372,7 @@ public class AccountingLineRenderingServiceImpl implements AccountingLineRenderi
         
         if (pageContext.getSession().getAttribute(KUALI_FORM_NAME) != null) return (KualiAccountingDocumentFormBase)pageContext.getSession().getAttribute(KUALI_FORM_NAME);
         
-        return (KualiAccountingDocumentFormBase)GlobalVariables.getKualiForm();
+        return (KualiAccountingDocumentFormBase)KNSGlobalVariables.getKualiForm();
     }
     
     protected DocumentHelperService getDocumentHelperService() {

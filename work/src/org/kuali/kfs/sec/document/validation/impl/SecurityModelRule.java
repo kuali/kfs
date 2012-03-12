@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,20 +28,21 @@ import org.kuali.kfs.sec.businessobject.SecurityModelDefinition;
 import org.kuali.kfs.sec.businessobject.SecurityModelMember;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
-import org.kuali.rice.kim.bo.group.dto.GroupInfo;
-import org.kuali.rice.kim.bo.role.dto.KimRoleInfo;
-import org.kuali.rice.kim.service.GroupService;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kim.util.KimConstants;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.core.api.membership.MemberType;
+import org.kuali.rice.kim.api.group.Group;
+import org.kuali.rice.kim.api.group.GroupService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 
 /**
@@ -52,6 +53,8 @@ public class SecurityModelRule extends MaintenanceDocumentRuleBase {
 
     private SecurityModel oldSecurityModel;
     private SecurityModel newSecurityModel;
+    
+    protected volatile static BusinessObjectService businessObjectService;
 
     public SecurityModelRule() {
         super();
@@ -95,7 +98,7 @@ public class SecurityModelRule extends MaintenanceDocumentRuleBase {
 
     /**
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument,
-     *      java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
+     *      java.lang.String, org.kuali.rice.krad.bo.PersistableBusinessObject)
      */
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
@@ -127,7 +130,7 @@ public class SecurityModelRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validates the new security model record
-     * 
+     *
      * @param isMaintenanceEdit boolean indicating whether the maintenance action is an edit (true), or a new/copy (false)
      * @return boolean true if validation was successful, false if there are errors
      */
@@ -135,7 +138,7 @@ public class SecurityModelRule extends MaintenanceDocumentRuleBase {
         boolean isValid = true;
 
         if (!isMaintenanceEdit) {
-            boolean validModelName = verifyModelNameIsUnique(newSecurityModel, KNSConstants.MAINTENANCE_NEW_MAINTAINABLE);
+            boolean validModelName = verifyModelNameIsUnique(newSecurityModel, KRADConstants.MAINTENANCE_NEW_MAINTAINABLE);
             if (!validModelName) {
                 isValid = false;
             }
@@ -143,12 +146,12 @@ public class SecurityModelRule extends MaintenanceDocumentRuleBase {
 
         // check to make sure there is at least one model definition
         if (newSecurityModel.getModelDefinitions() == null || newSecurityModel.getModelDefinitions().size() == 0) {
-            GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, SecKeyConstants.ERROR_MODEL_DEFINITION_MISSING);            
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, SecKeyConstants.ERROR_MODEL_DEFINITION_MISSING);
         }
 
         int index = 0;
         for (SecurityModelDefinition modelDefinition : newSecurityModel.getModelDefinitions()) {
-            String errorKeyPrefix = KNSConstants.MAINTENANCE_NEW_MAINTAINABLE + SecPropertyConstants.MODEL_DEFINITIONS + "[" + index + "].";
+            String errorKeyPrefix = KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + SecPropertyConstants.MODEL_DEFINITIONS + "[" + index + "].";
 
             boolean modelDefinitionValid = validateModelDefinition(modelDefinition, errorKeyPrefix);
             if (!modelDefinitionValid) {
@@ -160,7 +163,7 @@ public class SecurityModelRule extends MaintenanceDocumentRuleBase {
 
         index = 0;
         for (SecurityModelMember modelMember : newSecurityModel.getModelMembers()) {
-            String errorKeyPrefix = KNSConstants.MAINTENANCE_NEW_MAINTAINABLE + SecPropertyConstants.MODEL_MEMBERS + "[" + index + "].";
+            String errorKeyPrefix = KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + SecPropertyConstants.MODEL_MEMBERS + "[" + index + "].";
 
             boolean modelMemberValid = validateModelMember(modelMember, errorKeyPrefix);
             if (!modelMemberValid) {
@@ -176,7 +179,7 @@ public class SecurityModelRule extends MaintenanceDocumentRuleBase {
 
     /**
      * For new or copy action verifies the name given for the model is not being used by another model or definition
-     * 
+     *
      * @param securityModel SecurityModel with name to check
      * @param errorKeyPrefix String errorPrefix to use if any errors are found
      * @return boolean true if name exists, false if not
@@ -187,13 +190,13 @@ public class SecurityModelRule extends MaintenanceDocumentRuleBase {
         Map<String, String> searchValues = new HashMap<String, String>();
         searchValues.put(KFSPropertyConstants.NAME, securityModel.getName());
 
-        int matchCount = SpringContext.getBean(BusinessObjectService.class).countMatching(SecurityModel.class, searchValues);
+        int matchCount = getBusinessObjectService().countMatching(SecurityModel.class, searchValues);
         if (matchCount > 0) {
             GlobalVariables.getMessageMap().putError(errorKeyPrefix + KFSPropertyConstants.NAME, SecKeyConstants.ERROR_MODEL_NAME_NON_UNIQUE, securityModel.getName());
             isValid = false;
         }
-        
-        matchCount = SpringContext.getBean(BusinessObjectService.class).countMatching(SecurityDefinition.class, searchValues);
+
+        matchCount = getBusinessObjectService().countMatching(SecurityDefinition.class, searchValues);
         if (matchCount > 0) {
             GlobalVariables.getMessageMap().putError(errorKeyPrefix + KFSPropertyConstants.NAME, SecKeyConstants.ERROR_MODEL_NAME_NON_UNIQUE, securityModel.getName());
             isValid = false;
@@ -204,7 +207,7 @@ public class SecurityModelRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validates a definition assignment to the model
-     * 
+     *
      * @param modelDefinition SecurityModelDefinition to validate
      * @param errorKeyPrefix String errorPrefix to use if any errors are found
      * @return boolean true if validation was successful, false if there are errors
@@ -213,11 +216,11 @@ public class SecurityModelRule extends MaintenanceDocumentRuleBase {
         boolean isValid = true;
 
         modelDefinition.refreshNonUpdateableReferences();
-        
+
         if (ObjectUtils.isNull(modelDefinition.getSecurityDefinition())) {
             return false;
         }
-        
+
         String attributeName = modelDefinition.getSecurityDefinition().getSecurityAttribute().getName();
         String attributeValue = modelDefinition.getAttributeValue();
 
@@ -225,7 +228,7 @@ public class SecurityModelRule extends MaintenanceDocumentRuleBase {
         if (StringUtils.isBlank(attributeValue)) {
             return true;
         }
-        
+
         // descend attributes do not allow multiple values or wildcards, and operator must be equal
         if (SecConstants.SecurityAttributeNames.CHART_DESCEND_HIERARCHY.equals(attributeName) || SecConstants.SecurityAttributeNames.ORGANIZATION_DESCEND_HIERARCHY.equals(attributeName)) {
             if (StringUtils.contains(attributeValue, SecConstants.SecurityValueSpecialCharacters.MULTI_VALUE_SEPERATION_CHARACTER)) {
@@ -252,7 +255,7 @@ public class SecurityModelRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validates a member assignment to the model
-     * 
+     *
      * @param modelMember SecurityModelMember to validate
      * @param errorKeyPrefix String errorPrefix to use if any errors are found
      * @return boolean true if validation was successful, false if there are errors
@@ -262,27 +265,27 @@ public class SecurityModelRule extends MaintenanceDocumentRuleBase {
 
         String memberId = modelMember.getMemberId();
         String memberTypeCode = modelMember.getMemberTypeCode();
-        
+
         if (StringUtils.isBlank(memberId) || StringUtils.isBlank(memberTypeCode)) {
             return false;
         }
 
-        if (KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL_CODE.equals(memberTypeCode)) {
-            KimPrincipalInfo principalInfo = SpringContext.getBean(IdentityManagementService.class).getPrincipal(memberId);
+        if (MemberType.PRINCIPAL.getCode().equals(memberTypeCode)) {
+            Principal principalInfo = KimApiServiceLocator.getIdentityService().getPrincipal(memberId);
             if (principalInfo == null) {
                 GlobalVariables.getMessageMap().putError(errorKeyPrefix + SecPropertyConstants.MEMBER_ID, SecKeyConstants.ERROR_MODEL_MEMBER_ID_NOT_VALID, memberId, memberTypeCode);
                 isValid = false;
             }
         }
-        else if (KimConstants.KimUIConstants.MEMBER_TYPE_ROLE_CODE.equals(memberTypeCode)) {
-            KimRoleInfo roleInfo = SpringContext.getBean(RoleManagementService.class).getRole(memberId);
+        else if (MemberType.ROLE.getCode().equals(memberTypeCode)) {
+            Role roleInfo = KimApiServiceLocator.getRoleService().getRole(memberId);
             if (roleInfo == null) {
                 GlobalVariables.getMessageMap().putError(errorKeyPrefix + SecPropertyConstants.MEMBER_ID, SecKeyConstants.ERROR_MODEL_MEMBER_ID_NOT_VALID, memberId, memberTypeCode);
                 isValid = false;
             }
         }
-        else if (KimConstants.KimUIConstants.MEMBER_TYPE_GROUP_CODE.equals(memberTypeCode)) {
-            GroupInfo groupInfo = SpringContext.getBean(GroupService.class).getGroupInfo(memberId);
+        else if (MemberType.GROUP.getCode().equals(memberTypeCode)) {
+            Group groupInfo = KimApiServiceLocator.getGroupService().getGroup(memberId);
             if (groupInfo == null) {
                 GlobalVariables.getMessageMap().putError(errorKeyPrefix + SecPropertyConstants.MEMBER_ID, SecKeyConstants.ERROR_MODEL_MEMBER_ID_NOT_VALID, memberId, memberTypeCode);
                 isValid = false;
@@ -292,5 +295,13 @@ public class SecurityModelRule extends MaintenanceDocumentRuleBase {
         return isValid;
     }
 
-
+    /**
+     * @return the default implementation of the business object service
+     */
+    protected BusinessObjectService getBusinessObjectService() {
+        if (businessObjectService == null) {
+            businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        }
+        return businessObjectService;
+    }
 }

@@ -66,17 +66,17 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.SequenceAccessorService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiTableRenderFormMetadata;
 import org.kuali.rice.kns.web.ui.Column;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Struts Action Class for the Labor Ledger Correction Process.
@@ -106,7 +106,7 @@ public class LaborCorrectionAction extends CorrectionAction {
             CorrectionAction.originEntryGroupService = (OriginEntryGroupService)SpringContext.getBean(LaborOriginEntryGroupService.class);;
             CorrectionAction.originEntryService = SpringContext.getBean(OriginEntryService.class);
             CorrectionAction.dateTimeService = SpringContext.getBean(DateTimeService.class);
-            CorrectionAction.kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+            CorrectionAction.kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
         }
 
         LaborCorrectionForm rForm = (LaborCorrectionForm) form;
@@ -229,7 +229,7 @@ public class LaborCorrectionAction extends CorrectionAction {
         LaborCorrectionForm laborCorrectionForm = (LaborCorrectionForm) form;
         String command = laborCorrectionForm.getCommand();
 
-        if (KEWConstants.INITIATE_COMMAND.equals(command)) {
+        if (KewApiConstants.INITIATE_COMMAND.equals(command)) {
             laborCorrectionForm.clearForm();
             createDocument(laborCorrectionForm);
         }
@@ -240,7 +240,7 @@ public class LaborCorrectionAction extends CorrectionAction {
             laborCorrectionForm.setInputGroupIdFromLastDocumentLoad(laborDocument.getCorrectionInputFileName());
             populateAuthorizationFields(laborCorrectionForm);
             Map<String, String> documentActions = laborCorrectionForm.getDocumentActions();
-            if (documentActions.containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT)) {
+            if (documentActions.containsKey(KRADConstants.KUALI_ACTION_CAN_EDIT)) {
                 // They have saved the document and they are retreiving it to be completed
                 laborCorrectionForm.setProcessInBatch(!laborDocument.getCorrectionFileDelete());
                 laborCorrectionForm.setMatchCriteriaOnly(laborDocument.getCorrectionSelection());
@@ -371,13 +371,13 @@ public class LaborCorrectionAction extends CorrectionAction {
             if (loadedCount > 0) {
                 //now we can load all data from file
                 List<LaborOriginEntry> originEntryList = new ArrayList();
-                Map loadErrorMap = laborOriginEntryService.getEntriesByGroupIdWithPath(uploadedFile.getAbsolutePath(), originEntryList);
+                Map loadMessageMap = laborOriginEntryService.getEntriesByGroupIdWithPath(uploadedFile.getAbsolutePath(), originEntryList);
                 //put errors on GlobalVariables
-                if (loadErrorMap.size() > 0){
-                    Iterator iter = loadErrorMap.keySet().iterator();
+                if (loadMessageMap.size() > 0){
+                    Iterator iter = loadMessageMap.keySet().iterator();
                     while(iter.hasNext()){
                         Integer lineNumber = (Integer) iter.next();
-                        List<Message> messageList = (List<Message>) loadErrorMap.get(lineNumber);
+                        List<Message> messageList = (List<Message>) loadMessageMap.get(lineNumber);
                         if (messageList.size() > 0){
                             for (Message errorMmessage : messageList){
                                 GlobalVariables.getMessageMap().putError("fileUpload", KFSKeyConstants.ERROR_INVALID_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] {lineNumber.toString(), errorMmessage.toString()});
@@ -436,7 +436,7 @@ public class LaborCorrectionAction extends CorrectionAction {
 //
 //            // if not in restricted functionality mode, then we can store these results temporarily in the GLCP origin entry service
 //            SequenceAccessorService sequenceAccessorService = SpringContext.getBean(SequenceAccessorService.class);
-//            String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KNSConstants.LOOKUP_RESULTS_SEQUENCE));
+//            String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KRADConstants.LOOKUP_RESULTS_SEQUENCE));
 //
 //            SpringContext.getBean(GlCorrectionProcessOriginEntryService.class).persistAllEntries(glcpSearchResultsSequenceNumber, searchResults);
 //            correctionForm.setGlcpSearchResultsSequenceNumber(glcpSearchResultsSequenceNumber);
@@ -454,16 +454,16 @@ public class LaborCorrectionAction extends CorrectionAction {
         
         if (!laborCorrectionForm.isRestrictedFunctionalityMode()) {
             List<LaborOriginEntry> laborSearchResults = new ArrayList();
-            Map loadErrorMap = laborOriginEntryService.getEntriesByGroupIdWithPath(fileNameWithPath, laborSearchResults);
+            Map loadMessageMap = laborOriginEntryService.getEntriesByGroupIdWithPath(fileNameWithPath, laborSearchResults);
             List<OriginEntryFull> searchResults = new ArrayList();
             searchResults.addAll(laborSearchResults);
             
             //put errors on GlobalVariables
-            if (loadErrorMap.size() > 0){
-                Iterator iter = loadErrorMap.keySet().iterator();
+            if (loadMessageMap.size() > 0){
+                Iterator iter = loadMessageMap.keySet().iterator();
                 while(iter.hasNext()){
                     Integer lineNumber = (Integer) iter.next();
-                    List<Message> messageList = (List<Message>) loadErrorMap.get(lineNumber);
+                    List<Message> messageList = (List<Message>) loadMessageMap.get(lineNumber);
                     for (Message errorMmessage : messageList){
                         GlobalVariables.getMessageMap().putError("fileUpload", KFSKeyConstants.ERROR_INVALID_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] {lineNumber.toString(), errorMmessage.toString()});
                         
@@ -653,11 +653,11 @@ public class LaborCorrectionAction extends CorrectionAction {
         LaborOriginEntryFieldFinder loeff = new LaborOriginEntryFieldFinder();
         List fields = loeff.getKeyValues();
         for (Iterator iter = fields.iterator(); iter.hasNext();) {
-            KeyLabelPair lkp = (KeyLabelPair) iter.next();
+            KeyValue lkp = (KeyValue) iter.next();
 
             // Get field name, type, length & value on the form
             String fieldName = (String) lkp.getKey();
-            String fieldDisplayName = lkp.getLabel();
+            String fieldDisplayName = lkp.getValue();
             String fieldType = loeff.getFieldType(fieldName);
             int fieldLength = loeff.getFieldLength(fieldName);
             String fieldValue = null;
@@ -813,7 +813,7 @@ public class LaborCorrectionAction extends CorrectionAction {
 
             // if not in restricted functionality mode, then we can store these results temporarily in the GLCP origin entry service
             SequenceAccessorService sequenceAccessorService = SpringContext.getBean(SequenceAccessorService.class);
-            String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KNSConstants.LOOKUP_RESULTS_SEQUENCE));
+            String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KRADConstants.LOOKUP_RESULTS_SEQUENCE));
 
             SpringContext.getBean(GlCorrectionProcessOriginEntryService.class).persistAllEntries(glcpSearchResultsSequenceNumber, searchResults);
             laborCorrectionForm.setGlcpSearchResultsSequenceNumber(glcpSearchResultsSequenceNumber);
@@ -861,12 +861,12 @@ public class LaborCorrectionAction extends CorrectionAction {
             // null when the origin entry list is too large (i.e. in restricted functionality mode)
             laborCorrectionForm.setRestrictedFunctionalityMode(true);
 
-            KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+            WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
             CorrectionDocumentAuthorizer cda = new CorrectionDocumentAuthorizer();
             // TODO fix for KIM
 //            Map editingMode = cda.getEditMode(document, GlobalVariables.getUserSession().getPerson());
-//            if (editingMode.containsKey(KfsAuthorizationConstants.TransactionalEditMode.FULL_ENTRY) || workflowDocument.stateIsCanceled()) {
+//            if (editingMode.containsKey(KfsAuthorizationConstants.TransactionalEditMode.FULL_ENTRY) || workflowDocument.isCanceled()) {
 //                // doc in read/write mode or is cancelled, so the doc summary fields of the doc are unreliable, so clear them out
 //                updateDocumentSummary(document, null, true);
 //            }
@@ -887,7 +887,7 @@ public class LaborCorrectionAction extends CorrectionAction {
 
             // if not in restricted functionality mode, then we can store these results temporarily in the GLCP origin entry service
             SequenceAccessorService sequenceAccessorService = SpringContext.getBean(SequenceAccessorService.class);
-            String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KNSConstants.LOOKUP_RESULTS_SEQUENCE));
+            String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KRADConstants.LOOKUP_RESULTS_SEQUENCE));
 
             SpringContext.getBean(GlCorrectionProcessOriginEntryService.class).persistAllEntries(glcpSearchResultsSequenceNumber, searchResults);
             laborCorrectionForm.setGlcpSearchResultsSequenceNumber(glcpSearchResultsSequenceNumber);
@@ -1069,7 +1069,7 @@ public class LaborCorrectionAction extends CorrectionAction {
         LaborCorrectionForm correctionForm = (LaborCorrectionForm) form;
         
         // when we return from the lookup, our next request's method to call is going to be refresh
-        correctionForm.registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
+        correctionForm.registerEditableProperty(KRADConstants.DISPATCH_REQUEST_PARAMETER);
         
         int maxRowsPerPage = CorrectionDocumentUtils.getRecordsPerPage();
 
@@ -1129,8 +1129,8 @@ public class LaborCorrectionAction extends CorrectionAction {
     protected boolean checkInputGroupPersistedForDocumentSave(CorrectionForm correctionForm) {
         boolean present;
         LaborCorrectionForm laborCorrectionForm = (LaborCorrectionForm) correctionForm;
-        KualiWorkflowDocument workflowDocument = laborCorrectionForm.getDocument().getDocumentHeader().getWorkflowDocument();
-        if (workflowDocument.stateIsInitiated() || (workflowDocument.stateIsSaved() && (laborCorrectionForm.getInputGroupIdFromLastDocumentLoad() == null || !laborCorrectionForm.getInputGroupIdFromLastDocumentLoad().equals(laborCorrectionForm.getInputGroupId())))) {
+        WorkflowDocument workflowDocument = laborCorrectionForm.getDocument().getDocumentHeader().getWorkflowDocument();
+        if (workflowDocument.isInitiated() || (workflowDocument.isSaved() && (laborCorrectionForm.getInputGroupIdFromLastDocumentLoad() == null || !laborCorrectionForm.getInputGroupIdFromLastDocumentLoad().equals(laborCorrectionForm.getInputGroupId())))) {
             present = originEntryGroupService.getGroupExists(((LaborCorrectionDocument) laborCorrectionForm.getDocument()).getCorrectionInputFileName());
         }
         else {
@@ -1188,7 +1188,7 @@ public class LaborCorrectionAction extends CorrectionAction {
                         document.setCorrectionInputFileName(newestScrubberErrorFileName);
                     }
                     else {
-                        KeyLabelPair klp = (KeyLabelPair) values.get(0);
+                        KeyValue klp = (KeyValue) values.get(0);
                         //document.setCorrectionInputGroupId(Integer.parseInt((String) klp.getKey()));
                         document.setCorrectionInputFileName((String) klp.getKey());
                     }

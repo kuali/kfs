@@ -18,7 +18,7 @@ package org.kuali.kfs.sys;
 /**
  * Parameter name constants for system parameters used by the kfs sys.
  */
-public class KFSParameterKeyConstants implements ParameterKeyConstants {
+public class KFSParameterKeyConstants {
     
     public static final String ENABLE_BANK_SPECIFICATION_IND = "ENABLE_BANK_SPECIFICATION_IND";
     public static final String DEFAULT_BANK_BY_DOCUMENT_TYPE = "DEFAULT_BANK_BY_DOCUMENT_TYPE";

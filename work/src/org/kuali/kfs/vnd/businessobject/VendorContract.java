@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,7 +17,7 @@
 package org.kuali.kfs.vnd.businessobject;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -25,52 +25,51 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Purchasing Contracts with specific Vendors.
  */
-public class VendorContract extends PersistableBusinessObjectBase implements VendorRoutingComparable, Inactivateable {
-    private static Logger LOG = Logger.getLogger(VendorContract.class);
+public class VendorContract extends PersistableBusinessObjectBase implements VendorRoutingComparable, MutableInactivatable {
+    protected static final Logger LOG = Logger.getLogger(VendorContract.class);
 
-    private Integer vendorContractGeneratedIdentifier;
-    private Integer vendorHeaderGeneratedIdentifier;
-    private Integer vendorDetailAssignedIdentifier;
-    private String vendorNumber; // not persisted in db, only for lookup page
-    private String vendorContractName;
-    private String vendorContractDescription;
-    private String vendorCampusCode;
-    private Date vendorContractBeginningDate;
-    private Date vendorContractEndDate;
-    private Integer contractManagerCode;
-    private String purchaseOrderCostSourceCode;
-    private String vendorPaymentTermsCode;
-    private String vendorShippingPaymentTermsCode;
-    private String vendorShippingTitleCode;
-    private Date vendorContractExtensionDate;
-    private Boolean vendorB2bIndicator;
-    private KualiDecimal organizationAutomaticPurchaseOrderLimit;
-    private boolean active;
+    protected Integer vendorContractGeneratedIdentifier;
+    protected Integer vendorHeaderGeneratedIdentifier;
+    protected Integer vendorDetailAssignedIdentifier;
+    protected String vendorNumber; // not persisted in db, only for lookup page
+    protected String vendorContractName;
+    protected String vendorContractDescription;
+    protected String vendorCampusCode;
+    protected Date vendorContractBeginningDate;
+    protected Date vendorContractEndDate;
+    protected Integer contractManagerCode;
+    protected String purchaseOrderCostSourceCode;
+    protected String vendorPaymentTermsCode;
+    protected String vendorShippingPaymentTermsCode;
+    protected String vendorShippingTitleCode;
+    protected Date vendorContractExtensionDate;
+    protected Boolean vendorB2bIndicator;
+    protected KualiDecimal organizationAutomaticPurchaseOrderLimit;
+    protected boolean active;
 
-    private List<VendorContractOrganization> vendorContractOrganizations;
+    protected List<VendorContractOrganization> vendorContractOrganizations;
 
-    private VendorDetail vendorDetail;
-    private CampusParameter vendorCampus;
-    private ContractManager contractManager;
-    private PurchaseOrderCostSource purchaseOrderCostSource;
-    private PaymentTermType vendorPaymentTerms;
-    private ShippingPaymentTerms vendorShippingPaymentTerms;
-    private ShippingTitle vendorShippingTitle;
+    protected VendorDetail vendorDetail;
+    protected CampusParameter vendorCampus;
+    protected ContractManager contractManager;
+    protected PurchaseOrderCostSource purchaseOrderCostSource;
+    protected PaymentTermType vendorPaymentTerms;
+    protected ShippingPaymentTerms vendorShippingPaymentTerms;
+    protected ShippingTitle vendorShippingTitle;
 
     /**
      * Default constructor.
      */
     public VendorContract() {
-        vendorContractOrganizations = new TypedArrayList(VendorContractOrganization.class);
+        vendorContractOrganizations = new ArrayList<VendorContractOrganization>();
     }
 
     public Integer getVendorContractGeneratedIdentifier() {
@@ -217,11 +216,13 @@ public class VendorContract extends PersistableBusinessObjectBase implements Ven
         this.organizationAutomaticPurchaseOrderLimit = organizationAutomaticPurchaseOrderLimit;
     }
 
+    @Override
     public boolean isActive() {
 
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -233,7 +234,7 @@ public class VendorContract extends PersistableBusinessObjectBase implements Ven
 
     /**
      * Sets the vendorDetail attribute.
-     * 
+     *
      * @param vendorDetail The vendorDetail to set.
      * @deprecated
      */
@@ -248,7 +249,7 @@ public class VendorContract extends PersistableBusinessObjectBase implements Ven
 
     /**
      * Sets the vendorCampus attribute.
-     * 
+     *
      * @param vendorCampus The vendorCampus to set.
      * @deprecated
      */
@@ -263,7 +264,7 @@ public class VendorContract extends PersistableBusinessObjectBase implements Ven
 
     /**
      * Sets the contractManager attribute.
-     * 
+     *
      * @param contractManager The contractManager to set.
      * @deprecated
      */
@@ -278,7 +279,7 @@ public class VendorContract extends PersistableBusinessObjectBase implements Ven
 
     /**
      * Sets the purchaseOrderCostSource attribute.
-     * 
+     *
      * @param purchaseOrderCostSource The purchaseOrderCostSource to set.
      * @deprecated
      */
@@ -293,7 +294,7 @@ public class VendorContract extends PersistableBusinessObjectBase implements Ven
 
     /**
      * Sets the vendorPaymentTerms attribute.
-     * 
+     *
      * @param vendorPaymentTerms The vendorPaymentTerms to set.
      * @deprecated
      */
@@ -308,7 +309,7 @@ public class VendorContract extends PersistableBusinessObjectBase implements Ven
 
     /**
      * Sets the vendorShippingPaymentTerms attribute.
-     * 
+     *
      * @param vendorShippingPaymentTerms The vendorShippingPaymentTerms to set.
      * @deprecated
      */
@@ -323,7 +324,7 @@ public class VendorContract extends PersistableBusinessObjectBase implements Ven
 
     /**
      * Sets the vendorShippingTitle attribute.
-     * 
+     *
      * @param vendorShippingTitle The vendorShippingTitle to set.
      * @deprecated
      */
@@ -342,7 +343,7 @@ public class VendorContract extends PersistableBusinessObjectBase implements Ven
 
     /**
      * A concatenation of the vendorHeaderGeneratedIdentifier, a dash, and the vendorDetailAssignedIdentifier
-     * 
+     *
      * @return Returns the vendorNumber.
      */
     public String getVendorNumber() {
@@ -364,7 +365,7 @@ public class VendorContract extends PersistableBusinessObjectBase implements Ven
 
     /**
      * Sets the vendorNumber attribute value.
-     * 
+     *
      * @param vendorNumber The vendorNumber to set.
      */
     public void setVendorNumber(String vendorNumber) {
@@ -383,35 +384,23 @@ public class VendorContract extends PersistableBusinessObjectBase implements Ven
             this.vendorNumber = vendorNumber;
         }
     }
-    
+
     /**
      * @see org.kuali.kfs.vnd.document.routing.VendorRoutingComparable#isEqualForRouting(java.lang.Object)
      */
+    @Override
     public boolean isEqualForRouting(Object toCompare) {
         if ((ObjectUtils.isNull(toCompare)) || !(toCompare instanceof VendorContract)) {
             return false;
         }
         else {
             VendorContract vc = (VendorContract) toCompare;
-            boolean eq = new EqualsBuilder().append(this.getVendorContractGeneratedIdentifier(), vc.getVendorContractGeneratedIdentifier()).append(this.getVendorHeaderGeneratedIdentifier(), vc.getVendorHeaderGeneratedIdentifier()).append(this.getVendorDetailAssignedIdentifier(), vc.getVendorDetailAssignedIdentifier()).append(this.getVendorContractName(), vc.getVendorContractName()).append(this.getVendorContractDescription(), vc.getVendorContractDescription()).append(this.getVendorCampusCode(), vc.getVendorCampusCode()).append(this.getVendorContractBeginningDate(), vc.getVendorContractBeginningDate()).append(this.getVendorContractEndDate(), vc.getVendorContractEndDate()).append(this.getContractManagerCode(), vc.getContractManagerCode()).append(this.getPurchaseOrderCostSourceCode(), vc.getPurchaseOrderCostSourceCode()).append(this.getVendorPaymentTermsCode(), vc.getVendorPaymentTermsCode()).append(this.getVendorShippingPaymentTermsCode(), vc.getVendorShippingPaymentTermsCode()).append(
-                    this.getVendorShippingTitleCode(), vc.getVendorShippingTitleCode()).append(this.getVendorContractExtensionDate(), vc.getVendorContractExtensionDate()).append(this.getVendorB2bIndicator(), vc.getVendorB2bIndicator()).append(this.getOrganizationAutomaticPurchaseOrderLimit(), vc.getOrganizationAutomaticPurchaseOrderLimit()).isEquals();
+            boolean eq = new EqualsBuilder().append(this.getVendorContractGeneratedIdentifier(), vc.getVendorContractGeneratedIdentifier()).append(this.getVendorHeaderGeneratedIdentifier(), vc.getVendorHeaderGeneratedIdentifier()).append(this.getVendorDetailAssignedIdentifier(), vc.getVendorDetailAssignedIdentifier()).append(this.getVendorContractName(), vc.getVendorContractName()).append(this.getVendorContractDescription(), vc.getVendorContractDescription()).append(this.getVendorCampusCode(), vc.getVendorCampusCode()).append(this.getVendorContractBeginningDate(), vc.getVendorContractBeginningDate()).append(this.getVendorContractEndDate(), vc.getVendorContractEndDate()).append(this.getContractManagerCode(), vc.getContractManagerCode()).append(this.getPurchaseOrderCostSourceCode(), vc.getPurchaseOrderCostSourceCode()).append(this.getVendorPaymentTermsCode(), vc.getVendorPaymentTermsCode()).append(this.getVendorShippingPaymentTermsCode(), vc.getVendorShippingPaymentTermsCode())
+                    .append(this.getVendorShippingTitleCode(), vc.getVendorShippingTitleCode()).append(this.getVendorContractExtensionDate(), vc.getVendorContractExtensionDate()).append(this.getVendorB2bIndicator(), vc.getVendorB2bIndicator()).append(this.getOrganizationAutomaticPurchaseOrderLimit(), vc.getOrganizationAutomaticPurchaseOrderLimit()).isEquals();
             eq &= SpringContext.getBean(VendorService.class).equalMemberLists(this.getVendorContractOrganizations(), vc.getVendorContractOrganizations());
 
             return eq;
         }
     }
-
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-        if (this.vendorContractGeneratedIdentifier != null) {
-            m.put("vendorContractGeneratedIdentifier", this.vendorContractGeneratedIdentifier.toString());
-        }
-
-        return m;
-    }
-
 
 }

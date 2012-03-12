@@ -23,9 +23,9 @@ import org.kuali.kfs.module.cg.businessobject.ProposalProjectDirector;
 import org.kuali.kfs.module.cg.businessobject.ProposalSubcontractor;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Rules for the Proposal maintenance document.
@@ -102,7 +102,7 @@ public class ProposalRule extends CGMaintenanceDocumentRuleBase {
      * copy of the document (from KualiDocumentEventBase), so these BOs are a copy too. The framework does this to prevent these
      * rules from changing any data.
      * 
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRule#setupConvenienceObjects()
+     * @see org.kuali.rice.kns.rules.MaintenanceDocumentRule#setupConvenienceObjects()
      */
     @Override
     public void setupConvenienceObjects() {

@@ -17,8 +17,8 @@ package org.kuali.kfs.sys.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
-import org.kuali.rice.kns.datadictionary.AttributeDefinition;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
+import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 
 public class BusinessObjectProperty extends TransientBusinessObjectBase {
     private String namespaceCode;
@@ -79,8 +79,8 @@ public class BusinessObjectProperty extends TransientBusinessObjectBase {
         this.businessObjectComponent = businessObjectComponent;
     }
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> toString = new LinkedHashMap<String, String>();
         toString.put("namespaceCode", getNamespaceCode());
         toString.put("componentClass", getComponentClass());

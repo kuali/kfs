@@ -21,10 +21,11 @@ import java.util.List;
 import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentRecurringCashTransfer;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kew.doctype.service.DocumentTypeService;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class EndowmentRecurringCashTransferDocumentTypeValuesFinder extends KeyValuesBase {
 
@@ -32,22 +33,22 @@ public class EndowmentRecurringCashTransferDocumentTypeValuesFinder extends KeyV
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @SuppressWarnings("unchecked")
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         // Create label and initialize with the first entry being blank.
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("", ""));
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", ""));
         
-        List<String> documentTypeNames = SpringContext.getBean(ParameterService.class).getParameterValues(EndowmentRecurringCashTransfer.class, EndowParameterKeyConstants.ENDOWMENT_RECURRING_CASH_TRANSFER_DOCUMENT_TYPES);
+        List<String> documentTypeNames = new ArrayList<String>( SpringContext.getBean(ParameterService.class).getParameterValuesAsString(EndowmentRecurringCashTransfer.class, EndowParameterKeyConstants.ENDOWMENT_RECURRING_CASH_TRANSFER_DOCUMENT_TYPES) );
         DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
 
         String label= null;
         for (String documentTypeName : documentTypeNames) {
-            if(documentTypeService.findByName(documentTypeName)== null){
-                keyValues.add(new KeyLabelPair(documentTypeName, documentTypeName+" - Can't find it!"));
+            if(documentTypeService.getDocumentTypeByName(documentTypeName)== null){
+                keyValues.add(new ConcreteKeyValue(documentTypeName, documentTypeName+" - Can't find it!"));
             }
             else{
-                label = documentTypeService.findByName(documentTypeName).getLabel();
-                keyValues.add(new KeyLabelPair(documentTypeName, documentTypeName+" - "+label));
+                label = documentTypeService.getDocumentTypeByName(documentTypeName).getLabel();
+                keyValues.add(new ConcreteKeyValue(documentTypeName, documentTypeName+" - "+label));
             }            
         }
 

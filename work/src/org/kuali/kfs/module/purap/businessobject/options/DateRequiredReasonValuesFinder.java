@@ -22,9 +22,9 @@ import java.util.List;
 
 import org.kuali.kfs.module.purap.businessobject.DeliveryRequiredDateReason;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * Value Finder for Date Required Reasons.
@@ -40,10 +40,10 @@ public class DateRequiredReasonValuesFinder extends KeyValuesBase {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection codes = boService.findAll(DeliveryRequiredDateReason.class);
         List labels = new ArrayList();
-        labels.add(new KeyLabelPair("", ""));
+        labels.add(new ConcreteKeyValue("", ""));
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
             DeliveryRequiredDateReason reason = (DeliveryRequiredDateReason) iter.next();
-            labels.add(new KeyLabelPair(reason.getDeliveryRequiredDateReasonCode(), reason.getDeliveryRequiredDateReasonDescription()));
+            labels.add(new ConcreteKeyValue(reason.getDeliveryRequiredDateReasonCode(), reason.getDeliveryRequiredDateReasonDescription()));
         }
 
         return labels;

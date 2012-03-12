@@ -47,17 +47,17 @@ import org.kuali.kfs.module.endow.document.service.ValidateDateBasedOnFrequencyC
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This KEMIDRule class implements the Business rules associated with the KEMID.
@@ -116,7 +116,7 @@ public class KEMIDRule extends MaintenanceDocumentRuleBase {
 
     /**
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument,
-     *      java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
+     *      java.lang.String, org.kuali.rice.krad.bo.PersistableBusinessObject)
      */
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject bo) {
@@ -993,7 +993,7 @@ public class KEMIDRule extends MaintenanceDocumentRuleBase {
 
         // if sys param END_KEMID_ROLE_T_RECORD_REQUIRED_IND is yes the Kemid must have at least one active entry in the
         // authorizations tab
-        String authorizationReqParamVal = SpringContext.getBean(ParameterService.class).getParameterValue(KEMID.class, EndowParameterKeyConstants.ROLE_REQUIRED_IND);
+        String authorizationReqParamVal = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KEMID.class, EndowParameterKeyConstants.ROLE_REQUIRED_IND);
 
         if (KFSConstants.ParameterValues.YES.equalsIgnoreCase(authorizationReqParamVal)) {
             // At least one active records must exist

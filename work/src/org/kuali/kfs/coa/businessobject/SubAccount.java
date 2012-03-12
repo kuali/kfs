@@ -18,17 +18,19 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.integration.ld.LaborBenefitRateCategory;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class SubAccount extends PersistableBusinessObjectBase implements Inactivateable {
+public class SubAccount extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private static final long serialVersionUID = 6853259976912014273L;
 
+    public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + "SubAccount";
+    
     private String chartOfAccountsCode;
     private String accountNumber;
     private String subAccountNumber;
@@ -292,9 +294,9 @@ public class SubAccount extends PersistableBusinessObjectBase implements Inactiv
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("chartCode", this.chartOfAccountsCode);
         m.put("account", this.accountNumber);

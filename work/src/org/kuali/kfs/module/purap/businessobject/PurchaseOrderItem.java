@@ -16,7 +16,7 @@
 
 package org.kuali.kfs.module.purap.businessobject;
 
-import static org.kuali.rice.kns.util.KualiDecimal.ZERO;
+import static org.kuali.rice.core.api.util.type.KualiDecimal.ZERO;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -29,9 +29,9 @@ import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.SequenceAccessorService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Purchase Order Item Business Object.
@@ -229,10 +229,10 @@ public class PurchaseOrderItem extends PurchasingItemBase {
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("documentNumber", this.documentNumber);
         if (this.getItemIdentifier() != null) {

@@ -25,11 +25,12 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.CommodityContractManager;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.web.format.DateViewTimestampObjectFormatter;
-import org.kuali.rice.kns.web.format.Formatter;
+import org.kuali.rice.core.web.format.DateViewDateObjectFormatter;
+import org.kuali.rice.core.web.format.DateViewTimestampObjectFormatter;
+import org.kuali.rice.core.web.format.Formatter;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Assign Contract Manager Detail Business Object. Defines attributes in Assign Contract Manager tab.
@@ -99,7 +100,7 @@ public class ContractManagerAssignmentDetail extends PersistableBusinessObjectBa
      */
     public Integer getContractManagerCode() {
         String paramName = PurapParameterConstants.ENABLE_DEFAULT_CONTRACT_MANAGER_IND;
-        String paramValue = SpringContext.getBean(ParameterService.class).getParameterValue(ContractManagerAssignmentDocument.class, paramName);
+        String paramValue = SpringContext.getBean(ParameterService.class).getParameterValueAsString(ContractManagerAssignmentDocument.class, paramName);
         if ( paramValue.equals("Y") && (contractManagerCode == null) && getFirstLineItem().getCommodityCode() != null) {
             List<CommodityContractManager> commodityContractManagers = getFirstLineItem().getCommodityCode().getCommodityContractManagers();
             if (commodityContractManagers != null && commodityContractManagers.size() > 0) {
@@ -163,8 +164,8 @@ public class ContractManagerAssignmentDetail extends PersistableBusinessObjectBa
      */
     public String getCreateDate() throws WorkflowException{
         if (createDate == null) {
-            Formatter formatter = new DateViewTimestampObjectFormatter();
-            createDate = (String)formatter.format(getRequisition().getDocumentHeader().getWorkflowDocument().getCreateDate());
+            Formatter formatter = new DateViewDateObjectFormatter();
+            createDate = (String)formatter.format(getRequisition().getDocumentHeader().getWorkflowDocument().getDateCreated().toDate());
         }
         return createDate;
     }
@@ -194,9 +195,9 @@ public class ContractManagerAssignmentDetail extends PersistableBusinessObjectBa
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         if (this.requisitionIdentifier != null) {

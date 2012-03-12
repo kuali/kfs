@@ -29,15 +29,14 @@ import java.util.Set;
 
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.ModuleService;
-import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.util.ExternalizableBusinessObjectUtils;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
-import org.kuali.rice.kns.web.format.FormatException;
+import org.kuali.rice.core.web.format.FormatException;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
+import org.kuali.rice.krad.service.PersistenceService;
+import org.kuali.rice.krad.util.ExternalizableBusinessObjectUtils;
+import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * Purap Object Utils.
  * Similar to the nervous system ObjectUtils this class contains methods to reflectively set and get values on
@@ -159,21 +158,21 @@ public class PurApObjectUtils {
             ObjectUtils.materializeObjects(sourceList);
         }
 
-        // TypedArrayList requires argument so handle differently than below
-        /* RICE_20_DELETE */ if (sourceList instanceof TypedArrayList) {
-            /* RICE_20_DELETE */ TypedArrayList typedArray = (TypedArrayList) sourceList;
-            /* RICE_20_DELETE */ if ( LOG.isDebugEnabled() ) {
-                /* RICE_20_DELETE */ LOG.debug("collection will be typed using class '" + typedArray.getListObjectType() + "'");
-            /* RICE_20_DELETE */ }
-            /* RICE_20_DELETE */ try {
-                /* RICE_20_DELETE */ listToSet = new TypedArrayList(typedArray.getListObjectType());
-            /* RICE_20_DELETE */ } catch (Exception e) {
-                /* RICE_20_DELETE */ if ( LOG.isDebugEnabled() ) {
-                    /* RICE_20_DELETE */ LOG.debug("couldn't set class '" + sourceList.getClass() + "' on collection... using TypedArrayList using ", e);
-                /* RICE_20_DELETE */ }
-                /* RICE_20_DELETE */ listToSet = new ArrayList<T>();
-            /* RICE_20_DELETE */ }
-        /* RICE_20_DELETE */ } else {
+        // ArrayList requires argument so handle differently than below
+        
+            
+            
+                
+            
+            
+                
+            
+                
+                    
+                
+                
+            
+        
             try {
                 listToSet = sourceList.getClass().newInstance();
             }
@@ -183,7 +182,7 @@ public class PurApObjectUtils {
                 }
                 listToSet = new ArrayList<T>();
             }
-        /* RICE_20_DELETE */ }
+        
 
 
         for (Iterator iterator = sourceList.iterator(); iterator.hasNext();) {

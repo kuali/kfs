@@ -17,8 +17,8 @@
 /*
 function accountNameLookup( anyFieldOnAwardAccount ) {
     var elPrefix = findElPrefix( anyFieldOnAwardAccount.name );
-    var chartOfAccountsCode = DWRUtil.getValue( elPrefix + ".organizationOwnerChartOfAccountsCode" ).toUpperCase().trim();
-    var accountNumber = DWRUtil.getValue( elPrefix + ".organizationOwnerAccountNumber" ).toUpperCase().trim();
+    var chartOfAccountsCode = dwr.util.getValue( elPrefix + ".organizationOwnerChartOfAccountsCode" ).toUpperCase().trim();
+    var accountNumber = dwr.util.getValue( elPrefix + ".organizationOwnerAccountNumber" ).toUpperCase().trim();
     var targetFieldName = elPrefix + ".organizationOwnerAccount.accountName";
     if (chartOfAccountsCode == "" || accountNumber == "") {
         clearRecipients( targetFieldName );
@@ -40,7 +40,7 @@ function onblur_chartCode( chartCodeField ) {
 	lookupOrgCode(chartCode, accountNumber, orgCodeFieldName);
 }
 
-function onblur_accountNumber( accountNumberField ) {
+function onblur_accountNumber_org( accountNumberField ) {
     var chartCodeFieldName = findChartCodeFieldName(accountNumberField.name);
     var orgCodeFieldName = findOrgCodeFieldName(accountNumberField.name);
     var accountNumber = getElementValue(accountNumberField.name);    
@@ -53,7 +53,7 @@ function onblur_accountNumber( accountNumberField ) {
 			    lookupOrgCode(chartCode, accountNumber, orgCodeFieldName);
 			}
 			else {
-				loadChartAccount(accountNumber, chartCodeFieldName, accountNumberField.name, orgCodeFieldName);
+				loadChartOrg(accountNumber, chartCodeFieldName, accountNumberField.name, orgCodeFieldName);
 			}
 		},	
 		errorHandler:function( errorMessage ) { 
@@ -63,7 +63,7 @@ function onblur_accountNumber( accountNumberField ) {
 	AccountService.accountsCanCrossCharts(dwrReply);	
 }
 
-function loadChartAccount( accountNumber, chartCodeFieldName, accountNumberFieldName, orgCodeFieldName ) {
+function loadChartOrg( accountNumber, chartCodeFieldName, accountNumberFieldName, orgCodeFieldName ) {
 	if (accountNumber == "") {
 		clearRecipients(chartCodeFieldName);    
 		clearRecipients(orgCodeFieldName);
@@ -120,6 +120,50 @@ function findOrgCodeFieldName( accountFieldName ) {
 	return orgCodeFieldName;
 }    
 
+function onblur_accountNumber_pay( accountNumberField ) {
+	var accountNumberFieldName = accountNumberField.name;
+	var coaCodeFieldName = findElPrefix(accountNumberFieldName) + ".chartOfAccountsCode";
+    var accountNumber = getElementValue( accountNumberFieldName );	    
+	//alert("coaCodeFieldName = " + coaCodeFieldName + ", accountNumberFieldName = " + accountNumberFieldName);
+
+	var dwrReply = {
+		callback: function (param) {
+			if ( typeof param == "boolean" && param == false) {	
+				loadChartCode(accountNumber, coaCodeFieldName);
+			}
+		},	
+		errorHandler:function( errorMessage ) { 
+			window.status = errorMessage;
+		}
+	};
+	AccountService.accountsCanCrossCharts(dwrReply);	
+}
+
+function loadChartCode( accountNumber, coaCodeFieldName ) {
+	if (accountNumber == "") {
+		clearRecipients(coaCodeFieldName);    		
+	}
+	else {
+		var dwrReply = {
+				callback: function (data) {
+				//alert("chartOfAccountsCode = " + data.chartOfAccountsCode + ", accountNumber = " + accountNumber);
+				if ( data != null && typeof data == "object" ) {   
+					//var coaValue = data.chartOfAccountsCode + " - " + data.chartOfAccounts.finChartOfAccountDescription;
+					setRecipientValue( coaCodeFieldName, data.chartOfAccountsCode );
+				}
+				else {
+					clearRecipients(coaCodeFieldName); 
+				}
+			},
+			errorHandler:function( errorMessage ) { 
+				clearRecipients(coaCodeFieldName); 
+				window.status = errorMessage;
+			}
+		};
+		AccountService.getUniqueAccountForAccountNumber( accountNumber, dwrReply );	    
+	}
+}
+
 function makeDwrSingleReply( boName, propertyName, targetFieldName ) {
     var friendlyBoName = boName.replace(/([A-Z])/g, ' $1').toLowerCase();
     return {
@@ -135,7 +179,6 @@ function makeDwrSingleReply( boName, propertyName, targetFieldName ) {
         }
     };
 }
-*/
 
 function onblur_postingYearAndPeriodCode(field, callbackFunction) {
 	var postedDate = getElementValue(field.name).trim();

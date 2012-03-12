@@ -22,17 +22,18 @@ package org.kuali.kfs.pdp.businessobject;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.pdp.PdpPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.location.api.campus.CampusService;
+import org.kuali.rice.location.framework.campus.CampusEbo;
 
-public class DisbursementNumberRange extends PersistableBusinessObjectBase implements Inactivateable {
+public class DisbursementNumberRange extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String physCampusProcCode;
     private KualiInteger beginDisbursementNbr;
@@ -43,7 +44,7 @@ public class DisbursementNumberRange extends PersistableBusinessObjectBase imple
     private String disbursementTypeCode;
     private boolean active;
 
-    private Campus campus;
+    private CampusEbo campus;
     private Bank bank;
     private DisbursementType disbursementType;
 
@@ -185,8 +186,8 @@ public class DisbursementNumberRange extends PersistableBusinessObjectBase imple
      * 
      * @return Returns the campus.
      */
-    public Campus getCampus() {
-        return campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, campus, "campus");
+    public CampusEbo getCampus() {
+        return campus = StringUtils.isBlank( physCampusProcCode)?null:((campus!=null && campus.getCode().equals( physCampusProcCode))?campus:CampusEbo.from(SpringContext.getBean(CampusService.class).getCampus( physCampusProcCode)));
     }
 
     /**
@@ -194,19 +195,19 @@ public class DisbursementNumberRange extends PersistableBusinessObjectBase imple
      * 
      * @param campus The campus to set.
      */
-    public void setCampus(Campus campus) {
+    public void setCampus(CampusEbo campus) {
         this.campus = campus;
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.Inactivateable#isActive()
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#isActive()
      */
     public boolean isActive() {
         return active;
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.Inactivateable#setActive(boolean)
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#setActive(boolean)
      */
     public void setActive(boolean active) {
         this.active = active;
@@ -231,10 +232,10 @@ public class DisbursementNumberRange extends PersistableBusinessObjectBase imple
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(PdpPropertyConstants.PHYS_CAMPUS_PROC_CODE, this.physCampusProcCode);
         m.put(PdpPropertyConstants.DISBURSEMENT_TYPE_CODE, this.disbursementTypeCode);

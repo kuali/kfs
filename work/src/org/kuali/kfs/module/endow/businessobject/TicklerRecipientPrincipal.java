@@ -19,11 +19,11 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class TicklerRecipientPrincipal extends PersistableBusinessObjectBase implements Inactivateable
+public class TicklerRecipientPrincipal extends PersistableBusinessObjectBase implements MutableInactivatable
 {
     private String number;
     private String principalId;
@@ -32,10 +32,10 @@ public class TicklerRecipientPrincipal extends PersistableBusinessObjectBase imp
     private Person contact;
     
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap<String, String> toStringMapper() 
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() 
     {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         m.put(EndowPropertyConstants.TICKLER_NUMBER,getNumber());
@@ -69,7 +69,7 @@ public class TicklerRecipientPrincipal extends PersistableBusinessObjectBase imp
     }
 
     public Person getContact() {
-        contact = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(principalId, contact);
+        contact = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(principalId, contact);
         return contact;
     }
 
@@ -79,7 +79,7 @@ public class TicklerRecipientPrincipal extends PersistableBusinessObjectBase imp
     
     public String getContectNameAndID()
     {
-        contact = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(principalId, contact);
+        contact = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(principalId, contact);
         return contact.getPrincipalName() + " - " + getPrincipalId();
     }
 

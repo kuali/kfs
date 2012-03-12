@@ -202,7 +202,7 @@
     <property name="shortLabel" value="Amount"/>
     
     
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="GeneralLedgerPendingEntry-referenceFinancialSystemOriginationCode" parent="GeneralLedgerPendingEntry-referenceFinancialSystemOriginationCode-parentBean"/>
 
@@ -348,19 +348,17 @@
     
     
   </bean>
+  
   <bean id="GeneralLedgerPendingEntry-documentHeader.financialDocumentStatusCode" parent="GeneralLedgerPendingEntry-documentHeader.financialDocumentStatusCode-parentBean"/>
-
   <bean id="GeneralLedgerPendingEntry-documentHeader.financialDocumentStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="documentHeader.financialDocumentStatusCode"/>
     <property name="label" value="Pending Entry Approved Indicator"/>
     <property name="shortLabel" value="Pending Entry Approved Indicator"/>
     <property name="maxLength" value="2"/>
     <property name="control">
-      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.ApprovedDocumentIndicatorValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.ApprovedDocumentIndicatorValuesFinder" p:includeKeyInLabel="false"/>
     </property>
-    
-    
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
   </bean>
 
     <bean id="GeneralLedgerPendingEntry-objectCode.financialObjectLevelCode" parent="GeneralLedgerPendingEntry-objectCode.financialObjectLevelCode-parentBean"/>

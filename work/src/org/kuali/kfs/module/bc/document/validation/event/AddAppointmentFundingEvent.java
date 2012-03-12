@@ -17,14 +17,16 @@ package org.kuali.kfs.module.bc.document.validation.event;
 
 import java.util.List;
 
+import org.kuali.kfs.module.bc.BCConstants.SynchronizationCheckType;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
 import org.kuali.kfs.module.bc.document.validation.SalarySettingRule;
-import org.kuali.rice.kns.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 public class AddAppointmentFundingEvent extends SalarySettingBaseEvent {
     List<PendingBudgetConstructionAppointmentFunding> existingAppointmentFunding;
     PendingBudgetConstructionAppointmentFunding appointmentFunding;
+    SynchronizationCheckType synchronizationCheckType;
 
     /**
      * Constructs a AddAppointmentFundingEvent.java.
@@ -32,17 +34,18 @@ public class AddAppointmentFundingEvent extends SalarySettingBaseEvent {
      * @param errorPathPrefix the specified error path prefix
      * @param appointmentFundings the given appointment funding
      */
-    public AddAppointmentFundingEvent(String description, String errorPathPrefix, BudgetConstructionDocument document, List<PendingBudgetConstructionAppointmentFunding> existingAppointmentFunding, PendingBudgetConstructionAppointmentFunding appointmentFunding) {
+    public AddAppointmentFundingEvent(String description, String errorPathPrefix, BudgetConstructionDocument document, List<PendingBudgetConstructionAppointmentFunding> existingAppointmentFunding, PendingBudgetConstructionAppointmentFunding appointmentFunding, SynchronizationCheckType synchronizationCheckType) {
         super(description, errorPathPrefix, document);
         this.appointmentFunding = appointmentFunding;
         this.existingAppointmentFunding = existingAppointmentFunding;
+        this.synchronizationCheckType = synchronizationCheckType;
     }
 
     /**
-     * @see org.kuali.kfs.module.bc.document.validation.event.BudgetExpansionEvent#invokeExpansionRuleMethod(org.kuali.rice.kns.rule.BusinessRule)
+     * @see org.kuali.kfs.module.bc.document.validation.event.BudgetExpansionEvent#invokeExpansionRuleMethod(org.kuali.rice.krad.rule.BusinessRule)
      */
     @Override
     public boolean invokeExpansionRuleMethod(BusinessRule rule) {
-        return ((SalarySettingRule) rule).processAddAppointmentFunding(existingAppointmentFunding, appointmentFunding);
+        return ((SalarySettingRule) rule).processAddAppointmentFunding(existingAppointmentFunding, appointmentFunding, synchronizationCheckType);
     }
 }

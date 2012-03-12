@@ -19,7 +19,7 @@ import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 
 public class VendorCreditMemoTotalMatchesVendorAmountValidation extends GenericValidation {
 
@@ -28,7 +28,7 @@ public class VendorCreditMemoTotalMatchesVendorAmountValidation extends GenericV
         VendorCreditMemoDocument cmDocument = (VendorCreditMemoDocument)event.getDocument();
         
         if (cmDocument.getGrandTotal().compareTo(cmDocument.getCreditMemoAmount()) != 0 && !cmDocument.isUnmatchedOverride()) {
-            GlobalVariables.getMessageList().add(PurapKeyConstants.ERROR_CREDIT_MEMO_INVOICE_AMOUNT_NONMATCH);
+            KNSGlobalVariables.getMessageList().add(PurapKeyConstants.ERROR_CREDIT_MEMO_INVOICE_AMOUNT_NONMATCH);
             valid = false;
         }
 

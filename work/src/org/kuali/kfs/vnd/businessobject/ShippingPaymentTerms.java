@@ -18,15 +18,15 @@ package org.kuali.kfs.vnd.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Payment Terms for Shipping from a particular Vendor. Per Vendor as distinct from <code>PaymentTermType</code>.
  * 
  * @see org.kuali.kfs.vnd.businessobject.PaymentTermType
  */
-public class ShippingPaymentTerms extends PersistableBusinessObjectBase implements Inactivateable{
+public class ShippingPaymentTerms extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String vendorShippingPaymentTermsCode;
     private String vendorShippingPaymentTermsDescription;
@@ -77,9 +77,9 @@ public class ShippingPaymentTerms extends PersistableBusinessObjectBase implemen
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("vendorShippingPaymentTermsCode", this.vendorShippingPaymentTermsCode);
 

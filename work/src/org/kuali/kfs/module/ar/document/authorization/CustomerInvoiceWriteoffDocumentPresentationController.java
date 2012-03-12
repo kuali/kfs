@@ -22,7 +22,7 @@ import org.kuali.kfs.module.ar.ArAuthorizationConstants;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 
 public class CustomerInvoiceWriteoffDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
 
@@ -40,17 +40,17 @@ public class CustomerInvoiceWriteoffDocumentPresentationController extends Finan
     }
 
     @Override
-    protected boolean canCancel(Document document) {
+    public boolean canCancel(Document document) {
         return !isDocStatusCodeInitiated(document);
     }
 
     @Override
-    protected boolean canClose(Document document) {
+    public boolean canClose(Document document) {
         return isDocStatusCodeInitiated(document);
     }
 
     @Override
-    protected boolean canSave(Document document) {
+    public boolean canSave(Document document) {
         return !isDocStatusCodeInitiated(document);
     }
     

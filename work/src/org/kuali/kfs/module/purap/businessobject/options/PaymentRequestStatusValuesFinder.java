@@ -22,9 +22,8 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 /**
  * Value Finder for Payment Request Statuses.
  */
@@ -43,7 +42,7 @@ public class PaymentRequestStatusValuesFinder extends KeyValuesBase {
         // generate output
         List labels = new ArrayList();
         for (String sortedKey : sortedKeys) {
-            labels.add(new KeyLabelPair(sortedKey, sortedKey));
+            labels.add(new ConcreteKeyValue(sortedKey, sortedKey));
         }
         return labels;
     }

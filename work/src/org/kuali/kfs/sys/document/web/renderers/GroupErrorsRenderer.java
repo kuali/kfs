@@ -28,8 +28,8 @@ import org.apache.struts.Globals;
 import org.apache.struts.taglib.html.ErrorsTag;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Renders any errors associated with an accounting line group
@@ -128,9 +128,9 @@ public class GroupErrorsRenderer implements Renderer {
      * @return the String to output as HTML for the section title
      */
     protected String buildSectionTitle(String titleConstant, String sectionMarkGraphicName, String sectionGraphicAlt) {
-        final KualiConfigurationService configurationService = SpringContext.getBean(KualiConfigurationService.class);
-        final String titleMessage = configurationService.getPropertyString(titleConstant);
-        final String riceImageUrl = configurationService.getPropertyString(KNSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
+        final ConfigurationService configurationService = SpringContext.getBean(ConfigurationService.class);
+        final String titleMessage = configurationService.getPropertyValueAsString(titleConstant);
+        final String riceImageUrl = configurationService.getPropertyValueAsString(KRADConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
         
         StringBuilder sectionTitle = new StringBuilder();
         

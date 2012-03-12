@@ -46,10 +46,10 @@ import org.kuali.kfs.gl.service.OriginEntryService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.PersistenceService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -67,7 +67,7 @@ public class YearEndServiceImpl implements YearEndService {
     private BalanceTypeService balanceTypeService;
     private ObjectTypeService objectTypeService;
     private ParameterService parameterService;
-    private KualiConfigurationService configurationService;
+    private ConfigurationService configurationService;
     private PriorYearAccountService priorYearAccountService;
     private SubFundGroupService subFundGroupService;
     private PersistenceService persistenceService;
@@ -192,7 +192,7 @@ public class YearEndServiceImpl implements YearEndService {
         getNominalActivityClosingReportWriterService().pageBreak();
         
         // finally, put a header on the ledger report and write it
-        getNominalActivityClosingReportWriterService().writeSubTitle(configurationService.getPropertyString(KFSKeyConstants.MESSAGE_REPORT_YEAR_END_NOMINAL_ACTIVITY_CLOSING_LEDGER_TITLE_LINE));
+        getNominalActivityClosingReportWriterService().writeSubTitle(configurationService.getPropertyValueAsString(KFSKeyConstants.MESSAGE_REPORT_YEAR_END_NOMINAL_ACTIVITY_CLOSING_LEDGER_TITLE_LINE));
         ledgerReport.writeReport(getNominalActivityClosingReportWriterService());
     }
 
@@ -284,10 +284,10 @@ public class YearEndServiceImpl implements YearEndService {
         getBalanceForwardReportWriterService().pageBreak();
         
         // write ledger reports
-        getBalanceForwardReportWriterService().writeSubTitle(configurationService.getPropertyString(KFSKeyConstants.MESSAGE_REPORT_YEAR_END_BALANCE_FORWARD_OPEN_ACCOUNT_LEDGER_TITLE_LINE));
+        getBalanceForwardReportWriterService().writeSubTitle(configurationService.getPropertyValueAsString(KFSKeyConstants.MESSAGE_REPORT_YEAR_END_BALANCE_FORWARD_OPEN_ACCOUNT_LEDGER_TITLE_LINE));
         balanceForwardRuleHelper.writeOpenAccountBalanceForwardLedgerSummaryReport(getBalanceForwardReportWriterService());
         getBalanceForwardReportWriterService().writeNewLines(4);
-        getBalanceForwardReportWriterService().writeSubTitle(configurationService.getPropertyString(KFSKeyConstants.MESSAGE_REPORT_YEAR_END_BALANCE_FORWARD_CLOSED_ACCOUNT_LEDGER_TITLE_LINE));
+        getBalanceForwardReportWriterService().writeSubTitle(configurationService.getPropertyValueAsString(KFSKeyConstants.MESSAGE_REPORT_YEAR_END_BALANCE_FORWARD_CLOSED_ACCOUNT_LEDGER_TITLE_LINE));
         balanceForwardRuleHelper.writeClosedAccountBalanceForwardLedgerSummaryReport(getBalanceForwardReportWriterService());
     }
 
@@ -399,7 +399,7 @@ public class YearEndServiceImpl implements YearEndService {
         getEncumbranceClosingReportWriterService().pageBreak();
         
         // write ledger summary report
-        getEncumbranceClosingReportWriterService().writeSubTitle(configurationService.getPropertyString(KFSKeyConstants.MESSAGE_REPORT_YEAR_END_ENCUMBRANCE_FORWARDS_LEDGER_TITLE_LINE));
+        getEncumbranceClosingReportWriterService().writeSubTitle(configurationService.getPropertyValueAsString(KFSKeyConstants.MESSAGE_REPORT_YEAR_END_ENCUMBRANCE_FORWARDS_LEDGER_TITLE_LINE));
         forwardEncumbranceLedgerReport.writeReport(getEncumbranceClosingReportWriterService());
     }
 
@@ -495,7 +495,7 @@ public class YearEndServiceImpl implements YearEndService {
         this.yearEndDao = yearEndDao;
     }
 
-    public void setConfigurationService(KualiConfigurationService configurationService) {
+    public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
     }
 

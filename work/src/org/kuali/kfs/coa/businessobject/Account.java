@@ -27,107 +27,106 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.coa.service.SubFundGroupService;
 import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsCfda;
+import org.kuali.kfs.coa.businessobject.CFDA;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
 import org.kuali.kfs.integration.ld.LaborBenefitRateCategory;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.vnd.businessobject.VendorAddress;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.PostalCode;
-import org.kuali.rice.kns.bo.State;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.service.PostalCodeService;
-import org.kuali.rice.kns.service.StateService;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.location.api.campus.CampusService;
+import org.kuali.rice.location.api.postalcode.PostalCodeService;
+import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.location.framework.campus.CampusEbo;
+import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
+import org.kuali.rice.location.framework.state.StateEbo;
 
 /**
  * 
  */
-public class Account extends PersistableBusinessObjectBase implements AccountIntf, Inactivateable {
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(Account.class);
+public class Account extends PersistableBusinessObjectBase implements AccountIntf, MutableInactivatable {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(Account.class);
+    
+    public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + "Account";
 
-    private String chartOfAccountsCode;
-    private String accountNumber;
-    private String accountName;
-    private boolean accountsFringesBnftIndicator;
-    private Date accountRestrictedStatusDate;
-    private String accountCityName;
-    private String accountStateCode;
-    private String accountStreetAddress;
-    private String accountZipCode;
-    private Date accountCreateDate;
-    private Date accountEffectiveDate;
-    private Date accountExpirationDate;
-    private String acctIndirectCostRcvyTypeCd;
-    private String acctCustomIndCstRcvyExclCd;
-    private String financialIcrSeriesIdentifier;
-    private boolean accountInFinancialProcessingIndicator;
-    private String budgetRecordingLevelCode;
-    private String accountSufficientFundsCode;
-    private boolean pendingAcctSufficientFundsIndicator;
-    private boolean extrnlFinEncumSufficntFndIndicator;
-    private boolean intrnlFinEncumSufficntFndIndicator;
-    private boolean finPreencumSufficientFundIndicator;
-    private boolean financialObjectivePrsctrlIndicator;
-    private String accountCfdaNumber;
-    private boolean accountOffCampusIndicator;
-    private boolean active;
+    protected String chartOfAccountsCode;
+    protected String accountNumber;
+    protected String accountName;
+    protected boolean accountsFringesBnftIndicator;
+    protected Date accountRestrictedStatusDate;
+    protected String accountCityName;
+    protected String accountStateCode;
+    protected String accountStreetAddress;
+    protected String accountZipCode;
+    protected Date accountCreateDate;
+    protected Date accountEffectiveDate;
+    protected Date accountExpirationDate;
+    protected String acctIndirectCostRcvyTypeCd;
+    protected String acctCustomIndCstRcvyExclCd;
+    protected String financialIcrSeriesIdentifier;
+    protected boolean accountInFinancialProcessingIndicator;
+    protected String budgetRecordingLevelCode;
+    protected String accountSufficientFundsCode;
+    protected boolean pendingAcctSufficientFundsIndicator;
+    protected boolean extrnlFinEncumSufficntFndIndicator;
+    protected boolean intrnlFinEncumSufficntFndIndicator;
+    protected boolean finPreencumSufficientFundIndicator;
+    protected boolean financialObjectivePrsctrlIndicator;
+    protected String accountCfdaNumber;
+    protected boolean accountOffCampusIndicator;
+    protected boolean active;
 
-    private String accountFiscalOfficerSystemIdentifier;
-    private String accountsSupervisorySystemsIdentifier;
-    private String accountManagerSystemIdentifier;
-    private String organizationCode;
-    private String accountTypeCode;
-    private String accountPhysicalCampusCode;
-    private String subFundGroupCode;
-    private String financialHigherEdFunctionCd;
-    private String accountRestrictedStatusCode;
-    private String reportsToChartOfAccountsCode;
-    private String reportsToAccountNumber;
-    private String continuationFinChrtOfAcctCd;
-    private String continuationAccountNumber;
-    private String endowmentIncomeAcctFinCoaCd;
-    private String endowmentIncomeAccountNumber;
-    private String contractControlFinCoaCode;
-    private String contractControlAccountNumber;
-    private String incomeStreamFinancialCoaCode;
-    private String incomeStreamAccountNumber;
-    private Integer contractsAndGrantsAccountResponsibilityId;
+    protected String accountFiscalOfficerSystemIdentifier;
+    protected String accountsSupervisorySystemsIdentifier;
+    protected String accountManagerSystemIdentifier;
+    protected String organizationCode;
+    protected String accountTypeCode;
+    protected String accountPhysicalCampusCode;
+    protected String subFundGroupCode;
+    protected String financialHigherEdFunctionCd;
+    protected String accountRestrictedStatusCode;
+    protected String reportsToChartOfAccountsCode;
+    protected String reportsToAccountNumber;
+    protected String continuationFinChrtOfAcctCd;
+    protected String continuationAccountNumber;
+    protected String endowmentIncomeAcctFinCoaCd;
+    protected String endowmentIncomeAccountNumber;
+    protected String contractControlFinCoaCode;
+    protected String contractControlAccountNumber;
+    protected String incomeStreamFinancialCoaCode;
+    protected String incomeStreamAccountNumber;
+    protected Integer contractsAndGrantsAccountResponsibilityId;
 
-    private Chart chartOfAccounts;
-    private Chart endowmentIncomeChartOfAccounts;
-    private Organization organization;
-    private AccountType accountType;
-    private Campus accountPhysicalCampus;
-    private State accountState;
-    private SubFundGroup subFundGroup;
-    private HigherEducationFunction financialHigherEdFunction;
-    private RestrictedStatus accountRestrictedStatus;
-    private Account reportsToAccount;
-    private Account continuationAccount;
-    private Account endowmentIncomeAccount;
-    private Account contractControlAccount;
-    private Account incomeStreamAccount;
-    private IndirectCostRecoveryType acctIndirectCostRcvyType;
-    private Person accountFiscalOfficerUser;
-    private Person accountSupervisoryUser;
-    private Person accountManagerUser;
-    private PostalCode postalZipCode;
-    private BudgetRecordingLevel budgetRecordingLevel;
-    private SufficientFundsCode sufficientFundsCode;
-    private ContractsAndGrantsCfda cfda;
+    protected Chart chartOfAccounts;
+    protected Chart endowmentIncomeChartOfAccounts;
+    protected Organization organization;
+    protected AccountType accountType;
+    protected CampusEbo accountPhysicalCampus;
+    protected StateEbo accountState;
+    protected SubFundGroup subFundGroup;
+    protected HigherEducationFunction financialHigherEdFunction;
+    protected RestrictedStatus accountRestrictedStatus;
+    protected Account reportsToAccount;
+    protected Account continuationAccount;
+    protected Account endowmentIncomeAccount;
+    protected Account contractControlAccount;
+    protected Account incomeStreamAccount;
+    protected IndirectCostRecoveryType acctIndirectCostRcvyType;
+    protected Person accountFiscalOfficerUser;
+    protected Person accountSupervisoryUser;
+    protected Person accountManagerUser;
+    protected PostalCodeEbo postalZipCode;
+    protected BudgetRecordingLevel budgetRecordingLevel;
+    protected SufficientFundsCode sufficientFundsCode;
+    protected CFDA cfda;
 
     protected Chart fringeBenefitsChartOfAccount;
     protected Chart continuationChartOfAccount;
@@ -135,23 +134,23 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     protected Chart contractControlChartOfAccounts;
     
     // Several kinds of Dummy Attributes for dividing sections on Inquiry page
-    private String accountResponsibilitySectionBlank;
-    private String accountResponsibilitySection;
-    private String contractsAndGrantsSectionBlank;
-    private String contractsAndGrantsSection;
-    private String guidelinesAndPurposeSectionBlank;
-    private String guidelinesAndPurposeSection;
-    private String accountDescriptionSectionBlank;
-    private String accountDescriptionSection;
+    protected String accountResponsibilitySectionBlank;
+    protected String accountResponsibilitySection;
+    protected String contractsAndGrantsSectionBlank;
+    protected String contractsAndGrantsSection;
+    protected String guidelinesAndPurposeSectionBlank;
+    protected String guidelinesAndPurposeSection;
+    protected String accountDescriptionSectionBlank;
+    protected String accountDescriptionSection;
 
-    private Boolean forContractsAndGrants;
+    protected Boolean forContractsAndGrants;
 
-    private AccountGuideline accountGuideline;
-    private AccountDescription accountDescription;
+    protected AccountGuideline accountGuideline;
+    protected AccountDescription accountDescription;
 
-    private List subAccounts;
-    private List<ContractsAndGrantsAccountAwardInformation> awards;
-    private List<IndirectCostRecoveryAccount> indirectCostRecoveryAccounts;
+    protected List subAccounts;
+    protected List<ContractsAndGrantsAccountAwardInformation> awards;
+    protected List<IndirectCostRecoveryAccount> indirectCostRecoveryAccounts;
     //added for the employee labor benefit calculation
     private String laborBenefitRateCategoryCode;
     private LaborBenefitRateCategory laborBenefitRateCategory;
@@ -160,7 +159,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      */
     public Account() {
         active = true; // assume active is true until set otherwise
-        indirectCostRecoveryAccounts = new TypedArrayList(IndirectCostRecoveryAccount.class);
+        indirectCostRecoveryAccounts = new ArrayList<IndirectCostRecoveryAccount>();
     }
     
     /**
@@ -687,8 +686,16 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * 
      * @return a CFDA record
      */
-    public ContractsAndGrantsCfda getCfda() {
-        return cfda = (ContractsAndGrantsCfda) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsCfda.class).retrieveExternalizableBusinessObjectIfNecessary(this, cfda, "cfda");
+    public CFDA getCfda() {
+        return cfda ;
+    }
+    
+    /**
+     * Sets the given related CFDA object
+     * @param cfda the related CFDA object.
+     */
+    public void setCfda(CFDA cfda) {
+        this.cfda = cfda;
     }
     
     public List<ContractsAndGrantsAccountAwardInformation> getAwards() {
@@ -840,8 +847,8 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * 
      * @return Returns the accountPhysicalCampus
      */
-    public Campus getAccountPhysicalCampus() {
-        return accountPhysicalCampus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, accountPhysicalCampus, "accountPhysicalCampus");
+    public CampusEbo getAccountPhysicalCampus() {
+        return accountPhysicalCampus = StringUtils.isBlank( accountPhysicalCampusCode)?null:((accountPhysicalCampus!=null && accountPhysicalCampus.getCode().equals( accountPhysicalCampusCode))?accountPhysicalCampus: CampusEbo.from( SpringContext.getBean(CampusService.class).getCampus( accountPhysicalCampusCode) ) );
     }
 
     /**
@@ -850,7 +857,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @param accountPhysicalCampus The accountPhysicalCampus to set.
      * @deprecated
      */
-    public void setAccountPhysicalCampus(Campus accountPhysicalCampus) {
+    public void setAccountPhysicalCampus(CampusEbo accountPhysicalCampus) {
         this.accountPhysicalCampus = accountPhysicalCampus;
     }
 
@@ -859,8 +866,8 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * 
      * @return Returns the accountState
      */
-    public State getAccountState() {
-        accountState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(accountStateCode, accountState);
+    public StateEbo getAccountState() {
+        accountState = (StringUtils.isBlank(accountStateCode))?null:( accountState == null||!StringUtils.equals( accountState.getCode(),accountStateCode))? StateEbo.from( SpringContext.getBean(StateService.class).getState("US"/*REFACTORME*/,accountStateCode) ) : accountState;
         return accountState;
     }
 
@@ -870,7 +877,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @param state
      * @deprecated
      */
-    public void setAccountState(State state) {
+    public void setAccountState(StateEbo state) {
         this.accountState = state;
     }
 
@@ -1009,11 +1016,12 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     }
 
     public Person getAccountFiscalOfficerUser() {
-        accountFiscalOfficerUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(accountFiscalOfficerSystemIdentifier, accountFiscalOfficerUser);
+        accountFiscalOfficerUser = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(accountFiscalOfficerSystemIdentifier, accountFiscalOfficerUser);
         return accountFiscalOfficerUser;
     }
     
     /**
+     * This fix is temporary until Jonathan's fix is reflected to Rice
      * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#refreshReferenceObject(java.lang.String)
      */
     public void refreshReferenceObject(String referenceObjectName) {
@@ -1035,7 +1043,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     }
 
     public Person getAccountManagerUser() {
-        accountManagerUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(accountManagerSystemIdentifier, accountManagerUser);
+        accountManagerUser = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(accountManagerSystemIdentifier, accountManagerUser);
         return accountManagerUser;
     }
 
@@ -1049,7 +1057,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
 
 
     public Person getAccountSupervisoryUser() {
-        accountSupervisoryUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(accountsSupervisorySystemsIdentifier, accountSupervisoryUser);
+        accountSupervisoryUser = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(accountsSupervisorySystemsIdentifier, accountSupervisoryUser);
         return accountSupervisoryUser;
     }
 
@@ -1438,8 +1446,8 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * 
      * @return Returns the postalZipCode.
      */
-    public PostalCode getPostalZipCode() {
-        postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPostalCodeInDefaultCountryIfNecessary(accountZipCode, postalZipCode);
+    public PostalCodeEbo getPostalZipCode() {
+        postalZipCode = (accountZipCode == null)?null:( postalZipCode == null || !StringUtils.equals( postalZipCode.getCode(),accountZipCode))?PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode("US"/*RICE20_REFACTORME*/,accountZipCode)): postalZipCode;
         return postalZipCode;
     }
 
@@ -1448,7 +1456,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * 
      * @param postalZipCode The postalZipCode to set.
      */
-    public void setPostalZipCode(PostalCode postalZipCode) {
+    public void setPostalZipCode(PostalCodeEbo postalZipCode) {
         this.postalZipCode = postalZipCode;
     }
 
@@ -1509,7 +1517,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
 
         m.put("chartCode", this.chartOfAccountsCode);
@@ -1699,9 +1707,8 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
         this.endowmentIncomeChartOfAccounts = endowmentIncomeChartOfAccounts;
     }
 
-    @Override
-    public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.beforeUpdate(persistenceBroker);
+    @Override protected void preUpdate() {
+        super.preUpdate();
         try {
             // KULCOA-549: update the sufficient funds table
             // get the current data from the database
@@ -1715,7 +1722,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
                     sfr.setChartOfAccountsCode(getChartOfAccountsCode());
                     sfr.setAccountNumberFinancialObjectCode(getAccountNumber());
                     if (boService.retrieve(sfr) == null) {
-                        persistenceBroker.store(sfr);
+                        boService.save(sfr);
                     }
                 }
             }
@@ -1766,7 +1773,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     public void setContractsAndGrantsAccountResponsibilityId(Integer contractsAndGrantsAccountResponsibilityId) {
         this.contractsAndGrantsAccountResponsibilityId = contractsAndGrantsAccountResponsibilityId;
     }
-
+    
     /**
      * Gets the laborBenefitRateCategoryCode attribute. 
      * @return Returns the laborBenefitRateCategoryCode.
@@ -1872,17 +1879,16 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
    public void setContractControlChartOfAccounts(Chart contractControlChartOfAccounts) {
        this.contractControlChartOfAccounts = contractControlChartOfAccounts;
    }    
-
+   
    /**
-    * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+    * Gets the indirectCostRcvyChartOfAccounts attribute.
+    * 
+    * @return Returns the indirectCostRcvyChartOfAccounts.
     */
    @Override
-   public List buildListOfDeletionAwareLists() {
-       List<List> managedLists = super.buildListOfDeletionAwareLists();
-       managedLists.add(getIndirectCostRecoveryAccounts());
+   public List<Collection<PersistableBusinessObject>> buildListOfDeletionAwareLists() {
+       List<Collection<PersistableBusinessObject>> managedLists = super.buildListOfDeletionAwareLists();
+       managedLists.add( new ArrayList<PersistableBusinessObject>( getIndirectCostRecoveryAccounts() ));
        return managedLists;
    }
-   
-
-   
 }

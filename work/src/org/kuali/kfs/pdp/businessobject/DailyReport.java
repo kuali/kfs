@@ -15,11 +15,8 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
-import java.util.LinkedHashMap;
-
-import org.kuali.kfs.pdp.PdpPropertyConstants;
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 public class DailyReport extends TransientBusinessObjectBase {
     private String customer;
@@ -50,7 +47,7 @@ public class DailyReport extends TransientBusinessObjectBase {
         this.paymentGroup = paymentGroup;
     }
 
-    @Override
+    
     public String toString() {
         return customer + " " + amount + " " + payments + " " + payees;
     }
@@ -91,19 +88,6 @@ public class DailyReport extends TransientBusinessObjectBase {
 
     public void setPayments(Integer payments) {
         this.payments = payments;
-    }
-
-    
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-        
-        m.put(PdpPropertyConstants.DailyReport.CUSTOMER, this.customer);
-        m.put(PdpPropertyConstants.DailyReport.AMOUNT, this.amount);
-        m.put(PdpPropertyConstants.DailyReport.PAYMENTS, this.payments);
-        m.put(PdpPropertyConstants.DailyReport.PAYEES, this.payees);      
-        
-        return m;
     }
 
     public PaymentGroup getPaymentGroup() {

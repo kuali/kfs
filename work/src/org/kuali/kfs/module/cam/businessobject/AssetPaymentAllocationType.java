@@ -17,14 +17,14 @@ package org.kuali.kfs.module.cam.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Asset payment Allocation type is used to select the method of Allocation of payments. In other words, the type determines how
  * source line payments are distributed/allocated amonth the target assets.
  */
-public class AssetPaymentAllocationType extends PersistableBusinessObjectBase implements Inactivateable {
+public class AssetPaymentAllocationType extends PersistableBusinessObjectBase implements MutableInactivatable {
     private boolean active;
     private String allocationCode;
     private String allocationName;
@@ -50,7 +50,7 @@ public class AssetPaymentAllocationType extends PersistableBusinessObjectBase im
 
 
     /**
-     * @see org.kuali.rice.kns.bo.Inactivateable#isActive()
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#isActive()
      */
     public boolean isActive() {
         return active;
@@ -58,7 +58,7 @@ public class AssetPaymentAllocationType extends PersistableBusinessObjectBase im
 
 
     /**
-     * @see org.kuali.rice.kns.bo.Inactivateable#setActive(boolean)
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#setActive(boolean)
      */
     public void setActive(boolean active) {
         this.active = active;
@@ -82,10 +82,10 @@ public class AssetPaymentAllocationType extends PersistableBusinessObjectBase im
 
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap<String, String> toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         m.put("AllocationCode", allocationCode);
         return m;

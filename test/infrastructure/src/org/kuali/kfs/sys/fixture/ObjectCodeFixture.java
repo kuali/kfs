@@ -17,7 +17,7 @@ package org.kuali.kfs.sys.fixture;
 
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.sys.context.TestUtils;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public enum ObjectCodeFixture {
     OBJECT_CODE_NON_BUDGET_OBJECT_CODE("BL", "3500"), OBJECT_CODE_BUDGETED_OBJECT_CODE("BL", "3000");

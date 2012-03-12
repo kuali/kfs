@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -58,16 +58,15 @@ import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
- * This class reads origin entries in a flat file format, reconciles them, and loads them into the origin entry table. 
+ * This class reads origin entries in a flat file format, reconciles them, and loads them into the origin entry table.
  * Note: the feeding algorithm of this service will read the data file twice to minimize memory usage.
  */
 public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeederHelperService {
@@ -80,14 +79,14 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
     private LaborPositionObjectBenefitService laborPositionObjectBenefitService;
     private LaborBenefitsCalculationService laborBenefitsCalculationService;
     private BusinessObjectService businessObjectService;
-    private KualiConfigurationService configurationService;
+    private ConfigurationService configurationService;
     private DateTimeService dateTimeService;
 
 	/**
 	 * This method does the reading and the loading of reconciliation. Read
 	 * class description. This method DOES NOT handle the deletion of the done
 	 * file
-	 * 
+	 *
 	 * @param doneFile
 	 *            a URL that must be present. The contents may be empty
 	 * @param dataFile
@@ -108,7 +107,8 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
 	 *      java.io.File, java.io.File,
 	 *      org.kuali.kfs.gl.businessobject.OriginEntryGroup)
 	 */
-	public void feedOnFile(File doneFile, File dataFile, File reconFile, PrintStream enterpriseFeedPs,
+	@Override
+    public void feedOnFile(File doneFile, File dataFile, File reconFile, PrintStream enterpriseFeedPs,
 			String feederProcessName, String reconciliationTableId,
 			EnterpriseFeederStatusAndErrorMessagesWrapper statusAndErrors, LedgerSummaryReport ledgerSummaryReport,
 			ReportWriterService errorStatisticsReport, EnterpriseFeederReportData feederReportData) {
@@ -166,37 +166,37 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
                 dataFileReader = new BufferedReader(new FileReader(dataFile));
                 String line;
                 int count = 0;
-                
+
                 // create an entry to temporarily parse each line as it comes in
                 Map<String, List<LaborOriginEntry>> salaryBenefitOffsets = new HashMap<String, List<LaborOriginEntry>>();
                 List<LaborOriginEntry> entries = new ArrayList<LaborOriginEntry>();
-                String offsetParmValue = getParameterService().getParameterValue(LaborEnterpriseFeedStep.class, LaborConstants.BenefitCalculation.LABOR_BENEFIT_CALCULATION_OFFSET_IND);
+                String offsetParmValue = getParameterService().getParameterValueAsString(LaborEnterpriseFeedStep.class, LaborConstants.BenefitCalculation.LABOR_BENEFIT_CALCULATION_OFFSET_IND);
                 String offsetDocTypes = null;
-                if(StringUtils.isNotEmpty(getParameterService().getParameterValue(LaborEnterpriseFeedStep.class, LaborConstants.BenefitCalculation.LABOR_BENEFIT_OFFSET_DOCTYPE))) {
-                    offsetDocTypes = "," + getParameterService().getParameterValue(LaborEnterpriseFeedStep.class, LaborConstants.BenefitCalculation.LABOR_BENEFIT_OFFSET_DOCTYPE).replace(";", ",").replace("|", ",") + ",";
+                if(StringUtils.isNotEmpty(getParameterService().getParameterValueAsString(LaborEnterpriseFeedStep.class, LaborConstants.BenefitCalculation.LABOR_BENEFIT_OFFSET_DOCTYPE))) {
+                    offsetDocTypes = "," + getParameterService().getParameterValueAsString(LaborEnterpriseFeedStep.class, LaborConstants.BenefitCalculation.LABOR_BENEFIT_OFFSET_DOCTYPE).replace(";", ",").replace("|", ",") + ",";
                 }
-                
+
                 while ((line = dataFileReader.readLine()) != null) {
                     try {
                         LaborOriginEntry tempEntry = new LaborOriginEntry();
                         tempEntry.setFromTextFileForBatch(line, count);
-                        
+
                         feederReportData.incrementNumberOfRecordsRead();
                         feederReportData.addToTotalAmountRead(tempEntry.getTransactionLedgerEntryAmount());
-                        
+
                         enterpriseFeedPs.printf("%s\n", line);
-                        
+
                         ledgerSummaryReport.summarizeEntry(tempEntry);
                         feederReportData.incrementNumberOfRecordsWritten();
                         feederReportData.addToTotalAmountWritten(tempEntry.getTransactionLedgerEntryAmount());
-                        
+
                         List<LaborOriginEntry> benefitEntries = generateBenefits(tempEntry, errorStatisticsReport, feederReportData);
                         for(LaborOriginEntry benefitEntry : benefitEntries) {
                             enterpriseFeedPs.printf("%s\n", benefitEntry.getLine());
-                            
+
                             feederReportData.incrementNumberOfRecordsWritten();
                             feederReportData.addToTotalAmountWritten(benefitEntry.getTransactionLedgerEntryAmount());
-                            
+
                             //If the LABOR_BENEFIT_CALCULATION_OFFSET_IND system parameter is set to 'Y'
                             //and the LABOR_BENEFIT_OFFSET_DOCTYPE system parameter is not empty
                             //and the document type is in the LABOR_BENEFIT_OFFSET_DOCTYPE system parameter then
@@ -217,14 +217,14 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
                                 entries.add(benefitEntry);
                             }
                         }
-                        
+
                     } catch (Exception e) {
                         throw new IOException(e.toString());
                     }
-                    
+
                     count++;
                 }
-                
+
                 //If the LABOR_BENEFIT_CALCULATION_OFFSET_IND system parameter is set to 'Y'
                 //and the LABOR_BENEFIT_OFFSET_DOCTYPE system parameter is not empty
                 //then create the salary benefit offset entries
@@ -235,7 +235,7 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
                             KualiDecimal total = new KualiDecimal(0);
                             String offsetAccount = "";
                             String offsetObjectCode = "";
-                            
+
                             //Loop through all the benefit entries to calculate the total for the salary benefit offset entry
                             for(LaborOriginEntry entry : entryList) {
                                 if(entry.getTransactionDebitCreditCode().equalsIgnoreCase("D")) {
@@ -244,10 +244,10 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
                                     total = total.subtract(entry.getTransactionLedgerEntryAmount());
                                 }
                             }
-                            
+
                             //No need to process for the salary benefit offset if the total is 0
                             if(!total.equals(new KualiDecimal(0))) {
-                                
+
                                 //Lookup the position object benefit to get the object benefit type code
                                 Collection<PositionObjectBenefit> positionObjectBenefits = getLaborPositionObjectBenefitService().getPositionObjectBenefits(entryList.get(0).getUniversityFiscalYear(), entryList.get(0).getChartOfAccountsCode(), entryList.get(0).getFinancialObjectCode());
                                 LaborOriginEntry entry = entryList.get(0);
@@ -259,15 +259,15 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
                                         fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, entry.getUniversityFiscalYear());
                                         fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, entry.getChartOfAccountsCode());
                                         fieldValues.put(LaborPropertyConstants.POSITION_BENEFIT_TYPE_CODE, positionObjectBenefit.getFinancialObjectBenefitsTypeCode());
-    
+
                                         //Lookup the benefit calculation to get the offset account number and object code
-                                        BenefitsCalculation benefitsCalculation = (BenefitsCalculation) getBusinessObjectService().findByPrimaryKey(BenefitsCalculation.class, fieldValues);                   
-                                                             
+                                        BenefitsCalculation benefitsCalculation = getBusinessObjectService().findByPrimaryKey(BenefitsCalculation.class, fieldValues);
+
                                         offsetEntry.setAccountNumber(benefitsCalculation.getAccountCodeOffset());
                                         offsetEntry.setFinancialObjectCode(benefitsCalculation.getObjectCodeOffset());
                                     }
                                 }
-                                
+
                                 //Set all the fields required to process through the scrubber and poster jobs
                                 offsetEntry.setUniversityFiscalPeriodCode(entry.getUniversityFiscalPeriodCode());
                                 offsetEntry.setChartOfAccountsCode(entry.getChartOfAccountsCode());
@@ -275,17 +275,17 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
                                 offsetEntry.setTransactionLedgerEntryDescription("GENERATED BENEFIT OFFSET");
                                 offsetEntry.setFinancialSystemOriginationCode("RN");
                                 offsetEntry.setDocumentNumber(dateTimeService.toString(dateTimeService.getCurrentDate(), "yyyyMMddhhmmssSSS"));
-                                
+
                                 //Only + signed amounts
                                 offsetEntry.setTransactionLedgerEntryAmount(total.abs());
-                                
+
                                 //Credit if the total is positive and Debit of the total is negative
                                 if(total.isGreaterThan(new KualiDecimal(0))) {
                                     offsetEntry.setTransactionDebitCreditCode("C");
                                 } else if(total.isLessThan(new KualiDecimal(0))) {
                                     offsetEntry.setTransactionDebitCreditCode("D");
                                 }
-                                
+
                                 //Set the doc type to the value in the LABOR_BENEFIT_OFFSET_DOCTYPE system parameter (the first value if there is a list)
                                 String docTypeCode = offsetDocTypes;
                                 if (offsetDocTypes.contains(",")) {
@@ -298,14 +298,14 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
                                     }
                                 }
                                 offsetEntry.setFinancialDocumentTypeCode(docTypeCode);
-                                
+
                                 //Write the offset entry to the file
                                 enterpriseFeedPs.printf("%s\n", offsetEntry.getLine());
                             }
                         }
                     }
                 }
-                
+
                 dataFileReader.close();
                 dataFileReader = null;
 
@@ -360,7 +360,7 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
 	 * <li>For each benefit calculation, generate a benefit line with the
 	 * benefit object code and benefit amount</li>
 	 * </ol>
-	 * 
+	 *
 	 * @param wageEntry
 	 *            - the
 	 *            <code>LaborOriginEntry<code> for wages that benefits should be generated for
@@ -387,7 +387,7 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
 			feederReportData.incrementNumberOfBalanceTypeActualsRead();
 
 			// check parameter that indicates whether benefits should be generated for actual  balance types
-			boolean generateActualBenefits = parameterService.getIndicatorParameter(LaborEnterpriseFeedStep.class,
+			boolean generateActualBenefits = parameterService.getParameterValueAsBoolean(LaborEnterpriseFeedStep.class,
 					LaborConstants.BenefitCalculation.GENERATE_FRINGE_BENEFIT_PARAMETER);
 			if (!generateActualBenefits) {
 				LOG.info("Skipping benefit generation due to parameter disabling benefit generation for actual balance type");
@@ -399,7 +399,7 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
 			feederReportData.incrementNumberOfBalanceTypeEncumbranceRead();
 
 			// check parameter that indicates whether benefits should be generated for encumbrance  balance types
-			boolean generateEncumbranceBenefits = parameterService.getIndicatorParameter(LaborEnterpriseFeedStep.class,
+			boolean generateEncumbranceBenefits = parameterService.getParameterValueAsBoolean(LaborEnterpriseFeedStep.class,
 					LaborConstants.BenefitCalculation.GENERATE_FRINGE_BENEFIT_ENCUMBRANCE_PARAMETER);
 			if (!generateEncumbranceBenefits) {
 				LOG.info("Skipping benefit generation due to parameter disabling benefit generation for encumbrance balance type");
@@ -415,26 +415,26 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
 
         // make sure the parameter exists
         if (SpringContext.getBean(ParameterService.class).parameterExists(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE")) {
-            defaultLaborBenefitsRateCategoryCode = SpringContext.getBean(ParameterService.class).getParameterValue(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE");
+            defaultLaborBenefitsRateCategoryCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE");
         }
         else {
             defaultLaborBenefitsRateCategoryCode = "";
         }
-        
-        
+
+
 		boolean useBenefitRateCategoryCode = false;
 
 		//make sure the system parameter exists
         if (SpringContext.getBean(ParameterService.class).parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND")) {
-            //parameter exists, get the benefit rate based off of the university fiscal year, chart of account code, labor benefit type code and labor benefit rate category code 
-            String sysParam = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND");
+            //parameter exists, get the benefit rate based off of the university fiscal year, chart of account code, labor benefit type code and labor benefit rate category code
+            String sysParam = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND");
             LOG.debug("sysParam: " + sysParam);
             //if sysParam == Y then use the Labor Benefit Rate Category Code to help determine the fringe benefit rate
             if (sysParam.equalsIgnoreCase("Y")) {
                 useBenefitRateCategoryCode = true;
             }
         }
-		
+
 		// get benefit types for the entry object code and for each calculation generation an origin entry
 		Collection<PositionObjectBenefit> positionObjectBenefits = laborPositionObjectBenefitService
 				.getPositionObjectBenefits(wageEntry.getUniversityFiscalYear(), wageEntry.getChartOfAccountsCode(),
@@ -454,7 +454,7 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
                         wageEntry.getUniversityFiscalYear(), wageEntry.getChartOfAccountsCode(),
                         positionObjectBenefit.getFinancialObjectBenefitsTypeCode(), defaultLaborBenefitsRateCategoryCode);
 			}
-			
+
 			if(ObjectUtils.isNull(benefitsCalculation)){
 			    continue;
 			}
@@ -481,14 +481,14 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
 
 		return benefits;
 	}
-	
+
 	protected void writeMissingBenefitsTypeError(LaborOriginEntry wageEntry, ReportWriterService errorStatisticsReport,
 			EnterpriseFeederReportData feederReportData) {
 		String benefitKey = wageEntry.getUniversityFiscalYear() + "-" + wageEntry.getChartOfAccountsCode() + "-"
 				+ wageEntry.getFinancialObjectCode();
 
 		String message = configurationService
-				.getPropertyString(LaborKeyConstants.EnterpriseFeed.ERROR_BENEFIT_TYPE_NOT_FOUND);
+				.getPropertyValueAsString(LaborKeyConstants.EnterpriseFeed.ERROR_BENEFIT_TYPE_NOT_FOUND);
 		message = MessageFormat.format(message, benefitKey);
 
 		feederReportData.incrementNumberOfErrorEncountered();
@@ -507,7 +507,7 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
 		}
 
 		String message = configurationService
-				.getPropertyString(LaborKeyConstants.EnterpriseFeed.ERROR_BENEFIT_CALCULATION_NOT_FOUND);
+				.getPropertyValueAsString(LaborKeyConstants.EnterpriseFeed.ERROR_BENEFIT_CALCULATION_NOT_FOUND);
 		message = MessageFormat.format(message, benefitKey);
 
 		feederReportData.incrementNumberOfErrorEncountered();
@@ -520,7 +520,7 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
      * Returns whether the reconciliation process succeeded by looking at the reconciliation error messages For this implementation,
      * the reconciliation does not succeed if at least one of the error messages in the list has a type of
      * {@link Message#TYPE_FATAL}
-     * 
+     *
      * @param errorMessages a List of errorMessages
      * @return true if any of those error messages were fatal
      */
@@ -535,7 +535,7 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
 
     /**
      * Gets the reconciliationParserService attribute.
-     * 
+     *
      * @return Returns the reconciliationParserService.
      */
     public ReconciliationParserService getReconciliationParserService() {
@@ -544,7 +544,7 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
 
     /**
      * Sets the reconciliationParserService attribute value.
-     * 
+     *
      * @param reconciliationParserService The reconciliationParserService to set.
      */
     public void setReconciliationParserService(ReconciliationParserService reconciliationParserService) {
@@ -553,7 +553,7 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
 
     /**
      * Gets the reconciliationService attribute.
-     * 
+     *
      * @return Returns the reconciliationService.
      */
     public ReconciliationService getReconciliationService() {
@@ -562,7 +562,7 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
 
     /**
      * Sets the reconciliationService attribute value.
-     * 
+     *
      * @param reconciliationService The reconciliationService to set.
      */
     public void setReconciliationService(ReconciliationService reconciliationService) {
@@ -571,7 +571,7 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
 
     /**
      * Gets the originEntryService attribute.
-     * 
+     *
      * @return Returns the originEntryService.
      */
     public OriginEntryService getOriginEntryService() {
@@ -580,7 +580,7 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
 
     /**
      * Sets the originEntryService attribute value.
-     * 
+     *
      * @param originEntryService The originEntryService to set.
      */
     public void setOriginEntryService(OriginEntryService originEntryService) {
@@ -619,12 +619,12 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
         this.businessObjectService = businessObjectService;
     }
 
-	public void setConfigurationService(KualiConfigurationService configurationService) {
+	public void setConfigurationService(ConfigurationService configurationService) {
 		this.configurationService = configurationService;
 	}
-	
+
     /**
-     * Gets the dateTimeService attribute. 
+     * Gets the dateTimeService attribute.
      * @return Returns the dateTimeService.
      */
     public DateTimeService getDateTimeService() {

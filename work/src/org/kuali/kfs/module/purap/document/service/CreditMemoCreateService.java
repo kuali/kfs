@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.purap.document.service;
 
-import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 
 /**
  * Defines methods that must be implemented by a CreditMemoCreateService implementation.

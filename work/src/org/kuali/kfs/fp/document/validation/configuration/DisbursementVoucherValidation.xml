@@ -277,7 +277,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="DisbursementVoucher-nonEmployeeTravelComanyValidation" scope="prototype">
+				<bean parent="DisbursementVoucher-nonEmployeeTravelCompanyValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
 							<bean parent="accountingDocumentFieldConversion" />

@@ -25,9 +25,10 @@ import java.util.List;
 import org.kuali.kfs.gl.web.util.OriginEntryFileComparator;
 import org.kuali.kfs.module.ld.service.LaborOriginEntryGroupService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * Returns list of Labor origin entry filenames
@@ -37,8 +38,8 @@ public class CorrectionLaborGroupEntriesFinder extends KeyValuesBase {
     /**
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> activeLabels = new ArrayList<KeyLabelPair>();
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> activeLabels = new ArrayList<KeyValue>();
 
         LaborOriginEntryGroupService originEntryGroupService = SpringContext.getBean(LaborOriginEntryGroupService.class);
         ;
@@ -56,7 +57,7 @@ public class CorrectionLaborGroupEntriesFinder extends KeyValuesBase {
             String timeInfo = "(" + SpringContext.getBean(DateTimeService.class).toDateTimeString(date) + ")";
             String sizeInfo = "(" + (new Long(file.length())).toString() + ")";
 
-            activeLabels.add(new KeyLabelPair(fileName, timeInfo + " " + fileName + " " + sizeInfo));
+            activeLabels.add(new ConcreteKeyValue(fileName, timeInfo + " " + fileName + " " + sizeInfo));
         }
 
         return activeLabels;

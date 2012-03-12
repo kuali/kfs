@@ -18,6 +18,7 @@ package org.kuali.kfs.module.ar.document.service;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
@@ -27,9 +28,8 @@ import org.kuali.kfs.module.ar.fixture.CustomerInvoiceDocumentFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 @ConfigureContext(session = khuntley)
 public class CustomerCreditMemoDocumentServiceTest extends KualiTestBase {
@@ -57,7 +57,7 @@ public class CustomerCreditMemoDocumentServiceTest extends KualiTestBase {
         document.setFinancialDocumentReferenceInvoiceNumber(documentNumber);
         document.getInvoice();
         
-        details = new TypedArrayList(CustomerCreditMemoDetail.class);
+        details = new ArrayList<CustomerCreditMemoDetail>();
         
         CustomerCreditMemoDetail detail1 = new CustomerCreditMemoDetail();
         detail1.setFinancialDocumentReferenceInvoiceNumber(documentNumber);

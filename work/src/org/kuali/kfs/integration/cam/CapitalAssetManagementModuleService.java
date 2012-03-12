@@ -18,7 +18,7 @@ package org.kuali.kfs.integration.cam;
 import java.util.List;
 
 import org.kuali.kfs.sys.document.AccountingDocument;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 
 public interface CapitalAssetManagementModuleService {
     /**

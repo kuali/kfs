@@ -22,10 +22,11 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
+import org.kuali.rice.core.api.parameter.ParameterEvaluator;
+import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.service.ParameterEvaluator;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Validates that an accounting line does not have a capital object object code 
@@ -67,7 +68,7 @@ public class BillingCapitalObjectValidation extends GenericValidation {
      * @return True if the given accounting line's object code is a capital code, false otherwise.
      */
     protected boolean isCapitalObject(AccountingLine accountingLine) {
-        ParameterEvaluator evaluator = getParameterService().getParameterEvaluator(InternalBillingDocument.class, "CAPITAL_OBJECT_SUB_TYPE_CODES", accountingLine.getObjectCode().getFinancialObjectSubTypeCode());
+        ParameterEvaluator evaluator = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(InternalBillingDocument.class, "CAPITAL_OBJECT_SUB_TYPE_CODES", accountingLine.getObjectCode().getFinancialObjectSubTypeCode());
         return evaluator != null ? evaluator.evaluationSucceeds() : false; // can't find the param?  then I guess we don't care...just say that nothing is a capital object
     }
 

@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,23 +24,24 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sec.SecConstants;
 import org.kuali.kfs.sec.SecPropertyConstants;
 import org.kuali.kfs.sec.businessobject.SecurityAttributeMetadata;
-import org.kuali.kfs.sec.identity.SecKimAttributes;
 import org.kuali.kfs.sec.service.AccessSecurityService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.core.web.format.Formatter;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.FieldUtils;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.web.format.Formatter;
 import org.kuali.rice.kns.web.ui.Column;
+import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.KRADConstants;
 
 
 /**
@@ -58,7 +59,7 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
 
     /**
      * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
-     * 
+     *
      * KRAD Conversion: Lookupable performs customization of the search results.
      * by retrieving the default sort columns using data dictionary service.
      */
@@ -70,14 +71,14 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
         String attributeName = fieldValues.get(SecPropertyConstants.ATTRIBUTE_NAME);
         String templateId = fieldValues.get(SecPropertyConstants.TEMPLATE_ID);
 
-        AttributeSet additionalPermissionDetails = new AttributeSet();
-        if (accessSecurityService.getInquiryWithFieldValueTemplateId().equals(templateId)) {
+        Map<String,String> additionalPermissionDetails = new HashMap<String,String>();
+        if (accessSecurityService.getInquiryWithFieldValueTemplate().getId().equals(templateId)) {
             String namespaceCode = fieldValues.get(SecPropertyConstants.INQUIRY_NAMESPACE_CODE);
-            additionalPermissionDetails.put(SecKimAttributes.NAMESPACE_CODE, namespaceCode);
+            additionalPermissionDetails.put(KimConstants.AttributeConstants.NAMESPACE_CODE, namespaceCode);
         }
-        else if (!accessSecurityService.getLookupWithFieldValueTemplateId().equals(templateId)) {
+        else if (!accessSecurityService.getLookupWithFieldValueTemplate().getId().equals(templateId)) {
             String documentTypeCode = fieldValues.get(SecPropertyConstants.FINANCIAL_SYSTEM_DOCUMENT_TYPE_CODE);
-            additionalPermissionDetails.put(SecKimAttributes.DOCUMENT_TYPE_NAME, documentTypeCode);
+            additionalPermissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, documentTypeCode);
         }
 
         return runSimulation(person, attributeName, templateId, additionalPermissionDetails);
@@ -89,12 +90,12 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
      * @param templateId
      * @param additionalPermissionDetails
      * @return
-     * 
+     *
      * KRAD Conversion: Lookupable performs customization of the search results.
      * by retrieving the columns using data dictionary service.
-     * 
+     *
      */
-    protected List<? extends BusinessObject> runSimulation(Person person, String attributeName, String templateId, AttributeSet additionalPermissionDetails) {
+    protected List<? extends BusinessObject> runSimulation(Person person, String attributeName, String templateId, Map<String,String> additionalPermissionDetails) {
         List<BusinessObject> resultRecords = new ArrayList<BusinessObject>();
 
         if (!SecConstants.ATTRIBUTE_SIMULATION_MAP.containsKey(attributeName)) {
@@ -116,7 +117,7 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
 
         // retrieve records for this attribute to iterate over and call security service
         List allAttributeData = (List) getBusinessObjectService().findMatching(attributeClass, searchCriteria);
-        accessSecurityService.applySecurityRestrictions(allAttributeData, person, templateId, additionalPermissionDetails);
+        accessSecurityService.applySecurityRestrictions(allAttributeData, person, KimApiServiceLocator.getPermissionService().getPermissionTemplate(templateId), additionalPermissionDetails);
 
         // iterate through business object instances and construct simulation info result objects
         // for (Iterator iterator = allAttributeData.iterator(); iterator.hasNext();) {
@@ -145,10 +146,10 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
         if (getParameters().containsKey(SecPropertyConstants.TEMPLATE_ID)) {
             String templateId = ((String[]) getParameters().get(SecPropertyConstants.TEMPLATE_ID))[0];
 
-            if (accessSecurityService.getInquiryWithFieldValueTemplateId().equals(templateId)) {
+            if (accessSecurityService.getInquiryWithFieldValueTemplate().getId().equals(templateId)) {
                 lookupFieldAttributeList = getInquiryTemplateFields();
             }
-            else if (accessSecurityService.getLookupWithFieldValueTemplateId().equals(templateId)) {
+            else if (accessSecurityService.getLookupWithFieldValueTemplate().getId().equals(templateId)) {
                 lookupFieldAttributeList = getLookupTemplateFields();
             }
             else {
@@ -160,12 +161,12 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
         }
 
         // construct field object for each search attribute
-        List fields = new ArrayList();
+        List<Field> fields = new ArrayList<Field>();
         int numCols;
         try {
             fields = FieldUtils.createAndPopulateFieldsForLookup(lookupFieldAttributeList, getReadOnlyFieldsList(), getBusinessObjectClass());
 
-            BusinessObjectEntry boe = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(this.getBusinessObjectClass().getName());
+            BusinessObjectEntry boe = (BusinessObjectEntry) SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(this.getBusinessObjectClass().getName());
             numCols = boe.getLookupDefinition().getNumOfColumns();
 
         }
@@ -176,8 +177,9 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
             throw new RuntimeException("Unable to create instance of business object class" + e.getMessage());
         }
 
-        if (numCols == 0)
-            numCols = KNSConstants.DEFAULT_NUM_OF_COLUMNS;
+        if (numCols == 0) {
+            numCols = KRADConstants.DEFAULT_NUM_OF_COLUMNS;
+        }
 
         rows = FieldUtils.wrapFields(fields, numCols);
     }
@@ -192,7 +194,7 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
 
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getColumns()
-     * 
+     *
      * KRAD Conversion: Lookupable performs the customization of columns
      * by  using data dictionary service for attribute properties.
      */
@@ -221,10 +223,11 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
             Integer fieldDefinedMaxLength = getBusinessObjectDictionaryService().getLookupResultFieldMaxLength(attributeClass, attributeName);
             if (fieldDefinedMaxLength == null) {
                 try {
-                    fieldDefinedMaxLength = Integer.valueOf(getParameterService().getParameterValue(KNSConstants.KNS_NAMESPACE, KNSConstants.DetailTypes.LOOKUP_PARM_DETAIL_TYPE, KNSConstants.RESULTS_DEFAULT_MAX_COLUMN_LENGTH));
+                    fieldDefinedMaxLength = Integer.valueOf(getParameterService().getParameterValueAsString(KRADConstants.KRAD_NAMESPACE, KRADConstants.DetailTypes.LOOKUP_PARM_DETAIL_TYPE, KRADConstants.RESULTS_DEFAULT_MAX_COLUMN_LENGTH));
                 }
                 catch (NumberFormatException ex) {
-                    LOG.error("Lookup field max length parameter not found and unable to parse default set in system parameters (RESULTS_DEFAULT_MAX_COLUMN_LENGTH).");
+                    LOG.error("Lookup field max length parameter not found for " + attributeClass.getName() + "." + attributeName + " -- and unable to parse default set in system parameters (RESULTS_DEFAULT_MAX_COLUMN_LENGTH).");
+                    fieldDefinedMaxLength = 50;
                 }
             }
             column.setMaxLength(fieldDefinedMaxLength.intValue());
@@ -252,7 +255,7 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
 
     /**
      * Builds List of search field names for searching the inquiry template
-     * 
+     *
      * @return List<String> containing lookup field names
      */
     protected List<String> getInquiryTemplateFields() {
@@ -268,7 +271,7 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
 
     /**
      * Builds List of search field names for searching the lookup template
-     * 
+     *
      * @return List<String> containing lookup field names
      */
     protected List<String> getLookupTemplateFields() {
@@ -283,7 +286,7 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
 
     /**
      * Builds List of search field names for searching document templates
-     * 
+     *
      * @return List<String> containing lookup field names
      */
     protected List<String> getDocumentTemplateFields() {
@@ -299,7 +302,7 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
 
     /**
      * Sets the accessSecurityService attribute value.
-     * 
+     *
      * @param accessSecurityService The accessSecurityService to set.
      */
     public void setAccessSecurityService(AccessSecurityService accessSecurityService) {
@@ -308,7 +311,7 @@ public class AccessSecuritySimulationLookupableHelperServiceImpl extends KualiLo
 
     /**
      * Sets the universityDateService attribute value.
-     * 
+     *
      * @param universityDateService The universityDateService to set.
      */
     public void setUniversityDateService(UniversityDateService universityDateService) {

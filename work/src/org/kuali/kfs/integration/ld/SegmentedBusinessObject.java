@@ -22,7 +22,7 @@ import java.util.Collection;
  * results. For example, If you wanted to split results for amounts in July, August, September, November, etc..., into separate
  * records, this would helpful in doing that.
  * 
- * @see org.kuali.rice.kns.bo.BusinessObject
+ * @see org.kuali.rice.krad.bo.BusinessObject
  */
 public interface SegmentedBusinessObject {
 

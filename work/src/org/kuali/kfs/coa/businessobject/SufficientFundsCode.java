@@ -15,10 +15,10 @@
  */
 package org.kuali.kfs.coa.businessobject;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.KualiCodeBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.KualiCodeBase;
 
-public class SufficientFundsCode extends KualiCodeBase implements Inactivateable {
+public class SufficientFundsCode extends KualiCodeBase implements MutableInactivatable {
 
 
 }

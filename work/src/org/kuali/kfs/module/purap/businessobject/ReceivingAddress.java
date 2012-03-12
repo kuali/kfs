@@ -19,8 +19,8 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Receiving Address Business Object. 
@@ -29,7 +29,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
  * ReceivingAddress defines all the required address fields as well as an indicator to decide whether the 
  * receiving address or the final delivery address will be used as the shipping address provided to a vendor.
  */
-public class ReceivingAddress extends PersistableBusinessObjectBase implements Inactivateable{
+public class ReceivingAddress extends PersistableBusinessObjectBase implements MutableInactivatable{
 
     private Integer receivingAddressIdentifier;
     private String chartOfAccountsCode;    
@@ -181,9 +181,9 @@ public class ReceivingAddress extends PersistableBusinessObjectBase implements I
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         return m;

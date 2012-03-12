@@ -19,7 +19,7 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
-import org.kuali.rice.kns.bo.KualiCodeBase;
+import org.kuali.rice.krad.bo.KualiCodeBase;
 
 public class AccountingChangeCode extends KualiCodeBase {
     

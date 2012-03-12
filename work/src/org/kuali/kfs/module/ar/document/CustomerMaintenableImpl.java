@@ -29,16 +29,15 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.kfs.sys.document.FinancialSystemMaintenanceDocument;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.Maintainable;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerMaintenableImpl.class);
@@ -54,7 +53,7 @@ public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
         super.processAfterPost(document, parameters);
 
         // when we create new customer set the customerRecordAddDate to current date
-        if (getMaintenanceAction().equalsIgnoreCase(KNSConstants.MAINTENANCE_NEW_ACTION)) {
+        if (getMaintenanceAction().equalsIgnoreCase(KRADConstants.MAINTENANCE_NEW_ACTION)) {
             Customer oldCustomer = (Customer) document.getOldMaintainableObject().getBusinessObject();
             Customer newCustomer = (Customer) document.getNewMaintainableObject().getBusinessObject();
             Date currentDate = getDateTimeService().getCurrentSqlDate();
@@ -68,10 +67,10 @@ public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
         super.doRouteStatusChange(documentHeader);
         
         // if new customer was created => dates have been already updated
-        if (getMaintenanceAction().equalsIgnoreCase(KNSConstants.MAINTENANCE_NEW_ACTION))
+        if (getMaintenanceAction().equalsIgnoreCase(KRADConstants.MAINTENANCE_NEW_ACTION))
             return;
         
-        if (documentHeader.getWorkflowDocument().stateIsProcessed()) {
+        if (documentHeader.getWorkflowDocument().isProcessed()) {
             DocumentService documentService = SpringContext.getBean(DocumentService.class);
             try {
                 MaintenanceDocument document = (MaintenanceDocument) documentService.getByDocumentHeaderId(documentHeader.getDocumentNumber());
@@ -131,7 +130,7 @@ public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
             // set default address name to customer name
             customerAddress.setCustomerAddressName(customer.getCustomerName());
 
-            if (KNSConstants.MAINTENANCE_NEW_ACTION.equalsIgnoreCase(getMaintenanceAction())) {
+            if (KRADConstants.MAINTENANCE_NEW_ACTION.equalsIgnoreCase(getMaintenanceAction())) {
 
                 boolean hasPrimaryAddress = false;
 
@@ -153,7 +152,7 @@ public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
             }
 
             // if maintenance action is EDIT or COPY set default value for address type code to "Alternate"
-            if (KNSConstants.MAINTENANCE_EDIT_ACTION.equalsIgnoreCase(getMaintenanceAction()) || KNSConstants.MAINTENANCE_COPY_ACTION.equalsIgnoreCase(getMaintenanceAction())) {
+            if (KRADConstants.MAINTENANCE_EDIT_ACTION.equalsIgnoreCase(getMaintenanceAction()) || KRADConstants.MAINTENANCE_COPY_ACTION.equalsIgnoreCase(getMaintenanceAction())) {
                 customerAddress.setCustomerAddressTypeCode(ArKeyConstants.CustomerConstants.CUSTOMER_ADDRESS_TYPE_CODE_ALTERNATE);
             }
 
@@ -295,7 +294,7 @@ public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         FinancialSystemMaintenanceDocument maintDoc = null;
         try {
-            maintDoc =(FinancialSystemMaintenanceDocument) documentService.getByDocumentHeaderId(this.documentNumber);
+            maintDoc =(FinancialSystemMaintenanceDocument) documentService.getByDocumentHeaderId(getDocumentNumber());
         }
         catch (WorkflowException e) {
             throw new RuntimeException(e);
@@ -305,7 +304,7 @@ public class CustomerMaintenableImpl extends FinancialSystemMaintainable {
     
     private boolean createdByWebApp(FinancialSystemMaintenanceDocument maintDoc) {
         String initiatorPrincipalId = maintDoc.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
-        PersonService<Person> personService = SpringContext.getBean(PersonService.class);
+        PersonService personService = SpringContext.getBean(PersonService.class);
         Person initiatorPerson = personService.getPerson(initiatorPrincipalId);
         return (initiatorPerson != null && !KFSConstants.SYSTEM_USER.equals(initiatorPerson.getPrincipalName()));
     }

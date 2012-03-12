@@ -19,7 +19,7 @@ import java.util.Set;
 
 import org.kuali.kfs.module.ec.EffortConstants.EffortCertificationEditMode;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * Document Presentation Controller for the Effort Certification document. allowsErrorCorrection property has been set to false in
@@ -29,7 +29,7 @@ import org.kuali.rice.kns.document.Document;
 public class EffortDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canCancel(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canCancel(org.kuali.rice.krad.document.Document)
      */
     @Override
     public boolean canCancel(Document document) {
@@ -37,7 +37,7 @@ public class EffortDocumentPresentationController extends FinancialSystemTransac
     }
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canSave(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canSave(org.kuali.rice.krad.document.Document)
      */
     @Override
     public boolean canSave(Document document) {
@@ -45,7 +45,7 @@ public class EffortDocumentPresentationController extends FinancialSystemTransac
     }
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canCopy(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canCopy(org.kuali.rice.krad.document.Document)
      */
     @Override
     public boolean canCopy(Document document) {
@@ -53,11 +53,11 @@ public class EffortDocumentPresentationController extends FinancialSystemTransac
     }
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canBlanketApprove(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canBlanketApprove(org.kuali.rice.krad.document.Document)
      */
     @Override
     public boolean canBlanketApprove(Document document) {
-        boolean initiated = document.getDocumentHeader().getWorkflowDocument().stateIsInitiated();
+        boolean initiated = document.getDocumentHeader().getWorkflowDocument().isInitiated();
         if (initiated) {
             return false;
         }
@@ -66,11 +66,11 @@ public class EffortDocumentPresentationController extends FinancialSystemTransac
     }
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canDisapprove(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.krad.document.authorization.DocumentPresentationControllerBase#canDisapprove(org.kuali.rice.krad.document.Document)
      */
     @Override
     public boolean canDisapprove(Document document) {
-        boolean enroute = document.getDocumentHeader().getWorkflowDocument().stateIsEnroute();
+        boolean enroute = document.getDocumentHeader().getWorkflowDocument().isEnroute();
         if (enroute) {
             return false;
         }
@@ -79,7 +79,7 @@ public class EffortDocumentPresentationController extends FinancialSystemTransac
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.krad.document.Document)
      */
     @Override
     public Set<String> getEditModes(Document document) {

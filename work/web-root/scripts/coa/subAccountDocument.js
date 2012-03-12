@@ -171,7 +171,7 @@ function getElementValuePossiblyReadOnly(fieldName) {
 	}
 	else {
 		// otherwise the field is readOnly and its id is fieldName.div 
-		fieldValue = DWRUtil.getValue(fieldName + ".div");
+		fieldValue = dwr.util.getValue(fieldName + ".div");
 		//alert("DWR getValue = " + fieldValue);
 		
 		// sometimes readOnly field is rendered with a URL link, strip that off

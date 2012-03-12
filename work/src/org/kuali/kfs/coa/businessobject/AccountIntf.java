@@ -19,10 +19,10 @@ import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
 
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.bo.PostalCode;
-import org.kuali.rice.kns.bo.State;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.location.framework.campus.CampusEbo;
+import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
+import org.kuali.rice.location.framework.state.StateEbo;
 
 
 public interface AccountIntf {
@@ -468,7 +468,7 @@ public interface AccountIntf {
      * 
      * @return Returns the accountPhysicalCampus
      */
-    public Campus getAccountPhysicalCampus();
+    public CampusEbo getAccountPhysicalCampus();
 
     /**
      * Sets the accountPhysicalCampus attribute.
@@ -476,14 +476,14 @@ public interface AccountIntf {
      * @param accountPhysicalCampus The accountPhysicalCampus to set.
      * @deprecated
      */
-    public void setAccountPhysicalCampus(Campus accountPhysicalCampus);
+    public void setAccountPhysicalCampus(CampusEbo accountPhysicalCampus);
 
     /**
      * Gets the accountState attribute
      * 
      * @return Returns the accountState
      */
-    public State getAccountState();
+    public StateEbo getAccountState();
 
     /**
      * Sets the accountState attribute
@@ -491,7 +491,7 @@ public interface AccountIntf {
      * @param state
      * @deprecated
      */
-    public void setAccountState(State state);
+    public void setAccountState(StateEbo state);
 
     /**
      * Gets the subFundGroup attribute.
@@ -893,14 +893,14 @@ public interface AccountIntf {
      * 
      * @return Returns the postalZipCode.
      */
-    public PostalCode getPostalZipCode();
+    public PostalCodeEbo getPostalZipCode();
 
     /**
      * Sets the postalZipCode attribute value.
      * 
      * @param postalZipCode The postalZipCode to set.
      */
-    public void setPostalZipCode(PostalCode postalZipCode);
+    public void setPostalZipCode(PostalCodeEbo postalZipCode);
 
     /**
      * Gets the budgetRecordingLevel attribute.

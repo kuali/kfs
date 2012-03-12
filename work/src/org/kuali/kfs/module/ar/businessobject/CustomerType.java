@@ -17,14 +17,14 @@ package org.kuali.kfs.module.ar.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 
-public class CustomerType extends PersistableBusinessObjectBase implements Inactivateable {
+public class CustomerType extends PersistableBusinessObjectBase implements MutableInactivatable {
 
 	private String customerTypeCode;
 	private String customerTypeDescription;
@@ -101,10 +101,10 @@ public class CustomerType extends PersistableBusinessObjectBase implements Inact
 
 
 	/**
-	 * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+	 * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
 	 */
     @SuppressWarnings("unchecked")
-	protected LinkedHashMap toStringMapper() {
+	protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         m.put("customerTypeCode", this.customerTypeCode);
 	    return m;

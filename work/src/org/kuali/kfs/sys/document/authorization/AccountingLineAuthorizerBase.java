@@ -35,15 +35,15 @@ import org.kuali.kfs.sys.document.web.AccountingLineRenderingContext;
 import org.kuali.kfs.sys.document.web.AccountingLineViewAction;
 import org.kuali.kfs.sys.document.web.AccountingLineViewField;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * The default implementation of AccountingLineAuthorizer
@@ -51,7 +51,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingLineAuthorizerBase.class);
 
-    private static KualiConfigurationService kualiConfigurationService;
+    private static ConfigurationService kualiConfigurationService;
     protected static String riceImagePath;
     protected static String kfsImagePath;
 
@@ -59,13 +59,13 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * Returns the basic actions - add for new lines, delete and balance inquiry for existing lines
      * 
      * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer#getActions(org.kuali.kfs.sys.document.AccountingDocument,
-     *      org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, java.lang.Integer, org.kuali.rice.kim.bo.Person,
+     *      org.kuali.kfs.sys.businessobject.AccountingLine, java.lang.String, java.lang.Integer, org.kuali.rice.kim.api.identity.Person,
      *      java.lang.String)
      */
     public List<AccountingLineViewAction> getActions(AccountingDocument accountingDocument, AccountingLineRenderingContext accountingLineRenderingContext, String accountingLinePropertyName, Integer accountingLineIndex, Person currentUser, String groupTitle) {
         List<AccountingLineViewAction> actions = new ArrayList<AccountingLineViewAction>();
 
-        if (accountingLineRenderingContext.isEditableLine() || isErrorMapContainingErrorsOnLine(accountingLinePropertyName)) {
+        if (accountingLineRenderingContext.isEditableLine() || isMessageMapContainingErrorsOnLine(accountingLinePropertyName)) {
             Map<String, AccountingLineViewAction> actionMap = this.getActionMap(accountingLineRenderingContext, accountingLinePropertyName, accountingLineIndex, groupTitle);
             actions.addAll(actionMap.values());
         }
@@ -78,7 +78,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @param accountingLinePropertyName the property name of the accounting line
      * @return true if there are errors on the line, false otherwise
      */
-    protected boolean isErrorMapContainingErrorsOnLine(String accountingLinePropertyName) {
+    protected boolean isMessageMapContainingErrorsOnLine(String accountingLinePropertyName) {
         for (Object errorKeyAsObject : GlobalVariables.getMessageMap().getPropertiesWithErrors()) {
             if (((String)errorKeyAsObject).startsWith(accountingLinePropertyName)) return true;
         }
@@ -100,16 +100,16 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      *      java.lang.String)
      */
     public boolean renderNewLine(AccountingDocument accountingDocument, String accountingGroupProperty) {
-        return (accountingDocument.getDocumentHeader().getWorkflowDocument().stateIsInitiated() || accountingDocument.getDocumentHeader().getWorkflowDocument().stateIsSaved());
+        return (accountingDocument.getDocumentHeader().getWorkflowDocument().isInitiated() || accountingDocument.getDocumentHeader().getWorkflowDocument().isSaved());
     }
 
     /**
      * @see org.kuali.kfs.sys.document.authorization.AccountingLineAuthorizer#isGroupEditable(org.kuali.kfs.sys.document.AccountingDocument,
-     *      java.lang.String, org.kuali.rice.kim.bo.Person)
+     *      java.lang.String, org.kuali.rice.kim.api.identity.Person)
      */
     public boolean isGroupEditable(AccountingDocument accountingDocument, List<? extends AccountingLineRenderingContext> accountingLineRenderingContexts, Person currentUser) {
-        KualiWorkflowDocument workflowDocument = accountingDocument.getDocumentHeader().getWorkflowDocument();
-        if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
+        WorkflowDocument workflowDocument = accountingDocument.getDocumentHeader().getWorkflowDocument();
+        if (workflowDocument.isInitiated() || workflowDocument.isSaved()) {
             return StringUtils.equalsIgnoreCase( workflowDocument.getInitiatorPrincipalId(), currentUser.getPrincipalId() );
         }
         
@@ -139,7 +139,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
         else {
             if (accountingLineRenderingContext.allowDelete()) {
                 AccountingLineViewAction deleteAction = this.getDeleteAction(accountingLineRenderingContext.getAccountingLine(), accountingLinePropertyName, accountingLineIndex, groupTitle);
-                actionMap.put(KNSConstants.DELETE_METHOD, deleteAction);
+                actionMap.put(KRADConstants.DELETE_METHOD, deleteAction);
             }
 
             AccountingLineViewAction balanceInquiryAction = this.getBalanceInquiryAction(accountingLineRenderingContext.getAccountingLine(), accountingLinePropertyName, accountingLineIndex, groupTitle);
@@ -175,8 +175,8 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
         if (hasEditPermissionOnField == false) {
             // kim check shows field should not be editable based on contents of field - check if line error message occurred on this line
             // if error message shows up, then the value must have changed recently so - we make it editable to allow user to correct it
-            KualiWorkflowDocument workflowDocument = accountingDocument.getDocumentHeader().getWorkflowDocument();
-            if (workflowDocument.stateIsEnroute() && isErrorMapContainingErrorsOnLine(accountingLineCollectionProperty)) return true;
+            WorkflowDocument workflowDocument = accountingDocument.getDocumentHeader().getWorkflowDocument();
+            if (workflowDocument.isEnroute() && isMessageMapContainingErrorsOnLine(accountingLineCollectionProperty)) return true;
          }
         return hasEditPermissionOnField;
     }
@@ -195,10 +195,10 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
         if (!editablePage) return false; // no edits by default on non editable pages
         
         final FinancialSystemDocumentHeader documentHeader = (FinancialSystemDocumentHeader) accountingDocument.getDocumentHeader();
-        final KualiWorkflowDocument workflowDocument = documentHeader.getWorkflowDocument();
+        final WorkflowDocument workflowDocument = documentHeader.getWorkflowDocument();
 
         // if a document is cancelled or in error, all of its fields cannot be editable
-        if (workflowDocument.stateIsCanceled() || ObjectUtils.isNotNull(documentHeader.getFinancialDocumentInErrorNumber())) {
+        if (workflowDocument.isCanceled() || ObjectUtils.isNotNull(documentHeader.getFinancialDocumentInErrorNumber())) {
             return false;
         }
 
@@ -261,8 +261,8 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
         }
         
         // check the initiation permission on the document if it is in the state of preroute
-        KualiWorkflowDocument workflowDocument = accountingDocument.getDocumentHeader().getWorkflowDocument();
-        if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
+        WorkflowDocument workflowDocument = accountingDocument.getDocumentHeader().getWorkflowDocument();
+        if (workflowDocument.isInitiated() || workflowDocument.isSaved()) {
             return currentUserIsDocumentInitiator;
         }
         return false;
@@ -278,9 +278,9 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @return true if the the current user has permission to edit the given field in the given accounting line; otherwsie, false
      */    
     protected boolean determineEditPermissionByFieldName(AccountingDocument accountingDocument, AccountingLine accountingLine, String fieldName, Person currentUser) {        
-        final AttributeSet roleQualifiers = this.getRoleQualifiers(accountingDocument, accountingLine);
-        final String documentTypeName = accountingDocument.getDocumentHeader().getWorkflowDocument().getDocumentType();
-        final AttributeSet permissionDetail = this.getPermissionDetails(documentTypeName, fieldName);
+        final Map<String,String> roleQualifiers = this.getRoleQualifiers(accountingDocument, accountingLine);
+        final String documentTypeName = accountingDocument.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
+        final Map<String,String> permissionDetail = this.getPermissionDetails(documentTypeName, fieldName);
 
         return this.hasEditPermission(accountingDocument, currentUser, permissionDetail, roleQualifiers);       
     }
@@ -294,7 +294,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @param roleQualifiers the given role qualifications
      * @return true if the user has edit permission on an accounting line with the given qualifications; otherwise, false
      */
-    protected boolean hasEditPermission(AccountingDocument accountingDocument, Person currentUser, AttributeSet permissionDetails, AttributeSet roleQualifiers) {
+    protected boolean hasEditPermission(AccountingDocument accountingDocument, Person currentUser, Map<String,String> permissionDetails, Map<String,String> roleQualifiers) {
         String pricipalId = currentUser.getPrincipalId();
         DocumentAuthorizer accountingDocumentAuthorizer = this.getDocumentAuthorizer(accountingDocument);
         
@@ -308,15 +308,15 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @param fieldName the given field name
      * @return all the information for a permission detail attribute set
      */
-    protected AttributeSet getPermissionDetails(String documentTypeName, String fieldName) {
-        AttributeSet permissionDetails = new AttributeSet();
+    protected Map<String,String> getPermissionDetails(String documentTypeName, String fieldName) {
+        Map<String,String> permissionDetails = new HashMap<String,String>();
 
         if (StringUtils.isNotBlank(documentTypeName)) {
-            permissionDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, documentTypeName);
+            permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, documentTypeName);
         }
 
         if (StringUtils.isNotBlank(fieldName)) {
-            permissionDetails.put(KfsKimAttributes.PROPERTY_NAME, fieldName);
+            permissionDetails.put(KimConstants.AttributeConstants.PROPERTY_NAME, fieldName);
         }
 
         return permissionDetails;
@@ -326,10 +326,10 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * Gathers together the role qualifiers for the KIM perm call
      * 
      * @param accountingLine the accounting line to get role qualifiers from
-     * @return the gathered AttributeSet of role qualifiers
+     * @return the gathered Map<String,String> of role qualifiers
      */
-    protected final AttributeSet getRoleQualifiers(AccountingDocument accountingDocument, AccountingLine accountingLine) {
-        AttributeSet roleQualifiers = new AttributeSet();
+    protected final Map<String,String> getRoleQualifiers(AccountingDocument accountingDocument, AccountingLine accountingLine) {
+        Map<String,String> roleQualifiers = new HashMap<String,String>();
 
         if (accountingLine != null) {
             roleQualifiers.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, accountingLine.getChartOfAccountsCode());
@@ -450,7 +450,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      * @return a label for an action with the specified message key and values
      */
     protected String getActionLabel(String messageKey, Object... values) {
-        String messageBody = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(messageKey);
+        String messageBody = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(messageKey);
 
         return MessageFormat.format(messageBody, values);
     }
@@ -477,7 +477,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      */
     protected String getDeleteLineMethod(AccountingLine accountingLine, String accountingLineProperty, Integer accountingLineIndex) {
         final String infix = getActionInfixForExtantAccountingLine(accountingLine, accountingLineProperty);
-        return KNSConstants.DELETE_METHOD + infix + "Line.line" + accountingLineIndex + ".anchoraccounting" + infix + "Anchor";
+        return KRADConstants.DELETE_METHOD + infix + "Line.line" + accountingLineIndex + ".anchoraccounting" + infix + "Anchor";
     }
 
     /**
@@ -547,7 +547,7 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      */
     protected String getRiceImagePath() {
         if (riceImagePath == null) {
-            riceImagePath = getKualiConfigurationService().getPropertyString(KNSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
+            riceImagePath = getConfigurationService().getPropertyValueAsString(KRADConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
         }
         return riceImagePath;
     }
@@ -557,14 +557,14 @@ public class AccountingLineAuthorizerBase implements AccountingLineAuthorizer {
      */
     protected String getKFSImagePath() {
         if (kfsImagePath == null) {
-            kfsImagePath = getKualiConfigurationService().getPropertyString(KNSConstants.APPLICATION_EXTERNALIZABLE_IMAGES_URL_KEY);
+            kfsImagePath = getConfigurationService().getPropertyValueAsString(KRADConstants.APPLICATION_EXTERNALIZABLE_IMAGES_URL_KEY);
         }
         return kfsImagePath;
     }
     
-    protected KualiConfigurationService getKualiConfigurationService() {
+    protected ConfigurationService getConfigurationService() {
         if ( kualiConfigurationService == null ) {
-            kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+            kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
         }
         return kualiConfigurationService;
     }

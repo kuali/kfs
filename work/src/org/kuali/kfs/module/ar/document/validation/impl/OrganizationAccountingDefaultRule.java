@@ -26,10 +26,10 @@ import org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class OrganizationAccountingDefaultRule extends MaintenanceDocumentRuleBase {
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationAccountingDefaultRule.class);
@@ -59,7 +59,7 @@ public class OrganizationAccountingDefaultRule extends MaintenanceDocumentRuleBa
         success &= isDefaultInvoiceFinancialObjectValidIncome(newOrganizationAccountingDefault);
         
         // validate receivable FAU line if system parameter for receivable is set to 3
-        String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
+        String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
         if (ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(receivableOffsetOption)) {
             success &= doesPaymentAccountNumberExist(newOrganizationAccountingDefault);
             success &= doesPaymentChartOfAccountsCodeExist(newOrganizationAccountingDefault);
@@ -67,7 +67,7 @@ public class OrganizationAccountingDefaultRule extends MaintenanceDocumentRuleBa
         }
         
         // validate writeoff FAU line if system parameter for writeoff is set to 2
-        String writeoffOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_GENERATION_METHOD);
+        String writeoffOption = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_GENERATION_METHOD);
         if (ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_ORG_ACCT_DEFAULT.equals(writeoffOption)) {
             success &= doesWriteoffAccountNumberExist(newOrganizationAccountingDefault);
             success &= doesWriteoffChartOfAccountsCodeExist(newOrganizationAccountingDefault);

@@ -24,10 +24,10 @@ import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.datadictionary.InactivationBlockingMetadata;
-import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.service.impl.InactivationBlockingDetectionServiceImpl;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.datadictionary.InactivationBlockingMetadata;
+import org.kuali.rice.krad.service.PersistenceService;
+import org.kuali.rice.krad.service.impl.InactivationBlockingDetectionServiceImpl;
 
 public class IndirectCostRecoveryRateDetailInactivationBlockingDetectionServiceImpl extends InactivationBlockingDetectionServiceImpl {
     protected PersistenceService persistenceService;
@@ -36,7 +36,7 @@ public class IndirectCostRecoveryRateDetailInactivationBlockingDetectionServiceI
     protected Map<String, String> buildInactivationBlockerQueryMap(BusinessObject blockedBo, InactivationBlockingMetadata inactivationBlockingMetadata) {
         Class<? extends BusinessObject> boClass = blockedBo.getClass();
         if (!(Account.class.isAssignableFrom(boClass) || SubAccount.class.isAssignableFrom(boClass) || ObjectCode.class.isAssignableFrom(boClass) || SubObjectCode.class.isAssignableFrom(boClass))) {
-            throw new IllegalArgumentException("BO must be either an Account, SubAccount, ObjectCode, or SubObjCd");
+            throw new IllegalArgumentException("BO must be either an Account, SubAccount, ObjectCode, or SubObjectCode (was: " + boClass + ")");
         }
         
         // this code assumes that the PK field names in the BO are identical to the field names in the ICR Rate Detail BO

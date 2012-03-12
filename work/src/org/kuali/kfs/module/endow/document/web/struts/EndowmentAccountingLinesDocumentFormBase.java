@@ -24,8 +24,8 @@ import org.kuali.kfs.module.endow.document.EndowmentAccountingLinesDocumentBase;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * This class...
@@ -131,7 +131,7 @@ public abstract class EndowmentAccountingLinesDocumentFormBase extends Endowment
      * @return the URL to the accounting line import instructions
      */
     public String getAccountingLineImportInstructionsUrl() {
-        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY) + SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.ENDOWMENT_DOCUMENT.class, EndowParameterKeyConstants.ENDOWMENT_ACCOUNTING_LINE_IMPORT);
+        return SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY) + SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.ENDOWMENT_DOCUMENT.class, EndowParameterKeyConstants.ENDOWMENT_ACCOUNTING_LINE_IMPORT);
     }
 
 }

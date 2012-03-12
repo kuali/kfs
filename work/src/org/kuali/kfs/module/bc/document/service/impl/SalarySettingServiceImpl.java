@@ -51,17 +51,17 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.KualiInteger;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -73,7 +73,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class SalarySettingServiceImpl implements SalarySettingService {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SalarySettingServiceImpl.class);
 
-    protected KualiConfigurationService kualiConfigurationService;
+    protected ConfigurationService kualiConfigurationService;
     protected BusinessObjectService businessObjectService;
     protected LaborModuleService laborModuleService;
     protected BudgetDocumentService budgetDocumentService;
@@ -741,7 +741,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#updateAccessOfAppointmentFunding(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
-     *      org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder, boolean, java.util.Map, org.kuali.rice.kim.bo.Person)
+     *      org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder, boolean, java.util.Map, org.kuali.rice.kim.api.identity.Person)
      */
     public boolean updateAccessOfAppointmentFunding(PendingBudgetConstructionAppointmentFunding appointmentFunding, SalarySettingFieldsHolder salarySettingFieldsHolder, boolean budgetByObjectMode, boolean hasDocumentEditAccess, Person person) {
         String budgetChartOfAccountsCode = salarySettingFieldsHolder.getChartOfAccountsCode();
@@ -774,7 +774,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingService#updateAccessOfAppointmentFundingByUserLevel(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,
-     *      org.kuali.rice.kim.bo.Person)
+     *      org.kuali.rice.kim.api.identity.Person)
      */
     public boolean updateAccessOfAppointmentFundingByUserLevel(PendingBudgetConstructionAppointmentFunding appointmentFunding, Person user) {
         BudgetConstructionHeader budgetConstructionHeader = budgetDocumentService.getBudgetConstructionHeader(appointmentFunding);
@@ -792,10 +792,10 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
         TransactionalDocumentAuthorizer documentAuthorizer = (TransactionalDocumentAuthorizer) getDocumentHelperService().getDocumentAuthorizer(document);
 
-        boolean hasEditAccess = documentAuthorizer.isAuthorized(document, BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimConstants.EDIT_BCAF_PERMISSION_NAME, user.getPrincipalId());
+        boolean hasEditAccess = documentAuthorizer.isAuthorized(document, BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimApiConstants.EDIT_BCAF_PERMISSION_NAME, user.getPrincipalId());
         appointmentFunding.setDisplayOnlyMode(!hasEditAccess);
 
-        boolean hasViewAmountsAccess = documentAuthorizer.isAuthorized(document, BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimConstants.VIEW_BCAF_AMOUNTS_PERMISSION_NAME, user.getPrincipalId());
+        boolean hasViewAmountsAccess = documentAuthorizer.isAuthorized(document, BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimApiConstants.VIEW_BCAF_AMOUNTS_PERMISSION_NAME, user.getPrincipalId());
         appointmentFunding.setExcludedFromTotal(!hasViewAmountsAccess);
 
         return true;
@@ -981,7 +981,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      * 
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 

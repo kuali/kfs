@@ -18,16 +18,16 @@ package org.kuali.kfs.sys.service;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 @ConfigureContext
 public class KualiConfigurationServiceTest extends KualiTestBase {
 
     public void testGetSecureProperties() throws Exception {
-        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
-        String pw = kualiConfigurationService.getPropertyString( "datasource.password" );
+        ConfigurationService kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
+        String pw = kualiConfigurationService.getPropertyValueAsString( "datasource.password" );
         if ( pw != null ) {
-            /* RICE_20_DELETE */ kualiConfigurationService.getAllProperties().store( System.out , "" );
+            
             System.err.println( kualiConfigurationService.getAllProperties() );
             assertNull( "Datasource information should not be available through the kuali configuration service.", pw );
         }

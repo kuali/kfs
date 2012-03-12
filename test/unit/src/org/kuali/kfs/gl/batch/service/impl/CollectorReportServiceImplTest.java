@@ -25,8 +25,8 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.mail.MailMessage;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.mail.MailMessage;
 
 @ConfigureContext
 public class CollectorReportServiceImplTest extends KualiTestBase {
@@ -39,7 +39,7 @@ public class CollectorReportServiceImplTest extends KualiTestBase {
         MockMailServiceImpl mockMailService = (MockMailServiceImpl) SpringContext.getService("mockMailService");
         collectorReportServiceImpl.setMailService(mockMailService);
         
-        KualiConfigurationService configurationService = SpringContext.getBean(KualiConfigurationService.class);
+        ConfigurationService configurationService = SpringContext.getBean(ConfigurationService.class);
 
         CollectorReportData reportData = new CollectorReportData();
 
@@ -51,7 +51,7 @@ public class CollectorReportServiceImplTest extends KualiTestBase {
 
         reportData.addBatch(batch1);
 
-        String notificationMessage = configurationService.getPropertyString(KFSKeyConstants.Collector.NOTIFICATION_EMAIL_SENT);
+        String notificationMessage = configurationService.getPropertyValueAsString(KFSKeyConstants.Collector.NOTIFICATION_EMAIL_SENT);
         String formattedMessage = MessageFormat.format(notificationMessage, new Object[] { batch1.getEmailAddress() });
         reportData.setEmailSendingStatusForParsedBatch(batch1, formattedMessage);
 
@@ -63,7 +63,7 @@ public class CollectorReportServiceImplTest extends KualiTestBase {
 
         reportData.addBatch(batch2);
 
-        String errorMessage = configurationService.getPropertyString(KFSKeyConstants.Collector.EMAIL_SEND_ERROR);
+        String errorMessage = configurationService.getPropertyValueAsString(KFSKeyConstants.Collector.EMAIL_SEND_ERROR);
         formattedMessage = MessageFormat.format(errorMessage, new Object[] { batch2.getEmailAddress() });
         reportData.setEmailSendingStatusForParsedBatch(batch2, formattedMessage);
 

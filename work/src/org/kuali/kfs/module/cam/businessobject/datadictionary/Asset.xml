@@ -110,6 +110,7 @@
         <ref bean="Asset-assetWarranty.warrantyBeginningDate"/>
         <ref bean="Asset-assetWarranty.warrantyEndingDate"/>
         <ref bean="Asset-assetWarranty.warrantyText"/>
+        <ref bean="Asset-assetWarranty.active"/>
         <ref bean="Asset-separateHistory.separateSourceCapitalAssetNumber"/>
         <ref bean="Asset-separateHistory.separateDocumentHeaderFinalDate"/>
         <ref bean="Asset-retirementInfo.documentNumber"/>
@@ -120,7 +121,7 @@
         <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementInstitutionName"/>
         <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementStreetAddress"/>
         <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementCityName"/>
-        <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementState.postalStateCode"/>
+        <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementState.stateCode"/>
         <ref bean="Asset-retirementInfo.assetRetirementGlobal.postalZipCode.postalCode"/>
         <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementCountry.postalCountryCode"/>
         <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementPhoneNumber"/>
@@ -144,17 +145,17 @@
         <ref bean="Asset-offCampusLocation.assetLocationZipCode"/>
         <ref bean="Asset-offCampusLocation.assetLocationCountryCode"/>
         
-        <ref bean="Asset-offCampusLocation.assetLocationState.postalStateCode"/>
+        <ref bean="Asset-offCampusLocation.assetLocationState.stateCode"/>
 	    <ref bean="Asset-offCampusLocation.postalZipCode.postalCode"/>
 	    <ref bean="Asset-offCampusLocation.assetLocationCountry.postalCountryName"/>
         
         <ref bean="Asset-assetStatus.inventoryStatusCode"/>        
         <ref bean="Asset-assetPrimaryDepreciationMethod.depreciationMethodCode"/>
         <ref bean="Asset-inventoryStatus.inventoryStatusCode"/>
-        <ref bean="Asset-borrowerLocation.assetLocationState.postalStateCode"/>
+        <ref bean="Asset-borrowerLocation.assetLocationState.stateCode"/>
         <ref bean="Asset-borrowerLocation.postalZipCode.postalCode"/>
         <ref bean="Asset-borrowerLocation.assetLocationCountry.postalCountryName"/>
-        <ref bean="Asset-borrowerStorageLocation.assetLocationState.postalStateCode"/>
+        <ref bean="Asset-borrowerStorageLocation.assetLocationState.stateCode"/>
         <ref bean="Asset-borrowerStorageLocation.postalZipCode.postalCode"/>
         <ref bean="Asset-borrowerStorageLocation.assetLocationCountry.postalCountryName"/>
         <ref bean="Asset-quantity"/>
@@ -207,21 +208,21 @@
           </property>
         </bean>
         <dd:relationship objectAttribute="offCampusLocation.postalZipCode">
-        	<dd:primitiveAttribute source="offCampusLocation.assetLocationCountryCode" target="postalCountryCode"/>
-            <dd:primitiveAttribute source="offCampusLocation.assetLocationZipCode" target="postalCode"/>
+        	<dd:primitiveAttribute source="offCampusLocation.assetLocationCountryCode" target="countryCode"/>
+            <dd:primitiveAttribute source="offCampusLocation.assetLocationZipCode" target="code"/>
         </dd:relationship>
         <dd:relationship objectAttribute="offCampusLocation.assetLocationState">
-        	<dd:primitiveAttribute source="offCampusLocation.assetLocationCountryCode" target="postalCountryCode"/>
-            <dd:primitiveAttribute source="offCampusLocation.assetLocationStateCode" target="postalStateCode"/>            
+        	<dd:primitiveAttribute source="offCampusLocation.assetLocationCountryCode" target="countryCode"/>
+            <dd:primitiveAttribute source="offCampusLocation.assetLocationStateCode" target="code"/>            
         </dd:relationship>
         <dd:relationship objectAttribute="offCampusLocation.assetLocationCountry">
-            <dd:primitiveAttribute source="offCampusLocation.assetLocationCountryCode" target="postalCountryCode"/>
+            <dd:primitiveAttribute source="offCampusLocation.assetLocationCountryCode" target="code"/>
         </dd:relationship>
         <dd:relationship objectAttribute="agency">
 			<dd:primitiveAttribute source="agencyNumber" target="agencyNumber"/>
         </dd:relationship>
 		<dd:relationship objectAttribute="campus">
-            <dd:primitiveAttribute source="campusCode" target="campusCode"/>
+            <dd:primitiveAttribute source="campusCode" target="code"/>
         </dd:relationship>
       </list>
     </property>
@@ -349,7 +350,7 @@
   <bean id="Asset-acquisitionTypeCode-parentBean" abstract="true" parent="AssetAcquisitionType-acquisitionTypeCode">
     <property name="shortLabel" value="Acquisition Type"/>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kfs.module.cam.businessobject.AssetAcquisitionType" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder" p:includeKeyInLabel="true" p:includeBlankRow="true" p:keyAttribute="acquisitionTypeCode" p:labelAttribute="acquisitionTypeName"/>
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kfs.module.cam.businessobject.AssetAcquisitionType" p:valuesFinderClass=" org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder" p:includeKeyInLabel="true" p:includeBlankRow="true" p:keyAttribute="acquisitionTypeCode" p:labelAttribute="acquisitionTypeName"/>
     </property>
   </bean>
   
@@ -525,7 +526,7 @@
     <property name="name" value="estimatedSellingPrice"/>
     <property name="label" value="Estimated Sale Price"/>
     <property name="shortLabel" value="Est. Sales Price"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
     <property name="attributeSecurity">
         <bean parent="AttributeSecurity">
             <property name="hide" value="true"/>
@@ -545,7 +546,7 @@
     <property name="name" value="fabricationEstimatedTotalAmount"/>
     <property name="label" value="Fabrication Estimated Total Amount"/>
     <property name="shortLabel" value="Amount"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="Asset-financialDocumentPostingPeriodCode" parent="Asset-financialDocumentPostingPeriodCode-parentBean"/>
@@ -715,7 +716,7 @@
   <bean id="Asset-primaryDepreciationMethodCode-parentBean" abstract="true" parent="AssetDepreciationMethod-depreciationMethodCode">
     <property name="name" value="primaryDepreciationMethodCode"/>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kfs.module.cam.businessobject.AssetDepreciationMethod" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.PersistableBusinessObjectValuesFinder" p:includeKeyInLabel="true" p:includeBlankRow="true" p:keyAttribute="depreciationMethodCode" p:labelAttribute="depreciationMethodName"/>
+      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kfs.module.cam.businessobject.AssetDepreciationMethod" p:valuesFinderClass=" org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder" p:includeKeyInLabel="true" p:includeBlankRow="true" p:keyAttribute="depreciationMethodCode" p:labelAttribute="depreciationMethodName"/>
     </property>
   </bean>
   
@@ -731,7 +732,7 @@
     <property name="name" value="replacementAmount"/>
     <property name="label" value="Replacement Amount"/>
     <property name="shortLabel" value="Amount"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
     <property name="attributeSecurity">
         <bean parent="AttributeSecurity">
             <property name="hide" value="true"/>
@@ -791,7 +792,7 @@
     <property name="name" value="salePrice"/>
     <property name="label" value="Sale Price"/>
     <property name="shortLabel" value="Price"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="Asset-salvageAmount" parent="Asset-salvageAmount-parentBean"/>
@@ -799,7 +800,7 @@
     <property name="name" value="salvageAmount"/>
     <property name="label" value="Salvage Amount"/>
     <property name="shortLabel" value="Amount"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="Asset-serialNumber" parent="Asset-serialNumber-parentBean"/>
@@ -822,7 +823,7 @@
     <property name="name" value="totalCostAmount"/>
     <property name="label" value="Total Cost"/>
     <property name="shortLabel" value="Total Cost"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="Asset-transferOfFundsFinancialDocumentNumber" parent="Asset-transferOfFundsFinancialDocumentNumber-parentBean"/>
@@ -912,7 +913,8 @@
   </bean>
   
   <bean id="Asset-campusCode" parent="Asset-campusCode-parentBean"/>
-  <bean id="Asset-campusCode-parentBean" abstract="true" parent="Campus-campusCode">
+  <bean id="Asset-campusCode-parentBean" abstract="true" parent="Campus-code">
+    <property name="name" value="campusCode"/>
     <property name="label" value="Campus"/>
     <property name="required" value="false"/>
     <property name="forceUppercase" value="true"/>    
@@ -1039,7 +1041,7 @@
     <property name="name" value="accumulatedDepreciation"/>
     <property name="label" value="Accumulated Depreciation"/>
     <property name="shortLabel" value="Accumulated"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="Asset-baseAmount" parent="Asset-baseAmount-parentBean"/>
@@ -1047,7 +1049,7 @@
     <property name="name" value="baseAmount"/>
     <property name="label" value="Base Amount"/>
     <property name="shortLabel" value="Base"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="Asset-bookValue" parent="Asset-bookValue-parentBean"/>
@@ -1055,7 +1057,7 @@
     <property name="name" value="bookValue"/>
     <property name="label" value="Book Value"/>
     <property name="shortLabel" value="Book Value"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="Asset-prevYearDepreciation" parent="Asset-prevYearDepreciation-parentBean"/>
@@ -1063,7 +1065,7 @@
     <property name="name" value="prevYearDepreciation"/>
     <property name="label" value="Previous Year"/>
     <property name="shortLabel" value="Previous Year"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="Asset-yearToDateDepreciation" parent="Asset-yearToDateDepreciation-parentBean"/>
@@ -1071,7 +1073,7 @@
     <property name="name" value="yearToDateDepreciation"/>
     <property name="label" value="Year To Date"/>
     <property name="shortLabel" value="Year To Date"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="Asset-currentMonthDepreciation" parent="Asset-currentMonthDepreciation-parentBean"/>
@@ -1079,7 +1081,7 @@
     <property name="name" value="currentMonthDepreciation"/>
     <property name="label" value="Current Month"/>
     <property name="shortLabel" value="Current Month"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="Asset-paymentTotalCost" parent="Asset-paymentTotalCost-parentBean"/>
@@ -1087,7 +1089,7 @@
     <property name="name" value="paymentTotalCost"/>
     <property name="label" value="Payments Total"/>
     <property name="shortLabel" value="Payments Total"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="Asset-federalContribution" parent="Asset-federalContribution-parentBean"/>
@@ -1095,7 +1097,7 @@
     <property name="name" value="federalContribution"/>
     <property name="label" value="Federal Contribution"/>
     <property name="shortLabel" value="Contribution"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="Asset-assetWarranty.warrantyNumber" parent="Asset-assetWarranty.warrantyNumber-parentBean"/>
@@ -1138,6 +1140,12 @@
     <property name="name" value="assetWarranty.warrantyText"/>
     <property name="label" value="Description"/>
   </bean>
+  
+  <bean id="Asset-assetWarranty.active" parent="Asset-assetWarranty.active-parentBean"/>
+  <bean id="Asset-assetWarranty.active-parentBean" abstract="true" parent="AssetWarranty-active" >
+  	<property name="name" value="assetWarranty.active"/>
+  </bean>
+
   
   <bean id="Asset-separateHistory.separateSourceCapitalAssetNumber" parent="Asset-separateHistory.separateSourceCapitalAssetNumber-parentBean"/>
   <bean id="Asset-separateHistory.separateSourceCapitalAssetNumber-parentBean" abstract="true" parent="Asset-capitalAssetNumber">
@@ -1205,23 +1213,23 @@
     <property name="shortLabel" value="City"/>
   </bean>
   
-  <bean id="Asset-retirementInfo.assetRetirementGlobal.retirementState.postalStateCode" parent="Asset-retirementInfo.assetRetirementGlobal.retirementState.postalStateCode-parentBean"/>
-  <bean id="Asset-retirementInfo.assetRetirementGlobal.retirementState.postalStateCode-parentBean" abstract="true" parent="AssetRetirementGlobal-retirementStateCode">
-    <property name="name" value="retirementInfo.assetRetirementGlobal.retirementState.postalStateCode"/>
+  <bean id="Asset-retirementInfo.assetRetirementGlobal.retirementState.stateCode" parent="Asset-retirementInfo.assetRetirementGlobal.retirementState.stateCode-parentBean"/>
+  <bean id="Asset-retirementInfo.assetRetirementGlobal.retirementState.stateCode-parentBean" abstract="true" parent="AssetRetirementGlobal-retirementStateCode">
+    <property name="name" value="retirementInfo.assetRetirementGlobal.retirementState.code"/>
     <property name="label" value="State"/>
     <property name="shortLabel" value="State"/>
   </bean>
   
   <bean id="Asset-retirementInfo.assetRetirementGlobal.postalZipCode.postalCode" parent="Asset-retirementInfo.assetRetirementGlobal.postalZipCode.postalCode-parentBean"/>
   <bean id="Asset-retirementInfo.assetRetirementGlobal.postalZipCode.postalCode-parentBean" abstract="true" parent="AssetRetirementGlobal-retirementZipCode">
-    <property name="name" value="retirementInfo.assetRetirementGlobal.postalZipCode.postalCode"/>
+    <property name="name" value="retirementInfo.assetRetirementGlobal.postalZipCode.code"/>
     <property name="label" value="Postal Code"/>
     <property name="shortLabel" value="Postal Code"/>
   </bean>
   
   <bean id="Asset-retirementInfo.assetRetirementGlobal.retirementCountry.postalCountryCode" parent="Asset-retirementInfo.assetRetirementGlobal.retirementCountry.postalCountryCode-parentBean"/>
   <bean id="Asset-retirementInfo.assetRetirementGlobal.retirementCountry.postalCountryCode-parentBean" abstract="true" parent="AssetRetirementGlobal-retirementCountryCode">
-    <property name="name" value="retirementInfo.assetRetirementGlobal.retirementCountry.postalCountryCode"/>
+    <property name="name" value="retirementInfo.assetRetirementGlobal.retirementCountry.code"/>
     <property name="label" value="Country"/>
     <property name="shortLabel" value="Country"/>
   </bean>
@@ -1359,7 +1367,7 @@
   </bean>
   
   <bean id="Asset-offCampusLocation.assetLocationStateCode" parent="Asset-offCampusLocation.assetLocationStateCode-parentBean"/>
-  <bean id="Asset-offCampusLocation.assetLocationStateCode-parentBean" abstract="true" parent="AssetLocation-assetLocationStateCode" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State" p:sourceAttributeName="postalStateCode">
+  <bean id="Asset-offCampusLocation.assetLocationStateCode-parentBean" abstract="true" parent="AssetLocation-assetLocationStateCode">
     <property name="name" value="offCampusLocation.assetLocationStateCode"/>
     <property name="forceUppercase" value="true"/>
     <property name="label" value="State"/>
@@ -1384,7 +1392,7 @@
     </property>
     <property name="required" value="true"/>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.bo.options.CountryValuesFinder" p:includeBlankRow="true"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryValuesFinder" p:includeBlankRow="true"/>
     </property>
   </bean>
   
@@ -1404,51 +1412,51 @@
   </bean>
 
 
-  <bean id="Asset-offCampusLocation.assetLocationState.postalStateCode" parent="Asset-offCampusLocation.assetLocationState.postalStateCode-parentBean"/>
-  <bean id="Asset-offCampusLocation.assetLocationState.postalStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State" p:sourceAttributeName="postalStateCode">
- 	<property name="name" value="offCampusLocation.assetLocationState.postalStateCode"/>
+  <bean id="Asset-offCampusLocation.assetLocationState.stateCode" parent="Asset-offCampusLocation.assetLocationState.stateCode-parentBean"/>
+  <bean id="Asset-offCampusLocation.assetLocationState.stateCode-parentBean" abstract="true" parent="State-code">
+   	<property name="name" value="offCampusLocation.assetLocationState.code"/>
   </bean>
 
 
   <bean id="Asset-offCampusLocation.postalZipCode.postalCode" parent="Asset-offCampusLocation.postalZipCode.postalCode-parentBean"/>
-  <bean id="Asset-offCampusLocation.postalZipCode.postalCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode" p:sourceAttributeName="postalCode">
-  <property name="name" value="offCampusLocation.postalZipCode.postalCode"/>
+  <bean id="Asset-offCampusLocation.postalZipCode.postalCode-parentBean" abstract="true" parent="PostalCode-code">
+  <property name="name" value="offCampusLocation.postalZipCode.code"/>
   </bean>
 
 
   <bean id="Asset-offCampusLocation.assetLocationCountry.postalCountryName" parent="Asset-offCampusLocation.assetLocationCountry.postalCountryName-parentBean"/>
-  <bean id="Asset-offCampusLocation.assetLocationCountry.postalCountryName-parentBean" abstract="true" parent="Country-postalCountryName">
-	<property name="name" value="offCampusLocation.assetLocationCountry.postalCountryName"/>
+  <bean id="Asset-offCampusLocation.assetLocationCountry.postalCountryName-parentBean" abstract="true" parent="Country-name">
+	<property name="name" value="offCampusLocation.assetLocationCountry.name"/>
   </bean>
   
-  <bean id="Asset-borrowerLocation.assetLocationState.postalStateCode" parent="Asset-borrowerLocation.assetLocationState.postalStateCode-parentBean"/>
-  <bean id="Asset-borrowerLocation.assetLocationState.postalStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State" p:sourceAttributeName="postalStateCode">
-    <property name="name" value="borrowerLocation.assetLocationState.postalStateCode"/>
+  <bean id="Asset-borrowerLocation.assetLocationState.stateCode" parent="Asset-borrowerLocation.assetLocationState.stateCode-parentBean"/>
+  <bean id="Asset-borrowerLocation.assetLocationState.stateCode-parentBean" abstract="true" parent="State-code">
+      <property name="name" value="borrowerLocation.assetLocationState.code"/>
   </bean>
   
   <bean id="Asset-borrowerLocation.postalZipCode.postalCode" parent="Asset-borrowerLocation.postalZipCode.postalCode-parentBean"/>
-  <bean id="Asset-borrowerLocation.postalZipCode.postalCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode" p:sourceAttributeName="postalCode">
-    <property name="name" value="borrowerLocation.postalZipCode.postalCode"/>
+  <bean id="Asset-borrowerLocation.postalZipCode.postalCode-parentBean" abstract="true" parent="PostalCode-code">
+      <property name="name" value="borrowerLocation.postalZipCode.code"/>
   </bean>
 
   <bean id="Asset-borrowerLocation.assetLocationCountry.postalCountryName" parent="Asset-borrowerLocation.assetLocationCountry.postalCountryName-parentBean"/>
-  <bean id="Asset-borrowerLocation.assetLocationCountry.postalCountryName-parentBean" abstract="true" parent="Country-postalCountryName">
-    <property name="name" value="borrowerLocation.assetLocationCountry.postalCountryName"/>
+  <bean id="Asset-borrowerLocation.assetLocationCountry.postalCountryName-parentBean" abstract="true" parent="Country-name">
+    <property name="name" value="borrowerLocation.assetLocationCountry.name"/>
   </bean>
   
-  <bean id="Asset-borrowerStorageLocation.assetLocationState.postalStateCode" parent="Asset-borrowerStorageLocation.assetLocationState.postalStateCode-parentBean"/>
-  <bean id="Asset-borrowerStorageLocation.assetLocationState.postalStateCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State" p:sourceAttributeName="postalStateCode">
-    <property name="name" value="borrowerStorageLocation.assetLocationState.postalStateCode"/>
+  <bean id="Asset-borrowerStorageLocation.assetLocationState.stateCode" parent="Asset-borrowerStorageLocation.assetLocationState.stateCode-parentBean"/>
+  <bean id="Asset-borrowerStorageLocation.assetLocationState.stateCode-parentBean" abstract="true" parent="State-code">
+      <property name="name" value="borrowerStorageLocation.assetLocationState.code"/>
   </bean>
   
   <bean id="Asset-borrowerStorageLocation.postalZipCode.postalCode" parent="Asset-borrowerStorageLocation.postalZipCode.postalCode-parentBean"/>
-  <bean id="Asset-borrowerStorageLocation.postalZipCode.postalCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode" p:sourceAttributeName="postalCode">
-    <property name="name" value="borrowerStorageLocation.postalZipCode.postalCode"/>
+  <bean id="Asset-borrowerStorageLocation.postalZipCode.postalCode-parentBean" abstract="true" parent="PostalCode-code">
+      <property name="name" value="borrowerStorageLocation.postalZipCode.code"/>
   </bean>
 
   <bean id="Asset-borrowerStorageLocation.assetLocationCountry.postalCountryName" parent="Asset-borrowerStorageLocation.assetLocationCountry.postalCountryName-parentBean"/>
-  <bean id="Asset-borrowerStorageLocation.assetLocationCountry.postalCountryName-parentBean" abstract="true" parent="Country-postalCountryName">
-    <property name="name" value="borrowerStorageLocation.assetLocationCountry.postalCountryName"/>
+  <bean id="Asset-borrowerStorageLocation.assetLocationCountry.postalCountryName-parentBean" abstract="true" parent="Country-name">
+    <property name="name" value="borrowerStorageLocation.assetLocationCountry.name"/>
   </bean>
 
   <bean id="Asset-assetPayments.paymentSequenceNumber" parent="Asset-assetPayments.paymentSequenceNumber-parentBean"/>
@@ -1525,9 +1533,9 @@
               <bean parent="FieldDefinition" p:attributeName="offCampusLocation.assetLocationContactName"/>
               <bean parent="FieldDefinition" p:attributeName="offCampusLocation.assetLocationStreetAddress"/>
               <bean parent="FieldDefinition" p:attributeName="offCampusLocation.assetLocationCityName"/>
-              <bean parent="FieldDefinition" p:attributeName="offCampusLocation.assetLocationState.postalStateCode"/>
-              <bean parent="FieldDefinition" p:attributeName="offCampusLocation.postalZipCode.postalCode"/>
-              <bean parent="FieldDefinition" p:attributeName="offCampusLocation.assetLocationCountry.postalCountryName"/>
+              <bean parent="FieldDefinition" p:attributeName="offCampusLocation.assetLocationState.code"/>
+              <bean parent="FieldDefinition" p:attributeName="offCampusLocation.postalZipCode.code"/>
+              <bean parent="FieldDefinition" p:attributeName="offCampusLocation.assetLocationCountry.name"/>
             </list>
           </property>
         </bean>
@@ -1556,57 +1564,7 @@
           <property name="numberOfColumns" value="1"/>
           <property name="inquiryFields">
             <list>
-              <bean parent="InquiryCollectionDefinition">
-                <property name="attributeName" value="assetPayments"/>
-                <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetPayment"/>
-                <property name="numberOfColumns" value="2"/>
-                <property name="summaryTitle" value="Payment"/>
-                <property name="inquiryFields">
-                  <list>
-                    <bean parent="FieldDefinition" p:attributeName="capitalAssetNumber"/>
-                    <bean parent="FieldDefinition" p:attributeName="paymentSequenceNumber"/>
-                    <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
-                    <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
-                    <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
-                    <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
-                    <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
-                    <bean parent="FieldDefinition" p:attributeName="projectCode"/>
-                    <bean parent="FieldDefinition" p:attributeName="organizationReferenceId"/>
-                    <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
-                    <bean parent="FieldDefinition" p:attributeName="financialDocumentTypeCode"/>
-                    <bean parent="FieldDefinition" p:attributeName="purchaseOrderNumber"/>
-                    <bean parent="FieldDefinition" p:attributeName="requisitionNumber"/>
-                    <bean parent="FieldDefinition" p:attributeName="financialDocumentPostingDate"/>
-                    <bean parent="FieldDefinition" p:attributeName="financialDocumentPostingYear"/>
-                    <bean parent="FieldDefinition" p:attributeName="financialDocumentPostingPeriodCode"/>
-                    <bean parent="FieldDefinition" p:attributeName="transferPaymentCode"/>
-                    <bean parent="FieldDefinition" p:attributeName="accountChargeAmount"/>
-                    <bean parent="FieldDefinition" p:attributeName="accumulatedPrimaryDepreciationAmount"/>
-                    <bean parent="FieldDefinition" p:attributeName="yearToDate"/>
-                    <bean parent="FieldDefinition" p:attributeName="previousYearPrimaryDepreciationAmount"/>
-                    <bean parent="FieldDefinition" p:attributeName="period1Depreciation1Amount"/>
-                    <bean parent="FieldDefinition" p:attributeName="period2Depreciation1Amount"/>
-                    <bean parent="FieldDefinition" p:attributeName="period3Depreciation1Amount"/>
-                    <bean parent="FieldDefinition" p:attributeName="period4Depreciation1Amount"/>
-                    <bean parent="FieldDefinition" p:attributeName="period5Depreciation1Amount"/>
-                    <bean parent="FieldDefinition" p:attributeName="period6Depreciation1Amount"/>
-                    <bean parent="FieldDefinition" p:attributeName="period7Depreciation1Amount"/>
-                    <bean parent="FieldDefinition" p:attributeName="period8Depreciation1Amount"/>
-                    <bean parent="FieldDefinition" p:attributeName="period9Depreciation1Amount"/>
-                    <bean parent="FieldDefinition" p:attributeName="period10Depreciation1Amount"/>
-                    <bean parent="FieldDefinition" p:attributeName="period11Depreciation1Amount"/>
-                    <bean parent="FieldDefinition" p:attributeName="period12Depreciation1Amount"/>
-                  </list>
-                </property>
-                <property name="summaryFields">
-                  <list>
-                    <bean parent="FieldDefinition" p:attributeName="capitalAssetNumber"/>
-                    <bean parent="FieldDefinition" p:attributeName="paymentSequenceNumber"/>
-                    <bean parent="FieldDefinition" p:attributeName="financialDocumentPostingDate"/>
-                    <bean parent="FieldDefinition" p:attributeName="accountChargeAmount"/>
-                  </list>
-                </property>
-              </bean>
+              <bean parent="Asset-AssetPayment-InquiryCollectionDefinition"/>
               <!-- TODO KFSMI-645: adding the following field makes above collection disappear -->
               <!-- bean parent="FieldDefinition"
                     p:attributeName="paymentTotalCost" / -->
@@ -1738,9 +1696,9 @@
               <bean parent="FieldDefinition" p:attributeName="retirementInfo.assetRetirementGlobal.retirementInstitutionName"/>
               <bean parent="FieldDefinition" p:attributeName="retirementInfo.assetRetirementGlobal.retirementStreetAddress"/>
               <bean parent="FieldDefinition" p:attributeName="retirementInfo.assetRetirementGlobal.retirementCityName"/>
-              <bean parent="FieldDefinition" p:attributeName="retirementInfo.assetRetirementGlobal.retirementState.postalStateCode"/>
-              <bean parent="FieldDefinition" p:attributeName="retirementInfo.assetRetirementGlobal.postalZipCode.postalCode"/>
-              <bean parent="FieldDefinition" p:attributeName="retirementInfo.assetRetirementGlobal.retirementCountry.postalCountryCode"/>
+              <bean parent="FieldDefinition" p:attributeName="retirementInfo.assetRetirementGlobal.retirementState.code"/>
+              <bean parent="FieldDefinition" p:attributeName="retirementInfo.assetRetirementGlobal.postalZipCode.code"/>
+              <bean parent="FieldDefinition" p:attributeName="retirementInfo.assetRetirementGlobal.retirementCountry.name"/>
               <bean parent="FieldDefinition" p:attributeName="retirementInfo.assetRetirementGlobal.retirementPhoneNumber"/> 
             </list>
           </property>
@@ -1758,16 +1716,16 @@
               <bean parent="FieldDefinition" p:attributeName="borrowerLocation.assetLocationContactName"/>
               <bean parent="FieldDefinition" p:attributeName="borrowerLocation.assetLocationStreetAddress"/>
               <bean parent="FieldDefinition" p:attributeName="borrowerLocation.assetLocationCityName"/>
-              <bean parent="FieldDefinition" p:attributeName="borrowerLocation.assetLocationState.postalStateCode"/>
-              <bean parent="FieldDefinition" p:attributeName="borrowerLocation.postalZipCode.postalCode"/>
-              <bean parent="FieldDefinition" p:attributeName="borrowerLocation.assetLocationCountry.postalCountryName"/>
+              <bean parent="FieldDefinition" p:attributeName="borrowerLocation.assetLocationState.code"/>
+              <bean parent="FieldDefinition" p:attributeName="borrowerLocation.postalZipCode.code"/>
+              <bean parent="FieldDefinition" p:attributeName="borrowerLocation.assetLocationCountry.name"/>
               <bean parent="FieldDefinition" p:attributeName="borrowerLocation.assetLocationPhoneNumber"/>
               <bean parent="InquirySubSectionHeaderDefinition" p:attributeName="Stored at Address"/>
               <bean parent="FieldDefinition" p:attributeName="borrowerStorageLocation.assetLocationStreetAddress"/>
               <bean parent="FieldDefinition" p:attributeName="borrowerStorageLocation.assetLocationCityName"/>
-              <bean parent="FieldDefinition" p:attributeName="borrowerStorageLocation.assetLocationState.postalStateCode"/>
-              <bean parent="FieldDefinition" p:attributeName="borrowerStorageLocation.postalZipCode.postalCode"/>
-              <bean parent="FieldDefinition" p:attributeName="borrowerStorageLocation.assetLocationCountry.postalCountryName"/>
+              <bean parent="FieldDefinition" p:attributeName="borrowerStorageLocation.assetLocationState.code"/>
+              <bean parent="FieldDefinition" p:attributeName="borrowerStorageLocation.postalZipCode.code"/>
+              <bean parent="FieldDefinition" p:attributeName="borrowerStorageLocation.assetLocationCountry.name"/>
               <bean parent="FieldDefinition" p:attributeName="borrowerStorageLocation.assetLocationPhoneNumber"/>
             </list>
           </property>
@@ -1877,6 +1835,59 @@
     </property>
     <property name="inquirableClass" value="org.kuali.kfs.module.cam.businessobject.inquiry.AssetInquirableImpl"/>
     <property name="authorizerClass" value="org.kuali.kfs.module.cam.businessobject.authorization.AssetInquiryAuthorizer"/>
+  </bean>
+
+  <bean id="Asset-AssetPayment-InquiryCollectionDefinition" parent="Asset-AssetPayment-InquiryCollectionDefinition-parentBean"/>
+  <bean id="Asset-AssetPayment-InquiryCollectionDefinition-parentBean" abstract="true" parent="InquiryCollectionDefinition">
+    <property name="attributeName" value="assetPayments"/>
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetPayment"/>
+    <property name="numberOfColumns" value="2"/>
+    <property name="summaryTitle" value="Payment"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="paymentSequenceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="projectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationReferenceId"/>
+        <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="requisitionNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentPostingDate"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentPostingYear"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentPostingPeriodCode"/>
+        <bean parent="FieldDefinition" p:attributeName="transferPaymentCode"/>
+        <bean parent="FieldDefinition" p:attributeName="accountChargeAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="accumulatedPrimaryDepreciationAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="yearToDate"/>
+        <bean parent="FieldDefinition" p:attributeName="previousYearPrimaryDepreciationAmount"/>
+        <bean parent="FieldDefinition" p:attributeName="period1Depreciation1Amount"/>
+        <bean parent="FieldDefinition" p:attributeName="period2Depreciation1Amount"/>
+        <bean parent="FieldDefinition" p:attributeName="period3Depreciation1Amount"/>
+        <bean parent="FieldDefinition" p:attributeName="period4Depreciation1Amount"/>
+        <bean parent="FieldDefinition" p:attributeName="period5Depreciation1Amount"/>
+        <bean parent="FieldDefinition" p:attributeName="period6Depreciation1Amount"/>
+        <bean parent="FieldDefinition" p:attributeName="period7Depreciation1Amount"/>
+        <bean parent="FieldDefinition" p:attributeName="period8Depreciation1Amount"/>
+        <bean parent="FieldDefinition" p:attributeName="period9Depreciation1Amount"/>
+        <bean parent="FieldDefinition" p:attributeName="period10Depreciation1Amount"/>
+        <bean parent="FieldDefinition" p:attributeName="period11Depreciation1Amount"/>
+        <bean parent="FieldDefinition" p:attributeName="period12Depreciation1Amount"/>
+      </list>
+    </property>
+    <property name="summaryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="paymentSequenceNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="financialDocumentPostingDate"/>
+        <bean parent="FieldDefinition" p:attributeName="accountChargeAmount"/>
+      </list>
+    </property>
   </bean>
 
 <!-- Business Object Lookup Definition -->

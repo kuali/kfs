@@ -28,19 +28,6 @@ public class TestUniversityDateDao extends KualiTestBase {
 
     private SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 
-    public void testGetByPrimaryKey() throws Exception {
-        UniversityDateDao dao = SpringContext.getBean(UniversityDateDao.class);
-        assertNotNull("Dao shouldn't be null", dao);
-
-        Date missing = sdf.parse("01/01/1901");
-        UniversityDate notexist = dao.getByPrimaryKey(new java.sql.Date(missing.getTime()));
-        assertNull("01/01/1901 shouldn't exist in table", notexist);
-
-        Date notMissing = sdf.parse("08/14/1993");
-        UniversityDate exist = dao.getByPrimaryKey(new java.sql.Date(notMissing.getTime()));
-        assertNotNull("08/14/1993 should exist in table", exist);
-    }
-
     public void testGetFirstLastFiscalYearDates() throws Exception {
         UniversityDateDao dao = SpringContext.getBean(UniversityDateDao.class);
         assertNotNull("Dao shouldn't be null", dao);

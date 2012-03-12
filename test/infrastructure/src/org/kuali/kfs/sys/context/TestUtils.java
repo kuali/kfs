@@ -15,27 +15,27 @@
  */
 package org.kuali.kfs.sys.context;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.Timer;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.apache.commons.io.IOUtils;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.PreCommitSuite;
-import org.kuali.rice.kns.bo.Parameter;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.coreservice.impl.parameter.ParameterBo;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.springframework.aop.framework.ProxyFactory;
 
 /**
@@ -98,17 +98,15 @@ public class TestUtils {
         if ( willCommit == null || willCommit ) {
             throw new RuntimeException( "Attempt to set system parameter in unit test set to commit database changes.");
         }
-        
-        // Rice 1.0.3.3
-        /* RICE_20_DELETE */ Parameter parameter = getParameterService().retrieveParameter(getParameterService().getNamespace(componentClass), getParameterService().getDetailType(componentClass), parameterName);
-        /* RICE_20_DELETE */ parameter.setParameterValue(parameterText);
-        /* RICE_20_DELETE */ SpringContext.getBean(BusinessObjectService.class).save(parameter);
-        /* RICE_20_DELETE */ getParameterService().clearCache();        
-        // Rice 2.0
-        // RICE_20_INSERT Parameter parameter = getParameterService().getParameter(componentClass, parameterName);
-        // RICE_20_INSERT Parameter.Builder pb = Parameter.Builder.create(parameter);
-        // RICE_20_INSERT pb.setValue(parameterText);
-        // RICE_20_INSERT getParameterService().updateParameter(parameter);
+        // JHK: this is not ideal - but the parameter service seems to be having some transactional issues, so using the BO to bypass it
+        final Map<String, Object> map = new HashMap<String, Object>();
+        map.put("name", parameterName);
+        map.put("applicationId", "KFS");
+        map.put("namespaceCode", KRADServiceLocatorWeb.getKualiModuleService().getNamespaceCode(componentClass));
+        map.put("componentCode", KRADServiceLocatorWeb.getKualiModuleService().getComponentCode(componentClass));
+        ParameterBo parameter =  KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(ParameterBo.class, Collections.unmodifiableMap(map));
+        parameter.setValue(parameterText);
+        KRADServiceLocator.getBusinessObjectService().save(parameter);
     }
     
     /**

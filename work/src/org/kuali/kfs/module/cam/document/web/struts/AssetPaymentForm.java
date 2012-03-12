@@ -30,10 +30,13 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.service.SessionDocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
 	protected static Log LOG = LogFactory.getLog(AssetPaymentForm.class);
@@ -108,16 +111,11 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
 	 */
 	@Override
 	public SourceAccountingLine getNewSourceLine() {
-		// Getting the workflow document number created for the asset payment
-		// document.
-		String worflowDocumentNumber = "";
-		try {
-			if (GlobalVariables.getUserSession().getWorkflowDocument(this.getAssetPaymentDocument().getDocumentNumber()) != null)
-				worflowDocumentNumber = GlobalVariables.getUserSession().getWorkflowDocument(this.getAssetPaymentDocument().getDocumentNumber()).getRouteHeaderId().toString();
-		} catch (Exception e) {
-			throw new RuntimeException("Error converting workflow document number to string:" + e.getMessage());
-		}
+		// Getting the workflow document number created for the asset payment document.
+	    SessionDocumentService sessionService = SpringContext.getBean(SessionDocumentService.class);
+	    WorkflowDocument document = sessionService.getDocumentFromSession(GlobalVariables.getUserSession(), this.getAssetPaymentDocument().getDocumentNumber());
 
+	    String worflowDocumentNumber = (document!= null)? document.getDocumentId() : "";
 		AssetPaymentDetail newSourceLine = (AssetPaymentDetail) super.getNewSourceLine();
 
 		// Setting default document type.
@@ -189,7 +187,7 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
 	@Override
 	public void addRequiredNonEditableProperties() {
 		super.addRequiredNonEditableProperties();
-		registerRequiredNonEditableProperty(KNSConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER);
+		registerRequiredNonEditableProperty(KRADConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER);
 	}
 
 	/**

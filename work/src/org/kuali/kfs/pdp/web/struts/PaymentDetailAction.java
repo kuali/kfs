@@ -38,18 +38,17 @@ import org.kuali.kfs.pdp.service.PaymentMaintenanceService;
 import org.kuali.kfs.pdp.util.PdpPaymentDetailQuestionCallback;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiInteger;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.util.UrlFactory;
 
 /**
  * This class defines actions for Payment
@@ -397,8 +396,8 @@ public class PaymentDetailAction extends KualiAction {
      * @throws Exception
      */
     private ActionForward askQuestionWithInput(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String confirmationQuestion, String confirmationText, String successMessage, String caller, PdpPaymentDetailQuestionCallback callback) throws Exception {
-        Object question = request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME);
-        String reason = request.getParameter(KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
+        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        String reason = request.getParameter(KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME);
         String noteText = KFSConstants.EMPTY_STRING;
         Person person = GlobalVariables.getUserSession().getPerson();
         boolean actionStatus;
@@ -406,7 +405,7 @@ public class PaymentDetailAction extends KualiAction {
 
         String paymentDetailId = request.getParameter(PdpParameterConstants.PaymentDetail.DETAIL_ID_PARAM);
         if (paymentDetailId == null) {
-            paymentDetailId = request.getParameter(KNSConstants.QUESTION_CONTEXT);
+            paymentDetailId = request.getParameter(KRADConstants.QUESTION_CONTEXT);
         }
 
         PaymentDetail paymentDetail = (PaymentDetail) businessObjectService.findBySinglePrimaryKey(PaymentDetail.class, paymentDetailId);
@@ -414,8 +413,8 @@ public class PaymentDetailAction extends KualiAction {
         int paymentsInGroup = paymentGroup.getPaymentDetails().size() - 1;
         int paymentsInDisbursement = paymentDetail.getNbrOfPaymentsInDisbursement() - 1;
 
-        KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
-        confirmationText = kualiConfiguration.getPropertyString(confirmationText);
+        ConfigurationService kualiConfiguration = SpringContext.getBean(ConfigurationService.class);
+        confirmationText = kualiConfiguration.getPropertyValueAsString(confirmationText);
 
         if (confirmationText.equals(PdpKeyConstants.PaymentDetail.Confirmation.CANCEL_PAYMENT_MESSAGE)) {
             confirmationText = MessageFormat.format(confirmationText, paymentsInGroup, paymentGroup.getId().toString());
@@ -439,10 +438,10 @@ public class PaymentDetailAction extends KualiAction {
         if (question == null) {
 
             // ask question if not already asked
-            return this.performQuestionWithInput(mapping, form, request, response, confirmationQuestion, confirmationText, KNSConstants.CONFIRMATION_QUESTION, caller, paymentDetailId);
+            return this.performQuestionWithInput(mapping, form, request, response, confirmationQuestion, confirmationText, KRADConstants.CONFIRMATION_QUESTION, caller, paymentDetailId);
         }
         else {
-            Object buttonClicked = request.getParameter(KNSConstants.QUESTION_CLICKED_BUTTON);
+            Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
             if ((confirmationQuestion.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
                 actionStatus = false;
             }
@@ -457,10 +456,10 @@ public class PaymentDetailAction extends KualiAction {
                         // prevent a NPE by setting the reason to a blank string
                         reason = KFSConstants.EMPTY_STRING;
                     }
-                    return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, confirmationQuestion, confirmationText, KNSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_BASIC, paymentDetailId, reason, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOTE_EMPTY, KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME, "");
+                    return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, confirmationQuestion, confirmationText, KRADConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_BASIC, paymentDetailId, reason, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOTE_EMPTY, KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME, "");
                 }
                 else if (noteTextLength > noteTextMaxLength) {
-                    return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, confirmationQuestion, confirmationText, KNSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_BASIC, paymentDetailId, reason, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOTE_TOO_LONG, KNSConstants.QUESTION_REASON_ATTRIBUTE_NAME, "");
+                    return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, confirmationQuestion, confirmationText, KRADConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_BASIC, paymentDetailId, reason, PdpKeyConstants.BatchConstants.ErrorMessages.ERROR_NOTE_TOO_LONG, KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME, "");
                 }
 
                 actionStatus = callback.doPostQuestion(Integer.parseInt(paymentDetailId), noteText, person);
@@ -503,12 +502,12 @@ public class PaymentDetailAction extends KualiAction {
         }
         else {
             // session expired -  resort to alternative plan
-            String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+            String basePath = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.APPLICATION_URL_KEY);
 
             Properties parameters = new Properties();
             parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
             parameters.put(KFSConstants.BACK_LOCATION, basePath + "/" + KFSConstants.MAPPING_PORTAL + ".do");
-            parameters.put(KNSConstants.DOC_FORM_KEY, "88888888");
+            parameters.put(KRADConstants.DOC_FORM_KEY, "88888888");
             parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, PaymentDetail.class.getName());
             parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
             parameters.put(KFSConstants.SUPPRESS_ACTIONS, "false");

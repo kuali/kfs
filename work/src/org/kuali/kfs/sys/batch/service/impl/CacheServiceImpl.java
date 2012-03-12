@@ -15,143 +15,46 @@
  */
 package org.kuali.kfs.sys.batch.service.impl;
 
-import java.util.List;
-
 import org.kuali.kfs.sys.batch.service.CacheService;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.ksb.cache.RiceCacheAdministrator;
-
-import com.opensymphony.oscache.general.GeneralCacheAdministrator;
+import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kim.api.common.template.Template;
+import org.kuali.rice.kim.api.responsibility.Responsibility;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.location.framework.campus.CampusValuesFinder;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 
 /**
  * @see org.kuali.kfs.sys.batch.service.CacheService
  */
 @NonTransactional
 public class CacheServiceImpl implements CacheService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CacheServiceImpl.class);
-
-    private List<GeneralCacheAdministrator> cacheAdminstrators;
-    private RoleManagementService roleManagementService;
-    private IdentityManagementService identityManagementService;
-    private ParameterService parameterService;
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CacheServiceImpl.class);
 
     /**
      * @see org.kuali.kfs.sys.batch.service.CacheService#clearSystemCache()
      */
     public void clearSystemCache() {
         clearMethodCache();
-        clearKIMCache();
-        clearParameterCache();
-        new CampusValuesFinder().clearInternalCache();
     }
 
     /**
      * Clears out service methods cache by calling adminstrators flushAll
      */
+    @CacheEvict(allEntries=true, value = { "" })
     protected void clearMethodCache() {
         LOG.info("clearing spring method cache ...");
-
-        if (cacheAdminstrators != null) {
-            for (GeneralCacheAdministrator cache : cacheAdminstrators) {
-                cache.flushAll();
-            }
-        }
-    }
-
-    /**
-     * Clears out KIM cache by calling flush methods on role and identity services
-     */
-    protected void clearKIMCache() {
-        LOG.info("clearing KIM role & identity service cache ...");
-
-        roleManagementService.flushRoleCaches();
-        identityManagementService.flushAllCaches();
-        SpringContext.getBean(RiceCacheAdministrator.class).flushGroup("ResponsibilityImpl");
     }
 
     /**
      * Clears out parameter cache by calling flush method on parameter service
      */
+    @CacheEvict(value={Parameter.Cache.NAME}, allEntries=true)
     protected void clearParameterCache() {
         LOG.info("clearing parameter cache ...");
-
-        parameterService.clearCache();
     }
-
-    /**
-     * Gets the cacheAdminstrators attribute.
-     * 
-     * @return Returns the cacheAdminstrators.
-     */
-    protected List<GeneralCacheAdministrator> getCacheAdminstrators() {
-        return cacheAdminstrators;
-    }
-
-    /**
-     * Sets the cacheAdminstrators attribute value.
-     * 
-     * @param cacheAdminstrators The cacheAdminstrators to set.
-     */
-    public void setCacheAdminstrators(List<GeneralCacheAdministrator> cacheAdminstrators) {
-        this.cacheAdminstrators = cacheAdminstrators;
-    }
-
-    /**
-     * Gets the roleManagementService attribute.
-     * 
-     * @return Returns the roleManagementService.
-     */
-    protected RoleManagementService getRoleManagementService() {
-        return roleManagementService;
-    }
-
-    /**
-     * Sets the roleManagementService attribute value.
-     * 
-     * @param roleManagementService The roleManagementService to set.
-     */
-    public void setRoleManagementService(RoleManagementService roleManagementService) {
-        this.roleManagementService = roleManagementService;
-    }
-
-    /**
-     * Gets the identityManagementService attribute.
-     * 
-     * @return Returns the identityManagementService.
-     */
-    protected IdentityManagementService getIdentityManagementService() {
-        return identityManagementService;
-    }
-
-    /**
-     * Sets the identityManagementService attribute value.
-     * 
-     * @param identityManagementService The identityManagementService to set.
-     */
-    public void setIdentityManagementService(IdentityManagementService identityManagementService) {
-        this.identityManagementService = identityManagementService;
-    }
-
-    /**
-     * Gets the parameterService attribute.
-     * 
-     * @return Returns the parameterService.
-     */
-    protected ParameterService getParameterService() {
-        return parameterService;
-    }
-
-    /**
-     * Sets the parameterService attribute value.
-     * 
-     * @param parameterService The parameterService to set.
-     */
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
+    
 }

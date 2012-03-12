@@ -22,7 +22,7 @@
  
  function setTypeCodeDesc( typeCodeFieldName, typeCodeDescFieldName ){
  
-	var typeCode = DWRUtil.getValue( typeCodeFieldName );
+	var typeCode = dwr.util.getValue( typeCodeFieldName );
 
 	if (typeCode =='') {
 		clearRecipients(typeCodeDescFieldName, "");

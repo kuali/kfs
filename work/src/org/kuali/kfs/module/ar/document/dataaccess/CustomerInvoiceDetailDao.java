@@ -15,16 +15,8 @@
  */
 package org.kuali.kfs.module.ar.document.dataaccess;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.QueryByCriteria;
-import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
-import org.springframework.dao.DataAccessException;
 
 public interface CustomerInvoiceDetailDao {
     /**

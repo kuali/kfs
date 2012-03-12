@@ -44,14 +44,14 @@ import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.InitiateDirectoryBase;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.exception.ParseException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiInteger;
-import org.kuali.rice.kns.util.MessageMap;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -70,7 +70,7 @@ public class PaymentFileServiceImpl extends InitiateDirectoryBase implements Pay
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
     private PdpEmailService paymentFileEmailService;
-    private KualiConfigurationService kualiConfigurationService;
+    private ConfigurationService kualiConfigurationService;
 
     public PaymentFileServiceImpl() {
         super();
@@ -120,7 +120,7 @@ public class PaymentFileServiceImpl extends InitiateDirectoryBase implements Pay
         // parse xml, if errors found return with failure
         PaymentFileLoad paymentFile = parsePaymentFile(paymentInputFileType, incomingFileName, errorMap);
 
-        if (errorMap.isEmpty()) {
+        if (errorMap.hasErrors()) {
             // do validation
             doPaymentFileValidation(paymentFile, errorMap);
         }
@@ -130,12 +130,12 @@ public class PaymentFileServiceImpl extends InitiateDirectoryBase implements Pay
 
     /**
      * @see org.kuali.kfs.pdp.service.PaymentFileService#doPaymentFileValidation(org.kuali.kfs.pdp.businessobject.PaymentFileLoad,
-     *      org.kuali.rice.kns.util.MessageMap)
+     *      org.kuali.rice.krad.util.MessageMap)
      */
     public void doPaymentFileValidation(PaymentFileLoad paymentFile, MessageMap errorMap) {
         paymentFileValidationService.doHardEdits(paymentFile, errorMap);
 
-        if (!errorMap.isEmpty()) {
+        if (!errorMap.hasErrors()) {
             paymentFileEmailService.sendErrorEmail(paymentFile, errorMap);
         }
 
@@ -245,7 +245,7 @@ public class PaymentFileServiceImpl extends InitiateDirectoryBase implements Pay
             message = "Load Failed: ";
             List<ErrorMessage> errorMessages = status.getMessageMap().getMessages(KFSConstants.GLOBAL_ERRORS);
             for (ErrorMessage errorMessage : errorMessages) {
-                String resourceMessage = kualiConfigurationService.getPropertyString(errorMessage.getErrorKey());
+                String resourceMessage = kualiConfigurationService.getPropertyValueAsString(errorMessage.getErrorKey());
                 resourceMessage = MessageFormat.format(resourceMessage, (Object[]) errorMessage.getMessageParameters());
                 message += resourceMessage + ", ";
             }
@@ -433,7 +433,7 @@ public class PaymentFileServiceImpl extends InitiateDirectoryBase implements Pay
      * 
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 

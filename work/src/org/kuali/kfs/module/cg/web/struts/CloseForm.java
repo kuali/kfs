@@ -21,7 +21,7 @@ import org.kuali.kfs.module.cg.document.ProposalAwardCloseDocument;
 import org.kuali.kfs.module.cg.service.CloseService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
-import org.kuali.rice.kns.web.format.DateFormatter;
+import org.kuali.rice.core.web.format.DateFormatter;
 
 public class CloseForm extends FinancialSystemTransactionalDocumentFormBase {
 

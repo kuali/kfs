@@ -35,7 +35,7 @@ public class PurgeOldLookupResultsStep extends AbstractStep {
         try {
             LOG.info("executing PurgeOldLookupResultsStep");
 
-            String maxAgeInSecondsStr = getParameterService().getParameterValue(KfsParameterConstants.NERVOUS_SYSTEM_LOOKUP.class, KFSConstants.SystemGroupParameterNames.MULTIPLE_VALUE_LOOKUP_RESULTS_EXPIRATION_AGE);
+            String maxAgeInSecondsStr = getParameterService().getParameterValueAsString(KfsParameterConstants.NERVOUS_SYSTEM_LOOKUP.class, KFSConstants.SystemGroupParameterNames.MULTIPLE_VALUE_LOOKUP_RESULTS_EXPIRATION_AGE);
             int maxAgeInSeconds = Integer.parseInt(maxAgeInSecondsStr);
 
             Calendar expirationCal = getDateTimeService().getCurrentCalendar();

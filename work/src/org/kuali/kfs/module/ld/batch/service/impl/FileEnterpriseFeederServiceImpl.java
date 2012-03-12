@@ -39,9 +39,9 @@ import org.kuali.kfs.module.ld.report.EnterpriseFeederReportData;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.batch.InitiateDirectoryBase;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * This class iterates through the files in the enterprise feeder staging directory, which is injected by Spring. Note: this class
@@ -58,7 +58,7 @@ public class FileEnterpriseFeederServiceImpl extends InitiateDirectoryBase imple
     private FileEnterpriseFeederHelperService fileEnterpriseFeederHelperService;
     private EnterpriseFeederNotificationService enterpriseFeederNotificationService;
     private ParameterService parameterService;
-    private KualiConfigurationService configurationService;
+    private ConfigurationService configurationService;
     
     private String reconciliationTableId;
 
@@ -360,7 +360,7 @@ public class FileEnterpriseFeederServiceImpl extends InitiateDirectoryBase imple
 			reportWriterService.writeFormattedMessageLine("Output File Name:        %s", outputFileName);
 		} else {
 			reportWriterService
-					.writeFormattedMessageLine(configurationService.getPropertyString(LaborKeyConstants.EnterpriseFeed.ERROR_OUTPUT_FILE_NOT_GENERATED));
+					.writeFormattedMessageLine(configurationService.getPropertyValueAsString(LaborKeyConstants.EnterpriseFeed.ERROR_OUTPUT_FILE_NOT_GENERATED));
 		}
         reportWriterService.writeNewLines(1);
         
@@ -425,7 +425,7 @@ public class FileEnterpriseFeederServiceImpl extends InitiateDirectoryBase imple
 	 * @return int max number of errors
 	 */
 	protected int getMaximumNumberOfErrorsAllowed() {
-		String maxBenefitGenerationErrorsStr = parameterService	.getParameterValue(LaborEnterpriseFeedStep.class,
+		String maxBenefitGenerationErrorsStr = parameterService	.getParameterValueAsString(LaborEnterpriseFeedStep.class,
 						LaborConstants.BenefitCalculation.MAX_NUMBER_OF_ERRORS_ALLOWED_PARAMETER);
 		int maxBenefitGenerationErrors = 0;
 		if (StringUtils.isNotBlank(maxBenefitGenerationErrorsStr)) {
@@ -451,7 +451,7 @@ public class FileEnterpriseFeederServiceImpl extends InitiateDirectoryBase imple
 		this.parameterService = parameterService;
 	}
 
-	public void setConfigurationService(KualiConfigurationService configurationService) {
+	public void setConfigurationService(ConfigurationService configurationService) {
 		this.configurationService = configurationService;
 	}
     

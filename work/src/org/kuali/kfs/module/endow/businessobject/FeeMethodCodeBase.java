@@ -19,7 +19,7 @@ import java.util.LinkedHashMap;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Base class that is used by Fee Method related objects
@@ -40,10 +40,10 @@ public class FeeMethodCodeBase extends PersistableBusinessObjectBase {
     }
     
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, Object> m = new LinkedHashMap<String, Object>();
         m.put(EndowPropertyConstants.FEE_METHOD_CODE, this.feeMethodCode);
         return m;

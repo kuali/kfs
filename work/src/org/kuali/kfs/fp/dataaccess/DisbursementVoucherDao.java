@@ -18,8 +18,6 @@ package org.kuali.kfs.fp.dataaccess;
 import java.util.Collection;
 
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.kfs.vnd.businessobject.VendorDetail;
 
 public interface DisbursementVoucherDao {
 
@@ -35,8 +33,9 @@ public interface DisbursementVoucherDao {
      * Returns a list of disbursement voucher documents with a specific doc header status
      * 
      * @param statusCode
+     * @param immediatesOnly retrieve the only DV's marked for immediate payment
      * @return list of doc headers
      */
-    public Collection getDocumentsByHeaderStatus(String statusCode);
+    public Collection getDocumentsByHeaderStatus(String statusCode, boolean immediatesOnly);
 }
 

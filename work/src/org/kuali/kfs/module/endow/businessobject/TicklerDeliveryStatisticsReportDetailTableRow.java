@@ -17,7 +17,7 @@ package org.kuali.kfs.module.endow.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 public class TicklerDeliveryStatisticsReportDetailTableRow extends TransientBusinessObjectBase {
 
@@ -61,10 +61,10 @@ public class TicklerDeliveryStatisticsReportDetailTableRow extends TransientBusi
     
     /**
      * A map of the "keys" of this transient business object
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap pks = new LinkedHashMap<String, Object>();        
         pks.put("ticklerDeliveryNotifications",this.getTicklerDeliveryNotifications());
         pks.put("numberOfExceptions",this.getNumberOfExceptions());

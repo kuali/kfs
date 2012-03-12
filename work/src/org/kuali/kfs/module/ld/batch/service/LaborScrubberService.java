@@ -15,8 +15,7 @@
  */
 package org.kuali.kfs.module.ld.batch.service;
 
-import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 /**
  * Defines methods that must be implemented by classes providing a LaborScrubberServiceImpl.

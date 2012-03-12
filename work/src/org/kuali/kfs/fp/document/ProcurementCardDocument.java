@@ -18,7 +18,6 @@ package org.kuali.kfs.fp.document;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.fp.businessobject.ProcurementCardHolder;
@@ -26,7 +25,6 @@ import org.kuali.kfs.fp.businessobject.ProcurementCardSourceAccountingLine;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTransactionDetail;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -34,12 +32,11 @@ import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.service.DebitDeterminerService;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.SaveDocumentEvent;
 
 /**
  * This is the Procurement Card Document Class. The procurement cards distributes expenses from clearing accounts. It is a two-sided
@@ -60,7 +57,7 @@ public class ProcurementCardDocument extends CapitalAccountingLinesDocumentBase 
      */
     public ProcurementCardDocument() {
         super();
-        transactionEntries = new TypedArrayList(ProcurementCardTransactionDetail.class);
+        transactionEntries = new ArrayList<ProcurementCardTransactionDetail>();
     }
 
     /**
@@ -116,7 +113,7 @@ public class ProcurementCardDocument extends CapitalAccountingLinesDocumentBase 
      * 
      * @see org.kuali.kfs.sys.document.AccountingDocument#addSourceAccountingLine(SourceAccountingLine)
      */
-    @Override
+    
     public void addSourceAccountingLine(SourceAccountingLine sourceLine) {
         ProcurementCardSourceAccountingLine line = (ProcurementCardSourceAccountingLine) sourceLine;
 
@@ -209,24 +206,14 @@ public class ProcurementCardDocument extends CapitalAccountingLinesDocumentBase 
         return ProcurementCardTargetAccountingLine.class;
     }
 
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
     @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
-        return m;
-    }
-
-    @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
 
         // Updating for rice-1.0.0 api changes. doRouteStatusChange() went away, so
         // that functionality needs to be a part of doRouteStatusChange now.
         // handleRouteStatusChange did not happen on a save
-        if (!KEWConstants.ACTION_TAKEN_SAVED_CD.equals(statusChangeEvent.getDocumentEventCode())) {
+        if (!KewApiConstants.ACTION_TAKEN_SAVED_CD.equals(statusChangeEvent.getDocumentEventCode())) {
             this.getCapitalAssetManagementModuleService().deleteDocumentAssetLocks(this);
         }
     }
@@ -240,7 +227,7 @@ public class ProcurementCardDocument extends CapitalAccountingLinesDocumentBase 
      * @throws Throws an IllegalStateException if one of the following rules are violated: the accounting line amount is zero or the
      *         accounting line is not an expense or income accounting line.
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isDebit(FinancialDocument,
-     *      org.kuali.rice.kns.bo.AccountingLine)
+     *      org.kuali.rice.krad.bo.AccountingLine)
      * @see org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBase.IsDebitUtils#isDebitConsideringSection(AccountingDocumentRuleBase,
      *      AccountingDocument, AccountingLine)
      */
@@ -252,7 +239,7 @@ public class ProcurementCardDocument extends CapitalAccountingLinesDocumentBase 
     }
 
     /**
-     * @see org.kuali.rice.kns.document.DocumentBase#postProcessSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
+     * @see org.kuali.rice.krad.document.DocumentBase#postProcessSave(org.kuali.rice.krad.rule.event.KualiDocumentEvent)
      */
     @Override
     public void postProcessSave(KualiDocumentEvent event) {

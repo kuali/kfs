@@ -63,7 +63,7 @@
                     	attributeEntry="${documentAttributes.deliveryToName}" property="document.deliveryToName" 
                     	readOnly="${not (fullEntryMode or amendmentEntry) or deliveryReadOnly}" tabindexOverride="${tabindexOverrideBase + 5}"/>
                     <c:if test="${fullEntryMode && !deliveryReadOnly}">
-                        <kul:lookup boClassName="org.kuali.rice.kim.bo.Person" 
+                        <kul:lookup boClassName="org.kuali.rice.kim.api.identity.Person" 
                         	fieldConversions="name:document.deliveryToName,emailAddress:document.deliveryToEmailAddress,phoneNumber:document.deliveryToPhoneNumber"/>
                     </c:if>
                 </td>

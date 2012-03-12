@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.pdp.service;
 
+import java.util.List;
+
 import org.kuali.kfs.pdp.businessobject.PayeeACHAccount;
 
 /**
@@ -31,4 +33,11 @@ public interface AchService {
      * @return PayeeAchAccount
      */
     public PayeeACHAccount getAchInformation(String idType, String payeeId, String achTransactionType);
+    
+    /**   
+     * Gets all active PayeeAchAccounts.
+     * @return all active PayeeAchAccounts.
+     */
+    public List<PayeeACHAccount> getActiveAchAccounts();
+    
 }

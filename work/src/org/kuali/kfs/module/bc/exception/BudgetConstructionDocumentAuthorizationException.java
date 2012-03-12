@@ -16,8 +16,8 @@
 package org.kuali.kfs.module.bc.exception;
 
 import org.kuali.kfs.module.bc.BCKeyConstants;
-import org.kuali.rice.kns.exception.AuthorizationException;
-import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.krad.exception.AuthorizationException;
 
 /**
  * Handles special Budget Construction Document exception processing to display the reason behind the authorization exception
@@ -41,7 +41,7 @@ public class BudgetConstructionDocumentAuthorizationException extends Authorizat
     }
 
     /**
-     * @see org.kuali.rice.kns.exception.AuthorizationException#getErrorMessageKey()
+     * @see org.kuali.rice.krad.exception.AuthorizationException#getErrorMessageKey()
      */
     @Override
     public String getErrorMessageKey() {

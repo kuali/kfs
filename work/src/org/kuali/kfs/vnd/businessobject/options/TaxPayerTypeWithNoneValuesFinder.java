@@ -20,8 +20,8 @@ import java.util.List;
 
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.vnd.VendorConstants;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * Generator of a list of tax payer type value pairs, including an empty one, as opposed to <code>TaxPayerTypeValuesFinder</code>,
@@ -36,9 +36,9 @@ public class TaxPayerTypeWithNoneValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair(VendorConstants.TAX_TYPE_FEIN, VendorConstants.TAX_TYPE_FEIN));
-        keyValues.add(new KeyLabelPair(VendorConstants.TAX_TYPE_SSN, VendorConstants.TAX_TYPE_SSN));
-        keyValues.add(new KeyLabelPair(KFSConstants.EMPTY_STRING, VendorConstants.NONE));
+        keyValues.add(new ConcreteKeyValue(VendorConstants.TAX_TYPE_FEIN, VendorConstants.TAX_TYPE_FEIN));
+        keyValues.add(new ConcreteKeyValue(VendorConstants.TAX_TYPE_SSN, VendorConstants.TAX_TYPE_SSN));
+        keyValues.add(new ConcreteKeyValue(KFSConstants.EMPTY_STRING, VendorConstants.NONE));
         return keyValues;
     }
 

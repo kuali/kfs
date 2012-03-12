@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 1.0//EN" "http://www.getahead.ltd.uk/dwr/dwr10.dtd">
+<!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 3.0//EN" "http://getahead.org/dwr/dwr30.dtd">
 
 <dwr>
 	<init>
@@ -24,7 +24,7 @@
 	    	<param name="beanName" value="pdpAchBankService" />
 	    	<include method="getByPrimaryId" />
 	    </create>
-        <convert converter="bean" match="org.kuali.kfs.pdp.businessobject.AchBank">
+        <convert converter="bean" match="org.kuali.kfs.pdp.businessobject.ACHBank">
             <param name="include" value="bankName" />
         </convert>
     </allow>

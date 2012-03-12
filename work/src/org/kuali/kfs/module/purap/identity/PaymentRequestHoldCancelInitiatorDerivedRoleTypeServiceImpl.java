@@ -18,50 +18,53 @@ package org.kuali.kfs.module.purap.identity;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Role;
-import org.kuali.rice.kim.bo.impl.KimAttributes;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.role.RoleMembership;
+import org.kuali.rice.kim.api.role.RoleMembership.Builder;
+import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
+import org.kuali.rice.krad.service.DocumentService;
 
-public class PaymentRequestHoldCancelInitiatorDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
+public class PaymentRequestHoldCancelInitiatorDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
     protected DocumentService documentService;
 
-// RICE_20_INSERT    List<String> requiredAttributes = new ArrayList<String>(1);
+   List<String> requiredAttributes = new ArrayList<String>(1);
     {
-        requiredAttributes.add( KimAttributes.DOCUMENT_NUMBER );
-/* RICE_20_DELETE */        checkRequiredAttributes = true;
+        requiredAttributes.add( KimConstants.AttributeConstants.DOCUMENT_NUMBER );
+
     }
 
-// RICE_20_INSERT    @Override
-// RICE_20_INSERT    public boolean isCheckRequiredAttributes() {
-// RICE_20_INSERT        return true;
-// RICE_20_INSERT    }
+   @Override
+   public boolean isCheckRequiredAttributes() {
+       return true;
+   }
     
-// RICE_20_INSERT    @Override
-// RICE_20_INSERT    public List<String> getRequiredAttributes() {
-// RICE_20_INSERT        return Collections.unmodifiableList(requiredAttributes);
-// RICE_20_INSERT    }
+   @Override
+   public List<String> getRequiredAttributes() {
+       return Collections.unmodifiableList(requiredAttributes);
+   }
     
     @Override
-    public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
+    public List<RoleMembership> getRoleMembersFromDerivedRole(String namespaceCode, String roleName, Map<String,String> qualification) {
         validateRequiredAttributesAgainstReceived(qualification);
-        List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
+        List<RoleMembership> members = new ArrayList<RoleMembership>();
         if(qualification!=null && !qualification.isEmpty()){
             try {
-                AccountsPayableDocumentBase document = (AccountsPayableDocumentBase) getDocumentService().getByDocumentHeaderId(qualification.get(KfsKimAttributes.DOCUMENT_NUMBER));
+                AccountsPayableDocumentBase document = (AccountsPayableDocumentBase) getDocumentService().getByDocumentHeaderId(qualification.get(KimConstants.AttributeConstants.DOCUMENT_NUMBER));
                 if ((document != null) && (document.getLastActionPerformedByUser() != null)) {
-                    members.add( new RoleMembershipInfo(null,null,document.getLastActionPerformedByUser().getPrincipalId(),Role.PRINCIPAL_MEMBER_TYPE,null) );
+                    Builder roleMember = RoleMembership.Builder.create(null,null,document.getLastActionPerformedByUser().getPrincipalId(),KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE,null);
+
+                    members.add( roleMember.build());
+                    
                 }
             }
             catch (WorkflowException e) {
-                throw new RuntimeException("Unable to load document in getPrincipalIdsFromApplicationRole: " + qualification.get(KfsKimAttributes.DOCUMENT_NUMBER), e);
+                throw new RuntimeException("Unable to load document in getPrincipalIdsFromApplicationRole: " + qualification.get(KimConstants.AttributeConstants.DOCUMENT_NUMBER), e);
             }
         }
         return members;

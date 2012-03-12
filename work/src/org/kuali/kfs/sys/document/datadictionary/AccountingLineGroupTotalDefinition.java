@@ -16,10 +16,9 @@
 package org.kuali.kfs.sys.document.datadictionary;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.document.web.NestedFieldTotaling;
 import org.kuali.kfs.sys.document.web.renderers.GroupTotalRenderer;
 import org.kuali.kfs.sys.document.web.renderers.Renderer;
-import org.kuali.rice.kns.datadictionary.exception.AttributeValidationException;
+import org.kuali.rice.krad.datadictionary.exception.AttributeValidationException;
 
 /**
  * The definition of an accounting line group total renderer, which will display an accounting line
@@ -83,7 +82,7 @@ public class AccountingLineGroupTotalDefinition extends TotalDefinition{
 
     /**
      * Validates that a total property has been added
-     * @see org.kuali.rice.kns.datadictionary.DataDictionaryDefinition#completeValidation(java.lang.Class, java.lang.Class)
+     * @see org.kuali.rice.krad.datadictionary.DataDictionaryDefinition#completeValidation(java.lang.Class, java.lang.Class)
      */
     public void completeValidation(Class rootBusinessObjectClass, Class otherBusinessObjectClass) {
         if (StringUtils.isBlank(totalProperty)) {

@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.pdp.PdpConstants;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * returns valid effort reporting fiscal periods 1 - 12
@@ -32,8 +32,8 @@ public class AchBankOfficeCodeValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair(PdpConstants.AchBankOfficeCodes.AchBankOfficeCode_O, PdpConstants.AchBankOfficeCodes.AchBankOfficeCode_O));
-        keyValues.add(new KeyLabelPair(PdpConstants.AchBankOfficeCodes.AchBankOfficeCode_B, PdpConstants.AchBankOfficeCodes.AchBankOfficeCode_B));
+        keyValues.add(new ConcreteKeyValue(PdpConstants.AchBankOfficeCodes.AchBankOfficeCode_O, PdpConstants.AchBankOfficeCodes.AchBankOfficeCode_O));
+        keyValues.add(new ConcreteKeyValue(PdpConstants.AchBankOfficeCodes.AchBankOfficeCode_B, PdpConstants.AchBankOfficeCodes.AchBankOfficeCode_B));
         
         return keyValues;
     }

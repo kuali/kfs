@@ -16,8 +16,8 @@
 package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.ojb.broker.PersistenceBroker;
@@ -65,7 +65,7 @@ public class OjbPBGLQueryCustomizer implements QueryCustomizer {
      *      org.apache.ojb.broker.query.QueryByCriteria)
      */
     public Query customizeQuery(Object arg0, PersistenceBroker arg1, CollectionDescriptor arg2, QueryByCriteria arg3) {
-        List paramValues;
+        Collection<String> paramValues;
 
         // these parameter service calls will throw an IllegalArgumentException exception if the parameter doesn't exist
         if ("TRUE".equals(getAttribute(revenueAttributeName))) {

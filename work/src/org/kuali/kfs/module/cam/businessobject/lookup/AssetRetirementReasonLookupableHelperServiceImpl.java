@@ -28,14 +28,14 @@ import org.kuali.kfs.module.cam.businessobject.AssetRetirementReason;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
-import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.service.DocumentDictionaryService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class overrides the getReturnUrl, setFieldConversions and getActionUrls for
@@ -54,7 +54,7 @@ public class AssetRetirementReasonLookupableHelperServiceImpl extends KualiLooku
      * </ul>
      * {@link KFSConstants.DISPATCH_REQUEST_PARAMETER}
      *
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getReturnUrl(org.kuali.rice.kns.bo.BusinessObject, java.util.Map,
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getReturnUrl(org.kuali.rice.krad.bo.BusinessObject, java.util.Map,
      *      java.lang.String)
      */
     @Override
@@ -62,11 +62,11 @@ public class AssetRetirementReasonLookupableHelperServiceImpl extends KualiLooku
         AssetRetirementReason assetRetirementReason = (AssetRetirementReason) businessObject;
         
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        String mergeParam = parameterService.getParameterValue(AssetGlobal.class, CamsConstants.Parameters.MERGE_SEPARATE_RETIREMENT_REASONS);
-        String razeParam = parameterService.getParameterValue(AssetRetirementGlobal.class, CamsConstants.Parameters.RAZE_RETIREMENT_REASONS);
+        String mergeParam = parameterService.getParameterValueAsString(AssetGlobal.class, CamsConstants.Parameters.MERGE_SEPARATE_RETIREMENT_REASONS);
+        String razeParam = parameterService.getParameterValueAsString(AssetRetirementGlobal.class, CamsConstants.Parameters.RAZE_RETIREMENT_REASONS);
         
         if (initializingAssetRetirement) {
-            FinancialSystemMaintenanceDocumentAuthorizerBase documentAuthorizer = (FinancialSystemMaintenanceDocumentAuthorizerBase) SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(CamsConstants.DocumentTypeName.ASSET_RETIREMENT_GLOBAL);
+            FinancialSystemMaintenanceDocumentAuthorizerBase documentAuthorizer = (FinancialSystemMaintenanceDocumentAuthorizerBase) SpringContext.getBean(DocumentDictionaryService.class).getDocumentAuthorizer(CamsConstants.DocumentTypeName.ASSET_RETIREMENT_GLOBAL);
             
             // do not allow user to issue a retirement doc. if not active.
             if (!assetRetirementReason.isActive()) {
@@ -121,7 +121,7 @@ public class AssetRetirementReasonLookupableHelperServiceImpl extends KualiLooku
     /**
      * Overrides base implementation to remove the action urls if we are initializing the asset retirement reason
      *
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, List pkNames)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject, List pkNames)
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {

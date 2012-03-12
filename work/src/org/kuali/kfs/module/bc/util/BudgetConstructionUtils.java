@@ -15,14 +15,14 @@
  */
 package org.kuali.kfs.module.bc.util;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.bc.BCParameterKeyConstants;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
-import org.kuali.kfs.module.bc.document.dataaccess.impl.BudgetConstructionDaoJdbcBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 public class BudgetConstructionUtils {
     private static ParameterService parameterService = SpringContext.getBean(ParameterService.class);
@@ -41,7 +41,7 @@ public class BudgetConstructionUtils {
             throw (ioex);
         }
         
-        List<String> expenditureObjectTypes = BudgetParameterFinder.getExpenditureObjectTypes();
+        Collection<String> expenditureObjectTypes = BudgetParameterFinder.getExpenditureObjectTypes();
         if (expenditureObjectTypes.isEmpty())
         {
             LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s is empty\n",BCParameterKeyConstants.EXPENDITURE_OBJECT_TYPES));
@@ -64,7 +64,7 @@ public class BudgetConstructionUtils {
             IllegalArgumentException ioex = new IllegalArgumentException("parameter "+BCParameterKeyConstants.REVENUE_OBJECT_TYPES+" does not exist");
             throw (ioex);
         }
-        List<String> revenueObjectTypes = BudgetParameterFinder.getRevenueObjectTypes();
+        Collection<String> revenueObjectTypes = BudgetParameterFinder.getRevenueObjectTypes();
         if (revenueObjectTypes.isEmpty())
         {
             LOG.warn(String.format("\n***Budget Construction Application Error***\nSQL will not be valid\nparameter %s is empty\n",BCParameterKeyConstants.REVENUE_OBJECT_TYPES));
@@ -88,7 +88,7 @@ public class BudgetConstructionUtils {
         {
             return new String("('')");
         }
-        StringBuffer sb = new StringBuffer(20);
+        StringBuilder sb = new StringBuilder(20);
         sb = sb.append("(?");
         for (int i = 1; i < parameterCount; i++)
         {
@@ -104,27 +104,24 @@ public class BudgetConstructionUtils {
      * @param inListValues: components of the IN list
      * @return an empty string if the IN list will be empty
      */
-    protected static String inString (List<String> inListValues)
+    protected static String inString (Collection<String> inListValues)
     {
+        if ( inListValues.isEmpty() ) {
+            return "";
+        }
         // the delimiter for strings in the DB is assumed to be a single quote.
         // this is the ANSI-92 standard.
         // if the ArrayList input is empty, IN ('') is returned.
-        StringBuffer inBuilder = new StringBuffer(150);
-        
+        StringBuilder inBuilder = new StringBuilder(150);
         inBuilder.append("('");
-        if (! inListValues.isEmpty())
-        {
-          inBuilder.append(inListValues.get(0));
-        }
-        else
-        {
-            // for an empty list, return an empty string
-            return new String("");
-        }
-        for (int idx = 1; idx < inListValues.size(); idx++)
-        {
-            inBuilder.append("','");
-            inBuilder.append(inListValues.get(idx));
+        boolean isFirst = true;
+        for ( String val : inListValues ) {
+            if ( isFirst ) {
+                isFirst = false;
+            } else {
+                inBuilder.append("','");    
+            }
+            inBuilder.append( val );
         }
         inBuilder.append("')");
         

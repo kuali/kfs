@@ -18,14 +18,14 @@ package org.kuali.kfs.module.endow.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * The KemidSourceOfFunds class describes the source of funds and the corpus total for endowments.
  */
-public class KemidSourceOfFunds extends PersistableBusinessObjectBase implements Inactivateable {
+public class KemidSourceOfFunds extends PersistableBusinessObjectBase implements MutableInactivatable {
     private String kemid;
     private KualiInteger kemidFundSourceSequenceNumber;
     private String fundSourceCode;
@@ -39,10 +39,10 @@ public class KemidSourceOfFunds extends PersistableBusinessObjectBase implements
     private FundSourceCode fundSource;
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         m.put(EndowPropertyConstants.KEMID, this.kemid);
         m.put(EndowPropertyConstants.KEMID_FND_SRC_SEQ_NBR, String.valueOf(kemidFundSourceSequenceNumber));
@@ -159,14 +159,14 @@ public class KemidSourceOfFunds extends PersistableBusinessObjectBase implements
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.Inactivateable#isActive()
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#isActive()
      */
     public boolean isActive() {
         return active;
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.Inactivateable#setActive(boolean)
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#setActive(boolean)
      */
     public void setActive(boolean active) {
         this.active = active;

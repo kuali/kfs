@@ -33,8 +33,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * validate the capital accounting lines object subtypes
@@ -94,7 +94,7 @@ public class CapitalAccountingLinesObjectSubtypeValidations extends GenericValid
         List<String> objectSubTypeList = new ArrayList<String>();
         List<String> validObjectSubTypes = new ArrayList<String>();
         
-        subTypes = SpringContext.getBean(ParameterService.class).getParameterValues(Asset.class, KFSParameterKeyConstants.CamParameterConstants.OBJECT_SUB_TYPE_GROUPS);
+        subTypes = new ArrayList<String>( SpringContext.getBean(ParameterService.class).getParameterValuesAsString(Asset.class, KFSParameterKeyConstants.CamParameterConstants.OBJECT_SUB_TYPE_GROUPS) );
 
         for (String subType : subTypes) {
             validObjectSubTypes.addAll(Arrays.asList(StringUtils.split(subType, ",")));

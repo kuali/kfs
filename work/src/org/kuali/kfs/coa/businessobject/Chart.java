@@ -19,12 +19,12 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.service.ChartService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.KualiCode;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.bo.KualiCode;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * 
@@ -33,44 +33,41 @@ public class Chart extends PersistableBusinessObjectBase implements KualiCode {
 
     private static final long serialVersionUID = 4129020803214027609L;
 
-    private String finChartOfAccountDescription;
-    private boolean active;
-    private String finCoaManagerPrincipalId;
-    private String reportsToChartOfAccountsCode;
-    private String chartOfAccountsCode;
-    private String finAccountsPayableObjectCode;
-    private String finExternalEncumbranceObjCd;
-    private String finPreEncumbranceObjectCode;
-    private String financialCashObjectCode;
-    private String icrIncomeFinancialObjectCode;
-    private String finAccountsReceivableObjCode;
-    private String finInternalEncumbranceObjCd;
-    private String icrExpenseFinancialObjectCd;
-    private String incBdgtEliminationsFinObjCd;
-    private String expBdgtEliminationsFinObjCd;
-    private String fundBalanceObjectCode;
+    public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + "Chart";
+    
+    protected String finChartOfAccountDescription;
+    protected boolean active;
+    protected String finCoaManagerPrincipalId;
+    protected String reportsToChartOfAccountsCode;
+    protected String chartOfAccountsCode;
+    protected String finAccountsPayableObjectCode;
+    protected String finExternalEncumbranceObjCd;
+    protected String finPreEncumbranceObjectCode;
+    protected String financialCashObjectCode;
+    protected String icrIncomeFinancialObjectCode;
+    protected String finAccountsReceivableObjCode;
+    protected String finInternalEncumbranceObjCd;
+    protected String icrExpenseFinancialObjectCd;
+    protected String incBdgtEliminationsFinObjCd;
+    protected String expBdgtEliminationsFinObjCd;
+    protected String fundBalanceObjectCode;
 
-    private ObjectCode incBdgtEliminationsFinObj;
-    private ObjectCode expBdgtEliminationsFinObj;
-    private ObjectCode finAccountsPayableObject;
-    private ObjectCode finExternalEncumbranceObj;
-    private ObjectCode finPreEncumbranceObject;
-    private ObjectCode financialCashObject;
-    private ObjectCode icrIncomeFinancialObject;
-    private ObjectCode finAccountsReceivableObj;
-    private ObjectCode finInternalEncumbranceObj;
-    private ObjectCode icrExpenseFinancialObject;
-    private ObjectCode fundBalanceObject;
-    private Person finCoaManager;
-    private Chart reportsToChartOfAccounts;
+    protected ObjectCode incBdgtEliminationsFinObj;
+    protected ObjectCode expBdgtEliminationsFinObj;
+    protected ObjectCode finAccountsPayableObject;
+    protected ObjectCode finExternalEncumbranceObj;
+    protected ObjectCode finPreEncumbranceObject;
+    protected ObjectCode financialCashObject;
+    protected ObjectCode icrIncomeFinancialObject;
+    protected ObjectCode finAccountsReceivableObj;
+    protected ObjectCode finInternalEncumbranceObj;
+    protected ObjectCode icrExpenseFinancialObject;
+    protected ObjectCode fundBalanceObject;
+    protected Person finCoaManager;
+    protected Chart reportsToChartOfAccounts;
 
-
-    /**
-     * Default no-arg constructor.
-     */
-    public Chart() {
-    }
-
+    private static transient ChartService chartService;
+    
     /**
      * Gets the finChartOfAccountDescription attribute.
      * 
@@ -352,10 +349,10 @@ public class Chart extends PersistableBusinessObjectBase implements KualiCode {
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
     @SuppressWarnings("unchecked")
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
 
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
@@ -543,8 +540,6 @@ public class Chart extends PersistableBusinessObjectBase implements KualiCode {
         this.incBdgtEliminationsFinObjCd = incBdgtEliminationsFinObjCd;
     }
 
-    private static ChartService chartService;
-    
     /**
      * Gets the finCoaManagerPrincipalId attribute.
      * 

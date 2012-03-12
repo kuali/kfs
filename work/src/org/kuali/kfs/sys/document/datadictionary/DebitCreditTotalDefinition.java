@@ -19,7 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.document.web.renderers.DebitCreditTotalRenderer;
 import org.kuali.kfs.sys.document.web.renderers.Renderer;
-import org.kuali.rice.kns.datadictionary.exception.AttributeValidationException;
+import org.kuali.rice.krad.datadictionary.exception.AttributeValidationException;
 
 /**
  * Metadata that instructs the accounting line tags how to render debit/credit totals used in voucher documents
@@ -62,7 +62,7 @@ public class DebitCreditTotalDefinition extends TotalDefinition {
     /**
      * Validates that total properties have been added
      * 
-     * @see org.kuali.rice.kns.datadictionary.DataDictionaryDefinition#completeValidation(java.lang.Class, java.lang.Class)
+     * @see org.kuali.rice.krad.datadictionary.DataDictionaryDefinition#completeValidation(java.lang.Class, java.lang.Class)
      */
     public void completeValidation(Class rootBusinessObjectClass, Class otherBusinessObjectClass) {
         if (StringUtils.isBlank(debitTotalProperty) || StringUtils.isBlank(creditTotalProperty)) {

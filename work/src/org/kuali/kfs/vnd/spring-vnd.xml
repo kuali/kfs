@@ -55,9 +55,14 @@
         <property name="batchFileDirectories">
           	<list>
             	<value>${reports.directory}/vnd</value>
+            	<value>${staging.directory}/vnd</value>
           	</list>
         </property>
-
+        <property name="jobNames">
+        	<list>
+				<value>vendorExcludeJob</value>
+			</list>
+		</property>
 	</bean>
 
     <bean id="vndModuleService" parent="vndModuleService-parentBean"/>
@@ -66,29 +71,6 @@
 		<property name="moduleConfiguration" ref="vndModuleConfiguration" />
 	</bean>
 
-	<!-- TODO: ewestfal
-	     12-23-2008
-	     commented out since the workflow lookup framework no longer exists
-	     
-	<bean id="workflow-org.kuali.kfs.vnd.businessobject.VendorType-Lookupable" parent="workflowLookupable" scope="prototype">
-		<property name="businessObjectClassName">
-			<value>org.kuali.kfs.vnd.businessobject.VendorType</value>
-		</property>
-	</bean>
-
-	<bean id="workflow-org.kuali.kfs.vnd.businessobject.ContractManager-Lookupable" parent="workflowLookupable" scope="prototype">
-		<property name="businessObjectClassName">
-			<value>org.kuali.kfs.vnd.businessobject.ContractManager</value>
-		</property>
-	</bean>
-
-    <bean id="workflow-org.kuali.kfs.vnd.businessobject.CommodityCode-Lookupable" parent="workflowLookupable" scope="prototype">
-        <property name="businessObjectClassName">
-            <value>org.kuali.kfs.vnd.businessobject.CommodityCode</value>
-        </property>
-    </bean>
-    -->
-    
     <bean id="vendorDao" parent="platformAwareDao" class="org.kuali.kfs.vnd.dataaccess.impl.VendorDaoOjb" />
    
     <bean id="vendorService" parent="vendorService-parentBean"/>
@@ -98,7 +80,6 @@
         <property name="businessObjectService" ref="businessObjectService"/>
         <property name="documentService" ref="documentService"/>
         <property name="dateTimeService" ref="dateTimeService"/>
-        <property name="persistenceService" ref="persistenceService" />
     </bean>
     <bean id="phoneNumberService" parent="phoneNumberService-parentBean"/>
 
@@ -298,35 +279,126 @@
             <ref bean="commodityCodeDao" />
         </property> 
     </bean>
+
+	<bean id="debarredVendorMatchDao" parent="platformAwareDao"
+		class="org.kuali.kfs.vnd.batch.dataaccess.DebarredVendorMatchDaoOjb" />
+		
+	<bean id="debarredVendorDao" parent="platformAwareDaoJdbc"
+		class="org.kuali.kfs.vnd.batch.dataaccess.DebarredVendorDaoJdbc">
+		<property name="debarredVendorMatchDao">
+			<ref bean="debarredVendorMatchDao" />
+		</property>
+		<property name="vendorService">
+			<ref bean="vendorService" />
+		</property>
+	</bean>
+		
+	<bean id="vendorExcludeService" parent="vendorExcludeService-parentBean"/>
+	<bean id="vendorExcludeService-parentBean" abstract="true" class="org.kuali.kfs.vnd.batch.service.impl.VendorExcludeServiceImpl">
+		<property name="batchInputFileService">
+			<ref bean="batchInputFileService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="batchInputFileType">
+			<ref bean="vendorExcludeInputFileType" />
+		</property>
+		<property name="debarredVendorDao">
+			<ref bean="debarredVendorDao" />
+		</property>
+		<property name="debarredVendorMatchDao">
+			<ref bean="debarredVendorMatchDao" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+	</bean>  
+	
+	<bean id="vendorExcludeInputFileType" parent="vendorExcludeInputFileType-parentBean"/>
+	<bean id="vendorExcludeInputFileType-parentBean" abstract="true" class="org.kuali.kfs.vnd.batch.VendorExcludeInputFileType">
+    	<property name="directoryPath">
+	       <value>${staging.directory}/vnd/exclusion</value>
+	    </property>
+	    <property name="fileExtension">
+	       <value>csv</value>
+	    </property>
+	    <property name="dateTimeService">
+	       <ref bean="dateTimeService"/>
+	    </property>
+	</bean> 
+	
+	<bean id="vendorExcludeJob" parent="unscheduledJobDescriptor">
+	<property name="steps">
+			<list>
+				<ref bean="loadEplsFileStep" />
+				<ref bean="vendorMatchStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="loadEplsFileStep" class="org.kuali.kfs.vnd.batch.LoadEplsFileStep"
+		parent="step">
+		<property name="vendorExcludeService">
+			<ref bean="vendorExcludeService" />
+		</property>
+	</bean>
+	
+	<bean id="vendorMatchStep" class="org.kuali.kfs.vnd.batch.VendorMatchStep"
+		parent="step">
+		<property name="vendorExcludeService">
+			<ref bean="vendorExcludeService" />
+		</property>
+	</bean>
+	
+	<bean id="vendorExclusionLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" parent="kualiLookupable" scope="prototype">
+        <property name="lookupableHelperService">
+         	<ref bean="vendorExclusionLookupableHelperServiceImpl" />   
+        </property>
+    </bean>
+     
+    <bean id="debarredVendorUnmatchedLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" parent="kualiLookupable" scope="prototype">
+        <property name="lookupableHelperService">
+         	<ref bean="debarredVendorUnmatchedLookupableHelperServiceImpl" />   
+        </property>
+    </bean>
+    
+    <bean id="vendorExclusionLookupableHelperServiceImpl" class="org.kuali.kfs.vnd.businessobject.lookup.VendorExclusionLookupableHelperServiceImpl" parent="lookupableHelperService">
+		<property name="vendorExcludeService">
+			<ref bean="vendorExcludeService" />
+		</property>
+		<property name="vendorService">
+			<ref bean="vendorService" />
+		</property>
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+	</bean>
+	
+	<bean id="debarredVendorUnmatchedLookupableHelperServiceImpl" class="org.kuali.kfs.vnd.businessobject.lookup.DebarredVendorUnmatchedLookupableHelperServiceImpl" parent="lookupableHelperService">
+		<property name="vendorExcludeService">
+			<ref bean="vendorExcludeService" />
+		</property>
+		<property name="vendorService">
+			<ref bean="vendorService" />
+		</property>
+	</bean>
+    
+
+
     <bean id="commodityReviewRoleTypeService" parent="commodityReviewRoleTypeService-parentBean"/>
     
     <bean id="commodityReviewRoleTypeService-parentBean" class="org.kuali.kfs.vnd.identity.CommodityReviewRoleTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-	  <property name="serviceDefinition">
-	    <bean parent="kfsService"
-	      p:service-ref="commodityReviewRoleTypeService"
-	      p:localServiceName="commodityReviewRoleTypeService" />
-	  </property>
-	</bean>
+		
     <bean id="contractManagerRoleTypeService" parent="contractManagerRoleTypeService-parentBean"/>
 
     <bean id="contractManagerRoleTypeService-parentBean" class="org.kuali.kfs.vnd.identity.ContractManagerRoleTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-	  <property name="serviceDefinition">
-	    <bean parent="kfsService"
-	      p:service-ref="contractManagerRoleTypeService"
-	      p:localServiceName="contractManagerRoleTypeService" />
-	  </property>
-	</bean>
+		
     <bean id="vendorTypeRoleTypeService" parent="vendorTypeRoleTypeService-parentBean"/>
 
     <bean id="vendorTypeRoleTypeService-parentBean" class="org.kuali.kfs.vnd.identity.VendorTypeRoleTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-	  <property name="serviceDefinition">
-	    <bean parent="kfsService"
-	      p:service-ref="vendorTypeRoleTypeService"
-	      p:localServiceName="vendorTypeRoleTypeService" />
-	  </property>
-	</bean>    
+    
+    <import resource="spring-vnd-bus-exports.xml"/>
+		
     
 </beans>

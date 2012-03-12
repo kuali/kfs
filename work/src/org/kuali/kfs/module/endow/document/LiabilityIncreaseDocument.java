@@ -15,13 +15,28 @@
  */
 package org.kuali.kfs.module.endow.document;
 
+import java.util.List;
+
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.sys.document.Correctable;
-import org.kuali.rice.kns.document.Copyable;
+import org.kuali.rice.krad.document.Copyable;
 
 public class LiabilityIncreaseDocument extends EndowmentTaxLotLinesDocumentBase implements Copyable, Correctable {
 
 
     public LiabilityIncreaseDocument() {
         super();        
+    }
+
+    @Override
+    public void setSourceTransactionLines(List<EndowmentTransactionLine> sourceLines) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void setTargetTransactionLines(List<EndowmentTransactionLine> targetLines) {
+        // TODO Auto-generated method stub
+        
     }
 }

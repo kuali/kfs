@@ -89,6 +89,7 @@
 			type="org.kuali.kfs.fp.document.web.struts.YearEndBudgetAdjustmentForm" />
 
 		<!--  Accounts Receivable Module Bean Definitions -->
+ 
 		<form-bean name="PaymentApplicationDocumentForm"
 			type="org.kuali.kfs.module.ar.document.web.struts.PaymentApplicationDocumentForm" />
 		<form-bean name="CashControlDocumentForm"
@@ -111,8 +112,10 @@
 			type="org.kuali.kfs.module.ar.web.struts.CustomerStatementForm" />
 		<form-bean name="CustomerInvoiceForm"
 			type="org.kuali.kfs.module.ar.web.struts.CustomerInvoiceForm" />
-
+ 
 		<!-- Labor Distribution Bean Definitions -->
+		
+ 
 		<form-bean name="LaborSalaryExpenseTransferForm"
 			type="org.kuali.kfs.module.ld.document.web.struts.SalaryExpenseTransferForm" />
 		<form-bean name="LaborYearEndSalaryExpenseTransferForm"
@@ -125,8 +128,14 @@
 			type="org.kuali.kfs.module.ld.document.web.struts.LaborCorrectionForm" />
 		<form-bean name="LaborYearEndBenefitExpenseTransferForm"
 			type="org.kuali.kfs.module.ld.document.web.struts.YearEndBenefitExpenseTransferForm" />
+		<form-bean name="FringeBenefitInquiryForm"
+			type="org.kuali.kfs.module.ld.document.web.struts.FringeBenefitInquiryForm" />
+		<form-bean name="LaborGLLaborEntrySummarizationInquiryForm"
+			type="org.kuali.kfs.module.ld.web.struts.GLLaborEntrySummarizationInquiryForm"/>
 
 		<!-- Budget Construction Bean Definitions -->
+
+ 
 		<form-bean name="BudgetConstructionSelectionForm"
 			type="org.kuali.kfs.module.bc.document.web.struts.BudgetConstructionSelectionForm" />
 		<form-bean name="BudgetConstructionRequestImportForm"
@@ -156,6 +165,7 @@
 		<form-bean name="BudgetExpansionForm"
 			type="org.kuali.kfs.module.bc.document.web.struts.BudgetExpansionForm" />
 
+
 		<!-- General Ledger Bean Definitions -->
 		<form-bean name="CorrectionForm"
 			type="org.kuali.kfs.gl.document.web.struts.CorrectionForm" />
@@ -165,6 +175,7 @@
 			type="org.kuali.kfs.gl.web.struts.BalanceInquiryLookupForm" />
 
 		<!-- PURAP Module Bean Definitions -->
+ 
 		<form-bean name="ContractManagerAssignmentForm"
 			type="org.kuali.kfs.module.purap.document.web.struts.ContractManagerAssignmentForm" />
 		<form-bean name="RequisitionForm"
@@ -191,6 +202,7 @@
 
 
 		<!-- CG Module Bean Definitions -->
+ 
 		<form-bean name="CloseForm"
 			type="org.kuali.kfs.module.cg.web.struts.CloseForm" />
 
@@ -198,6 +210,8 @@
 		<form-bean name="PdpFormatForm" type="org.kuali.kfs.pdp.web.struts.FormatForm" />
 
 		<!-- CAMs Module Bean Definitions -->
+		
+ 
 		<form-bean name="AssetPaymentForm"
 			type="org.kuali.kfs.module.cam.document.web.struts.AssetPaymentForm" />
 		<form-bean name="AssetTransferForm"
@@ -210,17 +224,22 @@
 			type="org.kuali.kfs.module.cam.document.web.struts.AssetBarCodeInventoryInputFileForm" />
 
 		<!-- Effort Certification Bean Definitions -->
+
+ 
 		<form-bean name="EffortCertificationForm"
 			type="org.kuali.kfs.module.ec.document.web.struts.EffortCertificationForm" />
 		<form-bean name="CertificationRecreateForm"
 			type="org.kuali.kfs.module.ec.document.web.struts.CertificationRecreateForm" />
 		<form-bean name="CertificationReportForm"
 			type="org.kuali.kfs.module.ec.document.web.struts.CertificationReportForm" />
+
+
 		<!-- KFS incident report  -->
 		<form-bean name="KualiExceptionIncidentForm"
 			type="org.kuali.rice.kns.web.struts.form.KualiExceptionIncidentForm" />
 
 		<!-- CAB Module Bean Definitions -->
+ 
 		<form-bean name="PurApLineForm"
 			type="org.kuali.kfs.module.cab.document.web.struts.PurApLineForm" />
 		<form-bean name="GlLineForm"
@@ -228,7 +247,10 @@
 		<form-bean name="CapitalAssetInformationForm"
 			type="org.kuali.kfs.module.cab.document.web.struts.CapitalAssetInformationForm" />
 
+
 		<!-- Endowment Module Bean Definitions -->
+
+ 
 		<form-bean name="AssetIncreaseDocumentForm"
 			type="org.kuali.kfs.module.endow.document.web.struts.AssetIncreaseDocumentForm" />
 		<form-bean name="AssetDecreaseDocumentForm"
@@ -266,15 +288,20 @@
 		<form-bean name="TransactionSummaryForm"
 			type="org.kuali.kfs.module.endow.web.struts.TransactionSummaryForm" />
 		<form-bean name="AssetStatementForm"
-			type="org.kuali.kfs.module.endow.web.struts.AssetStatementForm" />						
+			type="org.kuali.kfs.module.endow.web.struts.AssetStatementForm" />
+
+
+        <!-- VND Module Bean Definitions -->
+	    <form-bean name="VendorExclusionForm"
+			type="org.kuali.kfs.vnd.web.struts.VendorExclusionForm" />       			
 	</form-beans>
 
 	<global-exceptions>
 		<exception type="java.lang.Throwable"
-			handler="org.kuali.rice.kns.web.struts.pojo.StrutsExceptionIncidentHandler"
+			handler="org.kuali.rice.kns.web.struts.form.pojo.StrutsExceptionIncidentHandler"
 			key="meaningless" />
-		<exception type="org.kuali.rice.kns.exception.AuthorizationException"
-			handler="org.kuali.rice.kns.web.struts.pojo.AuthorizationExceptionHandler"
+		<exception type="org.kuali.rice.krad.exception.AuthorizationException"
+			handler="org.kuali.rice.kns.web.struts.form.pojo.AuthorizationExceptionHandler"
 			key="meaningless" />
 	</global-exceptions>
 
@@ -360,6 +387,7 @@
 
 		<!--  Module Action Mappings -->
 
+ 
 		<action path="/ar*" name="{1}Form" input="/jsp/module/ar/{1}.jsp"
 			type="org.kuali.kfs.module.ar.document.web.struts.{1}Action" scope="request"
 			parameter="methodToCall" validate="true" attribute="KualiForm">
@@ -502,6 +530,7 @@
                 path="/jsp/sys/KualiBatchInputFileSet.jsp" />
         </action>        
 
+ 
 		<action path="/labor*" name="Labor{1}Form" input="/jsp/module/ld/{1}.jsp"
 			type="org.kuali.kfs.module.ld.document.web.struts.{1}Action" scope="request"
 			parameter="methodToCall" validate="true" attribute="KualiForm">
@@ -529,6 +558,21 @@
 			type="org.kuali.kfs.sys.web.struts.KualiBatchInputFileSetAction">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/sys/KualiBatchInputFileSet.jsp" />
+		</action>
+
+		<action path="/fringeBenefitInquiry" name="FringeBenefitInquiryForm"
+			type="org.kuali.kfs.module.ld.document.web.struts.FringeBenefitInquiryAction"
+			scope="session" parameter="methodToCall" validate="true"
+			attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/module/ld/FringeBenefitInquiry.jsp" />
+		</action>
+		
+		<action path="/laborGLLaborEntrySummarizationInquiry" name="LaborGLLaborEntrySummarizationInquiryForm"
+			type="org.kuali.kfs.module.ld.web.struts.GLLaborEntrySummarizationInquiryAction"
+			scope="request" attribute="KualiForm" parameter="methodToCall">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/module/ld/GLLaborEntrySummarizationInquiry.jsp" />
 		</action>
 
 		<action path="/budget*" name="{1}Form" input="/jsp/module/bc/{1}.jsp"
@@ -599,6 +643,7 @@
 			<forward name="basic" path="/jsp/fp/CashManagementStatus.jsp" />
 		</action>
 
+ 
 		<action path="/purap*" name="{1}Form" input="/jsp/module/purap/{1}.jsp"
 			type="org.kuali.kfs.module.purap.document.web.struts.{1}Action"
 			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
@@ -618,7 +663,9 @@
 			type="org.kuali.kfs.module.purap.document.web.struts.PrintAction"
 			scope="request" />
 
-		<action path="/purapElectronicInvoiceTest" name="ElectronicInvoiceTestForm"
+		<action path="/purapElectronicInvoiceTestFileGeneration" 
+			name="ElectronicInvoiceTestForm"
+			attribute="KualiForm" 
 			input="/jsp/module/purap/ElectronicInvoiceTest.jsp"
 			type="org.kuali.kfs.module.purap.document.web.struts.ElectronicInvoiceTestAction"
 			scope="request">
@@ -670,6 +717,7 @@
 			<forward name="basic" path="/jsp/sys/KualiBatchInputFileSet.jsp" />
 		</action>
 		
+ 
 		<action path="/reportEndow*" name="{1}Form"
 			input="/jsp/module/endow/{1}.jsp" 
 			type="org.kuali.kfs.module.endow.web.struts.{1}Action"
@@ -701,6 +749,14 @@
 			<forward name="continue" path="/jsp/pdp/format/formatContinue.jsp" />
 		</action>
 
+		<!-- These are VND items -->
+		
+		<action path="/vendorExclusion" 
+			type="org.kuali.kfs.vnd.web.struts.VendorExclusionAction"
+			name="VendorExclusionForm"
+			scope="request" parameter="methodToCall" validate="false"
+			attribute="KualiForm" />
+
 	</action-mappings>
 
 	<controller
@@ -711,5 +767,5 @@
 		factory="org.kuali.rice.kns.web.struts.action.KualiPropertyMessageResourcesFactory"
 		parameter="" />
 
-	<plug-in className="org.kuali.rice.kns.web.struts.pojo.PojoPlugin" />
+	<plug-in className="org.kuali.rice.kns.web.struts.form.pojo.PojoPlugin" />
 </struts-config>

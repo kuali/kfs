@@ -31,12 +31,12 @@ import org.kuali.kfs.module.purap.util.ReceivingQuestionCallback;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
-import org.kuali.rice.kns.bo.Note;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class ReceivingBaseAction extends FinancialSystemTransactionalDocumentActionBase {
 
@@ -79,7 +79,7 @@ public class ReceivingBaseAction extends FinancialSystemTransactionalDocumentAct
      * @param messageKey A (whole) key to the message which will appear on the question screen
      * @param questionsAndCallbacks A TreeMap associating the type of question to be asked and the type of callback which should
      *        happen in that case
-     * @param messagePrefix The most general part of a key to a message text to be retrieved from KualiConfigurationService,
+     * @param messagePrefix The most general part of a key to a message text to be retrieved from ConfigurationService,
      *        Describes a collection of questions.
      * @param redirect An ActionForward to return to if done with questions
      * @return An ActionForward
@@ -93,7 +93,7 @@ public class ReceivingBaseAction extends FinancialSystemTransactionalDocumentAct
         String reason = request.getParameter(KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
         String noteText = "";
 
-        KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
+        ConfigurationService kualiConfiguration = SpringContext.getBean(ConfigurationService.class);
         String firstQuestion = questionsAndCallbacks.firstKey();
         ReceivingQuestionCallback callback = null;
         Iterator questions = questionsAndCallbacks.keySet().iterator();
@@ -176,19 +176,19 @@ public class ReceivingBaseAction extends FinancialSystemTransactionalDocumentAct
     }
 
     /**
-     * Used to look up messages to be displayed, from the KualiConfigurationService, given either a whole key or two parts of a key
+     * Used to look up messages to be displayed, from the ConfigurationService, given either a whole key or two parts of a key
      * that may be concatenated together.
      * 
      * @param messageKey String. One of the message keys in PurapKeyConstants.
      * @param messagePrefix String. A prefix to the question key, such as "ap.question." that, concatenated with the question,
      *        comprises the whole key of the message.
-     * @param kualiConfiguration An instance of KualiConfigurationService
+     * @param kualiConfiguration An instance of ConfigurationService
      * @param question String. The most specific part of the message key in PurapKeyConstants.
      * @return The message to be displayed given the key
      */
-    protected String getQuestionProperty(String messageKey, String messagePrefix, KualiConfigurationService kualiConfiguration, String question) {
+    protected String getQuestionProperty(String messageKey, String messagePrefix, ConfigurationService kualiConfiguration, String question) {
 
-        return kualiConfiguration.getPropertyString((StringUtils.isEmpty(messagePrefix)) ? messageKey : messagePrefix + question);
+        return kualiConfiguration.getPropertyValueAsString((StringUtils.isEmpty(messagePrefix)) ? messageKey : messagePrefix + question);
     }
 
 }

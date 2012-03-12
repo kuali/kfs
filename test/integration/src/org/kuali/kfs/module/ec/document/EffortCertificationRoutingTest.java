@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,21 +34,20 @@ import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kew.actionrequest.ActionRequestValue;
-import org.kuali.rice.kew.actionrequest.service.ActionRequestService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.XmlObjectSerializerService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.workflow.DocumentInitiator;
-import org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer;
-import org.kuali.rice.kns.workflow.KualiTransactionalDocumentInformation;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.NoteService;
+import org.kuali.rice.krad.service.XmlObjectSerializerService;
+import org.kuali.rice.krad.workflow.DocumentInitiator;
+import org.kuali.rice.krad.workflow.KualiDocumentXmlMaterializer;
+import org.kuali.rice.krad.workflow.KualiTransactionalDocumentInformation;
 
 
 @ConfigureContext(session = khuntley)
@@ -127,7 +126,7 @@ public class EffortCertificationRoutingTest extends KualiTestBase {
         Note testNote = new Note();
         testNote.setNoteText("This is a nice note.");
         testNote.setAuthorUniversalIdentifier(document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
-        document.getDocumentHeader().addNote(testNote);
+        SpringContext.getBean(NoteService.class).createNote(testNote, document.getDocumentHeader(),document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId() );
         effortCertificationDetailLines.add(testDetailLine);
         testDetailLine = new EffortCertificationDetail();
         testDetailLine.setAccountNumber("4631483");
@@ -144,7 +143,7 @@ public class EffortCertificationRoutingTest extends KualiTestBase {
         effortCertificationDetailLines.add(testDetailLine);
         document.setEffortCertificationDetailLines(effortCertificationDetailLines);
 
-        document.getDocumentHeader().setFinancialDocumentTotalAmount(new KualiDecimal(200.00));
+        document.getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(new KualiDecimal(200.00));
         SpringContext.getBean(DocumentService.class).saveDocument(document);
         return (EffortCertificationDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(document.getDocumentNumber());
     }
@@ -153,7 +152,7 @@ public class EffortCertificationRoutingTest extends KualiTestBase {
         DocumentHeader documentHeader = document.getDocumentHeader();
         KualiTransactionalDocumentInformation transInfo = new KualiTransactionalDocumentInformation();
         DocumentInitiator initiatior = new DocumentInitiator();
-        
+
         try {
             String initiatorPrincipalId = documentHeader.getWorkflowDocument().getInitiatorPrincipalId();
             Person initiatorUser = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(initiatorPrincipalId);
@@ -162,7 +161,7 @@ public class EffortCertificationRoutingTest extends KualiTestBase {
         catch (Exception e) {
             throw new RuntimeException(e);
         }
-        
+
         transInfo.setDocumentInitiator(initiatior);
         KualiDocumentXmlMaterializer xmlWrapper = new KualiDocumentXmlMaterializer();
         xmlWrapper.setDocument(document);
@@ -175,27 +174,27 @@ public class EffortCertificationRoutingTest extends KualiTestBase {
     public final void testRouting() throws Exception {
         EffortCertificationDocument document = buildDocument();
         System.out.println("EffortCertificationDocument doc# " + document.getDocumentNumber());
-        KualiWorkflowDocument testDoc = document.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument testDoc = document.getDocumentHeader().getWorkflowDocument();
         testDoc.blanketApprove("Approved by unit test");
-        assertTrue("Document didn't route!", testDoc.stateIsProcessed() || testDoc.stateIsFinal());
+        assertTrue("Document didn't route!", testDoc.isProcessed() || testDoc.isFinal());
 
-        List<ActionRequestValue> tempValues = SpringContext.getBean(ActionRequestService.class).findByRouteHeaderIdIgnoreCurrentInd(document.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
-        Set<String> serviceNodes = new HashSet<String>();
-        for (ActionRequestValue tempValue : tempValues) {
-            serviceNodes.add(tempValue.getNodeInstance().getName());
-            System.out.println("serviceNodes:::: " + tempValue.getNodeInstance().getName());
-        }
-
-        boolean documentRouted = true;
-        for (String tempName : databaseNodes) {
-            System.out.println("databaseNodes::::: " + tempName);
-
-            if (serviceNodes.contains(tempName)) {
-            }
-            else {
-                documentRouted = false;
-            }
-        }
+//        List<ActionRequest> tempValues = SpringContext.getBean(ActionRequestService.class).findByRouteHeaderIdIgnoreCurrentInd(document.getDocumentHeader().getWorkflowDocument().getDocumentId());
+//        Set<String> serviceNodes = new HashSet<String>();
+//        for (ActionRequestValue tempValue : tempValues) {
+//            serviceNodes.add(tempValue.getNodeInstance().getName());
+//            System.out.println("serviceNodes:::: " + tempValue.getNodeInstance().getName());
+//        }
+//
+//        boolean documentRouted = true;
+//        for (String tempName : databaseNodes) {
+//            System.out.println("databaseNodes::::: " + tempName);
+//
+//            if (serviceNodes.contains(tempName)) {
+//            }
+//            else {
+//                documentRouted = false;
+//            }
+//        }
 
         // BIN: disable this test because the role is not setup for AccountingOrganazationHierachy in KIM
         //assertTrue("Document had routing problems", documentRouted);

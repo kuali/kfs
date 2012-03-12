@@ -30,8 +30,8 @@ import org.kuali.kfs.gl.businessobject.OriginEntryStatistics;
 import org.kuali.kfs.gl.businessobject.options.OriginEntryFieldFinder;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * This class provides utility methods for the correction document
@@ -58,7 +58,7 @@ public class CorrectionDocumentUtils {
      * @return limit for record count functionality
      */
     public static int getRecordCountFunctionalityLimit() {
-        String limitString = SpringContext.getBean(ParameterService.class).getParameterValue(GeneralLedgerCorrectionProcessDocument.class, KFSConstants.GeneralLedgerCorrectionProcessApplicationParameterKeys.RECORD_COUNT_FUNCTIONALITY_LIMIT);
+        String limitString = SpringContext.getBean(ParameterService.class).getParameterValueAsString(GeneralLedgerCorrectionProcessDocument.class, KFSConstants.GeneralLedgerCorrectionProcessApplicationParameterKeys.RECORD_COUNT_FUNCTIONALITY_LIMIT);
         if (limitString != null) {
             return Integer.valueOf(limitString);
         }
@@ -72,7 +72,7 @@ public class CorrectionDocumentUtils {
      * @return number of records per page
      */
     public static int getRecordsPerPage() {
-        String limitString = SpringContext.getBean(ParameterService.class).getParameterValue(GeneralLedgerCorrectionProcessDocument.class, KFSConstants.GeneralLedgerCorrectionProcessApplicationParameterKeys.RECORDS_PER_PAGE);
+        String limitString = SpringContext.getBean(ParameterService.class).getParameterValueAsString(GeneralLedgerCorrectionProcessDocument.class, KFSConstants.GeneralLedgerCorrectionProcessApplicationParameterKeys.RECORDS_PER_PAGE);
         if (limitString != null) {
             return Integer.valueOf(limitString);
         }

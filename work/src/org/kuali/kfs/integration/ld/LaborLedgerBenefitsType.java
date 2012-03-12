@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.integration.ld;
 
-import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
+import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 
 public interface LaborLedgerBenefitsType extends ExternalizableBusinessObject{

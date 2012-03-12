@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.ld.dataaccess.impl;
 
 import org.kuali.kfs.module.ld.dataaccess.LaborClearGeneralLedgerEntryDao;
-import org.kuali.rice.kns.dao.jdbc.PlatformAwareDaoBaseJdbc;
+import org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJdbc;
 
 public class LaborClearGeneralLedgerEntryDaoJdbc extends PlatformAwareDaoBaseJdbc implements LaborClearGeneralLedgerEntryDao {
     org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(getClass());

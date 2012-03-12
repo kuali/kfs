@@ -31,7 +31,7 @@ public class OriginationCodeServiceImpl implements OriginationCodeService {
     /*
      * (non-Javadoc)
      * 
-     * @see org.kuali.rice.kns.service.OriginationCodeService#getByPrimaryKey(java.lang.String)
+     * @see org.kuali.rice.krad.service.OriginationCodeService#getByPrimaryKey(java.lang.String)
      */
     public OriginationCode getByPrimaryKey(String code) {
         return originationCodeDao.findByCode(code);
@@ -40,7 +40,7 @@ public class OriginationCodeServiceImpl implements OriginationCodeService {
     /*
      * (non-Javadoc)
      * 
-     * @see org.kuali.rice.kns.service.OriginationCodeService#setOriginationCodeDao(org.kuali.rice.kns.dao.OriginationCodeDao)
+     * @see org.kuali.rice.krad.service.OriginationCodeService#setOriginationCodeDao(org.kuali.rice.krad.dao.OriginationCodeDao)
      */
     public void setOriginationCodeDao(OriginationCodeDao dao) {
         this.originationCodeDao = dao;

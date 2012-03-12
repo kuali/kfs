@@ -154,26 +154,6 @@
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.endow.document.authorization.KEMIDDocumentPresentationController" />
     <property name="webScriptFiles">
       <list>
-      	<value>../dwr/interface/AccountService.js</value>
-        <value>../dwr/interface/AgreementSpecialInstructionService.js</value>
-        <value>../dwr/interface/AgreementStatusService.js</value>
-        <value>../dwr/interface/AgreementTypeService.js</value>        
-        <value>../dwr/interface/CAECodeService.js</value>
-        <value>../dwr/interface/ChartService.js</value>        
-        <value>../dwr/interface/CombineGroupCodeService.js</value>
-        <value>../dwr/interface/DonorLabelService.js</value>
-        <value>../dwr/interface/DonorService.js</value>
-        <value>../dwr/interface/DonorStatementCodeService.js</value>
-        <value>../dwr/interface/FeeMethodService.js</value>
-        <value>../dwr/interface/FundSourceService.js</value>        
-        <value>../dwr/interface/KEMIDService.js</value>        
-        <value>../dwr/interface/KEMService.js</value>
-        <value>../dwr/interface/OrganizationService.js</value>                
-        <value>../dwr/interface/PurposeCodeService.js</value>
-        <value>../dwr/interface/ResponsibleAdministrationCodeService.js</value>
-        <value>../dwr/interface/TransactionRestrictionCodeService.js</value>      
-        <value>../dwr/interface/TypeCodeService.js</value>
-        <value>../dwr/interface/UseCriteriaCodeService.js</value>
         <value>../scripts/module/endow/agreementTypeCode.js</value>
         <value>../scripts/module/endow/agreementStatusCode.js</value>
         <value>../scripts/module/endow/caeCode.js</value>
@@ -549,7 +529,7 @@
                     p:name="roleId"
                     p:required="true" />
               <bean parent="MaintainableFieldDefinition" 
-                    p:name="role.roleName"
+                    p:name="role.name"
                     p:unconditionallyReadOnly="true" />                    
               <dd:maintField attributeName="rolePrincipalId" unconditionallyReadOnly="true" required="true"/>
               <dd:maintField attributeName="rolePrincipal.principalName" required="true"/>                    

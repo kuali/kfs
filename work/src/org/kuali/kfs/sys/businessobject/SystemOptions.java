@@ -20,13 +20,16 @@ import java.util.LinkedHashMap;
 import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectType;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
 public class SystemOptions extends PersistableBusinessObjectBase implements FiscalYearBasedBusinessObject {
 
+    public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + "SystemOptions";
+    
     /**
      * Default no-arg constructor.
      */
@@ -930,10 +933,10 @@ public class SystemOptions extends PersistableBusinessObjectBase implements Fisc
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
     @SuppressWarnings("rawtypes")
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap map = new LinkedHashMap();
         map.put("universityFiscalYear", getUniversityFiscalYear());
         return map;

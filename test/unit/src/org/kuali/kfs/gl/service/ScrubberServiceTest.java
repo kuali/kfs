@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -40,10 +40,9 @@ import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Tests the ScrubberService
@@ -67,8 +66,6 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         LOG.debug("setUp() started");
 
         scrubberService = SpringContext.getBean(ScrubberService.class);
-        // scrubberService.setDateTimeService(dateTimeService);
-        persistenceService = SpringContext.getBean(PersistenceService.class);
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
 
         // Get the test date time service so we can specify the date/time of the run
@@ -99,7 +96,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests the scrubber considers entries with certain fields blank as errors
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testMiscellaneousBlankFields() throws Exception {
@@ -145,7 +142,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates cost share encumbrances for pre-encumbrance entries
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareEncumbrancesForPreEncumbrances() throws Exception {
@@ -180,7 +177,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates cost share encumbrances for internal encumbrances entries
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareEncumbrancesForInternalEncumbrances() throws Exception {
@@ -214,7 +211,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates cost share encumbrances for external encumbrance entries
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareEncumbrancesForExternalEncumbrances() throws Exception {
@@ -241,7 +238,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber does not generate cost share encumbrances for entries with cost share encumbrances
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoCostShareEncumbrancesForCostShareEncumbrances() throws Exception {
@@ -262,7 +259,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber does not generate cost share encumbrances for entries created by the journal voucher document
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoCostShareEncumbrancesForJournalVoucher() throws Exception {
@@ -283,7 +280,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber does not generate cost share encumbrances for beginning balance entries
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoCostShareEncumbrancesForBeginningBalances() throws Exception {
@@ -304,7 +301,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber does not generate cost share encumbrances for entries with a balance type of "actual"
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoCostShareEncumbrancesForActuals() throws Exception {
@@ -338,7 +335,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber does not generate cost share encumbrances for entries with budget balance types
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoCostShareEncumbrancesForBudget() throws Exception {
@@ -359,7 +356,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber does not generate cost share encumbrances for entries that do not represent expenses
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoCostShareForEncumbrancesNonExpenses() throws Exception {
@@ -380,7 +377,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates miscellaneous cost share entries
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareOther() throws Exception {
@@ -415,7 +412,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates cost share entries for entries with object code level == "TRIN"
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelTrin() throws Exception {
@@ -450,7 +447,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates cost share entries for entries with object code level == "TREX"
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelTrex() throws Exception {
@@ -485,7 +482,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates cost share entries for entries with object code level == "TRAV"
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelTrav() throws Exception {
@@ -526,7 +523,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates cost share entries for entries with object code level == "TRAN"
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelTran() throws Exception {
@@ -566,7 +563,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates cost share entries for entries with object code level == "SAAP"
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelSaap() throws Exception {
@@ -603,7 +600,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates cost share entries for entries with object code level == "RESV"
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelResv() throws Exception {
@@ -646,7 +643,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates cost share entries for entries with object code level == "PRSA"
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelPrsa() throws Exception {
@@ -684,7 +681,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates cost share entries for entries with object code level == "PART"
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelPart() throws Exception {
@@ -719,7 +716,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates cost share entries for entries with object code level == "ICOE"
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCostShareForLevelIcoe() throws Exception {
@@ -762,7 +759,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber does not generate cost share entries for encumbrance entries
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoCostShareTransfersForEncumbranceTransactions() throws Exception {
@@ -801,7 +798,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber does not generate cost share entries for entries with budget balance types
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoCostShareTransfersForBudgetTransactions() throws Exception {
@@ -825,18 +822,18 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates a plant endebtedness entries
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testPlantIndebtedness() throws Exception {
 
-        String[] input = new String[] { 
+        String[] input = new String[] {
                 testingYear + "BA9020204-----9100---ACLI07GEC 01DEBTEDNES     00000Biology Stockroom                                       13.77D" + testingYear + "-01-05          ----------                                                                       ",
-                testingYear + "BA9020204-----8000---ACAS07GEC 01DEBTEDNES     00000TP Generated Offset                                     13.77C" + testingYear + "-01-05          ----------                                                                       ", 
+                testingYear + "BA9020204-----8000---ACAS07GEC 01DEBTEDNES     00000TP Generated Offset                                     13.77C" + testingYear + "-01-05          ----------                                                                       ",
                 testingYear + "BA9120657-----9120---ACLI07DI  EUDEBTEDNES     00000PAYROLL EXPENSE TRANSFERS                              620.00C" + testingYear + "-01-05          ----------                                                                       ",
                 testingYear + "BA9120657-----8000---ACAS07DI  EUDEBTEDNES     00000PAYROLL EXPENSE TRANSFERS                              620.00D" + testingYear + "-01-05          ----------                                                                       " };
 
-        EntryHolder[] output = new EntryHolder[] { 
+        EntryHolder[] output = new EntryHolder[] {
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear + "BA9020204-----9100---ACLI07GEC 01DEBTEDNES     00000Biology Stockroom                                       13.77D" + testingYear + "-01-05          ----------                                                                       "),
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear + "BA9020204-----8000---ACAS07GEC 01DEBTEDNES     00000TP Generated Offset                                     13.77C" + testingYear + "-01-05          ----------                                                                       "),
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, testingYear + "BA9120657-----9120---ACLI07DI  EUDEBTEDNES     00000PAYROLL EXPENSE TRANSFERS                              620.00C" + testingYear + "-01-05          ----------                                                                       "),
@@ -876,7 +873,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber does not generate a plant endebtedness entry for encumbrance entries
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoIndebtednessForEncumbranceEntries() throws Exception {
@@ -901,7 +898,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates a capitalization entry for entries with object sub type == "CL"
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCapitalizationForObjectSubTypeCL() throws Exception {
@@ -930,7 +927,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates a capitalization entry for entries with object sub type == "LR"
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCapitalizationForObjectSubTypeLR() throws Exception {
@@ -959,7 +956,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber does not generate a capitalization entry for entries with certain document types
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoCapitalizationForCertainDocumentTypes() throws Exception {
@@ -984,7 +981,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber does not generate a capitalization entry for encumbrance entries
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoCapitalizationForEncumbranceEntry() throws Exception {
@@ -1009,7 +1006,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates the correct offset entries, even when there are mulitple period codes involved
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testOffsetGenerationAcrossMultipleFiscalPeriods() throws Exception {
@@ -1042,7 +1039,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates the correct offset entries, even when there are mulitple reversal dates involved
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testOffsetGenerationAcrossMultipleReversalDates() throws Exception {
@@ -1078,7 +1075,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers entries with closed accounts to be valid
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testClosedAccount() throws Exception {
@@ -1106,7 +1103,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers entries with accounts, expired by the balance type, to be valid
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testExpiredAccountByBalanceType() throws Exception {
@@ -1132,7 +1129,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers entries with expired accounts to be valid
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testExpiredAccount() throws Exception {
@@ -1160,7 +1157,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers invalid encumbrance update codes to be errors
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testInvalidEncumbranceUpdateCode() throws Exception {
@@ -1179,7 +1176,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers blank encumbrance update codes to be errors
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testBlankEncumbranceUpdateCodeOnEncumbranceRecord() throws Exception {
@@ -1200,7 +1197,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
     /**
      * Tests that the scrubber considers entries with blank reference numbers but an encumbrance update code that requires a
      * reference document to be errors
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testBlankReferenceDocumentNumberWithEncumbranceUpdateCodeOfR() throws Exception {
@@ -1217,7 +1214,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers entries with a document number present but no other document data to be errors
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testReferenceDocumentNumberPresentWithoutOtherFields() throws Exception {
@@ -1235,7 +1232,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
     /**
      * Tests that the scrubber considers blank reference origin codes, in an entry with the encumbrance update code requiring
      * reference documents, to be errors
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testBlankReferenceOriginCodeWithEncumbranceUpdateCodeOfR() throws Exception {
@@ -1252,7 +1249,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers invalid reference origin codes to be errors
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testInvalidReferenceOriginCode() throws Exception {
@@ -1270,7 +1267,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
     /**
      * Tests that the scrubber considers blank reference document types, in an entry with the encumbrance update code that requiring
      * reference documents, to be errors
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testBlankReferenceDocumentTypeWithEncumbranceUpdateCodeOfR() throws Exception {
@@ -1287,7 +1284,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers invalid reference document types to be errors
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testInvalidReferenceDocumentType() throws Exception {
@@ -1303,7 +1300,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers invalid project codes to be errors
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testInvalidProjectCode() throws Exception {
@@ -1319,7 +1316,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers invalid transaction dates to be errors.
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testInvalidTransactionDate() throws Exception {
@@ -1353,7 +1350,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers invalid debit/credit codes to be errors
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testInvalidDebitCreditCode() throws Exception {
@@ -1372,7 +1369,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers non blank debit/credit codes on entries not requiring offsets to be errors
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testDebitCreditCodeOnTransactionNotRequiringOffset() throws Exception {
@@ -1388,7 +1385,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers blank debit/credit codes on entries requiring offsets to be errors
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testBlankDebitCreditCodeOnTransactionRequiringOffset() throws Exception {
@@ -1403,7 +1400,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers blank document numbers to be errors
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testBlankDocumentNumber() throws Exception {
@@ -1419,7 +1416,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers invalid origin codes to be errors
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testInvalidOriginCode() throws Exception {
@@ -1433,7 +1430,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers blank origin codes to be errors
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testBlankOriginCode() throws Exception {
@@ -1448,7 +1445,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers invalid document types to be errors
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testInvalidDocumentType() throws Exception {
@@ -1464,7 +1461,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers blank document types to be errors
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testBlankDocumentType() throws Exception {
@@ -1480,7 +1477,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers invalid fiscal periods to be errors
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testInvalidFiscalPeriod() throws Exception {
@@ -1496,7 +1493,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers closed fiscal periods to be errors
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testClosedFiscalPeriod() throws Exception {
@@ -1512,28 +1509,28 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers invalid object type codes to be errors
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testInvalidObjectType() throws Exception {
-        String[] inputTransactions = { 
+        String[] inputTransactions = {
                 testingYear + "BL1031400-----4100---EXXX07DI  LGINVALOBTY     00000Rite Quality Office Supplies Inc.                       43.42D" + testingYear + "-01-05          ----------                                                                               ",
                 testingYear + "BL1031400-----9892---EXFB07DI  LGINVALOBTY     00000Rite Quality Office Supplies Inc.                       43.42C" + testingYear + "-01-05          ----------                                                                               " };
 
-        EntryHolder[] outputTransactions = { 
-                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]), 
-                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]), 
-                
+        EntryHolder[] outputTransactions = {
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[0]),
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions[1]),
+
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, inputTransactions[0]),
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE, testingYear + "BL1031400-----9892---EXFB07DI  LGINVALOBTY     00000GENERATED OFFSET                        +00000000000000043.42C" + testingYear + "-01-05          ----------                                       "),
-                
+
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE, testingYear + "BL1031400-----9892---EXFB07DI  LGINVALOBTY     00000Rite Quality Office Supplies Inc.       +00000000000000043.42C" + testingYear + "-01-05          ----------                                       "),
-                
+
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_ERROR_OUTPUT_FILE, inputTransactions[0]),
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.DEMERGER_ERROR_OUTPUT_FILE, testingYear + "BL1031400-----9892---EXFB07DI  LGINVALOBTY     00000Rite Quality Office Supplies Inc.       +00000000000000043.42C" + testingYear + "-01-05          ----------                                       "),
-                
+
                 new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_SORTED_FILE, inputTransactions[0]),
-                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_SORTED_FILE, testingYear + "BL1031400-----9892---EXFB07DI  LGINVALOBTY     00000GENERATED OFFSET                        +00000000000000043.42C" + testingYear + "-01-05          ----------                                       ") 
+                new EntryHolder(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_SORTED_FILE, testingYear + "BL1031400-----9892---EXFB07DI  LGINVALOBTY     00000GENERATED OFFSET                        +00000000000000043.42C" + testingYear + "-01-05          ----------                                       ")
                 };
 
         scrub(inputTransactions);
@@ -1542,7 +1539,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers invalid balance type codes to be errors
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testInvalidBalanceType() throws Exception {
@@ -1566,7 +1563,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers invalid financial object codes to be errors
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void PATCHFIX_testInvalidObjectCode() throws Exception {
@@ -1588,7 +1585,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers entries with invalid sub accounts to be errors
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testInvalidSubAccountNumber() throws Exception {
@@ -1604,7 +1601,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers entries with inactive sub accounts to be errors
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testInactiveSubAccountNumber() throws Exception {
@@ -1620,7 +1617,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers invalid account numbers to be errors
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testInvalidAccountNumber() throws Exception {
@@ -1636,7 +1633,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers blank account numbers to be errors
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testBlankAccountNumber() throws Exception {
@@ -1652,7 +1649,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers invalid charts to be errors
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testInvalidChart() throws Exception {
@@ -1672,7 +1669,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
     /**
      * Tests that the scrubber considers invalid fiscal years to be errors. Note: this test will malfunction sometime in the year
      * 2019
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testInvalidFiscalYear() throws Exception {
@@ -1688,7 +1685,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Entry with a closed fiscal period/year. These transactions should be marked as errors.
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testClosedFiscalYear() throws Exception {
@@ -1706,7 +1703,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Entry with a null fiscal year. The fiscal year should be replaced with the default fiscal year. They should not be errors.
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testDefaultFiscalYear() throws Exception {
@@ -1728,7 +1725,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers entries with inactive balance types to be errors
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testInactiveBalanceType() throws Exception {
@@ -1751,7 +1748,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers entries with inactive origination codes to be errors
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testInactiveOriginCode() throws Exception {
@@ -1774,7 +1771,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers entries with inactive origination codes to be errors
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testInactiveObjectCode() throws Exception {
@@ -1804,7 +1801,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers entries with inactive origination codes to be errors
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testInactiveObjectType() throws Exception {
@@ -1832,7 +1829,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber does not generate cost share entries for entries that are beginning balance transactions
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoCostShareTransfersForBeginningBalanceTransactions() throws Exception {
@@ -1853,7 +1850,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber does not generate a plant endebtedness entry for entries with financial sub object == "P2"
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoIndebtednessForObjectSubTypeP2() throws Exception {
@@ -1883,7 +1880,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber does not generate a plant endebtedness entry for entries with financial sub object == "P1"
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoIndebtednessForObjectSubTypeP1() throws Exception {
@@ -1906,7 +1903,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber does not generate a plant endebtedness entry for entries with budget balance types
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoIndebtednessForBudgetTransactions() throws Exception {
@@ -1927,7 +1924,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber does not generate a capitalization entry for entries that occurred in certain periods
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testNoCapitalizationForCertainFiscalPeriods() throws Exception {
@@ -1948,7 +1945,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber generates the correct offset entries, even with there are multiple origin codes involved
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testOffsetGenerationAcrossMultipleOriginCodes() throws Exception {
@@ -1975,7 +1972,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers entries with accounts expired by origin code to be valid
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testExpiredAccountByOriginCode() throws Exception {
@@ -1998,7 +1995,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Tests that the scrubber considers entries with expired c&g accounts to be valid
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testExpiredContractAndGrantAccount() throws Exception {
@@ -2022,7 +2019,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
 
     /**
      * Loads an array of String-formatted entries into the database, and then runs the scrubber on those entries
-     * 
+     *
      * @param inputTransactions an array of String-formatted entries to scrub
      */
     private void scrub(String[] inputTransactions) {
@@ -2070,9 +2067,9 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
     }
 
     /**
-     * deactivate a business object of the type clazz with the given primary keys. If the business object is not Inactivateable, do
+     * deactivate a business object of the type clazz with the given primary keys. If the business object is not MutableInactivatable, do
      * nothing on it.
-     * 
+     *
      * @param <T> the type of the business object to be deactivated
      * @param clazz the class type of the business object to be deactivated
      * @param primaryKeys the primary keys of the business object to be deactivated
@@ -2080,10 +2077,9 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
     private <T extends PersistableBusinessObject> void deactivate(Class<T> clazz, Map<String, Object> primaryKeys) {
         PersistableBusinessObject bo = businessObjectService.findByPrimaryKey(clazz, primaryKeys);
 
-        if (bo instanceof Inactivateable) {
-            Inactivateable inactivatedBO = (Inactivateable) bo;
-            inactivatedBO.setActive(false);
-
+        if (bo instanceof MutableInactivatable) {
+            MutableInactivatable mutableInactivatable = (MutableInactivatable) bo;
+            mutableInactivatable.setActive(false);
             businessObjectService.save(bo);
         }
     }

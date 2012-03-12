@@ -28,15 +28,15 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapKeyConstants;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.SingleConfirmationQuestion;
 import org.kuali.kfs.module.purap.PurapConstants.AccountsPayableDocumentStrings;
 import org.kuali.kfs.module.purap.PurapConstants.CMDocumentsStrings;
 import org.kuali.kfs.module.purap.PurapConstants.PODocumentsStrings;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.SingleConfirmationQuestion;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
@@ -59,21 +59,22 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.MessageList;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.RiceKeyConstants;
-import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.util.UrlFactory;
 
 /**
  * Struts Action for Accounts Payable documents.
@@ -89,8 +90,8 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         
         AccountsPayableDocumentBase document = (AccountsPayableDocumentBase) baseForm.getDocument();
         boolean foundAccountExpiredWarning = false;
-        for(int i=0;i<GlobalVariables.getMessageList().size();i++){
-            if (StringUtils.equals(GlobalVariables.getMessageList().get(i).getErrorKey(),PurapKeyConstants.MESSAGE_CLOSED_OR_EXPIRED_ACCOUNTS_REPLACED)){
+        for(int i=0;i<KNSGlobalVariables.getMessageList().size();i++){
+            if (StringUtils.equals(KNSGlobalVariables.getMessageList().get(i).getErrorKey(),PurapKeyConstants.MESSAGE_CLOSED_OR_EXPIRED_ACCOUNTS_REPLACED)){
                 foundAccountExpiredWarning = true;
             }   
         }
@@ -239,7 +240,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
 
         // if successful, then redirect back to init
         boolean successMessageFound = false;
-        MessageList messageList = GlobalVariables.getMessageList();
+        MessageList messageList = KNSGlobalVariables.getMessageList();
         for (int i = 0; i < messageList.size(); i++) {
             if (StringUtils.equals(messageList.get(i).getErrorKey(), RiceKeyConstants.MESSAGE_ROUTE_SUCCESSFUL)) {
                 successMessageFound = true;
@@ -248,7 +249,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         }
 
         if (successMessageFound) {
-            String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+            String basePath = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.APPLICATION_URL_KEY);
 
             Properties parameters = new Properties();
             parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.DOC_HANDLER_METHOD);
@@ -317,7 +318,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
      * @param messageKey A (whole) key to the message which will appear on the question screen
      * @param questionsAndCallbacks A TreeMap associating the type of question to be asked and the type of callback which should
      *        happen in that case
-     * @param messagePrefix The most general part of a key to a message text to be retrieved from KualiConfigurationService,
+     * @param messagePrefix The most general part of a key to a message text to be retrieved from ConfigurationService,
      *        Describes a collection of questions.
      * @param redirect An ActionForward to return to if done with questions
      * @return An ActionForward
@@ -331,7 +332,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         String reason = request.getParameter(KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
         String noteText = "";
 
-        KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
+        ConfigurationService kualiConfiguration = SpringContext.getBean(ConfigurationService.class);
         String firstQuestion = questionsAndCallbacks.firstKey();
         PurQuestionCallback callback = null;
         Iterator questions = questionsAndCallbacks.keySet().iterator();
@@ -414,18 +415,18 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
     }
 
     /**
-     * Used to look up messages to be displayed, from the KualiConfigurationService, given either a whole key or two parts of a key
+     * Used to look up messages to be displayed, from the ConfigurationService, given either a whole key or two parts of a key
      * that may be concatenated together.
      * 
      * @param messageKey String. One of the message keys in PurapKeyConstants.
      * @param messagePrefix String. A prefix to the question key, such as "ap.question." that, concatenated with the question,
      *        comprises the whole key of the message.
-     * @param kualiConfiguration An instance of KualiConfigurationService
+     * @param kualiConfiguration An instance of ConfigurationService
      * @param question String. The most specific part of the message key in PurapKeyConstants.
      * @return The message to be displayed given the key
      */
-    protected String getQuestionProperty(String messageKey, String messagePrefix, KualiConfigurationService kualiConfiguration, String question) {
-        return kualiConfiguration.getPropertyString((StringUtils.isEmpty(messagePrefix)) ? messageKey : messagePrefix + question);
+    protected String getQuestionProperty(String messageKey, String messagePrefix, ConfigurationService kualiConfiguration, String question) {
+        return kualiConfiguration.getPropertyValueAsString((StringUtils.isEmpty(messagePrefix)) ? messageKey : messagePrefix + question);
     }
 
     public ActionForward reopenPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -503,11 +504,11 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         String operation = "Reopen ";
 
         try {
-            KualiConfigurationService kualiConfiguration = SpringContext.getBean(KualiConfigurationService.class);
+            ConfigurationService kualiConfiguration = SpringContext.getBean(ConfigurationService.class);
 
             // Start in logic for confirming the proposed operation.
             if (ObjectUtils.isNull(question)) {
-                String key = kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_DOCUMENT);
+                String key = kualiConfiguration.getPropertyValueAsString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_DOCUMENT);
                 String message = StringUtils.replace(key, "{0}", operation);
                 return this.performQuestionWithoutInput(mapping, form, request, response, questionType, message, KFSConstants.CONFIRMATION_QUESTION, questionType, "");
             }
@@ -539,9 +540,9 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                 }
 
                 if (StringUtils.isNotEmpty(messageType)) {
-                    GlobalVariables.getMessageList().add(messageType);
+                    KNSGlobalVariables.getMessageList().add(messageType);
                 }
-                return this.performQuestionWithoutInput(mapping, form, request, response, confirmType, kualiConfiguration.getPropertyString(messageType), PODocumentsStrings.SINGLE_CONFIRMATION_QUESTION, questionType, "");
+                return this.performQuestionWithoutInput(mapping, form, request, response, confirmType, kualiConfiguration.getPropertyValueAsString(messageType), PODocumentsStrings.SINGLE_CONFIRMATION_QUESTION, questionType, "");
             }
             else {
                 return this.performQuestionWithoutInput(mapping, form, request, response, confirmType, "Unable to reopen the PO at this time due to the incorrect PO status or a pending PO change document.", PODocumentsStrings.SINGLE_CONFIRMATION_QUESTION, questionType, "");
@@ -561,7 +562,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
 
                     Note cancelNote = new Note();
                     cancelNote.setAuthorUniversalIdentifier(GlobalVariables.getUserSession().getPerson().getPrincipalId());
-                    cancelNote.setNoteText(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.AP_REOPENS_PURCHASE_ORDER_NOTE));
+                    cancelNote.setNoteText(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PurapKeyConstants.AP_REOPENS_PURCHASE_ORDER_NOTE));
                     po.addNote(cancelNote);
                     SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);
 

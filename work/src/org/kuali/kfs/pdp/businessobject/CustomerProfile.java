@@ -19,9 +19,11 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -32,21 +34,20 @@ import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.PostalCode;
-import org.kuali.rice.kns.bo.State;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.PostalCodeService;
-import org.kuali.rice.kns.service.StateService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.KualiInteger;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.location.api.campus.CampusService;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.location.api.postalcode.PostalCodeService;
+import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.location.framework.campus.CampusEbo;
+import org.kuali.rice.location.framework.country.CountryEbo;
+import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
+import org.kuali.rice.location.framework.state.StateEbo;
 
-public class CustomerProfile extends PersistableBusinessObjectBase implements Inactivateable {
+public class CustomerProfile extends PersistableBusinessObjectBase implements MutableInactivatable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerProfile.class);
 
     private String achPaymentDescription; // ACH_PMT_DESC
@@ -98,15 +99,15 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     private boolean selectedForFormat;
 
     private Chart chartOfAccounts;
-    private Campus defaultProcessingCampus;
+    private CampusEbo defaultProcessingCampus;
     private Chart defaultChart;
     private Account defaultAccount;
     private SubAccount defaultSubAccount;
     private ObjectCode defaultObject;
     private SubObjectCode defaultSubObject;
-    private State state;
-    private PostalCode postalCode;
-    private Country country;
+    private StateEbo state;
+    private PostalCodeEbo postalCode;
+    private CountryEbo country;
     private ACHTransactionType transactionType;
 
     private List<CustomerBank> customerBanks;
@@ -114,7 +115,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
 
     public CustomerProfile() {
         super();
-        customerBanks = new TypedArrayList(CustomerBank.class);;
+        customerBanks = new ArrayList<CustomerBank>();;
     }
 
     public String getCustomerShortName() {
@@ -830,8 +831,8 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
      * 
      * @return Returns the defaultProcessingCampus.
      */
-    public Campus getDefaultProcessingCampus() {
-        return defaultProcessingCampus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, defaultProcessingCampus, "defaultProcessingCampus");
+    public CampusEbo getDefaultProcessingCampus() {
+        return defaultProcessingCampus = StringUtils.isBlank( defaultPhysicalCampusProcessingCode)?null:((defaultProcessingCampus!=null && defaultProcessingCampus.getCode().equals( defaultPhysicalCampusProcessingCode))?defaultProcessingCampus:CampusEbo.from(SpringContext.getBean(CampusService.class).getCampus( defaultPhysicalCampusProcessingCode)));
     }
 
     /**
@@ -839,7 +840,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
      * 
      * @param defaultProcessingCampus The defaultProcessingCampus to set.
      */
-    public void setDefaultProcessingCampus(Campus defaultProcessingCampus) {
+    public void setDefaultProcessingCampus(CampusEbo defaultProcessingCampus) {
         this.defaultProcessingCampus = defaultProcessingCampus;
     }
 
@@ -938,8 +939,8 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
      * 
      * @return Returns the state.
      */
-    public State getState() {
-        state = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(this.stateCode, this.state);
+    public StateEbo getState() {
+        state = (StringUtils.isBlank(this.stateCode))?null:( this.state == null||!StringUtils.equals( this.state.getCode(),this.stateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState("US"/*REFACTORME*/,this.stateCode)): this.state;
         return state;
     }
 
@@ -948,7 +949,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
      * 
      * @param state The state to set.
      */
-    public void setState(State state) {
+    public void setState(StateEbo state) {
         this.state = state;
     }
 
@@ -957,8 +958,8 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
      * 
      * @return Returns the postalCode.
      */
-    public PostalCode getPostalCode() {
-        postalCode = SpringContext.getBean(PostalCodeService.class).getByPostalCodeInDefaultCountryIfNecessary(this.zipCode, this.postalCode);
+    public PostalCodeEbo getPostalCode() {
+        postalCode = (this.zipCode == null)?null:( this.postalCode == null || !StringUtils.equals( this.postalCode.getCode(),this.zipCode))?PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode("US"/*RICE20_REFACTORME*/,this.zipCode)): this.postalCode;
         return postalCode;
     }
 
@@ -967,7 +968,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
      * 
      * @param postalCode The postalCode to set.
      */
-    public void setPostalCode(PostalCode postalCode) {
+    public void setPostalCode(PostalCodeEbo postalCode) {
         this.postalCode = postalCode;
     }
 
@@ -976,8 +977,8 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
      * 
      * @return Returns the country.
      */
-    public Country getCountry() {
-        country = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(this.countryCode, this.country);
+    public CountryEbo getCountry() {
+        country = (this.countryCode == null)?null:( this.country == null || !StringUtils.equals( this.country.getCode(),this.countryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(this.countryCode)): this.country;
         return country;
     }
 
@@ -986,19 +987,19 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
      * 
      * @param country The country to set.
      */
-    public void setCountry(Country country) {
+    public void setCountry(CountryEbo country) {
         this.country = country;
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.Inactivateable#isActive()
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#isActive()
      */
     public boolean isActive() {
         return active;
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.Inactivateable#setActive(boolean)
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#setActive(boolean)
      */
     public void setActive(boolean active) {
         this.active = active;
@@ -1057,9 +1058,9 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements In
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.ID, this.id);
         

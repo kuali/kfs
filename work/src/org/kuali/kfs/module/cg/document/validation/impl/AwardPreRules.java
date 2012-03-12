@@ -23,11 +23,11 @@ import org.kuali.kfs.module.cg.businessobject.Award;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * PreRules checks for the Account that needs to occur while still in the Struts processing. This includes defaults, confirmations,
@@ -37,7 +37,7 @@ public class AwardPreRules extends MaintenancePreRulesBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AwardPreRules.class);
 
-    protected KualiConfigurationService configService;
+    protected ConfigurationService configService;
     protected DataDictionaryService dataDictionaryService;
 
     protected Award newAward;
@@ -47,7 +47,7 @@ public class AwardPreRules extends MaintenancePreRulesBase {
      */
     public AwardPreRules() {
         dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
-        configService = SpringContext.getBean(KualiConfigurationService.class);
+        configService = SpringContext.getBean(ConfigurationService.class);
     }
 
     /**
@@ -120,7 +120,7 @@ public class AwardPreRules extends MaintenancePreRulesBase {
      * @return
      */
     protected String buildConfirmationQuestion(String messageKey, String... parameters) {
-        String result = configService.getPropertyString(messageKey);
+        String result = configService.getPropertyValueAsString(messageKey);
         if (null != parameters) {
             for (int i = 0; i < parameters.length; i++) {
                 result = StringUtils.replace(result, "{" + i + "}", parameters[i]);

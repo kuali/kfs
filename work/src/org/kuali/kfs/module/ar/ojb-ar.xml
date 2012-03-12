@@ -90,19 +90,19 @@
 	<field-descriptor name="customerAddressChangeDate" column="CUST_ADDR_CHG_DT" jdbc-type="DATE"/>
 	<field-descriptor name="customerRecordAddDate" column="CUST_REC_ADD_DT" jdbc-type="DATE"/>
 	<field-descriptor name="customerLastActivityDate" column="CUST_LST_ACTV_DT" jdbc-type="DATE"/>
-	<field-descriptor name="active" column="CUST_ACTIVE_CD" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="CUST_ACTIVE_CD" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 	<field-descriptor name="customerPhoneNumber" column="CUST_PHONE_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customer800PhoneNumber" column="CUST_800_PHONE_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerContactName" column="CUST_CNTCT_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerContactPhoneNumber" column="CUST_CNTCT_PHN_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerFaxNumber" column="CUST_FAX_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerBirthDate" column="CUST_BIRTH_DT" jdbc-type="DATE"/>
-	<field-descriptor name="customerTaxExemptIndicator" column="CUST_TAX_EXMPT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-	<field-descriptor name="customerCreditLimitAmount" column="CUST_CRDT_LMT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="customerTaxExemptIndicator" column="CUST_TAX_EXMPT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+	<field-descriptor name="customerCreditLimitAmount" column="CUST_CRDT_LMT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="customerCreditApprovedByName" column="CUST_CRDT_APRV_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerEmailAddress" column="CUST_EMAIL_ADDR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerTaxTypeCode" column="CUST_TAX_TYP_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="customerTaxNbr" column="CUST_TAX_NBR" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbKualiEncryptDecryptFieldConversion"/>
+	<field-descriptor name="customerTaxNbr" column="CUST_TAX_NBR" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiEncryptDecryptFieldConversion"/>
 
 	<reference-descriptor name="customerParentCompany" class-ref="org.kuali.kfs.module.ar.businessobject.Customer" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="customerParentCompanyNumber" />
@@ -120,7 +120,7 @@
 	<field-descriptor name="referenceFinancialDocumentNumber" column="FDOC_REF_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="financialDocumentLineAmount" column="FDOC_LINE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="financialDocumentLineAmount" column="FDOC_LINE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="customerNumber" column="CUST_NBR" jdbc-type="VARCHAR"/>
 
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false" >
@@ -150,7 +150,7 @@
 	<field-descriptor name="universityFiscalPeriodCode" column="UNIV_FISCAL_PRD_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerPaymentMediumCode" column="CUST_PMT_MEDIUM_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="bankCode" column="BNK_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="cashControlTotalAmount" column="AR_CSHCTRL_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="cashControlTotalAmount" column="AR_CSHCTRL_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
 
 	<reference-descriptor name="bank" class-ref="org.kuali.kfs.sys.businessobject.Bank" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="bankCode" />
@@ -187,7 +187,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="customerPaymentMediumIdentifier" column="CUST_PMT_MEDIUM_ID" jdbc-type="VARCHAR"/>
-	<field-descriptor name="financialDocumentLineAmount" column="FDOC_LINE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="financialDocumentLineAmount" column="FDOC_LINE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="customerPaymentDescription" column="CUST_PMT_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerNumber" column="CUST_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerPaymentDate" column="CUST_PMT_DT" jdbc-type="DATE"/>
@@ -217,8 +217,8 @@
 	<field-descriptor name="customerShipToAddressIdentifier" column="CUST_SHIP_ADDR_ID" jdbc-type="INTEGER"/>
 	<field-descriptor name="customerBillToAddressIdentifier" column="CUST_BILL_ADDR_ID" jdbc-type="INTEGER"/>
 	<field-descriptor name="customerSpecialProcessingCode" column="CUST_SPCL_PRCS_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="customerRecordAttachmentIndicator" column="CUST_REC_ATT_IND" jdbc-type="CHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-	<field-descriptor name="openInvoiceIndicator" column="AR_OPEN_INV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="customerRecordAttachmentIndicator" column="CUST_REC_ATT_IND" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+	<field-descriptor name="openInvoiceIndicator" column="AR_OPEN_INV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 	<field-descriptor name="paymentChartOfAccountsCode" column="PMT_FIN_COA_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="paymentAccountNumber" column="PMT_ACCT_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="paymentSubAccountNumber" column="PMT_SUB_ACCT_NBR" jdbc-type="VARCHAR"/>
@@ -251,7 +251,7 @@
 	<field-descriptor name="shippingInternationalMailCode" column="SHIP_INTL_MAIL_CD" jdbc-type="VARCHAR" />
 	<field-descriptor name="shippingEmailAddress" column="SHIP_EMAIL_ADDR" jdbc-type="VARCHAR" />
 	<field-descriptor name="shippingAddressTypeCode" column="SHIP_ADDR_TYPE_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="recurredInvoiceIndicator" column="RECURRED_INV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="recurredInvoiceIndicator" column="RECURRED_INV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 	<field-descriptor name="reportedDate" column="REPORTED_DT" jdbc-type="DATE"/>
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false" >
         <foreignkey field-ref="documentNumber" />
@@ -346,7 +346,7 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="postingYear" column="FDOC_POST_YR" jdbc-type="INTEGER"/>
 	<field-descriptor name="postingPeriodCode" column="UNIV_FISCAL_PRD_CD " jdbc-type="VARCHAR"/>
-	<field-descriptor name="invoiceWriteoffAmount" column="AR_INV_WRTOFF_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="invoiceWriteoffAmount" column="AR_INV_WRTOFF_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR"/>
@@ -417,7 +417,7 @@
 	<field-descriptor name="invoiceItemQuantity" column="AR_INV_ITM_QTY" jdbc-type="DECIMAL"/>
 	<field-descriptor name="invoiceItemUnitOfMeasureCode" column="AR_INV_ITM_UOM_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="invoiceItemUnitPrice" column="AR_INVITM_UNIT_PRC" jdbc-type="DECIMAL"/>
-	<field-descriptor name="amount" column="AR_INV_ITM_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="amount" column="AR_INV_ITM_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="invoiceItemServiceDate" column="AR_INV_ITM_SRVC_DT" jdbc-type="DATE"/>
 	<field-descriptor name="invoiceItemCode" column="AR_INV_ITM_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="invoiceItemDescription" column="AR_INV_ITM_DESC" jdbc-type="VARCHAR"/>
@@ -430,8 +430,8 @@
 	<field-descriptor name="financialSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="projectCode" column="PROJECT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationReferenceId" column="ORG_REFERENCE_ID" jdbc-type="VARCHAR"/>	
-	<field-descriptor name="invoiceItemTaxAmount" column="AR_INV_ITM_TAX_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="taxableIndicator" column="AR_INV_ITM_TXBL_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="invoiceItemTaxAmount" column="AR_INV_ITM_TAX_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="taxableIndicator" column="AR_INV_ITM_TXBL_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 	<field-descriptor name="invoiceItemDiscountLineNumber" column="AR_INV_ITM_DSCT_LN_NBR" jdbc-type="INTEGER"/>
 	<reference-descriptor name="accountsReceivableSubObject" class-ref="org.kuali.kfs.coa.businessobject.SubObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="postingYear" />
@@ -486,7 +486,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="customerSpecialProcessingDescription" column="CUST_SPCLPRCS_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.ar.businessobject.CustomerAddressType" table="AR_CUST_ADDR_TYP_T">
@@ -494,7 +494,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="customerAddressTypeDescription" column="CUST_ADDR_TYP_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.ar.businessobject.CustomerAddress" table="AR_CUST_ADDR_T">
@@ -533,7 +533,7 @@
 	<field-descriptor name="documentTotalRecurrenceNumber" column="DOC_TOT_RCURRNC_NBR" jdbc-type="INTEGER"/>
 	<field-descriptor name="documentRecurrenceIntervalCode" column="DOC_RCURRNC_INTRV_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="documentInitiatorUserIdentifier" column="DOC_INITR_USR_ID" jdbc-type="VARCHAR"/>
-	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 
 	<reference-descriptor name="customer" class-ref="org.kuali.kfs.module.ar.businessobject.Customer" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="customerNumber" />
@@ -556,11 +556,11 @@
 	<field-descriptor name="defaultInvoiceFinancialSubObjectCode" column="INV_FIN_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="defaultInvoiceProjectCode" column="INV_PROJECT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="defaultInvoiceOrganizationReferenceIdentifier" column="INV_ORG_REF_ID" jdbc-type="VARCHAR"/>
-	<field-descriptor name="itemDefaultPrice" column="AR_ITM_DFLT_PRC" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="itemDefaultPrice" column="AR_ITM_DFLT_PRC" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="defaultUnitOfMeasureCode" column="AR_DFLT_UOM_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="itemDefaultQuantity" column="AR_ITM_DFLT_QTY" jdbc-type="DECIMAL"/>
-	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
-	<field-descriptor name="taxableIndicator" column="AR_INV_ITM_TXBL_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+	<field-descriptor name="taxableIndicator" column="AR_INV_ITM_TXBL_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 
 	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="chartOfAccountsCode" />
@@ -608,7 +608,7 @@
 	<field-descriptor name="invoiceItemNumber" column="AR_INV_ITM_NBR" jdbc-type="INTEGER"/>
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER"/>
 	<field-descriptor name="universityFiscalPeriodCode" column="UNIV_FISCAL_PRD_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="invoiceItemAppliedAmount" column="AR_INV_ITMAPLD_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="invoiceItemAppliedAmount" column="AR_INV_ITMAPLD_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
 
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false" >
         <foreignkey field-ref="documentNumber" />
@@ -638,8 +638,8 @@
 	<field-descriptor name="customerNumber" column="CUST_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialDocumentReferenceInvoiceNumber" column="FDOC_REF_INV_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="billingDate" column="AR_BILLING_DT" jdbc-type="DATE"/>
-	<field-descriptor name="invoiceTotalAmount" column="AR_INV_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="invoicePaidOrAppliedAmount" column="AR_INV_PD_APLD_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="invoiceTotalAmount" column="AR_INV_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="invoicePaidOrAppliedAmount" column="AR_INV_PD_APLD_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="scannedInvoiceDate" column="AR_SCAN_INV_DT" jdbc-type="DATE"/>
 	<field-descriptor name="customerPaymentMediumCode" column="CUST_PMT_MEDIUM_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="processedInvoiceDate" column="AR_PRCS_INV_DT" jdbc-type="DATE"/>
@@ -659,7 +659,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="customerPaymentMediumDescription" column="CUST_PMT_MEDM_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.ar.businessobject.NonInvoiced" table="AR_NON_INV_T">
@@ -674,7 +674,7 @@
 	<field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="financialSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="projectCode" column="PROJECT_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="financialDocumentLineAmount" column="FDOC_LINE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="financialDocumentLineAmount" column="FDOC_LINE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="financialDocumentOverrideCode" column="FDOC_OVERRIDE_CD" jdbc-type="VARCHAR"/>
 
     <reference-descriptor name="accountsReceivableDocumentHeader" class-ref="org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false" >
@@ -722,7 +722,7 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER"/>
 	<field-descriptor name="universityFiscalPeriodCode" column="UNIV_FISCAL_PRD_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="financialDocumentLineAmount" column="FDOC_LINE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="financialDocumentLineAmount" column="FDOC_LINE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
 
 	<reference-descriptor name="universityFiscalPeriod" class-ref="org.kuali.kfs.coa.businessobject.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="universityFiscalYear" />
@@ -736,7 +736,7 @@
 	<field-descriptor name="referenceFinancialDocumentNumber" column="FDOC_REF_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="financialDocumentLineAmount" column="FDOC_LINE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="financialDocumentLineAmount" column="FDOC_LINE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.ar.businessobject.OrganizationAccountingDefault" table="AR_ORG_ACCTGDFLT_T">
@@ -888,7 +888,7 @@
 	<field-descriptor name="universityClearingSubObjectCode" column="UNIV_CLR_SUBOBJ_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="creditCardObjectCode" column="PMT_CLR_FIN_OBJ_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="lockboxNumber" column="AR_LOCKBOX_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 	<field-descriptor name="organizationRemitToAddressName" column="ORG_REMIT_ADDR_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationRemitToLine1StreetAddress" column="ORG_REMIT_LN1_ADDR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationRemitToLine2StreetAddress" column="ORG_REMIT_LN2_ADDR" jdbc-type="VARCHAR"/>
@@ -987,7 +987,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="printInvoiceDescription" column="AR_PRN_INV_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument" table="AR_CRDT_MEMO_DOC_T">
@@ -1023,8 +1023,8 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="creditMemoItemQuantity" column="CRDT_MEMO_ITM_QTY" jdbc-type="DECIMAL"/>
-	<field-descriptor name="creditMemoItemTaxAmount" column="CRDT_MEMO_ITM_TAX_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="creditMemoItemTotalAmount" column="CRDT_MEMO_ITM_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="creditMemoItemTaxAmount" column="CRDT_MEMO_ITM_TAX_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="creditMemoItemTotalAmount" column="CRDT_MEMO_ITM_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.ar.businessobject.InvoiceRecurrence" table="AR_DOC_RCURRNC_T">
@@ -1038,7 +1038,7 @@
 	<field-descriptor name="documentRecurrenceIntervalCode" column="DOC_RCURRNC_INTRV_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="documentInitiatorUserIdentifier" column="DOC_INITR_USR_ID" jdbc-type="VARCHAR"/>
 	<field-descriptor name="documentLastCreateDate" column="DOC_LST_CRTE_DT" jdbc-type="DATE"/>
-	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 
 	<reference-descriptor name="customer" class-ref="org.kuali.kfs.module.ar.businessobject.Customer" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
 		<foreignkey field-ref="customerNumber" />
@@ -1050,12 +1050,12 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="customerTypeDescription" column="CUST_TYP_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.module.ar.businessobject.CustomerBillingStatement" table="AR_CUST_BILLING_STMT_T">
 	<field-descriptor name="customerNumber" column="CUST_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="previouslyBilledAmount" column="PREV_BILLED_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="previouslyBilledAmount" column="PREV_BILLED_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="reportedDate" column="REPORTED_DT" jdbc-type="DATE"/>
 </class-descriptor>	
 	

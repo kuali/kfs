@@ -40,11 +40,11 @@ import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.ParseException;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
+import org.springframework.util.AutoPopulatingList;
 
 public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
     protected static Logger LOG = Logger.getLogger(CollectorFlatFileInputType.class);
@@ -69,7 +69,7 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
      * @param userIdentifier user identifier for user who uploaded file
      * @return String returns file name using the convention mentioned in the description
      * 
-     * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileName(org.kuali.rice.kim.bo.Person, java.lang.Object,
+     * @see org.kuali.kfs.sys.batch.BatchInputFileType#getFileName(org.kuali.rice.kim.api.identity.Person, java.lang.Object,
      *      java.lang.String)
      */
     public String getFileName(String principalName, Object parsedFileContents, String fileUserIdentifer) {
@@ -217,9 +217,9 @@ public class CollectorFlatFileInputType extends BatchInputFileTypeBase {
         copyAllMessagesHelper(sourceMap.getErrorMessages(), "error", destMap);
     }
     
-    private void copyAllMessagesHelper(Map<String, TypedArrayList> sourceMessages, String type, MessageMap destMap) {
+    private void copyAllMessagesHelper(Map<String, AutoPopulatingList<ErrorMessage>> sourceMessages, String type, MessageMap destMap) {
         for (String key : sourceMessages.keySet()) {
-            TypedArrayList messages = sourceMessages.get(key);
+            AutoPopulatingList<ErrorMessage> messages = sourceMessages.get(key);
             if (messages != null) {
                 for (Object o : messages) {
                     ErrorMessage message = (ErrorMessage) o;

@@ -15,23 +15,21 @@
  */
 package org.kuali.kfs.vnd.businessobject;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.integration.purap.PurchasingAccountsPayableModuleService;
 import org.kuali.kfs.integration.purap.PurchasingAccountsPayableSensitiveData;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.KualiModuleService;
 
 /**
  * CommodityCode Business Object
  */
-public class CommodityCode extends PersistableBusinessObjectBase implements Inactivateable  {
+public class CommodityCode extends PersistableBusinessObjectBase implements MutableInactivatable  {
     
     private String purchasingCommodityCode;
     private String commodityDescription;
@@ -45,7 +43,7 @@ public class CommodityCode extends PersistableBusinessObjectBase implements Inac
     private List<CommodityContractManager> commodityContractManagers;
     
     public CommodityCode() {
-        commodityContractManagers = new TypedArrayList(CommodityContractManager.class);
+        commodityContractManagers = new ArrayList<CommodityContractManager>();
     }
     
     public boolean isActive() {
@@ -121,10 +119,10 @@ public class CommodityCode extends PersistableBusinessObjectBase implements Inac
     }    
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(VendorPropertyConstants.PURCHASING_COMMODITY_CODE, this.purchasingCommodityCode);
         m.put(VendorPropertyConstants.COMMODITY_DESCRIPTION, this.commodityDescription);

@@ -25,10 +25,9 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 
 public class PaymentRequestExpiredAccountWarningValidation extends GenericValidation {
 
@@ -43,7 +42,7 @@ public class PaymentRequestExpiredAccountWarningValidation extends GenericValida
             if (accountingLine.getAccount().isExpired()) {
                 Date current = dateTimeService.getCurrentDate();
                 Date accountExpirationDate = accountingLine.getAccount().getAccountExpirationDate();
-                String expirationExtensionDays = parameterService.getParameterValue(ScrubberStep.class, KFSConstants.SystemGroupParameterNames.GL_SCRUBBER_VALIDATION_DAYS_OFFSET);
+                String expirationExtensionDays = parameterService.getParameterValueAsString(ScrubberStep.class, KFSConstants.SystemGroupParameterNames.GL_SCRUBBER_VALIDATION_DAYS_OFFSET);
                 int expirationExtensionDaysInt = 3 * 30; // default to 90 days (approximately 3 months)
 
                 if (expirationExtensionDays.trim().length() > 0) {
@@ -53,7 +52,7 @@ public class PaymentRequestExpiredAccountWarningValidation extends GenericValida
                 
                 if (!accountingLine.getAccount().isForContractsAndGrants() ||
                      dateTimeService.dateDiff(accountExpirationDate, current, false) < expirationExtensionDaysInt) {
-                    GlobalVariables.getMessageList().add(KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
+                    KNSGlobalVariables.getMessageList().add(KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
                     valid &= false;
                     break;
                 }

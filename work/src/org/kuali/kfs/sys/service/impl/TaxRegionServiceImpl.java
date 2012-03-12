@@ -26,10 +26,10 @@ import org.kuali.kfs.sys.businessobject.TaxRegionCounty;
 import org.kuali.kfs.sys.businessobject.TaxRegionPostalCode;
 import org.kuali.kfs.sys.businessobject.TaxRegionState;
 import org.kuali.kfs.sys.service.TaxRegionService;
-import org.kuali.rice.kns.bo.PostalCode;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.PostalCodeService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.location.api.postalcode.PostalCode;
+import org.kuali.rice.location.api.postalcode.PostalCodeService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -45,11 +45,11 @@ public class TaxRegionServiceImpl implements TaxRegionService {
 
         List<TaxRegion> salesTaxRegions = new ArrayList<TaxRegion>();
 
-        PostalCode postalCodeObj = postalCodeService.getByPostalCodeInDefaultCountry(postalCode);
+        PostalCode postalCodeObj = postalCodeService.getPostalCode( "US"/*RICE_20_REFACTORME*/, postalCode );
         if(ObjectUtils.isNotNull(postalCodeObj)) {
-            salesTaxRegions.addAll(getPostalCodeTaxRegions(postalCodeObj.getPostalCode(), postalCodeObj.getPostalCountryCode(), false));
-            salesTaxRegions.addAll(getStateTaxRegions(postalCodeObj.getPostalStateCode(), postalCodeObj.getPostalCountryCode(), false));
-            salesTaxRegions.addAll(getCountyTaxRegions(postalCodeObj.getCountyCode(), postalCodeObj.getPostalStateCode(), postalCodeObj.getPostalCountryCode(), false));
+            salesTaxRegions.addAll(getPostalCodeTaxRegions(postalCodeObj.getCode(), postalCodeObj.getCountryCode(), false));
+            salesTaxRegions.addAll(getStateTaxRegions(postalCodeObj.getStateCode(), postalCodeObj.getCountryCode(), false));
+            salesTaxRegions.addAll(getCountyTaxRegions(postalCodeObj.getCountyCode(), postalCodeObj.getStateCode(), postalCodeObj.getCountryCode(), false));
         }
 
         return salesTaxRegions;
@@ -62,10 +62,10 @@ public class TaxRegionServiceImpl implements TaxRegionService {
 
         List<TaxRegion> useTaxRegions = new ArrayList<TaxRegion>();
 
-        PostalCode postalCodeObj = postalCodeService.getByPostalCodeInDefaultCountry(postalCode);
-        useTaxRegions.addAll(getPostalCodeTaxRegions(postalCodeObj.getPostalCode(), postalCodeObj.getPostalCountryCode(), true));
-        useTaxRegions.addAll(getStateTaxRegions(postalCodeObj.getPostalStateCode(), postalCodeObj.getPostalCountryCode(), true));
-        useTaxRegions.addAll(getCountyTaxRegions(postalCodeObj.getCountyCode(), postalCodeObj.getPostalStateCode(), postalCodeObj.getPostalCountryCode(), true));
+        PostalCode postalCodeObj = postalCodeService.getPostalCode( "US"/*RICE_20_REFACTORME*/, postalCode );
+        useTaxRegions.addAll(getPostalCodeTaxRegions(postalCodeObj.getCode(), postalCodeObj.getCountryCode(), true));
+        useTaxRegions.addAll(getStateTaxRegions(postalCodeObj.getStateCode(), postalCodeObj.getCountryCode(), true));
+        useTaxRegions.addAll(getCountyTaxRegions(postalCodeObj.getCountyCode(), postalCodeObj.getStateCode(), postalCodeObj.getCountryCode(), true));
 
         return useTaxRegions;
     }

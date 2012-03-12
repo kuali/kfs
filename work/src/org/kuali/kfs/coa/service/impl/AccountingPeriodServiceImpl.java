@@ -27,9 +27,9 @@ import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.spring.Cached;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.cache.annotation.Cacheable;
 
 /**
  * This service implementation is the default implementation of the AccountingPeriod service that is delivered with Kuali.
@@ -63,7 +63,7 @@ public class AccountingPeriodServiceImpl implements AccountingPeriodService {
      * 
      * @see org.kuali.kfs.coa.service.AccountingPeriodService#getOpenAccountingPeriods()
      */
-    @Cached
+    @Cacheable(value=AccountingPeriod.CACHE_NAME, key="{getOpenAccountingPeriods}'")
     public Collection getOpenAccountingPeriods() {
         HashMap map = new HashMap();
         map.put(KFSConstants.ACCOUNTING_PERIOD_ACTIVE_INDICATOR_FIELD, Boolean.TRUE);
@@ -78,7 +78,7 @@ public class AccountingPeriodServiceImpl implements AccountingPeriodService {
      * @param fiscalYear
      * @return an accounting period
      */
-    @Cached
+    @Cacheable(value=AccountingPeriod.CACHE_NAME, key="{getByPeriod} 'periodCode=' + #p0 + '|' + 'fiscalYear=' + #p1")
     public AccountingPeriod getByPeriod(String periodCode, Integer fiscalYear) {
         // build up the hashmap to find the accounting period
         Map keys = new HashMap();
@@ -110,7 +110,7 @@ public class AccountingPeriodServiceImpl implements AccountingPeriodService {
      * 
      * @see org.kuali.kfs.coa.service.AccountingPeriodService#getByDate(java.sql.Date)
      */
-    @Cached
+    @Cacheable(value=AccountingPeriod.CACHE_NAME, key="{getByDate} 'date=' + #p0")
     public AccountingPeriod getByDate(Date date) {
         Map primaryKeys = new HashMap();
         primaryKeys.put("universityDate", date);

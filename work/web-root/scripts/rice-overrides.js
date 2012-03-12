@@ -30,7 +30,7 @@ function getElementValue(name) {
 		//alert("getElementById el = " + el); 
 		
 		if (el) {
-			value = DWRUtil.getValue(name + ".div");
+			value = dwr.util.getValue(name + ".div");
 			//alert("DWR getValue = " + value);
 
 			// trim html link if any

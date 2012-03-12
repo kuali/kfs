@@ -16,30 +16,14 @@
 package org.kuali.kfs.module.ld.document.validation.impl;
 
 import static org.kuali.kfs.sys.KFSConstants.GENERIC_CODE_PROPERTY_NAME;
-import static org.kuali.kfs.sys.KFSPropertyConstants.REFERENCE_NUMBER;
-import static org.kuali.kfs.sys.KFSPropertyConstants.REFERENCE_ORIGIN_CODE;
-import static org.kuali.kfs.sys.KFSPropertyConstants.REFERENCE_TYPE_CODE;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.BalanceType;
-import org.kuali.kfs.module.ld.LaborConstants;
-import org.kuali.kfs.module.ld.LaborKeyConstants;
-import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 

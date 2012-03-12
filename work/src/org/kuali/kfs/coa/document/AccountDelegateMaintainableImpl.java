@@ -27,13 +27,13 @@ import org.kuali.kfs.coa.service.AccountDelegateService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
-import org.kuali.rice.core.service.EncryptionService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.encryption.EncryptionService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.document.MaintenanceLock;
 import org.kuali.rice.kns.service.BusinessObjectAuthorizationService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.maintenance.MaintenanceLock;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class is a special implementation of Maintainable specifically for Account Delegates. It was created to correctly update the
@@ -96,7 +96,7 @@ public class AccountDelegateMaintainableImpl extends FinancialSystemMaintainable
            return lock;
        else {
            AccountDelegateService accountDelegateService = SpringContext.getBean(AccountDelegateService.class);
-           lock = accountDelegateService.getLockingDocumentId(this, this.documentNumber);
+           lock = accountDelegateService.getLockingDocumentId(this, getDocumentNumber());
            return lock;
        }
     }
@@ -109,7 +109,7 @@ public class AccountDelegateMaintainableImpl extends FinancialSystemMaintainable
      */
     protected MaintenanceLock createMaintenanceLock(String[] fieldNames) {
         MaintenanceLock lock = new MaintenanceLock();
-        lock.setDocumentNumber(this.documentNumber);
+        lock.setDocumentNumber(getDocumentNumber());
         lock.setLockingRepresentation(createLockingRepresentation(fieldNames));
         return lock;
 
@@ -181,7 +181,7 @@ public class AccountDelegateMaintainableImpl extends FinancialSystemMaintainable
         
         String[] fields = {"chartOfAccountsCode", "accountNumber"};
         MaintenanceLock lock = new MaintenanceLock();
-        lock.setDocumentNumber(this.documentNumber);
+        lock.setDocumentNumber(getDocumentNumber());
         
         StringBuilder lockRepresentation = new StringBuilder();
 

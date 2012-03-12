@@ -30,10 +30,10 @@ import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.document.dataaccess.AssetDepreciationUtilDao;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
-import org.kuali.rice.kns.util.TransactionalServiceUtils;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
+import org.kuali.rice.krad.util.TransactionalServiceUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -45,7 +45,7 @@ public class AssetDepreciationUtilDaoOjb extends PlatformAwareDaoBaseOjb impleme
         Criteria criteria = new Criteria();
         ReportQueryByCriteria query = QueryFactory.newReportQuery(FinancialSystemDocumentHeader.class, new Criteria());
 
-        query.setAttributes(new String[] { "max(" + KNSPropertyConstants.DOCUMENT_NUMBER + ")" });
+        query.setAttributes(new String[] { "max(" + KRADPropertyConstants.DOCUMENT_NUMBER + ")" });
         Iterator iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
         String maxDocumentNumber = "";
         if (iterator.hasNext()) {
@@ -60,7 +60,7 @@ public class AssetDepreciationUtilDaoOjb extends PlatformAwareDaoBaseOjb impleme
 
     //    public List<GeneralLedgerPendingEntry> getGeneralLedgerPendingEntries(String documentNumber) {
     //        Map<String, String> fieldValues = new HashMap<String, String>();
-    //        fieldValues.put(KNSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+    //        fieldValues.put(KRADPropertyConstants.DOCUMENT_NUMBER, documentNumber);
     //        return (List<GeneralLedgerPendingEntry>) businessObjectService.findMatching(GeneralLedgerPendingEntry.class, fieldValues);
     //    }   
 

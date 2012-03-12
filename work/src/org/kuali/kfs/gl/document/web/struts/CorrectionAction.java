@@ -63,22 +63,22 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.SequenceAccessorService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.WebUtils;
-import org.kuali.rice.kns.web.comparator.NumericValueComparator;
-import org.kuali.rice.kns.web.comparator.TemporalValueComparator;
 import org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase;
 import org.kuali.rice.kns.web.struts.action.KualiTableRenderAction;
 import org.kuali.rice.kns.web.struts.form.KualiTableRenderFormMetadata;
 import org.kuali.rice.kns.web.ui.Column;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.comparator.NumericValueComparator;
+import org.kuali.rice.krad.comparator.TemporalValueComparator;
+import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class CorrectionAction extends KualiDocumentActionBase implements KualiTableRenderAction {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionAction.class);
@@ -86,7 +86,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
     protected static OriginEntryGroupService originEntryGroupService;
     protected static OriginEntryService originEntryService;
     protected static DateTimeService dateTimeService;
-    protected static KualiConfigurationService kualiConfigurationService;
+    protected static ConfigurationService kualiConfigurationService;
 
     public static final String SYSTEM_AND_EDIT_METHOD_ERROR_KEY = "systemAndEditMethod";
 
@@ -106,7 +106,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             CorrectionAction.originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
             CorrectionAction.originEntryService = SpringContext.getBean(OriginEntryService.class);
             CorrectionAction.dateTimeService = SpringContext.getBean(DateTimeService.class);
-            CorrectionAction.kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+            CorrectionAction.kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
         }
 
         CorrectionForm rForm = (CorrectionForm) form;
@@ -400,7 +400,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         CorrectionForm correctionForm = (CorrectionForm) form;
         String command = correctionForm.getCommand();
 
-        if (KEWConstants.INITIATE_COMMAND.equals(command)) {
+        if (KewApiConstants.INITIATE_COMMAND.equals(command)) {
             correctionForm.clearForm();
             createDocument(correctionForm);
         }
@@ -411,7 +411,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             correctionForm.setInputGroupIdFromLastDocumentLoad(document.getCorrectionInputFileName());
             populateAuthorizationFields(correctionForm);
             Map<String, String> documentActions = correctionForm.getDocumentActions();
-            if (documentActions.containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT)) {
+            if (documentActions.containsKey(KRADConstants.KUALI_ACTION_CAN_EDIT)) {
                 // They have saved the document and they are retreiving it to be completed
                 correctionForm.setProcessInBatch(!document.getCorrectionFileDelete());
                 correctionForm.setMatchCriteriaOnly(document.getCorrectionSelection());
@@ -514,7 +514,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
                         document.setCorrectionInputFileName(newestScrubberErrorFileName);
                     }
                     else {
-                        KeyLabelPair klp = (KeyLabelPair) values.get(0);
+                        KeyValue klp = (KeyValue) values.get(0);
                         document.setCorrectionInputFileName((String) klp.getKey());
                     }
                 }
@@ -1220,11 +1220,11 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         OriginEntryFieldFinder oeff = new OriginEntryFieldFinder();
         List fields = oeff.getKeyValues();
         for (Iterator iter = fields.iterator(); iter.hasNext();) {
-            KeyLabelPair lkp = (KeyLabelPair) iter.next();
+            KeyValue lkp = (KeyValue) iter.next();
 
             // Get field name, type, length & value on the form
             String fieldName = (String) lkp.getKey();
-            String fieldDisplayName = lkp.getLabel();
+            String fieldDisplayName = lkp.getValue();
             String fieldType = oeff.getFieldType(fieldName);
             int fieldLength = oeff.getFieldLength(fieldName);
             String fieldValue = null;
@@ -1311,7 +1311,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
         // if not in restricted functionality mode, then we can store these results temporarily in the GLCP origin entry service
         SequenceAccessorService sequenceAccessorService = SpringContext.getBean(SequenceAccessorService.class);
-        String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KNSConstants.LOOKUP_RESULTS_SEQUENCE));
+        String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KRADConstants.LOOKUP_RESULTS_SEQUENCE));
 
         SpringContext.getBean(GlCorrectionProcessOriginEntryService.class).persistAllEntries(glcpSearchResultsSequenceNumber, searchResults);
         correctionForm.setGlcpSearchResultsSequenceNumber(glcpSearchResultsSequenceNumber);
@@ -1357,7 +1357,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
             // if not in restricted functionality mode, then we can store these results temporarily in the GLCP origin entry service
             SequenceAccessorService sequenceAccessorService = SpringContext.getBean(SequenceAccessorService.class);
-            String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KNSConstants.LOOKUP_RESULTS_SEQUENCE));
+            String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KRADConstants.LOOKUP_RESULTS_SEQUENCE));
 
             SpringContext.getBean(GlCorrectionProcessOriginEntryService.class).persistAllEntries(glcpSearchResultsSequenceNumber, searchResults);
             correctionForm.setGlcpSearchResultsSequenceNumber(glcpSearchResultsSequenceNumber);
@@ -1408,10 +1408,10 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         if (searchResults == null) {
             // null when the origin entry list is too large (i.e. in restricted functionality mode)
             correctionForm.setRestrictedFunctionalityMode(true);
-            KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+            WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
             Map<String, String> documentActions = correctionForm.getDocumentActions();
-            if (documentActions.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) || workflowDocument.stateIsCanceled()) {
+            if (documentActions.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) || workflowDocument.isCanceled()) {
                 // doc in read/write mode or is cancelled, so the doc summary fields of the doc are unreliable, so clear them out
                 updateDocumentSummary(document, null, true);
             }
@@ -1430,7 +1430,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
             // if not in restricted functionality mode, then we can store these results temporarily in the GLCP origin entry service
             SequenceAccessorService sequenceAccessorService = SpringContext.getBean(SequenceAccessorService.class);
-            String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KNSConstants.LOOKUP_RESULTS_SEQUENCE));
+            String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KRADConstants.LOOKUP_RESULTS_SEQUENCE));
 
             SpringContext.getBean(GlCorrectionProcessOriginEntryService.class).persistAllEntries(glcpSearchResultsSequenceNumber, searchResults);
             correctionForm.setGlcpSearchResultsSequenceNumber(glcpSearchResultsSequenceNumber);
@@ -1866,8 +1866,8 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
      */
     protected boolean checkInputGroupPersistedForDocumentSave(CorrectionForm correctionForm) {
         boolean present;
-        KualiWorkflowDocument workflowDocument = correctionForm.getDocument().getDocumentHeader().getWorkflowDocument();
-        if (workflowDocument.stateIsInitiated() || (workflowDocument.stateIsSaved() && (correctionForm.getInputGroupIdFromLastDocumentLoad() == null || !correctionForm.getInputGroupIdFromLastDocumentLoad().equals(correctionForm.getInputGroupId())))) {
+        WorkflowDocument workflowDocument = correctionForm.getDocument().getDocumentHeader().getWorkflowDocument();
+        if (workflowDocument.isInitiated() || (workflowDocument.isSaved() && (correctionForm.getInputGroupIdFromLastDocumentLoad() == null || !correctionForm.getInputGroupIdFromLastDocumentLoad().equals(correctionForm.getInputGroupId())))) {
             present = originEntryGroupService.getGroupExists(((GeneralLedgerCorrectionProcessDocument) correctionForm.getDocument()).getCorrectionInputFileName());
         }
         else {

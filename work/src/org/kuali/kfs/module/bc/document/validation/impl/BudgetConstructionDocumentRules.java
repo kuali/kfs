@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,6 +20,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -35,10 +36,10 @@ import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.kfs.module.bc.BCKeyConstants;
-import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.BCConstants.AccountSalarySettingOnlyCause;
 import org.kuali.kfs.module.bc.BCConstants.MonthSpreadDeleteType;
+import org.kuali.kfs.module.bc.BCKeyConstants;
+import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger;
 import org.kuali.kfs.module.bc.document.BudgetConstructionDocument;
@@ -57,19 +58,20 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
-import org.kuali.rice.kns.datadictionary.DataDictionary;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.InfrastructureException;
-import org.kuali.rice.kns.rules.TransactionalDocumentRuleBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.core.api.util.type.TypeUtils;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiInteger;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypeUtils;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.datadictionary.DataDictionary;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.exception.InfrastructureException;
+import org.kuali.rice.krad.rules.TransactionalDocumentRuleBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.PersistenceService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBase implements AddBudgetConstructionDocumentRule<BudgetConstructionDocument>, AddPendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeletePendingBudgetGeneralLedgerLineRule<BudgetConstructionDocument, PendingBudgetConstructionGeneralLedger>, DeleteMonthlySpreadRule<BudgetConstructionDocument>, SaveMonthlyBudgetRule<BudgetConstructionDocument, BudgetConstructionMonthly> {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionDocumentRules.class);
@@ -83,12 +85,12 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
     protected static BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
     protected static FiscalYearFunctionControlService fiscalYearFunctionControlService = SpringContext.getBean(FiscalYearFunctionControlService.class);
 
-    protected List<String> revenueObjectTypesParamValues = BudgetParameterFinder.getRevenueObjectTypes();
-    protected List<String> expenditureObjectTypesParamValues = BudgetParameterFinder.getExpenditureObjectTypes();
-    protected List<String> budgetAggregationCodesParamValues = BudgetParameterFinder.getBudgetAggregationCodes();
-    protected List<String> fringeBenefitDesignatorCodesParamValues = BudgetParameterFinder.getFringeBenefitDesignatorCodes();
-    protected List<String> salarySettingFundGroupsParamValues = BudgetParameterFinder.getSalarySettingFundGroups();
-    protected List<String> salarySettingSubFundGroupsParamValues = BudgetParameterFinder.getSalarySettingSubFundGroups();
+    protected Collection<String> revenueObjectTypesParamValues = BudgetParameterFinder.getRevenueObjectTypes();
+    protected Collection<String> expenditureObjectTypesParamValues = BudgetParameterFinder.getExpenditureObjectTypes();
+    protected Collection<String> budgetAggregationCodesParamValues = BudgetParameterFinder.getBudgetAggregationCodes();
+    protected Collection<String> fringeBenefitDesignatorCodesParamValues = BudgetParameterFinder.getFringeBenefitDesignatorCodes();
+    protected Collection<String> salarySettingFundGroupsParamValues = BudgetParameterFinder.getSalarySettingFundGroups();
+    protected Collection<String> salarySettingSubFundGroupsParamValues = BudgetParameterFinder.getSalarySettingSubFundGroups();
 
     // this field is highlighted for any errors found on an existing line
     protected static final String TARGET_ERROR_PROPERTY_NAME = KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT;
@@ -100,6 +102,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
     /**
      * @see org.kuali.kfs.module.bc.document.validation.AddBudgetConstructionDocumentRule#processAddBudgetConstructionDocumentRules(org.kuali.kfs.module.bc.document.BudgetConstructionDocument)
      */
+    @Override
     public boolean processAddBudgetConstructionDocumentRules(BudgetConstructionDocument budgetConstructionDocument) {
         LOG.debug("processAddBudgetConstructionDocumentRules(Document) - start");
 
@@ -137,7 +140,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         if (!isValid) {
 
             // tell the user we can't create a new BC document along with the error reasons
-            GlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_NOCREATE_DOCUMENT);
+            KNSGlobalVariables.getMessageList().add(BCKeyConstants.MESSAGE_BUDGET_NOCREATE_DOCUMENT);
         }
 
         LOG.debug("processAddBudgetConstructionDocumentRules(Document) - end");
@@ -151,8 +154,8 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
      * and while in edit mode documents can be pushed down the review hierarchy, monthly budgets and appointment funding updated,
      * benefits calculated, etc. Each of these operations require the document's data be in a consistent state with respect to
      * business rules before the operation be performed.
-     * 
-     * @see org.kuali.rice.kns.rules.DocumentRuleBase#processSaveDocument(org.kuali.rice.kns.document.Document)
+     *
+     * @see org.kuali.rice.krad.rules.DocumentRuleBase#processSaveDocument(org.kuali.rice.krad.document.Document)
      */
     @Override
     public boolean processSaveDocument(Document document) {
@@ -173,6 +176,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         return isValid;
     }
 
+    @Override
     public boolean processDeleteMonthlySpreadRules(BudgetConstructionDocument budgetConstructionDocument, MonthSpreadDeleteType monthSpreadDeleteType) {
         LOG.debug("processDeleteRevenueMonthlySpreadRules(Document) - start");
 
@@ -197,7 +201,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
      * amount referential integrity checks against appointment funding and monthly detail amounts. Checks are performed when the
      * request amount has been updated, since initial add action, the last save event or since opening the document, whatever is
      * latest.
-     * 
+     *
      * @see org.kuali.module.budget.rule.SaveBudgetDocumentRule#processSaveBudgetDocumentRules(D)
      */
     public boolean processSaveBudgetDocumentRules(BudgetConstructionDocument budgetConstructionDocument, MonthSpreadDeleteType monthSpreadDeleteType) {
@@ -213,7 +217,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         List refreshFields = Collections.unmodifiableList(Arrays.asList(new String[] { KFSPropertyConstants.ACCOUNT, KFSPropertyConstants.SUB_ACCOUNT }));
         SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(budgetConstructionDocument, refreshFields);
 
-        errors.addToErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME);
+        errors.addToErrorPath(KRADConstants.DOCUMENT_PROPERTY_NAME);
 
         if (monthSpreadDeleteType == MonthSpreadDeleteType.REVENUE) {
             doRevMonthRICheck = false;
@@ -232,19 +236,20 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         // iterate and validate expenditure lines
         isValid &= this.checkPendingBudgetConstructionGeneralLedgerLines(budgetConstructionDocument, errors, false, doExpMonthRICheck);
 
-        errors.removeFromErrorPath(KNSConstants.DOCUMENT_PROPERTY_NAME);
+        errors.removeFromErrorPath(KRADConstants.DOCUMENT_PROPERTY_NAME);
 
         return isValid;
     }
 
     /**
      * Checks a new PBGL line. Comprehensive checks are done.
-     * 
+     *
      * @param budgetConstructionDocument
      * @param pendingBudgetConstructionGeneralLedger
      * @param isRevenue
      * @return
      */
+    @Override
     public boolean processAddPendingBudgetGeneralLedgerLineRules(BudgetConstructionDocument budgetConstructionDocument, PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger, boolean isRevenue) {
         LOG.debug("processAddPendingBudgetGeneralLedgerLineRules() start");
 
@@ -287,12 +292,13 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
 
     /**
      * Runs rules for deleting an existing revenue or expenditure line.
-     * 
+     *
      * @param budgetConstructionDocument
      * @param pendingBudgetConstructionGeneralLedger
      * @param isRevenue
      * @return
      */
+    @Override
     public boolean processDeletePendingBudgetGeneralLedgerLineRules(BudgetConstructionDocument budgetConstructionDocument, PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger, boolean isRevenue) {
         LOG.debug("processDeletePendingBudgetGeneralLedgerLineRules() start");
 
@@ -352,6 +358,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
      * @see org.kuali.kfs.module.bc.document.validation.SaveMonthlyBudgetRule#processSaveMonthlyBudgetRules(org.kuali.kfs.module.bc.document.BudgetConstructionDocument,
      *      org.kuali.kfs.module.bc.businessobject.BudgetConstructionMonthly)
      */
+    @Override
     public boolean processSaveMonthlyBudgetRules(BudgetConstructionDocument budgetConstructionDocument, BudgetConstructionMonthly budgetConstructionMonthly) {
         LOG.debug("processSaveMonthlyBudgetRules() start");
 
@@ -421,7 +428,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
     /**
      * Iterates existing revenue or expenditure lines. Checks if request amount is non-zero or has changed and runs business rules
      * on the line.
-     * 
+     *
      * @param budgetConstructionDocument
      * @param errors
      * @param isRevenue
@@ -583,7 +590,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
 
     /**
      * Checks a PBGL line. Assumes the line has been checked against the dd for formatting and if required
-     * 
+     *
      * @param budgetConstructionDocument
      * @param pendingBudgetConstructionGeneralLedger
      * @return
@@ -644,7 +651,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
 
     protected boolean validatePBGLLine(PendingBudgetConstructionGeneralLedger pendingBudgetConstructionGeneralLedger, boolean isAdd) {
         if (pendingBudgetConstructionGeneralLedger == null) {
-            throw new IllegalStateException(getKualiConfigurationService().getPropertyString(KFSKeyConstants.ERROR_DOCUMENT_NULL_ACCOUNTING_LINE));
+            throw new IllegalStateException(getKualiConfigurationService().getPropertyValueAsString(KFSKeyConstants.ERROR_DOCUMENT_NULL_ACCOUNTING_LINE));
         }
 
         // grab the service instance that will be needed by all the validate methods
@@ -684,7 +691,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
 
     /**
      * Validates a single primitive in a BO
-     * 
+     *
      * @param object
      * @param attributeName
      * @param errorPrefix
@@ -709,7 +716,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
 
     /**
      * Validates a primitive in a BO
-     * 
+     *
      * @param entryName
      * @param object
      * @param propertyDescriptor
@@ -728,17 +735,16 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
                 // check value format against dictionary
                 if (value != null && StringUtils.isNotBlank(value.toString())) {
                     if (!TypeUtils.isTemporalClass(propertyType)) {
-                        getDictionaryValidationService().validateAttributeFormat(entryName, propertyDescriptor.getName(), value.toString(), errorPrefix + propertyDescriptor.getName());
+                        getDictionaryValidationService().validate( object, entryName, propertyDescriptor.getName(), false);
                     }
-                }
-                else if (validateRequired) {
-                    getDictionaryValidationService().validateAttributeRequired(entryName, propertyDescriptor.getName(), value, Boolean.FALSE, errorPrefix + propertyDescriptor.getName());
+                } else if (validateRequired) {
+                    getDictionaryValidationService().validate( object, entryName, propertyDescriptor.getName(), true);
                 }
             }
         }
     }
 
-    protected boolean isObjectTypeAllowed(List paramValues, PendingBudgetConstructionGeneralLedger accountingLine, MessageMap errors, boolean isRevenue, boolean isAdd) {
+    protected boolean isObjectTypeAllowed(Collection<String> paramValues, PendingBudgetConstructionGeneralLedger accountingLine, MessageMap errors, boolean isRevenue, boolean isAdd) {
         boolean isAllowed = true;
 
         if (paramValues != null) {
@@ -768,7 +774,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         return isAllowed;
     }
 
-    protected boolean isBudgetAggregationAllowed(List paramValues, PendingBudgetConstructionGeneralLedger accountingLine, MessageMap errors, boolean isAdd) {
+    protected boolean isBudgetAggregationAllowed(Collection<String> paramValues, PendingBudgetConstructionGeneralLedger accountingLine, MessageMap errors, boolean isAdd) {
         boolean isAllowed = true;
 
         if (paramValues != null) {
@@ -816,7 +822,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         return isAllowed;
     }
 
-    protected boolean isNotFringeBenefitObject(List paramValues, PendingBudgetConstructionGeneralLedger accountingLine, MessageMap errors, boolean isAdd) {
+    protected boolean isNotFringeBenefitObject(Collection<String> paramValues, PendingBudgetConstructionGeneralLedger accountingLine, MessageMap errors, boolean isAdd) {
         boolean isAllowed = true;
 
         if (paramValues != null) {
@@ -834,7 +840,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         return isAllowed;
     }
 
-    protected boolean isNotSalarySettingOnly(List fundGroupParamValues, List subfundGroupParamValues, BudgetConstructionDocument budgetConstructionDocument, PendingBudgetConstructionGeneralLedger accountingLine, MessageMap errors, boolean isRevenue, boolean isAdd) {
+    protected boolean isNotSalarySettingOnly(Collection<String> fundGroupParamValues, Collection<String> subfundGroupParamValues, BudgetConstructionDocument budgetConstructionDocument, PendingBudgetConstructionGeneralLedger accountingLine, MessageMap errors, boolean isRevenue, boolean isAdd) {
         boolean isAllowed = true;
 
         // check if account belongs to a fund or subfund that only allows salary setting lines
@@ -868,7 +874,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
 
     /**
      * runs rule checks that don't allow a budget
-     * 
+     *
      * @param budgetConstructionDocument
      * @param propertyName
      * @param errors
@@ -975,7 +981,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
      * Runs existence and active tests on the SubObjectCode reference This method is differenct than the one in
      * AccountingLineRuleHelper in that it adds the bad value to the errormessage This method signature should probably be added to
      * AccountingLineRuleHelper
-     * 
+     *
      * @param subObjectCode
      * @param value
      * @param dataDictionary
@@ -1003,7 +1009,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
      * Runs existence and active tests on the ObjectCode reference This method is differenct than the one in
      * AccountingLineRuleHelper in that it adds the bad value to the errormessage This method signature should probably be added to
      * AccountingLineRuleHelper
-     * 
+     *
      * @param objectCode
      * @param value
      * @param dataDictionary
@@ -1031,7 +1037,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
     /**
      * puts error to errormap for propertyName if isAdd, otherwise the property name is replaced with value of
      * TARGET_ERROR_PROPERTY_NAME
-     * 
+     *
      * @param propertyName
      * @param errorKey
      * @param isAdd

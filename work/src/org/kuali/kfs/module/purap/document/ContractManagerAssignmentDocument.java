@@ -17,11 +17,9 @@
 package org.kuali.kfs.module.purap.document;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
-import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants;
@@ -31,15 +29,14 @@ import org.kuali.kfs.module.purap.document.service.RequisitionService;
 import org.kuali.kfs.sys.DynamicCollectionComparator;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.dto.NetworkIdDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.action.ActionRequestType;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.DocumentService;
 
 public class ContractManagerAssignmentDocument extends FinancialSystemTransactionalDocumentBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ContractManagerAssignmentDocument.class);
@@ -86,7 +83,7 @@ public class ContractManagerAssignmentDocument extends FinancialSystemTransactio
             documentHeaderIds.add(req.getDocumentNumber());
         }
         
-        List<RequisitionDocument> requisitionDocumentsFromDocService = new ArrayList();
+        List<Document> requisitionDocumentsFromDocService = new ArrayList();
         try {
             if ( documentHeaderIds.size() > 0 )
                 requisitionDocumentsFromDocService = SpringContext.getBean(DocumentService.class).getDocumentsByListOfDocumentHeaderIds(RequisitionDocument.class, documentHeaderIds);
@@ -97,8 +94,8 @@ public class ContractManagerAssignmentDocument extends FinancialSystemTransactio
             throw new RuntimeException(errorMsg, we);
         }
   
-        for (RequisitionDocument req : requisitionDocumentsFromDocService) {
-            contractManagerAssignmentDetails.add(new ContractManagerAssignmentDetail(this, req));
+        for (Document req : requisitionDocumentsFromDocService) {
+            contractManagerAssignmentDetails.add(new ContractManagerAssignmentDetail(this, (RequisitionDocument) req));
         }
 
         String[] fieldNames = {PurapPropertyConstants.DELIVERY_CAMPUS_CODE, PurapPropertyConstants.VENDOR_NAME, PurapPropertyConstants.REQUISITION_IDENTIFIER};
@@ -107,28 +104,28 @@ public class ContractManagerAssignmentDocument extends FinancialSystemTransactio
     }
 
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         LOG.debug("doRouteStatusChange() Entering method.");
 
         super.doRouteStatusChange(statusChangeEvent);
 
-        if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+        if (this.getDocumentHeader().getWorkflowDocument().isProcessed()) {
             boolean isSuccess = true;
             StringBuffer failedReqs = new StringBuffer();
             SpringContext.getBean(PurchaseOrderService.class).processACMReq(this);
 
             if (!isSuccess) {
                 failedReqs.deleteCharAt(failedReqs.lastIndexOf(","));
-                KualiWorkflowDocument workflowDoc = this.getDocumentHeader().getWorkflowDocument();
+                WorkflowDocument workflowDoc = this.getDocumentHeader().getWorkflowDocument();
                 String currentNodeName = null;
                 try {
                     currentNodeName = PurapWorkflowConstants.DOC_ADHOC_NODE_NAME;
-                    if (!(KEWConstants.ROUTE_HEADER_INITIATED_CD.equals(workflowDoc.getRouteHeader().getDocRouteStatus()))) {
+                    if (!(KewApiConstants.ROUTE_HEADER_INITIATED_CD.equals(workflowDoc.getStatus().getCode()))) {
                         if (this.getCurrentRouteNodeName(workflowDoc) != null) {
                             currentNodeName = this.getCurrentRouteNodeName(workflowDoc);
                         }
                     }
-                    workflowDoc.adHocRouteDocumentToPrincipal(KEWConstants.ACTION_REQUEST_FYI_REQ, currentNodeName, PurapWorkflowConstants.ContractManagerAssignmentDocument.ASSIGN_CONTRACT_DOC_ERROR_COMPLETING_POST_PROCESSING + failedReqs, workflowDoc.getRouteHeader().getInitiatorPrincipalId(), "Initiator", true);
+                    workflowDoc.adHocToPrincipal( ActionRequestType.FYI, currentNodeName, PurapWorkflowConstants.ContractManagerAssignmentDocument.ASSIGN_CONTRACT_DOC_ERROR_COMPLETING_POST_PROCESSING + failedReqs, workflowDoc.getInitiatorPrincipalId(), "Initiator", true);
                 }
                 catch (WorkflowException e) {
                     // do nothing; document should have processed successfully and problem is with sending FYI
@@ -144,23 +141,23 @@ public class ContractManagerAssignmentDocument extends FinancialSystemTransactio
      * @return
      * @throws WorkflowException
      */
-    protected String getCurrentRouteNodeName(KualiWorkflowDocument wd) throws WorkflowException {
-        String[] nodeNames = wd.getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
-        if ((nodeNames == null) || (nodeNames.length == 0)) {
+    protected String getCurrentRouteNodeName(WorkflowDocument wd) throws WorkflowException {
+        Set<String> nodeNames = wd.getCurrentNodeNames();
+        if (nodeNames == null || nodeNames.isEmpty()) {
             return null;
         }
         else {
-            return nodeNames[0];
+            return nodeNames.iterator().next();
         }
     }
 
     /**
-     * @see org.kuali.rice.kns.document.Document#getDocumentTitle()
+     * @see org.kuali.rice.krad.document.Document#getDocumentTitle()
      */
     @Override
     public String getDocumentTitle() {
         String title = "";
-        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(ContractManagerAssignmentDocument.class, PurapParameterConstants.PURAP_OVERRIDE_ASSIGN_CONTRACT_MGR_DOC_TITLE)) {
+        if (SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(ContractManagerAssignmentDocument.class, PurapParameterConstants.PURAP_OVERRIDE_ASSIGN_CONTRACT_MGR_DOC_TITLE)) {
             title = PurapWorkflowConstants.ContractManagerAssignmentDocument.WORKFLOW_DOCUMENT_TITLE;
         }
         else {

@@ -17,6 +17,7 @@ package org.kuali.kfs.module.endow.businessobject;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -29,14 +30,13 @@ import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.service.TicklerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Business Object for Security table.
  */
-public class Security extends PersistableBusinessObjectBase implements Inactivateable {
+public class Security extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String id;
     private String description;
@@ -89,28 +89,28 @@ public class Security extends PersistableBusinessObjectBase implements Inactivat
         unitValue = BigDecimal.ONE;
         unitsHeld = BigDecimal.ZERO;
         carryValue = BigDecimal.ZERO;
-        ticklers = new TypedArrayList(Tickler.class);
+        ticklers = new ArrayList<Tickler>();
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(EndowPropertyConstants.SECURITY_ID, this.id);
         return m;
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.Inactivateable#isActive()
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#isActive()
      */
     public boolean isActive() {
         return active;
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.Inactivateable#setActive(boolean)
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#setActive(boolean)
      */
     public void setActive(boolean active) {
         this.active = active;
@@ -652,12 +652,11 @@ public class Security extends PersistableBusinessObjectBase implements Inactivat
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#afterLookup(org.apache.ojb.broker.PersistenceBroker)
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#afterLookup(org.apache.ojb.broker.PersistenceBroker)
      */
     @Override
-    public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-
-        super.afterLookup(persistenceBroker);
+    protected void postLoad() {
+        super.postLoad();
 
         KEMService kemService = SpringContext.getBean(KEMService.class);
 

@@ -15,20 +15,13 @@
  */
 package org.kuali.kfs.integration.cg.service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
-import org.kuali.kfs.integration.cg.businessobject.BudgetCategoryDTO;
 import org.kuali.kfs.integration.cg.dto.BudgetAdjustmentCreationStatusDTO;
 import org.kuali.kfs.integration.cg.dto.BudgetAdjustmentParametersDTO;
-import org.kuali.kfs.integration.cg.dto.HashMapElement;
-import org.kuali.kfs.integration.cg.dto.KcObjectCode;
 
 @WebService(name = ContractsAndGrantsConstants.BudgetAdjustmentService.WEB_SERVICE_NAME, 
             targetNamespace = ContractsAndGrantsConstants.MODULE_TARGET_NAMESPACE)

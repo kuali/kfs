@@ -37,19 +37,18 @@ import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.util.UrlFactory;
+import org.kuali.rice.location.api.campus.CampusService;
+import org.kuali.rice.location.framework.campus.CampusEbo;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -115,7 +114,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
     private AssetType capitalAssetType;
     private Account organizationOwnerAccount;
     private Chart organizationOwnerChartOfAccounts;
-    private Campus campus;
+    private CampusEbo campus;
     private Room buildingRoom;
     private Account retirementAccount;
     private Chart retirementChartOfAccounts;
@@ -178,13 +177,13 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
      * Default constructor.
      */
     public Asset() {
-        this.assetPayments = new TypedArrayList(AssetPayment.class);
-        this.assetRepairHistory = new TypedArrayList(AssetRepairHistory.class);
-        this.assetComponents = new TypedArrayList(AssetComponent.class);
-        this.assetLocations = new TypedArrayList(AssetLocation.class);
-        this.assetRetirementHistory = new TypedArrayList(AssetRetirementGlobalDetail.class);
-        this.retirementGlobals = new TypedArrayList(AssetRetirementGlobal.class);
-        this.mergeHistory = new TypedArrayList(AssetRetirementGlobalDetail.class);
+        this.assetPayments = new ArrayList<AssetPayment>();
+        this.assetRepairHistory = new ArrayList<AssetRepairHistory>();
+        this.assetComponents = new ArrayList<AssetComponent>();
+        this.assetLocations = new ArrayList<AssetLocation>();
+        this.assetRetirementHistory = new ArrayList<AssetRetirementGlobalDetail>();
+        this.retirementGlobals = new ArrayList<AssetRetirementGlobal>();
+        this.mergeHistory = new ArrayList<AssetRetirementGlobalDetail>();
     }
 
     /**
@@ -1384,8 +1383,8 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
      * 
      * @return Returns the campus
      */
-    public Campus getCampus() {
-        return campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, campus, "campus");
+    public CampusEbo getCampus() {
+        return campus = StringUtils.isBlank( campusCode)?null:((campus!=null && campus.getCode().equals( campusCode))?campus:CampusEbo.from(SpringContext.getBean(CampusService.class).getCampus( campusCode)));
     }
 
     /**
@@ -1394,7 +1393,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
      * @param campus The campus to set.
      * @deprecated
      */
-    public void setCampus(Campus campus) {
+    public void setCampus(CampusEbo campus) {
         this.campus = campus;
     }
 
@@ -1608,9 +1607,9 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
 
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap<String, String> toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         if (this.capitalAssetNumber != null) {
             m.put("capitalAssetNumber", this.capitalAssetNumber.toString());
@@ -1650,7 +1649,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
      * @return Returns the assetRepresentative.
      */
     public Person getAssetRepresentative() {
-        assetRepresentative = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(representativeUniversalIdentifier, assetRepresentative);
+        assetRepresentative = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(representativeUniversalIdentifier, assetRepresentative);
         return assetRepresentative;
     }
 
@@ -1672,7 +1671,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
      */
     public Person getBorrowerPerson() {
         if (ObjectUtils.isNotNull(borrowerLocation)) {
-            borrowerPerson = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(borrowerLocation.getAssetLocationContactIdentifier(), borrowerPerson);
+            borrowerPerson = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(borrowerLocation.getAssetLocationContactIdentifier(), borrowerPerson);
         }
         return borrowerPerson;
     }
@@ -2004,7 +2003,7 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
         params.put(KFSConstants.RETURN_LOCATION_PARAMETER, "portal.do");
         params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, AssetPayment.class.getName());
 
-        return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
+        return UrlFactory.parameterizeUrl(KRADConstants.LOOKUP_ACTION, params);
     }
 
     /**
@@ -2019,7 +2018,8 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
         params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
         params.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, this.getCapitalAssetNumber().toString());
         params.put(KFSConstants.RETURN_LOCATION_PARAMETER, "portal.do");
-        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocSearchCriteriaDTO.class.getName());
+        //RICE20 DocSearchCriteria is revamped, not sure if its necessary to pass it as a properties
+        //params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocSearchCriteriaDTO.class.getName());
         return params;
     }
 
@@ -2033,9 +2033,9 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
             return "";
 
         Properties params = buildDocumentLookupLinkProperties();
-        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_TRANSFER);
+        params.put(KewApiConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_TRANSFER);
 
-        return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
+        return UrlFactory.parameterizeUrl(KRADConstants.LOOKUP_ACTION, params);
     }
 
     /**
@@ -2048,9 +2048,9 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
             return "";
 
         Properties params = buildDocumentLookupLinkProperties();
-        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_EDIT);
+        params.put(KewApiConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_EDIT);
 
-        return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
+        return UrlFactory.parameterizeUrl(KRADConstants.LOOKUP_ACTION, params);
     }
 
     /**
@@ -2063,9 +2063,9 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
             return "";
 
         Properties params = buildDocumentLookupLinkProperties();
-        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_FABRICATION);
+        params.put(KewApiConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_FABRICATION);
 
-        return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
+        return UrlFactory.parameterizeUrl(KRADConstants.LOOKUP_ACTION, params);
     }
 
     /**
@@ -2078,9 +2078,9 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
             return "";
 
         Properties params = buildDocumentLookupLinkProperties();
-        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_ADD_GLOBAL);
+        params.put(KewApiConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_ADD_GLOBAL);
 
-        return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
+        return UrlFactory.parameterizeUrl(KRADConstants.LOOKUP_ACTION, params);
     }
 
     /**
@@ -2093,9 +2093,9 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
             return "";
 
         Properties params = buildDocumentLookupLinkProperties();
-        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_PAYMENT);
+        params.put(KewApiConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_PAYMENT);
 
-        return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
+        return UrlFactory.parameterizeUrl(KRADConstants.LOOKUP_ACTION, params);
     }
 
     /**
@@ -2108,9 +2108,9 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
             return "";
 
         Properties params = buildDocumentLookupLinkProperties();
-        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_EQUIPMENT_LOAN_OR_RETURN);
+        params.put(KewApiConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_EQUIPMENT_LOAN_OR_RETURN);
 
-        return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
+        return UrlFactory.parameterizeUrl(KRADConstants.LOOKUP_ACTION, params);
     }
 
     /**
@@ -2123,9 +2123,9 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
             return "";
 
         Properties params = buildDocumentLookupLinkProperties();
-        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_LOCATION_GLOBAL);
+        params.put(KewApiConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_LOCATION_GLOBAL);
 
-        return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
+        return UrlFactory.parameterizeUrl(KRADConstants.LOOKUP_ACTION, params);
     }
 
     /**
@@ -2138,9 +2138,9 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
             return "";
 
         Properties params = buildDocumentLookupLinkProperties();
-        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_RETIREMENT_GLOBAL);
+        params.put(KewApiConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_RETIREMENT_GLOBAL);
 
-        return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
+        return UrlFactory.parameterizeUrl(KRADConstants.LOOKUP_ACTION, params);
     }
 
 
@@ -2154,16 +2154,16 @@ public class Asset extends PersistableBusinessObjectBase implements CapitalAsset
             return "";
 
         Properties params = buildDocumentLookupLinkProperties();
-        params.put(KEWConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.COMPLEX_MAINTENANCE_DOC_BASE);
+        params.put(KewApiConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.COMPLEX_MAINTENANCE_DOC_BASE);
 
-        return UrlFactory.parameterizeUrl(KNSConstants.LOOKUP_ACTION, params);
+        return UrlFactory.parameterizeUrl(KRADConstants.LOOKUP_ACTION, params);
     }
 
 
     /**
      * override this method so we can remove the offcampus location
      * 
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
     @Override
     public List buildListOfDeletionAwareLists() {

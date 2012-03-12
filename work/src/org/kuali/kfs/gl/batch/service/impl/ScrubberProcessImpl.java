@@ -67,24 +67,26 @@ import org.kuali.kfs.gl.service.impl.ScrubberStatus;
 import org.kuali.kfs.gl.service.impl.StringHelper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSParameterKeyConstants.GlParameterConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
-import org.kuali.kfs.sys.KFSParameterKeyConstants.GlParameterConstants;
 import org.kuali.kfs.sys.batch.service.WrappingBatchService;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.InvalidFlexibleOffsetException;
 import org.kuali.kfs.sys.service.DocumentNumberAwareReportWriterService;
 import org.kuali.kfs.sys.service.FlexibleOffsetAccountService;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterEvaluator;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.parameter.ParameterEvaluator;
+import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.PersistenceService;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 /**
@@ -117,7 +119,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
     /* Services required */
     private FlexibleOffsetAccountService flexibleOffsetAccountService;
     private DateTimeService dateTimeService;
-    private KualiConfigurationService configurationService;
+    private ConfigurationService configurationService;
     private PersistenceService persistenceService;
     private ScrubberValidator scrubberValidator;
     private RunDateService runDateService;
@@ -319,7 +321,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
 
         universityRunDate = accountingCycleCachingService.getUniversityDate(runDate);
         if (universityRunDate == null) {
-            throw new IllegalStateException(configurationService.getPropertyString(KFSKeyConstants.ERROR_UNIV_DATE_NOT_FOUND));
+            throw new IllegalStateException(configurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_UNIV_DATE_NOT_FOUND));
         }
         
         setOffsetString();
@@ -721,7 +723,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
 
                             KualiDecimal transactionAmount = scrubbedEntry.getTransactionLedgerEntryAmount();
 
-                            ParameterEvaluator offsetFiscalPeriods = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.OFFSET_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode());
+                            ParameterEvaluator offsetFiscalPeriods = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.OFFSET_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode());
 
                             BalanceType scrubbedEntryBalanceType = accountingCycleCachingService.getBalanceType(scrubbedEntry.getFinancialBalanceTypeCode());
                             if (scrubbedEntryBalanceType.isFinancialOffsetGenerationIndicator() && offsetFiscalPeriods.evaluationSucceeds()) {
@@ -745,11 +747,11 @@ public class ScrubberProcessImpl implements ScrubberProcess {
                                 }
                             }
 
-                            ParameterEvaluator costShareObjectTypeCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.COST_SHARE_OBJ_TYPE_CODES, scrubbedEntry.getFinancialObjectTypeCode());
-                            ParameterEvaluator costShareEncBalanceTypeCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.COST_SHARE_ENC_BAL_TYP_CODES, scrubbedEntry.getFinancialBalanceTypeCode());
-                            ParameterEvaluator costShareEncFiscalPeriodCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.COST_SHARE_ENC_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode());
-                            ParameterEvaluator costShareEncDocTypeCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.COST_SHARE_ENC_DOC_TYPE_CODES, scrubbedEntry.getFinancialDocumentTypeCode().trim());
-                            ParameterEvaluator costShareFiscalPeriodCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.COST_SHARE_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode());
+                            ParameterEvaluator costShareObjectTypeCodes = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.COST_SHARE_OBJ_TYPE_CODES, scrubbedEntry.getFinancialObjectTypeCode());
+                            ParameterEvaluator costShareEncBalanceTypeCodes = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.COST_SHARE_ENC_BAL_TYP_CODES, scrubbedEntry.getFinancialBalanceTypeCode());
+                            ParameterEvaluator costShareEncFiscalPeriodCodes = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.COST_SHARE_ENC_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode());
+                            ParameterEvaluator costShareEncDocTypeCodes = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.COST_SHARE_ENC_DOC_TYPE_CODES, scrubbedEntry.getFinancialDocumentTypeCode().trim());
+                            ParameterEvaluator costShareFiscalPeriodCodes = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.COST_SHARE_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode());
                             Account scrubbedEntryAccount = accountingCycleCachingService.getAccount(scrubbedEntry.getChartOfAccountsCode(), scrubbedEntry.getAccountNumber());
 
                             if (costShareObjectTypeCodes.evaluationSucceeds() && costShareEncBalanceTypeCodes.evaluationSucceeds() && scrubbedEntryAccount.isForContractsAndGrants() && KFSConstants.SubAccountType.COST_SHARE.equals(subAccountTypeCode) && costShareEncFiscalPeriodCodes.evaluationSucceeds() && costShareEncDocTypeCodes.evaluationSucceeds()) {
@@ -773,7 +775,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
                                 }
                             }
 
-                            ParameterEvaluator otherDocTypeCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.OFFSET_DOC_TYPE_CODES, scrubbedEntry.getFinancialDocumentTypeCode());
+                            ParameterEvaluator otherDocTypeCodes = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.OFFSET_DOC_TYPE_CODES, scrubbedEntry.getFinancialDocumentTypeCode());
 
                             if (otherDocTypeCodes.evaluationSucceeds()) {
                                 String m = processCapitalization(scrubbedEntry, scrubberReport);
@@ -903,7 +905,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
             SystemOptions scrubbedEntryOption = accountingCycleCachingService.getSystemOptions(scrubbedEntry.getUniversityFiscalYear());
             A21SubAccount scrubbedEntryA21SubAccount = accountingCycleCachingService.getA21SubAccount(scrubbedEntry.getChartOfAccountsCode(), scrubbedEntry.getAccountNumber(), scrubbedEntry.getSubAccountNumber());
 
-            costShareEntry.setFinancialObjectCode(parameterService.getParameterValue(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.COST_SHARE_OBJECT_CODE_PARM_NM));
+            costShareEntry.setFinancialObjectCode(parameterService.getParameterValueAsString(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.COST_SHARE_OBJECT_CODE_PARM_NM));
             costShareEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
             costShareEntry.setFinancialObjectTypeCode(scrubbedEntryOption.getFinancialObjectTypeTransferExpenseCd());
             costShareEntry.setTransactionLedgerEntrySequenceNumber(new Integer(0));
@@ -946,7 +948,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
                     objectCodeKey.append("-").append(offsetDefinition.getChartOfAccountsCode());
                     objectCodeKey.append("-").append(offsetDefinition.getFinancialObjectCode());
 
-                    Message m = new Message(configurationService.getPropertyString(KFSKeyConstants.ERROR_OFFSET_DEFINITION_OBJECT_CODE_NOT_FOUND) + " (" + objectCodeKey.toString() + ")", Message.TYPE_FATAL);
+                    Message m = new Message(configurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_OFFSET_DEFINITION_OBJECT_CODE_NOT_FOUND) + " (" + objectCodeKey.toString() + ")", Message.TYPE_FATAL);
                     LOG.debug("generateCostShareEntries() Error 1 object not found");
                     return new TransactionError(costShareEntry, m);
                 }
@@ -965,7 +967,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
                 offsetKey.append("-TF-");
                 offsetKey.append(scrubbedEntry.getFinancialBalanceTypeCode());
 
-                Message m = new Message(configurationService.getPropertyString(KFSKeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND) + " (" + offsetKey.toString() + ")", Message.TYPE_FATAL);
+                Message m = new Message(configurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND) + " (" + offsetKey.toString() + ")", Message.TYPE_FATAL);
 
                 LOG.debug("generateCostShareEntries() Error 2 offset not found");
                 return new TransactionError(costShareEntry, m);
@@ -1052,7 +1054,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
                     objectCodeKey.append("-").append(scrubbedEntry.getChartOfAccountsCode());
                     objectCodeKey.append("-").append(scrubbedEntry.getFinancialObjectCode());
 
-                    Message m = new Message(configurationService.getPropertyString(KFSKeyConstants.ERROR_OFFSET_DEFINITION_OBJECT_CODE_NOT_FOUND) + " (" + objectCodeKey.toString() + ")", Message.TYPE_FATAL);
+                    Message m = new Message(configurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_OFFSET_DEFINITION_OBJECT_CODE_NOT_FOUND) + " (" + objectCodeKey.toString() + ")", Message.TYPE_FATAL);
 
                     LOG.debug("generateCostShareEntries() Error 3 object not found");
                     return new TransactionError(costShareSourceAccountEntry, m);
@@ -1072,7 +1074,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
                 offsetKey.append("-TF-");
                 offsetKey.append(scrubbedEntry.getFinancialBalanceTypeCode());
 
-                Message m = new Message(configurationService.getPropertyString(KFSKeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND) + " (" + offsetKey.toString() + ")", Message.TYPE_FATAL);
+                Message m = new Message(configurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND) + " (" + offsetKey.toString() + ")", Message.TYPE_FATAL);
 
                 LOG.debug("generateCostShareEntries() Error 4 offset not found");
                 return new TransactionError(costShareSourceAccountEntry, m);
@@ -1157,7 +1159,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
         
         try {
          // Lines 4694 - 4798 of the Pro Cobol listing on Confluence
-            if (!parameterService.getIndicatorParameter(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.CAPITALIZATION_IND)) {
+            if (!parameterService.getParameterValueAsBoolean(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.CAPITALIZATION_IND)) {
                 return null;
             }
 
@@ -1167,22 +1169,25 @@ public class ScrubberProcessImpl implements ScrubberProcess {
             Chart scrubbedEntryChart = accountingCycleCachingService.getChart(scrubbedEntry.getChartOfAccountsCode());
             Account scrubbedEntryAccount = accountingCycleCachingService.getAccount(scrubbedEntry.getChartOfAccountsCode(), scrubbedEntry.getAccountNumber());
 
-            ParameterEvaluator documentTypeCodes = (!ObjectUtils.isNull(scrubbedEntry)) ? parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.CAPITALIZATION_DOC_TYPE_CODES, scrubbedEntry.getFinancialDocumentTypeCode()) : null;
-            ParameterEvaluator fiscalPeriodCodes = (!ObjectUtils.isNull(scrubbedEntry)) ? parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.CAPITALIZATION_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode()) : null;
-            ParameterEvaluator objectSubTypeCodes = (!ObjectUtils.isNull(scrubbedEntryObjectCode)) ? parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.CAPITALIZATION_OBJ_SUB_TYPE_CODES, scrubbedEntryObjectCode.getFinancialObjectSubTypeCode()) : null;
-            ParameterEvaluator subFundGroupCodes = (!ObjectUtils.isNull(scrubbedEntryAccount)) ? parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.CAPITALIZATION_SUB_FUND_GROUP_CODES, scrubbedEntryAccount.getSubFundGroupCode()) : null;
-            ParameterEvaluator chartCodes = (!ObjectUtils.isNull(scrubbedEntry)) ? parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.CAPITALIZATION_CHART_CODES, scrubbedEntry.getChartOfAccountsCode()) : null;
+            ParameterEvaluator documentTypeCodes = (!ObjectUtils.isNull(scrubbedEntry)) ? /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.CAPITALIZATION_DOC_TYPE_CODES, scrubbedEntry.getFinancialDocumentTypeCode()) : null;
+            ParameterEvaluator fiscalPeriodCodes = (!ObjectUtils.isNull(scrubbedEntry)) ? /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.CAPITALIZATION_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode()) : null;
+            ParameterEvaluator objectSubTypeCodes = (!ObjectUtils.isNull(scrubbedEntryObjectCode)) ? /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.CAPITALIZATION_OBJ_SUB_TYPE_CODES, scrubbedEntryObjectCode.getFinancialObjectSubTypeCode()) : null;
+            ParameterEvaluator subFundGroupCodes = (!ObjectUtils.isNull(scrubbedEntryAccount)) ? /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.CAPITALIZATION_SUB_FUND_GROUP_CODES, scrubbedEntryAccount.getSubFundGroupCode()) : null;
+            ParameterEvaluator chartCodes = (!ObjectUtils.isNull(scrubbedEntry)) ? /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.CAPITALIZATION_CHART_CODES, scrubbedEntry.getChartOfAccountsCode()) : null;
 
             if (scrubbedEntry.getFinancialBalanceTypeCode().equals(scrubbedEntryOption.getActualFinancialBalanceTypeCd()) && scrubbedEntry.getUniversityFiscalYear().intValue() > 1995 && (documentTypeCodes != null && documentTypeCodes.evaluationSucceeds()) && (fiscalPeriodCodes != null && fiscalPeriodCodes.evaluationSucceeds()) && (objectSubTypeCodes != null && objectSubTypeCodes.evaluationSucceeds()) && (subFundGroupCodes != null && subFundGroupCodes.evaluationSucceeds()) && (chartCodes != null && chartCodes.evaluationSucceeds())) {
 
                 String objectSubTypeCode = scrubbedEntryObjectCode.getFinancialObjectSubTypeCode();
 
-                String capitalizationObjectCode = parameterService.getParameterValue(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.CAPITALIZATION_SUBTYPE_OBJECT, objectSubTypeCode);
+                String capitalizationObjectCode = parameterService.getParameterValueAsString(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.CAPITALIZATION_SUBTYPE_OBJECT, objectSubTypeCode);
                 if (capitalizationObjectCode != null) {
                     capitalizationEntry.setFinancialObjectCode(capitalizationObjectCode);
                     capitalizationEntry.setFinancialObject(accountingCycleCachingService.getObjectCode(capitalizationEntry.getUniversityFiscalYear(), capitalizationEntry.getChartOfAccountsCode(), capitalizationEntry.getFinancialObjectCode()));
                 }
 
+                // financialSubObjectCode should always be changed to dashes for capitalization entries
+                capitalizationEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
+                
                 capitalizationEntry.setFinancialObjectTypeCode(scrubbedEntryOption.getFinancialObjectTypeAssetsCd());
                 capitalizationEntry.setTransactionLedgerEntryDescription(capitalizationDescription);
 
@@ -1199,7 +1204,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
                 
                 // Check system parameters for overriding fund balance object code; otherwise, use
                 // the chart fund balance object code.
-                String fundBalanceCode    = parameterService.getParameterValue(
+                String fundBalanceCode    = parameterService.getParameterValueAsString(
                         ScrubberStep.class, 
                         GlParameterConstants.CAPITALIZATION_OFFSET_CODE);
                 
@@ -1251,7 +1256,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
     protected String processPlantIndebtedness(OriginEntryInformation scrubbedEntry, ScrubberReportData scrubberReport) {
         try{
             // Lines 4855 - 4979 of the Pro Cobol listing on Confluence 
-            if (!parameterService.getIndicatorParameter(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.PLANT_INDEBTEDNESS_IND)) {
+            if (!parameterService.getParameterValueAsBoolean(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.PLANT_INDEBTEDNESS_IND)) {
                 return null;
             }
 
@@ -1265,8 +1270,8 @@ public class ScrubberProcessImpl implements ScrubberProcess {
                 scrubbedEntryAccount.setOrganization(accountingCycleCachingService.getOrganization(scrubbedEntryAccount.getChartOfAccountsCode(), scrubbedEntryAccount.getOrganizationCode()));
             }
             
-            ParameterEvaluator objectSubTypeCodes = (!ObjectUtils.isNull(scrubbedEntryObjectCode)) ? parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.PLANT_INDEBTEDNESS_OBJ_SUB_TYPE_CODES, scrubbedEntryObjectCode.getFinancialObjectSubTypeCode()) : null;
-            ParameterEvaluator subFundGroupCodes = (!ObjectUtils.isNull(scrubbedEntryAccount)) ? parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.PLANT_INDEBTEDNESS_SUB_FUND_GROUP_CODES, scrubbedEntryAccount.getSubFundGroupCode()) : null;
+            ParameterEvaluator objectSubTypeCodes = (!ObjectUtils.isNull(scrubbedEntryObjectCode)) ? /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.PLANT_INDEBTEDNESS_OBJ_SUB_TYPE_CODES, scrubbedEntryObjectCode.getFinancialObjectSubTypeCode()) : null;
+            ParameterEvaluator subFundGroupCodes = (!ObjectUtils.isNull(scrubbedEntryAccount)) ? /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.PLANT_INDEBTEDNESS_SUB_FUND_GROUP_CODES, scrubbedEntryAccount.getSubFundGroupCode()) : null;
 
             if (scrubbedEntry.getFinancialBalanceTypeCode().equals(scrubbedEntryOption.getActualFinancialBalanceTypeCd()) && (subFundGroupCodes != null && subFundGroupCodes.evaluationSucceeds()) && (objectSubTypeCodes != null && objectSubTypeCodes.evaluationSucceeds())) {
 
@@ -1283,7 +1288,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
 
                 // Check system parameters for overriding fund balance object code; otherwise, use
                 // the chart fund balance object code.
-                String fundBalanceCode    = parameterService.getParameterValue(
+                String fundBalanceCode    = parameterService.getParameterValueAsString(
                         ScrubberStep.class, 
                         GlParameterConstants.PLANT_INDEBTEDNESS_OFFSET_CODE);
                 
@@ -1382,7 +1387,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
     protected String processLiabilities(OriginEntryInformation scrubbedEntry, ScrubberReportData scrubberReport) {
         try{
             // Lines 4799 to 4839 of the Pro Cobol list of the scrubber on Confluence
-            if (!parameterService.getIndicatorParameter(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.LIABILITY_IND)) {
+            if (!parameterService.getParameterValueAsBoolean(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.LIABILITY_IND)) {
                 return null;
             }
 
@@ -1391,16 +1396,16 @@ public class ScrubberProcessImpl implements ScrubberProcess {
             ObjectCode scrubbedEntryFinancialObject = accountingCycleCachingService.getObjectCode(scrubbedEntry.getUniversityFiscalYear(), scrubbedEntry.getChartOfAccountsCode(), scrubbedEntry.getFinancialObjectCode());
             Account scrubbedEntryAccount = accountingCycleCachingService.getAccount(scrubbedEntry.getChartOfAccountsCode(), scrubbedEntry.getAccountNumber());
 
-            ParameterEvaluator chartCodes = (!ObjectUtils.isNull(scrubbedEntry)) ? parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.LIABILITY_CHART_CODES, scrubbedEntry.getChartOfAccountsCode()) : null;
-            ParameterEvaluator docTypeCodes = (!ObjectUtils.isNull(scrubbedEntry)) ? parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.LIABILITY_DOC_TYPE_CODES, scrubbedEntry.getFinancialDocumentTypeCode()) : null;
-            ParameterEvaluator fiscalPeriods = (!ObjectUtils.isNull(scrubbedEntry)) ? parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.LIABILITY_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode()) : null;
-            ParameterEvaluator objSubTypeCodes = (!ObjectUtils.isNull(scrubbedEntryFinancialObject)) ? parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.LIABILITY_OBJ_SUB_TYPE_CODES, scrubbedEntryFinancialObject.getFinancialObjectSubTypeCode()) : null;
-            ParameterEvaluator subFundGroupCodes = (!ObjectUtils.isNull(scrubbedEntryAccount)) ? parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.LIABILITY_SUB_FUND_GROUP_CODES, scrubbedEntryAccount.getSubFundGroupCode()) : null;
+            ParameterEvaluator chartCodes = (!ObjectUtils.isNull(scrubbedEntry)) ? /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.LIABILITY_CHART_CODES, scrubbedEntry.getChartOfAccountsCode()) : null;
+            ParameterEvaluator docTypeCodes = (!ObjectUtils.isNull(scrubbedEntry)) ? /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.LIABILITY_DOC_TYPE_CODES, scrubbedEntry.getFinancialDocumentTypeCode()) : null;
+            ParameterEvaluator fiscalPeriods = (!ObjectUtils.isNull(scrubbedEntry)) ? /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.LIABILITY_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode()) : null;
+            ParameterEvaluator objSubTypeCodes = (!ObjectUtils.isNull(scrubbedEntryFinancialObject)) ? /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.LIABILITY_OBJ_SUB_TYPE_CODES, scrubbedEntryFinancialObject.getFinancialObjectSubTypeCode()) : null;
+            ParameterEvaluator subFundGroupCodes = (!ObjectUtils.isNull(scrubbedEntryAccount)) ? /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.LIABILITY_SUB_FUND_GROUP_CODES, scrubbedEntryAccount.getSubFundGroupCode()) : null;
 
             if (scrubbedEntry.getFinancialBalanceTypeCode().equals(scrubbedEntryOption.getActualFinancialBalanceTypeCd()) && scrubbedEntry.getUniversityFiscalYear().intValue() > 1995 && (docTypeCodes != null && docTypeCodes.evaluationSucceeds()) && (fiscalPeriods != null && fiscalPeriods.evaluationSucceeds()) && (objSubTypeCodes != null && objSubTypeCodes.evaluationSucceeds()) && (subFundGroupCodes != null && subFundGroupCodes.evaluationSucceeds()) && (chartCodes != null && chartCodes.evaluationSucceeds())) {
                 OriginEntryFull liabilityEntry = OriginEntryFull.copyFromOriginEntryable(scrubbedEntry);
 
-                liabilityEntry.setFinancialObjectCode(parameterService.getParameterValue(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.LIABILITY_OBJECT_CODE));
+                liabilityEntry.setFinancialObjectCode(parameterService.getParameterValueAsString(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.LIABILITY_OBJECT_CODE));
                 liabilityEntry.setFinancialObjectTypeCode(scrubbedEntryOption.getFinObjectTypeLiabilitiesCode());
 
                 liabilityEntry.setTransactionDebitCreditCode(scrubbedEntry.getTransactionDebitCreditCode());
@@ -1416,7 +1421,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
 
                 // Check system parameters for overriding fund balance object code; otherwise, use
                 // the chart fund balance object code.
-                String fundBalanceCode    = parameterService.getParameterValue(
+                String fundBalanceCode    = parameterService.getParameterValueAsString(
                         ScrubberStep.class, 
                         GlParameterConstants.LIABILITY_OFFSET_CODE);
                 
@@ -1517,8 +1522,8 @@ public class ScrubberProcessImpl implements ScrubberProcess {
 
         if (!ObjectUtils.isNull(scrubbedEntryAccount) && !ObjectUtils.isNull(scrubbedEntryObjectCode)) {
             String objectSubTypeCode = scrubbedEntryObjectCode.getFinancialObjectSubTypeCode();
-            ParameterEvaluator campusObjSubTypeCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.PLANT_FUND_CAMPUS_OBJECT_SUB_TYPE_CODES, objectSubTypeCode);
-            ParameterEvaluator orgObjSubTypeCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.PLANT_FUND_ORG_OBJECT_SUB_TYPE_CODES, objectSubTypeCode);
+            ParameterEvaluator campusObjSubTypeCodes = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.PLANT_FUND_CAMPUS_OBJECT_SUB_TYPE_CODES, objectSubTypeCode);
+            ParameterEvaluator orgObjSubTypeCodes = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.PLANT_FUND_ORG_OBJECT_SUB_TYPE_CODES, objectSubTypeCode);
 
             if (campusObjSubTypeCodes.evaluationSucceeds()) {
                 liabilityEntry.setAccountNumber(scrubbedEntryAccount.getOrganization().getCampusPlantAccountNumber());
@@ -1605,7 +1610,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
                     offsetKey.append(offset.getFinancialObjectCode());
 
                     LOG.debug("generateCostShareEncumbranceEntries() object code not found");
-                    return new TransactionError(costShareEncumbranceEntry, new Message(configurationService.getPropertyString(KFSKeyConstants.ERROR_NO_OBJECT_FOR_OBJECT_ON_OFSD) + "(" + offsetKey.toString() + ")", Message.TYPE_FATAL));
+                    return new TransactionError(costShareEncumbranceEntry, new Message(configurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_NO_OBJECT_FOR_OBJECT_ON_OFSD) + "(" + offsetKey.toString() + ")", Message.TYPE_FATAL));
                 }
                 costShareEncumbranceOffsetEntry.setFinancialObjectCode(offset.getFinancialObjectCode());
                 costShareEncumbranceOffsetEntry.setFinancialObject(offset.getFinancialObject());
@@ -1622,7 +1627,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
                 offsetKey.append(costShareEncumbranceEntry.getFinancialBalanceTypeCode());
 
                 LOG.debug("generateCostShareEncumbranceEntries() offset not found");
-                return new TransactionError(costShareEncumbranceEntry, new Message(configurationService.getPropertyString(KFSKeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND) + "(" + offsetKey.toString() + ")", Message.TYPE_FATAL));
+                return new TransactionError(costShareEncumbranceEntry, new Message(configurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND) + "(" + offsetKey.toString() + ")", Message.TYPE_FATAL));
             }
 
             costShareEncumbranceOffsetEntry.setFinancialObjectTypeCode(offset.getFinancialObject().getFinancialObjectTypeCode());
@@ -1677,7 +1682,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
         ObjectCode originEntryFinancialObject = accountingCycleCachingService.getObjectCode(originEntry.getUniversityFiscalYear(), originEntry.getChartOfAccountsCode(), originEntry.getFinancialObjectCode());
 
         if (originEntryFinancialObject == null) {
-            addTransactionError(configurationService.getPropertyString(KFSKeyConstants.ERROR_OBJECT_CODE_NOT_FOUND), originEntry.getFinancialObjectCode(), Message.TYPE_FATAL);
+            addTransactionError(configurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_OBJECT_CODE_NOT_FOUND), originEntry.getFinancialObjectCode(), Message.TYPE_FATAL);
         }
 
         String originEntryObjectLevelCode = (originEntryFinancialObject == null) ? "" : originEntryFinancialObject.getFinancialObjectLevelCode();
@@ -1686,9 +1691,9 @@ public class ScrubberProcessImpl implements ScrubberProcess {
         //String originEntryObjectCode = scrubberProcessObjectCodeOverride.getOriginEntryObjectCode(originEntryObjectLevelCode, financialOriginEntryObjectCode);
 
         // General rules
-        String param = parameterService.getParameterValue(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.COST_SHARE_OBJECT_CODE_BY_LEVEL_PARM_NM, originEntryObjectLevelCode);
+        String param = parameterService.getParameterValueAsString(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.COST_SHARE_OBJECT_CODE_BY_LEVEL_PARM_NM, originEntryObjectLevelCode);
         if (param == null) {
-            param = parameterService.getParameterValue(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.COST_SHARE_OBJECT_CODE_BY_LEVEL_PARM_NM, "DEFAULT");
+            param = parameterService.getParameterValueAsString(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.COST_SHARE_OBJECT_CODE_BY_LEVEL_PARM_NM, "DEFAULT");
             if (param == null) {
                 throw new RuntimeException("Unable to determine cost sharing object code from object level.  Default entry missing.");
             }
@@ -1702,7 +1707,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
             costShareEntry.setFinancialObjectCode(financialOriginEntryObjectCode);
         }
         else {
-            addTransactionError(configurationService.getPropertyString(KFSKeyConstants.ERROR_COST_SHARE_OBJECT_NOT_FOUND), costShareEntry.getFinancialObjectCode(), Message.TYPE_FATAL);
+            addTransactionError(configurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_COST_SHARE_OBJECT_NOT_FOUND), costShareEntry.getFinancialObjectCode(), Message.TYPE_FATAL);
         }
     }
 
@@ -1736,7 +1741,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
                 return true;
             }
 
-            ParameterEvaluator docTypeRule = parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.OFFSET_DOC_TYPE_CODES, scrubbedEntry.getFinancialDocumentTypeCode());
+            ParameterEvaluator docTypeRule = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.OFFSET_DOC_TYPE_CODES, scrubbedEntry.getFinancialDocumentTypeCode());
             if (!docTypeRule.evaluationSucceeds()) {
                 return true;
             }
@@ -1761,7 +1766,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
                     offsetKey.append("-");
                     offsetKey.append(offsetDefinition.getFinancialObjectCode());
 
-                    putTransactionError(offsetEntry, configurationService.getPropertyString(KFSKeyConstants.ERROR_OFFSET_DEFINITION_OBJECT_CODE_NOT_FOUND), offsetKey.toString(), Message.TYPE_FATAL);
+                    putTransactionError(offsetEntry, configurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_OFFSET_DEFINITION_OBJECT_CODE_NOT_FOUND), offsetKey.toString(), Message.TYPE_FATAL);
 
                     createOutputEntry(offsetEntry, OUTPUT_ERR_FILE_ps);
                     scrubberReport.incrementErrorRecordWritten();
@@ -1784,7 +1789,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
                 sb.append("-");
                 sb.append(scrubbedEntry.getFinancialBalanceTypeCode());
 
-                putTransactionError(offsetEntry, configurationService.getPropertyString(KFSKeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND), sb.toString(), Message.TYPE_FATAL);
+                putTransactionError(offsetEntry, configurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_OFFSET_DEFINITION_NOT_FOUND), sb.toString(), Message.TYPE_FATAL);
 
                 createOutputEntry(offsetEntry, OUTPUT_ERR_FILE_ps);
                 scrubberReport.incrementErrorRecordWritten();
@@ -1880,7 +1885,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
      * @return true if the scrubber should generate offsets for this doc type, false otherwise
      */
     protected boolean shouldScrubberGenerateOffsetsForDocType(String docTypeCode) {
-        return parameterService.getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.DOCUMENT_TYPES_REQUIRING_FLEXIBLE_OFFSET_BALANCING_ENTRIES, docTypeCode).evaluationSucceeds();
+        return /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupRules.DOCUMENT_TYPES_REQUIRING_FLEXIBLE_OFFSET_BALANCING_ENTRIES, docTypeCode).evaluationSucceeds();
     }
 
     /**
@@ -2206,7 +2211,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
      * Sets the configurationService attribute value.
      * @param configurationService The configurationService to set.
      */
-    public void setConfigurationService(KualiConfigurationService configurationService) {
+    public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
     }
 
@@ -2326,7 +2331,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
      * Gets the configurationService attribute. 
      * @return Returns the configurationService.
      */
-    public KualiConfigurationService getConfigurationService() {
+    public ConfigurationService getConfigurationService() {
         return configurationService;
     }
 

@@ -17,13 +17,13 @@
 package org.kuali.kfs.coa.businessobject;
 
 import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.KualiModuleService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.location.api.campus.CampusService;
+import org.kuali.rice.location.framework.campus.CampusEbo;
 
 /**
  * 
@@ -76,7 +76,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
     private Chart chartOfAccounts;
     private Organization organization;
     private Person hrmsPersonnelApproverUniversal;
-    private Campus hrmsIuCampus;
+    private CampusEbo hrmsIuCampus;
     private Person fiscalApproverUniversal;
 
     /**
@@ -918,7 +918,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
     }
 
     public Person getHrmsPersonnelApproverUniversal() {
-        hrmsPersonnelApproverUniversal = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(hrmsPersonnelApproverUniversalId, hrmsPersonnelApproverUniversal);
+        hrmsPersonnelApproverUniversal = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(hrmsPersonnelApproverUniversalId, hrmsPersonnelApproverUniversal);
         return hrmsPersonnelApproverUniversal;
     }
 
@@ -937,8 +937,8 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
      * 
      * @return Returns the hrmsIuCampus
      */
-    public Campus getHrmsIuCampus() {
-        return hrmsIuCampus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, hrmsIuCampus, "hrmsIuCampus");
+    public CampusEbo getHrmsIuCampus() {
+        return hrmsIuCampus = StringUtils.isBlank( hrmsIuCampusCode)?null:((hrmsIuCampus!=null && hrmsIuCampus.getCode().equals( hrmsIuCampusCode))?hrmsIuCampus:CampusEbo.from(SpringContext.getBean(CampusService.class).getCampus( hrmsIuCampusCode)));
     }
 
     /**
@@ -947,12 +947,12 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
      * @param hrmsIuCampus The hrmsIuCampus to set.
      * @deprecated
      */
-    public void setHrmsIuCampus(Campus hrmsIuCampus) {
+    public void setHrmsIuCampus(CampusEbo hrmsIuCampus) {
         this.hrmsIuCampus = hrmsIuCampus;
     }
 
     public Person getFiscalApproverUniversal() {
-        fiscalApproverUniversal = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(fiscalApproverUniversalId, fiscalApproverUniversal);
+        fiscalApproverUniversal = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(fiscalApproverUniversalId, fiscalApproverUniversal);
         return fiscalApproverUniversal;
     }
 
@@ -966,14 +966,5 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
         this.fiscalApproverUniversal = fiscalApproverUniversal;
     }
 
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put("chartOfAccountsCode", this.chartOfAccountsCode);
-        m.put("organizationCode", this.organizationCode);
-        return m;
-    }
 }
 

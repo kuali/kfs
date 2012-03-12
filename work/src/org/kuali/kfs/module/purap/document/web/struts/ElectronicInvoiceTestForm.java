@@ -15,32 +15,14 @@
  */
 package org.kuali.kfs.module.purap.document.web.struts;
 
-import org.apache.struts.upload.FormFile;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 /**
  * Struts Action Form for Electroinc Invoice Reject document.
  */
-public class ElectronicInvoiceTestForm extends KualiDocumentFormBase {
+public class ElectronicInvoiceTestForm extends KualiForm {
 
-    protected FormFile xmlFile;
-    protected String returnXml;
-
-    public FormFile getXmlFile() {
-        return xmlFile;
-    }
-
-    public void setXmlFile(FormFile xmlFile) {
-        this.xmlFile = xmlFile;
-    }
-    
-    public String getReturnXml() {
-        return returnXml;
-    }
-
-    public void setReturnXml(String returnXml) {
-        this.returnXml = returnXml;
-    }
+    protected String poDocNumber;
 
     /**
      * Constructs a PaymentRequestForm instance and sets up the appropriately casted document.
@@ -48,5 +30,13 @@ public class ElectronicInvoiceTestForm extends KualiDocumentFormBase {
     public ElectronicInvoiceTestForm() {
         super();
     }
-    
+
+    public String getPoDocNumber() {
+        return poDocNumber;
+    }
+
+    public void setPoDocNumber(String poDocNumber) {
+        this.poDocNumber = poDocNumber;
+    }
+        
 }

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.endow.document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.EndowmentAccountingLine;
@@ -23,9 +24,8 @@ import org.kuali.kfs.module.endow.businessobject.SourceEndowmentAccountingLine;
 import org.kuali.kfs.module.endow.businessobject.TargetEndowmentAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * Provides a base class for the Endowment Transfer of Funds documents.
@@ -48,8 +48,8 @@ public abstract class EndowmentAccountingLinesDocumentBase extends EndowmentSecu
         super();
         this.nextSourceAccountingLineNumber = new Integer(1);
         this.nextTargetAccountingLineNumber = new Integer(1);
-        sourceAccountingLines = new TypedArrayList(SourceEndowmentAccountingLine.class);
-        targetAccountingLines = new TypedArrayList(TargetEndowmentAccountingLine.class);
+        sourceAccountingLines = new ArrayList<SourceEndowmentAccountingLine>();
+        targetAccountingLines = new ArrayList<TargetEndowmentAccountingLine>();
     }
 
 
@@ -197,7 +197,7 @@ public abstract class EndowmentAccountingLinesDocumentBase extends EndowmentSecu
 
 
     /**
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
     public List buildListOfDeletionAwareLists() {
         List managedList = super.buildListOfDeletionAwareLists();

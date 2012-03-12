@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,19 +38,17 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
-import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.kns.web.ui.Row;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * This class handles Actions for lookup flow
@@ -61,13 +59,13 @@ public class BalanceInquiryAction extends KualiAction {
 
     private static final String TOTALS_TABLE_KEY = "totalsTable";
 
-    private KualiConfigurationService kualiConfigurationService;
+    private ConfigurationService kualiConfigurationService;
     protected DataDictionaryService dataDictionaryService;
     private String[] totalTitles;
 
     public BalanceInquiryAction() {
         super();
-        kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+        kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
         dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
     }
 
@@ -77,19 +75,19 @@ public class BalanceInquiryAction extends KualiAction {
     private void setTotalTitles() {
         totalTitles = new String[7];
 
-        totalTitles[0] = kualiConfigurationService.getPropertyString(KFSKeyConstants.AccountBalanceService.INCOME);
-        totalTitles[1] = kualiConfigurationService.getPropertyString(KFSKeyConstants.AccountBalanceService.INCOME_FROM_TRANSFERS);
-        totalTitles[2] = kualiConfigurationService.getPropertyString(KFSKeyConstants.AccountBalanceService.INCOME_TOTAL);
-        totalTitles[3] = kualiConfigurationService.getPropertyString(KFSKeyConstants.AccountBalanceService.EXPENSE);
-        totalTitles[4] = kualiConfigurationService.getPropertyString(KFSKeyConstants.AccountBalanceService.EXPENSE_FROM_TRANSFERS);
-        totalTitles[5] = kualiConfigurationService.getPropertyString(KFSKeyConstants.AccountBalanceService.EXPENSE_TOTAL);
-        totalTitles[6] = kualiConfigurationService.getPropertyString(KFSKeyConstants.AccountBalanceService.TOTAL);
+        totalTitles[0] = kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.AccountBalanceService.INCOME);
+        totalTitles[1] = kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.AccountBalanceService.INCOME_FROM_TRANSFERS);
+        totalTitles[2] = kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.AccountBalanceService.INCOME_TOTAL);
+        totalTitles[3] = kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.AccountBalanceService.EXPENSE);
+        totalTitles[4] = kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.AccountBalanceService.EXPENSE_FROM_TRANSFERS);
+        totalTitles[5] = kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.AccountBalanceService.EXPENSE_TOTAL);
+        totalTitles[6] = kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.AccountBalanceService.TOTAL);
 
     }
 
     /**
      * Returns an array of total titles
-     * 
+     *
      * @return array of total titles
      */
     private String[] getTotalTitles() {
@@ -106,18 +104,18 @@ public class BalanceInquiryAction extends KualiAction {
 
     /**
      * Search - sets the values of the data entered on the form on the jsp into a map and then searches for the results.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
      * @param response
      * @return
      * @throws Exception
-     * 
-     * KRAD Conversion: Lookupable performs customization of the results if 
-     * account balance by consolidation. The result rows are added to a collection 
+     *
+     * KRAD Conversion: Lookupable performs customization of the results if
+     * account balance by consolidation. The result rows are added to a collection
      * based on field's actual size if truncated is > 7.
-     * 
+     *
      * Fields are in data dictionary for bo Balance.
      */
     public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -130,7 +128,7 @@ public class BalanceInquiryAction extends KualiAction {
         if (Constant.EXCLUDE_SUBACCOUNTS.equals(consolidationOption) && !subAccountNumber.equals("")){
             GlobalVariables.getMessageMap().putError(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, KFSKeyConstants.ERROR_BALANCE_CONSOLIDATION_EXCLUDE_SUBACCOUNT);
         }
-        
+
         Lookupable lookupable = lookupForm.getLookupable();
 
         if (lookupable == null) {
@@ -202,7 +200,7 @@ public class BalanceInquiryAction extends KualiAction {
                 GlobalVariables.getUserSession().removeObject(request.getParameter(KFSConstants.SEARCH_LIST_REQUEST_KEY));
             }
 
-            request.setAttribute(KFSConstants.SEARCH_LIST_REQUEST_KEY, GlobalVariables.getUserSession().addObject(resultTable));
+            request.setAttribute(KFSConstants.SEARCH_LIST_REQUEST_KEY, GlobalVariables.getUserSession().addObjectWithGeneratedKey(resultTable));
 
         }
         catch (NumberFormatException e) {
@@ -217,12 +215,12 @@ public class BalanceInquiryAction extends KualiAction {
 
     /**
      * Refresh - is called when one quickFinder returns to the previous one. Sets all the values and performs the new search.
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     *      
+     *
      * KRAD Conversion: Lookupable performs customization of the fields and check for additional fields.
-     *  
+     *
      * Fields are in data dictionary for bo Balance.
      */
     @Override
@@ -280,7 +278,7 @@ public class BalanceInquiryAction extends KualiAction {
 
     /**
      * Returns as if return with no value was selected.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -298,7 +296,7 @@ public class BalanceInquiryAction extends KualiAction {
 
     /**
      * Clears the values of all the fields on the jsp.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -306,9 +304,9 @@ public class BalanceInquiryAction extends KualiAction {
      * @return
      * @throws IOException
      * @throws ServletException
-     * 
-     * KRAD Conversion: Lookupable performs setting/clearing of the field values. 
-     * 
+     *
+     * KRAD Conversion: Lookupable performs setting/clearing of the field values.
+     *
      * Fields are in data dictionary for bo Balance.
      */
     public ActionForward clearValues(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -334,7 +332,7 @@ public class BalanceInquiryAction extends KualiAction {
 
     /**
      * View results from balance inquiry action
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -356,17 +354,18 @@ public class BalanceInquiryAction extends KualiAction {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kcs) {
+    public void setConfigurationService(ConfigurationService kcs) {
         kualiConfigurationService = kcs;
     }
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request.setAttribute(KNSConstants.PARAM_MAINTENANCE_VIEW_MODE, KNSConstants.PARAM_MAINTENANCE_VIEW_MODE_LOOKUP);
-        BusinessObjectEntry boe = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(((LookupForm) form).getBusinessObjectClassName());
+        request.setAttribute(KRADConstants.PARAM_MAINTENANCE_VIEW_MODE, KRADConstants.PARAM_MAINTENANCE_VIEW_MODE_LOOKUP);
+        org.kuali.rice.kns.datadictionary.BusinessObjectEntry boe = (org.kuali.rice.kns.datadictionary.BusinessObjectEntry) dataDictionaryService.getDataDictionary().getBusinessObjectEntry(((LookupForm) form).getBusinessObjectClassName());
         int numCols = boe.getLookupDefinition().getNumOfColumns();
-        if (numCols <= 0)
-            numCols = KNSConstants.DEFAULT_NUM_OF_COLUMNS; // by default, always show one column.
+        if (numCols <= 0) {
+            numCols = KRADConstants.DEFAULT_NUM_OF_COLUMNS; // by default, always show one column.
+        }
         ((LookupForm) form).setNumColumns(numCols);
         return super.execute(mapping, form, request, response);
     }

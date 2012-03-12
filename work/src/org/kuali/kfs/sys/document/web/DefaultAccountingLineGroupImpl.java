@@ -33,8 +33,8 @@ import org.kuali.kfs.sys.document.web.renderers.GroupErrorsRenderer;
 import org.kuali.kfs.sys.document.web.renderers.GroupTitleLineRenderer;
 import org.kuali.kfs.sys.document.web.renderers.Renderer;
 import org.kuali.kfs.sys.document.web.renderers.RepresentedCellCurious;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This represents an accounting line group in renderable state
@@ -43,7 +43,7 @@ public class DefaultAccountingLineGroupImpl implements AccountingLineGroup {
     protected AccountingLineGroupDefinition groupDefinition;
     protected JspFragment importLineOverride;
     protected String collectionPropertyName;
-    protected List<RenderableAccountingLineContainer> containers;
+    protected List<? extends AccountingLineRenderingContext> containers;
     protected AccountingDocument accountingDocument;
     protected int cellCount = 0;
     protected int arbitrarilyHighIndex;
@@ -114,9 +114,9 @@ public class DefaultAccountingLineGroupImpl implements AccountingLineGroup {
             return cellCount;
 
         int max = 0;
-        for (RenderableAccountingLineContainer line : containers) {
-            if (line.getCellCount() > max) {
-                max = line.getCellCount();
+        for (AccountingLineRenderingContext line : containers) {
+            if (line.getRenderableCellCount() > max) {
+                max = line.getRenderableCellCount();
             }
         }
         cellCount = max;
@@ -202,7 +202,7 @@ public class DefaultAccountingLineGroupImpl implements AccountingLineGroup {
      * @throws JspException thrown if rendering goes badly
      */
     protected void renderAccountingLineContainers(PageContext pageContext, Tag parentTag) throws JspException {
-        for (RenderableAccountingLineContainer container : containers) {
+        for (AccountingLineRenderingContext container : containers) {
             container.populateValuesForFields();
             container.populateWithTabIndexIfRequested(arbitrarilyHighIndex);
             container.renderElement(pageContext, parentTag, container);
@@ -226,7 +226,7 @@ public class DefaultAccountingLineGroupImpl implements AccountingLineGroup {
 
                 if (nestedFieldTotaling.isNestedProperty()) {
                     int index = groupTotals.indexOf(definition);
-                    RenderableAccountingLineContainer container = this.containers.get(index);
+                    AccountingLineRenderingContext container = this.containers.get(index);
                     String containingObjectPropertyName = container.getAccountingLineContainingObjectPropertyName();
                     nestedFieldTotaling.setContainingPropertyName(containingObjectPropertyName);
                 }
@@ -260,13 +260,15 @@ public class DefaultAccountingLineGroupImpl implements AccountingLineGroup {
      * @return the column number of the tabel cell with the given property name in an accounting line table
      */
     protected int getRepresentedColumnNumber(String propertyName) {
-        for (RenderableAccountingLineContainer container : containers) {
+        for (AccountingLineRenderingContext container : containers) {
             List<AccountingLineTableRow> tableRows = container.getRows();
 
             for (AccountingLineTableRow row : tableRows) {
                 List<AccountingLineTableCell> tableCells = row.getCells();
+                int cumulativeDisplayCellCount = 0;
 
                 for (AccountingLineTableCell cell : tableCells) {
+                    cumulativeDisplayCellCount += cell.getColSpan();
                     List<RenderableElement> fields = cell.getRenderableElement();
 
                     for (RenderableElement field : fields) {
@@ -275,7 +277,7 @@ public class DefaultAccountingLineGroupImpl implements AccountingLineGroup {
                         }
 
                         if (((ElementNamable) field).getName().equals(propertyName)) {
-                            return tableCells.indexOf(cell) + 1;
+                            return cumulativeDisplayCellCount;
                         }
                     }
                 }
@@ -348,9 +350,9 @@ public class DefaultAccountingLineGroupImpl implements AccountingLineGroup {
      * Determines if the current document is enrouted
      */
     private boolean isDocumentEnrouted() {
-        KualiWorkflowDocument workflowDocument = accountingDocument.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDocument = accountingDocument.getDocumentHeader().getWorkflowDocument();
 
-        return !workflowDocument.stateIsInitiated() && !workflowDocument.stateIsSaved();
+        return !workflowDocument.isInitiated() && !workflowDocument.isSaved();
     }
     
     /**

@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapConstants.ItemFields;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
-import org.kuali.kfs.module.purap.PurapConstants.ItemFields;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
@@ -37,10 +37,10 @@ import org.kuali.kfs.sys.document.validation.impl.AccountingLineValuesAllowedVal
 import org.kuali.kfs.sys.document.validation.impl.BusinessObjectDataDictionaryValidation;
 import org.kuali.kfs.sys.document.validation.impl.CompositeValidation;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class PaymentRequestProcessItemValidation extends GenericValidation {
 
@@ -138,6 +138,7 @@ public class PaymentRequestProcessItemValidation extends GenericValidation {
 
         // check that non-quantity based items are not trying to pay on a zero encumbrance amount (check only prior to ap approval)
         if ((ObjectUtils.isNull(item.getPaymentRequest().getPurapDocumentIdentifier())) || (PurapConstants.PaymentRequestStatuses.APPDOC_IN_PROCESS.equals(item.getPaymentRequest().getAppDocStatus()))) {
+// RICE20 : needed? :  !purapService.isFullDocumentEntryCompleted(item.getPaymentRequest())) {
             if ((item.getItemType().isAmountBasedGeneralLedgerIndicator()) && ((item.getExtendedPrice() != null) && item.getExtendedPrice().isNonZero())) {
                 if (item.getPoOutstandingAmount() == null || item.getPoOutstandingAmount().isZero()) {
                     valid = false;
@@ -266,7 +267,7 @@ public class PaymentRequestProcessItemValidation extends GenericValidation {
         boolean canApproveLine = false;
         
         // get parameter to see if accounting line with zero dollar amount can be approved.
-        String approveZeroAmountLine = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.APPROVE_ACCOUNTING_LINES_WITH_ZERO_DOLLAR_AMOUNT_IND);
+        String approveZeroAmountLine = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.APPROVE_ACCOUNTING_LINES_WITH_ZERO_DOLLAR_AMOUNT_IND);
         
         if ("Y".equalsIgnoreCase(approveZeroAmountLine)) {
             return true;
@@ -340,4 +341,5 @@ public class PaymentRequestProcessItemValidation extends GenericValidation {
     protected void setPreqAccountingLine(PurApAccountingLine preqAccountingLine) {
         this.preqAccountingLine = preqAccountingLine;
     }
+
 }

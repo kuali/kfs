@@ -16,17 +16,18 @@
 package org.kuali.kfs.sys.businessobject;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCodeCurrent;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class TaxRegion extends PersistableBusinessObjectBase implements Inactivateable {
+public class TaxRegion extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String taxRegionCode; // (e.g., state code or district code)
     private String taxRegionName; // (e.g., state name or tax district name)
@@ -42,10 +43,10 @@ public class TaxRegion extends PersistableBusinessObjectBase implements Inactiva
     private ObjectCodeCurrent objectCode;
     private TaxRegionType taxRegionType;
 
-    private List<TaxRegionRate> taxRegionRates = new TypedArrayList(TaxRegionRate.class);
-    private List<TaxRegionState> taxRegionStates = new TypedArrayList(TaxRegionState.class);
-    private List<TaxRegionCounty> taxRegionCounties = new TypedArrayList(TaxRegionCounty.class);
-    private List<TaxRegionPostalCode> taxRegionPostalCodes = new TypedArrayList(TaxRegionPostalCode.class);
+    private List<TaxRegionRate> taxRegionRates = new ArrayList<TaxRegionRate>();
+    private List<TaxRegionState> taxRegionStates = new ArrayList<TaxRegionState>();
+    private List<TaxRegionCounty> taxRegionCounties = new ArrayList<TaxRegionCounty>();
+    private List<TaxRegionPostalCode> taxRegionPostalCodes = new ArrayList<TaxRegionPostalCode>();
 
     public List<TaxRegionRate> getTaxRegionRates() {
         return taxRegionRates;
@@ -135,8 +136,8 @@ public class TaxRegion extends PersistableBusinessObjectBase implements Inactiva
         this.taxRegionName = taxDistrictName;
     }
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         // TODO Auto-generated method stub
         return null;
     }

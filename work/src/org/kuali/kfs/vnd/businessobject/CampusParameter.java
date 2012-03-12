@@ -16,56 +16,46 @@
 
 package org.kuali.kfs.vnd.businessobject;
 
-import java.util.LinkedHashMap;
-
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.State;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.StateService;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.location.api.campus.CampusService;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.location.framework.campus.CampusEbo;
+import org.kuali.rice.location.framework.country.CountryEbo;
+import org.kuali.rice.location.framework.state.StateEbo;
 
 /**
  * Campus Parameter Business Object. Maintenance document for campus parameters.
  */
-public class CampusParameter extends PersistableBusinessObjectBase implements Inactivateable{
+public class CampusParameter extends PersistableBusinessObjectBase implements MutableInactivatable {
 
-    private String campusCode;
-    private String campusPurchasingDirectorName;
-    private String campusPurchasingDirectorTitle;
-    private String campusAccountsPayableEmailAddress;
-    private String purchasingInstitutionName;
-    private String purchasingDepartmentName;
-    private String purchasingDepartmentLine1Address;
-    private String purchasingDepartmentLine2Address;
-    private String purchasingDepartmentCityName;
-    private String purchasingDepartmentStateCode;
-    private String purchasingDepartmentZipCode;
-    private String purchasingDepartmentCountryCode;
-    private boolean active;
+    protected String campusCode;
+    protected String campusPurchasingDirectorName;
+    protected String campusPurchasingDirectorTitle;
+    protected String campusAccountsPayableEmailAddress;
+    protected String purchasingInstitutionName;
+    protected String purchasingDepartmentName;
+    protected String purchasingDepartmentLine1Address;
+    protected String purchasingDepartmentLine2Address;
+    protected String purchasingDepartmentCityName;
+    protected String purchasingDepartmentStateCode;
+    protected String purchasingDepartmentZipCode;
+    protected String purchasingDepartmentCountryCode;
+    protected boolean active;
 
-    private Campus campus;
-    private State purchasingDepartmentState;
-    private Country purchasingDepartmentCountry;
+    protected CampusEbo campus;
+    protected StateEbo purchasingDepartmentState;
+    protected CountryEbo purchasingDepartmentCountry;
 
-    /**
-     * Default constructor.
-     */
-    public CampusParameter() {
-
+    public CampusEbo getCampus() {
+        return campus = StringUtils.isBlank( campusCode)?null:((campus!=null && campus.getCode().equals( campusCode))?campus:CampusEbo.from(SpringContext.getBean(CampusService.class).getCampus( campusCode)));
     }
 
-    public Campus getCampus() {
-        return campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, campus, "campus");
-    }
-
-    /**
-     * @deprecated
-     */
-    public void setCampus(Campus campus) {
+    @Deprecated
+    public void setCampus(CampusEbo campus) {
         this.campus = campus;
     }
 
@@ -109,15 +99,13 @@ public class CampusParameter extends PersistableBusinessObjectBase implements In
         this.purchasingDepartmentCityName = purchasingDepartmentCityName;
     }
 
-    public Country getPurchasingDepartmentCountry() {
-        purchasingDepartmentCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(purchasingDepartmentCountryCode, purchasingDepartmentCountry);
+    public CountryEbo getPurchasingDepartmentCountry() {
+        purchasingDepartmentCountry = (purchasingDepartmentCountryCode == null)?null:( purchasingDepartmentCountry == null || !StringUtils.equals( purchasingDepartmentCountry.getCode(),purchasingDepartmentCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(purchasingDepartmentCountryCode)): purchasingDepartmentCountry;
         return purchasingDepartmentCountry;
     }
 
-    /**
-     * @deprecated
-     */
-    public void setPurchasingDepartmentCountry(Country purchasingDepartmentCountry) {
+    @Deprecated
+    public void setPurchasingDepartmentCountry(CountryEbo purchasingDepartmentCountry) {
         this.purchasingDepartmentCountry = purchasingDepartmentCountry;
     }
 
@@ -153,15 +141,15 @@ public class CampusParameter extends PersistableBusinessObjectBase implements In
         this.purchasingDepartmentName = purchasingDepartmentName;
     }
 
-    public State getPurchasingDepartmentState() {
-        purchasingDepartmentState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(purchasingDepartmentCountryCode, purchasingDepartmentStateCode, purchasingDepartmentState);
+    public StateEbo getPurchasingDepartmentState() {
+        purchasingDepartmentState = (StringUtils.isBlank(purchasingDepartmentCountryCode) || StringUtils.isBlank( purchasingDepartmentStateCode))?null:( purchasingDepartmentState == null || !StringUtils.equals( purchasingDepartmentState.getCountryCode(),purchasingDepartmentCountryCode)|| !StringUtils.equals( purchasingDepartmentState.getCode(), purchasingDepartmentStateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState(purchasingDepartmentCountryCode, purchasingDepartmentStateCode)): purchasingDepartmentState;
         return purchasingDepartmentState;
     }
 
     /**
      * @deprecated
      */
-    public void setPurchasingDepartmentState(State purchasingDepartmentState) {
+    public void setPurchasingDepartmentState(StateEbo purchasingDepartmentState) {
         this.purchasingDepartmentState = purchasingDepartmentState;
     }
 
@@ -187,15 +175,6 @@ public class CampusParameter extends PersistableBusinessObjectBase implements In
 
     public void setPurchasingInstitutionName(String purchasingInstitutionName) {
         this.purchasingInstitutionName = purchasingInstitutionName;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put("campusCode", this.campusCode);
-        return m;
     }
 
     public boolean isActive() {

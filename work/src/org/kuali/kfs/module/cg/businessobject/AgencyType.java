@@ -16,12 +16,12 @@
 
 package org.kuali.kfs.module.cg.businessobject;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.KualiCodeBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.KualiCodeBase;
 
 /**
  * Extends KualiCodeBase with no changes.
  */
-public class AgencyType extends KualiCodeBase implements Inactivateable {
+public class AgencyType extends KualiCodeBase implements MutableInactivatable {
 
 }

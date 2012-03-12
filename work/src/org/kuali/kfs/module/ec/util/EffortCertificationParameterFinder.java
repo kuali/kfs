@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.ec.util;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.ec.EffortConstants.SystemParameters;
@@ -23,7 +24,7 @@ import org.kuali.kfs.module.ec.batch.EffortCertificationCreateStep;
 import org.kuali.kfs.module.ec.batch.EffortCertificationExtractStep;
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * A convenient utility that can delegate the calling client to retrieve system parameters of effort certification module.
@@ -37,7 +38,7 @@ public class EffortCertificationParameterFinder {
      * @return the run indicator setup in system paremters
      */
     public static boolean getRunIndicator() {
-        return parameterService.getIndicatorParameter(EffortCertificationExtractStep.class, SystemParameters.RUN_IND);
+        return parameterService.getParameterValueAsBoolean(EffortCertificationExtractStep.class, SystemParameters.RUN_IND);
     }
 
     /**
@@ -45,8 +46,8 @@ public class EffortCertificationParameterFinder {
      * 
      * @return the federal agency type codes setup in system parameters
      */
-    public static List<String> getFederalAgencyTypeCodes() {
-        return parameterService.getParameterValues(EffortCertificationExtractStep.class, SystemParameters.FEDERAL_AGENCY_TYPE_CODE);
+    public static Collection<String> getFederalAgencyTypeCodes() {
+        return parameterService.getParameterValuesAsString(EffortCertificationExtractStep.class, SystemParameters.FEDERAL_AGENCY_TYPE_CODE);
     }
 
     /**
@@ -55,7 +56,7 @@ public class EffortCertificationParameterFinder {
      * @return the federal only balance indicator
      */
     public static boolean getFederalOnlyBalanceIndicator() {
-        return parameterService.getIndicatorParameter(EffortCertificationExtractStep.class, SystemParameters.FEDERAL_ONLY_BALANCE_IND);
+        return parameterService.getParameterValueAsBoolean(EffortCertificationExtractStep.class, SystemParameters.FEDERAL_ONLY_BALANCE_IND);
     }
     
     /**
@@ -64,7 +65,7 @@ public class EffortCertificationParameterFinder {
      * @return the federal only balance indicator
      */
     public static boolean getFederalOnlyRouteIndicator() {
-        return parameterService.getIndicatorParameter(EffortCertificationDocument.class, SystemParameters.FEDERAL_ONLY_ROUTE_IND);
+        return parameterService.getParameterValueAsBoolean(EffortCertificationDocument.class, SystemParameters.FEDERAL_ONLY_ROUTE_IND);
     }
 
     /**
@@ -83,8 +84,8 @@ public class EffortCertificationParameterFinder {
      * 
      * @return the account type codes setup in system parameters
      */
-    public static List<String> getAccountTypeCodes() {
-        return parameterService.getParameterValues(EffortCertificationExtractStep.class, SystemParameters.ACCOUNT_TYPE_CODE_BALANCE_SELECT);
+    public static Collection<String> getAccountTypeCodes() {
+        return parameterService.getParameterValuesAsString(EffortCertificationExtractStep.class, SystemParameters.ACCOUNT_TYPE_CODE_BALANCE_SELECT);
     }
 
     /**
@@ -93,7 +94,7 @@ public class EffortCertificationParameterFinder {
      * @return the report fiscal year setup in system paremters
      */
     public static Integer getExtractReportFiscalYear() {
-        return Integer.valueOf(parameterService.getParameterValue(EffortCertificationExtractStep.class, SystemParameters.RUN_FISCAL_YEAR));
+        return Integer.valueOf(parameterService.getParameterValueAsString(EffortCertificationExtractStep.class, SystemParameters.RUN_FISCAL_YEAR));
     }
 
     /**
@@ -102,7 +103,7 @@ public class EffortCertificationParameterFinder {
      * @return the report number setup in system paremters
      */
     public static String getExtractReportNumber() {
-        return parameterService.getParameterValue(EffortCertificationExtractStep.class, SystemParameters.RUN_REPORT_NUMBER);
+        return parameterService.getParameterValueAsString(EffortCertificationExtractStep.class, SystemParameters.RUN_REPORT_NUMBER);
     }
 
     /**
@@ -111,7 +112,7 @@ public class EffortCertificationParameterFinder {
      * @return the report fiscal year setup in system paremters
      */
     public static Integer getCreateReportFiscalYear() {
-        return Integer.valueOf(parameterService.getParameterValue(EffortCertificationCreateStep.class, SystemParameters.CREATE_FISCAL_YEAR));
+        return Integer.valueOf(parameterService.getParameterValueAsString(EffortCertificationCreateStep.class, SystemParameters.CREATE_FISCAL_YEAR));
     }
 
     /**
@@ -120,6 +121,6 @@ public class EffortCertificationParameterFinder {
      * @return the report number setup in system paremters
      */
     public static String getCreateReportNumber() {
-        return parameterService.getParameterValue(EffortCertificationCreateStep.class, SystemParameters.CREATE_REPORT_NUMBER);
+        return parameterService.getParameterValueAsString(EffortCertificationCreateStep.class, SystemParameters.CREATE_REPORT_NUMBER);
     }
 }

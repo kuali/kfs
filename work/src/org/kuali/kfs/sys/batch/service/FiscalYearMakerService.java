@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.sys.batch.service;
 
-import org.kuali.kfs.sys.batch.dataaccess.FiscalYearMakersDao;
 
 /**
  * Runs the fiscal year maker process which creates rows for the next fiscal year based on records for the current fiscal year for

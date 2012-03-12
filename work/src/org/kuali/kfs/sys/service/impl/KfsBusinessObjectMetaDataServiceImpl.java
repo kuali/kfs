@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -37,15 +37,16 @@ import org.kuali.kfs.sys.businessobject.FunctionalFieldDescription;
 import org.kuali.kfs.sys.dataaccess.BusinessObjectMetaDataDao;
 import org.kuali.kfs.sys.service.KfsBusinessObjectMetaDataService;
 import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.bo.BusinessObjectRelationship;
-import org.kuali.rice.kns.datadictionary.AttributeDefinition;
-import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.BusinessObjectMetaDataService;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.LookupService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.bo.DataObjectRelationship;
+import org.kuali.rice.krad.datadictionary.AttributeDefinition;
+import org.kuali.rice.krad.datadictionary.BusinessObjectEntry;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.service.LookupService;
 
 @NonTransactional
 public class KfsBusinessObjectMetaDataServiceImpl implements KfsBusinessObjectMetaDataService {
@@ -61,19 +62,22 @@ public class KfsBusinessObjectMetaDataServiceImpl implements KfsBusinessObjectMe
         this.parameterService = parameterService;
     }
 
-    public BusinessObjectComponent getBusinessObjectComponent(String componentClass) {
-        try {
-            return new BusinessObjectComponent(parameterService.getNamespace(Class.forName(componentClass)), dataDictionaryService.getDataDictionary().getBusinessObjectEntry(componentClass));
-        }
-        catch (ClassNotFoundException e) {
-            throw new RuntimeException("KfsBusinessObjectMetaDataServiceImpl unable to translate the provided componentClass String into a Class: " + componentClass, e);
-        }
+    protected BusinessObjectComponent getBusinessObjectComponent(Class<?> componentClass) {
+        return new BusinessObjectComponent(KRADServiceLocatorWeb.getKualiModuleService().getNamespaceCode(componentClass), (org.kuali.rice.kns.datadictionary.BusinessObjectEntry) dataDictionaryService.getDataDictionary().getBusinessObjectEntry(componentClass.getName()));
     }
 
+    @Override
     public BusinessObjectProperty getBusinessObjectProperty(String componentClass, String propertyName) {
-        return new BusinessObjectProperty(getBusinessObjectComponent(componentClass), dataDictionaryService.getDataDictionary().getBusinessObjectEntry(componentClass).getAttributeDefinition(propertyName));
+        try {
+            return new BusinessObjectProperty(getBusinessObjectComponent(Class.forName(componentClass)), dataDictionaryService.getDataDictionary().getBusinessObjectEntry(componentClass).getAttributeDefinition(propertyName));
+        }
+        catch (ClassNotFoundException ex) {
+            LOG.error( "Unable to resolve component class name: " + componentClass );
+        }
+        return null;
     }
 
+    @Override
     public DataMappingFieldDefinition getDataMappingFieldDefinition(String componentClass, String propertyName) {
         Map<String, String> primaryKeys = new HashMap<String, String>();
         primaryKeys.put(KFSPropertyConstants.COMPONENT_CLASS, componentClass);
@@ -86,6 +90,7 @@ public class KfsBusinessObjectMetaDataServiceImpl implements KfsBusinessObjectMe
         return getDataMappingFieldDefinition(functionalFieldDescription);
     }
 
+    @Override
     public DataMappingFieldDefinition getDataMappingFieldDefinition(FunctionalFieldDescription functionalFieldDescription) {
         BusinessObjectEntry businessObjectEntry = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(functionalFieldDescription.getComponentClass());
         String propertyType = "";
@@ -97,9 +102,14 @@ public class KfsBusinessObjectMetaDataServiceImpl implements KfsBusinessObjectMe
                 LOG.debug("KfsBusinessObjectMetaDataServiceImpl unable to get type of property: " + functionalFieldDescription.getPropertyName(), e);
             }
         }
-        return new DataMappingFieldDefinition(functionalFieldDescription, businessObjectEntry, businessObjectEntry.getAttributeDefinition(functionalFieldDescription.getPropertyName()), businessObjectMetaDataDao.getFieldMetaData(businessObjectEntry.getBusinessObjectClass(), functionalFieldDescription.getPropertyName()), propertyType, getReferenceComponentLabel(businessObjectEntry.getBusinessObjectClass(), functionalFieldDescription.getPropertyName()));
+        return new DataMappingFieldDefinition(functionalFieldDescription, (org.kuali.rice.kns.datadictionary.BusinessObjectEntry) businessObjectEntry,
+                businessObjectEntry.getAttributeDefinition(functionalFieldDescription.getPropertyName()),
+                businessObjectMetaDataDao.getFieldMetaData(businessObjectEntry.getBusinessObjectClass(), functionalFieldDescription.getPropertyName()),
+                propertyType,
+                getReferenceComponentLabel(businessObjectEntry.getBusinessObjectClass(), functionalFieldDescription.getPropertyName()));
     }
 
+    @Override
     public List<BusinessObjectComponent> findBusinessObjectComponents(String namespaceCode, String componentLabel) {
         Map<Class, BusinessObjectComponent> matchingBusinessObjectComponents = new HashMap<Class, BusinessObjectComponent>();
         Pattern componentLabelRegex = null;
@@ -113,14 +123,15 @@ public class KfsBusinessObjectMetaDataServiceImpl implements KfsBusinessObjectMe
             }
         }
         for (BusinessObjectEntry businessObjectEntry : dataDictionaryService.getDataDictionary().getBusinessObjectEntries().values()) {
-            if ((StringUtils.isBlank(namespaceCode) || namespaceCode.equals(parameterService.getNamespace(businessObjectEntry.getBusinessObjectClass()))) 
+            if ((StringUtils.isBlank(namespaceCode) || namespaceCode.equals(KRADServiceLocatorWeb.getKualiModuleService().getNamespaceCode(businessObjectEntry.getBusinessObjectClass())))
                     && ((componentLabelRegex == null) || (StringUtils.isNotBlank(businessObjectEntry.getObjectLabel()) && componentLabelRegex.matcher(businessObjectEntry.getObjectLabel().toUpperCase()).matches()))) {
-                matchingBusinessObjectComponents.put(businessObjectEntry.getBusinessObjectClass(), new BusinessObjectComponent(parameterService.getNamespace(businessObjectEntry.getBusinessObjectClass()), businessObjectEntry));
+                matchingBusinessObjectComponents.put(businessObjectEntry.getBusinessObjectClass(), new BusinessObjectComponent(KRADServiceLocatorWeb.getKualiModuleService().getNamespaceCode(businessObjectEntry.getBusinessObjectClass()), (org.kuali.rice.kns.datadictionary.BusinessObjectEntry) businessObjectEntry));
             }
         }
         return new ArrayList<BusinessObjectComponent>(matchingBusinessObjectComponents.values());
     }
 
+    @Override
     public List<BusinessObjectProperty> findBusinessObjectProperties(String namespaceCode, String componentLabel, String propertyLabel) {
         List<BusinessObjectComponent> businessObjectComponents = findBusinessObjectComponents(namespaceCode, componentLabel);
 
@@ -147,6 +158,7 @@ public class KfsBusinessObjectMetaDataServiceImpl implements KfsBusinessObjectMe
         return matchingBusinessObjectProperties;
     }
 
+    @Override
     public List<FunctionalFieldDescription> findFunctionalFieldDescriptions(String namespaceCode, String componentLabel, String propertyLabel, String description, String active) {
         Set<String> componentClasses = new HashSet<String>();
         Set<String> propertyNames = new HashSet<String>();
@@ -179,6 +191,7 @@ public class KfsBusinessObjectMetaDataServiceImpl implements KfsBusinessObjectMe
         return orCriteria.toString();
     }
 
+    @Override
     public boolean isMatch(String componentClass, String propertyName, String tableNameSearchCriterion, String fieldNameSearchCriterion) {
         ClassDescriptor classDescriptor = null;
         try {
@@ -210,8 +223,9 @@ public class KfsBusinessObjectMetaDataServiceImpl implements KfsBusinessObjectMe
         }
     }
 
+    @Override
     public String getReferenceComponentLabel(Class componentClass, String propertyName) {
-        BusinessObjectRelationship relationship = null;
+        DataObjectRelationship relationship = null;
         try {
             relationship = businessObjectMetaDataService.getBusinessObjectRelationship((BusinessObject) componentClass.newInstance(), propertyName);
         }

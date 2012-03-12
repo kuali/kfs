@@ -38,7 +38,7 @@ public class CashDetailTypeCodeServiceImpl implements CashDetailTypeCodeService 
      * Gets the associated check type code for a CashReceipt.
      * 
      * @return Returns the CashReceipt check type code.
-     * @see org.kuali.rice.kns.service.CashDetailTypeCode#getCashReceiptCheckTypeCode()
+     * @see org.kuali.rice.krad.service.CashDetailTypeCode#getCashReceiptCheckTypeCode()
      */
     public CashDetailTypeCode getCashReceiptCheckTypeCode() {
         return getCashDetailTypeCodeByCode(CASH_RECEIPT_CHECK);
@@ -48,7 +48,7 @@ public class CashDetailTypeCodeServiceImpl implements CashDetailTypeCodeService 
      * Gets the associated coin type code for a CashReceipt.
      * 
      * @return Returns the CashReceipt coin type code.
-     * @see org.kuali.rice.kns.service.CashDetailTypeCode#getCashReceiptCoinTypeCode()
+     * @see org.kuali.rice.krad.service.CashDetailTypeCode#getCashReceiptCoinTypeCode()
      */
     public CashDetailTypeCode getCashReceiptCoinTypeCode() {
         return getCashDetailTypeCodeByCode(CASH_RECEIPT_CHECK);

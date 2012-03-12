@@ -58,5 +58,5 @@
   <!-- workflow attributes -->
   <bean id="LineItemReceivingStatusMaintenanceDocument-workflowAttributes" parent="LineItemReceivingStatusMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="LineItemReceivingStatusMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="LineItemReceivingStatusMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

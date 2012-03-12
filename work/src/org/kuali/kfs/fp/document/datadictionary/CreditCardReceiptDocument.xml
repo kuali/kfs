@@ -20,6 +20,7 @@
   <bean id="CreditCardReceiptDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
     <property name="documentTypeName" value="CCR"/>
     <property name="documentClass" value="org.kuali.kfs.fp.document.CreditCardReceiptDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.fp.document.CreditCardReceiptDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase"/>
     <property name="importedLineParserClass" value="org.kuali.kfs.fp.businessobject.BasicFormatWithLineDescriptionAccountingLineParser" />
@@ -66,7 +67,7 @@
   
   <bean id="CreditCardReceiptDocument-validations-parentBean" abstract="true" class="org.springframework.beans.factory.config.MapFactoryBean">
   	<property name="sourceMap">
-		<map>
+		<map key-type="java.lang.Class">
 			<entry>
 				<key><value>org.kuali.kfs.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
 				<value>CreditCardReceipt-routeDocumentValidation</value>

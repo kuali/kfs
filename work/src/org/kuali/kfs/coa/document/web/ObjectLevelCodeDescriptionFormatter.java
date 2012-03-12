@@ -24,8 +24,8 @@ import org.kuali.kfs.coa.businessobject.ObjectLevel;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.CodeDescriptionFormatterBase;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class...
@@ -39,7 +39,7 @@ public class ObjectLevelCodeDescriptionFormatter extends CodeDescriptionFormatte
     }
 
     /**
-     * @see org.kuali.kfs.sys.document.web.CodeDescriptionFormatterBase#getDescriptionOfBO(org.kuali.rice.kns.bo.BusinessObject)
+     * @see org.kuali.kfs.sys.document.web.CodeDescriptionFormatterBase#getDescriptionOfBO(org.kuali.rice.krad.bo.BusinessObject)
      */
     @Override
     protected String getDescriptionOfBO(PersistableBusinessObject bo) {

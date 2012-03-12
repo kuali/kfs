@@ -115,7 +115,7 @@
         <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementInstitutionName" />
         <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementStreetAddress" />
         <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementCityName" />
-        <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementState.postalStateCode" />
+        <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementState.stateCode" />
         <ref bean="Asset-retirementInfo.assetRetirementGlobal.postalZipCode.postalCode" />
         <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementCountry.postalCountryCode" />
         <ref bean="Asset-retirementInfo.assetRetirementGlobal.retirementPhoneNumber" />
@@ -139,17 +139,17 @@
         <ref bean="Asset-offCampusLocation.assetLocationZipCode" />
         <ref bean="Asset-offCampusLocation.assetLocationCountryCode" />
         
-        <ref bean="Asset-offCampusLocation.assetLocationState.postalStateCode" />
+        <ref bean="Asset-offCampusLocation.assetLocationState.stateCode" />
 	    <ref bean="Asset-offCampusLocation.postalZipCode.postalCode" />
 	    <ref bean="Asset-offCampusLocation.assetLocationCountry.postalCountryName" />
         
         <ref bean="Asset-assetStatus.inventoryStatusCode" />        
         <ref bean="Asset-assetPrimaryDepreciationMethod.depreciationMethodCode" />
         <ref bean="Asset-inventoryStatus.inventoryStatusCode" />
-        <ref bean="Asset-borrowerLocation.assetLocationState.postalStateCode" />
+        <ref bean="Asset-borrowerLocation.assetLocationState.stateCode" />
         <ref bean="Asset-borrowerLocation.postalZipCode.postalCode" />
         <ref bean="Asset-borrowerLocation.assetLocationCountry.postalCountryName" />
-        <ref bean="Asset-borrowerStorageLocation.assetLocationState.postalStateCode" />
+        <ref bean="Asset-borrowerStorageLocation.assetLocationState.stateCode" />
         <ref bean="Asset-borrowerStorageLocation.postalZipCode.postalCode" />
         <ref bean="Asset-borrowerStorageLocation.assetLocationCountry.postalCountryName" />
         <ref bean="Asset-quantity" />

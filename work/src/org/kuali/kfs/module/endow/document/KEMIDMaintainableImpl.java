@@ -37,22 +37,22 @@ import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintenanceDocument;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.maintenance.Maintainable;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class...
@@ -63,19 +63,19 @@ public class KEMIDMaintainableImpl extends KualiMaintainableImpl {
     private KEMID newKemid;
 
     /**
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.kns.bo.DocumentHeader)
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#doRouteStatusChange(org.kuali.rice.krad.bo.DocumentHeader)
      */
     @Override
     public void doRouteStatusChange(DocumentHeader documentHeader) {
 
         super.doRouteStatusChange(documentHeader);
 
-        KualiWorkflowDocument workflowDoc = documentHeader.getWorkflowDocument();
+        WorkflowDocument workflowDoc = documentHeader.getWorkflowDocument();
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         FinancialSystemMaintenanceDocument maintDoc = null;
 
         try {
-            maintDoc = (FinancialSystemMaintenanceDocument) documentService.getByDocumentHeaderId(this.documentNumber);
+            maintDoc = (FinancialSystemMaintenanceDocument) documentService.getByDocumentHeaderId(getDocumentNumber());
         }
         catch (WorkflowException e) {
             throw new RuntimeException(e);
@@ -84,7 +84,7 @@ public class KEMIDMaintainableImpl extends KualiMaintainableImpl {
         initializeAttributes(maintDoc);
 
         // This code is only executed if the maintenance action was NEW or COPY and when the final approval occurs
-        if ((KNSConstants.MAINTENANCE_NEW_ACTION.equals(maintDoc.getNewMaintainableObject().getMaintenanceAction()) || KNSConstants.MAINTENANCE_COPY_ACTION.equals(maintDoc.getNewMaintainableObject().getMaintenanceAction())) && workflowDoc.stateIsFinal()) {
+        if ((KRADConstants.MAINTENANCE_NEW_ACTION.equals(maintDoc.getNewMaintainableObject().getMaintenanceAction()) || KRADConstants.MAINTENANCE_COPY_ACTION.equals(maintDoc.getNewMaintainableObject().getMaintenanceAction())) && workflowDoc.isFinal()) {
 
             KemidCurrentCash newCurrentCashEntry = new KemidCurrentCash();
             newCurrentCashEntry.setKemid(newKemid.getKemid());
@@ -122,7 +122,7 @@ public class KEMIDMaintainableImpl extends KualiMaintainableImpl {
                     newKemid.setPrincipalACIModelId(typeCode.getPrincipalACIModelId());
                 }
 
-                if (KNSConstants.MAINTENANCE_NEW_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction())) {
+                if (KRADConstants.MAINTENANCE_NEW_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction())) {
                     updateKemidFees(document);
                 }
             }
@@ -414,14 +414,14 @@ public class KEMIDMaintainableImpl extends KualiMaintainableImpl {
 
                     for (Row containerRow : field.getContainerRows()) {
                         for (Field containerRowfield : containerRow.getFields()) {
-                            if (KNSConstants.MAINTENANCE_NEW_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction()) || KNSConstants.MAINTENANCE_COPY_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction())) {
+                            if (KRADConstants.MAINTENANCE_NEW_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction()) || KRADConstants.MAINTENANCE_COPY_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction())) {
                                 String totalAccruedFeespropertyName = KFSConstants.ADD_PREFIX + "." + EndowPropertyConstants.KEMID_FEES_TAB + "." + EndowPropertyConstants.KEMID_FEE_TOTAL_ACCRUED_FEES;
                                 String indexedTotalAccruedFeesPropertyName = EndowPropertyConstants.KEMID_FEES_TAB + "\\[\\d+\\]\\" + "." + EndowPropertyConstants.KEMID_FEE_TOTAL_ACCRUED_FEES;
                                 if (totalAccruedFeespropertyName.equalsIgnoreCase(containerRowfield.getPropertyName()) || containerRowfield.getPropertyName().matches(indexedTotalAccruedFeesPropertyName)) {
                                     containerRowfield.setReadOnly(true);
                                 }
                             }
-                            if (KNSConstants.MAINTENANCE_EDIT_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction())) {
+                            if (KRADConstants.MAINTENANCE_EDIT_ACTION.equals(document.getNewMaintainableObject().getMaintenanceAction())) {
 
                                 String indexedFeeStartDatePropertyName = EndowPropertyConstants.KEMID_FEES_TAB + "\\[\\d+\\]\\" + "." + EndowPropertyConstants.KEMID_FEE_START_DATE;
                                 if (containerRowfield.getPropertyName().matches(indexedFeeStartDatePropertyName)) {

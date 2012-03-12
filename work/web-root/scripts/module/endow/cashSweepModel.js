@@ -21,7 +21,7 @@
  }
   
  function setCashSweepModelIDDescription(cashSweepModelIDFieldName, cashSweepModelIDDescriptionFieldName){
-	var cashSweepModelID = DWRUtil.getValue(cashSweepModelIDFieldName);
+	var cashSweepModelID = dwr.util.getValue(cashSweepModelIDFieldName);
     
 	if (cashSweepModelID =='') {
 		clearRecipients(cashSweepModelIDDescriptionFieldName);

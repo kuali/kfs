@@ -50,7 +50,7 @@
 			<list>
 				<dd:relationship objectAttribute="customerCountry">
 					<dd:primitiveAttribute source="customerCountryCode"
-						target="postalCountryCode" />
+						target="code" />
 				</dd:relationship>
 			</list>
 		</property>
@@ -221,9 +221,7 @@
 	<bean id="CustomerAddress-customerStateCode" parent="CustomerAddress-customerStateCode-parentBean" />
 
 	<bean id="CustomerAddress-customerStateCode-parentBean" abstract="true"
-		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.State"
-		p:sourceAttributeName="postalStateCode">
+		parent="State-code">
 		<property name="name" value="customerStateCode" />
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="State" />
@@ -233,25 +231,21 @@
 			<ref bean="AnyCharacterValidation" />
 		</property>
 		<property name="control">
-			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.bo.options.StateValuesFinder"
+			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.state.StateValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>
 	<bean id="CustomerAddress-customerZipCode" parent="CustomerAddress-customerZipCode-parentBean" />
 
 	<bean id="CustomerAddress-customerZipCode-parentBean" abstract="true"
-		parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.PostalCode"
-		p:sourceAttributeName="postalCode">
+		parent="PostalCode-code" >
 		<property name="name" value="customerZipCode" />
 	</bean>
 
 	<bean id="CustomerAddress-customerCountryCode" parent="CustomerAddress-customerCountryCode-parentBean" />
 
 	<bean id="CustomerAddress-customerCountryCode-parentBean"
-		abstract="true" parent="ExternalizableAttributeDefinitionProxy"
-		p:sourceExternalizableBusinessObjectInterface="org.kuali.rice.kns.bo.Country"
-		p:sourceAttributeName="postalCountryCode">
+		abstract="true" parent="Country-code">
 		<property name="name" value="customerCountryCode" />
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="Country" />
@@ -262,7 +256,7 @@
 		</property>
 		<property name="control">
 			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.rice.kns.bo.options.CountryNotRestrictedValuesFinder"
+				p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryNotRestrictedValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>

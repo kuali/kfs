@@ -20,6 +20,7 @@
   <bean id="LineItemReceivingDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
     <property name="documentTypeName" value="RCVL"/>
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.LineItemReceivingDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.module.purap.document.LineItemReceivingDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.purap.document.validation.impl.LineItemReceivingDocumentRule"/>
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.module.purap.document.validation.impl.LineItemReceivingDocumentPreRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.ReceivingDocumentAuthorizerBase"/>

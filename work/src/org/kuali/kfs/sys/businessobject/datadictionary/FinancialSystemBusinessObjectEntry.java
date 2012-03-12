@@ -25,6 +25,7 @@ import org.kuali.rice.kns.datadictionary.BusinessObjectEntry;
  * Overrides KNS BusinessObjectEntry to add access security configuration properties
  */
 public class FinancialSystemBusinessObjectEntry extends BusinessObjectEntry {
+
     protected List<AccessSecurityAttributeRestrictionEntry> accessRestrictedAttributes;
 
     public FinancialSystemBusinessObjectEntry() {

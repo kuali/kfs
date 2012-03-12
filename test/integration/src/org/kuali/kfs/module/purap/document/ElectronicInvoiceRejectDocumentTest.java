@@ -27,12 +27,12 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Used to create and test populated Requisition Documents of various kinds.
@@ -62,12 +62,12 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
         eirDoc = ElectronicInvoiceRejectDocumentFixture.EIR_ONLY_REQUIRED_FIELDS.createElectronicInvoiceRejectDocument(eils);
         eirDoc.prepareForSave();       
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
-        assertFalse("R".equals(eirDoc.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
+        assertFalse("R".equals(eirDoc.getDocumentHeader().getWorkflowDocument().getStatus()));
         saveDocument(eirDoc, "saving copy source document", documentService);
         GlobalVariables.getUserSession().clearBackdoorUser();
         
         Document document = documentService.getByDocumentHeaderId(eirDoc.getDocumentNumber());
-        assertTrue("Document should  be saved.", document.getDocumentHeader().getWorkflowDocument().stateIsSaved());
+        assertTrue("Document should  be saved.", document.getDocumentHeader().getWorkflowDocument().isSaved());
         Document result = documentService.getByDocumentHeaderId(eirDoc.getDocumentNumber());
         assertMatch(eirDoc, result);
     }
@@ -87,12 +87,12 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
         eirDoc.setInvoicePurchaseOrderNumber(poId.toString());
         eirDoc.prepareForSave();        
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
-        assertFalse("R".equals(eirDoc.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
+        assertFalse("R".equals(eirDoc.getDocumentHeader().getWorkflowDocument().getStatus()));
         saveDocument(eirDoc, "saving copy source document", documentService);
         GlobalVariables.getUserSession().clearBackdoorUser();
         
         Document document = documentService.getByDocumentHeaderId(eirDoc.getDocumentNumber());
-        assertTrue("Document should  be saved.", document.getDocumentHeader().getWorkflowDocument().stateIsSaved());
+        assertTrue("Document should  be saved.", document.getDocumentHeader().getWorkflowDocument().isSaved());
         Document result = documentService.getByDocumentHeaderId(eirDoc.getDocumentNumber());
         assertMatch(eirDoc, result);
     }
@@ -112,12 +112,12 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
         eirDoc.setInvoicePurchaseOrderNumber(poId.toString());
         eirDoc.prepareForSave();        
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
-        assertFalse("R".equals(eirDoc.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
+        assertFalse("R".equals(eirDoc.getDocumentHeader().getWorkflowDocument().getStatus()));
         saveDocument(eirDoc, "saving copy source document", documentService);
         GlobalVariables.getUserSession().clearBackdoorUser();
         
         Document document = documentService.getByDocumentHeaderId(eirDoc.getDocumentNumber());
-        assertTrue("Document should  be saved.", document.getDocumentHeader().getWorkflowDocument().stateIsSaved());
+        assertTrue("Document should  be saved.", document.getDocumentHeader().getWorkflowDocument().isSaved());
         Document result = documentService.getByDocumentHeaderId(eirDoc.getDocumentNumber());
         assertMatch(eirDoc, result);
 
@@ -133,11 +133,11 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
 //        eirDoc.prepareForSave();
 //        
 //        DocumentService documentService = SpringContext.getBean(DocumentService.class);
-//        assertFalse("R".equals(eirDoc.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
+//        assertFalse("R".equals(eirDoc.getDocumentHeader().getWorkflowDocument().getStatus()));
 //        routeDocument(eirDoc, "saving copy source document", documentService);
-//        WorkflowTestUtils.waitForStatusChange(eirDoc.getDocumentHeader().getWorkflowDocument(), KEWConstants.ROUTE_HEADER_FINAL_CD);
+//        WorkflowTestUtils.waitForStatusChange(eirDoc.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);
 //        Document result = documentService.getByDocumentHeaderId(eirDoc.getDocumentNumber());
-//        assertTrue("Document should  be final.", result.getDocumentHeader().getWorkflowDocument().stateIsFinal());
+//        assertTrue("Document should  be final.", result.getDocumentHeader().getWorkflowDocument().isFinal());
     }
 
     @ConfigureContext(session = appleton, shouldCommitTransactions = false)
@@ -152,7 +152,7 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
 //        changeCurrentUser(rorenfro);
 //        requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
 //        assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(requisitionDocument, ACCOUNT_REVIEW));
-//        assertTrue("Document should be enroute.", requisitionDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute());
+//        assertTrue("Document should be enroute.", requisitionDocument.getDocumentHeader().getWorkflowDocument().isEnroute());
 //        assertTrue("rorenfro should have an approve request.", requisitionDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
 //        SpringContext.getBean(DocumentService.class).approveDocument(requisitionDocument, "Test approving as rorenfro", null);
 //
@@ -160,7 +160,7 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
 //
 //        changeCurrentUser(khuntley);
 //        requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
-//        assertTrue("Document should now be final.", requisitionDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());
+//        assertTrue("Document should now be final.", requisitionDocument.getDocumentHeader().getWorkflowDocument().isFinal());
     }
 
 
@@ -202,7 +202,7 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
 
     public static <T extends Document> void assertMatch(T document1, T document2) {
         Assert.assertEquals(document1.getDocumentNumber(), document2.getDocumentNumber());
-        Assert.assertEquals(document1.getDocumentHeader().getWorkflowDocument().getDocumentType(), document2.getDocumentHeader().getWorkflowDocument().getDocumentType());
+        Assert.assertEquals(document1.getDocumentHeader().getWorkflowDocument().getDocumentTypeName(), document2.getDocumentHeader().getWorkflowDocument().getDocumentTypeName());
 
 
         ElectronicInvoiceRejectDocument d1 = (ElectronicInvoiceRejectDocument) document1;

@@ -47,7 +47,6 @@
 
     <property name="webScriptFiles">
       <list>
-        <value>../dwr/interface/AccountService.js</value>
         <value>../scripts/coa/accountDocument.js</value>
       </list>
     </property>
@@ -91,6 +90,6 @@
   <!-- workflow attributes -->
   <bean id="OffsetAccountMaintenanceDocument-workflowAttributes" parent="OffsetAccountMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="OffsetAccountMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="OffsetAccountMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
   
 </beans>

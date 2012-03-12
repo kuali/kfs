@@ -22,8 +22,8 @@ import java.util.Map;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.sys.batch.BatchInputFileSetType;
 import org.kuali.kfs.sys.businessobject.BatchUpload;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.core.util.KeyLabelPair;
 
 /**
  * This class is the form used for the batch upload for file sets
@@ -32,13 +32,13 @@ public class KualiBatchInputFileSetForm extends KualiForm {
     private Map<String, FormFile> uploadedFiles;
 
     private BatchUpload batchUpload;
-    private List<KeyLabelPair> fileUserIdentifiers;
+    private List<KeyValue> fileUserIdentifiers;
 
     private String titleKey;
     private BatchInputFileSetType batchInputFileSetType;
 
     private String downloadFileType;
-    private List<KeyLabelPair> fileTypes;
+    private List<KeyValue> fileTypes;
 
     /**
      * Constructs a KualiBatchInputFileForm.java.
@@ -66,14 +66,14 @@ public class KualiBatchInputFileSetForm extends KualiForm {
     /**
      * Gets the userFiles attribute.
      */
-    public List<KeyLabelPair> getFileUserIdentifiers() {
+    public List<KeyValue> getFileUserIdentifiers() {
         return fileUserIdentifiers;
     }
 
     /**
      * Sets the userFiles attribute value.
      */
-    public void setFileUserIdentifiers(List<KeyLabelPair> fileUserIdentifiers) {
+    public void setFileUserIdentifiers(List<KeyValue> fileUserIdentifiers) {
         this.fileUserIdentifiers = fileUserIdentifiers;
     }
 
@@ -132,7 +132,7 @@ public class KualiBatchInputFileSetForm extends KualiForm {
      * 
      * @return Returns the fileAliases.
      */
-    public List<KeyLabelPair> getFileTypes() {
+    public List<KeyValue> getFileTypes() {
         return fileTypes;
     }
 
@@ -141,7 +141,7 @@ public class KualiBatchInputFileSetForm extends KualiForm {
      * 
      * @param fileAliases The fileAliases to set.
      */
-    public void setFileTypes(List<KeyLabelPair> fileAliases) {
+    public void setFileTypes(List<KeyValue> fileAliases) {
         this.fileTypes = fileAliases;
     }
 

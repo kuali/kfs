@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ld.service.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -24,13 +23,10 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.A21SubAccount;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.SubAccountService;
-import org.kuali.kfs.coa.service.impl.AccountServiceImpl;
 import org.kuali.kfs.integration.ld.LaborLedgerObject;
 import org.kuali.kfs.module.ld.LaborConstants;
-import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.LaborPropertyConstants;
 import org.kuali.kfs.module.ld.businessobject.BenefitsCalculation;
 import org.kuali.kfs.module.ld.businessobject.LaborObject;
@@ -41,10 +37,10 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -91,7 +87,7 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
 
     /**
      * @see org.kuali.kfs.module.ld.service.LaborBenefitsCalculationService#calculateFringeBenefit(java.lang.Integer,
-     *      java.lang.String, java.lang.String, org.kuali.rice.kns.util.KualiDecimal)
+     *      java.lang.String, java.lang.String, org.kuali.rice.core.api.util.type.KualiDecimal)
      */
     public KualiDecimal calculateFringeBenefit(Integer fiscalYear, String chartCode, String objectCode, KualiDecimal salaryAmount, String accountNumber, String subAccountNumber) {
         LaborObject laborObject = new LaborObject();
@@ -107,7 +103,7 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
 
     /**
      * @see org.kuali.kfs.module.ld.service.LaborBenefitsCalculationService#calculateFringeBenefit(org.kuali.kfs.module.ld.businessobject.LaborObject,
-     *      org.kuali.rice.kns.util.KualiDecimal)
+     *      org.kuali.rice.core.api.util.type.KualiDecimal)
      */
     public KualiDecimal calculateFringeBenefit(LaborLedgerObject laborLedgerObject, KualiDecimal salaryAmount, String accountNumber, String subAccountNumber) {
         KualiDecimal fringeBenefit = KualiDecimal.ZERO;
@@ -136,7 +132,7 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
 
     /**
      * @see org.kuali.kfs.module.ld.service.LaborBenefitsCalculationService#calculateFringeBenefit(org.kuali.kfs.module.ld.businessobject.PositionObjectBenefit,
-     *      org.kuali.rice.kns.util.KualiDecimal)
+     *      org.kuali.rice.core.api.util.type.KualiDecimal)
      */
     public KualiDecimal calculateFringeBenefit(PositionObjectBenefit positionObjectBenefit, KualiDecimal salaryAmount, String accountNumber, String subAccountNumber) {
         if (salaryAmount == null || salaryAmount.isZero() || ObjectUtils.isNull(positionObjectBenefit)) {
@@ -155,7 +151,7 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
         if (SpringContext.getBean(ParameterService.class).parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND")) {
             //parameter exists, get the benefit rate based off of the university fiscal year, chart of account code, labor benefit type code and labor benefit rate category code 
             String laborBenefitRateCategoryCode = "";
-            String sysParam = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND");
+            String sysParam = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND");
             LOG.debug("sysParam: " + sysParam);
             //if sysParam == Y then use the Labor Benefit Rate Category Code to help determine the fringe benefit rate
             if (sysParam.equalsIgnoreCase("Y")) {
@@ -163,7 +159,7 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
             }else{
              // make sure the parameter exists
                 if (SpringContext.getBean(ParameterService.class).parameterExists(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE")) {
-                    laborBenefitRateCategoryCode = SpringContext.getBean(ParameterService.class).getParameterValue(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE");
+                    laborBenefitRateCategoryCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE");
                 }
                 else {
                     laborBenefitRateCategoryCode = "";
@@ -219,7 +215,7 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
 			//make sure the system parameter exists
 			if (SpringContext.getBean(ParameterService.class).parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "USE_COST_SHARE_SOURCE_ACCOUNT_BENEFIT_RATE_IND")) {
 				//parameter exists, determine the value of the parameter
-				String sysParam2 = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "USE_COST_SHARE_SOURCE_ACCOUNT_BENEFIT_RATE_IND");
+				String sysParam2 = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "USE_COST_SHARE_SOURCE_ACCOUNT_BENEFIT_RATE_IND");
 				LOG.debug("sysParam2: " + sysParam2);
 
 				//if sysParam2 == Y then check to see if it's a cost sharing sub account
@@ -268,7 +264,7 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
 		    
 		    //make sure the system parameter exists
 	        if(SpringContext.getBean(ParameterService.class).parameterExists(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE")){
-	            laborBenefitRateCategoryCode = SpringContext.getBean(ParameterService.class).getParameterValue(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE");
+	            laborBenefitRateCategoryCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE");
 	        }else{
 	            LOG.info("The system parameter DEFAULT_BENEFIT_RATE_CATEGORY_CODE does not exist. Using a blank Labor Benefit Rate Category Code.");
 	            laborBenefitRateCategoryCode = "";

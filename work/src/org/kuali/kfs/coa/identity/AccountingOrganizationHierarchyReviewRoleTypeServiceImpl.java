@@ -18,19 +18,21 @@ package org.kuali.kfs.coa.identity;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kim.bo.impl.KimAttributes;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.bo.types.dto.KimTypeAttributeInfo;
-import org.kuali.rice.kim.bo.types.dto.KimTypeInfo;
-import org.kuali.rice.kim.bo.types.impl.KimAttributeImpl;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSUtils;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.RiceKeyConstants;
+import org.kuali.rice.core.api.uif.RemotableAttributeError;
+import org.kuali.rice.core.api.uif.RemotableAttributeError.Builder;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.common.attribute.KimAttribute;
+import org.kuali.rice.kim.api.type.KimType;
+import org.kuali.rice.kim.api.type.KimTypeAttribute;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADUtils;
 
 public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends OrganizationHierarchyReviewRoleTypeServiceImpl {
     private static final Logger LOG = Logger.getLogger(AccountingOrganizationHierarchyReviewRoleTypeServiceImpl.class);
@@ -45,19 +47,19 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
      * @see org.kuali.kfs.coa.identity.OrganizationOptionalHierarchyRoleTypeServiceImpl#performMatch(org.kuali.rice.kim.bo.types.dto.AttributeSet,
      *      org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
-    public boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
+    public boolean performMatch(Map<String,String> qualification, Map<String,String> roleQualifier) {
         return doesOverrideCodeMatch(qualification, roleQualifier) 
                 && isValidTotalAmount(qualification, roleQualifier) 
                 && super.performMatch(qualification, roleQualifier);
     }
 
-    protected boolean doesOverrideCodeMatch(AttributeSet qualification, AttributeSet roleQualifier) {
+    protected boolean doesOverrideCodeMatch(Map<String,String> qualification, Map<String,String> roleQualifier) {
         return qualification==null || roleQualifier==null || StringUtils.isBlank(qualification.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE)) 
                 || StringUtils.isBlank(roleQualifier.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE)) 
                 || qualification.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE).equals(roleQualifier.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE));
     }
 
-    protected boolean isValidTotalAmount(AttributeSet qualification, AttributeSet roleQualifier) {
+    protected boolean isValidTotalAmount(Map<String,String> qualification, Map<String,String> roleQualifier) {
         boolean isValidTotalAmount = false;
         if(qualification==null || roleQualifier==null) {
             return false;
@@ -83,7 +85,7 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
 
     private List<String> uniqueAttributes = new ArrayList<String>();
     {
-        uniqueAttributes.add(KimAttributes.DOCUMENT_TYPE_NAME);
+        uniqueAttributes.add(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME);
         uniqueAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
         uniqueAttributes.add(KfsKimAttributes.ORGANIZATION_CODE);
         uniqueAttributes = Collections.unmodifiableList(uniqueAttributes);
@@ -95,43 +97,56 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
     }
 
     @Override
-    public AttributeSet validateUnmodifiableAttributes(
-            String kimTypeId, AttributeSet originalAttributeSet, AttributeSet newAttributeSet){
-        AttributeSet validationErrors = super.validateUnmodifiableAttributes(kimTypeId, originalAttributeSet, newAttributeSet);
+    public List<RemotableAttributeError> validateUnmodifiableAttributes(
+            String kimTypeId, Map<String,String> originalAttributeSet, Map<String,String> newAttributeSet){
+        List<RemotableAttributeError> validationErrors = super.validateUnmodifiableAttributes(kimTypeId, originalAttributeSet, newAttributeSet);
         List<String> attributeErrors = null;
-        KimAttributeImpl attributeImpl;
+        KimAttribute attributeImpl;
 
         String fromAmountRoleMember = getAttributeValue(originalAttributeSet, KfsKimAttributes.FROM_AMOUNT);
         String fromAmountDelegationMember = getAttributeValue(newAttributeSet, KfsKimAttributes.FROM_AMOUNT);
-        KimTypeInfo kimType = getTypeInfoService().getKimType(kimTypeId);
-        KimTypeAttributeInfo attributeInfo;
+        KimType kimType = getTypeInfoService().getKimType(kimTypeId);
+        KimTypeAttribute attributeInfo;
         if(isLesserNumber(fromAmountDelegationMember, fromAmountRoleMember)){
-            attributeInfo = kimType.getAttributeDefinitionByName(KfsKimAttributes.FROM_AMOUNT);
+            attributeInfo = kimType.getAttributeDefinitionById(KfsKimAttributes.FROM_AMOUNT);
             GlobalVariables.getMessageMap().putError(
                     KfsKimAttributes.FROM_AMOUNT, RiceKeyConstants.ERROR_DELEGATION_FROM_AMOUNT_LESSER, 
-                    getDataDictionaryService().getAttributeLabel(attributeInfo.getComponentName(), KfsKimAttributes.FROM_AMOUNT));
+                    getDataDictionaryService().getAttributeLabel(attributeInfo.getKimAttribute().getComponentName(), KfsKimAttributes.FROM_AMOUNT));
             attributeErrors = extractErrorsFromGlobalVariablesErrorMap(KfsKimAttributes.FROM_AMOUNT);
         }
+        
+        Builder fromBuilder = RemotableAttributeError.Builder.create(KfsKimAttributes.FROM_AMOUNT);
+        
         if(attributeErrors!=null){
             for(String err: attributeErrors){
-                validationErrors.put(KfsKimAttributes.FROM_AMOUNT, err);
+                fromBuilder.getErrors().add(err);
             }
+            
+            validationErrors.add(fromBuilder.build());
+            
             attributeErrors = null;
         }
         
         String toAmountRoleMember = getAttributeValue(originalAttributeSet, KfsKimAttributes.TO_AMOUNT);
         String toAmountDelegationMember = getAttributeValue(newAttributeSet, KfsKimAttributes.TO_AMOUNT);
         if(StringUtils.isNotEmpty(toAmountRoleMember) && isGreaterNumber(toAmountDelegationMember, toAmountRoleMember)){
-            attributeInfo = kimType.getAttributeDefinitionByName(KfsKimAttributes.TO_AMOUNT);
+            attributeInfo = kimType.getAttributeDefinitionById(KfsKimAttributes.TO_AMOUNT);
             GlobalVariables.getMessageMap().putError(
                     KfsKimAttributes.TO_AMOUNT, RiceKeyConstants.ERROR_DELEGATION_TO_AMOUNT_GREATER, 
-                    getDataDictionaryService().getAttributeLabel(attributeInfo.getComponentName(), KfsKimAttributes.TO_AMOUNT));
+                    getDataDictionaryService().getAttributeLabel(attributeInfo.getKimAttribute().getComponentName(), KfsKimAttributes.TO_AMOUNT));
             attributeErrors = extractErrorsFromGlobalVariablesErrorMap(KfsKimAttributes.TO_AMOUNT);
         }
+        
+        Builder toBuilder = RemotableAttributeError.Builder.create(KfsKimAttributes.TO_AMOUNT);
+        
         if(attributeErrors!=null){
+            
+            
             for(String err: attributeErrors){
-                validationErrors.put(KfsKimAttributes.TO_AMOUNT, err);
+                toBuilder.getErrors().add(err);
             }
+            validationErrors.add(toBuilder.build());
+            
             attributeErrors = null;
         }
 
@@ -145,8 +160,8 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
         if(StringUtils.isBlank(numberStr2) ) {
             numberStr2 = "0";
         }
-        int number1 = KNSUtils.getIntegerValue(numberStr1);
-        int number2 = KNSUtils.getIntegerValue(numberStr2);
+        int number1 = KRADUtils.getIntegerValue(numberStr1);
+        int number2 = KRADUtils.getIntegerValue(numberStr2);
         return number1 < number2;
     }
 
@@ -157,8 +172,8 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
         if(StringUtils.isBlank(numberStr2) ) {
             numberStr2 = "0";
         }
-        int number1 = KNSUtils.getIntegerValue(numberStr1);
-        int number2 = KNSUtils.getIntegerValue(numberStr2);
+        int number1 = KRADUtils.getIntegerValue(numberStr1);
+        int number2 = KRADUtils.getIntegerValue(numberStr2);
         return number1 > number2;
     }
 

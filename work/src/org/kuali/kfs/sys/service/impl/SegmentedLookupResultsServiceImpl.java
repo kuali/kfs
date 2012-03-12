@@ -29,15 +29,15 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.SegmentedLookupResultsService;
-import org.kuali.rice.kns.bo.LookupResults;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.bo.SelectedObjectIds;
-import org.kuali.rice.kns.exception.AuthorizationException;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.lookup.LookupResultsServiceImpl;
 import org.kuali.rice.kns.lookup.LookupUtils;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.web.ui.ResultRow;
+import org.kuali.rice.krad.bo.LookupResults;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.SelectedObjectIds;
+import org.kuali.rice.krad.exception.AuthorizationException;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

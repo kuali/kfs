@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,16 +29,16 @@ import org.kuali.kfs.module.ec.batch.service.EffortCertificationExtractService;
 import org.kuali.kfs.module.ec.testdata.EffortTestDataPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.SpringContextForBatchRunner;
 import org.kuali.kfs.sys.TestDataPreparator;
 import org.kuali.kfs.sys.context.Log4jConfigurer;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.UserSession;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.kns.util.spring.Logged;
+import org.kuali.kfs.sys.context.SpringContextForBatchRunner;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
+
 
 /**
  * This batch runner is just for testing purpose and used by effort team members.
@@ -70,8 +70,8 @@ public class EffortBatchRunner {
 
         Log4jConfigurer.configureLogging(false);
 
-        SpringContextForBatchRunner.initializeApplicationContext();
-        businessObjectService = SpringContextForBatchRunner.getBean(BusinessObjectService.class);
+        SpringContextForBatchRunner.initializeKfs();
+        businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         laborModuleService = SpringContext.getBean(LaborModuleService.class);
 
         KualiModuleService kualiModuleService = SpringContext.getBean(KualiModuleService.class);
@@ -115,12 +115,12 @@ public class EffortBatchRunner {
         businessObjectService.save(ledgerBalances);
     }
 
-    @Logged
+
     public static void main(String[] args) {
         EffortBatchRunner batchRunner = new EffortBatchRunner();
         GlobalVariables.setMessageMap(new MessageMap());
         GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
-        
+
         Integer fiscalYear = 2007;
         String reportPeriod = "A01";
         if(args.length < 1) {
@@ -138,22 +138,22 @@ public class EffortBatchRunner {
             }
             else if (StringUtils.equalsIgnoreCase("-extract", args[0])) {
                 System.out.println("Extracting Effort Certifications ...");
-                EffortCertificationExtractService effortCertificationExtractService = SpringContextForBatchRunner.getBean(EffortCertificationExtractService.class);
+                EffortCertificationExtractService effortCertificationExtractService = SpringContext.getBean(EffortCertificationExtractService.class);
                 effortCertificationExtractService.extract(fiscalYear, reportPeriod);
             }
             else if (StringUtils.equalsIgnoreCase("-create", args[0])) {
                 System.out.println("Creating Effort Certifications ...");
-                EffortCertificationCreateService effortCertificationCreateService = SpringContextForBatchRunner.getBean(EffortCertificationCreateService.class);
+                EffortCertificationCreateService effortCertificationCreateService = SpringContext.getBean(EffortCertificationCreateService.class);
                 effortCertificationCreateService.create(fiscalYear, reportPeriod);
             }
             else {
                 //throw new IllegalArgumentException("Wrong argument -- The argument only can be -load, -extract or -create");
                 //batchRunner.loadData();
-                
-                EffortCertificationExtractService effortCertificationExtractService = SpringContextForBatchRunner.getBean(EffortCertificationExtractService.class);
+
+                EffortCertificationExtractService effortCertificationExtractService = SpringContext.getBean(EffortCertificationExtractService.class);
                 effortCertificationExtractService.extract(fiscalYear, reportPeriod);
-                
-                EffortCertificationCreateService effortCertificationCreateService = SpringContextForBatchRunner.getBean(EffortCertificationCreateService.class);
+
+                EffortCertificationCreateService effortCertificationCreateService = SpringContext.getBean(EffortCertificationCreateService.class);
                 effortCertificationCreateService.create(fiscalYear, reportPeriod);
             }
         }

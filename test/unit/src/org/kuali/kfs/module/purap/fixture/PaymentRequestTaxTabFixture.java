@@ -18,7 +18,7 @@ package org.kuali.kfs.module.purap.fixture;
 import java.math.BigDecimal;
 
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public enum PaymentRequestTaxTabFixture {
     // S: successful; F: failing

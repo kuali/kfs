@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.fp.document.validation.impl;
 
-import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalMessageMapEmpty;
 
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.BalanceType;
@@ -29,7 +29,7 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.document.service.AccountingDocumentRuleHelperService;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
 /**
  * Class for unit testing the functionality of <code>{@link TransactionalDocumentRuleUtil}</code>
@@ -165,11 +165,11 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
         if (btStr != null) {
             balanceType = SpringContext.getBean(BalanceTypeService.class).getBalanceTypeByCode(btStr);
         }
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
         AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);
         boolean result = accountingDocumentRuleUtil.isValidBalanceType(balanceType, "code");
         if (expected) {
-            assertGlobalErrorMapEmpty();
+            assertGlobalMessageMapEmpty();
         }
         assertEquals("result", expected, result);
     }
@@ -211,11 +211,11 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidOpenAccountingPeriod
      */
     protected void testIsValidOpenAccountingPeriod(AccountingPeriod period, boolean expected) {
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
         AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);
         boolean result = accountingDocumentRuleUtil.isValidOpenAccountingPeriod(period, JournalVoucherDocument.class, KFSPropertyConstants.ACCOUNTING_PERIOD, DOES_NOT_MATTER);
         if (expected) {
-            assertGlobalErrorMapEmpty();
+            assertGlobalMessageMapEmpty();
         }
         assertEquals("result", expected, result);
     }
@@ -259,11 +259,11 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidReversalDate
      */
     protected void testIsValidReversalDate(java.sql.Date reversalDate, boolean expected) {
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
         AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);
         boolean result = accountingDocumentRuleUtil.isValidReversalDate(reversalDate, getErrorPropertyName());
         if (expected) {
-            assertGlobalErrorMapEmpty();
+            assertGlobalMessageMapEmpty();
         }
         assertEquals("result", expected, result);
     }

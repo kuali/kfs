@@ -20,11 +20,10 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class Donor extends PersistableBusinessObjectBase implements Inactivateable {
+public class Donor extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String donorID;
 
@@ -40,7 +39,7 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
     private String city;
     private String state;
     private String postalCode;
-    private String country; // should reference org.kuali.rice.kns.bo.Country later
+    private String country; // should reference org.kuali.rice.krad.bo.Country later
 
     private String phoneNumber;
 
@@ -510,10 +509,10 @@ public class Donor extends PersistableBusinessObjectBase implements Inactivateab
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap<String, String> toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         m.put(EndowPropertyConstants.DONR_ID, this.donorID);
         return m;

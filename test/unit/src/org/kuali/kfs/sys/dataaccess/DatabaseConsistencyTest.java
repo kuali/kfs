@@ -28,7 +28,6 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 @ConfigureContext
 public class DatabaseConsistencyTest extends KualiTestBase {

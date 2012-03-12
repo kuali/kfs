@@ -32,7 +32,6 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionCalculatedSalary
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrgReasonSummaryReport;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrgReasonSummaryReportTotal;
-import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrgSalarySummaryReportTotal;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionReportThresholdSettings;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionSalaryFunding;
@@ -42,14 +41,13 @@ import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSalarySumma
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionReasonSummaryReportService;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper;
-import org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionSalarySummaryReportServiceImpl.OrganizationTotalHolder;
 import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.KualiInteger;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -62,7 +60,7 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
     BudgetConstructionSalarySummaryReportDao budgetConstructionSalarySummaryReportDao;
     BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService;
     private BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
-    KualiConfigurationService kualiConfigurationService;
+    ConfigurationService kualiConfigurationService;
     BusinessObjectService businessObjectService;
 
     /**
@@ -136,7 +134,7 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
         reasonSummaryReport.setOrganizationCode(bcSSN.getOrganizationCode());
         String organizationName = bcSSN.getOrganization().getOrganizationName();
         if (organizationName == null) {
-            String wrongOrganizationName = kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_ORGANIZATION_NAME);
+            String wrongOrganizationName = kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_ORGANIZATION_NAME);
             reasonSummaryReport.setOrganizationName(wrongOrganizationName);
         }
         else {
@@ -146,7 +144,7 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
         reasonSummaryReport.setOrgChartOfAccountsCode(bcSSN.getOrganizationChartOfAccountsCode());
         String chartDescription = bcSSN.getOrganizationChartOfAccounts().getFinChartOfAccountDescription();
         if (chartDescription == null) {
-            String wrongChartDescription = kualiConfigurationService.getPropertyString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION);
+            String wrongChartDescription = kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_CHART_DESCRIPTION);
             reasonSummaryReport.setOrgChartOfAccountDescription(wrongChartDescription);
         }
         else {
@@ -710,7 +708,7 @@ public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetC
      * 
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 

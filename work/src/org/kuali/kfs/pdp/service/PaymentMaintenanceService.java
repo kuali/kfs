@@ -18,7 +18,7 @@
  */
 package org.kuali.kfs.pdp.service;
 
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 
 /**
  * This class has methods for payment maintenance.

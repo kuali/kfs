@@ -16,13 +16,13 @@
 package org.kuali.kfs.module.endow.businessobject;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * This is the generic class which contains all the elements on a typical Endowment Transaction Line.
@@ -59,14 +59,14 @@ public abstract class EndowmentTransactionLineBase extends PersistableBusinessOb
         etranCodeObj = new EndowmentTransactionCode();
         incomePrincipalIndicator = new IncomePrincipalIndicator();
 
-        taxLotLines = new TypedArrayList(EndowmentTransactionTaxLotLine.class);
+        taxLotLines = new ArrayList<EndowmentTransactionTaxLotLine>();
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(EndowPropertyConstants.TRANSACTION_LINE_DOCUMENT_NUMBER, this.documentNumber);
         m.put(EndowPropertyConstants.TRANSACTION_LINE_TYPE_CODE, this.transactionLineTypeCode);
@@ -169,7 +169,7 @@ public abstract class EndowmentTransactionLineBase extends PersistableBusinessOb
     }
 
     /**
-     * @see org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine#setTransactionAmount(org.kuali.rice.kns.util.KualiDecimal)
+     * @see org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine#setTransactionAmount(org.kuali.rice.core.api.util.type.KualiDecimal)
      */
     public void setTransactionAmount(KualiDecimal transactionAmount) {
         this.transactionAmount = transactionAmount;
@@ -197,7 +197,7 @@ public abstract class EndowmentTransactionLineBase extends PersistableBusinessOb
     }
 
     /**
-     * @see org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine#setTransactionUnits(org.kuali.rice.kns.util.KualiDecimal)
+     * @see org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine#setTransactionUnits(org.kuali.rice.core.api.util.type.KualiDecimal)
      */
     public void setTransactionUnits(KualiDecimal transactionUnits) {
         this.transactionUnits = transactionUnits;

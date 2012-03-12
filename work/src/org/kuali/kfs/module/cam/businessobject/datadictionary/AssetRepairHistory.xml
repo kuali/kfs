@@ -38,6 +38,7 @@
         <ref bean="AssetRepairHistory-repairNoteText"/>
         <ref bean="AssetRepairHistory-repairSolutionDescription"/>
         <ref bean="AssetRepairHistory-newCollectionRecord"/>
+        <ref bean="AssetRepairHistory-active"/>
       </list>
     </property>
   </bean>
@@ -89,7 +90,7 @@
     <property name="name" value="repairAmount"/>
     <property name="label" value="Repair Amount"/>
     <property name="shortLabel" value="Amount"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   
   <bean id="AssetRepairHistory-repairContactName" parent="AssetRepairHistory-repairContactName-parentBean"/>
@@ -139,6 +140,11 @@
   <bean id="AssetRepairHistory-newCollectionRecord" parent="AssetRepairHistory-newCollectionRecord-parentBean"/>
   <bean id="AssetRepairHistory-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord">
   </bean>
+  
+  <bean id="AssetRepairHistory-active" parent="AssetRepairHistory-active-parentBean"/>
+  <bean id="AssetRepairHistory-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active"/>
+  </bean>
 
 <!-- Business Object Inquiry Definition -->
 
@@ -161,6 +167,7 @@
               <bean parent="FieldDefinition" p:attributeName="repairDate"/>
               <bean parent="FieldDefinition" p:attributeName="repairNoteText"/>
               <bean parent="FieldDefinition" p:attributeName="repairSolutionDescription"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
             </list>
           </property>
         </bean>
@@ -189,6 +196,7 @@
         <bean parent="FieldDefinition" p:attributeName="repairDate"/>
         <bean parent="FieldDefinition" p:attributeName="repairNoteText"/>
         <bean parent="FieldDefinition" p:attributeName="repairSolutionDescription"/>
+        <bean parent="FieldDefinition" p:defaultValue="Y" p:attributeName="active"/>
       </list>
     </property>
     <property name="resultFields">
@@ -202,6 +210,7 @@
         <bean parent="FieldDefinition" p:attributeName="repairDate"/>
         <bean parent="FieldDefinition" p:attributeName="repairNoteText"/>
         <bean parent="FieldDefinition" p:attributeName="repairSolutionDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

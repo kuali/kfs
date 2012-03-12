@@ -15,14 +15,11 @@
  */
 package org.kuali.kfs.module.cam.document.validation.event;
 
-import java.util.List;
-
-import org.kuali.kfs.module.cam.businessobject.BarcodeInventoryErrorDetail;
 import org.kuali.kfs.module.cam.document.BarcodeInventoryErrorDocument;
 import org.kuali.kfs.module.cam.document.validation.impl.BarcodeInventoryErrorDocumentRule;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.rule.BusinessRule;
-import org.kuali.rice.kns.rule.event.KualiDocumentEventBase;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.BusinessRule;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEventBase;
 
 public final class ValidateBarcodeInventoryEvent extends KualiDocumentEventBase {
     boolean updateStatus;

@@ -31,8 +31,8 @@ import org.kuali.kfs.module.ec.util.LedgerBalanceConsolidationHelper;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.MessageBuilder;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * The validator provides a set of facilities to determine whether the given ledger balances meet the specified requirements. As a
@@ -97,7 +97,7 @@ public class LedgerBalanceFieldValidator {
      *         message
      */
     public static Message isNonZeroAmountBalanceWithinReportPeriod(LaborLedgerBalance ledgerBalance, Map<Integer, Set<String>> reportPeriods) {
-        KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(ledgerBalance, reportPeriods);
+        KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(ledgerBalance, reportPeriods, false);
 
         if (totalAmount.isZero()) {
             return MessageBuilder.buildMessage(EffortKeyConstants.ERROR_ZERO_PAYROLL_AMOUNT, Message.TYPE_FATAL);
@@ -114,7 +114,7 @@ public class LedgerBalanceFieldValidator {
      *         message
      */
     public static Message isTotalAmountPositive(Collection<LaborLedgerBalance> ledgerBalances, Map<Integer, Set<String>> reportPeriods) {
-        KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(ledgerBalances, reportPeriods);
+        KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(ledgerBalances, reportPeriods, false);
 
         if (!totalAmount.isPositive()) {
             return MessageBuilder.buildMessage(EffortKeyConstants.ERROR_NONPOSITIVE_PAYROLL_AMOUNT, totalAmount.toString());
@@ -149,7 +149,7 @@ public class LedgerBalanceFieldValidator {
      * @param federalAgencyTypeCodes the given federal agency type codes
      * @return null if there is at least one account with federal funding; otherwise, a message
      */
-    public static Message hasFederalFunds(Collection<LaborLedgerBalance> ledgerBalances, List<String> federalAgencyTypeCodes) {
+    public static Message hasFederalFunds(Collection<LaborLedgerBalance> ledgerBalances, Collection<String> federalAgencyTypeCodes) {
         for (LaborLedgerBalance balance : ledgerBalances) {
             Account account = balance.getAccount();
             if (SpringContext.getBean(ContractsAndGrantsModuleService.class).isAwardedByFederalAgency(account.getChartOfAccountsCode(), account.getAccountNumber(), federalAgencyTypeCodes)) {

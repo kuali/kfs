@@ -31,8 +31,8 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.util.Guid;
 
 /**
@@ -40,7 +40,8 @@ import org.kuali.rice.kns.util.Guid;
  */
 @ConfigureContext
 public class NightlyOutServiceTest extends KualiTestBase {
-
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(NightlyOutServiceTest.class);
+    
     private NightlyOutService nightlyOutService;
     private UnitTestSqlDao unitTestSqlDao;
     private DateTimeService dateTimeService;
@@ -62,8 +63,8 @@ public class NightlyOutServiceTest extends KualiTestBase {
         dateTimeService = SpringContext.getBean(DateTimeService.class);
         
         date = dateTimeService.getCurrentDate();
-        batchDirectory = SpringContext.getBean(KualiConfigurationService.class).getPropertyString("staging.directory")+"/gl/test_directory/originEntry";
-        File batchDirectoryFile = new File(SpringContext.getBean(KualiConfigurationService.class).getPropertyString("staging.directory")+"/gl/test_directory");
+        batchDirectory = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("staging.directory")+"/gl/test_directory/originEntry";
+        File batchDirectoryFile = new File(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("staging.directory")+"/gl/test_directory");
         batchDirectoryFile.mkdir();
         batchDirectoryFile = new File(batchDirectory);
         batchDirectoryFile.mkdir();
@@ -81,7 +82,7 @@ public class NightlyOutServiceTest extends KualiTestBase {
             f.delete();
         }
         batchDirectoryFile.delete();
-        batchDirectoryFile = new File(SpringContext.getBean(KualiConfigurationService.class).getPropertyString("staging.directory")+"/gl/test_directory");
+        batchDirectoryFile = new File(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("staging.directory")+"/gl/test_directory");
         batchDirectoryFile.delete();
     }
     
@@ -103,19 +104,24 @@ public class NightlyOutServiceTest extends KualiTestBase {
      * 
      * @throws Exception thrown if any exception is encountered for any reason
      */
+    @ConfigureContext(shouldCommitTransactions=true)
     public void testCopyPendingLedgerEntry() throws Exception {
         // Empty out the origin entry group & origin entry tables
-        assertTrue(new File(batchDirectory).isDirectory());
+        assertTrue("batch directory does not exist", new File(batchDirectory).isDirectory());
         for (File file : new File(batchDirectory).listFiles(new BatchFilenameFilter())) {
             file.delete();
         }
 
         // Empty out the pending entry table & doc header table
+        LOG.info( "deleting from KRNS_DOC_HDR_T" );
         unitTestSqlDao.sqlCommand("delete from KRNS_DOC_HDR_T where doc_hdr_id in ('1','2','3')");
+        LOG.info( "deleting from FS_DOC_HEADER_T" );
         unitTestSqlDao.sqlCommand("delete from FS_DOC_HEADER_T where fdoc_nbr in ('1','2','3')");
+        LOG.info( "deleting from GL_PENDING_ENTRY" );
         unitTestSqlDao.sqlCommand("delete from GL_PENDING_ENTRY_T");
 
         // Add a few documents
+        LOG.info( "Inserting new documents" );
         unitTestSqlDao.sqlCommand("insert into KRNS_DOC_HDR_T (doc_hdr_id,obj_id,ver_nbr,fdoc_desc,org_doc_hdr_id,tmpl_doc_hdr_id) values ('1','" + UUID.randomUUID().toString() + "',1,'a','OA',null)");
         unitTestSqlDao.sqlCommand("insert into FS_DOC_HEADER_T (fdoc_nbr,fdoc_status_cd,fdoc_total_amt,fdoc_in_err_nbr) values ('1','A',100,null)");
         unitTestSqlDao.sqlCommand("insert into KRNS_DOC_HDR_T (doc_hdr_id,obj_id,ver_nbr,fdoc_desc,org_doc_hdr_id,tmpl_doc_hdr_id) values ('2','" + UUID.randomUUID().toString() + "',1,'b','OB',null)");
@@ -123,23 +129,29 @@ public class NightlyOutServiceTest extends KualiTestBase {
         unitTestSqlDao.sqlCommand("insert into KRNS_DOC_HDR_T (doc_hdr_id,obj_id,ver_nbr,fdoc_desc,org_doc_hdr_id,tmpl_doc_hdr_id) values ('3','" + UUID.randomUUID().toString() + "',1,'c','OC',null)");
         unitTestSqlDao.sqlCommand("insert into FS_DOC_HEADER_T (fdoc_nbr,fdoc_status_cd,fdoc_total_amt,fdoc_in_err_nbr) values ('3','A',100,null)");
 
-        unitTestSqlDao.sqlCommand("insert into GL_PENDING_ENTRY_T (fs_origin_cd,fdoc_nbr,trn_entr_seq_nbr,obj_id,ver_nbr,fin_coa_cd,account_nbr," + "sub_acct_nbr,fin_object_cd,fin_sub_obj_cd,fin_balance_typ_cd,fin_obj_typ_cd,univ_fiscal_yr,univ_fiscal_prd_cd," + "trn_ldgr_entr_desc,trn_ldgr_entr_amt,trn_debit_crdt_cd,transaction_dt,fdoc_typ_cd,org_doc_nbr,project_cd," + "org_reference_id,fdoc_ref_typ_cd,fs_ref_origin_cd,fdoc_ref_nbr,fdoc_reversal_dt,trn_encum_updt_cd,fdoc_approved_cd," + "acct_sf_finobj_cd,trn_entr_ofst_cd,trnentr_process_tm) values ('01','1',1,'" + new Guid().toString() + "',1,'BA','123456'," + "null,'4166',null,'AC','EX',2004,'01'," + "'Description',100,'D'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ",'JV',null,null," + "null,null,null,null,null,' ','A'," + "'4166',null,null)");
-        unitTestSqlDao.sqlCommand("insert into GL_PENDING_ENTRY_T (fs_origin_cd,fdoc_nbr,trn_entr_seq_nbr,obj_id,ver_nbr,fin_coa_cd,account_nbr," + "sub_acct_nbr,fin_object_cd,fin_sub_obj_cd,fin_balance_typ_cd,fin_obj_typ_cd,univ_fiscal_yr,univ_fiscal_prd_cd," + "trn_ldgr_entr_desc,trn_ldgr_entr_amt,trn_debit_crdt_cd,transaction_dt,fdoc_typ_cd,org_doc_nbr,project_cd," + "org_reference_id,fdoc_ref_typ_cd,fs_ref_origin_cd,fdoc_ref_nbr,fdoc_reversal_dt,trn_encum_updt_cd,fdoc_approved_cd," + "acct_sf_finobj_cd,trn_entr_ofst_cd,trnentr_process_tm) values ('01','1',2,'" + new Guid().toString() + "',1,'BA','123456'," + "null,'4166',null,'AC','EX',2004,'01'," + "'Description',100,'C'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ",'JV',null,null," + "null,null,null,null,null,' ',null," + "'4166',null,null)");
-        unitTestSqlDao.sqlCommand("insert into GL_PENDING_ENTRY_T (fs_origin_cd,fdoc_nbr,trn_entr_seq_nbr,obj_id,ver_nbr,fin_coa_cd,account_nbr," + "sub_acct_nbr,fin_object_cd,fin_sub_obj_cd,fin_balance_typ_cd,fin_obj_typ_cd,univ_fiscal_yr,univ_fiscal_prd_cd," + "trn_ldgr_entr_desc,trn_ldgr_entr_amt,trn_debit_crdt_cd,transaction_dt,fdoc_typ_cd,org_doc_nbr,project_cd," + "org_reference_id,fdoc_ref_typ_cd,fs_ref_origin_cd,fdoc_ref_nbr,fdoc_reversal_dt,trn_encum_updt_cd,fdoc_approved_cd," + "acct_sf_finobj_cd,trn_entr_ofst_cd,trnentr_process_tm) values ('01','2',3,'" + new Guid().toString() + "',1,'BA','123456'," + "null,'4166',null,'AC','EX',2004,'01'," + "'Description',100,'D'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ",'JV',null,null," + "null,null,null,null,null,' ','A'," + "'4166',null,null)");
-        unitTestSqlDao.sqlCommand("insert into GL_PENDING_ENTRY_T (fs_origin_cd,fdoc_nbr,trn_entr_seq_nbr,obj_id,ver_nbr,fin_coa_cd,account_nbr," + "sub_acct_nbr,fin_object_cd,fin_sub_obj_cd,fin_balance_typ_cd,fin_obj_typ_cd,univ_fiscal_yr,univ_fiscal_prd_cd," + "trn_ldgr_entr_desc,trn_ldgr_entr_amt,trn_debit_crdt_cd,transaction_dt,fdoc_typ_cd,org_doc_nbr,project_cd," + "org_reference_id,fdoc_ref_typ_cd,fs_ref_origin_cd,fdoc_ref_nbr,fdoc_reversal_dt,trn_encum_updt_cd,fdoc_approved_cd," + "acct_sf_finobj_cd,trn_entr_ofst_cd,trnentr_process_tm) values ('01','2',4,'" + new Guid().toString() + "',1,'BA','123456'," + "null,'4166',null,'AC','EX',2004,'01'," + "'Description',100,'C'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ",'JV',null,null," + "null,null,null,null,null,' ',null," + "'4166',null,null)");
-        unitTestSqlDao.sqlCommand("insert into GL_PENDING_ENTRY_T (fs_origin_cd,fdoc_nbr,trn_entr_seq_nbr,obj_id,ver_nbr,fin_coa_cd,account_nbr," + "sub_acct_nbr,fin_object_cd,fin_sub_obj_cd,fin_balance_typ_cd,fin_obj_typ_cd,univ_fiscal_yr,univ_fiscal_prd_cd," + "trn_ldgr_entr_desc,trn_ldgr_entr_amt,trn_debit_crdt_cd,transaction_dt,fdoc_typ_cd,org_doc_nbr,project_cd," + "org_reference_id,fdoc_ref_typ_cd,fs_ref_origin_cd,fdoc_ref_nbr,fdoc_reversal_dt,trn_encum_updt_cd,fdoc_approved_cd," + "acct_sf_finobj_cd,trn_entr_ofst_cd,trnentr_process_tm) values ('01','3',5,'" + new Guid().toString() + "',1,'BA','123456'," + "null,'4166',null,'AC','EX',2004,'01'," + "'Description',100,'D'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ",'JV',null,null," + "null,null,null,null,null,' ','X'," + "'4166',null,null)");
-        unitTestSqlDao.sqlCommand("insert into GL_PENDING_ENTRY_T (fs_origin_cd,fdoc_nbr,trn_entr_seq_nbr,obj_id,ver_nbr,fin_coa_cd,account_nbr," + "sub_acct_nbr,fin_object_cd,fin_sub_obj_cd,fin_balance_typ_cd,fin_obj_typ_cd,univ_fiscal_yr,univ_fiscal_prd_cd," + "trn_ldgr_entr_desc,trn_ldgr_entr_amt,trn_debit_crdt_cd,transaction_dt,fdoc_typ_cd,org_doc_nbr,project_cd," + "org_reference_id,fdoc_ref_typ_cd,fs_ref_origin_cd,fdoc_ref_nbr,fdoc_reversal_dt,trn_encum_updt_cd,fdoc_approved_cd," + "acct_sf_finobj_cd,trn_entr_ofst_cd,trnentr_process_tm) values ('01','3',6,'" + new Guid().toString() + "',1,'BA','123456'," + "null,'4166',null,'AC','EX',2004,'01'," + "'Description',100,'C'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ",'JV',null,null," + "null,null,null,null,null,' ','X'," + "'4166',null,null)");
+        LOG.info( "Inserting new GL Pending entries" );
+        unitTestSqlDao.sqlCommand("insert into GL_PENDING_ENTRY_T (fs_origin_cd,fdoc_nbr,trn_entr_seq_nbr,obj_id,ver_nbr,fin_coa_cd,account_nbr," + "sub_acct_nbr,fin_object_cd,fin_sub_obj_cd,fin_balance_typ_cd,fin_obj_typ_cd,univ_fiscal_yr,univ_fiscal_prd_cd," + "trn_ldgr_entr_desc,trn_ldgr_entr_amt,trn_debit_crdt_cd,transaction_dt,fdoc_typ_cd,org_doc_nbr,project_cd," + "org_reference_id,fdoc_ref_typ_cd,fs_ref_origin_cd,fdoc_ref_nbr,fdoc_reversal_dt,trn_encum_updt_cd,fdoc_approved_cd," + "acct_sf_finobj_cd,trn_entr_ofst_cd,trnentr_process_tm) values ('01','1',1,'" + UUID.randomUUID().toString() + "',1,'BA','1234567'," + "null,'4166',null,'AC','EX',2004,'01'," + "'Description',100,'D'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ",'JV',null,null," + "null,null,null,null,null,' ','A'," + "'4166',null,null)");
+        unitTestSqlDao.sqlCommand("insert into GL_PENDING_ENTRY_T (fs_origin_cd,fdoc_nbr,trn_entr_seq_nbr,obj_id,ver_nbr,fin_coa_cd,account_nbr," + "sub_acct_nbr,fin_object_cd,fin_sub_obj_cd,fin_balance_typ_cd,fin_obj_typ_cd,univ_fiscal_yr,univ_fiscal_prd_cd," + "trn_ldgr_entr_desc,trn_ldgr_entr_amt,trn_debit_crdt_cd,transaction_dt,fdoc_typ_cd,org_doc_nbr,project_cd," + "org_reference_id,fdoc_ref_typ_cd,fs_ref_origin_cd,fdoc_ref_nbr,fdoc_reversal_dt,trn_encum_updt_cd,fdoc_approved_cd," + "acct_sf_finobj_cd,trn_entr_ofst_cd,trnentr_process_tm) values ('01','1',2,'" + UUID.randomUUID().toString() + "',1,'BA','1234567'," + "null,'4166',null,'AC','EX',2004,'01'," + "'Description',100,'C'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ",'JV',null,null," + "null,null,null,null,null,' ',null," + "'4166',null,null)");
+        unitTestSqlDao.sqlCommand("insert into GL_PENDING_ENTRY_T (fs_origin_cd,fdoc_nbr,trn_entr_seq_nbr,obj_id,ver_nbr,fin_coa_cd,account_nbr," + "sub_acct_nbr,fin_object_cd,fin_sub_obj_cd,fin_balance_typ_cd,fin_obj_typ_cd,univ_fiscal_yr,univ_fiscal_prd_cd," + "trn_ldgr_entr_desc,trn_ldgr_entr_amt,trn_debit_crdt_cd,transaction_dt,fdoc_typ_cd,org_doc_nbr,project_cd," + "org_reference_id,fdoc_ref_typ_cd,fs_ref_origin_cd,fdoc_ref_nbr,fdoc_reversal_dt,trn_encum_updt_cd,fdoc_approved_cd," + "acct_sf_finobj_cd,trn_entr_ofst_cd,trnentr_process_tm) values ('01','2',3,'" + UUID.randomUUID().toString() + "',1,'BA','1234567'," + "null,'4166',null,'AC','EX',2004,'01'," + "'Description',100,'D'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ",'JV',null,null," + "null,null,null,null,null,' ','A'," + "'4166',null,null)");
+        unitTestSqlDao.sqlCommand("insert into GL_PENDING_ENTRY_T (fs_origin_cd,fdoc_nbr,trn_entr_seq_nbr,obj_id,ver_nbr,fin_coa_cd,account_nbr," + "sub_acct_nbr,fin_object_cd,fin_sub_obj_cd,fin_balance_typ_cd,fin_obj_typ_cd,univ_fiscal_yr,univ_fiscal_prd_cd," + "trn_ldgr_entr_desc,trn_ldgr_entr_amt,trn_debit_crdt_cd,transaction_dt,fdoc_typ_cd,org_doc_nbr,project_cd," + "org_reference_id,fdoc_ref_typ_cd,fs_ref_origin_cd,fdoc_ref_nbr,fdoc_reversal_dt,trn_encum_updt_cd,fdoc_approved_cd," + "acct_sf_finobj_cd,trn_entr_ofst_cd,trnentr_process_tm) values ('01','2',4,'" + UUID.randomUUID().toString() + "',1,'BA','1234567'," + "null,'4166',null,'AC','EX',2004,'01'," + "'Description',100,'C'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ",'JV',null,null," + "null,null,null,null,null,' ',null," + "'4166',null,null)");
+        unitTestSqlDao.sqlCommand("insert into GL_PENDING_ENTRY_T (fs_origin_cd,fdoc_nbr,trn_entr_seq_nbr,obj_id,ver_nbr,fin_coa_cd,account_nbr," + "sub_acct_nbr,fin_object_cd,fin_sub_obj_cd,fin_balance_typ_cd,fin_obj_typ_cd,univ_fiscal_yr,univ_fiscal_prd_cd," + "trn_ldgr_entr_desc,trn_ldgr_entr_amt,trn_debit_crdt_cd,transaction_dt,fdoc_typ_cd,org_doc_nbr,project_cd," + "org_reference_id,fdoc_ref_typ_cd,fs_ref_origin_cd,fdoc_ref_nbr,fdoc_reversal_dt,trn_encum_updt_cd,fdoc_approved_cd," + "acct_sf_finobj_cd,trn_entr_ofst_cd,trnentr_process_tm) values ('01','3',5,'" + UUID.randomUUID().toString() + "',1,'BA','1234567'," + "null,'4166',null,'AC','EX',2004,'01'," + "'Description',100,'D'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ",'JV',null,null," + "null,null,null,null,null,' ','X'," + "'4166',null,null)");
+        unitTestSqlDao.sqlCommand("insert into GL_PENDING_ENTRY_T (fs_origin_cd,fdoc_nbr,trn_entr_seq_nbr,obj_id,ver_nbr,fin_coa_cd,account_nbr," + "sub_acct_nbr,fin_object_cd,fin_sub_obj_cd,fin_balance_typ_cd,fin_obj_typ_cd,univ_fiscal_yr,univ_fiscal_prd_cd," + "trn_ldgr_entr_desc,trn_ldgr_entr_amt,trn_debit_crdt_cd,transaction_dt,fdoc_typ_cd,org_doc_nbr,project_cd," + "org_reference_id,fdoc_ref_typ_cd,fs_ref_origin_cd,fdoc_ref_nbr,fdoc_reversal_dt,trn_encum_updt_cd,fdoc_approved_cd," + "acct_sf_finobj_cd,trn_entr_ofst_cd,trnentr_process_tm) values ('01','3',6,'" + UUID.randomUUID().toString() + "',1,'BA','1234567'," + "null,'4166',null,'AC','EX',2004,'01'," + "'Description',100,'C'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ",'JV',null,null," + "null,null,null,null,null,' ','X'," + "'4166',null,null)");
 
+        LOG.info( "Calling NightlyOutService to copy the pending entries" );
         nightlyOutService.copyApprovedPendingLedgerEntries();
+        LOG.info( "Completed Call to NightlyOutService" );
         
         assertEquals("Should have 2 group and one done file", 2, new File(batchDirectory).list().length);
         assertEquals("Should have 2 entries", 2, countOriginEntriesInFile());
 
+        LOG.info( "Checking for processed GL Pending Entries" );
         // 2 transactions were set to X to start with, 2 were marked as X when copyApprovedPendingLedgerEntries was run
         List pendingEntries = unitTestSqlDao.sqlSelect("select * from GL_PENDING_ENTRY_T where fdoc_approved_cd = 'X'");
         assertEquals("Should have 4 copied entries", 4, pendingEntries.size());
 
+        LOG.info( "Deleting processed GL Pending Entries" );
         nightlyOutService.deleteCopiedPendingLedgerEntries();
+        LOG.info( "Confirming that GL Pending Entry is again empty" );
         List remainderEntries = unitTestSqlDao.sqlSelect("select * from GL_PENDING_ENTRY_T");
         assertEquals("Should have 2 remaining entries", 2, remainderEntries.size());
     }

@@ -15,18 +15,11 @@
  */
 package org.kuali.kfs.module.cam.document.authorization;
 
-import java.util.List;
-import java.util.Set;
-
 import org.kuali.kfs.module.cam.batch.service.AssetBarcodeInventoryLoadService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
-import org.kuali.rice.kew.web.session.UserSession;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.AdHocRoutePerson;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * Presentation Controller for Barcode Error Documents
@@ -38,32 +31,32 @@ public class BarcodeInventoryErrorDocumentPresentationController extends Financi
         assetBarcodeInventoryLoadService = SpringContext.getBean(AssetBarcodeInventoryLoadService.class); 
     }    
     @Override
-    protected boolean canSave(Document document) {
+    public boolean canSave(Document document) {
         return false;
     }
 
     @Override
-    protected boolean canRoute(Document document) {
+    public boolean canRoute(Document document) {
         return false;
     }
 
     @Override
-    protected boolean canBlanketApprove(Document document) {
+    public boolean canBlanketApprove(Document document) {
         return false;
     }
     
     @Override
-    protected boolean canAddAdhocRequests(Document document) {
+    public boolean canAddAdhocRequests(Document document) {
         return SpringContext.getBean(AssetService.class).isDocumentEnrouting(document);        
     }
 
     @Override
-    protected boolean canCancel(Document document) {
+    public boolean canCancel(Document document) {
         return assetBarcodeInventoryLoadService.isCurrentUserInitiator(document);
     }
     
     @Override
-    protected boolean canDisapprove(Document document) {
+    public boolean canDisapprove(Document document) {
         return assetBarcodeInventoryLoadService.isCurrentUserInitiator(document);
     }
 }

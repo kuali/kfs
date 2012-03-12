@@ -19,7 +19,6 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.io.filefilter.RegexFileFilter;
@@ -33,8 +32,8 @@ import org.kuali.kfs.gl.service.BalanceService;
 import org.kuali.kfs.gl.service.ReversalService;
 import org.kuali.kfs.sys.FileUtil;
 import org.kuali.kfs.sys.batch.AbstractWrappedBatchStep;
-import org.kuali.kfs.sys.batch.service.WrappingBatchService;
 import org.kuali.kfs.sys.batch.service.WrappedBatchExecutorService.CustomBatchExecutor;
+import org.kuali.kfs.sys.batch.service.WrappingBatchService;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.service.FiscalYearAwareReportWriterService;
 import org.kuali.kfs.sys.service.OptionsService;
@@ -220,21 +219,21 @@ public class PosterSummaryReportStep extends AbstractWrappedBatchStep {
      * @return current year lower parameter for inner class
      */
     public String getCurrentYearLowerParameter() {
-        return getParameterService().getParameterValue(getClass(), GeneralLedgerConstants.GlSummaryReport.CURRENT_YEAR_LOWER);
+        return getParameterService().getParameterValueAsString(getClass(), GeneralLedgerConstants.GlSummaryReport.CURRENT_YEAR_LOWER);
     }
     
     /**
      * @return current year upper parameter for inner class
      */
     public String getCurrentYearUpperParameter() {
-        return getParameterService().getParameterValue(PosterSummaryReportStep.this.getClass(), GeneralLedgerConstants.GlSummaryReport.CURRENT_YEAR_UPPER);
+        return getParameterService().getParameterValueAsString(PosterSummaryReportStep.this.getClass(), GeneralLedgerConstants.GlSummaryReport.CURRENT_YEAR_UPPER);
     }
     
     /**
      * @return current and last year parameter for inner class
      */
     public String getCurrentAndLastYearParameter() {
-        return getParameterService().getParameterValue(PosterSummaryReportStep.this.getClass(), GeneralLedgerConstants.GlSummaryReport.CURRENT_AND_LAST_YEAR);
+        return getParameterService().getParameterValueAsString(PosterSummaryReportStep.this.getClass(), GeneralLedgerConstants.GlSummaryReport.CURRENT_AND_LAST_YEAR);
     }
 
     /**

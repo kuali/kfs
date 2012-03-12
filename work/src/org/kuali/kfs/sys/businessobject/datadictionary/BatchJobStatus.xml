@@ -112,7 +112,7 @@
     </property>
     
     
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
   </bean>
   <bean id="BatchJobStatus-status" parent="BatchJobStatus-status-parentBean"/>
 

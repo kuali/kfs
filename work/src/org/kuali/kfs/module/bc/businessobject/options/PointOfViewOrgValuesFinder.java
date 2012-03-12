@@ -22,10 +22,10 @@ import java.util.List;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionProcessorService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class...
@@ -41,10 +41,10 @@ public class PointOfViewOrgValuesFinder extends KeyValuesBase {
         Person person = GlobalVariables.getUserSession().getPerson();
         List<Organization> pointOfViewOrgs = SpringContext.getBean(BudgetConstructionProcessorService.class).getProcessorOrgs(person);
         pointOfViewOrgKeyLabels = new ArrayList();
-        pointOfViewOrgKeyLabels.add(new KeyLabelPair("", ""));
+        pointOfViewOrgKeyLabels.add(new ConcreteKeyValue("", ""));
         for (Iterator iter = pointOfViewOrgs.iterator(); iter.hasNext();) {
             Organization element = (Organization) iter.next();
-            pointOfViewOrgKeyLabels.add(new KeyLabelPair(element.getChartOfAccountsCode() + "-" + element.getOrganizationCode(), element.getChartOfAccountsCode() + "-" + element.getOrganizationCode()));
+            pointOfViewOrgKeyLabels.add(new ConcreteKeyValue(element.getChartOfAccountsCode() + "-" + element.getOrganizationCode(), element.getChartOfAccountsCode() + "-" + element.getOrganizationCode()));
         }
 
         return pointOfViewOrgKeyLabels;

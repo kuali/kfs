@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,35 +17,34 @@ package org.kuali.kfs.module.bc.identity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.kfs.module.bc.document.service.BudgetDocumentService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kim.bo.types.dto.AttributeDefinitionMap;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
-import org.kuali.rice.kns.datadictionary.AttributeDefinition;
+import org.kuali.rice.kim.api.type.KimAttributeField;
+import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 
-public class AccountOrganizationHierarchyRoleTypeServiceImpl extends KimRoleTypeServiceBase {
+public class AccountOrganizationHierarchyRoleTypeServiceImpl extends RoleTypeServiceBase {
     public static final String DESCEND_HIERARCHY_TRUE_VALUE = "Y";
     public static final String DESCEND_HIERARCHY_FALSE_VALUE = "N";
 
-/* RICE_20_DELETE */    {
-/* RICE_20_DELETE */        requiredAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
-/* RICE_20_DELETE */        requiredAttributes.add(KfsKimAttributes.ORGANIZATION_CODE);
-/* RICE_20_DELETE */        checkRequiredAttributes = false;
-/* RICE_20_DELETE */    }
+
+
+
+
+
 
     protected BudgetDocumentService budgetDocumentService;
 
     /**
-     * @see org.kuali.rice.kim.service.support.impl.KimTypeServiceBase#performMatch(org.kuali.rice.kim.bo.types.dto.AttributeSet,
+     * @see org.kuali.rice.kim.service.support.impl.KimTypeInfoServiceBase#performMatch(org.kuali.rice.kim.bo.types.dto.AttributeSet,
      *      org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
     @Override
-    protected boolean performMatch(AttributeSet qualification, AttributeSet roleQualifier) {
+    protected boolean performMatch(Map<String,String> qualification, Map<String,String> roleQualifier) {
         // if no qualification given but the user is assigned an organization then return they have the role
         if ((qualification == null || qualification.isEmpty()) && roleQualifier != null && !roleQualifier.isEmpty()) {
             return true;
@@ -72,12 +71,12 @@ public class AccountOrganizationHierarchyRoleTypeServiceImpl extends KimRoleType
             String accountNumber = qualification.get(KfsKimAttributes.ACCOUNT_NUMBER);
             Integer organizationLevelCode = Integer.parseInt(qualification.get(BCPropertyConstants.ORGANIZATION_LEVEL_CODE));
             String accountReportExists = qualification.get(BCPropertyConstants.ACCOUNT_REPORTS_EXIST);
-            
+
             // if account report mapping does not exist, want to give special view access
             if (Boolean.FALSE.toString().equals(accountReportExists)) {
                 return true;
             }
-            
+
             Integer roleOrganizationLevelCode = -1;
             List<BudgetConstructionAccountOrganizationHierarchy> accountOrganizationHierarchy = (List<BudgetConstructionAccountOrganizationHierarchy>) budgetDocumentService.retrieveOrBuildAccountOrganizationHierarchy(universityFiscalYear, chartOfAccountsCode, accountNumber);
             for (BudgetConstructionAccountOrganizationHierarchy accountOrganization : accountOrganizationHierarchy) {
@@ -85,7 +84,7 @@ public class AccountOrganizationHierarchyRoleTypeServiceImpl extends KimRoleType
                     roleOrganizationLevelCode = accountOrganization.getOrganizationLevelCode();
                 }
             }
-            
+
             if (roleOrganizationLevelCode == -1) {
                 return false;
             }
@@ -98,7 +97,7 @@ public class AccountOrganizationHierarchyRoleTypeServiceImpl extends KimRoleType
 
     /**
      * Sets the budgetDocumentService attribute value.
-     * 
+     *
      * @param budgetDocumentService The budgetDocumentService to set.
      */
     public void setBudgetDocumentService(BudgetDocumentService budgetDocumentService) {
@@ -106,18 +105,23 @@ public class AccountOrganizationHierarchyRoleTypeServiceImpl extends KimRoleType
     }
 
     /**
-     * @see org.kuali.rice.kim.service.support.impl.KimTypeServiceBase#getAttributeDefinitions(java.lang.String)
+     * @see org.kuali.rice.kim.service.support.impl.KimTypeInfoServiceBase#getAttributeDefinitions(java.lang.String)
      */
     @Override
-    public AttributeDefinitionMap getAttributeDefinitions(String kimTypId) {
-        AttributeDefinitionMap map = super.getAttributeDefinitions(kimTypId);
-        
-        for (AttributeDefinition definition : map.values()) {
-            if (KFSPropertyConstants.ORGANIZATION_CODE.equals(definition.getName())) {
-                definition.setRequired(Boolean.FALSE);
+    public List<KimAttributeField> getAttributeDefinitions(String kimTypId) {
+        List<KimAttributeField> fields = super.getAttributeDefinitions(kimTypId);
+        List<KimAttributeField> updatedFields = new ArrayList<KimAttributeField>( fields.size() );
+
+        for (KimAttributeField definition : fields ) {
+            if (KFSPropertyConstants.ORGANIZATION_CODE.equals(definition.getAttributeField().getName())) {
+                KimAttributeField.Builder updatedField = KimAttributeField.Builder.create(definition);
+                updatedField.getAttributeField().setRequired(false);
+                updatedFields.add(updatedField.build());
+            } else {
+                updatedFields.add(definition);
             }
         }
-        
-        return map;
+
+        return fields;
     }
 }

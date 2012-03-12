@@ -23,11 +23,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.service.OrgReviewRoleService;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 
 public class OrgReviewRoleInquirableImpl extends KfsInquirableImpl {
 
@@ -49,8 +48,8 @@ public class OrgReviewRoleInquirableImpl extends KfsInquirableImpl {
     public HtmlData getInquiryUrl(BusinessObject businessObject, String attributeName, boolean forceInquiry) {
         if ( StringUtils.equals( attributeName, "orgReviewRoleInquiryTitle") ) {
             Properties parameters = new Properties();
-            parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, "start");
-            parameters.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, OrgReviewRole.class.getName());
+            parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "start");
+            parameters.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, OrgReviewRole.class.getName());
             if ( StringUtils.isNotBlank(((OrgReviewRole)businessObject).getDelegationMemberId()) ) {
                 parameters.put("orgReviewRoleMemberId", ((OrgReviewRole)businessObject).getDelegationMemberId() );
                 parameters.put("delegate", "true" );
@@ -58,7 +57,7 @@ public class OrgReviewRoleInquirableImpl extends KfsInquirableImpl {
                 parameters.put("orgReviewRoleMemberId", ((OrgReviewRole)businessObject).getRoleMemberId() );
                 parameters.put("delegate", "false" );
             }
-            return getHyperLink(OrgReviewRole.class, Collections.EMPTY_MAP, UrlFactory.parameterizeUrl(KNSConstants.INQUIRY_ACTION, parameters));
+            return getHyperLink(OrgReviewRole.class, Collections.EMPTY_MAP, UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, parameters));
         } else {
             return super.getInquiryUrl(businessObject, attributeName, forceInquiry);
         }

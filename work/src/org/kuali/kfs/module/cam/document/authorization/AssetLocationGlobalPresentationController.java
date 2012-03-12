@@ -20,7 +20,7 @@ import java.util.Set;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 public class AssetLocationGlobalPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetLocationGlobalPresentationController.class);

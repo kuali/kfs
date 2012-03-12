@@ -20,8 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
-
 /**
  * To group and hold the data presented to working reports of extract process
  */

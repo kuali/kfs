@@ -26,9 +26,9 @@ import org.kuali.kfs.coa.businessobject.ProjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.fp.businessobject.SalesTax;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 /**
  * An AccountLine contains all the accounting items typically necessary to create a pending entry to the G/L. All transaction
@@ -301,12 +301,12 @@ public interface AccountingLine extends PersistableBusinessObject, GeneralLedger
     public void setSalesTaxRequired(boolean salesTaxRequired);
 
     /**
-     * @see org.kuali.rice.kns.bo.AccountingLine#isSourceAccountingLine()
+     * @see org.kuali.rice.krad.bo.AccountingLine#isSourceAccountingLine()
      */
     public boolean isSourceAccountingLine();
 
     /**
-     * @see org.kuali.rice.kns.bo.AccountingLine#isTargetAccountingLine()
+     * @see org.kuali.rice.krad.bo.AccountingLine#isTargetAccountingLine()
      */
     public boolean isTargetAccountingLine();
 

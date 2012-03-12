@@ -15,23 +15,31 @@
  */
 package org.kuali.kfs.gl.businessobject.lookup;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.Constant;
+import org.kuali.kfs.gl.service.impl.StringHelper;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.document.service.DebitDeterminerService;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
-import org.kuali.rice.kns.lookup.CollectionIncomplete;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.util.BeanPropertyComparator;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.kns.web.ui.Row;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
+import org.kuali.rice.krad.util.BeanPropertyComparator;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * The abstract parent class for GL Lookupables, providing base implementations of methods
@@ -41,15 +49,9 @@ public abstract class AbstractGeneralLedgerLookupableHelperServiceImpl extends A
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AbstractGeneralLedgerLookupableHelperServiceImpl.class);
 
-    private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
+    protected GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
+    protected DebitDeterminerService debitDeterminerService;
 
-    protected GeneralLedgerPendingEntryService getGeneralLedgerPendingEntryService() {
-        return generalLedgerPendingEntryService;
-    }
-
-    public void setGeneralLedgerPendingEntryService(GeneralLedgerPendingEntryService generalLedgerPendingEntryService) {
-        this.generalLedgerPendingEntryService = generalLedgerPendingEntryService;
-    }
 
     /**
      * This method overides that in parent class so that the maintainance actions are surpressed
@@ -63,7 +65,7 @@ public abstract class AbstractGeneralLedgerLookupableHelperServiceImpl extends A
     }
 
     /**
-     * This method tests if the user selects to see the general ledager pending entries
+     * This method tests if the user selects to see the general ledger pending entries
      *
      * @param fieldValues the map containing the search fields and values
      * @return the value of pending entry option
@@ -74,6 +76,20 @@ public abstract class AbstractGeneralLedgerLookupableHelperServiceImpl extends A
         fieldValues.remove(Constant.PENDING_ENTRY_OPTION);
 
         return pendingEntryOption;
+    }
+
+    /**
+     * This method tests if the user selects to see the Debit/Credit entries
+     *
+     * @param fieldValues the map containing the search fields and values
+     * @return the value of pending entry option
+     */
+    protected String getDebitCreditOption(Map fieldValues) {
+        // truncate the non-property filed
+        String debitCreditOption = (String) fieldValues.get(Constant.DEBIT_CREDIT_OPTION);
+        fieldValues.remove(Constant.DEBIT_CREDIT_OPTION);
+
+        return debitCreditOption;
     }
 
     /**
@@ -99,10 +115,10 @@ public abstract class AbstractGeneralLedgerLookupableHelperServiceImpl extends A
      *
      * @param fieldValues the map containing the search fields and values
      * @return true if consolidation is selected and subaccount is not specified
-     * 
+     *
      * KRAD Conversion: Lookupable performs checking for a particular attribute and return true or false.
      * This method is called from AccountBalanceLookupableHelperServiceImpl.java, BalanceLookupableHelperServiceImpl.java,
-     * CashBalanceLookupableHelperServiceImpl.java in gl module.  
+     * CashBalanceLookupableHelperServiceImpl.java in gl module.
      */
     protected boolean isConsolidationSelected(Map fieldValues) {
         // truncate the non-property filed
@@ -167,12 +183,73 @@ public abstract class AbstractGeneralLedgerLookupableHelperServiceImpl extends A
         CollectionIncomplete results = new CollectionIncomplete(searchResultsCollection, actualSize);
 
         // sort list if default sort column given
-        List searchResults = (List) results;
+        List searchResults = results;
         List defaultSortColumns = getDefaultSortColumns();
         if (defaultSortColumns.size() > 0) {
             Collections.sort(results, new BeanPropertyComparator(defaultSortColumns, true));
         }
         return searchResults;
+    }
+
+    @Override
+    public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
+        Map fieldsForLookup = new HashMap(lookupForm.getFieldsForLookup());
+        String debitCreditOption = getDebitCreditOption(fieldsForLookup);
+
+        Collection displayList = super.performLookup(lookupForm, resultTable, bounded);
+        updateByDebitCreditOption(resultTable, debitCreditOption);
+        return displayList;
+
+    }
+
+
+
+    protected void updateByDebitCreditOption(Collection resultTable , String debitCreditOption) {
+
+        if (Constant.DEBIT_CREDIT_EXCLUDE.equals(debitCreditOption)){
+            for(Object table : resultTable) {
+                ResultRow  row = (ResultRow)table;
+                List<Column> columns = row.getColumns();
+                ArrayList<Column> newColumnList = new ArrayList<Column>();
+                String debitCreditCode = null;
+                String objectType = null;
+                Column amountCol = null;
+                boolean setAmount = false ;
+                for(Column col: columns) {
+
+                    String propertyName = col.getPropertyName();
+                    if (propertyName.equals(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE)) {
+                        debitCreditCode = col.getPropertyValue();
+                    }
+                    else if (!propertyName.equals(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT)){
+                        newColumnList.add(col);
+                    }
+
+                    if(propertyName.equals(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE)) {
+                        objectType = col.getPropertyValue();
+                    }
+
+                    if (propertyName.equals(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT)) {
+                        amountCol = col;
+                    }
+
+                    // determine the amount sign
+                    if (!newColumnList.contains(amountCol)) {
+                        if ((!StringHelper.isNullOrEmpty(objectType)) && (!StringHelper.isNullOrEmpty(debitCreditCode))
+                                && ObjectUtils.isNotNull(amountCol)) {
+                            String amount = debitDeterminerService.getConvertedAmount(objectType, debitCreditCode, amountCol.getPropertyValue());
+                            amountCol.setPropertyValue(amount);
+                            newColumnList.add(amountCol);
+
+                        }
+                    }
+
+                }
+
+                row.setColumns(newColumnList);
+            }
+        }
+
     }
 
     /**
@@ -222,4 +299,23 @@ public abstract class AbstractGeneralLedgerLookupableHelperServiceImpl extends A
             }
         }
     }
+
+    protected GeneralLedgerPendingEntryService getGeneralLedgerPendingEntryService() {
+        return generalLedgerPendingEntryService;
+    }
+
+    public void setGeneralLedgerPendingEntryService(GeneralLedgerPendingEntryService generalLedgerPendingEntryService) {
+        this.generalLedgerPendingEntryService = generalLedgerPendingEntryService;
+    }
+
+    protected DebitDeterminerService getDebitDeterminerService() {
+        return debitDeterminerService;
+    }
+
+    public void setDebitDeterminerService(DebitDeterminerService debitDeterminerService) {
+        this.debitDeterminerService = debitDeterminerService;
+    }
+
+
+
 }

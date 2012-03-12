@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.ar.document.service;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
@@ -24,7 +23,7 @@ import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public interface PaymentApplicationDocumentService {
     

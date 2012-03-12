@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.sys.KFSConstants.BudgetConstructionPositionConstants;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * This class returns list of ba fund restriction levels.
@@ -32,10 +32,10 @@ public class BudgetConstructionPositionStatusValuesFinder extends KeyValuesBase 
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair(BudgetConstructionPositionConstants.POSITION_STATUS_APPROVED, "Approved"));
-        keyValues.add(new KeyLabelPair(BudgetConstructionPositionConstants.POSITION_STATUS_DELETED, "Deleted"));
-        keyValues.add(new KeyLabelPair(BudgetConstructionPositionConstants.POSITION_STATUS_FROZEN, "Frozen"));
-        keyValues.add(new KeyLabelPair(BudgetConstructionPositionConstants.POSITION_STATUS_TEMPORARILY_INACTIVE, "Temporarily Inactive"));
+        keyValues.add(new ConcreteKeyValue(BudgetConstructionPositionConstants.POSITION_STATUS_APPROVED, "Approved"));
+        keyValues.add(new ConcreteKeyValue(BudgetConstructionPositionConstants.POSITION_STATUS_DELETED, "Deleted"));
+        keyValues.add(new ConcreteKeyValue(BudgetConstructionPositionConstants.POSITION_STATUS_FROZEN, "Frozen"));
+        keyValues.add(new ConcreteKeyValue(BudgetConstructionPositionConstants.POSITION_STATUS_TEMPORARILY_INACTIVE, "Temporarily Inactive"));
 
         return keyValues;
     }

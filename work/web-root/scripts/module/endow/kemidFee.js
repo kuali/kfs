@@ -27,7 +27,7 @@ function setRelatedFields(feeMethodCodeFieldName) {
 
 function setFeeStartDate(feeMethodCodeFieldName, feeStartDateFieldName) {
 
-	var feeMethodCode = DWRUtil.getValue(feeMethodCodeFieldName);
+	var feeMethodCode = dwr.util.getValue(feeMethodCodeFieldName);
 
 	if (feeMethodCode == '') {
 		clearRecipients(feeStartDateFieldName);
@@ -56,7 +56,7 @@ function setFeeStartDate(feeMethodCodeFieldName, feeStartDateFieldName) {
 function setFeeMethodDescription(feeMethodFieldName,
 		feeMethodDescriptionFieldName) {
 
-	var feeMethod = DWRUtil.getValue(feeMethodFieldName);
+	var feeMethod = dwr.util.getValue(feeMethodFieldName);
 
 	if (feeMethod == '') {
 		clearRecipients(feeMethodDescriptionFieldName);
@@ -91,7 +91,7 @@ function loadKEMIDShortTitle(kemidFieldName) {
 
 function setKEMIDShortTitle(kemidFieldName, kemidShortTitleFieldName) {
 
-	var kemid = DWRUtil.getValue(kemidFieldName);
+	var kemid = dwr.util.getValue(kemidFieldName);
 
 	if (kemid == '') {
 		clearRecipients(kemidShortTitleFieldName, "");

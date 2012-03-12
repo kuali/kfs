@@ -15,34 +15,26 @@
  */
 package org.kuali.kfs.sec.businessobject;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Represents the assignment of one or more security definitions and one or more models to a principal
  */
 public class SecurityPrincipal extends PersistableBusinessObjectBase {
-    private String principalId;
+    protected String principalId;
 
-    private Person securityPerson;
+    protected Person securityPerson;
 
-    private List<SecurityPrincipalDefinition> principalDefinitions;
-    private List<SecurityModelMember> principalModels;
-
-    public SecurityPrincipal() {
-        super();
-
-        principalDefinitions = new TypedArrayList(SecurityPrincipalDefinition.class);
-        principalModels = new TypedArrayList(SecurityModelMember.class);
-    }
-
+    protected List<SecurityPrincipalDefinition> principalDefinitions = new ArrayList<SecurityPrincipalDefinition>();
+    protected List<SecurityModelMember> principalModels = new ArrayList<SecurityModelMember>();
 
     /**
      * Gets the principalId attribute.
@@ -70,7 +62,7 @@ public class SecurityPrincipal extends PersistableBusinessObjectBase {
      * @return Returns the securityPerson.
      */
     public Person getSecurityPerson() {
-        securityPerson = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(principalId, securityPerson);
+        securityPerson = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(principalId, securityPerson);
         return securityPerson;
     }
 
@@ -156,16 +148,28 @@ public class SecurityPrincipal extends PersistableBusinessObjectBase {
         return modelNames;
     }
 
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
+
     @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-
-        m.put(KFSPropertyConstants.PRINCIPAL_ID, this.principalId);
-
-        return m;
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("SecurityPrincipal [");
+        if (principalId != null) {
+            builder.append("principalId=");
+            builder.append(principalId);
+            builder.append(", ");
+        }
+        if (getPrincipalDefinitionNames() != null) {
+            builder.append("getPrincipalDefinitionNames()=");
+            builder.append(getPrincipalDefinitionNames());
+            builder.append(", ");
+        }
+        if (getPrincipalModelNames() != null) {
+            builder.append("getPrincipalModelNames()=");
+            builder.append(getPrincipalModelNames());
+        }
+        builder.append("]");
+        return builder.toString();
     }
 
+    
 }

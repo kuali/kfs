@@ -18,8 +18,8 @@ package org.kuali.kfs.module.ec.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * returns valid effort reporting fiscal periods 1 - 12
@@ -31,9 +31,9 @@ public class PeriodStatusCodeValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair("N", "N"));
-        keyValues.add(new KeyLabelPair("O", "O"));
-        keyValues.add(new KeyLabelPair("C", "C"));
+        keyValues.add(new ConcreteKeyValue("N", "N"));
+        keyValues.add(new ConcreteKeyValue("O", "O"));
+        keyValues.add(new ConcreteKeyValue("C", "C"));
         
         return keyValues;
     }

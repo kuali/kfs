@@ -67,9 +67,10 @@
 				<bean parent="CollectionDefinition" p:name="customerAddresses"
 					p:label="Customer Addresses" p:shortLabel="Customer Addresses"
 					p:elementLabel="Customer Address" />
-				<bean parent="CollectionDefinition" p:name="boNotes" p:label="Notes"
+<!-- RICE20 : boNotes are no longer a referencable item on business objects
+ 				<bean parent="CollectionDefinition" p:name="boNotes" p:label="Notes"
 					p:shortLabel="Notes" p:elementLabel="Notes" />
-			</list>
+ -->			</list>
 		</property>
 		<property name="inactivationBlockingDefinitions">
 			<list>
@@ -453,7 +454,8 @@
 				<ref bean="Customer-inquirySectionDefinition-corporateInformation" />
 				<ref bean="Customer-inquirySectionDefinition-contactInformation" />
 				<ref bean="Customer-inquirySectionDefinition-address" />
-				<ref bean="Customer-inquirySectionDefinition-notes" />
+				<!-- RICE20 : restore AR customer notes
+				 <ref bean="Customer-inquirySectionDefinition-notes" /> -->
 			</list>
 		</property>
 		<property name="inquirableClass"
@@ -558,6 +560,7 @@
 		</property>
 	</bean>
 
+<!-- RICE20 : need to restore AR Customer BO notes display on inquiry 
 	<bean id="Customer-inquirySectionDefinition-notes" parent="Customer-inquirySectionDefinition-notes-parentBean" />
 	<bean id="Customer-inquirySectionDefinition-notes-parentBean"
 		parent="InquirySectionDefinition" abstract="true">
@@ -567,7 +570,7 @@
 			<list>
 				<bean parent="InquiryCollectionDefinition">
 					<property name="attributeName" value="boNotes" />
-					<property name="businessObjectClass" value="org.kuali.rice.kns.bo.Note" />
+					<property name="businessObjectClass" value="org.kuali.rice.krad.bo.Note" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 						<list>
@@ -582,7 +585,7 @@
 		</property>
 	</bean>
 
-
+ -->
 
 	<!-- Business Object Lookup Definition -->
 

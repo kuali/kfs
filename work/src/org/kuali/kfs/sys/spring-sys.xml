@@ -88,9 +88,7 @@
 	<bean id="scheduler-parentBean" class="org.kuali.kfs.sys.batch.SchedulerFactoryBean" abstract="true">
 		<property name="useQuartzScheduling" value="${use.quartz.scheduling}" />
 		<property name="useJdbcJobstore" value="${use.quartz.jdbc.jobstore}" />
-		<property name="dataSourceReference" ref="dataSource" />
-        <property name="nonTransactionalDataSourceReference" ref="nonTransactionalDataSource" />
-		<property name="autoStartup" value="false" />
+ 		<property name="autoStartup" value="false" />
 		<property name="quartzPropertiesReference">
 			<props>
 				<prop key="org.quartz.scheduler.instanceId">AUTO</prop>
@@ -100,18 +98,19 @@
 				<prop key="org.quartz.plugin.triggHistory.class">org.quartz.plugins.history.LoggingTriggerHistoryPlugin</prop>
 				<prop key="org.quartz.plugin.triggHistory.triggerFiredMessage">Trigger {1}.{0} fired job {6}.{5} at: {4, date, HH:mm:ss MM/dd/yyyy}</prop>
 				<prop key="org.quartz.plugin.triggHistory.triggerCompleteMessage">Trigger {1}.{0} completed firing job {6}.{5} at {4, date, HH:mm:ss MM/dd/yyyy} with resulting trigger instruction code: {9}</prop>
+				<prop key="org.quartz.scheduler.skipUpdateCheck">true</prop>
 			</props>
 		</property>
 	</bean>
 	
     <bean id="kfsService" parent="kfsService-parentBean"/>
-	<bean id="kfsService-parentBean" class="org.kuali.rice.ksb.messaging.JavaServiceDefinition" abstract="true">
+	<bean id="kfsService-parentBean" class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition" abstract="true">
       <property name="serviceNameSpaceURI" value="" />
       <property name="retryAttempts" value="0" />
     </bean>
     
     <bean id="kfsJaxWsSoapService" parent="kfsJaxWsSoapService-parentBean"/>
-    <bean id="kfsJaxWsSoapService-parentBean" class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition" abstract="true">
+    <bean id="kfsJaxWsSoapService-parentBean" class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition" abstract="true">
        <property name="serviceNameSpaceURI" value="KFS"/>
        <property name="jaxWsService" value="true"/>
        <property name="priority" value="3" />
@@ -121,7 +120,7 @@
     </bean>
     
     <bean id="kfsJaxWsRestService" parent="kfsJaxWsRestService-parentBean"/>
-    <bean id="kfsJaxWsRestService-parentBean" class="org.kuali.rice.ksb.messaging.RESTServiceDefinition" abstract="true">
+    <bean id="kfsJaxWsRestService-parentBean" class="org.kuali.rice.ksb.api.bus.support.RestServiceDefinition" abstract="true">
        <property name="serviceNameSpaceURI" value="KFS"/>
        <property name="priority" value="3" />
        <property name="retryAttempts" value="0" />
@@ -154,6 +153,8 @@
 	<bean id="unscheduledJobDescriptor-parentBean" abstract="true" class="org.kuali.kfs.sys.batch.JobDescriptor">
 		<property name="group" value="unscheduled" />
 	</bean>
+	
+	<bean id="flatFileSortStep" parent="step" class="org.kuali.kfs.sys.batch.FlatFileSortStep" abstract="true"/>
 
 	<bean id="step" abstract="true">
 		<property name="parameterService" ref="parameterService" />
@@ -234,18 +235,20 @@
 
     <bean id="batchInputFileSetService" parent="batchInputFileSetService-parentBean"/>	
 	<bean id="batchInputFileSetService-parentBean" class="org.kuali.kfs.sys.batch.service.impl.BatchInputFileSetServiceImpl" abstract="true">
-		<property name="kualiConfigurationService">
+		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
 	</bean>
 	<!-- end batch framework -->
 	
 	<!--  begin core batch jobs -->
+	<!-- RICE20: do we need to restore this?
     <bean id="postDataLoadEncryptionStep" parent="postDataLoadEncryptionStep-parentBean"/>	
 	<bean id="postDataLoadEncryptionStep-parentBean" parent="step" class="org.kuali.kfs.sys.batch.PostDataLoadEncryptionStep" abstract="true">
 		<property name="postDataLoadEncryptionService" ref="postDataLoadEncryptionService" />
 		<property name="attributesToEncryptProperties" value="${encrypt.attributes.properties.file}" />
 	</bean>
+	 -->
 
     <bean id="purgeOldLookupResultsStep" parent="purgeOldLookupResultsStep-parentBean"/>
 	<bean id="purgeOldLookupResultsStep-parentBean" class="org.kuali.kfs.sys.batch.PurgeOldLookupResultsStep" parent="step" abstract="true">
@@ -275,7 +278,7 @@
 
     <bean id="purgeTempFilesStep" parent="purgeTempFilesStep-parentBean"/>
 	<bean id="purgeTempFilesStep-parentBean" class="org.kuali.kfs.sys.batch.PurgeTempFilesStep" parent="step" abstract="true">
-		<property name="kualiConfigurationService">
+		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
 	</bean>
@@ -412,6 +415,7 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 	-->
+	<!-- RICE20: We need to find a replacement for the RiceApplicationConfigurationService
     <bean id="riceApplicationConfigurationService" parent="riceApplicationConfigurationService-parentBean"/>
 	
     <bean id="riceApplicationConfigurationService-parentBean" class="org.kuali.kfs.sys.service.impl.KFSApplicationConfigurationServiceImpl" abstract="true">
@@ -421,6 +425,7 @@
             </list>
         </property> 
     </bean>
+     -->
     <bean id="universityDateDao" parent="universityDateDao-parentBean"/>
 
 	<bean id="universityDateDao-parentBean" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.UniversityDateDaoOjb" abstract="true" />
@@ -566,26 +571,15 @@
 		</property>
 	</bean>
 
-    <!-- 
-    <bean id="parameterLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">
-        <property name="lookupableHelperService">
-            <bean id="parameterLookupableHelperService" class="org.kuali.rice.kns.lookup.ParameterLookupableHelperServiceImpl" parent="lookupableHelperService">
-                <property name="parameterService" ref="parameterService" />
-            </bean>
-        </property>
-    </bean>
-
-    <bean id="parameterDetailTypeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">
-        <property name="lookupableHelperService">
-            <bean id="parameterDetailTypeLookupableHelperService" class="org.kuali.rice.kns.lookup.ParameterDetailTypeLookupableHelperServiceImpl" parent="lookupableHelperService">
-				<property name="parameterService" ref="parameterService" />
-            </bean>
-        </property>
-    </bean>
-    -->
+	<bean id="financialSystemWorkflowHelperService" parent="financialSystemWorkflowHelperService-parentBean"/>
+	<bean id="financialSystemWorkflowHelperService-parentBean" class="org.kuali.kfs.sys.service.impl.FinancialSystemWorkflowHelperServiceImpl" abstract="true">
+		<property name="workflowDocumentService" ref="rice.kew.workflowDocumentService" />
+	</bean>
+    
 	<bean id="businessObjectMetaDataDao" parent="businessObjectMetaDataDao-parentBean"/>
 
     <bean id="businessObjectMetaDataDao-parentBean" class="org.kuali.kfs.sys.dataaccess.impl.BusinessObjectMetaDataDaoJdbc" parent="platformAwareDaoJdbc" abstract="true" />
+    
 	<bean id="kfsBusinessObjectMetaDataService" parent="kfsBusinessObjectMetaDataService-parentBean"/>
 
     <bean id="kfsBusinessObjectMetaDataService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsBusinessObjectMetaDataServiceImpl" abstract="true">
@@ -632,13 +626,7 @@
             </bean>
         </property>
     </bean>
-	<bean id="kualiInquirable" parent="kualiInquirable-parentBean"/>
-
-    <bean id="kualiInquirable-parentBean" class="org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl" scope="prototype" abstract="true">
-    	<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService" />
-		</property>
-	</bean>
+    
 	<bean id="accountingDocumentRuleHelperService" parent="accountingDocumentRuleHelperService-parentBean"/>
     
     <bean id="accountingDocumentRuleHelperService-parentBean" class="org.kuali.kfs.sys.document.service.impl.AccountingDocumentRuleHelperServiceImpl" abstract="true">
@@ -786,47 +774,23 @@
 	<bean id="employeeDerivedRoleTypeService" parent="employeeDerivedRoleTypeService-parentBean"/>
 	
     <bean id="employeeDerivedRoleTypeService-parentBean" class="org.kuali.kfs.sys.identity.EmployeeDerivedRoleTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-	  <property name="serviceDefinition">
-	    <bean parent="kfsService"
-	      p:service-ref="employeeDerivedRoleTypeService"
-	      p:localServiceName="employeeDerivedRoleTypeService" />
-	  </property>
-	</bean>
+		
 	<bean id="batchJobModifierRoleTypeService" parent="batchJobModifierRoleTypeService-parentBean"/>
 
 	<bean id="batchJobModifierRoleTypeService-parentBean"
-		class="org.kuali.rice.kns.authorization.PermissionDerivedRoleTypeServiceImpl" abstract="true">
+		class="org.kuali.rice.krad.kim.PermissionDerivedRoleTypeServiceImpl" abstract="true">
 		<property name="permissionTemplateNamespace" value="KR-NS" />
 		<property name="permissionTemplateName" value="Modify Batch Job" />
 	</bean>
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-	  <property name="serviceDefinition">
-	    <bean parent="kfsService"
-	      p:service-ref="batchJobModifierRoleTypeService"
-	      p:localServiceName="batchJobModifierRoleTypeService" />
-	  </property>
-	</bean>
+		
 	<bean id="financialSystemDocumentTypePermissionTypeService" parent="financialSystemDocumentTypePermissionTypeService-parentBean"/>
 
     <bean id="financialSystemDocumentTypePermissionTypeService-parentBean" class="org.kuali.kfs.sys.identity.FinancialSystemDocumentTypePermissionTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-	  <property name="serviceDefinition">
-	    <bean parent="kfsService"
-	      p:service-ref="financialSystemDocumentTypePermissionTypeService"
-	      p:localServiceName="financialSystemDocumentTypePermissionTypeService" />
-	  </property>
-	</bean>
+		
 	<bean id="financialSystemUserRoleTypeService" parent="financialSystemUserRoleTypeService-parentBean"/>
 
     <bean id="financialSystemUserRoleTypeService-parentBean" class="org.kuali.kfs.coa.identity.FinancialSystemUserRoleTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-    <property name="serviceDefinition">
-      <bean parent="kfsService"
-        p:service-ref="financialSystemUserRoleTypeService"
-        p:localServiceName="financialSystemUserRoleTypeService" />
-    </property>
-  </bean>
+		
   
     <bean id="universityDateFiscalYearMaker" class="org.kuali.kfs.sys.batch.dataaccess.impl.UniversityDateFiscalYearMakerImpl" parent="FiscalYearMaker">
 		<property name="businessObjectClass" value="org.kuali.kfs.sys.businessobject.UniversityDate" /> 
@@ -838,25 +802,9 @@
 			<ref bean="electronicPaymentClaimingService" />
 		</property>
 	</bean> 
+
 	<bean id="cacheService" parent="cacheService-parentBean"/>
-	
-	<bean id="cacheService-parentBean" class="org.kuali.kfs.sys.batch.service.impl.CacheServiceImpl" abstract="true">
-	    <property name="cacheAdminstrators">
-          <list>
-            <ref bean="methodResultsCacheAdministrator" />
-            <ref bean="methodResultsCacheNoCopyAdministrator" />
-          </list>	
-        </property>  
-		<property name="roleManagementService">
-			<ref bean="kimRoleManagementService" />
-		</property>
-		<property name="identityManagementService">
-			<ref bean="kimIdentityManagementService" />
-		</property>
-		<property name="parameterService">
-			<ref bean="parameterService" />
-		</property>		
-	</bean>
+	<bean id="cacheService-parentBean" class="org.kuali.kfs.sys.batch.service.impl.CacheServiceImpl" abstract="true" />
 
 	<bean id="preparedStatementCachingDao" parent="platformAwareDaoJdbc" abstract="true" />
 	
@@ -926,4 +874,49 @@
     </bean>
 
     <bean id="weeklyEmailStep" class="org.kuali.kfs.sys.batch.WeeklyEmailStep" parent="step" />
+    
+    <bean id="FlatFileParser" abstract="true" class="org.kuali.kfs.sys.batch.FlatFileParserBase">    
+		<property name="dateTimeService" ref="dateTimeService" />
+	</bean>
+
+    <bean id="FlatFileParseTracker" class="org.kuali.kfs.sys.batch.FlatFileParseTrackerImpl" scope="prototype" />
+    
+    <bean id="FlatFilePrefixObjectSpecification" abstract="true" class="org.kuali.kfs.sys.batch.FlatFilePrefixObjectSpecification" />
+    
+    <bean id="FlatFileRegexObjectSpecification" abstract="true" class="org.kuali.kfs.sys.batch.FlatFileRegexObjectSpecification" />
+    
+	<bean id="FixedWidthFlatFileSpecification" abstract="true" class="org.kuali.kfs.sys.batch.FixedWidthFlatFileSpecification" />
+    
+    <bean id="FixedWidthFlatFilePropertySpecification" abstract="true" class="org.kuali.kfs.sys.batch.FixedWidthFlatFilePropertySpecification" />
+    
+	<bean id="DelimitedFlatFileSpecification" abstract="true" class="org.kuali.kfs.sys.batch.DelimitedFlatFileSpecification" />
+	
+    <bean id="DelimitedFlatFilePropertySpecification" abstract="true" class="org.kuali.kfs.sys.batch.DelimitedFlatFilePropertySpecification" />
+    
+    <bean id="FixedWidthFlatFileRegexSpecification" abstract="true" class="org.kuali.kfs.sys.batch.FixedWidthFlatFileRegexSpecification" />
+    
+    <bean id="batchContainerStep" parent="batchContainerStep-parentBean"/>
+    <bean id="batchContainerStep-parentBean" abstract="true" class="org.kuali.kfs.sys.batch.BatchContainerStep" parent="step">
+        <property name="batchContainerDirectory" value="${staging.directory.sys.batchContainer}"/>
+        <property name="batchContainerStopStep" ref="stopBatchContainerStep" />
+	</bean>
+	
+	<bean id="stopBatchContainerStep" class="org.kuali.kfs.sys.batch.StopBatchContainerStep" parent="step"/>
+	
+	<bean id="semaphoreInputFileTypeError" class="org.kuali.kfs.sys.batch.SemaphoreInputFileType">
+    	<property name="directoryPath" value="${staging.directory.sys.batchContainer}"/>
+	 	<property name="fileExtension" value="error"/>
+	 	<property name="fileTypeIdentifier" value="semaphoreInputFileTypeError" />
+	</bean>
+	
+	<bean id="namespaceOrFilePathPermissionTypeService" class="org.kuali.kfs.sys.identity.NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeServiceImpl">
+        <property name="wildcardMatchStringAttributeName" value="filePath"/>
+    	<property name="namespaceRequiredOnStoredAttributeSet" value="false" />
+    </bean>
+    
+    <bean id="excludeSingleActorSeparationOfDutiesRoleTypeService" parent="excludeSingleActorSeparationOfDutiesRoleTypeService-parentBean" />
+    <bean id="excludeSingleActorSeparationOfDutiesRoleTypeService-parentBean" abstract="true" class="org.kuali.kfs.sys.identity.ExcludeSingleActorSeparationOfDutiesRoleTypeService" />
+    
+    
+    <import resource="spring-sys-bus-exports.xml"/>
 </beans>

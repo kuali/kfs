@@ -21,9 +21,9 @@ import org.kuali.kfs.module.endow.document.HoldingHistoryValueAdjustmentDocument
 import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.service.DocumentService;
 
 public enum EndowmentHoldingValueAdjustmentDocumentFixture {
     // Endowment Holding Value Adjustment Document FIXTURE

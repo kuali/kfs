@@ -458,7 +458,7 @@ public class BudgetOrganizationPushPullDaoJdbc extends BudgetConstructionDaoJdbc
         sqlText.append("        head.org_of_lvl_cd, \n");
         sqlText.append("        fphd.fdoc_status_cd, \n");
         sqlText.append("        '', \n");
-        sqlText.append("        fphd.temp_doc_fnl_dt \n");
+        sqlText.append("        NULL \n");
         sqlText.append("FROM LD_BCNSTR_HDR_T head, \n");
         sqlText.append("      FS_DOC_HEADER_T fphd, \n");
         sqlText.append("      (SELECT head2.fdoc_nbr \n");
@@ -575,7 +575,7 @@ public class BudgetOrganizationPushPullDaoJdbc extends BudgetConstructionDaoJdbc
         sqlText.append("    head.org_of_lvl_cd, \n");
         sqlText.append("    fphd.fdoc_status_cd, \n");
         sqlText.append("    '', \n");
-        sqlText.append("    fphd.temp_doc_fnl_dt   \n");
+        sqlText.append("    NULL   \n");
         sqlText.append("FROM LD_BCN_PULLUP_T pull, \n");
         sqlText.append("    LD_BCN_ACCT_ORG_HIER_T hier, \n");
         sqlText.append("    LD_BCN_ACCT_ORG_HIER_T hier2, \n");
@@ -609,7 +609,7 @@ public class BudgetOrganizationPushPullDaoJdbc extends BudgetConstructionDaoJdbc
         sqlText.append("    head.org_of_lvl_cd, \n");
         sqlText.append("    fphd.fdoc_status_cd, \n");
         sqlText.append("    '', \n");
-        sqlText.append("    fphd.temp_doc_fnl_dt     \n");
+        sqlText.append("    NULL     \n");
         sqlText.append("FROM LD_BCN_PULLUP_T pull, \n");
         sqlText.append("    LD_BCN_ACCT_ORG_HIER_T hier, \n");
         sqlText.append("    LD_BCN_ACCT_ORG_HIER_T hier2, \n");

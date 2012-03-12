@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.ld.document.validation.impl;
 
 
-import java.util.List;
+import java.util.Collection;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -37,16 +37,16 @@ import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.MessageBuilder;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class provides a set of utilities that can be used to validate a transaction in the field level.
  */
 public class TransactionFieldValidator {
     private static LaborAccountingCycleCachingService accountingCycleCachingService;
-    private static KualiConfigurationService kualiConfigurationService;
+    private static ConfigurationService kualiConfigurationService;
     
     /**
      * Checks if the given transaction contains valid university fiscal year
@@ -299,7 +299,7 @@ public class TransactionFieldValidator {
         if (debitCreditCode == null || !ArrayUtils.contains(validDebitCreditCode, debitCreditCode)) {
             return MessageBuilder.buildMessage(KFSKeyConstants.ERROR_DEDIT_CREDIT_CODE_NOT_BE_NULL, Message.TYPE_FATAL);
         } else if (transaction.getBalanceType().isFinancialOffsetGenerationIndicator() && !KFSConstants.GL_DEBIT_CODE.equals(transaction.getTransactionDebitCreditCode()) && !KFSConstants.GL_CREDIT_CODE.equals(transaction.getTransactionDebitCreditCode())) {
-            return new Message(getKualiConfigurationService().getPropertyString(KFSKeyConstants.MSG_DEDIT_CREDIT_CODE_MUST_BE) + " '" + KFSConstants.GL_DEBIT_CODE + " or " + KFSConstants.GL_CREDIT_CODE + getKualiConfigurationService().getPropertyString(KFSKeyConstants.MSG_FOR_BALANCE_TYPE), Message.TYPE_FATAL);
+            return new Message(getConfigurationService().getPropertyValueAsString(KFSKeyConstants.MSG_DEDIT_CREDIT_CODE_MUST_BE) + " '" + KFSConstants.GL_DEBIT_CODE + " or " + KFSConstants.GL_CREDIT_CODE + getConfigurationService().getPropertyValueAsString(KFSKeyConstants.MSG_FOR_BALANCE_TYPE), Message.TYPE_FATAL);
         }
         return null;
     }
@@ -325,7 +325,7 @@ public class TransactionFieldValidator {
      * @param unpostableperidCodes the list of unpostable period code
      * @return null if the perid code of the transaction is not in unpostableperidCodes; otherwise, return error message
      */
-    public static Message checkPostablePeridCode(LaborTransaction transaction, List<String> unpostableperidCodes) {
+    public static Message checkPostablePeridCode(LaborTransaction transaction, Collection<String> unpostableperidCodes) {
         String periodCode = transaction.getUniversityFiscalPeriodCode();
         if (unpostableperidCodes.contains(periodCode)) {
             return MessageBuilder.buildMessage(LaborKeyConstants.ERROR_UNPOSTABLE_PERIOD_CODE, periodCode, Message.TYPE_FATAL);
@@ -341,7 +341,7 @@ public class TransactionFieldValidator {
      * @return null if the balance type code of the transaction is not in unpostableBalanceTypeCodes; otherwise, return error
      *         message
      */
-    public static Message checkPostableBalanceTypeCode(LaborTransaction transaction, List<String> unpostableBalanceTypeCodes) {
+    public static Message checkPostableBalanceTypeCode(LaborTransaction transaction, Collection<String> unpostableBalanceTypeCodes) {
         String balanceTypeCode = transaction.getFinancialBalanceTypeCode();
         if (unpostableBalanceTypeCodes.contains(balanceTypeCode)) {
             return MessageBuilder.buildMessage(LaborKeyConstants.ERROR_UNPOSTABLE_BALANCE_TYPE, balanceTypeCode, Message.TYPE_FATAL);
@@ -398,9 +398,9 @@ public class TransactionFieldValidator {
         return accountingCycleCachingService;        
     }
     
-    static KualiConfigurationService getKualiConfigurationService() {
+    static ConfigurationService getConfigurationService() {
         if (kualiConfigurationService == null) {
-            kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+            kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
         }
         return kualiConfigurationService;        
     }

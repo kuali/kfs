@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 function loadCustomerInfo( customerNumberFieldName, customerNameFieldName ) {
-    var customerNumber = DWRUtil.getValue( customerNumberFieldName ).toUpperCase();
+    var customerNumber = dwr.util.getValue( customerNumberFieldName ).toUpperCase();
 
 	if (customerNumber=='') {
 		clearRecipients(customerNameFieldName, "");

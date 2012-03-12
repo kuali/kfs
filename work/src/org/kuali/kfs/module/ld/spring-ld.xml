@@ -319,7 +319,7 @@
         <property name="objectCodeService">
             <ref bean="objectCodeService" />
         </property>
-        <property name="kualiConfigurationService">
+        <property name="configurationService">
             <ref bean="kualiConfigurationService" />
         </property>
         <property name="universityDateDao">
@@ -376,7 +376,7 @@
         <property name="scrubberValidator">
             <ref bean="laborGLScrubberValidator" />
         </property>
-        <property name="kualiConfigurationService">
+        <property name="configurationService">
             <ref bean="kualiConfigurationService" />
         </property>
         <property name="accountService">
@@ -484,7 +484,7 @@
         <property name="parameterService">
             <ref bean="parameterService" />
         </property>
-        <property name="kualiConfigurationService">
+        <property name="configurationService">
             <ref bean="kualiConfigurationService" />
         </property>
         <property name="businessObjectService">
@@ -883,16 +883,22 @@
         </property>
     </bean>
 
-    <bean id="laborScrubberSortStep" class="org.kuali.kfs.module.ld.batch.LaborScrubberSortStep" parent="step">
-        <property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry" />
+    <bean id="laborScrubberSortStep" parent="flatFileSortStep">
+        <property name="inputFileName" value="${staging.directory}/ld/originEntry/ld_prescrub.data"/>
+		<property name="outputFileName" value="${staging.directory}/ld/originEntry/ld_sortscrb.data"/>
+		<property name="lineComparatorClass" value="org.kuali.kfs.module.ld.batch.LaborScrubberSortComparator"/>
     </bean>
 
-    <bean id="laborDemergerSortStep" class="org.kuali.kfs.module.ld.batch.LaborDemergerSortStep" parent="step">
-        <property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry" />
+    <bean id="laborDemergerSortStep" parent="flatFileSortStep">
+        <property name="inputFileName" value="${staging.directory}/ld/originEntry/ld_scrberr1.data"/>
+		<property name="outputFileName" value="${staging.directory}/ld/originEntry/ld_sorterr1.data"/>
+		<property name="lineComparatorClass" value="org.kuali.kfs.module.ld.batch.LaborDemergerSortComparator"/>
     </bean>
 
-    <bean id="laborPosterSortStep" class="org.kuali.kfs.module.ld.batch.LaborPosterSortStep" parent="step">
-        <property name="batchFileDirectoryName" value="${staging.directory}/ld/originEntry" />
+    <bean id="laborPosterSortStep" parent="flatFileSortStep">
+        <property name="inputFileName" value="${staging.directory}/ld/originEntry/ld_scrbout2.data"/>
+		<property name="outputFileName" value="${staging.directory}/ld/originEntry/ld_sortpost.data"/>
+		<property name="lineComparatorClass" value="org.kuali.kfs.module.ld.batch.LaborPosterSortComparator"/>
     </bean>
 
     <bean id="laborFileRenameStep" class="org.kuali.kfs.module.ld.batch.LaborFileRenameStep" parent="step">
@@ -1034,6 +1040,12 @@
                 <ref bean="laborYearEndBalanceForwardStep" />
             </list>
         </property>
+         <property name="dependencies">
+            <map>
+                <entry key="laborPosterJob" value="hardDependency" />
+            </map>
+        </property>
+        
     </bean>
 
     <!-- Section 4: Spring Bean for Balance Inquiry -->
@@ -1520,7 +1532,7 @@
         <property name="noteService">
             <ref bean="noteService" />
         </property>
-        <property name="kualiConfigurationService">
+        <property name="configurationService">
             <ref bean="kualiConfigurationService" />
         </property>
     </bean>

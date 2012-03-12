@@ -23,8 +23,8 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.dataaccess.CustomerInvoiceDetailDao;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
 
 public class CustomerInvoiceDetailDaoOjb extends PlatformAwareDaoBaseOjb implements CustomerInvoiceDetailDao{
 
@@ -34,7 +34,7 @@ public class CustomerInvoiceDetailDaoOjb extends PlatformAwareDaoBaseOjb impleme
      */
     public Collection getCustomerInvoiceDetailsByAccountNumberByInvoiceDocumentNumbers(String accountNumber,List documentNumbers) {
         Criteria criteria = new Criteria();
-        criteria.addIn(KNSPropertyConstants.DOCUMENT_NUMBER, documentNumbers);
+        criteria.addIn(KRADPropertyConstants.DOCUMENT_NUMBER, documentNumbers);
         criteria.addEqualTo(KFSConstants.CustomerOpenItemReport.ACCOUNT_NUMBER, accountNumber);
         
         return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(CustomerInvoiceDetail.class, criteria));

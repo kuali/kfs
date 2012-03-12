@@ -56,12 +56,9 @@
 	    <purap:paymentHistory documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
 	
 	    <gl:generalLedgerPendingEntries />
-
-	    <kul:notes 
-	    	notesBo="${KualiForm.document.documentBusinessObject.boNotes}" 
-	    	noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}" 	    	
-	    	attachmentTypesValuesFinderClass="${DataDictionary.VendorCreditMemoDocument.attachmentTypesValuesFinderClass}"/> 
-	
+<%-- 
+		<kul:notes attachmentTypesValuesFinderClass="${DataDictionary.VendorCreditMemoDocument.attachmentTypesValuesFinderClass}" />
+--%>	
 	    <kul:adHocRecipients />
 	    
 	    <kul:routeLog />

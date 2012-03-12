@@ -52,17 +52,18 @@ import org.kuali.kfs.vnd.businessobject.VendorType;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.kfs.vnd.service.PhoneNumberService;
 import org.kuali.kfs.vnd.service.TaxNumberService;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.PersistenceService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Business rules applicable to VendorDetail document.
@@ -497,12 +498,12 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         String taxTypeCode = vendorDetail.getVendorHeader().getVendorTaxTypeCode();
         if (StringUtils.isNotEmpty(ownershipTypeCode) && StringUtils.isNotEmpty(taxTypeCode)) {
             if (VendorConstants.TAX_TYPE_FEIN.equals(taxTypeCode)) {
-                if (!SpringContext.getBean(ParameterService.class).getParameterEvaluator(VendorDetail.class, VendorParameterConstants.FEIN_ALLOWED_OWNERSHIP_TYPES, ownershipTypeCode).evaluationSucceeds()) {
+                if (!/*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(VendorDetail.class, VendorParameterConstants.FEIN_ALLOWED_OWNERSHIP_TYPES, ownershipTypeCode).evaluationSucceeds()) {
                     valid &= false;
                 }
             }
             else if (VendorConstants.TAX_TYPE_SSN.equals(taxTypeCode)) {
-                if (!SpringContext.getBean(ParameterService.class).getParameterEvaluator(VendorDetail.class, VendorParameterConstants.SSN_ALLOWED_OWNERSHIP_TYPES, ownershipTypeCode).evaluationSucceeds()) {
+                if (!/*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(VendorDetail.class, VendorParameterConstants.SSN_ALLOWED_OWNERSHIP_TYPES, ownershipTypeCode).evaluationSucceeds()) {
                     valid &= false;
                 }
             }
@@ -527,7 +528,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         boolean valid = true;
         KualiDecimal minimumOrderAmount = vendorDetail.getVendorMinimumOrderAmount();
         if (ObjectUtils.isNotNull(minimumOrderAmount)) {
-            KualiDecimal VENDOR_MIN_ORDER_AMOUNT = new KualiDecimal(SpringContext.getBean(ParameterService.class).getParameterValue(VendorDetail.class, VendorParameterConstants.VENDOR_MIN_ORDER_AMOUNT));
+            KualiDecimal VENDOR_MIN_ORDER_AMOUNT = new KualiDecimal(SpringContext.getBean(ParameterService.class).getParameterValueAsString(VendorDetail.class, VendorParameterConstants.VENDOR_MIN_ORDER_AMOUNT));
             if (ObjectUtils.isNotNull(VENDOR_MIN_ORDER_AMOUNT) && (VENDOR_MIN_ORDER_AMOUNT.compareTo(minimumOrderAmount) < 1) || (minimumOrderAmount.isNegative())) {
                 putFieldError(VendorPropertyConstants.VENDOR_MIN_ORDER_AMOUNT, VendorKeyConstants.ERROR_VENDOR_MAX_MIN_ORDER_AMOUNT, VENDOR_MIN_ORDER_AMOUNT.toString());
                 valid &= false;
@@ -693,7 +694,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
             GlobalVariables.getMessageMap().addToErrorPath(errorPath);
 
             this.getDictionaryValidationService().validateBusinessObject(address);
-            if (!GlobalVariables.getMessageMap().isEmpty()) {
+            if (!GlobalVariables.getMessageMap().hasErrors()) {
                 valid = false;
             }
             
@@ -859,6 +860,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
     boolean validateDefaultAddressCampus(VendorDetail vendorDetail) {
         List<VendorAddress> vendorAddresses = vendorDetail.getVendorAddresses();
         String addressTypeCode;
+        String addressTypeDesc;
         String campusCode;
         boolean valid = true;
         boolean previousValue = false;
@@ -875,6 +877,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         int i = 0;
         for (VendorAddress address : vendorAddresses) {
             addressTypeCode = address.getVendorAddressTypeCode();
+            addressTypeDesc = address.getVendorAddressType().getVendorAddressTypeDescription();
             String errorPath = MAINTAINABLE_ERROR_PREFIX + VendorPropertyConstants.VENDOR_ADDRESS + "[" + i + "]";
             GlobalVariables.getMessageMap().addToErrorPath(errorPath);
             String[] parameters = new String[] { addressTypeCode };
@@ -894,7 +897,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
                 }
 
                 if (addressTypeCodeDefaultIndicator.put(addressTypeCode, address.isVendorDefaultAddressIndicator()) != null && previousValue && address.isVendorDefaultAddressIndicator()) {
-                    GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_DEFAULT_ADDRESS_INDICATOR, VendorKeyConstants.ERROR_ADDRESS_DEFAULT_INDICATOR, parameters);
+                    GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_DEFAULT_ADDRESS_INDICATOR, VendorKeyConstants.ERROR_ADDRESS_DEFAULT_INDICATOR,addressTypeDesc );
                     valid = false;
                 }
 
@@ -934,9 +937,10 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
             for (String addressType : addressTypes) {
                 if (!addressTypesHavingDefaultTrue.contains(addressType)) {
-                    String[] parameters = new String[] { addressType };
+                    
                     int addressIndex = 0;
                     for (VendorAddress address : vendorAddresses) {
+                        String[] parameters = new String[] { address.getVendorAddressType().getVendorAddressTypeDescription() };
                         String propertyName = VendorPropertyConstants.VENDOR_ADDRESS + "[" + addressIndex + "]." + VendorPropertyConstants.VENDOR_DEFAULT_ADDRESS_INDICATOR;
                         if (address.getVendorAddressType().getVendorAddressTypeCode().equalsIgnoreCase(addressType)) {
                             putFieldError(propertyName, VendorKeyConstants.ERROR_ADDRESS_DEFAULT_INDICATOR, parameters);
@@ -984,7 +988,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
             GlobalVariables.getMessageMap().addToErrorPath(errorPath);
 
             this.getDictionaryValidationService().validateBusinessObject(contact);
-            if (!GlobalVariables.getMessageMap().isEmpty()) {
+            if (!GlobalVariables.getMessageMap().hasErrors()) {
                 valid = false;
             }
             i++;
@@ -1244,7 +1248,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
      * i.e. the ones next to the "Add" button
      * 
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument,
-     *      java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
+     *      java.lang.String, org.kuali.rice.krad.bo.PersistableBusinessObject)
      */
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject bo) {
@@ -1327,7 +1331,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
      * the user tries to add a vendor contract when the vendor type of the vendor does not allow
      * contract.
      * 
-     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument, java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
+     * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument, java.lang.String, org.kuali.rice.krad.bo.PersistableBusinessObject)
      */
     @Override
     public boolean processAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject bo) {

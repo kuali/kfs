@@ -37,7 +37,7 @@ function setLastChangeDate( kemidBeneLastChangeDateFieldName) {
 function loadBenefittingChartCodeDesc(benefittingChartCodeFieldName) {
 	var elPrefix = findElPrefix(benefittingChartCodeFieldName.name);
 	var benefittingChartCodeDescFieldName = elPrefix + ".chart.finChartOfAccountDescription";
-	var benefittingChartCode = DWRUtil.getValue(benefittingChartCodeFieldName);
+	var benefittingChartCode = dwr.util.getValue(benefittingChartCodeFieldName);
 
 	setBenefittingChartCodeDescription(benefittingChartCode, benefittingChartCodeDescFieldName);
 }
@@ -65,8 +65,8 @@ function loadBenefittingOrganizationName(benefittingOrganizationCodeFieldName) {
 	var elPrefix = findElPrefix(benefittingOrganizationCodeFieldName.name);
 	var benefittingOrganizationNameFieldName = elPrefix + ".organization.organizationName";
 	var benefittingChartOfAccountsCodeFieldName = elPrefix + ".benefittingChartCode";
-	var organizationCode = DWRUtil.getValue(benefittingOrganizationCodeFieldName);
-	var chartOfAccountCode = DWRUtil.getValue(benefittingChartOfAccountsCodeFieldName);
+	var organizationCode = dwr.util.getValue(benefittingOrganizationCodeFieldName);
+	var chartOfAccountCode = dwr.util.getValue(benefittingChartOfAccountsCodeFieldName);
 	
 	setBenefittingOrganizationName(chartOfAccountCode, organizationCode, benefittingOrganizationNameFieldName);
 }

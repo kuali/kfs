@@ -21,6 +21,7 @@
     
     <property name="documentTypeName" value="EAD"/>
     <property name="documentClass" value="org.kuali.kfs.module.endow.document.AssetDecreaseDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.kfs.module.endow.document.AssetDecreaseDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.module.endow.document.validation.impl.AssetDecreaseDocumentRules"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.endow.document.authorization.AssetDecreaseDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.endow.document.authorization.AssetDecreaseDocumentPresentationController"/>
@@ -33,7 +34,6 @@
     <property name="attributes">
       <list>
         <ref bean="AssetDecreaseDocument-transactionSubTypeCode"/>
-        <ref bean="AssetDecreaseDocument-transactionSourceType.name"/>
         <ref bean="AssetDecreaseDocument-transactionSourceTypeCode"/>
         <ref bean="AssetDecreaseDocument-transactionPosted"/>
         <ref bean="AssetDecreaseDocument-totalUnits"/>
@@ -58,14 +58,7 @@
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.endow.businessobject.options.TransactionSubTypeCodeValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  
-  <bean id="AssetDecreaseDocument-transactionSourceType.name" parent="AssetDecreaseDocument-transactionSourceType.name-parentBean"/>
-  <bean id="AssetDecreaseDocument-transactionSourceType.name-parentBean" abstract="true" parent="EndowmentTransactionSourceType-name">
-    <property name="name" value="transactionSourceType.name"/>
-    <property name="label" value="Transaction Source"/>
-    <property name="shortLabel" value="Transaction Source"/>
-  </bean>
-  
+    
   <bean id="AssetDecreaseDocument-transactionSourceTypeCode" parent="AssetDecreaseDocument-transactionSourceTypeCode-parentBean"/>
   <bean id="AssetDecreaseDocument-transactionSourceTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="transactionSourceTypeCode"/>

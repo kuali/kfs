@@ -24,11 +24,11 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.bo.State;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.StateService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.MessageMap;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.location.api.state.State;
+import org.kuali.rice.location.api.state.StateService;
 
 public class DisbursementVoucherPayeeStateCodeValidation extends GenericValidation {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherPayeeStateCodeValidation.class);
@@ -54,7 +54,7 @@ public class DisbursementVoucherPayeeStateCodeValidation extends GenericValidati
         String countryCode = payeeDetail.getDisbVchrPayeeCountryCode();
         String stateCode = payeeDetail.getDisbVchrPayeeStateCode();
         if (StringUtils.isNotBlank(stateCode) && StringUtils.isNotBlank(countryCode)) {
-            State state = stateService.getByPrimaryId(countryCode, stateCode);
+            State state = stateService.getState(countryCode, stateCode);
             if (state == null) {
                 String label = dataDictionaryService.getAttributeLabel(DisbursementVoucherPayeeDetail.class, KFSPropertyConstants.DISB_VCHR_PAYEE_STATE_CODE);
                 String propertyPath = KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYEE_STATE_CODE;
@@ -66,7 +66,7 @@ public class DisbursementVoucherPayeeStateCodeValidation extends GenericValidati
         countryCode = payeeDetail.getDisbVchrSpecialHandlingCountryCode();
         stateCode = payeeDetail.getDisbVchrSpecialHandlingStateCode();
         if (document.isDisbVchrSpecialHandlingCode() && StringUtils.isNotBlank(stateCode) && StringUtils.isNotBlank(countryCode)) {
-            State state = stateService.getByPrimaryId(countryCode, stateCode);
+            State state = stateService.getState(countryCode, stateCode);
             if (state == null) {
                 String label = dataDictionaryService.getAttributeLabel(DisbursementVoucherPayeeDetail.class, KFSPropertyConstants.DISB_VCHR_SPECIAL_HANDLING_STATE_CODE);
                 String propertyPath = KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_SPECIAL_HANDLING_STATE_CODE;

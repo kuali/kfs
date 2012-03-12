@@ -187,7 +187,7 @@
   <bean id="PurchaseOrderAccount-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="amount"/>
     <property name="required" value="false"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="PurchaseOrderAccount-subAccountNumber" parent="PurchaseOrderAccount-subAccountNumber-parentBean"/>
 
@@ -333,7 +333,7 @@
     <property name="name" value="salesTax.financialDocumentGrossSalesAmount"/>
     <property name="label" value="Gross Sales Amount"/>
     <property name="shortLabel" value="Gross Sales Amt."/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="PurchaseOrderAccount-salesTax.financialDocumentTaxableSalesAmount" parent="PurchaseOrderAccount-salesTax.financialDocumentTaxableSalesAmount-parentBean"/>
 
@@ -341,7 +341,7 @@
     <property name="name" value="salesTax.financialDocumentTaxableSalesAmount"/>
     <property name="label" value="Taxable Sales Amount"/>
     <property name="shortLabel" value="Taxable Sales Amt."/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="PurchaseOrderAccount-salesTax.financialDocumentSaleDate" parent="PurchaseOrderAccount-salesTax.financialDocumentSaleDate-parentBean"/>
 
@@ -368,7 +368,7 @@
     </property>
     <property name="required" value="false"/>
 	<property name="control" ref="GenericAmountControl"/>    
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BigDecimalFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.BigDecimalFormatter"/>
   </bean>
   <bean id="PurchaseOrderAccount-accountIdentifier" parent="PurchaseOrderAccount-accountIdentifier-parentBean"/>
 

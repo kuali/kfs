@@ -16,17 +16,13 @@
 package org.kuali.kfs.module.purap.businessobject.options;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
-import org.kuali.kfs.module.purap.businessobject.Status;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * Value Finder for Purchase Order Statuses.
@@ -46,14 +42,14 @@ public class PurchaseOrderStatusValuesFinder extends KeyValuesBase {
         // generate output
         List labels = new ArrayList();
         
-        labels.add(new KeyLabelPair("INCOMPLETE", "INCOMPLETE STATUSES"));
+        labels.add(new ConcreteKeyValue("INCOMPLETE", "INCOMPLETE STATUSES"));
         for (String status : incompleteCodes) {
-            labels.add(new KeyLabelPair(status, "- " + status));
+            labels.add(new ConcreteKeyValue(status, "- " + status));
         }
 
-        labels.add(new KeyLabelPair("COMPLETE", "COMPLETE STATUSES"));
+        labels.add(new ConcreteKeyValue("COMPLETE", "COMPLETE STATUSES"));
         for (String status : completeCodes) {
-            labels.add(new KeyLabelPair(status, "- " + status));
+            labels.add(new ConcreteKeyValue(status, "- " + status));
         }
                 
         return labels;

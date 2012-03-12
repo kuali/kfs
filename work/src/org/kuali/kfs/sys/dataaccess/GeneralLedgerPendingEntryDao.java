@@ -24,7 +24,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.gl.businessobject.Balance;
 import org.kuali.kfs.gl.businessobject.Encumbrance;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * This interface defines basic methods that GeneralLedgerPendingEntry Dao's must provide

@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,10 +34,11 @@ import org.kuali.kfs.module.ld.service.LaborOriginEntryService;
 import org.kuali.kfs.module.ld.testdata.LaborTestDataPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.ObjectUtil;
-import org.kuali.kfs.sys.SpringContextForBatchRunner;
 import org.kuali.kfs.sys.TestDataPreparator;
 import org.kuali.kfs.sys.context.Log4jConfigurer;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.SpringContextForBatchRunner;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class TestDataLoader {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TestDataLoader.class);
@@ -58,19 +59,19 @@ public class TestDataLoader {
         String propertiesFileName = LaborTestDataPropertyConstants.TEST_DATA_PACKAGE_NAME + "/laborTransaction.properties";
 
         properties = TestDataPreparator.loadPropertiesFromClassPath(propertiesFileName);
-        
+
         fieldNames = properties.getProperty("fieldNames");
         fieldLength = properties.getProperty("fieldLength");
         deliminator = properties.getProperty("deliminator");
-        
+
         Log4jConfigurer.configureLogging(false);
 
-        SpringContextForBatchRunner.initializeApplicationContext();
+        SpringContextForBatchRunner.initializeKfs();
         keyFieldList = Arrays.asList(StringUtils.split(fieldNames, deliminator));
         fieldLengthList = Arrays.asList(StringUtils.split(fieldLength, deliminator));
-        businessObjectService = SpringContextForBatchRunner.getBean(BusinessObjectService.class);
+        businessObjectService = SpringContext.getBean(BusinessObjectService.class);
 
-        laborOriginEntryService = SpringContextForBatchRunner.getBean(LaborOriginEntryService.class);
+        laborOriginEntryService = SpringContext.getBean(LaborOriginEntryService.class);
     }
 
     public int loadTransactionIntoPendingEntryTable() {
@@ -92,14 +93,14 @@ public class TestDataLoader {
         businessObjectService.save(originEntries);
         return originEntries.size();
     }
-    
+
     public int loadTransactionIntoGLEntryTable() {
         int numberOfInputData = Integer.valueOf(properties.getProperty("numOfData"));
         int[] fieldLength = this.getFieldLength(fieldLengthList);
-        
+
         List<LaborGeneralLedgerEntry> laborGLEntries = this.loadInputData(LaborGeneralLedgerEntry.class, "data", numberOfInputData, keyFieldList, fieldLength);
         businessObjectService.save(laborGLEntries);
-        
+
         return laborGLEntries.size();
     }
 
@@ -185,7 +186,7 @@ public class TestDataLoader {
                 int numOfData = testDataLoader.loadTransactionIntoPendingEntryTable();
                 System.out.println("Number of Pending Entries = " + numOfData);
             }
-            
+
             if (ArrayUtils.contains(args, "glentry")) {
                 int numOfData = testDataLoader.loadTransactionIntoGLEntryTable();
                 System.out.println("Number of Labor GL Entries = " + numOfData);

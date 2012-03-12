@@ -72,5 +72,5 @@
     <!-- workflow attributes -->
   <bean id="AgencyMaintenanceDocument-workflowAttributes" parent="AgencyMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="AgencyMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="AgencyMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

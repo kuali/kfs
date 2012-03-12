@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 /**
  * Represents a poster output summary line which holds values for a specific balance type
@@ -48,9 +48,9 @@ public class PosterOutputSummaryBalanceTypeTotal extends PosterOutputSummaryTota
      * Returns the summary for this total line
      * @see org.kuali.kfs.gl.businessobject.PosterOutputSummaryTotal#getSummary()
      */
-    @Override
+    
     public String getSummary() {
-        final String message = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(getSummaryMessageName());
+        final String message = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(getSummaryMessageName());
         return MessageFormat.format(message, (Object[])getSummaryMessageParameters());
     }
     
@@ -70,10 +70,10 @@ public class PosterOutputSummaryBalanceTypeTotal extends PosterOutputSummaryTota
     
     /**
      * A map of the "keys" of this transient business object
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap pks = new LinkedHashMap<String, Object>();
         pks.put("balanceTypeCode",this.getBalanceTypeCode());
         pks.put("objectTypeCode",this.getObjectTypeCode());

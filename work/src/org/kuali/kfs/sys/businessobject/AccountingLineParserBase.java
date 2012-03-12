@@ -49,12 +49,12 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.exception.AccountingLineParserException;
-import org.kuali.rice.kns.exception.InfrastructureException;
+import org.kuali.rice.core.web.format.FormatException;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.web.format.FormatException;
+import org.kuali.rice.krad.exception.InfrastructureException;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Base class for parsing serialized <code>AccountingLine</code>s for <code>TransactionalDocument</code>s
@@ -65,14 +65,14 @@ public class AccountingLineParserBase implements AccountingLineParser {
     private Integer lineNo = 0;
 
     /**
-     * @see org.kuali.rice.kns.bo.AccountingLineParser#getSourceAccountingLineFormat()
+     * @see org.kuali.rice.krad.bo.AccountingLineParser#getSourceAccountingLineFormat()
      */
     public String[] getSourceAccountingLineFormat() {
         return removeChartFromFormatIfNeeded(DEFAULT_FORMAT);
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.AccountingLineParser#getTargetAccountingLineFormat()
+     * @see org.kuali.rice.krad.bo.AccountingLineParser#getTargetAccountingLineFormat()
      */
     public String[] getTargetAccountingLineFormat() {
         return removeChartFromFormatIfNeeded(DEFAULT_FORMAT);
@@ -102,7 +102,7 @@ public class AccountingLineParserBase implements AccountingLineParser {
     }
     
     /**
-     * @see org.kuali.rice.kns.bo.AccountingLineParser#getExpectedAccountingLineFormatAsString(java.lang.Class)
+     * @see org.kuali.rice.krad.bo.AccountingLineParser#getExpectedAccountingLineFormatAsString(java.lang.Class)
      */
     public String getExpectedAccountingLineFormatAsString(Class<? extends AccountingLine> accountingLineClass) {
         StringBuffer sb = new StringBuffer();
@@ -120,7 +120,7 @@ public class AccountingLineParserBase implements AccountingLineParser {
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.AccountingLineParser#parseSourceAccountingLine(org.kuali.rice.kns.document.TransactionalDocument,
+     * @see org.kuali.rice.krad.bo.AccountingLineParser#parseSourceAccountingLine(org.kuali.rice.krad.document.TransactionalDocument,
      *      java.lang.String)
      */
     public SourceAccountingLine parseSourceAccountingLine(AccountingDocument transactionalDocument, String sourceAccountingLineString) {
@@ -139,7 +139,7 @@ public class AccountingLineParserBase implements AccountingLineParser {
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.AccountingLineParser#parseTargetAccountingLine(org.kuali.rice.kns.document.TransactionalDocument,
+     * @see org.kuali.rice.krad.bo.AccountingLineParser#parseTargetAccountingLine(org.kuali.rice.krad.document.TransactionalDocument,
      *      java.lang.String)
      */
     public TargetAccountingLine parseTargetAccountingLine(AccountingDocument transactionalDocument, String targetAccountingLineString) {
@@ -343,16 +343,16 @@ public class AccountingLineParserBase implements AccountingLineParser {
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.AccountingLineParser#importSourceAccountingLines(java.io.InputStream,
-     *      org.kuali.rice.kns.document.TransactionalDocument)
+     * @see org.kuali.rice.krad.bo.AccountingLineParser#importSourceAccountingLines(java.io.InputStream,
+     *      org.kuali.rice.krad.document.TransactionalDocument)
      */
     public final List importSourceAccountingLines(String fileName, InputStream stream, AccountingDocument document) {
         return importAccountingLines(fileName, stream, document, true);
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.AccountingLineParser#importTargetAccountingLines(java.io.InputStream,
-     *      org.kuali.rice.kns.document.TransactionalDocument)
+     * @see org.kuali.rice.krad.bo.AccountingLineParser#importTargetAccountingLines(java.io.InputStream,
+     *      org.kuali.rice.krad.document.TransactionalDocument)
      */
     public final List importTargetAccountingLines(String fileName, InputStream stream, AccountingDocument document) {
         return importAccountingLines(fileName, stream, document, false);

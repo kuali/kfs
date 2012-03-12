@@ -17,18 +17,18 @@ package org.kuali.kfs.module.cam.businessobject;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.rice.kns.bo.GlobalBusinessObjectDetail;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.GlobalBusinessObjectDetail;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 
-public class AssetYearEndDepreciation extends PersistableBusinessObjectBase implements Inactivateable {
+public class AssetYearEndDepreciation extends PersistableBusinessObjectBase implements Inactivatable {
     private String documentNumber;
     private Integer universityFiscalYear;
     private Date runDate;
@@ -41,8 +41,8 @@ public class AssetYearEndDepreciation extends PersistableBusinessObjectBase impl
      * Default constructor.
      */
     public AssetYearEndDepreciation() {
-        assetYearEndDepreciationDetails = new TypedArrayList(AssetYearEndDepreciationDetail.class);
-        generalLedgerPendingEntries = new TypedArrayList(GeneralLedgerPendingEntry.class);
+        assetYearEndDepreciationDetails = new ArrayList<AssetYearEndDepreciationDetail>();
+        generalLedgerPendingEntries = new ArrayList<GeneralLedgerPendingEntry>();
         setActive(true);
     }
 
@@ -91,8 +91,8 @@ public class AssetYearEndDepreciation extends PersistableBusinessObjectBase impl
      */
     @Override
     public List buildListOfDeletionAwareLists() {
-        List<List> managedList = super.buildListOfDeletionAwareLists();
-        managedList.add(getAssetYearEndDepreciationDetails());
+        List<Collection<PersistableBusinessObject>> managedList = super.buildListOfDeletionAwareLists();
+        managedList.add(new ArrayList <PersistableBusinessObject> (getAssetYearEndDepreciationDetails()));
         return managedList;
     }
 

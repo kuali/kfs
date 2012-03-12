@@ -18,71 +18,69 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ld.LaborBenefitRateCategory;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.GlobalBusinessObject;
-import org.kuali.rice.kns.bo.GlobalBusinessObjectDetail;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.PostalCode;
-import org.kuali.rice.kns.bo.State;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.PersistenceStructureService;
-import org.kuali.rice.kns.service.PostalCodeService;
-import org.kuali.rice.kns.service.StateService;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.GlobalBusinessObject;
+import org.kuali.rice.krad.bo.GlobalBusinessObjectDetail;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.PersistenceStructureService;
+import org.kuali.rice.location.api.postalcode.PostalCodeService;
+import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
+import org.kuali.rice.location.framework.state.StateEbo;
 
 /**
  * 
  */
 public class AccountGlobal extends PersistableBusinessObjectBase implements GlobalBusinessObject {
 
-    private String documentNumber;
-    private String accountFiscalOfficerSystemIdentifier;
-    private String accountsSupervisorySystemsIdentifier;
-    private String accountManagerSystemIdentifier;
-    private String chartOfAccountsCode;
-    private String organizationCode;
-    private String subFundGroupCode;
-    private String accountCityName;
-    private String accountStateCode;
-    private String accountStreetAddress;
-    private String accountZipCode;
-    private Date accountExpirationDate;
-    private String continuationFinChrtOfAcctCd;
-    private String continuationAccountNumber;
-    private String incomeStreamFinancialCoaCode;
-    private String incomeStreamAccountNumber;
-    private String accountCfdaNumber;
-    private String financialHigherEdFunctionCd;
-    private String accountSufficientFundsCode;
-    private Boolean pendingAcctSufficientFundsIndicator;
-    private String accountSearchCriteriaTxt;
-    private List<AccountGlobalDetail> accountGlobalDetails;
+    protected String documentNumber;
+    protected String accountFiscalOfficerSystemIdentifier;
+    protected String accountsSupervisorySystemsIdentifier;
+    protected String accountManagerSystemIdentifier;
+    protected String chartOfAccountsCode;
+    protected String organizationCode;
+    protected String subFundGroupCode;
+    protected String accountCityName;
+    protected String accountStateCode;
+    protected String accountStreetAddress;
+    protected String accountZipCode;
+    protected Date accountExpirationDate;
+    protected String continuationFinChrtOfAcctCd;
+    protected String continuationAccountNumber;
+    protected String incomeStreamFinancialCoaCode;
+    protected String incomeStreamAccountNumber;
+    protected String accountCfdaNumber;
+    protected String financialHigherEdFunctionCd;
+    protected String accountSufficientFundsCode;
+    protected Boolean pendingAcctSufficientFundsIndicator;
+    protected String accountSearchCriteriaTxt;
+    protected List<AccountGlobalDetail> accountGlobalDetails;
 
-    private DocumentHeader financialDocument;
-    private Person accountFiscalOfficerUser;
-    private Person accountSupervisoryUser;
-    private Person accountManagerUser;
-    private Chart continuationFinChrtOfAcct;
-    private Account continuationAccount;
-    private Account incomeStreamAccount;
-    private Chart incomeStreamFinancialCoa;
-    private Chart chartOfAccounts;
-    private Organization organization;
-    private SubFundGroup subFundGroup;
-    private State accountState;
-    private HigherEducationFunction financialHigherEdFunction;
-    private PostalCode postalZipCode;
-    private SufficientFundsCode sufficientFundsCode;
+    protected DocumentHeader financialDocument;
+    protected Person accountFiscalOfficerUser;
+    protected Person accountSupervisoryUser;
+    protected Person accountManagerUser;
+    protected Chart continuationFinChrtOfAcct;
+    protected Account continuationAccount;
+    protected Account incomeStreamAccount;
+    protected Chart incomeStreamFinancialCoa;
+    protected Chart chartOfAccounts;
+    protected Organization organization;
+    protected SubFundGroup subFundGroup;
+    protected StateEbo accountState;
+    protected HigherEducationFunction financialHigherEdFunction;
+    protected PostalCodeEbo postalZipCode;
+    protected SufficientFundsCode sufficientFundsCode;
 
     // added for the employee labor benefit calculation
     private String laborBenefitRateCategoryCode;
@@ -92,24 +90,24 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Default constructor.
      */
     public AccountGlobal() {
-        accountGlobalDetails = new TypedArrayList(AccountGlobalDetail.class);
+        accountGlobalDetails = new ArrayList<AccountGlobalDetail>();
     }
 
     /**
-     * @see org.kuali.rice.kns.document.GlobalBusinessObject#getGlobalChangesToDelete()
+     * @see org.kuali.rice.krad.document.GlobalBusinessObject#getGlobalChangesToDelete()
      */
     public List<PersistableBusinessObject> generateDeactivationsToPersist() {
         return null;
     }
 
     /**
-     * @see org.kuali.rice.kns.document.GlobalBusinessObject#applyGlobalChanges(org.kuali.rice.kns.bo.BusinessObject)
+     * @see org.kuali.rice.krad.document.GlobalBusinessObject#applyGlobalChanges(org.kuali.rice.krad.bo.BusinessObject)
      */
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
 
 
         // the list of persist-ready BOs
-        List<PersistableBusinessObject> persistables = new ArrayList();
+        List<PersistableBusinessObject> persistables = new ArrayList<PersistableBusinessObject>();
 
         // walk over each change detail record
         for (AccountGlobalDetail detail : accountGlobalDetails) {
@@ -567,7 +565,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
     }
 
     public Person getAccountFiscalOfficerUser() {
-        accountFiscalOfficerUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(accountFiscalOfficerSystemIdentifier, accountFiscalOfficerUser);
+        accountFiscalOfficerUser = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(accountFiscalOfficerSystemIdentifier, accountFiscalOfficerUser);
         return accountFiscalOfficerUser;
     }
 
@@ -581,7 +579,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
     }
 
     public Person getAccountManagerUser() {
-        accountManagerUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(accountManagerSystemIdentifier, accountManagerUser);
+        accountManagerUser = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(accountManagerSystemIdentifier, accountManagerUser);
         return accountManagerUser;
     }
 
@@ -595,7 +593,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
 
     public Person getAccountSupervisoryUser() {
-        accountSupervisoryUser = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(accountsSupervisorySystemsIdentifier, accountSupervisoryUser);
+        accountSupervisoryUser = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(accountsSupervisorySystemsIdentifier, accountSupervisoryUser);
         return accountSupervisoryUser;
     }
 
@@ -794,8 +792,8 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * 
      * @return Returns the accountState.
      */
-    public State getAccountState() {
-        accountState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(accountStateCode, accountState);
+    public StateEbo getAccountState() {
+        accountState = (StringUtils.isBlank(accountStateCode))?null:( accountState == null||!StringUtils.equals( accountState.getCode(),accountStateCode))? StateEbo.from( SpringContext.getBean(StateService.class).getState("US"/*REFACTORME*/,accountStateCode)): accountState;
         return accountState;
     }
 
@@ -804,7 +802,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * 
      * @param accountState The accountState to set.
      */
-    public void setAccountState(State accountState) {
+    public void setAccountState(StateEbo accountState) {
         this.accountState = accountState;
     }
 
@@ -849,9 +847,9 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * 
      * @return Returns the postalZipCode.
      */
-    public PostalCode getPostalZipCode() {
-        postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPostalCodeInDefaultCountryIfNecessary(accountZipCode, postalZipCode);
-
+    public PostalCodeEbo getPostalZipCode() {
+        postalZipCode = (accountZipCode == null)?null:( postalZipCode == null || !StringUtils.equals( postalZipCode.getCode(),accountZipCode))?PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode("US"/*RICE20_REFACTORME*/,accountZipCode)): postalZipCode;
+        
         return postalZipCode;
     }
 
@@ -860,7 +858,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * 
      * @param postalZipCode The postalZipCode to set.
      */
-    public void setPostalZipCode(PostalCode postalZipCode) {
+    public void setPostalZipCode(PostalCodeEbo postalZipCode) {
         this.postalZipCode = postalZipCode;
     }
 
@@ -901,16 +899,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
-        return m;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.document.GlobalBusinessObject#isPersistable()
+     * @see org.kuali.rice.krad.document.GlobalBusinessObject#isPersistable()
      */
     public boolean isPersistable() {
         PersistenceStructureService persistenceStructureService = SpringContext.getBean(PersistenceStructureService.class);
@@ -936,13 +925,13 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
     @Override
-    public List buildListOfDeletionAwareLists() {
-        List<List> managedLists = super.buildListOfDeletionAwareLists();
+    public List<Collection<PersistableBusinessObject>> buildListOfDeletionAwareLists() {
+        List<Collection<PersistableBusinessObject>> managedLists = super.buildListOfDeletionAwareLists();
 
-        managedLists.add(getAccountGlobalDetails());
+        managedLists.add( new ArrayList<PersistableBusinessObject>( getAccountGlobalDetails() ) );
 
         return managedLists;
     }

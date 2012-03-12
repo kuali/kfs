@@ -88,7 +88,7 @@
 			<ref bean="documentService" />
 		</property>	
 		<property name="workflowDocumentService">
-			<ref bean="workflowDocumentService" />
+			<ref bean="rice.kew.workflowDocumentService" />
 		</property>
 		<property name="benefitsCalculationService">
 			<ref bean="benefitsCalculationService" />
@@ -174,9 +174,6 @@
 		<property name="organizationService">
 			<ref bean="organizationService" />
 		</property>
-		<property name="roleManagementService">
-			<ref bean="kimRoleManagementService" />
-		</property>
 	</bean>
 
 	<bean id="salarySettingService"  parent="salarySettingService-parentBean"/>
@@ -184,7 +181,7 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-		<property name="kualiConfigurationService">
+		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
 		<property name="laborModuleService">
@@ -215,7 +212,7 @@
 
 	<bean id="benefitsCalculationService"  parent="benefitsCalculationService-parentBean"/>
 	<bean id="benefitsCalculationService-parentBean" class="org.kuali.kfs.module.bc.document.service.impl.BenefitsCalculationServiceImpl" abstract="true">
-		<property name="kualiConfigurationService">
+		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
 		<property name="optionsService">
@@ -280,9 +277,8 @@
 		</property>
 	</bean>	
 	
-	<bean id="budgetPositionLookupableHelperService" parent="budgetPositionLookupableHelperService-parentBean" scope="prototype"/>
-	<bean id="budgetPositionLookupableHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.bc.businessobject.lookup.PositionLookupableHelperServiceImpl" parent="lookupableHelperService" scope="prototype">
-		<property name="kualiConfigurationService">
+	<bean id="budgetPositionLookupableHelperService" class="org.kuali.kfs.module.bc.businessobject.lookup.PositionLookupableHelperServiceImpl" parent="lookupableHelperService" scope="prototype">
+		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
 	</bean>
@@ -294,9 +290,8 @@
 		</property>
 	</bean>	
 	
-	<bean id="budgetIntendedIncumbentLookupableHelperService" parent="budgetIntendedIncumbentLookupableHelperService-parentBean" scope="prototype"/>
-	<bean id="budgetIntendedIncumbentLookupableHelperService-parentBean" abstract="true"  class="org.kuali.kfs.module.bc.businessobject.lookup.IntendedIncumbentLookupableHelperServiceImpl" parent="lookupableHelperService" scope="prototype">	
-		<property name="kualiConfigurationService">
+	<bean id="budgetIntendedIncumbentLookupableHelperService" class="org.kuali.kfs.module.bc.businessobject.lookup.IntendedIncumbentLookupableHelperServiceImpl" parent="lookupableHelperService" scope="prototype">	
+		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
 		<property name="businessObjectService">
@@ -354,7 +349,7 @@
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>		
-		<property name="kualiConfigurationService">
+		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>		
 	</bean>
@@ -459,7 +454,7 @@
 	<property name="budgetConstructionReportsServiceHelper">
 		<ref bean="budgetConstructionReportsServiceHelper" />
 	</property>
-	<property name="kualiConfigurationService">
+	<property name="configurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
 	</bean>
@@ -472,7 +467,7 @@
 	<property name="budgetConstructionReportsServiceHelper">
 		<ref bean="budgetConstructionReportsServiceHelper" />
     </property>
-	<property name="kualiConfigurationService">
+	<property name="configurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
 	</bean>
@@ -482,7 +477,7 @@
 	<property name="budgetConstructionLevelSummaryReportDao">
 		<ref bean="budgetConstructionLevelSummaryReportDao" />
 	</property>
-	<property name="kualiConfigurationService">
+	<property name="configurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
     <property name="budgetConstructionReportsServiceHelper">
@@ -495,7 +490,7 @@
 	<property name="budgetConstructionObjectSummaryReportDao">
 		<ref bean="budgetConstructionObjectSummaryReportDao" />
 	</property>
-	<property name="kualiConfigurationService">
+	<property name="configurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
 	<property name="budgetConstructionReportsServiceHelper">
@@ -511,7 +506,7 @@
 	<property name="budgetConstructionOrganizationReportsService">
 		<ref bean="budgetConstructionOrganizationReportsService" />
 	</property>
-	<property name="kualiConfigurationService">
+	<property name="configurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
     <property name="businessObjectService">
@@ -527,7 +522,7 @@
 	<property name="budgetConstructionReportsServiceHelper">
 		<ref bean="budgetConstructionReportsServiceHelper" />
 	</property>
-	<property name="kualiConfigurationService">
+	<property name="configurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
 	</bean>
@@ -537,7 +532,7 @@
 	<property name="budgetConstructionPositionFundingDetailReportDao">
 		<ref bean="budgetConstructionPositionFundingDetailReportDao" />
 	</property>
-	<property name="kualiConfigurationService">
+	<property name="configurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
     <property name="budgetConstructionReportsServiceHelper">
@@ -553,7 +548,7 @@
 	<property name="budgetConstructionMonthSummaryReportDao">
 		<ref bean="budgetConstructionMonthSummaryReportDao" />
 	</property>
-	<property name="kualiConfigurationService">
+	<property name="configurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
     <property name="budgetConstructionReportsServiceHelper">
@@ -566,7 +561,7 @@
 	<property name="budgetConstructionSalarySummaryReportDao">
 		<ref bean="budgetConstructionSalarySummaryReportDao" />
 	</property>
-	<property name="kualiConfigurationService">
+	<property name="configurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
     <property name="budgetConstructionReportsServiceHelper">
@@ -585,7 +580,7 @@
     <property name="budgetConstructionReportsServiceHelper">
     	<ref bean="budgetConstructionReportsServiceHelper" />
     </property>
-	<property name="kualiConfigurationService">
+	<property name="configurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
     <property name="businessObjectService">
@@ -593,8 +588,7 @@
     </property>
     </bean>
     
-    <bean id="budgetConstructionReasonSummaryReportService" parent="budgetConstructionReasonSummaryReportService-parentBean"/>
-    <bean id="budgetConstructionReasonSummaryReportService-parentBean" abstract="true"  class="org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionReasonSummaryReportServiceImpl">
+    <bean id="budgetConstructionReasonSummaryReportService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionReasonSummaryReportServiceImpl">
 	<property name="budgetConstructionSalarySummaryReportDao">
 		<ref bean="budgetConstructionSalarySummaryReportDao" />
 	</property>
@@ -604,7 +598,7 @@
 	<property name="budgetConstructionReportsServiceHelper">
 		<ref bean="budgetConstructionReportsServiceHelper" />
 	</property>	
-	<property name="kualiConfigurationService">
+	<property name="configurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
     <property name="businessObjectService">
@@ -623,7 +617,7 @@
 	<property name="budgetConstructionReportsServiceHelper">
 		<ref bean="budgetConstructionReportsServiceHelper" />
 	</property>	
-	<property name="kualiConfigurationService">
+	<property name="configurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
     <property name="businessObjectService">
@@ -639,7 +633,7 @@
 	<property name="budgetConstructionOrganizationReportsService">
 		<ref bean="budgetConstructionOrganizationReportsService" />
 	</property>
-	<property name="kualiConfigurationService">
+	<property name="configurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
     <property name="businessObjectService">
@@ -655,7 +649,7 @@
 	<property name="budgetConstructionOrganizationReportsService">
 		<ref bean="budgetConstructionOrganizationReportsService" />
 	</property>
-	<property name="kualiConfigurationService">
+	<property name="configurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
     <property name="businessObjectService">
@@ -681,7 +675,7 @@
 	<property name="budgetConstructionReportsServiceHelper">
 		<ref bean="budgetConstructionReportsServiceHelper" />
 	</property>
-	<property name="kualiConfigurationService">
+	<property name="configurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
     </bean>
@@ -691,7 +685,7 @@
 	<property name="budgetConstructionReportsServiceHelper">
 		<ref bean="budgetConstructionReportsServiceHelper" />
 	</property>
-	<property name="kualiConfigurationService">
+	<property name="configurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
 	<property name="salarySettingService">
@@ -704,7 +698,7 @@
 	<property name="budgetConstructionReportsServiceHelper">
 		<ref bean="budgetConstructionReportsServiceHelper" />
 	</property>
-	<property name="kualiConfigurationService">
+	<property name="configurationService">
 		<ref bean="kualiConfigurationService" />
     </property>
 	</bean>
@@ -767,7 +761,7 @@
             <ref bean="kualiModuleService" />
         </property>
         <property name="workflowDocumentService">
-            <ref bean="workflowDocumentService" />
+            <ref bean="rice.kew.workflowDocumentService" />
         </property>
         <property name="budgetConstructionHumanResourcesPayrollInterfaceDao">
             <ref bean="budgetConstructionHumanResourcesPayrollInterfaceDao" />
@@ -819,8 +813,10 @@
           <ref bean="genesisService"/>
        </property>    
     </bean>
-        
-    <bean id="genesisBatchStep" class="org.kuali.kfs.module.bc.batch.GenesisBatchStep" parent="step">
+    
+    <bean id="genesisBatchStep" parent="GenesisBatchStep-parentBean"/>    
+    
+    <bean id="GenesisBatchStep-parentBean" class="org.kuali.kfs.module.bc.batch.GenesisBatchStep" parent="step">
       <property name="genesisService">
          <ref bean="genesisService"/>
        </property>
@@ -1080,21 +1076,9 @@
 	<bean id="budgetConstructionAccountOrganizationHierarchyRoleTypeService-parentBean"
 		class="org.kuali.kfs.module.bc.identity.AccountOrganizationHierarchyRoleTypeServiceImpl" abstract="true"
 		p:budgetDocumentService-ref="budgetDocumentService" />
-		
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-		<property name="serviceDefinition">
-			<bean parent="kfsService"
-				p:service-ref="budgetConstructionAccountOrganizationHierarchyRoleTypeService"
-				p:localServiceName="budgetConstructionAccountOrganizationHierarchyRoleTypeService" />
-		</property>
-	</bean>
 
 	<bean name="budgetConstructionDocumentDerivedRoleTypeService" parent="budgetConstructionDocumentDerivedRoleTypeService-parentBean"/>
-	<bean name="budgetConstructionDocumentDerivedRoleTypeService-parentBean" abstract="true" 
-		class="org.kuali.kfs.module.bc.identity.DocumentDerivedRoleTypeServiceImpl" >
-		<property name="roleManagementService">
-			<ref bean="kimRoleManagementService" />
-		</property>
+	<bean name="budgetConstructionDocumentDerivedRoleTypeService-parentBean" class="org.kuali.kfs.module.bc.identity.DocumentDerivedRoleTypeServiceImpl" abstract="true">
 		<property name="budgetConstructionProcessorService">
 			<ref bean="budgetConstructionProcessorService" />
 		</property>
@@ -1102,12 +1086,6 @@
 			<ref bean="budgetDocumentService" />
 		</property>		
 	</bean>
-				
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-		<property name="serviceDefinition">
-			<bean parent="kfsService" p:service-ref="budgetConstructionDocumentDerivedRoleTypeService"
-				p:localServiceName="budgetConstructionDocumentDerivedRoleTypeService" />
-		</property>
-	</bean>
+	<import resource="spring-bc-bus-exports.xml"/>
 </beans>
 

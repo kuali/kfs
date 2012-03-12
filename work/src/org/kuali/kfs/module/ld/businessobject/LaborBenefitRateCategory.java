@@ -2,18 +2,16 @@ package org.kuali.kfs.module.ld.businessobject;
 
 
 import java.util.LinkedHashMap;
-import java.util.List;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * BO for the Labor Benefit Rate Category Fringe Benefit
  * 
  * @author Allan Sonkin
  */
-public class LaborBenefitRateCategory extends PersistableBusinessObjectBase implements org.kuali.kfs.integration.ld.LaborBenefitRateCategory, Inactivateable {
+public class LaborBenefitRateCategory extends PersistableBusinessObjectBase implements org.kuali.kfs.integration.ld.LaborBenefitRateCategory, Inactivatable {
 
     private String laborBenefitRateCategoryCode;//the BO code
     
@@ -84,13 +82,11 @@ public class LaborBenefitRateCategory extends PersistableBusinessObjectBase impl
         return m;
 	}
 
-    @Override
     public boolean isActive() {
         // TODO Auto-generated method stub
         return activeIndicator;
     }
 
-    @Override
     public void setActive(boolean active) {
         this.activeIndicator = active;
     }

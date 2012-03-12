@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * returns import file types
@@ -32,8 +32,8 @@ public class FileTypeValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair(BCConstants.RequestImportFileType.ANNUAL.toString(), BCConstants.RequestImportFileType.ANNUAL.toString()));
-        keyValues.add(new KeyLabelPair(BCConstants.RequestImportFileType.MONTHLY.toString(), BCConstants.RequestImportFileType.MONTHLY.toString()));
+        keyValues.add(new ConcreteKeyValue(BCConstants.RequestImportFileType.ANNUAL.toString(), BCConstants.RequestImportFileType.ANNUAL.toString()));
+        keyValues.add(new ConcreteKeyValue(BCConstants.RequestImportFileType.MONTHLY.toString(), BCConstants.RequestImportFileType.MONTHLY.toString()));
         
         return keyValues;
     }

@@ -18,12 +18,11 @@ package org.kuali.kfs.module.purap.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.integration.purap.PurchasingAccountsPayableSensitiveData;
 import org.kuali.kfs.module.purap.businessobject.SensitiveData;
 import org.kuali.kfs.module.purap.service.SensitiveDataService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class SensitiveDataValuesFinder extends KeyValuesBase {
 
@@ -33,10 +32,10 @@ public class SensitiveDataValuesFinder extends KeyValuesBase {
     public List getKeyValues() {
         List<SensitiveData> sensitiveDatas = SpringContext.getBean(SensitiveDataService.class).getAllSensitiveDatas();
         List labels = new ArrayList();
-        labels.add(new KeyLabelPair("", ""));
+        labels.add(new ConcreteKeyValue("", ""));
         for (SensitiveData sensitiveData : sensitiveDatas) {
             if (sensitiveData.isActive())
-                labels.add(new KeyLabelPair(sensitiveData.getSensitiveDataCode(), sensitiveData.getSensitiveDataDescription()));
+                labels.add(new ConcreteKeyValue(sensitiveData.getSensitiveDataCode(), sensitiveData.getSensitiveDataDescription()));
         }
 
         return labels;

@@ -29,22 +29,22 @@ import org.kuali.kfs.pdp.businessobject.FormatProcess;
 import org.kuali.kfs.pdp.businessobject.PaymentProcess;
 import org.kuali.kfs.pdp.service.PdpAuthorizationService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.util.UrlFactory;
 
 /**
  * This class allows custom handling of FormatProcesses within the lookup framework.
  */
 public class FormatProcessLookupableHelperService extends KualiLookupableHelperServiceImpl {
 
-    private KualiConfigurationService configurationService;
+    private ConfigurationService configurationService;
     private PdpAuthorizationService pdpAuthorizationService;
 
     /**
@@ -56,7 +56,7 @@ public class FormatProcessLookupableHelperService extends KualiLookupableHelperS
     }
 
     /**
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.kns.bo.BusinessObject, java.util.List)
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject, java.util.List)
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
@@ -72,7 +72,7 @@ public class FormatProcessLookupableHelperService extends KualiLookupableHelperS
 
             String linkText = KFSConstants.EMPTY_STRING;
             String url = KFSConstants.EMPTY_STRING;
-            String basePath = configurationService.getPropertyString(KFSConstants.APPLICATION_URL_KEY) + "/" + PdpConstants.Actions.FORMAT_PROCESS_ACTION;
+            String basePath = configurationService.getPropertyValueAsString(KFSConstants.APPLICATION_URL_KEY) + "/" + PdpConstants.Actions.FORMAT_PROCESS_ACTION;
 
             if (pdpAuthorizationService.hasRemoveFormatLockPermission(person.getPrincipalId()) && ObjectUtils.isNotNull(paymentProcess) && !paymentProcess.isFormattedIndicator()) {
                 Properties params = new Properties();
@@ -80,7 +80,7 @@ public class FormatProcessLookupableHelperService extends KualiLookupableHelperS
                 params.put(PdpParameterConstants.FormatProcess.PROCESS_ID_PARAM, UrlFactory.encode(String.valueOf(processId)));
                 url = UrlFactory.parameterizeUrl(basePath, params);
 
-                linkText = configurationService.getPropertyString(PdpKeyConstants.FormatProcess.CLEAR_UNFINISHED_FORMAT_PROCESS);
+                linkText = configurationService.getPropertyValueAsString(PdpKeyConstants.FormatProcess.CLEAR_UNFINISHED_FORMAT_PROCESS);
 
                 AnchorHtmlData anchorHtmlData = new AnchorHtmlData(url, PdpConstants.ActionMethods.CONFIRM_CANCEL_ACTION, linkText);
                 anchorHtmlDataList.add(anchorHtmlData);
@@ -99,7 +99,7 @@ public class FormatProcessLookupableHelperService extends KualiLookupableHelperS
      * 
      * @return configurationService
      */
-    public KualiConfigurationService getConfigurationService() {
+    public ConfigurationService getConfigurationService() {
         return configurationService;
     }
 
@@ -107,7 +107,7 @@ public class FormatProcessLookupableHelperService extends KualiLookupableHelperS
      * This method sets the configurationService.
      * @param configurationService
      */
-    public void setConfigurationService(KualiConfigurationService configurationService) {
+    public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
     }
 

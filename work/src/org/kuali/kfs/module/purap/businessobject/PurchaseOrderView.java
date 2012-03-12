@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,26 +16,25 @@
 package org.kuali.kfs.module.purap.businessobject;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.bo.Note;
 
 /**
  * Purchase Order View Business Object.
  */
 public class PurchaseOrderView extends AbstractRelatedView {
 
-    private Boolean purchaseOrderCurrentIndicator;    
+    private Boolean purchaseOrderCurrentIndicator;
     private String recurringPaymentTypeCode;
     private String vendorChoiceCode;
     private Timestamp recurringPaymentEndDate;
     private Timestamp purchaseOrderInitialOpenTimestamp;
-    
+
     private List<Note> notes;
 
     public boolean isPurchaseOrderCurrentIndicator() {
@@ -48,14 +47,6 @@ public class PurchaseOrderView extends AbstractRelatedView {
 
     public void setPurchaseOrderCurrentIndicator(boolean purchaseOrderCurrentIndicator) {
         this.purchaseOrderCurrentIndicator = purchaseOrderCurrentIndicator;
-    }
-
-    public String getPurchaseOrderStatusCode() {
-        return SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderAppDocStatus(this.getPurapDocumentIdentifier());
-    }
-
-    @Deprecated
-    public void setPurchaseOrderStatusCode(String purchaseOrderStatusCode) {        
     }
 
     public String getRecurringPaymentTypeCode() {
@@ -95,28 +86,30 @@ public class PurchaseOrderView extends AbstractRelatedView {
      */
     @Override
     public List<Note> getNotes() {
-        if (this.isPurchaseOrderCurrentIndicator()) {
-            if (notes == null) {
-                notes = new TypedArrayList(Note.class);
-                List<Note> tmpNotes = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderNotes(this.getPurapDocumentIdentifier());
-                //FIXME if NoteService returns notes in descending order (newer ones first) then remove the following
-                // reverse the order of notes retrieved so that newest note is in the front
-                for (int i = tmpNotes.size()-1; i>=0; i--) {
-                    Note note = tmpNotes.get(i);
-                    notes.add(note);
-                }
-            }
-        }
-        else {
-            notes = null;
-        }
+        //TODO: this should be uncommented when rice issue is fixed in dao class issue.
+     //   if (this.isPurchaseOrderCurrentIndicator()) {
+     //       if (notes == null) {
+     //           notes = new ArrayList<Note>();
+     //           List<Note> tmpNotes = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderNotes(this.getPurapDocumentIdentifier());
+     //           //FIXME if NoteService returns notes in descending order (newer ones first) then remove the following
+    //            // reverse the order of notes retrieved so that newest note is in the front
+    //            for (int i = tmpNotes.size()-1; i>=0; i--) {
+    //                Note note = tmpNotes.get(i);
+    //                notes.add(note);
+    //            }
+    //        }
+    //    }
+    //    else {
+     //       notes = null;
+    //    }
+        
         return notes;
     }
 
     /**
      * The next four methods are overridden but shouldn't be! If they aren't overridden, they don't show up in the tag, not sure why at
      * this point! (AAP)
-     * 
+     *
      * @see org.kuali.kfs.module.purap.businessobject.AbstractRelatedView#getPurapDocumentIdentifier()
      */
     @Override
@@ -144,7 +137,7 @@ public class PurchaseOrderView extends AbstractRelatedView {
     public String getUrl() {
         return super.getUrl();
     }
-        
+
     /**
      * Checks whether the purchase order view needs a warning to be displayed, i.e. it never has been opened.
      * @return true if the purchase order needs a warning; false otherwise.

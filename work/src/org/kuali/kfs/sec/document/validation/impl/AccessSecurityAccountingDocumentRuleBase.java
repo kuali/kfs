@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,7 +26,7 @@ import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 import org.kuali.kfs.sys.document.validation.event.UpdateAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 
 /**
@@ -36,7 +36,7 @@ public class AccessSecurityAccountingDocumentRuleBase extends AccountingRuleEngi
 
     /**
      * For add or update accounting line events checks the given user has access permissions for the line
-     * 
+     *
      * @see org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase#validateForEvent(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
     @Override
@@ -53,7 +53,7 @@ public class AccessSecurityAccountingDocumentRuleBase extends AccountingRuleEngi
 
     /**
      * Calls AccessSecurityService to check access edit permissions on accounting line for the current user
-     * 
+     *
      * @param document AccountingDocument containing the line to check
      * @param line AccountingLine to check access on
      * @return boolean true if user is allowed to edit the accounting line, false if the user is not allowed to
@@ -62,7 +62,7 @@ public class AccessSecurityAccountingDocumentRuleBase extends AccountingRuleEngi
         boolean editAccessAllowed = true;
 
         AccessSecurityRestrictionInfo restrictionInfo = new AccessSecurityRestrictionInfo();
-        boolean hasEditAccessPermission = SpringContext.getBean(AccessSecurityService.class).canEditDocumentAccountingLine(document, line, GlobalVariables.getUserSession().getPerson(), restrictionInfo);
+        boolean hasEditAccessPermission = getAccessSecurityService().canEditDocumentAccountingLine(document, line, GlobalVariables.getUserSession().getPerson(), restrictionInfo);
 
         if (!hasEditAccessPermission) {
             GlobalVariables.getMessageMap().putError(restrictionInfo.getPropertyName(), SecKeyConstants.ERROR_ACCOUNTING_LINE_ADD_OR_UPDATE, restrictionInfo.getPropertyLabel(), restrictionInfo.getRetrictedValue());
@@ -71,5 +71,11 @@ public class AccessSecurityAccountingDocumentRuleBase extends AccountingRuleEngi
 
         return editAccessAllowed;
     }
-
+    private static AccessSecurityService accessSecurityService;
+    protected AccessSecurityService getAccessSecurityService() {
+        if ( accessSecurityService == null ) {
+            accessSecurityService = SpringContext.getBean(AccessSecurityService.class);
+        }
+        return accessSecurityService;
+    }
 }

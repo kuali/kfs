@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,18 +38,18 @@ import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.monitor.ChangeMonitor;
 import org.kuali.kfs.sys.monitor.DocumentVersionMonitor;
 import org.kuali.kfs.sys.monitor.DocumentWorkflowStatusMonitor;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.AdHocRouteRecipient;
-import org.kuali.rice.kns.datadictionary.DataDictionary;
-import org.kuali.rice.kns.datadictionary.TransactionalDocumentEntry;
-import org.kuali.rice.kns.document.Copyable;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.bo.AdHocRouteRecipient;
+import org.kuali.rice.krad.datadictionary.DataDictionary;
+import org.kuali.rice.krad.document.Copyable;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public final class AccountingDocumentTestUtils extends KualiTestBase {
     private static Logger LOG = Logger.getLogger(AccountingDocumentTestUtils.class);
@@ -112,7 +112,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
     public static void testConvertIntoErrorCorrection_documentAlreadyCorrected(AccountingDocument document, TransactionalDocumentDictionaryService dictionaryService) throws Exception {
 
         if (((FinancialSystemTransactionalDocumentEntry)SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntry(document.getClass().getName())).getAllowsErrorCorrection()) {
-            document.getDocumentHeader().setCorrectedByDocumentId("1");
+            document.getFinancialSystemDocumentHeader().setCorrectedByDocumentId("1");
 
             boolean failedAsExpected = false;
             try {
@@ -178,12 +178,12 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
     public static void testRouteDocument(FinancialSystemTransactionalDocument document, DocumentService documentService) throws Exception {
         document.prepareForSave();
 
-        assertFalse("R".equals(document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
+        assertFalse("R".equals(document.getDocumentHeader().getWorkflowDocument().getStatus()));
         routeDocument(document, "saving copy source document", null, documentService);
-        if (!document.getDocumentHeader().getWorkflowDocument().stateIsApproved()) {
+        if (!document.getDocumentHeader().getWorkflowDocument().isApproved()) {
             DocumentWorkflowStatusMonitor am = new DocumentWorkflowStatusMonitor(documentService, document.getDocumentNumber(), "R");
             assertTrue(ChangeMonitor.waitUntilChange(am, 240, 5));
-            assertEquals("R", document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus());
+            assertEquals("R", document.getDocumentHeader().getWorkflowDocument().getStatus());
         }
     }
 
@@ -198,18 +198,18 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
             LOG.debug("documentHeaderId = " + documentHeaderId);
             // route the original doc, wait for status change
             routeDocument(document, "saving errorCorrection source document", null, documentService);
-            if (!document.getDocumentHeader().getWorkflowDocument().stateIsApproved()) {
+            if (!document.getDocumentHeader().getWorkflowDocument().isApproved()) {
                 DocumentWorkflowStatusMonitor routeMonitor = new DocumentWorkflowStatusMonitor(documentService, documentHeaderId, "R");
                 assertTrue(ChangeMonitor.waitUntilChange(routeMonitor, 240, 5));
                 document = (AccountingDocument) documentService.getByDocumentHeaderId(documentHeaderId);
 
                 // mock a fully approved document
-                document.getDocumentHeader().getWorkflowDocument().getRouteHeader().setDocRouteStatus(KFSConstants.DocumentStatusCodes.APPROVED);
+                document.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
             }
 
             // collect some preCorrect data
             String preCorrectId = document.getDocumentNumber();
-            String preCorrectCorrectsId = document.getDocumentHeader().getFinancialDocumentInErrorNumber();
+            String preCorrectCorrectsId = document.getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber();
 
             int preCorrectPECount = document.getGeneralLedgerPendingEntries().size();
             // int preCorrectNoteCount = document.getDocumentHeader().getNotes().size();
@@ -241,7 +241,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
             // LOG.debug("postcorrect note text = " + note.getFinancialDocumentNoteText());
             // assertTrue(note.getFinancialDocumentNoteText().indexOf("correction") != -1);
             // correctsId should be equal to old id
-            String correctsId = document.getDocumentHeader().getFinancialDocumentInErrorNumber();
+            String correctsId = document.getFinancialSystemDocumentHeader().getFinancialDocumentInErrorNumber();
             LOG.debug("postcorrect correctsId = " + correctsId);
             assertEquals(preCorrectId, correctsId);
             // accounting lines should have sign reversed on amounts
@@ -295,10 +295,10 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
         // save the original doc, wait for status change
         document.prepareForSave();
         routeDocument(document, "saving copy source document", null, documentService);
-        if (!document.getDocumentHeader().getWorkflowDocument().stateIsApproved()) {
+        if (!document.getDocumentHeader().getWorkflowDocument().isApproved()) {
             DocumentWorkflowStatusMonitor am = new DocumentWorkflowStatusMonitor(documentService, document.getDocumentNumber(), "R");
             assertTrue(ChangeMonitor.waitUntilChange(am, 240, 5));
-            assertEquals("R", document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus());
+            assertEquals("R", document.getDocumentHeader().getWorkflowDocument().getStatus());
         }
         // collect some preCopy data
         String preCopyId = document.getDocumentNumber();
@@ -306,7 +306,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
 
         int preCopyPECount = document.getGeneralLedgerPendingEntries().size();
         // int preCopyNoteCount = document.getDocumentHeader().getNotes().size();
-        String preCopyStatus = document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
+        DocumentStatus preCopyStatus = document.getDocumentHeader().getWorkflowDocument().getStatus();
 
         List<? extends SourceAccountingLine> preCopySourceLines = (List<? extends SourceAccountingLine>) ObjectUtils.deepCopy(new ArrayList(document.getSourceAccountingLines()));
         List<? extends TargetAccountingLine> preCopyTargetLines = (List<? extends TargetAccountingLine>) ObjectUtils.deepCopy(new ArrayList(document.getTargetAccountingLines()));
@@ -323,7 +323,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
         String postCopyId = document.getDocumentNumber();
         assertFalse(postCopyId.equals(preCopyId));
         // verify that docStatus has changed
-        String postCopyStatus = document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
+        DocumentStatus postCopyStatus = document.getDocumentHeader().getWorkflowDocument().getStatus();
         assertFalse(postCopyStatus.equals(preCopyStatus));
         // pending entries should be cleared
         int postCopyPECount = document.getGeneralLedgerPendingEntries().size();
@@ -378,18 +378,18 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
         documentService.approveDocument(document, "approving test doc", null);
 
         DocumentVersionMonitor vm = new DocumentVersionMonitor(documentService, document.getDocumentNumber(), initialVersion);
-        assertTrue(ChangeMonitor.waitUntilChange(vm, 120, 10));        
+        assertTrue(ChangeMonitor.waitUntilChange(vm, 120, 10));
     }
 
     public static void routeDocument(AccountingDocument document, DocumentService documentService) throws Exception {
         final String STATUS = "R";
 
-        assertFalse(STATUS.equals(document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
+        assertFalse(STATUS.equals(document.getDocumentHeader().getWorkflowDocument().getStatus()));
         documentService.routeDocument(document, "routing test doc", null);
 
         DocumentWorkflowStatusMonitor am = new DocumentWorkflowStatusMonitor(documentService, document.getDocumentNumber(), STATUS);
         assertTrue(ChangeMonitor.waitUntilChange(am, 120, 10));
-        assertEquals(STATUS, document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus());
+        assertEquals(STATUS, document.getDocumentHeader().getWorkflowDocument().getStatus());
     }
 
     public static void saveDocument(FinancialSystemTransactionalDocument document, DocumentService documentService) throws WorkflowException {
@@ -403,17 +403,17 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
     }
 
     public static void approve(String docHeaderId, UserNameFixture user, String expectedNode, DocumentService documentService) throws Exception {
-        WorkflowTestUtils.waitForApproveRequest(Long.valueOf(docHeaderId), GlobalVariables.getUserSession().getPerson());
+        WorkflowTestUtils.waitForApproveRequest(docHeaderId, GlobalVariables.getUserSession().getPerson());
         Document document = documentService.getByDocumentHeaderId(docHeaderId);
         assertTrue("Document should be at routing node " + expectedNode, WorkflowTestUtils.isAtNode(document, expectedNode));
-        assertTrue("Document should be enroute.", document.getDocumentHeader().getWorkflowDocument().stateIsEnroute());
+        assertTrue("Document should be enroute.", document.getDocumentHeader().getWorkflowDocument().isEnroute());
         assertTrue(user + " should have an approve request.", document.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
         documentService.approveDocument(document, "Test approving as " + user, null);
     }
 
     public static <T extends Document> void assertMatch(T document1, T document2) {
         Assert.assertEquals(document1.getDocumentNumber(), document2.getDocumentNumber());
-        Assert.assertEquals(document1.getDocumentHeader().getWorkflowDocument().getDocumentType(), document2.getDocumentHeader().getWorkflowDocument().getDocumentType());
+        Assert.assertEquals(document1.getDocumentHeader().getWorkflowDocument().getDocumentTypeName(), document2.getDocumentHeader().getWorkflowDocument().getDocumentTypeName());
 
 
         AccountingDocument d1 = (AccountingDocument) document1;

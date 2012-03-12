@@ -39,11 +39,11 @@ import org.kuali.kfs.sys.businessobject.lookup.LookupableSpringContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.service.DocumentService;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.pdf.PdfCopy;
@@ -68,7 +68,7 @@ public class ReportingLoadTest extends KualiTestBase {
     
     private DocumentService documentService;
     private AccountsReceivableReportService reportService;
-    private KualiConfigurationService kualiConfigService;
+    private ConfigurationService kualiConfigService;
     private DateTimeService dateTimeService;
     
     private List<String> invoicesCreated;
@@ -78,7 +78,7 @@ public class ReportingLoadTest extends KualiTestBase {
         super.setUp();
         documentService = SpringContext.getBean(DocumentService.class);
         reportService = SpringContext.getBean(AccountsReceivableReportService.class);
-        kualiConfigService = SpringContext.getBean(KualiConfigurationService.class);
+        kualiConfigService = SpringContext.getBean(ConfigurationService.class);
         dateTimeService = SpringContext.getBean(DateTimeService.class);
         
         invoicesCreated = new ArrayList<String>();
@@ -193,7 +193,7 @@ public class ReportingLoadTest extends KualiTestBase {
     }
     
     private String getOutputPathAndFileName() {
-        String reportsDirectory = kualiConfigService.getPropertyString(KFSConstants.REPORTS_DIRECTORY_KEY);
+        String reportsDirectory = kualiConfigService.getPropertyValueAsString(KFSConstants.REPORTS_DIRECTORY_KEY);
         StringBuilder fileName = new StringBuilder();
         fileName.append(reportsDirectory + File.separator);
         fileName.append(ArConstants.Lockbox.LOCKBOX_REPORT_SUBFOLDER + File.separator);

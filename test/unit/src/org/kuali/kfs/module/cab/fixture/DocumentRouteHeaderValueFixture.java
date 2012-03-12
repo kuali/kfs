@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,33 +20,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.doctype.service.DocumentTypeService;
-import org.kuali.rice.kew.dto.DocumentTypeDTO;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kew.api.doctype.DocumentType;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public enum DocumentRouteHeaderValueFixture {
-    
+
     REC1 {
         @Override
         public DocumentRouteHeaderValue newRecord() {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
             Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
-            
-            obj.setRouteHeaderId(11L);
+
+            obj.setDocumentId("11");
             obj.setDocumentTypeId(docTypeId("REQS"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(6);
-            obj.setStatusModDate(timeStamp);
+            obj.setAppDocStatusDate(timeStamp);
             obj.setCreateDate(timeStamp);
             obj.setApprovedDate(timeStamp);
             obj.setFinalizedDate(timeStamp);
             obj.setRouteStatusDate(timeStamp);
-            obj.setRouteLevelDate(null);
+
             obj.setDocTitle("Requisition - CAB Test Data 1");
             obj.setAppDocId(null);
             obj.setDocVersion(1);
@@ -61,17 +61,17 @@ public enum DocumentRouteHeaderValueFixture {
         public DocumentRouteHeaderValue newRecord() {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
             Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
-            
-            obj.setRouteHeaderId(12L);
+
+            obj.setDocumentId("12");
             obj.setDocumentTypeId(docTypeId("REQS"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(6);
-            obj.setStatusModDate(timeStamp);
+            obj.setAppDocStatusDate(timeStamp);
             obj.setCreateDate(timeStamp);
             obj.setApprovedDate(timeStamp);
             obj.setFinalizedDate(timeStamp);
             obj.setRouteStatusDate(timeStamp);
-            obj.setRouteLevelDate(null);
+
             obj.setDocTitle("Requisition - CAB Test Data 1");
             obj.setAppDocId(null);
             obj.setDocVersion(1);
@@ -86,17 +86,17 @@ public enum DocumentRouteHeaderValueFixture {
         public DocumentRouteHeaderValue newRecord() {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
             Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
-            
-            obj.setRouteHeaderId(13L);
+
+            obj.setDocumentId("13");
             obj.setDocumentTypeId(docTypeId("REQS"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(0);
-            obj.setStatusModDate(timeStamp);
+            obj.setAppDocStatusDate(timeStamp);
             obj.setCreateDate(timeStamp);
             obj.setApprovedDate(timeStamp);
             obj.setFinalizedDate(timeStamp);
             obj.setRouteStatusDate(timeStamp);
-            obj.setRouteLevelDate(null);
+
             obj.setDocTitle("Contract Manager Assignment - Contract Manager Assigned");
             obj.setAppDocId(null);
             obj.setDocVersion(1);
@@ -111,17 +111,17 @@ public enum DocumentRouteHeaderValueFixture {
         public DocumentRouteHeaderValue newRecord() {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
             Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
-            
-            obj.setRouteHeaderId(21L);
+
+            obj.setDocumentId("21");
             obj.setDocumentTypeId(docTypeId("PO"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(6);
-            obj.setStatusModDate(timeStamp);
+            obj.setAppDocStatusDate(timeStamp);
             obj.setCreateDate(timeStamp);
             obj.setApprovedDate(timeStamp);
             obj.setFinalizedDate(timeStamp);
             obj.setRouteStatusDate(timeStamp);
-            obj.setRouteLevelDate(null);
+
             obj.setDocTitle("Purchase Order - CAB Test Data 1");
             obj.setAppDocId(null);
             obj.setDocVersion(1);
@@ -136,17 +136,17 @@ public enum DocumentRouteHeaderValueFixture {
         public DocumentRouteHeaderValue newRecord() {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
             Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
-            
-            obj.setRouteHeaderId(22L);
+
+            obj.setDocumentId("22");
             obj.setDocumentTypeId(docTypeId("PO"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(6);
-            obj.setStatusModDate(timeStamp);
+            obj.setAppDocStatusDate(timeStamp);
             obj.setCreateDate(timeStamp);
             obj.setApprovedDate(timeStamp);
             obj.setFinalizedDate(timeStamp);
             obj.setRouteStatusDate(timeStamp);
-            obj.setRouteLevelDate(null);
+
             obj.setDocTitle("Purchase Order - CAB Test Data 1");
             obj.setAppDocId(null);
             obj.setDocVersion(1);
@@ -161,17 +161,17 @@ public enum DocumentRouteHeaderValueFixture {
         public DocumentRouteHeaderValue newRecord() {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
             Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
-            
-            obj.setRouteHeaderId(23L);
+
+            obj.setDocumentId("23");
             obj.setDocumentTypeId(docTypeId("PO"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(6);
-            obj.setStatusModDate(timeStamp);
+            obj.setAppDocStatusDate(timeStamp);
             obj.setCreateDate(timeStamp);
             obj.setApprovedDate(timeStamp);
             obj.setFinalizedDate(timeStamp);
             obj.setRouteStatusDate(timeStamp);
-            obj.setRouteLevelDate(null);
+
             obj.setDocTitle("Purchase Order - CAB Test Data 1");
             obj.setAppDocId(null);
             obj.setDocVersion(1);
@@ -186,17 +186,17 @@ public enum DocumentRouteHeaderValueFixture {
         public DocumentRouteHeaderValue newRecord() {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
             Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
-            
-            obj.setRouteHeaderId(31L);
+
+            obj.setDocumentId("31");
             obj.setDocumentTypeId(docTypeId("PREQ"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(5);
-            obj.setStatusModDate(timeStamp);
+            obj.setAppDocStatusDate(timeStamp);
             obj.setCreateDate(timeStamp);
             obj.setApprovedDate(timeStamp);
             obj.setFinalizedDate(timeStamp);
             obj.setRouteStatusDate(timeStamp);
-            obj.setRouteLevelDate(null);
+
             obj.setDocTitle("Payment Request - PO: 1007 Vendor: BESCO WATER TREATMENT I");
             obj.setAppDocId(null);
             obj.setDocVersion(1);
@@ -211,17 +211,17 @@ public enum DocumentRouteHeaderValueFixture {
         public DocumentRouteHeaderValue newRecord() {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
             Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
-            
-            obj.setRouteHeaderId(32L);
+
+            obj.setDocumentId("32");
             obj.setDocumentTypeId(docTypeId("PREQ"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(5);
-            obj.setStatusModDate(timeStamp);
+            obj.setAppDocStatusDate(timeStamp);
             obj.setCreateDate(timeStamp);
             obj.setApprovedDate(timeStamp);
             obj.setFinalizedDate(timeStamp);
             obj.setRouteStatusDate(timeStamp);
-            obj.setRouteLevelDate(null);
+
             obj.setDocTitle("Payment Request - PO: 1007 Vendor: BESCO WATER TREATMENT I");
             obj.setAppDocId(null);
             obj.setDocVersion(1);
@@ -237,17 +237,17 @@ public enum DocumentRouteHeaderValueFixture {
         public DocumentRouteHeaderValue newRecord() {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
             Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
-            
-            obj.setRouteHeaderId(33L);
+
+            obj.setDocumentId("33");
             obj.setDocumentTypeId(docTypeId("PREQ"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(5);
-            obj.setStatusModDate(timeStamp);
+            obj.setAppDocStatusDate(timeStamp);
             obj.setCreateDate(timeStamp);
             obj.setApprovedDate(timeStamp);
             obj.setFinalizedDate(timeStamp);
             obj.setRouteStatusDate(timeStamp);
-            obj.setRouteLevelDate(null);
+
             obj.setDocTitle("Payment Request - PO: 1007 Vendor: BESCO WATER TREATMENT I");
             obj.setAppDocId(null);
             obj.setDocVersion(1);
@@ -263,17 +263,17 @@ public enum DocumentRouteHeaderValueFixture {
         public DocumentRouteHeaderValue newRecord() {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
             java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
-            
-            obj.setRouteHeaderId(34L);
+
+            obj.setDocumentId("34");
             obj.setDocumentTypeId(docTypeId("PREQ"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(5);
-            obj.setStatusModDate(timeStamp);
+            obj.setAppDocStatusDate(timeStamp);
             obj.setCreateDate(timeStamp);
             obj.setApprovedDate(timeStamp);
             obj.setFinalizedDate(timeStamp);
             obj.setRouteStatusDate(timeStamp);
-            obj.setRouteLevelDate(null);
+
             obj.setDocTitle("Payment Request - PO: 1007 Vendor: BESCO WATER TREATMENT I");
             obj.setAppDocId(null);
             obj.setDocVersion(1);
@@ -289,17 +289,17 @@ public enum DocumentRouteHeaderValueFixture {
         public DocumentRouteHeaderValue newRecord() {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
             java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
-            
-            obj.setRouteHeaderId(35L);
+
+            obj.setDocumentId("35");
             obj.setDocumentTypeId(docTypeId("PREQ"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(5);
-            obj.setStatusModDate(timeStamp);
+            obj.setAppDocStatusDate(timeStamp);
             obj.setCreateDate(timeStamp);
             obj.setApprovedDate(timeStamp);
             obj.setFinalizedDate(timeStamp);
             obj.setRouteStatusDate(timeStamp);
-            obj.setRouteLevelDate(null);
+
             obj.setDocTitle("Payment Request - PO: 1007 Vendor: BESCO WATER TREATMENT I");
             obj.setAppDocId(null);
             obj.setDocVersion(1);
@@ -315,17 +315,17 @@ public enum DocumentRouteHeaderValueFixture {
         public DocumentRouteHeaderValue newRecord() {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
             java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
-            
-            obj.setRouteHeaderId(36L);
+
+            obj.setDocumentId("36");
             obj.setDocumentTypeId(docTypeId("PREQ"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(5);
-            obj.setStatusModDate(timeStamp);
+            obj.setAppDocStatusDate(timeStamp);
             obj.setCreateDate(timeStamp);
             obj.setApprovedDate(timeStamp);
             obj.setFinalizedDate(timeStamp);
             obj.setRouteStatusDate(timeStamp);
-            obj.setRouteLevelDate(null);
+
             obj.setDocTitle("Payment Request - PO: 1007 Vendor: BESCO WATER TREATMENT I");
             obj.setAppDocId(null);
             obj.setDocVersion(1);
@@ -341,17 +341,17 @@ public enum DocumentRouteHeaderValueFixture {
         public DocumentRouteHeaderValue newRecord() {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
             java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
-            
-            obj.setRouteHeaderId(41L);
+
+            obj.setDocumentId("41");
             obj.setDocumentTypeId(docTypeId("CM"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(2);
-            obj.setStatusModDate(timeStamp);
+            obj.setAppDocStatusDate(timeStamp);
             obj.setCreateDate(timeStamp);
             obj.setApprovedDate(timeStamp);
             obj.setFinalizedDate(timeStamp);
             obj.setRouteStatusDate(timeStamp);
-            obj.setRouteLevelDate(null);
+
             obj.setDocTitle("Credit Memo - PO: 1007 Vendor: BESCO WATER TREATMENT I");
             obj.setAppDocId(null);
             obj.setDocVersion(1);
@@ -367,17 +367,17 @@ public enum DocumentRouteHeaderValueFixture {
         public DocumentRouteHeaderValue newRecord() {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
             java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
-            
-            obj.setRouteHeaderId(51L);
+
+            obj.setDocumentId("51");
             obj.setDocumentTypeId(docTypeId("INV"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(0);
-            obj.setStatusModDate(timeStamp);
+            obj.setAppDocStatusDate(timeStamp);
             obj.setCreateDate(timeStamp);
             obj.setApprovedDate(timeStamp);
             obj.setFinalizedDate(timeStamp);
             obj.setRouteStatusDate(timeStamp);
-            obj.setRouteLevelDate(null);
+
             obj.setDocTitle("Customer Invoice - Customer Invoice");
             obj.setAppDocId(null);
             obj.setDocVersion(1);
@@ -393,18 +393,18 @@ public enum DocumentRouteHeaderValueFixture {
         public DocumentRouteHeaderValue newRecord() {
             DocumentRouteHeaderValue obj = new DocumentRouteHeaderValue();
             java.sql.Timestamp timeStamp = new java.sql.Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
-            
-            obj.setRouteHeaderId(52L);
+
+            obj.setDocumentId("52");
             obj.setDocumentTypeId(docTypeId("INV"));
             obj.setDocRouteStatus("F");
             obj.setDocRouteLevel(0);
             long time = SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime();
-            obj.setStatusModDate(new java.sql.Timestamp(time));
+            obj.setAppDocStatusDate(new java.sql.Timestamp(time));
             obj.setCreateDate(timeStamp);
             obj.setApprovedDate(timeStamp);
             obj.setFinalizedDate(timeStamp);
             obj.setRouteStatusDate(timeStamp);
-            obj.setRouteLevelDate(null);
+
             obj.setDocTitle("Customer Invoice - Customer Invoice");
             obj.setAppDocId(null);
             obj.setDocVersion(1);
@@ -417,15 +417,14 @@ public enum DocumentRouteHeaderValueFixture {
 
     public abstract DocumentRouteHeaderValue newRecord();
 
-    public static Long docTypeId(String documentTypeName) {
+    public static String docTypeId(String documentTypeName) {
         try {
-            DocumentTypeDTO docType = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeVO(documentTypeName);
+            DocumentType docType = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(documentTypeName);
             if (docType != null) {
-                return docType.getDocTypeId();
+                return docType.getId();
             }
         }
-        catch (Exception e) {
-        }
+        catch (Exception e) {}
         return null;
     }
 

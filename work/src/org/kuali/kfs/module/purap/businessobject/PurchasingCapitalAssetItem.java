@@ -19,7 +19,6 @@ import org.kuali.kfs.integration.cab.CapitalAssetBuilderAssetTransactionType;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
 import org.kuali.kfs.module.purap.document.PurchasingDocument;
-import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 
 
 public interface PurchasingCapitalAssetItem {

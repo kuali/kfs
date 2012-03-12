@@ -25,12 +25,11 @@ import org.kuali.kfs.vnd.VendorUtils;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorType;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Business Prerules applicable to VendorDetail documents. These PreRules checks for the VendorDetail that needs to occur while
@@ -156,8 +155,8 @@ public class VendorPreRules extends MaintenancePreRulesBase {
      * 
      * @param document - vendordetail document
      */
-    public void displayReview(Document document) {
-        VendorDetail vendorDetail = (VendorDetail) document.getDocumentBusinessObject();
+    public void displayReview(MaintenanceDocument document) {
+        VendorDetail vendorDetail = (VendorDetail)  document.getDocumentBusinessObject();
 
         VendorType vendorType = vendorDetail.getVendorHeader().getVendorType();
 

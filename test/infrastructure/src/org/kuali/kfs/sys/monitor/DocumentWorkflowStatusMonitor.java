@@ -16,8 +16,9 @@
 package org.kuali.kfs.sys.monitor;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * DocumentWorkflowStatusMonitor
@@ -42,10 +43,10 @@ public class DocumentWorkflowStatusMonitor extends ChangeMonitor {
     public boolean valueChanged() throws Exception {
         Document d = documentService.getByDocumentHeaderId(docHeaderId.toString());
 
-        String currentStatus = d.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
+        DocumentStatus currentStatus = d.getDocumentHeader().getWorkflowDocument().getStatus();
 
         for (int i = 0; i < desiredWorkflowStates.length; i++) {
-            if (StringUtils.equals(desiredWorkflowStates[i], currentStatus)) {
+            if (StringUtils.equals(desiredWorkflowStates[i], currentStatus.getCode())) {
                 return true;
             }
         }

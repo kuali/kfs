@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 function loadCommodityCodeInfo( purCommodityCode, commodityCodeFieldName ) {
-    var purchasingCommodityCode = DWRUtil.getValue( purCommodityCode );
+    var purchasingCommodityCode = dwr.util.getValue( purCommodityCode );
     var containerDiv = document.getElementById(commodityCodeFieldName + divSuffix);
 
     if (purchasingCommodityCode == "") {
-        DWRUtil.setValue( containerDiv.id, "&nbsp;" );
+        dwr.util.setValue( containerDiv.id, "&nbsp;" );
     } else {
         var dwrReply = {
             callback:function(data) {
             if ( data != null && typeof data == 'object' ) {
-                DWRUtil.setValue(containerDiv.id, data.commodityDescription, {escapeHtml:true} );
+                dwr.util.setValue(containerDiv.id, data.commodityDescription, {escapeHtml:true} );
             } else {
-                DWRUtil.setValue(containerDiv.id, wrapError( "commodity code not found" ));
+                dwr.util.setValue(containerDiv.id, wrapError( "commodity code not found" ));
             } },
             errorHandler:function( errorMessage ) { 
-                DWRUtil.setValue(containerDiv.id, wrapError( "commodity code not found" ));
+                dwr.util.setValue(containerDiv.id, wrapError( "commodity code not found" ));
             }
         };
         CommodityCodeService.getByPrimaryId( purchasingCommodityCode, dwrReply );
@@ -36,21 +36,21 @@ function loadCommodityCodeInfo( purCommodityCode, commodityCodeFieldName ) {
 }
 
 function loadVendorDetailInfo( vendorNumber, vendorNameFieldName ) {
-    var vendorNumber = DWRUtil.getValue( vendorNumber );
+    var vendorNumber = dwr.util.getValue( vendorNumber );
     var vendorNameDiv = document.getElementById(vendorNameFieldName + divSuffix);
 
     if (vendorNumber == "") {
-        DWRUtil.setValue( vendorNameDiv.id, "&nbsp;" );
+        dwr.util.setValue( vendorNameDiv.id, "&nbsp;" );
     } else {
         var dwrReply = {
             callback:function(data) {
             if ( data != null && typeof data == 'object' ) {
-                DWRUtil.setValue(vendorNameDiv.id, data.vendorName, {escapeHtml:true} );
+                dwr.util.setValue(vendorNameDiv.id, data.vendorName, {escapeHtml:true} );
             } else {
-                DWRUtil.setValue(vendorNameDiv.id, wrapError( "vendor detail not found" ));
+                dwr.util.setValue(vendorNameDiv.id, wrapError( "vendor detail not found" ));
             } },
             errorHandler:function( errorMessage ) { 
-                DWRUtil.setValue(vendorNameDiv.id, wrapError( "vendor detail not found" ));
+                dwr.util.setValue(vendorNameDiv.id, wrapError( "vendor detail not found" ));
             }
         };
         

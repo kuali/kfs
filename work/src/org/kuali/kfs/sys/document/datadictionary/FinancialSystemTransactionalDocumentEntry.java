@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.sys.document.datadictionary;
 
-import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.sys.businessobject.AccountingLineParser;

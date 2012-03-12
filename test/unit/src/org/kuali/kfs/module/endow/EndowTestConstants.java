@@ -17,14 +17,10 @@ package org.kuali.kfs.module.endow;
 
 import java.math.BigDecimal;
 
-import org.apache.bcel.generic.NEW;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.core.util.JSTLConstants;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 
-public class EndowTestConstants extends JSTLConstants {
+public class EndowTestConstants {
     public static final KualiDecimal ZERO_AMOUNT = KualiDecimal.ZERO;
     public static final KualiDecimal NEGATIVE_AMOUNT = new KualiDecimal("-1.00");
     public static final KualiDecimal POSITIVE_AMOUNT = new KualiDecimal("2.00");

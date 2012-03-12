@@ -19,6 +19,7 @@ package org.kuali.kfs.module.purap.businessobject;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
@@ -31,8 +32,8 @@ import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.exception.PurError;
 import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Item line Business Object for Credit Memo Document.
@@ -266,7 +267,9 @@ public class CreditMemoItem extends AccountsPayableItemBase {
             //if we have a PO document, get po item
             if(ObjectUtils.isNotNull(purchaseOrderDocument)){                
                 if (this.getItemType().isLineItemIndicator()) {
-                    poi = (PurchaseOrderItem) purchaseOrderDocument.getItem(this.getItemLineNumber().intValue() - 1);
+                    List<PurchaseOrderItem> items = purchaseOrderDocument.getItems();
+                    poi = items.get(this.getItemLineNumber().intValue() - 1);
+
                 }
                 else {
                     poi = (PurchaseOrderItem) SpringContext.getBean(PurapService.class).getBelowTheLineByType(purchaseOrderDocument, this.getItemType());

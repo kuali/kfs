@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.gl.Constant;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.valuefinder.ValueFinder;
 
 /**
  * An implementation of ValuesFinder that allows GL inquiries to select either monthly totals or accumulated totals on balance inquiries
@@ -31,7 +31,7 @@ public class AmountViewOptionFinder extends KeyValuesBase implements ValueFinder
     /**
      * Returns the default value of this ValueFinder: here, MONTHLY
      * @return the default value for this finder, which should be "monthly totals"
-     * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
+     * @see org.kuali.rice.krad.valuefinder.ValueFinder#getValue()
      */
     public String getValue() {
         return Constant.MONTHLY;
@@ -44,8 +44,8 @@ public class AmountViewOptionFinder extends KeyValuesBase implements ValueFinder
      */
     public List getKeyValues() {
         List labels = new ArrayList();
-        labels.add(new KeyLabelPair(Constant.MONTHLY, Constant.MONTHLY));
-        labels.add(new KeyLabelPair(Constant.ACCUMULATE, Constant.ACCUMULATE));
+        labels.add(new ConcreteKeyValue(Constant.MONTHLY, Constant.MONTHLY));
+        labels.add(new ConcreteKeyValue(Constant.ACCUMULATE, Constant.ACCUMULATE));
         return labels;
     }
 }

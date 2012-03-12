@@ -23,7 +23,7 @@ function EffortAmountUpdator(){
 	fiscalYearFieldNameSuffix = ".universityFiscalYear";
 	objectCodeFieldNameSuffix = ".financialObjectCode";
 	chartOfAccountsCodeFieldNameSuffix = ".chartOfAccountsCode";
-	
+	chartOfAccountDescSuffix = ".chartOfAccounts.finChartOfAccountDescription";
 	accountNumberSuffix = ".accountNumber";
 	accountNameSuffix = ".account.accountName";
 	chartCodeSuffix = ".chartOfAccountsCode";
@@ -44,8 +44,8 @@ function EffortAmountUpdator(){
 // recalculate the payroll amount when the effort percent is changed
 EffortAmountUpdator.prototype.recalculatePayrollAmount = function(effortPercentFieldName, payrollAmountFieldName){
 	var fieldNamePrefix = findElPrefix(effortPercentFieldName);
-	var totalPayrollAmount = this.removeDelimator(DWRUtil.getValue(totalAmountFiledName), comma);
-	var effortPercent = this.removeDelimator(DWRUtil.getValue(effortPercentFieldName), comma);
+	var totalPayrollAmount = this.removeDelimator(dwr.util.getValue(totalAmountFiledName), comma);
+	var effortPercent = this.removeDelimator(dwr.util.getValue(effortPercentFieldName), comma);
 	var message = "Must be an integer between 0 and 100";
 	
 	if(isNaN(effortPercent) || effortPercent > 100 || effortPercent <0){
@@ -82,8 +82,8 @@ EffortAmountUpdator.prototype.recalculatePayrollAmount = function(effortPercentF
 // recalculate the effort percent when the payroll amount is changed
 EffortAmountUpdator.prototype.recalculateEffortPercent = function(payrollAmountFieldName, effortPercentFieldName){
 	var fieldNamePrefix = findElPrefix(payrollAmountFieldName);
-	var totalPayrollAmount = parseFloat(this.removeDelimator(DWRUtil.getValue(totalAmountFiledName), comma));
-	var payrollAmount = this.removeDelimator(DWRUtil.getValue(payrollAmountFieldName), comma);	
+	var totalPayrollAmount = parseFloat(this.removeDelimator(dwr.util.getValue(totalAmountFiledName), comma));
+	var payrollAmount = this.removeDelimator(dwr.util.getValue(payrollAmountFieldName), comma);	
 	
 	if(isNaN(payrollAmount) || payrollAmount > totalPayrollAmount || payrollAmount <0){
 		this.displayMessageAfter(payrollAmountFieldName, "Must be between 0 and " + totalPayrollAmount);
@@ -125,9 +125,9 @@ EffortAmountUpdator.prototype.recalculateFringeBenefit = function(fieldNamePrefi
 	effortAmountUpdator.updateTotals(detailLinesPrefixName);
 	
 	try{
-		var fiscalYear = DWRUtil.getValue(fieldNamePrefix + fiscalYearFieldNameSuffix);
-		var objectCode = DWRUtil.getValue(fieldNamePrefix + objectCodeFieldNameSuffix);
-		var chartOfAccountsCode = DWRUtil.getValue(fieldNamePrefix + chartOfAccountsCodeFieldNameSuffix);	
+		var fiscalYear = dwr.util.getValue(fieldNamePrefix + fiscalYearFieldNameSuffix);
+		var objectCode = dwr.util.getValue(fieldNamePrefix + objectCodeFieldNameSuffix);
+		var chartOfAccountsCode = dwr.util.getValue(fieldNamePrefix + chartOfAccountsCodeFieldNameSuffix);	
 
 		if(fiscalYear != '' && objectCode!='' && chartOfAccountsCode != '') {				
 			var updateFringeBenefit = function(data) {				
@@ -153,10 +153,16 @@ EffortAmountUpdator.prototype.recalculateFringeBenefit = function(fieldNamePrefi
 	}
 };
 
+/**
+	* Loads account info and chart info when ACCOUNT_CAN_CROSS_CHART is true.
+	* @param accountCodeFieldName
+	* @param accountNameFieldName
+	* @return
+	*/
 EffortAmountUpdator.prototype.loadAccountInfo = function( accountCodeFieldName, accountNameFieldName ) {
     var elPrefix = findElPrefix( accountCodeFieldName );
-    var accountCode = DWRUtil.getValue( accountCodeFieldName );
-    var coaCode = DWRUtil.getValue( elPrefix + chartCodeSuffix );
+    var accountCode = dwr.util.getValue( accountCodeFieldName );
+    var coaCode = dwr.util.getValue( elPrefix + chartCodeSuffix );
 
     if (valueChanged( accountCodeFieldName )) {
         setRecipientValue( elPrefix + subAccountNumberSuffix, "" );
@@ -185,9 +191,56 @@ EffortAmountUpdator.prototype.loadAccountInfo = function( accountCodeFieldName, 
 	}	
 }
 
+/**
+* Loads account info and chart info when ACCOUNT_CAN_CROSS_CHART is false.
+* @param accountCodeFieldName
+* @param accountNameFieldName
+* @return
+*/
+EffortAmountUpdator.prototype.loadChartAccountInfo = function( accountCodeFieldName, accountNameFieldName ) {
+    var elPrefix = findElPrefix( accountCodeFieldName );
+    var accountCode = dwr.util.getValue( accountCodeFieldName );
+    var coaCodeFieldName =  elPrefix + chartCodeSuffix ;
+    var coaNameFieldName =  elPrefix + chartOfAccountDescSuffix ;
+
+    if (valueChanged( accountCodeFieldName )) {
+        setRecipientValue( elPrefix + subAccountNumberSuffix, "" );
+        setRecipientValue( elPrefix + subAccountNameSuffix, "" );
+        setRecipientValue( elPrefix + subObjectCodeSuffix, "" );
+        setRecipientValue( elPrefix + subObjectCodeNameSuffix, "" );
+    }
+    
+    if (accountCode=='') {
+		clearRecipients(accountNameFieldName);
+		clearRecipients(coaCodeFieldName);
+		clearRecipients(coaNameFieldName);    
+		
+	} else {
+		var dwrReply = {
+			callback:function(data) {
+			if ( data != null && typeof data == 'object' ) {
+				setRecipientValue( accountNameFieldName, data.accountName  );
+				setRecipientValue( coaCodeFieldName, data.chartOfAccountsCode );
+			    setRecipientValue( coaNameFieldName, data.chartOfAccounts.finChartOfAccountDescription );
+			} else {
+				setRecipientValue( accountNameFieldName, wrapError( "account not found" ), true );	
+				clearRecipients(coaCodeFieldName);  
+				clearRecipients(coaNameFieldName);
+			} },
+			errorHandler:function( errorMessage ) { 
+				setRecipientValue( accountNameFieldName, wrapError( "account not found" ), true );
+				clearRecipients(coaCodeFieldName);  
+				clearRecipients(coaNameFieldName);
+			}
+		};
+		//EffortCertificationForm.loadAccountInfo( coaCode, accountCode, dwrReply );
+		 AccountService.getUniqueAccountForAccountNumber( accountCode, dwrReply ); 
+	}	
+}
+
 EffortAmountUpdator.prototype.setValueByElementId = function(elementId, value){
 	if(document.getElementById(elementId) != null || document.getElementsByName(elementId).length > 0){
-		DWRUtil.setValue( elementId, value);
+		dwr.util.setValue( elementId, value);
 	}
 };
 
@@ -274,8 +327,8 @@ EffortAmountUpdator.prototype.updateTotalField = function(detailLineTableId, det
   			continue;
   		}
   		
-  		var lineAmount = parseFloat(this.removeDelimator(DWRUtil.getValue(amountFieldId), comma));  		
-  		var federalIndicator = DWRUtil.getValue(fereralIndicatorFieldId); 		
+  		var lineAmount = parseFloat(this.removeDelimator(dwr.util.getValue(amountFieldId), comma));  		
+  		var federalIndicator = dwr.util.getValue(fereralIndicatorFieldId); 		
   		if(federalIndicator.toUpperCase() == "YES"){
   			federalTotal += lineAmount;	
   		}

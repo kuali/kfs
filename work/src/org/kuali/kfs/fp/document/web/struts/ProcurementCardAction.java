@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -34,11 +36,10 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
 import org.kuali.kfs.sys.document.validation.event.DeleteAccountingLineEvent;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.service.PersistenceService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * This class handles specific Actions requests for the ProcurementCard.
@@ -124,7 +125,7 @@ public class ProcurementCardAction extends CapitalAccountingLinesActionBase {
      * at the end.
      * 
      * @see org.kuali.module.financial.web.struts.action.KualiFinancialDocumentActionBase#insertAccountingLine(boolean,
-     *      org.kuali.module.financial.web.struts.form.KualiFinancialDocumentFormBase, org.kuali.rice.kns.bo.AccountingLine)
+     *      org.kuali.module.financial.web.struts.form.KualiFinancialDocumentFormBase, org.kuali.rice.krad.bo.AccountingLine)
      */
     @Override
     protected void insertAccountingLine(boolean isSource, KualiAccountingDocumentFormBase financialDocumentForm, AccountingLine line) {
@@ -182,7 +183,7 @@ public class ProcurementCardAction extends CapitalAccountingLinesActionBase {
     @Override
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProcurementCardForm procurementCardForm = (ProcurementCardForm) form;
-        procurementCardForm.setNewTargetLines(new TypedArrayList(ProcurementCardTargetAccountingLine.class));
+        procurementCardForm.setNewTargetLines(new ArrayList<ProcurementCardTargetAccountingLine>());
 
         return super.reload(mapping, procurementCardForm, request, response);
     }
@@ -190,7 +191,7 @@ public class ProcurementCardAction extends CapitalAccountingLinesActionBase {
     // get the index of selected transaction entry
     protected int getSelectedContainer(HttpServletRequest request) {
         int selectedContainer = -1;
-        String parameterName = (String) request.getAttribute(KNSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
             String lineNumber = StringUtils.substringBetween(parameterName, ".transactionEntries[", "].");
             selectedContainer = Integer.parseInt(lineNumber);

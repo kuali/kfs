@@ -33,7 +33,7 @@ import org.kuali.kfs.gl.service.PosterOutputSummaryService;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 
 /**
  * A class which builds up the data and then reports the PosterOutputSummary report
@@ -76,7 +76,7 @@ public class PosterOutputSummaryReport {
         
         if (entries.size() > 0) {
             Collections.sort(entries, getPosterOutputSummaryService().getEntryComparator());
-            final KualiConfigurationService configurationService = SpringContext.getBean(KualiConfigurationService.class);
+            final ConfigurationService configurationService = SpringContext.getBean(ConfigurationService.class);
             
             String currentBalanceTypeCode = entries.get(0).getBalanceTypeCode();
             PosterOutputSummaryBalanceTypeTotal balanceTypeTotal = new PosterOutputSummaryBalanceTypeTotal(currentBalanceTypeCode);
@@ -85,7 +85,7 @@ public class PosterOutputSummaryReport {
             String currentFiscalPeriod = entries.get(0).getFiscalPeriodCode();
             PosterOutputSummaryBalanceTypeFiscalYearAndPeriodTotal balanceTypeFiscalYearAndPeriodTotal = new PosterOutputSummaryBalanceTypeFiscalYearAndPeriodTotal(currentBalanceTypeCode, currentFiscalYear, currentFiscalPeriod);
         
-            final String titleMessage = configurationService.getPropertyString(KFSKeyConstants.MESSAGE_REPORT_POSTER_OUTPUT_SUMMARY_TITLE_LINE);
+            final String titleMessage = configurationService.getPropertyValueAsString(KFSKeyConstants.MESSAGE_REPORT_POSTER_OUTPUT_SUMMARY_TITLE_LINE);
             String formattedTitle = MessageFormat.format(titleMessage, entries.get(0).getUniversityFiscalYear().toString(), entries.get(0).getBalanceTypeCode());
             
             reportWriterService.writeFormattedMessageLine(formattedTitle);

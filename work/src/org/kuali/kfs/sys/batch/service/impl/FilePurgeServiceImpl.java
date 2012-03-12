@@ -16,7 +16,6 @@
 package org.kuali.kfs.sys.batch.service.impl;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.filefilter.AndFileFilter;
@@ -29,7 +28,7 @@ import org.kuali.kfs.sys.batch.FilePurgeStep;
 import org.kuali.kfs.sys.batch.MaxAgePurgeFileFilter;
 import org.kuali.kfs.sys.batch.NotAmongDirectoriesFileFilter;
 import org.kuali.kfs.sys.batch.service.FilePurgeService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * Default implementation of the FilePurgeService
@@ -161,7 +160,7 @@ public class FilePurgeServiceImpl implements FilePurgeService {
      * @return the integer number of days
      */
     protected int retrieveDaysBeforePurgeParameterValue(String parameterName) {
-        final String parameterValue = getParameterService().getParameterValue(FilePurgeStep.class, parameterName);
+        final String parameterValue = getParameterService().getParameterValueAsString(FilePurgeStep.class, parameterName);
         Integer parameterValueAsInteger = null;
         parameterValueAsInteger = new Integer(parameterValue);
         return (parameterValueAsInteger == null ? Integer.MAX_VALUE : parameterValueAsInteger.intValue());

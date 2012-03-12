@@ -42,7 +42,7 @@
               <property name="objectAttributeName" value="campus"/>
               <property name="primitiveAttributes">
                 <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="campusCode" p:targetName="campusCode"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="campusCode" p:targetName="code"/>
                 </list>
               </property>
     		</bean>
@@ -70,7 +70,7 @@
   </bean>
   <bean id="PaymentProcess-campusCode" parent="PaymentProcess-campusCode-parentBean"/>
 
-  <bean id="PaymentProcess-campusCode-parentBean" abstract="true" parent="Campus-campusCode">
+  <bean id="PaymentProcess-campusCode-parentBean" abstract="true" parent="Campus-code">
     <property name="name" value="campusCode"/>
     <property name="label" value="Process Campus"/>
     <property name="shortLabel" value="campusCode"/>
@@ -81,7 +81,7 @@
     <property name="name" value="processTimestamp"/>
     <property name="label" value="Process Timestamp"/>
     <property name="shortLabel" value="Timestamp"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.DateViewTimestampObjectFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.DateViewTimestampObjectFormatter"/>
   </bean>  
   <bean id="PaymentProcess-processUser.name" parent="PaymentProcess-processUser.name-parentBean"/>
 
@@ -97,12 +97,7 @@
     <property name="label" value="Extracted Indicator"/>
     <property name="shortLabel" value="Extracted Indicator"/>
     <property name="maxLength" value="1"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNBlankValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
+    <property name="control" ref="IndicatorYNNullSelectControl" />
   </bean>
   <bean id="PaymentProcess-formattedIndicator" parent="PaymentProcess-formattedIndicator-parentBean"/>
 
@@ -111,12 +106,7 @@
     <property name="label" value="Formatted Indicator"/>
     <property name="shortLabel" value="Formatted Indicator"/>
     <property name="maxLength" value="1"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
-    <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNBlankValuesFinder" p:includeKeyInLabel="false"/>
-    </property>
+    <property name="control" ref="IndicatorYNNullSelectControl" />
   </bean>
   
 <!-- Business Object Inquiry Definition -->

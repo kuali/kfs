@@ -19,8 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.sec.SecConstants;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 
 /**
@@ -28,19 +30,19 @@ import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
  */
 public class SecurityOperatorCodeFinder extends KeyValuesBase {
 
+    protected static final List<KeyValue> OPTIONS = new ArrayList<KeyValue>();
+    static {
+        OPTIONS.add(new ConcreteKeyValue(SecConstants.SecurityDefinitionOperatorCodes.EQUAL, "Equal"));
+        OPTIONS.add(new ConcreteKeyValue(SecConstants.SecurityDefinitionOperatorCodes.NOT_EQUAL, "Not Equal"));
+        OPTIONS.add(new ConcreteKeyValue(SecConstants.SecurityDefinitionOperatorCodes.GREATER_THAN, "Greater Than"));
+        OPTIONS.add(new ConcreteKeyValue(SecConstants.SecurityDefinitionOperatorCodes.GREATER_THAN_EQUAL, "Greater Than or Equal"));
+        OPTIONS.add(new ConcreteKeyValue(SecConstants.SecurityDefinitionOperatorCodes.LESS_THAN, "Less Than"));
+        OPTIONS.add(new ConcreteKeyValue(SecConstants.SecurityDefinitionOperatorCodes.LESS_THAN_EQUAL, "Less Than or Equal"));
+    }
     /**
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List getKeyValues() {
-        List activeLabels = new ArrayList();
-
-        activeLabels.add(new KeyLabelPair(SecConstants.SecurityDefinitionOperatorCodes.EQUAL, "Equal"));
-        activeLabels.add(new KeyLabelPair(SecConstants.SecurityDefinitionOperatorCodes.NOT_EQUAL, "Not Equal"));
-        activeLabels.add(new KeyLabelPair(SecConstants.SecurityDefinitionOperatorCodes.GREATER_THAN, "Greater Than"));
-        activeLabels.add(new KeyLabelPair(SecConstants.SecurityDefinitionOperatorCodes.GREATER_THAN_EQUAL, "Greater Than or Equal"));
-        activeLabels.add(new KeyLabelPair(SecConstants.SecurityDefinitionOperatorCodes.LESS_THAN, "Less Than"));
-        activeLabels.add(new KeyLabelPair(SecConstants.SecurityDefinitionOperatorCodes.LESS_THAN_EQUAL, "Less Than or Equal"));
-
-        return activeLabels;
+    public List<KeyValue> getKeyValues() {
+        return OPTIONS;
     }
 }

@@ -29,15 +29,15 @@ import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CustomerRule extends MaintenanceDocumentRuleBase {
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(CustomerRule.class);
@@ -68,7 +68,7 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
         boolean isValid = true;
         isValid &= super.processCustomRouteDocumentBusinessRules(document);
         MessageMap errorMap = GlobalVariables.getMessageMap();
-        isValid &= errorMap.isEmpty();
+        isValid &= errorMap.hasErrors();
         if (isValid) {
             initializeAttributes(document);
             isValid &= checkCustomerHasAddress(newCustomer);
@@ -142,14 +142,14 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
 
     /**
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument,
-     *      java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
+     *      java.lang.String, org.kuali.rice.krad.bo.PersistableBusinessObject)
      */
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
         boolean isValid = true;
         isValid &= super.processCustomAddCollectionLineBusinessRules(document, collectionName, line);
         MessageMap errorMap = GlobalVariables.getMessageMap();
-        isValid &= errorMap.isEmpty();
+        isValid &= errorMap.hasErrors();
 
         if (collectionName.equals(ArPropertyConstants.CustomerFields.CUSTOMER_TAB_ADDRESSES)) {
             CustomerAddress customerAddress = (CustomerAddress) line;
@@ -386,7 +386,7 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
         // this block is to validate email addresses
         for (CustomerAddress customerAddress : customer.getCustomerAddresses()) {
             if (ObjectUtils.isNotNull(customerAddress.getCustomerEmailAddress())) {
-                String errorPath = KNSConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.CustomerFields.CUSTOMER_TAB_ADDRESSES + "[" + i + "]";
+                String errorPath = KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + ArPropertyConstants.CustomerFields.CUSTOMER_TAB_ADDRESSES + "[" + i + "]";
                 GlobalVariables.getMessageMap().addToErrorPath(errorPath);
 
                 this.getDictionaryValidationService().validateBusinessObject(customerAddress);
@@ -454,7 +454,7 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
     public boolean isTaxNumberRequired() {
         boolean paramExists = SpringContext.getBean(ParameterService.class).parameterExists(Customer.class, KFSConstants.CustomerParameter.TAX_NUMBER_REQUIRED_IND);
         if (paramExists) {
-            return SpringContext.getBean(ParameterService.class).getIndicatorParameter(Customer.class, KFSConstants.CustomerParameter.TAX_NUMBER_REQUIRED_IND);
+            return SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(Customer.class, KFSConstants.CustomerParameter.TAX_NUMBER_REQUIRED_IND);
         }
         else
             return false;

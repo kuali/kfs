@@ -18,7 +18,7 @@ package org.kuali.kfs.module.ar.document.authorization;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 
 public class PaymentApplicationDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
 
@@ -28,7 +28,7 @@ public class PaymentApplicationDocumentPresentationController extends FinancialS
     }
 
     @Override
-    protected boolean canCancel(Document document) {
+    public boolean canCancel(Document document) {
         PaymentApplicationDocument paymentApplicationDocument = (PaymentApplicationDocument) document;
 
         // KULAR-452

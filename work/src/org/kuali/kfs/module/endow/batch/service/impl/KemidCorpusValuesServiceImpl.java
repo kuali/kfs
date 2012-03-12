@@ -22,9 +22,9 @@ import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.batch.service.KemidCorpusValueService;
 import org.kuali.kfs.module.endow.businessobject.EndowmentCorpusValues;
 import org.kuali.kfs.module.endow.document.service.KEMService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class is the service implementation for the KemidCorpusValuesService. This is the default, Kuali provided implementation.

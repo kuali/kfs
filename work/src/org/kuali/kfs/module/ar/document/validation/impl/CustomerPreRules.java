@@ -15,23 +15,21 @@
  */
 package org.kuali.kfs.module.ar.document.validation.impl;
 
-import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
-import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CustomerPreRules extends PromptBeforeValidationBase {
 
     /**
-     * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.kns.document.Document)
+     * @see org.kuali.rice.kns.rules.PromptBeforeValidationBase#doRules(org.kuali.rice.krad.document.Document)
      */
     @Override
     public boolean doPrompts(Document document) {
@@ -52,7 +50,7 @@ public class CustomerPreRules extends PromptBeforeValidationBase {
         boolean shouldAskQuestion = maintenanceDocument.isNew() && checkIfOtherCustomerSameName(newCostomer);
 
         if (shouldAskQuestion) {
-            String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(ArKeyConstants.CustomerConstants.MESSAGE_CUSTOMER_WITH_SAME_NAME_EXISTS);
+            String questionText = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(ArKeyConstants.CustomerConstants.MESSAGE_CUSTOMER_WITH_SAME_NAME_EXISTS);
             boolean confirm = super.askOrAnalyzeYesNoQuestion(ArKeyConstants.CustomerConstants.GENERATE_CUSTOMER_QUESTION_ID, questionText);
             if (!confirm) {
                 super.abortRulesCheck();
@@ -72,7 +70,7 @@ public class CustomerPreRules extends PromptBeforeValidationBase {
         Customer customer = SpringContext.getBean(CustomerService.class).getCustomerByName(newCustomer.getCustomerName());
         if (ObjectUtils.isNotNull(customer)) {
             exists = true;
-            GlobalVariables.getMessageList().add(ArKeyConstants.CustomerConstants.MESSAGE_CUSTOMER_WITH_SAME_NAME_EXISTS);
+            KNSGlobalVariables.getMessageList().add(ArKeyConstants.CustomerConstants.MESSAGE_CUSTOMER_WITH_SAME_NAME_EXISTS);
         }
         return exists;
     }

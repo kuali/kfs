@@ -20,9 +20,9 @@ import java.util.List;
 
 import org.kuali.kfs.pdp.businessobject.ACHTransactionCode;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * This class returns list containing 22 = Checking or 32 = Share Deposit
@@ -38,7 +38,7 @@ public class AchTransactionCodeValuesFinder extends KeyValuesBase {
         List keyValues = new ArrayList();
         List<ACHTransactionCode> boList = (List) SpringContext.getBean(KeyValuesService.class).findAll(ACHTransactionCode.class);
         for (ACHTransactionCode element : boList) {
-            keyValues.add(new KeyLabelPair(element.getCode(), element.getName()));
+            keyValues.add(new ConcreteKeyValue(element.getCode(), element.getName()));
         }
 
         return keyValues;

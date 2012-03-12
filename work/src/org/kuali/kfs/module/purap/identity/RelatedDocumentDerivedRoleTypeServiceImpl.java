@@ -16,30 +16,34 @@
 package org.kuali.kfs.module.purap.identity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.core.api.membership.MemberType;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.role.service.impl.RouteLogDerivedRoleTypeServiceImpl;
-import org.kuali.rice.kim.bo.Role;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.role.RoleMembership;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.role.RoleMembership.Builder;
+import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.KRADConstants;
 
-public class RelatedDocumentDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
+public class RelatedDocumentDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
     protected static final String SOURCE_DOCUMENT_ROUTER_ROLE_NAME = "Source Document Router";
     protected static final String SENSITIVE_RELATED_DOCUMENT_INITATOR_OR_REVIEWER_ROLE_NAME = "Sensitive Related Document Initiator Or Reviewer";
 
     private DocumentService documentService;
     private PurapService purapService;
-    private RoleManagementService roleManagementService;
+    private RoleService roleManagementService;
 
     /**
      * This service will accept the following attributes: Document Number Context: An fyi to the initiator - in the case of
@@ -47,22 +51,23 @@ public class RelatedDocumentDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
      * router. Requirements: - KFS-PURAP Source Document Router - for Automated Purchase Order, Requisition router according to
      * KR-WKFLW Router role / for normal Purchase Order, Purchase Order router according to KR-WKFLW Router
      * 
-     * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#getPrincipalIdsFromApplicationRole(java.lang.String,
+     * @see org.kuali.rice.kns.kim.role.RoleTypeServiceBase#getPrincipalIdsFromApplicationRole(java.lang.String,
      *      java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
     @Override
-    public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
-        List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
+    public List<RoleMembership> getRoleMembersFromDerivedRole(String namespaceCode, String roleName, Map<String,String> qualification) {
+        List<RoleMembership> members = new ArrayList<RoleMembership>();
         if(qualification!=null && !qualification.isEmpty()){
             if (SOURCE_DOCUMENT_ROUTER_ROLE_NAME.equals(roleName)) {
                 try {
-                    PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument) getDocumentService().getByDocumentHeaderId(qualification.get(PurapKimAttributes.DOCUMENT_NUMBER));
+                    PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument) getDocumentService().getByDocumentHeaderId(qualification.get(KFSPropertyConstants.DOCUMENT_NUMBER));
                     if (document != null) {
                         PurchasingAccountsPayableDocument sourceDocument = document.getPurApSourceDocumentIfPossible();
                         if (sourceDocument != null && StringUtils.isNotBlank(sourceDocument.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId()) ) {
-                            AttributeSet roleQualifier = new AttributeSet(1);
-                            roleQualifier.put(KfsKimAttributes.DOCUMENT_NUMBER, sourceDocument.getDocumentNumber() );
-                            members.add( new RoleMembershipInfo(null,null,sourceDocument.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId(),Role.PRINCIPAL_MEMBER_TYPE,roleQualifier) );
+                            Map<String,String> roleQualifier = new HashMap<String,String>(1);
+                            roleQualifier.put(KimConstants.AttributeConstants.DOCUMENT_NUMBER, sourceDocument.getDocumentNumber() );
+                            Builder roleMember = RoleMembership.Builder.create(null,null,sourceDocument.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId(),KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE,roleQualifier);
+                            members.add( roleMember.build());
                         }
                     }
                 }
@@ -72,10 +77,12 @@ public class RelatedDocumentDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
             }
             else if (SENSITIVE_RELATED_DOCUMENT_INITATOR_OR_REVIEWER_ROLE_NAME.equals(roleName)) {
                 for (String documentId : getPurapService().getRelatedDocumentIds(new Integer(qualification.get(PurapKimAttributes.ACCOUNTS_PAYABLE_PURCHASING_DOCUMENT_LINK_IDENTIFIER)))) {
-                    AttributeSet tempQualification = new AttributeSet(1);
-                    tempQualification.put(PurapKimAttributes.DOCUMENT_NUMBER, documentId);
-                    for ( String principalId : getRoleManagementService().getRoleMemberPrincipalIds(KNSConstants.KUALI_RICE_WORKFLOW_NAMESPACE, RouteLogDerivedRoleTypeServiceImpl.INITIATOR_OR_REVIEWER_ROLE_NAME, tempQualification) ) {
-                        members.add( new RoleMembershipInfo(null,null,principalId,Role.PRINCIPAL_MEMBER_TYPE,tempQualification) );
+                    Map<String,String> tempQualification = new HashMap<String,String>(1);
+                    tempQualification.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentId);
+                    for ( String principalId : getRoleService().getRoleMemberPrincipalIds(KRADConstants.KUALI_RICE_WORKFLOW_NAMESPACE, RouteLogDerivedRoleTypeServiceImpl.INITIATOR_OR_REVIEWER_ROLE_NAME, tempQualification) ) {
+                        Builder roleMember = RoleMembership.Builder.create(null,null,principalId,KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE,tempQualification);
+                        members.add( roleMember.build());
+
                     }
                 }
             }
@@ -97,9 +104,9 @@ public class RelatedDocumentDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
         return purapService;
     }
 
-    protected RoleManagementService getRoleManagementService() {
+    protected RoleService getRoleService() {
         if (roleManagementService == null) {
-            roleManagementService = SpringContext.getBean(RoleManagementService.class);
+            roleManagementService = SpringContext.getBean(RoleService.class);
         }
         return roleManagementService;
     }

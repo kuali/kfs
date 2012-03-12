@@ -22,7 +22,7 @@
  
  function setTransactionRestrictionCodeDesc( transactionRestrictionCodeFieldName, transactionRestrictionCodeDescFieldName ){
  
-	var transactionRestrictionCode = DWRUtil.getValue( transactionRestrictionCodeFieldName );
+	var transactionRestrictionCode = dwr.util.getValue( transactionRestrictionCodeFieldName );
 
 	if (transactionRestrictionCode =='') {
 		clearRecipients(transactionRestrictionCodeDescFieldName, "");

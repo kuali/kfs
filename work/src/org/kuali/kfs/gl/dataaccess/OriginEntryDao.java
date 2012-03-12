@@ -19,10 +19,10 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.gl.businessobject.OriginEntryGroup;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * 

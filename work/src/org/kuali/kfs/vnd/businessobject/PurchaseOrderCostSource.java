@@ -19,8 +19,8 @@ package org.kuali.kfs.vnd.businessobject;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Arbitrary categories per Vendor Contract for the purpose of tracking various kinds of costs that may be incurred by Purchase
@@ -28,7 +28,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
  * 
  * @see org.kuali.kfs.vnd.businessobject.VendorContract
  */
-public class PurchaseOrderCostSource extends PersistableBusinessObjectBase implements Inactivateable{
+public class PurchaseOrderCostSource extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     private String purchaseOrderCostSourceCode;
     private String purchaseOrderCostSourceDescription;
@@ -71,9 +71,9 @@ public class PurchaseOrderCostSource extends PersistableBusinessObjectBase imple
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("purchaseOrderCostSourceCode", this.purchaseOrderCostSourceCode);
 

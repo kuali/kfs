@@ -54,13 +54,13 @@
 			<list>
 				<dd:relationship objectAttribute="vendorState">
 					<dd:primitiveAttribute source="vendorStateCode"
-						target="postalStateCode" />
+						target="code" />
 					<dd:primitiveAttribute source="vendorCountryCode"
-						target="postalCountryCode" />
+						target="countryCode" />
 				</dd:relationship>
 				<dd:relationship objectAttribute="vendorCountry">
 					<dd:primitiveAttribute source="vendorCountryCode"
-						target="postalCountryCode" />
+						target="code" />
 				</dd:relationship>
 			</list>
 		</property>
@@ -122,17 +122,10 @@
 	<bean id="VendorAddress-vendorDefaultAddressIndicator" parent="VendorAddress-vendorDefaultAddressIndicator-parentBean" />
 
 	<bean id="VendorAddress-vendorDefaultAddressIndicator-parentBean"
-		abstract="true" parent="AttributeDefinition">
+		abstract="true" parent="VendorGenericAttributes-yesNoWithoutBlankIndicator">
 		<property name="name" value="vendorDefaultAddressIndicator" />
-		<property name="forceUppercase" value="false" />
 		<property name="label" value="Set as Default Address" />
 		<property name="shortLabel" value="Default Address" />
-		<property name="maxLength" value="1" />
-		<property name="control">
-			<bean parent="SelectControlDefinition"
-				p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorYNOnlyValuesFinder"
-				p:includeKeyInLabel="false" />
-		</property>
 	</bean>
 	<bean id="VendorAddress-vendorFaxNumber" parent="VendorAddress-vendorFaxNumber-parentBean" />
 

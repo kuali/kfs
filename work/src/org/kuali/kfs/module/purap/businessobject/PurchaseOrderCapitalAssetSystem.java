@@ -81,7 +81,7 @@ public class PurchaseOrderCapitalAssetSystem extends PurchasingCapitalAssetSyste
         return documentNumber;
     }
 
-    @Override
+    
     public Class getCapitalAssetLocationClass() {
         return PurchaseOrderCapitalAssetLocation.class;
     }
@@ -96,7 +96,7 @@ public class PurchaseOrderCapitalAssetSystem extends PurchasingCapitalAssetSyste
     }
     
     @Override
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();      
         if (this.documentNumber != null) {
             m.put("documentNumber", this.documentNumber.toString());

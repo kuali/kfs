@@ -31,8 +31,8 @@ import org.kuali.kfs.gl.batch.service.impl.GenericOrganizationReversionCategory;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * 
@@ -105,7 +105,7 @@ public class OrganizationReversionServiceImpl implements OrganizationReversionSe
      * @see org.kuali.kfs.coa.service.OrganizationReversionService#getOrganizationReversionDetaiFromSystemParameters()
      */
     public String  getOrganizationReversionDetaiFromSystemParameters() {
-        return parameterService.getParameterValue(OrganizationReversion.class, GeneralLedgerConstants.OrganizationReversionProcess.UNALLOC_OBJECT_CODE_PARM);
+        return parameterService.getParameterValueAsString(OrganizationReversion.class, GeneralLedgerConstants.OrganizationReversionProcess.UNALLOC_OBJECT_CODE_PARM);
     }
     
 

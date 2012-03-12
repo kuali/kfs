@@ -16,15 +16,17 @@
 package org.kuali.kfs.module.endow.businessobject.options;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kfs.module.endow.EndowParameterKeyConstants;
 import org.kuali.kfs.module.endow.businessobject.TransactionArchive;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kew.doctype.service.DocumentTypeService;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class EndowmentTransactionDocumentTypeValuesFinder extends KeyValuesBase {
 
@@ -33,27 +35,27 @@ public class EndowmentTransactionDocumentTypeValuesFinder extends KeyValuesBase 
     /**
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         
         // Create service objects.
         DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
         ParameterService parameterService       = SpringContext.getBean(ParameterService.class);
         
         // Create label and initialize with the first entry being blank.
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
-        labels.add(new KeyLabelPair("", ""));
+        List<KeyValue> labels = new ArrayList<KeyValue>();
+        labels.add(new ConcreteKeyValue("", ""));
         
         // Read in parameter values.
-        List<String> documentTypeNames =
-            parameterService.getParameterValues(TransactionArchive.class, EndowParameterKeyConstants.TRANSACTION_ARCHIVE_DOCUMENT_TYPE_NAMES);
+        Collection<String> documentTypeNames =
+            parameterService.getParameterValuesAsString(TransactionArchive.class, EndowParameterKeyConstants.TRANSACTION_ARCHIVE_DOCUMENT_TYPE_NAMES);
         String label= null;
         for (String documentTypeName : documentTypeNames) {
-            if(documentTypeService.findByName(documentTypeName)== null){
-                labels.add(new KeyLabelPair(documentTypeName, documentTypeName+" - Can't find it!"));
+            if(documentTypeService.getDocumentTypeByName(documentTypeName)== null){
+                labels.add(new ConcreteKeyValue(documentTypeName, documentTypeName+" - Can't find it!"));
             }
             else{
-                label = documentTypeService.findByName(documentTypeName).getLabel();
-                labels.add(new KeyLabelPair(documentTypeName, documentTypeName+" - "+label));
+                label = documentTypeService.getDocumentTypeByName(documentTypeName).getLabel();
+                labels.add(new ConcreteKeyValue(documentTypeName, documentTypeName+" - "+label));
             }
         }
         

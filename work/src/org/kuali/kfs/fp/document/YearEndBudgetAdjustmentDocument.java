@@ -55,8 +55,8 @@ public class YearEndBudgetAdjustmentDocument extends BudgetAdjustmentDocument im
      * @param accountingLine The accounting line the explicit general ledger pending entry was generated from.
      * @param explicitEntry The explicit general ledger pending entry to be customized.
      * 
-     * @see org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentDocumentRule#customizeExplicitGeneralLedgerPendingEntry(org.kuali.rice.kns.document.AccountingDocument,
-     *      org.kuali.rice.kns.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
+     * @see org.kuali.kfs.fp.document.validation.impl.BudgetAdjustmentDocumentRule#customizeExplicitGeneralLedgerPendingEntry(org.kuali.rice.krad.document.AccountingDocument,
+     *      org.kuali.rice.krad.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      * @see YearEndDocumentUtil#customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument, AccountingLine,
      *      GeneralLedgerPendingEntry)
      */

@@ -19,7 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * Event Base class for Purchasing Accounts Payable Item
@@ -58,7 +58,7 @@ public abstract class AttributedPurchasingAccountsPayableItemEventBase extends A
 
 
     /**
-     * @see org.kuali.rice.kns.rule.event.KualiDocumentEvent#validate()
+     * @see org.kuali.rice.krad.rule.event.KualiDocumentEvent#validate()
      */
     public void validate() {
         super.validate();

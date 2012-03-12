@@ -16,6 +16,7 @@
 package org.kuali.kfs.fp.document.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,9 +32,10 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.MessageList;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * implementing the service methods defined in DisbursementVoucherPaymentReasonService
@@ -41,18 +43,18 @@ import org.kuali.rice.kns.util.MessageList;
  * @see DisbursementVoucherPaymentReasonService
  */
 public class DisbursementVoucherPaymentReasonServiceImpl implements DisbursementVoucherPaymentReasonService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherPaymentReasonServiceImpl.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherPaymentReasonServiceImpl.class);
 
-    public ParameterService parameterService;
-    private BusinessObjectService businessObjectService;
-    private DisbursementVoucherPayeeService disbursementVoucherPayeeService;
+    protected ParameterService parameterService;
+    protected BusinessObjectService businessObjectService;
+    protected DisbursementVoucherPayeeService disbursementVoucherPayeeService;
 
     /**
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentReasonService#isPayeeQualifiedForPayment(org.kuali.kfs.fp.businessobject.DisbursementPayee,
      *      java.lang.String)
      */
     public boolean isPayeeQualifiedForPayment(DisbursementPayee payee, String paymentReasonCode) {
-        List<String> payeeTypeCodes = this.getPayeeTypesByPaymentReason(paymentReasonCode);
+        Collection<String> payeeTypeCodes = this.getPayeeTypesByPaymentReason(paymentReasonCode);
         return this.isPayeeQualifiedForPayment(payee, paymentReasonCode, payeeTypeCodes);
     }
 
@@ -60,7 +62,7 @@ public class DisbursementVoucherPaymentReasonServiceImpl implements Disbursement
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentReasonService#isPayeeQualifiedForPayment(org.kuali.kfs.fp.businessobject.DisbursementPayee,
      *      java.lang.String, java.util.List)
      */
-    public boolean isPayeeQualifiedForPayment(DisbursementPayee payee, String paymentReasonCode, List<String> payeeTypeCodes) {
+    public boolean isPayeeQualifiedForPayment(DisbursementPayee payee, String paymentReasonCode, Collection<String> payeeTypeCodes) {
         if (payeeTypeCodes == null || payeeTypeCodes.isEmpty()) {
             return false;
         }
@@ -71,7 +73,7 @@ public class DisbursementVoucherPaymentReasonServiceImpl implements Disbursement
         }
         
         if (disbursementVoucherPayeeService.isVendor(payee)) {
-            List<String> vendorOwnershipTypeCodes = this.getVendorOwnershipTypesByPaymentReason(paymentReasonCode);
+            Collection<String> vendorOwnershipTypeCodes = this.getVendorOwnershipTypesByPaymentReason(paymentReasonCode);
             
             if (vendorOwnershipTypeCodes != null && !vendorOwnershipTypeCodes.isEmpty()) {                
                 String vendorOwnershipTypeCodeOfPayee = disbursementVoucherPayeeService.getVendorOwnershipTypeCode(payee);
@@ -144,28 +146,28 @@ public class DisbursementVoucherPaymentReasonServiceImpl implements Disbursement
      *      java.lang.String)
      */
     public boolean isPaymentReasonOfType(String typeParameterName, String paymentReasonCode) {
-        return parameterService.getParameterEvaluator(DisbursementVoucherDocument.class, typeParameterName, paymentReasonCode).evaluationSucceeds();
+        return /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(DisbursementVoucherDocument.class, typeParameterName, paymentReasonCode).evaluationSucceeds();
     }
 
     /**
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentReasonService#getReserchNonVendorPayLimit()
      */
     public String getReserchNonVendorPayLimit() {
-        return parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherConstants.RESEARCH_NON_VENDOR_PAY_LIMIT_AMOUNT_PARM_NM);
+        return parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.RESEARCH_NON_VENDOR_PAY_LIMIT_AMOUNT_PARM_NM);
     }
 
     /**
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentReasonService#getPayeeTypesByPaymentReason(java.lang.String)
      */
-    public List<String> getPayeeTypesByPaymentReason(String paymentReasonCode) {
-        return parameterService.getParameterValues(DisbursementVoucherDocument.class, DisbursementVoucherConstants.VALID_PAYEE_TYPES_BY_PAYMENT_REASON_PARM, paymentReasonCode);
+    public Collection<String> getPayeeTypesByPaymentReason(String paymentReasonCode) {
+        return parameterService.getSubParameterValuesAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.VALID_PAYEE_TYPES_BY_PAYMENT_REASON_PARM, paymentReasonCode);
     }
     
     /**
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentReasonService#getVendorOwnershipTypesByPaymentReason(java.lang.String)
      */
-    public List<String> getVendorOwnershipTypesByPaymentReason(String paymentReasonCode) {
-        return parameterService.getParameterValues(DisbursementVoucherDocument.class, DisbursementVoucherConstants.VALID_VENDOR_OWNERSHIP_TYPES_BY_PAYMENT_REASON, paymentReasonCode);
+    public Collection<String> getVendorOwnershipTypesByPaymentReason(String paymentReasonCode) {
+        return parameterService.getSubParameterValuesAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.VALID_VENDOR_OWNERSHIP_TYPES_BY_PAYMENT_REASON, paymentReasonCode);
     }
 
     /**
@@ -183,7 +185,7 @@ public class DisbursementVoucherPaymentReasonServiceImpl implements Disbursement
      */
     public boolean isTaxReviewRequired(String paymentReasonCode) {
         String parameterName = DisbursementVoucherConstants.PAYMENT_REASONS_REQUIRING_TAX_REVIEW_PARM_NM;
-        List<String> values = parameterService.getParameterValues(DisbursementVoucherDocument.class, parameterName);
+        List<String> values = new ArrayList<String>( parameterService.getParameterValuesAsString(DisbursementVoucherDocument.class, parameterName) );
         
         return values != null && values.contains(paymentReasonCode);
     }
@@ -193,7 +195,7 @@ public class DisbursementVoucherPaymentReasonServiceImpl implements Disbursement
      *      org.kuali.rice.kns.util.MessageList)
      */
     public void postPaymentReasonCodeUsage(String paymentReasonCode, MessageList messageList) {
-        List<String> payeeTypeCodes = this.getPayeeTypesByPaymentReason(paymentReasonCode);
+        Collection<String> payeeTypeCodes = this.getPayeeTypesByPaymentReason(paymentReasonCode);
         if (payeeTypeCodes == null || payeeTypeCodes.isEmpty()) {
             return;
         }
@@ -222,7 +224,7 @@ public class DisbursementVoucherPaymentReasonServiceImpl implements Disbursement
         }
 
         if (this.isMovingPaymentReason(paymentReasonCode)) {
-            List<String> individualOwnerShipTypeCodes = parameterService.getParameterValues(DisbursementVoucherDocument.class, DisbursementVoucherConstants.INDIVIDUAL_OWNERSHIP_TYPES_PARM_NM);
+            List<String> individualOwnerShipTypeCodes = new ArrayList<String>( parameterService.getParameterValuesAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.INDIVIDUAL_OWNERSHIP_TYPES_PARM_NM) );
             String ownerShipTypeAsString = this.convertListToString(individualOwnerShipTypeCodes);
 
             String messageKey = KFSKeyConstants.WARNING_DV_MOVING_PAYMENT_REASON;
@@ -236,7 +238,7 @@ public class DisbursementVoucherPaymentReasonServiceImpl implements Disbursement
     }
 
     // get and concatenate the descriptive payee types of the given codes
-    protected String getDescriptivePayeeTypesAsString(List<String> payeeTypeCodes) {
+    protected String getDescriptivePayeeTypesAsString(Collection<String> payeeTypeCodes) {
         List<String> payeeTypeDescriptions = new ArrayList<String>();
 
         for (String payeeTypeCode : payeeTypeCodes) {

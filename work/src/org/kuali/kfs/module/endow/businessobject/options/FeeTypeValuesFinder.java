@@ -23,28 +23,29 @@ import java.util.List;
 import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.businessobject.FeeTypeCode;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 public class FeeTypeValuesFinder extends KeyValuesBase {
     
     /**
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
 
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection<FeeTypeCode> codes = boService.findAll(FeeTypeCode.class);
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
+        List<KeyValue> labels = new ArrayList<KeyValue>();
         
-        labels.add(new KeyLabelPair("", ""));
+        labels.add(new ConcreteKeyValue("", ""));
         for (Iterator<FeeTypeCode> iter = codes.iterator(); iter.hasNext();) {
             FeeTypeCode feeTypeCode = (FeeTypeCode) iter.next();
             //do not add fee type = P as Payments Tab not to be implemented
             //jira#: KULENDOW-449
             if (!feeTypeCode.getCode().equalsIgnoreCase(EndowConstants.FeeType.FEE_TYPE_CODE_FOR_PAYMENTS)) {
-                labels.add(new KeyLabelPair(feeTypeCode.getCode(), feeTypeCode.getCodeAndDescription()));
+                labels.add(new ConcreteKeyValue(feeTypeCode.getCode(), feeTypeCode.getCodeAndDescription()));
             }
         }
 

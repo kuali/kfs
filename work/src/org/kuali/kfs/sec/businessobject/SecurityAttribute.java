@@ -15,18 +15,17 @@
  */
 package org.kuali.kfs.sec.businessobject;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  * Security Attribute represents attributes that can used within the security system to define restrictions.
  */
-public class SecurityAttribute extends PersistableBusinessObjectBase implements Inactivateable {
+public class SecurityAttribute extends PersistableBusinessObjectBase implements MutableInactivatable {
     private KualiInteger id;
     private String name;
     private boolean active;
@@ -90,10 +89,10 @@ public class SecurityAttribute extends PersistableBusinessObjectBase implements 
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
 
         m.put(KFSPropertyConstants.ID, this.id);

@@ -24,12 +24,12 @@ import org.kuali.kfs.pdp.businessobject.PayeeACHAccount;
 import org.kuali.kfs.pdp.businessobject.PayeeType;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiInteger;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.util.UrlFactory;
 
 /**
  * Customer inquiry for "Payee ACH Account Lookup" results.
@@ -37,7 +37,7 @@ import org.kuali.rice.kns.util.UrlFactory;
 public class PayeeAchAccountInquirable extends KfsInquirableImpl {
 
     /**
-     * @see org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl#getInquiryUrl(org.kuali.rice.kns.bo.BusinessObject,
+     * @see org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl#getInquiryUrl(org.kuali.rice.krad.bo.BusinessObject,
      *      java.lang.String, boolean)
      */
     @Override
@@ -51,8 +51,8 @@ public class PayeeAchAccountInquirable extends KfsInquirableImpl {
         if (PdpPropertyConstants.PAYEE_NAME.equals(attributeName)) {
             Properties parameters = new Properties();
 
-            parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
-            parameters.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, PayeeACHAccount.class.getName());
+            parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
+            parameters.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, PayeeACHAccount.class.getName());
 
             KualiInteger generatedIdentifier = (KualiInteger) ObjectUtils.getPropertyValue(businessObject, PdpPropertyConstants.ACH_ACCOUNT_GENERATED_IDENTIFIER);
             parameters.put(PdpPropertyConstants.ACH_ACCOUNT_GENERATED_IDENTIFIER, generatedIdentifier.toString());
@@ -60,7 +60,7 @@ public class PayeeAchAccountInquirable extends KfsInquirableImpl {
             Map<String, String> fieldList = new HashMap<String, String>();
             fieldList.put(PdpPropertyConstants.ACH_ACCOUNT_GENERATED_IDENTIFIER, generatedIdentifier.toString());
             
-            htmlData = getHyperLink(PayeeACHAccount.class, fieldList, UrlFactory.parameterizeUrl(KNSConstants.INQUIRY_ACTION, parameters));
+            htmlData = getHyperLink(PayeeACHAccount.class, fieldList, UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, parameters));
         }
         
         //
@@ -69,8 +69,8 @@ public class PayeeAchAccountInquirable extends KfsInquirableImpl {
         else if (PdpPropertyConstants.PAYEE_IDENTIFIER_TYPE_CODE.equals(attributeName)) {
             Properties parameters = new Properties();
 
-            parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
-            parameters.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, PayeeType.class.getName());
+            parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
+            parameters.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, PayeeType.class.getName());
 
             String payeeIdentifierCode = (String) ObjectUtils.getPropertyValue(businessObject, PdpPropertyConstants.PAYEE_IDENTIFIER_TYPE_CODE);
             parameters.put(PdpPropertyConstants.PAYEE_CODE, payeeIdentifierCode);
@@ -78,7 +78,7 @@ public class PayeeAchAccountInquirable extends KfsInquirableImpl {
             Map<String, String> fieldList = new HashMap<String, String>();
             fieldList.put(PdpPropertyConstants.PAYEE_CODE, payeeIdentifierCode);
             
-            htmlData = getHyperLink(PayeeType.class, fieldList, UrlFactory.parameterizeUrl(KNSConstants.INQUIRY_ACTION, parameters));
+            htmlData = getHyperLink(PayeeType.class, fieldList, UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, parameters));
         }
         
         //

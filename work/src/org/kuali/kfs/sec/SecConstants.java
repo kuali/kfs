@@ -30,7 +30,7 @@ import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.sec.businessobject.SecurityAttributeMetadata;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.service.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 
 
 /**
@@ -128,12 +128,6 @@ public class SecConstants {
         public static final String EDIT_ACCOUNTING_LINE_FIELD_VALUE = "Edit Accounting Line with Field Value";
         public static final String LOOKUP_FIELD_VALUE = "Lookup with Field Value";
         public static final String INQUIRY_FIELD_VALUE = "Balance Inquiry with Field Value";
-    }
-
-    public class SecurityTypes {
-        public static final String DEFAULT_ROLE_TYPE = "1";
-        @Deprecated // Similar to above, KIM IDs *NEVER* should be hard-coded
-        public static final String SECURITY_DEFINITION_ROLE_TYPE = "KFSSEC4";
     }
 
     public class SecurityValueSpecialCharacters {

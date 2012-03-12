@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.module.ld.LaborConstants.JournalVoucherOffsetType;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.lookup.valueFinder.ValueFinder;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.valuefinder.ValueFinder;
 
 /**
  * Option Finder for Offset.
@@ -29,7 +29,7 @@ import org.kuali.rice.core.util.KeyLabelPair;
 public class OffsetOptionFinder extends KeyValuesBase implements ValueFinder {
 
     /**
-     * @see org.kuali.rice.kns.lookup.valueFinder.ValueFinder#getValue()
+     * @see org.kuali.rice.krad.valuefinder.ValueFinder#getValue()
      */
     public String getValue() {
         return JournalVoucherOffsetType.NO_OFFSET.typeCode;
@@ -42,7 +42,7 @@ public class OffsetOptionFinder extends KeyValuesBase implements ValueFinder {
         List labels = new ArrayList();
 
         for (JournalVoucherOffsetType offsetType : JournalVoucherOffsetType.values()) {
-            labels.add(new KeyLabelPair(offsetType.typeCode, offsetType.description));
+            labels.add(new ConcreteKeyValue(offsetType.typeCode, offsetType.description));
         }
 
         return labels;

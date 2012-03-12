@@ -30,14 +30,14 @@ import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.util.AutoPopulatingList;
 
 public class OrganizationOptionsRule extends MaintenanceDocumentRuleBase {
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationOptionsRule.class);
@@ -98,7 +98,7 @@ public class OrganizationOptionsRule extends MaintenanceDocumentRuleBase {
      * @param map
      */
     protected void removeRestrictedFieldChangedErrors(MessageMap map, String propertyKey) {
-        TypedArrayList errorMessages = (TypedArrayList)map.get(propertyKey);
+        AutoPopulatingList<ErrorMessage> errorMessages = map.getErrorMessagesForProperty(propertyKey);
         if(errorMessages!=null) {
             for(int i=0; i<errorMessages.size(); i++) {
                 ErrorMessage eMessage = (ErrorMessage)errorMessages.get(i);
@@ -145,7 +145,7 @@ public class OrganizationOptionsRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
 
         // check if sales tax is enabled && if org postal code is empty
-        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(KfsParameterConstants.ACCOUNTS_RECEIVABLE_DOCUMENT.class, ArConstants.ENABLE_SALES_TAX_IND) && StringUtils.isBlank(organizationOptions.getOrganizationPostalZipCode())) {
+        if (SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.ACCOUNTS_RECEIVABLE_DOCUMENT.class, ArConstants.ENABLE_SALES_TAX_IND) && StringUtils.isBlank(organizationOptions.getOrganizationPostalZipCode())) {
             putFieldError(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_POSTAL_ZIP_CODE, ArKeyConstants.OrganizationOptionsErrors.ERROR_ORG_OPTIONS_ZIP_CODE_REQUIRED);
             success = false;
         }

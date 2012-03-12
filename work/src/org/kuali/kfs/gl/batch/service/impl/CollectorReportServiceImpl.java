@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.batch.CollectorBatch;
 import org.kuali.kfs.gl.batch.CollectorStep;
@@ -41,20 +40,19 @@ import org.kuali.kfs.gl.report.Summary;
 import org.kuali.kfs.gl.service.PreScrubberService;
 import org.kuali.kfs.gl.service.ScrubberReportData;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.Message;
-import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.sys.service.ReportWriterService;
-import org.kuali.rice.kns.mail.InvalidAddressException;
-import org.kuali.rice.kns.mail.MailMessage;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.MailService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.kns.web.format.CurrencyFormatter;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.mail.MailMessage;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.MailService;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * The base implementation of the CollectorReportService
@@ -64,17 +62,18 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
     protected DateTimeService dateTimeService;
     protected ParameterService parameterService;
-    protected KualiConfigurationService configurationService;
+    protected ConfigurationService configurationService;
     protected MailService mailService;
     protected PreScrubberService preScrubberService;
     protected ReportWriterService collectorReportWriterService;
 
     /**
      * Sends out e-mails about the validation and demerger of the Collector run
-     * 
+     *
      * @param collectorReportData data gathered from the run of the Collector
      * @see org.kuali.kfs.gl.batch.service.CollectorReportService#sendEmails(org.kuali.kfs.gl.report.CollectorReportData)
      */
+    @Override
     public void sendEmails(CollectorReportData collectorReportData) {
         // send out the validation status messages
         Iterator<CollectorBatch> batchIter = collectorReportData.getAddedBatches();
@@ -83,16 +82,17 @@ public class CollectorReportServiceImpl implements CollectorReportService {
             sendValidationEmail(batch, collectorReportData);
             sendDemergerEmail(batch, collectorReportData);
         }
-        
+
         sendEmailSendFailureNotice(collectorReportData);
     }
 
     /**
      * Generates the reports about a given Collector run
-     * 
+     *
      * @param collectorReportData data gathered from the run of the Collector
      * @see org.kuali.kfs.gl.batch.service.CollectorReportService#generateCollectorRunReports(org.kuali.kfs.gl.report.CollectorReportData)
      */
+    @Override
     public void generateCollectorRunReports(CollectorReportData collectorReportData) {
         appendCollectorHeaderInformation(collectorReportData);
         appendPreScrubberReport(collectorReportData);
@@ -105,7 +105,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
     /**
      * Appends Collector header information to the report writer
-     * 
+     *
      * @param collectorReportData data gathered from the run of the Collector
      */
     protected void appendCollectorHeaderInformation(CollectorReportData collectorReportData) {
@@ -118,7 +118,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         if (!collectorReportData.getAllUnparsableFileNames().isEmpty()) {
             collectorReportWriterService.writeFormattedMessageLine("The following files could not be parsed:\n\n");
             for (String unparsableFileName : collectorReportData.getAllUnparsableFileNames()) {
-                List<String> batchErrors = translateErrorsFromErrorMap(collectorReportData.getMessageMapForFileName(unparsableFileName));
+                List<String> batchErrors = translateErrorsFromMessageMap(collectorReportData.getMessageMapForFileName(unparsableFileName));
                 collectorReportWriterService.writeFormattedMessageLine("        " + unparsableFileName + "\n");
                 for (String errorMessage : batchErrors) {
                     collectorReportWriterService.writeFormattedMessageLine("        - ERROR MESSAGE: " + errorMessage);
@@ -134,7 +134,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
             appendHeaderInformation(buf, batch, collectorReportData);
             appendTotalsInformation(buf, batch);
 
-            List<String> errorMessages = translateErrorsFromErrorMap(batch.getMessageMap());
+            List<String> errorMessages = translateErrorsFromMessageMap(batch.getMessageMap());
 
             aggregateTotalRecordsCountFromTrailer += batch.getTotalRecords();
 
@@ -187,14 +187,14 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
     /**
      * Appends header information to the given buffer
-     * 
+     *
      * @param buf the buffer where the message should go
      * @param batch the data from the Collector file
      */
     protected void appendHeaderInformation(StringBuilder buf, CollectorBatch batch, CollectorReportData collectorReportData) {
-        
+
         String emailBatchStatus = collectorReportData.getEmailSendingStatus().get(batch.getBatchName());
-        
+
         buf.append("\n        Chart: ").append(batch.getChartOfAccountsCode()).append("\n");
         buf.append("        Org: ").append(batch.getOrganizationCode()).append("\n");
         buf.append("        Campus: ").append(batch.getCampusCode()).append("\n");
@@ -213,7 +213,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
     /**
      * Writes totals information to the report
-     * 
+     *
      * @param buf the buffer where the e-mail report is being written
      * @param batch the data generated by the Collector file upload
      * @param totals the totals to write
@@ -234,7 +234,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
     /**
      * Writes the Amount/Count line of the Collector to a buffer
-     * 
+     *
      * @param buf the buffer to write the line to
      * @param countTitle the title of this part of the report
      * @param count the Collector count
@@ -253,19 +253,19 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         else {
             Map<String, String> settings = new HashMap<String, String>();
             settings.put(CurrencyFormatter.SHOW_SYMBOL, Boolean.TRUE.toString());
-            org.kuali.rice.kns.web.format.Formatter f = org.kuali.rice.kns.web.format.Formatter.getFormatter(KualiDecimal.class, settings);
+            org.kuali.rice.core.web.format.Formatter f = org.kuali.rice.core.web.format.Formatter.getFormatter(KualiDecimal.class, settings);
             String amountString = (String) f.format(amount);
             appendPaddingString(buf, ' ', amountString.length(), 21);
             buf.append(amountString);
         }
-        
+
         buf.append("\n");
 
     }
 
     /**
      * Writes some padding to a buffer
-     * 
+     *
      * @param buf the buffer to write to
      * @param padCharacter the character to repeat in the pad
      * @param valueLength the length of the value being padded
@@ -286,10 +286,10 @@ public class CollectorReportServiceImpl implements CollectorReportService {
             new PreScrubberReport().generateReport(collectorReportData.getPreScrubberReportData(), collectorReportWriterService);
         }
     }
-    
+
     /**
      * Writes the results of the Scrubber's run on the Collector data to the report writer
-     * 
+     *
      * @param collectorReportData data gathered from the run of the Collector
      */
     protected void appendScrubberReport(CollectorReportData collectorReportData) {
@@ -298,7 +298,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         Map<Transaction, List<Message>> aggregateScrubberErrors = new LinkedHashMap<Transaction, List<Message>>();
 
         collectorReportWriterService.pageBreak();
-        
+
         while (batchIter.hasNext()) {
             CollectorBatch batch = batchIter.next();
 
@@ -328,8 +328,8 @@ public class CollectorReportServiceImpl implements CollectorReportService {
     }
 
     /**
-     * Writes the report of the demerger run against the Collector data 
-     * 
+     * Writes the report of the demerger run against the Collector data
+     *
      * @param collectorReportData data gathered from the run of the Collector
      * @throws DocumentException the exception thrown if the PDF cannot be written to
      */
@@ -355,7 +355,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
     /**
      * Writes information about origin entry and details to the report
-     * 
+     *
      * @param collectorReportData data gathered from the run of the Collector
      * @throws DocumentException the exception thrown if the PDF cannot be written to
      */
@@ -405,7 +405,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
     /**
      * Writes information about what details where changed in the Collector to the report
-     * 
+     *
      * @param collectorReportData data gathered from the run of the Collector
      * @throws DocumentException the exception thrown if the PDF cannot be written to
      */
@@ -429,7 +429,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
     /**
      * Sets the dateTimeService attribute value.
-     * 
+     *
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -438,7 +438,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
     /**
      * Generate the header for the demerger status report.
-     * 
+     *
      * @param scrubberReportData the data gathered from the run of the scrubber on the collector data
      * @param demergerReport the data gathered from the run of the demerger on the collector data
      * @return list of report summaries to be printed
@@ -455,7 +455,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
     /**
      * Adds the ledger report to this Collector report
-     * 
+     *
      * @param collectorReportData the data from the Collector run
      * @throws DocumentException thrown if it is impossible to write to the report
      */
@@ -470,10 +470,10 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
     /**
      * Builds actual error message from error key and parameters.
-     * @param messageMap a map of messages
+     * @param errorMap a map of errors
      * @return List<String> of error message text
      */
-    protected List<String> translateErrorsFromErrorMap(MessageMap messageMap) {
+    protected List<String> translateErrorsFromMessageMap(MessageMap messageMap) {
         List<String> collectorErrors = new ArrayList<String>();
 
         for (Iterator<String> iter = messageMap.getPropertiesWithErrors().iterator(); iter.hasNext();) {
@@ -481,7 +481,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
             for (Iterator<ErrorMessage> iter2 = messageMap.getMessages(errorKey).iterator(); iter2.hasNext();) {
                 ErrorMessage errorMessage = (ErrorMessage) iter2.next();
-                String messageText = configurationService.getPropertyString(errorMessage.getErrorKey());
+                String messageText = configurationService.getPropertyValueAsString(errorMessage.getErrorKey());
                 collectorErrors.add(MessageFormat.format(messageText, (Object[]) errorMessage.getMessageParameters()));
             }
         }
@@ -500,18 +500,21 @@ public class CollectorReportServiceImpl implements CollectorReportService {
             return;
         }
         MessageMap messageMap = batch.getMessageMap();
-        List<String> errorMessages = translateErrorsFromErrorMap(messageMap);
+        List<String> errorMessages = translateErrorsFromMessageMap(messageMap);
 
         LOG.debug("sendValidationEmail() starting");
         MailMessage message = new MailMessage();
 
-        message.setFromAddress(mailService.getBatchMailingList());
+        String returnAddress = parameterService.getParameterValueAsString(KFSConstants.ParameterNamespaces.GL, "Batch", KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
+        if(StringUtils.isEmpty(returnAddress)) {
+            returnAddress = mailService.getBatchMailingList();
+        }
+        message.setFromAddress(returnAddress);
 
-        String subject = parameterService.getParameterValue(CollectorStep.class, SystemGroupParameterNames.COLLECTOR_VALIDATOR_EMAIL_SUBJECT_PARAMETER_NAME);
-        String productionEnvironmentCode = configurationService.getPropertyString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
-        String environmentCode = configurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
-        if (!StringUtils.equals(productionEnvironmentCode, environmentCode)) {
-            subject = environmentCode + ": " + subject;
+        String subject = parameterService.getParameterValueAsString(CollectorStep.class, SystemGroupParameterNames.COLLECTOR_VALIDATOR_EMAIL_SUBJECT_PARAMETER_NAME);
+        //KFSMI-5918
+        if (errorMessages.size() >0){
+            subject = parameterService.getParameterValueAsString(CollectorStep.class, SystemGroupParameterNames.COLLECTOR_VALIDATOR_ERROR_EMAIL_SUBJECT_PARAMETER_NAME);
         }
         message.setSubject(subject);
 
@@ -522,13 +525,13 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         try {
             mailService.sendMessage(message);
 
-            String notificationMessage = configurationService.getPropertyString(KFSKeyConstants.Collector.NOTIFICATION_EMAIL_SENT);
+            String notificationMessage = configurationService.getPropertyValueAsString(KFSKeyConstants.Collector.NOTIFICATION_EMAIL_SENT);
             String formattedMessage = MessageFormat.format(notificationMessage, new Object[] { batch.getEmailAddress() });
             collectorReportData.setEmailSendingStatusForParsedBatch(batch, formattedMessage);
         }
         catch (Exception e) {
             LOG.error("sendErrorEmail() Invalid email address. Message not sent", e);
-            String errorMessage = configurationService.getPropertyString(KFSKeyConstants.Collector.EMAIL_SEND_ERROR);
+            String errorMessage = configurationService.getPropertyValueAsString(KFSKeyConstants.Collector.EMAIL_SEND_ERROR);
             String formattedMessage = MessageFormat.format(errorMessage, new Object[] { batch.getEmailAddress() });
             collectorReportData.setEmailSendingStatusForParsedBatch(batch, formattedMessage);
         }
@@ -536,7 +539,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
     /**
      * Sends the e-mail about the demerger step
-     * 
+     *
      * @param batch the data from the Collector file
      * @param collectorReportData data gathered from the run of the Collector
      */
@@ -553,11 +556,15 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         }
         MailMessage message = new MailMessage();
 
-        message.setFromAddress(mailService.getBatchMailingList());
+        String returnAddress = parameterService.getParameterValueAsString(KFSConstants.ParameterNamespaces.GL, "Batch", KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
+        if(StringUtils.isEmpty(returnAddress)) {
+            returnAddress = mailService.getBatchMailingList();
+        }
+        message.setFromAddress(returnAddress);
 
-        String subject = parameterService.getParameterValue(CollectorStep.class, SystemGroupParameterNames.COLLECTOR_DEMERGER_EMAIL_SUBJECT_PARAMETER_NAME);
-        String productionEnvironmentCode = configurationService.getPropertyString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
-        String environmentCode = configurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
+        String subject = parameterService.getParameterValueAsString(CollectorStep.class, SystemGroupParameterNames.COLLECTOR_DEMERGER_EMAIL_SUBJECT_PARAMETER_NAME);
+        String productionEnvironmentCode = configurationService.getPropertyValueAsString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
+        String environmentCode = configurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY);
         if (!StringUtils.equals(productionEnvironmentCode, environmentCode)) {
             subject = environmentCode + ": " + subject;
         }
@@ -569,31 +576,35 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         try {
             mailService.sendMessage(message);
 
-            String notificationMessage = configurationService.getPropertyString(KFSKeyConstants.Collector.NOTIFICATION_EMAIL_SENT);
+            String notificationMessage = configurationService.getPropertyValueAsString(KFSKeyConstants.Collector.NOTIFICATION_EMAIL_SENT);
             String formattedMessage = MessageFormat.format(notificationMessage, new Object[] { batch.getEmailAddress() });
             collectorReportData.setEmailSendingStatusForParsedBatch(batch, formattedMessage);
         }
-        catch (InvalidAddressException e) {
+        catch (Exception e) {
             LOG.error("sendErrorEmail() Invalid email address. Message not sent", e);
-            String errorMessage = configurationService.getPropertyString(KFSKeyConstants.Collector.EMAIL_SEND_ERROR);
+            String errorMessage = configurationService.getPropertyValueAsString(KFSKeyConstants.Collector.EMAIL_SEND_ERROR);
             String formattedMessage = MessageFormat.format(errorMessage, new Object[] { batch.getEmailAddress() });
             collectorReportData.setEmailSendingStatusForParsedBatch(batch, formattedMessage);
         }
     }
-    
+
     /**
      * Sends email message to batch mailing list notifying of email send failures during the collector processing
-     * 
+     *
      * @param collectorReportData - data from collector run
      */
     protected void sendEmailSendFailureNotice(CollectorReportData collectorReportData) {
         MailMessage message = new MailMessage();
 
-        message.setFromAddress(mailService.getBatchMailingList());
+        String returnAddress = parameterService.getParameterValueAsString(KFSConstants.ParameterNamespaces.GL, "Batch", KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
+        if(StringUtils.isEmpty(returnAddress)) {
+            returnAddress = mailService.getBatchMailingList();
+        }
+        message.setFromAddress(returnAddress);
 
-        String subject = configurationService.getPropertyString(KFSKeyConstants.ERROR_COLLECTOR_EMAILSEND_NOTIFICATION_SUBJECT);
-        String productionEnvironmentCode = configurationService.getPropertyString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
-        String environmentCode = configurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
+        String subject = configurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_COLLECTOR_EMAILSEND_NOTIFICATION_SUBJECT);
+        String productionEnvironmentCode = configurationService.getPropertyValueAsString(KFSConstants.PROD_ENVIRONMENT_CODE_KEY);
+        String environmentCode = configurationService.getPropertyValueAsString(KFSConstants.ENVIRONMENT_KEY);
         if (!StringUtils.equals(productionEnvironmentCode, environmentCode)) {
             subject = environmentCode + ": " + subject;
         }
@@ -601,7 +612,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
         boolean hasEmailSendErrors = false;
 
-        String body = configurationService.getPropertyString(KFSKeyConstants.ERROR_COLLECTOR_EMAILSEND_NOTIFICATION_BODY);
+        String body = configurationService.getPropertyValueAsString(KFSKeyConstants.ERROR_COLLECTOR_EMAILSEND_NOTIFICATION_BODY);
         for (String batchId : collectorReportData.getEmailSendingStatus().keySet()) {
             String emailStatus = collectorReportData.getEmailSendingStatus().get(batchId);
             if (StringUtils.containsIgnoreCase(emailStatus, "error")) {
@@ -619,14 +630,14 @@ public class CollectorReportServiceImpl implements CollectorReportService {
                 LOG.info("Email failure notice has been sent to : " + message.getToAddresses() );
             }
         }
-        catch (InvalidAddressException e) {
+        catch (Exception e) {
             LOG.error("sendErrorEmail() Invalid email address. Message not sent", e);
         }
     }
 
     /**
      * Creates a section about validation messages
-     * 
+     *
      * @param errorMessages a List of errors that happened during the Collector run
      * @param batch the data from the Collector file
      * @param collectorReportData data gathered from the run of the Collector
@@ -649,7 +660,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
     /**
      * Generates a String that reports on the validation status of the document
-     * 
+     *
      * @param errorMessages a List of error messages encountered in the Collector process
      * @param notifyIfSuccessful true if a special message for the process running successfully should be added, false otherwise
      * @param numLeftPaddingSpaces the number of spaces to pad on the left
@@ -663,7 +674,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
     /**
      * Appends the validation status message to a buffer
-     * 
+     *
      * @param buf a StringBuilder to append error messages to
      * @param errorMessages a List of error messages encountered in the Collector process
      * @param notifyIfSuccessful true if a special message for the process running successfully should be added, false otherwise
@@ -690,7 +701,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
 
     /**
      * Writes the part of the report about the demerger
-     * 
+     *
      * @param batch the data from the Collector file
      * @param collectorReportData data gathered from the run of the Collector
      * @return
@@ -736,7 +747,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
         this.mailService = mailService;
     }
 
-    public void setConfigurationService(KualiConfigurationService configurationService) {
+    public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
     }
 
@@ -755,18 +766,19 @@ public class CollectorReportServiceImpl implements CollectorReportService {
     public void setPreScrubberService(PreScrubberService preScrubberService) {
         this.preScrubberService = preScrubberService;
     }
-    
+
     protected static class KualiDecimalFormatter implements Formattable {
         private KualiDecimal number;
-        
+
         public KualiDecimalFormatter(KualiDecimal numberToFormat) {
             this.number = numberToFormat;
         }
-        
+
+        @Override
         public void formatTo(Formatter formatter, int flags, int width, int precision) {
             Map<String, String> settings = new HashMap<String, String>();
             settings.put(CurrencyFormatter.SHOW_SYMBOL, Boolean.TRUE.toString());
-            org.kuali.rice.kns.web.format.Formatter cf = org.kuali.rice.kns.web.format.Formatter.getFormatter(KualiDecimal.class, settings);
+            org.kuali.rice.core.web.format.Formatter cf = org.kuali.rice.core.web.format.Formatter.getFormatter(KualiDecimal.class, settings);
             formatter.format((String) cf.format(number));
         }
     }

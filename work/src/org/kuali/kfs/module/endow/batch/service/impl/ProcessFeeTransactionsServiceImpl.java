@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -58,19 +58,18 @@ import org.kuali.kfs.module.endow.util.KEMCalculationRoundingHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.rule.event.RouteDocumentEvent;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.NoteService;
-import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.service.NoteService;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -91,7 +90,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     protected KualiRuleService kualiRuleService;
     protected NoteService noteService;
     protected PersonService personService;
-    protected KualiConfigurationService configService;
+    protected ConfigurationService configService;
     protected CurrentTaxLotService currentTaxLotService;
     protected DataDictionaryService dataDictionaryService;
     protected HoldingHistoryService holdingHistoryService;
@@ -168,10 +167,11 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * The fee process is intended to provide as much flexibility to the institution as possible when designing the charges to be
      * assessed against a KEMID. The fees can be based on either balances or activity and can be charged, accrued or waived at the
      * KEMID level.
-     * 
+     *
      * @see oorg.kuali.kfs.module.endow.batch.service.ProcessFeeTransactionsService#processFeeTransactions()\ return boolean true if
      *      successful else false
      */
+    @Override
     public boolean processFeeTransactions() {
         LOG.debug("processFeeTransactions() started");
 
@@ -195,7 +195,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Updates waived fee year to date column to zero in WAIVED_FEE_YTD
-     * 
+     *
      * @return true if updated successfully else return false
      */
     protected boolean updateKemidFeeWaivedYearToDateAmount() {
@@ -440,7 +440,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Performs the calculations to get the fee amount to be charged against the selected kemids
-     * 
+     *
      * @param feeMethod
      */
     protected void performCalculationsForKemId(FeeMethod feeMethod) {
@@ -476,7 +476,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * and less than or equal to the END_KEMID_FEE_TFEE_MTHD_T: FEE_BRK_2 by END_KEMID_FEE_TFEE_MTHD_T: FEE_RT_2 3. Multiply the
      * value of the total amount calculated that is greater than the END_KEMID_FEE_TFEE_MTHD_T: FEE_BRK_2 by
      * END_KEMID_FEE_TFEE_MTHD_T: FEE_RT_3.
-     * 
+     *
      * @param feeMethod
      */
     protected void performCalculationsAgainstTotalAmountCalculated(FeeMethod feeMethod) {
@@ -499,7 +499,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     /**
      * IF the calculated fee is less than the amount in END_FEE_MTHD_T: FEE_MIN_AMT, then the feee to be charged is the minimum fee
      * amount..
-     * 
+     *
      * @param feeMethod
      */
     protected void calculateMinumumFeeAmount(FeeMethod feeMethod) {
@@ -511,7 +511,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     /**
      * IF the calculated fee amount is LESS than the value in END_FEE_MTHD_T: FEE_MIN_THRSHLD, then do not charge the fee (no
      * transaction generated. The information should be reported as an exception on the exception report.
-     * 
+     *
      * @param feeMethod
      * @param kemidFee
      * @return true calculated fee amount is greater than 0
@@ -530,7 +530,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     /**
      * IF the field ACR_FEE is equal to Y (Yes), then add the calculated fee amount to the value in END_KEMID_FEE_MTHD_T:
      * ACRD_FEE_TO_DT.
-     * 
+     *
      * @param feeMethod, kemidFee
      * @return feeAcrrued true if fee amount is added to total accrued fees else return false
      */
@@ -552,7 +552,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     /**
      * IF the field WAIVE_FEE is equal to Y (Yes), then add the calculated fee amount to the value in END_KEMID_FEE_MTHD_T:
      * WAIVED_FEE_TO_DT and add the calculated fee amount to the value in END_KEMID_FEE_MTHD_T: WAIVED_FEE_YDT
-     * 
+     *
      * @param feeMethod, kemidFee
      * @return feeWaived - true if fee amount is added to total waived fees else return false
      */
@@ -574,7 +574,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Generate a CashDecreaseDocument (ECDD) and processes the document by submitting/routing it.
-     * 
+     *
      * @param feeMethod, kemidFee
      */
     protected boolean generateCashDecreaseDocument(FeeMethod feeMethod, int maxNumberOfTransacationLines) {
@@ -664,7 +664,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     protected void writeTotalsProcessedDetailTotalsLine(String documentNumber, String feeMethodCode, int totalLinesGenerated) {
         feeProcessingTotalsProcessedDetailTotalLine.setFeeMethodCode(feeMethodCode);
-        feeProcessingTotalsProcessedDetailTotalLine.setEDocNumber(documentNumber);
+        feeProcessingTotalsProcessedDetailTotalLine.setDocumentNumber(documentNumber);
         feeProcessingTotalsProcessedDetailTotalLine.setLinesGenerated(totalLinesGenerated);
         feeProcessingTotalsProcessedDetailTotalLine.setTotalIncomeAmount(new KualiDecimal(totalProcessedIncomeAmountSubTotalEDoc.toString()));
         feeProcessingTotalsProcessedDetailTotalLine.setTotalPrincipalAmount(new KualiDecimal(totalProcessedPrincipalAmountSubTotalEDoc.toString()));
@@ -679,7 +679,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     }
 
     protected void writeTotalsProcessedSubTotalsLine(String feeMethodCode) {
-        feeProcessingTotalsProcessedSubTotalLine.setEDocNumber("");
+        feeProcessingTotalsProcessedSubTotalLine.setDocumentNumber("");
         feeProcessingTotalsProcessedSubTotalLine.setLinesGenerated(totalProcessedLinesGeneratedSubTotal);
         feeProcessingTotalsProcessedSubTotalLine.setTotalIncomeAmount(new KualiDecimal(totalProcessedIncomeAmountSubTotal.toString()));
         feeProcessingTotalsProcessedSubTotalLine.setTotalPrincipalAmount(new KualiDecimal(totalProcessedPrincipalAmountSubTotal.toString()));
@@ -693,7 +693,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     }
 
     protected void writeTotalsProcessedGrandTotalsLine() {
-        feeProcessingTotalsProcessedGrandTotalLine.setEDocNumber("");
+        feeProcessingTotalsProcessedGrandTotalLine.setDocumentNumber("");
         feeProcessingTotalsProcessedGrandTotalLine.setLinesGenerated(totalProcessedLinesGeneratedGrandTotal);
         feeProcessingTotalsProcessedGrandTotalLine.setTotalIncomeAmount(new KualiDecimal(totalProcessedIncomeAmountGrandTotal.toString()));
         feeProcessingTotalsProcessedGrandTotalLine.setTotalPrincipalAmount(new KualiDecimal(totalProcessedPrincipalAmountGrandTotal.toString()));
@@ -703,7 +703,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Sets document description, source type code to A (automated), and subtype code to C (cash)
-     * 
+     *
      * @param cashDecreaseDocument newly generated document.
      * @param documentDescription fee method description to be used as document description
      */
@@ -717,7 +717,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
      * After the last transaction line allowed in the eDoc (based on the institutional parameter) or the last KEMID fee calculated
      * for the fee method, IF the END_FEE_MTHD_T: FEE_POST_PEND_IND is equal to Y submit the document as a blanket approved 'No
      * Route' document. Otherwise, submit the document for routing and approval.
-     * 
+     *
      * @param cashDecreaseDocument
      * @param feeMethod
      * @return true if successful in submitting or routing the document.
@@ -743,7 +743,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Gets a new document of the document type from the workflow using document service.
-     * 
+     *
      * @param documentType
      * @return newCashDecreaseDocument if successfully created a new document else return null
      */
@@ -763,7 +763,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * IF the END_KEMID_FEE_T: PCT_CHRG_FEE_TO_INC is equal to 100%, then generate the transaction line(s) for the eDoc
-     * 
+     *
      * @param cashDecreaseDocument
      * @param feeMethod
      * @param kemidFee
@@ -829,7 +829,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Add the new transaction line after applying the validation rules to the line.
-     * 
+     *
      * @param cashDecreaseDocument
      * @param endowmentSourceTransactionLine
      * @param lineNumber
@@ -874,7 +874,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Creates a source transaction line
-     * 
+     *
      * @param lineNumber the current transaction line number
      * @param feeMethod
      * @param kemidFee
@@ -896,7 +896,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     /**
      * submits the document. It sets the no route indicator to true and creates a note and sets its text and adds the note to the
      * document. The document is saved and put into workflow
-     * 
+     *
      * @param cashDecreaseDocument
      * @return true if document submitted else false
      */
@@ -920,7 +920,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Routes the document
-     * 
+     *
      * @param cashDecreaseDocument
      * @return true if successful else return false
      */
@@ -953,7 +953,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Writes the exception report line after setting fee method code and kemid and the reason
-     * 
+     *
      * @param feeMethodCode
      * @param kemid
      * @param reason the reason written on the reason line.
@@ -967,7 +967,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * writes out the table row values then writes the reason row and inserts a blank line
-     * 
+     *
      * @param reasonMessage the reason message
      */
     protected void writeTableRowAndTableReason(String reasonMessage) {
@@ -979,7 +979,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * sets the exception message with the passed in value.
-     * 
+     *
      * @param reasonForException The reason that will be set in the exception report
      */
     protected void setExceptionReportTableRowReason(String reasonForException) {
@@ -992,7 +992,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Gets the processFeeTransactionsExceptionReportsWriterService attribute.
-     * 
+     *
      * @return Returns the processFeeTransactionsExceptionReportsWriterService.
      */
     protected ReportWriterService getProcessFeeTransactionsExceptionReportsWriterService() {
@@ -1001,7 +1001,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Sets the processFeeTransactionsExceptionReportsWriterService attribute value.
-     * 
+     *
      * @param processFeeTransactionsExceptionReportsWriterService The processFeeTransactionsExceptionReportsWriterService to set.
      */
     public void setProcessFeeTransactionsExceptionReportsWriterService(ReportWriterService processFeeTransactionsExceptionReportsWriterService) {
@@ -1010,7 +1010,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Gets the processFeeTransactionsTotalProcessedReportsWriterService attribute.
-     * 
+     *
      * @return Returns the processFeeTransactionsTotalProcessedReportsWriterService.
      */
     public ReportWriterService getProcessFeeTransactionsTotalProcessedReportsWriterService() {
@@ -1019,7 +1019,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Sets the processFeeTransactionsTotalProcessedReportsWriterService attribute value.
-     * 
+     *
      * @param processFeeTransactionsTotalProcessedReportsWriterService The processFeeTransactionsTotalProcessedReportsWriterService
      *        to set.
      */
@@ -1029,7 +1029,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Gets the processFeeTransactionsWaivedAndAccruedFeesReportsWriterService attribute.
-     * 
+     *
      * @return Returns the processFeeTransactionsWaivedAndAccruedFeesReportsWriterService.
      */
     public ReportWriterService getProcessFeeTransactionsWaivedAndAccruedFeesReportsWriterService() {
@@ -1038,7 +1038,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Sets the processFeeTransactionsWaivedAndAccruedFeesReportsWriterService attribute value.
-     * 
+     *
      * @param processFeeTransactionsWaivedAndAccruedFeesReportsWriterService The
      *        processFeeTransactionsWaivedAndAccruedFeesReportsWriterService to set.
      */
@@ -1048,7 +1048,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Gets the holdingHistoryService attribute.
-     * 
+     *
      * @return Returns the holdingHistoryService.
      */
     protected KemidFeeService getKemidFeeService() {
@@ -1057,7 +1057,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Sets the kKemidFeeService attribute value.
-     * 
+     *
      * @param kemidFeeService The kemidFeeService to set.
      */
     public void setKemidFeeService(KemidFeeService kemidFeeService) {
@@ -1066,7 +1066,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Gets the feeMethodService attribute.
-     * 
+     *
      * @return Returns the feeMethodService.
      */
     protected FeeMethodService getFeeMethodService() {
@@ -1075,7 +1075,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Sets the feeMethodService attribute value.
-     * 
+     *
      * @param feeMethodService The feeMethodService to set.
      */
     public void setFeeMethodService(FeeMethodService feeMethodService) {
@@ -1084,7 +1084,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Gets the kemService.
-     * 
+     *
      * @return kemService
      */
     protected KEMService getKemService() {
@@ -1093,7 +1093,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Sets the kemService.
-     * 
+     *
      * @param kemService
      */
     public void setKemService(KEMService kemService) {
@@ -1102,7 +1102,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Gets the processFeeTransactionsExceptionReportHeader attribute.
-     * 
+     *
      * @return Returns the processFeeTransactionsExceptionReportHeader.
      */
     public EndowmentExceptionReportHeader getProcessFeeTransactionsExceptionReportHeader() {
@@ -1111,7 +1111,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Sets the processFeeTransactionsExceptionReportHeader attribute value.
-     * 
+     *
      * @param processFeeTransactionsExceptionReportHeader The processFeeTransactionsExceptionReportHeader to set.
      */
     public void setProcessFeeTransactionsExceptionReportHeader(EndowmentExceptionReportHeader processFeeTransactionsExceptionReportHeader) {
@@ -1120,7 +1120,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Gets the processFeeTransactionsTotalProcessedReportHeader attribute.
-     * 
+     *
      * @return Returns the processFeeTransactionsTotalProcessedReportHeader.
      */
     public FeeProcessingTotalsProcessedReportHeader getProcessFeeTransactionsTotalProcessedReportHeader() {
@@ -1129,7 +1129,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Sets the processFeeTransactionsTotalProcessedReportHeader attribute value.
-     * 
+     *
      * @param processFeeTransactionsTotalProcessedReportHeader The processFeeTransactionsTotalProcessedReportHeader to set.
      */
     public void setProcessFeeTransactionsTotalProcessedReportHeader(FeeProcessingTotalsProcessedReportHeader processFeeTransactionsTotalProcessedReportHeader) {
@@ -1138,7 +1138,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Gets the processFeeTransactionsWaivedAndAccruedFeesReportHeader attribute.
-     * 
+     *
      * @return Returns the processFeeTransactionsWaivedAndAccruedFeesReportHeader.
      */
     public FeeProcessingWaivedAndAccruedReportHeader getProcessFeeTransactionsWaivedAndAccruedFeesReportHeader() {
@@ -1147,7 +1147,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Sets the processFeeTransactionsWaivedAndAccruedFeesReportHeader attribute value.
-     * 
+     *
      * @param processFeeTransactionsWaivedAndAccruedFeesReportHeader The processFeeTransactionsWaivedAndAccruedFeesReportHeader to
      *        set.
      */
@@ -1157,7 +1157,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Gets the processFeeTransactionsRowValues attribute.
-     * 
+     *
      * @return Returns the processFeeTransactionsRowValues.
      */
     public EndowmentExceptionReportHeader getProcessFeeTransactionsRowValues() {
@@ -1166,7 +1166,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Sets the processFeeTransactionsRowValues attribute value.
-     * 
+     *
      * @param processFeeTransactionsRowValues The processFeeTransactionsRowValues to set.
      */
     public void setProcessFeeTransactionsRowValues(EndowmentExceptionReportHeader processFeeTransactionsRowValues) {
@@ -1175,7 +1175,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Gets the processFeeTransactionsExceptionRowReason attribute.
-     * 
+     *
      * @return Returns the processFeeTransactionsExceptionRowReason.
      */
     public EndowmentExceptionReportHeader getProcessFeeTransactionsExceptionRowReason() {
@@ -1184,7 +1184,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Sets the processFeeTransactionsExceptionRowReason attribute value.
-     * 
+     *
      * @param processFeeTransactionsExceptionRowReason The processFeeTransactionsExceptionRowReason to set.
      */
     public void setProcessFeeTransactionsExceptionRowReason(EndowmentExceptionReportHeader processFeeTransactionsExceptionRowReason) {
@@ -1193,7 +1193,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Gets the transactionArchiveDao attribute.
-     * 
+     *
      * @return Returns the transactionArchiveDao.
      */
     protected TransactionArchiveDao getTransactionArchiveDao() {
@@ -1202,7 +1202,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Sets the transactionArchiveDao attribute value.
-     * 
+     *
      * @param transactionArchiveDao The transactionArchiveDao to set.
      */
     public void setTransactionArchiveDao(TransactionArchiveDao transactionArchiveDao) {
@@ -1211,7 +1211,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Gets the holdingHistoryDao attribute.
-     * 
+     *
      * @return Returns the holdingHistoryDao.
      */
     protected HoldingHistoryDao getHoldingHistoryDao() {
@@ -1220,7 +1220,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Sets the holdingHistoryDao attribute value.
-     * 
+     *
      * @param holdingHistoryDao The holdingHistoryDao to set.
      */
     public void setHoldingHistoryDao(HoldingHistoryDao holdingHistoryDao) {
@@ -1229,7 +1229,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Gets the currentTaxLotBalanceDao attribute.
-     * 
+     *
      * @return Returns the currentTaxLotBalanceDao.
      */
     protected CurrentTaxLotBalanceDao getCurrentTaxLotBalanceDao() {
@@ -1238,7 +1238,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Sets the currentTaxLotBalanceDao attribute value.
-     * 
+     *
      * @param currentTaxLotBalanceDao The currentTaxLotBalanceDao to set.
      */
     public void setCurrentTaxLotBalanceDao(CurrentTaxLotBalanceDao currentTaxLotBalanceDao) {
@@ -1247,7 +1247,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Gets the kemidFeeDao attribute.
-     * 
+     *
      * @return Returns the kemidFeeDao.
      */
     protected KemidFeeDao getKemidFeeDao() {
@@ -1256,7 +1256,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Sets the kemidFeeDao attribute value.
-     * 
+     *
      * @param kemidFeeDao The kemidFeeDao to set.
      */
     public void setKemidFeeDao(KemidFeeDao kemidFeeDao) {
@@ -1265,7 +1265,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Sets the documentService attribute value.
-     * 
+     *
      * @param documentService The documentService to set.
      */
     public void setDocumentService(DocumentService documentService) {
@@ -1281,7 +1281,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Gets the kualiRuleService attribute.
-     * 
+     *
      * @return Returns the kualiRuleService.
      */
     protected KualiRuleService getKualiRuleService() {
@@ -1290,7 +1290,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Sets the kualiRuleService attribute value.
-     * 
+     *
      * @param kualiRuleService The kualiRuleService to set.
      */
     public void setKualiRuleService(KualiRuleService kualiRuleService) {
@@ -1299,7 +1299,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Gets the NoteService, lazily initializing if necessary
-     * 
+     *
      * @return the NoteService
      */
     protected synchronized NoteService getNoteService() {
@@ -1311,7 +1311,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Sets the noteService attribute value.
-     * 
+     *
      * @param noteService The noteService to set.
      */
     public void setNoteService(NoteService noteService) {
@@ -1321,7 +1321,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
     /**
      * @return Returns the personService.
      */
-    protected PersonService<Person> getPersonService() {
+    protected PersonService getPersonService() {
         if (personService == null)
             personService = SpringContext.getBean(PersonService.class);
         return personService;
@@ -1329,7 +1329,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Gets the feeProcessingWaivedAndAccruedDetailTotalLine attribute.
-     * 
+     *
      * @return Returns the feeProcessingWaivedAndAccruedDetailTotalLine.
      */
     protected FeeProcessingWaivedAndAccruedDetailTotalLine getFeeProcessingWaivedAndAccruedDetailTotalLine() {
@@ -1338,7 +1338,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Sets the feeProcessingWaivedAndAccruedDetailTotalLine attribute value.
-     * 
+     *
      * @param feeProcessingWaivedAndAccruedDetailTotalLine The feeProcessingWaivedAndAccruedDetailTotalLine to set.
      */
     public void setFeeProcessingWaivedAndAccruedDetailTotalLine(FeeProcessingWaivedAndAccruedDetailTotalLine feeProcessingWaivedAndAccruedDetailTotalLine) {
@@ -1347,7 +1347,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Gets the feeProcessingWaivedAndAccruedSubTotalLine attribute.
-     * 
+     *
      * @return Returns the feeProcessingWaivedAndAccruedSubTotalLine.
      */
     protected FeeProcessingWaivedAndAccruedSubTotalLine getFeeProcessingWaivedAndAccruedSubTotalLine() {
@@ -1356,7 +1356,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Sets the feeProcessingWaivedAndAccruedSubTotalLine attribute value.
-     * 
+     *
      * @param feeProcessingWaivedAndAccruedSubTotalLine The feeProcessingWaivedAndAccruedSubTotalLine to set.
      */
     public void setFeeProcessingWaivedAndAccruedSubTotalLine(FeeProcessingWaivedAndAccruedSubTotalLine feeProcessingWaivedAndAccruedSubTotalLine) {
@@ -1365,7 +1365,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Gets the feeProcessingWaivedAndAccruedGrandTotalLine attribute.
-     * 
+     *
      * @return Returns the feeProcessingWaivedAndAccruedGrandTotalLine.
      */
     protected FeeProcessingWaivedAndAccruedGrandTotalLine getFeeProcessingWaivedAndAccruedGrandTotalLine() {
@@ -1374,7 +1374,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Sets the feeProcessingWaivedAndAccruedGrandTotalLine attribute value.
-     * 
+     *
      * @param feeProcessingWaivedAndAccruedGrandTotalLine The feeProcessingWaivedAndAccruedGrandTotalLine to set.
      */
     public void setFeeProcessingWaivedAndAccruedGrandTotalLine(FeeProcessingWaivedAndAccruedGrandTotalLine feeProcessingWaivedAndAccruedGrandTotalLine) {
@@ -1383,7 +1383,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Gets the feeProcessingTotalsProcessedDetailTotalLine attribute.
-     * 
+     *
      * @return Returns the feeProcessingTotalsProcessedDetailTotalLine.
      */
     protected FeeProcessingTotalsProcessedDetailTotalLine getFeeProcessingTotalsProcessedDetailTotalLine() {
@@ -1392,7 +1392,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Sets the feeProcessingTotalsProcessedDetailTotalLine attribute value.
-     * 
+     *
      * @param feeProcessingTotalsProcessedDetailTotalLine The feeProcessingTotalsProcessedDetailTotalLine to set.
      */
     public void setFeeProcessingTotalsProcessedDetailTotalLine(FeeProcessingTotalsProcessedDetailTotalLine feeProcessingTotalsProcessedDetailTotalLine) {
@@ -1401,7 +1401,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Gets the feeProcessingTotalsProcessedSubTotalLine attribute.
-     * 
+     *
      * @return Returns the feeProcessingTotalsProcessedSubTotalLine.
      */
     protected FeeProcessingTotalsProcessedSubTotalLine getFeeProcessingTotalsProcessedSubTotalLine() {
@@ -1410,7 +1410,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Sets the feeProcessingTotalsProcessedSubTotalLine attribute value.
-     * 
+     *
      * @param feeProcessingTotalsProcessedSubTotalLine The feeProcessingTotalsProcessedSubTotalLine to set.
      */
     public void setFeeProcessingTotalsProcessedSubTotalLine(FeeProcessingTotalsProcessedSubTotalLine feeProcessingTotalsProcessedSubTotalLine) {
@@ -1419,7 +1419,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Gets the feeProcessingTotalsProcessedGrandTotalLine attribute.
-     * 
+     *
      * @return Returns the feeProcessingTotalsProcessedGrandTotalLine.
      */
     protected FeeProcessingTotalsProcessedGrandTotalLine getFeeProcessingTotalsProcessedGrandTotalLine() {
@@ -1428,7 +1428,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Sets the feeProcessingTotalsProcessedGrandTotalLine attribute value.
-     * 
+     *
      * @param feeProcessingTotalsProcessedGrandTotalLine The feeProcessingTotalsProcessedGrandTotalLine to set.
      */
     public void setFeeProcessingTotalsProcessedGrandTotalLine(FeeProcessingTotalsProcessedGrandTotalLine feeProcessingTotalsProcessedGrandTotalLine) {
@@ -1437,19 +1437,19 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Gets the configService attribute.
-     * 
+     *
      * @return Returns the configService.
      */
-    protected KualiConfigurationService getConfigService() {
+    protected ConfigurationService getConfigService() {
         return configService;
     }
 
     /**
      * Sets the configService.
-     * 
+     *
      * @param configService
      */
-    public void setConfigService(KualiConfigurationService configService) {
+    public void setConfigService(ConfigurationService configService) {
         this.configService = configService;
     }
 
@@ -1463,7 +1463,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Sets the holdingHistoryService.
-     * 
+     *
      * @param holdingHistoryService
      */
     public void setHoldingHistoryService(HoldingHistoryService holdingHistoryService) {
@@ -1472,7 +1472,7 @@ public class ProcessFeeTransactionsServiceImpl implements ProcessFeeTransactions
 
     /**
      * Sets the parameterService.
-     * 
+     *
      * @param parameterService
      */
     public void setParameterService(ParameterService parameterService) {

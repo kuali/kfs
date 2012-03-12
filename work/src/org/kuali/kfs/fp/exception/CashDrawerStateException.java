@@ -17,7 +17,7 @@ package org.kuali.kfs.fp.exception;
 
 import java.util.Properties;
 
-import org.kuali.rice.kns.exception.KualiException;
+import org.kuali.rice.core.api.exception.KualiException;
 
 
 

@@ -21,9 +21,10 @@ import java.util.List;
 
 import org.kuali.kfs.module.cg.businessobject.AwardStatus;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * Allows custom handling of {@link AwardStatus} values in the UI.
@@ -37,12 +38,12 @@ public class AwardStatusValuesFinder extends KeyValuesBase {
 
         Collection<AwardStatus> codes = SpringContext.getBean(KeyValuesService.class).findAll(AwardStatus.class);
 
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
-        labels.add(new KeyLabelPair("", ""));
+        List<KeyValue> labels = new ArrayList<KeyValue>();
+        labels.add(new ConcreteKeyValue("", ""));
 
         for (AwardStatus awardStatus : codes) {
             if (awardStatus.isActive()) {
-                labels.add(new KeyLabelPair(awardStatus.getAwardStatusCode(), awardStatus.getAwardStatusCode() + "-" + awardStatus.getAwardStatusDescription()));
+                labels.add(new ConcreteKeyValue(awardStatus.getAwardStatusCode(), awardStatus.getAwardStatusCode() + "-" + awardStatus.getAwardStatusDescription()));
             }
         }
 

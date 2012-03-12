@@ -19,15 +19,15 @@ import org.kuali.kfs.gl.businessobject.Transaction;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.report.BusinessObjectReportHelper;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TransactionListingReportBusinessObjectReportHelper extends BusinessObjectReportHelper {
     protected static final int TRANSACTION_LEDGER_ENTRY_DESCRIPTION_MAX_LENGTH = 31;
     
     /**
-     * @see org.kuali.kfs.sys.report.BusinessObjectReportHelper#retrievePropertyValue(org.kuali.rice.kns.bo.BusinessObject, java.lang.String)
+     * @see org.kuali.kfs.sys.report.BusinessObjectReportHelper#retrievePropertyValue(org.kuali.rice.krad.bo.BusinessObject, java.lang.String)
      */
     @Override
     protected Object retrievePropertyValue(BusinessObject businessObject, String propertyName) {

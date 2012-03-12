@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.sys.context;
 
-import org.kuali.kfs.gl.batch.CollectorScrubberStep;
 import org.springframework.aop.framework.Advised;
 import org.springframework.aop.support.AopUtils;
 

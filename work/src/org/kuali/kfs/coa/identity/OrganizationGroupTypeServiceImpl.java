@@ -15,22 +15,26 @@
  */
 package org.kuali.kfs.coa.identity;
 
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kim.service.support.impl.KimGroupTypeServiceBase;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-public class OrganizationGroupTypeServiceImpl extends KimGroupTypeServiceBase {
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.kns.kim.group.GroupTypeServiceBase;
+
+public class OrganizationGroupTypeServiceImpl extends GroupTypeServiceBase {
     protected static final String DOCUMENT_TYPE_NAME = "ORG";
 
-// RICE_20_INSERT    List<String> workflowRoutingAttributes = new ArrayList<String>(2);
+   List<String> workflowRoutingAttributes = new ArrayList<String>(2);
     {
         workflowRoutingAttributes.add( KfsKimAttributes.CHART_OF_ACCOUNTS_CODE );
         workflowRoutingAttributes.add( KfsKimAttributes.ORGANIZATION_CODE );
     }    
     
-// RICE_20_INSERT    @Override
-// RICE_20_INSERT    public List<String> getWorkflowRoutingAttributes(String routeLevel) {
-// RICE_20_INSERT        return Collections.unmodifiableList(workflowRoutingAttributes);
-// RICE_20_INSERT    }
+   @Override
+   public List<String> getWorkflowRoutingAttributes(String routeLevel) {
+       return Collections.unmodifiableList(workflowRoutingAttributes);
+   }
     
     @Override
     public String getWorkflowDocumentTypeName() {

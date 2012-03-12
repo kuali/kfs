@@ -30,7 +30,7 @@ import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.Position;
 import org.kuali.kfs.module.bc.dataaccess.HumanResourcesPayrollDao;
 import org.kuali.kfs.module.bc.document.dataaccess.impl.BudgetConstructionDaoJdbcBase;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 
 /**
@@ -549,9 +549,9 @@ public class HumanResourcesPayrollDaoJdbc extends BudgetConstructionDaoJdbcBase 
         /**
          * construct the key list of the business object.
          * 
-         * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+         * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
          */
-        protected LinkedHashMap toStringMapper() {
+        protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
             LinkedHashMap m = new LinkedHashMap();
             m.put("positionNumber", this.positionNumber);
             if (this.effectiveDate != null) {

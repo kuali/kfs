@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.coa.util;
 
-import org.kuali.rice.kns.util.OjbCharBooleanConversion;
+import org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion;
 
 /**
  * This implementation is used to do two conversions on the account closed indicator

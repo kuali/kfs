@@ -17,7 +17,7 @@ package org.kuali.kfs.integration.purap;
 
 import java.util.List;
 
-import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
+import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 
 public interface CapitalAssetSystem  extends ExternalizableBusinessObject{

@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.bo.GlobalBusinessObjectDetailBase;
+import org.kuali.rice.krad.bo.GlobalBusinessObjectDetailBase;
 
 /**
  * An organization which is related to a Global Organization Reversion Detail.
@@ -36,10 +36,10 @@ public class OrganizationReversionGlobalOrganization extends GlobalBusinessObjec
     private Organization organization;
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap stringMapper = new LinkedHashMap();
         stringMapper.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         stringMapper.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, this.chartOfAccountsCode);

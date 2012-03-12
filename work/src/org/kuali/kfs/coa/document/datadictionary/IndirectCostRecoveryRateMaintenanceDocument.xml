@@ -33,7 +33,6 @@
 
     <property name="webScriptFiles">
       <list>
-        <value>../dwr/interface/AccountService.js</value>
         <value>../scripts/coa/accountDocument.js</value>
       </list>
     </property>
@@ -121,5 +120,5 @@
     <!-- workflow attributes -->
   <bean id="IndirectCostRecoveryRateMaintenanceDocument-workflowAttributes" parent="IndirectCostRecoveryRateMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="IndirectCostRecoveryRateMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="IndirectCostRecoveryRateMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

@@ -17,6 +17,7 @@ package org.kuali.kfs.module.cab.businessobject;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -31,11 +32,10 @@ import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.kew.service.impl.KEWModuleService;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
     private Long generalLedgerAccountIdentifier;
@@ -83,8 +83,8 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
     private boolean active;
 
     public GeneralLedgerEntry() {
-        this.generalLedgerEntryAssets = new TypedArrayList(GeneralLedgerEntryAsset.class);
-        this.purApLineAssetAccounts = new TypedArrayList(PurchasingAccountsPayableLineAssetAccount.class);
+        this.generalLedgerEntryAssets = new ArrayList<GeneralLedgerEntryAsset>();
+        this.purApLineAssetAccounts = new ArrayList<PurchasingAccountsPayableLineAssetAccount>();
     }
 
     /**
@@ -93,7 +93,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
      * @param entry GL Lines
      */
     public GeneralLedgerEntry(Entry entry) {
-        this.generalLedgerEntryAssets = new TypedArrayList(GeneralLedgerEntryAsset.class);
+        this.generalLedgerEntryAssets = new ArrayList<GeneralLedgerEntryAsset>();
         this.setUniversityFiscalYear(entry.getUniversityFiscalYear());
         this.setChartOfAccountsCode(entry.getChartOfAccountsCode());
         this.setAccountNumber(entry.getAccountNumber());
@@ -121,8 +121,8 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
         this.setActivityStatusCode(CabConstants.ActivityStatusCode.NEW);
     }
 
-    @Override
-    protected LinkedHashMap<String, String> toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         if (this.generalLedgerAccountIdentifier != null) {
             m.put("generalLedgerAccountIdentifier", this.generalLedgerAccountIdentifier.toString());

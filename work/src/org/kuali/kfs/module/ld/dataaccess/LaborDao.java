@@ -20,7 +20,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.kfs.module.ld.businessobject.July1PositionFunding;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 /**
  * This class is an interface to data access objects for general labor related inquiries. It will be deprecated after the data

@@ -13,6 +13,10 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
+
+<%@ page import="org.kuali.kfs.sys.context.SpringContext" %>
+<%@ page import="org.kuali.kfs.coa.service.AccountService" %>
+
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 <script type='text/javascript'>
 function toggle(id) {
@@ -25,18 +29,11 @@ function toggle(id) {
 }
 </script>
 <c:if test="${!accountingLineScriptsLoaded}">
-       <script type='text/javascript' src="dwr/interface/ChartService.js"></script>
-       <script type='text/javascript' src="dwr/interface/AccountService.js"></script>
-       <script type='text/javascript' src="dwr/interface/SubAccountService.js"></script>
-       <script type='text/javascript' src="dwr/interface/ObjectCodeService.js"></script>
-       <script type='text/javascript' src="dwr/interface/ObjectTypeService.js"></script>
-       <script type='text/javascript' src="dwr/interface/SubObjectCodeService.js"></script>
-       <script type='text/javascript' src="dwr/interface/ProjectCodeService.js"></script>
-       <script type='text/javascript' src="dwr/interface/OriginationCodeService.js"></script>
        <script language="JavaScript" type="text/javascript" src="scripts/sys/objectInfo.js"></script>
        <c:set var="accountingLineScriptsLoaded" value="true" scope="request" />
 </c:if>
 
+<c:set var="accountsCanCrossCharts" value="<%=SpringContext.getBean(AccountService.class).accountsCanCrossCharts()%>" />
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 <c:set var="paymentApplicationDocumentAttributes" value="${DataDictionary['PaymentApplicationDocument'].attributes}" />
 <c:set var="invoiceAttributes" value="${DataDictionary['CustomerInvoiceDocument'].attributes}" />
@@ -81,7 +78,8 @@ function toggle(id) {
     <ar:paymentApplicationNonAr customerAttributes="${customerAttributes}"
         isCustomerSelected="${isCustomerSelected}"
         hasRelatedCashControlDocument="${hasRelatedCashControlDocument}"
-        readOnly="${readOnly}"/>
+        readOnly="${readOnly}"
+        accountsCanCrossCharts="${accountsCanCrossCharts}"/>
     <ar:paymentApplicationUnappliedTab
 		isCustomerSelected="${isCustomerSelected}" readOnly="${readOnly}" 
 		hasRelatedCashControlDocument="${hasRelatedCashControlDocument}" />

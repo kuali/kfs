@@ -32,13 +32,14 @@ import org.kuali.kfs.fp.document.service.CashManagementService;
 import org.kuali.kfs.fp.document.service.CashReceiptCoverSheetService;
 import org.kuali.kfs.fp.service.CashDrawerService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
+import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.TypedArrayList;
-import org.kuali.rice.kns.web.format.SimpleBooleanFormatter;
+import org.kuali.kfs.sys.service.FinancialSystemWorkflowHelperService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.web.format.SimpleBooleanFormatter;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class is the action form for Cash Receipts.
@@ -56,7 +57,7 @@ public class CashReceiptForm extends CapitalAccountingLinesFormBase implements C
     protected List checkEntryModes;
 
     protected List baselineChecks;
-    
+
     protected List<CapitalAssetInformation> capitalAssetInformation;
 
     /**
@@ -73,7 +74,7 @@ public class CashReceiptForm extends CapitalAccountingLinesFormBase implements C
         checkEntryModes.add(new LabelValueBean("Total Only", CashReceiptDocument.CHECK_ENTRY_TOTAL));
         
         baselineChecks = new ArrayList();
-        capitalAssetInformation = new TypedArrayList(CapitalAssetInformation.class);
+        capitalAssetInformation = new ArrayList<CapitalAssetInformation>();
         this.capitalAccountingLine.setCanCreateAsset(false); //This document can only edit asset information
     }
 
@@ -109,7 +110,7 @@ public class CashReceiptForm extends CapitalAccountingLinesFormBase implements C
     public void setNewCheck(Check newCheck) {
         this.newCheck = newCheck;
     }
-    
+
     /**
      * @return Confirmed Check
      */
@@ -218,19 +219,19 @@ public class CashReceiptForm extends CapitalAccountingLinesFormBase implements C
     public String getFinancialDocumentStatusMessage() {
         String financialDocumentStatusMessage = "";
         CashReceiptDocument crd = getCashReceiptDocument();
-        String financialDocumentStatusCode = crd.getDocumentHeader().getFinancialDocumentStatusCode();
+        String financialDocumentStatusCode = crd.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode();
         if (financialDocumentStatusCode.equals(CashReceipt.VERIFIED)) {
-            financialDocumentStatusMessage = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.CashReceipt.MSG_VERIFIED_BUT_NOT_AWAITING_DEPOSIT);
+            financialDocumentStatusMessage = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.CashReceipt.MSG_VERIFIED_BUT_NOT_AWAITING_DEPOSIT);
         }
         else if (financialDocumentStatusCode.equals(CashReceipt.INTERIM) || financialDocumentStatusCode.equals(CashReceipt.FINAL)) {
             CashManagementDocument cmd = SpringContext.getBean(CashManagementService.class).getCashManagementDocumentForCashReceiptId(crd.getDocumentNumber());
             if (cmd != null) {
                 String cmdFinancialDocNbr = cmd.getDocumentNumber();
 
-                String loadCMDocUrl = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.CashManagement.URL_LOAD_DOCUMENT_CASH_MGMT);
+                String loadCMDocUrl = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.CashManagement.URL_LOAD_DOCUMENT_CASH_MGMT);
                 loadCMDocUrl = StringUtils.replace(loadCMDocUrl, "{0}", cmdFinancialDocNbr);
 
-                financialDocumentStatusMessage = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.CashReceipt.MSG_VERIFIED_AND_AWAITING_DEPOSIT);
+                financialDocumentStatusMessage = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.CashReceipt.MSG_VERIFIED_AND_AWAITING_DEPOSIT);
                 financialDocumentStatusMessage = StringUtils.replace(financialDocumentStatusMessage, "{0}", loadCMDocUrl);
             }
         }
@@ -239,10 +240,10 @@ public class CashReceiptForm extends CapitalAccountingLinesFormBase implements C
             if (cmd != null) {
                 String cmdFinancialDocNbr = cmd.getDocumentNumber();
 
-                String loadCMDocUrl = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.CashManagement.URL_LOAD_DOCUMENT_CASH_MGMT);
+                String loadCMDocUrl = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.CashManagement.URL_LOAD_DOCUMENT_CASH_MGMT);
                 loadCMDocUrl = StringUtils.replace(loadCMDocUrl, "{0}", cmdFinancialDocNbr);
 
-                financialDocumentStatusMessage = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.CashReceipt.MSG_VERIFIED_AND_DEPOSITED);
+                financialDocumentStatusMessage = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.CashReceipt.MSG_VERIFIED_AND_DEPOSITED);
                 financialDocumentStatusMessage = StringUtils.replace(financialDocumentStatusMessage, "{0}", loadCMDocUrl);
             }
         }
@@ -259,12 +260,18 @@ public class CashReceiptForm extends CapitalAccountingLinesFormBase implements C
         CashReceiptDocument crd = getCashReceiptDocument();
 
         // first check to see if the document is in the appropriate state for this message
-        if (crd != null && crd.getDocumentHeader() != null && crd.getDocumentHeader().getWorkflowDocument() != null) {
-            if (crd.getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
+        if (crd != null
+                && crd.getDocumentHeader() != null
+                && crd.getDocumentHeader().getWorkflowDocument() != null) {
+            if (crd.getDocumentHeader().getWorkflowDocument().isEnroute()) {
                 CashDrawer cd = SpringContext.getBean(CashDrawerService.class).getByCampusCode(crd.getCampusLocationCode());
-                if (cd != null && crd.getDocumentHeader().getWorkflowDocument().isApprovalRequested() && cd.isClosed() && !crd.getDocumentHeader().getWorkflowDocument().isAdHocRequested()) {
-                    cashDrawerStatusMessage = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.CashReceipt.MSG_CASH_DRAWER_CLOSED_VERIFICATION_NOT_ALLOWED);
-                    cashDrawerStatusMessage = StringUtils.replace(cashDrawerStatusMessage, "{0}", crd.getCampusLocationCode());
+                if ( cd != null ) {
+                    if (crd.getDocumentHeader().getWorkflowDocument().isApprovalRequested()
+                            && cd.isClosed()
+                            && !SpringContext.getBean(FinancialSystemWorkflowHelperService.class).isAdhocApprovalRequestedForPrincipal(crd.getDocumentHeader().getWorkflowDocument(), GlobalVariables.getUserSession().getPrincipalId())) {
+                        cashDrawerStatusMessage = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSKeyConstants.CashReceipt.MSG_CASH_DRAWER_CLOSED_VERIFICATION_NOT_ALLOWED);
+                        cashDrawerStatusMessage = StringUtils.replace(cashDrawerStatusMessage, "{0}", crd.getCampusLocationCode());
+                    }
                 }
             }
         }
@@ -284,6 +291,7 @@ public class CashReceiptForm extends CapitalAccountingLinesFormBase implements C
     /**
      * @see org.kuali.kfs.fp.document.CapitalAssetEditable#getCapitalAssetInformation()
      */
+    @Override
     public List<CapitalAssetInformation> getCapitalAssetInformation() {
         return this.capitalAssetInformation;
     }
@@ -291,13 +299,15 @@ public class CashReceiptForm extends CapitalAccountingLinesFormBase implements C
     /**
      * @see org.kuali.kfs.fp.document.CapitalAssetEditable#setCapitalAssetInformation(org.kuali.kfs.fp.businessobject.CapitalAssetInformation)
      */
+    @Override
     public void setCapitalAssetInformation(List<CapitalAssetInformation> capitalAssetInformation) {
-        this.capitalAssetInformation = capitalAssetInformation;        
+        this.capitalAssetInformation = capitalAssetInformation;
     }
     
     /**
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase#getExcludedmethodToCall()
      */
+    @Override
     protected List<String> getExcludedmethodToCall() {
         List<String> execludedMethodToCall = super.getExcludedmethodToCall();
         execludedMethodToCall.add("printCoverSheet");

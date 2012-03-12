@@ -19,24 +19,14 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sec.SecConstants;
 import org.kuali.kfs.sec.SecKeyConstants;
 import org.kuali.kfs.sec.SecPropertyConstants;
-import org.kuali.kfs.sec.businessobject.SecurityModelDefinition;
-import org.kuali.kfs.sec.businessobject.SecurityModelMember;
 import org.kuali.kfs.sec.businessobject.SecurityPrincipal;
 import org.kuali.kfs.sec.businessobject.SecurityPrincipalDefinition;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
-import org.kuali.rice.kim.bo.group.dto.GroupInfo;
-import org.kuali.rice.kim.bo.role.dto.KimRoleInfo;
-import org.kuali.rice.kim.service.GroupService;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kim.util.KimConstants;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 
 /**
@@ -78,7 +68,7 @@ public class SecurityPrincipalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument,
-     *      java.lang.String, org.kuali.rice.kns.bo.PersistableBusinessObject)
+     *      java.lang.String, org.kuali.rice.krad.bo.PersistableBusinessObject)
      */
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
@@ -110,7 +100,7 @@ public class SecurityPrincipalRule extends MaintenanceDocumentRuleBase {
 
         int index = 0;
         for (SecurityPrincipalDefinition principalDefinition : newSecurityPrincipal.getPrincipalDefinitions()) {
-            String errorKeyPrefix = KNSConstants.MAINTENANCE_NEW_MAINTAINABLE + SecPropertyConstants.PRINCIPAL_DEFINITIONS + "[" + index + "].";
+            String errorKeyPrefix = KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + SecPropertyConstants.PRINCIPAL_DEFINITIONS + "[" + index + "].";
 
             boolean principalDefinitionValid = validatePrincipalDefinition(principalDefinition, errorKeyPrefix);
             if (!principalDefinitionValid) {

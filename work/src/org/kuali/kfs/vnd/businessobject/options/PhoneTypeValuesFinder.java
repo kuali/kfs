@@ -22,9 +22,9 @@ import java.util.List;
 
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.PhoneType;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * Values finder for <code>PhoneType</code>.
@@ -41,10 +41,10 @@ public class PhoneTypeValuesFinder extends KeyValuesBase {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection codes = boService.findAll(PhoneType.class);
         List labels = new ArrayList();
-        labels.add(new KeyLabelPair("", ""));
+        labels.add(new ConcreteKeyValue("", ""));
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
             PhoneType type = (PhoneType) iter.next();
-            labels.add(new KeyLabelPair(type.getVendorPhoneTypeCode(), type.getVendorPhoneTypeDescription()));
+            labels.add(new ConcreteKeyValue(type.getVendorPhoneTypeCode(), type.getVendorPhoneTypeDescription()));
         }
 
         return labels;

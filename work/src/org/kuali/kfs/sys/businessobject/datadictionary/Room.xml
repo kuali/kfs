@@ -41,7 +41,7 @@
 	<property name="relationships">
       <list>
 		<dd:relationship objectAttribute="campus">
-        	<dd:primitiveAttribute source="campusCode" target="campusCode"/>
+        	<dd:primitiveAttribute source="campusCode" target="code"/>
         </dd:relationship>         
       </list>
     </property> 
@@ -52,10 +52,11 @@
 
   <bean id="Room-campusCode" parent="Room-campusCode-parentBean"/>
 
-  <bean id="Room-campusCode-parentBean" abstract="true" parent="Campus-campusCode">
+  <bean id="Room-campusCode-parentBean" abstract="true" parent="Campus-code">
+  	<property name="name" value="campusCode" /> 
   	<property name="forceUppercase" value="true"/>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.CampusValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.campus.CampusValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
   <bean id="Room-buildingCode" parent="Room-buildingCode-parentBean"/>

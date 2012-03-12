@@ -15,9 +15,6 @@
  */
 package org.kuali.kfs.gl.dataaccess;
 
-import java.util.Collection;
-
-import org.kuali.kfs.gl.businessobject.SufficientFundRebuild;
 
 /**
  * 

@@ -43,11 +43,11 @@ import org.kuali.kfs.sys.KFSConstants.DepositConstants;
 import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
+import org.kuali.rice.core.web.format.TimestampAMPMFormatter;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.web.format.CurrencyFormatter;
-import org.kuali.rice.kns.web.format.TimestampAMPMFormatter;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
@@ -369,11 +369,11 @@ public class CashManagementForm extends KualiDocumentFormBase {
         public CashReceiptSummary(CashReceiptDocument crd) {
             documentNumber = crd.getDocumentNumber();
             description = crd.getDocumentHeader().getDocumentDescription();
-            createDate = crd.getDocumentHeader().getWorkflowDocument().getCreateDate();
+            createDate = new Timestamp(crd.getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
             checkAmount = crd.getTotalConfirmedCheckAmount();
             cashAmount = crd.getTotalConfirmedCashAmount();
             totalAmount = crd.getTotalConfirmedDollarAmount().subtract(crd.getTotalChangeAmount());
-            documentStatusCode = crd.getDocumentHeader().getFinancialDocumentStatusCode();
+            documentStatusCode = crd.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode();
         }
 
         /**
@@ -530,7 +530,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
         protected KualiDecimal finalDepositedCashieringChecksTotal;
 
         public CashDrawerSummary(CashManagementDocument cmDoc) {
-            timeOpened = cmDoc.getDocumentHeader().getWorkflowDocument().getCreateDate();
+            timeOpened = new Timestamp(cmDoc.getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
 
             resummarize(cmDoc);
         }
@@ -544,7 +544,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
         public void resummarize(CashManagementDocument cmDoc) {
             //
             // get all interesting CRs
-            String campusCode = cmDoc.getCampusCode(); 
+            String campusCode = cmDoc.getCampusCode();
             List<CashReceiptDocument> interestingReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(campusCode, INTERESTING_STATII);
 
 
@@ -556,7 +556,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
             finalReceiptStats.clear();
 
             for (CashReceiptDocument receipt : interestingReceipts) {
-                String status = receipt.getDocumentHeader().getFinancialDocumentStatusCode();
+                String status = receipt.getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode();
                 overallReceiptStats.add(receipt);
                 if (status.equals(CashReceipt.VERIFIED)) {
                     verifiedReceiptStats.add(receipt);

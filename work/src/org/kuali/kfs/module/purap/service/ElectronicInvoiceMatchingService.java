@@ -15,13 +15,8 @@
  */
 package org.kuali.kfs.module.purap.service;
 
-import java.util.List;
-
-import org.kuali.kfs.module.purap.businessobject.ElectronicInvoice;
-import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceLoad;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectReason;
 import org.kuali.kfs.module.purap.businessobject.ElectronicInvoiceRejectReasonType;
-import org.kuali.kfs.module.purap.document.ElectronicInvoiceRejectDocument;
 import org.kuali.kfs.module.purap.service.impl.ElectronicInvoiceOrderHolder;
 
 public interface ElectronicInvoiceMatchingService {

@@ -47,14 +47,15 @@ import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.TaxService;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.NoteService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource, AmountTotaling {
 
@@ -231,7 +232,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
      * @return
      */
     public List<CustomerInvoiceDetail> getCustomerInvoiceDetailsForWriteoff() {
-        List<CustomerInvoiceDetail> customerInvoiceDetailsForWriteoff = new TypedArrayList(CustomerInvoiceDetail.class);
+        List<CustomerInvoiceDetail> customerInvoiceDetailsForWriteoff = new ArrayList<CustomerInvoiceDetail>();
         for (CustomerInvoiceDetail customerInvoiceDetail : getCustomerInvoiceDocument().getCustomerInvoiceDetailsWithoutDiscounts()) {
             customerInvoiceDetail.setCustomerInvoiceWriteoffDocumentNumber(this.documentNumber);
             customerInvoiceDetailsForWriteoff.add(customerInvoiceDetail);
@@ -248,7 +249,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
     public KualiDecimal getInvoiceWriteoffAmount() {
         // only pull the invoice open amount as the invoice writeoff amount while the doc
         // is in play. once its been approved, rely on the amount stored in the db.
-        if (!KFSConstants.DocumentStatusCodes.APPROVED.equals(getDocumentHeader().getFinancialDocumentStatusCode())) {
+        if (!KFSConstants.DocumentStatusCodes.APPROVED.equals(getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode())) {
             invoiceWriteoffAmount = customerInvoiceDocument.getOpenAmount();
         }
         return invoiceWriteoffAmount;
@@ -281,10 +282,10 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
     }
 
     @Override
-    public List<Long> getWorkflowEngineDocumentIdsToLock() {
+    public List<String> getWorkflowEngineDocumentIdsToLock() {
         if (StringUtils.isNotBlank(getFinancialDocumentReferenceInvoiceNumber())) {
-            List<Long> documentIds = new ArrayList<Long>();
-            documentIds.add(new Long(getFinancialDocumentReferenceInvoiceNumber()));
+            List<String> documentIds = new ArrayList<String>();
+            documentIds.add(getFinancialDocumentReferenceInvoiceNumber());
             return documentIds;
         }
         return null;
@@ -297,9 +298,9 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
      * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#doRouteStatusChange()
      */
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
-        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+        if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
             CustomerInvoiceWriteoffDocumentService writeoffService = SpringContext.getBean(CustomerInvoiceWriteoffDocumentService.class);
             writeoffService.completeWriteoffProcess(this);
         }
@@ -308,7 +309,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
     /**
      * do all the calculations before the document gets saved gets called for 'Submit', 'Save', and 'Blanket Approved'
      * 
-     * @see org.kuali.rice.kns.document.Document#prepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
+     * @see org.kuali.rice.krad.document.Document#prepareForSave(org.kuali.rice.krad.rule.event.KualiDocumentEvent)
      */
     public void prepareForSave(KualiDocumentEvent event) {
         // generate GLPEs
@@ -343,13 +344,13 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
 
         KualiDecimal amount;
 
-        String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
+        String receivableOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD);
         boolean hasReceivableClaimOnCashOffset = ArConstants.GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD_FAU.equals(receivableOffsetOption);
 
-        String writeoffOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_GENERATION_METHOD);
+        String writeoffOffsetOption = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_GENERATION_METHOD);
         boolean hasWriteoffClaimOnCashOffset = ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_ORG_ACCT_DEFAULT.equals(writeoffOffsetOption);
 
-        String writeoffTaxGenerationOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.ALLOW_SALES_TAX_LIABILITY_ADJUSTMENT_IND);
+        String writeoffTaxGenerationOption = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceWriteoffDocument.class, ArConstants.ALLOW_SALES_TAX_LIABILITY_ADJUSTMENT_IND);
         boolean hasWriteoffTaxClaimOnCashOffset = ArConstants.ALLOW_SALES_TAX_LIABILITY_ADJUSTMENT_IND_NO.equals(writeoffTaxGenerationOption);
 
         boolean hasClaimOnCashOffset = hasReceivableClaimOnCashOffset || hasWriteoffClaimOnCashOffset;
@@ -495,7 +496,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
      */
     public String getCustomerNote() {
         /*
-         * ArrayList boNotes = (ArrayList) this.getCustomerInvoiceDocument().getCustomer().getBoNotes(); if (boNotes.size() > 0)
+         * ArrayList boNotes = (ArrayList) this.getCustomerInvoiceDocument().getCustomer().getNotes(); if (boNotes.size() > 0)
          * customerNote = boNotes.toString(); else customerNote = "";
          */
         return customerNote;
@@ -512,11 +513,13 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
 
     public void populateCustomerNote() {
         customerNote = "";
-        ArrayList boNotes = (ArrayList) this.getCustomerInvoiceDocument().getCustomer().getBoNotes();
-        if (boNotes.size() > 0) {
-            for (int i = 0; i < boNotes.size(); i++)
-                customerNote += ((Note) boNotes.get(i)).getNoteText() + " ";
-            customerNote.trim();
+        String remoteObjectId = getCustomerInvoiceDocument().getCustomer().getObjectId();
+        List<Note> boNotes = SpringContext.getBean(NoteService.class).getByRemoteObjectId(remoteObjectId);        
+        if ( !boNotes.isEmpty() ) {
+            for ( Note note : boNotes ) {
+                customerNote = customerNote + note.getNoteText() + " ";
+            }
+            customerNote = customerNote.trim();
         }
     }
 
@@ -531,7 +534,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
 
             // grab the approval threshold from the param service
             ParameterService paramService = SpringContext.getBean(ParameterService.class);
-            KualiDecimal approvalThreshold = new KualiDecimal(paramService.getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.WRITEOFF_APPROVAL_THRESHOLD));
+            KualiDecimal approvalThreshold = new KualiDecimal(paramService.getParameterValueAsString(CustomerInvoiceWriteoffDocument.class, ArConstants.WRITEOFF_APPROVAL_THRESHOLD));
 
             return (approvalThreshold.isLessThan(getInvoiceWriteoffAmount()));
         }

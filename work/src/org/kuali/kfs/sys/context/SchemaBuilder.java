@@ -31,7 +31,6 @@ import java.util.Set;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
@@ -110,7 +109,7 @@ public class SchemaBuilder {
 
             // if using dd validation must start up spring so we can read DD
             if (useDataDictionaryValidation && rebuildDDTypes) {
-                SpringContext.initializeApplicationContextWithoutSchedule();
+                SpringContextForBatchRunner.initializeKfs();
             }
 
             LOG.debug("Getting build schema files");

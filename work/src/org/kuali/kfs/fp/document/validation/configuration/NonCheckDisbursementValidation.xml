@@ -22,9 +22,16 @@
 
 	<bean id="NonCheckDisbursement-routeDocumentValidation" parent="NonCheckDisbursement-routeDocumentValidation-parentBean" scope="prototype" />
   
-  	<bean id="NonCheckDisbursement-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  	<bean id="NonCheckDisbursement-routeDocumentValidation-parentBean" parent="CompositeValidation" abstract="true">
   		<property name="validations">
   			<list>
+  				<bean parent="NonCheckDisbursement-bankCodeValidation" scope="prototype">
+  					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingDocumentFieldConversion" />
+						</list>
+					</property>
+  				</bean>
   				<bean parent="AccountingDocument-oneSidedRequiredAccountingLinesCountValidation" scope="prototype">
 					<property name="requiredMinimumCount" value="1" />
 					<property name="parameterProperties">

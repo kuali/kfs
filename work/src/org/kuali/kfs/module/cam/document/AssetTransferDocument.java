@@ -24,6 +24,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.fp.document.TransferOfFundsDocument;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.module.cam.CamsConstants;
@@ -40,25 +41,25 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.GeneralLedgerPendingEntrySource;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
-import org.kuali.rice.kns.bo.PostalCode;
-import org.kuali.rice.kns.bo.State;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
-import org.kuali.rice.kns.rule.event.SaveDocumentEvent;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.PostalCodeService;
-import org.kuali.rice.kns.service.StateService;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.rules.rule.event.SaveDocumentEvent;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.location.api.campus.CampusService;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.location.api.postalcode.PostalCodeService;
+import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.location.framework.campus.CampusEbo;
+import org.kuali.rice.location.framework.country.CountryEbo;
+import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
+import org.kuali.rice.location.framework.state.StateEbo;
 
 public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPendingEntrySource {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetTransferDocument.class);
@@ -85,18 +86,18 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     protected boolean interdepartmentalSalesIndicator;
     protected Long capitalAssetNumber;
     protected Person assetRepresentative;
-    protected Campus campus;
+    protected CampusEbo campus;
     protected Account organizationOwnerAccount;
     protected Account oldOrganizationOwnerAccount;
     protected Chart organizationOwnerChartOfAccounts;
-    protected State offCampusState;
-    protected Country offCampusCountry;
+    protected StateEbo offCampusState;
+    protected CountryEbo offCampusCountry;
     protected Building building;
     protected Room buildingRoom;
     protected transient List<AssetGlpeSourceDetail> sourceAssetGlpeSourceDetails;
     protected transient List<AssetGlpeSourceDetail> targetAssetGlpeSourceDetails;
     protected Asset asset;
-    protected PostalCode postalZipCode;
+    protected PostalCodeEbo postalZipCode;
 
     public AssetTransferDocument() {
         super();
@@ -139,7 +140,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * @return Returns the assetRepresentative
      */
     public Person getAssetRepresentative() {
-        assetRepresentative = SpringContext.getBean(org.kuali.rice.kim.service.PersonService.class).updatePersonIfNecessary(representativeUniversalIdentifier, assetRepresentative);
+        assetRepresentative = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).updatePersonIfNecessary(representativeUniversalIdentifier, assetRepresentative);
         return assetRepresentative;
     }
 
@@ -205,10 +206,10 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * 
      * @return Returns the campus
      */
-    public Campus getCampus() {
+    public CampusEbo getCampus() {
         Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put(KNSPropertyConstants.CAMPUS_CODE, campusCode);
-        return campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).getExternalizableBusinessObject(Campus.class, criteria);
+        criteria.put(KRADPropertyConstants.CAMPUS_CODE, campusCode);
+        return campus = CampusEbo.from(SpringContext.getBean(CampusService.class).getCampus(campusCode/*RICE_20_REFACTORME  criteria */));
     }
 
     /**
@@ -275,8 +276,8 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * 
      * @return Returns the offCampusState.
      */
-    public State getOffCampusState() {
-        offCampusState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(offCampusCountryCode, offCampusStateCode, offCampusState);
+    public StateEbo getOffCampusState() {
+        offCampusState = (StringUtils.isBlank(offCampusCountryCode) || StringUtils.isBlank( offCampusStateCode))?null:( offCampusState == null || !StringUtils.equals( offCampusState.getCountryCode(),offCampusCountryCode)|| !StringUtils.equals( offCampusState.getCode(), offCampusStateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState(offCampusCountryCode, offCampusStateCode)): offCampusState;
         return offCampusState;
     }
 
@@ -304,8 +305,8 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * 
      * @return Returns the postalZipCode
      */
-    public PostalCode getPostalZipCode() {
-        postalZipCode = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(offCampusCountryCode, offCampusZipCode, postalZipCode);
+    public PostalCodeEbo getPostalZipCode() {
+        postalZipCode = (StringUtils.isBlank(offCampusCountryCode) || StringUtils.isBlank( offCampusZipCode))?null:( postalZipCode == null || !StringUtils.equals( postalZipCode.getCountryCode(),offCampusCountryCode)|| !StringUtils.equals( postalZipCode.getCode(), offCampusZipCode))?PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode(offCampusCountryCode, offCampusZipCode)): postalZipCode;
         return postalZipCode;
     }
 
@@ -314,8 +315,8 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * 
      * @return Returns the offCampusCountry.
      */
-    public Country getOffCampusCountry() {
-        offCampusCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(offCampusCountryCode, offCampusCountry);
+    public CountryEbo getOffCampusCountry() {
+        offCampusCountry = (offCampusCountryCode == null)?null:( offCampusCountry == null || !StringUtils.equals( offCampusCountry.getCode(),offCampusCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(offCampusCountryCode)): offCampusCountry;
         return offCampusCountry;
     }
 
@@ -449,7 +450,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     /**
      * @see org.kuali.rice.kns.document.DocumentBase#postProcessSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
      */
-    @Override
+    
     public void postProcessSave(KualiDocumentEvent event) {
         super.postProcessSave(event);
 
@@ -473,16 +474,16 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * @see org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase#doRouteStatusChange()
      */
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
 
-        KualiWorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
-        if (workflowDocument.stateIsProcessed()) {
+        WorkflowDocument workflowDocument = getDocumentHeader().getWorkflowDocument();
+        if (workflowDocument.isProcessed()) {
             SpringContext.getBean(AssetTransferService.class).saveApprovedChanges(this);
         }
 
-        // Remove asset lock when doc status change. We don't include stateIsFinal since document always go to 'processed' first.
-        if (workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsProcessed()) {
+        // Remove asset lock when doc status change. We don't include isFinal since document always go to 'processed' first.
+        if (workflowDocument.isCanceled() || workflowDocument.isDisapproved() || workflowDocument.isProcessed()) {
             getCapitalAssetManagementModuleService().deleteAssetLocks(this.getDocumentNumber(), null);
         }
     }
@@ -580,7 +581,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * @param campus The campus to set.
      * @deprecated
      */
-    public void setCampus(Campus campus) {
+    public void setCampus(CampusEbo campus) {
         this.campus = campus;
     }
 
@@ -643,7 +644,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * @param offCampusState The offCampusState to set.
      * @deprecated
      */
-    public void setOffCampusState(State offCampusState) {
+    public void setOffCampusState(StateEbo offCampusState) {
         this.offCampusState = offCampusState;
     }
 
@@ -672,7 +673,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * 
      * @param postalZipCode The postalZipCode to set.
      */
-    public void setPostalZipCode(PostalCode postalZipCode) {
+    public void setPostalZipCode(PostalCodeEbo postalZipCode) {
         this.postalZipCode = postalZipCode;
     }
 
@@ -682,7 +683,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * @param offCampusCountry The offCampusCountry to set.
      * @deprecated
      */
-    public void setOffCampusCountry(Country offCampusCountry) {
+    public void setOffCampusCountry(CountryEbo offCampusCountry) {
         this.offCampusCountry = offCampusCountry;
     }
 
@@ -724,6 +725,15 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      */
     public void setOrganizationOwnerAccountNumber(String organizationOwnerAccountNumber) {
         this.organizationOwnerAccountNumber = organizationOwnerAccountNumber;
+        
+        // if accounts can't cross charts, set chart code whenever account number is set
+        AccountService accountService = SpringContext.getBean(AccountService.class);
+        if (!accountService.accountsCanCrossCharts()) {
+            Account account = accountService.getUniqueAccountForAccountNumber(organizationOwnerAccountNumber);
+            if (ObjectUtils.isNotNull(account)) {
+                setOrganizationOwnerChartOfAccountsCode(account.getChartOfAccountsCode());
+            }
+        }
     }
 
 
@@ -790,7 +800,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap<String, String> toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         m.put("documentNumber", this.documentNumber);
         return m;

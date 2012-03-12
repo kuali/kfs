@@ -17,8 +17,8 @@ package org.kuali.kfs.module.endow.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 public class TransactioneDocPostingDocumentTotalReportLine extends TransientBusinessObjectBase {
 
@@ -137,9 +137,4 @@ public class TransactioneDocPostingDocumentTotalReportLine extends TransientBusi
         this.totalUnits = totalUnits;
     }
 
-    @Override
-    protected LinkedHashMap<Object, Object> toStringMapper() {
-        return new LinkedHashMap<Object, Object>();
-    }
-    
 }

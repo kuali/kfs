@@ -27,10 +27,9 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.web.AccountingLineRenderingContext;
 import org.kuali.kfs.sys.document.web.AccountingLineViewAction;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kim.api.identity.Person;
 
 public class CustomerInvoiceDocumentSourceLinesAuthorizer extends FinancialProcessingAccountingLineAuthorizer {
 
@@ -55,7 +54,7 @@ public class CustomerInvoiceDocumentSourceLinesAuthorizer extends FinancialProce
         CustomerInvoiceDetail invoiceLine = (CustomerInvoiceDetail) accountingLineRenderingContext.getAccountingLine();
 
         // get the images base directory
-        String kfsImagesPath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString("externalizable.images.url");
+        String kfsImagesPath = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("externalizable.images.url");
 
         // show the Refresh button on the New Line Actions
         if (isNewLine(accountingLineIndex)) {
@@ -94,7 +93,7 @@ public class CustomerInvoiceDocumentSourceLinesAuthorizer extends FinancialProce
     public Set<String> getUnviewableBlocks(AccountingDocument accountingDocument, AccountingLine accountingLine, boolean newLine, Person currentUser) {
         Set<String> blocks = super.getUnviewableBlocks(accountingDocument, accountingLine, newLine, currentUser);
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        boolean enableTax = parameterService.getIndicatorParameter("KFS-AR", "Document", ArConstants.ENABLE_SALES_TAX_IND);
+        boolean enableTax = parameterService.getParameterValueAsBoolean("KFS-AR", "Document", ArConstants.ENABLE_SALES_TAX_IND);
         if (!enableTax) {
             blocks.add("invoiceItemTaxAmount");
             blocks.add("taxableIndicator");

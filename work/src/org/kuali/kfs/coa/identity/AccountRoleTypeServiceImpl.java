@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.coa.identity;
 
-import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
+import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 
-public class AccountRoleTypeServiceImpl extends KimRoleTypeServiceBase {
+public class AccountRoleTypeServiceImpl extends RoleTypeServiceBase {
 
 }

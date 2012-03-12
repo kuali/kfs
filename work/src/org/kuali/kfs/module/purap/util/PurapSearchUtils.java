@@ -16,25 +16,24 @@
 package org.kuali.kfs.module.purap.util;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.rice.krad.bo.DocumentHeader;
 
 public class PurapSearchUtils {
 
-    public static String getWorkFlowStatusString(FinancialSystemDocumentHeader documentHeader) {
-        if (documentHeader.getWorkflowDocument().stateIsInitiated()) {
+    public static String getWorkFlowStatusString(DocumentHeader documentHeader) {
+        if (documentHeader.getWorkflowDocument().isInitiated()) {
             return "INITIATED";
         }
-        else if (documentHeader.getWorkflowDocument().stateIsEnroute()) {
+        else if (documentHeader.getWorkflowDocument().isEnroute()) {
             return "ENROUTE";
         }
-        else if (documentHeader.getWorkflowDocument().stateIsDisapproved()) {
+        else if (documentHeader.getWorkflowDocument().isDisapproved()) {
             return "DISAPPROVED";
         }
-        else if (documentHeader.getWorkflowDocument().stateIsCanceled()) {
+        else if (documentHeader.getWorkflowDocument().isCanceled()) {
             return "CANCELLED";
         }
-        else if (documentHeader.getWorkflowDocument().stateIsApproved()) {
+        else if (documentHeader.getWorkflowDocument().isApproved()) {
             return "APPROVED";
         }
         else {

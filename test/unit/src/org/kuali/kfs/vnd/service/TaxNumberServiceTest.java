@@ -22,7 +22,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorParameterConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 @ConfigureContext
 public class TaxNumberServiceTest extends KualiTestBase {
@@ -58,7 +58,7 @@ public class TaxNumberServiceTest extends KualiTestBase {
     }
 
     private String[] getNotAllowedTaxNumbers() {
-        String[] notAllowedTaxNumbers = SpringContext.getBean(ParameterService.class).getParameterValues(VendorDetail.class, VendorParameterConstants.NOT_ALLOWED_TAX_NUMBERS).toArray(new String[] {});
+        String[] notAllowedTaxNumbers = SpringContext.getBean(ParameterService.class).getParameterValuesAsString(VendorDetail.class, VendorParameterConstants.NOT_ALLOWED_TAX_NUMBERS).toArray(new String[] {});
         return notAllowedTaxNumbers;
     }
 }

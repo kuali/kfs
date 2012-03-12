@@ -17,29 +17,29 @@ package org.kuali.kfs.coa.identity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kim.bo.impl.KimAttributes;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.role.RoleMembership;
+import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 
-public class ContractsAndGrantsResponsibilityRoleTypeServiceImpl extends KimRoleTypeServiceBase {
+public class ContractsAndGrantsResponsibilityRoleTypeServiceImpl extends RoleTypeServiceBase {
     public static final String AWARD_ROUTE_NODE_NAME = "Award";
 
     @Override
-    public List<RoleMembershipInfo> doRoleQualifiersMatchQualification(AttributeSet qualification, List<RoleMembershipInfo> roleMemberList) {
+    public List<RoleMembership> getMatchingRoleMemberships(Map<String,String> qualification, List<RoleMembership> roleMemberList) {
         // special handling for where the code is being called for a particular route node
         // and the code is blank
         if ( qualification != null ) {
-            if ( StringUtils.equals( qualification.get(KimAttributes.ROUTE_NODE_NAME), AWARD_ROUTE_NODE_NAME) ) {
+            if ( StringUtils.equals( qualification.get(KimConstants.AttributeConstants.ROUTE_NODE_NAME), AWARD_ROUTE_NODE_NAME) ) {
                 if ( StringUtils.isBlank(qualification.get(KfsKimAttributes.CONTRACTS_AND_GRANTS_ACCOUNT_RESPONSIBILITY_ID)) ) {
-                    return new ArrayList<RoleMembershipInfo>(0);
+                    return new ArrayList<RoleMembership>(0);
                 }
             }
         }
         // otherwise, default to the normal behavior
-        return super.doRoleQualifiersMatchQualification(qualification, roleMemberList);
+        return super.getMatchingRoleMemberships(qualification, roleMemberList);
     }
 }

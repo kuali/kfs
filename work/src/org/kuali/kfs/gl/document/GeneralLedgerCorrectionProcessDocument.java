@@ -16,8 +16,6 @@
 
 package org.kuali.kfs.gl.document;
 
-import java.io.File;
-import java.io.FilenameFilter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,7 +26,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.CorrectionProcessScrubberStep;
 import org.kuali.kfs.gl.businessobject.CorrectionChangeGroup;
@@ -42,13 +39,11 @@ import org.kuali.kfs.sys.context.ProxyUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
-import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.springframework.aop.framework.Advised;
-import org.springframework.aop.support.AopUtils;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteLevelChange;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * The General Ledger Correction Document, a document that allows editing and processing of origin entry groups and the origin
@@ -84,10 +79,10 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
      * Returns a Map representation of the primary key of this document
      * 
      * @return a Map that represents the database key of this document
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         return m;
@@ -174,9 +169,9 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
     }
     
     
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
-        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+        if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("GLCP Route status Change: " + statusChangeEvent);
             }
@@ -258,10 +253,10 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
      * newly created origin entry group, then scrubbing those entries
      * 
      * @param cahnge a representation of the route level changed that just occurred
-     * @see org.kuali.rice.kns.document.DocumentBase#handleRouteLevelChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteLevelChangeDTO)
+     * @see org.kuali.rice.krad.document.DocumentBase#handleRouteLevelChange(org.kuali.rice.kew.clientapp.vo.DocumentRouteLevelChangeDTO)
      */
     @Override
-    public void doRouteLevelChange(DocumentRouteLevelChangeDTO change) {
+    public void doRouteLevelChange(DocumentRouteLevelChange change) {
         super.doRouteLevelChange(change);
     }
 
@@ -278,7 +273,7 @@ public class GeneralLedgerCorrectionProcessDocument extends FinancialSystemTrans
      * Sets this document's document number, but also sets the document number on all children objects
      * 
      * @param documentNumber the document number for this document
-     * @see org.kuali.rice.kns.document.DocumentBase#setDocumentNumber(java.lang.String)
+     * @see org.kuali.rice.krad.document.DocumentBase#setDocumentNumber(java.lang.String)
      */
     @Override
     public void setDocumentNumber(String documentNumber) {

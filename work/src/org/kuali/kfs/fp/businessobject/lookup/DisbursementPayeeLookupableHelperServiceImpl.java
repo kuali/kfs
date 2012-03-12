@@ -24,7 +24,9 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.DisbursementPayee;
+import org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherPaymentReasonService;
+import org.kuali.kfs.gl.service.impl.StringHelper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -32,36 +34,35 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kim.util.KIMPropertyConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.datadictionary.AttributeSecurity;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.lookup.CollectionIncomplete;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.BeanPropertyComparator;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.MessageList;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.ResultRow;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.datadictionary.AttributeSecurity;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
+import org.kuali.rice.krad.util.BeanPropertyComparator;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementPayeeLookupableHelperServiceImpl.class);
 
-    private Lookupable vendorLookupable;
-    private DisbursementVoucherPaymentReasonService disbursementVoucherPaymentReasonService;
-    protected PersonService personService;
+    protected Lookupable vendorLookupable;
+    protected DisbursementVoucherPaymentReasonService disbursementVoucherPaymentReasonService;
+    protected DisbursementVoucherPayeeService disbursementVoucherPayeeService;
     
     private static final int NAME_REQUIRED_FILLED_WITH_WILDCARD = 4;
 
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#performLookup(org.kuali.rice.kns.web.struts.form.LookupForm,
      *      java.util.Collection, boolean)
-     * 
-     * KRAD Conversion: Lookupable performs conditional setting of return urls.
      */
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
@@ -72,7 +73,7 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
 
         this.filterReturnUrl((List<ResultRow>) resultTable, displayList, paymentReasonCode);
 
-        MessageList messageList = GlobalVariables.getMessageList();
+        MessageList messageList = KNSGlobalVariables.getMessageList();
         disbursementVoucherPaymentReasonService.postPaymentReasonCodeUsage(paymentReasonCode, messageList);
 
         return displayList;
@@ -114,82 +115,113 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
     public void validateSearchParameters(Map fieldValues) {
         super.validateSearchParameters(fieldValues);
         
-        final String vendorName = (String) fieldValues.get(KFSPropertyConstants.VENDOR_NAME);
-        final String vendorNumber = (String) fieldValues.get(KFSPropertyConstants.VENDOR_NUMBER);
-        final String employeeId = (String) fieldValues.get(KIMPropertyConstants.Person.EMPLOYEE_ID);
-        final String firstName = (String)fieldValues.get(KIMPropertyConstants.Person.FIRST_NAME);
-        final String lastName = (String)fieldValues.get(KIMPropertyConstants.Person.LAST_NAME);
-        final String vendorTaxNumber = (String)fieldValues.get(KFSPropertyConstants.TAX_NUMBER);
-        final String vendorTaxNumberLabel = this.getAttributeLabel(KFSPropertyConstants.TAX_NUMBER);        
-        
-        final String employeeIdLabel = this.getAttributeLabel(KIMPropertyConstants.Person.EMPLOYEE_ID);
-        
-        if (StringUtils.isBlank(vendorNumber) && StringUtils.isBlank(employeeId) && StringUtils.isBlank(firstName) && StringUtils.isBlank(lastName) && StringUtils.isBlank(vendorName)) {
+        if (checkMinimumFieldsFilled(fieldValues)) {
+            validateVendorNameUse(fieldValues);
+            validateTaxNumberCriteria(fieldValues);
+            validateEmployeeNameUse(fieldValues);
+        }
+        if (GlobalVariables.getMessageMap().hasErrors()) {
+            throw new ValidationException("errors in search criteria");
+        }
+    }
+    
+    /**
+     * This method checks if the minimum required fields are filled
+     */
+    public boolean checkMinimumFieldsFilled(Map fieldValues) {
+        if(StringUtils.isBlank((String) fieldValues.get(KFSPropertyConstants.VENDOR_NUMBER)) && StringUtils.isBlank((String) fieldValues.get(KIMPropertyConstants.Person.EMPLOYEE_ID)) && StringUtils.isBlank((String)fieldValues.get(KIMPropertyConstants.Person.FIRST_NAME)) && 
+                StringUtils.isBlank((String)fieldValues.get(KIMPropertyConstants.Person.LAST_NAME)) && StringUtils.isBlank((String)fieldValues.get(KFSPropertyConstants.VENDOR_NAME))) {
             final String vendorNumberLabel = this.getAttributeLabel(KFSPropertyConstants.VENDOR_NUMBER);
             final String vendorNameLabel = this.getAttributeLabel(KFSPropertyConstants.VENDOR_NAME);
             final String firstNameLabel = this.getAttributeLabel(KIMPropertyConstants.Person.FIRST_NAME);
             final String lastNameLabel = this.getAttributeLabel(KIMPropertyConstants.Person.LAST_NAME);
+            final String employeeIdLabel = this.getAttributeLabel(KIMPropertyConstants.Person.EMPLOYEE_ID);
+            
             GlobalVariables.getMessageMap().putError(KFSPropertyConstants.VENDOR_NUMBER, KFSKeyConstants.ERROR_DV_LOOKUP_NEEDS_SOME_FIELD, new String[] {vendorNumberLabel, employeeIdLabel, vendorNameLabel, firstNameLabel, lastNameLabel});
-        } else {
-            final boolean isVendorInfoEntered = StringUtils.isNotBlank(vendorName) || StringUtils.isNotBlank(vendorNumber);
-            if (isVendorInfoEntered && StringUtils.isNotBlank(employeeId)) {
-                // only can use the vendor name and vendor number fields or the employee id field, but not both.
-                String messageKey = KFSKeyConstants.ERROR_DV_VENDOR_EMPLOYEE_CONFUSION;
-                String vendorNameLabel = this.getAttributeLabel(KFSPropertyConstants.VENDOR_NAME);
-                String vendorNumberLabel = this.getAttributeLabel(KFSPropertyConstants.VENDOR_NUMBER);
-                GlobalVariables.getMessageMap().putError(KIMPropertyConstants.Person.EMPLOYEE_ID, messageKey, employeeIdLabel, vendorNameLabel, vendorNumberLabel);
-            }
-            if (StringUtils.isBlank(vendorNumber) && !StringUtils.isBlank(vendorName) && !filledEnough(vendorName)) {
-                final String vendorNameLabel = this.getAttributeLabel(KFSPropertyConstants.VENDOR_NAME);
-                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.VENDOR_NAME, KFSKeyConstants.ERROR_DV_NAME_NOT_FILLED_ENOUGH, new String[] {vendorNameLabel, Integer.toString(getNameLengthWithWildcardRequirement())});
-            }
+            return false;
+        }
+        return true;
+    }
     
-            final boolean isPersonNameEntered = StringUtils.isNotBlank(firstName) || StringUtils.isNotBlank(lastName);
-            final String employeeFirstNameLabel = this.getAttributeLabel(KIMPropertyConstants.Person.FIRST_NAME);
-            final String employeeLastNameLabel = this.getAttributeLabel(KIMPropertyConstants.Person.LAST_NAME);
-            
-            // we do not use to use Tax Number field for the lookup on the person...
-            if(StringUtils.isNotBlank(vendorTaxNumber) && StringUtils.isNotBlank(firstName)) {
-                fieldValues.remove(KFSPropertyConstants.TAX_NUMBER);
-                String messageKey = KFSKeyConstants.ERROR_DV_LOOKUP_TAX_NUMBER_EMPLOYEE_DETAILS_CONFUSION;
-                GlobalVariables.getMessageMap().putError(KIMPropertyConstants.Person.FIRST_NAME, messageKey, vendorTaxNumberLabel, employeeFirstNameLabel);                
-            }
-            // if tax number and employee last name entered then send an error message...
-            if(StringUtils.isNotBlank(vendorTaxNumber) && StringUtils.isNotBlank(lastName)) {
-                fieldValues.remove(KFSPropertyConstants.TAX_NUMBER);
-                String messageKey = KFSKeyConstants.ERROR_DV_LOOKUP_TAX_NUMBER_EMPLOYEE_DETAILS_CONFUSION;
-                GlobalVariables.getMessageMap().putError(KIMPropertyConstants.Person.LAST_NAME, messageKey, vendorTaxNumberLabel, employeeLastNameLabel);                
-            }
-            // if tax number and employee id entered then send an error message...
-            if(StringUtils.isNotBlank(vendorTaxNumber) && StringUtils.isNotBlank(employeeId)) {
-                fieldValues.remove(KFSPropertyConstants.TAX_NUMBER);
-                String messageKey = KFSKeyConstants.ERROR_DV_LOOKUP_TAX_NUMBER_EMPLOYEE_DETAILS_CONFUSION;
-                GlobalVariables.getMessageMap().putError(KIMPropertyConstants.Person.EMPLOYEE_ID, messageKey, employeeIdLabel, vendorTaxNumberLabel);                
-            }            
-            
-            if (isPersonNameEntered && StringUtils.isNotBlank(vendorName)) {
-                // only can use the person first and last name fields or the vendor name field, but not both.
-                String messageKey = KFSKeyConstants.ERROR_DV_VENDOR_NAME_PERSON_NAME_CONFUSION;
-    
-                String vendorNameLabel = this.getAttributeLabel(KFSPropertyConstants.VENDOR_NAME);
-                String firstNameLabel = this.getAttributeLabel(KIMPropertyConstants.Person.FIRST_NAME);
-                String lastNameLabel = this.getAttributeLabel(KIMPropertyConstants.Person.LAST_NAME);
-    
-                GlobalVariables.getMessageMap().putError(KFSPropertyConstants.VENDOR_NAME, messageKey, vendorNameLabel, firstNameLabel, lastNameLabel);
-            }
-            if (StringUtils.isBlank(employeeId)) {
-                if (StringUtils.isBlank(firstName) && !StringUtils.isBlank(lastName) && !filledEnough(lastName)) {
-                    final String label = getAttributeLabel(KIMPropertyConstants.Person.LAST_NAME);
-                    GlobalVariables.getMessageMap().putError(KIMPropertyConstants.Person.LAST_NAME, KFSKeyConstants.ERROR_DV_NAME_NOT_FILLED_ENOUGH, new String[] { label, Integer.toString(getNameLengthWithWildcardRequirement() ) } );
-                } else if (StringUtils.isBlank(lastName) && !StringUtils.isBlank(firstName) && !filledEnough(firstName)) {
-                    final String label = getAttributeLabel(KIMPropertyConstants.Person.FIRST_NAME);
-                    GlobalVariables.getMessageMap().putError(KIMPropertyConstants.Person.FIRST_NAME, KFSKeyConstants.ERROR_DV_NAME_NOT_FILLED_ENOUGH, new String[] { label, Integer.toString(getNameLengthWithWildcardRequirement() ) } );
-                }
-            }
+    /**
+     * This method validates the vendor name usage in lookup
+     */
+    public void validateVendorNameUse(Map fieldValues) {
+        final String vendorName = (String) fieldValues.get(KFSPropertyConstants.VENDOR_NAME);
+        final String vendorNumber = (String) fieldValues.get(KFSPropertyConstants.VENDOR_NUMBER);
+        final String employeeId = (String) fieldValues.get(KIMPropertyConstants.Person.EMPLOYEE_ID);
+        
+        final boolean isVendorInfoEntered = StringUtils.isNotBlank(vendorName) || StringUtils.isNotBlank(vendorNumber);
+        if (isVendorInfoEntered && StringUtils.isNotBlank(employeeId)) {
+            // only can use the vendor name and vendor number fields or the employee id field, but not both.
+            String messageKey = KFSKeyConstants.ERROR_DV_VENDOR_EMPLOYEE_CONFUSION;
+            String vendorNameLabel = this.getAttributeLabel(KFSPropertyConstants.VENDOR_NAME);
+            String vendorNumberLabel = this.getAttributeLabel(KFSPropertyConstants.VENDOR_NUMBER);
+            GlobalVariables.getMessageMap().putError(KIMPropertyConstants.Person.EMPLOYEE_ID, messageKey, this.getAttributeLabel(KIMPropertyConstants.Person.EMPLOYEE_ID), vendorNameLabel, vendorNumberLabel);
         }
         
-        if (GlobalVariables.getMessageMap().hasErrors()) {
-            throw new ValidationException("errors in search criteria");
+        if (StringUtils.isBlank(vendorNumber) && !StringUtils.isBlank(vendorName) && !filledEnough(vendorName)) {
+            final String vendorNameLabel = this.getAttributeLabel(KFSPropertyConstants.VENDOR_NAME);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.VENDOR_NAME, KFSKeyConstants.ERROR_DV_NAME_NOT_FILLED_ENOUGH, new String[] {vendorNameLabel, Integer.toString(getNameLengthWithWildcardRequirement())});
+        }
+    }
+    
+    /**
+     * This method validates the tax criteria
+     */
+    public void validateTaxNumberCriteria(Map fieldValues) {
+        final String employeeId = (String) fieldValues.get(KIMPropertyConstants.Person.EMPLOYEE_ID);
+        final String firstName = (String)fieldValues.get(KIMPropertyConstants.Person.FIRST_NAME);
+        final String lastName = (String)fieldValues.get(KIMPropertyConstants.Person.LAST_NAME);
+        final String vendorTaxNumber = (String)fieldValues.get(KFSPropertyConstants.TAX_NUMBER);
+        
+        // we do not use to use Tax Number field for the lookup on the person...
+        if(StringUtils.isNotBlank(vendorTaxNumber) && StringUtils.isNotBlank(firstName)) {
+            fieldValues.remove(KFSPropertyConstants.TAX_NUMBER);
+            String messageKey = KFSKeyConstants.ERROR_DV_LOOKUP_TAX_NUMBER_EMPLOYEE_DETAILS_CONFUSION;
+            GlobalVariables.getMessageMap().putError(KIMPropertyConstants.Person.FIRST_NAME, messageKey, this.getAttributeLabel(KFSPropertyConstants.TAX_NUMBER), this.getAttributeLabel(KIMPropertyConstants.Person.FIRST_NAME));                
+        }
+        // if tax number and employee last name entered then send an error message...
+        if(StringUtils.isNotBlank(vendorTaxNumber) && StringUtils.isNotBlank(lastName)) {
+            fieldValues.remove(KFSPropertyConstants.TAX_NUMBER);
+            String messageKey = KFSKeyConstants.ERROR_DV_LOOKUP_TAX_NUMBER_EMPLOYEE_DETAILS_CONFUSION;
+            GlobalVariables.getMessageMap().putError(KIMPropertyConstants.Person.LAST_NAME, messageKey, this.getAttributeLabel(KFSPropertyConstants.TAX_NUMBER), this.getAttributeLabel(KIMPropertyConstants.Person.LAST_NAME));                
+        }
+        // if tax number and employee id entered then send an error message...
+        if(StringUtils.isNotBlank(vendorTaxNumber) && StringUtils.isNotBlank(employeeId)) {
+            fieldValues.remove(KFSPropertyConstants.TAX_NUMBER);
+            String messageKey = KFSKeyConstants.ERROR_DV_LOOKUP_TAX_NUMBER_EMPLOYEE_DETAILS_CONFUSION;
+            GlobalVariables.getMessageMap().putError(KIMPropertyConstants.Person.EMPLOYEE_ID, messageKey, this.getAttributeLabel(KIMPropertyConstants.Person.EMPLOYEE_ID), this.getAttributeLabel(KFSPropertyConstants.TAX_NUMBER));                
+        }
+    }
+    
+    /**
+     * This method validates the employee name usage in lookup
+     */
+    public void validateEmployeeNameUse(Map fieldValues) {
+        final String firstName = (String)fieldValues.get(KIMPropertyConstants.Person.FIRST_NAME);
+        final String lastName = (String)fieldValues.get(KIMPropertyConstants.Person.LAST_NAME);
+        final String vendorName = (String) fieldValues.get(KFSPropertyConstants.VENDOR_NAME);
+        final String employeeId = (String) fieldValues.get(KIMPropertyConstants.Person.EMPLOYEE_ID);
+        final boolean isPersonNameEntered = StringUtils.isNotBlank(firstName) || StringUtils.isNotBlank(lastName);
+        
+        if (isPersonNameEntered && StringUtils.isNotBlank(vendorName)) {
+            // only can use the person first and last name fields or the vendor name field, but not both.
+            String messageKey = KFSKeyConstants.ERROR_DV_VENDOR_NAME_PERSON_NAME_CONFUSION;
+
+            String vendorNameLabel = this.getAttributeLabel(KFSPropertyConstants.VENDOR_NAME);
+            String firstNameLabel = this.getAttributeLabel(KIMPropertyConstants.Person.FIRST_NAME);
+            String lastNameLabel = this.getAttributeLabel(KIMPropertyConstants.Person.LAST_NAME);
+            GlobalVariables.getMessageMap().putError(KFSPropertyConstants.VENDOR_NAME, messageKey, vendorNameLabel, firstNameLabel, lastNameLabel);
+        }
+        if (StringUtils.isBlank(employeeId)) {
+            if (StringUtils.isBlank(firstName) && !StringUtils.isBlank(lastName) && !filledEnough(lastName)) {
+                final String label = getAttributeLabel(KIMPropertyConstants.Person.LAST_NAME);
+                GlobalVariables.getMessageMap().putError(KIMPropertyConstants.Person.LAST_NAME, KFSKeyConstants.ERROR_DV_NAME_NOT_FILLED_ENOUGH, new String[] { label, Integer.toString(getNameLengthWithWildcardRequirement() ) } );
+            } else if (StringUtils.isBlank(lastName) && !StringUtils.isBlank(firstName) && !filledEnough(firstName)) {
+                final String label = getAttributeLabel(KIMPropertyConstants.Person.FIRST_NAME);
+                GlobalVariables.getMessageMap().putError(KIMPropertyConstants.Person.FIRST_NAME, KFSKeyConstants.ERROR_DV_NAME_NOT_FILLED_ENOUGH, new String[] { label, Integer.toString(getNameLengthWithWildcardRequirement() ) } );
+            }
         }
     }
     
@@ -232,7 +264,7 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
         vendorLookupable.setBusinessObjectClass(VendorDetail.class);
         vendorLookupable.validateSearchParameters(fieldsForLookup);
 
-        List<BusinessObject> vendorList = vendorLookupable.getSearchResults(fieldsForLookup);
+        List<? extends BusinessObject> vendorList = vendorLookupable.getSearchResults(fieldsForLookup);
         for (BusinessObject vendor : vendorList) {
             VendorDetail vendorDetail = (VendorDetail) vendor;
             DisbursementPayee payee = getPayeeFromVendor(vendorDetail, fieldValues);
@@ -243,24 +275,25 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
     }
 
     protected DisbursementPayee getPayeeFromVendor(VendorDetail vendorDetail, Map<String, String> fieldValues) {
-        DisbursementPayee payee = DisbursementPayee.getPayeeFromVendor(vendorDetail);
+        DisbursementPayee payee = disbursementVoucherPayeeService.getPayeeFromVendor(vendorDetail);
         payee.setPaymentReasonCode(fieldValues.get(KFSPropertyConstants.PAYMENT_REASON_CODE));
         
         //KFSMI-5497
         //get the attributeSecurity property and mask the field so that on results screen will be shown masked.        
         DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
         AttributeSecurity attributeSecurity =  dataDictionaryService.getAttributeSecurity(DisbursementPayee.class.getName(), "taxNumber");
-        attributeSecurity.setMask(true);
+        if (attributeSecurity != null) {
+            attributeSecurity.setMask(true);
+        }
         
         return payee;
     }
 
     // get the search criteria valid for vendor lookup
-    private Map<String, String> getVendorFieldValues(Map<String, String> fieldValues) {
+    protected Map<String, String> getVendorFieldValues(Map<String, String> fieldValues) {
         Map<String, String> vendorFieldValues = new HashMap<String, String>();
         vendorFieldValues.putAll(fieldValues);
-
-        Map<String, String> fieldConversionMap = DisbursementPayee.getFieldConversionBetweenPayeeAndVendor();
+        Map<String, String> fieldConversionMap = disbursementVoucherPayeeService.getFieldConversionBetweenPayeeAndVendor();
         this.replaceFieldKeys(vendorFieldValues, fieldConversionMap);
 
         String vendorName = this.getVendorName(vendorFieldValues);
@@ -275,7 +308,7 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
     }
 
     // get the vendor name from the given field value map
-    private String getVendorName(Map<String, String> vendorFieldValues) {
+    protected String getVendorName(Map<String, String> vendorFieldValues) {
         String firstName = vendorFieldValues.get(VendorPropertyConstants.VENDOR_FIRST_NAME);
         String lastName = vendorFieldValues.get(VendorPropertyConstants.VENDOR_LAST_NAME);
 
@@ -294,7 +327,7 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
         List<DisbursementPayee> payeeList = new ArrayList<DisbursementPayee>();
         
         Map<String, String> fieldsForLookup = this.getPersonFieldValues(fieldValues);                
-        List<? extends Person> persons = personService.findPeople(fieldsForLookup);   
+        List<Person> persons = SpringContext.getBean(PersonService.class).findPeople(fieldsForLookup);   
         
         for (Person personDetail : persons) {            
             DisbursementPayee payee = getPayeeFromPerson(personDetail, fieldValues);
@@ -305,24 +338,25 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
     }
 
     protected DisbursementPayee getPayeeFromPerson(Person personDetail, Map<String, String> fieldValues) {
-        DisbursementPayee payee = DisbursementPayee.getPayeeFromPerson(personDetail);
+        DisbursementPayee payee = disbursementVoucherPayeeService.getPayeeFromPerson(personDetail);
         payee.setPaymentReasonCode(fieldValues.get(KFSPropertyConstants.PAYMENT_REASON_CODE));
 
         //KFSMI-5497
         //get the attributeSecurity property and unmask the field so that on results screen, it will set as blank.
         DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
         AttributeSecurity attributeSecurity =  dataDictionaryService.getAttributeSecurity(DisbursementPayee.class.getName(), "taxNumber");
-        attributeSecurity.setMask(false);
+        if (attributeSecurity != null) {
+            attributeSecurity.setMask(false);
+        }
         
         return payee;
     }
 
     // get the search criteria valid for person lookup
-    private Map<String, String> getPersonFieldValues(Map<String, String> fieldValues) {
+    protected Map<String, String> getPersonFieldValues(Map<String, String> fieldValues) {
         Map<String, String> personFieldValues = new HashMap<String, String>();
         personFieldValues.putAll(fieldValues);
-
-        Map<String, String> fieldConversionMap = DisbursementPayee.getFieldConversionBetweenPayeeAndPerson();
+        Map<String, String> fieldConversionMap = disbursementVoucherPayeeService.getFieldConversionBetweenPayeeAndPerson();
         this.replaceFieldKeys(personFieldValues, fieldConversionMap);
 
         personFieldValues.put(KIMPropertyConstants.Person.EMPLOYEE_STATUS_CODE, KFSConstants.EMPLOYEE_ACTIVE_STATUS);
@@ -331,21 +365,21 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
     }
 
     // replace the keys in fieldValues with the corresponding values defined in fieldConversionMap
-    private void replaceFieldKeys(Map<String, String> fieldValues, Map<String, String> fieldConversionMap) {
+    protected void replaceFieldKeys(Map<String, String> fieldValues, Map<String, String> fieldConversionMap) {
         for (String key : fieldConversionMap.keySet()) {
             if (fieldValues.containsKey(key)) {
                 String value = fieldValues.get(key);
                 String newKey = fieldConversionMap.get(key);
-
-                fieldValues.remove(key);
-                fieldValues.put(newKey, value);
+                    fieldValues.remove(key);
+                    fieldValues.put(newKey, value);
+                }
             }
         }
-    }
+    
 
     // remove its return URLs if a row is not qualified for returning
     protected void filterReturnUrl(List<ResultRow> resultRowList, List<DisbursementPayee> payeeList, String paymentReasonCode) {
-        List<String> payeeTypeCodes = disbursementVoucherPaymentReasonService.getPayeeTypesByPaymentReason(paymentReasonCode);
+        Collection<String> payeeTypeCodes = disbursementVoucherPaymentReasonService.getPayeeTypesByPaymentReason(paymentReasonCode);
         if (payeeTypeCodes == null || payeeTypeCodes.isEmpty()) {
             return;
         }
@@ -377,15 +411,29 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
     public void setDisbursementVoucherPaymentReasonService(DisbursementVoucherPaymentReasonService disbursementVoucherPaymentReasonService) {
         this.disbursementVoucherPaymentReasonService = disbursementVoucherPaymentReasonService;
     }
+    
+    /**
+     * Sets the disbursementVoucherPayeeService attribute value.
+     * 
+     * @param disbursementVoucherPayeeService The disbursementVoucherPayeeService to set.
+     */
+    public void setDisbursementVoucherPayeeService(DisbursementVoucherPayeeService disbursementVoucherPayeeService) {
+        this.disbursementVoucherPayeeService = disbursementVoucherPayeeService;
+    }
 
     /**
-     * Sets the personService attribute value.
-     * 
-     * @param personService The personService to set.
+     * Gets the disbursementVoucherPaymentReasonService attribute. 
+     * @return Returns the disbursementVoucherPaymentReasonService.
      */
-    public void setPersonService(PersonService personService) {
-        this.personService = personService;
+    public DisbursementVoucherPaymentReasonService getDisbursementVoucherPaymentReasonService() {
+        return disbursementVoucherPaymentReasonService;
     }
-    
-    
+
+    /**
+     * Gets the disbursementVoucherPayeeService attribute. 
+     * @return Returns the disbursementVoucherPayeeService.
+     */
+    public DisbursementVoucherPayeeService getDisbursementVoucherPayeeService() {
+        return disbursementVoucherPayeeService;
+    }
 }

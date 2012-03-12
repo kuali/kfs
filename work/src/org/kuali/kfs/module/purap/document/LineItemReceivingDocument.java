@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -28,14 +29,13 @@ import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.module.purap.document.validation.event.AttributedContinuePurapEvent;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.dto.DocumentRouteLevelChangeDTO;
-import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteLevelChange;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -50,10 +50,10 @@ public class LineItemReceivingDocument extends ReceivingDocumentBase {
      */
     public LineItemReceivingDocument() {
         super();
-        items = new TypedArrayList(getItemClass());
+        items = new ArrayList();
     }
 
-    @Override
+    
     public void initiateDocument(){
         super.initiateDocument();
         this.setAppDocStatus(PurapConstants.LineItemReceivingStatuses.APPDOC_IN_PROCESS);
@@ -123,7 +123,7 @@ public class LineItemReceivingDocument extends ReceivingDocumentBase {
         // Clearing document overview fields
         this.getDocumentHeader().setDocumentDescription(null);
         this.getDocumentHeader().setExplanation(null);
-        this.getDocumentHeader().setFinancialDocumentTotalAmount(null);
+        this.getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(null);
         this.getDocumentHeader().setOrganizationDocumentNumber(null);
 
         // Clearing document Init fields
@@ -149,19 +149,19 @@ public class LineItemReceivingDocument extends ReceivingDocumentBase {
     }
 
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
         // DOCUMENT CANCELED
         // If the document is canceled then set the line item receiving 
         // status code to CANC.
-        if (this.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {                      
+        if (this.getDocumentHeader().getWorkflowDocument().isCanceled()) {                      
             setAppDocStatus(PurapConstants.LineItemReceivingStatuses.APPDOC_CANCELLED);
             SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
         }
     }
     
     @Override
-    public void doRouteLevelChange(DocumentRouteLevelChangeDTO change) {
+    public void doRouteLevelChange(DocumentRouteLevelChange change) {
         //If the new node is Outstanding Transactions then we want to set the line item
         //receiving status code to APOO.
         if (StringUtils.equals(PurapConstants.LineItemReceivingDocumentStrings.AWAITING_PO_OPEN_STATUS, change.getNewNodeName())){            
@@ -178,9 +178,9 @@ public class LineItemReceivingDocument extends ReceivingDocumentBase {
     }
     
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();      
         m.put("documentNumber", this.documentNumber);
         return m;
@@ -214,7 +214,7 @@ public class LineItemReceivingDocument extends ReceivingDocumentBase {
 
     protected void populateDocumentDescription(PurchaseOrderDocument poDocument) {
         String description = "PO: " + poDocument.getPurapDocumentIdentifier() + " Vendor: " + poDocument.getVendorName();
-        int noteTextMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(DocumentHeader.class, KNSPropertyConstants.DOCUMENT_DESCRIPTION).intValue();
+        int noteTextMaxLength = SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(DocumentHeader.class, KRADPropertyConstants.DOCUMENT_DESCRIPTION).intValue();
         if (noteTextMaxLength < description.length()) {
             description = description.substring(0, noteTextMaxLength);
         }
@@ -222,8 +222,8 @@ public class LineItemReceivingDocument extends ReceivingDocumentBase {
     }
 
 
-    protected boolean isAwaitingPurchaseOrderOpen() {
-        return SpringContext.getBean(PurchaseOrderService.class).isPurchaseOrderOpenForProcessing(getPurchaseOrderDocument());
+    protected boolean isRelatesToOutstandingTransactionsRequired() {
+        return SpringContext.getBean(ReceivingService.class).hasNewUnorderedItem(this) && !SpringContext.getBean(PurchaseOrderService.class).isPurchaseOrderOpenForProcessing(getPurchaseOrderDocument());
     }
 
     /**
@@ -233,7 +233,7 @@ public class LineItemReceivingDocument extends ReceivingDocumentBase {
      * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#answerSplitNodeQuestion(java.lang.String)
      */
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        if (nodeName.equals(PurapWorkflowConstants.RELATES_TO_OUTSTANDING_TRANSACTIONS)) return !isAwaitingPurchaseOrderOpen();
+        if (nodeName.equals(PurapWorkflowConstants.RELATES_TO_OUTSTANDING_TRANSACTIONS)) return isRelatesToOutstandingTransactionsRequired();
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
     }
     

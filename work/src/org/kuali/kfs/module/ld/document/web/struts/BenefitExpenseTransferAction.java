@@ -15,11 +15,9 @@
  */
 package org.kuali.kfs.module.ld.document.web.struts;
 
-import java.util.ArrayList;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.kuali.kfs.module.ld.document.web.struts.BenefitExpenseTransferForm;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -30,7 +28,7 @@ import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
 import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.ObjectUtil;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * Struts Action class for the Benefit Expense Transfer Document.
@@ -123,7 +121,7 @@ public class BenefitExpenseTransferAction extends ExpenseTransferDocumentActionB
     }
 
     /**
-     * @see org.kuali.kfs.module.ld.document.web.struts.ExpenseTransferDocumentActionBase#buildAccountingLineFromLedgerBalance(org.kuali.kfs.module.ld.businessobject.LedgerBalance, org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine, org.kuali.rice.kns.util.KualiDecimal, java.lang.String)
+     * @see org.kuali.kfs.module.ld.document.web.struts.ExpenseTransferDocumentActionBase#buildAccountingLineFromLedgerBalance(org.kuali.kfs.module.ld.businessobject.LedgerBalance, org.kuali.kfs.module.ld.businessobject.ExpenseTransferAccountingLine, org.kuali.rice.core.api.util.type.KualiDecimal, java.lang.String)
      */
     @Override
     protected void buildAccountingLineFromLedgerBalance(LedgerBalance ledgerBalance, ExpenseTransferAccountingLine line, KualiDecimal amount, String periodCode) {

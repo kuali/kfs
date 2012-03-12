@@ -16,7 +16,7 @@
 package org.kuali.kfs.integration.cg;
 
 
-import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
+import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 
 public interface ContractsAndGrantsAward extends ExternalizableBusinessObject {

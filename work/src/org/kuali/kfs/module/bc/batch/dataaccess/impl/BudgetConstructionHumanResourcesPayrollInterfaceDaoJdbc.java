@@ -20,10 +20,9 @@ import java.sql.Types;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.batch.dataaccess.BudgetConstructionHumanResourcesPayrollInterfaceDao;
 import org.kuali.kfs.module.bc.document.dataaccess.impl.BudgetConstructionDaoJdbcBase;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.module.bc.BCConstants;
 
 
 

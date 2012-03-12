@@ -22,24 +22,25 @@ import java.util.List;
 
 import org.kuali.kfs.module.endow.businessobject.AgreementType;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.service.KeyValuesService;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.service.KeyValuesService;
 
 public class AgreementTypeValuesFinder {
     
     /**
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
+    public List<KeyValue> getKeyValues() {
 
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection<AgreementType> codes = boService.findAll(AgreementType.class);
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
+        List<KeyValue> labels = new ArrayList<KeyValue>();
         
-        labels.add(new KeyLabelPair("", ""));
+        labels.add(new ConcreteKeyValue("", ""));
         for (Iterator<AgreementType> iter = codes.iterator(); iter.hasNext();) {
             AgreementType agreementType = (AgreementType) iter.next();
-            labels.add(new KeyLabelPair(agreementType.getCode(), agreementType.getName()));
+            labels.add(new ConcreteKeyValue(agreementType.getCode(), agreementType.getName()));
         }
 
         return labels;

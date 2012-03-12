@@ -17,26 +17,23 @@ package org.kuali.kfs.module.cam.identity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Role;
-import org.kuali.rice.kim.bo.impl.KimAttributes;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
-import org.kuali.rice.kns.service.DocumentService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.KimConstants.KimGroupMemberTypes;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.role.RoleMembership;
+import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
+import org.kuali.rice.krad.service.DocumentService;
 
-public class AssetDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
+public class AssetDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 
-    private DocumentService documentService;
+    protected DocumentService documentService;
     
-    {
-        requiredAttributes.add(KimAttributes.DOCUMENT_NUMBER);
-    }
-
     /**
      * Context:
      *  the EquipmentLoanOrReturnDocument document can be accessed by clicking "loan" on the Asset lookup results. 
@@ -49,18 +46,19 @@ public class AssetDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBa
      *  (the borrowerUniversalIdentifier property of the document object), 
      *  and return this principal ID as the only role member for a given document.
      * 
-     * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#getPrincipalIdsFromApplicationRole(java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
+     * @see org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase#getRoleMembersFromDerivedRole(java.lang.String, java.lang.String, java.util.Map)
      */
     @Override
-    public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
+    public List<RoleMembership> getRoleMembersFromDerivedRole(String namespaceCode, String roleName, Map<String,String> qualification) {
         validateRequiredAttributesAgainstReceived(qualification);
-        List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>(1);
+        List<RoleMembership> members = new ArrayList<RoleMembership>(1);
         if(qualification!=null && !qualification.isEmpty()){
-            String documentNumber = qualification.get(KimAttributes.DOCUMENT_NUMBER);
+            String documentNumber = qualification.get(KimConstants.AttributeConstants.DOCUMENT_NUMBER);
             if ( StringUtils.isNotBlank( documentNumber ) ) {
                 EquipmentLoanOrReturnDocument document = getEquipmentLoanOrReturnDocument(documentNumber);
                 if(document!=null){
-                    members.add( new RoleMembershipInfo(null,null,document.getBorrowerUniversalIdentifier(),Role.PRINCIPAL_MEMBER_TYPE,null) );
+                    RoleMembership.Builder builder = RoleMembership.Builder.create(null, null, document.getBorrowerUniversalIdentifier(),KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE,null);
+                    members.add(builder.build());
                 }
             }
         }

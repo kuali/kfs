@@ -15,17 +15,20 @@
  */
 package org.kuali.kfs.sys.service.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
-import org.kuali.kfs.sys.businessobject.SystemOptions;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.util.DateUtils;
-import org.kuali.rice.kns.util.spring.CacheNoCopy;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.cache.annotation.Cacheable;
 
 /**
  * 
@@ -57,7 +60,7 @@ public class UniversityDateServiceImpl implements UniversityDateService {
      * 
      * @return The current fiscal year as an Integer.
      * 
-     * @see org.kuali.rice.kns.service.DateTimeService#getCurrentFiscalYear()
+     * @see org.kuali.rice.core.api.datetime.DateTimeService#getCurrentFiscalYear()
      */
     public Integer getCurrentFiscalYear() {
         //Timer t0 = new Timer("getCurrentFiscalYear");
@@ -74,14 +77,16 @@ public class UniversityDateServiceImpl implements UniversityDateService {
      * @param date The date to be used for retrieving the associated fiscal year.
      * @return The fiscal year that the date provided falls within.
      * 
-     * @see org.kuali.rice.kns.service.DateTimeService#getFiscalYear(java.util.Date)
+     * @see org.kuali.rice.core.api.datetime.DateTimeService#getFiscalYear(java.util.Date)
      */
-    @CacheNoCopy
+    @Cacheable(value=UniversityDate.CACHE_NAME, key="'{getFiscalYear} date=' + #p0")
     public Integer getFiscalYear(java.util.Date date) {
         if (date == null) {
             throw new IllegalArgumentException("invalid (null) date");
         }
-        UniversityDate uDate = (UniversityDate)SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(UniversityDate.class, new java.sql.Date( date.getTime() ));
+        Map<String, Object> pkMap = new HashMap<String, Object>();
+        pkMap.put(KFSPropertyConstants.UNIVERSITY_DATE, new java.sql.Date( date.getTime() ));
+        UniversityDate uDate = (UniversityDate)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(UniversityDate.class, pkMap);
         return (uDate == null) ? null : uDate.getUniversityFiscalYear();
     }
 
@@ -93,7 +98,7 @@ public class UniversityDateServiceImpl implements UniversityDateService {
      * 
      * @see org.kuali.kfs.sys.service.UniversityDateService#getFirstDateOfFiscalYear(java.lang.Integer)
      */
-    @CacheNoCopy
+    @Cacheable(value=UniversityDate.CACHE_NAME, key="'{getFirstDateOfFiscalYear} fiscalYear=' + #p0")
     public java.util.Date getFirstDateOfFiscalYear(Integer fiscalYear) {
         UniversityDate uDate = universityDateDao.getFirstFiscalYearDate(fiscalYear);
         return (uDate == null) ? null : uDate.getUniversityDate();
@@ -107,7 +112,7 @@ public class UniversityDateServiceImpl implements UniversityDateService {
      * 
      * @see org.kuali.kfs.sys.service.UniversityDateService#getLastDateOfFiscalYear(java.lang.Integer)
      */
-    @CacheNoCopy
+    @Cacheable(value=UniversityDate.CACHE_NAME, key="'{getLastDateOfFiscalYear} fiscalYear=' + #p0")
     public java.util.Date getLastDateOfFiscalYear(Integer fiscalYear) {
         UniversityDate uDate = universityDateDao.getLastFiscalYearDate(fiscalYear);
         return (uDate == null) ? null : uDate.getUniversityDate();

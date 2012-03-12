@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.ld.businessobject.lookup;
 
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 /**
  * Custom lookupable to supress edit/copy actions on lookup screen.
@@ -25,7 +25,7 @@ public class PositionObjectBenefitLookupableHelperServiceImpl extends KualiLooku
 
     /**
      * @returns Empty string because we don't want any action links to be displayed on the lookups results page.
-     * @see org.kuali.rice.kns.lookup.LookupableHelperService#getActionUrls(org.kuali.rice.kns.bo.BusinessObject)
+     * @see org.kuali.rice.kns.lookup.LookupableHelperService#getActionUrls(org.kuali.rice.krad.bo.BusinessObject)
      */
     public String getActionUrls(BusinessObject businessObject) {
         return "";

@@ -35,7 +35,7 @@ public class ScheduleStep extends AbstractStep {
             schedulerService.processWaitingJobs();
             isPastScheduleCutoffTime = schedulerService.isPastScheduleCutoffTime();
             try {
-                Thread.sleep(Integer.parseInt(getParameterService().getParameterValue(getClass(), KFSConstants.SystemGroupParameterNames.BATCH_SCHEDULE_STATUS_CHECK_INTERVAL)));
+                Thread.sleep(Integer.parseInt(getParameterService().getParameterValueAsString(getClass(), KFSConstants.SystemGroupParameterNames.BATCH_SCHEDULE_STATUS_CHECK_INTERVAL)));
             }
             catch (InterruptedException e) {
                 throw new RuntimeException("Schedule step encountered interrupt exception while trying to wait for the specified batch schedule status check interval", e);

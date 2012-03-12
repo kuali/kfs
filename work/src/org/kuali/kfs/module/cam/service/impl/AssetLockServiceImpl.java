@@ -28,18 +28,18 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cam.CamsConstants;
-import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.CamsConstants.DocumentTypeName;
+import org.kuali.kfs.module.cam.CamsKeyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetLock;
 import org.kuali.kfs.module.cam.dataaccess.CapitalAssetLockDao;
 import org.kuali.kfs.module.cam.service.AssetLockService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.UrlFactory;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -222,10 +222,10 @@ public class AssetLockServiceImpl implements AssetLockService {
             // build the link URL for the blocking document. Better to use DocHandler because this could be
             // a maintenance document or tDoc.
             Properties parameters = new Properties();
-            parameters.put(KNSConstants.PARAMETER_DOC_ID, blockingDocId);
-            parameters.put(KNSConstants.PARAMETER_COMMAND, KNSConstants.METHOD_DISPLAY_DOC_SEARCH_VIEW);
+            parameters.put(KRADConstants.PARAMETER_DOC_ID, blockingDocId);
+            parameters.put(KRADConstants.PARAMETER_COMMAND, KRADConstants.METHOD_DISPLAY_DOC_SEARCH_VIEW);
 
-            String blockingUrl = UrlFactory.parameterizeUrl(SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/" + KNSConstants.DOC_HANDLER_ACTION, parameters);
+            String blockingUrl = UrlFactory.parameterizeUrl(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(KFSConstants.WORKFLOW_URL_KEY) + "/" + KRADConstants.DOC_HANDLER_ACTION, parameters);
             if (LOG.isDebugEnabled()) {
                 LOG.debug("blockingUrl = '" + blockingUrl + "'");
                 LOG.debug("Record: " + blockingDocId + "is locked.");
@@ -235,10 +235,10 @@ public class AssetLockServiceImpl implements AssetLockService {
             String[] errorParameters = { blockingUrl, blockingDocId };
             if (FINANCIAL_DOC_TYPE_MAP.containsKey(documentTypeName)) {
                 // display a different error message for lock request from FP document.
-                GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, CamsKeyConstants.AssetLock.ERROR_ASSET_LOCKED, errorParameters);
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CamsKeyConstants.AssetLock.ERROR_ASSET_LOCKED, errorParameters);
             }
             else {
-                GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, CamsKeyConstants.AssetLock.ERROR_ASSET_MAINTENANCE_LOCKED, errorParameters);
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CamsKeyConstants.AssetLock.ERROR_ASSET_MAINTENANCE_LOCKED, errorParameters);
             }
         }
     }

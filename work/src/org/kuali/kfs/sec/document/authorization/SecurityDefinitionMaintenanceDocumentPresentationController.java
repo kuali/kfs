@@ -19,8 +19,8 @@ import java.util.Set;
 
 import org.kuali.kfs.sec.SecPropertyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 
 
 /**
@@ -28,10 +28,11 @@ import org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentation
  */
 public class SecurityDefinitionMaintenanceDocumentPresentationController extends MaintenanceDocumentPresentationControllerBase {
 
+    
     /**
      * Don't allow editing of definition name on edit
      * 
-     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
+     * @see org.kuali.rice.krad.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     public Set<String> getConditionallyReadOnlyPropertyNames(MaintenanceDocument document) {

@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.sys.document.validation.impl;
 
-import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
+import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertGlobalMessageMapEmpty;
 import static org.kuali.kfs.sys.KualiTestAssertionUtils.assertSparselyEqualBean;
 
 import java.util.ArrayList;
@@ -32,11 +32,11 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.event.AddAccountingLineEvent;
 import org.kuali.kfs.sys.fixture.GeneralLedgerPendingEntryFixture;
-import org.kuali.rice.kns.rule.BusinessRule;
-import org.kuali.rice.kns.rule.RouteDocumentRule;
-import org.kuali.rice.kns.rule.SaveDocumentRule;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.KualiRuleService;
+import org.kuali.rice.krad.rules.rule.RouteDocumentRule;
+import org.kuali.rice.krad.rules.rule.SaveDocumentRule;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public abstract class AccountingDocumentRuleTestUtils extends KualiTestBase {
 
@@ -48,7 +48,7 @@ public abstract class AccountingDocumentRuleTestUtils extends KualiTestBase {
         allLines.addAll(document.getSourceAccountingLines());
         allLines.addAll(document.getTargetAccountingLines());
 
-        assertGlobalErrorMapEmpty();
+        assertGlobalMessageMapEmpty();
         for (AccountingLine accountingLine : allLines) {
             String collectionName = null;
             if(accountingLine instanceof SourceAccountingLine){
@@ -58,9 +58,9 @@ public abstract class AccountingDocumentRuleTestUtils extends KualiTestBase {
             }
             boolean ruleResult = SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(KFSPropertyConstants.SOURCE_ACCOUNTING_LINE, document, accountingLine));
             if (expected) {
-                assertGlobalErrorMapEmpty(accountingLine.toString());
+                assertGlobalMessageMapEmpty(accountingLine.toString());
             }
-            assertEquals(expected, ruleResult);
+            assertEquals("GlobalVariables.getMessageMap() : " + GlobalVariables.getMessageMap(), expected, ruleResult);
         }
     }
 
@@ -68,18 +68,18 @@ public abstract class AccountingDocumentRuleTestUtils extends KualiTestBase {
         SaveDocumentRule rule = getBusinessRule(document.getClass(), SaveDocumentRule.class);
         boolean rulePassed = rule.processSaveDocument(document);
         if (expected) {
-            assertGlobalErrorMapEmpty();
+            assertGlobalMessageMapEmpty();
         }
-        assertEquals(expected, rulePassed);
+        assertEquals("GlobalVariables.getMessageMap() : " + GlobalVariables.getMessageMap(), expected, rulePassed);
     }
 
     public static <T extends AccountingDocument> void testRouteDocumentRule_processRouteDocument(T document, boolean expected) throws Exception {
         RouteDocumentRule rule = getBusinessRule(document.getClass(), RouteDocumentRule.class);
         boolean rulePassed = rule.processRouteDocument(document);
         if (expected) {
-            assertGlobalErrorMapEmpty();
+            assertGlobalMessageMapEmpty();
         }
-        assertEquals(expected, rulePassed);
+        assertEquals("GlobalVariables.getMessageMap() : " + GlobalVariables.getMessageMap(), expected, rulePassed);
     }
 
     public static boolean testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(AccountingDocument document, AccountingLine line, GeneralLedgerPendingEntryFixture expectedExplicitFixture, GeneralLedgerPendingEntryFixture expectedOffsetFixture) throws Exception {
@@ -98,14 +98,14 @@ public abstract class AccountingDocumentRuleTestUtils extends KualiTestBase {
     // helper methods
     /**
      * retrieves a rule instance for a given document
-     * 
+     *
      * @param <T>
      * @param documentClass the type of document to retrieve the rule for
      * @param businessRuleClass the type of rule to create
      * @return an instance of a BusinessRule of the same type as the businessRuleClass parameter
      * @throws Exception
      */
-    public static <T extends BusinessRule> T getBusinessRule(Class<? extends AccountingDocument> documentClass, Class<T> businessRuleClass) throws Exception {
+    public static <T extends org.kuali.rice.krad.rules.rule.BusinessRule> T getBusinessRule(Class<? extends AccountingDocument> documentClass, Class<T> businessRuleClass) throws Exception {
         DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
         final String documentTypeName = dataDictionaryService.getDocumentTypeNameByClass(documentClass);
         T businessRule = (T) dataDictionaryService.getDataDictionary().getDocumentEntry(documentTypeName).getBusinessRulesClass().newInstance();

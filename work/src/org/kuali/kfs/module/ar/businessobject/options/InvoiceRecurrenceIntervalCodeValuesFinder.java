@@ -22,9 +22,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.InvoiceRecurrence;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class InvoiceRecurrenceIntervalCodeValuesFinder extends KeyValuesBase {
 
@@ -34,12 +34,12 @@ public class InvoiceRecurrenceIntervalCodeValuesFinder extends KeyValuesBase {
     @SuppressWarnings("unchecked")
     public List getKeyValues() {
         List keyLabels = new ArrayList();
-        List<String> parameterValues = SpringContext.getBean(ParameterService.class).getParameterValues(InvoiceRecurrence.class, ArConstants.INVOICE_RECURRENCE_INTERVALS);
-        keyLabels.add(new KeyLabelPair("", ""));
+        List<String> parameterValues = new ArrayList<String>( SpringContext.getBean(ParameterService.class).getParameterValuesAsString(InvoiceRecurrence.class, ArConstants.INVOICE_RECURRENCE_INTERVALS) );
+        keyLabels.add(new ConcreteKeyValue("", ""));
 
         if (parameterValues != null) {
             for (String parameterValue : parameterValues) {
-                keyLabels.add(new KeyLabelPair(StringUtils.substringBefore(parameterValue, "="), 
+                keyLabels.add(new ConcreteKeyValue(StringUtils.substringBefore(parameterValue, "="), 
                                                StringUtils.substringBefore(parameterValue, "=") + " - " + StringUtils.substringAfter(parameterValue, "=")));
             }
         }

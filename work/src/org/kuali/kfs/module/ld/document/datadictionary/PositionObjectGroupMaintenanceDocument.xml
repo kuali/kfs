@@ -61,5 +61,5 @@
   <!-- workflow attributes -->
   <bean id="PositionObjectGroupMaintenanceDocument-workflowAttributes" parent="PositionObjectGroupMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="PositionObjectGroupMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="PositionObjectGroupMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

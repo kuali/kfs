@@ -60,5 +60,5 @@
   <!-- workflow attributes -->
   <bean id="AddressTypeMaintenanceDocument-workflowAttributes" parent="AddressTypeMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="AddressTypeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="AddressTypeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

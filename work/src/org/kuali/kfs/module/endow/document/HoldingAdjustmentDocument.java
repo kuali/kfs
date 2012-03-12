@@ -15,10 +15,13 @@
  */
 package org.kuali.kfs.module.endow.document;
 
+import java.util.List;
+
 import org.apache.cxf.common.util.StringUtils;
 import org.kuali.kfs.module.endow.EndowConstants.TransactionSourceTypeCode;
 import org.kuali.kfs.module.endow.EndowConstants.TransactionSubTypeCode;
 import org.kuali.kfs.module.endow.businessobject.EndowmentSourceTransactionSecurity;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
 import org.kuali.kfs.sys.document.AmountTotaling;
 
@@ -45,7 +48,7 @@ public class HoldingAdjustmentDocument extends EndowmentTaxLotLinesDocumentBase 
     @Override
     public void prepareForSave() {
         if (this instanceof AmountTotaling) {
-            getDocumentHeader().setFinancialDocumentTotalAmount(((AmountTotaling) this).getTotalDollarAmount());
+            getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(((AmountTotaling) this).getTotalDollarAmount());
         }
 
         sourceTransactionSecurities.clear();
@@ -91,5 +94,17 @@ public class HoldingAdjustmentDocument extends EndowmentTaxLotLinesDocumentBase 
         }
         return this.sourceTransactionSecurity;
 
+    }
+
+    @Override
+    public void setSourceTransactionLines(List<EndowmentTransactionLine> sourceLines) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void setTargetTransactionLines(List<EndowmentTransactionLine> targetLines) {
+        // TODO Auto-generated method stub
+        
     }
 }

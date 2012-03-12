@@ -24,7 +24,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentAccountingLineBase;
 import org.kuali.kfs.module.endow.dataaccess.EndowmentAccountingLineBaseDao;
-import org.kuali.rice.kns.dao.impl.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class EndowmentAccountingLineBaseDaoOjb extends PlatformAwareDaoBaseOjb implements EndowmentAccountingLineBaseDao {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EndowmentAccountingLineBaseDaoOjb.class);

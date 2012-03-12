@@ -94,5 +94,5 @@
   <!-- workflow attributes -->
   <bean id="CashDrawerMaintenanceDocument-workflowAttributes" parent="CashDrawerMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="CashDrawerMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="CashDrawerMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

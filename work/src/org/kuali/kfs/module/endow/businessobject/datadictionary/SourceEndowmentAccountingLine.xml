@@ -116,7 +116,7 @@
     <property name="name" value="amount"/>
     <property name="required" value="true"/>
     
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.CurrencyFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
   </bean>
   <bean id="SourceEndowmentAccountingLine-subAccountNumber" parent="SourceEndowmentAccountingLine-subAccountNumber-parentBean"/>
 

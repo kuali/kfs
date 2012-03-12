@@ -17,8 +17,8 @@ package org.kuali.kfs.module.endow.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class EndowmentRecurringCashTransferKEMIDTarget extends PersistableBusinessObjectBase {
 
@@ -159,8 +159,8 @@ public class EndowmentRecurringCashTransferKEMIDTarget extends PersistableBusine
         this.targetUseEtranCodeObj = targetUseEtranCodeObj;
     }
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         // TODO Auto-generated method stub
         return null;
     }

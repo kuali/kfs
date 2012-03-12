@@ -55,6 +55,7 @@
 		<property name="jobNames">
 			<list>
 				<value>pdpLoadFederalReserveBankDataJob</value>
+				<value>pdpInactivatePayeeAchAccountsJob</value>
 				<value>pdpExtractGlTransactionsStepJob</value>
 				<value>pdpExtractAchPaymentsJob</value>
 				<value>pdpExtractCanceledChecksJob</value>
@@ -69,6 +70,7 @@
 		</property>
 		<property name="triggerNames">
 			<list>
+				<value>pdpInactivatePayeeAchAccountsJobTrigger</value>
 				<value>pdpLoadPaymentsJobTrigger</value>
 				<value>pdpExtractAchPaymentsJobTrigger</value>
 				<value>pdpExtractCanceledChecksJobTrigger</value>
@@ -112,6 +114,11 @@
 				<ref bean="pdpLoadPaymentsStep" />
 			</list>
 		</property>
+		<property name="dependencies">
+			<map>
+				<entry key="purchasingPreDisbursementImmediatesExtractJob" value="softDependency"/>
+			</map>
+		</property>
 	</bean>
 	
 	<bean id="pdpLoadPaymentsJobTrigger" parent="cronTrigger">
@@ -146,10 +153,24 @@
 		</property>
 	</bean>
 
-	<bean id="pdpLoadFederalReserveBankDataJob" parent="unscheduledJobDescriptor">
+	<bean id="pdpLoadFederalReserveBankDataJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
+				<ref bean="pdpDownloadFederalReserveBankFileStep" />
 				<ref bean="pdpLoadFederalReserveBankDataStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="pdpInactivatePayeeAchAccountsJobTrigger" parent="cronTrigger">
+		<property name="jobName" value="pdpInactivatePayeeAchAccountsJob" />
+		<property name="cronExpression" value="00 00 23 ? * THU" />
+	</bean>
+
+	<bean id="pdpInactivatePayeeAchAccountsJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="pdpInactivatePayeeAchAccountsStep" />
 			</list>
 		</property>
 	</bean>
@@ -205,6 +226,7 @@
 		<property name="dependencies">
 			<map>
 				<entry key="pdpExtractGlTransactionsStepJob" value="softDependency"/>
+				<entry key="posterJob" value="hardDependency"/>
 			</map>
 		</property>
 	</bean>
@@ -240,9 +262,22 @@
 		<property name="dailyReportService" ref="pdpDailyReportService"/>
 	</bean>
 
+	<bean id="pdpDownloadFederalReserveBankFileStep" class="org.kuali.kfs.pdp.batch.DownLoadFileViaHttpsStep" parent="step">
+		<property name="targetDirectoryPath" value="${staging.directory}/pdp/bankFederalReserve/" />
+	</bean>
+
 	<bean id="pdpLoadFederalReserveBankDataStep" class="org.kuali.kfs.pdp.batch.LoadFederalReserveBankDataStep" parent="step">
 		<property name="achBankService" ref="pdpAchBankService"/>
 		<property name="directoryName" value="${staging.directory}/pdp/bankFederalReserve/" />
+	</bean>
+
+	<bean id="pdpInactivatePayeeAchAccountsStep" class="org.kuali.kfs.pdp.batch.InactivatePayeeAchAccountsStep" parent="wrappedStep">
+		<property name="wrappingBatchServices">
+			<list>
+				<ref bean="pdpInactivatedPayeeAchAccountsReportWriterService" />
+			</list>
+		</property>    	
+    	<property name="inactivatePayeeAchAccountsService" ref="pdpInactivatePayeeAchAccountsService"/>	
 	</bean>
 
 	<bean id="pdpExtractGlTransactionsStep" class="org.kuali.kfs.pdp.batch.ExtractGlTransactionsStep" parent="wrappedStep">
@@ -273,14 +308,25 @@
 	<bean id="pdpSendAchAdviceNotificationsStep" class="org.kuali.kfs.pdp.batch.SendAchAdviceNotificationsStep" parent="step">
 		<property name="achAdviceNotificationService" ref="pdpAchAdviceNotificationService" />
 	</bean>
+	
+	<bean id="pdpInactivatePayeeAchAccountsService" class="org.kuali.kfs.pdp.batch.service.impl.InactivatePayeeAchAccountsServiceImpl">
+    	<property name="businessObjectService" ref="businessObjectService"/>
+		<property name="dateTimeService" ref="dateTimeService"/>
+    	<property name="identityManagementService" ref="kimIdentityManagementService"/>
+    	<property name="personService" ref="personService"/>    	
+    	<property name="vendorService" ref="vendorService"/>
+		<property name="achService" ref="pdpAchService"/>	
+		<property name="reportWriterService" ref="pdpInactivatedPayeeAchAccountsReportWriterService"/>			
+	</bean>
+	
+	
 	<bean id="pdpDailyReportService" parent="pdpDailyReportService-parentBean"/>
-
 	<bean id="pdpDailyReportService-parentBean" class="org.kuali.kfs.pdp.batch.service.impl.DailyReportServiceImpl" abstract="true">
 		<property name="directoryName" value="${reports.directory}/pdp/"/>
 		<property name="dateTimeService" ref="dateTimeService"/>
 		<property name="paymentDetailDao" ref="pdpPaymentDetailDao"/>
 		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
-		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
+		<property name="configurationService" ref="kualiConfigurationService"/>
 	</bean>
 
 	<bean id="pdpExtractPaymentService" parent="pdpExtractPaymentService-parentBean"/>
@@ -296,7 +342,7 @@
 		<property name="paymentGroupHistoryDao" ref="pdpPaymentGroupHistoryDao"/>
 		<property name="paymentFileEmailService" ref="pdpEmailService"/>
 		<property name="businessObjectService" ref="businessObjectService" />
-		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
+		<property name="configurationService" ref="kualiConfigurationService"/>
 		<property name="countryService" ref="countryService"/>		
 	</bean>
     <bean id="pdpExtractGlTransactionService" parent="pdpExtractGlTransactionService-parentBean"/>
@@ -306,7 +352,7 @@
 		<property name="originEntryGroupService" ref="originEntryGroupService" />
 		<property name="originEntryService" ref="originEntryService" />
 		<property name="dateTimeService" ref="dateTimeService" />
-		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
+		<property name="configurationService" ref="kualiConfigurationService"/>
 		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
 		<property name="reportWriterService" ref="pdpExtractGlTransactionsReportWriterService" />
 	</bean>
@@ -354,7 +400,7 @@
 	<bean id="pdpGlPendingTransactionService-parentBean" class="org.kuali.kfs.pdp.service.impl.PendingTransactionServiceImpl" abstract="true">
 		<property name="glPendingTransactionDao" ref="pdpGlPendingTransactionDao"/>
 		<property name="accountingPeriodService" ref="accountingPeriodService"/>
-		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
+		<property name="configurationService" ref="kualiConfigurationService"/>
 		<property name="dateTimeService" ref="dateTimeService"/>
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="bankService" ref="bankService"/>
@@ -375,7 +421,7 @@
 		<property name="businessObjectService" ref="businessObjectService"/>
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="paymentFileEmailService" ref="pdpEmailService"/>
-		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
+		<property name="configurationService" ref="kualiConfigurationService" />
 		<property name="outgoingDirectoryName" value="${staging.directory}/pdp/paymentLoadSummary"/>
 	</bean>
     <bean id="pdpEmailService" parent="pdpEmailService-parentBean"/>
@@ -385,7 +431,7 @@
 		<property name="customerProfileService" ref="pdpCustomerProfileService"/>
 		<property name="mailService" ref="mailService" />
 		<property name="dataDictionaryService" ref="dataDictionaryService"/>
-		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
+		<property name="configurationService" ref="kualiConfigurationService" />
 		<property name="achBankService" ref="pdpAchBankService" />
 	</bean>
     <bean id="paymentFileValidationService" parent="paymentFileValidationService-parentBean"/>
@@ -394,7 +440,7 @@
 		<property name="customerProfileService" ref="pdpCustomerProfileService"/>
 		<property name="paymentFileLoadDao" ref="pdpPaymentFileLoadDao" />
 		<property name="parameterService" ref="parameterService" />
-		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
+		<property name="configurationService" ref="kualiConfigurationService"/>
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="accountService" ref="accountService" />
 		<property name="subAccountService" ref="subAccountService"/>
@@ -404,10 +450,11 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="bankService" ref="bankService" />
 		<property name="originationCodeService" ref="originationCodeService" />
-		<property name="workflowInfoService" ref="workflowInfoService" />
+		<property name="documentTypeService" ref="rice.kew.documentTypeService" />
 	</bean>
 	
-	<bean id="paymentInputFileType" class="org.kuali.kfs.pdp.batch.PaymentInputFileType">
+	<bean id="paymentInputFileType" parent="paymentInputFileType-parentBean"/>
+	<bean id="paymentInputFileType-parentBean" class="org.kuali.kfs.pdp.batch.PaymentInputFileType">
     	<property name="directoryPath">
 	       <value>${staging.directory}/pdp/paymentImport</value>
 	    </property>
@@ -503,7 +550,7 @@
     <bean id="paymentDetailLookupableHelperService" parent="paymentDetailLookupableHelperService-parentBean" scope="prototype"/>
 	
 	<bean id="paymentDetailLookupableHelperService-parentBean" class="org.kuali.kfs.pdp.businessobject.lookup.PaymentDetailLookupableHelperService"  parent="lookupableHelperService" scope="prototype" abstract="true">
-        <property name="kualiConfigurationService">
+        <property name="configurationService">
             <ref bean="kualiConfigurationService" />
         </property>
         <property name="pdpAuthorizationService">
@@ -590,22 +637,12 @@
     <bean id="customerRoleTypeService" parent="customerRoleTypeService-parentBean"/>
 
     <bean id="customerRoleTypeService-parentBean" class="org.kuali.kfs.pdp.identity.CustomerRoleTypeServiceImpl" abstract="true" />
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-	  <property name="serviceDefinition">
-	    <bean parent="kfsService"
-	      p:service-ref="customerRoleTypeService"
-	      p:localServiceName="customerRoleTypeService" />
-	  </property>
-	</bean>
-    <bean id="pdpAuthorizationService" parent="pdpAuthorizationService-parentBean">
-       	<property name="identityManagementService">
-			<ref bean="kimIdentityManagementService" />
-		</property>
-	</bean>
-	
-    <bean id="pdpAuthorizationService-parentBean" class="org.kuali.kfs.pdp.service.impl.PdpAuthorizationServiceImpl" abstract="true">
-	</bean>
+		
+    <bean id="pdpAuthorizationService" parent="pdpAuthorizationService-parentBean" />
+    <bean id="pdpAuthorizationService-parentBean" class="org.kuali.kfs.pdp.service.impl.PdpAuthorizationServiceImpl" abstract="true" />
+
     <bean id="pdpExtractGlTransactionsReportWriterService" parent="pdpExtractGlTransactionsReportWriterService-parentBean"/>
+    <bean id="payeeACHAccountRoleTypeService" class="org.kuali.kfs.pdp.identity.PayeeACHAccountRoleTypeServiceImpl"/>
 
 	<bean id="pdpExtractGlTransactionsReportWriterService-parentBean" parent="reportWriterService" abstract="true">
 		<property name="filePath" value="${reports.directory}/pdp"/>
@@ -619,5 +656,32 @@
         	</map>
         </property>
 	</bean>
+	<bean id="pdpInactivatedPayeeAchAccountsReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/pdp"/>
+		<property name="fileNamePrefix" value="pdp_payee_ach_account_"/>
+        <property name="title" value="Inactivated Payee ACH Accounts"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.pdp.businessobject.PayeeACHAccount" value="pdpInactivatedPayeeAchAccountsReportHelper" />
+        	</map>
+        </property>
+	</bean>
+	
+	<bean id="pdpInactivatedPayeeAchAccountsReportHelper" parent="businessObjectReportHelper">
+		<property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.pdp.businessobject.PayeeACHAccount" />
+		<property name="orderedPropertyNameToHeaderLabelMap">
+			<map>
+				<entry key="payeeIdentifierTypeCode" value="Payee ID Type" />
+				<entry key="payeeIdNumber" value="Payee ID Number" />
+				<entry key="achTransactionType" value="Transaction Type" />
+				<entry key="payeeName" value="Payee Name" />
+				<entry key="payeeEmailAddress" value="Payee Email Address" />
+			</map>
+		</property>
+		<property name="columnCount" value="5" />
+	</bean>			
+
+
+	<import resource="spring-pdp-bus-exports.xml"/>
 </beans>
 

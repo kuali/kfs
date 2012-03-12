@@ -18,7 +18,7 @@ package org.kuali.kfs.fp.document.authorization;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class ProcurementCardAccountingLineAuthorizer extends FinancialProcessingAccountingLineAuthorizer {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardAccountingLineAuthorizer.class);
@@ -45,7 +45,7 @@ public class ProcurementCardAccountingLineAuthorizer extends FinancialProcessing
         String lineIndex = this.getLineContainerIndex(accountingLineProperty);
         String lineContainer = this.getLineContainer(accountingLineProperty) + ".";        
         
-        return KNSConstants.DELETE_METHOD + infix + "Line." + lineContainer + "line" + accountingLineIndex + ".anchoraccounting" + infix + "Anchor";
+        return KRADConstants.DELETE_METHOD + infix + "Line." + lineContainer + "line" + accountingLineIndex + ".anchoraccounting" + infix + "Anchor";
     }
     
     /**

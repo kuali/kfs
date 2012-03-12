@@ -33,14 +33,13 @@ import org.kuali.kfs.sys.batch.BatchFile;
 import org.kuali.kfs.sys.batch.BatchFileUtils;
 import org.kuali.kfs.sys.batch.service.BatchFileAdminAuthorizationService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.util.RiceConstants;
-import org.kuali.rice.kns.exception.AuthorizationException;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
+import org.kuali.rice.krad.exception.AuthorizationException;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class KualiBatchFileAdminAction extends KualiAction {
     public ActionForward download(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -80,7 +79,7 @@ public class KualiBatchFileAdminAction extends KualiAction {
         String filePath = BatchFileUtils.resolvePathToAbsolutePath(fileAdminForm.getFilePath());
         File file = new File(filePath).getAbsoluteFile();
         
-        KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
+        ConfigurationService kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
         
         if (!file.exists() || !file.isFile()) {
             throw new RuntimeException("Error: non-existent file or directory provided");
@@ -100,10 +99,10 @@ public class KualiBatchFileAdminAction extends KualiAction {
         
         Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (question == null) {
-            String questionText = kualiConfigurationService.getPropertyString(KFSKeyConstants.QUESTION_BATCH_FILE_ADMIN_DELETE_CONFIRM);
+            String questionText = kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.QUESTION_BATCH_FILE_ADMIN_DELETE_CONFIRM);
             questionText = MessageFormat.format(questionText, displayFileName);
             return performQuestionWithoutInput(mapping, fileAdminForm, request, response, "confirmDelete", questionText,
-                    KNSConstants.CONFIRMATION_QUESTION, "delete", fileAdminForm.getFilePath());
+                    KRADConstants.CONFIRMATION_QUESTION, "delete", fileAdminForm.getFilePath());
         }
         else {
             Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
@@ -112,16 +111,16 @@ public class KualiBatchFileAdminAction extends KualiAction {
                 if (ConfirmationQuestion.YES.equals(buttonClicked)) {
                     try {
                         file.delete();
-                        status = kualiConfigurationService.getPropertyString(KFSKeyConstants.MESSAGE_BATCH_FILE_ADMIN_DELETE_SUCCESSFUL);
+                        status = kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.MESSAGE_BATCH_FILE_ADMIN_DELETE_SUCCESSFUL);
                         status = MessageFormat.format(status, displayFileName);
                     }
                     catch (SecurityException e) {
-                        status = kualiConfigurationService.getPropertyString(KFSKeyConstants.MESSAGE_BATCH_FILE_ADMIN_DELETE_ERROR);
+                        status = kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.MESSAGE_BATCH_FILE_ADMIN_DELETE_ERROR);
                         status = MessageFormat.format(status, displayFileName);
                     }
                 }
                 else if (ConfirmationQuestion.NO.equals(buttonClicked)) {
-                    status = kualiConfigurationService.getPropertyString(KFSKeyConstants.MESSAGE_BATCH_FILE_ADMIN_DELETE_CANCELLED);
+                    status = kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.MESSAGE_BATCH_FILE_ADMIN_DELETE_CANCELLED);
                     status = MessageFormat.format(status, displayFileName);
                 }
                 if (status != null) {

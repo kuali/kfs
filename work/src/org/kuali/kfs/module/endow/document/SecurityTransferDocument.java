@@ -15,8 +15,11 @@
  */
 package org.kuali.kfs.module.endow.document;
 
+import java.util.List;
+
 import org.kuali.kfs.module.endow.EndowConstants.TransactionSourceTypeCode;
 import org.kuali.kfs.module.endow.EndowConstants.TransactionSubTypeCode;
+import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.sys.document.AmountTotaling;
 
 public class SecurityTransferDocument extends EndowmentTaxLotLinesDocumentBase implements UnitsTotaling, AmountTotaling {
@@ -30,6 +33,18 @@ public class SecurityTransferDocument extends EndowmentTaxLotLinesDocumentBase i
         setTransactionSubTypeCode(TransactionSubTypeCode.NON_CASH);
 
         initializeSubType();
+    }
+
+    @Override
+    public void setSourceTransactionLines(List<EndowmentTransactionLine> sourceLines) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void setTargetTransactionLines(List<EndowmentTransactionLine> targetLines) {
+        // TODO Auto-generated method stub
+        
     }
 
 }

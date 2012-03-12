@@ -16,9 +16,9 @@
 
 function onblur_generateCalculatedTotal(anyAmountField, callbackFunction) {
     var elPrefix = findElPrefix( anyAmountField.name );
-    var salePrice = DWRUtil.getValue( elPrefix + ".salePrice" );
-    var handlingFee = DWRUtil.getValue( elPrefix + ".handlingFeeAmount" );
-    var preventiveMaintenanceAmount = DWRUtil.getValue( elPrefix + ".preventiveMaintenanceAmount" );
+    var salePrice = dwr.util.getValue( elPrefix + ".salePrice" );
+    var handlingFee = dwr.util.getValue( elPrefix + ".handlingFeeAmount" );
+    var preventiveMaintenanceAmount = dwr.util.getValue( elPrefix + ".preventiveMaintenanceAmount" );
 
     var editedSalePrice = editString(salePrice);
     var editedHandlingFee = editString(handlingFee);

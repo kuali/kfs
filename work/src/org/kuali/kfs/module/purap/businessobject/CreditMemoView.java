@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,14 +18,11 @@ package org.kuali.kfs.module.purap.businessobject;
 import java.sql.Timestamp;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
-import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.web.format.CurrencyFormatter;
-import org.kuali.rice.kns.web.format.DateFormatter;
+import org.kuali.rice.core.web.format.CurrencyFormatter;
+import org.kuali.rice.core.web.format.DateFormatter;
+import org.kuali.rice.krad.bo.Note;
 
 
 /**
@@ -41,7 +38,7 @@ public class CreditMemoView extends AbstractRelatedView {
     private Timestamp creditMemoExtractedTimestamp;
     private Timestamp creditMemoPaidTimestamp;
     private String vendorName;
-    
+
     // REFERENCE OBJECTS
     private FinancialSystemDocumentHeader documentHeader;
 
@@ -122,7 +119,7 @@ public class CreditMemoView extends AbstractRelatedView {
     public void setVendorName(String vendorName) {
         this.vendorName = vendorName;
     }
-    
+
     /**
      * @return workflow document type for the VendorCreditMemoDocument
      */

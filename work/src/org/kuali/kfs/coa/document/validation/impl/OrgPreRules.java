@@ -20,11 +20,11 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.OrganizationExtension;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.PostalCode;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.PostalCodeService;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.location.api.postalcode.PostalCode;
+import org.kuali.rice.location.api.postalcode.PostalCodeService;
 
 /**
  * PreRules checks for the {@link Org} that needs to occur while still in the Struts processing. This includes defaults,
@@ -114,12 +114,12 @@ public class OrgPreRules extends MaintenancePreRulesBase {
         // organizationStateCode , organizationCityName are populated by looking up
         // the zip code and getting the state and city from that
         if (StringUtils.isNotBlank(newOrg.getOrganizationZipCode()) && StringUtils.isNotBlank(newOrg.getOrganizationCountryCode())) {
-            PostalCode zip = postalZipCodeService.getByPrimaryId(newOrg.getOrganizationCountryCode(), newOrg.getOrganizationZipCode());
+            PostalCode zip = postalZipCodeService.getPostalCode(newOrg.getOrganizationCountryCode(), newOrg.getOrganizationZipCode());
 
             // If user enters a valid zip code, override city name and state code entered by user
             if (ObjectUtils.isNotNull(zip)) { // override old user inputs
-                newOrg.setOrganizationCityName(zip.getPostalCityName());
-                newOrg.setOrganizationStateCode(zip.getPostalStateCode());
+                newOrg.setOrganizationCityName(zip.getCityName());
+                newOrg.setOrganizationStateCode(zip.getStateCode());
             }
         }
     }

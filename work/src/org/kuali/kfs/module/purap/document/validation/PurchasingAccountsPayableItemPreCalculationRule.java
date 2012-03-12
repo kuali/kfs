@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.purap.document.validation;
 
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
-import org.kuali.rice.kns.rule.BusinessRule;
 
 /**
  * Continue Purap Rule Interface

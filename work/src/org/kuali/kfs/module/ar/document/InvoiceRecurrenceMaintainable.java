@@ -21,12 +21,10 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemMaintainable;
 import org.kuali.kfs.sys.document.FinancialSystemMaintenanceDocument;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.entity.KimPrincipal;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.krad.service.DocumentService;
 
 public class InvoiceRecurrenceMaintainable extends FinancialSystemMaintainable {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(InvoiceRecurrenceMaintainable.class);
@@ -64,7 +62,7 @@ public class InvoiceRecurrenceMaintainable extends FinancialSystemMaintainable {
             }
             
             String initiatorPrincipalId = maintDoc.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
-            KimPrincipal principal = SpringContext.getBean(IdentityManagementService.class).getPrincipal(initiatorPrincipalId);
+            Principal principal = SpringContext.getBean(IdentityManagementService.class).getPrincipal(initiatorPrincipalId);
             
             return principal != null && StringUtils.equalsIgnoreCase(principal.getPrincipalName(), KFSConstants.SYSTEM_USER);
         }
@@ -77,7 +75,7 @@ public class InvoiceRecurrenceMaintainable extends FinancialSystemMaintainable {
         //  how I wish for the ability to directly access the parent object
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         try {
-            return (FinancialSystemMaintenanceDocument) documentService.getByDocumentHeaderId(this.documentNumber);
+            return (FinancialSystemMaintenanceDocument) documentService.getByDocumentHeaderId(getDocumentNumber());
         } catch (WorkflowException e) {
             LOG.error( "Unable to retrieve maintenance document for use in split node routing - returning null",e);
         }

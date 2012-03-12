@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.coa.businessobject;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -23,11 +24,10 @@ import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class IndirectCostRecoveryRate extends PersistableBusinessObjectBase implements Inactivateable, FiscalYearBasedBusinessObject {
+public class IndirectCostRecoveryRate extends PersistableBusinessObjectBase implements MutableInactivatable, FiscalYearBasedBusinessObject {
     
     private Integer universityFiscalYear;
     private String financialIcrSeriesIdentifier;
@@ -38,11 +38,11 @@ public class IndirectCostRecoveryRate extends PersistableBusinessObjectBase impl
     
     public IndirectCostRecoveryRate() {
         universityFiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
-        indirectCostRecoveryRateDetails = new TypedArrayList(IndirectCostRecoveryRateDetail.class);
+        indirectCostRecoveryRateDetails = new ArrayList<IndirectCostRecoveryRateDetail>();
     }
     
-    @Override
-    protected LinkedHashMap toStringMapper() {
+    
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
 
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, this.universityFiscalYear);

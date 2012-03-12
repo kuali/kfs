@@ -19,8 +19,8 @@ import java.math.BigDecimal;
 
 import org.kuali.kfs.module.endow.businessobject.HoldingTaxLotRebalance;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.KualiInteger;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public enum HoldingTaxLotRebalanceFixture {
     // Holding Tax Lot Rebalance Fixture

@@ -22,8 +22,6 @@ import org.kuali.kfs.fp.businessobject.FiscalYearFunctionControl;
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.exception.InactiveDocumentTypeAuthorizationException;
 
 /**
  * Document Authorizer for the Year End Budget Adjustment document.
@@ -33,7 +31,7 @@ public class YearEndBudgetAdjustmentDocumentPresentationController extends Budge
     /**
      * Checks whether the BA document is active for the year end posting year.
      * 
-     * @see org.kuali.rice.kns.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kns.bo.user.KualiUser)
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.krad.bo.user.KualiUser)
      */
     @Override
     public boolean canInitiate(String documentTypeName) {

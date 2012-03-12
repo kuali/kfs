@@ -17,8 +17,6 @@ package org.kuali.kfs.gl.dataaccess;
 
 import java.sql.Date;
 
-import org.kuali.kfs.gl.businessobject.CollectorDetail;
-
 /**
  * 
  */

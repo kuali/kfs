@@ -17,26 +17,24 @@ package org.kuali.kfs.module.ld.document.validation.impl;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
-import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborKeyConstants;
 import org.kuali.kfs.module.ld.document.SalaryExpenseTransferDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.service.DocumentHelperService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Validates that an accounting document's balances by object codes are unchanged
@@ -52,7 +50,7 @@ public class SalaryExpenseTransferValidAmountTransferredByObjectCodeValidation e
      */
     public boolean validate(AttributedDocumentEvent event) {        
         SalaryExpenseTransferDocument expenseTransferDocument = (SalaryExpenseTransferDocument) documentForValidation;
-        KualiWorkflowDocument workflowDocument = expenseTransferDocument.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDocument = expenseTransferDocument.getDocumentHeader().getWorkflowDocument();
         
         // check if user is allowed to edit the object code.
         if(this.hasEditPermissionOnObjectCode(expenseTransferDocument, workflowDocument)) {
@@ -78,14 +76,14 @@ public class SalaryExpenseTransferValidAmountTransferredByObjectCodeValidation e
     }
 
     // check if user is allowed to edit the object code.
-    protected boolean hasEditPermissionOnObjectCode(SalaryExpenseTransferDocument expenseTransferDocument, KualiWorkflowDocument workflowDocument) {
+    protected boolean hasEditPermissionOnObjectCode(SalaryExpenseTransferDocument expenseTransferDocument, WorkflowDocument workflowDocument) {
         String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
         DocumentAuthorizer documentAuthorizer = SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(expenseTransferDocument);
         String templateName = KFSConstants.PermissionTemplate.MODIFY_ACCOUNTING_LINES.name;
         
         Map<String, String> additionalPermissionDetails = new HashMap<String, String>();
-        additionalPermissionDetails.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, workflowDocument.getDocumentType());
-        additionalPermissionDetails.put(KfsKimAttributes.PROPERTY_NAME, "targetAccountingLines.financialObjectCode");
+        additionalPermissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, workflowDocument.getDocumentTypeName());
+        additionalPermissionDetails.put(KimConstants.AttributeConstants.PROPERTY_NAME, "targetAccountingLines.financialObjectCode");
 
         return documentAuthorizer.isAuthorizedByTemplate(expenseTransferDocument, KFSConstants.ParameterNamespaces.KFS, templateName, principalId, additionalPermissionDetails, null);
     }

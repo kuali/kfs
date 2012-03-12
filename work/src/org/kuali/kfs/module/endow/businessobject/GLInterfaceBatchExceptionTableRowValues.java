@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,36 +16,35 @@
 package org.kuali.kfs.module.endow.businessobject;
 
 import java.math.BigDecimal;
-import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 public class GLInterfaceBatchExceptionTableRowValues extends TransientBusinessObjectBase {
-    private String documentType;
-    private String eDocNumber;
-    private String kEMID;
-    private BigDecimal incomeAmount = BigDecimal.ZERO;
-    private BigDecimal principalAmount = BigDecimal.ZERO;
-    private BigDecimal securityCost = BigDecimal.ZERO;
-    private BigDecimal longTermGainLoss = BigDecimal.ZERO;    
-    private BigDecimal shortTermGainLoss = BigDecimal.ZERO;        
-    
+    protected String documentType;
+    protected String documentNumber;
+    protected String kemid;
+    protected BigDecimal incomeAmount = BigDecimal.ZERO;
+    protected BigDecimal principalAmount = BigDecimal.ZERO;
+    protected BigDecimal securityCost = BigDecimal.ZERO;
+    protected BigDecimal longTermGainLoss = BigDecimal.ZERO;
+    protected BigDecimal shortTermGainLoss = BigDecimal.ZERO;
+
     public GLInterfaceBatchExceptionTableRowValues() {
         documentType = " ";
-        eDocNumber = " ";
-        kEMID = " ";
+        documentNumber = " ";
+        kemid = " ";
     }
-    
+
     /**
-     * Gets the documentType attribute. 
+     * Gets the documentType attribute.
      * @return Returns the documentType.
-     */   
+     */
     public String getDocumentType() {
         return documentType;
     }
 
     /**
-     * Sets the documentType attribute. 
+     * Sets the documentType attribute.
      * @return Returns the documentType.
      */
     public void setDocumentType(String documentType) {
@@ -53,39 +52,39 @@ public class GLInterfaceBatchExceptionTableRowValues extends TransientBusinessOb
     }
 
     /**
-     * Gets the eDocNumber attribute. 
+     * Gets the eDocNumber attribute.
      * @return Returns the eDocNumber.
-     */    
-    public String getEDocNumber() {
-        return eDocNumber;
+     */
+    public String getDocumentNumber() {
+        return documentNumber;
     }
 
     /**
-     * Sets the eDocNumber attribute. 
+     * Sets the eDocNumber attribute.
      * @return Returns the eDocNumber.
-     */    
-    public void setEDocNumber(String eDocNumber) {
-        this.eDocNumber = eDocNumber;
+     */
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
 
     /**
-     * Gets the kEMID attribute. 
-     * @return Returns the kEMID.
-     */    
-    public String getKEMID() {
-        return kEMID;
+     * Gets the kemid attribute.
+     * @return Returns the kemid.
+     */
+    public String getKemid() {
+        return kemid;
     }
 
     /**
-     * Sets the kEMID attribute. 
-     * @return Returns the kEMID.
-     */    
-    public void setKEMID(String kEMID) {
-        this.kEMID = kEMID;
+     * Sets the kemid attribute.
+     * @return Returns the kemid.
+     */
+    public void setKemid(String kemid) {
+        this.kemid = kemid;
     }
 
     /**
-     * Gets the incomeAmount attribute. 
+     * Gets the incomeAmount attribute.
      * @return Returns the incomeAmount.
      */
     public BigDecimal getIncomeAmount() {
@@ -101,7 +100,7 @@ public class GLInterfaceBatchExceptionTableRowValues extends TransientBusinessOb
     }
 
     /**
-     * Gets the principalAmount attribute. 
+     * Gets the principalAmount attribute.
      * @return Returns the principalAmount.
      */
     public BigDecimal getPrincipalAmount() {
@@ -117,7 +116,7 @@ public class GLInterfaceBatchExceptionTableRowValues extends TransientBusinessOb
     }
 
     /**
-     * Gets the securityCost attribute. 
+     * Gets the securityCost attribute.
      * @return Returns the securityCost.
      */
     public BigDecimal getSecurityCost() {
@@ -131,17 +130,17 @@ public class GLInterfaceBatchExceptionTableRowValues extends TransientBusinessOb
     public void setSecurityCost(BigDecimal securityCost) {
         this.securityCost = securityCost;
     }
-    
+
     /**
-     * Gets the longTermGainLoss attribute. 
+     * Gets the longTermGainLoss attribute.
      * @return Returns the longTermGainLoss.
-     */   
+     */
     public BigDecimal getLongTermGainLoss() {
         return longTermGainLoss;
     }
 
     /**
-     * Sets the longTermGainLoss attribute. 
+     * Sets the longTermGainLoss attribute.
      * @return Returns the longTermGainLoss.
      */
     public void setLongTermGainLoss(BigDecimal longTermGainLoss) {
@@ -149,37 +148,19 @@ public class GLInterfaceBatchExceptionTableRowValues extends TransientBusinessOb
     }
 
     /**
-     * Gets the longTermGainLoss attribute. 
+     * Gets the longTermGainLoss attribute.
      * @return Returns the longTermGainLoss.
-     */   
+     */
     public BigDecimal getShortTermGainLoss() {
         return shortTermGainLoss;
     }
 
     /**
-     * Sets the shortTermGainLoss attribute. 
+     * Sets the shortTermGainLoss attribute.
      * @return Returns the shortTermGainLoss.
      */
     public void setShortTermGainLoss(BigDecimal shortTermGainLoss) {
         this.shortTermGainLoss = shortTermGainLoss;
     }
 
-    /**
-     * A map of the "keys" of this transient business object
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap pks = new LinkedHashMap<String, Object>();
-        pks.put("documentType",this.getDocumentType());
-        pks.put("eDocNumber",this.getEDocNumber());
-        pks.put("kEMID",this.getKEMID());
-        pks.put("incomeAmount",this.getIncomeAmount());
-        pks.put("principalAmount",this.getPrincipalAmount());
-        pks.put("securityCost",this.getSecurityCost());
-        pks.put("longTermGainLoss",this.getLongTermGainLoss());
-        pks.put("shortTermGainLoss",this.getShortTermGainLoss());        
-        
-        return pks;
-    }
 }

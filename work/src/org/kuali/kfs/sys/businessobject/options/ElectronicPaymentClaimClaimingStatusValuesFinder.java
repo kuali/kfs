@@ -19,16 +19,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.sys.businessobject.ElectronicPaymentClaim;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 public class ElectronicPaymentClaimClaimingStatusValuesFinder extends KeyValuesBase {
 
     public List getKeyValues() {
         List labels = new ArrayList();
-        labels.add(new KeyLabelPair(ElectronicPaymentClaim.ClaimStatusCodes.CLAIMED, "Claimed"));
-        labels.add(new KeyLabelPair(ElectronicPaymentClaim.ClaimStatusCodes.UNCLAIMED, "Unclaimed"));
-        labels.add(new KeyLabelPair("A", "All"));
+        labels.add(new ConcreteKeyValue(ElectronicPaymentClaim.ClaimStatusCodes.CLAIMED, "Claimed"));
+        labels.add(new ConcreteKeyValue(ElectronicPaymentClaim.ClaimStatusCodes.UNCLAIMED, "Unclaimed"));
+        labels.add(new ConcreteKeyValue("A", "All"));
         return labels;
     }
 

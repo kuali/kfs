@@ -128,11 +128,11 @@
 		<property name="holdingTaxLotService">
 			<ref bean="holdingTaxLotService" />
 		</property>
-		<property name="kEMIDService">
+		<property name="kemidService">
 			<ref bean="KEMIDService" />
 		</property>	
-		<property name="kEMIDCurrentAvailableBalanceService">
-			<ref bean="kEMIDCurrentAvailableBalanceService" />
+		<property name="kemidCurrentAvailableBalanceService">
+			<ref bean="kemidCurrentAvailableBalanceService" />
 		</property>
 	</bean>
 	<!--  end availableCashUpdatesJob configuration -->
@@ -2540,8 +2540,8 @@
 	</bean>
 	<bean id="kemidFeeDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.module.endow.dataaccess.impl.KemidFeeDaoJdbc"/>
 
-	<bean id="kEMIDCurrentAvailableBalanceService"  parent="kEMIDCurrentAvailableBalanceService-parentBean"/>
-	<bean id="kEMIDCurrentAvailableBalanceService-parentBean" class="org.kuali.kfs.module.endow.batch.service.impl.KEMIDCurrentAvailableBalanceServiceImpl" abstract="true">		
+	<bean id="kemidCurrentAvailableBalanceService"  parent="kemidCurrentAvailableBalanceService-parentBean"/>
+	<bean id="kemidCurrentAvailableBalanceService-parentBean" class="org.kuali.kfs.module.endow.batch.service.impl.KEMIDCurrentAvailableBalanceServiceImpl" abstract="true">		
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
@@ -2624,7 +2624,7 @@
     		<map>
     			<entry key="documentType" value="Document Type"/>
     			<entry key="eDocNumber" value="eDoc Number"/>
-    			<entry key="kEMID" value="KEMID"/>
+    			<entry key="kemid" value="KEMID"/>
     			<entry key="incomeAmount" value="Income Amount"/>
     			<entry key="principalAmount" value="Principal Amount"/>
     			<entry key="securityCost" value="Security Cost"/>
@@ -2640,7 +2640,7 @@
     		<map>
     			<entry key="documentType" value="Document Type"/>
     			<entry key="eDocNumber" value="eDoc Number"/>
-    			<entry key="kEMID" value="KEMID"/>
+    			<entry key="kemid" value="KEMID"/>
     			<entry key="incomeAmount" value="Income Amount"/>
     			<entry key="principalAmount" value="Principal Amount"/>
     			<entry key="securityCost" value="Security Cost"/>

@@ -16,48 +16,40 @@
 
 package org.kuali.kfs.sys.businessobject;
 
-import java.util.LinkedHashMap;
-
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.bo.Campus;
-import org.kuali.rice.kns.bo.Country;
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.bo.PostalCode;
-import org.kuali.rice.kns.bo.State;
-import org.kuali.rice.kns.service.CountryService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.service.PostalCodeService;
-import org.kuali.rice.kns.service.StateService;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.location.api.campus.CampusService;
+import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.location.api.postalcode.PostalCodeService;
+import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.location.framework.campus.CampusEbo;
+import org.kuali.rice.location.framework.country.CountryEbo;
+import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
+import org.kuali.rice.location.framework.state.StateEbo;
 
 /**
  * 
  */
-public class Building extends PersistableBusinessObjectBase implements Inactivateable {
+public class Building extends PersistableBusinessObjectBase implements MutableInactivatable {
 
-    private String campusCode;
-    private String buildingCode;
-    private String buildingName;
-    private String buildingStreetAddress;
-    private String buildingAddressCityName;
-    private String buildingAddressStateCode;
-    private String buildingAddressZipCode;
-    private String alternateBuildingCode;
-    private boolean active;
-    private String buildingAddressCountryCode;
+    protected String campusCode;
+    protected String buildingCode;
+    protected String buildingName;
+    protected String buildingStreetAddress;
+    protected String buildingAddressCityName;
+    protected String buildingAddressStateCode;
+    protected String buildingAddressZipCode;
+    protected String alternateBuildingCode;
+    protected boolean active;
+    protected String buildingAddressCountryCode;
     
-    private Campus campus;
-    private State buildingAddressState;
-    private PostalCode buildingAddressZip;
-    private Country buildingAddressCountry;
+    protected CampusEbo campus;
+    protected StateEbo buildingAddressState;
+    protected PostalCodeEbo buildingAddressZip;
+    protected CountryEbo buildingAddressCountry;
  
-    /**
-     * Default constructor.
-     */
-    public Building() {
-
-    }
-
     /**
      * Gets the campusCode attribute.
      * 
@@ -119,8 +111,8 @@ public class Building extends PersistableBusinessObjectBase implements Inactivat
      * 
      * @return Returns the campus.
      */
-    public Campus getCampus() {
-        return campus = (Campus) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(Campus.class).retrieveExternalizableBusinessObjectIfNecessary(this, campus, "campus");
+    public CampusEbo getCampus() {
+        return campus = StringUtils.isBlank( campusCode)?null:((campus!=null && campus.getCode().equals( campusCode))?campus:CampusEbo.from(SpringContext.getBean(CampusService.class).getCampus( campusCode)));
     }
 
     /**
@@ -128,7 +120,7 @@ public class Building extends PersistableBusinessObjectBase implements Inactivat
      * 
      * @param campus The campus to set.
      */
-    public void setCampus(Campus campus) {
+    public void setCampus(CampusEbo campus) {
         this.campus = campus;
     }
 
@@ -243,8 +235,8 @@ public class Building extends PersistableBusinessObjectBase implements Inactivat
      * 
      * @return Returns the buildingAddressState.
      */
-    public State getBuildingAddressState() {
-        buildingAddressState = SpringContext.getBean(StateService.class).getByPrimaryIdIfNecessary(buildingAddressCountryCode, buildingAddressStateCode, buildingAddressState);
+    public StateEbo getBuildingAddressState() {
+        buildingAddressState = (StringUtils.isBlank(buildingAddressCountryCode) || StringUtils.isBlank( buildingAddressStateCode))?null:( buildingAddressState == null || !StringUtils.equals( buildingAddressState.getCountryCode(),buildingAddressCountryCode)|| !StringUtils.equals( buildingAddressState.getCode(), buildingAddressStateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState(buildingAddressCountryCode, buildingAddressStateCode)): buildingAddressState;
         return buildingAddressState;
     }
 
@@ -254,7 +246,7 @@ public class Building extends PersistableBusinessObjectBase implements Inactivat
      * @param buildingAddressState The buildingAddressState to set.
      * @deprecated
      */
-    public void setBuildingAddressState(State buildingAddressState) {
+    public void setBuildingAddressState(StateEbo buildingAddressState) {
         this.buildingAddressState = buildingAddressState;
     }
 
@@ -263,8 +255,8 @@ public class Building extends PersistableBusinessObjectBase implements Inactivat
      * 
      * @return Returns the buildingAddressZip.
      */
-    public PostalCode getBuildingAddressZip() {
-        buildingAddressZip = SpringContext.getBean(PostalCodeService.class).getByPrimaryIdIfNecessary(buildingAddressCountryCode, buildingAddressZipCode, buildingAddressZip);
+    public PostalCodeEbo getBuildingAddressZip() {
+        buildingAddressZip = (StringUtils.isBlank(buildingAddressCountryCode) || StringUtils.isBlank( buildingAddressZipCode))?null:( buildingAddressZip == null || !StringUtils.equals( buildingAddressZip.getCountryCode(),buildingAddressCountryCode)|| !StringUtils.equals( buildingAddressZip.getCode(), buildingAddressZipCode))? PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode(buildingAddressCountryCode, buildingAddressZipCode)): buildingAddressZip;
         return buildingAddressZip;
     }
 
@@ -274,7 +266,7 @@ public class Building extends PersistableBusinessObjectBase implements Inactivat
      * @param buildingAddressZip The buildingAddressZip to set.
      * @deprecated
      */
-    public void setBuildingAddressZip(PostalCode buildingAddressZip) {
+    public void setBuildingAddressZip(PostalCodeEbo buildingAddressZip) {
         this.buildingAddressZip = buildingAddressZip;
     }
     
@@ -298,8 +290,8 @@ public class Building extends PersistableBusinessObjectBase implements Inactivat
      * Gets the buildingAddressCountry attribute. 
      * @return Returns the buildingAddressCountry.
      */
-    public Country getBuildingAddressCountry() {
-        buildingAddressCountry = SpringContext.getBean(CountryService.class).getByPrimaryIdIfNecessary(buildingAddressCountryCode, buildingAddressCountry);
+    public CountryEbo getBuildingAddressCountry() {
+        buildingAddressCountry = (buildingAddressCountryCode == null)?null:( buildingAddressCountry == null || !StringUtils.equals( buildingAddressCountry.getCode(),buildingAddressCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(buildingAddressCountryCode)): buildingAddressCountry;
         return buildingAddressCountry;
     }
 
@@ -307,22 +299,8 @@ public class Building extends PersistableBusinessObjectBase implements Inactivat
      * Sets the buildingAddressCountry attribute value.
      * @param buildingAddressCountry The buildingAddressCountry to set.
      */
-    public void setBuildingAddressCountry(Country buildingAddressCountry) {
+    public void setBuildingAddressCountry(CountryEbo buildingAddressCountry) {
         this.buildingAddressCountry = buildingAddressCountry;
     }
-
-
- 
-
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put("campusCode", this.campusCode);
-        m.put("buildingCode", this.buildingCode);
-        return m;
-    }
-
 
 }

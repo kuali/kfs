@@ -75,5 +75,5 @@
   <!-- workflow attributes -->
   <bean id="DisbursementNumberRangeMaintenanceDocument-workflowAttributes" parent="DisbursementNumberRangeMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="DisbursementNumberRangeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true"/>
+  <bean id="DisbursementNumberRangeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
 </beans>

@@ -38,10 +38,9 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
-import org.kuali.rice.kns.exception.ValidationException;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.TypedArrayList;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
     
@@ -148,7 +147,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
                 PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT,
                 PurchaseOrderStatuses.APPDOC_PENDING_CLOSE);
         assertMatchChangePO(poTest, poChange); /*
-        if (!poChange.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("F")) {
+        if (!poChange.getDocumentHeader().getWorkflowDocument().getStatus().equals("F")) {
             assertTrue(poTest.isPurchaseOrderCurrentIndicator());
             assertTrue(poTest.isPendingActionIndicator());
             assertTrue(poTest.getAppDocStatus().equals(PurchaseOrderStatuses.PENDING_CLOSE));
@@ -158,7 +157,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
         }
         WorkflowTestUtils.waitForStatusChange(poChange.getDocumentHeader().getWorkflowDocument(), "F");           
         refreshPO();
-        if (poChange.getDocumentHeader().getWorkflowDocument().stateIsFinal()) { */
+        if (poChange.getDocumentHeader().getWorkflowDocument().isFinal()) { */
             assertFalse(poTest.isPurchaseOrderCurrentIndicator());
             assertFalse(poTest.isPendingActionIndicator());
             assertTrue(poTest.getAppDocStatus().equals(PurchaseOrderStatuses.APPDOC_RETIRED_VERSION));
@@ -170,7 +169,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
     
     @ConfigureContext(session = parke, shouldCommitTransactions=true)
     public void testSplitPurchaseOrder() throws Exception {
-        List<PurchaseOrderItem> items = new TypedArrayList(PurchaseOrderItem.class);        
+        List<PurchaseOrderItem> items = new ArrayList<PurchaseOrderItem>();        
         items.add((PurchaseOrderItem)PurchaseOrderItemFixture.PO_QTY_UNRESTRICTED_ITEM_2.createPurchaseOrderItem(PurApItemFixture.BASIC_QTY_ITEM_2));
         createAndSavePOSplitDocument(items, true, "Reason for splitting.");
         // Proving that most things other than items are the same.
@@ -195,7 +194,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
                     PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, 
                     PurchaseOrderStatuses.APPDOC_AMENDMENT);
         assertMatchChangePO(poTest, poChange);
-        if (!poChange.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("F")) {
+        if (!poChange.getDocumentHeader().getWorkflowDocument().getStatus().equals("F")) {
             assertTrue(poTest.isPurchaseOrderCurrentIndicator());
             assertTrue(poTest.isPendingActionIndicator());
             assertTrue(poTest.getAppDocStatus().equals(PurchaseOrderStatuses.APPDOC_AMENDMENT));
@@ -205,7 +204,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
         } /*
         WorkflowTestUtils.waitForStatusChange(poChange.getDocumentHeader().getWorkflowDocument(), "F");     
         refreshPO();
-        if (poChange.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+        if (poChange.getDocumentHeader().getWorkflowDocument().isFinal()) {
             assertFalse(poTest.isPurchaseOrderCurrentIndicator());
             assertFalse(poTest.isPendingActionIndicator());
             assertTrue(poTest.getAppDocStatus().equals(PurchaseOrderStatuses.APPDOC_RETIRED_VERSION));
@@ -228,7 +227,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
                     PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, 
                     PurchaseOrderStatuses.APPDOC_AMENDMENT);
         assertMatchChangePO(poTest, poChange);
-        if (!poChange.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("F")) {
+        if (!poChange.getDocumentHeader().getWorkflowDocument().getStatus().equals("F")) {
             assertTrue(poTest.isPurchaseOrderCurrentIndicator());
             assertTrue(poTest.isPendingActionIndicator());
             assertTrue(poTest.getAppDocStatus().equals(PurchaseOrderStatuses.APPDOC_AMENDMENT));
@@ -237,7 +236,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
             assertTrue(poChange.getAppDocStatus().equals(PurchaseOrderStatuses.APPDOC_CHANGE_IN_PROCESS));
         } 
         SpringContext.getBean(DocumentService.class).cancelDocument(poChange, "");
-        assertTrue(poChange.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals(KFSConstants.DocumentStatusCodes.CANCELLED));
+        assertTrue(poChange.getDocumentHeader().getWorkflowDocument().getStatus().equals(KFSConstants.DocumentStatusCodes.CANCELLED));
     }
 
     @ConfigureContext(session = kfs, shouldCommitTransactions=true)
@@ -246,7 +245,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
                 PurchaseOrderDocTypes.PURCHASE_ORDER_PAYMENT_HOLD_DOCUMENT, 
                 PurchaseOrderStatuses.APPDOC_PENDING_PAYMENT_HOLD);       
         assertMatchChangePO(poTest, poChange); /*
-        if (!poChange.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("F")) {
+        if (!poChange.getDocumentHeader().getWorkflowDocument().getStatus().equals("F")) {
             assertTrue(poTest.isPurchaseOrderCurrentIndicator());
             assertTrue(poTest.isPendingActionIndicator());
             assertTrue(poTest.getAppDocStatus().equals(PurchaseOrderStatuses.APPDOC_PENDING_APPDOC_PAYMENT_HOLD));
@@ -256,7 +255,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
         }
         WorkflowTestUtils.waitForStatusChange(poChange.getDocumentHeader().getWorkflowDocument(), "F");           
         refreshPO();
-        if (poChange.getDocumentHeader().getWorkflowDocument().stateIsFinal()) { */
+        if (poChange.getDocumentHeader().getWorkflowDocument().isFinal()) { */
             assertFalse(poTest.isPurchaseOrderCurrentIndicator());
             assertFalse(poTest.isPendingActionIndicator());
             assertTrue(poTest.getAppDocStatus().equals(PurchaseOrderStatuses.APPDOC_RETIRED_VERSION));
@@ -274,7 +273,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
                 PurchaseOrderDocTypes.PURCHASE_ORDER_REMOVE_HOLD_DOCUMENT, 
                 PurchaseOrderStatuses.APPDOC_PENDING_REMOVE_HOLD);       
         assertMatchChangePO(poTest, poChange); /*
-        if (!poChange.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("F")) {
+        if (!poChange.getDocumentHeader().getWorkflowDocument().getStatus().equals("F")) {
             assertTrue(poTest.isPurchaseOrderCurrentIndicator());
             assertTrue(poTest.isPendingActionIndicator());
             assertTrue(poTest.getAppDocStatus().equals(PurchaseOrderStatuses.APPDOC_PENDING_REMOVE_HOLD));
@@ -284,7 +283,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
         }
         WorkflowTestUtils.waitForStatusChange(poChange.getDocumentHeader().getWorkflowDocument(), "F");           
         refreshPO();
-        if (poChange.getDocumentHeader().getWorkflowDocument().stateIsFinal()) { */
+        if (poChange.getDocumentHeader().getWorkflowDocument().isFinal()) { */
             assertFalse(poTest.isPurchaseOrderCurrentIndicator());
             assertFalse(poTest.isPendingActionIndicator());
             assertTrue(poTest.getAppDocStatus().equals(PurchaseOrderStatuses.APPDOC_RETIRED_VERSION));
@@ -302,7 +301,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
                 PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT, 
                 PurchaseOrderStatuses.APPDOC_PENDING_REOPEN);       
         assertMatchChangePO(poTest, poChange); /*
-        if (!poChange.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("F")) {
+        if (!poChange.getDocumentHeader().getWorkflowDocument().getStatus().equals("F")) {
             assertTrue(poTest.isPurchaseOrderCurrentIndicator());
             assertTrue(poTest.isPendingActionIndicator());
             assertTrue(poTest.getAppDocStatus().equals(PurchaseOrderStatuses.APPDOC_PENDING_REOPEN));
@@ -312,7 +311,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
         }
         WorkflowTestUtils.waitForStatusChange(poChange.getDocumentHeader().getWorkflowDocument(), "F");           
         refreshPO();
-        if (poChange.getDocumentHeader().getWorkflowDocument().stateIsFinal()) { */
+        if (poChange.getDocumentHeader().getWorkflowDocument().isFinal()) { */
             assertFalse(poTest.isPurchaseOrderCurrentIndicator());
             assertFalse(poTest.isPendingActionIndicator());
             assertTrue(poTest.getAppDocStatus().equals(PurchaseOrderStatuses.APPDOC_RETIRED_VERSION));
@@ -328,7 +327,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
                 PurchaseOrderDocTypes.PURCHASE_ORDER_VOID_DOCUMENT,
                 PurchaseOrderStatuses.APPDOC_PENDING_VOID);      
         assertMatchChangePO(poTest, poChange); /*
-        if (!poChange.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("F")) {
+        if (!poChange.getDocumentHeader().getWorkflowDocument().getStatus().equals("F")) {
             assertTrue(poTest.isPurchaseOrderCurrentIndicator());
             assertTrue(poTest.isPendingActionIndicator());
             assertTrue(poTest.getAppDocStatus().equals(PurchaseOrderStatuses.APPDOC_PENDING_VOID));
@@ -338,7 +337,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
         }
         WorkflowTestUtils.waitForStatusChange(poChange.getDocumentHeader().getWorkflowDocument(), "F");           
         refreshPO();
-        if (poChange.getDocumentHeader().getWorkflowDocument().stateIsFinal()) { */
+        if (poChange.getDocumentHeader().getWorkflowDocument().isFinal()) { */
             assertFalse(poTest.isPurchaseOrderCurrentIndicator());
             assertFalse(poTest.isPendingActionIndicator());
             assertTrue(poTest.getAppDocStatus().equals(PurchaseOrderStatuses.APPDOC_RETIRED_VERSION));

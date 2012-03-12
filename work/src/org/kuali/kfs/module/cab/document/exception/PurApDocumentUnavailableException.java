@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.cab.document.exception;
 
-import org.kuali.rice.kns.exception.KualiException;
+import org.kuali.rice.core.api.exception.KualiException;
 
 public class PurApDocumentUnavailableException extends KualiException {
 

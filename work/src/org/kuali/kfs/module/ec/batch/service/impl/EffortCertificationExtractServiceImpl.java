@@ -26,13 +26,12 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ld.LaborLedgerBalance;
-import org.kuali.kfs.integration.ld.LaborLedgerEntry;
 import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.module.ec.EffortConstants;
-import org.kuali.kfs.module.ec.EffortKeyConstants;
-import org.kuali.kfs.module.ec.EffortPropertyConstants;
 import org.kuali.kfs.module.ec.EffortConstants.ExtractProcess;
 import org.kuali.kfs.module.ec.EffortConstants.SystemParameters;
+import org.kuali.kfs.module.ec.EffortKeyConstants;
+import org.kuali.kfs.module.ec.EffortPropertyConstants;
 import org.kuali.kfs.module.ec.batch.service.EffortCertificationExtractService;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationDocumentBuild;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
@@ -48,15 +47,12 @@ import org.kuali.kfs.module.ec.util.LedgerBalanceWithMessage;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.MessageBuilder;
-import org.kuali.kfs.sys.ObjectUtil;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiModuleService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.spring.Logged;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KualiModuleService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -87,7 +83,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     /**
      * @see org.kuali.kfs.module.ec.batch.service.EffortCertificationExtractService#extract()
      */
-    @Logged
+    
     public void extract() {
         Integer fiscalYear = EffortCertificationParameterFinder.getExtractReportFiscalYear();
         String reportNumber = EffortCertificationParameterFinder.getExtractReportNumber();
@@ -98,7 +94,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     /**
      * @see org.kuali.kfs.module.ec.batch.service.EffortCertificationExtractService#extract(java.lang.Integer, java.lang.String)
      */
-    @Logged
+    
     public void extract(Integer fiscalYear, String reportNumber) {
         Map<String, String> fieldValues = EffortCertificationReportDefinition.buildKeyMap(fiscalYear, reportNumber);
 
@@ -110,7 +106,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
             throw new IllegalArgumentException(errorMessage);
         }
 
-        Map<String, List<String>> parameters = this.getSystemParameters();
+        Map<String, Collection<String>> parameters = this.getSystemParameters();
         parameters.put(ExtractProcess.EXPENSE_OBJECT_TYPE, getExpenseObjectTypeCodes(fiscalYear));
 
         EffortCertificationReportDefinition reportDefinition = effortCertificationReportDefinitionService.findReportDefinitionByPrimaryKey(fieldValues);
@@ -129,9 +125,9 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @see org.kuali.kfs.module.ec.batch.service.EffortCertificationExtractService#extract(java.lang.String,
      *      org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition)
      */
-    @Logged
+    
     public EffortCertificationDocumentBuild extract(String emplid, EffortCertificationReportDefinition reportDefinition) {
-        Map<String, List<String>> parameters = this.getSystemParameters();
+        Map<String, Collection<String>> parameters = this.getSystemParameters();
         parameters.put(ExtractProcess.EXPENSE_OBJECT_TYPE, getExpenseObjectTypeCodes(reportDefinition.getUniversityFiscalYear()));
 
         List<String> positionGroupCodes = effortCertificationReportDefinitionService.findPositionObjectGroupCodes(reportDefinition);
@@ -145,7 +141,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @see org.kuali.kfs.module.ec.batch.service.EffortCertificationExtractService#isEmployeesEligibleForEffortCertification(java.lang.String,
      *      org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition)
      */
-    @Logged
+    
     public boolean isEmployeeEligibleForEffortCertification(String emplid, EffortCertificationReportDefinition reportDefinition) {
         Map<String, Set<String>> earnCodePayGroups = effortCertificationReportDefinitionService.findReportEarnCodePayGroups(reportDefinition);
         List<String> balanceTypeList = EffortConstants.ELIGIBLE_BALANCE_TYPES_FOR_EFFORT_REPORT;
@@ -157,7 +153,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     /**
      * @see org.kuali.kfs.module.ec.batch.service.EffortCertificationExtractService#findEmployeesEligibleForEffortCertification(org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition)
      */
-    @Logged
+    
     public List<String> findEmployeesEligibleForEffortCertification(EffortCertificationReportDefinition reportDefinition) {
         Map<String, Set<String>> earnCodePayGroups = effortCertificationReportDefinitionService.findReportEarnCodePayGroups(reportDefinition);
         List<String> balanceTypeList = EffortConstants.ELIGIBLE_BALANCE_TYPES_FOR_EFFORT_REPORT;
@@ -210,7 +206,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @param reportDataHolder the holder of report data
      * @param parameters the given system parameters
      */
-    protected void generateDocumentBuild(EffortCertificationReportDefinition reportDefinition, List<String> employees, ExtractProcessReportDataHolder reportDataHolder, Map<String, List<String>> parameters) {
+    protected void generateDocumentBuild(EffortCertificationReportDefinition reportDefinition, List<String> employees, ExtractProcessReportDataHolder reportDataHolder, Map<String, Collection<String>> parameters) {
         List<String> positionGroupCodes = effortCertificationReportDefinitionService.findPositionObjectGroupCodes(reportDefinition);
         Integer postingYear = universityDateService.getCurrentFiscalYear();
 
@@ -241,7 +237,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @param reportDataHolder the given holder that contains any information to be written into the working report
      * @return the qualified labor ledger balance records of the given employee
      */
-    protected List<LaborLedgerBalance> getQualifiedLedgerBalances(String emplid, List<String> positionGroupCodes, EffortCertificationReportDefinition reportDefinition, ExtractProcessReportDataHolder reportDataHolder, Map<String, List<String>> parameters) {
+    protected List<LaborLedgerBalance> getQualifiedLedgerBalances(String emplid, List<String> positionGroupCodes, EffortCertificationReportDefinition reportDefinition, ExtractProcessReportDataHolder reportDataHolder, Map<String, Collection<String>> parameters) {
         List<LedgerBalanceWithMessage> ledgerBalancesWithMessage = reportDataHolder.getLedgerBalancesWithMessage();
         Map<Integer, Set<String>> reportPeriods = reportDefinition.getReportPeriods();
 
@@ -308,7 +304,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @param parameters the system paramters setup in front
      * @return true if all ledger balances as whole meet requirements; otherwise, return false
      */
-    protected boolean checkEmployeeBasedOnLedgerBalances(String emplid, List<LaborLedgerBalance> ledgerBalances, EffortCertificationReportDefinition reportDefinition, ExtractProcessReportDataHolder reportDataHolder, Map<String, List<String>> parameters) {
+    protected boolean checkEmployeeBasedOnLedgerBalances(String emplid, List<LaborLedgerBalance> ledgerBalances, EffortCertificationReportDefinition reportDefinition, ExtractProcessReportDataHolder reportDataHolder, Map<String, Collection<String>> parameters) {
         if (ledgerBalances == null || ledgerBalances.isEmpty()) {
             return false;
         }
@@ -333,9 +329,9 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
         // check if there is at least one account funded by federal grants when an effort report can only be generated for an
         // employee with pay by federal grant
-        boolean isFederalFundsOnly = Boolean.parseBoolean(parameters.get(SystemParameters.FEDERAL_ONLY_BALANCE_IND).get(0));
+        boolean isFederalFundsOnly = Boolean.parseBoolean(parameters.get(SystemParameters.FEDERAL_ONLY_BALANCE_IND).iterator().next());
         if (isFederalFundsOnly) {
-            List<String> federalAgencyTypeCodes = parameters.get(SystemParameters.FEDERAL_AGENCY_TYPE_CODE);
+            Collection<String> federalAgencyTypeCodes = parameters.get(SystemParameters.FEDERAL_AGENCY_TYPE_CODE);
 
             Message federalFundsNotFoundError = LedgerBalanceFieldValidator.hasFederalFunds(ledgerBalances, federalAgencyTypeCodes);
             if (federalFundsNotFoundError != null) {
@@ -355,18 +351,18 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @param reportDefinition the specified report definition
      * @return the labor ledger balances for the specifed employee
      */
-    protected Collection<LaborLedgerBalance> selectLedgerBalanceForEmployee(String emplid, List<String> positionObjectGroupCodes, EffortCertificationReportDefinition reportDefinition, Map<String, List<String>> parameters) {
-        List<String> expenseObjectTypeCodes = parameters.get(ExtractProcess.EXPENSE_OBJECT_TYPE);
-        List<String> excludedAccountTypeCode = parameters.get(SystemParameters.ACCOUNT_TYPE_CODE_BALANCE_SELECT);
+    protected Collection<LaborLedgerBalance> selectLedgerBalanceForEmployee(String emplid, List<String> positionObjectGroupCodes, EffortCertificationReportDefinition reportDefinition, Map<String, Collection<String>> parameters) {
+        Collection<String> expenseObjectTypeCodes = parameters.get(ExtractProcess.EXPENSE_OBJECT_TYPE);
+        Collection<String> excludedAccountTypeCode = parameters.get(SystemParameters.ACCOUNT_TYPE_CODE_BALANCE_SELECT);
         List<String> emplids = Arrays.asList(emplid);
         List<String> laborObjectCodes = Arrays.asList(EffortConstants.LABOR_OBJECT_SALARY_CODE);
 
-        Map<String, List<String>> fieldValues = new HashMap<String, List<String>>();
+        Map<String, Collection<String>> fieldValues = new HashMap<String, Collection<String>>();
         fieldValues.put(KFSPropertyConstants.EMPLID, emplids);
         fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, expenseObjectTypeCodes);
         fieldValues.put(EffortPropertyConstants.LABOR_OBJECT_FRINGE_OR_SALARY_CODE, laborObjectCodes);
 
-        Map<String, List<String>> excludedFieldValues = new HashMap<String, List<String>>();
+        Map<String, Collection<String>> excludedFieldValues = new HashMap<String, Collection<String>>();
         excludedFieldValues.put(EffortPropertyConstants.ACCOUNT_ACCOUNT_TYPE_CODE, excludedAccountTypeCode);
 
         Set<Integer> fiscalYears = reportDefinition.getReportPeriods().keySet();
@@ -392,7 +388,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         for (String key : ledgerBalanceMap.keySet()) {
             LaborLedgerBalance ledgerBalance = ledgerBalanceMap.get(key);
 
-            KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(ledgerBalance, reportPeriods);
+            KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(ledgerBalance, reportPeriods, false);
             if (totalAmount.isNonZero()) {
                 cosolidatedLedgerBalances.add(ledgerBalance);
             }
@@ -402,7 +398,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     }
 
     // generate the effort certification document build for the given employee
-    protected EffortCertificationDocumentBuild generateDocumentBuildByEmployee(Integer postingYear, String emplid, List<String> positionGroupCodes, EffortCertificationReportDefinition reportDefinition, ExtractProcessReportDataHolder reportDataHolder, Map<String, List<String>> parameters) {
+    protected EffortCertificationDocumentBuild generateDocumentBuildByEmployee(Integer postingYear, String emplid, List<String> positionGroupCodes, EffortCertificationReportDefinition reportDefinition, ExtractProcessReportDataHolder reportDataHolder, Map<String, Collection<String>> parameters) {
         List<LaborLedgerBalance> qualifiedLedgerBalance = this.getQualifiedLedgerBalances(emplid, positionGroupCodes, reportDefinition, reportDataHolder, parameters);
 
         if (qualifiedLedgerBalance == null || qualifiedLedgerBalance.isEmpty()) {
@@ -425,8 +421,8 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     }
 
     // store and cache relating system parameters in a Map for the future use
-    protected Map<String, List<String>> getSystemParameters() {
-        Map<String, List<String>> parameters = new HashMap<String, List<String>>();
+    protected Map<String, Collection<String>> getSystemParameters() {
+        Map<String, Collection<String>> parameters = new HashMap<String, Collection<String>>();
 
         parameters.put(SystemParameters.ACCOUNT_TYPE_CODE_BALANCE_SELECT, EffortCertificationParameterFinder.getAccountTypeCodes());
         parameters.put(SystemParameters.FEDERAL_ONLY_BALANCE_IND, EffortCertificationParameterFinder.getFederalOnlyBalanceIndicatorAsString());

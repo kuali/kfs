@@ -182,10 +182,10 @@ public class CabPropertyConstants {
     }
 
     public static class Parameter {
-        public static final String PARAMETER_NAME = "parameterName";
-        public static final String PARAMETER_DETAIL_TYPE_CODE = "parameterDetailTypeCode";
-        public static final String PARAMETER_NAMESPACE_CODE = "parameterNamespaceCode";
-        public static final String PARAMETER_VALUE = "parameterValue";
+        public static final String PARAMETER_NAME = "name";
+        public static final String PARAMETER_DETAIL_TYPE_CODE = "componentCode";
+        public static final String PARAMETER_NAMESPACE_CODE = "namespaceCode";
+        public static final String PARAMETER_VALUE = "value";
 
     }
 

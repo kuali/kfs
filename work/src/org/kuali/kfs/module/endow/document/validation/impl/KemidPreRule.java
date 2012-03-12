@@ -38,12 +38,12 @@ import org.kuali.kfs.module.endow.businessobject.KemidSpecialInstruction;
 import org.kuali.kfs.module.endow.businessobject.KemidUseCriteria;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.KualiInteger;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This KemidPreRule class implements the pre rules for the Kemid BO.
@@ -60,7 +60,7 @@ public class KemidPreRule extends MaintenancePreRulesBase {
         boolean preRulesOK = true;
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
 
-        String kemidValueSystemParam = parameterService.getParameterValue(KEMID.class, EndowParameterKeyConstants.KEMID_VALUE);
+        String kemidValueSystemParam = parameterService.getParameterValueAsString(KEMID.class, EndowParameterKeyConstants.KEMID_VALUE);
 
         setupConvenienceObjects(maintenanceDocument);
 
@@ -165,7 +165,7 @@ public class KemidPreRule extends MaintenancePreRulesBase {
         KEMService kemService = SpringContext.getBean(KEMService.class);
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
 
-        if (KNSConstants.MAINTENANCE_EDIT_ACTION.equals(maintenanceDocument.getNewMaintainableObject().getMaintenanceAction())) {
+        if (KRADConstants.MAINTENANCE_EDIT_ACTION.equals(maintenanceDocument.getNewMaintainableObject().getMaintenanceAction())) {
             if (newKemid.getKemidBenefittingOrganizations().size() != 0) {
 
                 Map<KualiInteger, KemidBenefittingOrganization> oldKemidBenefittingOrganizations = new HashMap<KualiInteger, KemidBenefittingOrganization>();
@@ -260,7 +260,7 @@ public class KemidPreRule extends MaintenancePreRulesBase {
         KEMService kemService = SpringContext.getBean(KEMService.class);
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
 
-        if (KNSConstants.MAINTENANCE_EDIT_ACTION.equals(maintenanceDocument.getNewMaintainableObject().getMaintenanceAction())) {
+        if (KRADConstants.MAINTENANCE_EDIT_ACTION.equals(maintenanceDocument.getNewMaintainableObject().getMaintenanceAction())) {
             if (newKemid.getKemidAuthorizations().size() != 0) {
 
                 Map<KualiInteger, KemidAuthorizations> oldKemidAuthorizations = new HashMap<KualiInteger, KemidAuthorizations>();

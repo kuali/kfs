@@ -17,7 +17,7 @@ package org.kuali.kfs.module.endow.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 public class TransactioneDocPostingDocumentExceptionReportLine extends TransientBusinessObjectBase {
 
@@ -107,10 +107,4 @@ public class TransactioneDocPostingDocumentExceptionReportLine extends Transient
         this.reason = reason;
     }
 
-    @Override
-    protected LinkedHashMap<Object, Object> toStringMapper() {
-        return new LinkedHashMap<Object, Object>();
-    }
-    
- 
 }

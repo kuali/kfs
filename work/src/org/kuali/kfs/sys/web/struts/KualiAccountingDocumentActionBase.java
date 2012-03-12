@@ -57,20 +57,20 @@ import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseCons
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
 import org.kuali.kfs.sys.exception.AccountingLineParserException;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.core.api.parameter.ParameterEvaluator;
+import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.ParameterEvaluator;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.Timer;
-import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KualiRuleService;
+import org.kuali.rice.krad.service.PersistenceService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.util.UrlFactory;
 
 /**
  * This class handles UI actions for all shared methods of financial documents.
@@ -86,7 +86,6 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Timer t0 = new Timer("KualiFinancialDocumentFormBase.execute");
         KualiAccountingDocumentFormBase transForm = (KualiAccountingDocumentFormBase) form;
 
         // handle changes to accountingLines
@@ -102,7 +101,6 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
 
         // proceed as usual
         ActionForward result = super.execute(mapping, form, request, response);
-        t0.log();
         return result;
     }
 
@@ -173,8 +171,8 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         if (transForm.hasDocumentId()) {
             AccountingDocument financialDocument = (AccountingDocument) transForm.getDocument();
 
-            processAccountingLineOverrides(financialDocument.getSourceAccountingLines());
-            processAccountingLineOverrides(financialDocument.getTargetAccountingLines());
+            processAccountingLineOverrides(financialDocument,financialDocument.getSourceAccountingLines());
+            processAccountingLineOverrides(financialDocument,financialDocument.getTargetAccountingLines());
         }
     }
 
@@ -184,17 +182,22 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
     protected void processAccountingLineOverrides(AccountingLine line) {
         processAccountingLineOverrides(Arrays.asList(new AccountingLine[] { line }));
     }
-
+    
+    protected void processAccountingLineOverrides(List accountingLines) {
+        processAccountingLineOverrides(null,accountingLines);
+    }
     /**
      * @param accountingLines
      */
-    protected void processAccountingLineOverrides(List accountingLines) {
+    protected void processAccountingLineOverrides(AccountingDocument financialDocument ,List accountingLines) {
         if (!accountingLines.isEmpty()) {
-            SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(accountingLines, AccountingLineOverride.REFRESH_FIELDS);
+            
 
             for (Iterator i = accountingLines.iterator(); i.hasNext();) {
                 AccountingLine line = (AccountingLine) i.next();
-                AccountingLineOverride.processForOutput(line);
+               // line.refreshReferenceObject("account");
+                SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(line, AccountingLineOverride.REFRESH_FIELDS);
+                AccountingLineOverride.processForOutput(financialDocument,line);
             }
         }
     }
@@ -231,22 +234,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         }
     }
 
-    /**
-     * Automatically clears any overrides that have become unneeded. This is for accounting lines that were changed right before
-     * final actions like route. Normally the unneeded overrides are cleared in accountingLineOverrideField.tag instead, but that
-     * requires another form submit. This method shouldn't be called on lines that haven't changed, to avoid automatically changing
-     * read-only lines. This cannot be done in the Rule because Rules cannot change the AccountingLines; they only get a deepCopy.
-     * 
-     * @param formLine
-     */
-    protected void clearOverridesThatBecameUnneeded(AccountingLine formLine) {
-        AccountingLineOverride currentlyNeeded = AccountingLineOverride.determineNeededOverrides(formLine);
-        AccountingLineOverride currentOverride = AccountingLineOverride.valueOf(formLine.getOverrideCode());
-        if (!currentOverride.isValidMask(currentlyNeeded)) {
-            // todo: handle unsupported combinations of overrides (not a problem until we allow certain multiple overrides)
-        }
-        formLine.setOverrideCode(currentOverride.mask(currentlyNeeded).getCode());
-    }
+   
 
     /**
      * This method will remove a TargetAccountingLine from a FinancialDocument. This assumes that the user presses the delete button
@@ -663,7 +651,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 
         // build out the actual form key that will be used to retrieve the form on refresh
-        String callerDocFormKey = GlobalVariables.getUserSession().addObject(form);
+        String callerDocFormKey = GlobalVariables.getUserSession().addObjectWithGeneratedKey(form);
 
         // now add required parameters
         Properties parameters = new Properties();
@@ -720,7 +708,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + KFSConstants.BALANCE_INQUIRY_REPORT_MENU_ACTION, parameters);
 
         // register that we're going to come back w/ to this form w/ a refresh methodToCall
-        ((KualiAccountingDocumentFormBase) form).registerEditableProperty(KNSConstants.DISPATCH_REQUEST_PARAMETER);
+        ((KualiAccountingDocumentFormBase) form).registerEditableProperty(KRADConstants.DISPATCH_REQUEST_PARAMETER);
 
         return new ActionForward(lookupUrl, true);
     }
@@ -820,7 +808,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         // first we need to check just the doctype to see if it needs the sales tax check
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         // apply the rule, see if it fails
-        ParameterEvaluator docTypeSalesTaxCheckEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(KfsParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, APPLICATION_PARAMETER.DOCTYPE_SALES_TAX_CHECK, docType);
+        ParameterEvaluator docTypeSalesTaxCheckEvaluator = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(KfsParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, APPLICATION_PARAMETER.DOCTYPE_SALES_TAX_CHECK, docType);
         if (docTypeSalesTaxCheckEvaluator.evaluationSucceeds()) {
             required = true;
         }
@@ -832,7 +820,7 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
             String account = accountingLine.getAccountNumber();
             if (!StringUtils.isEmpty(objCd) && !StringUtils.isEmpty(account)) {
                 String compare = account + ":" + objCd;
-                ParameterEvaluator salesTaxApplicableAcctAndObjectEvaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(KfsParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, APPLICATION_PARAMETER.SALES_TAX_APPLICABLE_ACCOUNTS_AND_OBJECT_CODES, compare);
+                ParameterEvaluator salesTaxApplicableAcctAndObjectEvaluator = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(KfsParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, APPLICATION_PARAMETER.SALES_TAX_APPLICABLE_ACCOUNTS_AND_OBJECT_CODES, compare);
                 if (!salesTaxApplicableAcctAndObjectEvaluator.evaluationSucceeds()) {
                     required = false;
                 }

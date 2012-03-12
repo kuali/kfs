@@ -61,6 +61,6 @@
   <!-- workflow attributes -->
   <bean id="BudgetRecordingLevelMaintenanceDocument-workflowAttributes" parent="BudgetRecordingLevelMaintenanceDocument-workflowAttributes-parentBean"/>
   
-  <bean id="BudgetRecordingLevelMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.kns.datadictionary.WorkflowAttributes" abstract="true">
+  <bean id="BudgetRecordingLevelMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true">
   </bean>
 </beans>

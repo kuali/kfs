@@ -18,10 +18,8 @@ package org.kuali.kfs.module.ar.document.service.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
@@ -39,7 +37,6 @@ import org.kuali.kfs.module.ar.businessobject.lookup.CustomerInvoiceWriteoffLook
 import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
-import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
@@ -50,18 +47,17 @@ import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.exception.UnknownDocumentIdException;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
-import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocumentFactory;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -139,7 +135,7 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         
         //  set the final document total for the invoice
         writeoff.setInvoiceWriteoffAmount(totalApplied);
-        writeoff.getDocumentHeader().setFinancialDocumentTotalAmount(totalApplied);
+        writeoff.getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(totalApplied);
         documentService.updateDocument(writeoff);
     }
     
@@ -158,10 +154,10 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         customerInvoiceWriteoffDocument.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
 
         // if writeoffs are generated based on organization accounting default, populate those fields now
-        String writeoffGenerationOption = parameterService.getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_GENERATION_METHOD);
+        String writeoffGenerationOption = parameterService.getParameterValueAsString(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_GENERATION_METHOD);
         boolean isUsingOrgAcctDefaultWriteoffFAU = ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_ORG_ACCT_DEFAULT.equals(writeoffGenerationOption);
 
-        String writeoffTaxGenerationOption = SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.ALLOW_SALES_TAX_LIABILITY_ADJUSTMENT_IND);
+        String writeoffTaxGenerationOption = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceWriteoffDocument.class, ArConstants.ALLOW_SALES_TAX_LIABILITY_ADJUSTMENT_IND);
         boolean isUsingTaxGenerationMethodDisallow = ArConstants.ALLOW_SALES_TAX_LIABILITY_ADJUSTMENT_IND_NO.equals( writeoffTaxGenerationOption );
         if (isUsingOrgAcctDefaultWriteoffFAU || isUsingTaxGenerationMethodDisallow) {
 
@@ -284,7 +280,7 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         boolean hasNoDocumentsInRouteFlag;
         
         for (CustomerInvoiceDocument invoice : customerInvoiceDocuments) {
-            if (invoice.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+            if (invoice.getDocumentHeader().getWorkflowDocument().isFinal()) {
                 hasNoDocumentsInRouteFlag = checkIfThereIsNoAnotherCRMInRouteForTheInvoice(invoice.getDocumentNumber());
                 if (hasNoDocumentsInRouteFlag)
                     hasNoDocumentsInRouteFlag = checkIfThereIsNoAnotherWriteoffInRouteForTheInvoice(invoice.getDocumentNumber());
@@ -304,7 +300,7 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
      */
     public boolean checkIfThereIsNoAnotherCRMInRouteForTheInvoice(String invoiceDocumentNumber) {
 
-        KualiWorkflowDocument workflowDocument;
+        WorkflowDocument workflowDocument;
         boolean success = true;
 
         Map<String, String> fieldValues = new HashMap<String, String>();
@@ -317,17 +313,10 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         if (customerCreditMemoDocuments.isEmpty())
             return success;
 
-        Person user = GlobalVariables.getUserSession().getPerson();
-
-        for (CustomerCreditMemoDocument customerCreditMemoDocument : customerCreditMemoDocuments) {
-            try {
-                workflowDocument = SpringContext.getBean(WorkflowDocumentService.class).createWorkflowDocument(Long.valueOf(customerCreditMemoDocument.getDocumentNumber()), user);
-            }
-            catch (WorkflowException e) {
-                throw new UnknownDocumentIdException("no document found for documentHeaderId '" + customerCreditMemoDocument.getDocumentNumber() + "'", e);
-            }
-
-            if (!(workflowDocument.stateIsApproved() || workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved())) {
+        String userId = GlobalVariables.getUserSession().getPrincipalId();        
+        for(CustomerCreditMemoDocument customerCreditMemoDocument : customerCreditMemoDocuments) {
+            workflowDocument = WorkflowDocumentFactory.loadDocument(userId, customerCreditMemoDocument.getDocumentNumber());
+            if (!(workflowDocument.isApproved() || workflowDocument.isCanceled() || workflowDocument.isDisapproved())) {
                 success = false;
                 break;
             }
@@ -344,7 +333,7 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
      */
     public boolean checkIfThereIsNoAnotherWriteoffInRouteForTheInvoice(String invoiceDocumentNumber) {
 
-        KualiWorkflowDocument workflowDocument;
+        WorkflowDocument workflowDocument;
         boolean success = true;
 
         Map<String, String> fieldValues = new HashMap<String, String>();
@@ -353,22 +342,14 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         Collection<CustomerInvoiceWriteoffDocument> customerInvoiceWriteoffDocuments = businessObjectService.findMatching(CustomerInvoiceWriteoffDocument.class, fieldValues);
 
-
         // no writeoffs associated with the invoice are found
         if (customerInvoiceWriteoffDocuments.isEmpty())
             return success;
 
-        Person user = GlobalVariables.getUserSession().getPerson();
-
-        for (CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument : customerInvoiceWriteoffDocuments) {
-            try {
-                workflowDocument = SpringContext.getBean(WorkflowDocumentService.class).createWorkflowDocument(Long.valueOf(customerInvoiceWriteoffDocument.getDocumentNumber()), user);
-            }
-            catch (WorkflowException e) {
-                throw new UnknownDocumentIdException("no document found for documentHeaderId '" + customerInvoiceWriteoffDocument.getDocumentNumber() + "'", e);
-            }
-
-            if (!(workflowDocument.stateIsApproved() || workflowDocument.stateIsCanceled() || workflowDocument.stateIsDisapproved())) {
+        String userId = GlobalVariables.getUserSession().getPrincipalId();        
+        for(CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument : customerInvoiceWriteoffDocuments) {
+            workflowDocument = WorkflowDocumentFactory.loadDocument(userId, customerInvoiceWriteoffDocument.getDocumentNumber());
+            if (!(workflowDocument.isApproved() || workflowDocument.isCanceled() || workflowDocument.isDisapproved())) {
                 success = false;
                 break;
             }
@@ -379,7 +360,7 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
     
     /**
      * 
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService#sendCustomerInvoiceWriteoffDocumentsToBatch(org.kuali.rice.kim.bo.Person, java.util.Collection)
+     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService#sendCustomerInvoiceWriteoffDocumentsToBatch(org.kuali.rice.kim.api.identity.Person, java.util.Collection)
      */
     public String sendCustomerInvoiceWriteoffDocumentsToBatch(Person person, Collection<CustomerInvoiceWriteoffLookupResult> customerInvoiceWriteoffLookupResults) {
         
@@ -514,7 +495,7 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         if ( isUsingOrgAcctDefaultWriteoffFAU ){
             return poster.getFinancialObjectCode();
         } else if ( isUsingChartForWriteoff ) {
-            return SpringContext.getBean(ParameterService.class).getParameterValue(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_OBJECT_CODE_BY_CHART, chartOfAccountsCode);
+            return SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_OBJECT_CODE_BY_CHART, chartOfAccountsCode);
         } else {
             return postable.getAccountsReceivableObjectCode();
         }

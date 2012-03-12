@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,15 +29,15 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.service.PersistenceService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.Guid;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.PersistenceService;
 
 /**
  * Tests the SufficientFundsAccountUpdateService
  */
-@ConfigureContext
+@ConfigureContext(shouldCommitTransactions=true)
 public class SufficientFundsAccountUpdateServiceTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsAccountUpdateServiceTest.class);
 
@@ -66,13 +66,13 @@ public class SufficientFundsAccountUpdateServiceTest extends KualiTestBase {
     }
 
     private Integer getYear() {
-        String val = SpringContext.getBean(ParameterService.class).getParameterValue(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM);
+        String val = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM);
         return Integer.parseInt(val);
     }
 
     /**
      * Tests that added SF balance records exist after all SF balances are rebuilt
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testAddedSFBLRecords() throws Exception {
@@ -91,7 +91,7 @@ public class SufficientFundsAccountUpdateServiceTest extends KualiTestBase {
 
     /**
      * Tests SF fund rebuilding conversion
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testConversion() throws Exception {
@@ -110,7 +110,7 @@ public class SufficientFundsAccountUpdateServiceTest extends KualiTestBase {
 
     /**
      * This converts an array of String-transactions to SF balances in the database
-     * 
+     *
      * @param transactions an array of String-formatted sufficient fund rebuild record
      */
     protected void loadInputTransactions(String[] transactions) {
@@ -121,7 +121,7 @@ public class SufficientFundsAccountUpdateServiceTest extends KualiTestBase {
 
     /**
      * Inserts a String-formatted sufficient fund rebuild record into the database as a sufficient fund rebuild record
-     * 
+     *
      * @param line the String-formatted sufficient fund rebuild record to convert and save
      * @return the converted sufficient fund rebuild record
      */
@@ -162,7 +162,7 @@ public class SufficientFundsAccountUpdateServiceTest extends KualiTestBase {
 
     /**
      * Check all the entries in gl_sf_balances_t against the data passed in. If any of them are different, assert an error.
-     * 
+     *
      * @param requiredSFBLs an array of expected sufficient fund balance records, formatted as Strings
      */
     protected void assertSFBLEntries(String[] requiredSFBLs) {

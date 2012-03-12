@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,11 +38,12 @@ import org.kuali.kfs.fp.businessobject.SalesTax;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
+import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
-import org.kuali.rice.kew.service.impl.KEWModuleService;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.ObjectUtils;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This is the generic class which contains all the elements on a typical line of accounting elements. These are all the accounting
@@ -113,6 +114,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @return Returns the account.
      */
+    @Override
     public Account getAccount() {
         return account;
     }
@@ -121,6 +123,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      * @param account The account to set.
      * @deprecated
      */
+    @Override
     public void setAccount(Account account) {
         this.account = account;
     }
@@ -128,6 +131,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @return Returns the chartOfAccountsCode.
      */
+    @Override
     public Chart getChart() {
         return chart;
     }
@@ -136,6 +140,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      * @param chart The chartOfAccountsCode to set.
      * @deprecated
      */
+    @Override
     public void setChart(Chart chart) {
         this.chart = chart;
     }
@@ -143,6 +148,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @return Returns the documentNumber.
      */
+    @Override
     public String getDocumentNumber() {
         return documentNumber;
     }
@@ -150,6 +156,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @return Returns the amount.
      */
+    @Override
     public KualiDecimal getAmount() {
         return amount;
     }
@@ -157,6 +164,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @param amount The amount to set.
      */
+    @Override
     public void setAmount(KualiDecimal amount) {
         this.amount = amount;
     }
@@ -164,6 +172,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @return Returns the balanceTyp.
      */
+    @Override
     public BalanceType getBalanceTyp() {
         return balanceTyp;
     }
@@ -172,6 +181,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      * @param balanceTyp The balanceTyp to set.
      * @deprecated
      */
+    @Override
     public void setBalanceTyp(BalanceType balanceTyp) {
         this.balanceTyp = balanceTyp;
     }
@@ -179,6 +189,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @return Returns the objectCode.
      */
+    @Override
     public ObjectCode getObjectCode() {
         return objectCode;
     }
@@ -187,6 +198,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      * @param objectCode The objectCode to set.
      * @deprecated
      */
+    @Override
     public void setObjectCode(ObjectCode objectCode) {
         this.objectCode = objectCode;
     }
@@ -194,6 +206,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @return Returns the referenceOriginCode.
      */
+    @Override
     public String getReferenceOriginCode() {
         return referenceOriginCode;
     }
@@ -201,40 +214,57 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @param originCode The referenceOriginCode to set.
      */
+    @Override
     public void setReferenceOriginCode(String originCode) {
         this.referenceOriginCode = originCode;
     }
 
     /**
      * This method returns the object related to referenceOriginCode
-     * 
+     *
      * @return referenceOrigin
      */
+    @Override
     public OriginationCode getReferenceOrigin() {
         return referenceOrigin;
     }
 
     /**
      * This method sets the referenceOrigin object, this is only to be used by OJB
-     * 
+     *
      * @param referenceOrigin
      * @deprecated
      */
+    @Override
     public void setReferenceOrigin(OriginationCode referenceOrigin) {
         this.referenceOrigin = referenceOrigin;
     }
 
     /**
-     * Gets the referenceFinancialSystemDocumentTypeCode attribute. 
+     * Gets the referenceFinancialSystemDocumentTypeCode attribute.
      * @return Returns the referenceFinancialSystemDocumentTypeCode.
      */
+    @Override
     public DocumentTypeEBO getReferenceFinancialSystemDocumentTypeCode() {
-        return referenceFinancialSystemDocumentTypeCode = SpringContext.getBean(KEWModuleService.class).retrieveExternalizableBusinessObjectIfNecessary(this, referenceFinancialSystemDocumentTypeCode, "referenceFinancialSystemDocumentTypeCode");
+        if ( StringUtils.isBlank( referenceTypeCode ) ) {
+            referenceFinancialSystemDocumentTypeCode = null;
+        } else {
+            if ( referenceFinancialSystemDocumentTypeCode == null || !StringUtils.equals(referenceTypeCode, referenceFinancialSystemDocumentTypeCode.getName() ) ) {
+                org.kuali.rice.kew.api.doctype.DocumentType temp = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(referenceTypeCode);
+                if ( temp != null ) {
+                    referenceFinancialSystemDocumentTypeCode = DocumentType.from( temp );
+                } else {
+                    referenceFinancialSystemDocumentTypeCode = null;
+                }
+            }
+        }
+        return referenceFinancialSystemDocumentTypeCode;
     }
 
     /**
      * @return Returns the organizationReferenceId.
      */
+    @Override
     public String getOrganizationReferenceId() {
         return organizationReferenceId;
     }
@@ -242,6 +272,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @param organizationReferenceId The organizationReferenceId to set.
      */
+    @Override
     public void setOrganizationReferenceId(String organizationReferenceId) {
         this.organizationReferenceId = organizationReferenceId;
     }
@@ -249,6 +280,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @return Returns the overrideCode.
      */
+    @Override
     public String getOverrideCode() {
         return overrideCode;
     }
@@ -256,6 +288,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @param overrideCode The overrideCode to set.
      */
+    @Override
     public void setOverrideCode(String overrideCode) {
         this.overrideCode = overrideCode;
     }
@@ -263,6 +296,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @return Returns the postingYear.
      */
+    @Override
     public Integer getPostingYear() {
         if (postingYear == null) {
             postingYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
@@ -273,6 +307,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @param postingYear The postingYear to set.
      */
+    @Override
     public void setPostingYear(Integer postingYear) {
         this.postingYear = postingYear;
     }
@@ -280,6 +315,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @return Returns the projectCode.
      */
+    @Override
     public String getProjectCode() {
         return projectCode;
     }
@@ -287,6 +323,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @param projectCode The projectCode to set.
      */
+    @Override
     public void setProjectCode(String projectCode) {
         this.projectCode = projectCode;
     }
@@ -294,6 +331,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @return Returns the referenceNumber.
      */
+    @Override
     public String getReferenceNumber() {
         return referenceNumber;
     }
@@ -301,6 +339,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @param referenceNumber The referenceNumber to set.
      */
+    @Override
     public void setReferenceNumber(String referenceNumber) {
         this.referenceNumber = referenceNumber;
     }
@@ -308,6 +347,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @return Returns the referenceTypeCode.
      */
+    @Override
     public String getReferenceTypeCode() {
         return referenceTypeCode;
     }
@@ -315,6 +355,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @param referenceTypeCode The referenceTypeCode to set.
      */
+    @Override
     public void setReferenceTypeCode(String referenceTypeCode) {
         this.referenceTypeCode = referenceTypeCode;
     }
@@ -322,6 +363,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @return Returns the sequenceNumber.
      */
+    @Override
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }
@@ -329,6 +371,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @param sequenceNumber The sequenceNumber to set.
      */
+    @Override
     public void setSequenceNumber(Integer sequenceNumber) {
         this.sequenceNumber = sequenceNumber;
     }
@@ -336,6 +379,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @return Returns the subAccount.
      */
+    @Override
     public SubAccount getSubAccount() {
         return subAccount;
     }
@@ -344,6 +388,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      * @param subAccount The subAccount to set.
      * @deprecated
      */
+    @Override
     public void setSubAccount(SubAccount subAccount) {
         this.subAccount = subAccount;
     }
@@ -351,6 +396,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @return Returns the subObjectCode.
      */
+    @Override
     public SubObjectCode getSubObjectCode() {
         return subObjectCode;
     }
@@ -359,6 +405,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      * @param subObjectCode The subObjectCode to set.
      * @deprecated
      */
+    @Override
     public void setSubObjectCode(SubObjectCode subObjectCode) {
         this.subObjectCode = subObjectCode;
     }
@@ -367,6 +414,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @see org.kuali.kfs.sys.businessobject.AccountingLine#getSalesTax()
      */
+    @Override
     public SalesTax getSalesTax() {
         return salesTax;
     }
@@ -375,6 +423,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      * @see org.kuali.kfs.sys.businessobject.AccountingLine#setSalesTax(org.kuali.kfs.fp.businessobject.SalesTax)
      * @deprecated
      */
+    @Override
     public void setSalesTax(SalesTax salesTax) {
         this.salesTax = salesTax;
     }
@@ -382,6 +431,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @see org.kuali.kfs.sys.businessobject.AccountingLine#isSalesTaxRequired()
      */
+    @Override
     public boolean isSalesTaxRequired() {
         return salesTaxRequired;
     }
@@ -389,6 +439,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @see org.kuali.kfs.sys.businessobject.AccountingLine#setSalesTaxRequired(boolean)
      */
+    @Override
     public void setSalesTaxRequired(boolean salesTaxRequired) {
         this.salesTaxRequired = salesTaxRequired;
     }
@@ -397,6 +448,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @param documentNumber The documentNumber to set.
      */
+    @Override
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
     }
@@ -404,9 +456,10 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * This method retrieves the debit/credit code for the accounting line. This method will only return a not null value for a
      * Journal Voucher document.
-     * 
+     *
      * @return A String code.
      */
+    @Override
     public String getDebitCreditCode() {
         return debitCreditCode;
     }
@@ -414,9 +467,10 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * This method sets the debit/credit code for the accounting line. This method should only be used for a Journal Voucher
      * document.
-     * 
+     *
      * @param debitCreditCode
      */
+    @Override
     public void setDebitCreditCode(String debitCreditCode) {
         this.debitCreditCode = debitCreditCode;
     }
@@ -424,9 +478,10 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * This method retrieves the encumbrance update code for the accounting line. This method will only return a not null value for
      * a Journal Voucher document.
-     * 
+     *
      * @return A String code.
      */
+    @Override
     public String getEncumbranceUpdateCode() {
         return encumbranceUpdateCode;
     }
@@ -434,9 +489,10 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * This method sets the debit/credit code for the accounting line. This method should only be used for a Journal Voucher
      * document.
-     * 
+     *
      * @param encumbranceUpdateCode
      */
+    @Override
     public void setEncumbranceUpdateCode(String encumbranceUpdateCode) {
         this.encumbranceUpdateCode = encumbranceUpdateCode;
     }
@@ -444,9 +500,10 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * This method retrieves the ObjectType for the accounting line. This method will only return a not null value for a Journal
      * Voucher document.
-     * 
+     *
      * @return An ObjectType instance.
      */
+    @Override
     public ObjectType getObjectType() {
         if ( getObjectTypeCode() != null ) {
             return objectCode.getFinancialObjectType();
@@ -457,6 +514,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @return Returns the accountNumber.
      */
+    @Override
     public String getAccountNumber() {
         return accountNumber;
     }
@@ -464,6 +522,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @param accountNumber The accountNumber to set.
      */
+    @Override
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
         // if accounts can't cross charts, set chart code whenever account number is set
@@ -473,6 +532,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @return Returns the balanceTypeCode.
      */
+    @Override
     public String getBalanceTypeCode() {
         return balanceTypeCode;
     }
@@ -480,6 +540,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @param balanceTypeCode The balanceTypeCode to set.
      */
+    @Override
     public void setBalanceTypeCode(String balanceTypeCode) {
         this.balanceTypeCode = balanceTypeCode;
     }
@@ -487,6 +548,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @return Returns the chartOfAccountsCode.
      */
+    @Override
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
     }
@@ -494,6 +556,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
+    @Override
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
     }
@@ -501,6 +564,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @return Returns the financialObjectCode.
      */
+    @Override
     public String getFinancialObjectCode() {
         return financialObjectCode;
     }
@@ -508,6 +572,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @param financialObjectCode The financialObjectCode to set.
      */
+    @Override
     public void setFinancialObjectCode(String financialObjectCode) {
         this.financialObjectCode = financialObjectCode;
     }
@@ -515,6 +580,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @return Returns the financialSubObjectCode.
      */
+    @Override
     public String getFinancialSubObjectCode() {
         return financialSubObjectCode;
     }
@@ -522,6 +588,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @param financialSubObjectCode The financialSubObjectCode to set.
      */
+    @Override
     public void setFinancialSubObjectCode(String financialSubObjectCode) {
         this.financialSubObjectCode = financialSubObjectCode;
     }
@@ -529,6 +596,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @return Returns the objectTypeCode.
      */
+    @Override
     public String getObjectTypeCode() {
         if ( ObjectUtils.isNull(objectCode)
                 || !StringUtils.equals(getFinancialObjectCode(), objectCode.getFinancialObjectCode())
@@ -537,7 +605,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
                         ) {
             refreshReferenceObject("objectCode");
         }
-       
+
         if (!ObjectUtils.isNull(objectCode)) {
             return objectCode.getFinancialObjectTypeCode();
         }
@@ -547,6 +615,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @return Returns the financialDocumentLineTypeCode.
      */
+    @Override
     public String getFinancialDocumentLineTypeCode() {
         return financialDocumentLineTypeCode;
     }
@@ -554,6 +623,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @param financialDocumentLineTypeCode The financialDocumentLineTypeCode to set.
      */
+    @Override
     public void setFinancialDocumentLineTypeCode(String financialDocumentLineTypeCode) {
         this.financialDocumentLineTypeCode = financialDocumentLineTypeCode;
     }
@@ -561,6 +631,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @return Returns the project.
      */
+    @Override
     public ProjectCode getProject() {
         return project;
     }
@@ -569,6 +640,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      * @param project The project to set.
      * @deprecated
      */
+    @Override
     public void setProject(ProjectCode project) {
         this.project = project;
     }
@@ -576,6 +648,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @return Returns the subAccountNumber.
      */
+    @Override
     public String getSubAccountNumber() {
         return subAccountNumber;
     }
@@ -583,6 +656,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @param subAccountNumber The subAccountNumber to set.
      */
+    @Override
     public void setSubAccountNumber(String subAccountNumber) {
         this.subAccountNumber = subAccountNumber;
     }
@@ -590,6 +664,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @return Returns the financialDocumentLineDescription.
      */
+    @Override
     public String getFinancialDocumentLineDescription() {
         return financialDocumentLineDescription;
     }
@@ -597,14 +672,15 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @param financialDocumentLineDescription The financialDocumentLineDescription to set.
      */
+    @Override
     public void setFinancialDocumentLineDescription(String financialDocumentLineDescription) {
         this.financialDocumentLineDescription = financialDocumentLineDescription;
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
+     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
+    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap m = new LinkedHashMap();
 
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
@@ -630,23 +706,26 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.AccountingLine#isSourceAccountingLine()
+     * @see org.kuali.rice.krad.bo.AccountingLine#isSourceAccountingLine()
      */
+    @Override
     public boolean isSourceAccountingLine() {
         return (this instanceof SourceAccountingLine);
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.AccountingLine#isTargetAccountingLine()
+     * @see org.kuali.rice.krad.bo.AccountingLine#isTargetAccountingLine()
      */
+    @Override
     public boolean isTargetAccountingLine() {
         return (this instanceof TargetAccountingLine);
     }
 
 
     /**
-     * @see org.kuali.rice.kns.bo.AccountingLine#getAccountKey()
+     * @see org.kuali.rice.krad.bo.AccountingLine#getAccountKey()
      */
+    @Override
     public String getAccountKey() {
         String key = getChartOfAccountsCode() + ":" + getAccountNumber();
         return key;
@@ -654,8 +733,9 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
 
 
     /**
-     * @see org.kuali.rice.kns.bo.AccountingLine#copyFrom(org.kuali.rice.kns.bo.AccountingLine)
+     * @see org.kuali.rice.krad.bo.AccountingLine#copyFrom(org.kuali.rice.krad.bo.AccountingLine)
      */
+    @Override
     public void copyFrom(AccountingLine other) {
         if (other == null) {
             throw new IllegalArgumentException("invalid (null) other");
@@ -724,8 +804,9 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
 
 
     /**
-     * @see org.kuali.rice.kns.bo.AccountingLine#isLike(org.kuali.rice.kns.bo.AccountingLine)
+     * @see org.kuali.rice.krad.bo.AccountingLine#isLike(org.kuali.rice.krad.bo.AccountingLine)
      */
+    @Override
     public boolean isLike(AccountingLine other) {
         boolean isLike = false;
 
@@ -773,6 +854,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @see AccountingLine#getAccountExpiredOverride()
      */
+    @Override
     public boolean getAccountExpiredOverride() {
         return accountExpiredOverride;
     }
@@ -780,6 +862,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @see AccountingLine#setAccountExpiredOverride(boolean)
      */
+    @Override
     public void setAccountExpiredOverride(boolean b) {
         accountExpiredOverride = b;
     }
@@ -787,6 +870,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @see AccountingLine#getAccountExpiredOverrideNeeded()
      */
+    @Override
     public boolean getAccountExpiredOverrideNeeded() {
         return accountExpiredOverrideNeeded;
     }
@@ -794,6 +878,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @see AccountingLine#setAccountExpiredOverrideNeeded(boolean)
      */
+    @Override
     public void setAccountExpiredOverrideNeeded(boolean b) {
         accountExpiredOverrideNeeded = b;
     }
@@ -801,6 +886,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @return Returns the objectBudgetOverride.
      */
+    @Override
     public boolean isObjectBudgetOverride() {
         return objectBudgetOverride;
     }
@@ -808,6 +894,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @param objectBudgetOverride The objectBudgetOverride to set.
      */
+    @Override
     public void setObjectBudgetOverride(boolean objectBudgetOverride) {
         this.objectBudgetOverride = objectBudgetOverride;
     }
@@ -815,6 +902,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @return Returns the objectBudgetOverrideNeeded.
      */
+    @Override
     public boolean isObjectBudgetOverrideNeeded() {
         return objectBudgetOverrideNeeded;
     }
@@ -822,6 +910,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @param objectBudgetOverrideNeeded The objectBudgetOverrideNeeded to set.
      */
+    @Override
     public void setObjectBudgetOverrideNeeded(boolean objectBudgetOverrideNeeded) {
         this.objectBudgetOverrideNeeded = objectBudgetOverrideNeeded;
     }
@@ -829,6 +918,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @see org.kuali.kfs.sys.businessobject.AccountingLine#isNonFringeAccountOverride()
      */
+    @Override
     public boolean getNonFringeAccountOverride() {
         return nonFringeAccountOverride;
     }
@@ -836,6 +926,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @see org.kuali.kfs.sys.businessobject.AccountingLine#setNonFringeAccountOverride(boolean)
      */
+    @Override
     public void setNonFringeAccountOverride(boolean nonFringeAccountOverride) {
         this.nonFringeAccountOverride = nonFringeAccountOverride;
     }
@@ -843,6 +934,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @see org.kuali.kfs.sys.businessobject.AccountingLine#isNonFringeAccountOverrideNeeded()
      */
+    @Override
     public boolean getNonFringeAccountOverrideNeeded() {
         return nonFringeAccountOverrideNeeded;
     }
@@ -850,15 +942,17 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
     /**
      * @see org.kuali.kfs.sys.businessobject.AccountingLine#setNonFringeAccountOverrideNeeded(boolean)
      */
+    @Override
     public void setNonFringeAccountOverrideNeeded(boolean nonFringeAccountOverrideNeeded) {
         this.nonFringeAccountOverrideNeeded = nonFringeAccountOverrideNeeded;
     }
 
     /**
      * Returns a map with the primitive field names as the key and the primitive values as the map value.
-     * 
+     *
      * @return Map
      */
+    @Override
     public Map getValuesMap() {
         Map simpleValues = new HashMap();
 
@@ -891,9 +985,10 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
 
     /**
      * Override needed for PURAP GL entry creation (hjs) - please do not add "amount" to this method
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
+    @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof AccountingLine)) {
             return false;
@@ -904,11 +999,47 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
 
     /**
      * Override needed for PURAP GL entry creation (hjs) - please do not add "amount" to this method
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
+    @Override
     public int hashCode() {
         return new HashCodeBuilder(37, 41).append(this.chartOfAccountsCode).append(this.accountNumber).append(this.subAccountNumber).append(this.financialObjectCode).append(this.financialSubObjectCode).append(this.projectCode).append(this.organizationReferenceId).toHashCode();
     }
+
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("AccountingLineBase [");
+        if (documentNumber != null)
+            builder.append("documentNumber=").append(documentNumber).append(", ");
+        if (sequenceNumber != null)
+            builder.append("sequenceNumber=").append(sequenceNumber).append(", ");
+        if (postingYear != null)
+            builder.append("postingYear=").append(postingYear).append(", ");
+        if (amount != null)
+            builder.append("amount=").append(amount).append(", ");
+        if (debitCreditCode != null)
+            builder.append("debitCreditCode=").append(debitCreditCode).append(", ");
+        if (chartOfAccountsCode != null)
+            builder.append("chartOfAccountsCode=").append(chartOfAccountsCode).append(", ");
+        if (accountNumber != null)
+            builder.append("accountNumber=").append(accountNumber).append(", ");
+        if (subAccountNumber != null)
+            builder.append("subAccountNumber=").append(subAccountNumber).append(", ");
+        if (financialObjectCode != null)
+            builder.append("financialObjectCode=").append(financialObjectCode).append(", ");
+        if (financialSubObjectCode != null)
+            builder.append("financialSubObjectCode=").append(financialSubObjectCode).append(", ");
+        if (projectCode != null)
+            builder.append("projectCode=").append(projectCode).append(", ");
+        if (balanceTypeCode != null)
+            builder.append("balanceTypeCode=").append(balanceTypeCode);
+        builder.append("]");
+        return builder.toString();
+    }
+
+
 
 }

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.bc.document.web.struts;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
@@ -26,9 +27,8 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionOrganizationReports;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPullup;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.service.PersistenceService;
-import org.kuali.rice.kns.util.TypedArrayList;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.service.PersistenceService;
 
 /**
  * ActionForm that supports the Organization Selection Tree page
@@ -45,7 +45,7 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
 
     private String currentPointOfViewKeyCode;
     private String previousPointOfViewKeyCode;
-    private List<KeyLabelPair> pullFlagKeyLabels;
+    private List<KeyValue> pullFlagKeyLabels;
 
     // passed parms
     private String operatingMode;
@@ -65,9 +65,9 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
     public OrganizationSelectionTreeForm() {
         super();
         this.setPointOfViewOrg(new BudgetConstructionOrganizationReports());
-        this.setSelectionSubTreeOrgs(new TypedArrayList(BudgetConstructionPullup.class));
-        this.setPreviousBranchOrgs(new TypedArrayList(BudgetConstructionPullup.class));
-        this.setPullFlagKeyLabels(new TypedArrayList(KeyLabelPair.class));
+        this.setSelectionSubTreeOrgs(new ArrayList<BudgetConstructionPullup>());
+        this.setPreviousBranchOrgs(new ArrayList<BudgetConstructionPullup>());
+        this.setPullFlagKeyLabels(new ArrayList<KeyValue>());
 
     }
 
@@ -255,7 +255,7 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
      * 
      * @return Returns the pullFlagKeyLabels.
      */
-    public List<KeyLabelPair> getPullFlagKeyLabels() {
+    public List<KeyValue> getPullFlagKeyLabels() {
         return pullFlagKeyLabels;
     }
 
@@ -264,7 +264,7 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
      * 
      * @param pullFlagKeyLabels The pullFlagKeyLabels to set.
      */
-    public void setPullFlagKeyLabels(List<KeyLabelPair> pullFlagKeyLabels) {
+    public void setPullFlagKeyLabels(List<KeyValue> pullFlagKeyLabels) {
         this.pullFlagKeyLabels = pullFlagKeyLabels;
     }
 

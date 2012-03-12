@@ -18,7 +18,7 @@ package org.kuali.kfs.fp.document.service;
 import java.util.List;
 
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
  * 

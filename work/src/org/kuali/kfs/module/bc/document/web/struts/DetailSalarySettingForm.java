@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,9 +27,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.module.bc.BCConstants;
+import org.kuali.kfs.module.bc.BCConstants.LockStatus;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
-import org.kuali.kfs.module.bc.BCConstants.LockStatus;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockStatus;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
@@ -42,11 +43,11 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.PermissionService;
-import org.kuali.rice.kim.service.RoleManagementService;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.util.MessageMap;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * the base struts form for the detail salary setting: by position or by incumbent
@@ -457,14 +458,14 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             account.setChartOfAccountsCode(this.getChartOfAccountsCode());
             account = (Account) businessObjectService.retrieve(account);
 
-            RoleManagementService roleService = SpringContext.getBean(RoleManagementService.class);
-            AttributeSet qualification = new AttributeSet();
+            RoleService roleService = SpringContext.getBean(RoleService.class);
+            Map<String,String> qualification = new HashMap<String,String>();
             qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, getChartOfAccountsCode());
             qualification.put(KfsKimAttributes.ACCOUNT_NUMBER, getAccountNumber());
-            qualification.put(KfsKimAttributes.DOCUMENT_TYPE_NAME, BCConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
+            qualification.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, BCConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
 
             List<String> roleId = new ArrayList<String>();
-            roleId.add(roleService.getRoleIdByName(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimConstants.FISCAL_OFFICER_KIM_ROLE_NAME));
+            roleId.add(roleService.getRoleIdByNamespaceCodeAndName(KFSConstants.ParameterNamespaces.KFS, KFSConstants.SysKimApiConstants.FISCAL_OFFICER_KIM_ROLE_NAME));
 
             Boolean isFiscalOfficerOrDelegate = roleService.principalHasRole(getPerson().getPrincipalId(), roleId, qualification);
 
@@ -582,7 +583,8 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
         }
         else {
             // make sure special disabled fields are allowed to be populated
-            if (requestParameterName.endsWith(BCPropertyConstants.APPOINTMENT_REQUESTED_CSF_AMOUNT) || requestParameterName.endsWith(BCPropertyConstants.APPOINTMENT_REQUESTED_CSF_TIME_PERCENT) || requestParameterName.endsWith(BCPropertyConstants.APPOINTMENT_FUNDING_REASON_AMOUNT)) {
+            if (requestParameterName.endsWith(BCPropertyConstants.APPOINTMENT_REQUESTED_CSF_AMOUNT) || requestParameterName.endsWith(BCPropertyConstants.APPOINTMENT_REQUESTED_CSF_TIME_PERCENT) || requestParameterName.endsWith(BCPropertyConstants.APPOINTMENT_FUNDING_REASON_AMOUNT) 
+                    || requestParameterName.endsWith(BCPropertyConstants.APPOINTMENT_CHART_OF_ACCOUNT)) {
                 return true;
             }
             else {

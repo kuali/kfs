@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.coa.document.validation.impl;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.kuali.kfs.coa.businessobject.ObjectCodeGlobal;
 import org.kuali.kfs.coa.businessobject.ObjectCodeGlobalDetail;
@@ -37,14 +37,14 @@ public class ObjectCodeGlobalPreRules extends MaintenancePreRulesBase {
     protected boolean doCustomPreRules(MaintenanceDocument maintenanceDocument) {
         ObjectCodeGlobal bo = (ObjectCodeGlobal) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
 
-        List<ObjectCodeGlobalDetail> details = bo.getObjectCodeGlobalDetails();
+        Collection<ObjectCodeGlobalDetail> details = bo.getObjectCodeGlobalDetails();
 
         for (ObjectCodeGlobalDetail detail : details) {
             if (detail.getUniversityFiscalYear() == null) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("setting fiscal year on ObjectCodeGlobalDetail: " + detail);
                 }
-                detail.setUniversityFiscalYear(new Integer(SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getCollectionFieldDefaultValue(maintenanceDocument.getDocumentHeader().getWorkflowDocument().getDocumentType(), "objectCodeGlobalDetails", "universityFiscalYear")));
+                detail.setUniversityFiscalYear(new Integer(SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getCollectionFieldDefaultValue(maintenanceDocument.getDocumentHeader().getWorkflowDocument().getDocumentTypeName(), "objectCodeGlobalDetails", "universityFiscalYear")));
             }
         }
 

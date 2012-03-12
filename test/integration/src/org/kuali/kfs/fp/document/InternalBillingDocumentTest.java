@@ -21,7 +21,6 @@ import static org.kuali.kfs.sys.document.AccountingDocumentTestUtils.testGetNewD
 import static org.kuali.kfs.sys.fixture.AccountingLineFixture.LINE2;
 import static org.kuali.kfs.sys.fixture.AccountingLineFixture.LINE3;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
-import static org.kuali.kfs.sys.fixture.UserNameFixture.rjweiss;
 import static org.kuali.kfs.sys.fixture.UserNameFixture.rorenfro;
 
 import java.util.ArrayList;
@@ -40,14 +39,14 @@ import org.kuali.kfs.sys.fixture.AccountingLineFixture;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.CrossSectionSuite;
-import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.exception.DocumentAuthorizationException;
-import org.kuali.rice.kns.exception.ValidationException;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.exception.DocumentAuthorizationException;
+import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class is used to test InternalBillingDocument.

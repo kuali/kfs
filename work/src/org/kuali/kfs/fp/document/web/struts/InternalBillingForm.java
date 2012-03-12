@@ -15,13 +15,13 @@
  */
 package org.kuali.kfs.fp.document.web.struts;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.InternalBillingItem;
 import org.kuali.kfs.fp.document.CapitalAssetEditable;
 import org.kuali.kfs.fp.document.InternalBillingDocument;
-import org.kuali.rice.kns.util.TypedArrayList;
 
 /**
  * This class is the action form for Internal Billing.
@@ -36,7 +36,7 @@ public class InternalBillingForm extends CapitalAccountingLinesFormBase implemen
         super();
         
         this.newItem = new InternalBillingItem();
-        capitalAssetInformation = new TypedArrayList(CapitalAssetInformation.class);
+        capitalAssetInformation = new ArrayList<CapitalAssetInformation>();
     }
 
     @Override

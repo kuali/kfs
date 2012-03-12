@@ -19,9 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.kfs.sys.FileUtil;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.ParameterService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.InitializingBean;
 
@@ -29,12 +28,12 @@ public abstract class AbstractStep extends InitiateDirectoryBase implements Step
   
     private static final Logger LOG = Logger.getLogger(AbstractStep.class);
     
-    private String name;
-    private ParameterService parameterService;
-    private DateTimeService dateTimeService;
-    private BatchInputFileType batchInputFileType = null;
+    protected String name;
+    protected ParameterService parameterService;
+    protected DateTimeService dateTimeService;
+    protected BatchInputFileType batchInputFileType = null;
     
-    private boolean interrupted = false;
+    protected boolean interrupted = false;
 
     /**
      * Initialization  after bean properties are instantiate, 

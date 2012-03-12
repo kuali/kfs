@@ -16,14 +16,10 @@
 package org.kuali.kfs.module.cam.document.dataaccess;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
-import org.apache.ojb.broker.query.QueryByCriteria;
-import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetPayment;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
 public interface AssetDepreciationUtilDao {
     public String getMaxDocumentNumber();

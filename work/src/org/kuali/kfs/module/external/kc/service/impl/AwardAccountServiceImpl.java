@@ -33,7 +33,7 @@ import org.kuali.kfs.module.external.kc.businessobject.AwardAccountDTO;
 import org.kuali.kfs.module.external.kc.service.ExternalizableBusinessObjectService;
 import org.kuali.kfs.module.external.kc.webService.AwardAccountService;
 import org.kuali.kfs.module.external.kc.webService.AwardAccountSoapService;
-import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
+import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 public class AwardAccountServiceImpl implements ExternalizableBusinessObjectService {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AwardAccountServiceImpl.class);

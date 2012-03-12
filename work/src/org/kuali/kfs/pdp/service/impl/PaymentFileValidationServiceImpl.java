@@ -55,15 +55,14 @@ import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.OriginationCodeService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kns.bo.KualiCodeBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DateTimeService;
-import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.ParameterService;
-import org.kuali.rice.kns.util.KualiDecimal;
-import org.kuali.rice.kns.util.MessageMap;
-import org.kuali.rice.kns.workflow.service.KualiWorkflowInfo;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
+import org.kuali.rice.krad.bo.KualiCodeBase;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.MessageMap;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -71,24 +70,24 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class PaymentFileValidationServiceImpl implements PaymentFileValidationService {
-    private CustomerProfileService customerProfileService;
-    private PaymentFileLoadDao paymentFileLoadDao;
-    private ParameterService parameterService;
-    private KualiConfigurationService kualiConfigurationService;
-    private DateTimeService dateTimeService;
-    private AccountService accountService;
-    private SubAccountService subAccountService;
-    private ObjectCodeService objectCodeService;
-    private SubObjectCodeService subObjectCodeService;
-    private ProjectCodeService projectCodeService;
-    private BankService bankService;
-    private OriginationCodeService originationCodeService;
-    private KualiWorkflowInfo workflowInfoService;
-    private BusinessObjectService businessObjectService;
+    protected CustomerProfileService customerProfileService;
+    protected PaymentFileLoadDao paymentFileLoadDao;
+    protected ParameterService parameterService;
+    protected ConfigurationService kualiConfigurationService;
+    protected DateTimeService dateTimeService;
+    protected AccountService accountService;
+    protected SubAccountService subAccountService;
+    protected ObjectCodeService objectCodeService;
+    protected SubObjectCodeService subObjectCodeService;
+    protected ProjectCodeService projectCodeService;
+    protected BankService bankService;
+    protected OriginationCodeService originationCodeService;
+    protected DocumentTypeService documentTypeService;
+    protected BusinessObjectService businessObjectService;
 
     /**
      * @see org.kuali.kfs.pdp.batch.service.PaymentFileValidationService#doHardEdits(org.kuali.kfs.pdp.businessobject.PaymentFile,
-     *      org.kuali.rice.kns.util.MessageMap)
+     *      org.kuali.rice.krad.util.MessageMap)
      */
     public void doHardEdits(PaymentFileLoad paymentFile, MessageMap errorMap) {
         processHeaderValidation(paymentFile, errorMap);
@@ -222,13 +221,8 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
                 // validate doc type if given
                 if (StringUtils.isNotBlank(paymentDetail.getFinancialDocumentTypeCode())) {
-                    try {
-                        if (!workflowInfoService.isCurrentActiveDocumentType(paymentDetail.getFinancialDocumentTypeCode())) {
-                            errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_INVALID_DOC_TYPE, Integer.toString(groupCount), Integer.toString(detailCount), paymentDetail.getFinancialDocumentTypeCode());
-                        }
-                    }
-                    catch (WorkflowException e) {
-                        throw new RuntimeException("error trying to validate document type: " + e.getMessage(), e);
+                    if ( !documentTypeService.isActiveByName(paymentDetail.getFinancialDocumentTypeCode()) ) {
+                        errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_INVALID_DOC_TYPE, Integer.toString(groupCount), Integer.toString(detailCount), paymentDetail.getFinancialDocumentTypeCode());
                     }
                 }
 
@@ -626,7 +620,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
      * @return system parameter value giving the maximum number of notes allowed.
      */
     protected int getMaxNoteLines() {
-        String maxLines = parameterService.getParameterValue(KfsParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.MAX_NOTE_LINES);
+        String maxLines = parameterService.getParameterValueAsString(KfsParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.MAX_NOTE_LINES);
         if (StringUtils.isBlank(maxLines)) {
             throw new RuntimeException("System parameter for max note lines is blank");
         }
@@ -642,7 +636,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
      * @param arguments message substitute parameters
      */
     protected void addWarningMessage(List<String> warnings, String messageKey, String... arguments) {
-        String message = kualiConfigurationService.getPropertyString(messageKey);
+        String message = kualiConfigurationService.getPropertyValueAsString(messageKey);
         warnings.add(MessageFormat.format(message, (Object[]) arguments));
     }
 
@@ -732,7 +726,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
      * 
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 
@@ -755,24 +749,6 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
     }
 
     /**
-     * Gets the workflowInfoService attribute.
-     * 
-     * @return Returns the workflowInfoService.
-     */
-    protected KualiWorkflowInfo getWorkflowInfoService() {
-        return workflowInfoService;
-    }
-
-    /**
-     * Sets the workflowInfoService attribute value.
-     * 
-     * @param workflowInfoService The workflowInfoService to set.
-     */
-    public void setWorkflowInfoService(KualiWorkflowInfo workflowInfoService) {
-        this.workflowInfoService = workflowInfoService;
-    }
-
-    /**
      * Gets the businessObjectService attribute.
      * 
      * @return Returns the businessObjectService.
@@ -788,6 +764,10 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
+        this.documentTypeService = documentTypeService;
     }
 
 }

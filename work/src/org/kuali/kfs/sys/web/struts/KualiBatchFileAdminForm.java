@@ -18,8 +18,8 @@ package org.kuali.kfs.sys.web.struts;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class KualiBatchFileAdminForm extends KualiForm {
     private String filePath;
@@ -32,9 +32,9 @@ public class KualiBatchFileAdminForm extends KualiForm {
         super.populate(request);
         
         if (StringUtils.isBlank(getFilePath())&& 
-                StringUtils.isNotBlank(request.getParameter(KNSConstants.QUESTION_INST_ATTRIBUTE_NAME)) &&
-                StringUtils.isNotBlank(request.getParameter(KNSConstants.QUESTION_CONTEXT))) {
-            setFilePath(request.getParameter(KNSConstants.QUESTION_CONTEXT));
+                StringUtils.isNotBlank(request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME)) &&
+                StringUtils.isNotBlank(request.getParameter(KRADConstants.QUESTION_CONTEXT))) {
+            setFilePath(request.getParameter(KRADConstants.QUESTION_CONTEXT));
         }
         
         if (filePath != null && filePath.matches(".*\\.\\.[/\\\\].*")) {

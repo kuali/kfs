@@ -13,27 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.rice.kns.service.impl;
+package org.kuali.kfs.sys.service;
 
 import java.util.Date;
 
-import org.kuali.rice.core.impl.datetime.DateTimeServiceImpl;
-import org.kuali.rice.kns.service.ConfigurableDateService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 
-public class ConfigurableDateTimeServiceImpl extends DateTimeServiceImpl implements ConfigurableDateService {
-    protected Date currentDate;
-
-    /**
-     * Sets the currentDate attribute value.
-     * 
-     * @param currentDate The currentDate to set.
-     */
-    public void setCurrentDate(Date currentDate) {
-        this.currentDate = currentDate;
-    }
-
-    @Override
-    public Date getCurrentDate() {
-        return currentDate;
-    }
+/**
+ * This is a timeDateService that allows tests to specify the date/time they need to run. Set the currentDate property in this class
+ * before running your code under test and dateTimeService.getCurrentDate() will return the one you specify instead of the current
+ * date.
+ */
+public interface ConfigurableDateService extends DateTimeService {
+    public void setCurrentDate(Date currentDate);
 }

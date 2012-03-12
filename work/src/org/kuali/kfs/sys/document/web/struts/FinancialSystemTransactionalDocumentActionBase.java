@@ -75,7 +75,9 @@ public class FinancialSystemTransactionalDocumentActionBase extends KualiTransac
 
         ActionForward returnForward =  super.execute(mapping, form, request, response);
         if( isDocumentLocked(mapping, form, request)) {
-            return new ActionForward(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(Config.KR_URL)+MODULE_LOCKED_URL_SUFFIX, true);
+            String message  = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KFSConstants.CoreModuleNamespaces.KFS, KfsParameterConstants.PARAMETER_ALL_DETAIL_TYPE, KFSConstants.DOCUMENT_LOCKOUT_DEFAULT_MESSAGE);
+            request.setAttribute(MODULE_LOCKED_MESSAGE, message);
+            returnForward = mapping.findForward(RiceConstants.MODULE_LOCKED_MAPPING);
         }
 
         return returnForward;
@@ -86,7 +88,6 @@ public class FinancialSystemTransactionalDocumentActionBase extends KualiTransac
      * KFSMI-4452
      */
     protected boolean isDocumentLocked(ActionMapping mapping , ActionForm form, HttpServletRequest request) {
-
         KualiTransactionalDocumentFormBase tmpForm = (KualiTransactionalDocumentFormBase) form;
         Document document = tmpForm.getDocument();
 
@@ -94,14 +95,9 @@ public class FinancialSystemTransactionalDocumentActionBase extends KualiTransac
         if(exists) {
             boolean documentLockedOut = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(document.getClass(),KFSConstants.DOCUMENT_LOCKOUT_PARM_NM );
             if(documentLockedOut) {
-                if (tmpForm.getDocumentActions().containsKey(KRADConstants.KUALI_ACTION_CAN_EDIT)) {
-                  String message  = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KFSConstants.CoreModuleNamespaces.KFS, KfsParameterConstants.PARAMETER_ALL_DETAIL_TYPE, KFSConstants.DOCUMENT_LOCKOUT_DEFAULT_MESSAGE);
-                    request.setAttribute(MODULE_LOCKED_MESSAGE, message);
-                    return true;
-                }
+                return tmpForm.getDocumentActions().containsKey(KRADConstants.KUALI_ACTION_CAN_EDIT);
             }
         }
-
 
         return false;
     }

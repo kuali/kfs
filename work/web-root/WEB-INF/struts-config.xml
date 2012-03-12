@@ -316,6 +316,7 @@
 		<forward name="updateTextArea" path="/kr/WEB-INF/jsp/TextArea.jsp" />
 		<forward name="authorizationExceptionHandler" path="/kr/authorizationExceptionReport.do"
 			contextRelative="true" />
+		<forward name="moduleLocked" path="/WEB-INF/jsp/moduleLocked.jsp"/>
 	</global-forwards>
 
 	<action-mappings>

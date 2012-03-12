@@ -111,8 +111,11 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         LOG.debug("extractImmediatePaymentsOnly() started");
         Date processRunDate = dateTimeService.getCurrentDate();
         lockUnlockDocuments(true);
-        extractPayments(true, processRunDate);
-        lockUnlockDocuments(false);
+        try {
+            extractPayments(true, processRunDate);
+        } finally {
+            lockUnlockDocuments(false);
+        }
     }
 
     /**

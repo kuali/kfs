@@ -1244,7 +1244,6 @@ public class KFSConstants {
     public static final String DOCUMENT_LOCKOUT_PARM_NM = "LOCKOUT_IND";
     public static final String DOCUMENT_LOCKOUT_PARM_DESC = "This parameter is to lock document during the lockout time.";
     public static final String DOCUMENT_LOCKOUT_DEFAULT_MESSAGE = "DOCUMENT_LOCKOUT_DEFAULT_MESSAGE";
-    public static final String DOCUMENT_LOCKED_MAPPING = "moduleLocked";
     public static final String FROM_EMAIL_ADDRESS_PARM_NM = "FROM_EMAIL_ADDRESS";
 
 

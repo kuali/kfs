@@ -27,6 +27,8 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.rice.core.api.config.property.Config;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
@@ -40,6 +42,7 @@ import org.kuali.rice.krad.util.KRADConstants;
  */
 public class FinancialSystemTransactionalDocumentActionBase extends KualiTransactionalDocumentActionBase {
     public static final String MODULE_LOCKED_MESSAGE = "moduleLockedMessage";
+    public static final String MODULE_LOCKED_URL_SUFFIX = "/moduleLocked.do";
 
     /**
      * This action method triggers a correct of the transactional document.
@@ -72,7 +75,7 @@ public class FinancialSystemTransactionalDocumentActionBase extends KualiTransac
 
         ActionForward returnForward =  super.execute(mapping, form, request, response);
         if( isDocumentLocked(mapping, form, request)) {
-            return mapping.findForward(KFSConstants.DOCUMENT_LOCKED_MAPPING);
+            return new ActionForward(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(Config.KR_URL)+MODULE_LOCKED_URL_SUFFIX);
         }
 
         return returnForward;

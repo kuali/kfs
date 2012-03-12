@@ -23,7 +23,7 @@
  
  function setAgreementTypeDesc( agreementTypeCodeFieldName, agreementTypeCodeDescFieldName ){
 	 
-	var agreementTypeCode = DWRUtil.getValue( agreementTypeCodeFieldName );
+	var agreementTypeCode = dwr.util.getValue( agreementTypeCodeFieldName );
 
 	if (agreementTypeCode =='') {
 		clearRecipients(agreementTypeCodeDescFieldName, "");

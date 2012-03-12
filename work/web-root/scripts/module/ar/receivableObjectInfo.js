@@ -33,7 +33,7 @@ function loadReceivableChartAccountInfo( accountCodeFieldName, accountNameFieldN
     var elPrefix = findElPrefix( accountCodeFieldName );
 	var coaCodeFieldName = elPrefix + receivableChartCodeSuffix;
 	var coaNameFieldName = elPrefix + receivableChartNameSuffix;
-	var accountCode = DWRUtil.getValue( accountCodeFieldName );
+	var accountCode = dwr.util.getValue( accountCodeFieldName );
     
     if (valueChanged( accountCodeFieldName )) {
         setRecipientValue( elPrefix + receivableSubAccountNumberSuffix, "" );
@@ -76,8 +76,8 @@ function loadReceivableChartAccountInfo( accountCodeFieldName, accountNameFieldN
  */
 function loadReceivableAccountInfo( accountCodeFieldName, accountNameFieldName ) {
     var elPrefix = findElPrefix( accountCodeFieldName );
-    var accountCode = DWRUtil.getValue( accountCodeFieldName );
-    var coaCode = DWRUtil.getValue( elPrefix + receivableChartCodeSuffix );
+    var accountCode = dwr.util.getValue( accountCodeFieldName );
+    var coaCode = dwr.util.getValue( elPrefix + receivableChartCodeSuffix );
 
     if (valueChanged( accountCodeFieldName )) {
         setRecipientValue( elPrefix + receivableSubAccountNumberSuffix, "" );

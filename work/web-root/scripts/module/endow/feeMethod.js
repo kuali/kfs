@@ -22,7 +22,7 @@
   
  function setFeeMethodCodeDescription( feeMethodCodeFieldName, feeMethodCodeDescriptionFieldName ){
  
-	var feeMethodCode = DWRUtil.getValue( feeMethodCodeFieldName );
+	var feeMethodCode = dwr.util.getValue( feeMethodCodeFieldName );
     
 	if (feeMethodCode =='') {
 		clearRecipients(feeMethodCodeDescriptionFieldName);

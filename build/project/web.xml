@@ -196,10 +196,12 @@
     </init-param>
     <load-on-startup>2</load-on-startup>
   </servlet>
+  
+  
 	 -->
   <servlet>
     <servlet-name>dwr-invoker</servlet-name>
-    <servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
+    <servlet-class>org.kuali.kfs.sys.web.servlet.KfsDWRServlet</servlet-class>
     <init-param>
       <param-name>debug</param-name>
       <param-value>true</param-value>

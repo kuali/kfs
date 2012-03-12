@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 function loadCustomerAddressInfo( customerNumberFieldName ) {
-	var customerNumber = DWRUtil.getValue( customerNumberFieldName );
+	var customerNumber = dwr.util.getValue( customerNumberFieldName );
 	
 	if (customerNumber == '') {
 		clearAddressFields();
@@ -101,15 +101,15 @@ function setRecipientValueIgnoreNull(recipientBase, value, isError ) {
     var containerDiv = document.getElementById(recipientBase + divSuffix);
     if (containerDiv) {
 		if (value == '') {
-			DWRUtil.setValue( containerDiv.id, "&nbsp;" );
+			dwr.util.setValue( containerDiv.id, "&nbsp;" );
 		} else {
-			DWRUtil.setValue( containerDiv.id, value, isError?null:{escapeHtml:true} );
+			dwr.util.setValue( containerDiv.id, value, isError?null:{escapeHtml:true} );
 		}
 	}
     if (containerHidden) {
     	// get rid of HTML in the value
     	value = value.replace(/(<([^>]+)>)/ig,"");
-		DWRUtil.setValue( recipientBase, value );
+		dwr.util.setValue( recipientBase, value );
 	}
 }
 

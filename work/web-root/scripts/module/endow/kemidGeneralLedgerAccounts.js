@@ -16,7 +16,7 @@
 function loadChartInfo(codeFieldName ) {
 	var elPrefix = findElPrefix(codeFieldName.name);
 	var codeDescriptionFieldName = elPrefix + ".chart.finChartOfAccountDescription";
-	var code = DWRUtil.getValue(codeFieldName);
+	var code = dwr.util.getValue(codeFieldName);
 	
 	setChartDescription(code, codeDescriptionFieldName);
 }
@@ -45,8 +45,8 @@ function loadAccountName(accountFieldName ) {
 	var elPrefix = findElPrefix(accountFieldName.name);
 	var accountDescriptionFieldName = elPrefix + ".account.accountName";
 	var chartCodeFieldName = elPrefix + ".chartCode";
-	var accountNumber = DWRUtil.getValue(accountFieldName);
-	var code = DWRUtil.getValue(chartCodeFieldName);
+	var accountNumber = dwr.util.getValue(accountFieldName);
+	var code = dwr.util.getValue(chartCodeFieldName);
 	
 	setAccountDescription(accountNumber, code, accountDescriptionFieldName);
 }

@@ -17,8 +17,8 @@
 /*
 function accountNameLookup( anyFieldOnAwardAccount ) {
     var elPrefix = findElPrefix( anyFieldOnAwardAccount.name );
-    var chartOfAccountsCode = DWRUtil.getValue( elPrefix + ".organizationOwnerChartOfAccountsCode" ).toUpperCase().trim();
-    var accountNumber = DWRUtil.getValue( elPrefix + ".organizationOwnerAccountNumber" ).toUpperCase().trim();
+    var chartOfAccountsCode = dwr.util.getValue( elPrefix + ".organizationOwnerChartOfAccountsCode" ).toUpperCase().trim();
+    var accountNumber = dwr.util.getValue( elPrefix + ".organizationOwnerAccountNumber" ).toUpperCase().trim();
     var targetFieldName = elPrefix + ".organizationOwnerAccount.accountName";
     if (chartOfAccountsCode == "" || accountNumber == "") {
         clearRecipients( targetFieldName );

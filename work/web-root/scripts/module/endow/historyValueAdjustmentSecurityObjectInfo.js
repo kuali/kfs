@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 function loadHistoryValueAdjustmentSecurityInfo(securityIdFieldName) {
-	var securityId = DWRUtil.getValue(securityIdFieldName ).toUpperCase();
+	var securityId = dwr.util.getValue(securityIdFieldName ).toUpperCase();
     var securityCodeFieldDescription = "security.description";
     var classCodeField = "document.security.securityClassCode";
     var valuationMethodField = "document.security.classCode.valuationMethod"

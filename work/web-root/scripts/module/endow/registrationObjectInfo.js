@@ -15,7 +15,7 @@
  */
 function loadRegistrationInfoFromTo( registrationCodeFieldName ) 
 {
-    var registrationCode = DWRUtil.getValue( registrationCodeFieldName ).toUpperCase();
+    var registrationCode = dwr.util.getValue( registrationCodeFieldName ).toUpperCase();
     var splitWords = registrationCodeFieldName.split(".");
     var registrationCodeField = "registration.description";
     
@@ -49,7 +49,7 @@ function loadRegistrationInfoFromTo( registrationCodeFieldName )
 
 function loadRegistrationInfo( registrationCodeFieldName ) 
 {
-    var registrationCode = DWRUtil.getValue( registrationCodeFieldName ).toUpperCase();
+    var registrationCode = dwr.util.getValue( registrationCodeFieldName ).toUpperCase();
 
     var registrationCodeField = "registration.description";
 

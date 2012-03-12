@@ -34,7 +34,7 @@
  
  function setFrequencyCodeDescription( frequencyCodeFieldName, frequencyCodeDescriptionFieldName ){
  
-	var frequencyCode = DWRUtil.getValue( frequencyCodeFieldName );
+	var frequencyCode = dwr.util.getValue( frequencyCodeFieldName );
     
 	if (frequencyCode =='') {
 		clearRecipients(frequencyCodeDescriptionFieldName, "");

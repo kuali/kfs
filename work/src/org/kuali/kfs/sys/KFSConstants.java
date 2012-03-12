@@ -242,6 +242,7 @@ public class KFSConstants {
     public static final String TARGET_ACCOUNTING_LINES_GROUP_NAME = "target";
     public static final String SUB_ACCOUNT_EDIT_CG_ICR_SECTION_ID = "Edit CG ICR";
 
+    public static final String SCRIPT_CONFIGURATION_FILES_LIST_NAME = "scriptConfigurationFilePaths";
     /**
      * This value denotes that a max length has not been defined for a given lookup results field
      */

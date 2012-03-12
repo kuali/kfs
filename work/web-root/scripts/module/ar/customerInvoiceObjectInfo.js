@@ -19,7 +19,7 @@ function loadCustomerNumberAndName( invoiceNumberFieldName ){
     var elPrefix = findElPrefix( invoiceNumberFieldName.name );
     var customerNumberFieldName = elPrefix + ".customerNumber";
     var customerNameFieldName = elPrefix + ".customer.customerName";
-	var invoiceNumber = DWRUtil.getValue( invoiceNumberFieldName );
+	var invoiceNumber = dwr.util.getValue( invoiceNumberFieldName );
 
 	if (invoiceNumber=='') {
 		clearRecipients(customerNumberFieldName);

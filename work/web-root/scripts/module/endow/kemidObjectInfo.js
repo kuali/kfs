@@ -18,7 +18,7 @@ function setTypeCodeRelatedInfo(typeCodeFieldName) {
 	var cashSweepModelIdFieldName = elPrefix + ".cashSweepModelId";
 	var incomeACIModelIdFieldName = elPrefix + ".incomeACIModelId";
 	var principalACIModelIdFieldName = elPrefix + ".principalACIModelId";
-	var typeCode = DWRUtil.getValue(typeCodeFieldName);
+	var typeCode = dwr.util.getValue(typeCodeFieldName);
 	
 	if (typeCode == "") {
 		clearRecipients(cashSweepModelIdFieldName);

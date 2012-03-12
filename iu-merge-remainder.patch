@@ -23125,7 +23125,7 @@ Index: work/web-root/scripts/pdp/objectInfo.js
  
 +
  function loadAchBankInfo(bankRoutingField) {
-     var bankRoutingNumber = DWRUtil.getValue( bankRoutingField.name ).trim();
+     var bankRoutingNumber = dwr.util.getValue( bankRoutingField.name ).trim();
 -    var targetFieldName = findElPrefix( primaryKeyField.name ) + ".bankRouting.bankName";
 +    var targetFieldName = findElPrefix( bankRoutingField.name ) + ".bankRouting.bankName";
  
@@ -23150,7 +23150,7 @@ Index: work/web-root/scripts/pdp/objectInfo.js
 +	document.forms[0].submit();
 +	/*
 +	alert("payeeIdTypeCodeFieldName = " + payeeIdTypeCodeField.name);
-+	var payeeIdTypeCode = DWRUtil.getValue(payeeIdTypeCodeField.name).trim();
++	var payeeIdTypeCode = dwr.util.getValue(payeeIdTypeCodeField.name).trim();
 +	alert("payeeIdTypeCode = " + payeeIdTypeCode);
 +	if (payeeIdTypeCode == "E" || payeeIdTypeCode == "T") {
 +		var form = document.forms[0];
@@ -23187,7 +23187,7 @@ Index: work/web-root/scripts/module/ar/receivableObjectInfo.js
 +    var elPrefix = findElPrefix( accountCodeFieldName );
 +	var coaCodeFieldName = elPrefix + receivableChartCodeSuffix;
 +	var coaNameFieldName = elPrefix + receivableChartNameSuffix;
-+	var accountCode = DWRUtil.getValue( accountCodeFieldName );
++	var accountCode = dwr.util.getValue( accountCodeFieldName );
 +    
 +    if (valueChanged( accountCodeFieldName )) {
 +        setRecipientValue( elPrefix + receivableSubAccountNumberSuffix, "" );
@@ -23230,7 +23230,7 @@ Index: work/web-root/scripts/module/ar/receivableObjectInfo.js
 + */
  function loadReceivableAccountInfo( accountCodeFieldName, accountNameFieldName ) {
      var elPrefix = findElPrefix( accountCodeFieldName );
-     var accountCode = DWRUtil.getValue( accountCodeFieldName );
+     var accountCode = dwr.util.getValue( accountCodeFieldName );
 Index: work/web-root/scripts/module/cams/assetTransfer.js
 ===================================================================
 --- work/web-root/scripts/module/cams/assetTransfer.js	(revision 0)
@@ -23255,7 +23255,7 @@ Index: work/web-root/scripts/module/cams/assetTransfer.js
 +function onblur_accountNumber( accountNumberField, coaCodePropertyName ) {
 +	var accountNumberFieldName = accountNumberField.name;
 +	var coaCodeFieldName = findElPrefix(accountNumberFieldName) + "." + coaCodePropertyName;
-+    var accountNumber = DWRUtil.getValue( accountNumberFieldName );	    
++    var accountNumber = dwr.util.getValue( accountNumberFieldName );	    
 +	//alert("coaCodeFieldName = " + coaCodeFieldName + ", accountNumberFieldName = " + accountNumberFieldName);
 +
 +	var dwrReply = {
@@ -23423,7 +23423,7 @@ Index: work/web-root/scripts/module/bc/objectInfo.js
 +*/
 +BudgetObjectInfoUpdator.prototype.loadChartAccountInfo = function( accountCodeFieldName, accountNameFieldName ) {
 +    var elPrefix = findElPrefix( accountCodeFieldName );
-+    var accountCode = DWRUtil.getValue( accountCodeFieldName );
++    var accountCode = dwr.util.getValue( accountCodeFieldName );
 +    var coaCodeFieldName =  elPrefix + chartCodeSuffix ;
 +    var coaNameFieldName =  elPrefix + chartNameSuffix ;
 +
@@ -23488,7 +23488,7 @@ Index: work/web-root/scripts/module/ec/objectInfo.js
 +	*/
  EffortAmountUpdator.prototype.loadAccountInfo = function( accountCodeFieldName, accountNameFieldName ) {
      var elPrefix = findElPrefix( accountCodeFieldName );
-     var accountCode = DWRUtil.getValue( accountCodeFieldName );
+     var accountCode = dwr.util.getValue( accountCodeFieldName );
 @@ -185,6 +191,53 @@
  	}	
  }
@@ -23501,7 +23501,7 @@ Index: work/web-root/scripts/module/ec/objectInfo.js
 +*/
 +EffortAmountUpdator.prototype.loadChartAccountInfo = function( accountCodeFieldName, accountNameFieldName ) {
 +    var elPrefix = findElPrefix( accountCodeFieldName );
-+    var accountCode = DWRUtil.getValue( accountCodeFieldName );
++    var accountCode = dwr.util.getValue( accountCodeFieldName );
 +    var coaCodeFieldName =  elPrefix + chartCodeSuffix ;
 +    var coaNameFieldName =  elPrefix + chartOfAccountDescSuffix ;
 +
@@ -23542,7 +23542,7 @@ Index: work/web-root/scripts/module/ec/objectInfo.js
 +
  EffortAmountUpdator.prototype.setValueByElementId = function(elementId, value){
  	if(document.getElementById(elementId) != null || document.getElementsByName(elementId).length > 0){
- 		DWRUtil.setValue( elementId, value);
+ 		dwr.util.setValue( elementId, value);
 Index: work/web-root/static/images/tinybutton-addunorditem.gif
 ===================================================================
 Cannot display: file marked as a binary type.

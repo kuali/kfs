@@ -24,8 +24,8 @@
  
  function setValueEffectiveDate( valuationDateFieldName, pooledSecurityIDFieldName, valueEffectiveDateFieldName ){
  
-	var valuationDate = DWRUtil.getValue( valuationDateFieldName );
-    var pooledSecurityID = DWRUtil.getValue(pooledSecurityIDFieldName );
+	var valuationDate = dwr.util.getValue( valuationDateFieldName );
+    var pooledSecurityID = dwr.util.getValue(pooledSecurityIDFieldName );
     
 	if (valuationDate =='') {
 		clearRecipients(valuationDateFieldName, "");

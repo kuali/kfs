@@ -22,7 +22,7 @@
   
  function setClassCodeDescription(classCodeFieldName, classCodeDescriptionFieldName){
  
-	var classCode = DWRUtil.getValue(classCodeFieldName);
+	var classCode = dwr.util.getValue(classCodeFieldName);
     
 	if (classCode =='') {
 		clearRecipients(classCodeDescriptionFieldName);

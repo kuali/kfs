@@ -22,7 +22,7 @@
  
  function setSubclassCodeDesc( subclassCodeFieldName, subclassCodeDescFieldName ){
  
-	var subclassCode = DWRUtil.getValue( subclassCodeFieldName );
+	var subclassCode = dwr.util.getValue( subclassCodeFieldName );
 
 	if (subclassCode =='') {
 		clearRecipients(subclassCodeDescFieldName, "");

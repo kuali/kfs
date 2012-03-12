@@ -22,7 +22,7 @@
  
  function setFreqDesc( freqCodeFieldName, freqCodeDescFieldName ){
  
-	var freqCode = DWRUtil.getValue( freqCodeFieldName );
+	var freqCode = dwr.util.getValue( freqCodeFieldName );
 
 	if (freqCode =='') {
 		clearRecipients(freqCodeDescFieldName, "");

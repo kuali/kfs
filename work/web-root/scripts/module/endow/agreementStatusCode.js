@@ -29,7 +29,7 @@ function loadKemidAgreementStatusDateAndCodeDescription(field)
  
  function setAgreementStatusDesc( agreementStatusCodeFieldName, agreementStatusCodeDescFieldName ){
 	
-	var agreementStatusCode = DWRUtil.getValue( agreementStatusCodeFieldName );
+	var agreementStatusCode = dwr.util.getValue( agreementStatusCodeFieldName );
 
 	if (agreementStatusCode =='') {
 		clearRecipients(agreementStatusCodeDescFieldName, "");

@@ -22,7 +22,7 @@
   
  function setFeeRateDefinitionCodeDescription(feeFeeRateDefinitionCodeFieldName, feeFeeRateDefinitionCodeDescriptionFieldName){
  
-	var feeFeeRateDefinitionCode = DWRUtil.getValue(feeFeeRateDefinitionCodeFieldName);
+	var feeFeeRateDefinitionCode = dwr.util.getValue(feeFeeRateDefinitionCodeFieldName);
     
 	if (feeFeeRateDefinitionCode =='') {
 		clearRecipients(feeFeeRateDefinitionCodeFieldName);

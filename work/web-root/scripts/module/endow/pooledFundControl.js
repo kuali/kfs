@@ -58,7 +58,7 @@
  
  function setPooledFundDescription( pooledSecurityIDFieldName, pooledFundDescriptionFieldName ){
  
-	var pooledSecurityID = DWRUtil.getValue( pooledSecurityIDFieldName );
+	var pooledSecurityID = dwr.util.getValue( pooledSecurityIDFieldName );
     
 	if (pooledSecurityID =='') {
 		clearRecipients(pooledFundDescriptionFieldName, "");

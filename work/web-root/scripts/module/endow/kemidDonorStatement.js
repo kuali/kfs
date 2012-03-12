@@ -23,7 +23,7 @@ function loadDonorName(donorIDFieldName) {
 
 function setDonorName(donorIDFieldName, donorNameFieldName) {
 
-	var donorId = DWRUtil.getValue(donorIDFieldName);
+	var donorId = dwr.util.getValue(donorIDFieldName);
 
 	if (donorId == '') {
 		clearRecipients(donorNameFieldName);
@@ -58,7 +58,7 @@ function loadDonorStatementCodeDesc(donorStatementCodeFieldName) {
 function setDonorStatementDescription(donorStatementCodeFieldName,
 		donorStatementDescriptionFieldName) {
 
-	var donorStatementCode = DWRUtil.getValue(donorStatementCodeFieldName);
+	var donorStatementCode = dwr.util.getValue(donorStatementCodeFieldName);
 
 	if (donorStatementCode == '') {
 		clearRecipients(donorStatementDescriptionFieldName);
@@ -94,7 +94,7 @@ function loadCombineWithDonorName(combineWithDonorIDFieldName) {
 function setCombineWithDonorName(combineWithDonorIDFieldName,
 		combineWithDonorNameFieldName) {
 
-	var combineWithDonorId = DWRUtil.getValue(combineWithDonorIDFieldName);
+	var combineWithDonorId = dwr.util.getValue(combineWithDonorIDFieldName);
 
 	if (combineWithDonorId == '') {
 		clearRecipients(combineWithDonorNameFieldName);
@@ -130,7 +130,7 @@ function loadDonorLabelDesc(donorLabelFieldName) {
 function setDonorLabelDescription(donorLabelFieldName,
 		donorLabelDescriptionFieldName) {
 
-	var donorLabel = DWRUtil.getValue(donorLabelFieldName);
+	var donorLabel = dwr.util.getValue(donorLabelFieldName);
 
 	if (donorLabel == '') {
 		clearRecipients(donorLabelDescriptionFieldName);

@@ -24,7 +24,7 @@ function principalNameLookup( userIdField ) {
 }
 
 function loadPrincipalInfo( userIdFieldName, universalIdFieldName, userNameFieldName ) {
-    var userId = DWRUtil.getValue( userIdFieldName ).trim();
+    var userId = dwr.util.getValue( userIdFieldName ).trim();
 
     if (userId == "") {
         clearRecipients( universalIdFieldName );

@@ -49,7 +49,7 @@ function onblur_federalPassThroughAgencyNumber( federalPassThroughAgencyNumberFi
 }
 
 function singleKeyLookup( dwrFunction, primaryKeyField, boName, propertyName ) {
-    var primaryKeyValue = DWRUtil.getValue( primaryKeyField.name ).trim();
+    var primaryKeyValue = dwr.util.getValue( primaryKeyField.name ).trim();
     var targetFieldName = findElPrefix( primaryKeyField.name ) + "." + boName + "." + propertyName;
     if (primaryKeyValue == "") {
         clearRecipients( targetFieldName );
@@ -76,8 +76,8 @@ function makeDwrSingleReply( boName, propertyName, targetFieldName ) {
 
 function organizationNameLookup( anyFieldOnProposalOrganization ) {
     var elPrefix = findElPrefix( anyFieldOnProposalOrganization.name );
-    var chartOfAccountsCode = DWRUtil.getValue( elPrefix + ".chartOfAccountsCode" ).toUpperCase().trim();
-    var organizationCode = DWRUtil.getValue( elPrefix + ".organizationCode" ).toUpperCase().trim();
+    var chartOfAccountsCode = dwr.util.getValue( elPrefix + ".chartOfAccountsCode" ).toUpperCase().trim();
+    var organizationCode = dwr.util.getValue( elPrefix + ".organizationCode" ).toUpperCase().trim();
     var targetFieldName = elPrefix + ".organization.organizationName";
     if (chartOfAccountsCode == "" || organizationCode == "") {
         clearRecipients( targetFieldName );
@@ -97,7 +97,7 @@ function proposalDirectorIDLookup( userIdField ) {
 }
 
 function loadDirectorInfo( userIdFieldName, universalIdFieldName, userNameFieldName ) {
-    var userId = DWRUtil.getValue( userIdFieldName ).trim();
+    var userId = dwr.util.getValue( userIdFieldName ).trim();
 
     if (userId == "") {
         clearRecipients( universalIdFieldName );
@@ -268,8 +268,8 @@ function findAccountNameFieldName( accountFieldName ) {
 /*
 function accountNameLookup( anyFieldOnAwardAccount ) {
     var elPrefix = findElPrefix( anyFieldOnAwardAccount.name );
-    var chartOfAccountsCode = DWRUtil.getValue( elPrefix + ".chartOfAccountsCode" ).toUpperCase().trim();
-    var accountNumber = DWRUtil.getValue( elPrefix + ".accountNumber" ).toUpperCase().trim();
+    var chartOfAccountsCode = dwr.util.getValue( elPrefix + ".chartOfAccountsCode" ).toUpperCase().trim();
+    var accountNumber = dwr.util.getValue( elPrefix + ".accountNumber" ).toUpperCase().trim();
     var targetFieldName = elPrefix + ".account.accountName";
     if (chartOfAccountsCode == "" || accountNumber == "") {
         clearRecipients( targetFieldName );

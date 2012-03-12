@@ -15,7 +15,7 @@
  */
 
  function loadEndowmentTransactionName(endowmentCodeFieldName, endowmentCodeDescriptionFieldName){
-	 var endowmentCode = DWRUtil.getValue(endowmentCodeFieldName);
+	 var endowmentCode = dwr.util.getValue(endowmentCodeFieldName);
 
 		if (endowmentCode =='') {
 			setRecipientValue(endowmentCodeDescriptionFieldName, "");

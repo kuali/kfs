@@ -391,7 +391,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
 
         // calculation just for the tax area, only at tax review stage
         // by now, the general calculation shall have been done.
-        if (preqDoc.getAppDocStatus().equals(PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW)) {
+        if (StringUtils.equals(preqDoc.getAppDocStatus(), PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW)) {
             SpringContext.getBean(PaymentRequestService.class).calculateTaxArea(preqDoc);
             return;
         }

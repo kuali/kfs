@@ -22,7 +22,7 @@
   
  function setFeeSecurityCodeDescription(feeSecurityCodeFieldName, feeSecurityCodeDescriptionFieldName){
  
-	var feeSecurityCode = DWRUtil.getValue(feeSecurityCodeFieldName);
+	var feeSecurityCode = dwr.util.getValue(feeSecurityCodeFieldName);
     
 	if (feeSecurityCode =='') {
 		clearRecipients(feeSecurityCodeDescriptionFieldName);

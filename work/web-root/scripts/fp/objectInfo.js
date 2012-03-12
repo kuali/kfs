@@ -48,9 +48,9 @@ function setTargetValue(kualiForm, targetBase, value, isError) {
 
     if (containerDiv) {
         if (value == '') {
-			DWRUtil.setValue( containerDiv.id, "&nbsp;" );
+			dwr.util.setValue( containerDiv.id, "&nbsp;" );
         } else {
-			DWRUtil.setValue( containerDiv.id, value, isError?null:{escapeHtml:true} );
+			dwr.util.setValue( containerDiv.id, value, isError?null:{escapeHtml:true} );
         }
     }
     if (containerHidden) {

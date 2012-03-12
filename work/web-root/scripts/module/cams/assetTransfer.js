@@ -17,7 +17,7 @@
 function onblur_accountNumber( accountNumberField, coaCodePropertyName ) {
 	var accountNumberFieldName = accountNumberField.name;
 	var coaCodeFieldName = findElPrefix(accountNumberFieldName) + "." + coaCodePropertyName;
-    var accountNumber = DWRUtil.getValue( accountNumberFieldName );	    
+    var accountNumber = dwr.util.getValue( accountNumberFieldName );	    
 	//alert("coaCodeFieldName = " + coaCodeFieldName + ", accountNumberFieldName = " + accountNumberFieldName);
 
 	var dwrReply = {

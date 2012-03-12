@@ -22,7 +22,7 @@
   
  function setCombineGroupCodeDescription(combineGroupCodeFieldName, combineGroupCodeDescriptionFieldName){
  
-	var combineGroupCode = DWRUtil.getValue(combineGroupCodeFieldName);
+	var combineGroupCode = dwr.util.getValue(combineGroupCodeFieldName);
     
 	if (combineGroupCode =='') {
 		clearRecipients(combineGroupCodeDescriptionFieldName);

@@ -75,7 +75,7 @@ public class FinancialSystemTransactionalDocumentActionBase extends KualiTransac
 
         ActionForward returnForward =  super.execute(mapping, form, request, response);
         if( isDocumentLocked(mapping, form, request)) {
-            return new ActionForward(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(Config.KR_URL)+MODULE_LOCKED_URL_SUFFIX);
+            return new ActionForward(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(Config.KR_URL)+MODULE_LOCKED_URL_SUFFIX, true);
         }
 
         return returnForward;

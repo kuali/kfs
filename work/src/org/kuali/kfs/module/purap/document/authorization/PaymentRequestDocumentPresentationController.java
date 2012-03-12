@@ -154,6 +154,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
         if (canRemoveRequestCancel(paymentRequestDocument)) {
             editModes.add(PaymentRequestEditMode.REMOVE_REQUEST_CANCEL);
         }
+        
         if (canProcessorInit(paymentRequestDocument)) {
             editModes.add(PaymentRequestEditMode.DISPLAY_INIT_TAB);
         }

@@ -439,10 +439,10 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     /**
      * Perform logic needed to initiate PREQ Document
      */
-    public void initiateDocument() {
+    public void initiateDocument() throws WorkflowException {
         LOG.debug("initiateDocument() started");
         Person currentUser = (Person) GlobalVariables.getUserSession().getPerson();
-        setAppDocStatus(PurapConstants.PaymentRequestStatuses.APPDOC_INITIATE);
+        updateAndSaveAppDocStatus(PurapConstants.PaymentRequestStatuses.APPDOC_INITIATE);        
         this.setAccountsPayableProcessorIdentifier(currentUser.getPrincipalId());
         this.setProcessingCampusCode(currentUser.getCampusCode());
         this.refreshNonUpdateableReferences();

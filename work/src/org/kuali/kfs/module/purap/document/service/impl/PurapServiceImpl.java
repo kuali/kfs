@@ -83,6 +83,7 @@ import org.kuali.rice.core.api.parameter.ParameterEvaluator;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.document.attribute.DocumentAttributeIndexingQueue;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -758,7 +759,9 @@ public class PurapServiceImpl implements PurapService {
             // At this point, the work-flow status will not change for the current document, but the document status will.
             // This causes the search indices for the document to become out of synch, and will show a different status type
             // in the RICE lookup results screen.
-            SpringContext.getBean(DocumentAttributeIndexingQueue.class).indexDocument(document.getDocumentNumber());
+            final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();                            
+            
+            documentAttributeIndexingQueue.indexDocument(document.getDocumentNumber());
         }
         catch (WorkflowException we) {
             String errorMsg = "Workflow error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + we.getMessage();

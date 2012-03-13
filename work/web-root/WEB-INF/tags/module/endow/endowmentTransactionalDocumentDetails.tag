@@ -61,7 +61,7 @@
 				<td class="datacell-nowrap">
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.transactionSourceTypeCode}"
-						property="document.transactionSourceType"
+						property="document.transactionSourceTypeCode"
 						extraReadOnlyProperty="document.transactionSourceType.name"
 						readOnly="true"/>
 				</td>

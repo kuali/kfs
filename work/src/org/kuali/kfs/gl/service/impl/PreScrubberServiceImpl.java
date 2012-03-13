@@ -34,8 +34,8 @@ import org.kuali.kfs.gl.service.PreScrubberService;
 import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.kfs.sys.util.TransactionalServiceUtils;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.util.TransactionalServiceUtils;
 
 /**
  * This class assumes that an account number may only belong to one chart code (i.e. as if the account number were the only primary key column of the account table)

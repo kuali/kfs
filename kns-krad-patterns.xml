@@ -481,7 +481,7 @@
 
 		<pattern>
 			<match>org.kuali.rice.kns.util.TransactionalServiceUtils</match>
-			<replacement>org.kuali.rice.krad.util.TransactionalServiceUtils</replacement>
+			<replacement>org.kuali.kfs.sys.util.TransactionalServiceUtils</replacement>
 		</pattern>
 		<pattern>
 			<match>org.kuali.rice.kns.util.BeanPropertyComparator</match>

@@ -34,9 +34,9 @@ import org.kuali.kfs.module.ld.dataaccess.LaborLedgerEntryDao;
 import org.kuali.kfs.module.ld.util.ConsolidationUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.util.TransactionalServiceUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.krad.util.TransactionalServiceUtils;
 
 /**
  * This is the data access object for ledger entry.

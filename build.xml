@@ -740,7 +740,7 @@
 	<target name="make-tests" depends="make-foundation-tests,make-additional-tests">
 		<delete file="${test.directory}/cobertura.ser" quiet="true" />
 		<if>
-			<not><isset property="no.cobertura" /></not>
+			<isset property="use.cobertura" />
 			<then>
 		        <cobertura-instrument maxmemory="1g" datafile="${test.directory}/cobertura.ser">
 		        	<includeClasses regex=".*org\.kuali\..*" />
@@ -868,7 +868,7 @@ Excludes: ${tests.compile.excludes}
 		<echo message="Generated test results: ${test.html.results.directory}/index.html" />
 
 		<if>
-			<not><isset property="no.cobertura" /></not>
+			<isset property="use.cobertura" />
 			<then>
 		        <cobertura-report format="xml" maxmemory="1g" datafile="${test.directory}/cobertura.ser" destdir="${test.directory}/cobertura" >
 		            <fileset dir="${source.directory}">

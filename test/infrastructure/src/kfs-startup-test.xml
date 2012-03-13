@@ -7,15 +7,7 @@
 	<import resource="classpath:kfs-startup.xml" />
 	
 	<!--  replace the kfsConfigurer bean with one which runs in test mode -->
-	<bean name="kfsConfigurer" class="org.kuali.kfs.sys.context.KFSConfigurer"
-		p:moduleName="KFS" lazy-init="true"
-		p:testMode="true">
-		<property name="validRunModes">
-			<list>
-				<value>LOCAL</value>
-			</list>
-		</property>
-	</bean>
-	
+	<bean name="kfsConfigurer" class="org.kuali.kfs.sys.context.KFSConfigurer" lazy-init="false"
+		p:testMode="true" />
                            
 </beans>

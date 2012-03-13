@@ -23,12 +23,12 @@ import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.framework.resourceloader.SpringResourceLoader;
 import org.kuali.rice.core.impl.config.property.JAXBConfigImpl;
-import org.springframework.web.context.support.XmlWebApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class KFSTestStartup {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KFSTestStartup.class);
 
-    private static XmlWebApplicationContext context;
+    private static ClassPathXmlApplicationContext context;
 
     public static void initializeKfsTestContext() {
         long startInit = System.currentTimeMillis();
@@ -41,7 +41,7 @@ public class KFSTestStartup {
         JAXBConfigImpl config = new JAXBConfigImpl(baseProps);
         ConfigContext.init(config);
 
-        context = new XmlWebApplicationContext();
+        context = new ClassPathXmlApplicationContext();
         context.setConfigLocation(bootstrapSpringBeans);
         try {
             context.refresh();

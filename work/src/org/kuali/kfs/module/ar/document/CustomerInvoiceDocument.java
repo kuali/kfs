@@ -60,13 +60,13 @@ import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.TaxService;
+import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.service.DocumentService;
@@ -260,7 +260,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
      */
     public Integer getAge() {
         if (ObjectUtils.isNotNull(billingDate)) {
-            return (int) DateUtils.getDifferenceInDays(new Timestamp(billingDate.getTime()), SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
+            return (int) KfsDateUtils.getDifferenceInDays(new Timestamp(billingDate.getTime()), SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
         }
         // TODO should I be throwing an exception or throwing a null?
         return null;
@@ -1226,13 +1226,13 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
                 while (!(beginDate.after(endDate))) {
                     beginCalendar.setTime(beginDate);
                     beginCalendar.add(Calendar.MONTH, addCounter);
-                    beginDate = DateUtils.convertToSqlDate(beginCalendar.getTime());
+                    beginDate = KfsDateUtils.convertToSqlDate(beginCalendar.getTime());
                     totalRecurrences++;
 
                     nextDate = beginDate;
                     nextCalendar.setTime(nextDate);
                     nextCalendar.add(Calendar.MONTH, addCounter);
-                    nextDate = DateUtils.convertToSqlDate(nextCalendar.getTime());
+                    nextDate = KfsDateUtils.convertToSqlDate(nextCalendar.getTime());
                     if (endDate.after(beginDate) && endDate.before(nextDate)) {
                         totalRecurrences++;
                         break;
@@ -1263,7 +1263,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase implements A
                     addCounter += documentTotalRecurrenceNumber * 3;
                 }
                 endCalendar.add(Calendar.MONTH, addCounter);
-                this.getCustomerInvoiceRecurrenceDetails().setDocumentRecurrenceEndDate(DateUtils.convertToSqlDate(endCalendar.getTime()));
+                this.getCustomerInvoiceRecurrenceDetails().setDocumentRecurrenceEndDate(KfsDateUtils.convertToSqlDate(endCalendar.getTime()));
             }
         }
 

@@ -50,7 +50,7 @@ public class ElectronicInvoiceUtils {
             else if (PurApDateFormatUtils.getFormattingString(PurapConstants.NamedDateFormats.KUALI_DATE_FORMAT).equals(formattedDateString)) {
                 try {
                     java.util.Date javaDate = SpringContext.getBean(DateTimeService.class).convertToDate(invoiceDateString);
-                    return org.kuali.rice.kns.util.DateUtils.convertToSqlDate(javaDate);
+                    return org.kuali.kfs.sys.util.KfsDateUtils.convertToSqlDate(javaDate);
                 }
                 catch (ParseException e) {
                     return null;
@@ -84,7 +84,7 @@ public class ElectronicInvoiceUtils {
             // try to parse date
             SimpleDateFormat sdf = PurApDateFormatUtils.getSimpleDateFormat(PurapConstants.NamedDateFormats.CXML_SIMPLE_DATE_FORMAT);
             try {
-                return org.kuali.rice.kns.util.DateUtils.convertToSqlDate(sdf.parse(stringToParse));
+                return org.kuali.kfs.sys.util.KfsDateUtils.convertToSqlDate(sdf.parse(stringToParse));
             }
             catch (ParseException e) {
                 return null;

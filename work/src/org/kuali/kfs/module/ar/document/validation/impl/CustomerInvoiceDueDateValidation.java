@@ -47,7 +47,7 @@ public class CustomerInvoiceDueDateValidation extends GenericValidation {
             return false;
         }
         else {
-            long diffInDays = getDifferenceInDays(billingDateTimestamp, dueDateTimestamp); //DateUtils.getDifferenceInDays(billingDateTimestamp, dueDateTimestamp);
+            long diffInDays = getDifferenceInDays(billingDateTimestamp, dueDateTimestamp); //KfsDateUtils.getDifferenceInDays(billingDateTimestamp, dueDateTimestamp);
             int maxNumOfDaysAfterCurrentDateForInvoiceDueDate = Integer.parseInt(parameterService.getParameterValueAsString(CustomerInvoiceDocument.class, ArConstants.MAXIMUM_NUMBER_OF_DAYS_AFTER_CURRENT_DATE_FOR_INVOICE_DUE_DATE));
             if (diffInDays >= maxNumOfDaysAfterCurrentDateForInvoiceDueDate) {
                 GlobalVariables.getMessageMap().putError(DOCUMENT_ERROR_PREFIX + ArPropertyConstants.CustomerInvoiceDocumentFields.INVOICE_DUE_DATE, ArKeyConstants.ERROR_CUSTOMER_INVOICE_DOCUMENT_INVALID_INVOICE_DUE_DATE_MORE_THAN_X_DAYS, maxNumOfDaysAfterCurrentDateForInvoiceDueDate + "");
@@ -63,11 +63,11 @@ public class CustomerInvoiceDueDateValidation extends GenericValidation {
      * 
      * This method calculates the difference in days between the two timestamps provided.
      * 
-     * This method is used instead of DateUtils.getDifferenceInDays() because there is a rounding issue within the timestamp that exists which must be dealt with to 
+     * This method is used instead of KfsDateUtils.getDifferenceInDays() because there is a rounding issue within the timestamp that exists which must be dealt with to 
      * prevent improper calculations.  This issue is similar to the problems that exist with adding and subtracting doubles and the inherently bad way that Java handles
      * numbers.  
      * 
-     * The approach used within DateUtils does not offer enough accuracy to calculate the difference consistently and accurately.
+     * The approach used within KfsDateUtils does not offer enough accuracy to calculate the difference consistently and accurately.
      * 
      * @param t1
      * @param t2

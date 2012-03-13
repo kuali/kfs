@@ -27,9 +27,9 @@ import org.kuali.kfs.fp.businessobject.TravelMileageRate;
 import org.kuali.kfs.fp.document.dataaccess.TravelMileageRateDao;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherTravelService;
 import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kns.util.DateUtils;
 
 /**
  * This is the default implementation of the DisbursementVoucherTravelService interface.
@@ -93,8 +93,8 @@ public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucher
         Calendar endCalendar = Calendar.getInstance();
         endCalendar.setTime(endDateTime);
 
-        double diffDays = DateUtils.getDifferenceInDays(startDateTime, endDateTime);
-        double diffHours = DateUtils.getDifferenceInHours(startDateTime, endDateTime);
+        double diffDays = KfsDateUtils.getDifferenceInDays(startDateTime, endDateTime);
+        double diffHours = KfsDateUtils.getDifferenceInHours(startDateTime, endDateTime);
 
         // same day travel
         if (diffDays == 0) {

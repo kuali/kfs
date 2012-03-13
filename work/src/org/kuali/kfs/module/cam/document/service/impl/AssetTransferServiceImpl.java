@@ -41,8 +41,8 @@ import org.kuali.kfs.module.cam.document.service.AssetTransferService;
 import org.kuali.kfs.module.cam.util.ObjectValueUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -196,7 +196,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
                     newPayment.setSubAccountNumber(null);
                     newPayment.setDocumentNumber(document.getDocumentNumber());
                     newPayment.setFinancialDocumentTypeCode(CamsConstants.AssetTransfer.DOCUMENT_TYPE_CODE);
-                    newPayment.setFinancialDocumentPostingDate(DateUtils.convertToSqlDate(dateTimeService.getCurrentDate()));
+                    newPayment.setFinancialDocumentPostingDate(KfsDateUtils.convertToSqlDate(dateTimeService.getCurrentDate()));
                     newPayment.setFinancialDocumentPostingYear(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear());
                     newPayment.setFinancialDocumentPostingPeriodCode(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
                     getAssetPaymentService().adjustPaymentAmounts(newPayment, false, true);
@@ -235,7 +235,7 @@ public class AssetTransferServiceImpl implements AssetTransferService {
                     ObjectValueUtils.copySimpleProperties(assetPayment, offsetPayment);
                     offsetPayment.setDocumentNumber(document.getDocumentNumber());
                     offsetPayment.setFinancialDocumentTypeCode(CamsConstants.AssetTransfer.DOCUMENT_TYPE_CODE);
-                    offsetPayment.setFinancialDocumentPostingDate(DateUtils.convertToSqlDate(dateTimeService.getCurrentDate()));
+                    offsetPayment.setFinancialDocumentPostingDate(KfsDateUtils.convertToSqlDate(dateTimeService.getCurrentDate()));
                     offsetPayment.setFinancialDocumentPostingYear(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear());
                     offsetPayment.setFinancialDocumentPostingPeriodCode(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
                     getAssetPaymentService().adjustPaymentAmounts(offsetPayment, true, true);

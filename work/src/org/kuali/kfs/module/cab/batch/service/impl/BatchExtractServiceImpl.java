@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,6 +28,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
@@ -69,7 +70,6 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -89,6 +89,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     protected PurApInfoService purApInfoService;
     protected PurchasingAccountsPayableItemAssetDao purchasingAccountsPayableItemAssetDao;
 
+    @Override
     public void allocateAdditionalCharges(HashSet<PurchasingAccountsPayableDocument> purApDocuments) {
         List<PurchasingAccountsPayableActionHistory> actionsTakenHistory = new ArrayList<PurchasingAccountsPayableActionHistory>();
         List<PurchasingAccountsPayableDocument> candidateDocs = new ArrayList<PurchasingAccountsPayableDocument>();
@@ -139,7 +140,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
 
     /**
      * Setup relationship from account to item and item to doc. In this way, we keep all working objects in the same view as form.
-     * 
+     *
      * @param purApDocs
      */
     protected void setupObjectRelationship(List<PurchasingAccountsPayableDocument> purApDocs) {
@@ -155,7 +156,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
 
     /**
      * Creates a batch parameters object reading values from configured system parameters for CAB Extract
-     * 
+     *
      * @return BatchParameters
      */
     protected BatchParameters createCabBatchParameters() {
@@ -172,7 +173,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
 
     /**
      * Creates a batch parameters object reading values from configured system parameters for Pre Tagging Extract
-     * 
+     *
      * @return BatchParameters
      */
     protected BatchParameters createPreTagBatchParameters() {
@@ -187,7 +188,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
 
     /**
      * Retrieves a credit memo document for a specific document number
-     * 
+     *
      * @param entry GL Line
      * @return CreditMemoDocument
      */
@@ -205,6 +206,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     /**
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#findElgibleGLEntries()
      */
+    @Override
     public Collection<Entry> findElgibleGLEntries(ExtractProcessLog processLog) {
         BatchParameters parameters = createCabBatchParameters();
         processLog.setLastExtractTime(parameters.getLastRunTime());
@@ -214,6 +216,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     /**
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#findPreTaggablePOAccounts()
      */
+    @Override
     public Collection<PurchaseOrderAccount> findPreTaggablePOAccounts() {
         BatchParameters parameters = createPreTagBatchParameters();
         return extractDao.findPreTaggablePOAccounts(parameters);
@@ -222,7 +225,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
 
     /**
      * Retrieves a payment request document for a specific document number
-     * 
+     *
      * @param entry GL Line
      * @return PaymentRequestDocument
      */
@@ -240,12 +243,13 @@ public class BatchExtractServiceImpl implements BatchExtractService {
 
     /**
      * Computes the last run time stamp, if null then it gives yesterday
-     * 
+     *
      * @return Last run time stamp
      */
     protected Timestamp getCabLastRunTimestamp() {
         Timestamp lastRunTime;
         String lastRunTS = parameterService.getParameterValueAsString(KfsParameterConstants.CAPITAL_ASSET_BUILDER_BATCH.class, CabConstants.Parameters.LAST_EXTRACT_TIME);
+
         java.util.Date yesterday = DateUtils.add(dateTimeService.getCurrentDate(), Calendar.DAY_OF_MONTH, -1);
         try {
             lastRunTime = lastRunTS == null ? new Timestamp(yesterday.getTime()) : new Timestamp(DateUtils.parseDate(lastRunTS, new String[] { CabConstants.DateFormats.MONTH_DAY_YEAR + " " + CabConstants.DateFormats.MILITARY_TIME }).getTime());
@@ -258,7 +262,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
 
     /**
      * Gets the last pre tag extract run date from system parameter
-     * 
+     *
      * @return
      */
     protected java.sql.Date getPreTagLastRunDate() {
@@ -277,6 +281,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     /**
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#saveFPLines(java.util.List)
      */
+    @Override
     public void saveFPLines(List<Entry> fpLines, ExtractProcessLog processLog) {
         for (Entry fpLine : fpLines) {
             // If entry is not duplicate, non-null and non-zero, then insert into CAB
@@ -299,6 +304,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     /**
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#savePOLines(java.util.List)
      */
+    @Override
     public HashSet<PurchasingAccountsPayableDocument> savePOLines(List<Entry> poLines, ExtractProcessLog processLog) {
         HashSet<PurchasingAccountsPayableDocument> purApDocuments = new HashSet<PurchasingAccountsPayableDocument>();
         ReconciliationService reconciliationService = SpringContext.getBean(ReconciliationService.class);
@@ -328,9 +334,9 @@ public class BatchExtractServiceImpl implements BatchExtractService {
             GeneralLedgerEntry positiveEntry = null;
             GeneralLedgerEntry negativeEntry = null;
             KualiDecimal transactionLedgerEntryAmount = generalLedgerEntry.getTransactionLedgerEntryAmount();
-            
+
             boolean hasFORevision = isFinancialOfficerRevised(group.getMatchedPurApAcctLines());
-            // generally non-zero transaction ledger amount should be create a single GL entry, but if it has FO revised, 
+            // generally non-zero transaction ledger amount should be create a single GL entry, but if it has FO revised,
             // create the set of positive and negative entries with zero transaction amounts
             if (transactionLedgerEntryAmount != null && transactionLedgerEntryAmount.isNonZero() &&  !hasFORevision) {
                 businessObjectService.save(generalLedgerEntry);
@@ -428,18 +434,18 @@ public class BatchExtractServiceImpl implements BatchExtractService {
 
     /**
      * Base on the PurApAccountingLine to determine if there were any FinancialOfficer revisions
-     * 
-     * If there are positive AND negative accounting lines for the same account, it is considered Financial 
-     * Officer Revised 
-     * 
+     *
+     * If there are positive AND negative accounting lines for the same account, it is considered Financial
+     * Officer Revised
+     *
      * @param matchedPurApAcctLines
      * @return
      */
     private boolean isFinancialOfficerRevised(List<PurApAccountingLineBase> matchedPurApAcctLines) {
-        
+
         boolean hasPostive = false;
         boolean hasNegative = false;
-        
+
         for (PurApAccountingLineBase line : matchedPurApAcctLines){
             // continue iterations unless it has both positive and negative entries
             if (!hasPostive || !hasNegative){
@@ -447,13 +453,13 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                 hasNegative = hasNegative || line.getAmount().isNegative();
             }
         }
-        
+
         return hasPostive && hasNegative;
     }
 
     /**
      * Add asset lock to prohibit CAMS user modify the asset payment line.
-     * 
+     *
      * @param assetLockMap
      * @param cabPurapDoc
      * @param purapItem
@@ -508,7 +514,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
 
     /**
      * Force created entry with zero transaction amount
-     * 
+     *
      * @param entry
      * @return
      */
@@ -521,7 +527,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
 
     /**
      * Force created entry with zero transaction amount
-     * 
+     *
      * @param entry
      * @return
      */
@@ -535,9 +541,10 @@ public class BatchExtractServiceImpl implements BatchExtractService {
 
     /**
      * Retrieves Payment Request Account History and Credit Memo account history, combines them into a single list
-     * 
+     *
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#findPurapAccountHistory()
      */
+    @Override
     public Collection<PurApAccountingLineBase> findPurapAccountRevisions() {
         Collection<PurApAccountingLineBase> purapAcctLines = new ArrayList<PurApAccountingLineBase>();
         Collection<CreditMemoAccountRevision> cmAccountHistory = extractDao.findCreditMemoAccountRevisions(createCabBatchParameters());
@@ -553,7 +560,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
 
     /**
      * Creates a new instance of PurchasingAccountsPayableLineAssetAccount using values provided from dependent objects
-     * 
+     *
      * @param generalLedgerEntry General Ledger Entry record
      * @param cabPurapDoc CAB PurAp Document
      * @param purApAccountingLine PurAp accounting line
@@ -579,7 +586,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
 
     /**
      * Updates the entries into process log
-     * 
+     *
      * @param processLog Extract Process Log
      * @param reconciliationService Reconciliation Service data
      */
@@ -594,7 +601,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
 
     /**
      * Finds PurchasingAccountsPayableDocument using document number
-     * 
+     *
      * @param entry GL Entry
      * @return PurchasingAccountsPayableDocument
      */
@@ -608,7 +615,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
 
     /**
      * Creates a new PurchasingAccountsPayableItemAsset using Purchasing Accounts payable item
-     * 
+     *
      * @param cabPurapDoc Cab Purap Document
      * @param apItem Accounts Payable Item
      * @return PurchasingAccountsPayableItemAsset
@@ -630,7 +637,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                 }
             }
         }
-        
+
         //itemAsset.setAccountsPayableLineItemDescription(apItem.getItemDescription());
         itemAsset.setAccountsPayableItemQuantity(apItem.getItemQuantity() == null ? new KualiDecimal(1) : apItem.getItemQuantity());
         itemAsset.setActivityStatusCode(CabConstants.ActivityStatusCode.NEW);
@@ -640,7 +647,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
 
     /**
      * This method creates PurchasingAccountsPayableDocument from a GL Entry and AP Document
-     * 
+     *
      * @param entry GL Entry
      * @param apDoc AP Document
      * @return PurchasingAccountsPayableDocument
@@ -674,7 +681,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
 
     /**
      * Finds out the active CAB Asset Item matching the line from PurAP.
-     * 
+     *
      * @param cabPurapDoc CAB PurAp document
      * @param apItem AP Item
      * @return PurchasingAccountsPayableItemAsset
@@ -700,6 +707,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#separatePOLines(java.util.List, java.util.List,
      *      java.util.Collection)
      */
+    @Override
     public void separatePOLines(List<Entry> fpLines, List<Entry> purapLines, Collection<Entry> elgibleGLEntries) {
         for (Entry entry : elgibleGLEntries) {
             if (CabConstants.PREQ.equals(entry.getFinancialDocumentTypeCode())) {
@@ -729,13 +737,14 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     /**
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#updateLastExtractTime(java.sql.Timestamp)
      */
+    @Override
     public void updateLastExtractTime(Timestamp time) {
         Parameter parameter = parameterService.getParameter(CabConstants.Parameters.NAMESPACE, CabConstants.Parameters.DETAIL_TYPE_BATCH, CabConstants.Parameters.LAST_EXTRACT_TIME);
 
         if (parameter != null) {
             SimpleDateFormat format = new SimpleDateFormat(CabConstants.DateFormats.MONTH_DAY_YEAR + " " + CabConstants.DateFormats.MILITARY_TIME);
-            
-            
+
+
             Parameter.Builder updatedParameter = Parameter.Builder.create(parameter);
             updatedParameter.setValue(format.format(time));
             parameterService.updateParameter(parameter);
@@ -745,6 +754,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     /**
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#savePreTagLines(java.util.Collection)
      */
+    @Override
     public void savePreTagLines(Collection<PurchaseOrderAccount> preTaggablePOAccounts) {
         HashSet<String> savedLines = new HashSet<String>();
         for (PurchaseOrderAccount purchaseOrderAccount : preTaggablePOAccounts) {
@@ -782,13 +792,14 @@ public class BatchExtractServiceImpl implements BatchExtractService {
     /**
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#updateLastExtractDate(java.sql.Date)
      */
+    @Override
     public void updateLastExtractDate(java.sql.Date dt) {
         Parameter parameter = parameterService.getParameter(CabConstants.Parameters.NAMESPACE, CabConstants.Parameters.DETAIL_TYPE_PRE_ASSET_TAGGING_STEP, CabConstants.Parameters.LAST_EXTRACT_DATE);
 
         if (parameter != null) {
             SimpleDateFormat format = new SimpleDateFormat(CabConstants.DateFormats.MONTH_DAY_YEAR);
-            
-            
+
+
             Parameter.Builder updatedParameter = Parameter.Builder.create(parameter);
             updatedParameter.setValue(format.format(dt));
             parameterService.updateParameter(parameter);
@@ -797,7 +808,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -806,7 +817,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
 
     /**
      * Sets the extractDao attribute value.
-     * 
+     *
      * @param extractDao The extractDao to set.
      */
     public void setExtractDao(ExtractDao extractDao) {
@@ -815,7 +826,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
 
     /**
      * Sets the dateTimeService attribute value.
-     * 
+     *
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -824,7 +835,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
 
     /**
      * Sets the parameterService attribute value.
-     * 
+     *
      * @param parameterService The parameterService to set.
      */
     public void setParameterService(ParameterService parameterService) {
@@ -833,7 +844,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
 
     /**
      * Sets the purchasingAccountsPayableItemAssetDao attribute value.
-     * 
+     *
      * @param purchasingAccountsPayableItemAssetDao The purchasingAccountsPayableItemAssetDao to set.
      */
     public void setPurchasingAccountsPayableItemAssetDao(PurchasingAccountsPayableItemAssetDao purchasingAccountsPayableItemAssetDao) {
@@ -842,7 +853,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
 
     /**
      * Sets the purApLineService attribute value.
-     * 
+     *
      * @param purApLineService The purApLineService to set.
      */
     public void setPurApLineService(PurApLineService purApLineService) {
@@ -851,7 +862,7 @@ public class BatchExtractServiceImpl implements BatchExtractService {
 
     /**
      * Sets the purApInfoService attribute value.
-     * 
+     *
      * @param purApInfoService The purApInfoService to set.
      */
     public void setPurApInfoService(PurApInfoService purApInfoService) {

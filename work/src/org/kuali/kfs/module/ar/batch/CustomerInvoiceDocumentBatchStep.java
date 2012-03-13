@@ -152,7 +152,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
 //
 //                    for( int i = 0; i < NUMBER_OF_INVOICES_TO_CREATE; i++ ){
 //
-//                        billingDate = DateUtils.addDays(billingDate, -30);
+//                        billingDate = KfsDateUtils.addDays(billingDate, -30);
 //
 //                        createCustomerInvoiceDocumentForFunctionalTesting(customername,billingDate, 0, null, null, "1031400", "BL");
 //                        Thread.sleep(500);

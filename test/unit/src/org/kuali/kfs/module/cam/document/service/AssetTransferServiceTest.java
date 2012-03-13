@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
@@ -36,7 +37,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class AssetTransferServiceTest extends KualiTestBase {
@@ -55,7 +55,7 @@ public class AssetTransferServiceTest extends KualiTestBase {
 
     /**
      * Test capital asset with active payments
-     * 
+     *
      * @throws Exception
      */
     @ConfigureContext(session = khuntley, shouldCommitTransactions = false)
@@ -95,7 +95,7 @@ public class AssetTransferServiceTest extends KualiTestBase {
 
     /**
      * Test capital asset with active payments
-     * 
+     *
      * @throws Exception
      */
     @ConfigureContext(session = khuntley, shouldCommitTransactions = false)
@@ -131,7 +131,7 @@ public class AssetTransferServiceTest extends KualiTestBase {
 
     /**
      * test non-capital assets
-     * 
+     *
      * @throws Exception
      */
     @ConfigureContext(session = khuntley, shouldCommitTransactions = false)
@@ -146,7 +146,7 @@ public class AssetTransferServiceTest extends KualiTestBase {
 
     /**
      * Test active asset with no payments
-     * 
+     *
      * @throws Exception
      */
     @ConfigureContext(session = khuntley, shouldCommitTransactions = false)
@@ -161,7 +161,7 @@ public class AssetTransferServiceTest extends KualiTestBase {
 
     /**
      * Assert GL postable entry
-     * 
+     *
      * @param glPostable
      * @param chartOfAccountsCode
      * @param amount
@@ -253,6 +253,7 @@ public class AssetTransferServiceTest extends KualiTestBase {
         List<AssetPayment> assetPayments = asset.getAssetPayments();
         // sort the payment
         Collections.sort(assetPayments, new Comparator<AssetPayment>() {
+            @Override
             public int compare(AssetPayment o1, AssetPayment o2) {
                 return o1.getPaymentSequenceNumber().compareTo(o2.getPaymentSequenceNumber());
             }

@@ -659,7 +659,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
         // get today's date, with no time component
         Date todaysDate = new Date(getDateTimeService().getCurrentDate().getTime());
         todaysDate.setTime(DateUtils.truncate(todaysDate, Calendar.DAY_OF_MONTH).getTime());
-        // TODO: convert this to using Wes' Kuali DateUtils once we're using Date's instead of Timestamp
+        // TODO: convert this to using Wes' Kuali KfsDateUtils once we're using Date's instead of Timestamp
         
         // get the expiration date, if any
         Date expirationDate = newAccount.getAccountExpirationDate();

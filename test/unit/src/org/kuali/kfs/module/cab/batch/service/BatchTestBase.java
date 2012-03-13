@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,6 +18,7 @@ package org.kuali.kfs.module.cab.batch.service;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.fixture.CreditMemoAccountFixture;
 import org.kuali.kfs.module.cab.fixture.CreditMemoAccountRevisionFixture;
@@ -44,7 +45,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -71,8 +71,8 @@ public abstract class BatchTestBase extends KualiTestBase {
         Parameter lastExtractTime = findCabExtractTimeParam();
         if (ObjectUtils.isNotNull(lastExtractTime)) {
             SimpleDateFormat fmt = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-            
-            
+
+
             Parameter.Builder updatedParm = Parameter.Builder.create(lastExtractTime);
             updatedParm.setValue(fmt.format(DateUtils.addDays(dateTimeService.getCurrentDate(), -1)));
             SpringContext.getBean(ParameterService.class).updateParameter(updatedParm.build());
@@ -91,8 +91,8 @@ public abstract class BatchTestBase extends KualiTestBase {
         Parameter lastExtractTime = findPretagExtractDateParam();
         if ( lastExtractTime != null ) {
             SimpleDateFormat fmt = new SimpleDateFormat("MM/dd/yyyy");
-            
-            
+
+
             Parameter.Builder updatedParm = Parameter.Builder.create(lastExtractTime);
             updatedParm.setValue(fmt.format(DateUtils.addDays(dateTimeService.getCurrentDate(), -1)));
             SpringContext.getBean(ParameterService.class).updateParameter(updatedParm.build());
@@ -103,7 +103,7 @@ public abstract class BatchTestBase extends KualiTestBase {
     }
 
     protected Parameter findPretagExtractDateParam() {
-        
+
         Parameter lastExtractTime = SpringContext.getBean(ParameterService.class).getParameter(CabConstants.Parameters.NAMESPACE, CabConstants.Parameters.DETAIL_TYPE_PRE_ASSET_TAGGING_STEP, CabConstants.Parameters.LAST_EXTRACT_DATE);
         return lastExtractTime;
     }

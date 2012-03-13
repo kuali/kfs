@@ -1,19 +1,19 @@
 /*
  * Copyright 2006-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.rice.kns.util;
+package org.kuali.kfs.sys.util;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -22,13 +22,13 @@ import java.util.GregorianCalendar;
 
 /**
  * Utility methods for comparing dates
- * 
- * 
+ *
+ *
  */
-public class DateUtils extends org.apache.commons.lang.time.DateUtils {
+public class KfsDateUtils {
     /**
      * Adds null-safety to commons.DateUtils isSameDay method.
-     * 
+     *
      * @return true if both dates are null or represent the same day
      */
     public static boolean isSameDay(Date date1, Date date2) {
@@ -49,7 +49,7 @@ public class DateUtils extends org.apache.commons.lang.time.DateUtils {
 
     /**
      * Adds null-safety to commons.DateUtils isSameDay method.
-     * 
+     *
      * @return true if both calendars are null or represent the same day
      */
     public static boolean isSameDay(Calendar cal1, Calendar cal2) {
@@ -70,7 +70,7 @@ public class DateUtils extends org.apache.commons.lang.time.DateUtils {
 
     /**
      * Converts the given java.util.Date into an equivalent java.sql.Date
-     * 
+     *
      * @param date
      * @return java.sql.Date constructed from the given java.util.Date
      */
@@ -81,7 +81,7 @@ public class DateUtils extends org.apache.commons.lang.time.DateUtils {
 
     /**
      * Convert the given java.sql.date into a java.sql.date of which all the time fields are set to 0.
-     * 
+     *
      * @param date
      * @return
      */
@@ -99,7 +99,7 @@ public class DateUtils extends org.apache.commons.lang.time.DateUtils {
 
     /**
      * Convert the given java.util.date into a java.util.date of which all the time fields are set to 0.
-     * 
+     *
      * @param date
      * @return
      */
@@ -175,16 +175,16 @@ public class DateUtils extends org.apache.commons.lang.time.DateUtils {
     }
 
     /**
-     * 
+     *
      * This method is a utility method to create a new java.sql.Date in one line.
-     * 
+     *
      * @param year
      * @param month
      * @param day
-     * 
+     *
      * @return a populated java.sql.Date with the year, month, and day specified, and no values for hour, minute, second,
      *         millisecond
-     * 
+     *
      */
     public static java.sql.Date newDate(Integer year, Integer month, Integer day) {
 
@@ -212,18 +212,18 @@ public class DateUtils extends org.apache.commons.lang.time.DateUtils {
     }
 
     /**
-     * 
+     *
      * This method is a utility method to create a new java.sql.Date in one line.
-     * 
+     *
      * @param year
      * @param month
      * @param day
      * @param hour
      * @param minute
      * @param second
-     * 
+     *
      * @return a populated java.sql.Date with the year, month, hour, minute, and second populated, with no value for millisecond.
-     * 
+     *
      */
     public static java.sql.Date newDate(Integer year, Integer month, Integer day, Integer hour, Integer minute, Integer second) {
 

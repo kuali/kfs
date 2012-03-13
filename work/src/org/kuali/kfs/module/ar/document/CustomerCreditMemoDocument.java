@@ -46,13 +46,13 @@ import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.TaxService;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.rules.rule.event.BlanketApproveDocumentEvent;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
@@ -257,7 +257,7 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
     public Integer getInvOutstandingDays() {
         Timestamp invBillingDateTimestamp = new Timestamp(invoice.getBillingDate().getTime());
         Timestamp todayDateTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().getTime());
-        double diffInDays = DateUtils.getDifferenceInDays(invBillingDateTimestamp, todayDateTimestamp);
+        double diffInDays = KfsDateUtils.getDifferenceInDays(invBillingDateTimestamp, todayDateTimestamp);
         invOutstandingDays = new Integer(new KualiDecimal(diffInDays).intValue());
 
         return invOutstandingDays;

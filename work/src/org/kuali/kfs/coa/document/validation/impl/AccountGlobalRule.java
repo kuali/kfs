@@ -467,11 +467,11 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
     /*
      * protected boolean checkAccountExpirationDateValidTodayOrEarlier(Account newAccount) { // get today's date, with no time
      * component Timestamp todaysDate = getDateTimeService().getCurrentTimestamp();
-     * todaysDate.setTime(DateUtils.truncate(todaysDate, Calendar.DAY_OF_MONTH).getTime()); // TODO: convert this to using Wes'
-     * kuali DateUtils once we're using Date's instead of Timestamp // get the expiration date, if any Timestamp expirationDate =
+     * todaysDate.setTime(KfsDateUtils.truncate(todaysDate, Calendar.DAY_OF_MONTH).getTime()); // TODO: convert this to using Wes'
+     * kuali KfsDateUtils once we're using Date's instead of Timestamp // get the expiration date, if any Timestamp expirationDate =
      * newAccount.getAccountExpirationDate(); if (ObjectUtils.isNull(expirationDate)) { putFieldError("accountExpirationDate",
      * KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CANNOT_BE_CLOSED_EXP_DATE_INVALID); return false; } // when closing an account,
-     * the account expiration date must be the current date or earlier expirationDate.setTime(DateUtils.truncate(expirationDate,
+     * the account expiration date must be the current date or earlier expirationDate.setTime(KfsDateUtils.truncate(expirationDate,
      * Calendar.DAY_OF_MONTH).getTime()); if (expirationDate.after(todaysDate)) { putFieldError("accountExpirationDate",
      * KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CANNOT_BE_CLOSED_EXP_DATE_INVALID); return false; } return true; }
      */

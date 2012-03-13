@@ -25,7 +25,7 @@ import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kns.util.DateUtils;
+import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -69,12 +69,12 @@ public class CustomerInvoiceBothEndDateAndTotalRecurrenceNumberValidation extend
         while (!(beginDate.after(endDate))){
             beginCalendar.setTime(beginDate);
             beginCalendar.add(Calendar.MONTH, addCounter);
-            beginDate = DateUtils.convertToSqlDate(beginCalendar.getTime());
+            beginDate = KfsDateUtils.convertToSqlDate(beginCalendar.getTime());
             totalRecurrences++;
             nextDate = beginDate;
             nextCalendar.setTime(nextDate);
             nextCalendar.add(Calendar.MONTH, addCounter);
-            nextDate = DateUtils.convertToSqlDate(nextCalendar.getTime());
+            nextDate = KfsDateUtils.convertToSqlDate(nextCalendar.getTime());
             if (endDate.after(beginDate) && endDate.before(nextDate)) {
                 totalRecurrences++;
                 break;

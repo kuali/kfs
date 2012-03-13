@@ -27,9 +27,9 @@ import org.kuali.kfs.module.endow.businessobject.TicklerRecipientPrincipal;
 import org.kuali.kfs.module.endow.document.service.KEMService;
 import org.kuali.kfs.module.endow.document.service.impl.FrequencyCodeServiceImpl;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
@@ -129,7 +129,7 @@ public class TicklerRule extends MaintenanceDocumentRuleBase {
             KEMService kemService = (KEMService) SpringContext.getBean(KEMService.class);
             
             //Ensure Termination date is after today, non inclusive
-            if( DateUtils.getDifferenceInDays(new Timestamp(kemService.getCurrentSystemProcessDateObject().getTime()),new Timestamp(getNewTickler().getTerminationDate().getTime())) < 1 )
+            if( KfsDateUtils.getDifferenceInDays(new Timestamp(kemService.getCurrentSystemProcessDateObject().getTime()),new Timestamp(getNewTickler().getTerminationDate().getTime())) < 1 )
             {
                 putGlobalError(EndowKeyConstants.TicklerConstants.ERROR_TICKLER_TERMINATION_DATE_GREATER_SYSTEMDATE);
             }

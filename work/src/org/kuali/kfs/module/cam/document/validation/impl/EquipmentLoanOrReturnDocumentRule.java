@@ -32,7 +32,7 @@ import org.kuali.kfs.module.cam.document.EquipmentLoanOrReturnDocument;
 import org.kuali.kfs.module.cam.service.AssetLockService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kns.util.DateUtils;
+import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.TransactionalDocumentRuleBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -132,7 +132,7 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
      */
     protected boolean validateLoanDate(EquipmentLoanOrReturnDocument equipmentLoanOrReturnDocument) {
         boolean valid = true;
-        Date loanDate = DateUtils.clearTimeFields(equipmentLoanOrReturnDocument.getLoanDate());
+        Date loanDate = KfsDateUtils.clearTimeFields(equipmentLoanOrReturnDocument.getLoanDate());
         Calendar cal = GregorianCalendar.getInstance();
         cal.setTime(loanDate);
         cal.add(Calendar.YEAR, 2);
@@ -140,14 +140,14 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
 
         // Loan can not be before today
         Date loanReturnDate = equipmentLoanOrReturnDocument.getLoanReturnDate();
-        if (equipmentLoanOrReturnDocument.isNewLoan() && loanDate.before(DateUtils.clearTimeFields(new java.util.Date()))) {
+        if (equipmentLoanOrReturnDocument.isNewLoan() && loanDate.before(KfsDateUtils.clearTimeFields(new java.util.Date()))) {
             GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.LOAN_DATE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_LOAN_DATE);
         }
 
         // expect return date must be >= loan date and within 2 years limit
         Date expectReturnDate = equipmentLoanOrReturnDocument.getExpectedReturnDate();
         if (expectReturnDate != null) {
-            DateUtils.clearTimeFields(expectReturnDate);
+            KfsDateUtils.clearTimeFields(expectReturnDate);
             if (expectReturnDate.before(loanDate)) {
                 valid &= false;
                 GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.EXPECTED_RETURN_DATE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_EXPECTED_RETURN_DATE);
@@ -160,7 +160,7 @@ public class EquipmentLoanOrReturnDocumentRule extends TransactionalDocumentRule
 
         // loan return date must be >= loan date and within 2 years limit
         if (loanReturnDate != null) {
-            DateUtils.clearTimeFields(loanReturnDate);
+            KfsDateUtils.clearTimeFields(loanReturnDate);
             if (loanDate.after(loanReturnDate) || maxDate.before(loanReturnDate)) {
                 valid &= false;
                 GlobalVariables.getMessageMap().putError(KFSConstants.DOCUMENT_PROPERTY_NAME + "." + CamsPropertyConstants.EquipmentLoanOrReturnDocument.LOAN_RETURN_DATE, CamsKeyConstants.EquipmentLoanOrReturn.ERROR_INVALID_LOAN_RETURN_DATE);

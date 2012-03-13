@@ -27,11 +27,11 @@ import org.kuali.kfs.module.ar.batch.service.InvoiceRecurrenceService;
 import org.kuali.kfs.module.ar.businessobject.InvoiceRecurrence;
 import org.kuali.kfs.module.ar.dataaccess.InvoiceRecurrenceDao;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.bo.AdHocRoutePerson;
 import org.kuali.rice.krad.bo.AdHocRouteRecipient;
@@ -111,7 +111,7 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
             currentMonthProcessCalendar = currentCalendar;
             int day = beginCalendar.get(Calendar.DAY_OF_MONTH);
             currentMonthProcessCalendar.set(Calendar.DAY_OF_MONTH, day);
-            currentMonthProcessDate = DateUtils.convertToSqlDate(currentMonthProcessCalendar.getTime());
+            currentMonthProcessDate = KfsDateUtils.convertToSqlDate(currentMonthProcessCalendar.getTime());
 
             /* Calculate the nextProcessDate */
             if (currentDate.after(currentMonthProcessDate)) {
@@ -123,16 +123,16 @@ public class InvoiceRecurrenceServiceImpl implements InvoiceRecurrenceService {
                  * so the nextProcessDate is equal to the currentMonthProcessDate */
                 nextProcessCalendar = currentMonthProcessCalendar;
             }
-            nextProcessDate = DateUtils.convertToSqlDate(nextProcessCalendar.getTime());
+            nextProcessDate = KfsDateUtils.convertToSqlDate(nextProcessCalendar.getTime());
             
             /* Calculate the lastProcessDate by subtracting one month from nextProcessingDate */
             lastProcessCalendar = nextProcessCalendar;
             lastProcessCalendar.add(Calendar.MONTH, -1);
-            lastProcessDate = DateUtils.convertToSqlDate(lastProcessCalendar.getTime());
+            lastProcessDate = KfsDateUtils.convertToSqlDate(lastProcessCalendar.getTime());
             if (lastProcessDate.before(beginDate)) {
                 lastProcessCalendar.clear();
             }
-            lastProcessDate = DateUtils.convertToSqlDate(lastProcessCalendar.getTime());
+            lastProcessDate = KfsDateUtils.convertToSqlDate(lastProcessCalendar.getTime());
              /* if nextProcessDate is equal to currentDate create INV document */
             if (nextProcessDate.equals(currentDate)) {
                 /* copy INV document to a new INV document */

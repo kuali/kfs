@@ -149,7 +149,7 @@ public class CustomerAgingReportLookupableHelperServiceImpl extends KualiLookupa
         Date cutoffdate61 = DateUtils.addDays(reportRunDate, -61);
         Date cutoffdate90 = DateUtils.addDays(reportRunDate, -90);
         Date cutoffdate91 = DateUtils.addDays(reportRunDate, -91);
-        // Date cutoffdate120 = DateUtils.addDays(reportRunDate, -120);
+        // Date cutoffdate120 = KfsDateUtils.addDays(reportRunDate, -120);
         Date cutoffdate120 = DateUtils.addDays(reportRunDate, -1 * Integer.parseInt(nbrDaysForLastBucket));
         Date cutoffdate121 = DateUtils.addDays(cutoffdate120, -1);
 

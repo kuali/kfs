@@ -33,10 +33,10 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.CrossSectionSuite;
+import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
-import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.DocumentService;
 
@@ -118,7 +118,7 @@ public class GlobalDocumentTest extends KualiTestBase {
 
         AccountDelegateGlobalDetail change = new AccountDelegateGlobalDetail();
         change.setAccountDelegatePrimaryRoutingIndicator(false);
-        change.setAccountDelegateStartDate(DateUtils.newDate(2006, 6, 1));
+        change.setAccountDelegateStartDate(KfsDateUtils.newDate(2006, 6, 1));
         change.setAccountDelegateUniversalId("6137600107");
         change.setApprovalFromThisAmount(KualiDecimal.ZERO);
         change.setApprovalToThisAmount(KualiDecimal.ZERO);
@@ -171,7 +171,7 @@ public class GlobalDocumentTest extends KualiTestBase {
 
         AccountDelegateGlobalDetail change = new AccountDelegateGlobalDetail();
         change.setAccountDelegatePrimaryRoutingIndicator(false);
-        change.setAccountDelegateStartDate(DateUtils.newDate(2006, 6, 1));
+        change.setAccountDelegateStartDate(KfsDateUtils.newDate(2006, 6, 1));
         change.setAccountDelegateUniversalId("6137600107");
         change.setApprovalFromThisAmount(KualiDecimal.ZERO);
         change.setApprovalToThisAmount(KualiDecimal.ZERO);

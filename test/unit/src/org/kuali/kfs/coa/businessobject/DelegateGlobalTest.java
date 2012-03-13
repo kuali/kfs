@@ -26,11 +26,11 @@ import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
-import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.krad.bo.GlobalBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.DocumentService;
@@ -42,8 +42,8 @@ public class DelegateGlobalTest extends KualiTestBase {
 
     private static final Log LOG = LogFactory.getLog(DelegateGlobalTest.class);
 
-    private static final java.sql.Date START_DATE_1 = DateUtils.newDate(2006, 6, 1);
-    private static final java.sql.Date START_DATE_2 = DateUtils.newDate(2006, 5, 1);
+    private static final java.sql.Date START_DATE_1 = KfsDateUtils.newDate(2006, 6, 1);
+    private static final java.sql.Date START_DATE_2 = KfsDateUtils.newDate(2006, 5, 1);
     private static final String DELEGATE_ID_1 = "4287701175"; // AFGORMAN BL-UDIV
     private static final String DELEGATE_ID_2 = "1571201547"; // BBURGER BL-VPIT
     private static final String DELEGATE_ID_3 = "1872708343"; // cswinson BL-VPGA

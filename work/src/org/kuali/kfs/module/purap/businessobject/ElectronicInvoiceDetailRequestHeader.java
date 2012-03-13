@@ -28,7 +28,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.kfs.module.purap.util.ElectronicInvoiceUtils;
 import org.kuali.kfs.module.purap.util.cxml.CxmlExtrinsic;
-import org.kuali.rice.kns.util.DateUtils;
+import org.kuali.kfs.sys.util.KfsDateUtils;
 
 public class ElectronicInvoiceDetailRequestHeader {
   private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceDetailRequestHeader.class);
@@ -205,7 +205,7 @@ public class ElectronicInvoiceDetailRequestHeader {
    */
   public java.sql.Date getInvoiceDate() {
       if (invoiceDate != null){
-          return DateUtils.convertToSqlDate(invoiceDate);
+          return KfsDateUtils.convertToSqlDate(invoiceDate);
       }else{
           return null;
       }

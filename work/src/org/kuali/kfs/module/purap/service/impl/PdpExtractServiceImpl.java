@@ -59,6 +59,7 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.BankService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
+import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -71,7 +72,6 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -200,7 +200,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
         Totals totals = new Totals();
 
-        java.sql.Date onOrBeforePaymentRequestPayDate = DateUtils.convertToSqlDate(purapRunDateService.calculateRunDate(processRunDate));
+        java.sql.Date onOrBeforePaymentRequestPayDate = KfsDateUtils.convertToSqlDate(purapRunDateService.calculateRunDate(processRunDate));
 
         List<String> preqsWithOutstandingCreditMemos = new ArrayList<String>();
 
@@ -371,7 +371,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             paymentRequests = paymentRequestService.getImmediatePaymentRequestsToExtract(campusCode);
         }
         else {
-            java.sql.Date onOrBeforePaymentRequestPayDate = DateUtils.convertToSqlDate(purapRunDateService.calculateRunDate(processRunDate));
+            java.sql.Date onOrBeforePaymentRequestPayDate = KfsDateUtils.convertToSqlDate(purapRunDateService.calculateRunDate(processRunDate));
             paymentRequests = paymentRequestService.getPaymentRequestsToExtractSpecialPayments(campusCode, onOrBeforePaymentRequestPayDate);
         }
 
@@ -950,7 +950,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             paymentRequests = paymentRequestService.getImmediatePaymentRequestsToExtract(null);
         }
         else {
-            java.sql.Date onOrBeforePaymentRequestPayDate = DateUtils.convertToSqlDate(purapRunDateService.calculateRunDate(processRunDate));
+            java.sql.Date onOrBeforePaymentRequestPayDate = KfsDateUtils.convertToSqlDate(purapRunDateService.calculateRunDate(processRunDate));
             paymentRequests = paymentRequestService.getPaymentRequestsToExtract(onOrBeforePaymentRequestPayDate);
         }
 

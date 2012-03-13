@@ -25,8 +25,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.cache.annotation.Cacheable;
 
@@ -52,7 +52,7 @@ public class UniversityDateServiceImpl implements UniversityDateService {
      */
     public UniversityDate getCurrentUniversityDate() {
         java.util.Date now = dateTimeService.getCurrentDate();
-        return (UniversityDate)SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(UniversityDate.class, new java.sql.Date( DateUtils.clearTimeFields(now).getTime() ) );
+        return (UniversityDate)SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(UniversityDate.class, new java.sql.Date( KfsDateUtils.clearTimeFields(now).getTime() ) );
     }
 
     /**
@@ -66,7 +66,7 @@ public class UniversityDateServiceImpl implements UniversityDateService {
         //Timer t0 = new Timer("getCurrentFiscalYear");
         java.util.Date now = dateTimeService.getCurrentDate();
 
-        Integer result = getFiscalYear(DateUtils.clearTimeFields(now));
+        Integer result = getFiscalYear(KfsDateUtils.clearTimeFields(now));
         //t0.log();
         return result;
     }

@@ -32,13 +32,13 @@ import org.kuali.kfs.module.ar.businessobject.InvoiceRecurrence;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.service.InvoiceRecurrenceDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -197,13 +197,13 @@ public class InvoiceRecurrenceRule extends MaintenanceDocumentRuleBase {
         while (!(beginDate.after(endDate))){
             beginCalendar.setTime(beginDate);
             beginCalendar.add(Calendar.MONTH, addCounter);
-            beginDate = DateUtils.convertToSqlDate(beginCalendar.getTime());
+            beginDate = KfsDateUtils.convertToSqlDate(beginCalendar.getTime());
             totalRecurrences++;
 
             nextDate = beginDate;
             nextCalendar.setTime(nextDate);
             nextCalendar.add(Calendar.MONTH, addCounter);
-            nextDate = DateUtils.convertToSqlDate(nextCalendar.getTime());
+            nextDate = KfsDateUtils.convertToSqlDate(nextCalendar.getTime());
             if (endDate.after(beginDate) && endDate.before(nextDate)) {
                 totalRecurrences++;
                 break;

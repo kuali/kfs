@@ -35,11 +35,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.batch.BatchFile;
 import org.kuali.kfs.sys.batch.BatchFileUtils;
 import org.kuali.kfs.sys.batch.service.BatchFileAdminAuthorizationService;
+import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -200,7 +200,7 @@ public class BatchFileLookupableHelperServiceImpl extends AbstractLookupableHelp
         
         @Override
         public boolean accept(File file) {
-            Date lastModifiedDate = DateUtils.clearTimeFields(new Date(file.lastModified()));
+            Date lastModifiedDate = KfsDateUtils.clearTimeFields(new Date(file.lastModified()));
             
             if (fromDate != null && fromDate.after(lastModifiedDate)) {
                 return false;

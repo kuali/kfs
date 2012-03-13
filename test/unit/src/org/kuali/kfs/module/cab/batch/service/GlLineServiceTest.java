@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformationDetail;
 import org.kuali.kfs.gl.businessobject.Entry;
@@ -38,7 +39,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.DateUtils;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -79,8 +79,8 @@ public class GlLineServiceTest extends KualiTestBase {
         assetInformationDetail.setBuildingSubRoomNumber("23");
         assetInformationDetail.setCapitalAssetTagNumber("TGX");
         assetInformationDetail.setCapitalAssetSerialNumber("SER");
-        businessObjectService.save(assetInformationDetail);        
-        
+        businessObjectService.save(assetInformationDetail);
+
         return assetInformationDetail;
     }
 
@@ -96,7 +96,7 @@ public class GlLineServiceTest extends KualiTestBase {
         assetInformation.setCapitalAssetManufacturerName("MFR");
         assetInformation.setCapitalAssetDescription("DESC");
         assetInformation.setCapitalAssetManufacturerModelNumber("MDL");
-        businessObjectService.save(assetInformation);        
+        businessObjectService.save(assetInformation);
         return assetInformation;
     }
 
@@ -227,14 +227,14 @@ public class GlLineServiceTest extends KualiTestBase {
         assetInformation.setCapitalAssetLineNumber(1);
         assetInformation.setCapitalAssetActionIndicator("C");
         businessObjectService.save(assetInformation);
-        
+
         AssetPaymentDocument document = (AssetPaymentDocument) glLineService.createAssetPaymentDocument(primary, 1);
         assertNotNull(document);
-        
+
         // assert here
         List<AssetPaymentDetail> assetPaymentDetails = document.getSourceAccountingLines();
         assertEquals(1, assetPaymentDetails.size());
-        
+
         assertAssetPaymentDetail(document, assetPaymentDetails.get(0), "1031400", new KualiDecimal(5200.50), Integer.valueOf(0));
     }
 }

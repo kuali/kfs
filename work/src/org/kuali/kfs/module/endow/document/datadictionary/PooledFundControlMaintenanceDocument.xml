@@ -56,8 +56,11 @@
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.endow.document.authorization.PooledFundControlDocumentPresentationController" />
     <property name="webScriptFiles" >
       <list>
+        <value>../dwr/interface/RegistrationCodeService.js</value> 
         <value>../scripts/module/endow/registrationCode.js</value>
+        <value>../dwr/interface/EndowmentTransactionCodeService.js</value>
         <value>../scripts/module/endow/transactionCode.js</value>
+        <value>../dwr/interface/KEMIDService.js</value>
         <value>../scripts/module/endow/kemid.js</value>
       </list>
     </property> 

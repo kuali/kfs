@@ -41,6 +41,7 @@
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="webScriptFiles">
       <list>
+        <value>../dwr/interface/ObjectCodeService.js</value>
         <value>../scripts/coa/objConsDocument.js</value>
       </list>
     </property>

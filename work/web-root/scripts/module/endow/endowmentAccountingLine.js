@@ -13,6 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+<script type='text/javascript' src='/kfs-dev/dwr/interface/ChartService.js'></script>
+
 function loadAccountName(accountNumberFieldName, chartFieldName, accountNameFieldName){
 	var accountNumber = dwr.util.getValue( accountNumberFieldName );
 	var chart = dwr.util.getValue( chartFieldName );

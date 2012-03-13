@@ -55,6 +55,7 @@
     <property name="workflowAttributes" ref="AccountAutoCreateDefaultsMaintenanceDocument-workflowAttributes"/>
     <property name="webScriptFiles">
       <list>
+        <value>../dwr/interface/SubFundGroupService.js</value>
         <value>../scripts/kc/accountAutoCreateDefaultsDocument.js</value>
       </list>
     </property>

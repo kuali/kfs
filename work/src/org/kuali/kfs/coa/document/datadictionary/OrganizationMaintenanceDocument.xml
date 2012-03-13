@@ -51,7 +51,9 @@
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.coa.document.validation.impl.OrgPreRules"/>
     <property name="webScriptFiles">
       <list>
+        <value>../dwr/interface/PostalCodeService.js</value>
         <value>../scripts/coa/organizationDocument.js</value>
+        <value>../dwr/interface/AccountService.js</value>
         <value>../scripts/coa/accountDocument.js</value>
       </list>
     </property>

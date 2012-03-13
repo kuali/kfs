@@ -47,7 +47,9 @@
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.coa.document.validation.impl.OrganizationReversionGlobalPreRules"/>
     <property name="webScriptFiles">
       <list>
+        <value>../dwr/interface/ObjectCodeService.js</value>
         <value>../scripts/coa/orgReversionChangeDocument.js</value>
+        <value>../dwr/interface/AccountService.js</value>
         <value>../scripts/coa/accountDocument.js</value>
       </list>
     </property>

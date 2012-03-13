@@ -66,6 +66,8 @@
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.coa.document.authorization.AccountDocumentPresentationController"/>
     <property name="webScriptFiles">
       <list>
+        <value>../dwr/interface/SubFundGroupService.js</value>
+        <value>../dwr/interface/AccountService.js</value>
         <value>../scripts/coa/accountDocument.js</value>
       </list>
     </property>

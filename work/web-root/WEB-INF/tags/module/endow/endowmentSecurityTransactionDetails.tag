@@ -15,6 +15,8 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
+<script type='text/javascript' src="dwr/interface/RegistrationCodeService.js"></script>
+<script type='text/javascript' src="dwr/interface/EndowmentTransactionDocumentService.js"></script>
 <script language="JavaScript" type="text/javascript" src="scripts/module/endow/securityObjectInfo.js"></script>
 <script language="JavaScript" type="text/javascript" src="scripts/module/endow/registrationObjectInfo.js"></script>
 

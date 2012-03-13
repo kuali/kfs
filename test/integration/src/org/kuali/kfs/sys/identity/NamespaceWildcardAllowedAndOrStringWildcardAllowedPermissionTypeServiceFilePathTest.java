@@ -187,10 +187,11 @@ public class NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeSer
 
 	    for ( String[] perm : permissionData ) {
 	        Permission.Builder kpi = Permission.Builder.create("KFS-SYS", "Namesapce Wildcard And String Wildcard Test");
-	        kpi.setAttributes( new HashMap<String,String>() );
+	        HashMap<String,String> details = new HashMap<String,String>();
+            details.put(KimConstants.AttributeConstants.NAMESPACE_CODE, perm[1] );
+            details.put(KfsKimAttributes.FILE_PATH, perm[2] );
+	        kpi.setAttributes( details );
 	        kpi.setId(perm[0]);
-	        kpi.getAttributes().put(KimConstants.AttributeConstants.NAMESPACE_CODE, perm[1] );
-	        kpi.getAttributes().put(KfsKimAttributes.FILE_PATH, perm[2] );
 	        permissions.add(kpi.build());
 	    }
 	    return permissions;

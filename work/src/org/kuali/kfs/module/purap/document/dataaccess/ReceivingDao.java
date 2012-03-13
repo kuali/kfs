@@ -17,7 +17,6 @@ package org.kuali.kfs.module.purap.document.dataaccess;
 
 import java.util.List;
 
-
 /**
  * Receiving Line DAO Interface.
  */

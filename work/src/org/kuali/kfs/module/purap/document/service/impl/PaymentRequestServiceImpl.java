@@ -202,10 +202,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getPaymentRequestsToExtractByCM(java.lang.String, org.kuali.kfs.module.purap.document.VendorCreditMemoDocument)
      */
     @Deprecated
-    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractByCM(String campusCode, VendorCreditMemoDocument cmd) {
+    public Collection<PaymentRequestDocument> getPaymentRequestsToExtractByCM(String campusCode, VendorCreditMemoDocument cmd) {
         LOG.debug("getPaymentRequestsByCM() started");
         Date currentSqlDateMidnight = dateTimeService.getCurrentSqlDateMidnight();
-        Iterator<PaymentRequestDocument> paymentRequestIterator = paymentRequestDao.getPaymentRequestsToExtract(campusCode, null, null, cmd.getVendorHeaderGeneratedIdentifier(), cmd.getVendorDetailAssignedIdentifier(), currentSqlDateMidnight);
+        List<PaymentRequestDocument> paymentRequestIterator = paymentRequestDao.getPaymentRequestsToExtract(campusCode, null, null, cmd.getVendorHeaderGeneratedIdentifier(), cmd.getVendorDetailAssignedIdentifier(), currentSqlDateMidnight);
 
         return filterPaymentRequestByAppDocStatus(paymentRequestIterator, 
                 PurapConstants.PaymentRequestStatuses.APPDOC_AUTO_APPROVED, 
@@ -229,10 +229,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     /**
      * @see org.kuali.module.purap.server.PaymentRequestService.getPaymentRequestsToExtract(Date)
      */
-    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(Date onOrBeforePaymentRequestPayDate) {
+    public Collection<PaymentRequestDocument> getPaymentRequestsToExtract(Date onOrBeforePaymentRequestPayDate) {
         LOG.debug("getPaymentRequestsToExtract() started");
 
-        Iterator<PaymentRequestDocument> paymentRequestIterator = paymentRequestDao.getPaymentRequestsToExtract(false, null, onOrBeforePaymentRequestPayDate); 
+        Collection<PaymentRequestDocument> paymentRequestIterator = paymentRequestDao.getPaymentRequestsToExtract(false, null, onOrBeforePaymentRequestPayDate); 
         return filterPaymentRequestByAppDocStatus(paymentRequestIterator,
                 PaymentRequestStatuses.STATUSES_ALLOWED_FOR_EXTRACTION);
     }
@@ -241,10 +241,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getPaymentRequestsToExtractSpecialPayments(java.lang.String,
      *      java.sql.Date)
      */
-    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractSpecialPayments(String chartCode, Date onOrBeforePaymentRequestPayDate) {
+    public Collection<PaymentRequestDocument> getPaymentRequestsToExtractSpecialPayments(String chartCode, Date onOrBeforePaymentRequestPayDate) {
         LOG.debug("getPaymentRequestsToExtractSpecialPayments() started");
 
-        Iterator<PaymentRequestDocument> paymentRequestIterator =  paymentRequestDao.getPaymentRequestsToExtract(true, chartCode, onOrBeforePaymentRequestPayDate);
+        Collection<PaymentRequestDocument> paymentRequestIterator =  paymentRequestDao.getPaymentRequestsToExtract(true, chartCode, onOrBeforePaymentRequestPayDate);
         return filterPaymentRequestByAppDocStatus(paymentRequestIterator,
                 PaymentRequestStatuses.STATUSES_ALLOWED_FOR_EXTRACTION);
     }
@@ -252,10 +252,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getImmediatePaymentRequestsToExtract(java.lang.String)
      */
-    public Iterator<PaymentRequestDocument> getImmediatePaymentRequestsToExtract(String chartCode) {
+    public Collection<PaymentRequestDocument> getImmediatePaymentRequestsToExtract(String chartCode) {
         LOG.debug("getImmediatePaymentRequestsToExtract() started");
 
-        Iterator<PaymentRequestDocument> paymentRequestIterator = paymentRequestDao.getImmediatePaymentRequestsToExtract(chartCode);
+        Collection<PaymentRequestDocument> paymentRequestIterator = paymentRequestDao.getImmediatePaymentRequestsToExtract(chartCode);
         return filterPaymentRequestByAppDocStatus(paymentRequestIterator,
                 PaymentRequestStatuses.STATUSES_ALLOWED_FOR_EXTRACTION);
     }
@@ -264,10 +264,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getPaymentRequestToExtractByChart(java.lang.String,
      *      java.sql.Date)
      */
-    public Iterator<PaymentRequestDocument> getPaymentRequestToExtractByChart(String chartCode, Date onOrBeforePaymentRequestPayDate) {
+    public Collection<PaymentRequestDocument> getPaymentRequestToExtractByChart(String chartCode, Date onOrBeforePaymentRequestPayDate) {
         LOG.debug("getPaymentRequestToExtractByChart() started");
 
-        Iterator<PaymentRequestDocument> paymentRequestIterator =  paymentRequestDao.getPaymentRequestsToExtract(false, chartCode, onOrBeforePaymentRequestPayDate);
+        Collection<PaymentRequestDocument> paymentRequestIterator =  paymentRequestDao.getPaymentRequestsToExtract(false, chartCode, onOrBeforePaymentRequestPayDate);
         return filterPaymentRequestByAppDocStatus(paymentRequestIterator,
                 PaymentRequestStatuses.STATUSES_ALLOWED_FOR_EXTRACTION);
     }

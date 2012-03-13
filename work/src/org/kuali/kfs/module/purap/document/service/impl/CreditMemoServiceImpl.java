@@ -166,11 +166,12 @@ public class CreditMemoServiceImpl implements CreditMemoService {
      * @see org.kuali.kfs.module.purap.document.service.CreditMemoService#getCreditMemosToExtract(java.lang.String)
      */
     @Override
-    public Iterator<VendorCreditMemoDocument> getCreditMemosToExtract(String chartCode) {
+    public List<VendorCreditMemoDocument> getCreditMemosToExtract(String chartCode) {
         LOG.debug("getCreditMemosToExtract() started");
 
-        Iterator<VendorCreditMemoDocument> docs = creditMemoDao.getCreditMemosToExtract(chartCode);
-        docs = filterCreditMemoByAppDocStatus(docs, CreditMemoStatuses.STATUSES_ALLOWED_FOR_EXTRACTION);
+        List<VendorCreditMemoDocument> docs = creditMemoDao.getCreditMemosToExtract(chartCode);
+        docs = (List<VendorCreditMemoDocument>) filterCreditMemoByAppDocStatus(docs, CreditMemoStatuses.STATUSES_ALLOWED_FOR_EXTRACTION);
+
         return docs;
 
     }
@@ -190,11 +191,13 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         LOG.debug("getVendorsOnCreditMemosToExtract() started");
         HashSet<VendorGroupingHelper> vendors = new HashSet<VendorGroupingHelper>();
 
-        Iterator<VendorCreditMemoDocument> docs = getCreditMemosToExtract(chartCode);
-        while ( docs.hasNext() ) {
-            VendorCreditMemoDocument doc = docs.next();
-            vendors.add( new VendorGroupingHelper( doc ) );
-        }
+        List<VendorCreditMemoDocument> docs = this.getCreditMemosToExtract(chartCode);
+
+        
+//        while ( docs.hasNext() ) {
+ //           VendorCreditMemoDocument doc = docs.next();
+ //           vendors.add( new VendorGroupingHelper( doc ) );
+  //      }
         return vendors;
     }
 

@@ -17,7 +17,6 @@ package org.kuali.kfs.module.purap.document.dataaccess.impl;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
@@ -27,7 +26,9 @@ import org.kuali.kfs.module.purap.document.BulkReceivingDocument;
 import org.kuali.kfs.module.purap.document.dataaccess.BulkReceivingDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class BulkReceivingDaoOjb  extends PlatformAwareDaoBaseOjb implements BulkReceivingDao {
     
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BulkReceivingDaoOjb.class);
@@ -37,69 +38,42 @@ public class BulkReceivingDaoOjb  extends PlatformAwareDaoBaseOjb implements Bul
         List<String> returnList = new ArrayList<String>();
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, id);        
-        Iterator<Object[]> iter = getDocumentNumbersOfBulkReceivingByCriteria(criteria, false);
-        while (iter.hasNext()) {
-            Object[] cols = (Object[]) iter.next();
-            returnList.add((String) cols[0]);
-        }
-        return returnList;
+        returnList = getDocumentNumbersOfBulkReceivingByCriteria(criteria, false);
 
+        return returnList;
     }
     
-    public List<String> duplicateBillOfLadingNumber(Integer poId, 
-                                                    String billOfLadingNumber) {
-        
+    public List<String> duplicateBillOfLadingNumber(Integer poId, String billOfLadingNumber) {
         List<String> returnList = new ArrayList<String>();
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, poId);
         criteria.addEqualTo(PurapPropertyConstants.SHIPMENT_BILL_OF_LADING_NUMBER, billOfLadingNumber);        
-        Iterator<Object[]> iter = getDocumentNumbersOfBulkReceivingByCriteria(criteria, false);
-
-        while (iter.hasNext()) {
-            Object[] cols = (Object[]) iter.next();
-            returnList.add((String) cols[0]);
-        }
+        returnList = getDocumentNumbersOfBulkReceivingByCriteria(criteria, false);
         
         return returnList;
     }
 
-    public List<String> duplicatePackingSlipNumber(Integer poId, 
-                                                   String packingSlipNumber) {      
-
+    public List<String> duplicatePackingSlipNumber(Integer poId, String packingSlipNumber) {      
         List<String> returnList = new ArrayList<String>();
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, poId);
         criteria.addEqualTo(PurapPropertyConstants.SHIPMENT_PACKING_SLIP_NUMBER, packingSlipNumber);        
-        Iterator<Object[]> iter = getDocumentNumbersOfBulkReceivingByCriteria(criteria, false);
-
-        while (iter.hasNext()) {
-            Object[] cols = (Object[]) iter.next();
-            returnList.add((String) cols[0]);
-        }
+        returnList = getDocumentNumbersOfBulkReceivingByCriteria(criteria, false);
         
         return returnList;
     }
 
-    public List<String> duplicateVendorDate(Integer poId, 
-                                            Date vendorDate) {
- 
+    public List<String> duplicateVendorDate(Integer poId, Date vendorDate) {
         List<String> returnList = new ArrayList<String>();
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, poId);
         criteria.addEqualTo(PurapPropertyConstants.SHIPMENT_RECEIVED_DATE, vendorDate);        
-        Iterator<Object[]> iter = getDocumentNumbersOfBulkReceivingByCriteria(criteria, false);
-
-        while (iter.hasNext()) {
-            Object[] cols = (Object[]) iter.next();
-            returnList.add((String) cols[0]);
-        }
+        returnList = getDocumentNumbersOfBulkReceivingByCriteria(criteria, false);
         
         return returnList;
     }
     
-    protected Iterator<Object[]> getDocumentNumbersOfBulkReceivingByCriteria(Criteria criteria, 
-                                                                           boolean orderByAscending) {
-        
+    protected List<String> getDocumentNumbersOfBulkReceivingByCriteria(Criteria criteria, boolean orderByAscending) {
         ReportQueryByCriteria rqbc = new ReportQueryByCriteria(BulkReceivingDocument.class, criteria);
         rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
         if (orderByAscending) {
@@ -107,7 +81,6 @@ public class BulkReceivingDaoOjb  extends PlatformAwareDaoBaseOjb implements Bul
         }else {
             rqbc.addOrderByDescending(KFSPropertyConstants.DOCUMENT_NUMBER);
         }
-        return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
+        return (List) getPersistenceBrokerTemplate().getCollectionByQuery(rqbc);
     }
-    
 }

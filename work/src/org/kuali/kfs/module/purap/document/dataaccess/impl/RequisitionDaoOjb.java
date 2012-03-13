@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.dataaccess.impl;
 
-import java.util.Iterator;
+import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
@@ -25,10 +25,12 @@ import org.kuali.kfs.module.purap.document.dataaccess.RequisitionDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.util.TransactionalServiceUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * OJB implementation of RequisitionDao.
  */
+@Transactional
 public class RequisitionDaoOjb extends PlatformAwareDaoBaseOjb implements RequisitionDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RequisitionDaoOjb.class);
 
@@ -42,20 +44,18 @@ public class RequisitionDaoOjb extends PlatformAwareDaoBaseOjb implements Requis
         ReportQueryByCriteria rqbc = new ReportQueryByCriteria(RequisitionDocument.class, criteria);
         rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
         rqbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
-        Iterator iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
-        if (iter.hasNext()) {
-            Object[] cols = (Object[]) iter.next();
-            if (iter.hasNext()) {
-                // the iterator should have held only a single doc id of data but it holds 2 or more
-                String errorMsg = "Expected single document number for given criteria but multiple (at least 2) were returned";
-                LOG.error(errorMsg);
-                TransactionalServiceUtils.exhaustIterator(iter);
-                throw new RuntimeException();
-            }
-            // at this part of the code, we know there's no more elements in iterator
-            return (String) cols[0];
-        }
-        return null;
-    }
 
+        List<String> docNumbers = (List<String>) getPersistenceBrokerTemplate().getCollectionByQuery(rqbc);
+         
+        if (docNumbers.isEmpty()) {
+            return null;
+        }
+        if (docNumbers.size() > 1) {
+            String errorMsg = "Expected single document number for given criteria but multiple (at least 2) were returned";
+            LOG.error(errorMsg);
+            throw new RuntimeException();
+        } else {
+            return docNumbers.get(0);
+        }
+    }
 }

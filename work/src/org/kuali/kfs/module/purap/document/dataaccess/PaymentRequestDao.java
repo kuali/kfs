@@ -17,7 +17,6 @@ package org.kuali.kfs.module.purap.document.dataaccess;
 
 import java.sql.Date;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
@@ -40,7 +39,7 @@ public interface PaymentRequestDao {
      * @param currentSqlDateMidnight current SQL date midnight
      * @return - list of payment requests that need to be extracted
      */
-    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(String campusCode, Integer paymentRequestIdentifier, Integer purchaseOrderIdentifier, Integer vendorHeaderGeneratedIdentifier, Integer vendorDetailAssignedIdentifier, Date currentSqlDateMidnight);
+    public List<PaymentRequestDocument> getPaymentRequestsToExtract(String campusCode, Integer paymentRequestIdentifier, Integer purchaseOrderIdentifier, Integer vendorHeaderGeneratedIdentifier, Integer vendorDetailAssignedIdentifier, Date currentSqlDateMidnight);
 
     /**
      * Get all the payment requests that need to be extracted that match a credit memo.
@@ -60,7 +59,7 @@ public interface PaymentRequestDao {
      * @param chartCode - if not null, limit results to a single chart
      * @return - Collection of payment requests
      */
-    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(boolean onlySpecialPayments, String chartCode, Date onOrBeforePaymentRequestPayDate);
+    public List<PaymentRequestDocument> getPaymentRequestsToExtract(boolean onlySpecialPayments, String chartCode, Date onOrBeforePaymentRequestPayDate);
 
     /**
      * Get all the payment requests that are marked immediate that need to be extracted to PDP.
@@ -68,7 +67,7 @@ public interface PaymentRequestDao {
      * @param chartCode - chart of accounts code
      * @return - Collection of payment requests
      */
-    public Iterator<PaymentRequestDocument> getImmediatePaymentRequestsToExtract(String chartCode);
+    public List<PaymentRequestDocument> getImmediatePaymentRequestsToExtract(String chartCode);
 
     /**
      * Get all payment request documents that are eligible for auto-approval. Whether or not a document is eligible for

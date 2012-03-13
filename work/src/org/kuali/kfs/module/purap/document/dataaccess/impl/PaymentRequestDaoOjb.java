@@ -18,14 +18,12 @@ package org.kuali.kfs.module.purap.document.dataaccess.impl;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao;
@@ -34,10 +32,12 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.util.TransactionalServiceUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * OJB Implementation of PaymentRequestDao.
  */
+@Transactional
 public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements PaymentRequestDao {
     private static Logger LOG = Logger.getLogger(PaymentRequestDaoOjb.class);
 
@@ -49,7 +49,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
      * 
      * @see org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao#getPaymentRequestsToExtract(boolean, java.lang.String)
      */
-    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(boolean onlySpecialPayments, String chartCode, Date onOrBeforePaymentRequestPayDate) {
+    public List<PaymentRequestDocument> getPaymentRequestsToExtract(boolean onlySpecialPayments, String chartCode, Date onOrBeforePaymentRequestPayDate) {
         LOG.debug("getPaymentRequestsToExtract() started");
 
         Criteria criteria = new Criteria();
@@ -96,13 +96,13 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
             criteria.addAndCriteria(c1);
         }
 
-        return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentRequestDocument.class, criteria));
+        return (List<PaymentRequestDocument>) getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(PaymentRequestDocument.class, criteria));
     }
 
     /**
      * @see org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao#getImmediatePaymentRequestsToExtract(java.lang.String)
      */
-    public Iterator<PaymentRequestDocument> getImmediatePaymentRequestsToExtract(String chartCode) {
+    public List<PaymentRequestDocument> getImmediatePaymentRequestsToExtract(String chartCode) {
         LOG.debug("getImmediatePaymentRequestsToExtract() started");
 
         Criteria criteria = new Criteria();
@@ -114,7 +114,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         criteria.addIsNull("extractedTimestamp");
         criteria.addEqualTo("immediatePaymentIndicator", Boolean.TRUE);
 
-        return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentRequestDocument.class, criteria));
+        return (List<PaymentRequestDocument>) getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(PaymentRequestDocument.class, criteria));
     }
 
     /**
@@ -122,7 +122,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
      *      java.lang.Integer, java.lang.Integer, java.lang.Integer, java.lang.Integer)
      */
     @Deprecated
-    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(String campusCode, Integer paymentRequestIdentifier, Integer purchaseOrderIdentifier, Integer vendorHeaderGeneratedIdentifier, Integer vendorDetailAssignedIdentifier, Date currentSqlDateMidnight) {
+    public List<PaymentRequestDocument> getPaymentRequestsToExtract(String campusCode, Integer paymentRequestIdentifier, Integer purchaseOrderIdentifier, Integer vendorHeaderGeneratedIdentifier, Integer vendorDetailAssignedIdentifier, Date currentSqlDateMidnight) {
         LOG.debug("getPaymentRequestsToExtract() started");
 
 //        List statuses = new ArrayList();
@@ -153,7 +153,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         criteria.addEqualTo("vendorHeaderGeneratedIdentifier", vendorHeaderGeneratedIdentifier);
         criteria.addEqualTo("vendorDetailAssignedIdentifier", vendorDetailAssignedIdentifier);
 
-        return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentRequestDocument.class, criteria));
+        return (List<PaymentRequestDocument>) getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentRequestDocument.class, criteria));
     }
 
     /**
@@ -194,23 +194,14 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
      * @see org.kuali.kfs.module.purap.document.dataaccess.PaymentRequestDao#getEligibleForAutoApproval()
      */
     public List<String> getEligibleForAutoApproval(Date todayAtMidnight) {
-
         Criteria criteria = new Criteria();
         criteria.addLessOrEqualThan(PurapPropertyConstants.PAYMENT_REQUEST_PAY_DATE, todayAtMidnight);
         criteria.addNotEqualTo("holdIndicator", "Y");
         criteria.addNotEqualTo("paymentRequestedCancelIndicator", "Y");
-        //criteria.addIn(PurapPropertyConstants.STATUS_CODE, Arrays.asList(PurapConstants.PaymentRequestStatuses.PREQ_STATUSES_FOR_AUTO_APPROVE));
-     
-        Iterator<Object[]> docHeaderIdsIter = getDocumentNumbersOfPaymentRequestByCriteria(criteria, false);       
 
-        List<String> returnList = new ArrayList<String>();
-       
-        while (docHeaderIdsIter.hasNext()) {
-            Object[] cols = (Object[]) docHeaderIdsIter.next();
-            returnList.add((String) cols[0]);
-        }
+        List<String> returnList = getDocumentNumbersOfPaymentRequestByCriteria(criteria, false);
+
         return returnList;
-
     }
 
 
@@ -220,6 +211,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
     public String getDocumentNumberByPaymentRequestId(Integer id) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
+
         return getDocumentNumberOfPaymentRequestByCriteria(criteria);
     }
 
@@ -230,11 +222,8 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         List<String> returnList = new ArrayList<String>();
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, poPurApId);
-        Iterator<Object[]> iter = getDocumentNumbersOfPaymentRequestByCriteria(criteria, false);
-        while (iter.hasNext()) {
-            Object[] cols = (Object[]) iter.next();
-            returnList.add((String) cols[0]);
-        }
+        returnList = getDocumentNumbersOfPaymentRequestByCriteria(criteria, false);
+
         return returnList;
     }
 
@@ -246,20 +235,22 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
      */
     protected String getDocumentNumberOfPaymentRequestByCriteria(Criteria criteria) {
         LOG.debug("getDocumentNumberOfPaymentRequestByCriteria() started");
-        Iterator<Object[]> iter = getDocumentNumbersOfPaymentRequestByCriteria(criteria, false);
-        if (iter.hasNext()) {
-            Object[] cols = (Object[]) iter.next();
-            if (iter.hasNext()) {
-                // the iterator should have held only a single doc id of data but it holds 2 or more
-                String errorMsg = "Expected single document number for given criteria but multiple (at least 2) were returned";
-                LOG.error(errorMsg);
-                TransactionalServiceUtils.exhaustIterator(iter);
-                throw new RuntimeException();
-            }
-            // at this part of the code, we know there's no more elements in iterator
-            return (String) cols[0];
+        List<String> returnList = getDocumentNumbersOfPaymentRequestByCriteria(criteria, false);
+        
+        if (returnList.isEmpty()) {
+            return null;
         }
-        return null;
+        
+        if (returnList.size() > 1) {
+            // the list should have held only a single doc id of data but it holds 2 or more
+            String errorMsg = "Expected single document number for given criteria but multiple (at least 2) were returned";
+            LOG.error(errorMsg);
+            throw new RuntimeException();
+            
+        } else {    
+            // at this part of the code, we know there's no more elements in iterator
+            return returnList.get(0).toString();
+        }
     }
 
     /**
@@ -270,7 +261,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
      * @param orderByAscending - boolean to sort results ascending if true, descending otherwise
      * @return - Iterator of document numbers
      */
-    protected Iterator<Object[]> getDocumentNumbersOfPaymentRequestByCriteria(Criteria criteria, boolean orderByAscending) {
+    protected List<String> getDocumentNumbersOfPaymentRequestByCriteria(Criteria criteria, boolean orderByAscending) {
         LOG.debug("getDocumentNumberOfPaymentRequestByCriteria() started");
         ReportQueryByCriteria rqbc = new ReportQueryByCriteria(PaymentRequestDocument.class, criteria);
         rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
@@ -280,7 +271,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         else {
             rqbc.addOrderByDescending(KFSPropertyConstants.DOCUMENT_NUMBER);
         }
-        return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
+        return (List) getPersistenceBrokerTemplate().getCollectionByQuery(rqbc);
     }
 
     /**
@@ -309,6 +300,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         criteria.addEqualTo("vendorDetailAssignedIdentifier", vendorDetailAssignedId);
         criteria.addEqualTo("invoiceNumber", invoiceNumber);
         QueryByCriteria qbc = new QueryByCriteria(PaymentRequestDocument.class, criteria);
+
         return this.getPaymentRequestsByQueryByCriteria(qbc);
     }
 
@@ -326,6 +318,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         criteria.addEqualTo("vendorHeaderGeneratedIdentifier", vendorHeaderGeneratedId);
         criteria.addEqualTo("vendorDetailAssignedIdentifier", vendorDetailAssignedId);
         QueryByCriteria qbc = new QueryByCriteria(PaymentRequestDocument.class, criteria);
+
         return this.getPaymentRequestsByQueryByCriteria(qbc);
     }
 
@@ -341,6 +334,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         criteria.addEqualTo("vendorInvoiceAmount", vendorInvoiceAmount);
         criteria.addEqualTo("invoiceDate", invoiceDate);
         QueryByCriteria qbc = new QueryByCriteria(PaymentRequestDocument.class, criteria);
+
         return this.getPaymentRequestsByQueryByCriteria(qbc);
     }
 
@@ -351,32 +345,20 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         Criteria criteria = new Criteria();
 
         criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, purchaseOrderId);
-        //criteria.addIn(PurapPropertyConstants.STATUS_CODE, Arrays.asList(PaymentRequestStatuses.STATUSES_POTENTIALLY_ACTIVE));
-        Iterator<Object[]> iter = getDocumentNumbersOfPaymentRequestByCriteria(criteria, false);
-        while (iter.hasNext()) {
-            Object[] cols = (Object[]) iter.next();
-            returnList.add((String) cols[0]);
-        }
+        returnList = getDocumentNumbersOfPaymentRequestByCriteria(criteria, false);
+
         return returnList;
     }
     public List<String> getPaymentRequestInReceivingStatus() {
         Criteria criteria = new Criteria();
         criteria.addNotEqualTo("holdIndicator", "Y");
         criteria.addNotEqualTo("paymentRequestedCancelIndicator", "Y");
-        //criteria.addEqualTo(PurapPropertyConstants.STATUS_CODE, PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_RECEIVING_REVIEW);
         
-        Iterator<Object[]> docHeaderIdsIter = getDocumentNumbersOfPaymentRequestByCriteria(criteria, false);       
+        List<String> returnList = new ArrayList<String>();        
+        returnList = getDocumentNumbersOfPaymentRequestByCriteria(criteria, false);       
 
-        List<String> returnList = new ArrayList<String>();
-       
-        while (docHeaderIdsIter.hasNext()) {
-            Object[] cols = (Object[]) docHeaderIdsIter.next();
-            returnList.add((String) cols[0]);
-        }
         return returnList;
 
     }
-    
-
  }
 

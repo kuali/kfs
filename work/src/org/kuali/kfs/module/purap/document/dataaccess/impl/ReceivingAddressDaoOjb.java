@@ -26,10 +26,12 @@ import org.kuali.kfs.module.purap.businessobject.ReceivingAddress;
 import org.kuali.kfs.module.purap.document.dataaccess.ReceivingAddressDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * OJB Implementation of ReceivingAddressDao.
  */
+@Transactional
 public class ReceivingAddressDaoOjb extends PlatformAwareDaoBaseOjb implements ReceivingAddressDao {
     private static Logger LOG = Logger.getLogger(ReceivingAddressDaoOjb.class);
 
@@ -49,6 +51,7 @@ public class ReceivingAddressDaoOjb extends PlatformAwareDaoBaseOjb implements R
         Query query = new QueryByCriteria(ReceivingAddress.class, criteria);
         
         LOG.debug("Leaving findActiveByChartOrg(String,String)");
+
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 
@@ -69,6 +72,7 @@ public class ReceivingAddressDaoOjb extends PlatformAwareDaoBaseOjb implements R
         Query query = new QueryByCriteria(ReceivingAddress.class, criteria);
         
         LOG.debug("Leaving findDefaultByChartOrg(String,String)");
+
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }    
     
@@ -88,7 +92,7 @@ public class ReceivingAddressDaoOjb extends PlatformAwareDaoBaseOjb implements R
         Query query = new QueryByCriteria(ReceivingAddress.class, criteria);
         
         LOG.debug("Leaving countActiveByChartOrg(String,String)");
+
         return getPersistenceBrokerTemplate().getCount(query);
     }
-
 }

@@ -256,7 +256,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
         LOG.debug("processing PREQs without CMs");
 
-        Iterator<PaymentRequestDocument> paymentRequests = paymentRequestService.getPaymentRequestToExtractByChart(campusCode, onOrBeforePaymentRequestPayDate);
+        Iterator<PaymentRequestDocument> paymentRequests = paymentRequestService.getPaymentRequestToExtractByChart(campusCode, onOrBeforePaymentRequestPayDate).iterator();
         while (paymentRequests.hasNext()) {
             PaymentRequestDocument prd = paymentRequests.next();
             // if in the list created above, don't create the payment group
@@ -368,11 +368,11 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
         Iterator<PaymentRequestDocument> paymentRequests = null;
         if (immediatesOnly) {
-            paymentRequests = paymentRequestService.getImmediatePaymentRequestsToExtract(campusCode);
+            paymentRequests = paymentRequestService.getImmediatePaymentRequestsToExtract(campusCode).iterator();
         }
         else {
             java.sql.Date onOrBeforePaymentRequestPayDate = KfsDateUtils.convertToSqlDate(purapRunDateService.calculateRunDate(processRunDate));
-            paymentRequests = paymentRequestService.getPaymentRequestsToExtractSpecialPayments(campusCode, onOrBeforePaymentRequestPayDate);
+            paymentRequests = paymentRequestService.getPaymentRequestsToExtractSpecialPayments(campusCode, onOrBeforePaymentRequestPayDate).iterator();
         }
 
         while (paymentRequests.hasNext()) {
@@ -947,11 +947,11 @@ public class PdpExtractServiceImpl implements PdpExtractService {
 
         Iterator<PaymentRequestDocument> paymentRequests = null;
         if (immediatesOnly) {
-            paymentRequests = paymentRequestService.getImmediatePaymentRequestsToExtract(null);
+            paymentRequests = paymentRequestService.getImmediatePaymentRequestsToExtract(null).iterator();
         }
         else {
             java.sql.Date onOrBeforePaymentRequestPayDate = KfsDateUtils.convertToSqlDate(purapRunDateService.calculateRunDate(processRunDate));
-            paymentRequests = paymentRequestService.getPaymentRequestsToExtract(onOrBeforePaymentRequestPayDate);
+            paymentRequests = paymentRequestService.getPaymentRequestsToExtract(onOrBeforePaymentRequestPayDate).iterator();
         }
 
         while (paymentRequests.hasNext()) {

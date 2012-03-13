@@ -17,7 +17,7 @@ package org.kuali.kfs.module.purap.document.dataaccess.impl;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
@@ -29,54 +29,40 @@ import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
 import org.kuali.kfs.module.purap.document.dataaccess.ReceivingDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
-
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * OJB implementation of PurchaseOrderDao.
  */
+@Transactional
 public class ReceivingDaoOjb extends PlatformAwareDaoBaseOjb implements ReceivingDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReceivingDaoOjb.class);
 
     public List<String> getDocumentNumbersByPurchaseOrderId(Integer id) {        
-
-        List<String> returnList = new ArrayList<String>();
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, id);        
-        Iterator<Object[]> iter = getDocumentNumbersOfReceivingLineByCriteria(criteria, false);
-        while (iter.hasNext()) {
-            Object[] cols = (Object[]) iter.next();
-            returnList.add((String) cols[0]);
-        }
-        return returnList;
+        criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, id);
+        
+        List<String> returnList = getDocumentNumbersOfReceivingLineByCriteria(criteria, false);
 
+        return returnList;
     }
 
     public List<String> getCorrectionReceivingDocumentNumbersByPurchaseOrderId(Integer id) {
-
-        List<String> returnList = new ArrayList<String>();
         Criteria criteria = new Criteria();
         criteria.addEqualTo("lineItemReceivingDocument.purchaseOrderIdentifier", id);        
-        Iterator<Object[]> iter = getDocumentNumbersOfCorrectionReceivingByCriteria(criteria, false);
-        while (iter.hasNext()) {
-            Object[] cols = (Object[]) iter.next();
-            returnList.add((String) cols[0]);
-        }
-        return returnList;
 
+        List<String> returnList =  getDocumentNumbersOfCorrectionReceivingByCriteria(criteria, false);
+        
+        return returnList;
     }
 
     public List<String> getCorrectionReceivingDocumentNumbersByReceivingLineNumber(String receivingDocumentNumber) {
-
-        List<String> returnList = new ArrayList<String>();
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PurapPropertyConstants.LINE_ITEM_RECEIVING_DOCUMENT_NUMBER, receivingDocumentNumber);        
-        Iterator<Object[]> iter = getDocumentNumbersOfCorrectionReceivingByCriteria(criteria, false);
-        while (iter.hasNext()) {
-            Object[] cols = (Object[]) iter.next();
-            returnList.add((String) cols[0]);
-        }
-        return returnList;
 
+        List<String> returnList = getDocumentNumbersOfCorrectionReceivingByCriteria(criteria, false);
+
+        return returnList;
     }
     
     /**
@@ -87,8 +73,7 @@ public class ReceivingDaoOjb extends PlatformAwareDaoBaseOjb implements Receivin
      * @param orderByAscending - boolean to sort results ascending if true, descending otherwise
      * @return - Iterator of document numbers
      */
-    protected Iterator<Object[]> getDocumentNumbersOfReceivingLineByCriteria(Criteria criteria, boolean orderByAscending) {
-        
+    protected List<String> getDocumentNumbersOfReceivingLineByCriteria(Criteria criteria, boolean orderByAscending) {
         ReportQueryByCriteria rqbc = new ReportQueryByCriteria(LineItemReceivingDocument.class, criteria);
         rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
         if (orderByAscending) {
@@ -97,11 +82,11 @@ public class ReceivingDaoOjb extends PlatformAwareDaoBaseOjb implements Receivin
         else {
             rqbc.addOrderByDescending(KFSPropertyConstants.DOCUMENT_NUMBER);
         }
-        return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
+        
+        return (List<String>) getPersistenceBrokerTemplate().getCollectionByQuery(rqbc);
     }
 
-    protected Iterator<Object[]> getDocumentNumbersOfCorrectionReceivingByCriteria(Criteria criteria, boolean orderByAscending) {
-        
+    protected List<String> getDocumentNumbersOfCorrectionReceivingByCriteria(Criteria criteria, boolean orderByAscending) {
         ReportQueryByCriteria rqbc = new ReportQueryByCriteria(CorrectionReceivingDocument.class, criteria);
         rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
         if (orderByAscending) {
@@ -110,72 +95,44 @@ public class ReceivingDaoOjb extends PlatformAwareDaoBaseOjb implements Receivin
         else {
             rqbc.addOrderByDescending(KFSPropertyConstants.DOCUMENT_NUMBER);
         }
-        return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
+        
+        return (List<String>) getPersistenceBrokerTemplate().getCollectionByQuery(rqbc);
     }
 
     public List<String> duplicateBillOfLadingNumber(Integer poId, String billOfLadingNumber) {
-        
-        List<String> returnList = new ArrayList<String>();
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, poId);
         criteria.addEqualTo(PurapPropertyConstants.SHIPMENT_BILL_OF_LADING_NUMBER, billOfLadingNumber);        
-        Iterator<Object[]> iter = getDocumentNumbersOfReceivingLineByCriteria(criteria, false);
 
-        while (iter.hasNext()) {
-            Object[] cols = (Object[]) iter.next();
-            returnList.add((String) cols[0]);
-        }
+        List<String> returnList = getDocumentNumbersOfReceivingLineByCriteria(criteria, false);
         
         return returnList;
     }
 
     public List<String> duplicatePackingSlipNumber(Integer poId, String packingSlipNumber) {      
-
-        List<String> returnList = new ArrayList<String>();
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, poId);
         criteria.addEqualTo(PurapPropertyConstants.SHIPMENT_PACKING_SLIP_NUMBER, packingSlipNumber);        
-        Iterator<Object[]> iter = getDocumentNumbersOfReceivingLineByCriteria(criteria, false);
-
-        while (iter.hasNext()) {
-            Object[] cols = (Object[]) iter.next();
-            returnList.add((String) cols[0]);
-        }
+        List<String> returnList = getDocumentNumbersOfReceivingLineByCriteria(criteria, false);
         
         return returnList;
     }
 
     public List<String> duplicateVendorDate(Integer poId, Date vendorDate) {
- 
-        List<String> returnList = new ArrayList<String>();
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, poId);
         criteria.addEqualTo(PurapPropertyConstants.SHIPMENT_RECEIVED_DATE, vendorDate);        
-        Iterator<Object[]> iter = getDocumentNumbersOfReceivingLineByCriteria(criteria, false);
-
-        while (iter.hasNext()) {
-            Object[] cols = (Object[]) iter.next();
-            returnList.add((String) cols[0]);
-        }
+        List<String> returnList = getDocumentNumbersOfReceivingLineByCriteria(criteria, false);
         
         return returnList;
     }
  
    public List<String> getReceivingDocumentsForPOAmendment() {
-        
         Criteria criteria = new Criteria();
         criteria.addEqualTo("lineItemReceivingStatusCode", PurapConstants.LineItemReceivingStatuses.APPDOC_AWAITING_PO_OPEN_STATUS);
         
+        List<String> returnList = getDocumentNumbersOfReceivingLineByCriteria(criteria, false);       
         
-        Iterator<Object[]> docHeaderIdsIter = getDocumentNumbersOfReceivingLineByCriteria(criteria, false);       
-
-        List<String> returnList = new ArrayList<String>();
-       
-        while (docHeaderIdsIter.hasNext()) {
-            Object[] cols = (Object[]) docHeaderIdsIter.next();
-            returnList.add((String) cols[0]);
-        }
         return returnList;
-        }
-    
+  }
 }

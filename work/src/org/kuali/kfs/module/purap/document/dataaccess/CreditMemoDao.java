@@ -17,7 +17,6 @@ package org.kuali.kfs.module.purap.document.dataaccess;
 
 import java.sql.Date;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
@@ -35,7 +34,7 @@ public interface CreditMemoDao {
      * @param chartCode - if not null, limit results to a single chart
      * @return - Iterator of credit memos
      */
-    public Iterator<VendorCreditMemoDocument> getCreditMemosToExtract(String chartCode);
+    public List<VendorCreditMemoDocument> getCreditMemosToExtract(String chartCode);
 
     /**
      * Get all the credit memos that need to be extracted for a particular vendor record.

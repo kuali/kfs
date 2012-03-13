@@ -45,7 +45,7 @@ public interface CreditMemoService extends AccountsPayableDocumentSpecificServic
      * @param chartCode Chart to select from.
      * @return Iterator of credit memos.
      */
-    public Iterator<VendorCreditMemoDocument> getCreditMemosToExtract(String chartCode);
+    public List<VendorCreditMemoDocument> getCreditMemosToExtract(String chartCode);
 
     /**
      * Pulls a distinct list of all vendors on CM documents which are ready for extraction.

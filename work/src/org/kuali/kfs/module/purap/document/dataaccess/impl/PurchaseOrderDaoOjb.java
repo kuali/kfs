@@ -15,8 +15,8 @@
  */
 package org.kuali.kfs.module.purap.document.dataaccess.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
@@ -32,10 +32,12 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.util.TransactionalServiceUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * OJB implementation of PurchaseOrderDao.
  */
+@Transactional
 public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements PurchaseOrderDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderDaoOjb.class);
 
@@ -49,6 +51,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
             //should be only one
             return purchaseOrderDocument.getPurapDocumentIdentifier();
         }
+        
         return null;
     }
 
@@ -67,6 +70,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
     public String getDocumentNumberForPurchaseOrderId(Integer id) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
+        
         return getDocumentNumberUsingPurchaseOrderCriteria(criteria);
     }
 
@@ -77,6 +81,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
         criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_CURRENT_INDICATOR, "Y");
+     
         return getDocumentNumberUsingPurchaseOrderCriteria(criteria);
     }
 
@@ -89,11 +94,13 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         ReportQueryByCriteria rqbc = new ReportQueryByCriteria(PurchaseOrderDocument.class, criteria);
         rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
         rqbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
-        Iterator<Object[]> iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
-        String oldestDocumentNumber = null;
-        if (iter.hasNext()) {
-            oldestDocumentNumber = (String) (iter.next())[0];
+        
+        String oldestDocumentNumber = null;        
+        Collection<String> docNumbers = getPersistenceBrokerTemplate().getCollectionByQuery(rqbc);
+        for (String docNum : docNumbers) {
+            oldestDocumentNumber = docNum;
         }
+        
         return oldestDocumentNumber;
     }
 
@@ -104,20 +111,22 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
      * @return Document number string if a valid purchase order is found, null if no purchase order is found
      */
     protected String getDocumentNumberUsingPurchaseOrderCriteria(Criteria criteria) {
-        Iterator<Object[]> iter = getDocumentNumbersUsingPurchaseOrderCriteria(criteria);
-        if (iter.hasNext()) {
-            Object[] cols = iter.next();
-            if (iter.hasNext()) {
-                // the iterator should have held only a single doc id of data but it holds 2 or more
-                String errorMsg = "Expected single document number for given criteria but multiple (at least 2) were returned";
-                LOG.error(errorMsg);
-                TransactionalServiceUtils.exhaustIterator(iter);
-                throw new RuntimeException(errorMsg);
-            }
-            // at this part of the code, we know there's no more elements in iterator
-            return (String) cols[0];
+        List<String> returnList = getDocumentNumbersUsingPurchaseOrderCriteria(criteria);
+
+        if (returnList.isEmpty()) {
+            return null;
         }
-        return null;
+        
+        if (returnList.size() > 1) {
+            // the list should have held only a single doc id of data but it holds 2 or more
+            String errorMsg = "Expected single document number for given criteria but multiple (at least 2) were returned";
+            LOG.error(errorMsg);
+            throw new RuntimeException();
+            
+        } else {    
+            // at this part of the code, we know there's no more elements in iterator
+            return returnList.get(0).toString();
+        }
     }
 
     /**
@@ -126,11 +135,20 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
      * @param criteria - list of criteria to use in the retrieve
      * @return Iterator of document numbers
      */
-    protected Iterator<Object[]> getDocumentNumbersUsingPurchaseOrderCriteria(Criteria criteria) {
+    protected List<String> getDocumentNumbersUsingPurchaseOrderCriteria(Criteria criteria) {
         ReportQueryByCriteria rqbc = new ReportQueryByCriteria(PurchaseOrderDocument.class, criteria);
-        rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
+        List<String> returnList = new ArrayList<String>();
+        
+    //    rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
         rqbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
-        return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
+        
+        List<PurchaseOrderDocument> poDocs = (List<PurchaseOrderDocument>) getPersistenceBrokerTemplate().getCollectionByQuery(rqbc);
+        
+        for (PurchaseOrderDocument poDoc : poDocs) {
+            returnList.add(poDoc.getDocumentNumber());
+        }
+        
+        return returnList;
     }
 
     /**
@@ -146,9 +164,10 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         ReportQueryByCriteria rqbc = new ReportQueryByCriteria(PurchaseOrderItem.class, criteria);
         rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
         rqbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
-        Iterator<Object[]> iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
+
+        List<String> docNumbers = (List<String>) getPersistenceBrokerTemplate().getCollectionByQuery(rqbc);
         
-        if (iter.hasNext()) {
+        if (!docNumbers.isEmpty()) {
             existsInPo = true;
         }
         
@@ -174,6 +193,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         }
         List<AutoClosePurchaseOrderView> l = (List<AutoClosePurchaseOrderView>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
         LOG.debug("getAllOpenPurchaseOrders() ended.");
+
         return l;
     }    
     
@@ -194,6 +214,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         }
         List<AutoClosePurchaseOrderView> l = (List<AutoClosePurchaseOrderView>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
         LOG.debug("getAutoCloseRecurringPurchaseOrders() ended.");
+
         return l;
     }
     
@@ -203,6 +224,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         criteria.addEqualTo(PurapPropertyConstants.STATUS_CODE, PurapConstants.PurchaseOrderStatuses.APPDOC_PENDING_FAX);
         QueryByCriteria qbc = new QueryByCriteria(PurchaseOrderDocument.class,criteria);
         List l = (List)getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+
         return l;
    }
 }

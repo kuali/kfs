@@ -16,22 +16,13 @@
 package org.kuali.kfs.sys.document.workflow;
 //RICE20 Hook to document type is not working right now but needs to be changed to support pre-rice2.0 release
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.uif.RemotableAttributeError;
 import org.kuali.rice.core.api.uif.RemotableAttributeField;
-import org.kuali.rice.kew.api.document.Document;
-import org.kuali.rice.kew.api.document.DocumentStatusCategory;
 import org.kuali.rice.kew.api.document.DocumentWithContent;
 import org.kuali.rice.kew.api.document.attribute.DocumentAttribute;
-import org.kuali.rice.kew.api.document.attribute.DocumentAttributeString;
 import org.kuali.rice.kew.api.document.attribute.WorkflowAttributeDefinition;
 import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
@@ -39,12 +30,8 @@ import org.kuali.rice.kew.api.extension.ExtensionDefinition;
 import org.kuali.rice.kew.framework.document.attribute.SearchableAttribute;
 import org.kuali.rice.kew.framework.document.search.DocumentSearchCustomizer;
 import org.kuali.rice.kew.framework.document.search.DocumentSearchResultSetConfiguration;
-import org.kuali.rice.kew.framework.document.search.DocumentSearchResultValue;
 import org.kuali.rice.kew.framework.document.search.DocumentSearchResultValues;
 import org.kuali.rice.kew.framework.document.search.StandardResultField;
-import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kim.api.services.IdentityManagementService;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 public class KFSDocumentSearchCustomizer implements SearchableAttribute, DocumentSearchCustomizer {
 
@@ -60,57 +47,7 @@ public class KFSDocumentSearchCustomizer implements SearchableAttribute, Documen
 
     @Override
     public DocumentSearchResultValues customizeResults(DocumentSearchCriteria documentSearchCriteria, List<DocumentSearchResult> defaultResults) {
-        // since we know we are looking up POs at this time - add the warning about disclosing them
-        GlobalVariables.getMessageMap().putWarning(KFSPropertyConstants.DOCUMENT_NUMBER, PurapConstants.WARNING_PURCHASEORDER_NUMBER_DONT_DISCLOSE);
-
-        org.kuali.rice.kew.framework.document.search.DocumentSearchResultValues.Builder customResultsBuilder = DocumentSearchResultValues.Builder.create();
-
-        List<DocumentSearchResultValue.Builder> customResultValueBuilders = new ArrayList<DocumentSearchResultValue.Builder>();
-
-        boolean isAuthorizedToViewPurapDocId = false;
-        if ( defaultResults.size() > 0 ) {
-            for (DocumentAttribute documentAttribute : defaultResults.get(0).getDocumentAttributes()) {
-                if (KFSPropertyConstants.PURAP_DOC_ID.equals(documentAttribute.getName())) {
-                    isAuthorizedToViewPurapDocId = isAuthorizedToViewPurapDocId();
-                }
-            }
-        }
-        for (DocumentSearchResult result : defaultResults) {
-            List<DocumentAttribute.AbstractBuilder<?>> custAttrBuilders = new ArrayList<DocumentAttribute.AbstractBuilder<?>>();
-            Document document = result.getDocument();
-            for (DocumentAttribute documentAttribute : result.getDocumentAttributes()) {
-                if (KFSPropertyConstants.PURAP_DOC_ID.equals(documentAttribute.getName())) {
-                    if (!isAuthorizedToViewPurapDocId && !document.getStatus().getCategory().equals(DocumentStatusCategory.SUCCESSFUL) ) {
-                        DocumentAttributeString.Builder builder = DocumentAttributeString.Builder.create(KFSPropertyConstants.PURAP_DOC_ID);
-                        builder.setValue("********");
-                        custAttrBuilders.add(builder);
-                        break;
-                    }
-                }
-            }
-            DocumentSearchResultValue.Builder builder = DocumentSearchResultValue.Builder.create(document.getDocumentId());
-            builder.setDocumentAttributes(custAttrBuilders);
-            customResultValueBuilders.add(builder);
-        }
-        customResultsBuilder.setResultValues(customResultValueBuilders);
-
-        return customResultsBuilder.build();
-    }
-
-    private boolean isAuthorizedToViewPurapDocId() {
-        String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
-        String namespaceCode = KFSConstants.CoreModuleNamespaces.KNS;
-        String permissionTemplateName = KimConstants.PermissionTemplateNames.FULL_UNMASK_FIELD;
-
-        Map<String, String> roleQualifiers = new HashMap<String, String>();
-
-        Map<String, String> permissionDetails = new HashMap<String, String>();
-        permissionDetails.put(KimConstants.AttributeConstants.COMPONENT_NAME, KFSPropertyConstants.PURCHASE_ORDER_DOCUMENT_SIMPLE_NAME);
-        permissionDetails.put(KimConstants.AttributeConstants.PROPERTY_NAME, KFSPropertyConstants.PURAP_DOC_ID);
-
-        IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
-        boolean isAuthorized = identityManagementService.isAuthorizedByTemplateName(principalId, namespaceCode, permissionTemplateName, permissionDetails, roleQualifiers);
-        return isAuthorized;
+        return null;
     }
 
     @Override
@@ -200,11 +137,6 @@ public class KFSDocumentSearchCustomizer implements SearchableAttribute, Documen
 
     @Override
     public boolean isCustomizeResultsEnabled(String documentTypeName) {
-        // do not mask the purapDocumentIdentifier field if the document is not PO or POSP..
-        if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT.equalsIgnoreCase(documentTypeName)
-                || PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT.equalsIgnoreCase(documentTypeName)) {
-            return true;
-        }
         return false;
     }
 

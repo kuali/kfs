@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="ns:workflow resource:WorkflowData">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>KFSDocumentSearchCustomizer</name>
+      <label>KFS Document Search Customizer</label>
+      <className>org.kuali.kfs.sys.document.workflow.KFSDocumentSearchCustomizer</className>
+      <type>DocumentSearchCustomizer</type>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>FinancialSystemSearchableAttribute</name>
+      <className>org.kuali.kfs.sys.document.workflow.KFSDocumentSearchCustomizer</className>
+      <label>Financial System Searchable Attribute</label>
+      <description>Financial System Searchable Attribute</description>
+      <type>SearchableAttribute</type>
+    </ruleAttribute>
+  </ruleAttributes>
 	<documentTypes xmlns="ns:workflow/DocumentType"
 		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<!-- KFSMI-5343 -->
@@ -125,37 +140,6 @@
 			<helpDefinitionURL>default.htm?turl=WordDocuments%2Fcreditcardtype.htm</helpDefinitionURL>
 			<active>true</active>
 			<routingVersion>2</routingVersion>
-		</documentType>
-		<documentType>
-			<name>POA</name>
-			<routePaths>
-				<routePath>
-					<start name="AdHoc" nextNode="HasNewUnorderedItems" />
-					<split name="HasNewUnorderedItems">
-						<branch name="True">
-							<role name="NewUnorderedItems" nextNode="Join" />
-						</branch>
-						<branch name="False">
-							<simple name="NoOp" nextNode="Join" />
-						</branch>
-						<join name="Join" />
-					</split>
-				</routePath>
-			</routePaths>
-			<routeNodes>
-				<start name="AdHoc" />
-				<split name="HasNewUnorderedItems">
-					<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
-				</split>
-				<role name="NewUnorderedItems">
-					<!--<ruleTemplate>KualiNewUnorderedItemsTemplate</ruleTemplate> -->
-					<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-				</role>
-				<join name="Join" />
-				<simple name="NoOp">
-					<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-				</simple>
-			</routeNodes>
 		</documentType>
 		<!-- KFSMI-7058 -->
 		<documentType>

@@ -100,7 +100,8 @@ public class FinancialSystemUserRoleTypeServiceImpl extends RoleTypeServiceBase 
      */
     @Override
     public List<RemotableAttributeError> validateAttributes(String kimTypeId, Map<String,String> attributes) {
-        List<RemotableAttributeError> errorList = super.validateAttributes(kimTypeId, attributes);
+        List<RemotableAttributeError> errorList = new ArrayList <RemotableAttributeError>();
+        errorList.addAll(super.validateAttributes(kimTypeId, attributes));
         String chartCode = attributes.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
         String organizationCode = attributes.get(KfsKimAttributes.ORGANIZATION_CODE);
         String namespaceCode = attributes.get(KimConstants.AttributeConstants.NAMESPACE_CODE);

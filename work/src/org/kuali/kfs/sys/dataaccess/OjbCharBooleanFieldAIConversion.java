@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.rice.kns.util;
+package org.kuali.kfs.sys.dataaccess;
 
 import org.apache.ojb.broker.accesslayer.conversions.FieldConversion;
 

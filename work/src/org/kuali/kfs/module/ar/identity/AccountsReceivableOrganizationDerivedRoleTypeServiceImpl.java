@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,7 +33,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.kfs.sys.service.FinancialSystemUserService;
 import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kim.api.role.PassThruRoleTypeServiceBase;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -41,8 +40,10 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
     protected static final String PROCESSOR_ROLE_NAME = "Processor";
 
-    private BusinessObjectService businessObjectService;
-    private FinancialSystemUserService financialSystemUserService;
+    protected static final String UNMATCHABLE_QUALIFICATION = "!~!~!~!~!~";
+
+    protected BusinessObjectService businessObjectService;
+    protected FinancialSystemUserService financialSystemUserService;
 
     protected ChartOrgHolder getProcessingChartOrg( Map<String,String> qualification ) {
         ChartOrgHolderImpl chartOrg = null;
@@ -66,8 +67,8 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends De
                     chartOrg.setChartOfAccountsCode( oo.getProcessingChartOfAccountCode() );
                     chartOrg.setOrganizationCode( oo.getProcessingOrganizationCode() );
                 } else {
-                    chartOrg.setChartOfAccountsCode( PassThruRoleTypeServiceBase.UNMATCHABLE_QUALIFICATION );
-                    chartOrg.setOrganizationCode( PassThruRoleTypeServiceBase.UNMATCHABLE_QUALIFICATION );
+                    chartOrg.setChartOfAccountsCode( UNMATCHABLE_QUALIFICATION );
+                    chartOrg.setOrganizationCode( UNMATCHABLE_QUALIFICATION );
                 }
             }
         }
@@ -86,7 +87,7 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends De
             return getBusinessObjectService().countMatching(SystemInformation.class, arProcessOrgCriteria) > 0;
         } else { // org was passed, user's org must match
             return processingOrg.equals(userOrg);
-        }        
+        }
     }
 
     public boolean hasBillerRole(ChartOrgHolder userOrg, Map<String,String> qualification) {
@@ -104,7 +105,7 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends De
             return billingOrg.equals(userOrg);
         }
     }
-    
+
     /**
      * @see org.kuali.rice.kns.kim.role.RoleTypeServiceBase#hasDerivedRole(java.lang.String, java.util.List, java.lang.String, java.lang.String, java.util.Map)
      */
@@ -121,7 +122,7 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends De
         }
         return false;
     }
-    
+
     public List<RoleMembership> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, Map<String,String> qualification) {
         validateRequiredAttributesAgainstReceived(qualification);
         List<RoleMembership> results = new ArrayList<RoleMembership>();
@@ -134,9 +135,9 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends De
                 List<OrganizationOptions> ooList = (List<OrganizationOptions>)getBusinessObjectService().findAll(OrganizationOptions.class);
                 for ( OrganizationOptions oo : ooList ) {
                     principalIds.clear();
-                    principalIds.addAll( 
+                    principalIds.addAll(
                             getFinancialSystemUserService().getPrincipalIdsForFinancialSystemOrganizationUsers(
-                                    namespaceCode, 
+                                    namespaceCode,
                                     new ChartOrgHolderImpl( oo.getProcessingChartOfAccountCode(), oo.getProcessingOrganizationCode() )));
                     if ( !principalIds.isEmpty() ) {
                         Map<String,String> roleQualifier = new HashMap<String,String>(2);
@@ -172,9 +173,9 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends De
                 List<OrganizationOptions> ooList = (List<OrganizationOptions>)getBusinessObjectService().findAll(OrganizationOptions.class);
                 for ( OrganizationOptions oo : ooList ) {
                     principalIds.clear();
-                    principalIds.addAll( 
+                    principalIds.addAll(
                             getFinancialSystemUserService().getPrincipalIdsForFinancialSystemOrganizationUsers(
-                                    namespaceCode, 
+                                    namespaceCode,
                                     new ChartOrgHolderImpl( oo.getChartOfAccountsCode(), oo.getOrganizationCode() )));
                     if ( !principalIds.isEmpty() ) {
                         Map<String,String> roleQualifier = new HashMap<String,String>(2);
@@ -202,8 +203,9 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends De
         }
         return results;
     }
-    
 
+
+    @Override
     protected BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
@@ -211,7 +213,7 @@ public class AccountsReceivableOrganizationDerivedRoleTypeServiceImpl extends De
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
+
 
     protected final FinancialSystemUserService getFinancialSystemUserService() {
         if (financialSystemUserService == null) {

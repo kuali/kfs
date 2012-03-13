@@ -1,0 +1,17 @@
+po_vndr_chc_cd|obj_id|ver_nbr|po_vndr_chc_desc|dobj_maint_cd_actv_ind|
+CNST|posdifiri87if784369743ioeru|0.0|Construction|Y|
+CONF|posdifiri87if784xe9743ioeru|0.0|Conference/Hospitality|Y|
+CONT|posdifiri87if784479743ioeru|0.0|Contracted Price|Y|
+DESN|posdifiri87if784e49743ioeru|0.0|Design Required by Department|Y|
+FCLR|posdifiri87if784ld9743ioeru|0.0|Franchise, Copyright, License|Y|
+GRAN|posdifiri87if7844i9743ioeru|0.0|Grant Specified|Y|
+INTG|posdifiri87if7849o9743ioeru|0.0|Integrate with Existing Facility|Y|
+LPRC|posdifiri87if7843z9743ioeru|0.0|Lowest Price|Y|
+ONLY|posdifiri87if7845c9743ioeru|0.0|Only Known Source|Y|
+OTHR|posdifiri87if784799743ioeru|0.0|Other|Y|
+PROF|posdifiri87if784fl9743ioeru|0.0|Professional Service|Y|
+SMAI|posdifiri87if784qr9743ioeru|0.0|Service, Maintenance, Parts|Y|
+SMAL|posdifiri87if784y09743ioeru|0.0|Small Order (under $5,000)|Y|
+SRVC|posdifiri87if784ry9743ioeru|0.0|Services Maintenance by Manufacturer|Y|
+SUBC|posdifiri87if784u89743ioeru|0.0|Subcontract|Y|
+UTIL|posdifiri87if784rm9743ioeru|0.0|Utility|Y|

@@ -1,0 +1,26 @@
+<Record name="end_kemid_t" type="delimited">
+  <Field name="kemid"                           type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="shrt_ttl"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="closed_ind"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="prps_cd"                         type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="inc_cae_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="prin_cae_cd"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="closed_to_kemid"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="close_cd"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fnd_disp"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="close_dt"                        type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="long_ttl"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="opnd_dt"                         type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="estbl_dt"                        type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="typ_cd"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="resp_admin_cd"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="tran_restr_cd"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="csh_sweep_mdl_id"                type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="inc_aci_mdl_id"                  type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="prin_aci_mdl_id"                 type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="dormant_ind"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="typ_inc_restr_cd"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="typ_prin_restr_cd"               type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

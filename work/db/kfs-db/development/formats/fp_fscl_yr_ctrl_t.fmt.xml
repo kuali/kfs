@@ -1,0 +1,7 @@
+<Record name="fp_fscl_yr_ctrl_t" type="delimited">
+  <Field name="univ_fiscal_yr"                  type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fs_func_ctrl_cd"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fs_func_active_ind"              type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

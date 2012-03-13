@@ -1,0 +1,25 @@
+<Record name="ar_sys_info_t" type="delimited">
+  <Field name="univ_fiscal_yr"                  type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="prcs_fin_coa_cd"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="prcs_org_cd"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="univ_fein_nbr"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="refund_fin_obj_cd"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="univ_clr_coa_cd"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="univ_clr_acct_nbr"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="univ_clr_subac_nbr"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="univ_clr_object_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="univ_clr_subobj_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="pmt_clr_fin_obj_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ar_lockbox_nbr"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="row_actv_ind"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="org_remit_addr_nm"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="org_remit_ln1_addr"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="org_remit_ln2_addr"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="org_remit_city_nm"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="org_remit_st_cd"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="org_remit_zip_cd"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="org_chck_pay_to_nm"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fdoc_initiator_id"               type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

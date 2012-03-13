@@ -1,0 +1,11 @@
+<Record name="cm_cptlast_obj_t" type="delimited">
+  <Field name="univ_fiscal_yr"                  type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_coa_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_obj_sub_type_cd"             type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cptlztn_fobj_cd"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="accum_depr_fobj_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="depr_exp_fobj_cd"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="row_actv_ind"                    type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

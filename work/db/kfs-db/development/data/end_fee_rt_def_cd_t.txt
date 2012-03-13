@@ -1,0 +1,3 @@
+fee_rt_def_cd|fee_rt_def_desc|obj_id|ver_nbr|
+C|Count|8529CD48485C060AE0404F8189D81C0B|1.0|
+V|Value|8529CD48485D060AE0404F8189D81C0B|1.0|

@@ -1,0 +1,2 @@
+fin_coa_cd|account_nbr|fin_ofst_obj_cd|obj_id|ver_nbr|fin_ofst_coa_cd|fin_ofst_acct_nbr|row_actv_ind|
+BL|2231401|8000|0F0F5562BCA679F4E043814FD88179F4|1.0|UA|1912201|Y|

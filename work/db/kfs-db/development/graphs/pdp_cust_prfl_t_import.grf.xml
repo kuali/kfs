@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Graph name="Export PDP_CUST_PRFL_T" revision="1.0">
+  <Global>
+    <Property fileURL="workspace.prm" id="WorkspaceParameters" />
+    <Connection dbConfig="${DATABASE}" id="TargetDB" type="JDBC" />
+    <Metadata id="OutputFileFormat" fileURL="${FORMAT_DIR}/pdp_cust_prfl_t.fmt.xml" />
+  </Global>
+   <Phase number="0">
+     <Node id="DATABASE_RUN"
+           type="DB_EXECUTE"
+           dbConnection="TargetDB"
+           sqlQuery="TRUNCATE TABLE PDP_CUST_PRFL_T" />
+   </Phase>
+   <Phase number="1">
+    <Node id="INPUT" type="DATA_READER" skipLeadingBlanks="false" fileURL="${DATA_DIR}/pdp_cust_prfl_t.txt" skipFirstLine="true" dataPolicy="strict" charset="UTF-8" quotedStrings="false" trim="false" treatMultipleDelimitersAsOne="false" />
+    <Edge fromNode="INPUT:0" toNode="FIX_DELIM:0" id="INPUT_TO_FIX_DELIM" metadata="OutputFileFormat" />
+    <Node id="FIX_DELIM" type="REFORMAT">
+      <attr name="transform"><![CDATA[
+//#TL
+    function transform() {
+        $0.cust_id := $cust_id;
+        $0.obj_id := replace(nvl($obj_id, ""), "~!~", "|" );
+        $0.ver_nbr := $ver_nbr;
+        $0.fin_coa_cd := replace(nvl($fin_coa_cd, ""), "~!~", "|" );
+        $0.unt_cd := replace(nvl($unt_cd, ""), "~!~", "|" );
+        $0.sbunt_cd := replace(nvl($sbunt_cd, ""), "~!~", "|" );
+        $0.cust_desc := replace(nvl($cust_desc, ""), "~!~", "|" );
+        $0.cust_actv_ind := replace(nvl($cust_actv_ind, ""), "~!~", "|" );
+        $0.cust_prcs_email_addr := replace(nvl($cust_prcs_email_addr, ""), "~!~", "|" );
+        $0.pmt_thrshld_amt := $pmt_thrshld_amt;
+        $0.cust_pmt_thrshld_email_addr := replace(nvl($cust_pmt_thrshld_email_addr, ""), "~!~", "|" );
+        $0.fl_thrshld_amt := $fl_thrshld_amt;
+        $0.cust_file_thrshld_email_addr := replace(nvl($cust_file_thrshld_email_addr, ""), "~!~", "|" );
+        $0.dflt_coa_cd := replace(nvl($dflt_coa_cd, ""), "~!~", "|" );
+        $0.dflt_acct_nbr := replace(nvl($dflt_acct_nbr, ""), "~!~", "|" );
+        $0.dflt_sub_acct_nbr := replace(nvl($dflt_sub_acct_nbr, ""), "~!~", "|" );
+        $0.dflt_obj_cd := replace(nvl($dflt_obj_cd, ""), "~!~", "|" );
+        $0.dflt_sub_obj_cd := replace(nvl($dflt_sub_obj_cd, ""), "~!~", "|" );
+        $0.adv_crte_ind := replace(nvl($adv_crte_ind, ""), "~!~", "|" );
+        $0.ach_pmt_desc := replace(nvl($ach_pmt_desc, ""), "~!~", "|" );
+        $0.ach_trans_typ := replace(nvl($ach_trans_typ, ""), "~!~", "|" );
+        $0.cust_cntc_full_nm := replace(nvl($cust_cntc_full_nm, ""), "~!~", "|" );
+        $0.cust_ln1_addr := replace(nvl($cust_ln1_addr, ""), "~!~", "|" );
+        $0.cust_ln2_addr := replace(nvl($cust_ln2_addr, ""), "~!~", "|" );
+        $0.cust_ln3_addr := replace(nvl($cust_ln3_addr, ""), "~!~", "|" );
+        $0.cust_ln4_addr := replace(nvl($cust_ln4_addr, ""), "~!~", "|" );
+        $0.cust_cty_nm := replace(nvl($cust_cty_nm, ""), "~!~", "|" );
+        $0.cust_st_cd := replace(nvl($cust_st_cd, ""), "~!~", "|" );
+        $0.cust_zip_cd := replace(nvl($cust_zip_cd, ""), "~!~", "|" );
+        $0.cust_cntry_cd := replace(nvl($cust_cntry_cd, ""), "~!~", "|" );
+        $0.chk_hdr_nte_ln1_txt := replace(nvl($chk_hdr_nte_ln1_txt, ""), "~!~", "|" );
+        $0.chk_hdr_nte_ln2_txt := replace(nvl($chk_hdr_nte_ln2_txt, ""), "~!~", "|" );
+        $0.chk_hdr_nte_ln3_txt := replace(nvl($chk_hdr_nte_ln3_txt, ""), "~!~", "|" );
+        $0.chk_hdr_nte_ln4_txt := replace(nvl($chk_hdr_nte_ln4_txt, ""), "~!~", "|" );
+        $0.addl_chk_nte_ln1_txt := replace(nvl($addl_chk_nte_ln1_txt, ""), "~!~", "|" );
+        $0.addl_chk_nte_ln2_txt := replace(nvl($addl_chk_nte_ln2_txt, ""), "~!~", "|" );
+        $0.addl_chk_nte_ln3_txt := replace(nvl($addl_chk_nte_ln3_txt, ""), "~!~", "|" );
+        $0.addl_chk_nte_ln4_txt := replace(nvl($addl_chk_nte_ln4_txt, ""), "~!~", "|" );
+        $0.adv_hdr_txt := replace(nvl($adv_hdr_txt, ""), "~!~", "|" );
+        $0.adv_subj_ln_txt := replace(nvl($adv_subj_ln_txt, ""), "~!~", "|" );
+        $0.adv_rtrn_email_addr := replace(nvl($adv_rtrn_email_addr, ""), "~!~", "|" );
+        $0.dflt_phys_cmp_proc_cd := replace(nvl($dflt_phys_cmp_proc_cd, ""), "~!~", "|" );
+        $0.cust_nra_rvw_ind := replace(nvl($cust_nra_rvw_ind, ""), "~!~", "|" );
+        $0.acctg_edit_req_ind := replace(nvl($acctg_edit_req_ind, ""), "~!~", "|" );
+        $0.cust_emp_chk_ind := replace(nvl($cust_emp_chk_ind, ""), "~!~", "|" );
+        $0.cust_ownr_cd_req_ind := replace(nvl($cust_ownr_cd_req_ind, ""), "~!~", "|" );
+        $0.cust_payee_id_req_ind := replace(nvl($cust_payee_id_req_ind, ""), "~!~", "|" );
+        $0.fin_object_cd_lblty_rlf_cd := replace(nvl($fin_object_cd_lblty_rlf_cd, ""), "~!~", "|" );
+        $0.actv_ind := replace(nvl($actv_ind, ""), "~!~", "|" );
+   }
+      ]]></attr>
+    </Node>
+    <Edge fromNode="FIX_DELIM:0" toNode="DB_OUTPUT:0" id="TO_OUTPUT"  metadata="OutputFileFormat" />
+    <Node id="DB_OUTPUT" type="KUL_DB_OUTPUT_TABLE" metadata="OutputFileFormat" dbConnection="TargetDB" dbTable="pdp_cust_prfl_t" batchMode="true" errorAction="ROLLBACK" />
+  </Phase>
+</Graph>
+  
+  

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Graph name="Export CA_ACCOUNT_T" revision="1.0">
+  <Global>
+    <Property fileURL="workspace.prm" id="WorkspaceParameters" />
+    <Connection dbConfig="${DATABASE}" id="TargetDB" type="JDBC" />
+    <Metadata id="OutputFileFormat" fileURL="${FORMAT_DIR}/ca_account_t.fmt.xml" />
+  </Global>
+   <Phase number="0">
+     <Node id="DATABASE_RUN"
+           type="DB_EXECUTE"
+           dbConnection="TargetDB"
+           sqlQuery="TRUNCATE TABLE CA_ACCOUNT_T" />
+   </Phase>
+   <Phase number="1">
+    <Node id="INPUT" type="DATA_READER" skipLeadingBlanks="false" fileURL="${DATA_DIR}/ca_account_t.txt" skipFirstLine="true" dataPolicy="strict" charset="UTF-8" quotedStrings="false" trim="false" treatMultipleDelimitersAsOne="false" />
+    <Edge fromNode="INPUT:0" toNode="FIX_DELIM:0" id="INPUT_TO_FIX_DELIM" metadata="OutputFileFormat" />
+    <Node id="FIX_DELIM" type="REFORMAT">
+      <attr name="transform"><![CDATA[
+//#TL
+    function transform() {
+        $0.fin_coa_cd := replace(nvl($fin_coa_cd, ""), "~!~", "|" );
+        $0.account_nbr := replace(nvl($account_nbr, ""), "~!~", "|" );
+        $0.obj_id := replace(nvl($obj_id, ""), "~!~", "|" );
+        $0.ver_nbr := $ver_nbr;
+        $0.account_nm := replace(nvl($account_nm, ""), "~!~", "|" );
+        $0.acct_fsc_ofc_uid := replace(nvl($acct_fsc_ofc_uid, ""), "~!~", "|" );
+        $0.acct_spvsr_unvl_id := replace(nvl($acct_spvsr_unvl_id, ""), "~!~", "|" );
+        $0.acct_mgr_unvl_id := replace(nvl($acct_mgr_unvl_id, ""), "~!~", "|" );
+        $0.org_cd := replace(nvl($org_cd, ""), "~!~", "|" );
+        $0.acct_typ_cd := replace(nvl($acct_typ_cd, ""), "~!~", "|" );
+        $0.acct_phys_cmp_cd := replace(nvl($acct_phys_cmp_cd, ""), "~!~", "|" );
+        $0.sub_fund_grp_cd := replace(nvl($sub_fund_grp_cd, ""), "~!~", "|" );
+        $0.acct_frng_bnft_cd := replace(nvl($acct_frng_bnft_cd, ""), "~!~", "|" );
+        $0.fin_hgh_ed_func_cd := replace(nvl($fin_hgh_ed_func_cd, ""), "~!~", "|" );
+        $0.acct_rstrc_stat_cd := replace(nvl($acct_rstrc_stat_cd, ""), "~!~", "|" );
+        $0.acct_rstrc_stat_dt := $acct_rstrc_stat_dt;
+        $0.acct_city_nm := replace(nvl($acct_city_nm, ""), "~!~", "|" );
+        $0.acct_state_cd := replace(nvl($acct_state_cd, ""), "~!~", "|" );
+        $0.acct_street_addr := replace(nvl($acct_street_addr, ""), "~!~", "|" );
+        $0.acct_zip_cd := replace(nvl($acct_zip_cd, ""), "~!~", "|" );
+        $0.rpts_to_fin_coa_cd := replace(nvl($rpts_to_fin_coa_cd, ""), "~!~", "|" );
+        $0.rpts_to_acct_nbr := replace(nvl($rpts_to_acct_nbr, ""), "~!~", "|" );
+        $0.acct_create_dt := $acct_create_dt;
+        $0.acct_effect_dt := $acct_effect_dt;
+        $0.acct_expiration_dt := $acct_expiration_dt;
+        $0.cont_fin_coa_cd := replace(nvl($cont_fin_coa_cd, ""), "~!~", "|" );
+        $0.cont_account_nbr := replace(nvl($cont_account_nbr, ""), "~!~", "|" );
+        $0.endow_fin_coa_cd := replace(nvl($endow_fin_coa_cd, ""), "~!~", "|" );
+        $0.endow_account_nbr := replace(nvl($endow_account_nbr, ""), "~!~", "|" );
+        $0.contr_ctrl_fcoa_cd := replace(nvl($contr_ctrl_fcoa_cd, ""), "~!~", "|" );
+        $0.contr_ctrlacct_nbr := replace(nvl($contr_ctrlacct_nbr, ""), "~!~", "|" );
+        $0.income_fin_coa_cd := replace(nvl($income_fin_coa_cd, ""), "~!~", "|" );
+        $0.income_account_nbr := replace(nvl($income_account_nbr, ""), "~!~", "|" );
+        $0.acct_icr_typ_cd := replace(nvl($acct_icr_typ_cd, ""), "~!~", "|" );
+        $0.ac_cstm_icrexcl_cd := replace(nvl($ac_cstm_icrexcl_cd, ""), "~!~", "|" );
+        $0.fin_series_id := replace(nvl($fin_series_id, ""), "~!~", "|" );
+        $0.icr_fin_coa_cd := replace(nvl($icr_fin_coa_cd, ""), "~!~", "|" );
+        $0.icr_account_nbr := replace(nvl($icr_account_nbr, ""), "~!~", "|" );
+        $0.acct_in_fp_cd := replace(nvl($acct_in_fp_cd, ""), "~!~", "|" );
+        $0.bdgt_rec_lvl_cd := replace(nvl($bdgt_rec_lvl_cd, ""), "~!~", "|" );
+        $0.acct_sf_cd := replace(nvl($acct_sf_cd, ""), "~!~", "|" );
+        $0.acct_pnd_sf_cd := replace(nvl($acct_pnd_sf_cd, ""), "~!~", "|" );
+        $0.fin_ext_enc_sf_cd := replace(nvl($fin_ext_enc_sf_cd, ""), "~!~", "|" );
+        $0.fin_int_enc_sf_cd := replace(nvl($fin_int_enc_sf_cd, ""), "~!~", "|" );
+        $0.fin_pre_enc_sf_cd := replace(nvl($fin_pre_enc_sf_cd, ""), "~!~", "|" );
+        $0.fin_obj_prsctrl_cd := replace(nvl($fin_obj_prsctrl_cd, ""), "~!~", "|" );
+        $0.cg_cfda_nbr := replace(nvl($cg_cfda_nbr, ""), "~!~", "|" );
+        $0.acct_off_cmp_ind := replace(nvl($acct_off_cmp_ind, ""), "~!~", "|" );
+        $0.acct_closed_ind := replace(nvl($acct_closed_ind, ""), "~!~", "|" );
+        $0.cg_acct_resp_id := $cg_acct_resp_id;
+        $0.lbr_ben_rt_cat_cd := replace(nvl($lbr_ben_rt_cat_cd, ""), "~!~", "|" );
+   }
+      ]]></attr>
+    </Node>
+    <Edge fromNode="FIX_DELIM:0" toNode="DB_OUTPUT:0" id="TO_OUTPUT"  metadata="OutputFileFormat" />
+    <Node id="DB_OUTPUT" type="KUL_DB_OUTPUT_TABLE" metadata="OutputFileFormat" dbConnection="TargetDB" dbTable="ca_account_t" batchMode="true" errorAction="ROLLBACK" />
+  </Phase>
+</Graph>
+  
+  

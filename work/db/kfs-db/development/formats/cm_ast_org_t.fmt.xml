@@ -1,0 +1,8 @@
+<Record name="cm_ast_org_t" type="delimited">
+  <Field name="cptlast_nbr"                     type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="org_cptlast_typ_id"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cptlast_orgtag_nbr"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="org_txt"                         type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

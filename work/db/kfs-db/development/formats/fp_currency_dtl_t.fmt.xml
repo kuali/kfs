@@ -1,0 +1,15 @@
+<Record name="fp_currency_dtl_t" type="delimited">
+  <Field name="fdoc_nbr"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fdoc_typ_cd"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fdoc_100_dlr_amt"                type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fdoc_50_dlr_amt"                 type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fdoc_20_dlr_amt"                 type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fdoc_10_dlr_amt"                 type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fdoc_5_dlr_amt"                  type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fdoc_2_dlr_amt"                  type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fdoc_1_dlr_amt"                  type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fdoc_othr_dlr_amt"               type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cshr_stat_cd"                    type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

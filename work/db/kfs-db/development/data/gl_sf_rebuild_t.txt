@@ -1,0 +1,2 @@
+fin_coa_cd|acct_fobj_typ_cd|acct_nbr_fobj_cd|obj_id|ver_nbr|
+BL|A|1031420|0CD74F3CD377043EE043814FD881043E|1.0|

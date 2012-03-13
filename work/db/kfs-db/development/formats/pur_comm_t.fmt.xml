@@ -1,0 +1,10 @@
+<Record name="pur_comm_t" type="delimited">
+  <Field name="pur_comm_cd"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="pur_comm_desc"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="pur_sales_tax_ind"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="itm_rstrc_ind"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="snstv_dta_cd"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="dobj_maint_cd_actv_ind"          type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

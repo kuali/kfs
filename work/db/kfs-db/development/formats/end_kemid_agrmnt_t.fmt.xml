@@ -1,0 +1,13 @@
+<Record name="end_kemid_agrmnt_t" type="delimited">
+  <Field name="kemid"                           type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="agrmnt_id"                       type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="agrmnt_typ_cd"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="agrmnt_stat_cd"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="agrmnt_stat_dt"                  type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="agrmnt_othr_doc"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="donr_intnt_txt"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cmnt"                            type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="row_actv_ind"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

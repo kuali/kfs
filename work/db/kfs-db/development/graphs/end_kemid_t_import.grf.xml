@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Graph name="Export END_KEMID_T" revision="1.0">
+  <Global>
+    <Property fileURL="workspace.prm" id="WorkspaceParameters" />
+    <Connection dbConfig="${DATABASE}" id="TargetDB" type="JDBC" />
+    <Metadata id="OutputFileFormat" fileURL="${FORMAT_DIR}/end_kemid_t.fmt.xml" />
+  </Global>
+   <Phase number="0">
+     <Node id="DATABASE_RUN"
+           type="DB_EXECUTE"
+           dbConnection="TargetDB"
+           sqlQuery="TRUNCATE TABLE END_KEMID_T" />
+   </Phase>
+   <Phase number="1">
+    <Node id="INPUT" type="DATA_READER" skipLeadingBlanks="false" fileURL="${DATA_DIR}/end_kemid_t.txt" skipFirstLine="true" dataPolicy="strict" charset="UTF-8" quotedStrings="false" trim="false" treatMultipleDelimitersAsOne="false" />
+    <Edge fromNode="INPUT:0" toNode="FIX_DELIM:0" id="INPUT_TO_FIX_DELIM" metadata="OutputFileFormat" />
+    <Node id="FIX_DELIM" type="REFORMAT">
+      <attr name="transform"><![CDATA[
+//#TL
+    function transform() {
+        $0.kemid := replace(nvl($kemid, ""), "~!~", "|" );
+        $0.shrt_ttl := replace(nvl($shrt_ttl, ""), "~!~", "|" );
+        $0.ver_nbr := $ver_nbr;
+        $0.obj_id := replace(nvl($obj_id, ""), "~!~", "|" );
+        $0.closed_ind := replace(nvl($closed_ind, ""), "~!~", "|" );
+        $0.prps_cd := replace(nvl($prps_cd, ""), "~!~", "|" );
+        $0.inc_cae_cd := replace(nvl($inc_cae_cd, ""), "~!~", "|" );
+        $0.prin_cae_cd := replace(nvl($prin_cae_cd, ""), "~!~", "|" );
+        $0.closed_to_kemid := replace(nvl($closed_to_kemid, ""), "~!~", "|" );
+        $0.close_cd := replace(nvl($close_cd, ""), "~!~", "|" );
+        $0.fnd_disp := replace(nvl($fnd_disp, ""), "~!~", "|" );
+        $0.close_dt := $close_dt;
+        $0.long_ttl := replace(nvl($long_ttl, ""), "~!~", "|" );
+        $0.opnd_dt := $opnd_dt;
+        $0.estbl_dt := $estbl_dt;
+        $0.typ_cd := replace(nvl($typ_cd, ""), "~!~", "|" );
+        $0.resp_admin_cd := replace(nvl($resp_admin_cd, ""), "~!~", "|" );
+        $0.tran_restr_cd := replace(nvl($tran_restr_cd, ""), "~!~", "|" );
+        $0.csh_sweep_mdl_id := $csh_sweep_mdl_id;
+        $0.inc_aci_mdl_id := $inc_aci_mdl_id;
+        $0.prin_aci_mdl_id := $prin_aci_mdl_id;
+        $0.dormant_ind := replace(nvl($dormant_ind, ""), "~!~", "|" );
+        $0.typ_inc_restr_cd := replace(nvl($typ_inc_restr_cd, ""), "~!~", "|" );
+        $0.typ_prin_restr_cd := replace(nvl($typ_prin_restr_cd, ""), "~!~", "|" );
+   }
+      ]]></attr>
+    </Node>
+    <Edge fromNode="FIX_DELIM:0" toNode="DB_OUTPUT:0" id="TO_OUTPUT"  metadata="OutputFileFormat" />
+    <Node id="DB_OUTPUT" type="KUL_DB_OUTPUT_TABLE" metadata="OutputFileFormat" dbConnection="TargetDB" dbTable="end_kemid_t" batchMode="true" errorAction="ROLLBACK" />
+  </Phase>
+</Graph>
+  
+  

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Graph name="Export END_CSH_SWEEP_MDL_T" revision="1.0">
+  <Global>
+    <Property fileURL="workspace.prm" id="WorkspaceParameters" />
+    <Connection dbConfig="${DATABASE}" id="TargetDB" type="JDBC" />
+    <Metadata id="OutputFileFormat" fileURL="${FORMAT_DIR}/end_csh_sweep_mdl_t.fmt.xml" />
+  </Global>
+   <Phase number="0">
+     <Node id="DATABASE_RUN"
+           type="DB_EXECUTE"
+           dbConnection="TargetDB"
+           sqlQuery="TRUNCATE TABLE END_CSH_SWEEP_MDL_T" />
+   </Phase>
+   <Phase number="1">
+    <Node id="INPUT" type="DATA_READER" skipLeadingBlanks="false" fileURL="${DATA_DIR}/end_csh_sweep_mdl_t.txt" skipFirstLine="true" dataPolicy="strict" charset="UTF-8" quotedStrings="false" trim="false" treatMultipleDelimitersAsOne="false" />
+    <Edge fromNode="INPUT:0" toNode="FIX_DELIM:0" id="INPUT_TO_FIX_DELIM" metadata="OutputFileFormat" />
+    <Node id="FIX_DELIM" type="REFORMAT">
+      <attr name="transform"><![CDATA[
+//#TL
+    function transform() {
+        $0.csh_sweep_mdl_id := $csh_sweep_mdl_id;
+        $0.csh_sweep_mdl_nm := replace(nvl($csh_sweep_mdl_nm, ""), "~!~", "|" );
+        $0.inc_sweep_lower_lmt := $inc_sweep_lower_lmt;
+        $0.inc_sweep_sec_id := replace(nvl($inc_sweep_sec_id, ""), "~!~", "|" );
+        $0.inc_sweep_regis_cd := replace(nvl($inc_sweep_regis_cd, ""), "~!~", "|" );
+        $0.prin_sweep_lower_lmt := $prin_sweep_lower_lmt;
+        $0.csh_sweep_freq := replace(nvl($csh_sweep_freq, ""), "~!~", "|" );
+        $0.csh_sweep_mdl_dt := $csh_sweep_mdl_dt;
+        $0.row_actv_ind := replace(nvl($row_actv_ind, ""), "~!~", "|" );
+        $0.prin_sweep_sec_id := replace(nvl($prin_sweep_sec_id, ""), "~!~", "|" );
+        $0.prin_sweep_regis_cd := replace(nvl($prin_sweep_regis_cd, ""), "~!~", "|" );
+        $0.obj_id := replace(nvl($obj_id, ""), "~!~", "|" );
+        $0.ver_nbr := $ver_nbr;
+        $0.csh_sweep_nxt_due_dt := $csh_sweep_nxt_due_dt;
+   }
+      ]]></attr>
+    </Node>
+    <Edge fromNode="FIX_DELIM:0" toNode="DB_OUTPUT:0" id="TO_OUTPUT"  metadata="OutputFileFormat" />
+    <Node id="DB_OUTPUT" type="KUL_DB_OUTPUT_TABLE" metadata="OutputFileFormat" dbConnection="TargetDB" dbTable="end_csh_sweep_mdl_t" batchMode="true" errorAction="ROLLBACK" />
+  </Phase>
+</Graph>
+  
+  

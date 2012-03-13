@@ -1,0 +1,8 @@
+<Record name="end_agrmnt_stat_cd_t" type="delimited">
+  <Field name="agrmnt_stat_cd"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="agrmnt_stat_desc"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="agrmnt_dflt_tran_restr"          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="row_actv_ind"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

@@ -1,0 +1,51 @@
+<Record name="ca_prior_yr_acct_t" type="delimited">
+  <Field name="fin_coa_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="account_nbr"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="account_nm"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="acct_fsc_ofc_uid"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="acct_spvsr_unvl_id"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="acct_mgr_unvl_id"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="org_cd"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="acct_typ_cd"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="acct_phys_cmp_cd"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="sub_fund_grp_cd"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="acct_frng_bnft_cd"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_hgh_ed_func_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="acct_rstrc_stat_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="acct_rstrc_stat_dt"              type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="acct_city_nm"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="acct_state_cd"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="acct_street_addr"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="acct_zip_cd"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="rpts_to_fin_coa_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="rpts_to_acct_nbr"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="acct_create_dt"                  type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="acct_effect_dt"                  type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="acct_expiration_dt"              type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="cont_fin_coa_cd"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cont_account_nbr"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="endow_fin_coa_cd"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="endow_account_nbr"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="contr_ctrl_fcoa_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="contr_ctrlacct_nbr"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="income_fin_coa_cd"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="income_account_nbr"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="acct_icr_typ_cd"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ac_cstm_icrexcl_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_series_id"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="icr_fin_coa_cd"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="icr_account_nbr"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="acct_in_fp_cd"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="bdgt_rec_lvl_cd"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="acct_sf_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="acct_pnd_sf_cd"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_ext_enc_sf_cd"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_int_enc_sf_cd"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_pre_enc_sf_cd"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_obj_prsctrl_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cg_cfda_nbr"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="acct_off_cmp_ind"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="acct_closed_ind"                 type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

@@ -1,0 +1,3 @@
+vndr_ownr_ctgry_cd|obj_id|ver_nbr|vndr_ownr_ctgry_desc|dobj_maint_cd_actv_ind|
+LE|6D430FCD-E216-8D45-29CC-1F96A80BA843|1.0|LEGAL SERVICES|Y|
+ME|9C0B3059-5FB5-E76D-40F9-5B79A72C952E|3.0|HEALTH CARE SERVICES|Y|

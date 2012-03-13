@@ -1,0 +1,21 @@
+<Record name="pur_vndr_contr_t" type="delimited">
+  <Field name="vndr_contr_gnrtd_id"             type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="vndr_hdr_gnrtd_id"               type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="vndr_dtl_asnd_id"                type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="vndr_contr_nm"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="vndr_contr_desc"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="vndr_cmp_cd"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="vndr_contr_beg_dt"               type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="vndr_contr_end_dt"               type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="contr_mgr_cd"                    type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="po_cst_src_cd"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="vndr_pmt_term_cd"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="vndr_shp_pmt_term_cd"            type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="vndr_shp_ttl_cd"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="vndr_contr_extns_dt"             type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="vndr_b2b_ind"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="org_auto_po_lmt"                 type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="dobj_maint_cd_actv_ind"          type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

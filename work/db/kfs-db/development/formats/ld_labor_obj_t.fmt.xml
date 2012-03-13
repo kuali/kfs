@@ -1,0 +1,13 @@
+<Record name="ld_labor_obj_t" type="delimited">
+  <Field name="univ_fiscal_yr"                  type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_coa_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_object_cd"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="dtl_pos_req_cd"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_obj_hrs_req_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_obj_pay_typ_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="finobj_frngslry_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="pos_obj_grp_cd"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="actv_ind"                        type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

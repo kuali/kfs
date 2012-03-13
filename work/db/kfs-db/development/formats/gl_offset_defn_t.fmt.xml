@@ -1,0 +1,9 @@
+<Record name="gl_offset_defn_t" type="delimited">
+  <Field name="univ_fiscal_yr"                  type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_coa_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fdoc_typ_cd"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_balance_typ_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_object_cd"                   type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

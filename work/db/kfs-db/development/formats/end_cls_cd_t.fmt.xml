@@ -1,0 +1,14 @@
+<Record name="end_cls_cd_t" type="delimited">
+  <Field name="sec_cls_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="sec_cls_cd_desc"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="sec_rpt_grp"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="sec_acrl_mthd"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="sec_etran_cd"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="sec_inc_etran_post_cd"           type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="tax_lot_ind"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cls_cd_typ"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="row_actv_ind"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="vltn_mthd"                       type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

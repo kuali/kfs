@@ -1,0 +1,31 @@
+<Record name="ld_ldgr_bal_t" type="delimited">
+  <Field name="univ_fiscal_yr"                  type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_coa_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="account_nbr"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="sub_acct_nbr"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_object_cd"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_sub_obj_cd"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_balance_typ_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_obj_typ_cd"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="position_nbr"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="emplid"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="acln_annl_bal_amt"               type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_beg_bal_ln_amt"              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="contr_gr_bb_ac_amt"              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="mo1_acct_ln_amt"                 type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="mo2_acct_ln_amt"                 type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="mo3_acct_ln_amt"                 type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="mo4_acct_ln_amt"                 type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="mo5_acct_ln_amt"                 type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="mo6_acct_ln_amt"                 type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="mo7_acct_ln_amt"                 type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="mo8_acct_ln_amt"                 type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="mo9_acct_ln_amt"                 type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="mo10_acct_ln_amt"                type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="mo11_acct_ln_amt"                type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="mo12_acct_ln_amt"                type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="mo13_acct_ln_amt"                type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="timestamp"                       type="date"       nullable="true"  trim="false" delimiter="|\r\n" format="yyyyMMddHHmmss" />
+</Record>

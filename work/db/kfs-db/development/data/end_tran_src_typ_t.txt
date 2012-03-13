@@ -1,0 +1,4 @@
+tran_src_typ_cd|tran_src_typ_desc|obj_id|ver_nbr|
+A|Automated Entry|8529CD486616060AE0404F8189D81C0B|1.0|
+M|Manual Entry|8529CD486617060AE0404F8189D81C0B|1.0|
+R|Recurring Entry|8529CD486618060AE0404F8189D81C0B|1.0|

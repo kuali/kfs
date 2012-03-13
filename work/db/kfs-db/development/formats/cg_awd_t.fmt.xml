@@ -1,0 +1,37 @@
+<Record name="cg_awd_t" type="delimited">
+  <Field name="cgprpsl_nbr"                     type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cgawd_beg_dt"                    type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="cgawd_end_dt"                    type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="cgawd_tot_amt"                   type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cgawd_addendum_nbr"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cgawd_aloc_ucs_amt"              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cg_agency_awd_nbr"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cg_fedpt_fnd_amt"                type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cgawd_entry_dt"                  type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="cg_agency_fut1_amt"              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cg_agency_fut2_amt"              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cg_agency_fut3_amt"              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cgawd_doc_nbr"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cgawd_lst_updt_dt"               type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="cg_fedpt_ind"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cg_old_prpsl_nbr"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cgawd_drct_cst_amt"              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cgawd_indr_cst_amt"              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cg_fed_fnded_amt"                type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cgawd_create_ts"                 type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="cgawd_closing_dt"                type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="cgprpsl_awd_typ_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cgawd_stat_cd"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cg_ltrcr_fndgrp_cd"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cg_grant_desc_cd"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cg_agency_nbr"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cg_fedpt_agncy_nbr"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cg_agncy_analst_nm"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cg_analyst_phn_nbr"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cgawd_proj_ttl"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cgawd_comment_txt"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cgawd_purpose_cd"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="row_actv_ind"                    type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Graph name="Export CA_OBJECT_CODE_T" revision="1.0">
+  <Global>
+    <Property fileURL="workspace.prm" id="WorkspaceParameters" />
+    <Connection dbConfig="${DATABASE}" id="TargetDB" type="JDBC" />
+    <Metadata id="OutputFileFormat" fileURL="${FORMAT_DIR}/ca_object_code_t.fmt.xml" />
+  </Global>
+   <Phase number="0">
+     <Node id="DATABASE_RUN"
+           type="DB_EXECUTE"
+           dbConnection="TargetDB"
+           sqlQuery="TRUNCATE TABLE CA_OBJECT_CODE_T" />
+   </Phase>
+   <Phase number="1">
+    <Node id="INPUT" type="DATA_READER" skipLeadingBlanks="false" fileURL="${DATA_DIR}/ca_object_code_t.txt" skipFirstLine="true" dataPolicy="strict" charset="UTF-8" quotedStrings="false" trim="false" treatMultipleDelimitersAsOne="false" />
+    <Edge fromNode="INPUT:0" toNode="FIX_DELIM:0" id="INPUT_TO_FIX_DELIM" metadata="OutputFileFormat" />
+    <Node id="FIX_DELIM" type="REFORMAT">
+      <attr name="transform"><![CDATA[
+//#TL
+    function transform() {
+        $0.univ_fiscal_yr := $univ_fiscal_yr;
+        $0.fin_coa_cd := replace(nvl($fin_coa_cd, ""), "~!~", "|" );
+        $0.fin_object_cd := replace(nvl($fin_object_cd, ""), "~!~", "|" );
+        $0.obj_id := replace(nvl($obj_id, ""), "~!~", "|" );
+        $0.ver_nbr := $ver_nbr;
+        $0.fin_obj_cd_nm := replace(nvl($fin_obj_cd_nm, ""), "~!~", "|" );
+        $0.fin_obj_cd_shrt_nm := replace(nvl($fin_obj_cd_shrt_nm, ""), "~!~", "|" );
+        $0.fin_obj_level_cd := replace(nvl($fin_obj_level_cd, ""), "~!~", "|" );
+        $0.rpts_to_fin_coa_cd := replace(nvl($rpts_to_fin_coa_cd, ""), "~!~", "|" );
+        $0.rpts_to_fin_obj_cd := replace(nvl($rpts_to_fin_obj_cd, ""), "~!~", "|" );
+        $0.fin_obj_typ_cd := replace(nvl($fin_obj_typ_cd, ""), "~!~", "|" );
+        $0.fin_obj_sub_typ_cd := replace(nvl($fin_obj_sub_typ_cd, ""), "~!~", "|" );
+        $0.hist_fin_object_cd := replace(nvl($hist_fin_object_cd, ""), "~!~", "|" );
+        $0.fin_obj_active_cd := replace(nvl($fin_obj_active_cd, ""), "~!~", "|" );
+        $0.fobj_bdgt_aggr_cd := replace(nvl($fobj_bdgt_aggr_cd, ""), "~!~", "|" );
+        $0.fobj_mnxfr_elim_cd := replace(nvl($fobj_mnxfr_elim_cd, ""), "~!~", "|" );
+        $0.fin_fed_funded_cd := replace(nvl($fin_fed_funded_cd, ""), "~!~", "|" );
+        $0.nxt_yr_fin_obj_cd := replace(nvl($nxt_yr_fin_obj_cd, ""), "~!~", "|" );
+        $0.rsch_bdgt_ctgry_cd := replace(nvl($rsch_bdgt_ctgry_cd, ""), "~!~", "|" );
+        $0.rsch_obj_cd_desc := replace(nvl($rsch_obj_cd_desc, ""), "~!~", "|" );
+        $0.rsch_on_cmp_ind := replace(nvl($rsch_on_cmp_ind, ""), "~!~", "|" );
+   }
+      ]]></attr>
+    </Node>
+    <Edge fromNode="FIX_DELIM:0" toNode="DB_OUTPUT:0" id="TO_OUTPUT"  metadata="OutputFileFormat" />
+    <Node id="DB_OUTPUT" type="KUL_DB_OUTPUT_TABLE" metadata="OutputFileFormat" dbConnection="TargetDB" dbTable="ca_object_code_t" batchMode="true" errorAction="ROLLBACK" />
+  </Phase>
+</Graph>
+  
+  

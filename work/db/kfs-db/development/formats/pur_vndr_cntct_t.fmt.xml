@@ -1,0 +1,20 @@
+<Record name="pur_vndr_cntct_t" type="delimited">
+  <Field name="vndr_cntct_gnrtd_id"             type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="vndr_hdr_gnrtd_id"               type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="vndr_dtl_asnd_id"                type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="vndr_cntct_typ_cd"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="vndr_cntct_nm"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="vndr_cntct_email_addr"           type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="vndr_cntct_cmnt_txt"             type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="vndr_ln1_addr"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="vndr_ln2_addr"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="vndr_cty_nm"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="vndr_st_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="vndr_zip_cd"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="vndr_cntry_cd"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="vndr_attn_nm"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="vndr_addr_intl_prov_nm"          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="dobj_maint_cd_actv_ind"          type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

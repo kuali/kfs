@@ -1,0 +1,3 @@
+cptl_ast_sys_st_cd|obj_id|ver_nbr|cptl_ast_sys_st_desc|dobj_maint_cd_actv_ind|
+MOD|5431A26A0E3A9722E0404F8189D874DC|1.0|Modify Existing System|Y|
+NEW|5431A26A0E399722E0404F8189D874DC|1.0|New System|Y|

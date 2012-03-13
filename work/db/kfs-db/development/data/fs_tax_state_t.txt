@@ -1,0 +1,3 @@
+postal_cntry_cd|state_cd|tax_region_cd|obj_id|ver_nbr|actv_ind|
+US|AZ|5|5ACF22CFC6134AB0E0404F8189D87AB9|1.0|Y|
+US|CA|2|5ACF22CFC6124AB0E0404F8189D87AB9|1.0|Y|

@@ -1,0 +1,10 @@
+<Record name="ap_elctrnc_inv_map_t" type="delimited">
+  <Field name="ap_elctrnc_inv_map_id"           type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="vndr_hdr_gnrtd_id"               type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="vndr_dtl_asnd_id"                type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="inv_itm_typ_cd"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="itm_typ_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="dobj_maint_cd_actv_ind"          type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

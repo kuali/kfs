@@ -1,0 +1,9 @@
+<Record name="cg_awd_org_t" type="delimited">
+  <Field name="fin_coa_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="org_cd"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cgprpsl_nbr"                     type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cgawd_prm_org_ind"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="row_actv_ind"                    type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

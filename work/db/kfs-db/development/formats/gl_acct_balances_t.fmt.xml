@@ -1,0 +1,12 @@
+<Record name="gl_acct_balances_t" type="delimited">
+  <Field name="univ_fiscal_yr"                  type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_coa_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="account_nbr"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="sub_acct_nbr"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_object_cd"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_sub_obj_cd"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="curr_bdln_bal_amt"               type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="acln_actls_bal_amt"              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="acln_encum_bal_amt"              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="timestamp"                       type="date"       nullable="true"  trim="false" delimiter="|\r\n" format="yyyyMMddHHmmss" />
+</Record>

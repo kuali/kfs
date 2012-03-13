@@ -1,0 +1,11 @@
+<Record name="pur_vndr_cust_nbr_t" type="delimited">
+  <Field name="vndr_cust_nbr_gnrtd_id"          type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="vndr_hdr_gnrtd_id"               type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="vndr_dtl_asnd_id"                type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="vndr_cust_nbr"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_coa_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="vndr_org_cd"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="dobj_maint_cd_actv_ind"          type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

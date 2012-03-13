@@ -1,0 +1,10 @@
+<Record name="cb_ast_trn_typ_t" type="delimited">
+  <Field name="cptl_ast_trn_typ_cd"             type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cptl_ast_trn_typ_desc"           type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cptl_ast_non_qty_drvn_allw_ind"  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="dobj_maint_cd_actv_ind"          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cptlast_qty_subtyp_req_txt"      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cptlast_nonqty_subtyp_req_txt"   type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

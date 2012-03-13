@@ -1,0 +1,9 @@
+<Record name="pur_po_contr_lang_t" type="delimited">
+  <Field name="po_contr_lang_id"                type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cmp_cd"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="po_contr_lang_desc"              type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="contr_lang_crte_dt"              type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="dobj_maint_cd_actv_ind"          type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

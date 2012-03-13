@@ -1,0 +1,6 @@
+<Record name="pdp_ach_trans_cd_t" type="delimited">
+  <Field name="trans_cd"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="trans_desc"                      type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

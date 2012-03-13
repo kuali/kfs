@@ -1,0 +1,3 @@
+bnk_rtng_nbr|obj_id|ver_nbr|bnk_offc_cd|bnk_srvc_nbr|bnk_typ_cd|bnk_new_rtng_nbr|bnk_nm|bnk_str_addr|bnk_cty_nm|bnk_st_cd|bnk_zip_cd|bnk_phn_area_cd|bnk_phn_prfx_nbr|bnk_phn_sfx_nbr|bnk_inst_stat_cd|bnk_dta_v_cd|actv_ind|
+012345678|7F39FA5C-E463-B231-CB1C-FAFF209AC453|3.0|O|011000015|1|000000001|MY FRIENDLY NEIGHBORHOOD BANK|1000 PEACHTREE ST N.E.|ATLANTA|GA|30309|866|234|5681|1|1|Y|
+876543210|C0307043-45F0-C065-B20E-49D7AD5FD639|1.0|B|011000017|1|000000002|YOUR PERSONAL CREDIT UNION|1776 HERITAGE DR (JAB 3S3)|NORTH QUINCY|MA|02171|617|664|2400|1|1|Y|

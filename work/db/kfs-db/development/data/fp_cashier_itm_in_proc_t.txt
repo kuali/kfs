@@ -1,0 +1,2 @@
+campus_cd|itm_id|obj_id|ver_nbr|itm_amt|itm_rdcd_amt|itm_tot_amt|itm_open_dt|itm_closed_dt|itm_desc|
+NS|354.0|33816C4EDA64C03EE043814FD881C03E|2.0|20.0||20.0|20070618000000||test|

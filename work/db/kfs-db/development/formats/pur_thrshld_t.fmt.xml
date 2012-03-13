@@ -1,0 +1,15 @@
+<Record name="pur_thrshld_t" type="delimited">
+  <Field name="pur_thrshld_id"                  type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_coa_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="acct_typ_cd"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="sub_fund_grp_cd"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_object_cd"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="org_cd"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="pur_thrshld_amt"                 type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="vndr_hdr_gnrtd_id"               type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="vndr_dtl_asnd_id"                type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="pur_comm_cd"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="dobj_maint_cd_actv_ind"          type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

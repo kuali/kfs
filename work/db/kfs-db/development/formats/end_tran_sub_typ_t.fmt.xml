@@ -1,0 +1,6 @@
+<Record name="end_tran_sub_typ_t" type="delimited">
+  <Field name="tran_sub_typ_cd"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="tran_sub_typ_desc"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

@@ -1,0 +1,17 @@
+<Record name="end_pool_fnd_val_t" type="delimited">
+  <Field name="pool_sec_id"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="val_eff_dt"                      type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="val_dt"                          type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="dstrb_amt"                       type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="dstrb_proc_on_dt"                type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="dstrb_proc_cmplt"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="lt_gain_loss"                    type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="lt_proc_on_dt"                   type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="lt_proc_cmplt"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="st_proc_cmplt"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="st_gain_loss"                    type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="st_proc_on_dt"                   type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="pool_fnd_unit_val"               type="numeric"    nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

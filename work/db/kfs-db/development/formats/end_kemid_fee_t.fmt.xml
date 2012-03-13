@@ -1,0 +1,17 @@
+<Record name="end_kemid_fee_t" type="delimited">
+  <Field name="kemid"                           type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fee_mthd"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fee_mthd_seq"                    type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="chrg_fee_to_kemid"               type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="pct_chrg_fee_to_inc"             type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="pct_chrg_fee_to_prin"            type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="acr_fee"                         type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="acrd_fee_to_dt"                  type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="waive_fee"                       type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="waived_fee_ytd"                  type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="waived_fee_to_dt"                type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fee_impl_dt"                     type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="fee_term_dt"                     type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

@@ -1,0 +1,15 @@
+<Record name="ld_bcn_acct_summ_t" type="delimited">
+  <Field name="person_unvl_id"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="org_fin_coa_cd"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="org_cd"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_coa_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fund_grp_cd"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="sub_fund_grp_cd"                 type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="account_nbr"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="sub_acct_nbr"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="inc_exp_cd"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="acln_annl_bal_amt"               type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="fin_beg_bal_ln_amt"              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="sub_fund_sort_cd"                type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

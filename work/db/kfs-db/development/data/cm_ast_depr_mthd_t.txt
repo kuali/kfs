@@ -1,0 +1,3 @@
+ast_depr_method_cd|obj_id|ver_nbr|ast_depr_method_nm|row_actv_ind|
+SL|44F39C472EDE409CE043814FD881409C|1.0|Straight Line|Y|
+SV|44F39C472EDF409CE043814FD881409C|1.0|Salvage|Y|

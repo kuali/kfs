@@ -1,0 +1,8 @@
+<Record name="fp_dv_diem_t" type="delimited">
+  <Field name="univ_fiscal_yr"                  type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="dv_diem_cntry_nm"                type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="dv_diem_rt"                      type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="dv_diem_cntry_txt"               type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

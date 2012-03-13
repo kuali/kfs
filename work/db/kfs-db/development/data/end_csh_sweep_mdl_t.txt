@@ -1,0 +1,2 @@
+csh_sweep_mdl_id|csh_sweep_mdl_nm|inc_sweep_lower_lmt|inc_sweep_sec_id|inc_sweep_regis_cd|prin_sweep_lower_lmt|csh_sweep_freq|csh_sweep_mdl_dt|row_actv_ind|prin_sweep_sec_id|prin_sweep_regis_cd|obj_id|ver_nbr|csh_sweep_nxt_due_dt|
+1.0|Pooled Short Term Investment - Daily Investments|1.0|99PSTF018|0AI|1.0|D|20041116000000|Y|99PSTF034|0AP|8529CD484B61060AE0404F8189D81C0B|1.0||

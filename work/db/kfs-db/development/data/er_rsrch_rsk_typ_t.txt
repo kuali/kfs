@@ -1,0 +1,7 @@
+rsrch_rsk_typ_cd|obj_id|ver_nbr|dobj_maint_cd_actv_ind|ctrl_attrib_typ_cd|rsrch_rsk_typ_desc|rsrch_rsk_typ_sort_nbr|rsrch_rsk_typ_ntfctn_val|
+B|4C20937E-5F85-383D-791A-86106F0AA07A|10.0|Y|S|Biosafety|15.0|Y|
+F|F4783A46-2CCF-1281-51B7-31BC58917952|7.0|Y|D|Financial Conflict of Interest|30.0|Y|
+H|7DFD70FD-C680-6D97-3141-0C323208574C|9.0|Y|A|Human Subjects|5.0|Y|
+M|5584AE55-06CC-5BF0-02DF-15C0418DACA5|8.0|Y|S|Animals|10.0|Y|
+P|E6071265-CABF-3943-2DBB-9CDB38FC1F07|9.0|Y|S|Pathogenic Agent|25.0|Y|
+T|63DD4B22-BAED-EC3D-9F9E-094087A6A699|5.0|Y|S|Human Tissue/Fluids|20.0|Y|

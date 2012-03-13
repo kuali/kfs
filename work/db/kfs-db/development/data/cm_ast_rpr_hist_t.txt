@@ -1,0 +1,2 @@
+cptlast_nbr|cptlast_incidnt_dt|obj_id|ver_nbr|cptlast_prblm_desc|cptlast_rprcntc_nm|cptlast_rpr_nt_txt|cptlast_est_rpr_dt|cptlast_rpr_dt|cptlast_rpr_amt|ast_rpr_soln_desc|actv_ind|
+2391.0|20070505000000|481A1BE8C431AFA4E0404F8189D84C0F|1.0|It was broke||||20070506000000|50.0||Y|

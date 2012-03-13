@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,12 +16,12 @@
 package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import org.kuali.kfs.module.bc.batch.dataaccess.impl.SQLForStep;
 import org.kuali.kfs.module.bc.document.dataaccess.BenefitsCalculationDao;
 import org.kuali.kfs.module.bc.util.BudgetConstructionUtils;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.util.Guid;
 
 /**
  * implements the SQL procedures to calculate benefits for the personnel object codes in the budget. apply the appropriate
@@ -547,6 +547,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
      * @see org.kuali.kfs.module.bc.document.dataaccess.BenefitsCalculationDao#calculateAnnualBudgetConstructionGeneralLedgerBenefits(String,
      *      Integer, String, String, String, String, String)
      */
+    @Override
     public void calculateAnnualBudgetConstructionGeneralLedgerBenefits(String documentNumber, Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber, String finObjTypeExpenditureexpCd, String laborBenefitRateCategoryCode) {
 
         // the first thing to do is get the SQL IN list of expenditure object code types allowed in budget construction.
@@ -558,7 +559,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         stringsToInsert.add(KFSConstants.getDashFinancialSubObjectCode());
         stringsToInsert.add(KFSConstants.BALANCE_TYPE_BASE_BUDGET);
         stringsToInsert.add(BudgetConstructionUtils.getExpenditureINList());
-        String idForSession = (new Guid()).toString();
+        String idForSession = UUID.randomUUID().toString();
 
         getSimpleJdbcTemplate().update(sqlAnnualSteps.get(0).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
         getSimpleJdbcTemplate().update(sqlAnnualSteps.get(1).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
@@ -582,8 +583,9 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
      * @see org.kuali.kfs.module.bc.document.dataaccess.BenefitsCalculationDao#calculateMonthlyBudgetConstructionGeneralLedgerBenefits(java.lang.String,
      *      java.lang.Integer, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
+    @Override
     public void calculateMonthlyBudgetConstructionGeneralLedgerBenefits(String documentNumber, Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber, String finObjTypeExpenditureexpCd) {
-        String idForSession = (new Guid()).toString();
+        String idForSession = UUID.randomUUID().toString();
 
         ArrayList<String> stringsToInsert = new ArrayList<String>();
         stringsToInsert.add(KFSConstants.getDashFinancialSubObjectCode());
@@ -607,8 +609,9 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
      * @see org.kuali.kfs.module.bc.document.dataaccess.BenefitsCalculationDao#calculateMonthlyBudgetConstructionGeneralLedgerBenefits(java.lang.String,
      *      java.lang.Integer, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
+    @Override
     public void calculateMonthlyBudgetConstructionGeneralLedgerBenefits(String documentNumber, Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber, String finObjTypeExpenditureexpCd, String laborBenefitRateCategoryCode) {
-        String idForSession = (new Guid()).toString();
+        String idForSession = UUID.randomUUID().toString();
 
         ArrayList<String> stringsToInsert = new ArrayList<String>();
         stringsToInsert.add(KFSConstants.getDashFinancialSubObjectCode());

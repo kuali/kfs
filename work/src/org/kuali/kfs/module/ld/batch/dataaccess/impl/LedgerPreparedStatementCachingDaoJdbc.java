@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,7 +28,6 @@ import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
 import org.kuali.kfs.sys.batch.dataaccess.impl.AbstractPreparedStatementCachingDaoJdbc;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kns.util.Guid;
 
 public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedStatementCachingDaoJdbc implements LedgerPreparedStatementCachingDao {
     static final Map<String, String> sql = new HashMap<String, String>();
@@ -46,6 +45,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
         return sql;
     }
 
+    @Override
     public LaborObject getLaborObject(final Integer fiscalYear, final String chartCode, final String objectCode) {
         return new RetrievingJdbcWrapper<LaborObject>() {
             @Override
@@ -67,6 +67,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
         }.get(LaborObject.class);
     }
 
+    @Override
     public int getMaxLaborSequenceNumber(final LedgerEntry t) {
         return new RetrievingJdbcWrapper<Integer>() {
             @Override
@@ -92,6 +93,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
         }.get(Integer.class);
     }
 
+    @Override
     public LedgerBalance getLedgerBalance(final LedgerBalance lb) {
         return new RetrievingJdbcWrapper<LedgerBalance>() {
             @Override
@@ -142,6 +144,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
         }.get(LedgerBalance.class);
     }
 
+    @Override
     public void insertLedgerBalance(final LedgerBalance ledgerBalance, final Timestamp currentTimestamp) {
         new InsertingJdbcWrapper<LedgerBalance>() {
             @Override
@@ -157,7 +160,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setString(9, ledgerBalance.getPositionNumber());
                 preparedStatement.setString(10, ledgerBalance.getEmplid());
                 if (ledgerBalance.getObjectId() == null) {
-                    preparedStatement.setString(11, new Guid().toString());
+                    preparedStatement.setString(11, java.util.UUID.randomUUID().toString());
                 }
                 else {
                     preparedStatement.setString(11, ledgerBalance.getObjectId());
@@ -189,6 +192,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
         }.execute(LedgerBalance.class);
     }
 
+    @Override
     public void updateLedgerBalance(final LedgerBalance ledgerBalance, final Timestamp currentTimestamp) {
         new UpdatingJdbcWrapper<LedgerBalance>() {
             @Override
@@ -224,6 +228,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
         }.execute(LedgerBalance.class);
     }
 
+    @Override
     public void insertLedgerEntry(final LedgerEntry ledgerEntry) {
         new InsertingJdbcWrapper<LedgerEntry>() {
             @Override
@@ -242,7 +247,7 @@ public class LedgerPreparedStatementCachingDaoJdbc extends AbstractPreparedState
                 preparedStatement.setString(12, ledgerEntry.getDocumentNumber());
                 preparedStatement.setInt(13, ledgerEntry.getTransactionLedgerEntrySequenceNumber());
                 if (ledgerEntry.getObjectId() == null) {
-                    preparedStatement.setString(14, new Guid().toString());
+                    preparedStatement.setString(14, java.util.UUID.randomUUID().toString());
                 }
                 else {
                     preparedStatement.setString(14, ledgerEntry.getObjectId());

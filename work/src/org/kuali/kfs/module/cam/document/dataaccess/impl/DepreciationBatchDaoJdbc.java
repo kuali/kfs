@@ -44,7 +44,6 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJdbc;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kns.util.Guid;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.PreparedStatementSetter;
@@ -129,6 +128,7 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
             // Only update assets with a object sub type code equals to any MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES.
             if (!movableEquipmentObjectSubTypes.isEmpty()) {
                 getJdbcTemplate().update("UPDATE CM_CPTLAST_T SET CPTL_AST_IN_SRVC_DT=?, CPTL_AST_DEPR_DT=?, FDOC_POST_PRD_CD=? , FDOC_POST_YR=? WHERE CPTLAST_CRT_DT > ? AND FIN_OBJ_SUB_TYP_CD IN (" + buildINValues(movableEquipmentObjectSubTypes) + ")", new PreparedStatementSetter() {
+                    @Override
                     public void setValues(PreparedStatement ps) throws SQLException {
                         ps.setDate(1, lastFiscalYearDate.getUniversityDate());
                         ps.setDate(2, lastFiscalYearDate.getUniversityDate());
@@ -163,7 +163,7 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
                 pstmt.setObject(1, generalLedgerPendingEntry.getFinancialSystemOriginationCode());
                 pstmt.setObject(2, generalLedgerPendingEntry.getDocumentNumber());
                 pstmt.setObject(3, generalLedgerPendingEntry.getTransactionLedgerEntrySequenceNumber());
-                pstmt.setObject(4, new Guid().toString());
+                pstmt.setObject(4, java.util.UUID.randomUUID().toString());
                 pstmt.setObject(5, generalLedgerPendingEntry.getVersionNumber());
                 pstmt.setObject(6, generalLedgerPendingEntry.getChartOfAccountsCode());
                 pstmt.setObject(7, generalLedgerPendingEntry.getAccountNumber());
@@ -217,6 +217,7 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
         sql = sql + buildCriteria(fiscalYear, fiscalMonth, depreciationMethodList, notAcceptedAssetStatus, federallyOwnedObjectSubTypes, false, false);
         sql = sql + "ORDER BY A0.CPTLAST_NBR, A0.FS_ORIGIN_CD, A0.ACCOUNT_NBR, A0.SUB_ACCT_NBR, A0.FIN_OBJECT_CD, A0.FIN_SUB_OBJ_CD, A3.FIN_OBJ_TYP_CD, A0.PROJECT_CD";
         getJdbcTemplate().query(sql, preparedStatementSetter(depreciationDate), new ResultSetExtractor() {
+            @Override
             public Object extractData(ResultSet rs) throws SQLException, DataAccessException {
                 int counter = 0;
                 while (rs != null && rs.next()) {
@@ -324,6 +325,7 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
         String sql = "SELECT COUNT(DISTINCT A0.CPTLAST_NBR), COUNT(1) " + buildCriteria(fiscalYear, fiscalMonth, depreciationMethodList, notAcceptedAssetStatus, federallyOwnedObjectSubTypes, false, includePending);
         getJdbcTemplate().query(sql, preparedStatementSetter(depreciationDate), new ResultSetExtractor() {
 
+            @Override
             public Object extractData(ResultSet rs) throws SQLException, DataAccessException {
                 if (rs != null && rs.next()) {
                     data[0] = rs.getInt(1);
@@ -354,6 +356,7 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
         String sql = "SELECT COUNT(DISTINCT A0.CPTLAST_NBR), COUNT(1) " + buildCriteria(fiscalYear, fiscalMonth, depreciationMethodList, notAcceptedAssetStatus, federallyOwnedObjectSubTypes, true, true);
         getJdbcTemplate().query(sql, preparedStatementSetter(depreciationDate), new ResultSetExtractor() {
 
+            @Override
             public Object extractData(ResultSet rs) throws SQLException, DataAccessException {
                 if (rs != null && rs.next()) {
                     data[0] = rs.getInt(1);
@@ -569,10 +572,10 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
         return sql;
     }
     // CSU 6702 END
-    
+
     /**
      * Gets the universityDateDao attribute.
-     * 
+     *
      * @return Returns the universityDateDao.
      */
     public UniversityDateDao getUniversityDateDao() {
@@ -581,16 +584,16 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
 
     /**
      * Sets the universityDateDao attribute value.
-     * 
+     *
      * @param universityDateDao The universityDateDao to set.
      */
     public void setUniversityDateDao(UniversityDateDao universityDateDao) {
         this.universityDateDao = universityDateDao;
     }
-    
+
     /**
      * Gets the kualiConfigurationService attribute.
-     * 
+     *
      * @return Returns the kualiConfigurationService.
      */
     public ConfigurationService getKualiConfigurationService() {
@@ -599,7 +602,7 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
 
     /**
      * Sets the kualiConfigurationService attribute value.
-     * 
+     *
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
     public void setKualiConfigurationService(ConfigurationService kualiConfigurationService) {

@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,7 +27,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.kns.util.Guid;
 
 /**
  * Tests the sufficient funds service
@@ -45,6 +44,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
      * Initializes the services needed by this test
      * @see junit.framework.TestCase#setUp()
      */
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
 
@@ -55,7 +55,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Puts test sufficient funds balances into the database
-     * 
+     *
      * @param accountNumber the account number for sf balances to use
      * @param sfType the type of the sf balance
      * @param sfObjCd the object code of the sf balance
@@ -70,7 +70,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         if (createPles)
             insertPendingLedgerEntries(accountNumber, sfObjCd);
 
-        
+
         final Integer currentFiscalYear = TestUtils.getFiscalYearForTesting();
         unitTestSqlDao.sqlCommand("delete from GL_SF_BALANCES_T where univ_fiscal_yr = '" + currentFiscalYear + "' and fin_coa_cd = 'BL' and account_nbr = '" + accountNumber + "'");
         unitTestSqlDao.sqlCommand("delete from GL_SF_BALANCES_T where univ_fiscal_yr = '"+ (currentFiscalYear-1) +"' and fin_coa_cd = 'BL' and account_nbr = '" + accountNumber + "'");
@@ -81,7 +81,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Inserts pending ledger entries into the database
-     * 
+     *
      * @param accountNumber the account number of pending entries to save
      * @param sfObjCd the object code of pending entries to save
      */
@@ -90,14 +90,14 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
         unitTestSqlDao.sqlCommand("delete from KRNS_DOC_HDR_T where doc_hdr_id = '" + documentHeaderId + "'");
         unitTestSqlDao.sqlCommand("delete from FS_DOC_HEADER_T where fdoc_nbr = '" + documentHeaderId + "'");
-        unitTestSqlDao.sqlCommand("insert into KRNS_DOC_HDR_T (DOC_HDR_ID, OBJ_ID, VER_NBR, FDOC_DESC, ORG_DOC_HDR_ID, TMPL_DOC_HDR_ID) values ('" + documentHeaderId + "','" + new Guid().toString() + "', 1, 'test', '', '')");
+        unitTestSqlDao.sqlCommand("insert into KRNS_DOC_HDR_T (DOC_HDR_ID, OBJ_ID, VER_NBR, FDOC_DESC, ORG_DOC_HDR_ID, TMPL_DOC_HDR_ID) values ('" + documentHeaderId + "','" + java.util.UUID.randomUUID().toString() + "', 1, 'test', '', '')");
         unitTestSqlDao.sqlCommand("insert into FS_DOC_HEADER_T (FDOC_NBR, FDOC_STATUS_CD, FDOC_TOTAL_AMT, FDOC_IN_ERR_NBR, TEMP_DOC_FNL_DT) values ('" + documentHeaderId + "', 'A', 0, '', " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
-        unitTestSqlDao.sqlCommand("insert into GL_PENDING_ENTRY_T (FS_ORIGIN_CD, FDOC_NBR, TRN_ENTR_SEQ_NBR, OBJ_ID, VER_NBR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_YR, UNIV_FISCAL_PRD_CD, TRN_LDGR_ENTR_DESC, TRN_LDGR_ENTR_AMT, TRN_DEBIT_CRDT_CD, TRANSACTION_DT, FDOC_TYP_CD, ORG_DOC_NBR, PROJECT_CD, ORG_REFERENCE_ID, FDOC_REF_TYP_CD, FS_REF_ORIGIN_CD, FDOC_REF_NBR, FDOC_REVERSAL_DT, TRN_ENCUM_UPDT_CD, FDOC_APPROVED_CD, ACCT_SF_FINOBJ_CD, TRN_ENTR_OFST_CD, TRNENTR_PROCESS_TM) values ('01','" + documentHeaderId + "',1,'" + new Guid().toString() + "',2,'BL','" + accountNumber + "','-----','5000','---','AC','EX',"+currentFiscalYear+",null,               'test',500,'C'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ",'DI',null,'----------',null,'','','',null,'','N','" + sfObjCd + "','N'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
-        unitTestSqlDao.sqlCommand("insert into GL_PENDING_ENTRY_T (FS_ORIGIN_CD, FDOC_NBR, TRN_ENTR_SEQ_NBR, OBJ_ID, VER_NBR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_YR, UNIV_FISCAL_PRD_CD, TRN_LDGR_ENTR_DESC, TRN_LDGR_ENTR_AMT, TRN_DEBIT_CRDT_CD, TRANSACTION_DT, FDOC_TYP_CD, ORG_DOC_NBR, PROJECT_CD, ORG_REFERENCE_ID, FDOC_REF_TYP_CD, FS_REF_ORIGIN_CD, FDOC_REF_NBR, FDOC_REVERSAL_DT, TRN_ENCUM_UPDT_CD, FDOC_APPROVED_CD, ACCT_SF_FINOBJ_CD, TRN_ENTR_OFST_CD, TRNENTR_PROCESS_TM) values ('01','" + documentHeaderId + "',3,'" + new Guid().toString() + "',2,'BL','4631638','-----','5000','---','AC','EX',"+currentFiscalYear+",null,               'test',500,'D'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ",'DI',null,'----------',null,'','','',null,'','N','N/A' ,'N'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
-        unitTestSqlDao.sqlCommand("insert into GL_PENDING_ENTRY_T (FS_ORIGIN_CD, FDOC_NBR, TRN_ENTR_SEQ_NBR, OBJ_ID, VER_NBR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_YR, UNIV_FISCAL_PRD_CD, TRN_LDGR_ENTR_DESC, TRN_LDGR_ENTR_AMT, TRN_DEBIT_CRDT_CD, TRANSACTION_DT, FDOC_TYP_CD, ORG_DOC_NBR, PROJECT_CD, ORG_REFERENCE_ID, FDOC_REF_TYP_CD, FS_REF_ORIGIN_CD, FDOC_REF_NBR, FDOC_REVERSAL_DT, TRN_ENCUM_UPDT_CD, FDOC_APPROVED_CD, ACCT_SF_FINOBJ_CD, TRN_ENTR_OFST_CD, TRNENTR_PROCESS_TM) values ('01','" + documentHeaderId + "',2,'" + new Guid().toString() + "',2,'BL','" + accountNumber + "','-----','8000','---','AC','AS',"+currentFiscalYear+",null,'TP Generated Offset',500,'D'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ",'DI',null,'----------',null,'','','',null,'','N','ASST','Y'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
-        unitTestSqlDao.sqlCommand("insert into GL_PENDING_ENTRY_T (FS_ORIGIN_CD, FDOC_NBR, TRN_ENTR_SEQ_NBR, OBJ_ID, VER_NBR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_YR, UNIV_FISCAL_PRD_CD, TRN_LDGR_ENTR_DESC, TRN_LDGR_ENTR_AMT, TRN_DEBIT_CRDT_CD, TRANSACTION_DT, FDOC_TYP_CD, ORG_DOC_NBR, PROJECT_CD, ORG_REFERENCE_ID, FDOC_REF_TYP_CD, FS_REF_ORIGIN_CD, FDOC_REF_NBR, FDOC_REVERSAL_DT, TRN_ENCUM_UPDT_CD, FDOC_APPROVED_CD, ACCT_SF_FINOBJ_CD, TRN_ENTR_OFST_CD, TRNENTR_PROCESS_TM) values ('01','" + documentHeaderId + "',4,'" + new Guid().toString() + "',2,'BL','4631638','-----','8000','---','AC','AS',"+currentFiscalYear+",null,'TP Generated Offset',500,'C'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ",'DI',null,'----------',null,'','','',null,'','N','N/A' ,'Y'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
+        unitTestSqlDao.sqlCommand("insert into GL_PENDING_ENTRY_T (FS_ORIGIN_CD, FDOC_NBR, TRN_ENTR_SEQ_NBR, OBJ_ID, VER_NBR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_YR, UNIV_FISCAL_PRD_CD, TRN_LDGR_ENTR_DESC, TRN_LDGR_ENTR_AMT, TRN_DEBIT_CRDT_CD, TRANSACTION_DT, FDOC_TYP_CD, ORG_DOC_NBR, PROJECT_CD, ORG_REFERENCE_ID, FDOC_REF_TYP_CD, FS_REF_ORIGIN_CD, FDOC_REF_NBR, FDOC_REVERSAL_DT, TRN_ENCUM_UPDT_CD, FDOC_APPROVED_CD, ACCT_SF_FINOBJ_CD, TRN_ENTR_OFST_CD, TRNENTR_PROCESS_TM) values ('01','" + documentHeaderId + "',1,'" + java.util.UUID.randomUUID().toString() + "',2,'BL','" + accountNumber + "','-----','5000','---','AC','EX',"+currentFiscalYear+",null,               'test',500,'C'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ",'DI',null,'----------',null,'','','',null,'','N','" + sfObjCd + "','N'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
+        unitTestSqlDao.sqlCommand("insert into GL_PENDING_ENTRY_T (FS_ORIGIN_CD, FDOC_NBR, TRN_ENTR_SEQ_NBR, OBJ_ID, VER_NBR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_YR, UNIV_FISCAL_PRD_CD, TRN_LDGR_ENTR_DESC, TRN_LDGR_ENTR_AMT, TRN_DEBIT_CRDT_CD, TRANSACTION_DT, FDOC_TYP_CD, ORG_DOC_NBR, PROJECT_CD, ORG_REFERENCE_ID, FDOC_REF_TYP_CD, FS_REF_ORIGIN_CD, FDOC_REF_NBR, FDOC_REVERSAL_DT, TRN_ENCUM_UPDT_CD, FDOC_APPROVED_CD, ACCT_SF_FINOBJ_CD, TRN_ENTR_OFST_CD, TRNENTR_PROCESS_TM) values ('01','" + documentHeaderId + "',3,'" + java.util.UUID.randomUUID().toString() + "',2,'BL','4631638','-----','5000','---','AC','EX',"+currentFiscalYear+",null,               'test',500,'D'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ",'DI',null,'----------',null,'','','',null,'','N','N/A' ,'N'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
+        unitTestSqlDao.sqlCommand("insert into GL_PENDING_ENTRY_T (FS_ORIGIN_CD, FDOC_NBR, TRN_ENTR_SEQ_NBR, OBJ_ID, VER_NBR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_YR, UNIV_FISCAL_PRD_CD, TRN_LDGR_ENTR_DESC, TRN_LDGR_ENTR_AMT, TRN_DEBIT_CRDT_CD, TRANSACTION_DT, FDOC_TYP_CD, ORG_DOC_NBR, PROJECT_CD, ORG_REFERENCE_ID, FDOC_REF_TYP_CD, FS_REF_ORIGIN_CD, FDOC_REF_NBR, FDOC_REVERSAL_DT, TRN_ENCUM_UPDT_CD, FDOC_APPROVED_CD, ACCT_SF_FINOBJ_CD, TRN_ENTR_OFST_CD, TRNENTR_PROCESS_TM) values ('01','" + documentHeaderId + "',2,'" + java.util.UUID.randomUUID().toString() + "',2,'BL','" + accountNumber + "','-----','8000','---','AC','AS',"+currentFiscalYear+",null,'TP Generated Offset',500,'D'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ",'DI',null,'----------',null,'','','',null,'','N','ASST','Y'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
+        unitTestSqlDao.sqlCommand("insert into GL_PENDING_ENTRY_T (FS_ORIGIN_CD, FDOC_NBR, TRN_ENTR_SEQ_NBR, OBJ_ID, VER_NBR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_YR, UNIV_FISCAL_PRD_CD, TRN_LDGR_ENTR_DESC, TRN_LDGR_ENTR_AMT, TRN_DEBIT_CRDT_CD, TRANSACTION_DT, FDOC_TYP_CD, ORG_DOC_NBR, PROJECT_CD, ORG_REFERENCE_ID, FDOC_REF_TYP_CD, FS_REF_ORIGIN_CD, FDOC_REF_NBR, FDOC_REVERSAL_DT, TRN_ENCUM_UPDT_CD, FDOC_APPROVED_CD, ACCT_SF_FINOBJ_CD, TRN_ENTR_OFST_CD, TRNENTR_PROCESS_TM) values ('01','" + documentHeaderId + "',4,'" + java.util.UUID.randomUUID().toString() + "',2,'BL','4631638','-----','8000','---','AC','AS',"+currentFiscalYear+",null,'TP Generated Offset',500,'C'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ",'DI',null,'----------',null,'','','',null,'','N','N/A' ,'Y'," + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
     }
-    
+
     /**
      * Converts the given Strings into a List of OriginEntryFull objects, printing out error messages as they occur
      * @param stringInput the String input to convert to OriginEntryFull records
@@ -121,7 +121,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests the basic consolidation sufficient funds checking
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_ConsolidationSufficientFunds() throws Exception {
@@ -142,7 +142,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests consolidation sufficient funds checking on a negative sufficient funds balance and a credit expense transaction
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_ConsolidationNegativeBalanceCreditExpense() throws Exception {
@@ -163,7 +163,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests consolidation sufficient funds checking on a negative sufficient funds balance and a debit expense transaction
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_ConsolidationNegativeBalanceDebitExpense() throws Exception {
@@ -171,9 +171,9 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         prepareSufficientFundsData("0211101", "C", "GENX", -1000, 300, 200, false);
 
         final String currentFiscalYear = TestUtils.getFiscalYearForTesting().toString();
-        String[] stringInput = new String[] { 
-                currentFiscalYear+"BL0211101-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      500.00D2006-01-05          ----------                                                                            ", 
-                currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      500.00C2006-01-05          ----------                                                                            " 
+        String[] stringInput = new String[] {
+                currentFiscalYear+"BL0211101-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      500.00D2006-01-05          ----------                                                                            ",
+                currentFiscalYear+"BL4631638-----5000---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                      500.00C2006-01-05          ----------                                                                            "
         };
 
         List transactions = convertStringInputsToOriginEntries(stringInput);
@@ -185,8 +185,8 @@ public class SufficientFundsServiceTest extends KualiTestBase {
     }
 
     /**
-     * Tests consolidation sufficient funds checking on a positive sufficient funds balance and two transactions that will cancel each other out 
-     * 
+     * Tests consolidation sufficient funds checking on a positive sufficient funds balance and two transactions that will cancel each other out
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_ConsolidationSameAccountPositiveBalanceNetZeroChange() throws Exception {
@@ -206,8 +206,8 @@ public class SufficientFundsServiceTest extends KualiTestBase {
     }
 
     /**
-     * Tests consolidation sufficient funds checking on a negative sufficient funds balance and two transactions that will cancel each other out 
-     * 
+     * Tests consolidation sufficient funds checking on a negative sufficient funds balance and two transactions that will cancel each other out
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_ConsolidationSameAccountNegativeBalanceNetZeroChange() throws Exception {
@@ -228,7 +228,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests consolidation sufficient funds checking on a sufficient funds balance that do not have sufficient funds for a transaction
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_ConsolidationInsufficientFunds() throws Exception {
@@ -249,7 +249,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests consolidation sufficient funds checking on a sufficient funds balance where pending entries will provide sufficient funds for a transaction
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_ConsolidationPendingLedgerEntriesSufficientFunds() throws Exception {
@@ -270,7 +270,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests consolidation sufficient funds checking on a sufficient funds balance where pending entries will not provide sufficient funds for a transaction
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_ConsolidationPendingLedgerEntriesInsufficientFunds() throws Exception {
@@ -291,7 +291,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests basic cash sufficient funds checking
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_CashSufficientFunds() throws Exception {
@@ -312,7 +312,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests cash sufficient funds checking on a negative sufficient funds balance and a transaction that is a credit expense
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_CashNegativeBalanceCreditExpense() throws Exception {
@@ -333,7 +333,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests cash sufficient funds checking on a negative sufficient funds balance and a transaction that is a debit expense
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_CashNegativeBalanceDebitExpense() throws Exception {
@@ -354,7 +354,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests cash sufficient funds checking on a positive sufficient funds balance and two transactions that cancel each other out
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_CashSameAccountPositiveBalanceNetZeroChange() throws Exception {
@@ -375,7 +375,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests cash sufficient funds checking on a negative sufficient funds balance and two transactions that cancel each other out
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_CashSameAccountNegativeBalanceNetZeroChange() throws Exception {
@@ -396,7 +396,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests cash sufficient funds checking on a sufficient funds balance with insufficient funds for a transaction
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_CashInsufficientFunds() throws Exception {
@@ -417,7 +417,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests cash sufficient funds checking on a sufficient funds balance where pending entries will provide sufficient funds for a transaction
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_CashPendingLedgerEntriesSufficientFunds() throws Exception {
@@ -438,7 +438,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests cash sufficient funds checking on a sufficient funds balance where pending entries will not provide sufficient funds for a transaction
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_CashPendingLedgerEntriesInsufficientFunds() throws Exception {
@@ -459,7 +459,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests basic level sufficient funds checking
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_LevelSufficientFunds() throws Exception {
@@ -480,7 +480,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests level sufficient funds checking on a negative sufficient funds balance and a transaction that is a credit expense
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_LevelNegativeBalanceCreditExpense() throws Exception {
@@ -501,7 +501,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests level sufficient funds checking on a negative sufficient funds balance and a transaction that is a debit expense
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_LevelNegativeBalanceDebitExpense() throws Exception {
@@ -522,7 +522,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests level sufficient funds checking on a positive sufficient funds balance and two transactions that cancel each other out
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_LevelSameAccountPositiveBalanceNetZeroChange() throws Exception {
@@ -543,7 +543,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests level sufficient funds checking on a negative sufficient funds balance and two transactions that cancel each other out
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_LevelSameAccountNegativeBalanceNetZeroChange() throws Exception {
@@ -564,7 +564,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests level sufficient funds checking on a sufficient funds balance with insufficient funds for a transaction
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_LevelInsufficientFunds() throws Exception {
@@ -585,7 +585,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests level sufficient funds checking on a sufficient funds balance where pending entries will provide the sufficient funds for a transaction
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_LevelPendingLedgerEntriesSufficientFunds() throws Exception {
@@ -606,7 +606,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests level sufficient funds checking on a sufficient funds balance where pending entries will not provide sufficient funds for a transaction
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_LevelPendingLedgerEntriesInsufficientFunds() throws Exception {
@@ -627,7 +627,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests basic object sufficient funds checking
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_ObjectSufficientFunds() throws Exception {
@@ -648,7 +648,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests object sufficient funds checking on a negative sufficient funds balance and a credit expense transaction
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_ObjectNegativeBalanceCreditExpense() throws Exception {
@@ -669,7 +669,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests object sufficient funds checking on a negative sufficient funds balance and a debit expense transaction
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_ObjectNegativeBalanceDebitExpense() throws Exception {
@@ -690,7 +690,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests object sufficient funds checking on a positive sufficient funds balance and two transactions that cancel each other out
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_ObjectSameAccountPositiveBalanceNetZeroChange() throws Exception {
@@ -711,7 +711,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests object sufficient funds checking on a negative sufficient funds balance and two transactions that cancel each other out
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_ObjectSameAccountNegativeBalanceNetZeroChange() throws Exception {
@@ -732,7 +732,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests object sufficient funds checking on a sufficient funds balance with insufficient funds for a transaction
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_ObjectInsufficientFunds() throws Exception {
@@ -753,7 +753,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests object sufficient funds checking on a sufficient funds balance where pending entries will provide sufficent funds for a transaction
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_ObjectPendingLedgerEntriesSufficientFunds() throws Exception {
@@ -774,7 +774,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests object sufficient funds checking on a sufficient funds balance where pending entries will not provide sufficient funds for a transaction
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_ObjectPendingLedgerEntriesInsufficientFunds() throws Exception {
@@ -794,8 +794,8 @@ public class SufficientFundsServiceTest extends KualiTestBase {
     }
 
     /**
-     * Tests basic account sufficient funds checking 
-     * 
+     * Tests basic account sufficient funds checking
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_AccountSufficientFunds() throws Exception {
@@ -816,7 +816,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests account sufficient funds checking on a negative sufficient funds balance and a credit expense transaction
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_AccountNegativeBalanceCreditExpense() throws Exception {
@@ -837,7 +837,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests account sufficient funds checking on a negative sufficient funds balance and a debit expense transaction
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_AccountNegativeBalanceDebitExpense() throws Exception {
@@ -858,7 +858,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests account sufficient funds checking on a positive sufficient funds balance and two transactions that will cancel each other out
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_AccountSameAccountPositiveBalanceNetZeroChange() throws Exception {
@@ -879,7 +879,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests account sufficient funds checking on a negative sufficient funds balance and two transactions that will cancel each other out
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_AccountSameAccountNegativeBalanceNetZeroChange() throws Exception {
@@ -900,7 +900,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests account sufficient funds checking on a sufficient funds balance without sufficient funds for a transaction
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_AccountInsufficientFunds() throws Exception {
@@ -921,7 +921,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests account sufficient funds checking on a sufficient funds balance where pending ledger entries will provide sufficient funds for a transaction
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_AccountPendingLedgerEntriesSufficientFunds() throws Exception {
@@ -942,7 +942,7 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     /**
      * Tests account sufficient funds checking on a sufficient funds balance where pending ledger entries will not provide sufficient funds for a transaction
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testSufficientFunds_AccountPendingLedgerEntriesInsufficientFunds() throws Exception {

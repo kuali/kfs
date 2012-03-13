@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,7 +22,6 @@ import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.batch.dataaccess.impl.SQLForStep;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionReasonStatisticsReportDao;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kns.util.Guid;
 
 /**
  * build the set of rows for the salary reason statistics report
@@ -62,7 +61,7 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
         reportReasonStatisticsWithThreshold.add(new SQLForStep(sqlText, insertionPoints));
         sqlText.delete(0, sqlText.length());
         insertionPoints.clear();
-        
+
         /* get emplids with at least one reason rec for the selections if we are doing the report without a threshold*/
         sqlText.append("INSERT INTO LD_BCN_BUILD_EXSALTOT01_MT (SESID, EMPLID) \n");
         sqlText.append("SELECT DISTINCT ?, bcaf.emplid \n");
@@ -177,7 +176,7 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
         updateReportsReasonStatisticsTable.add(new SQLForStep(sqlText, insertionPoints));
         sqlText.delete(0, sqlText.length());
         insertionPoints.clear();
-        
+
         /* take the request appointment attributes (months and position months) from the row for each person with the largest request amount */
         sqlText.append("INSERT INTO LD_BCN_BUILD_EXSALTOT03_MT (SESID, EMPLID, SAL_MTHS, SAL_PMTHS) \n");
         sqlText.append("SELECT DISTINCT ?, sd.emplid, sd.sal_mths, sd.sal_pmths \n");
@@ -292,8 +291,8 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
         sqlText.append(" AND pick.select_flag > 0 \n");
 
         updateReportsReasonStatisticsTable.add(new SQLForStep(sqlText));
-        sqlText.delete(0, sqlText.length()); 
-        
+        sqlText.delete(0, sqlText.length());
+
         /* create copy of detail rows by organization for new people (who do not get a raise and therefore satisfy any threshold tests) */
         sqlText.append("INSERT INTO LD_BCN_BUILD_EXSALTOT06_MT \n");
         sqlText.append("(SESID, ORG_FIN_COA_CD, ORG_CD, EMPLID, POS_CSF_AMT, \n");
@@ -334,13 +333,14 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionReasonStatisticsReportDao#cleanReportsReasonStatisticsTable(java.lang.String)
      */
+    @Override
     public void cleanReportsReasonStatisticsTable(String principalName) {
         clearTempTableByUnvlId("LD_BCN_SLRY_TOT_T", "PERSON_UNVL_ID", principalName);
     }
 
     /**
      * clears the rows for this session out of the work tables
-     * 
+     *
      * @param idForSession--a unique identifier for the session
      */
     public void cleanWorkTablesFromThisSession(String idForSession) {
@@ -355,7 +355,7 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
     /**
      * works in both threshold and non-threshold mode to get the summary salary statistics and appointment attributes for each
      * person
-     * 
+     *
      * @param principalName--the user running the report
      * @param idForSession--a unique ID for the session of the user running the report
      * @param previousFiscalYear--the fiscal year preceding the one for which we are preparing a budget
@@ -386,7 +386,7 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
 
     /**
      * get detailed salary/FTE rows by person and organization for the continuing people to be reported
-     * 
+     *
      * @param principalName
      * @param idForSession
      */
@@ -400,10 +400,11 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionReasonStatisticsReportDao#reportReasonStatisticsWithAThreshold(java.lang.String,
      *      java.lang.Integer, boolean, org.kuali.rice.core.api.util.type.KualiDecimal)
      */
+    @Override
     public void updateReasonStatisticsReportsWithAThreshold(String principalName, Integer previousFiscalYear, boolean reportIncreasesAtOrAboveTheThreshold, KualiDecimal thresholdPercent) {
 
         // get a unique session ID
-        String idForSession = (new Guid()).toString();
+        String idForSession = java.util.UUID.randomUUID().toString();
         cleanReportsReasonStatisticsTable(principalName);
         // build the list of constant strings to insert into the SQL
         ArrayList<String> stringsToInsert = new ArrayList<String>(1);
@@ -436,9 +437,10 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionReasonStatisticsReportDao#reportReasonStatisticsWithoutAThreshold(java.lang.String,
      *      java.lang.Integer)
      */
+    @Override
     public void updateReasonStatisticsReportsWithoutAThreshold(String principalName, Integer previousFiscalYear) {
         // get a unique session ID
-        String idForSession = (new Guid()).toString();
+        String idForSession = java.util.UUID.randomUUID().toString();
         cleanReportsReasonStatisticsTable(principalName);
 
         // build the list of constant strings to insert into the SQL
@@ -462,7 +464,7 @@ public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConst
 
     /**
      * sum base and request amounts and FTE by organization to produce the data used by the report
-     * 
+     *
      * @param idForSession--the session of the user doing the report
      */
     protected void sumTheDetailRowsToProduceTheReportData(String principalName, String idForSession) {

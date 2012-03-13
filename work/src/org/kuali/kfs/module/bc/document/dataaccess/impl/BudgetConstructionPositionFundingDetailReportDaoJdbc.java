@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,11 +16,11 @@
 package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import org.kuali.kfs.module.bc.batch.dataaccess.impl.SQLForStep;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionPositionFundingDetailReportDao;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kns.util.Guid;
 
 
 /**
@@ -87,8 +87,8 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
 
         updateReportsPositionFundingDetailTable.add(new SQLForStep(sqlText));
         sqlText.delete(0, sqlText.length());
-        
-        /* get the set where the percent change (fraction * 100) in the salary is less than or equal to the threshold */        
+
+        /* get the set where the percent change (fraction * 100) in the salary is less than or equal to the threshold */
         sqlText.append("INSERT INTO LD_BCN_POS_FND_T \n");
         sqlText.append(" (PERSON_UNVL_ID, SEL_ORG_FIN_COA, SEL_ORG_CD, PERSON_NM, EMPLID, POSITION_NBR, UNIV_FISCAL_YR, \n");
         sqlText.append(" FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD) \n");
@@ -134,19 +134,19 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
         sqlText.delete(0, sqlText.length());
     }
 
+    @Override
     public void cleanReportsPositionFundingDetailTable(String principalName) {
         clearTempTableByUnvlId("LD_BCN_POS_FND_T", "PERSON_UNVL_ID", principalName);
     }
 
     /**
      * build a list of people with salaries at or above the threshold
-     * 
+     *
      * @param principalName--the user requesting the list
      * @param thresholdPercent--the percent marking the threshold
      */
     protected void updateReportsPositionFundingDetailTableAboveThreshold(String principalName, KualiDecimal thresholdPercent) {
-        Guid guid = new Guid();
-        String idForSession = guid.toString();
+        String idForSession = UUID.randomUUID().toString();
         // get rid of any previous reporting data from this user
         cleanReportsPositionFundingDetailTable(principalName);
         // sum the FTE and amounts into a temporary table
@@ -163,13 +163,12 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
 
     /**
      * build a list of people with salaries at or below the threshhold
-     * 
+     *
      * @param principalName--the user requesting the list
      * @param thresholdPercent--the percent marking the threshold
      */
     protected void updateReportsPositionFundingDetailTableBelowThreshold(String principalName, KualiDecimal thresholdPercent) {
-        Guid guid = new Guid();
-        String idForSession = guid.toString();
+        String idForSession = UUID.randomUUID().toString();
         // get rid of any previous reporting data from this user
         cleanReportsPositionFundingDetailTable(principalName);
         // sum the FTE and amounts into a temporary table
@@ -186,7 +185,7 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
 
     /**
      * build a list of all salaries which this user can see
-     * 
+     *
      * @param principalName--the user requesting the list
      */
     protected void updateReportsPositionFundingDetailTableWithAllData(String principalName) {
@@ -200,6 +199,7 @@ public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends Budget
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionPositionFundingDetailReportDao#updateReportsPositionFundingDetailTable(java.lang.String,
      *      boolean, boolean, java.lang.Number)
      */
+    @Override
     public void updateReportsPositionFundingDetailTable(String principalName, boolean applyAThreshold, boolean selectOnlyGreaterThanOrEqualToThreshold, KualiDecimal thresholdPercent) {
         // if there is no threshold, just dump everything in and return
         if (!applyAThreshold) {

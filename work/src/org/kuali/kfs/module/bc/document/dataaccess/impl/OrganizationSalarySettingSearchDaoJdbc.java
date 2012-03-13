@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,11 +16,10 @@
 package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
 import org.kuali.kfs.module.bc.document.dataaccess.OrganizationSalarySettingSearchDao;
-import org.kuali.rice.kns.util.Guid;
 
 /**
  * This class...
- * 
+ *
  */
 public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDaoJdbcBase implements OrganizationSalarySettingSearchDao {
 
@@ -31,9 +30,9 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
     private static String[] initSelectedPositionOrgsTemplates = new String[1];
     private static String[] populateSelectedPositionOrgsSubTreeTemplates = new String[1];
     private static String[] populatePositionSelectForSubTreeTemplates = new String[7];
-    
+
     public OrganizationSalarySettingSearchDaoJdbc() {
-        
+
         StringBuilder sqlText = new StringBuilder(500);
 
         // This uses the GROUP BY clause to force a distinct set so as to not trip over the unique constraint on the target table.
@@ -55,7 +54,7 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
         sqlText.append("GROUP BY pull.person_unvl_id, bcaf.emplid, bcaf.fin_object_cd, iinc.person_nm");
         buildIntendedIncumbentSelectTemplates[0] = sqlText.toString();
         sqlText.delete(0, sqlText.length());
-        
+
         sqlText.append("INSERT INTO LD_BCN_BUILD_POS_SEL01_MT \n");
         sqlText.append(" (SESID, FIN_COA_CD, ORG_CD, ORG_LEVEL_CD) \n");
         sqlText.append("SELECT ?, p.fin_coa_cd, p.org_cd,  ? \n");
@@ -64,7 +63,7 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
         sqlText.append("  AND p.person_unvl_id = ?");
         initSelectedPositionOrgsTemplates[0] = sqlText.toString();
         sqlText.delete(0, sqlText.length());
-        
+
         sqlText.append("INSERT INTO LD_BCN_BUILD_POS_SEL01_MT \n");
         sqlText.append(" (SESID, FIN_COA_CD, ORG_CD, ORG_LEVEL_CD) \n");
         sqlText.append("SELECT ?, r.fin_coa_cd, r.org_cd, ? \n");
@@ -92,7 +91,7 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
         sqlText.append("  AND p.univ_fiscal_yr = af.univ_fiscal_yr \n");
         sqlText.append("  AND p.position_nbr = af.position_nbr \n");
         sqlText.append("GROUP BY p.position_nbr, p.univ_fiscal_yr, af.emplid,p.iu_position_type, p.pos_deptid, \n");
-        sqlText.append("         p.setid_salary, p.pos_sal_plan_dflt, p.pos_grade_dflt, p.pos_descr, i.person_nm");  
+        sqlText.append("         p.setid_salary, p.pos_sal_plan_dflt, p.pos_grade_dflt, p.pos_descr, i.person_nm");
         populatePositionSelectForSubTreeTemplates[0] = sqlText.toString();
         sqlText.delete(0, sqlText.length());
 
@@ -133,7 +132,7 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
         sqlText.append("  AND p.univ_fiscal_yr = af.univ_fiscal_yr \n");
         sqlText.append("  AND p.position_nbr = af.position_nbr \n");
         sqlText.append("GROUP BY p.position_nbr, p.univ_fiscal_yr, af.emplid,p.iu_position_type, p.pos_deptid, \n");
-        sqlText.append("         p.setid_salary, p.pos_sal_plan_dflt, p.pos_grade_dflt, p.pos_descr");  
+        sqlText.append("         p.setid_salary, p.pos_sal_plan_dflt, p.pos_grade_dflt, p.pos_descr");
         populatePositionSelectForSubTreeTemplates[2] = sqlText.toString();
         sqlText.delete(0, sqlText.length());
 
@@ -189,23 +188,25 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
         sqlText.append("WHERE p.person_unvl_id = ? \n");
         sqlText.append("    AND p.person_nm IS NULL \n");
         populatePositionSelectForSubTreeTemplates[6] = sqlText.toString();
-        
+
     }
-    
+
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.OrganizationSalarySettingSearchDao#buildIntendedIncumbentSelect(java.lang.String,
      *      java.lang.Integer)
      */
+    @Override
     public void buildIntendedIncumbentSelect(String principalName, Integer universityFiscalYear) {
 
         LOG.debug("buildIntendedIncumbentSelect() started");
-        
+
         getSimpleJdbcTemplate().update(buildIntendedIncumbentSelectTemplates[0], principalName, universityFiscalYear);
     }
 
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.OrganizationSalarySettingSearchDao#cleanIntendedIncumbentSelect(java.lang.String)
      */
+    @Override
     public void cleanIntendedIncumbentSelect(String principalName) {
 
         clearTempTableByUnvlId("LD_BCN_INCUMBENT_SEL_T", "PERSON_UNVL_ID", principalName);
@@ -214,11 +215,12 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.OrganizationSalarySettingSearchDao#buildPositionSelect(java.lang.String, java.lang.Integer)
      */
+    @Override
     public void buildPositionSelect(String principalName, Integer universityFiscalYear) {
 
         LOG.debug("buildPositionSelect() started");
 
-        String sessionId = new Guid().toString();
+        String sessionId = java.util.UUID.randomUUID().toString();
         initSelectedPositionOrgs(sessionId, principalName);
 
         populatePositionSelectForSubTree(sessionId, principalName, universityFiscalYear);
@@ -283,6 +285,7 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.OrganizationSalarySettingSearchDao#cleanPositionSelect(java.lang.String)
      */
+    @Override
     public void cleanPositionSelect(String principalName) {
 
         clearTempTableByUnvlId("LD_BCN_POS_SEL_T", "PERSON_UNVL_ID", principalName);

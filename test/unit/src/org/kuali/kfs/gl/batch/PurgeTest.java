@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,7 +30,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.kns.util.Guid;
 import org.springframework.aop.support.AopUtils;
 
 /**
@@ -57,7 +56,7 @@ public class PurgeTest extends KualiTestBase {
 
     /**
      * Tests that entries created before 2002 are purged
-     * 
+     *
      * @throws Exception thrown if something (likely a SQL issue) goes wrong
      */
     public void testPurgeEntry() throws Exception {
@@ -91,12 +90,12 @@ public class PurgeTest extends KualiTestBase {
 
     /**
      * Tests that balances are purged before 1999
-     * 
+     *
      * @throws Exception thrown if something (likely a SQL issue) goes wrong
      */
     public void testPurgeBalance() throws Exception {
         LOG.debug("testPurgeBalance() started");
-        
+
         final int currentFiscalYear = TestUtils.getFiscalYearForTesting().intValue();
         final int pastFiscalYear = currentFiscalYear - 1;
 
@@ -126,12 +125,12 @@ public class PurgeTest extends KualiTestBase {
 
     /**
      * Tests that account balances are purged before 1999
-     * 
+     *
      * @throws Exception thrown if something (likely a SQL issue) goes wrong
      */
     public void testPurgeAccountBalances() throws Exception {
         LOG.debug("testPurgeAccountBalances() started");
-        
+
         final int currentFiscalYear = TestUtils.getFiscalYearForTesting().intValue();
         final int pastFiscalYear = currentFiscalYear - 1;
 
@@ -162,12 +161,12 @@ public class PurgeTest extends KualiTestBase {
 
     /**
      * Tests that encumbrances are purged before 2002
-     * 
+     *
      * @throws Exception thrown if something (likely a SQL issue) goes wrong
      */
     public void testPurgeEncumbrance() throws Exception {
         LOG.debug("testPurgeEncumbrance() started");
-        
+
         final int currentFiscalYear = TestUtils.getFiscalYearForTesting().intValue();
         final int pastFiscalYear = currentFiscalYear - 1;
 
@@ -198,12 +197,12 @@ public class PurgeTest extends KualiTestBase {
 
     /**
      * Tests that collector details are purged before 2002
-     * 
+     *
      * @throws Exception thrown if something (likely a SQL issue) goes wrong
      */
     public void testPurgeCollectorDetail() throws Exception {
         LOG.debug("testPurgeCollectorDetail() started");
-        
+
         final int currentFiscalYear = TestUtils.getFiscalYearForTesting().intValue();
         final int pastFiscalYear = currentFiscalYear - 1;
 
@@ -211,10 +210,10 @@ public class PurgeTest extends KualiTestBase {
         unitTestSqlDao.sqlCommand("DELETE FROM GL_ID_BILL_T");
 
         // Should be deleted
-        unitTestSqlDao.sqlCommand("insert into GL_ID_BILL_T (FS_ORIGIN_CD,UNIV_FISCAL_PRD_CD, UNIV_FISCAL_YR, CREATE_DT, FIN_COA_CD, ACCOUNT_NBR, " + "SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FDOC_IDBIL_SEQ_NBR, FDOC_TYP_CD, FDOC_NBR, OBJ_ID, VER_NBR, FDOC_IDBIL_ITM_AMT, " + "FDOC_IDBIL_NTE_TXT, FIN_OBJ_TYP_CD, FIN_BALANCE_TYP_CD, TRN_ENTR_SEQ_NBR) values ('01','01', "+pastFiscalYear+", " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ", 'BL', '1031400', '-----', '5000', '---', '1', 'ID22', 'XXX','" + new Guid().toString() + "', 1, 0, 'x', 'EX', 'AC', 1)");
+        unitTestSqlDao.sqlCommand("insert into GL_ID_BILL_T (FS_ORIGIN_CD,UNIV_FISCAL_PRD_CD, UNIV_FISCAL_YR, CREATE_DT, FIN_COA_CD, ACCOUNT_NBR, " + "SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FDOC_IDBIL_SEQ_NBR, FDOC_TYP_CD, FDOC_NBR, OBJ_ID, VER_NBR, FDOC_IDBIL_ITM_AMT, " + "FDOC_IDBIL_NTE_TXT, FIN_OBJ_TYP_CD, FIN_BALANCE_TYP_CD, TRN_ENTR_SEQ_NBR) values ('01','01', "+pastFiscalYear+", " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ", 'BL', '1031400', '-----', '5000', '---', '1', 'ID22', 'XXX','" + java.util.UUID.randomUUID().toString() + "', 1, 0, 'x', 'EX', 'AC', 1)");
 
         // Shouldn't be deleted
-        unitTestSqlDao.sqlCommand("insert into GL_ID_BILL_T (FS_ORIGIN_CD,UNIV_FISCAL_PRD_CD, UNIV_FISCAL_YR, CREATE_DT, FIN_COA_CD, ACCOUNT_NBR, " + "SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FDOC_IDBIL_SEQ_NBR, FDOC_TYP_CD, FDOC_NBR, OBJ_ID, VER_NBR, FDOC_IDBIL_ITM_AMT, " + "FDOC_IDBIL_NTE_TXT, FIN_OBJ_TYP_CD, FIN_BALANCE_TYP_CD, TRN_ENTR_SEQ_NBR) values ('01','01', "+currentFiscalYear+", " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ", 'BL', '1031400', '-----', '5000', '---', '1', 'ID22', 'XXX','" + new Guid().toString() + "', 1, 0, 'x', 'EX', 'AC', 2)");
+        unitTestSqlDao.sqlCommand("insert into GL_ID_BILL_T (FS_ORIGIN_CD,UNIV_FISCAL_PRD_CD, UNIV_FISCAL_YR, CREATE_DT, FIN_COA_CD, ACCOUNT_NBR, " + "SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FDOC_IDBIL_SEQ_NBR, FDOC_TYP_CD, FDOC_NBR, OBJ_ID, VER_NBR, FDOC_IDBIL_ITM_AMT, " + "FDOC_IDBIL_NTE_TXT, FIN_OBJ_TYP_CD, FIN_BALANCE_TYP_CD, TRN_ENTR_SEQ_NBR) values ('01','01', "+currentFiscalYear+", " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ", 'BL', '1031400', '-----', '5000', '---', '1', 'ID22', 'XXX','" + java.util.UUID.randomUUID().toString() + "', 1, 0, 'x', 'EX', 'AC', 2)");
 
         Step purgeStep = BatchSpringContext.getStep("purgeCollectorDetailStep");
         Class purgeStepClass = ProxyUtils.getTargetIfProxied(purgeStep).getClass();
@@ -234,12 +233,12 @@ public class PurgeTest extends KualiTestBase {
 
     /**
      * Tests that sufficient funds balances are purged before 1999
-     * 
+     *
      * @throws Exception thrown if something (likely a SQL issue) goes wrong
      */
     public void testPurgeSufficientFundsBalances() throws Exception {
         LOG.debug("testPurgeSufficientFundsBalances() started");
-        
+
         final int currentFiscalYear = TestUtils.getFiscalYearForTesting().intValue();
         final int pastFiscalYear = currentFiscalYear - 1;
 
@@ -253,7 +252,7 @@ public class PurgeTest extends KualiTestBase {
         unitTestSqlDao.sqlCommand("insert into GL_SF_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, ACCT_SF_CD, " + "CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT, TIMESTAMP) values ("+currentFiscalYear+", 'BL', '1031400', '5000','H', 0, 0, 0, " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ")");
 
         Step purgeStep = BatchSpringContext.getStep("purgeSufficientFundBalancesStep");
-        Class purgeStepClass = ProxyUtils.getTargetIfProxied(purgeStep).getClass(); 
+        Class purgeStepClass = ProxyUtils.getTargetIfProxied(purgeStep).getClass();
         TestUtils.setSystemParameter(purgeStepClass, KFSConstants.SystemGroupParameterNames.PURGE_GL_ENTRY_T_BEFORE_YEAR, Integer.toString(currentFiscalYear));
 
         // Run the purge
@@ -270,7 +269,7 @@ public class PurgeTest extends KualiTestBase {
 
     /**
      * Prints the contents of a List of Maps to System.err
-     * 
+     *
      * @param maps a List of Maps
      */
     private void printList(List maps) {
@@ -290,7 +289,7 @@ public class PurgeTest extends KualiTestBase {
 
     /**
      * Attempts to convert the value of a MapEntry with the given key into an int
-     * 
+     *
      * @param values a Map of values
      * @param field the key of the value to convert
      * @return the converted value or -1 if conversion was unsuccessful

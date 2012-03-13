@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.batch.dataaccess.impl.SQLForStep;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionObjectSummaryReportDao;
-import org.kuali.rice.kns.util.Guid;
 
 public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetConstructionObjectSummaryReportDao {
 
@@ -30,15 +29,15 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
 
         StringBuilder sqlBuilder = new StringBuilder(1500);
         ArrayList<Integer> insertionPoints = new ArrayList<Integer>(10);
-       
-       
+
+
        // build the INSERT SQL for the main table
        sqlBuilder.append("INSERT INTO LD_BCN_OBJT_SUMM_T\n");
        sqlBuilder.append("(PERSON_UNVL_ID, ORG_FIN_COA_CD, ORG_CD, SUB_FUND_GRP_CD, FIN_COA_CD,\n");
        sqlBuilder.append("INC_EXP_CD, FIN_CONS_SORT_CD, FIN_LEV_SORT_CD, FIN_OBJECT_CD, ACLN_ANNL_BAL_AMT,\n");
        sqlBuilder.append("FIN_BEG_BAL_LN_AMT, FIN_CONS_OBJ_CD, FIN_OBJ_LEVEL_CD, APPT_RQCSF_FTE_QTY,\n");
        sqlBuilder.append("APPT_RQST_FTE_QTY, POS_CSF_FTE_QTY, POS_CSF_LV_FTE_QTY)\n");
-       sqlBuilder.append("SELECT\n"); 
+       sqlBuilder.append("SELECT\n");
        sqlBuilder.append("?,\n");
        sqlBuilder.append("LD_BCN_CTRL_LIST_T.SEL_ORG_FIN_COA,\n");
        sqlBuilder.append("LD_BCN_CTRL_LIST_T.SEL_ORG_CD,\n");
@@ -58,9 +57,9 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
        sqlBuilder.append("        CA_OBJECT_CODE_T,\n");
        sqlBuilder.append("        CA_OBJ_LEVEL_T,\n");
        sqlBuilder.append("        CA_OBJ_CONSOLDTN_T\n");
-       sqlBuilder.append("  WHERE (LD_BCN_SUBFUND_PICK_T.PERSON_UNVL_ID = ?)\n"); 
+       sqlBuilder.append("  WHERE (LD_BCN_SUBFUND_PICK_T.PERSON_UNVL_ID = ?)\n");
        sqlBuilder.append("    AND (LD_BCN_SUBFUND_PICK_T.REPORT_FLAG > 0)\n");
-       sqlBuilder.append("    AND (LD_BCN_SUBFUND_PICK_T.SUB_FUND_GRP_CD = LD_BCN_CTRL_LIST_T.SEL_SUB_FUND_GRP)\n"); 
+       sqlBuilder.append("    AND (LD_BCN_SUBFUND_PICK_T.SUB_FUND_GRP_CD = LD_BCN_CTRL_LIST_T.SEL_SUB_FUND_GRP)\n");
        sqlBuilder.append("    AND (LD_BCN_SUBFUND_PICK_T.PERSON_UNVL_ID = LD_BCN_CTRL_LIST_T.PERSON_UNVL_ID)\n");
        sqlBuilder.append("    AND (CA_OBJ_CONSOLDTN_T.FIN_COA_CD = CA_OBJ_LEVEL_T.FIN_COA_CD)\n");
        sqlBuilder.append("    AND (CA_OBJ_CONSOLDTN_T.FIN_CONS_OBJ_CD = CA_OBJ_LEVEL_T.FIN_CONS_OBJ_CD)\n");
@@ -79,7 +78,7 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
        sqlBuilder.append("LD_BCN_CTRL_LIST_T.SEL_SUB_FUND_GRP,\n");
        sqlBuilder.append("LD_BCN_CTRL_LIST_T.FIN_COA_CD,\n");
        sqlBuilder.append("CA_OBJ_CONSOLDTN_T.FIN_REPORT_SORT_CD,\n");
-       sqlBuilder.append("CA_OBJ_LEVEL_T.FIN_REPORT_SORT_CD,\n"); 
+       sqlBuilder.append("CA_OBJ_LEVEL_T.FIN_REPORT_SORT_CD,\n");
        sqlBuilder.append("LD_PND_BCNSTR_GL_T.FIN_OBJECT_CD,\n");
        sqlBuilder.append("CA_OBJ_LEVEL_T.FIN_CONS_OBJ_CD,\n");
        sqlBuilder.append("CA_OBJECT_CODE_T.FIN_OBJ_LEVEL_CD\n");
@@ -105,9 +104,9 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
        sqlBuilder.append("        CA_OBJECT_CODE_T,\n");
        sqlBuilder.append("        CA_OBJ_LEVEL_T,\n");
        sqlBuilder.append("        CA_OBJ_CONSOLDTN_T\n");
-       sqlBuilder.append("  WHERE (LD_BCN_SUBFUND_PICK_T.PERSON_UNVL_ID = ?)\n"); 
+       sqlBuilder.append("  WHERE (LD_BCN_SUBFUND_PICK_T.PERSON_UNVL_ID = ?)\n");
        sqlBuilder.append("    AND (LD_BCN_SUBFUND_PICK_T.REPORT_FLAG > 0)\n");
-       sqlBuilder.append("    AND (LD_BCN_SUBFUND_PICK_T.SUB_FUND_GRP_CD = LD_BCN_CTRL_LIST_T.SEL_SUB_FUND_GRP)\n"); 
+       sqlBuilder.append("    AND (LD_BCN_SUBFUND_PICK_T.SUB_FUND_GRP_CD = LD_BCN_CTRL_LIST_T.SEL_SUB_FUND_GRP)\n");
        sqlBuilder.append("    AND (LD_BCN_SUBFUND_PICK_T.PERSON_UNVL_ID = LD_BCN_CTRL_LIST_T.PERSON_UNVL_ID)\n");
        sqlBuilder.append("    AND (CA_OBJ_CONSOLDTN_T.FIN_COA_CD = CA_OBJ_LEVEL_T.FIN_COA_CD)\n");
        sqlBuilder.append("    AND (CA_OBJ_CONSOLDTN_T.FIN_CONS_OBJ_CD = CA_OBJ_LEVEL_T.FIN_CONS_OBJ_CD)\n");
@@ -126,21 +125,21 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
        sqlBuilder.append("LD_BCN_CTRL_LIST_T.SEL_SUB_FUND_GRP,\n");
        sqlBuilder.append("LD_BCN_CTRL_LIST_T.FIN_COA_CD,\n");
        sqlBuilder.append("CA_OBJ_CONSOLDTN_T.FIN_REPORT_SORT_CD,\n");
-       sqlBuilder.append("CA_OBJ_LEVEL_T.FIN_REPORT_SORT_CD,\n"); 
+       sqlBuilder.append("CA_OBJ_LEVEL_T.FIN_REPORT_SORT_CD,\n");
        sqlBuilder.append("LD_PND_BCNSTR_GL_T.FIN_OBJECT_CD,\n");
        sqlBuilder.append("CA_OBJ_LEVEL_T.FIN_CONS_OBJ_CD,\n");
        sqlBuilder.append("CA_OBJECT_CODE_T.FIN_OBJ_LEVEL_CD\n");
-       
+
        objectSummarySql.add(new SQLForStep(sqlBuilder,insertionPoints));
        sqlBuilder.delete(0,sqlBuilder.length());
        insertionPoints.clear();
-       
+
        // SQL to get the FTE amounts from appointment funding that match with the expenditure
       sqlBuilder.append("INSERT INTO LD_BCN_BUILD_OBJTSUMM01_MT\n");
       sqlBuilder.append("(SESID, ORG_FIN_COA_CD, ORG_CD, SUB_FUND_GRP_CD, FIN_COA_CD,\n");
       sqlBuilder.append(" INC_EXP_CD, FIN_CONS_OBJ_CD, FIN_OBJ_LEVEL_CD, FIN_OBJECT_CD,\n");
       sqlBuilder.append(" APPT_RQCSF_FTE_QTY, APPT_RQST_FTE_QTY)\n");
-      sqlBuilder.append("(SELECT\n"); 
+      sqlBuilder.append("(SELECT\n");
       sqlBuilder.append(" ?,\n");
       sqlBuilder.append(" ctrl.sel_org_fin_coa,\n");
       sqlBuilder.append(" ctrl.sel_org_cd,\n");
@@ -167,7 +166,7 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
       sqlBuilder.append("   AND bcaf.sub_acct_nbr = ctrl.sub_acct_nbr\n");
       sqlBuilder.append("   AND objt.univ_fiscal_yr = ctrl.univ_fiscal_yr\n");
       sqlBuilder.append("   AND objt.fin_coa_cd = ctrl.fin_coa_cd\n");
-      sqlBuilder.append("   AND objt.fin_object_cd = bcaf.fin_object_cd\n"); 
+      sqlBuilder.append("   AND objt.fin_object_cd = bcaf.fin_object_cd\n");
       sqlBuilder.append("   AND objl.fin_coa_cd = objt.fin_coa_cd\n");
       sqlBuilder.append("   AND objl.fin_obj_level_cd = objt.fin_obj_level_cd\n");
       sqlBuilder.append(" GROUP BY ctrl.sel_org_fin_coa,\n");
@@ -179,7 +178,7 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
       sqlBuilder.append("          bcaf.fin_object_cd)");
       objectSummarySql.add(new SQLForStep(sqlBuilder));
       sqlBuilder.delete(0,sqlBuilder.length());
-     
+
       // update the original lines using the FTE generated above. (PostGreSQL supposedly does not allow the target table in an UPDATE to be aliased.  Gennick, p.159.)
       sqlBuilder.append("UPDATE LD_BCN_OBJT_SUMM_T\n");
       sqlBuilder.append("SET appt_rqcsf_fte_qty =\n");
@@ -194,7 +193,7 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
       sqlBuilder.append("     AND LD_BCN_OBJT_SUMM_T.FIN_CONS_OBJ_CD = fq.fin_cons_obj_cd\n");
       sqlBuilder.append("     AND LD_BCN_OBJT_SUMM_T.FIN_OBJ_LEVEL_CD = fq.fin_obj_level_cd\n");
       sqlBuilder.append("     AND LD_BCN_OBJT_SUMM_T.FIN_OBJECT_CD = fq.fin_object_cd\n");
-      sqlBuilder.append("     AND fq.sesid = ?),\n"); 
+      sqlBuilder.append("     AND fq.sesid = ?),\n");
       sqlBuilder.append("   appt_rqst_fte_qty =\n");
       sqlBuilder.append("  (SELECT  SUM(fq.appt_rqst_fte_qty)\n");
       sqlBuilder.append("   FROM LD_BCN_BUILD_OBJTSUMM01_MT fq\n");
@@ -221,16 +220,16 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
       sqlBuilder.append("                AND LD_BCN_OBJT_SUMM_T.FIN_OBJ_LEVEL_CD = fq2.fin_obj_level_cd\n");
       sqlBuilder.append("                AND LD_BCN_OBJT_SUMM_T.FIN_OBJECT_CD = fq2.fin_object_cd\n");
       sqlBuilder.append("                AND fq2.sesid = ?)");
- 
+
       objectSummarySql.add(new SQLForStep(sqlBuilder));
       sqlBuilder.delete(0,sqlBuilder.length());
-      
+
       // sum the base (CSF for the current year) FTE into a holding table
       sqlBuilder.append("INSERT INTO LD_BCN_BUILD_OBJTSUMM02_MT\n");
       sqlBuilder.append("(SESID, ORG_FIN_COA_CD, ORG_CD, SUB_FUND_GRP_CD, FIN_COA_CD, INC_EXP_CD,\n");
       sqlBuilder.append(" FIN_CONS_OBJ_CD, FIN_OBJ_LEVEL_CD, FIN_OBJECT_CD, POS_CSF_FNDSTAT_CD,\n");
       sqlBuilder.append(" POS_CSF_FTE_QTY, POS_CSF_LV_FTE_QTY)\n");
-      sqlBuilder.append("SELECT\n"); 
+      sqlBuilder.append("SELECT\n");
       sqlBuilder.append("  ?,\n");
       sqlBuilder.append("  ctrl.sel_org_fin_coa,\n");
       sqlBuilder.append("  ctrl.sel_org_cd,\n");
@@ -262,7 +261,7 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
       sqlBuilder.append("' OR bcsf.pos_csf_fndstat_cd IS NULL)\n");
       sqlBuilder.append("  AND objt.univ_fiscal_yr = ctrl.univ_fiscal_yr\n");
       sqlBuilder.append("  AND objt.fin_coa_cd = ctrl.fin_coa_cd\n");
-      sqlBuilder.append("  AND objt.fin_object_cd = bcsf.fin_object_cd\n"); 
+      sqlBuilder.append("  AND objt.fin_object_cd = bcsf.fin_object_cd\n");
       sqlBuilder.append("  AND objl.fin_coa_cd = objt.fin_coa_cd\n");
       sqlBuilder.append("  AND objl.fin_obj_level_cd = objt.fin_obj_level_cd\n");
       sqlBuilder.append("GROUP BY ctrl.sel_org_fin_coa,\n");
@@ -273,7 +272,7 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
       sqlBuilder.append("         objt.fin_obj_level_cd,\n");
       sqlBuilder.append("         bcsf.fin_object_cd\n");
       sqlBuilder.append("UNION ALL\n");
-      sqlBuilder.append("SELECT\n"); 
+      sqlBuilder.append("SELECT\n");
       sqlBuilder.append("?,\n");
       sqlBuilder.append("ctrl.sel_org_fin_coa,\n");
       sqlBuilder.append("ctrl.sel_org_cd,\n");
@@ -308,7 +307,7 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
       sqlBuilder.append("'\n");
       sqlBuilder.append("  AND objt.univ_fiscal_yr = ctrl.univ_fiscal_yr\n");
       sqlBuilder.append("  AND objt.fin_coa_cd = ctrl.fin_coa_cd\n");
-      sqlBuilder.append("  AND objt.fin_object_cd = bcsf.fin_object_cd\n"); 
+      sqlBuilder.append("  AND objt.fin_object_cd = bcsf.fin_object_cd\n");
       sqlBuilder.append("  AND objl.fin_coa_cd = objt.fin_coa_cd\n");
       sqlBuilder.append("  AND objl.fin_obj_level_cd = objt.fin_obj_level_cd\n");
       sqlBuilder.append("GROUP BY ctrl.sel_org_fin_coa,\n");
@@ -318,13 +317,13 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
       sqlBuilder.append("    objl.fin_cons_obj_cd,\n");
       sqlBuilder.append("    objt.fin_obj_level_cd,\n");
       sqlBuilder.append("    bcsf.fin_object_cd\n");
-      
+
       objectSummarySql.add(new SQLForStep(sqlBuilder,insertionPoints));
       sqlBuilder.delete(0,sqlBuilder.length());
       insertionPoints.clear();
-      
-      // update the base FTE in the reporting table using the holding table values. (PostGreSQL supposedly does not allow the target table in an UPDATE to be aliased.  Gennick, p.159.) 
-      sqlBuilder.append("UPDATE LD_BCN_OBJT_SUMM_T\n"); 
+
+      // update the base FTE in the reporting table using the holding table values. (PostGreSQL supposedly does not allow the target table in an UPDATE to be aliased.  Gennick, p.159.)
+      sqlBuilder.append("UPDATE LD_BCN_OBJT_SUMM_T\n");
       sqlBuilder.append("SET LD_BCN_OBJT_SUMM_T.POS_CSF_FTE_QTY =\n");
       sqlBuilder.append("        (SELECT SUM(fq.pos_csf_fte_qty)\n");
       sqlBuilder.append("         FROM LD_BCN_BUILD_OBJTSUMM02_MT fq\n");
@@ -337,7 +336,7 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
       sqlBuilder.append("           AND LD_BCN_OBJT_SUMM_T.FIN_CONS_OBJ_CD = fq.fin_cons_obj_cd\n");
       sqlBuilder.append("           AND LD_BCN_OBJT_SUMM_T.FIN_OBJ_LEVEL_CD = fq.fin_obj_level_cd\n");
       sqlBuilder.append("           AND LD_BCN_OBJT_SUMM_T.FIN_OBJECT_CD = fq.fin_object_cd\n");
-      sqlBuilder.append("           AND fq.sesid = ?),\n"); 
+      sqlBuilder.append("           AND fq.sesid = ?),\n");
       sqlBuilder.append("     LD_BCN_OBJT_SUMM_T.POS_CSF_LV_FTE_QTY =\n");
       sqlBuilder.append("         (SELECT SUM(fq.pos_csf_lv_fte_qty)\n");
       sqlBuilder.append("          FROM LD_BCN_BUILD_OBJTSUMM02_MT fq\n");
@@ -350,7 +349,7 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
       sqlBuilder.append("            AND LD_BCN_OBJT_SUMM_T.FIN_CONS_OBJ_CD = fq.fin_cons_obj_cd\n");
       sqlBuilder.append("            AND LD_BCN_OBJT_SUMM_T.FIN_OBJ_LEVEL_CD = fq.fin_obj_level_cd\n");
       sqlBuilder.append("            AND LD_BCN_OBJT_SUMM_T.FIN_OBJECT_CD = fq.fin_object_cd\n");
-      sqlBuilder.append("            AND fq.sesid = ?)\n"); 
+      sqlBuilder.append("            AND fq.sesid = ?)\n");
       sqlBuilder.append("    WHERE LD_BCN_OBJT_SUMM_T.PERSON_UNVL_ID = ?\n");
       sqlBuilder.append("      AND EXISTS (SELECT 1\n");
       sqlBuilder.append("                  FROM LD_BCN_BUILD_OBJTSUMM02_MT fq2\n");
@@ -374,6 +373,7 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionObjectSummaryReportDao#cleanGeneralLedgerObjectSummaryTable(java.lang.String)
      */
+    @Override
     public void cleanGeneralLedgerObjectSummaryTable(String principalName) {
         this.clearTempTableByUnvlId("LD_BCN_OBJT_SUMM_T", "PERSON_UNVL_ID", principalName);
     }
@@ -382,8 +382,9 @@ public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstruc
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionObjectSummaryReportDao#updateGeneralLedgerObjectSummaryTable(java.lang.String, java.lang.String, java.lang.String)
      */
+    @Override
     public void updateGeneralLedgerObjectSummaryTable(String principalName, String revenueINList, String expenditureINList) {
-        String idForSession = (new Guid()).toString();
+        String idForSession = java.util.UUID.randomUUID().toString();
         ArrayList<String> inLists = new ArrayList<String>(2);
         inLists.add(revenueINList);
         inLists.add(expenditureINList);

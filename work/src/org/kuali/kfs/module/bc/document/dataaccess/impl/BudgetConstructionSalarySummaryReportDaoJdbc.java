@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,12 +17,12 @@ package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.batch.dataaccess.impl.SQLForStep;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSalarySummaryReportDao;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kns.util.Guid;
 
 /**
  * builds the underlying data table for the salary summary report in budget construction
@@ -310,7 +310,7 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
 
     /**
      * clean out all rows in the report tables associated with this user
-     * 
+     *
      * @param principalName--the user requesting the report
      */
     protected void clearUserPreviouSalarySummaryReports(String principalName) {
@@ -320,7 +320,7 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
 
     /**
      * clean out the work table used by all reports
-     * 
+     *
      * @param idForSession--the session which requested the report
      */
     protected void clearCommonWorkTable(String idForSession) {
@@ -329,7 +329,7 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
 
     /**
      * clean out the work tables for reporting by threshold
-     * 
+     *
      * @param idForSession--the session which requested the report
      */
     protected void clearThresholdWorkTables(String idForSession) {
@@ -341,7 +341,7 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
 
     /**
      * runs SQL used by every report
-     * 
+     *
      * @param principalName--the user requesting the report
      * @param idForSession--the session of the user
      */
@@ -355,10 +355,10 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSalarySummaryReportDao#salarySummaryReports(java.lang.String,
      *      java.lang.Integer, boolean, org.kuali.rice.core.api.util.type.KualiDecimal)
      */
+    @Override
     public void updateSalaryAndReasonSummaryReportsWithThreshold(String principalName, Integer previousFiscalYear, boolean reportGreaterThanOrEqualToThreshold, KualiDecimal threshold) {
         // get the session ID
-        Guid guid = new Guid();
-        String idForSession = guid.toString();
+        String idForSession = UUID.randomUUID().toString();
 
         // clean out anything left from a previous report requested by this user
         clearUserPreviouSalarySummaryReports(principalName);
@@ -413,11 +413,11 @@ public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstruc
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSalarySummaryReportDao#reasonSummaryReports(java.lang.String,
      *      boolean)
      */
+    @Override
     public void updateSalaryAndReasonSummaryReportsWithoutThreshold(String principalName, boolean listSalariesWithReasonCodes) {
 
         // get the session ID
-        Guid guid = new Guid();
-        String idForSession = guid.toString();
+        String idForSession = UUID.randomUUID().toString();
 
         // get the insertion String for the vacant EMPLID
         ArrayList<String> vacantEmplid = new ArrayList<String>(1);

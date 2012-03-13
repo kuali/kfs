@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,11 +16,11 @@
 package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import org.kuali.kfs.module.bc.batch.dataaccess.impl.SQLForStep;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionMonthSummaryReportDao;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.util.Guid;
 
 /**
  * report general ledger and monthly summaries from the budget by organization, subfund group, and object code
@@ -282,13 +282,14 @@ public class BudgetConstructionMonthSummaryReportDaoJdbc extends BudgetConstruct
 
     }
 
+    @Override
     public void cleanReportsMonthSummaryTable(String principalName) {
         clearTempTableByUnvlId("LD_BCN_MNTH_SUMM_T", "PERSON_UNVL_ID", principalName);
     }
 
     /**
      * sums general ledger and montly budgets by subfund and organization to the object-code level
-     * 
+     *
      * @param principalName--the user requesting the report
      * @param idForSession--the session id for the user
      * @param revenueINList a SQL IN list containing the budget construction revenue object types
@@ -316,7 +317,7 @@ public class BudgetConstructionMonthSummaryReportDaoJdbc extends BudgetConstruct
 
     /**
      * sums general ledger and monthly amounts by organization and subfund group to the sub-object level
-     * 
+     *
      * @param principalName--the user requesting the report
      * @param idForSession--the ID for the user's session
      * @param revenueINList a SQL IN list containing the budget construction revenue object types
@@ -345,10 +346,9 @@ public class BudgetConstructionMonthSummaryReportDaoJdbc extends BudgetConstruct
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionMonthSummaryReportDao#updateReportsMonthSummaryTable(java.lang.String,
      *      boolean, java.lang.String, java.lang.String)
      */
+    @Override
     public void updateReportsMonthSummaryTable(String principalName, boolean consolidateToObjectCodeLevel, String revenueINList, String expenditureINList) {
-
-        Guid guid = new Guid();
-        String idForSession = guid.toString();
+        String idForSession = UUID.randomUUID().toString();
 
         // remove any previous reporting rows for this user
         this.cleanReportsMonthSummaryTable(principalName);

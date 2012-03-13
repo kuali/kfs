@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,7 +33,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.kns.util.Guid;
 
 /**
  * Tests the NighlyOutService
@@ -41,11 +40,11 @@ import org.kuali.rice.kns.util.Guid;
 @ConfigureContext
 public class NightlyOutServiceTest extends KualiTestBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(NightlyOutServiceTest.class);
-    
+
     private NightlyOutService nightlyOutService;
     private UnitTestSqlDao unitTestSqlDao;
     private DateTimeService dateTimeService;
-    
+
     protected Date date;
     protected String batchDirectory;
     protected String nightlyOutFileName;
@@ -61,7 +60,7 @@ public class NightlyOutServiceTest extends KualiTestBase {
         nightlyOutService = SpringContext.getBean(NightlyOutService.class);
         unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
         dateTimeService = SpringContext.getBean(DateTimeService.class);
-        
+
         date = dateTimeService.getCurrentDate();
         batchDirectory = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("staging.directory")+"/gl/test_directory/originEntry";
         File batchDirectoryFile = new File(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("staging.directory")+"/gl/test_directory");
@@ -70,7 +69,7 @@ public class NightlyOutServiceTest extends KualiTestBase {
         batchDirectoryFile.mkdir();
         nightlyOutFileName = batchDirectory + File.separator + GeneralLedgerConstants.BatchFileSystem.NIGHTLY_OUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
     }
-    
+
     /**
      * Removes the directory for the batch files to go in
      * @see junit.framework.TestCase#tearDown()
@@ -85,15 +84,16 @@ public class NightlyOutServiceTest extends KualiTestBase {
         batchDirectoryFile = new File(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("staging.directory")+"/gl/test_directory");
         batchDirectoryFile.delete();
     }
-    
+
     /**
      * An inner class to filter only the files for this batch run
      */
-    
+
     final class BatchFilenameFilter implements FilenameFilter {
         /**
          * @see java.io.FilenameFilter#accept(java.io.File, java.lang.String)
          */
+        @Override
         public boolean accept(File dir, String name) {
             return name.equals(GeneralLedgerConstants.BatchFileSystem.NIGHTLY_OUT_FILE);
         }
@@ -101,7 +101,7 @@ public class NightlyOutServiceTest extends KualiTestBase {
 
     /**
      * This test validates that the correct data is copied into origin_entry
-     * 
+     *
      * @throws Exception thrown if any exception is encountered for any reason
      */
     @ConfigureContext(shouldCommitTransactions=true)
@@ -140,7 +140,7 @@ public class NightlyOutServiceTest extends KualiTestBase {
         LOG.info( "Calling NightlyOutService to copy the pending entries" );
         nightlyOutService.copyApprovedPendingLedgerEntries();
         LOG.info( "Completed Call to NightlyOutService" );
-        
+
         assertEquals("Should have 2 group and one done file", 2, new File(batchDirectory).list().length);
         assertEquals("Should have 2 entries", 2, countOriginEntriesInFile());
 
@@ -155,7 +155,7 @@ public class NightlyOutServiceTest extends KualiTestBase {
         List remainderEntries = unitTestSqlDao.sqlSelect("select * from GL_PENDING_ENTRY_T");
         assertEquals("Should have 2 remaining entries", 2, remainderEntries.size());
     }
-    
+
     /**
      * @return the number of entries in the nightly out origin entry file
      */

@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.batch.dataaccess.impl.SQLForStep;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSalaryStatisticsReportDao;
-import org.kuali.rice.kns.util.Guid;
 
 /**
  * buiilds reporting source tables for the salary statistics report
@@ -247,6 +246,7 @@ public class BudgetConstructionSalaryStatisticsReportDaoJdbc extends BudgetConst
 
     }
 
+    @Override
     public void cleanReportsSalaryStatisticsTable(String principalName) {
         clearTempTableByUnvlId("LD_BCN_SLRY_TOT_T", "PERSON_UNVL_ID", principalName);
     }
@@ -259,10 +259,11 @@ public class BudgetConstructionSalaryStatisticsReportDaoJdbc extends BudgetConst
         clearTempTableBySesId("LD_BCN_BUILD_SALTOT05_MT", "SESID", idForSession);
     }
 
+    @Override
     public void updateReportsSalaryStatisticsTable(String principalName, Integer previousFiscalYear) {
 
         // get a unique session ID
-        String idForSession = (new Guid()).toString();
+        String idForSession = java.util.UUID.randomUUID().toString();
 
         // build the leave string to be inserted into some of the SQL below
         ArrayList<String> leaveCodeToInsert = new ArrayList<String>(1);

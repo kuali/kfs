@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,17 +16,17 @@
 package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.kuali.kfs.module.bc.BCConstants.Report.BuildMode;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionObjectPick;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionReasonCodePick;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionSubFundPick;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao;
-import org.kuali.rice.kns.util.Guid;
 
 /**
  * JCBC implementation of BudgetReportsControlListDaoJdbc
- * 
+ *
  * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao
  */
 public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetReportsControlListDao {
@@ -210,11 +210,12 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao#updateReportControlList(java.lang.String, java.lang.Integer,
      *      java.lang.String, java.lang.String, org.kuali.kfs.module.bc.BCConstants.Report.BuildMode)
      */
+    @Override
     public void updateReportControlList(String principalName, Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode, BuildMode buildMode) {
         // clear out previous data for user
         clearTempTableByUnvlId("LD_BCN_CTRL_LIST_T", "PERSON_UNVL_ID", principalName);
 
-        Guid idForSession = new Guid();
+        String idForSession = UUID.randomUUID().toString();
 
         // build 1st temp table with list of accounts for the selected organizations
         getSimpleJdbcTemplate().update(updateReportsControlList[0], idForSession.toString(), principalName, universityFiscalYear);
@@ -243,6 +244,7 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao#updateReportsSubFundGroupSelectList(java.lang.String)
      */
+    @Override
     public void updateReportsSubFundGroupSelectList(String principalName) {
         // clear out previous sub-fund list for user
         clearTempTableByUnvlId("LD_BCN_SUBFUND_PICK_T", "PERSON_UNVL_ID", principalName);
@@ -254,6 +256,7 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao#updateReportsObjectCodeSelectList(java.lang.String)
      */
+    @Override
     public void updateReportsObjectCodeSelectList(String principalName) {
         // clear out previous object code list for user
         clearTempTableByUnvlId("LD_BCN_OBJ_PICK_T", "PERSON_UNVL_ID", principalName);
@@ -265,6 +268,7 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao#updateReportsReasonCodeSelectList(java.lang.String)
      */
+    @Override
     public void updateReportsReasonCodeSelectList(String principalName) {
         // clear out previous reason code list for user
         clearTempTableByUnvlId("LD_BCN_RSN_CD_PK_T", "PERSON_UNVL_ID", principalName);
@@ -276,6 +280,7 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao#updateObjectCodeSelectFlags(java.util.List)
      */
+    @Override
     public void updateObjectCodeSelectFlags(List<BudgetConstructionObjectPick> objectCodePickList) {
         for (BudgetConstructionObjectPick budgetConstructionObjectPick : objectCodePickList) {
             getSimpleJdbcTemplate().update(updateReportsSelectedObjectCodeFlags, budgetConstructionObjectPick.getSelectFlag().intValue(), budgetConstructionObjectPick.getPrincipalId(), budgetConstructionObjectPick.getFinancialObjectCode());
@@ -285,6 +290,7 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao#updateReasonCodeSelectFlags(java.util.List)
      */
+    @Override
     public void updateReasonCodeSelectFlags(List<BudgetConstructionReasonCodePick> reasonCodePickList) {
         for (BudgetConstructionReasonCodePick budgetConstructionReasonCodePick : reasonCodePickList) {
             getSimpleJdbcTemplate().update(updateReportsSelectedReasonCodeFlags, budgetConstructionReasonCodePick.getSelectFlag().intValue(), budgetConstructionReasonCodePick.getPrincipalId(), budgetConstructionReasonCodePick.getAppointmentFundingReasonCode());
@@ -294,6 +300,7 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao#updateSubFundSelectFlags(java.util.List)
      */
+    @Override
     public void updateSubFundSelectFlags(List<BudgetConstructionSubFundPick> subFundPickList) {
         for (BudgetConstructionSubFundPick budgetConstructionSubFundPick : subFundPickList) {
             getSimpleJdbcTemplate().update(updateReportsSelectedSubFundGroupFlags, budgetConstructionSubFundPick.getReportFlag().intValue(), budgetConstructionSubFundPick.getPrincipalId(), budgetConstructionSubFundPick.getSubFundGroupCode());

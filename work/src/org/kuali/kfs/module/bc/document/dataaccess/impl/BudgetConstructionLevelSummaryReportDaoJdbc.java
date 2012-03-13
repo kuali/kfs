@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,11 +16,11 @@
 package org.kuali.kfs.module.bc.document.dataaccess.impl;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.batch.dataaccess.impl.SQLForStep;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionLevelSummaryReportDao;
-import org.kuali.rice.kns.util.Guid;
 
 /**
  * report general ledger amounts and FTE from the pending budget by object level
@@ -274,14 +274,15 @@ public class BudgetConstructionLevelSummaryReportDaoJdbc extends BudgetConstruct
         sqlText.delete(0, sqlText.length());
     }
 
+    @Override
     public void cleanReportsLevelSummaryTable(String principalName) {
         clearTempTableByUnvlId("LD_BCN_LEVL_SUMM_T", "PERSON_UNVL_ID", principalName);
     }
 
+    @Override
     public void updateReportsLevelSummaryTable(String principalName, String expenditureINList, String revenueINList) {
 
-        Guid guid = new Guid();
-        String idForSession = guid.toString();
+        String idForSession = UUID.randomUUID().toString();
 
         ArrayList<String> stringsToInsert = new ArrayList<String>(10);
 

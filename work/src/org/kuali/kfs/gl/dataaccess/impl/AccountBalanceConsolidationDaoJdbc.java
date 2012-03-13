@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,7 +27,6 @@ import org.kuali.kfs.gl.service.AccountBalanceService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
-import org.kuali.rice.kns.util.Guid;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
@@ -39,7 +38,7 @@ public class AccountBalanceConsolidationDaoJdbc extends AccountBalanceDaoJdbcBas
 
     /**
      * Returns account balance information that qualifies, based on the inquiry formed out of the parameters
-     * 
+     *
      * @param objectTypes the object types of account balances to include in the inquiry
      * @param universityFiscalYear the fiscal year of account balances to include in the inquiry
      * @param chartOfAccountsCode the chart of accounts of account balances to include in the inquiry
@@ -52,10 +51,11 @@ public class AccountBalanceConsolidationDaoJdbc extends AccountBalanceDaoJdbcBas
      * @see org.kuali.kfs.gl.dataaccess.AccountBalanceConsolidationDao#findAccountBalanceByConsolidationObjectTypes(java.lang.String[],
      *      java.lang.Integer, java.lang.String, java.lang.String, boolean, boolean, int)
      */
+    @Override
     public List<Map<String, Object>> findAccountBalanceByConsolidationObjectTypes(String[] objectTypes, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, boolean isExcludeCostShare, boolean isConsolidated, int pendingEntriesCode, SystemOptions options, UniversityDate today) {
         LOG.debug("findAccountBalanceByConsolidationObjectTypes() started");
 
-        String sessionId = new Guid().toString();
+        String sessionId = java.util.UUID.randomUUID().toString();
         List<Map<String, Object>> data = null;
 
         try {
@@ -110,7 +110,7 @@ public class AccountBalanceConsolidationDaoJdbc extends AccountBalanceDaoJdbcBas
 
     /**
      * Finds whether pending entries exist that would change the results of this inquiry
-     * 
+     *
      * @param objectTypes the object types to search for
      * @param options the options table for the fiscal year being inquiring on
      * @param universityFiscalYear the university fiscal year of account balances being inquired upon
@@ -175,7 +175,7 @@ public class AccountBalanceConsolidationDaoJdbc extends AccountBalanceDaoJdbcBas
 
     /**
      * This method summarizes pending entries to temporary tables for easier inclusion into the inquiry
-     * 
+     *
      * @param options the system options of the fiscal year that is being inquired upon
      * @param sessionId the session id of the inquiring user, for a unique primary key in the temporary tables
      */

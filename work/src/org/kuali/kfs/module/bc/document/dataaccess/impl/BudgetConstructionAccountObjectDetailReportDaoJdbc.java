@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,7 +21,6 @@ import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.batch.dataaccess.impl.SQLForStep;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionAccountObjectDetailReportDao;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.rice.kns.util.Guid;
 
 /**
  * builds the report table that supports the Organization Account Object Detail report. the report is customized by user, so the
@@ -288,10 +287,11 @@ public class BudgetConstructionAccountObjectDetailReportDaoJdbc extends BudgetCo
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionAccountObjectDetailReportDao#updateReportsAccountObjectDetailTable(java.lang.String)
      */
+    @Override
     public void updateReportsAccountObjectDetailTable(String principalName, String expenditureINList, String revenueINList) {
 
         // get a unique ID to identify this user's session
-        String sessionId = (new Guid()).toString();
+        String sessionId = java.util.UUID.randomUUID().toString();
 
         // add the reporting rows to the common base tables
         this.buildInitialAccountBalances(sessionId, principalName, expenditureINList, revenueINList);
@@ -307,10 +307,11 @@ public class BudgetConstructionAccountObjectDetailReportDaoJdbc extends BudgetCo
     /**
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionAccountObjectDetailReportDao#updateReportsAccountObjectConsolidatedTable(java.lang.String)
      */
+    @Override
     public void updateReportsAccountObjectConsolidatedTable(String principalName, String expenditureINList, String revenueINList) {
 
         // get a unique ID to identify this user's session
-        String sessionId = (new Guid()).toString();
+        String sessionId = java.util.UUID.randomUUID().toString();
 
         // add the reporting rows to the common base tables
         this.buildInitialAccountBalances(sessionId, principalName, expenditureINList, revenueINList );

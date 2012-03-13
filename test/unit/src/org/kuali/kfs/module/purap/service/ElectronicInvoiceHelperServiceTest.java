@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -45,16 +45,15 @@ import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
-import org.kuali.rice.kns.util.Guid;
 import org.kuali.rice.krad.service.DocumentService;
 
 @ConfigureContext
 public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
-    
+
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ElectronicInvoiceHelperServiceTest.class);
     private ElectronicInvoiceInputFileType electronicInvoiceInputFileType;
     private UnitTestSqlDao unitTestSqlDao;
-    
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -63,17 +62,17 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
         FileUtils.cleanDirectory(new File(electronicInvoiceInputFileType.getDirectoryPath()));
         unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
     }
-    
+
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
     }
-    
+
     /**
      * TODO: Remove once other tests are fixed
      */
     public void testNothing() {
-        
+
     }
 
     /**
@@ -82,15 +81,15 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
     @ConfigureContext(session = kfs, shouldCommitTransactions=true)
     public void PATCHFIX_testRejectDocumentCreationInvalidData()
     throws Exception{
-        
+
         String rejectFile = "reject.xml";
         PurchaseOrderDocument poDocument = createPODoc(null);
         String vendorDUNS = poDocument.getVendorDetail().getVendorDunsNumber();
         String poNumber = poDocument.getPurapDocumentIdentifier().toString();
-        
+
         String xmlChunk = ElectronicInvoiceHelperServiceFixture.getCXMLForRejectDocCreation(vendorDUNS,poNumber);
         writeXMLFile(xmlChunk, rejectFile);
-        
+
         //If we use the schemaLocation with DEV url and not running Tomcat locally, this test is going to fail, because
         //it won't be able to find the electronicInvoice.xsd unless Tomcat is running locally.
         //Therefore, for unit test purpose, let's set the schemaLocation to CNV url.
@@ -98,50 +97,50 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
         int beginIndex = schemaLocation.indexOf("static");
         String newSchemaLocation = "https://test.kuali.org/kfs-reg/" + schemaLocation.substring(beginIndex);
         electronicInvoiceInputFileType.setSchemaLocation(newSchemaLocation);
-        
+
         ElectronicInvoiceLoad load = SpringContext.getBean(ElectronicInvoiceHelperService.class).loadElectronicInvoices();
 
         assertTrue(load.containsRejects());
-        
+
         ElectronicInvoiceRejectDocument rejectDoc = (ElectronicInvoiceRejectDocument)load.getRejectDocuments().get(0);
         assertNotNull(rejectDoc);
         assertEquals(rejectDoc.getInvoiceFileName(),rejectFile);
         assertEquals(5, rejectDoc.getInvoiceRejectReasons().size());
-        
+
         File rejectedFileInRejectDir = new File(electronicInvoiceInputFileType.getDirectoryPath() + File.separator + "reject" + File.separator + rejectFile);
         assertTrue(rejectedFileInRejectDir.exists());
-        
+
     }
-    
+
     /**
      * TODO: Fix this test. It should not have a hard-coded URL for finding the schema.
      */
     @ConfigureContext(session = kfs, shouldCommitTransactions=true)
     public void PATCHFIX_testRejectDocumentCreationCorruptXML()
     throws Exception{
-        
+
         String corruptFile = "corrupt.xml";
         PurchaseOrderDocument poDocument = createPODoc(null);
         String vendorDUNS = poDocument.getVendorDetail().getVendorDunsNumber();
         String poNumber = poDocument.getPurapDocumentIdentifier().toString();
-        
+
         String xmlChunk = ElectronicInvoiceHelperServiceFixture.getCorruptedCXML(vendorDUNS,poNumber);
         writeXMLFile(xmlChunk, corruptFile);
-        
+
         ElectronicInvoiceLoad load = SpringContext.getBean(ElectronicInvoiceHelperService.class).loadElectronicInvoices();
 
         assertTrue(load.containsRejects());
-        
+
         ElectronicInvoiceRejectDocument rejectDoc = (ElectronicInvoiceRejectDocument)load.getRejectDocuments().get(0);
-        
+
         assertNotNull(rejectDoc);
         assertEquals(rejectDoc.getInvoiceFileName(),corruptFile);
         assertEquals(1, rejectDoc.getInvoiceRejectReasons().size());
         assertEquals(PurapConstants.ElectronicInvoice.FILE_FORMAT_INVALID,rejectDoc.getInvoiceRejectReasons().get(0).getInvoiceRejectReasonTypeCode());
-        
+
         File  corruptedFileInRejectDir = new File(electronicInvoiceInputFileType.getDirectoryPath() + File.separator + "reject" + File.separator + corruptFile);
         assertTrue(corruptedFileInRejectDir.exists());
-        
+
     }
 
     /**
@@ -150,9 +149,9 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
     @ConfigureContext(session = kfs, shouldCommitTransactions=false)
     public void PATCHFIX_testPaymentRequestDocumentCreation()
     throws Exception{
-        
+
         String acceptFile = "accept.xml";
-        
+
         changeCurrentUser(khuntley);
         RequisitionDocument reqDoc = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
         AccountingDocumentTestUtils.testRouteDocument(reqDoc, SpringContext.getBean(DocumentService.class));
@@ -160,7 +159,7 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
 
         changeCurrentUser(kfs);
         PurchaseOrderDocument poDocument = createPODoc(reqId);
-        
+
         String vendorDUNS = RandomUtils.nextInt() + "";
         if (StringUtils.isEmpty(poDocument.getVendorDetail().getVendorDunsNumber())){
             VendorDetail vd = SpringContext.getBean(VendorService.class).getByVendorNumber(poDocument.getVendorNumber());
@@ -169,22 +168,22 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
         }else{
             vendorDUNS = poDocument.getVendorDetail().getVendorDunsNumber();
         }
-        
+
         String poNumber = poDocument.getPurapDocumentIdentifier().toString();
         createItemMappingsRecords(poDocument.getVendorHeaderGeneratedIdentifier()+"", poDocument.getVendorDetailAssignedIdentifier()+"");
         updateUnitPriceVariance();
-        
+
         String xmlChunk = ElectronicInvoiceHelperServiceFixture.getCXMLForPaymentDocCreation(vendorDUNS,poNumber);
         writeXMLFile(xmlChunk, acceptFile);
-        
+
         ElectronicInvoiceLoad load = SpringContext.getBean(ElectronicInvoiceHelperService.class).loadElectronicInvoices();
 
         assertFalse(load.containsRejects());
         File acceptedFileInAcceptDir = new File(electronicInvoiceInputFileType.getDirectoryPath() + File.separator + "accept" + File.separator + acceptFile);
         assertTrue(acceptedFileInAcceptDir.exists());
-        
+
     }
-    
+
     private PurchaseOrderDocument createPODoc(Integer reqId)
     throws Exception {
         PurchaseOrderDocument poDocument = PurchaseOrderDocumentFixture.EINVOICE_PO.createPurchaseOrderDocument();
@@ -192,15 +191,15 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
             poDocument.setRequisitionIdentifier(reqId);
         }
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
-        poDocument.prepareForSave();       
+        poDocument.prepareForSave();
         assertFalse("R".equals(poDocument.getDocumentHeader().getWorkflowDocument().getStatus()));
         AccountingDocumentTestUtils.routeDocument(poDocument, "saving copy source document", null, documentService);
-        WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), "F");        
+        WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), "F");
         assertTrue("Document should now be final.", poDocument.getDocumentHeader().getWorkflowDocument().isFinal());
-        
+
         return poDocument;
     }
-    
+
     private void createItemMappingsRecords(String vendorHeaderGeneratedId,String vendorDetailAssignedId){
         unitTestSqlDao.sqlCommand("truncate table AP_ELCTRNC_INV_MAP_T");
         createItemMappingsRecord("1",vendorHeaderGeneratedId,vendorDetailAssignedId,"ITEM",ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_ITEM);
@@ -209,26 +208,26 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
         createItemMappingsRecord("4",vendorHeaderGeneratedId,vendorDetailAssignedId,"SHIP",ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_SHIPPING);
         createItemMappingsRecord("5",vendorHeaderGeneratedId,vendorDetailAssignedId,"DISC",ElectronicInvoice.INVOICE_AMOUNT_TYPE_CODE_DISCOUNT);
     }
-    
+
     private void createItemMappingsRecord(String invId,
                                           String vendorHeaderGeneratedIdentifier,
                                           String vendorDetailAssignedIdentifier,
                                           String invoiceItemTypeCode,
                                           String itemTypeCode){
-            
-        String objId = new Guid().toString();
-        
+
+        String objId = java.util.UUID.randomUUID().toString();
+
         String sqlPart1 = "INSERT INTO AP_ELCTRNC_INV_MAP_T (AP_ELCTRNC_INV_MAP_ID,OBJ_ID,VER_NBR,VNDR_HDR_GNRTD_ID,VNDR_DTL_ASND_ID,INV_ITM_TYP_CD,ITM_TYP_CD) VALUES (";
         String sqlPart2 = invId + ",'" + objId + "',1," + vendorHeaderGeneratedIdentifier + "," + vendorDetailAssignedIdentifier + ",'" + invoiceItemTypeCode + "','" + itemTypeCode + "')";
         unitTestSqlDao.sqlCommand(sqlPart1 + sqlPart2);
-        
+
     }
-    
+
     private void updateUnitPriceVariance(){
         String query = "update PUR_PO_CST_SRC_T set ITM_UNIT_PRC_UPR_VAR_PCT=10,ITM_UNIT_PRC_LWR_VAR_PCT=10 where PO_CST_SRC_CD='EST'";
         unitTestSqlDao.sqlCommand(query);
     }
-    
+
     private void writeXMLFile(String xmlChunk,String fileName)
     throws Exception {
         FileWriter fileWriter = new FileWriter(new File(electronicInvoiceInputFileType.getDirectoryPath() + File.separator + fileName));
@@ -236,5 +235,5 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
         fileWriter.flush();
         fileWriter.close();
     }
-    
+
 }

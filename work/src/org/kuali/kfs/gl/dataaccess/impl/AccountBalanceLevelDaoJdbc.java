@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,7 +26,6 @@ import org.kuali.kfs.gl.service.AccountBalanceService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
-import org.kuali.rice.kns.util.Guid;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
@@ -38,7 +37,7 @@ public class AccountBalanceLevelDaoJdbc extends AccountBalanceDaoJdbcBase implem
 
     /**
      * Summarizes all of the qualifying account balance information for the balance by level inquiry
-     * 
+     *
      * @param universityFiscalYear the university fiscal year of reported on account balances
      * @param chartOfAccountsCode the chart of accounts code of reported on account balances
      * @param accountNumber the account number of reported on account balances
@@ -54,11 +53,12 @@ public class AccountBalanceLevelDaoJdbc extends AccountBalanceDaoJdbcBase implem
      *      java.lang.String, java.lang.String, boolean, boolean, int, org.kuali.kfs.sys.businessobject.UniversityDate,
      *      org.kuali.kfs.sys.businessobject.SystemOptions)
      */
+    @Override
     public List findAccountBalanceByLevel(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntriesCode, UniversityDate today, SystemOptions options) {
 
         // Set the default sort so that income entries are first, then expense below.
         String financialReportingSortCode = "A";
-        String sessionId = new Guid().toString();
+        String sessionId = java.util.UUID.randomUUID().toString();
         List<Map<String, Object>> data = null;
 
         try {
@@ -104,7 +104,7 @@ public class AccountBalanceLevelDaoJdbc extends AccountBalanceDaoJdbcBase implem
 
     /**
      * Summarizes all pending entries by level, so they can be added to the general query if necessary
-     * 
+     *
      * @param options a given set of system options
      * @param sessionId the unique web id of the currently inquiring user, which acts as a key for the temporary table
      */
@@ -220,7 +220,7 @@ public class AccountBalanceLevelDaoJdbc extends AccountBalanceDaoJdbcBase implem
     /**
      * Fetches pending entries summarized by level matching the keys passed in as parameter, and then saves those summaries in a
      * temporary table
-     * 
+     *
      * @param options a given set of system options
      * @param universityFiscalYear the university fiscal year of pending entries to find
      * @param chartOfAccountsCode the chart of accounts code of pending entries to find

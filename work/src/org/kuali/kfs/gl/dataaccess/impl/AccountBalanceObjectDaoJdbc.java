@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,7 +26,6 @@ import org.kuali.kfs.gl.service.AccountBalanceService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
-import org.kuali.rice.kns.util.Guid;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
@@ -38,7 +37,7 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
 
     /**
      * Returns a collection of report data for the account balance by object inquiry
-     * 
+     *
      * @param universityFiscalYear the university fiscal year of reported on account balances
      * @param chartOfAccountsCode the chart of accounts code of reported on account balances
      * @param accountNumber the account number of reported on account balances
@@ -52,11 +51,12 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
      * @see org.kuali.kfs.gl.dataaccess.AccountBalanceDao#findAccountBalanceByObject(java.lang.Integer, java.lang.String,
      *      java.lang.String, java.lang.String, java.lang.String, boolean, boolean, int)
      */
+    @Override
     public List findAccountBalanceByObject(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectLevelCode, String financialReportingSortCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntriesCode, UniversityDate today, SystemOptions options) {
         LOG.debug("findAccountBalanceByObject() started");
 
         List<Map<String, Object>> data = null;
-        String sessionId = new Guid().toString();
+        String sessionId = java.util.UUID.randomUUID().toString();
         try {
             // Delete any data for this session if it exists already
             clearTempTable("FP_BAL_BY_OBJ_MT", "SESID", sessionId);
@@ -100,7 +100,7 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
     /**
      * Summarizes all the pending ledger entries that would need to be reported on by this inquiry, and saves all of that data to a
      * temporary table
-     * 
+     *
      * @param options a set of system options
      * @param sessionId the unique web id of the currently inquiring user, used as a key for the temp table
      */
@@ -211,7 +211,7 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
 
     /**
      * Get any matching pending entries. Return true if there were some, false if not.
-     * 
+     *
      * @param universityFiscalYear the university fiscal year of pending entries to summarize
      * @param chartOfAccountsCode the chart of accounts code of pending entries to summarize
      * @param accountNumber the account number of pending entries to summarize

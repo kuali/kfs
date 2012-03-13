@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,7 +18,6 @@ package org.kuali.kfs.module.bc.document.dataaccess.impl;
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.kfs.module.bc.BCConstants.OrgSelControlOption;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetOrganizationPushPullDao;
-import org.kuali.rice.kns.util.Guid;
 
 /**
  * Implements BudgetOrganizationPushPullDao using raw SQL and populating temporary tables with the potential set of documents to
@@ -644,9 +643,10 @@ public class BudgetOrganizationPushPullDaoJdbc extends BudgetConstructionDaoJdbc
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetOrganizationPushPullDao#pullupSelectedOrganizationDocuments(java.lang.String,
      *      java.lang.Integer, java.lang.String, java.lang.String)
      */
+    @Override
     public void pullupSelectedOrganizationDocuments(String principalId, Integer fiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode) {
 
-        String sessionId = new Guid().toString();
+        String sessionId = java.util.UUID.randomUUID().toString();
 
         // run the steps
         this.getSimpleJdbcTemplate().update(pullupSelectedOrganizationDocumentsTemplates[0], sessionId, principalId, fiscalYear);
@@ -669,9 +669,10 @@ public class BudgetOrganizationPushPullDaoJdbc extends BudgetConstructionDaoJdbc
      * @see org.kuali.kfs.module.bc.document.dataaccess.BudgetOrganizationPushPullDao#pushdownSelectedOrganizationDocuments(java.lang.String,
      *      java.lang.Integer, java.lang.String, java.lang.String)
      */
+    @Override
     public void pushdownSelectedOrganizationDocuments(String principalId, Integer fiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode) {
 
-        String sessionId = new Guid().toString();
+        String sessionId = java.util.UUID.randomUUID().toString();
 
         // use some local vars to improve readability
         Integer orgLev = OrgSelControlOption.ORGLEV.getKey();
@@ -703,10 +704,11 @@ public class BudgetOrganizationPushPullDaoJdbc extends BudgetConstructionDaoJdbc
 
     /**
      * Uses sql jdbc call to populate the account select table for the set of pull up documents.
-     * 
+     *
      * @see org.kuali.kfs.module.bc.document.dataaccess..BudgetOrganizationPushPullDao#buildPullUpBudgetedDocuments(java.lang.String,
      *      java.lang.Integer, java.lang.String, java.lang.String)
      */
+    @Override
     public int buildPullUpBudgetedDocuments(String principalId, Integer fiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode) {
         // clear temp records for users
         this.clearTempTableByUnvlId("LD_BCN_ACCTSEL_T", "person_unvl_id", principalId);
@@ -726,10 +728,11 @@ public class BudgetOrganizationPushPullDaoJdbc extends BudgetConstructionDaoJdbc
 
     /**
      * Uses sql jdbc call to populate the account select table for the set of push up documents.
-     * 
+     *
      * @see org.kuali.kfs.module.bc.document.dataaccess..BudgetOrganizationPushPullDao#buildPushDownBudgetedDocuments(java.lang.String,
      *      java.lang.Integer, java.lang.String, java.lang.String)
      */
+    @Override
     public int buildPushDownBudgetedDocuments(String principalId, Integer fiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode) {
         // clear temp records for users
         this.clearTempTableByUnvlId("LD_BCN_ACCTSEL_T", "person_unvl_id", principalId);

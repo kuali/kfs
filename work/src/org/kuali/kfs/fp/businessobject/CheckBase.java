@@ -1,12 +1,12 @@
 /*
  * Copyright 2005 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,8 +21,8 @@ import java.util.LinkedHashMap;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kns.util.NumberUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.springframework.util.ObjectUtils;
 
 /**
  * This class represents a check in the system. It is a generalized check business object that will be used by the Cash Receipts
@@ -51,90 +51,100 @@ public class CheckBase extends PersistableBusinessObjectBase implements Check {
 
     /**
      * Gets the checkDate attribute.
-     * 
+     *
      * @return Returns the checkDate.
      */
+    @Override
     public Date getCheckDate() {
         return checkDate;
     }
 
     /**
      * Sets the checkDate attribute value.
-     * 
+     *
      * @param checkDate The checkDate to set.
      */
+    @Override
     public void setCheckDate(Date checkDate) {
         this.checkDate = checkDate;
     }
 
     /**
      * Gets the checkNumber attribute.
-     * 
+     *
      * @return Returns the checkNumber.
      */
+    @Override
     public String getCheckNumber() {
         return checkNumber;
     }
 
     /**
      * Sets the checkNumber attribute value.
-     * 
+     *
      * @param checkNumber The checkNumber to set.
      */
+    @Override
     public void setCheckNumber(String checkNumber) {
         this.checkNumber = checkNumber;
     }
 
     /**
      * Gets the description attribute.
-     * 
+     *
      * @return Returns the description.
      */
+    @Override
     public String getDescription() {
         return description;
     }
 
     /**
      * Sets the description attribute value.
-     * 
+     *
      * @param description The description to set.
      */
+    @Override
     public void setDescription(String description) {
         this.description = description;
     }
 
     /**
      * Gets the sequenceId attribute.
-     * 
+     *
      * @return Returns the sequenceId.
      */
+    @Override
     public Integer getSequenceId() {
         return sequenceId;
     }
 
     /**
      * Sets the sequenceId attribute value.
-     * 
+     *
      * @param sequenceId The sequenceId to set.
      */
+    @Override
     public void setSequenceId(Integer sequenceId) {
         this.sequenceId = sequenceId;
     }
 
     /**
      * Gets the amount attribute.
-     * 
+     *
      * @return Returns the amount.
      */
+    @Override
     public KualiDecimal getAmount() {
         return amount;
     }
 
     /**
      * Sets the amount attribute value.
-     * 
+     *
      * @param amount The amount to set.
      */
+    @Override
     public void setAmount(KualiDecimal amount) {
         this.amount = amount;
     }
@@ -142,72 +152,80 @@ public class CheckBase extends PersistableBusinessObjectBase implements Check {
 
     /**
      * Gets the documentNumber attribute.
-     * 
+     *
      * @return Returns the documentNumber.
      */
+    @Override
     public String getDocumentNumber() {
         return documentNumber;
     }
 
     /**
      * Sets the documentNumber attribute value.
-     * 
+     *
      * @param documentNumber The documentNumber to set.
      */
+    @Override
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
     }
 
     /**
      * Gets the cashieringStatus attribute.
-     * 
+     *
      * @return Returns the cashieringStatus.
      */
+    @Override
     public String getCashieringStatus() {
         return cashieringStatus;
     }
 
     /**
      * Sets the cashieringStatus attribute value.
-     * 
+     *
      * @param cashieringStatus The cashieringStatus to set.
      */
+    @Override
     public void setCashieringStatus(String financialDocumentColumnTypeCode) {
         this.cashieringStatus = financialDocumentColumnTypeCode;
     }
 
     /**
      * Gets the financialDocumentTypeCode attribute.
-     * 
+     *
      * @return Returns the financialDocumentTypeCode.
      */
+    @Override
     public String getFinancialDocumentTypeCode() {
         return financialDocumentTypeCode;
     }
 
     /**
      * Sets the financialDocumentTypeCode attribute value.
-     * 
+     *
      * @param financialDocumentTypeCode The financialDocumentTypeCode to set.
      */
+    @Override
     public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
         this.financialDocumentTypeCode = financialDocumentTypeCode;
     }
 
     /**
      * Gets the financialDocumentDepositLineNumber attribute.
-     * 
+     *
      * @return Returns the financialDocumentDepositLineNumber.
      */
+    @Override
     public Integer getFinancialDocumentDepositLineNumber() {
         return financialDocumentDepositLineNumber;
     }
 
     /**
      * Sets the financialDocumentDepositLineNumber attribute value.
-     * 
+     *
      * @param financialDocumentDepositLineNumber The financialDocumentDepositLineNumber to set.
      */
+    @Override
     public void setFinancialDocumentDepositLineNumber(Integer financialDocumentDepositLineNumber) {
         this.financialDocumentDepositLineNumber = financialDocumentDepositLineNumber;
     }
@@ -235,6 +253,7 @@ public class CheckBase extends PersistableBusinessObjectBase implements Check {
     /**
      * @see org.kuali.kfs.fp.businessobject.Check#isLike(org.kuali.kfs.fp.businessobject.Check)
      */
+    @Override
     public boolean isLike(Check other) {
         boolean like = false;
 
@@ -242,8 +261,8 @@ public class CheckBase extends PersistableBusinessObjectBase implements Check {
             if (StringUtils.equals(description, other.getDescription())) {
                 if (StringUtils.equals(financialDocumentTypeCode, other.getFinancialDocumentTypeCode()) && StringUtils.equals(cashieringStatus, other.getCashieringStatus())) {
                     if (StringUtils.equals(documentNumber, other.getDocumentNumber())) {
-                        if (NumberUtils.equals(sequenceId, other.getSequenceId())) {
-                            if (NumberUtils.equals(financialDocumentDepositLineNumber, other.getFinancialDocumentDepositLineNumber())) {
+                        if (ObjectUtils.nullSafeEquals(sequenceId, other.getSequenceId())) {
+                            if (ObjectUtils.nullSafeEquals(financialDocumentDepositLineNumber, other.getFinancialDocumentDepositLineNumber())) {
 
                                 if (DateUtils.isSameDay(checkDate, other.getCheckDate())) {
                                     if ((amount != null) && amount.equals(other.getAmount())) {

@@ -37,9 +37,9 @@ import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.NumberUtils;
 import org.kuali.rice.krad.datadictionary.DataDictionary;
 import org.kuali.rice.krad.document.Document;
+import org.springframework.util.ObjectUtils;
 
 /**
  * Base class for all FinancialSystemDocumentPresentationControllers.
@@ -94,7 +94,7 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
                 UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
                 final Integer approvalYear = universityDateService.getFiscalYear(approvalDate.toDate());
                 final Integer currentFiscalYear = universityDateService.getCurrentFiscalYear();
-                return NumberUtils.equals(currentFiscalYear, approvalYear);
+                return ObjectUtils.nullSafeEquals(currentFiscalYear, approvalYear);
             }
         }
         return true;

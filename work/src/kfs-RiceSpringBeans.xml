@@ -14,9 +14,9 @@
 
 
 	<bean id="coreConfigurer" class="org.kuali.rice.core.impl.config.module.CoreConfigurer">
-		<property name="dataSource" ref="datasource" />
+		<property name="dataSource" ref="kfsDataSource" />
 		<property name="nonTransactionalDataSource" ref="nonTransactionalDatasource" />
-		<property name="serverDataSource" ref="serverDatasource" />
+		<property name="serverDataSource" ref="riceDataSource" />
 		<property name="transactionManager" ref="transactionManager" />
 		<property name="userTransaction" ref="jtaUserTransaction" />
 	</bean>

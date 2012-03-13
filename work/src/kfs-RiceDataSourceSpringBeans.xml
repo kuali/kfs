@@ -58,7 +58,8 @@
     </bean>
      -->
 
-	<bean id="kfsDataSourceXAPool" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource">
+	<!-- <bean id="kfsDataSourceXAPool" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource"> -->
+	<bean id="kfsDataSource" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource">
 		<property name="transactionManager" ref="transactionManagerXAPool" />
 		<property name="driverClassName" value="${datasource.driver.name}" />
 		<property name="url" value="${datasource.url}" />
@@ -70,7 +71,8 @@
 		<property name="password" value="${datasource.password}" />
 	</bean>
 
-	<bean id="riceDataSourceXAPool" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource">
+	<!-- <bean id="riceDataSourceXAPool" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource"> -->
+	<bean id="riceDataSource" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource">
 		<property name="transactionManager" ref="transactionManagerXAPool" />
 		<property name="driverClassName" value="${datasource.driver.name}" />
 		<property name="url" value="${rice.datasource.url}" />
@@ -88,6 +90,7 @@
     <property name="arguments"><list><value>20</value></list></property>
   </bean>
  -->
+ <!-- 
   <bean id="riceDataSourceBitronix" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init"
         destroy-method="close" lazy-init="true">
     <property name="className" value="${datasource.pool.class.non.xa}" />
@@ -162,11 +165,12 @@
       </props>
     </property>
   </bean>
-
+  -->
+<!-- 
   <alias name="riceDataSource${connection.pool.impl}" alias="riceDataSource"/>
   <alias name="kfsDataSource${connection.pool.impl}" alias="dataSource"/>
   <alias name="riceDataSource${connection.pool.impl}" alias="serverDatasource"/>
   <alias name="kfsDataSource${connection.pool.impl}" alias="datasource"/>
   <alias name="riceNonTransactionalDataSource" alias="nonTransactionalDatasource" />
-	                           
+ -->                          
 </beans>

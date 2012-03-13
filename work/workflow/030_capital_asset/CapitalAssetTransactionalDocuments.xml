@@ -31,17 +31,17 @@
         <start name="AdHoc"/>
         <role name="Account">
           <qualifierResolverClass>
-            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
         </role>
         <role name="OrganizationHierarchy">
           <qualifierResolverClass>
-            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
         </role>
         <role name="Management">
           <qualifierResolverClass>
-            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
         </role>
       </routeNodes>
@@ -132,7 +132,7 @@
         <start name="AdHoc"/>
         <role name="Account">
           <qualifierResolverClass>
-            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
         </role>
         <split name="RetiredAssetTransferredExternally">
@@ -142,7 +142,7 @@
         </split>
         <role name="ExternalTransfer">
           <qualifierResolverClass>
-            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
         </role>
         <join name="JoinRetiredAssetTransferredExternally"/>
@@ -153,7 +153,7 @@
         </simple>
         <role name="OrganizationHierarchy">
           <qualifierResolverClass>
-            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
         </role>
         <split name="RetiredAssetSoldOrGifted">
@@ -163,7 +163,7 @@
         </split>
         <role name="Purchasing">
           <qualifierResolverClass>
-            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
         </role>
         <join name="JoinRetiredAssetSoldOrGifted"/>
@@ -217,7 +217,7 @@
         </split>
         <role name="Account">
           <qualifierResolverClass>
-            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
           <activationType>
             P
@@ -225,7 +225,7 @@
         </role>
         <role name="OrganizationHierarchy">
           <qualifierResolverClass>
-            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
           <activationType>
             P

@@ -28,17 +28,17 @@
         <start name="AdHoc"/>
         <role name="AccountingOrganizationHierarchy">
           <qualifierResolverClass>
-            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
         </role>
         <role name="SubFund">
           <qualifierResolverClass>
-            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
         </role>
         <role name="Award">
           <qualifierResolverClass>
-            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
         </role>
       </routeNodes>
@@ -78,22 +78,22 @@
         <start name="AdHoc"/>
         <role name="Account">
           <qualifierResolverClass>
-            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
         </role>
         <role name="AccountingOrganizationHierarchy">
           <qualifierResolverClass>
-            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
         </role>
         <role name="SubFund">
           <qualifierResolverClass>
-            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
         </role>
         <role name="Award">
           <qualifierResolverClass>
-            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
         </role>
       </routeNodes>
@@ -164,22 +164,22 @@
         <start name="AdHoc"/>
         <role name="Account">
           <qualifierResolverClass>
-            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
         </role>
         <role name="AccountingOrganizationHierarchy">
           <qualifierResolverClass>
-            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
         </role>
         <role name="SubFund">
           <qualifierResolverClass>
-            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
         </role>
         <role name="Award">
           <qualifierResolverClass>
-            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
         </role>
       </routeNodes>

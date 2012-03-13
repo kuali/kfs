@@ -98,7 +98,7 @@
         		</simple>
         		<join name="JoinCheckIfRoute"/>
         		<role name="EndowmentApprovers">
-          			<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          			<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
           			<activationType>P</activationType>
         		</role>
       		</routeNodes>

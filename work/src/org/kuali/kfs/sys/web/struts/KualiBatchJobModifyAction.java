@@ -59,7 +59,7 @@ public class KualiBatchJobModifyAction extends KualiAction {
     @Override
     protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
         if (form instanceof KualiBatchJobModifyForm) {
-            if (!getIdentityManagementService().isAuthorizedByTemplateName(GlobalVariables.getUserSession().getPrincipalId(), KRADConstants.KRAD_NAMESPACE, KimConstants.PermissionTemplateNames.LOOK_UP_RECORDS, KRADUtils.getNamespaceAndComponentSimpleName(BatchJobStatus.class), new HashMap<String,String>(getRoleQualification(form, "use")))) {
+            if (!getIdentityManagementService().isAuthorizedByTemplateName(GlobalVariables.getUserSession().getPrincipalId(), KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.LOOK_UP_RECORDS, KRADUtils.getNamespaceAndComponentSimpleName(BatchJobStatus.class), new HashMap<String,String>(getRoleQualification(form, "use")))) {
                 throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalName(), "view", "batch jobs");
             }
         }
@@ -80,7 +80,7 @@ public class KualiBatchJobModifyAction extends KualiAction {
         Map<String,String> permissionDetails = new HashMap<String,String>();
         permissionDetails.put(KimConstants.AttributeConstants.NAMESPACE_CODE, form.getJob().getNamespaceCode());
         permissionDetails.put(KimConstants.AttributeConstants.BEAN_NAME, form.getJob().getName());
-        return getIdentityManagementService().isAuthorizedByTemplateName(GlobalVariables.getUserSession().getPrincipalId(), KRADConstants.KRAD_NAMESPACE, KFSConstants.PermissionTemplate.MODIFY_BATCH_JOB.name, permissionDetails, new HashMap<String,String>(getRoleQualification(form, actionType)));
+        return getIdentityManagementService().isAuthorizedByTemplateName(GlobalVariables.getUserSession().getPrincipalId(), KRADConstants.KNS_NAMESPACE, KFSConstants.PermissionTemplate.MODIFY_BATCH_JOB.name, permissionDetails, new HashMap<String,String>(getRoleQualification(form, actionType)));
     }
     
     protected void checkJobAuthorization(KualiBatchJobModifyForm form, String actionType) throws AuthorizationException {

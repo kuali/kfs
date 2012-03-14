@@ -81,7 +81,7 @@ public class BulkReceivingAction extends KualiTransactionalDocumentActionBase {
 
             // TODO hjs-check to see if user is allowed to initiate doc based on PO sensitive data (add this to all other docs
             // except acm doc)
-            if (!SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(blkRecDoc).isAuthorizedByTemplate(blkRecDoc, KRADConstants.KRAD_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, GlobalVariables.getUserSession().getPrincipalId())) {
+            if (!SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(blkRecDoc).isAuthorizedByTemplate(blkRecDoc, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, GlobalVariables.getUserSession().getPrincipalId())) {
                 throw buildAuthorizationException("initiate document", blkRecDoc);
             }
         }

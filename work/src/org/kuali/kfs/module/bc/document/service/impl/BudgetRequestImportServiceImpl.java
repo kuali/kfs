@@ -333,7 +333,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
                     }
 
                     TransactionalDocumentAuthorizer documentAuthorizer = (TransactionalDocumentAuthorizer) getDocumentHelperService().getDocumentAuthorizer(document);
-                    hasAccess = documentAuthorizer.isAuthorizedByTemplate(document, KRADConstants.KRAD_NAMESPACE, KimConstants.PermissionTemplateNames.EDIT_DOCUMENT, user.getPrincipalId());
+                    hasAccess = documentAuthorizer.isAuthorizedByTemplate(document, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.EDIT_DOCUMENT, user.getPrincipalId());
                 }
 
                 if (hasAccess) {

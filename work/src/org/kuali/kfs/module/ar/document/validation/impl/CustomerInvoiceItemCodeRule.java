@@ -79,7 +79,7 @@ public class CustomerInvoiceItemCodeRule extends MaintenanceDocumentRuleBase {
         
         // get the documentAuthorizer for this document
         MaintenanceDocumentAuthorizer documentAuthorizer = (MaintenanceDocumentAuthorizer) getDocumentHelperService().getDocumentAuthorizer(document);
-        success = documentAuthorizer.isAuthorizedByTemplate(document, KRADConstants.KRAD_NAMESPACE, KimConstants.PermissionTemplateNames.CREATE_MAINTAIN_RECORDS, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+        success = documentAuthorizer.isAuthorizedByTemplate(document, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.CREATE_MAINTAIN_RECORDS, GlobalVariables.getUserSession().getPerson().getPrincipalId());
         if (!success){
             putFieldError(ArPropertyConstants.CustomerInvoiceItemCodes.CHART_OF_ACCOUNTS_CODE, ArKeyConstants.InvoiceItemCode.ERROR_INVALID_CHART_OF_ACCOUNTS_CODE);
             putFieldError(ArPropertyConstants.CustomerInvoiceItemCodes.ORGANIZATION_CODE,ArKeyConstants.InvoiceItemCode.ERROR_INVALID_ORGANIZATION_CODE );

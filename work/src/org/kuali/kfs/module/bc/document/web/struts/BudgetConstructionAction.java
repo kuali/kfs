@@ -1661,7 +1661,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             }
         }
 
-        return documentAuthorizer.isAuthorizedByTemplate(document, KRADConstants.KRAD_NAMESPACE, KimConstants.PermissionTemplateNames.EDIT_DOCUMENT, user.getPrincipalId(), null, roleQualifiers);
+        return documentAuthorizer.isAuthorizedByTemplate(document, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.EDIT_DOCUMENT, user.getPrincipalId(), null, roleQualifiers);
     }
 
     public ActionForward performReportDump(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

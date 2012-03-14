@@ -43,7 +43,7 @@ public class KFSConstants {
         public static final String GL = "KFS-GL";
         public static final String VENDOR = "KFS-VND";
         public static final String PDP = "KFS-PDP";
-        public static final String KNS = KRADConstants.KRAD_NAMESPACE;
+        public static final String KNS = KRADConstants.KNS_NAMESPACE;
         public static final String ACCESS_SECURITY = "KFS-SEC";
     }
 
@@ -54,7 +54,7 @@ public class KFSConstants {
         public static final String GL = "KFS-GL";
         public static final String VENDOR = "KFS-VND";
         public static final String PDP = "KFS-PDP";
-        public static final String KNS = KRADConstants.KRAD_NAMESPACE;
+        public static final String KNS = KRADConstants.KNS_NAMESPACE;
         public static final String ACCESS_SECURITY = "KFS-SEC";
     }
 

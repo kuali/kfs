@@ -125,7 +125,7 @@ public class VendorCreditMemoAction extends AccountsPayableActionBase {
                 // TODO figure out a more straightforward way to do this.  ailish put this in so the link id would be set and the perm check would work
                 creditMemoDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(preq.getAccountsPayablePurchasingDocumentLinkIdentifier());
 
-                if (!SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(creditMemoDocument).isAuthorizedByTemplate(creditMemoDocument, KRADConstants.KRAD_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, GlobalVariables.getUserSession().getPrincipalId())) {
+                if (!SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(creditMemoDocument).isAuthorizedByTemplate(creditMemoDocument, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, GlobalVariables.getUserSession().getPrincipalId())) {
                     throw buildAuthorizationException("initiate document", creditMemoDocument);
                 }
             }
@@ -136,7 +136,7 @@ public class VendorCreditMemoAction extends AccountsPayableActionBase {
                 // TODO figure out a more straightforward way to do this.  ailish put this in so the link id would be set and the perm check would work
                 creditMemoDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(po.getAccountsPayablePurchasingDocumentLinkIdentifier());
 
-                if (!SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(creditMemoDocument).isAuthorizedByTemplate(creditMemoDocument, KRADConstants.KRAD_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, GlobalVariables.getUserSession().getPrincipalId())) {
+                if (!SpringContext.getBean(DocumentHelperService.class).getDocumentAuthorizer(creditMemoDocument).isAuthorizedByTemplate(creditMemoDocument, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, GlobalVariables.getUserSession().getPrincipalId())) {
                     throw buildAuthorizationException("initiate document", creditMemoDocument);
                 }
             }

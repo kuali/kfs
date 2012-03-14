@@ -203,7 +203,7 @@ public class Job implements StatefulJob, InterruptableJob {
         Class stepClass = unProxiedStep.getClass();
 
         DateTimeService dTService = SpringContext.getBean(DateTimeService.class);
-        String dateFormat = parameterService.getParameterValueAsString(KRADConstants.KRAD_NAMESPACE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, CoreConstants.DATE_TO_STRING_FORMAT_FOR_USER_INTERFACE);
+        String dateFormat = parameterService.getParameterValueAsString(KRADConstants.KNS_NAMESPACE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, CoreConstants.DATE_TO_STRING_FORMAT_FOR_USER_INTERFACE);
 
         //RUN_IND takes priority: when RUN_IND exists and RUN_IND=Y always run the Step
         //RUN_DATE: when RUN_DATE exists, but the value is empty run the Step

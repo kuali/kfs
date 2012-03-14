@@ -53,7 +53,7 @@ public class ReceivingDocumentAuthorizerBase extends TransactionalDocumentAuthor
     @Override
     public boolean canEditDocumentOverview(Document document, Person user) {
         return isAuthorizedByTemplate(document,
-                KRADConstants.KRAD_NAMESPACE,
+                KRADConstants.KNS_NAMESPACE,
                 KimConstants.PermissionTemplateNames.EDIT_DOCUMENT,
                 user.getPrincipalId());
     }

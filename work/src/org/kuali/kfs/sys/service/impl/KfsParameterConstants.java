@@ -24,7 +24,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 
 public class KfsParameterConstants  {
 
-    public static final String NERVOUS_SYSTEM_NAMESPACE = KRADConstants.KRAD_NAMESPACE;
+    public static final String NERVOUS_SYSTEM_NAMESPACE = KRADConstants.KNS_NAMESPACE;
     public static final String ALL_COMPONENT = "All";
     public static final String DOCUMENT_COMPONENT = "Document";
     public static final String LOOKUP_COMPONENT = "Lookup";

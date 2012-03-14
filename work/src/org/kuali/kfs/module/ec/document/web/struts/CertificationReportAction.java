@@ -597,12 +597,12 @@ public class CertificationReportAction extends EffortCertificationAction {
             //re-check summary permission
             if (certReportDocAuthorizer.doPermissionExistsByTemplate(
                     effortDocument,
-                    KRADConstants.KRAD_NAMESPACE,
+                    KRADConstants.KNS_NAMESPACE,
                     KimConstants.PermissionTemplateNames.USE_TRANSACTIONAL_DOCUMENT,
                     additionalPermissionDetails)
                     && !certReportDocAuthorizer.isAuthorizedByTemplate(
                             effortDocument,
-                            KRADConstants.KRAD_NAMESPACE,
+                            KRADConstants.KNS_NAMESPACE,
                             KimConstants.PermissionTemplateNames.USE_TRANSACTIONAL_DOCUMENT,
                             currentPrincipalId, 
                             additionalPermissionDetails,

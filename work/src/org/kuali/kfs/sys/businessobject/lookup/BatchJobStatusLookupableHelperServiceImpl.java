@@ -111,7 +111,7 @@ public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHe
             
             if ( !SpringContext.getBean(IdentityManagementService.class).hasPermissionByTemplateName(
                     GlobalVariables.getUserSession().getPerson().getPrincipalId(), 
-                    KRADConstants.KRAD_NAMESPACE, 
+                    KRADConstants.KNS_NAMESPACE, 
                     KFSConstants.PermissionTemplate.MODIFY_BATCH_JOB.name, 
                     permissionDetails ) ) {
                 linkText = "View";

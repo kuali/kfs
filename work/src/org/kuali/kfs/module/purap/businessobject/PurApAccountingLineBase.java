@@ -40,7 +40,7 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
     
     private PurApItem purapItem;
 
-    protected static final int BIG_DECIMAL_SCALE = 2;
+//    protected static final int BIG_DECIMAL_SCALE = 2;
 
     /**
      * Default constructor
@@ -68,10 +68,10 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
 
     public BigDecimal getAccountLinePercent() {
         if (accountLinePercent != null) {
-            return accountLinePercent = accountLinePercent.setScale(BIG_DECIMAL_SCALE, BigDecimal.ROUND_UP);
+            return accountLinePercent = accountLinePercent.setScale(2, BigDecimal.ROUND_UP);
         }
         else {
-            return BigDecimal.ZERO.setScale(BIG_DECIMAL_SCALE, BigDecimal.ROUND_UP);
+            return BigDecimal.ZERO.setScale(2, BigDecimal.ROUND_UP);
          //   return null;            
         }
     }

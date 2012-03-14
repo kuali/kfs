@@ -23,7 +23,8 @@ package org.kuali.kfs.module.purap.businessobject;
 public class RequisitionAccount extends PurApAccountingLineBase {
 
     private static final long serialVersionUID = -8655437895493693864L;
-
+ //   protected static final int BIG_DECIMAL_SCALE = 2;
+    
     public RequisitionAccount() {
         this.setSequenceNumber(0);
     }
@@ -33,7 +34,6 @@ public class RequisitionAccount extends PurApAccountingLineBase {
     }
 
     /**
-     * 
      * 
      * @param requisitionItem The requisitionItem to set.
      * @deprecated

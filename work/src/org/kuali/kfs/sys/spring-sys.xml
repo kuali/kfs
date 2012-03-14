@@ -83,6 +83,23 @@
     	<property name="moduleConfiguration" ref="financialSystemModuleConfiguration" />
     </bean>
 
+	<bean id="KFSConstants" class="org.kuali.rice.core.api.util.collect.ConstantsMap">
+		<property name="constantClass" value="org.kuali.kfs.sys.KFSConstants" />
+	</bean>
+
+	<bean id="KfsAuthorizationConstants" class="org.kuali.rice.core.api.util.collect.ConstantsMap">
+		<property name="constantClass" value="org.kuali.kfs.sys.KfsAuthorizationConstants" />
+	</bean>
+  
+	<bean class="org.springframework.web.context.support.ServletContextAttributeExporter">
+		<property name="attributes">
+			<map>
+				<entry key="KFSConstants" value-ref="KFSConstants" />
+				<entry key="KfsAuthorizationConstants" value-ref="KfsAuthorizationConstants" />
+			</map>
+		</property>
+	</bean>
+
     <!-- begin batch framework -->
 	<bean id="scheduler" parent="scheduler-parentBean"/>	    
 	<bean id="scheduler-parentBean" class="org.kuali.kfs.sys.batch.SchedulerFactoryBean" abstract="true">

@@ -82,6 +82,19 @@
 
     <bean id="effortCertificationModuleService"  parent="effortCertificationModuleService-parentBean"/>
     <bean id="effortCertificationModuleService-parentBean" class="org.kuali.kfs.module.ec.service.impl.EffortCertificationModuleServiceImpl" abstract="true" />
+
+	<bean id="EffortConstants" class="org.kuali.rice.core.api.util.collect.ConstantsMap">
+		<property name="constantClass" value="org.kuali.kfs.module.ec.EffortConstants" />
+	</bean>
+  
+	<bean class="org.springframework.web.context.support.ServletContextAttributeExporter">
+		<property name="attributes">
+			<map>
+				<entry key="EffortConstants" value-ref="EffortConstants" />
+			</map>
+		</property>
+	</bean>
+
 	
 	<!-- Section 1: Batch Job Definitions --> 
 	<bean id="effortCertificationExtractJob" parent="unscheduledJobDescriptor">

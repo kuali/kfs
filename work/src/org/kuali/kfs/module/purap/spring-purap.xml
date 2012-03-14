@@ -87,13 +87,7 @@
           	</list>
         </property>
 	</bean>
-    <bean id="itemUnitOfMeasureService" parent="itemUnitOfMeasureService-parentBean" />
 
-    <bean id="itemUnitOfMeasureService-parentBean" class="org.kuali.kfs.module.purap.service.impl.ItemUnitOfMeasureServiceImpl" abstract="true">
-         <property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property> 
-    </bean>
     <bean id="purapModuleService" parent="purapModuleService-parentBean" />
     
     <bean id="purapModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
@@ -106,6 +100,19 @@
 		<property name="purapService" ref="purapService"/>
 		<property name="purchaseOrderService" ref="purchaseOrderService"/>
 	</bean>
+
+	<bean id="PurapConstants" class="org.kuali.rice.core.api.util.collect.ConstantsMap">
+		<property name="constantClass" value="org.kuali.kfs.module.purap.PurapConstants" />
+	</bean>
+  
+	<bean class="org.springframework.web.context.support.ServletContextAttributeExporter">
+		<property name="attributes">
+			<map>
+				<entry key="PurapConstants" value-ref="PurapConstants" />
+			</map>
+		</property>
+	</bean>
+
 
 	<!--  override accounting service -->
 	<bean id="purapAccountingLineRuleHelperService" parent="purapAccountingLineRuleHelperService-parentBean"/>
@@ -665,6 +672,14 @@
 	    </property>
 	</bean>
 	
+    <bean id="itemUnitOfMeasureService" parent="itemUnitOfMeasureService-parentBean" />
+
+    <bean id="itemUnitOfMeasureService-parentBean" class="org.kuali.kfs.module.purap.service.impl.ItemUnitOfMeasureServiceImpl" abstract="true">
+         <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property> 
+    </bean>
+
 	<bean id="purapObjectCodeDynamicNameLabelGenerator" class="org.kuali.kfs.module.purap.document.service.impl.PurapObjectCodeDynamicNameLabelGeneratorImpl" />
 
 	<bean id="purapSubObjectCodeDynamicNameLabelGenerator" class="org.kuali.kfs.module.purap.document.service.impl.PurapSubObjectCodeDynamicNameLabelGeneratorImpl" />

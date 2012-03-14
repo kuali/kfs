@@ -96,6 +96,19 @@
     <bean id="capitalAssetManagementModuleService"  parent="capitalAssetManagementModuleService-parentBean"/>
     <bean id="capitalAssetManagementModuleService-parentBean" class="org.kuali.kfs.module.cam.service.impl.CapitalAssetManagementModuleServiceImpl" abstract="true"/>
 
+	<bean id="CamsConstants" class="org.kuali.rice.core.api.util.collect.ConstantsMap">
+		<property name="constantClass" value="org.kuali.kfs.module.cam.CamsConstants" />
+	</bean>
+  
+	<bean class="org.springframework.web.context.support.ServletContextAttributeExporter">
+		<property name="attributes">
+			<map>
+				<entry key="CamsConstants" value-ref="CamsConstants" />
+			</map>
+		</property>
+	</bean>
+
+
 <!-- ********* Begin of depreciation batch beans ********** -->
 	<bean id="assetDepreciationService"  parent="assetDepreciationService-parentBean"/>
 	<bean id="assetDepreciationService-parentBean" class="org.kuali.kfs.module.cam.batch.service.impl.AssetDepreciationServiceImpl" abstract="true">											       

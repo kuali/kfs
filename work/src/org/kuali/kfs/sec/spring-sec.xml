@@ -48,6 +48,21 @@
     <bean id="secModuleService-parentBean" abstract="true" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl">
     	<property name="moduleConfiguration" ref="secModule"/>
     </bean>
+
+
+	<bean id="SecConstants" class="org.kuali.rice.core.api.util.collect.ConstantsMap">
+		<property name="constantClass" value="org.kuali.kfs.sec.SecConstants" />
+	</bean>
+  
+	<bean class="org.springframework.web.context.support.ServletContextAttributeExporter">
+		<property name="attributes">
+			<map>
+				<entry key="SecConstants" value-ref="SecConstants" />
+			</map>
+		</property>
+	</bean>
+
+
     <bean id="accessSecurityService" parent="accessSecurityService-parentBean"/>
 	
 	<bean id="accessSecurityService-parentBean" class="org.kuali.kfs.sec.service.impl.AccessSecurityServiceImpl" abstract="true">

@@ -94,8 +94,20 @@
     <bean id="endowModuleService" parent="endowModuleService-parentBean"/>
  
     <bean id="endowModuleService-parentBean" class= "org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
-            <property name="moduleConfiguration" ref="endowModuleConfiguration" />
+        <property name="moduleConfiguration" ref="endowModuleConfiguration" />
     </bean>
+
+	<bean id="EndowConstants" class="org.kuali.rice.core.api.util.collect.ConstantsMap">
+		<property name="constantClass" value="org.kuali.kfs.module.endow.EndowConstants" />
+	</bean>
+  
+	<bean class="org.springframework.web.context.support.ServletContextAttributeExporter">
+		<property name="attributes">
+			<map>
+				<entry key="EndowConstants" value-ref="EndowConstants" />
+			</map>
+		</property>
+	</bean>
  
  	<!--  begin core batch jobs -->
  	<!--  availableCashUpdatesJob configuration -->

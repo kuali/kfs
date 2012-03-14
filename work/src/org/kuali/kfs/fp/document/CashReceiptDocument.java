@@ -190,6 +190,11 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
         return (String) new CurrencyFormatter().format(getTotalCashAmount());
     }
 
+    
+    public String getCurrencyFormattedTotalConfirmedCashAmount() {
+        return (String) new CurrencyFormatter().format(getTotalConfirmedCashAmount());
+    }
+    
     /**
      * Sets the totalCashAmount attribute value.
      * 

@@ -37,6 +37,7 @@
         <ref bean="CashReceiptDocument-totalCashAmount"/>
         <ref bean="CashReceiptDocument-totalCoinAmount"/>
         <ref bean="CashReceiptDocument-totalDollarAmount"/>
+        <ref bean="CashReceiptDocument-sumTotalAmount"/>
         <ref bean="CashReceiptDocument-documentNumber"/>
         <ref bean="CashReceiptDocument-checkEntryMode"/>
       </list>
@@ -104,6 +105,16 @@
     <property name="shortLabel" value="Cash Reconciliation Total"/>
     
   </bean>
+  
+  <bean id="CashReceiptDocument-sumTotalAmount" parent="CashReceiptDocument-sumTotalAmount-parentBean"/>
+  
+  <bean id="CashReceiptDocument-sumTotalAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="sumTotalAmount"/>
+    <property name="label" value="Sum Total Amount"/>
+    <property name="shortLabel" value="Sum Total Amount"/>
+    
+  </bean>
+  
   <bean id="CashReceiptDocument-documentNumber" parent="CashReceiptDocument-documentNumber-parentBean"/>
 
   <bean id="CashReceiptDocument-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">

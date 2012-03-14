@@ -82,6 +82,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     protected KualiDecimal totalCashAmount = KualiDecimal.ZERO;
     protected KualiDecimal totalCheckAmount = KualiDecimal.ZERO;
     protected KualiDecimal totalCoinAmount = KualiDecimal.ZERO;
+    protected KualiDecimal sumTotalAmount = KualiDecimal.ZERO;
     
     protected KualiDecimal totalConfirmedCashAmount = KualiDecimal.ZERO;
     protected KualiDecimal totalConfirmedCheckAmount = KualiDecimal.ZERO;
@@ -1188,6 +1189,25 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
                 setCampusLocationCode(affiliatedCampusCode);
             }
         }
+    }
+
+    /**
+     * Gets the sumTotalAmount attribute.
+     * 
+     * @return Returns the sumTotalAmount
+     */
+    
+    public KualiDecimal getSumTotalAmount() {
+        return sumTotalAmount;
+    }
+
+    /**	
+     * Sets the sumTotalAmount attribute.
+     * 
+     * @param sumTotalAmount The sumTotalAmount to set.
+     */
+    public void setSumTotalAmount(KualiDecimal sumTotalAmount) {
+        this.sumTotalAmount = sumTotalAmount;
     }
 }
 

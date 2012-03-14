@@ -137,11 +137,11 @@
             <td>
               <center>
                 <html:select property="chooseSystem" styleId="chooseSystem" title="Select System">
-                  <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|CorrectionChooseSystemValuesFinder" label="label" value="key"/>
+                  <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|CorrectionChooseSystemValuesFinder" label="value" value="key"/>
                 </html:select>
                 
                 <html:select property="editMethod" styleId="editMethod" title="Edit Method">
-                  <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|CorrectionEditMethodValuesFinder" label="label" value="key"/>
+                  <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|CorrectionEditMethodValuesFinder" label="value" value="key"/>
                 </html:select>
                 <html:image property="methodToCall.selectSystemEditMethod.anchor${currentTabIndex}" src="${ConfigProperties.externalizable.images.url}tinybutton-select.gif" styleClass="tinybutton" alt="Select System and Edit Method" title="Select System and Edit Method"/>
               </center>
@@ -170,20 +170,20 @@
 					<c:when test="${KualiForm.documentType == 'LLCP'}" >
 						<c:choose>
 		                      <c:when test="${KualiForm.editMethod eq 'R'}">
-    		                    <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|module|ld|businessobject|options|ProcessingCorrectionLaborGroupEntriesFinder" label="label" value="key" />
+    		                    <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|module|ld|businessobject|options|ProcessingCorrectionLaborGroupEntriesFinder" label="value" value="key" />
         		              </c:when>
             		          <c:otherwise>
-                		        <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|module|ld|businessobject|options|CorrectionLaborGroupEntriesFinder" label="label" value="key" />
+                		        <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|module|ld|businessobject|options|CorrectionLaborGroupEntriesFinder" label="value" value="key" />
                     		  </c:otherwise>
                     	</c:choose>
                    	</c:when>
                    	<c:otherwise>
                    		<c:choose>
 	                      <c:when test="${KualiForm.editMethod eq 'R'}">
-    	                    <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|ProcessingCorrectionGroupEntriesFinder" label="label" value="key" />
+    	                    <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|ProcessingCorrectionGroupEntriesFinder" label="value" value="key" />
         	              </c:when>
             	          <c:otherwise>
-                	        <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|CorrectionGroupEntriesFinder" label="label" value="key" />
+                	        <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|CorrectionGroupEntriesFinder" label="value" value="key" />
                     	  </c:otherwise>
                     	</c:choose>
                    	</c:otherwise>
@@ -492,16 +492,16 @@
                     <option value=""></option>
 	                    <c:choose>
     	                	<c:when test="${KualiForm.documentType == 'LLCP'}" >
-        	            		<html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|module|ld|businessobject|options|LaborOriginEntryFieldFinder" label="label" value="key"/>
+        	            		<html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|module|ld|businessobject|options|LaborOriginEntryFieldFinder" label="value" value="key"/>
 							</c:when>
 							<c:otherwise>
-		            	        <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|OriginEntryFieldFinder" label="label" value="key"/>
+		            	        <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|OriginEntryFieldFinder" label="value" value="key"/>
 		                	</c:otherwise>
 		                </c:choose>
                   </html:select>
                   <label for="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionOperatorCode">Operator</label>:
                   <html:select property="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionOperatorCode" styleId="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionOperatorCode" title="Operator">
-                    <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|SearchOperatorsFinder" label="label" value="key"/>
+                    <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|SearchOperatorsFinder" label="value" value="key"/>
                   </html:select>
                   <label for="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionFieldValue">Value</label>:
                   <html:text property="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionFieldValue" styleId="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionFieldValue" title="Value"/>
@@ -512,17 +512,17 @@
                       
                       <c:choose>
     	              	<c:when test="${KualiForm.documentType == 'LLCP'}" >
-        	          		<html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|module|ld|businessobject|options|LaborOriginEntryFieldFinder" label="label" value="key"/>
+        	          		<html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|module|ld|businessobject|options|LaborOriginEntryFieldFinder" label="value" value="key"/>
 						</c:when>
 						<c:otherwise>
-		            	    <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|OriginEntryFieldFinder" label="label" value="key"/>
+		            	    <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|OriginEntryFieldFinder" label="value" value="key"/>
 		                </c:otherwise>
 		              </c:choose>
                       
                     </html:select>
                     <label for="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionOperatorCode">Operator</label>:
                     <html:select property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionOperatorCode" styleId="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionOperatorCode" title="Operator">
-                      <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|SearchOperatorsFinder" label="label" value="key"/>
+                      <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|SearchOperatorsFinder" label="value" value="key"/>
                     </html:select>
                     <label for="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldValue">Value</label>:
                     <html:text property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldValue" styleId="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldValue" title="Value"/>
@@ -536,10 +536,10 @@
                     <option value=""></option>
                      <c:choose>
     	              	<c:when test="${KualiForm.documentType == 'LLCP'}" >
-							<html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|module|ld|businessobject|options|LaborOriginEntryFieldFinder" label="label" value="key"/>
+							<html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|module|ld|businessobject|options|LaborOriginEntryFieldFinder" label="value" value="key"/>
 						</c:when>
 						<c:otherwise>
-		                    <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|OriginEntryFieldFinder" label="label" value="key"/>
+		                    <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|OriginEntryFieldFinder" label="value" value="key"/>
 		                </c:otherwise>
 		              </c:choose>
 
@@ -552,10 +552,10 @@
                     <html:select property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].correctionFieldName" styleId="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].correctionFieldName" title="Field">
 				      <c:choose>
     	              	<c:when test="${KualiForm.documentType == 'LLCP'}" >
-							<html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|module|ld|businessobject|options|LaborOriginEntryFieldFinder" label="label" value="key"/>
+							<html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|module|ld|businessobject|options|LaborOriginEntryFieldFinder" label="value" value="key"/>
 						</c:when>
 						<c:otherwise>
-		                    <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|OriginEntryFieldFinder" label="label" value="key"/>
+		                    <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|OriginEntryFieldFinder" label="value" value="key"/>
 		                </c:otherwise>
 		              </c:choose>
                     </html:select>
@@ -595,16 +595,16 @@
                     <html:select property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldName" styleId="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldName" title="Field">
                      <c:choose>
     	              	<c:when test="${KualiForm.documentType == 'LLCP'}" >
-							<html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|module|ld|businessobject|options|LaborOriginEntryFieldFinder" label="label" value="key"/>
+							<html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|module|ld|businessobject|options|LaborOriginEntryFieldFinder" label="value" value="key"/>
 						</c:when>
 						<c:otherwise>
-		                    <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|OriginEntryFieldFinder" label="label" value="key"/>
+		                    <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|OriginEntryFieldFinder" label="value" value="key"/>
 		                </c:otherwise>
 		              </c:choose> 
                     </html:select>
                     <label for="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionOperatorCode">Operator</label>:
                     <html:select property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionOperatorCode" styleId="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionOperatorCode" title="Operator">
-                      <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|SearchOperatorsFinder" label="label" value="key"/>
+                      <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|SearchOperatorsFinder" label="value" value="key"/>
                     </html:select>
                     <label for="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldValue">Value</label>:
                     <html:text property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldValue" styleId="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldValue" title="Value"/>
@@ -616,16 +616,16 @@
                     <option value=""></option>
                      <c:choose>
     	              	<c:when test="${KualiForm.documentType == 'LLCP'}" >
-							<html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|module|ld|businessobject|options|LaborOriginEntryFieldFinder" label="label" value="key"/>
+							<html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|module|ld|businessobject|options|LaborOriginEntryFieldFinder" label="value" value="key"/>
 						</c:when>
 						<c:otherwise>
-		                    <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|OriginEntryFieldFinder" label="label" value="key"/>
+		                    <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|OriginEntryFieldFinder" label="value" value="key"/>
 		                </c:otherwise>
 		              </c:choose>
                   </html:select>
                   <label for="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionOperatorCode">Operator</label>:
                   <html:select property="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionOperatorCode" styleId="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionOperatorCode" title="Operator">
-                    <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|SearchOperatorsFinder" label="label" value="key"/>
+                    <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|SearchOperatorsFinder" label="value" value="key"/>
                   </html:select>
                   <label for="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionFieldValue">Value</label>:
                   <html:text property="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionFieldValue" styleId="groupsItem[${group.correctionChangeGroupLineNumber}].correctionCriteria.correctionFieldValue" title="Value"/>
@@ -784,16 +784,16 @@
                   <html:select disabled="true" property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldName" styleId="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldName" title="Field">
                   <c:choose>
    	              	<c:when test="${KualiForm.documentType == 'LLCP'}" >
-						<html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|module|ld|businessobject|options|LaborOriginEntryFieldFinder" label="label" value="key"/>
+						<html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|module|ld|businessobject|options|LaborOriginEntryFieldFinder" label="value" value="key"/>
 					</c:when>
 					<c:otherwise>
-	                    <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|OriginEntryFieldFinder" label="label" value="key"/>
+	                    <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|OriginEntryFieldFinder" label="value" value="key"/>
 	                </c:otherwise>
 	              </c:choose>
                   </html:select>
                   <label for="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionOperatorCode">Operator</label>:
                   <html:select disabled="true" property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionOperatorCode" styleId="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionOperatorCode" title="Operator">
-                    <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|SearchOperatorsFinder" label="label" value="key"/>
+                    <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|SearchOperatorsFinder" label="value" value="key"/>
                   </html:select>
                   <label for="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldValue">Value</label>:
                   <html:text disabled="true" property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldValue" styleId="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionCriteriaItem[${criteria.correctionCriteriaLineNumber}].correctionFieldValue" title="Value"/>
@@ -806,10 +806,10 @@
                   <html:select disabled="true" property="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].correctionFieldName" styleId="correctionDocument.correctionChangeGroupItem[${group.correctionChangeGroupLineNumber}].correctionChangeItem[${change.correctionChangeLineNumber}].correctionFieldName" title="Field">
 	              <c:choose>
    	              	<c:when test="${KualiForm.documentType == 'LLCP'}" >
-						<html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|module|ld|businessobject|options|LaborOriginEntryFieldFinder" label="label" value="key"/>
+						<html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|module|ld|businessobject|options|LaborOriginEntryFieldFinder" label="value" value="key"/>
 					</c:when>
 					<c:otherwise>
-	                    <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|OriginEntryFieldFinder" label="label" value="key"/>
+	                    <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|kfs|gl|businessobject|options|OriginEntryFieldFinder" label="value" value="key"/>
 	                </c:otherwise>
 	              </c:choose>
                   </html:select>

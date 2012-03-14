@@ -455,7 +455,7 @@
             <c:if test="${!empty KualiForm.pullupLevelKeyLabels}">
 
               <html:select property="pullupKeyCode">
-                  <html:optionsCollection property="pullupLevelKeyLabels" label="label" value="key" />
+                  <html:optionsCollection property="pullupLevelKeyLabels" label="value" value="key" />
               </html:select>
             
               <html:image property="methodToCall.performAccountPullup.anchorsystemControlsAnchor" src="${ConfigProperties.externalizable.images.url}tinybutton-pullup.gif" title="Account Pull Up" alt="Account Pull Up" styleClass="tinybutton"/>
@@ -468,7 +468,7 @@
             <c:if test="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] && !empty KualiForm.pushdownLevelKeyLabels}">
 
               <html:select property="pushdownKeyCode">
-                  <html:optionsCollection property="pushdownLevelKeyLabels" label="label" value="key" />
+                  <html:optionsCollection property="pushdownLevelKeyLabels" label="value" value="key" />
               </html:select>
 
               <html:image property="methodToCall.performAccountPushdown.anchorsystemControlsAnchor" src="${ConfigProperties.externalizable.images.url}tinybutton-pushdown.gif" title="Account Push Down" alt="Account Push Down" styleClass="tinybutton"/>

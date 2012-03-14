@@ -36,7 +36,7 @@
                 <c:choose>
                    	<c:when test="${KualiForm.operatingMode == BCConstants.OrgSelOpMode.PULLUP or KualiForm.operatingMode == BCConstants.OrgSelOpMode.PUSHDOWN}">                   
                       <html:select property="selectionSubTreeOrgs[${status.index}].pullFlag">
-                        <html:optionsCollection property="pullFlagKeyLabels" label="label" value="key" />
+                        <html:optionsCollection property="pullFlagKeyLabels" label="value" value="key" />
                       </html:select>
                     </c:when>
                     <c:otherwise>

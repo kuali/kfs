@@ -183,8 +183,8 @@
 		</property>
 	</bean>
 
-	<bean id="glPendingEntryLookupableHelperServiceImpl"  parent="glPendingEntryLookupableHelperServiceImpl-parentBean" scope="prototype"/>
-	<bean id="glPendingEntryLookupableHelperServiceImpl-parentBean" class="org.kuali.kfs.gl.businessobject.lookup.PendingEntryLookupableHelperServiceImpl" abstract="true">
+	<bean id="glPendingEntryLookupableHelperService"  parent="glPendingEntryLookupableHelperService-parentBean" scope="prototype"/>
+	<bean id="glPendingEntryLookupableHelperService-parentBean" class="org.kuali.kfs.gl.businessobject.lookup.PendingEntryLookupableHelperServiceImpl" abstract="true">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -203,6 +203,9 @@
 		<property name="parameterService">
 			<ref bean="parameterService" />
 		</property>
+		<property name="generalLedgerPendingEntryService">
+			<ref bean="generalLedgerPendingEntryService" />
+		</property>		
 	</bean>
 
 	<bean id="glPendingEntryLookupable"  parent="glPendingEntryLookupable-parentBean" scope="prototype"/>

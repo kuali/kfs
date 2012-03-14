@@ -52,7 +52,10 @@ public class UniversityDateServiceImpl implements UniversityDateService {
      */
     public UniversityDate getCurrentUniversityDate() {
         java.util.Date now = dateTimeService.getCurrentDate();
-        return (UniversityDate)SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(UniversityDate.class, new java.sql.Date( KfsDateUtils.clearTimeFields(now).getTime() ) );
+        UniversityDate universityDate = new UniversityDate();
+        universityDate.setUniversityDate(new java.sql.Date( KfsDateUtils.clearTimeFields(now).getTime() ));
+        
+        return (UniversityDate)SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(UniversityDate.class, universityDate);
     }
 
     /**

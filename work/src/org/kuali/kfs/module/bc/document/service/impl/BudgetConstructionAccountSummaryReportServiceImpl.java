@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,6 +32,7 @@ import org.kuali.kfs.module.bc.document.service.BudgetConstructionAccountSummary
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper;
 import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
 import org.kuali.kfs.module.bc.util.BudgetConstructionUtils;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,6 +51,7 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateRepotsAccountSummaryTable(java.lang.String)
      */
+    @Override
     public void updateReportsAccountSummaryTable(String principalName) {
         String expenditureINList = BudgetConstructionUtils.getExpenditureINList();
         String revenueINList = BudgetConstructionUtils.getRevenueINList();
@@ -60,6 +62,7 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateRepotsAccountSummaryTableWithConsolidation(java.lang.String)
      */
+    @Override
     public void updateReportsAccountSummaryTableWithConsolidation(String principalName) {
         String expenditureINList = BudgetConstructionUtils.getExpenditureINList();
         String revenueINList = BudgetConstructionUtils.getRevenueINList();
@@ -71,6 +74,7 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionAccountSummaryReportService#updateReportsAccountSummaryTable(java.lang.String,
      *      boolean)
      */
+    @Override
     public void updateReportsAccountSummaryTable(String principalName, boolean consolidated) {
         if (consolidated) {
             updateReportsAccountSummaryTableWithConsolidation(principalName);
@@ -82,7 +86,7 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
 
     /**
      * sets budgetConstructionAccountSummaryReportDao
-     * 
+     *
      * @param budgetConstructionAccountSummaryReportDao
      */
     public void setBudgetConstructionAccountSummaryReportDao(BudgetConstructionAccountSummaryReportDao budgetConstructionAccountSummaryReportDao) {
@@ -93,6 +97,7 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionAccountSummaryReportService#buildReports(java.lang.Integer,
      *      java.util.Collection)
      */
+    @Override
     public Collection<BudgetConstructionOrgAccountSummaryReport> buildReports(Integer universityFiscalYear, String principalName, boolean consolidated) {
         Collection<BudgetConstructionOrgAccountSummaryReport> reportSet = new ArrayList();
         Collection<BudgetConstructionAccountSummary> accountSummaryList = budgetConstructionReportsServiceHelper.getDataForBuildingReports(BudgetConstructionAccountSummary.class, principalName, buildOrderByList());
@@ -117,7 +122,7 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
 
     /**
      * builds report Header
-     * 
+     *
      * @param BudgetConstructionAccountSummary bcas
      */
     protected void buildReportsHeader(Integer universityFiscalYear, BudgetConstructionOrgAccountSummaryReport orgAccountSummaryReportEntry, BudgetConstructionAccountSummary accountSummary, boolean consolidated) {
@@ -189,27 +194,29 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
 
     /**
      * builds report body
-     * 
+     *
      * @param BudgetConstructionAccountSummary bcas
      */
     protected void buildReportsBody(BudgetConstructionOrgAccountSummaryReport orgAccountSummaryReportEntry, BudgetConstructionAccountSummary accountSummary) {
         orgAccountSummaryReportEntry.setAccountNumber(accountSummary.getAccountNumber());
         orgAccountSummaryReportEntry.setSubAccountNumber(accountSummary.getSubAccountNumber());
 
-        if (accountSummary.getSubAccountNumber().equals(BCConstants.Report.DASHES_SUB_ACCOUNT_CODE)) {
+        if (accountSummary.getSubAccountNumber().equals(KFSConstants.getDashSubAccountNumber())) {
             if (accountSummary.getAccount().getAccountName() == null) {
                 orgAccountSummaryReportEntry.setAccountNameAndSubAccountName(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_ACCOUNT_DESCRIPTION));
             }
-            else
+            else {
                 orgAccountSummaryReportEntry.setAccountNameAndSubAccountName(accountSummary.getAccount().getAccountName());
+            }
         }
         else {
             try {
                 if (accountSummary.getSubAccount().getSubAccountName() == null) {
                     orgAccountSummaryReportEntry.setAccountNameAndSubAccountName(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_SUB_ACCOUNT_DESCRIPTION));
                 }
-                else
+                else {
                     orgAccountSummaryReportEntry.setAccountNameAndSubAccountName(accountSummary.getSubAccount().getSubAccountName());
+                }
             }
             catch (PersistenceBrokerException e) {
                 orgAccountSummaryReportEntry.setAccountNameAndSubAccountName(kualiConfigurationService.getPropertyValueAsString(BCKeyConstants.ERROR_REPORT_GETTING_SUB_ACCOUNT_DESCRIPTION));
@@ -257,7 +264,7 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
 
     /**
      * builds report total
-     * 
+     *
      * @param BudgetConstructionAccountSummary bcas
      * @param List reportTotalList
      */
@@ -304,7 +311,7 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
 
     /**
      * Calculates total part of report
-     * 
+     *
      * @param List bcasList
      * @param List simpleList
      */
@@ -392,7 +399,7 @@ public class BudgetConstructionAccountSummaryReportServiceImpl implements Budget
 
     /**
      * builds orderByList for sort order.
-     * 
+     *
      * @return returnList
      */
     public List<String> buildOrderByList() {

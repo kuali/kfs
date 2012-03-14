@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -44,7 +44,7 @@ public class BCConstants {
     // this are used in expansion screen session security cleanup management
     public static final String MAPPING_ATTRIBUTE_KUALI_FORM = "KualiForm";
     public static final String MAPPING_SCOPE_SESSION = "session";
-    
+
     public static final String MAPPING_SAVE = "save";
 
     // screen tab error keys
@@ -167,7 +167,7 @@ public class BCConstants {
     public static final String INCUMBENT_SALARY_SETTING_ACTION = "budgetIncumbentSalarySetting.do";
     public static final String INCUMBENT_SALARY_SETTING_METHOD = "loadExpansionScreen";
     public static final String INCUMBENT_SALARY_SETTING_TITLE = "Salary Setting by Incumbent";
-    
+
     public static final String LOAD_EXPANSION_SCREEN_METHOD = "loadExpansionScreen";
     public static final String LOAD_EXPANSION_SCREEN_METHOD_SESSION_TIMEOUT = "loadExpansionScreenSessionTimeOut";
 
@@ -183,7 +183,7 @@ public class BCConstants {
     public final static String SHOW_INITIAL_RESULTS = "showInitialResults";
     public final static String CURRENT_POINT_OF_VIEW_KEYCODE = "currentPointOfViewKeyCode";
     public final static String FORCE_TO_ACCOUNT_LIST_SCREEN = "forceToAccountListScreen";
-    
+
     public final static String LOCK_STRING_DELIMITER = "!";
 
 
@@ -246,9 +246,7 @@ public class BCConstants {
         public final static String INCOME_EXP_TYPE_T = "T";
         public final static String INCOME_EXP_TYPE_X = "X";
         public final static String VACANT = VACANT_EMPLID;
-        public final static String BLANK_SUB_OBJECT_CODE = DASH_SUB_OBJECT_CODE;
         public final static String BLANK = KFSConstants.EMPTY_STRING;
-        public final static String DASHES_SUB_ACCOUNT_CODE = DASH_SUB_ACCOUNT_NUMBER;
         public final static String DELETE_MARK = "*";
         public final static String DIVIDER = "/";
         public final static String TOTAL_REVENUES = "Total Revenues";
@@ -342,10 +340,12 @@ public class BCConstants {
         }
 
         public String getSeparator() {
-            if (this.equals(COMMA))
+            if (this.equals(COMMA)) {
                 return ",";
-            if (this.equals(TAB))
+            }
+            if (this.equals(TAB)) {
                 return "\t";
+            }
 
             return this.toString();
         }
@@ -362,10 +362,12 @@ public class BCConstants {
         }
 
         public String getDelimiter() {
-            if (this.equals(QUOTE))
+            if (this.equals(QUOTE)) {
                 return "\"";
-            if (this.equals(NOTHING))
+            }
+            if (this.equals(NOTHING)) {
                 return "";
+            }
 
             return this.toString();
         }
@@ -424,9 +426,6 @@ public class BCConstants {
     public static final String TEMP_LIST_UNLOCK_METHOD = "unlock";
     public static final String UNLOCK_BUTTON_NAME = "tinybutton-unlock.gif";
     public static final String UNLOCK_CONFIRMATION_QUESTION = "UnlockConfirmationQuestion";
-
-    public static final String DASH_SUB_ACCOUNT_NUMBER = KFSConstants.getDashSubAccountNumber();
-    public static final String DASH_SUB_OBJECT_CODE = KFSConstants.getDashFinancialSubObjectCode();
 
     public static final String SHOW_SALARY_BY_POSITION_ACTION = "showSalaryByPositionAction";
     public static final String REFRESH_POSITION_BEFORE_SALARY_SETTING = "refreshPositionBeforeSalarySetting";
@@ -505,14 +504,14 @@ public class BCConstants {
      * look-ups more efficient these numbers shouldn't need to be very precise
      */
     public final static Integer AVERAGE_REPORTING_TREE_SIZE = 4;
-    
+
     /**
      *  value indicating that a CSF row is Active
      */
     public final static String ACTIVE_CSF_DELETE_CODE = "-";
-        
-    
-    
+
+
+
     /**
      * enumerate the leave duration code
      */
@@ -528,7 +527,7 @@ public class BCConstants {
         }
 
         /**
-         * Gets the durationCode attribute. 
+         * Gets the durationCode attribute.
          * @return Returns the durationCode.
          */
         public String getDurationCode() {
@@ -536,18 +535,18 @@ public class BCConstants {
         }
 
         /**
-         * Gets the durationDescription attribute. 
+         * Gets the durationDescription attribute.
          * @return Returns the durationDescription.
          */
         public String getDurationDescription() {
             return durationDescription;
         }
     }
-    
+
     public class EditModes {
         public static final String SYSTEM_VIEW_ONLY = "systemViewOnly";
     }
-    
+
     public class KimApiConstants {
         public static final String BC_PROCESSOR_ROLE_NAME = "Processor";
         public static final String USE_ORG_SALARY_SETTING_PERMISSION_NAME = "Use Organization Salary Setting";
@@ -558,13 +557,13 @@ public class BCConstants {
         public static final String DOCUMENT_VIEWER_ROLE_NAME = "Document Viewer";
         public static final String DOCUMENT_EDITOR_ROLE_NAME = "Document Editor";
     }
-    
+
     /**
      * enumerate the synchronization check type
      */
     public enum SynchronizationCheckType {
         NONE("NONE", "No Sync Check"), POSN("POSN", "Snyc by Position"), EID("EID", "Snyc by Employee"), ALL("ALL", "Snyc by Position and Employee");
-        
+
         public String typeCode;
         public String typeDescription;
 
@@ -573,7 +572,7 @@ public class BCConstants {
             this.typeDescription = typeDescription;
         }
     }
-    
+
     public class ErrorKey {
         public static final String DETAIL_SALARY_SETTING_TAB_ERRORS = "newBCAFLine*,budgetConstructionIntendedIncumbent.pendingBudgetConstructionAppointmentFunding*,budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding*";
         public static final String QUICK_SALARY_SETTING_TAB_ERRORS = "salarySettingExpansion.pendingBudgetConstructionAppointmentFunding*,adjustment*,newBCAFLine*";

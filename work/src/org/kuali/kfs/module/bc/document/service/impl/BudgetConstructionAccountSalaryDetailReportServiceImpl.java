@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -37,6 +37,7 @@ import org.kuali.kfs.module.bc.document.service.BudgetConstructionAccountSalaryD
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper;
 import org.kuali.kfs.module.bc.document.service.SalarySettingService;
 import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiInteger;
@@ -56,23 +57,24 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionLevelSummaryReportService#buildReports(java.lang.Integer,
      *      java.util.Collection)
      */
+    @Override
     public Collection<BudgetConstructionAccountSalaryDetailReport> buildReports(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
         Collection<BudgetConstructionAccountSalaryDetailReport> reportSet = new ArrayList<BudgetConstructionAccountSalaryDetailReport>();
 
         Map<String, Object> searchCriteria = buildSearchCriteria(universityFiscalYear, chartOfAccountsCode, accountNumber, subAccountNumber);
         List<String> orderList = buildOrderByList();
-        
+
         Collection<PendingBudgetConstructionAppointmentFunding> pendingAppointmentFundingList = budgetConstructionReportsServiceHelper.getDataForBuildingReports(PendingBudgetConstructionAppointmentFunding.class, searchCriteria, orderList);
         List<PendingBudgetConstructionAppointmentFunding> listForTotal = BudgetConstructionReportHelper.deleteDuplicated((List) pendingAppointmentFundingList, fieldsForTotal());
 
         Collection<BudgetConstructionAccountSalaryDetailReportTotal> accountSalaryDetailTotal = calculateTotal(pendingAppointmentFundingList, listForTotal);
         for (PendingBudgetConstructionAppointmentFunding pendingAppointmentFunding : pendingAppointmentFundingList) {
             BudgetConstructionAccountSalaryDetailReport accountSalaryDetailReport = new BudgetConstructionAccountSalaryDetailReport();
-            
+
             buildReportsHeader(universityFiscalYear, pendingAppointmentFunding, accountSalaryDetailReport);
             buildReportsBody(universityFiscalYear, pendingAppointmentFunding, accountSalaryDetailReport);
             buildReportsTotal(pendingAppointmentFunding, accountSalaryDetailReport, accountSalaryDetailTotal);
-            
+
             reportSet.add(accountSalaryDetailReport);
         }
 
@@ -81,7 +83,7 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
 
     /**
      * builds report Header
-     * 
+     *
      * @param BudgetConstructionObjectSummary bcas
      */
     protected void buildReportsHeader(Integer universityFiscalYear, PendingBudgetConstructionAppointmentFunding pendingAppointmentFunding, BudgetConstructionAccountSalaryDetailReport accountSalaryDetailReport) {
@@ -150,7 +152,7 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
 
         String subAccountName = "";
 
-        if (!pendingAppointmentFunding.getSubAccountNumber().equals(BCConstants.Report.DASHES_SUB_ACCOUNT_CODE)) {
+        if (!pendingAppointmentFunding.getSubAccountNumber().equals(KFSConstants.getDashSubAccountNumber())) {
             try {
                 subAccountName = pendingAppointmentFunding.getSubAccount().getSubAccountName();
             }
@@ -165,7 +167,7 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
 
     /**
      * builds report body
-     * 
+     *
      * @param BudgetConstructionLevelSummary bcas
      */
     protected void buildReportsBody(Integer universityFiscalYear, PendingBudgetConstructionAppointmentFunding pendingAppointmentFunding, BudgetConstructionAccountSalaryDetailReport accountMonthlyDetailReport) {
@@ -204,7 +206,7 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
             accountMonthlyDetailReport.setCsfTimePercent(BudgetConstructionReportHelper.setDecimalDigit(csfTracker.getCsfTimePercent(), 2, false));
             accountMonthlyDetailReport.setPositionCsfFullTimeEmploymentQuantity(BudgetConstructionReportHelper.setDecimalDigit(csfTracker.getCsfFullTimeEmploymentQuantity(), 5, false));
             accountMonthlyDetailReport.setPositionCsfFundingStatusCode(csfTracker.getCsfFundingStatusCode());
-            
+
             BigDecimal csfFte = BudgetConstructionReportHelper.setDecimalDigit(csfTracker.getCsfFullTimeEmploymentQuantity(), 5, false);
             BigDecimal reqFte = BudgetConstructionReportHelper.setDecimalDigit(pendingAppointmentFunding.getAppointmentRequestedFteQuantity(), 5, false);
             if (reqFte.compareTo(csfFte) == 0) {
@@ -239,7 +241,7 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
         accountMonthlyDetailReport.setDeleteBox(deleteBox);
 
         if (pendingAppointmentFunding.getEmplid().equals(BCConstants.Report.VACANT)){
-            accountMonthlyDetailReport.setName(BCConstants.Report.VACANT); 
+            accountMonthlyDetailReport.setName(BCConstants.Report.VACANT);
         } else {
             int nameLength = intendedIncumbent.getName().length();
             accountMonthlyDetailReport.setName(intendedIncumbent.getName().substring(0, (nameLength > 35) ? 35 : nameLength));
@@ -327,7 +329,7 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
 
     /**
      * builds orderByList for sort order.
-     * 
+     *
      * @return returnList
      */
     protected List<String> buildOrderByList() {
@@ -352,7 +354,7 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
 
     /**
      * Sets the kualiConfigurationService attribute value.
-     * 
+     *
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
     public void setConfigurationService(ConfigurationService kualiConfigurationService) {
@@ -361,7 +363,7 @@ public class BudgetConstructionAccountSalaryDetailReportServiceImpl implements B
 
     /**
      * Sets the budgetConstructionReportsServiceHelper attribute value.
-     * 
+     *
      * @param budgetConstructionReportsServiceHelper The budgetConstructionReportsServiceHelper to set.
      */
     public void setBudgetConstructionReportsServiceHelper(BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper) {

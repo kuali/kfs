@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -37,6 +37,7 @@ import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionAccountFund
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionAccountFundingDetailReportService;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper;
 import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,6 +55,7 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateRepotsAccountFundingDetailTable(java.lang.String)
      */
+    @Override
     public void updateAccountFundingDetailTable(String principalName) {
         budgetConstructionAccountFundingDetailReportDao.updateReportsAccountFundingDetailTable(principalName);
     }
@@ -62,6 +64,7 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionAccountFundingDetailReportService#buildReports(java.lang.Integer,
      *      java.util.Collection)
      */
+    @Override
     public Collection<BudgetConstructionOrgAccountFundingDetailReport> buildReports(Integer universityFiscalYear, String principalName) {
         Collection<BudgetConstructionOrgAccountFundingDetailReport> reportSet = new ArrayList();
         List<BudgetConstructionOrgAccountFundingDetailReportTotal> orgAccountFundingDetailReportTotalList;
@@ -100,7 +103,7 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
 
     /**
      * builds report Header
-     * 
+     *
      * @param BudgetConstructionObjectDump bcod
      */
     public void buildReportsHeader(Integer universityFiscalYear, String objectCodes, BudgetConstructionOrgAccountFundingDetailReport orgAccountFundingDetailReportEntry, BudgetConstructionObjectDump accountFundingDetail) {
@@ -176,7 +179,7 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
             orgAccountFundingDetailReportEntry.setAccountName(accountFundingDetail.getAccount().getAccountName());
         }
 
-        if (!accountFundingDetail.getSubAccountNumber().equals(BCConstants.Report.DASHES_SUB_ACCOUNT_CODE)) {
+        if (!accountFundingDetail.getSubAccountNumber().equals(KFSConstants.getDashSubAccountNumber())) {
             divider = BCConstants.Report.DIVIDER;
             try {
                 subAccountName = accountFundingDetail.getSubAccount().getSubAccountName();
@@ -195,7 +198,7 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
 
     /**
      * builds report body
-     * 
+     *
      * @param BudgetConstructionObjectDump bcod
      */
     public void buildReportsBody(Integer universityFiscalYear, BudgetConstructionOrgAccountFundingDetailReport orgAccountFundingDetailReportEntry, PendingBudgetConstructionAppointmentFunding appointmentFundingEntry) {
@@ -258,7 +261,7 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
         }
 
         if (appointmentFundingEntry != null) {
-            if (appointmentFundingEntry.getFinancialSubObjectCode().equals(BCConstants.Report.BLANK_SUB_OBJECT_CODE)) {
+            if (appointmentFundingEntry.getFinancialSubObjectCode().equals(KFSConstants.getDashFinancialSubObjectCode())) {
                 orgAccountFundingDetailReportEntry.setFinancialSubObjectCode(BCConstants.Report.BLANK);
             }
             else {
@@ -324,7 +327,7 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
 
     /**
      * builds report total
-     * 
+     *
      * @param BudgetConstructionObjectDump bcod
      * @param List reportTotalList
      */
@@ -427,7 +430,7 @@ public class BudgetConstructionAccountFundingDetailReportServiceImpl implements 
 
     /**
      * builds orderByList for sort order.
-     * 
+     *
      * @return returnList
      */
     public List<String> buildOrderByList() {

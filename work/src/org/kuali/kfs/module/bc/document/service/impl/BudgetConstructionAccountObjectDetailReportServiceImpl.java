@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,6 +34,7 @@ import org.kuali.kfs.module.bc.document.service.BudgetConstructionAccountObjectD
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService;
 import org.kuali.kfs.module.bc.report.BudgetConstructionReportHelper;
 import org.kuali.kfs.module.bc.util.BudgetConstructionUtils;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -53,6 +54,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateSubFundSummaryReport(java.lang.String)
      */
+    @Override
     public void updateAccountObjectDetailReport(String principalName, boolean consolidated) {
         String expenditureINList = BudgetConstructionUtils.getExpenditureINList();
         String revenueINList =  BudgetConstructionUtils.getRevenueINList();
@@ -64,6 +66,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
         }
     }
 
+    @Override
     public Collection<BudgetConstructionOrgAccountObjectDetailReport> buildReports(Integer universityFiscalYear, String principalName, boolean consolidated) {
         Collection<BudgetConstructionOrgAccountObjectDetailReport> reportSet = new ArrayList();
         Collection<BudgetConstructionAccountBalance> accountObjectDetailList;
@@ -110,7 +113,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
 
     /**
      * builds report Header
-     * 
+     *
      * @param BudgetConstructionObjectSummary bcas
      */
     protected void buildReportsHeader(Integer universityFiscalYear, BudgetConstructionOrgAccountObjectDetailReport orgAccountObjectDetailReportEntry, BudgetConstructionAccountBalance accountBalance, boolean consolidated) {
@@ -201,7 +204,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
             orgAccountObjectDetailReportEntry.setAccountName(accountBalance.getAccount().getAccountName());
         }
 
-        if (!accountBalance.getSubAccountNumber().equals(BCConstants.Report.DASHES_SUB_ACCOUNT_CODE)) {
+        if (!accountBalance.getSubAccountNumber().equals(KFSConstants.getDashSubAccountNumber())) {
             divider = BCConstants.Report.DIVIDER;
             try {
                 subAccountName = accountBalance.getSubAccount().getSubAccountName();
@@ -235,11 +238,11 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
 
     /**
      * builds report body
-     * 
+     *
      * @param BudgetConstructionLevelSummary bcas
      */
     protected void buildReportsBody(Integer universityFiscalYear, BudgetConstructionOrgAccountObjectDetailReport orgAccountObjectDetailReportEntry, BudgetConstructionAccountBalance accountBalance) {
-        if (accountBalance.getFinancialSubObjectCode().equals(BCConstants.DASH_SUB_OBJECT_CODE)) {
+        if (accountBalance.getFinancialSubObjectCode().equals(KFSConstants.getDashFinancialSubObjectCode())) {
             orgAccountObjectDetailReportEntry.setFinancialObjectName(accountBalance.getFinancialObject().getFinancialObjectCodeName());
         }
         else {
@@ -754,7 +757,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
 
     /**
      * builds list of fields for comparing entry of Object
-     * 
+     *
      * @return List<String>
      */
     protected List<String> fieldsForObject() {
@@ -767,7 +770,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
 
     /**
      * builds list of fields for comparing entry of Level
-     * 
+     *
      * @return List<String>
      */
     protected List<String> fieldsForLevel() {
@@ -779,7 +782,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
 
     /**
      * builds list of fields for comparing entry of GexpAndType
-     * 
+     *
      * @return List<String>
      */
     protected List<String> fieldsForGexpAndType() {
@@ -791,7 +794,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
 
     /**
      * builds list of fields for comparing entry of AccountTotal
-     * 
+     *
      * @return List<String>
      */
     protected List<String> fieldsForAccountTotal() {
@@ -805,7 +808,7 @@ public class BudgetConstructionAccountObjectDetailReportServiceImpl implements B
 
     /**
      * builds list of fields for comparing entry of SubFundTotal total
-     * 
+     *
      * @return List<String>
      */
     protected List<String> fieldsForSubFundTotal() {

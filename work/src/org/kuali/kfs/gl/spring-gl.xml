@@ -79,7 +79,7 @@
 	</bean>
 
 	<bean id="GeneralLedgerConstants" class="org.kuali.rice.core.api.util.collect.ConstantsMap">
-		<property name="constantClass" value="org.kuali.kfs.sec.SecConstants" />
+		<property name="constantClass" value="org.kuali.kfs.gl.GeneralLedgerConstants" />
 	</bean>
   
 	<bean class="org.springframework.web.context.support.ServletContextAttributeExporter">

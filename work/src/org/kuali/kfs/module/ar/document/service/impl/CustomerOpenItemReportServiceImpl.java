@@ -287,7 +287,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             // populate Document Payment Amount - original document amount
             detail.setDocumentPaymentAmount(paymentApplication.getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount().negated());
 
-            // populate Unpaid/Unapplied Amount             
+            // populate Unpaid/Unapplied Amount
             detail.setUnpaidUnappliedAmount(paymentApplication.getNonAppliedHolding().getAvailableUnappliedAmount().negated());
 
             results.add(detail);
@@ -305,7 +305,10 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
     public void populateReportDetails(List<String> finSysDocHeaderIds, List results, Hashtable details) {
         Collection<FinancialSystemDocumentHeader> financialSystemDocHeaders = new ArrayList<FinancialSystemDocumentHeader>();
         for (String documentNumber : finSysDocHeaderIds) {
-            financialSystemDocHeaders.add(businessObjectService.findBySinglePrimaryKey(FinancialSystemDocumentHeader.class, documentNumber));
+            FinancialSystemDocumentHeader header = businessObjectService.findBySinglePrimaryKey(FinancialSystemDocumentHeader.class, documentNumber);
+            if ( header != null ) {
+                financialSystemDocHeaders.add( header );
+            }
         }
 
         for ( FinancialSystemDocumentHeader fsDocumentHeader : financialSystemDocHeaders ) {

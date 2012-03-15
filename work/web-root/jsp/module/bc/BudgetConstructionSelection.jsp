@@ -68,7 +68,7 @@
 	renderMultipart="true" docTitle="" transactionalDocument="false">
 
 	<strong>
-	<h2>Budget Construction Selection <a
+	<h2>Budget Construction Selection<a
 		href="${ConfigProperties.externalizable.help.url}default.htm?turl=WordDocuments%2Fbudgetconstructionselection.htm"
 		tabindex="${KualiForm.nextArbitrarilyHighIndex}" target="helpWindow"
 		title="[Help]Upload"> <img
@@ -219,8 +219,9 @@
 				<td class="grid" valign="center" rowspan="1" colspan="3"><c:if
 					test="${showTheDetail}">
 					<kul:htmlControlAttribute
-						property="budgetConstructionHeader.account.subFundGroup.subFundGroupDescription"
-						attributeEntry="${subFundGroupAttributes.subfundGroupDescription}"
+						property="budgetConstructionHeader.account.subFundGroup"
+						attributeEntry="${accountAttributes.subFundGroupCode}"
+						extraReadOnlyProperty="${subFundGroupAttributes.subfundGroupDescription}"
 						readOnly="true" />
 				</c:if>&nbsp;</td>
 			</tr>
@@ -247,7 +248,8 @@
 					test="${showTheDetail}">
 					<kul:htmlControlAttribute
 						property="${orgPropString}.organizationName"
-						attributeEntry="${orgAttributes.organizationName}" readOnly="true" />
+						attributeEntry="${orgAttributes.organizationName}" 
+						readOnly="true" />
 				</c:if>&nbsp;</td>
 			</tr>
 			<tr>
@@ -283,9 +285,9 @@
 				</c:if>&nbsp;</td>
 				<td class="grid" valign="center" rowspan="1" colspan="3"><c:if
 					test="${showTheDetail}">
-					<kul:htmlControlAttribute
-						property="${orgPropString}.reportsToOrganization.organizationName"
-						attributeEntry="${organizationAttributes.organizationName}"
+ 					<kul:htmlControlAttribute
+						property="${orgPropString}.reportsToOrganizationCode"
+						attributeEntry="${orgAttributes.reportsToChartOfAccountsCode}"
 						readOnly="true" />
 				</c:if>&nbsp;</td>
 			</tr>
@@ -373,10 +375,11 @@
 				</c:if>&nbsp;</td>
 				<td class="grid" valign="center" rowspan="1" colspan="3"><c:if
 					test="${showTheDetail}">
-					<kul:htmlControlAttribute
+ 					<kul:htmlControlAttribute
 						property="${orgRptsPropString}.reportsToOrganization.organizationName"
-						attributeEntry="${organizationAttributes.organizationName}"
-						readOnly="${true}" /></td>
+						attributeEntry="${orgAttributes.organizationName}"
+						readOnly="${true}" />
+						</td>
 				</c:if>
 				&nbsp;
 			</tr>

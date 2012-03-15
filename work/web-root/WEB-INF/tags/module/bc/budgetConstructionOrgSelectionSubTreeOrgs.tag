@@ -14,6 +14,8 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
+	<c:set var="pullupOrgAttributes" value="${DataDictionary.BudgetConstructionPullup.attributes}" />
+	<c:set var="organizationAttributes" value="${DataDictionary.Organization.attributes}" />
 
     <table class="datatable" border="0" cellpadding="0" cellspacing="0"  summary="">
 		<tr>

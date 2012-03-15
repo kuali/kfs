@@ -51,7 +51,14 @@
 				    	             ${KualiForm.pointOfViewOrg.organizationCode}
 			      			        </kul:inquiry>
 				                 </kul:htmlControlAttribute>
-				                 <span class="fineprint">(<kul:htmlControlAttribute property="pointOfViewOrg.organization.organizationName" attributeEntry="${organizationAttributes.organizationName}" readOnly="true" readOnlyBody="true">${KualiForm.pointOfViewOrg.organization.organizationName}&nbsp;</kul:htmlControlAttribute>)
+				                 <span class="fineprint">
+				                 	(
+				                 		<kul:htmlControlAttribute 
+				                 				property="pointOfViewOrg.organizationCode" 
+				                 				attributeEntry="${pointOfViewOrgAttributes.organizationCode}"				                 				 
+				                 				readOnly="true" 
+				                 				readOnlyBody="true">${KualiForm.pointOfViewOrg.organization.organizationName}&nbsp;</kul:htmlControlAttribute>
+				                 	)
 			    	             </span>
 			        		</div>
 			            </td>

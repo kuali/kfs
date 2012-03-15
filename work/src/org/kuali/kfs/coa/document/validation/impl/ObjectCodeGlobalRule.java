@@ -131,7 +131,7 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
             for ( ObjectCodeGlobalDetail objectCodeGlobalDetail : objectCodeGlobalDetails ) {
                 // get current object code from the DB
                 ObjectCode objectCode = objectCodeService.getByPrimaryId(objectCodeGlobalDetail.getUniversityFiscalYear(), objectCodeGlobalDetail.getChartOfAccountsCode(), objectCodeGlobal.getFinancialObjectCode());
-                if (objectCode == null) {
+                if (objectCode != null) {
                     if (objectCode.isActive()) {
                         // now we know that the document intends to inactivate this object code... check to see whether a record blocks it
                         success &= processInactivationBlockChecking(maintenanceDocument.getNewMaintainableObject(), objectCode, i);

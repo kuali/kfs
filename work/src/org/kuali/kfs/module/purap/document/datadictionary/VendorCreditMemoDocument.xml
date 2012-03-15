@@ -551,7 +551,9 @@
   
   <bean id="VendorCreditMemoDocument-bankCode" parent="VendorCreditMemoDocument-bankCode-parentBean"/>
   
-  <bean id="VendorCreditMemoDocument-bankCode-parentBean" abstract="true" parent="Bank-bankCode"/>
+  <bean id="VendorCreditMemoDocument-bankCode-parentBean" abstract="true" parent="Bank-bankCode">
+  	<property name="required" value="false"/>
+  </bean>
    
   <bean id="VendorCreditMemoDocument-documentChartOfAccountsCodeForSearching" parent="VendorCreditMemoDocument-documentChartOfAccountsCodeForSearching-parentBean"/>
 

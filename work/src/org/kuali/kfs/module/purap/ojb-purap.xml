@@ -3407,14 +3407,14 @@
     <field-descriptor name="creditMemoNumber" column="CRDT_MEMO_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="paymentRequestIdentifier" column="PMT_RQST_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="purchaseOrderIdentifier" column="PO_ID" jdbc-type="INTEGER"/>
-    <field-descriptor name="creditMemoStatusCode" column="CRDT_MEMO_STAT_CD" jdbc-type="VARCHAR"/>    
+<!--     <field-descriptor name="creditMemoStatusCode" column="CRDT_MEMO_STAT_CD" jdbc-type="VARCHAR"/>     -->
     <field-descriptor name="creditHoldIndicator" column="CRDT_HLD_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>  
     <field-descriptor name="vendorCustomerNumber" column="VNDR_CUST_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="accountsPayableApprovalTimestamp" column="AP_APRVL_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="creditMemoExtractedTimestamp" column="CRDT_MEMO_EXTRT_DT" jdbc-type="TIMESTAMP"/>         
     <field-descriptor name="creditMemoPaidTimestamp" column="CRDT_MEMO_PD_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="vendorName" column="VNDR_NM" jdbc-type="VARCHAR"/>
-    <field-descriptor name="accountDistributionMethod" column="ACCT_DISTR_MTD_IND" jdbc-type="VARCHAR"/>
+<!--     <field-descriptor name="accountDistributionMethod" column="ACCT_DISTR_MTD_IND" jdbc-type="VARCHAR"/> -->
     
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="documentNumber" />

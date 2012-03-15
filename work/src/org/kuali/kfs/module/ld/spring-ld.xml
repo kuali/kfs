@@ -1820,16 +1820,24 @@
         <property name="enterpriseFeederNotificationService">
             <ref bean="laborOriginEntryEnterpriseFeederNotificationService" />
         </property>
+        <property name="parameterService">
+            <ref bean="parameterService" />
+        </property>            
+        <property name="configurationService">
+            <ref bean="kualiConfigurationService" />
+        </property>  
         <property name="directoryName" value="${staging.directory}/ld/enterpriseFeed" />
         <property name="laborOriginEntryDirectoryName" value="${staging.directory}/ld/originEntry" />
         <property name="reconciliationTableId" value="ld_ldgr_entr_t" />
         <property name="reportWriterService" ref="laborEnterpriseFeedReportWriterService" />
+        <property name="errorStatisticsReport" ref="laborEnterpriseFeedErrorStatisticsWriterService" />
     </bean>
 
     <bean id="laborEnterpriseFeedStep" class="org.kuali.kfs.module.ld.batch.LaborEnterpriseFeedStep" parent="wrappedStep">
         <property name="wrappingBatchServices">
             <list>
                 <ref bean="laborEnterpriseFeedReportWriterService" />
+                <ref bean="laborEnterpriseFeedErrorStatisticsWriterService" />
             </list>
         </property>
         <property name="enterpriseFeederService">
@@ -1865,27 +1873,17 @@
         </property>
     </bean>
     
-    <bean id="ldBenefitsCalculationLookupableHelperService" parent="ldBenefitsCalculationLookupableHelperService-parentBean" scope="prototype" />
- 	<bean id="ldBenefitsCalculationLookupableHelperService-parentBean" class="org.kuali.kfs.module.ld.businessobject.lookup.BenefitsCalculationLookupableHelperServiceImpl" abstract="true">
-		<property name="persistenceStructureService">
-			<ref bean="persistenceStructureService" />
-		</property>
-		<property name="lookupService">
-			<ref bean="lookupService" />
-		</property>
-		<property name="businessObjectDictionaryService">
-			<ref bean="businessObjectDictionaryService" />
-		</property>
-		<property name="businessObjectMetaDataService">
-			<ref bean="businessObjectMetaDataService" />
-		</property>
-		<property name="dataDictionaryService">
-			<ref bean="dataDictionaryService" />
-		</property>
-		<property name="parameterService">
-			<ref bean="parameterService" />
-		</property>
-	</bean>
+    <bean id="laborEnterpriseFeedErrorStatisticsWriterService"  parent="reportWriterService">
+        <property name="filePath" value="${reports.directory}/ld"/>
+        <property name="fileNamePrefix" value="labor_enterprise_feed_error_statistics_"/>
+        <property name="title" value="ERROR AND STATISTICS REPORT"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+            <map>
+                <entry key="org.kuali.kfs.module.ld.businessobject.LaborOriginEntry" value="transactionReportHelper"/>
+            </map>
+        </property>
+        <property name="aggregationModeOn" value="false"/>
+    </bean>
 	
     <bean id="laborOriginEntryEnterpriseFeederHelperService" parent="laborOriginEntryEnterpriseFeederHelperService-parentBean" />
 
@@ -1915,11 +1913,34 @@
             <ref bean="kualiConfigurationService" />
         </property>   
         <property name="dateTimeService">
-	       <ref bean="dateTimeService"/>
-	    </property>
+  	        <ref bean="dateTimeService"/>
+  	    </property>
     </bean>
 
     <bean id="laborEnterpriseFeederFileSetType" class="org.kuali.kfs.module.ld.batch.LaborEnterpriseFeederFileSetType"></bean>
+
+    <bean id="ldBenefitsCalculationLookupableHelperService" parent="ldBenefitsCalculationLookupableHelperService-parentBean" scope="prototype" />
+
+    <bean id="ldBenefitsCalculationLookupableHelperService-parentBean" class="org.kuali.kfs.module.ld.businessobject.lookup.BenefitsCalculationLookupableHelperServiceImpl" abstract="true">
+        <property name="persistenceStructureService">
+            <ref bean="persistenceStructureService" />
+        </property>
+        <property name="lookupService">
+            <ref bean="lookupService" />
+        </property>
+        <property name="businessObjectDictionaryService">
+            <ref bean="businessObjectDictionaryService" />
+        </property>
+        <property name="businessObjectMetaDataService">
+            <ref bean="businessObjectMetaDataService" />
+        </property>
+        <property name="dataDictionaryService">
+            <ref bean="dataDictionaryService" />
+        </property>
+        <property name="parameterService">
+            <ref bean="parameterService" />
+        </property>
+    </bean>
 
     <bean id="laborPendingEntryConverterService" parent="laborPendingEntryConverterService-parentBean" />
 

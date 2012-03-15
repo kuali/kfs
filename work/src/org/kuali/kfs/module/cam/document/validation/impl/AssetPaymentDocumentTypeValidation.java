@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,20 +15,16 @@
  */
 package org.kuali.kfs.module.cam.document.validation.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.AssetPaymentDetail;
 import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
-import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
-import org.kuali.rice.kew.service.impl.KEWModuleService;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.doctype.DocumentType;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -51,32 +47,29 @@ public class AssetPaymentDocumentTypeValidation extends GenericValidation {
 
     /**
      * Validates financial document type code
-     * 
+     *
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent)
      */
+    @Override
     public boolean validate(AttributedDocumentEvent event) {
         // skip check if accounting line is from CAB
         AssetPaymentDocument assetPaymentDocument = (AssetPaymentDocument) event.getDocument();
         if (assetPaymentDocument.isCapitalAssetBuilderOriginIndicator()) {
             return true;
         }
-        
+
         AssetPaymentDetail assetPaymentDetail = (AssetPaymentDetail) getAccountingLineForValidation();
         boolean result = true;
-        String label;
         if (!StringUtils.isBlank(assetPaymentDetail.getExpenditureFinancialDocumentTypeCode())) {
-            Map<String, Object> keyToFind = new HashMap<String, Object>();
-            keyToFind.put("name", assetPaymentDetail.getExpenditureFinancialDocumentTypeCode());
-
-            final DocumentTypeEBO docType = SpringContext.getBean(KEWModuleService.class).getExternalizableBusinessObject(DocumentTypeEBO.class, keyToFind);
+            DocumentType docType = KewApiServiceLocator.getDocumentTypeService().getDocumentTypeByName(assetPaymentDetail.getExpenditureFinancialDocumentTypeCode());
             if (docType == null) {
-                label = dataDictionaryService.getAttributeLabel(AssetPaymentDetail.class, CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE);
+                String label = dataDictionaryService.getAttributeLabel(AssetPaymentDetail.class, CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE);
                 GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
                 result = false;
             }
-        } else { 
+        } else {
               // implemented because dd is not enforcing required field rule
-            label = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE).getLabel();
+            String label = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(AssetPaymentDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE).getLabel();
             GlobalVariables.getMessageMap().putError(CamsPropertyConstants.AssetPaymentDetail.DOCUMENT_TYPE_CODE, KFSKeyConstants.ERROR_REQUIRED,label);
             result = false;
         }

@@ -75,7 +75,7 @@
     <bean id="bcModuleService-parentBean" class="org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl" abstract="true">
 		<property name="moduleConfiguration" ref="bcModuleConfiguration" />
 	</bean>
-<!-- 
+
 	<bean id="BCConstants" class="org.kuali.rice.core.api.util.collect.ConstantsMap">
 		<property name="constantClass" value="org.kuali.kfs.module.bc.BCConstants" />
 	</bean>
@@ -87,7 +87,7 @@
 			</map>
 		</property>
 	</bean>
- -->	
+
 	<bean id="budgetDocumentService"  parent="budgetDocumentService-parentBean"/>
 	<bean id="budgetDocumentService-parentBean" class="org.kuali.kfs.module.bc.document.service.impl.BudgetDocumentServiceImpl" abstract="true">
 		<property name="budgetConstructionDao">

@@ -15,30 +15,28 @@
  */
 package org.kuali.kfs.sys.context;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContextEvent;
 import javax.xml.namespace.QName;
 
+import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.batch.Step;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.framework.resourceloader.SpringResourceLoader;
 import org.kuali.rice.core.web.listener.KualiInitializeListener;
+import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
+import org.kuali.rice.coreservice.api.component.Component;
+import org.kuali.rice.krad.service.KRADServiceLocatorInternal;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
 
 public class KFSInitializeListener extends KualiInitializeListener {
+    protected static final String KFS_BATCH_STEP_COMPONENT_SET_ID = "STEP:KFS";
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KFSInitializeListener.class);
-
-//    protected static final String JSTL_CONSTANTS_CLASSNAMES_KEY = "jstl.constants.classnames";
-//    protected static final String JSTL_CONSTANTS_MAIN_CLASS = "jstl.constants.main.class";
-//    protected static final String JSTL_MAIN_CLASS_CONTEXT_NAME = "Constants";
-
-//    protected static Map<String,Class<?>> CONSTANTS_NAME_TO_CLASS_MAP = new HashMap<String, Class<?>>();
-//    static {
-//        CONSTANTS_NAME_TO_CLASS_MAP.put( "Constants", KRADConstants.class );
-//        CONSTANTS_NAME_TO_CLASS_MAP.put( "RiceConstants", RiceConstants.class );
-//        CONSTANTS_NAME_TO_CLASS_MAP.put( "KewApiConstants", KewApiConstants.class );
-//        CONSTANTS_NAME_TO_CLASS_MAP.put( "AuthorizationConstants", AuthorizationConstants.class );
-//        CONSTANTS_NAME_TO_CLASS_MAP.put( "PropertyConstants", KRADPropertyConstants.class );
-//    }
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
@@ -69,13 +67,36 @@ public class KFSInitializeListener extends KualiInitializeListener {
         SpringContext.initMonitoringThread();
         SpringContext.initScheduler();
 
-//        installWebContextProperties( sce.getServletContext() );
+        // KFS addition - republish all components now - until this point, the KFS DD has not been loaded
+        KRADServiceLocatorInternal.getDataDictionaryComponentPublisherService().publishAllComponents();
+
+        // KFS addition - we also publish all our Step classes as components - and these are not in the
+        // DD so are not published by the command above
+        publishBatchStepComponents();
 
         // This code below ensured that all messages left from the prior execution are
         // sent upon startup - don't know if we would need these for Rice 2.0
 //        MessageFetcher messageFetcher = new MessageFetcher((Integer) null);
 //        SpringContext.getBean(KSBThreadPool.class).execute(messageFetcher);
 
+    }
+
+    protected void publishBatchStepComponents() {
+        Map<String,Step> steps = SpringContext.getBeansOfType(Step.class);
+        List<Component> stepComponents = new ArrayList<Component>( steps.size() );
+        for ( Step step : steps.values() ) {
+            String namespaceCode = KFSConstants.CoreModuleNamespaces.KFS;
+            ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(step.getClass());
+            if ( moduleService != null ) {
+                namespaceCode = moduleService.getModuleConfiguration().getNamespaceCode();
+            }
+            Component.Builder component = Component.Builder.create(namespaceCode, step.getClass().getSimpleName(), step.getClass().getSimpleName());
+            component.setComponentSetId(KFS_BATCH_STEP_COMPONENT_SET_ID);
+            component.setActive(true);
+            stepComponents.add(component.build());
+        }
+
+        CoreServiceApiServiceLocator.getComponentService().publishDerivedComponents(KFS_BATCH_STEP_COMPONENT_SET_ID, stepComponents);
     }
 
     @Override
@@ -85,50 +106,4 @@ public class KFSInitializeListener extends KualiInitializeListener {
         SpringContext.applicationContext = null;
         super.contextDestroyed(sce);
     }
-
-//    protected void installWebContextProperties( ServletContext context ) {
-//        LOG.info( "Installing web context properties" );
-//        for (String jstlConstantsClassname : PropertyLoadingFactoryBean.getBaseListProperty(JSTL_CONSTANTS_CLASSNAMES_KEY)) {
-//            try {
-//                Class<?> jstlConstantsClass = Class.forName(jstlConstantsClassname);
-//                ConstantsMap constantsMap = new ConstantsMap();
-//                constantsMap.setConstantClass(jstlConstantsClass);
-//                context.setAttribute(jstlConstantsClass.getSimpleName(), constantsMap);
-//                LOG.info( "Added Constants Context Property: " + jstlConstantsClass.getSimpleName());
-//                if ( LOG.isTraceEnabled() ) {
-//                    LOG.trace( "Created '" + jstlConstantsClass.getSimpleName() + "' Map for Web Layer: " + constantsMap);
-//                }
-////                if (jstlConstantsClassname.equals(JSTL_CONSTANTS_MAIN_CLASS)) {
-////                    sce.getServletContext().setAttribute(JSTL_MAIN_CLASS_CONTEXT_NAME, jstlConstantsObj);
-////                }
-//            } catch (Exception e) {
-//                LOG.warn("Unable to load jstl constants class: " + jstlConstantsClassname, e);
-//            }
-//        }
-//
-//        for ( String constantName : CONSTANTS_NAME_TO_CLASS_MAP.keySet() ) {
-//            // publish application constants into JSP app context with name "Constants"
-//            ConstantsMap constantsMap = new ConstantsMap();
-//            constantsMap.setConstantClass(CONSTANTS_NAME_TO_CLASS_MAP.get(constantName));
-//            context.setAttribute(constantName, constantsMap);
-//            LOG.info( "Added Constants Context Property: " + constantName);
-//            if ( LOG.isTraceEnabled() ) {
-//                LOG.trace( constantName + " Properties: " + constantsMap);
-//            }
-//        }
-//
-//        // publish configuration properties into JSP app context with name "ConfigProperties"
-//        context.setAttribute("ConfigProperties", new ConfigProperties());
-//        LOG.info( "Added Constants Context Property: ConfigProperties" );
-//        if ( LOG.isTraceEnabled() ) {
-//            LOG.trace( "Created 'ConfigProperties' Map for Web Layer: " + new ConfigProperties());
-//        }
-//        // publish dataDictionary property Map into JSP app context with name "DataDictionary"
-//        context.setAttribute("DataDictionary", SpringContext.getBean(DataDictionaryService.class).getDataDictionaryMap());
-//        LOG.info( "Added Constants Context Property: DataDictionary" );
-//        if ( LOG.isTraceEnabled() ) {
-//            LOG.trace( "Created 'DataDictionary' Map for Web Layer: " + SpringContext.getBean(DataDictionaryService.class).getDataDictionaryMap());
-//        }
-//
-//    }
 }

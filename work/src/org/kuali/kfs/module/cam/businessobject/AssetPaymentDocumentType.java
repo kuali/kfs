@@ -15,10 +15,11 @@
  */
 package org.kuali.kfs.module.cam.businessobject;
 
-import org.kuali.kfs.sys.context.SpringContext;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.doctype.DocumentType;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
-import org.kuali.rice.kew.service.impl.KEWModuleService;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -101,7 +102,14 @@ public class AssetPaymentDocumentType extends PersistableBusinessObjectBase impl
      * @return Returns the financialSystemDocumentTypeCode.
      */
     public DocumentTypeEBO getFinancialSystemDocumentTypeCode() {
-        return financialSystemDocumentTypeCode = SpringContext.getBean(KEWModuleService.class).retrieveExternalizableBusinessObjectIfNecessary(this, financialSystemDocumentTypeCode, "financialSystemDocumentTypeCode");
+        if ( financialSystemDocumentTypeCode == null || !StringUtils.equals(financialSystemDocumentTypeCode.getName(), expenditureFinancialDocumentTypeCode) ) {
+            DocumentType docType = KewApiServiceLocator.getDocumentTypeService().getDocumentTypeByName(expenditureFinancialDocumentTypeCode);
+            if ( docType != null ) {
+                financialSystemDocumentTypeCode = org.kuali.rice.kew.doctype.bo.DocumentType.from(docType);
+            }
+            financialSystemDocumentTypeCode = null;
+        }
+        return financialSystemDocumentTypeCode;
     }
 
 }

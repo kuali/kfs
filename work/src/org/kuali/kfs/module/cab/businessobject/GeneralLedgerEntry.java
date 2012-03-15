@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
@@ -31,10 +32,10 @@ import org.kuali.kfs.gl.businessobject.Entry;
 import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.doctype.DocumentType;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
-import org.kuali.rice.kew.service.impl.KEWModuleService;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
@@ -89,7 +90,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Constructs a GeneralLedgerEntry item from GL line entry
-     * 
+     *
      * @param entry GL Lines
      */
     public GeneralLedgerEntry(Entry entry) {
@@ -121,7 +122,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
         this.setActivityStatusCode(CabConstants.ActivityStatusCode.NEW);
     }
 
-    
+
     protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         if (this.generalLedgerAccountIdentifier != null) {
@@ -145,7 +146,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the generalLedgerAccountIdentifier attribute.
-     * 
+     *
      * @return Returns the generalLedgerAccountIdentifier
      */
     public Long getGeneralLedgerAccountIdentifier() {
@@ -155,7 +156,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the generalLedgerAccountIdentifier attribute.
-     * 
+     *
      * @param generalLedgerAccountIdentifier The generalLedgerAccountIdentifier to set.
      */
     public void setGeneralLedgerAccountIdentifier(Long glAccountId) {
@@ -164,7 +165,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the universityFiscalYear attribute.
-     * 
+     *
      * @return Returns the universityFiscalYear
      */
     public Integer getUniversityFiscalYear() {
@@ -173,7 +174,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the universityFiscalYear attribute.
-     * 
+     *
      * @param universityFiscalYear The universityFiscalYear to set.
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
@@ -182,7 +183,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the chartOfAccountsCode attribute.
-     * 
+     *
      * @return Returns the chartOfAccountsCode
      */
     public String getChartOfAccountsCode() {
@@ -191,7 +192,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the chartOfAccountsCode attribute.
-     * 
+     *
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -200,7 +201,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the accountNumber attribute.
-     * 
+     *
      * @return Returns the accountNumber
      */
     public String getAccountNumber() {
@@ -209,7 +210,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the accountNumber attribute.
-     * 
+     *
      * @param accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
@@ -218,7 +219,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the subAccountNumber attribute.
-     * 
+     *
      * @return Returns the subAccountNumber
      */
     public String getSubAccountNumber() {
@@ -227,7 +228,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the subAccountNumber attribute.
-     * 
+     *
      * @param subAccountNumber The subAccountNumber to set.
      */
     public void setSubAccountNumber(String subAccountNumber) {
@@ -236,7 +237,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the financialObjectCode attribute.
-     * 
+     *
      * @return Returns the financialObjectCode
      */
     public String getFinancialObjectCode() {
@@ -245,7 +246,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialObjectCode attribute.
-     * 
+     *
      * @param financialObjectCode The financialObjectCode to set.
      */
     public void setFinancialObjectCode(String financialObjectCode) {
@@ -254,7 +255,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the financialSubObjectCode attribute.
-     * 
+     *
      * @return Returns the financialSubObjectCode
      */
     public String getFinancialSubObjectCode() {
@@ -263,7 +264,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialSubObjectCode attribute.
-     * 
+     *
      * @param financialSubObjectCode The financialSubObjectCode to set.
      */
     public void setFinancialSubObjectCode(String financialSubObjectCode) {
@@ -272,7 +273,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the financialBalanceTypeCode attribute.
-     * 
+     *
      * @return Returns the financialBalanceTypeCode
      */
     public String getFinancialBalanceTypeCode() {
@@ -281,7 +282,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialBalanceTypeCode attribute.
-     * 
+     *
      * @param financialBalanceTypeCode The financialBalanceTypeCode to set.
      */
     public void setFinancialBalanceTypeCode(String financialBalanceTypeCode) {
@@ -290,7 +291,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the financialObjectTypeCode attribute.
-     * 
+     *
      * @return Returns the financialObjectTypeCode
      */
     public String getFinancialObjectTypeCode() {
@@ -299,7 +300,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialObjectTypeCode attribute.
-     * 
+     *
      * @param financialObjectTypeCode The financialObjectTypeCode to set.
      */
     public void setFinancialObjectTypeCode(String financialObjectTypeCode) {
@@ -308,7 +309,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the universityFiscalPeriodCode attribute.
-     * 
+     *
      * @return Returns the universityFiscalPeriodCode
      */
     public String getUniversityFiscalPeriodCode() {
@@ -317,7 +318,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the universityFiscalPeriodCode attribute.
-     * 
+     *
      * @param universityFiscalPeriodCode The universityFiscalPeriodCode to set.
      */
     public void setUniversityFiscalPeriodCode(String universityFiscalPeriodCode) {
@@ -326,7 +327,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the financialDocumentTypeCode attribute.
-     * 
+     *
      * @return Returns the financialDocumentTypeCode
      */
     public String getFinancialDocumentTypeCode() {
@@ -335,7 +336,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialDocumentTypeCode attribute.
-     * 
+     *
      * @param financialDocumentTypeCode The financialDocumentTypeCode to set.
      */
     public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
@@ -344,7 +345,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the financialSystemOriginationCode attribute.
-     * 
+     *
      * @return Returns the financialSystemOriginationCode
      */
     public String getFinancialSystemOriginationCode() {
@@ -353,7 +354,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialSystemOriginationCode attribute.
-     * 
+     *
      * @param financialSystemOriginationCode The financialSystemOriginationCode to set.
      */
     public void setFinancialSystemOriginationCode(String financialSystemOriginationCode) {
@@ -362,7 +363,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the documentNumber attribute.
-     * 
+     *
      * @return Returns the documentNumber
      */
     public String getDocumentNumber() {
@@ -372,7 +373,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the documentNumber attribute.
-     * 
+     *
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -381,7 +382,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the transactionLedgerEntrySequenceNumber attribute.
-     * 
+     *
      * @return Returns the transactionLedgerEntrySequenceNumber
      */
     public Integer getTransactionLedgerEntrySequenceNumber() {
@@ -390,7 +391,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the transactionLedgerEntrySequenceNumber attribute.
-     * 
+     *
      * @param transactionLedgerEntrySequenceNumber The transactionLedgerEntrySequenceNumber to set.
      */
     public void setTransactionLedgerEntrySequenceNumber(Integer transactionLedgerEntrySequenceNumber) {
@@ -399,7 +400,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the transactionLedgerEntryDescription attribute.
-     * 
+     *
      * @return Returns the transactionLedgerEntryDescription
      */
     public String getTransactionLedgerEntryDescription() {
@@ -408,7 +409,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the transactionLedgerEntryDescription attribute.
-     * 
+     *
      * @param transactionLedgerEntryDescription The transactionLedgerEntryDescription to set.
      */
     public void setTransactionLedgerEntryDescription(String transactionLedgerEntryDescription) {
@@ -417,7 +418,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the transactionLedgerEntryAmount attribute.
-     * 
+     *
      * @return Returns the transactionLedgerEntryAmount
      */
     public KualiDecimal getTransactionLedgerEntryAmount() {
@@ -426,7 +427,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the transactionLedgerEntryAmount attribute.
-     * 
+     *
      * @param transactionLedgerEntryAmount The transactionLedgerEntryAmount to set.
      */
     public void setTransactionLedgerEntryAmount(KualiDecimal transactionLedgerEntryAmount) {
@@ -435,7 +436,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the organizationReferenceId attribute.
-     * 
+     *
      * @return Returns the organizationReferenceId
      */
     public String getOrganizationReferenceId() {
@@ -444,7 +445,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the organizationReferenceId attribute.
-     * 
+     *
      * @param organizationReferenceId The organizationReferenceId to set.
      */
     public void setOrganizationReferenceId(String organizationReferenceId) {
@@ -453,7 +454,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the referenceFinancialSystemOriginationCode attribute.
-     * 
+     *
      * @return Returns the referenceFinancialSystemOriginationCode
      */
     public String getReferenceFinancialSystemOriginationCode() {
@@ -462,7 +463,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the referenceFinancialSystemOriginationCode attribute.
-     * 
+     *
      * @param referenceFinancialSystemOriginationCode The referenceFinancialSystemOriginationCode to set.
      */
     public void setReferenceFinancialSystemOriginationCode(String referenceFinancialSystemOriginationCode) {
@@ -471,7 +472,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the referenceFinancialDocumentNumber attribute.
-     * 
+     *
      * @return Returns the referenceFinancialDocumentNumber
      */
     public String getReferenceFinancialDocumentNumber() {
@@ -480,7 +481,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the referenceFinancialDocumentNumber attribute.
-     * 
+     *
      * @param referenceFinancialDocumentNumber The referenceFinancialDocumentNumber to set.
      */
     public void setReferenceFinancialDocumentNumber(String referenceFinancialDocumentNumber) {
@@ -489,7 +490,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the transactionDebitCreditCode attribute.
-     * 
+     *
      * @return Returns the transactionDebitCreditCode
      */
     public String getTransactionDebitCreditCode() {
@@ -498,7 +499,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the transactionDebitCreditCode attribute.
-     * 
+     *
      * @param transactionDebitCreditCode The transactionDebitCreditCode to set.
      */
     public void setTransactionDebitCreditCode(String transactionDebitCreditCode) {
@@ -507,7 +508,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the organizationDocumentNumber attribute.
-     * 
+     *
      * @return Returns the organizationDocumentNumber
      */
     public String getOrganizationDocumentNumber() {
@@ -516,7 +517,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the organizationDocumentNumber attribute.
-     * 
+     *
      * @param organizationDocumentNumber The organizationDocumentNumber to set.
      */
     public void setOrganizationDocumentNumber(String organizationDocumentNumber) {
@@ -525,7 +526,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the projectCode attribute.
-     * 
+     *
      * @return Returns the projectCode
      */
     public String getProjectCode() {
@@ -534,7 +535,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the projectCode attribute.
-     * 
+     *
      * @param projectCode The projectCode to set.
      */
     public void setProjectCode(String projectCode) {
@@ -543,7 +544,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the transactionPostingDate attribute.
-     * 
+     *
      * @return Returns the transactionPostingDate
      */
     public Date getTransactionPostingDate() {
@@ -552,7 +553,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the transactionPostingDate attribute.
-     * 
+     *
      * @param transactionPostingDate The transactionPostingDate to set.
      */
     public void setTransactionPostingDate(Date transactionPostingDate) {
@@ -561,7 +562,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the transactionDateTimeStamp attribute.
-     * 
+     *
      * @return Returns the transactionDateTimeStamp
      */
     public Timestamp getTransactionDateTimeStamp() {
@@ -570,7 +571,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the transactionDateTimeStamp attribute.
-     * 
+     *
      * @param transactionDateTimeStamp The transactionDateTimeStamp to set.
      */
     public void setTransactionDateTimeStamp(Timestamp transactionDateTimeStamp) {
@@ -579,7 +580,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the account attribute.
-     * 
+     *
      * @return Returns the account
      */
     public Account getAccount() {
@@ -588,7 +589,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the account attribute.
-     * 
+     *
      * @param account The account to set.
      */
     public void setAccount(Account account) {
@@ -597,7 +598,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the subAccount attribute.
-     * 
+     *
      * @return Returns the subAccount
      */
     public SubAccount getSubAccount() {
@@ -606,7 +607,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the subAccount attribute.
-     * 
+     *
      * @param subAccount The subAccount to set.
      */
     public void setSubAccount(SubAccount subAccount) {
@@ -616,7 +617,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the chart attribute.
-     * 
+     *
      * @return Returns the chart
      */
     public Chart getChart() {
@@ -625,7 +626,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the chart attribute.
-     * 
+     *
      * @param chart The chart to set.
      */
     public void setChart(Chart chart) {
@@ -634,7 +635,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the financialObject attribute.
-     * 
+     *
      * @return Returns the financialObject
      */
     public ObjectCode getFinancialObject() {
@@ -643,7 +644,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialObject attribute.
-     * 
+     *
      * @param financialObject The financialObject to set.
      */
     public void setFinancialObject(ObjectCode financialObject) {
@@ -652,7 +653,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the financialSubObject attribute.
-     * 
+     *
      * @return Returns the financialSubObject
      */
     public SubObjectCode getFinancialSubObject() {
@@ -661,7 +662,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialSubObject attribute.
-     * 
+     *
      * @param financialSubObject The financialSubObject to set.
      */
     public void setFinancialSubObject(SubObjectCode financialSubObject) {
@@ -670,7 +671,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the objectType attribute.
-     * 
+     *
      * @return Returns the objectType
      */
     public ObjectType getObjectType() {
@@ -679,7 +680,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the objectType attribute.
-     * 
+     *
      * @param objectType The objectType to set.
      */
     public void setObjectType(ObjectType objectType) {
@@ -688,16 +689,23 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the financialSystemDocumentTypeCode attribute.
-     * 
+     *
      * @return Returns the financialSystemDocumentTypeCode.
      */
     public DocumentTypeEBO getFinancialSystemDocumentTypeCode() {
-        return financialSystemDocumentTypeCode = SpringContext.getBean(KEWModuleService.class).retrieveExternalizableBusinessObjectIfNecessary(this, financialSystemDocumentTypeCode, "financialSystemDocumentTypeCode");
+        if ( financialSystemDocumentTypeCode == null || !StringUtils.equals(financialSystemDocumentTypeCode.getName(), financialDocumentTypeCode) ) {
+            DocumentType docType = KewApiServiceLocator.getDocumentTypeService().getDocumentTypeByName(financialDocumentTypeCode);
+            if ( docType != null ) {
+                financialSystemDocumentTypeCode = org.kuali.rice.kew.doctype.bo.DocumentType.from(docType);
+            }
+            financialSystemDocumentTypeCode = null;
+        }
+        return financialSystemDocumentTypeCode;
     }
 
     /**
      * Gets the active attribute.
-     * 
+     *
      * @return Returns the active
      */
     public boolean isActive() {
@@ -707,7 +715,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the activityStatusCode attribute.
-     * 
+     *
      * @return Returns the activityStatusCode.
      */
     public String getActivityStatusCode() {
@@ -716,7 +724,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the activityStatusCode attribute value.
-     * 
+     *
      * @param activityStatusCode The activityStatusCode to set.
      */
     public void setActivityStatusCode(String activityStatusCode) {
@@ -725,7 +733,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the generalLedgerEntryAssets attribute.
-     * 
+     *
      * @return Returns the generalLedgerEntryAssets
      */
 
@@ -735,7 +743,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the generalLedgerEntryAssets attribute.
-     * 
+     *
      * @param generalLedgerEntryAssets The generalLedgerEntryAssets to set.
      */
 
@@ -745,7 +753,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the transactionDate attribute.
-     * 
+     *
      * @return Returns the transactionDate
      */
 
@@ -755,7 +763,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the transactionDate attribute.
-     * 
+     *
      * @param transactionDate The transactionDate to set.
      */
 
@@ -765,7 +773,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the purApLineAssetAccounts attribute.
-     * 
+     *
      * @return Returns the purApLineAssetAccounts.
      */
     public List<PurchasingAccountsPayableLineAssetAccount> getPurApLineAssetAccounts() {
@@ -774,7 +782,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the purApLineAssetAccounts attribute value.
-     * 
+     *
      * @param purApLineAssetAccounts The purApLineAssetAccounts to set.
      */
     public void setPurApLineAssetAccounts(List<PurchasingAccountsPayableLineAssetAccount> purApLineAssetAccounts) {
@@ -791,7 +799,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the selected attribute.
-     * 
+     *
      * @return Returns the selected.
      */
     public boolean isSelected() {
@@ -800,7 +808,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the selected attribute value.
-     * 
+     *
      * @param selected The selected to set.
      */
     public void setSelected(boolean selected) {
@@ -809,7 +817,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the amount attribute.
-     * 
+     *
      * @return Returns the amount.
      */
     public KualiDecimal getAmount() {
@@ -824,7 +832,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the amount attribute value.
-     * 
+     *
      * @param amount The amount to set.
      */
     public void setAmount(KualiDecimal absAmount) {
@@ -833,7 +841,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Gets the transactionLedgerSubmitAmount attribute.
-     * 
+     *
      * @return Returns the transactionLedgerSubmitAmount.
      */
     public KualiDecimal getTransactionLedgerSubmitAmount() {
@@ -842,7 +850,7 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
 
     /**
      * Sets the transactionLedgerSubmitAmount attribute value.
-     * 
+     *
      * @param transactionLedgerSubmitAmount The transactionLedgerSubmitAmount to set.
      */
     public void setTransactionLedgerSubmitAmount(KualiDecimal transactionLedgerSubmitAmount) {

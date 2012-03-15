@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -40,8 +40,9 @@ import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.businessobject.OriginationCode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.doctype.DocumentType;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
-import org.kuali.rice.kew.service.impl.KEWModuleService;
 
 /**
  * Labor business object for LaborOriginEntry.
@@ -79,7 +80,7 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
     private AccountingPeriod payrollEndDateFiscalPeriod;
 
     public LaborOriginEntry(LaborLedgerPendingEntry pendingEntry){
-        
+
         accountNumber = pendingEntry.getAccountNumber();
         documentNumber = pendingEntry.getDocumentNumber();
         referenceFinancialDocumentNumber = pendingEntry.getReferenceFinancialDocumentNumber();
@@ -105,9 +106,9 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
         transactionLedgerEntryDescription = pendingEntry.getTransactionLedgerEntryDescription();
         universityFiscalPeriodCode = pendingEntry.getUniversityFiscalPeriodCode();
         universityFiscalYear = pendingEntry.getUniversityFiscalYear();
-        
-        //TODO:- need to check 
-        
+
+        //TODO:- need to check
+
         positionNumber = pendingEntry.getPositionNumber();
         transactionPostingDate = pendingEntry.getTransactionPostingDate();
         payPeriodEndDate = pendingEntry.getPayPeriodEndDate();
@@ -132,18 +133,18 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
         //transactionDateTimeStamp = pendingEntry.getTransactionDateTimeStamp();
         transactionEntryOffsetCode = pendingEntry.getTransactionEntryOffsetCode();
         payrollEndDateFiscalPeriod = pendingEntry.getPayrollEndDateFiscalPeriod();
-        
+
         //TODO:- don't need it?
         //reversalDate = pendingEntry.getReversalDate();
-        
+
         //TODO:- check: no positionData in laborOriginEntry
         //positionData = pendingEntry.getPositionData();
-        
+
     }
 
     /**
      * Constructor with financialDocumentTypeCode and financialSystemOriginationCode.
-     * 
+     *
      * @param financialDocumentTypeCode
      * @param financialSystemOriginationCode
      */
@@ -160,7 +161,7 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
 
     /**
      * Constructor with laborTransaction
-     * 
+     *
      * @param t
      */
     public LaborOriginEntry(LaborTransaction t) {
@@ -196,7 +197,7 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
 
     /**
      * Constructor with string line
-     * 
+     *
      * @param line
      */
     public LaborOriginEntry(String line) {
@@ -205,16 +206,17 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
 
     /**
      * Gets the positionNumber
-     * 
+     *
      * @return Returns the positionNumber
      */
+    @Override
     public String getPositionNumber() {
         return positionNumber;
     }
 
     /**
      * Sets the positionNumber
-     * 
+     *
      * @param positionNumber The positionNumber to set.
      */
     public void setPositionNumber(String positionNumber) {
@@ -223,16 +225,17 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
 
     /**
      * Gets the transactionPostingDate
-     * 
+     *
      * @return Returns the transactionPostingDate
      */
+    @Override
     public Date getTransactionPostingDate() {
         return transactionPostingDate;
     }
 
     /**
      * Sets the transactionPostingDate
-     * 
+     *
      * @param transactionPostingDate The transactionPostingDate to set.
      */
     public void setTransactionPostingDate(Date transactionPostingDate) {
@@ -241,16 +244,17 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
 
     /**
      * Gets the payPeriodEndDate
-     * 
+     *
      * @return Returns the payPeriodEndDate
      */
+    @Override
     public Date getPayPeriodEndDate() {
         return payPeriodEndDate;
     }
 
     /**
      * Sets the payPeriodEndDate
-     * 
+     *
      * @param payPeriodEndDate The payPeriodEndDate to set.
      */
     public void setPayPeriodEndDate(Date payPeriodEndDate) {
@@ -259,16 +263,17 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
 
     /**
      * Gets the transactionTotalHours
-     * 
+     *
      * @return Returns the transactionTotalHours
      */
+    @Override
     public BigDecimal getTransactionTotalHours() {
         return transactionTotalHours;
     }
 
     /**
      * Sets the transactionTotalHours
-     * 
+     *
      * @param transactionTotalHours The transactionTotalHours to set.
      */
     public void setTransactionTotalHours(BigDecimal transactionTotalHours) {
@@ -277,16 +282,17 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
 
     /**
      * Gets the payrollEndDateFiscalYear
-     * 
+     *
      * @return Returns the payrollEndDateFiscalYear
      */
+    @Override
     public Integer getPayrollEndDateFiscalYear() {
         return payrollEndDateFiscalYear;
     }
 
     /**
      * Sets the payrollEndDateFiscalYear
-     * 
+     *
      * @param payrollEndDateFiscalYear The payrollEndDateFiscalYear to set.
      */
     public void setPayrollEndDateFiscalYear(Integer payrollEndDateFiscalYear) {
@@ -295,16 +301,17 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
 
     /**
      * Gets the payrollEndDateFiscalPeriodCode
-     * 
+     *
      * @return Returns the payrollEndDateFiscalPeriodCode
      */
+    @Override
     public String getPayrollEndDateFiscalPeriodCode() {
         return payrollEndDateFiscalPeriodCode;
     }
 
     /**
      * Sets the payrollEndDateFiscalPeriodCode
-     * 
+     *
      * @param payrollEndDateFiscalPeriodCode The payrollEndDateFiscalPeriodCode to set.
      */
     public void setPayrollEndDateFiscalPeriodCode(String payrollEndDateFiscalPeriodCode) {
@@ -313,16 +320,17 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
 
     /**
      * Gets the financialDocumentApprovedCode
-     * 
+     *
      * @return Returns the financialDocumentApprovedCode
      */
+    @Override
     public String getFinancialDocumentApprovedCode() {
         return financialDocumentApprovedCode;
     }
 
     /**
      * Sets the financialDocumentApprovedCode
-     * 
+     *
      * @param financialDocumentApprovedCode The financialDocumentApprovedCode to set.
      */
     public void setFinancialDocumentApprovedCode(String financialDocumentApprovedCode) {
@@ -331,16 +339,17 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
 
     /**
      * Gets the transactionEntryOffsetCode
-     * 
+     *
      * @return Returns the transactionEntryOffsetCode
      */
+    @Override
     public String getTransactionEntryOffsetCode() {
         return transactionEntryOffsetCode;
     }
 
     /**
      * Sets the transactionEntryOffsetCode
-     * 
+     *
      * @param transactionEntryOffsetCode The transactionEntryOffsetCode to set.
      */
     public void setTransactionEntryOffsetCode(String transactionEntryOffsetCode) {
@@ -349,16 +358,17 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
 
     /**
      * Gets the transactionEntryProcessedTimestamp
-     * 
+     *
      * @return Returns the transactionEntryProcessedTimestamp
      */
+    @Override
     public Timestamp getTransactionEntryProcessedTimestamp() {
         return transactionEntryProcessedTimestamp;
     }
 
     /**
      * Sets the transactionEntryProcessedTimestamp
-     * 
+     *
      * @param transactionEntryProcessedTimestamp The transactionEntryProcessedTimestamp to set.
      */
     public void setTransactionEntryProcessedTimestamp(Timestamp transactionEntryProcessedTimestamp) {
@@ -367,16 +377,17 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
 
     /**
      * Gets the emplid
-     * 
+     *
      * @return Returns the emplid
      */
+    @Override
     public String getEmplid() {
         return emplid;
     }
 
     /**
      * Sets the emplid
-     * 
+     *
      * @param emplid The emplid to set.
      */
     public void setEmplid(String emplid) {
@@ -385,16 +396,17 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
 
     /**
      * Gets the employeeRecord
-     * 
+     *
      * @return Returns the employeeRecord
      */
+    @Override
     public Integer getEmployeeRecord() {
         return employeeRecord;
     }
 
     /**
      * Sets the employeeRecord
-     * 
+     *
      * @param employeeRecord The employeeRecord to set.
      */
     public void setEmployeeRecord(Integer employeeRecord) {
@@ -403,16 +415,17 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
 
     /**
      * Gets the earnCode
-     * 
+     *
      * @return Returns the earnCode
      */
+    @Override
     public String getEarnCode() {
         return earnCode;
     }
 
     /**
      * Sets the earnCode
-     * 
+     *
      * @param earnCode The earnCode to set.
      */
     public void setEarnCode(String earnCode) {
@@ -421,16 +434,17 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
 
     /**
      * Gets the payGroup
-     * 
+     *
      * @return Returns the payGroup
      */
+    @Override
     public String getPayGroup() {
         return payGroup;
     }
 
     /**
      * Sets the payGroup
-     * 
+     *
      * @param payGroup The payGroup to set.
      */
     public void setPayGroup(String payGroup) {
@@ -439,16 +453,17 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
 
     /**
      * Gets the salaryAdministrationPlan
-     * 
+     *
      * @return Returns the salaryAdministrationPlan
      */
+    @Override
     public String getSalaryAdministrationPlan() {
         return salaryAdministrationPlan;
     }
 
     /**
      * Sets the salaryAdministrationPlan
-     * 
+     *
      * @param salaryAdministrationPlan The salaryAdministrationPlan to set.
      */
     public void setSalaryAdministrationPlan(String salaryAdministrationPlan) {
@@ -457,16 +472,17 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
 
     /**
      * Gets the grade
-     * 
+     *
      * @return Returns the grade
      */
+    @Override
     public String getGrade() {
         return grade;
     }
 
     /**
      * Sets the grade
-     * 
+     *
      * @param grade The grade to set.
      */
     public void setGrade(String grade) {
@@ -475,16 +491,17 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
 
     /**
      * Gets the runIdentifier
-     * 
+     *
      * @return Returns the runIdentifier
      */
+    @Override
     public String getRunIdentifier() {
         return runIdentifier;
     }
 
     /**
      * Sets the runIdentifier
-     * 
+     *
      * @param runIdentifier The runIdentifier to set.
      */
     public void setRunIdentifier(String runIdentifier) {
@@ -493,16 +510,17 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
 
     /**
      * Gets the laborLedgerOriginalChartOfAccountsCode
-     * 
+     *
      * @return Returns the laborLedgerOriginalChartOfAccountsCode
      */
+    @Override
     public String getLaborLedgerOriginalChartOfAccountsCode() {
         return laborLedgerOriginalChartOfAccountsCode;
     }
 
     /**
      * Sets the laborLedgerOriginalChartOfAccountsCode
-     * 
+     *
      * @param laborLedgerOriginalChartOfAccountsCode The laborLedgerOriginalChartOfAccountsCode to set.
      */
     public void setLaborLedgerOriginalChartOfAccountsCode(String laborLedgerOriginalChartOfAccountsCode) {
@@ -511,16 +529,17 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
 
     /**
      * Gets the laborLedgerOriginalAccountNumber
-     * 
+     *
      * @return Returns the laborLedgerOriginalAccountNumber
      */
+    @Override
     public String getLaborLedgerOriginalAccountNumber() {
         return laborLedgerOriginalAccountNumber;
     }
 
     /**
      * Sets the laborLedgerOriginalAccountNumber
-     * 
+     *
      * @param laborLedgerOriginalAccountNumber The laborLedgerOriginalAccountNumber to set.
      */
     public void setLaborLedgerOriginalAccountNumber(String laborLedgerOriginalAccountNumber) {
@@ -529,16 +548,17 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
 
     /**
      * Gets the laborLedgerOriginalSubAccountNumber
-     * 
+     *
      * @return Returns the laborLedgerOriginalSubAccountNumber
      */
+    @Override
     public String getLaborLedgerOriginalSubAccountNumber() {
         return laborLedgerOriginalSubAccountNumber;
     }
 
     /**
      * Sets the laborLedgerOriginalSubAccountNumber
-     * 
+     *
      * @param laborLedgerOriginalSubAccountNumber The laborLedgerOriginalSubAccountNumber to set.
      */
     public void setLaborLedgerOriginalSubAccountNumber(String laborLedgerOriginalSubAccountNumber) {
@@ -547,16 +567,17 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
 
     /**
      * Gets the laborLedgerOriginalFinancialObjectCode
-     * 
+     *
      * @return Returns the laborLedgerOriginalFinancialObjectCode
      */
+    @Override
     public String getLaborLedgerOriginalFinancialObjectCode() {
         return laborLedgerOriginalFinancialObjectCode;
     }
 
     /**
      * Sets the laborLedgerOriginalFinancialObjectCode
-     * 
+     *
      * @param laborLedgerOriginalFinancialObjectCode The laborLedgerOriginalFinancialObjectCode to set.
      */
     public void setLaborLedgerOriginalFinancialObjectCode(String laborLedgerOriginalFinancialObjectCode) {
@@ -565,16 +586,17 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
 
     /**
      * Gets the laborLedgerOriginalFinancialSubObjectCode
-     * 
+     *
      * @return Returns the laborLedgerOriginalFinancialSubObjectCode
      */
+    @Override
     public String getLaborLedgerOriginalFinancialSubObjectCode() {
         return laborLedgerOriginalFinancialSubObjectCode;
     }
 
     /**
      * Sets the laborLedgerOriginalFinancialSubObjectCode
-     * 
+     *
      * @param laborLedgerOriginalFinancialSubObjectCode The laborLedgerOriginalFinancialSubObjectCode to set.
      */
     public void setLaborLedgerOriginalFinancialSubObjectCode(String laborLedgerOriginalFinancialSubObjectCode) {
@@ -583,16 +605,17 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
 
     /**
      * Gets the hrmsCompany
-     * 
+     *
      * @return Returns the hrmsCompany
      */
+    @Override
     public String getHrmsCompany() {
         return hrmsCompany;
     }
 
     /**
      * Sets the hrmsCompany
-     * 
+     *
      * @param hrmsCompany The hrmsCompany to set.
      */
     public void setHrmsCompany(String hrmsCompany) {
@@ -601,16 +624,17 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
 
     /**
      * Gets the setid
-     * 
+     *
      * @return Returns the setid
      */
+    @Override
     public String getSetid() {
         return setid;
     }
 
     /**
      * Sets the setid
-     * 
+     *
      * @param setid The setid to set.
      */
     public void setSetid(String setid) {
@@ -619,7 +643,7 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
 
     /**
      * Gets the transactionDateTimeStamp
-     * 
+     *
      * @return Returns the transactionDateTimeStamp
      */
     public Date getTransactionDateTimeStamp() {
@@ -628,7 +652,7 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
 
     /**
      * Sets the transactionDateTimeStamp
-     * 
+     *
      * @param transactionDateTimeStamp The transactionDateTimeStamp to set.
      */
     public void setTransactionDateTimeStamp(Date transactionDateTimeStamp) {
@@ -637,16 +661,17 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
 
     /**
      * Gets the payrollEndDateFiscalPeriod
-     * 
+     *
      * @return Returns the payrollEndDateFiscalPeriod.
      */
+    @Override
     public AccountingPeriod getPayrollEndDateFiscalPeriod() {
         return payrollEndDateFiscalPeriod;
     }
 
     /**
      * Sets the payrollEndDateFiscalPeriod
-     * 
+     *
      * @param payrollEndDateFiscalPeriod The payrollEndDateFiscalPeriod to set.
      */
     public void setPayrollEndDateFiscalPeriod(AccountingPeriod payrollEndDateFiscalPeriod) {
@@ -655,25 +680,34 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
 
     /**
      * Gets the referenceFinancialDocumentType
-     * 
+     *
      * @return Returns the referenceFinancialDocumentType.
      */
+    @Override
     public DocumentTypeEBO getReferenceFinancialSystemDocumentTypeCode() {
-        return referenceFinancialSystemDocumentTypeCode = SpringContext.getBean(KEWModuleService.class).retrieveExternalizableBusinessObjectIfNecessary(this, referenceFinancialSystemDocumentTypeCode, "referenceFinancialSystemDocumentTypeCode");
+        if ( referenceFinancialSystemDocumentTypeCode == null || !StringUtils.equals(referenceFinancialSystemDocumentTypeCode.getName(), referenceFinancialDocumentTypeCode) ) {
+            DocumentType docType = KewApiServiceLocator.getDocumentTypeService().getDocumentTypeByName(referenceFinancialDocumentTypeCode);
+            if ( docType != null ) {
+                referenceFinancialSystemDocumentTypeCode = org.kuali.rice.kew.doctype.bo.DocumentType.from(docType);
+            }
+            referenceFinancialSystemDocumentTypeCode = null;
+        }
+        return referenceFinancialSystemDocumentTypeCode;
     }
 
     /**
      * Gets the referenceFinancialSystemOrigination
-     * 
+     *
      * @return Returns the referenceFinancialSystemOrigination.
      */
+    @Override
     public OriginationCode getReferenceFinancialSystemOrigination() {
         return referenceFinancialSystemOrigination;
     }
 
     /**
      * Sets the referenceFinancialSystemOrigination
-     * 
+     *
      * @param referenceFinancialSystemOrigination The referenceFinancialSystemOrigination to set.
      */
     public void setReferenceFinancialSystemOrigination(OriginationCode referenceFinancialSystemOrigination) {
@@ -690,12 +724,13 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
     /**
      * Get lines from string
      */
+    @Override
     public String getLine() {
         StringBuilder sb = new StringBuilder();
         Map<String, Integer> lMap = getLaborOriginEntryFieldUtil().getFieldLengthMap();
         Map<String, Integer> pMap = getLaborOriginEntryFieldUtil().getFieldBeginningPositionMap();
         int entryLength = pMap.get(LaborPropertyConstants.SET_ID) +  lMap.get(LaborPropertyConstants.SET_ID);
-        
+
         if (universityFiscalYear == null) {
             sb.append(GeneralLedgerConstants.getSpaceUniversityFiscalYear());
         }
@@ -715,7 +750,7 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
         sb.append(getField(lMap.get(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE), financialSystemOriginationCode));
         sb.append(getField(lMap.get(KFSPropertyConstants.DOCUMENT_NUMBER), documentNumber));
 
-        String seqNum ="";  
+        String seqNum ="";
         if (transactionLedgerEntrySequenceNumber != null) {
             seqNum = transactionLedgerEntrySequenceNumber.toString();
         }
@@ -736,7 +771,7 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
                 sb.append("-");
             } else {
                 sb.append("+");
-            } 
+            }
             sb.append(GeneralLedgerConstants.getZeroTransactionLedgerEntryAmount().substring(1, lMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT) - a.length()));
             sb.append(a);
         }
@@ -800,28 +835,29 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
         // KFSMI-5958: Don't want any control characters in output files. They potentially disrupt further processing
         Matcher controlCharacterMatcher = MATCH_CONTROL_CHARACTERS.matcher(sb);
         String returnString = controlCharacterMatcher.replaceAll(REPLACE_MATCHED_CONTROL_CHARACTERS);
-        
+
         return returnString;
     }
 
     /**
      * Sets the entries from text file.
      */
-    
+
+    @Override
     public List<Message> setFromTextFileForBatch(String line, int lineNumber)  {
-        List<Message> returnList = new ArrayList();        
+        List<Message> returnList = new ArrayList();
         Map<String, Integer> pMap = getLaborOriginEntryFieldUtil().getFieldBeginningPositionMap();
         Map<String, Integer> lMap = getLaborOriginEntryFieldUtil().getFieldLengthMap();
-        int entryLength = pMap.get(LaborPropertyConstants.SET_ID) +  lMap.get(LaborPropertyConstants.SET_ID); 
-        
+        int entryLength = pMap.get(LaborPropertyConstants.SET_ID) +  lMap.get(LaborPropertyConstants.SET_ID);
+
         // KFSMI-5958: Don't want any control characters in output files. They potentially disrupt further processing
         Matcher controlCharacterMatcher = MATCH_CONTROL_CHARACTERS.matcher(line);
         line = controlCharacterMatcher.replaceAll(REPLACE_MATCHED_CONTROL_CHARACTERS);
-        
+
         // Just in case
         line = org.apache.commons.lang.StringUtils.rightPad(line, entryLength, ' ');
         String fiscalYearString = line.substring(pMap.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR), pMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
-        if (!GeneralLedgerConstants.getSpaceUniversityFiscalYear().equals(fiscalYearString)) {            
+        if (!GeneralLedgerConstants.getSpaceUniversityFiscalYear().equals(fiscalYearString)) {
             try {
                 setUniversityFiscalYear(new Integer(fiscalYearString));
             }
@@ -834,7 +870,7 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
         else {
             setUniversityFiscalYear(null);
         }
-        
+
         setChartOfAccountsCode(getValue(line, pMap.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE), pMap.get(KFSPropertyConstants.ACCOUNT_NUMBER)));
         setAccountNumber(getValue(line, pMap.get(KFSPropertyConstants.ACCOUNT_NUMBER), pMap.get(KFSPropertyConstants.SUB_ACCOUNT_NUMBER)));
 
@@ -844,9 +880,9 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
             Account account = acctserv.getUniqueAccountForAccountNumber(getAccountNumber());
             if (account != null) {
                 setChartOfAccountsCode(account.getChartOfAccountsCode());
-            }            
+            }
         }
-                
+
         setSubAccountNumber(getValue(line, pMap.get(KFSPropertyConstants.SUB_ACCOUNT_NUMBER), pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE)));
         setFinancialObjectCode(getValue(line, pMap.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE)));
         setFinancialSubObjectCode(getValue(line, pMap.get(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE)));
@@ -856,7 +892,7 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
         setFinancialDocumentTypeCode(getValue(line, pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE)));
         setFinancialSystemOriginationCode(getValue(line, pMap.get(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE), pMap.get(KFSPropertyConstants.DOCUMENT_NUMBER)));
         setDocumentNumber(getValue(line, pMap.get(KFSPropertyConstants.DOCUMENT_NUMBER), pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER)));
-        
+
         String sequenceNumberString = line.substring(pMap.get(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER), pMap.get(KFSPropertyConstants.POSITION_NUMBER));
         if (!GeneralLedgerConstants.getSpaceTransactionEntrySequenceNumber().equals(sequenceNumberString) && !GeneralLedgerConstants.getZeroTransactionEntrySequenceNumber().equals(sequenceNumberString)) {
             try {
@@ -870,11 +906,11 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
         else {
             setTransactionLedgerEntrySequenceNumber(null);
         }
-        
+
         setPositionNumber(getValue(line, pMap.get(KFSPropertyConstants.POSITION_NUMBER), pMap.get(KFSPropertyConstants.PROJECT_CODE)));
         setProjectCode(getValue(line, pMap.get(KFSPropertyConstants.PROJECT_CODE), pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC)));
         setTransactionLedgerEntryDescription(getValue(line, pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC), pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT)));
-        
+
         String amountString = line.substring(pMap.get(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT), pMap.get(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE));
         if (!amountString.trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {
@@ -888,9 +924,9 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
             returnList.add(new Message("Transaction Amount cannot be blank." , Message.TYPE_FATAL));
             setTransactionLedgerEntryAmount(KualiDecimal.ZERO);
         }
-        
+
         setTransactionDebitCreditCode(line.substring(pMap.get(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE), pMap.get(KFSPropertyConstants.TRANSACTION_DATE)));
-        
+
         String transactionDateString = line.substring(pMap.get(KFSPropertyConstants.TRANSACTION_DATE), pMap.get(KFSPropertyConstants.ORGANIZATION_DOCUMENT_NUMBER));
         if (!transactionDateString.trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {
@@ -903,13 +939,13 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
         } else {
             setTransactionDate(null);
         }
-        
+
         setOrganizationDocumentNumber(getValue(line, pMap.get(KFSPropertyConstants.ORGANIZATION_DOCUMENT_NUMBER), pMap.get(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID)));
         setOrganizationReferenceId(getValue(line, pMap.get(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID), pMap.get(KFSPropertyConstants.REFERENCE_FIN_DOCUMENT_TYPE_CODE)));
         setReferenceFinancialDocumentTypeCode(getValue(line, pMap.get(KFSPropertyConstants.REFERENCE_FIN_DOCUMENT_TYPE_CODE), pMap.get(KFSPropertyConstants.FIN_SYSTEM_REF_ORIGINATION_CODE)));
         setReferenceFinancialSystemOriginationCode(getValue(line, pMap.get(KFSPropertyConstants.FIN_SYSTEM_REF_ORIGINATION_CODE), pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_REFERENCE_NBR)));
         setReferenceFinancialDocumentNumber(getValue(line, pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_REFERENCE_NBR), pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_REVERSAL_DATE)));
-        
+
         String revDateStr = line.substring(pMap.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_REVERSAL_DATE), pMap.get(KFSPropertyConstants.TRANSACTION_ENCUMBRANCE_UPDT_CD));
         if (!revDateStr.trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {
@@ -922,7 +958,7 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
         } else {
             setFinancialDocumentReversalDate(null);
         }
-        
+
         setTransactionEncumbranceUpdateCode(line.substring(pMap.get(KFSPropertyConstants.TRANSACTION_ENCUMBRANCE_UPDT_CD), pMap.get(KFSPropertyConstants.TRANSACTION_POSTING_DATE)));
 
         String postDateStr = line.substring(pMap.get(KFSPropertyConstants.TRANSACTION_POSTING_DATE), pMap.get(KFSPropertyConstants.PAY_PERIOD_END_DATE));
@@ -937,7 +973,7 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
         } else {
             setTransactionPostingDate(null);
         }
-        
+
         String payPeriodDateStr = line.substring(pMap.get(KFSPropertyConstants.PAY_PERIOD_END_DATE), pMap.get(KFSPropertyConstants.TRANSACTION_TOTAL_HOURS));
         if (!payPeriodDateStr.trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {
@@ -950,8 +986,8 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
         } else {
             setPayPeriodEndDate(null);
         }
-        
-        String transTotHrsStr = line.substring(pMap.get(KFSPropertyConstants.TRANSACTION_TOTAL_HOURS), pMap.get(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR)); 
+
+        String transTotHrsStr = line.substring(pMap.get(KFSPropertyConstants.TRANSACTION_TOTAL_HOURS), pMap.get(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR));
         if (!transTotHrsStr.trim().equals(GeneralLedgerConstants.EMPTY_CODE)){
             try {
                 setTransactionTotalHours(new BigDecimal(transTotHrsStr.trim()));
@@ -992,7 +1028,7 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
         } else {
             setEmployeeRecord(null);
         }
-        
+
         setEarnCode(getValue(line, pMap.get(KFSPropertyConstants.EARN_CODE), pMap.get(KFSPropertyConstants.PAY_GROUP)));
         setPayGroup(getValue(line, pMap.get(KFSPropertyConstants.PAY_GROUP), pMap.get(LaborPropertyConstants.SALARY_ADMINISTRATION_PLAN)));
         setSalaryAdministrationPlan(getValue(line, pMap.get(LaborPropertyConstants.SALARY_ADMINISTRATION_PLAN), pMap.get(LaborPropertyConstants.GRADE)));
@@ -1005,17 +1041,18 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
         setLaborLedgerOriginalFinancialSubObjectCode(getValue(line, pMap.get(LaborPropertyConstants.LABORLEDGER_ORIGINAL_FINANCIAL_SUB_OBJECT_CODE), pMap.get(LaborPropertyConstants.HRMS_COMPANY)));
         setHrmsCompany(getValue(line, pMap.get(LaborPropertyConstants.HRMS_COMPANY), pMap.get(LaborPropertyConstants.SET_ID)));
         setSetid(getValue(line, pMap.get(LaborPropertyConstants.SET_ID), entryLength));
-        
+
         return returnList;
     }
 
 
     /**
      * Get fieldValue from fieldName.
-     * 
+     *
      * @param fieldName
      */
 
+    @Override
     public Object getFieldValue(String fieldName) {
         if ("universityFiscalYear".equals(fieldName)) {
             return getUniversityFiscalYear();
@@ -1171,10 +1208,11 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
 
     /**
      * Sets the fieldValue
-     * 
+     *
      * @param fieldName
      * @param fieldValue
      */
+    @Override
     public void setFieldValue(String fieldName, String fieldValue) {
         if ("universityFiscalYear".equals(fieldName)) {
             if (StringUtils.isNotBlank(fieldValue)) {
@@ -1392,10 +1430,11 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
 
     /**
      * Formats date and returns date
-     * 
+     *
      * @param date
      * @see org.kuali.kfs.gl.businessobject.OriginEntryLite#formatDate(java.sql.Date)
      */
+    @Override
     protected String formatDate(Date date) {
         if (date == null) {
             return LaborConstants.getSpaceTransactionDate();
@@ -1405,7 +1444,7 @@ public class LaborOriginEntry extends OriginEntryFull implements OriginEntryInfo
             return sdf.format(date);
         }
     }
-    
+
     /**
      * @return an initialized version of the LaborOriginEntryFieldUtil
      */

@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -36,9 +36,10 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.HomeOriginationService;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.doctype.DocumentType;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
-import org.kuali.rice.kew.service.impl.KEWModuleService;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 
@@ -72,6 +73,7 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
     /**
      * @see org.kuali.kfs.module.ld.document.LaborLedgerPostingDocument#getLaborLedgerPendingEntry(int)
      */
+    @Override
     public LaborLedgerPendingEntry getLaborLedgerPendingEntry(int index) {
         while (laborLedgerPendingEntries.size() <= index) {
             laborLedgerPendingEntries.add(new LaborLedgerPendingEntry());
@@ -81,7 +83,7 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
 
     /**
      * Gets the offsetTypeCode attribute.
-     * 
+     *
      * @return Returns the offsetTypeCode.
      */
     public String getOffsetTypeCode() {
@@ -90,7 +92,7 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
 
     /**
      * Sets the offsetTypeCode attribute value.
-     * 
+     *
      * @param offsetTypeCode The offsetTypeCode to set.
      */
     public void setOffsetTypeCode(String offsetTypeCode) {
@@ -99,34 +101,43 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
 
     /**
      * Gets the laborLedgerPendingEntries attribute.
-     * 
+     *
      * @return Returns the laborLedgerPendingEntries.
      */
+    @Override
     public List<LaborLedgerPendingEntry> getLaborLedgerPendingEntries() {
         return laborLedgerPendingEntries;
     }
 
     /**
      * Sets the laborLedgerPendingEntries attribute value.
-     * 
+     *
      * @param laborLedgerPendingEntries The laborLedgerPendingEntries to set.
      */
+    @Override
     public void setLaborLedgerPendingEntries(List<LaborLedgerPendingEntry> laborLedgerPendingEntries) {
         this.laborLedgerPendingEntries = laborLedgerPendingEntries;
     }
 
     /**
      * Gets the financialSystemDocumentTypeCode attribute.
-     * 
+     *
      * @return Returns the financialSystemDocumentTypeCode.
      */
     public DocumentTypeEBO getFinancialSystemDocumentTypeCode() {
-        return financialSystemDocumentTypeCode = SpringContext.getBean(KEWModuleService.class).retrieveExternalizableBusinessObjectIfNecessary(this, financialSystemDocumentTypeCode, "financialSystemDocumentTypeCode");
+        if ( financialSystemDocumentTypeCode == null || !StringUtils.equals(financialSystemDocumentTypeCode.getName(), documentHeader.getWorkflowDocument().getDocumentTypeName() ) ) {
+            DocumentType docType = KewApiServiceLocator.getDocumentTypeService().getDocumentTypeByName(documentHeader.getWorkflowDocument().getDocumentTypeName());
+            if ( docType != null ) {
+                financialSystemDocumentTypeCode = org.kuali.rice.kew.doctype.bo.DocumentType.from(docType);
+            }
+            financialSystemDocumentTypeCode = null;
+        }
+        return financialSystemDocumentTypeCode;
     }
 
     /**
      * Used to get the appropriate <code>{@link AccountingLineParser}</code> for the <code>Document</code>
-     * 
+     *
      * @return AccountingLineParser
      */
     @Override
@@ -136,7 +147,7 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
 
     /**
      * Override to call super and then iterate over all GLPEs and update the approved code appropriately.
-     * 
+     *
      * @see Document#doRouteStatusChange()
      */
     @Override
@@ -170,6 +181,7 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
     /**
      * @see org.kuali.kfs.module.ld.document.LaborLedgerPostingDocument#generateLaborLedgerBenefitClearingPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
+    @Override
     public boolean generateLaborLedgerBenefitClearingPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         return true;
     }
@@ -178,6 +190,7 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
      * @see org.kuali.kfs.module.ld.document.LaborLedgerPostingDocument#generateLaborLedgerPendingEntries(org.kuali.kfs.sys.businessobject.AccountingLine,
      *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
+    @Override
     public boolean generateLaborLedgerPendingEntries(AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         LOG.debug("processGenerateLaborLedgerPendingEntries() started");
 
@@ -186,7 +199,7 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
 
             // populate the explicit entry
             ObjectUtil.buildObject(pendingLedgerEntry, accountingLine);
-            
+
             GeneralLedgerPendingEntryService pendingEntryService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
             pendingEntryService.populateExplicitGeneralLedgerPendingEntry(this, accountingLine, sequenceHelper, pendingLedgerEntry);
 
@@ -221,7 +234,7 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
 
     /**
      * If the document has a total amount, call method on document to get the total and set in doc header.
-     * 
+     *
      * @see org.kuali.rice.krad.document.Document#prepareForSave()
      */
     @Override
@@ -245,7 +258,7 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
 
     /**
      * This is a "do nothing" version of the method - it just won't create GLPEs
-     * 
+     *
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#generateGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail,
      *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
@@ -257,14 +270,15 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
     /**
      * Labor docs never generate general ledger pending entries, and therefore, this method is never called, but we always return
      * true, since we're required to have a concrete representation
-     * 
+     *
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#isDebit(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
      */
     @Override
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         return true;
     }
-    
+
+    @Override
     public List getLaborLedgerPendingEntriesForSearching() {
         return getLaborLedgerPendingEntries();
     }

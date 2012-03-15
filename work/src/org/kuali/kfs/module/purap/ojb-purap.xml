@@ -3386,7 +3386,7 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceNumber" column="INV_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="purchaseOrderIdentifier" column="PO_ID" jdbc-type="INTEGER"/>
-    <field-descriptor name="statusCode" column="PMT_RQST_STAT_CD" jdbc-type="VARCHAR"/>
+<!--     <field-descriptor name="statusCode" column="PMT_RQST_STAT_CD" jdbc-type="VARCHAR"/> -->
     <field-descriptor name="paymentHoldIndicator" column="PMT_HLD_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>  
     <field-descriptor name="paymentRequestedCancelIndicator" column="PMT_RQST_CNCL_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
     <field-descriptor name="vendorName" column="VNDR_NM" jdbc-type="VARCHAR"/>      

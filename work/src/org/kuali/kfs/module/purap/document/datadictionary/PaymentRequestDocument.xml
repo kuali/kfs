@@ -908,6 +908,7 @@
     <property name="label" value="Country"/>
     <property name="shortLabel" value="Country"/>
     <property name="maxLength" value="2"/>
+    <property name="required" value="false"/>
     <property name="validationPattern">
       <ref bean="AnyCharacterValidation" />
     </property>

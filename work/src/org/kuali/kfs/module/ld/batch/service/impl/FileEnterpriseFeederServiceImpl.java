@@ -454,5 +454,9 @@ public class FileEnterpriseFeederServiceImpl extends InitiateDirectoryBase imple
 	public void setConfigurationService(ConfigurationService configurationService) {
 		this.configurationService = configurationService;
 	}
+
+    public void setErrorStatisticsReport(ReportWriterService errorStatisticsReport) {
+        this.errorStatisticsReport = errorStatisticsReport;
+    }
     
 }

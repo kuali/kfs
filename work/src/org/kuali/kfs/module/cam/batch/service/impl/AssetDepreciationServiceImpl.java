@@ -852,7 +852,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
      */
     protected String getLastDayOfFiscalyear() {
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        String date = parameterService.getParameterValueAsString(KfsParameterConstants.CAPITAL_ASSETS_ALL.class, CamsConstants.Parameters.FISCAL_YEAR_END_DAY_AND_MONTH);
+        String date = parameterService.getParameterValueAsString(KfsParameterConstants.CAPITAL_ASSETS_ALL.class, CamsConstants.Parameters.FISCAL_YEAR_END_MONTH_AND_DAY);
         return "-" + date.substring(0,2) + "-" + date.substring(2);
     }
 

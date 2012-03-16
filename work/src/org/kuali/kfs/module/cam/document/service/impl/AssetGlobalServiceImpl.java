@@ -578,7 +578,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
      */
     public String getFiscalYearEndDayAndMonth() {
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        String yearEndDateAndMonth = parameterService.getParameterValueAsString(KfsParameterConstants.CAPITAL_ASSETS_ALL.class, CamsConstants.Parameters.FISCAL_YEAR_END_DAY_AND_MONTH);
+        String yearEndDateAndMonth = parameterService.getParameterValueAsString(KfsParameterConstants.CAPITAL_ASSETS_ALL.class, CamsConstants.Parameters.FISCAL_YEAR_END_MONTH_AND_DAY);
         return yearEndDateAndMonth.substring(0, 2).concat("/").concat(yearEndDateAndMonth.substring(2, 4));
     }
 

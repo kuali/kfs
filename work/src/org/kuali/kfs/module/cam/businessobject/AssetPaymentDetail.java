@@ -219,11 +219,13 @@ public class AssetPaymentDetail extends SourceAccountingLine {
 
     public DocumentTypeEBO getExpenditureFinancialSystemDocumentTypeCode() {
         if ( expenditureFinancialSystemDocumentTypeCode == null || !StringUtils.equals(expenditureFinancialSystemDocumentTypeCode.getName(), expenditureFinancialDocumentTypeCode) ) {
-            DocumentType docType = KewApiServiceLocator.getDocumentTypeService().getDocumentTypeByName(expenditureFinancialDocumentTypeCode);
-            if ( docType != null ) {
-                expenditureFinancialSystemDocumentTypeCode = org.kuali.rice.kew.doctype.bo.DocumentType.from(docType);
-            }
             expenditureFinancialSystemDocumentTypeCode = null;
+            if ( StringUtils.isNotBlank(expenditureFinancialDocumentTypeCode) ) {
+                DocumentType docType = KewApiServiceLocator.getDocumentTypeService().getDocumentTypeByName(expenditureFinancialDocumentTypeCode);
+                if ( docType != null ) {
+                    expenditureFinancialSystemDocumentTypeCode = org.kuali.rice.kew.doctype.bo.DocumentType.from(docType);
+                }
+            }
         }
         return expenditureFinancialSystemDocumentTypeCode;
     }

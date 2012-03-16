@@ -103,11 +103,13 @@ public class AssetPaymentDocumentType extends PersistableBusinessObjectBase impl
      */
     public DocumentTypeEBO getFinancialSystemDocumentTypeCode() {
         if ( financialSystemDocumentTypeCode == null || !StringUtils.equals(financialSystemDocumentTypeCode.getName(), expenditureFinancialDocumentTypeCode) ) {
-            DocumentType docType = KewApiServiceLocator.getDocumentTypeService().getDocumentTypeByName(expenditureFinancialDocumentTypeCode);
-            if ( docType != null ) {
-                financialSystemDocumentTypeCode = org.kuali.rice.kew.doctype.bo.DocumentType.from(docType);
-            }
             financialSystemDocumentTypeCode = null;
+            if ( StringUtils.isNotBlank(expenditureFinancialDocumentTypeCode) ) {
+                DocumentType docType = KewApiServiceLocator.getDocumentTypeService().getDocumentTypeByName(expenditureFinancialDocumentTypeCode);
+                if ( docType != null ) {
+                    financialSystemDocumentTypeCode = org.kuali.rice.kew.doctype.bo.DocumentType.from(docType);
+                }
+            }
         }
         return financialSystemDocumentTypeCode;
     }

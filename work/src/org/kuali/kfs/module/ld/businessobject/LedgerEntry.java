@@ -1185,11 +1185,13 @@ public class LedgerEntry extends Entry implements LaborLedgerEntry {
     @Override
     public DocumentTypeEBO getFinancialSystemDocumentTypeCode() {
         if ( financialSystemDocumentTypeCode == null || !StringUtils.equals(financialSystemDocumentTypeCode.getName(), financialDocumentTypeCode) ) {
-            DocumentType docType = KewApiServiceLocator.getDocumentTypeService().getDocumentTypeByName(financialDocumentTypeCode);
-            if ( docType != null ) {
-                financialSystemDocumentTypeCode = org.kuali.rice.kew.doctype.bo.DocumentType.from(docType);
-            }
             financialSystemDocumentTypeCode = null;
+            if ( StringUtils.isNotBlank(financialDocumentTypeCode) ) {
+                DocumentType docType = KewApiServiceLocator.getDocumentTypeService().getDocumentTypeByName(financialDocumentTypeCode);
+                if ( docType != null ) {
+                    financialSystemDocumentTypeCode = org.kuali.rice.kew.doctype.bo.DocumentType.from(docType);
+                }
+            }
         }
         return financialSystemDocumentTypeCode;
     }
@@ -1201,11 +1203,13 @@ public class LedgerEntry extends Entry implements LaborLedgerEntry {
     @Override
     public DocumentTypeEBO getReferenceFinancialSystemDocumentTypeCode() {
         if ( referenceFinancialSystemDocumentTypeCode == null || !StringUtils.equals(referenceFinancialSystemDocumentTypeCode.getName(), referenceFinancialDocumentTypeCode) ) {
-            DocumentType docType = KewApiServiceLocator.getDocumentTypeService().getDocumentTypeByName(referenceFinancialDocumentTypeCode);
-            if ( docType != null ) {
-                referenceFinancialSystemDocumentTypeCode = org.kuali.rice.kew.doctype.bo.DocumentType.from(docType);
-            }
             referenceFinancialSystemDocumentTypeCode = null;
+            if ( StringUtils.isNotBlank(referenceFinancialDocumentTypeCode) ) {
+                DocumentType docType = KewApiServiceLocator.getDocumentTypeService().getDocumentTypeByName(referenceFinancialDocumentTypeCode);
+                if ( docType != null ) {
+                    referenceFinancialSystemDocumentTypeCode = org.kuali.rice.kew.doctype.bo.DocumentType.from(docType);
+                }
+            }
         }
         return referenceFinancialSystemDocumentTypeCode;
     }

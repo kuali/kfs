@@ -1067,7 +1067,12 @@ public class OriginEntryFull extends PersistableBusinessObjectBase implements Tr
             financialSystemDocumentTypeCode = null;
         } else {
             if ( financialSystemDocumentTypeCode == null || !StringUtils.equals(financialDocumentTypeCode, financialSystemDocumentTypeCode.getName() ) ) {
-                financialSystemDocumentTypeCode = DocumentType.from( SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(financialDocumentTypeCode) );
+                org.kuali.rice.kew.api.doctype.DocumentType docType = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(financialDocumentTypeCode);
+                if ( docType != null ) {
+                    financialSystemDocumentTypeCode = DocumentType.from( docType );
+                } else {
+                    financialSystemDocumentTypeCode = null;
+                }
             }
         }
         return financialSystemDocumentTypeCode;

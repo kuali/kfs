@@ -694,11 +694,13 @@ public class GeneralLedgerEntry extends PersistableBusinessObjectBase {
      */
     public DocumentTypeEBO getFinancialSystemDocumentTypeCode() {
         if ( financialSystemDocumentTypeCode == null || !StringUtils.equals(financialSystemDocumentTypeCode.getName(), financialDocumentTypeCode) ) {
-            DocumentType docType = KewApiServiceLocator.getDocumentTypeService().getDocumentTypeByName(financialDocumentTypeCode);
-            if ( docType != null ) {
-                financialSystemDocumentTypeCode = org.kuali.rice.kew.doctype.bo.DocumentType.from(docType);
-            }
             financialSystemDocumentTypeCode = null;
+            if ( StringUtils.isNotBlank(financialDocumentTypeCode) ) {
+                DocumentType docType = KewApiServiceLocator.getDocumentTypeService().getDocumentTypeByName(financialDocumentTypeCode);
+                if ( docType != null ) {
+                    financialSystemDocumentTypeCode = org.kuali.rice.kew.doctype.bo.DocumentType.from(docType);
+                }
+            }
         }
         return financialSystemDocumentTypeCode;
     }

@@ -126,11 +126,13 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
      */
     public DocumentTypeEBO getFinancialSystemDocumentTypeCode() {
         if ( financialSystemDocumentTypeCode == null || !StringUtils.equals(financialSystemDocumentTypeCode.getName(), documentHeader.getWorkflowDocument().getDocumentTypeName() ) ) {
-            DocumentType docType = KewApiServiceLocator.getDocumentTypeService().getDocumentTypeByName(documentHeader.getWorkflowDocument().getDocumentTypeName());
-            if ( docType != null ) {
-                financialSystemDocumentTypeCode = org.kuali.rice.kew.doctype.bo.DocumentType.from(docType);
-            }
             financialSystemDocumentTypeCode = null;
+            if ( StringUtils.isNotBlank(documentHeader.getWorkflowDocument().getDocumentTypeName()) ) {
+                DocumentType docType = KewApiServiceLocator.getDocumentTypeService().getDocumentTypeByName(documentHeader.getWorkflowDocument().getDocumentTypeName());
+                if ( docType != null ) {
+                    financialSystemDocumentTypeCode = org.kuali.rice.kew.doctype.bo.DocumentType.from(docType);
+                }
+            }
         }
         return financialSystemDocumentTypeCode;
     }

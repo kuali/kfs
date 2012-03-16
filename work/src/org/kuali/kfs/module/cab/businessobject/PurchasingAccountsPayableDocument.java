@@ -198,11 +198,13 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
      */
     public DocumentTypeEBO getFinancialSystemDocumentTypeCode() {
         if ( financialSystemDocumentTypeCode == null || !StringUtils.equals(financialSystemDocumentTypeCode.getName(), documentTypeCode) ) {
-            DocumentType docType = KewApiServiceLocator.getDocumentTypeService().getDocumentTypeByName(documentTypeCode);
-            if ( docType != null ) {
-                financialSystemDocumentTypeCode = org.kuali.rice.kew.doctype.bo.DocumentType.from(docType);
-            }
             financialSystemDocumentTypeCode = null;
+            if ( StringUtils.isNotBlank(documentTypeCode) ) {
+                DocumentType docType = KewApiServiceLocator.getDocumentTypeService().getDocumentTypeByName(documentTypeCode);
+                if ( docType != null ) {
+                    financialSystemDocumentTypeCode = org.kuali.rice.kew.doctype.bo.DocumentType.from(docType);
+                }
+            }
         }
         return financialSystemDocumentTypeCode;
     }
@@ -304,13 +306,13 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
 
             if (CabConstants.PREQ.equals(this.documentTypeCode)) {
 
-                PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(PaymentRequestDocument.class, objectKeys);
+                PaymentRequestDocument paymentRequestDocument = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(PaymentRequestDocument.class, objectKeys);
                 if (ObjectUtils.isNotNull(paymentRequestDocument)) {
                     statusDescription = paymentRequestDocument.getAppDocStatus();
                 }
             }
             else {
-                VendorCreditMemoDocument vendorCreditMemoDocument = (VendorCreditMemoDocument) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(VendorCreditMemoDocument.class, objectKeys);
+                VendorCreditMemoDocument vendorCreditMemoDocument = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(VendorCreditMemoDocument.class, objectKeys);
                 if (ObjectUtils.isNotNull(vendorCreditMemoDocument)) {
                     statusDescription = vendorCreditMemoDocument.getAppDocStatus();
                 }

@@ -17,6 +17,7 @@ package org.kuali.kfs.module.cam.util;
 
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
@@ -60,7 +61,7 @@ public final class MaintainableWorkflowUtils {
     private static WorkflowDocument getWorkflowDocument(String documentNumber) {
 
         WorkflowDocument workflowDocument = null;
-        WorkflowDocumentService workflowDocumentService = SpringContext.getBean(WorkflowDocumentService.class);
+        WorkflowDocumentService workflowDocumentService = KewApiServiceLocator.getWorkflowDocumentService();
         try {
             Person person = null;
             if(ObjectUtils.isNull(GlobalVariables.getUserSession())) {

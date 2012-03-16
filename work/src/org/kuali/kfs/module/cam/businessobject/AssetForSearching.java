@@ -19,6 +19,13 @@ package org.kuali.kfs.module.cam.businessobject;
  * This is a dummy class used to create a DataDictionary entry for the CAMS parent type (CAMM) for searching.
  */
 
-public class AssetForSearching extends Asset {
+public class AssetForSearching extends AssetBase {
 
+    public AssetForSearching(){
+        super();
+    }
+    
+    public AssetForSearching(AssetGlobal assetGlobal, AssetGlobalDetail assetGlobalDetail, boolean separate) {        
+        super(assetGlobal, assetGlobalDetail, separate);
+    }
 }

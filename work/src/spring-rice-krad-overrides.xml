@@ -26,8 +26,6 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd" default-lazy-init="false">
 
-	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="false" />
-
 <!-- KNS -->
     <bean id="kualiInquirable" class="org.kuali.kfs.sys.businessobject.inquiry.KfsInquirableImpl" scope="prototype" />
 

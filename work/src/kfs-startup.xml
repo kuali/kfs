@@ -20,9 +20,9 @@
 		Add any additional Spring Beans you have to this file.  Also feel free to
 		modify and re-arrange these Spring files as you see fit!
 	-->
-
+<!-- 
   <import resource="classpath:net/bull/javamelody/monitoring-spring.xml" />
-
+ -->
   <bean id="properties" class="org.kuali.kfs.sys.context.PropertyLoadingFactoryBean" />
 
   <bean id="securityProperties" class="org.kuali.kfs.sys.context.PropertyLoadingFactoryBean"

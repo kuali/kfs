@@ -11,23 +11,6 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-<!-- 
-	<bean id="abstractDataSourceBase" abstract="true"  class="org.apache.commons.dbcp.BasicDataSource" >
-        <property name="driverClassName" value="${kfs.datasource.driver.name}"/>
-        <property name="validationQuery" value="${kfs.datasource.validating.query}"/>
-        <property name="url" value="${kfs.datasource.url}"/>    
-        <property name="username" value="${kfs.datasource.username}" />
-        <property name="password" value="${kfs.datasource.password}" />
-	</bean>
-
-    <bean id="nonTransactionalDataSource" parent="abstractDataSourceBase" destroy-method="close">
-        <property name="accessToUnderlyingConnectionAllowed" value="${kfs.datasource.pool.accessToUnderlyingConnectionAllowed}"/>
-        <property name="maxActive" value="${kfs.datasource.pool.maxActive}"/>
-		<property name="minIdle" value="${kfs.datasource.pool.minIdle}" />
-		<property name="initialSize" value="${kfs.datasource.pool.initialSize}" />
-    </bean>
--->
-
     <bean id="nonTransactionalDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="${kfs.datasource.driver.name}"/>
         <property name="validationQuery" value="${kfs.datasource.validating.query}"/>
@@ -39,7 +22,6 @@
 		<property name="minIdle" value="${kfs.datasource.pool.minIdle}" />
 		<property name="initialSize" value="${kfs.datasource.pool.initialSize}" />
     </bean>
-
 
     <bean id="riceNonTransactionalDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="${rice.datasource.driver.name}"/>
@@ -53,53 +35,26 @@
 		<property name="initialSize" value="${rice.datasource.pool.initialSize}" />
     </bean>
 
-<!-- 
-    <bean id="abstractTransactionalDataSource" parent="abstractDataSourceBase" abstract="true">
-		<property name="transactionManager" ref="transactionManager${connection.pool.impl}" />
-		<property name="maxSize" value="${kfs.datasource.pool.maxSize}" />
-		<property name="minSize" value="${kfs.datasource.pool.minSize}" />
-		<property name="maxWait" value="${kfs.datasource.pool.maxWait}" />
-    </bean>
- -->
- 
-	<!-- 
-	<bean id="kfsDataSource" parent="abstractTransactionalDataSource">
-		<property name="preparedStmtCacheSize" value="${kfs.datasource.maximum.cached.preparedstatements}" />
-		<property name="checkLevelObject" value="${kfs.datasource.xapool.connection.test.mode}" />
-	</bean>
-	 -->
-<!-- 
-    <bean id="riceDataSource" parent="kfsDataSource">
-	    <property name="driverClassName" value="${rice.datasource.driver.name}" />
-	    <property name="validationQuery" value="${rice.datasource.validating.query}" />
-	    <property name="url"             value="${rice.datasource.url}" />
-	    <property name="username"        value="${rice.datasource.username}" />
-	    <property name="password"        value="${rice.datasource.password}" />
-    </bean>
-     -->
-
-	<!-- <bean id="kfsDataSourceXAPool" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource"> -->
-	<bean id="kfsDataSource" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource">
+	<bean id="kfsDataSourceXAPool" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource">
 		<property name="transactionManager" ref="transactionManagerXAPool" />
 		<property name="driverClassName" value="${datasource.driver.name}" />
 		<property name="url" value="${datasource.url}" />
 		<property name="maxSize" value="${datasource.pool.maxSize}" />
 		<property name="minSize" value="${datasource.pool.minSize}" />
 		<property name="maxWait" value="${datasource.pool.maxWait}" />
-		<property name="validationQuery" value="${datasource.pool.validationQuery}" />
+        <property name="validationQuery" value="${kfs.datasource.validating.query}"/>
 		<property name="username" value="${datasource.username}" />
 		<property name="password" value="${datasource.password}" />
 	</bean>
 
-	<!-- <bean id="riceDataSourceXAPool" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource"> -->
-	<bean id="riceDataSource" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource">
+	<bean id="riceDataSourceXAPool" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource">
 		<property name="transactionManager" ref="transactionManagerXAPool" />
 		<property name="driverClassName" value="${datasource.driver.name}" />
 		<property name="url" value="${rice.datasource.url}" />
 		<property name="maxSize" value="${rice.datasource.pool.maxSize}" />
 		<property name="minSize" value="${rice.datasource.pool.minSize}" />
 		<property name="maxWait" value="${rice.datasource.pool.maxWait}" />
-		<property name="validationQuery" value="${rice.datasource.pool.validationQuery}" />
+        <property name="validationQuery" value="${rice.datasource.validating.query}"/>
 		<property name="username" value="${rice.datasource.username}" />
 		<property name="password" value="${rice.datasource.password}" />
 	</bean>
@@ -110,7 +65,7 @@
     <property name="arguments"><list><value>20</value></list></property>
   </bean>
  -->
- <!-- 
+
   <bean id="riceDataSourceBitronix" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init"
         destroy-method="close" lazy-init="true">
     <property name="className" value="${datasource.pool.class.non.xa}" />
@@ -185,12 +140,8 @@
       </props>
     </property>
   </bean>
-  -->
-<!-- 
+
   <alias name="riceDataSource${connection.pool.impl}" alias="riceDataSource"/>
   <alias name="kfsDataSource${connection.pool.impl}" alias="dataSource"/>
-  <alias name="riceDataSource${connection.pool.impl}" alias="serverDatasource"/>
-  <alias name="kfsDataSource${connection.pool.impl}" alias="datasource"/>
-  <alias name="riceNonTransactionalDataSource" alias="nonTransactionalDatasource" />
- -->                          
+
 </beans>

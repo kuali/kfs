@@ -2,9 +2,9 @@
 
   <bean id="CapitalAssetManagementComplexMaintenanceDocument" parent="CapitalAssetManagementComplexMaintenanceDocument-parentBean"/>
 
-  <bean id="CapitalAssetManagementComplexMaintenanceDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
+  <bean id="CapitalAssetManagementComplexMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
     <property name="documentTypeName" value="CAMM"/>
-    <property name="documentClass" value="org.kuali.kfs.module.cam.businessobject.AssetForSearching"/>
+    <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetForSearching"/>
   
     <property name="workflowAttributes">
     	<ref bean="CapitalAssetManagementComplexMaintenanceDocument-workflowAttributes"/>
@@ -17,8 +17,7 @@
 	<bean id="CapitalAssetManagementComplexMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
     
     <property name="searchingTypeDefinitions">
-    		<list>
-    			<ref bean="SearchingType-CapitalAssetManagementComplexMaintenanceDocument-capitalAssetNumber"/>
+    		<list>    			
 				<ref bean="SearchingType-CapitalAssetManagementComplexMaintenanceDocument-campusTagNumber"/>
 				<ref bean="SearchingType-CapitalAssetManagementComplexMaintenanceDocument-organizationOwnerChartOfAccountsCode"/>
 				<ref bean="SearchingType-CapitalAssetManagementComplexMaintenanceDocument-organizationCode"/>

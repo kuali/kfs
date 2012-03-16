@@ -40,6 +40,7 @@
         <property name="externalizableBusinessObjectImplementations">
             <map>
                 <entry key="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset" value="org.kuali.kfs.module.cam.businessobject.Asset" />
+                <entry key="org.kuali.kfs.integration.cam.CapitalAssetManagementAsset" value="org.kuali.kfs.module.cam.businessobject.AssetForSearching" />
                 <entry key="org.kuali.kfs.integration.cam.CapitalAssetManagementAssetType" value="org.kuali.kfs.module.cam.businessobject.AssetType" />
             </map>
         </property>

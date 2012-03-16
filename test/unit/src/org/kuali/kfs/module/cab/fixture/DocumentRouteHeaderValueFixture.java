@@ -46,6 +46,7 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setApprovedDate(timeStamp);
             obj.setFinalizedDate(timeStamp);
             obj.setRouteStatusDate(timeStamp);
+            obj.setDateModified(timeStamp);
 
             obj.setDocTitle("Requisition - CAB Test Data 1");
             obj.setAppDocId(null);

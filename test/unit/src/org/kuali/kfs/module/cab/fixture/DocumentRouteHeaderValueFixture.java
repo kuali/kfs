@@ -72,6 +72,7 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setApprovedDate(timeStamp);
             obj.setFinalizedDate(timeStamp);
             obj.setRouteStatusDate(timeStamp);
+            obj.setDateModified(timeStamp);
 
             obj.setDocTitle("Requisition - CAB Test Data 1");
             obj.setAppDocId(null);
@@ -97,6 +98,7 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setApprovedDate(timeStamp);
             obj.setFinalizedDate(timeStamp);
             obj.setRouteStatusDate(timeStamp);
+            obj.setDateModified(timeStamp);
 
             obj.setDocTitle("Contract Manager Assignment - Contract Manager Assigned");
             obj.setAppDocId(null);
@@ -122,6 +124,7 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setApprovedDate(timeStamp);
             obj.setFinalizedDate(timeStamp);
             obj.setRouteStatusDate(timeStamp);
+            obj.setDateModified(timeStamp);
 
             obj.setDocTitle("Purchase Order - CAB Test Data 1");
             obj.setAppDocId(null);
@@ -147,6 +150,7 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setApprovedDate(timeStamp);
             obj.setFinalizedDate(timeStamp);
             obj.setRouteStatusDate(timeStamp);
+            obj.setDateModified(timeStamp);
 
             obj.setDocTitle("Purchase Order - CAB Test Data 1");
             obj.setAppDocId(null);
@@ -172,6 +176,7 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setApprovedDate(timeStamp);
             obj.setFinalizedDate(timeStamp);
             obj.setRouteStatusDate(timeStamp);
+            obj.setDateModified(timeStamp);
 
             obj.setDocTitle("Purchase Order - CAB Test Data 1");
             obj.setAppDocId(null);
@@ -197,6 +202,7 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setApprovedDate(timeStamp);
             obj.setFinalizedDate(timeStamp);
             obj.setRouteStatusDate(timeStamp);
+            obj.setDateModified(timeStamp);
 
             obj.setDocTitle("Payment Request - PO: 1007 Vendor: BESCO WATER TREATMENT I");
             obj.setAppDocId(null);
@@ -222,6 +228,7 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setApprovedDate(timeStamp);
             obj.setFinalizedDate(timeStamp);
             obj.setRouteStatusDate(timeStamp);
+            obj.setDateModified(timeStamp);
 
             obj.setDocTitle("Payment Request - PO: 1007 Vendor: BESCO WATER TREATMENT I");
             obj.setAppDocId(null);
@@ -248,6 +255,7 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setApprovedDate(timeStamp);
             obj.setFinalizedDate(timeStamp);
             obj.setRouteStatusDate(timeStamp);
+            obj.setDateModified(timeStamp);
 
             obj.setDocTitle("Payment Request - PO: 1007 Vendor: BESCO WATER TREATMENT I");
             obj.setAppDocId(null);
@@ -274,6 +282,7 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setApprovedDate(timeStamp);
             obj.setFinalizedDate(timeStamp);
             obj.setRouteStatusDate(timeStamp);
+            obj.setDateModified(timeStamp);
 
             obj.setDocTitle("Payment Request - PO: 1007 Vendor: BESCO WATER TREATMENT I");
             obj.setAppDocId(null);
@@ -300,6 +309,7 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setApprovedDate(timeStamp);
             obj.setFinalizedDate(timeStamp);
             obj.setRouteStatusDate(timeStamp);
+            obj.setDateModified(timeStamp);
 
             obj.setDocTitle("Payment Request - PO: 1007 Vendor: BESCO WATER TREATMENT I");
             obj.setAppDocId(null);
@@ -326,6 +336,7 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setApprovedDate(timeStamp);
             obj.setFinalizedDate(timeStamp);
             obj.setRouteStatusDate(timeStamp);
+            obj.setDateModified(timeStamp);
 
             obj.setDocTitle("Payment Request - PO: 1007 Vendor: BESCO WATER TREATMENT I");
             obj.setAppDocId(null);
@@ -352,6 +363,7 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setApprovedDate(timeStamp);
             obj.setFinalizedDate(timeStamp);
             obj.setRouteStatusDate(timeStamp);
+            obj.setDateModified(timeStamp);
 
             obj.setDocTitle("Credit Memo - PO: 1007 Vendor: BESCO WATER TREATMENT I");
             obj.setAppDocId(null);
@@ -378,6 +390,7 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setApprovedDate(timeStamp);
             obj.setFinalizedDate(timeStamp);
             obj.setRouteStatusDate(timeStamp);
+            obj.setDateModified(timeStamp);
 
             obj.setDocTitle("Customer Invoice - Customer Invoice");
             obj.setAppDocId(null);
@@ -405,6 +418,7 @@ public enum DocumentRouteHeaderValueFixture {
             obj.setApprovedDate(timeStamp);
             obj.setFinalizedDate(timeStamp);
             obj.setRouteStatusDate(timeStamp);
+            obj.setDateModified(timeStamp);
 
             obj.setDocTitle("Customer Invoice - Customer Invoice");
             obj.setAppDocId(null);

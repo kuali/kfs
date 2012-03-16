@@ -18,28 +18,35 @@
 <ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
          updateCheck="true" monitoring="autodetect"
-         dynamicConfig="true">
+         dynamicConfig="true" name="kfsCacheManager">
+
+	<defaultCache 
+			maxElementsInMemory="10000" 
+			eternal="false" maxEntriesLocalHeap="10000"
+			timeToIdleSeconds="120" 
+			timeToLiveSeconds="120"
+			overflowToDisk="false" 
+			memoryStoreEvictionPolicy="LRU" 
+			statistics="false" />
 
 	<!-- Cache with copyOnRead (replacement for @Cached) -->
-	<!-- 
-	<cache name="KFS/Account" eternal="false" overflowToDisk="false" 
+	<cache name="KFS/Account" eternal="false" overflowToDisk="false" maxEntriesLocalHeap="10000"
   		copyOnRead="true" />
-	<cache name="KFS/AccountPeriod" eternal="false" overflowToDisk="false" 
+	<cache name="KFS/AccountPeriod" eternal="false" overflowToDisk="false" maxEntriesLocalHeap="10000"
   		copyOnRead="true" />
-  	<cache name="KFS/Organization" eternal="false" overflowToDisk="false" 
+  	<cache name="KFS/Organization" eternal="false" overflowToDisk="false" maxEntriesLocalHeap="10000"
 		copyOnRead="true" />
-  	<cache name="KFS/SubAccount" eternal="false" overflowToDisk="false" 
+  	<cache name="KFS/SubAccount" eternal="false" overflowToDisk="false" maxEntriesLocalHeap="10000"
   		copyOnRead="true" />
-  		 -->
+
   	<!-- Cache (replacement for @CacheNoCopy)-->
-  	 <!-- 
-  	<cache name="KFS/UniversityDate" eternal="false" overflowToDisk="false" /> 
-  	<cache name="KFS/SystemOptions" eternal="false" overflowToDisk="false" />
-  	<cache name="KFS/ObjectCode" eternal="false" overflowToDisk="false" /> -->
+  	<cache name="KFS/UniversityDate" eternal="false" overflowToDisk="false" maxEntriesLocalHeap="10000" /> 
+  	<cache name="KFS/SystemOptions" eternal="false" overflowToDisk="false" maxEntriesLocalHeap="10000" />
+  	<cache name="KFS/ObjectCode" eternal="false" overflowToDisk="false" maxEntriesLocalHeap="10000" />
   	<!-- <cache name="KFS/Organization" eternal="false" overflowToDisk="false" /> -->
-  	<!-- <cache name="KFS/ProjectCode" eternal="false" overflowToDisk="false" />
-  	<cache name="KFS/HomeOrigination" eternal="false" overflowToDisk="false" />
-  	<cache name="KFS/AssetObjectCode" eternal="false" overflowToDisk="false" /> -->  
+  	<cache name="KFS/ProjectCode" eternal="false" overflowToDisk="false" maxEntriesLocalHeap="10000" />
+  	<cache name="KFS/HomeOrigination" eternal="false" overflowToDisk="false" maxEntriesLocalHeap="10000" />
+  	<cache name="KFS/AssetObjectCode" eternal="false" overflowToDisk="false" maxEntriesLocalHeap="10000" />  
 
 <!-- EhCache configuration option from ehcache.xsd --> 
 <!-- <xs:element name="cache">

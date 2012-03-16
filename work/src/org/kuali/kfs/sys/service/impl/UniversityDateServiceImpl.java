@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,7 +31,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.cache.annotation.Cacheable;
 
 /**
- * 
+ *
  * This is the default implementation of the UniversityDateService interface.
  */
 
@@ -42,29 +42,31 @@ public class UniversityDateServiceImpl implements UniversityDateService {
 
     protected UniversityDateDao universityDateDao;
     protected DateTimeService dateTimeService;
-    
+
     /**
      * This method retrieves a UniversityDate object using today's date to create the instance.
-     * 
+     *
      * @return A UniversityDate instance representing today's date.
-     * 
+     *
      * @see org.kuali.kfs.sys.service.UniversityDateService#getCurrentUniversityDate()
      */
+    @Override
     public UniversityDate getCurrentUniversityDate() {
         java.util.Date now = dateTimeService.getCurrentDate();
         UniversityDate universityDate = new UniversityDate();
         universityDate.setUniversityDate(new java.sql.Date( KfsDateUtils.clearTimeFields(now).getTime() ));
-        
-        return (UniversityDate)SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(UniversityDate.class, universityDate);
+
+        return SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(UniversityDate.class, universityDate);
     }
 
     /**
      * This method retrieves the current fiscal year using today's date.
-     * 
+     *
      * @return The current fiscal year as an Integer.
-     * 
+     *
      * @see org.kuali.rice.core.api.datetime.DateTimeService#getCurrentFiscalYear()
      */
+    @Override
     public Integer getCurrentFiscalYear() {
         //Timer t0 = new Timer("getCurrentFiscalYear");
         java.util.Date now = dateTimeService.getCurrentDate();
@@ -73,35 +75,37 @@ public class UniversityDateServiceImpl implements UniversityDateService {
         //t0.log();
         return result;
     }
-    
+
     /**
      * This method retrieves the fiscal year associated with the date provided.
-     * 
+     *
      * @param date The date to be used for retrieving the associated fiscal year.
      * @return The fiscal year that the date provided falls within.
-     * 
+     *
      * @see org.kuali.rice.core.api.datetime.DateTimeService#getFiscalYear(java.util.Date)
      */
-    @Cacheable(value=UniversityDate.CACHE_NAME, key="'{getFiscalYear} date=' + #p0")
+    @Override
+    @Cacheable(value=UniversityDate.CACHE_NAME, key="date")
     public Integer getFiscalYear(java.util.Date date) {
         if (date == null) {
             throw new IllegalArgumentException("invalid (null) date");
         }
         Map<String, Object> pkMap = new HashMap<String, Object>();
         pkMap.put(KFSPropertyConstants.UNIVERSITY_DATE, new java.sql.Date( date.getTime() ));
-        UniversityDate uDate = (UniversityDate)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(UniversityDate.class, pkMap);
+        UniversityDate uDate = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(UniversityDate.class, pkMap);
         return (uDate == null) ? null : uDate.getUniversityFiscalYear();
     }
 
     /**
      * This method retrieves the first date of the fiscal year provided.
-     * 
+     *
      * @param fiscalYear The fiscal year to retrieve the first date for.
      * @return A Date object representing the first date of the fiscal year given.
-     * 
+     *
      * @see org.kuali.kfs.sys.service.UniversityDateService#getFirstDateOfFiscalYear(java.lang.Integer)
      */
-    @Cacheable(value=UniversityDate.CACHE_NAME, key="'{getFirstDateOfFiscalYear} fiscalYear=' + #p0")
+//    @Cacheable(value=UniversityDate.CACHE_NAME, key="'{getFirstDateOfFiscalYear} fiscalYear=' + #p0")
+    @Override
     public java.util.Date getFirstDateOfFiscalYear(Integer fiscalYear) {
         UniversityDate uDate = universityDateDao.getFirstFiscalYearDate(fiscalYear);
         return (uDate == null) ? null : uDate.getUniversityDate();
@@ -109,18 +113,19 @@ public class UniversityDateServiceImpl implements UniversityDateService {
 
     /**
      * This method retrieves the last date of the fiscal year provided.
-     * 
+     *
      * @param fiscalYear The fiscal year to retrieve the last date for.
      * @return A Date object representing the last date of the fiscal year given.
-     * 
+     *
      * @see org.kuali.kfs.sys.service.UniversityDateService#getLastDateOfFiscalYear(java.lang.Integer)
      */
-    @Cacheable(value=UniversityDate.CACHE_NAME, key="'{getLastDateOfFiscalYear} fiscalYear=' + #p0")
+//    @Cacheable(value=UniversityDate.CACHE_NAME, key="'{getLastDateOfFiscalYear} fiscalYear=' + #p0")
+    @Override
     public java.util.Date getLastDateOfFiscalYear(Integer fiscalYear) {
         UniversityDate uDate = universityDateDao.getLastFiscalYearDate(fiscalYear);
         return (uDate == null) ? null : uDate.getUniversityDate();
     }
-    
+
     /**
      * Sets the universityDateDao attribute value.
      * @param universityDateDao The universityDateDao to set.
@@ -136,5 +141,5 @@ public class UniversityDateServiceImpl implements UniversityDateService {
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
-    
+
 }

@@ -335,4 +335,21 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
         return new Row(Collections.singletonList(searchField));
     }
 
+
+    // RICE20: fixes to allow document search to function until Rice 2.0.1
+    @Override
+    public List<RemotableAttributeField> getSearchFields(ExtensionDefinition extensionDefinition, String documentTypeName) {
+        List<Row> searchRows = getSearchingRows(documentTypeName);
+        for ( Row row : searchRows ) {
+            for ( Field field : row.getFields() ) {
+                if ( field.getFieldType().equals(Field.CURRENCY) ) {
+                    field.setFieldType(Field.TEXT);
+                }
+                if ( field.getMaxLength() < 1 ) {
+                    field.setMaxLength(100);
+                }
+            }
+        }
+        return FieldUtils.convertRowsToAttributeFields(searchRows);
+    }
 }

@@ -600,12 +600,10 @@
 	<bean id="chartLedgerReferenceValuePreparedStatementCachingDao" parent="preparedStatementCachingDao" class="org.kuali.kfs.coa.batch.dataaccess.impl.LedgerReferenceValuePreparedStatementCachingDaoJdbc" />
 
 	<bean id="orgReviewRoleService" class="org.kuali.kfs.coa.service.impl.OrgReviewRoleServiceImpl" />
-	 <bean id="cfdaService" class="org.kuali.kfs.coa.service.impl.CfdaServiceImpl">
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property>
+	
+	<bean id="cfdaService" class="org.kuali.kfs.coa.service.impl.CfdaServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
     </bean>
-       
 	
     <bean id="cfdaBatchStep" class="org.kuali.kfs.coa.batch.CfdaBatchStep" parent="step">
         <property name="cfdaService">

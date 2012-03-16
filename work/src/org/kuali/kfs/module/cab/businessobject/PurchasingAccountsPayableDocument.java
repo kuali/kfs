@@ -304,13 +304,13 @@ public class PurchasingAccountsPayableDocument extends PersistableBusinessObject
 
             if (CabConstants.PREQ.equals(this.documentTypeCode)) {
 
-                PaymentRequestDocument paymentRequestDocument = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(PaymentRequestDocument.class, objectKeys);
+                PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(PaymentRequestDocument.class, objectKeys);
                 if (ObjectUtils.isNotNull(paymentRequestDocument)) {
                     statusDescription = paymentRequestDocument.getAppDocStatus();
                 }
             }
             else {
-                VendorCreditMemoDocument vendorCreditMemoDocument = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(VendorCreditMemoDocument.class, objectKeys);
+                VendorCreditMemoDocument vendorCreditMemoDocument = (VendorCreditMemoDocument) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(VendorCreditMemoDocument.class, objectKeys);
                 if (ObjectUtils.isNotNull(vendorCreditMemoDocument)) {
                     statusDescription = vendorCreditMemoDocument.getAppDocStatus();
                 }

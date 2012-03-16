@@ -264,13 +264,20 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
     protected List<String> getDocumentNumbersOfPaymentRequestByCriteria(Criteria criteria, boolean orderByAscending) {
         LOG.debug("getDocumentNumberOfPaymentRequestByCriteria() started");
         ReportQueryByCriteria rqbc = new ReportQueryByCriteria(PaymentRequestDocument.class, criteria);
-        rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
+    //    rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
         if (orderByAscending) {
             rqbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
         }
         else {
             rqbc.addOrderByDescending(KFSPropertyConstants.DOCUMENT_NUMBER);
         }
+        
+        List<String> returnList = new ArrayList<String>();
+        List<PaymentRequestDocument> prDocs = (List<PaymentRequestDocument>) getPersistenceBrokerTemplate().getCollectionByQuery(rqbc);
+        for (PaymentRequestDocument prDoc : prDocs) {
+            returnList.add(prDoc.getDocumentNumber());
+        }
+        
         return (List) getPersistenceBrokerTemplate().getCollectionByQuery(rqbc);
     }
 

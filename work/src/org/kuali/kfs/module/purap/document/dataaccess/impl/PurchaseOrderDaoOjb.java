@@ -162,12 +162,11 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         criteria.addEqualTo("itemLineNumber", poItemLineNumber);
 
         ReportQueryByCriteria rqbc = new ReportQueryByCriteria(PurchaseOrderItem.class, criteria);
-        rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
+      //  rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
         rqbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
 
-        List<String> docNumbers = (List<String>) getPersistenceBrokerTemplate().getCollectionByQuery(rqbc);
-        
-        if (!docNumbers.isEmpty()) {
+        List<PurchaseOrderItem> poItems = (List<PurchaseOrderItem>) getPersistenceBrokerTemplate().getCollectionByQuery(rqbc);
+        if (!poItems.isEmpty()) {
             existsInPo = true;
         }
         
@@ -223,7 +222,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PurapPropertyConstants.STATUS_CODE, PurapConstants.PurchaseOrderStatuses.APPDOC_PENDING_FAX);
         QueryByCriteria qbc = new QueryByCriteria(PurchaseOrderDocument.class,criteria);
-        List l = (List)getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+        List<PurchaseOrderDocument> l = (List<PurchaseOrderDocument>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
 
         return l;
    }

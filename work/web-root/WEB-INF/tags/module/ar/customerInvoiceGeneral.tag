@@ -49,15 +49,14 @@
 				        </c:otherwise>
 				    </c:choose>
 				
-				    <a href="arCustomerOpenItemReportLookup.do?methodToCall=search&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerOpenItemReportDetail&lookupableImplementaionServiceName=arCustomerOpenItemReportLookupable&docFormKey=88888888&returnLocation=&hideReturnLink=true&reportName=${KFSConstants.CustomerOpenItemReport.HISTORY_REPORT_NAME}&customerNumber=${KualiForm.customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber}&customerName=${KualiForm.customerInvoiceDocument.customerName}"
-						target="new"> <kul:htmlControlAttribute attributeEntry="${arDocHeaderAttributes.customerNumber}" property="document.accountsReceivableDocumentHeader.customerNumber" readOnly="${readOnly}" onblur="${onblurForCustomer}" onchange="${onblurForCustomer}" forceRequired="true"/></a>
+				    <kul:htmlControlAttribute attributeEntry="${arDocHeaderAttributes.customerNumber}" property="document.accountsReceivableDocumentHeader.customerNumber" readOnly="${readOnly}" onblur="${onblurForCustomer}" onchange="${onblurForCustomer}" forceRequired="true"/></a>
                     <c:if test="${not readOnly}">
 	                    &nbsp;
 	                    <kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.Customer" fieldConversions="customerNumber:document.accountsReceivableDocumentHeader.customerNumber" lookupParameters="document.accountsReceivableDocumentHeader.customerNumber:customerNumber" />
                     </c:if>
                 </td>			
                 <th align=right valign=middle class="bord-l-b" style="width: 25%;"> 
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${arDocHeaderAttributes.customerName}" /></div>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${arDocHeaderAttributes.customerName}" labelFor="document.accountsReceivableDocumentHeader.customer.customerName" /></div>
                 </th>
                 <td align=left valign=middle class="datacell" style="width: 25%;">
                 	<div id="document.accountsReceivableDocumentHeader.customer.customerName.div">

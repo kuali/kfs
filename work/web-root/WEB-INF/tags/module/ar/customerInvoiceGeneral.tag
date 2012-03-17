@@ -57,11 +57,11 @@
                     </c:if>
                 </td>			
                 <th align=right valign=middle class="bord-l-b" style="width: 25%;"> 
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.customerName}" /></div>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${arDocHeaderAttributes.customerName}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell" style="width: 25%;">
                 	<div id="document.accountsReceivableDocumentHeader.customer.customerName.div">
-                		<kul:htmlControlAttribute attributeEntry="${arDocHeaderAttributes.customerName}" property="document.accountsReceivableDocumentHeader.customer.customerName" readOnly="true" />
+                		<kul:htmlControlAttribute attributeEntry="${documentAttributes.customerName}" property="document.customer.customerName" readOnly="true" />
                 	</div>
                 </td>
             </tr>    

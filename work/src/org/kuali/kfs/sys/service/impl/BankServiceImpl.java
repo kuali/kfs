@@ -62,7 +62,8 @@ public class BankServiceImpl implements BankService {
     @Override
     public Bank getDefaultBankByDocType(String documentTypeCode) {
         if (parameterService.parameterExists(Bank.class, KFSParameterKeyConstants.DEFAULT_BANK_BY_DOCUMENT_TYPE)) {
-            List<String> parmValues = new ArrayList<String>( parameterService.getParameterValuesAsString(Bank.class, KFSParameterKeyConstants.DEFAULT_BANK_BY_DOCUMENT_TYPE) );
+            List<String> parmValues = new ArrayList<String>( parameterService.getSubParameterValuesAsString(Bank.class, KFSParameterKeyConstants.DEFAULT_BANK_BY_DOCUMENT_TYPE, documentTypeCode) );
+            
             if (parmValues != null && !parmValues.isEmpty()) {
                 String defaultBankCode = parmValues.get(0);
 
@@ -76,6 +77,7 @@ public class BankServiceImpl implements BankService {
                 return defaultBank;
             }
         }
+        
         return null;
     }
 

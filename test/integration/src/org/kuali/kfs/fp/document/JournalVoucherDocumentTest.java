@@ -178,7 +178,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         SpringContext.getBean(DocumentService.class).routeDocument(document, "saving errorCorrection source document", null);
         // jv docs go straight to final
         DocumentWorkflowStatusMonitor routeMonitor = new DocumentWorkflowStatusMonitor(SpringContext.getBean(DocumentService.class), documentHeaderId, DocumentStatus.FINAL);
-        assertTrue(ChangeMonitor.waitUntilChange(routeMonitor, 240, 5));
+        assertTrue("Document did not complete routing to the expected status (" + routeMonitor + ") within the time limit",ChangeMonitor.waitUntilChange(routeMonitor, 60, 5));
         document = (AccountingDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentHeaderId);
         // collect some preCorrect data
         String preCorrectId = document.getDocumentNumber();
@@ -191,20 +191,20 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         ArrayList preCorrectSourceLines = (ArrayList) ObjectUtils.deepCopy(new ArrayList(document.getSourceAccountingLines()));
         ArrayList preCorrectTargetLines = (ArrayList) ObjectUtils.deepCopy(new ArrayList(document.getTargetAccountingLines()));
         // validate preCorrect state
-        assertNotNull(preCorrectId);
-        assertNull(preCorrectCorrectsId);
+        assertNotNull("Pre-correct document number should not be null.",preCorrectId);
+        assertNull("preCorrectCorrectsId should have been null",preCorrectCorrectsId);
 
         // assertEquals(0, preCorrectNoteCount);
-        assertEquals("F", preCorrectStatus);
+        assertEquals("Document status is incorrect", DocumentStatus.FINAL, preCorrectStatus);
         // do the copy
         ((Correctable) document).toErrorCorrection();
         // compare to preCorrect state
 
         String postCorrectId = document.getDocumentNumber();
-        assertFalse(postCorrectId.equals(preCorrectId));
+        assertFalse("document number should be different before and after correction.  Both were: " + postCorrectId, postCorrectId.equals(preCorrectId));
         // pending entries should be cleared
         int postCorrectPECount = document.getGeneralLedgerPendingEntries().size();
-        assertEquals(0, postCorrectPECount);
+        assertEquals("pending entry count should have been zero after correction",0, postCorrectPECount);
         // TODO: revisit this is it still needed
         // count 1 note, compare to "correction" text
         // int postCorrectNoteCount = document.getDocumentHeader().getNotes().size();
@@ -247,7 +247,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
     public void testRouteDocument() throws Exception {
         // save the original doc, wait for status change
         Document document = buildDocument();
-        assertFalse("R".equals(document.getDocumentHeader().getWorkflowDocument().getStatus()));
+        assertFalse(DocumentStatus.ENROUTE.equals(document.getDocumentHeader().getWorkflowDocument().getStatus()));
         SpringContext.getBean(DocumentService.class).routeDocument(document, "saving copy source document", null);
         // jv docs go straight to final
         WorkflowTestUtils.waitForStatusChange(document.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);

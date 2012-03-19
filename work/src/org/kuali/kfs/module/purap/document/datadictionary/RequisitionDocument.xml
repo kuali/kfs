@@ -449,6 +449,7 @@
   <bean id="RequisitionDocument-receivingCountryCode" parent="RequisitionDocument-receivingCountryCode-parentBean"/>
 
   <bean id="RequisitionDocument-receivingCountryCode-parentBean" abstract="true" parent="ReceivingAddress-receivingCountryCode">
+  	<property name="required" value="false"/>
   </bean>
   <bean id="RequisitionDocument-addressToVendorIndicator" parent="RequisitionDocument-addressToVendorIndicator-parentBean"/>
 

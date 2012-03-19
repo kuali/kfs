@@ -562,6 +562,7 @@
   <bean id="PurchaseOrderDocument-receivingCountryCode" parent="PurchaseOrderDocument-receivingCountryCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-receivingCountryCode-parentBean" abstract="true" parent="ReceivingAddress-receivingCountryCode">
+  	<property name="required" value="false"/>
   </bean>
   <bean id="PurchaseOrderDocument-addressToVendorIndicator" parent="PurchaseOrderDocument-addressToVendorIndicator-parentBean"/>
 

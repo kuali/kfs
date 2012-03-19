@@ -1,12 +1,12 @@
 /*
  * Copyright 2005-2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.sys.monitor;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
@@ -26,27 +25,28 @@ import org.kuali.rice.krad.service.DocumentService;
 public class DocumentWorkflowStatusMonitor extends ChangeMonitor {
     final DocumentService documentService;
     final private String docHeaderId;
-    final private String[] desiredWorkflowStates;
+    final private DocumentStatus[] desiredWorkflowStates;
 
-    public DocumentWorkflowStatusMonitor(DocumentService documentService, String docHeaderId, String desiredWorkflowStatus) {
+    public DocumentWorkflowStatusMonitor(DocumentService documentService, String docHeaderId, DocumentStatus desiredWorkflowStatus) {
         this.documentService = documentService;
         this.docHeaderId = docHeaderId;
-        this.desiredWorkflowStates = new String[] { desiredWorkflowStatus };
+        this.desiredWorkflowStates = new DocumentStatus[] { desiredWorkflowStatus };
     }
 
-    public DocumentWorkflowStatusMonitor(DocumentService documentService, String docHeaderId, String[] desiredWorkflowStates) {
+    public DocumentWorkflowStatusMonitor(DocumentService documentService, String docHeaderId, DocumentStatus[] desiredWorkflowStates) {
         this.documentService = documentService;
         this.docHeaderId = docHeaderId;
         this.desiredWorkflowStates = desiredWorkflowStates;
     }
 
+    @Override
     public boolean valueChanged() throws Exception {
         Document d = documentService.getByDocumentHeaderId(docHeaderId.toString());
 
         DocumentStatus currentStatus = d.getDocumentHeader().getWorkflowDocument().getStatus();
 
-        for (int i = 0; i < desiredWorkflowStates.length; i++) {
-            if (StringUtils.equals(desiredWorkflowStates[i], currentStatus.getCode())) {
+        for ( DocumentStatus desiredState : desiredWorkflowStates ) {
+            if (desiredState.equals(currentStatus)) {
                 return true;
             }
         }

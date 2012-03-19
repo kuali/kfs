@@ -1,12 +1,12 @@
 /*
  * Copyright 2005-2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,11 +38,12 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
 import org.kuali.rice.krad.service.DocumentService;
 
 /**
- * Used to create and test populated Purchase Order Documents of various kinds. 
+ * Used to create and test populated Purchase Order Documents of various kinds.
  */
 @ConfigureContext(session = UserNameFixture.parke)
 public class PurchaseOrderDocumentTest extends KualiTestBase {
@@ -64,7 +65,7 @@ public class PurchaseOrderDocumentTest extends KualiTestBase {
             items.add(item);
         }
         int expectedItemTotal = items.size();
-        PurchasingDocumentTestUtils.testAddItem((PurchasingDocument)DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), DOCUMENT_CLASS), items, expectedItemTotal);
+        PurchasingDocumentTestUtils.testAddItem(DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), DOCUMENT_CLASS), items, expectedItemTotal);
     }
 
     public final void testGetNewDocument() throws Exception {
@@ -84,18 +85,18 @@ public class PurchaseOrderDocumentTest extends KualiTestBase {
     public final void testRouteDocument() throws Exception {
         PurchaseOrderDocument poDocument = buildSimpleDocument();
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
-        poDocument.prepareForSave();       
+        poDocument.prepareForSave();
         assertFalse("R".equals(poDocument.getDocumentHeader().getWorkflowDocument().getStatus()));
         AccountingDocumentTestUtils.routeDocument(poDocument, "test annotation", null, documentService);
-        WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), "F");        
+        WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
         assertTrue("Document should now be final.", poDocument.getDocumentHeader().getWorkflowDocument().isFinal());
     }
 
     @ConfigureContext(session = parke, shouldCommitTransactions=true)
-    public final void testSaveDocument() throws Exception {    
+    public final void testSaveDocument() throws Exception {
         PurchaseOrderDocument poDocument = buildSimpleDocument();
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
-        poDocument.prepareForSave();       
+        poDocument.prepareForSave();
         AccountingDocumentTestUtils.saveDocument(poDocument, documentService);
         PurchaseOrderDocument result = (PurchaseOrderDocument) documentService.getByDocumentHeaderId(poDocument.getDocumentNumber());
         assertMatch(poDocument, result);
@@ -119,7 +120,7 @@ public class PurchaseOrderDocumentTest extends KualiTestBase {
         Assert.assertEquals(doc1.getPostingYear(), doc2.getPostingYear());
 
         // match important fields in PO
-        
+
         Assert.assertEquals(doc1.getVendorHeaderGeneratedIdentifier(), doc2.getVendorHeaderGeneratedIdentifier());
         Assert.assertEquals(doc1.getVendorDetailAssignedIdentifier(), doc2.getVendorDetailAssignedIdentifier());
         Assert.assertEquals(doc1.getVendorName(), doc2.getVendorName());
@@ -140,9 +141,9 @@ public class PurchaseOrderDocumentTest extends KualiTestBase {
         Assert.assertEquals(doc1.getPurchaseOrderPreviousIdentifier(), doc2.getPurchaseOrderPreviousIdentifier());
         Assert.assertEquals(doc1.isPurchaseOrderCurrentIndicator(), doc2.isPurchaseOrderCurrentIndicator());
         Assert.assertEquals(doc1.getPurchaseOrderCreateTimestamp(), doc2.getPurchaseOrderCreateTimestamp());
-        Assert.assertEquals(doc1.getPurchaseOrderLastTransmitTimestamp(), doc2.getPurchaseOrderLastTransmitTimestamp());        
+        Assert.assertEquals(doc1.getPurchaseOrderLastTransmitTimestamp(), doc2.getPurchaseOrderLastTransmitTimestamp());
     }
-    
+
     private List<PurchaseOrderItem> generateItems() throws Exception {
         List<PurchaseOrderItem> items = new ArrayList<PurchaseOrderItem>();
         // set items to document

@@ -1,12 +1,12 @@
 /*
  * Copyright 2005-2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -37,6 +37,7 @@ import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
 import org.kuali.rice.krad.service.DocumentService;
 
@@ -47,19 +48,21 @@ import org.kuali.rice.krad.service.DocumentService;
 public class CreditMemoDocumentTest extends KualiTestBase {
     public static final Class<VendorCreditMemoDocument> DOCUMENT_CLASS = VendorCreditMemoDocument.class;
     private static final String ACCOUNT_REVIEW = "Account Review";
-    
+
     private RequisitionDocument requisitionDocument = null;
     private VendorCreditMemoDocument creditMemoDocument = null;
-   
+
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
     }
-    
+
+    @Override
     protected void tearDown() throws Exception {
         creditMemoDocument = null;
-        super.tearDown();      
+        super.tearDown();
     }
-    
+
     private List<CreditMemoItemFixture> getItemParametersFromFixtures() {
         List<CreditMemoItemFixture> list = new ArrayList<CreditMemoItemFixture>();
         list.add(CreditMemoItemFixture.CM_ITEM_NO_APO);
@@ -69,13 +72,13 @@ public class CreditMemoDocumentTest extends KualiTestBase {
     private int getExpectedPrePeCount() {
         return 0;
     }
-    
+
     public final void testAddItem() throws Exception {
         List<AccountsPayableItem> items = new ArrayList<AccountsPayableItem>();
         items.add(CreditMemoItemFixture.CM_ITEM_NO_APO.createCreditMemoItem());
 
         int expectedItemTotal = items.size();
-        AccountsPayableDocumentTestUtils.testAddItem((AccountsPayableDocument)DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), DOCUMENT_CLASS), items, expectedItemTotal);
+        AccountsPayableDocumentTestUtils.testAddItem(DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), DOCUMENT_CLASS), items, expectedItemTotal);
     }
 
     public final void testGetNewDocument() throws Exception {
@@ -87,10 +90,10 @@ public class CreditMemoDocumentTest extends KualiTestBase {
         creditMemoDocument = buildSimpleDocument();
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection(creditMemoDocument, getExpectedPrePeCount(), SpringContext.getBean(DocumentService.class), SpringContext.getBean(TransactionalDocumentDictionaryService.class));
     }
-    
+
     @ConfigureContext(session = appleton, shouldCommitTransactions=true)
-    public final void testSaveDocument() throws Exception {       
-        creditMemoDocument = buildSimpleDocument();       
+    public final void testSaveDocument() throws Exception {
+        creditMemoDocument = buildSimpleDocument();
         creditMemoDocument.setAccountsPayableProcessorIdentifier("khuntley");
         //creditMemoDocument.setPurchaseOrderIdentifier(createAPORequisition());
         AccountingDocumentTestUtils.testSaveDocument(creditMemoDocument, SpringContext.getBean(DocumentService.class));
@@ -103,14 +106,14 @@ public class CreditMemoDocumentTest extends KualiTestBase {
         creditMemoDocument.setPurchaseOrderIdentifier(preqDocument.getPurchaseOrderIdentifier());
         CreditMemoItem cmItem = (CreditMemoItem) creditMemoDocument.getItem(0);
         cmItem.setPreqInvoicedTotalQuantity(new KualiDecimal(1));
-        cmItem.setItemQuantity(new KualiDecimal(1));    
+        cmItem.setItemQuantity(new KualiDecimal(1));
         cmItem.setPreqTotalAmount(new KualiDecimal(1));
         SpringContext.getBean(CreditMemoService.class).calculateCreditMemo(creditMemoDocument);
-        creditMemoDocument.prepareForSave();       
+        creditMemoDocument.prepareForSave();
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         assertFalse("R".equals(creditMemoDocument.getDocumentHeader().getWorkflowDocument().getStatus()));
         AccountingDocumentTestUtils.routeDocument(creditMemoDocument, "saving copy source docu ament", null, documentService);
-        WorkflowTestUtils.waitForStatusChange(creditMemoDocument.getDocumentHeader().getWorkflowDocument(), "F");    
+        WorkflowTestUtils.waitForStatusChange(creditMemoDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
         return creditMemoDocument;
     }
 
@@ -125,22 +128,22 @@ public class CreditMemoDocumentTest extends KualiTestBase {
         String poId = po.getDocumentNumber();
         po = (PurchaseOrderDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(poId);
         Integer purchaseOrderIdentifier = po.getPurapDocumentIdentifier();
-        
+
         // Create and save the Credit Memo.
         creditMemoDocument = buildSimpleDocument();
         creditMemoDocument.setPurchaseOrderIdentifier(purchaseOrderIdentifier);
         CreditMemoItem creditMemoItem = (CreditMemoItem)creditMemoDocument.getItemByLineNumber(1);
         creditMemoItem.setPoExtendedPrice(new KualiDecimal(1.00));
-        creditMemoItem.setPoInvoicedTotalQuantity(creditMemoItem.getItemQuantity());    
+        creditMemoItem.setPoInvoicedTotalQuantity(creditMemoItem.getItemQuantity());
         creditMemoDocument.prepareForSave();
         AccountingDocumentTestUtils.saveDocument(creditMemoDocument, SpringContext.getBean(DocumentService.class));
-        
+
         // Process and Calculate.
         //SpringContext.getBean(AccountsPayableService.class).updateItemList(creditMemoDocument);
         SpringContext.getBean(CreditMemoCreateService.class).populateDocumentAfterInit(creditMemoDocument);
         SpringContext.getBean(CreditMemoService.class).calculateCreditMemo(creditMemoDocument);
         assertFalse("R".equals(creditMemoDocument.getDocumentHeader().getWorkflowDocument().getStatus()));
-        
+
         // Route and test.
         AccountingDocumentTestUtils.routeDocument(creditMemoDocument, "routing document", null, SpringContext.getBean(DocumentService.class));
         WorkflowTestUtils.waitForStatusChange(creditMemoDocument.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);
@@ -153,7 +156,7 @@ public class CreditMemoDocumentTest extends KualiTestBase {
     public VendorCreditMemoDocument buildSimpleDocument() throws Exception {
         return CreditMemoDocumentFixture.CM_ONLY_REQUIRED_FIELDS.createCreditMemoDocument();
     }
-    
+
     private UserNameFixture getInitialUserName() {
         return rjweiss;
     }
@@ -161,14 +164,14 @@ public class CreditMemoDocumentTest extends KualiTestBase {
     protected UserNameFixture getTestUserName() {
         return rorenfro;
     }
-    
+
     /*
     private Integer createAPORequisition() throws Exception {
         requisitionDocument = RequisitionDocumentFixture.REQ_APO_VALID.createRequisitionDocument();
         final String docId = requisitionDocument.getDocumentNumber();
         AccountingDocumentTestUtils.routeDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
         WorkflowTestUtils.waitForNodeChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);
-       
+
         changeCurrentUser(rorenfro);
         requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         SpringContext.getBean(DocumentService.class).approveDocument(requisitionDocument, "Test approving as rorenfro", null);

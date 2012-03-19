@@ -52,7 +52,10 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public final class AccountingDocumentTestUtils extends KualiTestBase {
-    private static Logger LOG = Logger.getLogger(AccountingDocumentTestUtils.class);
+    private static final Logger LOG = Logger.getLogger(AccountingDocumentTestUtils.class);
+
+    protected static final int ROUTE_STATUS_CHANGE_WAIT_TIME_SECONDS = 30;
+    protected static final int ROUTE_STATUS_CHANGE_INITIAL_WAIT_TIME_SECONDS = 5;
 
     public void testPlaceholder() {
         assertTrue("Test needs to have at least one test.", true);
@@ -62,8 +65,8 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
         assertTrue("expected count should be > 0", (expectedSourceTotal + expectedTargetTotal) > 0);
         assertTrue("no lines found", (targetLines.size() + sourceLines.size()) > 0);
 
-        assertEquals(0, document.getSourceAccountingLines().size());
-        assertEquals(0, document.getTargetAccountingLines().size());
+        assertEquals("Document should have had no source accounting lines.  Had: " + document.getSourceAccountingLines(), 0, document.getSourceAccountingLines().size());
+        assertEquals("Document should have had no target accounting lines.  Had: " + document.getTargetAccountingLines(), 0, document.getTargetAccountingLines().size());
 
         // add source lines
         for (SourceAccountingLine sourceLine : sourceLines) {
@@ -81,9 +84,9 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
     public static <T extends AccountingDocument> void testGetNewDocument_byDocumentClass(Class<T> documentClass, DocumentService documentService) throws Exception {
         T document = (T) documentService.getNewDocument(documentClass);
         // verify document was created
-        assertNotNull(document);
-        assertNotNull(document.getDocumentHeader());
-        assertNotNull(document.getDocumentHeader().getDocumentNumber());
+        assertNotNull("document was null",document);
+        assertNotNull("document header was null",document.getDocumentHeader());
+        assertNotNull("document number was null",document.getDocumentHeader().getDocumentNumber());
     }
 
     public static void testConvertIntoCopy_copyDisallowed(AccountingDocument document, DataDictionaryService dataDictionaryService) throws Exception {
@@ -102,7 +105,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
                 failedAsExpected = true;
             }
 
-            assertTrue(failedAsExpected);
+            assertTrue("copy operation should have failed", failedAsExpected);
         }
         finally {
             d.getDocumentEntry(documentClass.getName()).setAllowsCopy(originalValue);
@@ -122,7 +125,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
                 failedAsExpected = true;
             }
 
-            assertTrue(failedAsExpected);
+            assertTrue("error correction should have failed", failedAsExpected);
         }
     }
 
@@ -142,7 +145,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
                 failedAsExpected = true;
             }
 
-            assertTrue(failedAsExpected);
+            assertTrue("error correction should have failed",failedAsExpected);
         }
         finally {
             ((FinancialSystemTransactionalDocumentEntry) d.getDocumentEntry(documentClass.getName())).setAllowsErrorCorrection(originalValue);
@@ -178,12 +181,13 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
     public static void testRouteDocument(FinancialSystemTransactionalDocument document, DocumentService documentService) throws Exception {
         document.prepareForSave();
 
-        assertFalse("R".equals(document.getDocumentHeader().getWorkflowDocument().getStatus()));
+        assertFalse("Document was not in proper status for routing.  Was: " + document.getDocumentHeader().getWorkflowDocument().getStatus(),
+                DocumentStatus.ENROUTE.equals(document.getDocumentHeader().getWorkflowDocument().getStatus()));
         routeDocument(document, "saving copy source document", null, documentService);
         if (!document.getDocumentHeader().getWorkflowDocument().isApproved()) {
-            DocumentWorkflowStatusMonitor am = new DocumentWorkflowStatusMonitor(documentService, document.getDocumentNumber(), "R");
-            assertTrue(ChangeMonitor.waitUntilChange(am, 240, 5));
-            assertEquals("R", document.getDocumentHeader().getWorkflowDocument().getStatus());
+            DocumentWorkflowStatusMonitor am = new DocumentWorkflowStatusMonitor(documentService, document.getDocumentNumber(), DocumentStatus.ENROUTE);
+            assertTrue("Document did not complete routing to the expected status (" + am + ") within the time limit",ChangeMonitor.waitUntilChange(am, ROUTE_STATUS_CHANGE_WAIT_TIME_SECONDS, ROUTE_STATUS_CHANGE_INITIAL_WAIT_TIME_SECONDS));
+            assertEquals("Document not in correct state after routing", DocumentStatus.ENROUTE, document.getDocumentHeader().getWorkflowDocument().getStatus());
         }
     }
 
@@ -199,8 +203,8 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
             // route the original doc, wait for status change
             routeDocument(document, "saving errorCorrection source document", null, documentService);
             if (!document.getDocumentHeader().getWorkflowDocument().isApproved()) {
-                DocumentWorkflowStatusMonitor routeMonitor = new DocumentWorkflowStatusMonitor(documentService, documentHeaderId, "R");
-                assertTrue(ChangeMonitor.waitUntilChange(routeMonitor, 240, 5));
+                DocumentWorkflowStatusMonitor routeMonitor = new DocumentWorkflowStatusMonitor(documentService, documentHeaderId, DocumentStatus.ENROUTE);
+                assertTrue("Document did not complete routing to the expected status (" + routeMonitor + ") within the time limit",ChangeMonitor.waitUntilChange(routeMonitor, ROUTE_STATUS_CHANGE_WAIT_TIME_SECONDS, ROUTE_STATUS_CHANGE_INITIAL_WAIT_TIME_SECONDS));
                 document = (AccountingDocument) documentService.getByDocumentHeaderId(documentHeaderId);
 
                 // mock a fully approved document
@@ -296,9 +300,9 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
         document.prepareForSave();
         routeDocument(document, "saving copy source document", null, documentService);
         if (!document.getDocumentHeader().getWorkflowDocument().isApproved()) {
-            DocumentWorkflowStatusMonitor am = new DocumentWorkflowStatusMonitor(documentService, document.getDocumentNumber(), "R");
-            assertTrue(ChangeMonitor.waitUntilChange(am, 240, 5));
-            assertEquals("R", document.getDocumentHeader().getWorkflowDocument().getStatus());
+            DocumentWorkflowStatusMonitor am = new DocumentWorkflowStatusMonitor(documentService, document.getDocumentNumber(), DocumentStatus.ENROUTE);
+            assertTrue("Document did not complete routing to the expected status (" + am + ") within the time limit",ChangeMonitor.waitUntilChange(am, ROUTE_STATUS_CHANGE_WAIT_TIME_SECONDS, ROUTE_STATUS_CHANGE_INITIAL_WAIT_TIME_SECONDS));
+            assertEquals("Document not in correct state after routing", DocumentStatus.ENROUTE, document.getDocumentHeader().getWorkflowDocument().getStatus());
         }
         // collect some preCopy data
         String preCopyId = document.getDocumentNumber();
@@ -378,18 +382,16 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
         documentService.approveDocument(document, "approving test doc", null);
 
         DocumentVersionMonitor vm = new DocumentVersionMonitor(documentService, document.getDocumentNumber(), initialVersion);
-        assertTrue(ChangeMonitor.waitUntilChange(vm, 120, 10));
+        assertTrue("Document did not complete routing to the expected status (" + vm + ") within the time limit",ChangeMonitor.waitUntilChange(vm, ROUTE_STATUS_CHANGE_WAIT_TIME_SECONDS, ROUTE_STATUS_CHANGE_INITIAL_WAIT_TIME_SECONDS));
     }
 
     public static void routeDocument(AccountingDocument document, DocumentService documentService) throws Exception {
-        final String STATUS = "R";
-
-        assertFalse(STATUS.equals(document.getDocumentHeader().getWorkflowDocument().getStatus()));
+        assertFalse("Document not in correct state before routing. Was: " + document.getDocumentHeader().getWorkflowDocument().getStatus(), DocumentStatus.ENROUTE.equals(document.getDocumentHeader().getWorkflowDocument().getStatus()));
         documentService.routeDocument(document, "routing test doc", null);
 
-        DocumentWorkflowStatusMonitor am = new DocumentWorkflowStatusMonitor(documentService, document.getDocumentNumber(), STATUS);
-        assertTrue(ChangeMonitor.waitUntilChange(am, 120, 10));
-        assertEquals(STATUS, document.getDocumentHeader().getWorkflowDocument().getStatus());
+        DocumentWorkflowStatusMonitor am = new DocumentWorkflowStatusMonitor(documentService, document.getDocumentNumber(), DocumentStatus.ENROUTE);
+        assertTrue("Document did not complete routing to the expected status (" + am + ") within the time limit",ChangeMonitor.waitUntilChange(am, ROUTE_STATUS_CHANGE_WAIT_TIME_SECONDS, ROUTE_STATUS_CHANGE_INITIAL_WAIT_TIME_SECONDS));
+        assertEquals("Document not in correct state after routing", DocumentStatus.ENROUTE, document.getDocumentHeader().getWorkflowDocument().getStatus());
     }
 
     public static void saveDocument(FinancialSystemTransactionalDocument document, DocumentService documentService) throws WorkflowException {
@@ -398,7 +400,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
         }
         catch (ValidationException e) {
             // If the business rule evaluation fails then give us more info for debugging this test.
-            fail(e.getMessage() + ", " + GlobalVariables.getMessageMap());
+            fail("Document save failed with ValidationException: " + e.getMessage() + ", " + GlobalVariables.getMessageMap());
         }
     }
 
@@ -412,23 +414,23 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
     }
 
     public static <T extends Document> void assertMatch(T document1, T document2) {
-        Assert.assertEquals(document1.getDocumentNumber(), document2.getDocumentNumber());
-        Assert.assertEquals(document1.getDocumentHeader().getWorkflowDocument().getDocumentTypeName(), document2.getDocumentHeader().getWorkflowDocument().getDocumentTypeName());
+        Assert.assertEquals("Document number does not match", document1.getDocumentNumber(), document2.getDocumentNumber());
+        Assert.assertEquals("Document type does not match", document1.getDocumentHeader().getWorkflowDocument().getDocumentTypeName(), document2.getDocumentHeader().getWorkflowDocument().getDocumentTypeName());
 
 
         AccountingDocument d1 = (AccountingDocument) document1;
         AccountingDocument d2 = (AccountingDocument) document2;
         if (StringUtils.isNotBlank(d1.getPostingPeriodCode()) && StringUtils.isNotBlank(d2.getPostingPeriodCode())) {
             // some documents just plain old don't store this b/c the GLPEs get generated with "getCurrentAccountingPeriod()"
-            Assert.assertEquals(d1.getPostingPeriodCode(), d2.getPostingPeriodCode());
+            Assert.assertEquals("Posting Period does not match", d1.getPostingPeriodCode(), d2.getPostingPeriodCode());
         }
-        Assert.assertEquals(d1.getPostingYear(), d2.getPostingYear());
-        Assert.assertEquals(d1.getSourceAccountingLines().size(), d2.getSourceAccountingLines().size());
+        Assert.assertEquals("Posting year does not match", d1.getPostingYear(), d2.getPostingYear());
+        Assert.assertEquals("Number of source accounting lines does not match", d1.getSourceAccountingLines().size(), d2.getSourceAccountingLines().size());
 
         for (int i = 0; i < d1.getSourceAccountingLines().size(); i++) {
             d1.getSourceAccountingLine(i).isLike(d2.getSourceAccountingLine(i));
         }
-        Assert.assertEquals(d1.getTargetAccountingLines().size(), d2.getTargetAccountingLines().size());
+        Assert.assertEquals("Number of target accounting lines does not match", d1.getTargetAccountingLines().size(), d2.getTargetAccountingLines().size());
         for (int i = 0; i < d1.getTargetAccountingLines().size(); i++) {
             d1.getTargetAccountingLine(i).isLike(d2.getTargetAccountingLine(i));
         }

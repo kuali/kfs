@@ -1,12 +1,12 @@
 /*
  * Copyright 2005-2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -46,7 +46,7 @@ import org.kuali.kfs.sys.fixture.AccountingLineFixture;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
@@ -75,7 +75,7 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
         // Clear both Message lists until rice drops the latter
         GlobalVariables.getMessageMap().clearErrorMessages();
         KNSGlobalVariables.getMessageList().clear();
-        
+
     	DisbursementVoucherDocument dvParameter = (DisbursementVoucherDocument) getDocumentParameterFixture();
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) getDocumentParameterFixture();
         document.getDvPayeeDetail().setDisbVchrPayeeIdNumber("1234-0");
@@ -140,7 +140,7 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
         assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(document, ORG_REVIEW));
         assertTrue("cswinson should have an approve request.", document.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
         SpringContext.getBean(DocumentService.class).approveDocument(document, "Test approving as cswinson", null);*/
-        
+
         WorkflowTestUtils.waitForNodeChange(document.getDocumentHeader().getWorkflowDocument(), TAX_REVIEW);
         // now doc should be in Org Review routing to cswinson
         changeCurrentUser(UserNameFixture.dfogle);
@@ -157,7 +157,7 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
         assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(document, CAMPUS_CODE));
         assertTrue("Should have an approve request.", document.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
         SpringContext.getBean(DocumentService.class).approveDocument(document, "Approve", null);
-        
+
         /*WorkflowTestUtils.waitForNodeChange(document.getDocumentHeader().getWorkflowDocument(), PAYMENT_METHOD);
         // doc should be in "Campus Code" routing to mylarge
         changeCurrentUser(UserNameFixture.appleton);
@@ -166,7 +166,7 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
         assertTrue("Should have an approve request.", document.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
         SpringContext.getBean(DocumentService.class).approveDocument(document, "Approve", null);*/
 
-        WorkflowTestUtils.waitForStatusChange(document.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);
+        WorkflowTestUtils.waitForStatusChange(document.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
 
         changeCurrentUser(vputman);
         document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
@@ -188,7 +188,7 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
         payeeDetail.setDisbVchrPayeeStateCode("IN");
         payeeDetail.setDisbVchrPayeeZipCode("47405");
         payeeDetail.setDisbVchrPayeeCountryCode("US");
-        
+
         payeeDetail.setDisbVchrVendorDetailAssignedIdNumber("0");
         payeeDetail.setDisbVchrPayeePersonName("Jerry Neal");
         payeeDetail.setDisbVchrPaymentReasonCode("B");
@@ -296,9 +296,9 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
 
         AccountingDocumentTestUtils.testConvertIntoCopy(document, SpringContext.getBean(DocumentService.class), getExpectedPrePeCount());
         String copiedDocumentNumber = document.getDocumentNumber();
-        
+
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
-        SpringContext.getBean(BusinessObjectService.class).delete((DisbursementVoucherDocument)documentService.getByDocumentHeaderId(originalDocumentNumber));
+        SpringContext.getBean(BusinessObjectService.class).delete(documentService.getByDocumentHeaderId(originalDocumentNumber));
     }
 
     // test util methods

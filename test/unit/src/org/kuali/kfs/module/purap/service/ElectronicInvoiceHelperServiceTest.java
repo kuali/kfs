@@ -45,6 +45,7 @@ import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.krad.service.DocumentService;
 
 @ConfigureContext
@@ -194,7 +195,7 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
         poDocument.prepareForSave();
         assertFalse("R".equals(poDocument.getDocumentHeader().getWorkflowDocument().getStatus()));
         AccountingDocumentTestUtils.routeDocument(poDocument, "saving copy source document", null, documentService);
-        WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), "F");
+        WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
         assertTrue("Document should now be final.", poDocument.getDocumentHeader().getWorkflowDocument().isFinal());
 
         return poDocument;

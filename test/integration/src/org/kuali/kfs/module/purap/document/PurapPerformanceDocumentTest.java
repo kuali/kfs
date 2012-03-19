@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,7 +29,7 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
-import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.ValidationException;
@@ -38,20 +38,21 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Sets up documents optionally to be used by the following PurAp JMeter performance tests:
- * 
+ *
  * purapComplexSearch.jmx (needs Closed RequisitionDocument)
  * purapPaymentRequestDocument.jmx (needs Open PurchaseOrderDocument)
- * 
+ *
  * To run, change the value of SETUP_PERFORMANCE_TESTS to true.
  */
 public class PurapPerformanceDocumentTest extends KualiTestBase {
-    
+
     private static final String ACCOUNT_REVIEW = "Account";
     private RequisitionDocument requisitionDocument = null;
     private boolean SETUP_PERFORMANCE_TESTS = false; // Set to true locally to setup performance tests.
-    
+
     private DocumentService documentService = null;
 
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
         if( documentService == null) {
@@ -59,6 +60,7 @@ public class PurapPerformanceDocumentTest extends KualiTestBase {
         }
     }
 
+    @Override
     protected void tearDown() throws Exception {
         requisitionDocument = null;
         super.tearDown();
@@ -75,33 +77,33 @@ public class PurapPerformanceDocumentTest extends KualiTestBase {
             final String docId = requisitionDocument.getDocumentNumber();
             AccountingDocumentTestUtils.routeDocument(requisitionDocument, documentService);
             WorkflowTestUtils.waitForNodeChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);
-    
+
             changeCurrentUser(rorenfro);  //Approving as Fiscal Officer.
             requisitionDocument = (RequisitionDocument)documentService.getByDocumentHeaderId(docId);
             assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(requisitionDocument, ACCOUNT_REVIEW));
             assertTrue("Document should be enroute.", requisitionDocument.getDocumentHeader().getWorkflowDocument().isEnroute());
             assertTrue("Fiscal Officer should have an approve request.", requisitionDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
             SpringContext.getBean(DocumentService.class).approveDocument(requisitionDocument, "Test approving as Fiscal Officer.", null);
-            
-            WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);
-    
+
+            WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+
             changeCurrentUser(parke);  //Switch back to original User.
             requisitionDocument = (RequisitionDocument)documentService.getByDocumentHeaderId(docId);
             assertTrue("Document should now be final.", requisitionDocument.getDocumentHeader().getWorkflowDocument().isFinal());
-            
-            ContractManagerAssignmentDocument cmaDocument = buildContractManagerAssignmentDocument();       
+
+            ContractManagerAssignmentDocument cmaDocument = buildContractManagerAssignmentDocument();
             cmaDocument.prepareForSave();
-            
+
             assertFalse("R".equals(cmaDocument.getDocumentHeader().getWorkflowDocument().getStatus()));
             routeDocument(cmaDocument, "saving copy source document", documentService);
-            
-            WorkflowTestUtils.waitForStatusChange(cmaDocument.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);      
+
+            WorkflowTestUtils.waitForStatusChange(cmaDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
             cmaDocument = (ContractManagerAssignmentDocument)documentService.getByDocumentHeaderId(cmaDocument.getDocumentNumber());
             assertTrue("Document should now be final.", cmaDocument.getDocumentHeader().getWorkflowDocument().isFinal());
-            
+
             String poNumber = requisitionDocument.getRelatedViews().getRelatedPurchaseOrderViews().get(0).getDocumentNumber();
             PurchaseOrderDocument poDoc = (PurchaseOrderDocument) documentService.getByDocumentHeaderId(poNumber);
-            
+
             poDoc.setVendorName("KUALI UNIVERSITY");
             poDoc.setVendorHeaderGeneratedIdentifier(1001);
             poDoc.setVendorDetailAssignedIdentifier(0);
@@ -110,25 +112,25 @@ public class PurapPerformanceDocumentTest extends KualiTestBase {
             poDoc.setVendorStateCode("NY");
             poDoc.setVendorPostalCode("14850");
             poDoc.setVendorCountryCode("US");
-            poDoc.setVendorPaymentTermsCode("00N30");       
+            poDoc.setVendorPaymentTermsCode("00N30");
             poDoc.setPurchaseOrderVendorChoiceCode("ONLY");
-            
+
             routeDocument(poDoc, "Test routing as parke", documentService);
-            
+
             changeCurrentUser(butt);  //Approving at the Budget Level
             poDoc = (PurchaseOrderDocument)documentService.getByDocumentHeaderId(poNumber);
             assertTrue("Document should be enroute.", poDoc.getDocumentHeader().getWorkflowDocument().isEnroute());
             assertTrue("Budget Approver should have an approve request.", poDoc.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
             SpringContext.getBean(DocumentService.class).approveDocument(poDoc, "Test approving as Budget Approver.", null);
-            
-            WorkflowTestUtils.waitForStatusChange(poDoc.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);
-    
+
+            WorkflowTestUtils.waitForStatusChange(poDoc.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+
             changeCurrentUser(parke);  //Switch back to original User.
             poDoc = (PurchaseOrderDocument)documentService.getByDocumentHeaderId(poNumber);
             assertTrue("Document should now be final.", poDoc.getDocumentHeader().getWorkflowDocument().isFinal());
         }
     }
-    
+
     private ContractManagerAssignmentDocument buildContractManagerAssignmentDocument() throws Exception {
         ContractManagerAssignmentDocument cmaDocument = null;
         List<ContractManagerAssignmentDetail> details = ContractManagerAssignmentDocumentFixture.ACM_DOCUMENT_PERFORMANCE.getContractManagerAssignmentDetails();
@@ -143,7 +145,7 @@ public class PurapPerformanceDocumentTest extends KualiTestBase {
         cmaDocument.setContractManagerAssignmentDetailss(details);
         return cmaDocument;
     }
-    
+
     private void routeDocument(Document document, String annotation, DocumentService documentService) throws WorkflowException {
         try {
             documentService.routeDocument(document, annotation, null);

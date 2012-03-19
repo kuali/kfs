@@ -49,7 +49,7 @@ import org.kuali.kfs.vnd.businessobject.PaymentTermType;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
@@ -92,7 +92,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
         items.add(PaymentRequestItemFixture.PREQ_QTY_UNRESTRICTED_ITEM_1.createPaymentRequestItem());
 
         int expectedItemTotal = items.size();
-        AccountsPayableDocumentTestUtils.testAddItem((AccountsPayableDocument) DocumentTestUtils.createDocument(documentService, DOCUMENT_CLASS), items, expectedItemTotal);
+        AccountsPayableDocumentTestUtils.testAddItem(DocumentTestUtils.createDocument(documentService, DOCUMENT_CLASS), items, expectedItemTotal);
     }
 
     public final void testNothing() throws Exception {
@@ -141,7 +141,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
         assertTrue("rorenfro should have an approve request.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
         documentService.approveDocument(paymentRequestDocument, "Test approving as rorenfro", null);
 
-        WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);
+        WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
 
         paymentRequestDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docId);
         assertTrue("Document should now be final.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isFinal());
@@ -336,7 +336,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
         // assertTrue("total values should be 183", paymentRequestDocument.getTotalDollarAmount().equals(new KualiDecimal(183)));
         documentService.approveDocument(paymentRequestDocument, "Test approving as rorenfro", null);
 
-        WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);
+        WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
 
         paymentRequestDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docId);
         assertTrue("Document should now be final.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isFinal());
@@ -376,7 +376,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
         // route if requested
         if (routePO) {
             AccountingDocumentTestUtils.testRouteDocument(po, documentService);
-            WorkflowTestUtils.waitForStatusChange(po.getDocumentHeader().getWorkflowDocument(), "F");
+            WorkflowTestUtils.waitForStatusChange(po.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
             /*WorkflowTestUtils.waitForNodeChange(po.getDocumentHeader().getWorkflowDocument(), BUDGET_REVIEW);
 
             changeCurrentUser(butt);
@@ -456,14 +456,14 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
         poAccount.setAccountLinePercent(BigDecimal.valueOf(70));
         poAccount.setChartOfAccountsCode(chart_code);
         poAccount.setFinancialObjectCode("5000");
-        lines.add((PurApAccountingLine) poAccount);
+        lines.add(poAccount);
 
         PurchaseOrderAccount poAccount1 = new PurchaseOrderAccount();
         poAccount1.setAccountNumber("1031420");
         poAccount1.setAccountLinePercent(BigDecimal.valueOf(30));
         poAccount1.setChartOfAccountsCode(chart_code);
         poAccount1.setFinancialObjectCode("5000");
-        lines.add((PurApAccountingLine) poAccount1);
+        lines.add(poAccount1);
 
         poi.setSourceAccountingLines(lines);
         poi.setItemActiveIndicator(true);
@@ -630,7 +630,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
                 // " : up "+ pri.getItemUnitPrice() + " calc " + pri.calculateExtendedPrice());
             }
 
-            for (PurApAccountingLine accountingLine : (List<PurApAccountingLine>) pri.getSourceAccountingLines()) {
+            for (PurApAccountingLine accountingLine : pri.getSourceAccountingLines()) {
                 accountingLine.setAmount(pri.getExtendedPrice());
             }
         }

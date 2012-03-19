@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,6 +22,7 @@ import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DocumentService;
 
@@ -33,7 +34,7 @@ public enum EndowmentHoldingValueAdjustmentDocumentFixture {
             BigDecimal.ONE, // securityMarketValue
             false  // transactionPosted
     );
-   
+
     public final String securityId;
     public final KualiInteger holdingMonthEndDate;
     public final BigDecimal securityUnitValue;
@@ -56,16 +57,16 @@ public enum EndowmentHoldingValueAdjustmentDocumentFixture {
     private HoldingHistoryValueAdjustmentDocument createHoldingHistoryValueAdjustmentDocument(Class clazz) {
         try {
             DocumentService documentService = SpringContext.getBean(DocumentService.class);
-            
+
             HoldingHistoryValueAdjustmentDocument ehva = null;
-            
+
             try {
                 ehva = (HoldingHistoryValueAdjustmentDocument) DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), clazz);
             }
             catch (WorkflowException e) {
                 throw new RuntimeException("Document creation failed.");
             }
-            
+
             ehva.getDocumentHeader().setDocumentDescription("Created for testing purpose");
             ehva.setSecurityId(this.securityId);
             ehva.setHoldingMonthEndDate(this.holdingMonthEndDate);
@@ -75,20 +76,20 @@ public enum EndowmentHoldingValueAdjustmentDocumentFixture {
             ehva.setObjectId("1234567890");
             ehva.setVersionNumber(1L);
             ehva.refreshReferenceObject("security");
-            
+
             documentService.routeDocument(ehva, "We want to see the document status as final", null);
             try {
-                WorkflowTestUtils.waitForStatusChange(ehva.getDocumentHeader().getWorkflowDocument(), "F");    
+                WorkflowTestUtils.waitForStatusChange(ehva.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
             } catch (Exception ex) {
               return null;
             }
-            
+
             return ehva;
         } catch (WorkflowException wfe) {
             return null;
         }
     }
-    
+
     public HoldingHistoryValueAdjustmentDocument createHoldingHistoryValueAdjustmentDocument() {
         return createHoldingHistoryValueAdjustmentDocument(HoldingHistoryValueAdjustmentDocument.class);
     }

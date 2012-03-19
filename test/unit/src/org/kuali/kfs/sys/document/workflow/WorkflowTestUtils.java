@@ -29,6 +29,7 @@ import org.kuali.kfs.sys.monitor.DocumentWorkflowRequestMonitor;
 import org.kuali.kfs.sys.monitor.DocumentWorkflowStatusMonitor;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Document;
@@ -60,17 +61,17 @@ public class WorkflowTestUtils {
         Assert.assertTrue("waitForNodeChange(" + document.getDocumentId() + "," + desiredNodeName + ") timed out", ChangeMonitor.waitUntilChange(monitor, MAX_WAIT_SECONDS, INITIAL_PAUSE_SECONDS));
     }
 
-    public static void waitForStatusChange(WorkflowDocument document, String desiredStatus) throws Exception {
+    public static void waitForStatusChange(WorkflowDocument document, DocumentStatus desiredStatus) throws Exception {
         waitForStatusChange(MAX_WAIT_SECONDS, document, desiredStatus);
     }
 
-    public static void waitForStatusChange(int numSeconds, WorkflowDocument document, String desiredStatus) throws Exception {
+    public static void waitForStatusChange(int numSeconds, WorkflowDocument document, DocumentStatus desiredStatus) throws Exception {
         LOG.info("Entering: waitForStatusChange(" + numSeconds + "," + document.getDocumentId() + "," + desiredStatus + ")");
         DocumentWorkflowStatusMonitor monitor = new DocumentWorkflowStatusMonitor(SpringContext.getBean(DocumentService.class), "" + document.getDocumentId(), desiredStatus);
         Assert.assertTrue("waitForStatusChange(" + numSeconds + "," + document.getDocumentId() + "," + desiredStatus + ") timed out", ChangeMonitor.waitUntilChange(monitor, numSeconds, INITIAL_PAUSE_SECONDS));
     }
 
-    public static void waitForStatusChange(int numSeconds, WorkflowDocument document, String[] desiredStatuses) throws Exception {
+    public static void waitForStatusChange(int numSeconds, WorkflowDocument document, DocumentStatus[] desiredStatuses) throws Exception {
         LOG.info("Entering: waitForStatusChange(" + numSeconds + "," + document.getDocumentId() + "," + desiredStatuses + ")");
         DocumentWorkflowStatusMonitor monitor = new DocumentWorkflowStatusMonitor(SpringContext.getBean(DocumentService.class), "" + document.getDocumentId(), desiredStatuses);
         Assert.assertTrue("waitForStatusChange(" + numSeconds + "," + document.getDocumentId() + "," + desiredStatuses + ") timed out", ChangeMonitor.waitUntilChange(monitor, numSeconds, INITIAL_PAUSE_SECONDS));

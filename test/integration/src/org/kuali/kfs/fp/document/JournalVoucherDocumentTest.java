@@ -1,12 +1,12 @@
 /*
  * Copyright 2005-2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -43,7 +43,6 @@ import org.kuali.kfs.sys.monitor.ChangeMonitor;
 import org.kuali.kfs.sys.monitor.DocumentStatusMonitor;
 import org.kuali.kfs.sys.monitor.DocumentWorkflowStatusMonitor;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
@@ -79,7 +78,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
     /**
      * Had to override b/c there are too many differences between the JV and the standard document structure (i.e. GLPEs generate
      * differently, routing isn't standard, etc).
-     * 
+     *
      * @see org.kuali.rice.krad.document.AccountingDocumentTestBase#testConvertIntoCopy()
      */
     @ConfigureContext(session = dfogle, shouldCommitTransactions = true)
@@ -147,7 +146,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
     /**
      * Had to override b/c there are too many differences between the JV and the standard document structure (i.e. GLPEs generate
      * differently, routing isn't standard, etc).
-     * 
+     *
      * @see org.kuali.rice.krad.document.AccountingDocumentTestBase#testConvertIntoErrorCorrection()
      */
     @ConfigureContext(session = dfogle, shouldCommitTransactions = true)
@@ -178,7 +177,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         // route the original doc, wait for status change
         SpringContext.getBean(DocumentService.class).routeDocument(document, "saving errorCorrection source document", null);
         // jv docs go straight to final
-        DocumentWorkflowStatusMonitor routeMonitor = new DocumentWorkflowStatusMonitor(SpringContext.getBean(DocumentService.class), documentHeaderId, "F");
+        DocumentWorkflowStatusMonitor routeMonitor = new DocumentWorkflowStatusMonitor(SpringContext.getBean(DocumentService.class), documentHeaderId, DocumentStatus.FINAL);
         assertTrue(ChangeMonitor.waitUntilChange(routeMonitor, 240, 5));
         document = (AccountingDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentHeaderId);
         // collect some preCorrect data
@@ -240,7 +239,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
 
     /**
      * Override b/c the status changing is flakey with this doc b/c routing is special (goes straight to final).
-     * 
+     *
      * @see org.kuali.rice.krad.document.DocumentTestBase#testRouteDocument()
      */
     // @RelatesTo(JiraIssue.KULRNE4926)
@@ -251,9 +250,9 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         assertFalse("R".equals(document.getDocumentHeader().getWorkflowDocument().getStatus()));
         SpringContext.getBean(DocumentService.class).routeDocument(document, "saving copy source document", null);
         // jv docs go straight to final
-        WorkflowTestUtils.waitForStatusChange(document.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);
+        WorkflowTestUtils.waitForStatusChange(document.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
         // also check the Kuali (not Workflow) document status
-        DocumentStatusMonitor statusMonitor = new DocumentStatusMonitor(SpringContext.getBean(DocumentService.class), document.getDocumentHeader().getDocumentNumber(), KFSConstants.DocumentStatusCodes.APPROVED);
+        DocumentStatusMonitor statusMonitor = new DocumentStatusMonitor(SpringContext.getBean(DocumentService.class), document.getDocumentHeader().getDocumentNumber(), DocumentStatus.PROCESSED);
         assertTrue(ChangeMonitor.waitUntilChange(statusMonitor, 240, 5));
     }
 

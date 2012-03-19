@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,6 +27,7 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.ValidationException;
@@ -43,29 +44,31 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
 
     private ElectronicInvoiceRejectDocument eirDoc = null;
 
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
     }
 
+    @Override
     protected void tearDown() throws Exception {
         eirDoc = null;
         super.tearDown();
     }
 
     @ConfigureContext(session = appleton, shouldCommitTransactions = true)
-    public final void testSaveDocument() throws Exception { 
+    public final void testSaveDocument() throws Exception {
         ElectronicInvoiceLoadSummary eils = ElectronicInvoiceLoadSummaryFixture.EILS_BASIC.createElectronicInvoiceLoadSummary();
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-        boService.save(eils);        
+        boService.save(eils);
 
         GlobalVariables.getUserSession().setBackdoorUser( "kfs" );
         eirDoc = ElectronicInvoiceRejectDocumentFixture.EIR_ONLY_REQUIRED_FIELDS.createElectronicInvoiceRejectDocument(eils);
-        eirDoc.prepareForSave();       
+        eirDoc.prepareForSave();
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         assertFalse("R".equals(eirDoc.getDocumentHeader().getWorkflowDocument().getStatus()));
         saveDocument(eirDoc, "saving copy source document", documentService);
         GlobalVariables.getUserSession().clearBackdoorUser();
-        
+
         Document document = documentService.getByDocumentHeaderId(eirDoc.getDocumentNumber());
         assertTrue("Document should  be saved.", document.getDocumentHeader().getWorkflowDocument().isSaved());
         Document result = documentService.getByDocumentHeaderId(eirDoc.getDocumentNumber());
@@ -80,17 +83,17 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
 
         GlobalVariables.getUserSession().setBackdoorUser( "parke" );
         Integer poId = routePO();
-        
+
         GlobalVariables.getUserSession().setBackdoorUser( "kfs" );
         eirDoc = ElectronicInvoiceRejectDocumentFixture.EIR_ONLY_REQUIRED_FIELDS.createElectronicInvoiceRejectDocument(eils);
         eirDoc.setPurchaseOrderIdentifier(poId);
         eirDoc.setInvoicePurchaseOrderNumber(poId.toString());
-        eirDoc.prepareForSave();        
+        eirDoc.prepareForSave();
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         assertFalse("R".equals(eirDoc.getDocumentHeader().getWorkflowDocument().getStatus()));
         saveDocument(eirDoc, "saving copy source document", documentService);
         GlobalVariables.getUserSession().clearBackdoorUser();
-        
+
         Document document = documentService.getByDocumentHeaderId(eirDoc.getDocumentNumber());
         assertTrue("Document should  be saved.", document.getDocumentHeader().getWorkflowDocument().isSaved());
         Document result = documentService.getByDocumentHeaderId(eirDoc.getDocumentNumber());
@@ -105,17 +108,17 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
 
         GlobalVariables.getUserSession().setBackdoorUser( "parke" );
         Integer poId = routeMatchingPO();
-        
+
         GlobalVariables.getUserSession().setBackdoorUser( "kfs" );
         eirDoc = ElectronicInvoiceRejectDocumentFixture.EIR_MATCHING.createElectronicInvoiceRejectDocument(eils);
         eirDoc.setPurchaseOrderIdentifier(poId);
         eirDoc.setInvoicePurchaseOrderNumber(poId.toString());
-        eirDoc.prepareForSave();        
+        eirDoc.prepareForSave();
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         assertFalse("R".equals(eirDoc.getDocumentHeader().getWorkflowDocument().getStatus()));
         saveDocument(eirDoc, "saving copy source document", documentService);
         GlobalVariables.getUserSession().clearBackdoorUser();
-        
+
         Document document = documentService.getByDocumentHeaderId(eirDoc.getDocumentNumber());
         assertTrue("Document should  be saved.", document.getDocumentHeader().getWorkflowDocument().isSaved());
         Document result = documentService.getByDocumentHeaderId(eirDoc.getDocumentNumber());
@@ -128,10 +131,10 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
 //        ElectronicInvoiceLoadSummary eils = ElectronicInvoiceLoadSummaryFixture.EILS_BASIC.createElectronicInvoiceLoadSummary();
 //        BusinessObjectService boService =  SpringContext.getBean(BusinessObjectService.class);
 //        boService.save(eils);
-//        
+//
 //        eirDoc = ElectronicInvoiceRejectDocumentFixture.EIR_ONLY_REQUIRED_FIELDS.createElectronicInvoiceRejectDocument(eils);
 //        eirDoc.prepareForSave();
-//        
+//
 //        DocumentService documentService = SpringContext.getBean(DocumentService.class);
 //        assertFalse("R".equals(eirDoc.getDocumentHeader().getWorkflowDocument().getStatus()));
 //        routeDocument(eirDoc, "saving copy source document", documentService);
@@ -166,7 +169,7 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
 
     /**
      * Helper method to route the document.
-     * 
+     *
      * @param document                 The assign contract manager document to be routed.
      * @param annotation               The annotation String.
      * @param documentService          The service to use to route the document.
@@ -181,10 +184,10 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
             fail(e.getMessage() + ", " + GlobalVariables.getMessageMap());
         }
     }
-    
+
     /**
      * Helper method to route the document.
-     * 
+     *
      * @param document                 The assign contract manager document to be routed.
      * @param annotation               The annotation String.
      * @param documentService          The service to use to route the document.
@@ -219,16 +222,16 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
 //            d1.getInvoiceRejectReason(i).isLike(d2.getInvoiceRejectReason(i));
 //        }
     }
-    
+
     private Integer routePO() {
         PurchaseOrderDocumentTest purchaseOrderDocumentTest = new PurchaseOrderDocumentTest();
         PurchaseOrderDocument poDocument;
         try {
             poDocument = PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS.createPurchaseOrderDocument();
             DocumentService documentService = SpringContext.getBean(DocumentService.class);
-            poDocument.prepareForSave();       
+            poDocument.prepareForSave();
             AccountingDocumentTestUtils.routeDocument(poDocument, "saving copy source document", null, documentService);
-            WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), "F");
+            WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
             return poDocument.getPurapDocumentIdentifier();
         }
         catch (Exception e) {
@@ -244,9 +247,9 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
         try {
             poDocument = PurchaseOrderDocumentFixture.EINVOICE_PO.createPurchaseOrderDocument();
             DocumentService documentService = SpringContext.getBean(DocumentService.class);
-            poDocument.prepareForSave();       
+            poDocument.prepareForSave();
             AccountingDocumentTestUtils.routeDocument(poDocument, "saving copy source document", null, documentService);
-            WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), "F");
+            WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
             return poDocument.getPurapDocumentIdentifier();
         }
         catch (Exception e) {

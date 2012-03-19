@@ -1,12 +1,12 @@
 /*
  * Copyright 2005-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,7 +28,7 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
-import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.ValidationException;
@@ -36,16 +36,18 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
- * Used to create and test populated Receiving Line Documents of various kinds. 
+ * Used to create and test populated Receiving Line Documents of various kinds.
  */
 @ConfigureContext(session = khuntley)
 public class LineItemReceivingDocumentTest extends KualiTestBase {
     public static final Class<LineItemReceivingDocument> DOCUMENT_CLASS = LineItemReceivingDocument.class;
 
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
     }
 
+    @Override
     protected void tearDown() throws Exception {
         super.tearDown();
     }
@@ -59,11 +61,11 @@ public class LineItemReceivingDocumentTest extends KualiTestBase {
         //create PO
         PurchaseOrderDocument po = PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS.createPurchaseOrderDocument();
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
-        po.prepareForSave();       
+        po.prepareForSave();
         AccountingDocumentTestUtils.routeDocument(po, "saving copy source document", null, documentService);
-        WorkflowTestUtils.waitForStatusChange(po.getDocumentHeader().getWorkflowDocument(), "F");        
+        WorkflowTestUtils.waitForStatusChange(po.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
         PurchaseOrderDocument poResult = (PurchaseOrderDocument) documentService.getByDocumentHeaderId(po.getDocumentNumber());
-        
+
         //create Receiving
         LineItemReceivingDocument receivingLineDocument = LineItemReceivingDocumentFixture.EMPTY_LINE_ITEM_RECEIVING.createLineItemReceivingDocument();
         receivingLineDocument.populateReceivingLineFromPurchaseOrder(poResult);
@@ -73,14 +75,14 @@ public class LineItemReceivingDocumentTest extends KualiTestBase {
         receivingLineDocument.prepareForSave();
         assertFalse("R".equals(receivingLineDocument.getDocumentHeader().getWorkflowDocument().getStatus()));
         routeDocument(receivingLineDocument, "routing line item receiving document", documentService);
-        WorkflowTestUtils.waitForStatusChange(receivingLineDocument.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);        
+        WorkflowTestUtils.waitForStatusChange(receivingLineDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
         Document document = documentService.getByDocumentHeaderId(receivingLineDocument.getDocumentNumber());
         assertTrue("Document should now be final.", receivingLineDocument.getDocumentHeader().getWorkflowDocument().isFinal());
     }
 
     /**
      * Helper method to route the document.
-     * 
+     *
      * @param document                 The assign contract manager document to be routed.
      * @param annotation               The annotation String.
      * @param documentService          The service to use to route the document.

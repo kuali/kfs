@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,7 +30,7 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
-import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.ValidationException;
@@ -47,10 +47,12 @@ public class ContractManagerAssignmentDocumentTest extends KualiTestBase {
 
     private ContractManagerAssignmentDocument acmDocument = null;
 
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
     }
 
+    @Override
     protected void tearDown() throws Exception {
         acmDocument = null;
         super.tearDown();
@@ -62,45 +64,45 @@ public class ContractManagerAssignmentDocumentTest extends KualiTestBase {
 
     /**
      * Tests the routing of ContractManagerAssignmentDocument to final.
-     * 
+     *
      * @throws Exception
      */
     @ConfigureContext(session = parke, shouldCommitTransactions = true)
     public final void testRouteDocument() throws Exception {
         acmDocument = buildSimpleDocument();
-        
+
         acmDocument.prepareForSave();
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         assertFalse("R".equals(acmDocument.getDocumentHeader().getWorkflowDocument().getStatus()));
         routeDocument(acmDocument, "saving copy source document", documentService);
-        
-        WorkflowTestUtils.waitForStatusChange(acmDocument.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);
+
+        WorkflowTestUtils.waitForStatusChange(acmDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
         Document document = documentService.getByDocumentHeaderId(acmDocument.getDocumentNumber());
         assertTrue("Document should now be final.", document.getDocumentHeader().getWorkflowDocument().isFinal());
     }
-    
+
     /**
      * Tests the routing of ContractManagerAssignmentDocument to final.
-     * 
+     *
      * @throws Exception
      */
     @ConfigureContext(session = parke, shouldCommitTransactions = true)
     public final String testRouteDocument2() throws Exception {
         acmDocument = buildSimpleDocument2();
-        
+
         acmDocument.prepareForSave();
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         assertFalse("R".equals(acmDocument.getDocumentHeader().getWorkflowDocument().getStatus()));
         routeDocument(acmDocument, "saving copy source document", documentService);
-        WorkflowTestUtils.waitForStatusChange(acmDocument.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);
+        WorkflowTestUtils.waitForStatusChange(acmDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
         ContractManagerAssignmentDocument document = (ContractManagerAssignmentDocument) documentService.getByDocumentHeaderId(acmDocument.getDocumentNumber());
         assertTrue("Document should now be final.", document.getDocumentHeader().getWorkflowDocument().isFinal());
         return acmDocument.getContractManagerAssignmentDetail(0).getRequisition().getDocumentNumber();
     }
-    
+
     /**
      * Helper method to route the document.
-     * 
+     *
      * @param document                 The assign contract manager document to be routed.
      * @param annotation               The annotation String.
      * @param documentService          The service to use to route the document.
@@ -118,7 +120,7 @@ public class ContractManagerAssignmentDocumentTest extends KualiTestBase {
 
     /**
      * Helper method to create a new valid ContractManagerAssignmentDocument.
-     * 
+     *
      * @return            The ContractManagerAssignmentDocument created by this method.
      * @throws Exception
      */
@@ -141,7 +143,7 @@ public class ContractManagerAssignmentDocumentTest extends KualiTestBase {
 
     /**
      * Helper method to create a new valid ContractManagerAssignmentDocument.
-     * 
+     *
      * @return            The ContractManagerAssignmentDocument created by this method.
      * @throws Exception
      */
@@ -163,7 +165,7 @@ public class ContractManagerAssignmentDocumentTest extends KualiTestBase {
     /**
      * Helper method to route a requisition document until AwaitingContractManager status.
      * The requisition document will be used to create the ContractManagerAssignmentDocument.
-     * 
+     *
      * @param requisitionDocument The RequisitionDocument to be routed until AwaitingContractManager status.
      * @return                    The RequisitionDocument that was routed until AwaitingContractManager status.
      * @throws Exception
@@ -184,12 +186,12 @@ public class ContractManagerAssignmentDocumentTest extends KualiTestBase {
         changeCurrentUser(jgerhart);
         requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         SpringContext.getBean(DocumentService.class).acknowledgeDocument(requisitionDocument, "Acknowledging as jgerhart", null);
-        
-        WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);
+
+        WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
 
         changeCurrentUser(khuntley);
         requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
-        assertTrue("Document should now be final.", requisitionDocument.getDocumentHeader().getWorkflowDocument().isFinal());   
+        assertTrue("Document should now be final.", requisitionDocument.getDocumentHeader().getWorkflowDocument().isFinal());
         changeCurrentUser(parke);
         return requisitionDocument;
     }
@@ -197,14 +199,14 @@ public class ContractManagerAssignmentDocumentTest extends KualiTestBase {
     /**
      * Helper method to route a requisition document until AwaitingContractManager status.
      * The requisition document will be used to create the ContractManagerAssignmentDocument.
-     * 
+     *
      * @param requisitionDocument The RequisitionDocument to be routed until AwaitingContractManager status.
      * @return                    The RequisitionDocument that was routed until AwaitingContractManager status.
      * @throws Exception
      */
     private RequisitionDocument routeRequisitionUntilAwaitingContractManager2(RequisitionDocument requisitionDocument) throws Exception {
         final String docId = requisitionDocument.getDocumentNumber();
-        
+
         SpringContext.getBean(DocumentService.class).routeDocument(requisitionDocument, "saving copy source document", null);
         WorkflowTestUtils.waitForNodeChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);
 
@@ -216,11 +218,11 @@ public class ContractManagerAssignmentDocumentTest extends KualiTestBase {
         assertTrue("sterner should have an approve request.", requisitionDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
         SpringContext.getBean(DocumentService.class).approveDocument(requisitionDocument, "Test approving as sterner", null);
 
-        WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);
+        WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
 
         changeCurrentUser(khuntley);
         requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
-        assertTrue("Document should now be Awaiting Contract Manager Assignment.", requisitionDocument.getAppDocStatus().equals(PurapConstants.RequisitionStatuses.APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN));   
+        assertTrue("Document should now be Awaiting Contract Manager Assignment.", requisitionDocument.getAppDocStatus().equals(PurapConstants.RequisitionStatuses.APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN));
         changeCurrentUser(parke);
         return requisitionDocument;
     }

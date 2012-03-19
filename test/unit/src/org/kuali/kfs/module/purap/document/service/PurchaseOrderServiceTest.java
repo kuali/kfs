@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.APPDOC_OPENsource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -48,7 +48,7 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
@@ -61,9 +61,9 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
     private DocumentService docService;
     private PurchaseOrderService poService;
     private static final String ACCOUNT_REVIEW = "Account Review";
-    
+
     @Override
-    protected void setUp() throws Exception {      
+    protected void setUp() throws Exception {
         super.setUp();
         if (null == docService) {
             docService = SpringContext.getBean(DocumentService.class);
@@ -73,9 +73,9 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         }
     }
 
-    public final void testPurchaseOrderRetransmit() throws Exception {   
+    public final void testPurchaseOrderRetransmit() throws Exception {
         // Create and save a minimally-populated basic PO document for each test.
-        PurchaseOrderDocument po = 
+        PurchaseOrderDocument po =
             PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
         po.setAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN);
         po.refreshNonUpdateableReferences();
@@ -85,15 +85,15 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         PurchaseOrderDocument poRetrans = null;
         try {
             poRetrans = poService.createAndSavePotentialChangeDocument(
-                    po.getDocumentNumber(), 
-                    PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, 
-                    PurchaseOrderStatuses.APPDOC_PENDING_RETRANSMIT);  
+                    po.getDocumentNumber(),
+                    PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT,
+                    PurchaseOrderStatuses.APPDOC_PENDING_RETRANSMIT);
             po = poService.getPurchaseOrderByDocumentNumber(po.getDocumentNumber());
         }
         catch (ValidationException ve) {
             throw new ValidationException(GlobalVariables.getMessageMap().toString() + ve);
-        }      
-        assertMatchRetransmit(po, poRetrans); 
+        }
+        assertMatchRetransmit(po, poRetrans);
         ((PurchaseOrderItem)poRetrans.getItem(0)).setItemSelectedForRetransmitIndicator(true);
         ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
         try {
@@ -109,9 +109,9 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
             }
         }
     }
-    
-    public final void testPurchaseOrderPrint() throws Exception {        
-        PurchaseOrderDocument po = 
+
+    public final void testPurchaseOrderPrint() throws Exception {
+        PurchaseOrderDocument po =
             PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
         po.setAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN);
         po.refreshNonUpdateableReferences();
@@ -132,7 +132,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         }
     }
 
-    
+
     public final void testGetInternalPurchasingDollarLimit() {
         PurchaseOrderDocument po = PurchaseOrderDocumentFixture.PO_WITH_VENDOR_CONTRACT.createPurchaseOrderDocument();
 
@@ -141,11 +141,11 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         KualiDecimal contrAPOLimit = new KualiDecimal(120000.00);
         contract.setVendorContractGeneratedIdentifier(contrID);
         contract.setOrganizationAutomaticPurchaseOrderLimit(contrAPOLimit);
-        
+
         ContractManager manager = new ContractManager();
         Integer mngrCode = po.getContractManagerCode();
         manager.setContractManagerCode(mngrCode);
-        KualiDecimal mngrDDLimit = new KualiDecimal(100000.00);  
+        KualiDecimal mngrDDLimit = new KualiDecimal(100000.00);
         manager.setContractManagerDelegationDollarLimit(mngrDDLimit);
 
         VendorService vdService = SpringContext.getBean(VendorService.class);
@@ -160,7 +160,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         po.setContractManager(manager);
         result = poService.getInternalPurchasingDollarLimit(po);
         assertEquals(result, mngrDDLimit);
-        
+
         // contract != null & manager == null
         po.setVendorContractGeneratedIdentifier(contrID);
         po.setVendorContract(contract);
@@ -168,7 +168,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         po.setContractManager(null);
         result = poService.getInternalPurchasingDollarLimit(po);
         assertEquals(result, contrDLimit);
-        
+
         // contract != null & manager != null, and contract limit > manager limit
         po.setVendorContractGeneratedIdentifier(contrID);
         po.setVendorContract(contract);
@@ -177,14 +177,14 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         po.setContractManagerCode(mngrCode);
         result = poService.getInternalPurchasingDollarLimit(po);
         assertEquals(result, contrDLimit);
-        
+
         // contract != null & manager != null, and contract limit < manager limit
-        KualiDecimal mngrDDLimit1 = new KualiDecimal(150000.00);  
+        KualiDecimal mngrDDLimit1 = new KualiDecimal(150000.00);
         manager.setContractManagerDelegationDollarLimit(mngrDDLimit1);
         result = poService.getInternalPurchasingDollarLimit(po);
         assertEquals(result, mngrDDLimit1);
     }
-        
+
     /**
      * Matches an existing Purchase Order Document with a retransmitted PO Document newly generated from it;
      * Fails the assertion if any of the copied persistent fields don't match.
@@ -195,13 +195,13 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
             assertEquals(doc1.getPostingPeriodCode(), doc2.getPostingPeriodCode());
         }
         assertEquals(doc1.getPostingYear(), doc2.getPostingYear());
-    
-        // match important fields in PO       
+
+        // match important fields in PO
         assertEquals(doc1.getVendorHeaderGeneratedIdentifier(), doc2.getVendorHeaderGeneratedIdentifier());
         assertEquals(doc1.getVendorDetailAssignedIdentifier(), doc2.getVendorDetailAssignedIdentifier());
         assertEquals(doc1.getVendorName(), doc2.getVendorName());
         assertEquals(doc1.getVendorNumber(), doc2.getVendorNumber());
-    
+
         assertEquals(doc1.getChartOfAccountsCode(), doc2.getChartOfAccountsCode());
         assertEquals(doc1.getOrganizationCode(), doc2.getOrganizationCode());
         assertEquals(doc1.getDeliveryCampusCode(), doc2.getDeliveryCampusCode());
@@ -211,21 +211,21 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         assertEquals(doc1.getVendorContractName(), doc2.getVendorContractName());
         assertEquals(doc1.getPurchaseOrderAutomaticIndicator(), doc2.getPurchaseOrderAutomaticIndicator());
         assertEquals(doc1.getPurchaseOrderTransmissionMethodCode(), doc2.getPurchaseOrderTransmissionMethodCode());
-    
+
         assertEquals(doc1.getRequisitionIdentifier(), doc2.getRequisitionIdentifier());
         assertEquals(doc1.getPurchaseOrderPreviousIdentifier(), doc2.getPurchaseOrderPreviousIdentifier());
         assertEquals(doc1.getPurchaseOrderCreateTimestamp(), doc2.getPurchaseOrderCreateTimestamp());
-    }    
-    
+    }
+
     /**
      * Tests that the PurchaseOrderService would attempt to update vendor with missing commodity codes.
-     * 
+     *
      */
     public void testUpdateVendorCommodityCode() {
         PurchaseOrderDocument po = PurchaseOrderDocumentWithCommodityCodeFixture.PO_VALID_ACTIVE_COMMODITY_CODE_WITH_VENDOR_COMMODITY_CODE.createPurchaseOrderDocument();
-        
+
         VendorDetail updatedVendor = poService.updateVendorWithMissingCommodityCodesIfNecessary(po);
-        
+
         assertFalse(updatedVendor == null);
 
         if (updatedVendor != null) {
@@ -240,10 +240,10 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
             assertTrue(foundMatching);
         }
     }
-    
+
     /**
      * Tests that the PurchaseOrderService would create an Automatic Purchase Order document.
-     * 
+     *
      * @throws Exception
      */
     public void testCreateAutomaticPurchaseOrderDocument() throws Exception {
@@ -257,11 +257,11 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         assertTrue(purchaseOrderDocument.getPurchaseOrderAutomaticIndicator());
         assertEquals(purchaseOrderDocument.getContractManagerCode(), new Integer(99));
     }
-    
+
     /**
-     * Tests that the PurchaseOrderService would create a Purchase Order document with 
+     * Tests that the PurchaseOrderService would create a Purchase Order document with
      * status In Process.
-     * 
+     *
      * @throws Exception
      */
     public void testCreatePurchaseOrderDocument() throws Exception {
@@ -276,10 +276,10 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         assertEquals(purchaseOrderDocument.getAppDocStatus(),PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS);
         assertEquals(purchaseOrderDocument.getContractManagerCode(), contractManagerCode);
     }
-    
+
     /**
      * Tests that the PurchaseOrderService would create and save potential change document.
-     * 
+     *
      * @throws Exception
      */
     public void testCreateAndSavePotentialChangeDocument() throws Exception {
@@ -287,14 +287,14 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         RequisitionDocument req = RequisitionDocumentFixture.REQ_APO_VALID.createRequisitionDocument();
         AccountingDocumentTestUtils.routeDocument(req, SpringContext.getBean(DocumentService.class));
         String docId = req.getDocumentNumber();
-        
+
         //Create an APO using the requisition we created earlier in this method
         poService.createAutomaticPurchaseOrderDocument(req);
         RequisitionDocument requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         String poDocId = requisitionDocument.getRelatedViews().getRelatedPurchaseOrderViews().get(0).getDocumentNumber();
         PurchaseOrderDocument purchaseOrderDocument = (PurchaseOrderDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(poDocId);
-        
-        //Test the pending action indicator and status codes after invoking 
+
+        //Test the pending action indicator and status codes after invoking
         //the createAndSavePotentialChangeDocument method.
         PurchaseOrderDocument newDocument = poService.createAndSavePotentialChangeDocument(poDocId, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, PurchaseOrderStatuses.APPDOC_AMENDMENT);
         assertEquals (newDocument.getAppDocStatus(), PurchaseOrderStatuses.APPDOC_CHANGE_IN_PROCESS);
@@ -302,10 +302,10 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         assertTrue(oldDocument.isPendingActionIndicator());
         assertEquals(oldDocument.getAppDocStatus(), PurchaseOrderStatuses.APPDOC_AMENDMENT);
     }
-    
+
     /**
      * Tests that the PurchaseOrderService would create and route potential change document.
-     * 
+     *
      * @throws Exception
      */
     public void testCreateAndRoutePotentialChangeDocument() throws Exception {
@@ -313,14 +313,14 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         RequisitionDocument req = RequisitionDocumentFixture.REQ_ALTERNATE_APO.createRequisitionDocument();
         AccountingDocumentTestUtils.routeDocument(req, SpringContext.getBean(DocumentService.class));
         String docId = req.getDocumentNumber();
-        
+
         //Create an APO using the requisition we created earlier in this method
         poService.createAutomaticPurchaseOrderDocument(req);
         RequisitionDocument requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         String poDocId = requisitionDocument.getRelatedViews().getRelatedPurchaseOrderViews().get(0).getDocumentNumber();
         PurchaseOrderDocument purchaseOrderDocument = (PurchaseOrderDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(poDocId);
-        WorkflowTestUtils.waitForStatusChange(purchaseOrderDocument.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);
-        //Test the status codes after invoking 
+        WorkflowTestUtils.waitForStatusChange(purchaseOrderDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+        //Test the status codes after invoking
         //the createAndRoutePotentialChangeDocument method.
         PurchaseOrderDocument newDocument = poService.createAndRoutePotentialChangeDocument(poDocId, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_VOID_DOCUMENT, "", null, PurchaseOrderStatuses.APPDOC_PENDING_VOID);
         PurchaseOrderDocument oldDocument = (PurchaseOrderDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(poDocId);
@@ -329,26 +329,26 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
 
     /**
      * Tests that the PurchaseOrderService would print purchase order quote requests list pdf.
-     * 
+     *
      * @throws Exception
      */
-    
+
     public void testPrintPurchaseOrderQuoteRequestsListPDF() throws Exception {
-        PurchaseOrderDocument po = 
+        PurchaseOrderDocument po =
             PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
         po.setAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN);
-        
+
         po.refreshNonUpdateableReferences();
-        
+
         po.prepareForSave();
         AccountingDocumentTestUtils.saveDocument(po, docService);
-        
+
         ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
         try {
             DateTimeService dtService = SpringContext.getBean(DateTimeService.class);
 
             poService.printPurchaseOrderQuoteRequestsListPDF(po.getDocumentNumber(), baosPDF);
-            
+
             assertTrue(baosPDF.size()>0);
         }
         catch (ValidationException e) {
@@ -360,23 +360,23 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
             }
         }
     }
-    
+
     /**
      * Tests that the PurchaseOrderService would print purchase order quote pdf.
-     * 
+     *
      * @throws Exception
      */
-    
+
     public void testPrintPurchaseOrderQuotePDF() throws Exception {
-        PurchaseOrderDocument po = 
+        PurchaseOrderDocument po =
             PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
         po.setAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN);
-        
+
         po.refreshNonUpdateableReferences();
-        
+
         po.prepareForSave();
         AccountingDocumentTestUtils.saveDocument(po, docService);
-        
+
         PurchaseOrderVendorQuote vendorQuote = PurchaseOrderVendorQuoteFixture.BASIC_VENDOR_QUOTE_1.createPurchaseOrderVendorQuote();
         vendorQuote.setDocumentNumber(po.getDocumentNumber());
 
@@ -400,20 +400,20 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
 
     /**
      * Tests that the PurchaseOrderService would performPurchaseOrderFirstTransmitViaPrinting
-     * 
-     * 
+     *
+     *
      * @throws Exception
      */
     public void testPerformPurchaseOrderFirstTransmitViaPrinting() throws Exception {
-        PurchaseOrderDocument po = 
+        PurchaseOrderDocument po =
             PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
         po.setAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN);
-        
+
         po.refreshNonUpdateableReferences();
-        
+
         po.prepareForSave();
         AccountingDocumentTestUtils.saveDocument(po, docService);
-        
+
         ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
         try {
             DateTimeService dtService = SpringContext.getBean(DateTimeService.class);
@@ -435,22 +435,22 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
             }
         }
     }
-    
+
     /**
      * Tests that the PurchaseOrderService would performPurchaseOrderPreviewPrinting
-     * 
+     *
      * @throws Exception
      */
     public void testPerformPurchaseOrderPreviewPrinting() throws Exception {
-        PurchaseOrderDocument po = 
+        PurchaseOrderDocument po =
             PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
         po.setAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN);
-        
+
         po.refreshNonUpdateableReferences();
-        
+
         po.prepareForSave();
         AccountingDocumentTestUtils.saveDocument(po, docService);
-        
+
         ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
         try {
             DateTimeService dtService = SpringContext.getBean(DateTimeService.class);
@@ -472,22 +472,22 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
             }
         }
     }
-    
+
     /**
      * Tests that the PurchaseOrderService would performPrintPurchaseOrderPDFOnly
-     * 
+     *
      * @throws Exception
      */
     public void testPerformPrintPurchaseOrderPDFOnly() throws Exception {
-        PurchaseOrderDocument po = 
+        PurchaseOrderDocument po =
             PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
         po.setAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN);
-        
+
         po.refreshNonUpdateableReferences();
-        
+
         po.prepareForSave();
         AccountingDocumentTestUtils.saveDocument(po, docService);
-        
+
         ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
         try {
             DateTimeService dtService = SpringContext.getBean(DateTimeService.class);
@@ -509,15 +509,15 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
             }
         }
     }
-    
+
     /**
      * Tests that the PurchaseOrderService would do the completePurchaseOrder
      * for non B2B purchase orders.
-     * 
+     *
      * @throws Exception
      */
     public void testCompletePurchaseOrder_NonB2B() throws Exception {
-        PurchaseOrderDocument po = 
+        PurchaseOrderDocument po =
             PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
         po.setAppDocStatus(PurchaseOrderStatuses.APPDOC_IN_PROCESS);
         po.refreshNonUpdateableReferences();
@@ -532,7 +532,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
     /**
      * Tests that the PurchaseOrderService would do the completePurchaseOrder
      * for B2B purchase orders.
-     * 
+     *
      * @throws Exception
      */
     public void testCompletePurchaseOrder_B2B() throws Exception {
@@ -543,13 +543,13 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         String poDocId = requisitionDocument.getRelatedViews().getRelatedPurchaseOrderViews().get(0).getDocumentNumber();
         PurchaseOrderDocument purchaseOrderDocument = (PurchaseOrderDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(poDocId);
-        WorkflowTestUtils.waitForStatusChange(purchaseOrderDocument.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);
+        WorkflowTestUtils.waitForStatusChange(purchaseOrderDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
         poService.completePurchaseOrder(purchaseOrderDocument);
         assertEquals(purchaseOrderDocument.getAppDocStatus(), PurchaseOrderStatuses.APPDOC_OPEN);
         assertTrue(purchaseOrderDocument.isPurchaseOrderCurrentIndicator());
         assertNotNull(purchaseOrderDocument.getPurchaseOrderInitialOpenTimestamp());
     }
-    
+
 
     /**
      * This is not quite ready yet. Got some XML parsing error.
@@ -569,37 +569,37 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
 //        poService.retransmitB2BPurchaseOrder(purchaseOrderDocument);
 //        assertTrue(KNSGlobalVariables.getMessageList().contains(PurapKeyConstants.B2B_PO_RETRANSMIT_SUCCESS));
 //    }
-    
+
     public void testIsPurchaseOrderOpenForProcessing_HappyPath() throws Exception {
         //Create and route a basic PO to Open status.
         PurchaseOrderDocument poDocument = PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS.createPurchaseOrderDocument();
-        poDocument.prepareForSave();       
+        poDocument.prepareForSave();
         assertFalse("R".equals(poDocument.getDocumentHeader().getWorkflowDocument().getStatus()));
         AccountingDocumentTestUtils.routeDocument(poDocument, "test annotation", null, docService);
-        WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), "F");    
-    
+        WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+
         assertTrue(poService.isPurchaseOrderOpenForProcessing(poDocument.getPurapDocumentIdentifier()));
-        
+
     }
-    
+
     @ConfigureContext(session = appleton, shouldCommitTransactions=true)
     public void testIsPurchaseOrderOpenForProcessing_With_PREQ() throws Exception {
         PaymentRequestDocumentTest preqDocTest = new PaymentRequestDocumentTest();
         PurchaseOrderDocument purchaseOrderDocument = preqDocTest.createPurchaseOrderDocument(PurchaseOrderDocumentFixture.PO_APPROVAL_REQUIRED, true);
         purchaseOrderDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(new Integer(SpringContext.getBean(SequenceAccessorService.class).getNextAvailableSequenceNumber("AP_PUR_DOC_LNK_ID").toString()));
-        PaymentRequestDocument paymentRequestDocument = preqDocTest.createPaymentRequestDocument(PaymentRequestDocumentFixture.PREQ_APPROVAL_REQUIRED, 
+        PaymentRequestDocument paymentRequestDocument = preqDocTest.createPaymentRequestDocument(PaymentRequestDocumentFixture.PREQ_APPROVAL_REQUIRED,
                 purchaseOrderDocument, true, new KualiDecimal[] {new KualiDecimal(100)});
         paymentRequestDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(purchaseOrderDocument.getAccountsPayablePurchasingDocumentLinkIdentifier());
-        paymentRequestDocument.setAppDocStatus(PaymentRequestStatuses.APPDOC_IN_PROCESS);        
+        paymentRequestDocument.setAppDocStatus(PaymentRequestStatuses.APPDOC_IN_PROCESS);
         docService.saveDocument(paymentRequestDocument);
         assertFalse(poService.isPurchaseOrderOpenForProcessing(purchaseOrderDocument));
     }
 
-    //testCreateAndSavePurchaseOrderSplitDocument() - this method is being tested in PurchaseOrderChangeDocumentTest.java 
-    
+    //testCreateAndSavePurchaseOrderSplitDocument() - this method is being tested in PurchaseOrderChangeDocumentTest.java
+
     //testRetransmitPurchaseOrderPDF() - this method is being tested in the testPurchaseOrderRetransmit.
- 
+
     //testCompletePurchaseOrder() - this method is being tested in the testCompletePurchaseOrder_B2B and testCompletePurchaseOrder_NonB2B.
-    
+
 }
 

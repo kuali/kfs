@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,8 +41,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
 import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
@@ -59,13 +59,15 @@ public class RequisitionDocumentTest extends KualiTestBase {
     private static final String ACCOUNT_REVIEW = "Account";
     private static final String ORGANIZATION = "Organization";
     private static final String COMMODITY_CODE_REVIEW = "Commodity";
-    
+
     private RequisitionDocument requisitionDocument = null;
 
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
     }
 
+    @Override
     protected void tearDown() throws Exception {
         requisitionDocument = null;
         super.tearDown();
@@ -87,7 +89,7 @@ public class RequisitionDocumentTest extends KualiTestBase {
         items.add(RequisitionItemFixture.REQ_ITEM_NO_APO.createRequisitionItem());
 
         int expectedItemTotal = items.size();
-        PurchasingDocumentTestUtils.testAddItem((PurchasingDocument) DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), DOCUMENT_CLASS), items, expectedItemTotal);
+        PurchasingDocumentTestUtils.testAddItem(DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), DOCUMENT_CLASS), items, expectedItemTotal);
     }
 
     public final void testGetNewDocument() throws Exception {
@@ -120,7 +122,7 @@ public class RequisitionDocumentTest extends KualiTestBase {
         requisitionDocument = buildSimpleDocument();
         AccountingDocumentTestUtils.testSaveDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
     }
-    
+
     @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
     public final void testSaveDocumentWithItemDeletion() throws Exception {
         requisitionDocument = buildSimpleDocument();
@@ -129,7 +131,7 @@ public class RequisitionDocumentTest extends KualiTestBase {
         RequisitionItem item = items.get(0);
         List<PurApAccountingLine> accounts = item.getSourceAccountingLines();
         RequisitionAccount account = (RequisitionAccount)item.getSourceAccountingLine(0);
-        
+
         requisitionDocument.deleteItem(0);
         AccountingDocumentTestUtils.testSaveDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
     }
@@ -146,10 +148,10 @@ public class RequisitionDocumentTest extends KualiTestBase {
         account.setAccountLinePercent(new BigDecimal(100.00));
         accounts.remove(0);
         accounts.get(0).setAccountLinePercent(new BigDecimal(100.00));
-        
+
         AccountingDocumentTestUtils.testRouteDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
     }
-    
+
     @ConfigureContext(session = khuntley, shouldCommitTransactions = true)
     public final void testConvertIntoCopy() throws Exception {
         requisitionDocument = buildSimpleDocument();
@@ -174,8 +176,8 @@ public class RequisitionDocumentTest extends KualiTestBase {
         changeCurrentUser(jgerhart);
         requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         SpringContext.getBean(DocumentService.class).acknowledgeDocument(requisitionDocument, "Acknowledging as jgerhart", null);
-        
-        WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);
+
+        WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
 
         changeCurrentUser(khuntley);
         requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
@@ -212,34 +214,34 @@ public class RequisitionDocumentTest extends KualiTestBase {
         //assertTrue("Document should be enroute.", workflowDocument.isEnroute());
         //assertTrue("jkitchen should have an approve request.", workflowDocument.isApprovalRequested());
         //SpringContext.getBean(DocumentService.class).approveDocument(requisitionDocument, "Test approving as jkitchen", null);
-        
+
         changeCurrentUser(jgerhart);
         requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         SpringContext.getBean(DocumentService.class).acknowledgeDocument(requisitionDocument, "Acknowledging as jgerhart", null);
-        
-        WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);
+
+        WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
 
         changeCurrentUser(khuntley);
         requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         assertTrue("Document should now be final.", requisitionDocument.getDocumentHeader().getWorkflowDocument().isFinal());
     }
-    
+
     private RequisitionDocument buildSimpleDocument() throws Exception {
         return RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
     }
 
     private RequisitionDocument buildComplexDocument() throws Exception {
         RequisitionDocument complexRequisitionDocument = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS_MULTIPLE_ACCOUNTS.createRequisitionDocument();
-        
+
         return complexRequisitionDocument;
     }
-    
+
     public void testRouteBrokenDocument_ItemQuantityBased_NoQuantity() {
         requisitionDocument = RequisitionDocumentFixture.REQ_INVALID_ITEM_QUANTITY_BASED_NO_QUANTITY.createRequisitionDocument();
         SpringContext.getBean(KualiRuleService.class).applyRules(new RouteDocumentEvent(requisitionDocument));
         assertFalse(GlobalVariables.getMessageMap().hasErrors());
     }
-    
+
     private UserNameFixture getInitialUserName() {
         return rjweiss;
     }

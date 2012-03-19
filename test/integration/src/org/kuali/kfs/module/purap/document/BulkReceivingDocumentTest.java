@@ -1,12 +1,12 @@
 /*
  * Copyright 2008-2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,7 +24,7 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
-import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.ValidationException;
@@ -32,44 +32,46 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class BulkReceivingDocumentTest extends KualiTestBase {
-    
+
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
     }
 
+    @Override
     protected void tearDown() throws Exception {
         super.tearDown();
     }
-    
+
     @ConfigureContext(session = parke,shouldCommitTransactions=true)
-    public final void testRouteDocument() 
+    public final void testRouteDocument()
     throws Exception {
         BulkReceivingDocument doc = BulkReceivingDocumentFixture.SIMPLE_DOCUMENT.createBulkReceivingDocument();
         doc.prepareForSave();
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         routeDocument(doc, "routing bulk receiving document", documentService);
-        WorkflowTestUtils.waitForStatusChange(doc.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);        
+        WorkflowTestUtils.waitForStatusChange(doc.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
         Document document = documentService.getByDocumentHeaderId(doc.getDocumentNumber());
         assertTrue("Document should now be final.", doc.getDocumentHeader().getWorkflowDocument().isFinal());
     }
-    
+
     @ConfigureContext(session = parke, shouldCommitTransactions=true)
-    public final void testRouteDocumentWithPO() 
+    public final void testRouteDocumentWithPO()
     throws Exception {
         PurchaseOrderDocument po = PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS.createPurchaseOrderDocument();
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
-        po.prepareForSave();       
+        po.prepareForSave();
         AccountingDocumentTestUtils.routeDocument(po, "saving copy source document", null, documentService);
-        WorkflowTestUtils.waitForStatusChange(po.getDocumentHeader().getWorkflowDocument(), "F");        
+        WorkflowTestUtils.waitForStatusChange(po.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
         PurchaseOrderDocument poResult = (PurchaseOrderDocument) documentService.getByDocumentHeaderId(po.getDocumentNumber());
-        
+
         BulkReceivingDocument doc = BulkReceivingDocumentFixture.SIMPLE_DOCUMENT_FOR_PO.createBulkReceivingDocument(po);
         doc.prepareForSave();
         routeDocument(doc, "routing bulk receiving document", documentService);
-        WorkflowTestUtils.waitForStatusChange(doc.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);        
+        WorkflowTestUtils.waitForStatusChange(doc.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
         Document document = documentService.getByDocumentHeaderId(doc.getDocumentNumber());
         assertTrue("Document should now be final.", doc.getDocumentHeader().getWorkflowDocument().isFinal());
-        
+
     }
 
     private void routeDocument(Document document, String annotation, DocumentService documentService) throws WorkflowException {

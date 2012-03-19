@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,6 +41,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.DocumentService;
@@ -58,21 +59,21 @@ public class ReportingLoadTest extends KualiTestBase {
     private static final String PRINT_SETTING = ArConstants.PrintInvoiceOptions.PRINT_BY_PROCESSING_ORG;
     private static final String INITIATOR = "khuntley";
     private static final int[] INVOICE_AGES = { -5, -18, -35, -65, -95, -125 };
-    
+
     private static final String AGING_RPT_LOOKUPABLE_SERVICE = "arCustomerAgingReportLookupable";
     private static final String AGING_RPT_OPTION = "PROCESSING ORGANIZATION";
     private static final String AGING_RPT_PROCESSING_OR_BILLING_CHART = "UA";
     private static final String AGING_RPT_ORG = "VPIT";
     private static final String AGING_RPT_ACCOUNT_CHART = "BL";
     private static final String AGING_RPT_ACCOUNT = "1031400";
-    
+
     private DocumentService documentService;
     private AccountsReceivableReportService reportService;
     private ConfigurationService kualiConfigService;
     private DateTimeService dateTimeService;
-    
+
     private List<String> invoicesCreated;
-    
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -80,66 +81,66 @@ public class ReportingLoadTest extends KualiTestBase {
         reportService = SpringContext.getBean(AccountsReceivableReportService.class);
         kualiConfigService = SpringContext.getBean(ConfigurationService.class);
         dateTimeService = SpringContext.getBean(DateTimeService.class);
-        
+
         invoicesCreated = new ArrayList<String>();
 
     }
 
     public void testNothingToStopTestFailureReport() {
-        // do nothing here, this is just to stop the continuous build system 
+        // do nothing here, this is just to stop the continuous build system
         // from reporting that a test does nothing.
         assertTrue(true);
     }
-    
+
     /**
-     * 
+     *
      * Use this method to setup a bunch of invoices that are ready to print.
-     * 
-     * This method doesnt actually print anything, though, so use this if you're perf 
+     *
+     * This method doesnt actually print anything, though, so use this if you're perf
      * testing against the web app and just need some test data.
-     * 
-     * You'll have to re-run this after each print, as it clears the print flag 
+     *
+     * You'll have to re-run this after each print, as it clears the print flag
      * when you print the invoices.
-     * 
+     *
      * NOTE - add 'test' to the method name to make it junit-able
-     * 
+     *
      * @throws Exception
      */
     public void createManyInvoicesForPrintTesting() throws Exception {
         createManyInvoiceReadyForAgingReport();
     }
-    
+
     /**
-     * 
-     * Use this method to test the performance of the Customer Report, 
+     *
+     * Use this method to test the performance of the Customer Report,
      * which creates a multi-page PDF.
-     * 
+     *
      * @throws Exception
      */
     public void runCustomerOpenReport() throws Exception {
         createManyInvoiceReadyForAgingReport();
-        
+
         //  test the following line for perf
         List<CustomerStatementResultHolder> reports = reportService.generateStatementByBillingOrg(AGING_RPT_PROCESSING_OR_BILLING_CHART, AGING_RPT_ORG, "S", "N");
         assertNotNull("Reports list should not be null.", reports);
         assertFalse("Reports should not be empty.", reports.isEmpty());
     }
-    
+
     /**
-     * 
-     * Use this method to actually seed a bunch of test data, and then run the aging 
-     * report queries.  
-     * 
-     * Use this when you dont want to test against the GUI, and just want to profile the 
-     * app directly, via a unit test.  
-     * 
+     *
+     * Use this method to actually seed a bunch of test data, and then run the aging
+     * report queries.
+     *
+     * Use this when you dont want to test against the GUI, and just want to profile the
+     * app directly, via a unit test.
+     *
      * NOTE - add 'test' to the method name to make it junit-able
-     * 
+     *
      * @throws Exception
      */
     public void customerAgingReport() throws Exception {
         createManyInvoiceReadyForAgingReport();
-        
+
         Map<String,String> fieldValues = new HashMap<String,String>();
         fieldValues.put(KFSConstants.BACK_LOCATION, "");
         fieldValues.put(KFSConstants.DOC_FORM_KEY, "");
@@ -151,47 +152,47 @@ public class ReportingLoadTest extends KualiTestBase {
         java.util.Date today = dateTimeService.getCurrentDate();
         DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
         fieldValues.put(ArPropertyConstants.CustomerAgingReportFields.REPORT_RUN_DATE, format.format(today));
-        
+
         LookupableHelperService lookupableHelperService = LookupableSpringContext.getLookupable(AGING_RPT_LOOKUPABLE_SERVICE).getLookupableHelperService();
-        
-        //CustomerAgingReportLookupableHelperServiceImpl arLookupableHelperService = 
+
+        //CustomerAgingReportLookupableHelperServiceImpl arLookupableHelperService =
         //    (CustomerAgingReportLookupableHelperServiceImpl) lookupableHelperService;
-        
+
         //TODO Performance test this method call
         List<? extends BusinessObject> searchResults = lookupableHelperService.getSearchResults(fieldValues);
-        
+
         assertTrue("Search results should not be null.", searchResults != null);
         assertTrue("Search results should not be empty.", !searchResults.isEmpty());
-        
+
     }
-    
+
     /**
-     * 
-     * Use this method to actually seed a bunch of test data, and then run the customer 
-     * invoices.  It will generate the PDFs using Jasper, and save the resulting concatenated 
-     * PDF to the ar reports directory.  It is a very close simulation to what the web-app 
-     * does, except when the web-app concatenates the PDF's, it buffers and streams them 
-     * to the client.  
-     * 
-     * Use this when you dont want to test against the GUI, and just want to profile the 
-     * app directly, via a unit test.  
-     * 
+     *
+     * Use this method to actually seed a bunch of test data, and then run the customer
+     * invoices.  It will generate the PDFs using Jasper, and save the resulting concatenated
+     * PDF to the ar reports directory.  It is a very close simulation to what the web-app
+     * does, except when the web-app concatenates the PDF's, it buffers and streams them
+     * to the client.
+     *
+     * Use this when you dont want to test against the GUI, and just want to profile the
+     * app directly, via a unit test.
+     *
      * NOTE - add 'test' to the method name to make it junit-able
-     * 
+     *
      * @throws Exception
      */
     public void customerInvoiceReportPrinting() throws Exception {
 
-        // this step is required for all the reporting/printing runs 
+        // this step is required for all the reporting/printing runs
         createManyInvoicesReadyForPrinting();
 
         //TODO Performance test these three lines
         List<File> reports = reportService.generateInvoicesByInitiator(INITIATOR, null);
         assertTrue("List of reports should not be empty.", !reports.isEmpty());
         concatenateReportsIntoOnePdf(reports);
-        
+
     }
-    
+
     private String getOutputPathAndFileName() {
         String reportsDirectory = kualiConfigService.getPropertyValueAsString(KFSConstants.REPORTS_DIRECTORY_KEY);
         StringBuilder fileName = new StringBuilder();
@@ -200,11 +201,11 @@ public class ReportingLoadTest extends KualiTestBase {
         fileName.append("PERFTESTING-ARINVOICES-" + INITIATOR + ".pdf");
         return fileName.toString();
     }
-    
+
     private void concatenateReportsIntoOnePdf(List<File> reports) throws Exception {
-        
+
         FileOutputStream fileOutputStream = new FileOutputStream(getOutputPathAndFileName());
-        
+
         int pageOffset = 0;
         ArrayList master = new ArrayList();
         int f = 0;
@@ -244,34 +245,34 @@ public class ReportingLoadTest extends KualiTestBase {
             writer.freeReader(reader);
             f++;
         }
-        
+
         if (!master.isEmpty()) {
             writer.setOutlines(master);
         }
 
         // step 5: we close the document
         document.close();
-        
+
         fileOutputStream.flush();
         fileOutputStream.close();
     }
-    
+
     private void createManyInvoiceReadyForAgingReport() throws Exception {
-        
+
         int typeOfInvoice = 1;
         int ageOfInvoice = 0;
         for (int i = 0; i < INVOICES_TO_CREATE; i++) {
-            
+
             //  create a scenario invoice
             CustomerInvoiceDocument document = createScenarioInvoice(typeOfInvoice);
             invoicesCreated.add(document.getDocumentNumber());
-            
+
             //  age the invoice
             document.setBillingDate(dateXDaysAgo(ageOfInvoice));
-            
+
             //  route it, and wait for it go to final
             documentService.blanketApproveDocument(document, "BlanketApproved by performance testing script.", null);
-            WorkflowTestUtils.waitForStatusChange(10, document.getDocumentHeader().getWorkflowDocument(), "F");
+            WorkflowTestUtils.waitForStatusChange(10, document.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
 
             //  increement or reset the scenario type
             if (typeOfInvoice == 5) {
@@ -280,7 +281,7 @@ public class ReportingLoadTest extends KualiTestBase {
             else {
                 typeOfInvoice++;
             }
-            
+
             //  increement or reset the age index
             if (ageOfInvoice == INVOICE_AGES.length - 1) {
                 ageOfInvoice = 0;
@@ -290,23 +291,23 @@ public class ReportingLoadTest extends KualiTestBase {
             }
         }
     }
-    
+
     private java.sql.Date dateXDaysAgo(int daysAgo) {
         return new java.sql.Date(DateUtils.addDays(dateTimeService.getCurrentSqlDate(), INVOICE_AGES[daysAgo]).getTime());
     }
-    
+
     private void createManyInvoicesReadyForPrinting() throws Exception {
-        
+
         int typeOfInvoice = 1;
         for (int i = 0; i < INVOICES_TO_CREATE; i++) {
-            
+
             //  create a scenario invoice
             CustomerInvoiceDocument document = createScenarioInvoice(typeOfInvoice);
             invoicesCreated.add(document.getDocumentNumber());
-            
+
             //  route it, and wait for it go to final
             documentService.blanketApproveDocument(document, "BlanketApproved by performance testing script.", null);
-            WorkflowTestUtils.waitForStatusChange(10, document.getDocumentHeader().getWorkflowDocument(), "F");
+            WorkflowTestUtils.waitForStatusChange(10, document.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
 
             //  increement or reset the scenario type
             if (typeOfInvoice == 5) {
@@ -317,7 +318,7 @@ public class ReportingLoadTest extends KualiTestBase {
             }
         }
     }
-    
+
     private CustomerInvoiceDocument createScenarioInvoice(int scenarioNumber) throws Exception {
         CustomerInvoiceDocument document;
         switch (scenarioNumber) {
@@ -340,11 +341,11 @@ public class ReportingLoadTest extends KualiTestBase {
             case 5:
                 document = ArCoreTestUtils.newInvoiceDocumentTwoLinesDiscounted();
                 break;
-            default: 
+            default:
                 throw new RuntimeException("An invalid scenarioNumber was passed in.");
         }
         document.setPrintInvoiceIndicator(PRINT_SETTING);
         return document;
     }
-    
+
 }

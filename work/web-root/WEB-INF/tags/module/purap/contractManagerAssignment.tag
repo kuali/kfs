@@ -14,8 +14,9 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
-
 <c:set var="requisitionAttributes" value="${DataDictionary.RequisitionDocument.attributes}" />
+<c:set var="requisitionItemAttributes" value="${DataDictionary.RequisitionItem.attributes}" />
+<c:set var="sourceAccountingLineAttributes" value="${DataDictionary.SourceAccountingLine.attributes}" />
 <c:set var="purchaseOrderAttributes" value="${DataDictionary.PurchaseOrderDocument.attributes}" />
 <c:set var="ContractManagerAssignmentAttributes" value="${DataDictionary.ContractManagerAssignmentDocument.attributes}" />
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
@@ -80,29 +81,33 @@
 		                    <kul:htmlControlAttribute property="document.contractManagerAssignmentDetail[${ctr}].requisition.vendorName" attributeEntry="${requisitionAttributes.vendorName}" readOnly="true" />
 		                </td>
 		                <td align=left valign=middle class="datacell">
-		                    <kul:htmlControlAttribute property="document.contractManagerAssignmentDetail[${ctr}].requisition.documentHeader.documentDescription" attributeEntry="${requisitionAttributes.documentHeader.documentDescription}" readOnly="true" />
+		                    <kul:htmlControlAttribute property="document.contractManagerAssignmentDetail[${ctr}].requisition.documentHeader.documentDescription" attributeEntry="${requisitionAttributes['documentHeader.documentDescription']}" readOnly="true" />
 		                </td>
 		                <td align=right valign=middle class="datacell">
-		                    <div align="right"><kul:htmlControlAttribute property="document.contractManagerAssignmentDetail[${ctr}].requisition.documentHeader.financialDocumentTotalAmount" attributeEntry="${requisitionAttributes.documentHeader.financialDocumentTotalAmount}" readOnly="true" /></div>
+		                    <div align="right"><kul:htmlControlAttribute property="document.contractManagerAssignmentDetail[${ctr}].requisition.documentHeader.financialDocumentTotalAmount" attributeEntry="${requisitionAttributes['financialSystemDocumentHeader.financialDocumentTotalAmount']}" readOnly="true" /></div>
 		                </td>		               
 		                <td align=left valign=middle class="datacell">
 		                    <%-- fmt:formatDate value="${acmDetail.requisition.documentHeader.workflowDocument.createDate}" pattern="hh:mm a MM/dd/yyyy" / --%>
 						    <c:out value="${acmDetail.createDate}" />
 						</td>						
-		                <td align=left valign=middle class="datacell">		                   
-		                    <kul:htmlControlAttribute property="document.contractManagerAssignmentDetail[${ctr}].requisition.items[0].itemDescription" attributeEntry="${requisitionAttributes.items[0].itemDescription}" readOnly="true" />
+		                <td align=left valign=middle class="datacell">		   
+		                    <kul:htmlControlAttribute property="document.contractManagerAssignmentDetail[${ctr}].requisition.items[0].itemDescription" attributeEntry="${requisitionItemAttributes.itemDescription}" readOnly="true" />  
 		                </td>
-		                <td align=left valign=middle class="datacell">                         
-                        <kul:htmlControlAttribute property="document.contractManagerAssignmentDetail[${ctr}].requisition.items[0].purchasingCommodityCode" attributeEntry="${requisitionAttributes.items[0].purchasingCommodityCode}" readOnly="true" />
+		                <td align=left valign=middle class="datacell">            
+       
+                        <kul:htmlControlAttribute property="document.contractManagerAssignmentDetail[${ctr}].requisition.items[0].purchasingCommodityCode" attributeEntry="${requisitionItemAttributes.purchasingCommodityCode}" readOnly="true" />
+   
                         <c:if test="${! empty KualiForm.document.contractManagerAssignmentDetails[ctr].requisition.items[0].commodityCode.commodityDescription}">
                     	  	&nbsp;-&nbsp;
-                    			<kul:htmlControlAttribute property="document.contractManagerAssignmentDetail[${ctr}].requisition.items[0].commodityCode.commodityDescription" attributeEntry="${requisitionAttributes.items[0].commodityCode.commodityDescription}" readOnly="true" />
+                    			<kul:htmlControlAttribute property="document.contractManagerAssignmentDetail[${ctr}].requisition.items[0].commodityCode.commodityDescription" attributeEntry="${requisitionItemAttributes['commodityCode.commodityDescription']}" readOnly="true" />
                         </c:if>
                     </td>                       
 		                <td align=left valign=middle class="datacell">		                    
 		          				<c:choose>
 												<c:when test="${!empty acmDetail.requisition.items[0].sourceAccountingLines}">
-		                    		<kul:htmlControlAttribute property="document.contractManagerAssignmentDetail[${ctr}].requisition.items[0].sourceAccountingLines[0].financialObjectCode" attributeEntry="${requisitionAttributes.items[0].sourceAccountingLines[0].financialObjectCode}" readOnly="true" />		                    	
+
+		                    		<kul:htmlControlAttribute property="document.contractManagerAssignmentDetail[${ctr}].requisition.items[0].sourceAccountingLines[0].financialObjectCode" attributeEntry="${sourceAccountingLineAttributes.financialObjectCode}" readOnly="true" />		      
+           	
 												</c:when>
 												<c:when test="${empty acmDetail.requisition.items[0].sourceAccountingLines}">
 		                    		Note: This is bad data! If you are seeing this, you may have a requisition with no account for one item.

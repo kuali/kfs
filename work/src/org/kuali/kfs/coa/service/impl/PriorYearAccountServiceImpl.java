@@ -85,7 +85,7 @@ public class PriorYearAccountServiceImpl implements PriorYearAccountService {
 
     }
 
-    public void setPriorYearAccountDaoJdbc(PriorYearAccountDao priorYearAccountDao) {
+    public void setPriorYearAccountDao(PriorYearAccountDao priorYearAccountDao) {
         this.priorYearAccountDao = priorYearAccountDao;
     }
     public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {

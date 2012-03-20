@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.coa.service.impl;
 
+import java.util.Collections;
+
 import org.kuali.kfs.coa.identity.OrgReviewRole;
 import org.kuali.kfs.coa.service.OrgReviewRoleService;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -22,12 +24,16 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.rice.core.api.criteria.PredicateUtils;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kew.api.action.ActionRequestPolicy;
 import org.kuali.rice.kew.api.action.ActionRequestType;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.role.RoleMemberQueryResults;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.api.type.KimTypeInfoService;
@@ -86,11 +92,19 @@ public class OrgReviewRoleServiceImplTest extends KualiTestBase {
 
         orr.setEdit(false);
         orgReviewRoleService.saveOrgReviewRoleToKim(orr);
+        assertNotNull( "OrgReviewRole roleMemberId should not be null.", orr.getRoleMemberId() );
+        assertFalse( "OrgReviewRole roleMemberId should not have been blank.", orr.getRoleMemberId().equals("") );
 
         // now, look in KIM for the role
-
+        RoleMemberQueryResults roleMembers = roleService.findRoleMembers(QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ID, orr.getRoleMemberId()))));
+        fail( "Test for presence of user in role not implemented.");
         // and validate the data
+        fail( "Check of attribute data on role member not implemented.");
+
+        fail( "Check of role responsibility data on role member not implemented.");
     }
+
+    // TODO: on save of delegates, ensure that other (existing) delegates are not removed
 
     public void testPopulateOrgReviewRoleFromRoleMember() {
         fail("Not yet implemented");

@@ -15,21 +15,81 @@
  */
 package org.kuali.kfs.coa.service.impl;
 
+import org.kuali.kfs.coa.identity.OrgReviewRole;
 import org.kuali.kfs.coa.service.OrgReviewRoleService;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.rice.core.api.membership.MemberType;
+import org.kuali.rice.kew.api.action.ActionRequestPolicy;
+import org.kuali.rice.kew.api.action.ActionRequestType;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.kim.api.type.KimTypeInfoService;
 import org.kuali.rice.krad.exception.ValidationException;
 
 @ConfigureContext
 public class OrgReviewRoleServiceImplTest extends KualiTestBase {
 
     OrgReviewRoleServiceImpl orgReviewRoleService;
+    RoleService roleService;
+    KimTypeInfoService kimTypeInfoService;
+    PersonService personService;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         orgReviewRoleService = (OrgReviewRoleServiceImpl) SpringContext.getBean(OrgReviewRoleService.class);
+        roleService = KimApiServiceLocator.getRoleService();
+        kimTypeInfoService = KimApiServiceLocator.getKimTypeInfoService();
+        personService = KimApiServiceLocator.getPersonService();
+    }
+
+    protected OrgReviewRole buildOrgHierData() {
+        OrgReviewRole orr = new OrgReviewRole();
+        Role role = roleService.getRoleByNamespaceCodeAndName(KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAME);
+
+        orr.setRoleId( role.getId() );
+        orr.setKimTypeId( role.getKimTypeId() );
+        orr.setRoleName(role.getName());
+        orr.setNamespaceCode(role.getNamespaceCode());
+
+        orr.setChartOfAccountsCode("BL");
+        orr.setOrganizationCode("PSY");
+        //orr.setOverrideCode("");
+        //orr.setFromAmount(KualiDecimal.ZERO);
+        //orr.setToAmount(new KualiDecimal("5000.00"));
+        orr.setFinancialSystemDocumentTypeCode("ACCT");
+
+        orr.setActionTypeCode(ActionRequestType.APPROVE.getCode());
+        orr.setPriorityNumber("");
+        orr.setActionPolicyCode(ActionRequestPolicy.FIRST.getCode());
+        orr.setForceAction(false);
+
+        orr.setMemberTypeCode(MemberType.PRINCIPAL.getCode());
+        Person p = UserNameFixture.khuntley.getPerson();
+        orr.setPrincipalMemberPrincipalName(p.getPrincipalName());
+//        orr.setMemberId(p.getPrincipalId());
+
+        //orr.setActiveFromDate(null);
+        //orr.setActiveToDate(null);
+        return orr;
+    }
+
+    public void testSaveOrgReviewRoleToKim() throws Exception {
+        OrgReviewRole orr = buildOrgHierData();
+
+        orr.setEdit(false);
+        orgReviewRoleService.saveOrgReviewRoleToKim(orr);
+
+        // now, look in KIM for the role
+
+        // and validate the data
     }
 
     public void testPopulateOrgReviewRoleFromRoleMember() {

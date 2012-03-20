@@ -141,7 +141,7 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
 
         if(orr.getRoleRspActions()!=null && orr.getRoleRspActions().size()>0){
             orr.setActionTypeCode(orr.getRoleRspActions().get(0).getActionTypeCode());
-            orr.setPriorityNumber(orr.getRoleRspActions().get(0).getPriorityNumber()==null?"":orr.getRoleRspActions().get(0).getPriorityNumber()+"");
+            orr.setPriorityNumber(orr.getRoleRspActions().get(0).getPriorityNumber()==null?"":String.valueOf(orr.getRoleRspActions().get(0).getPriorityNumber()));
             orr.setActionPolicyCode(orr.getRoleRspActions().get(0).getActionPolicyCode());
             orr.setForceAction(orr.getRoleRspActions().get(0).isForceAction());
         }
@@ -296,15 +296,13 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
 //                    savedRoleMember = KimApiServiceLocator.getRoleService().saveRoleMemberForRole(roleMember.getId(),
 //                            roleMember.getMemberId(), roleMember.getType().getCode(), roleMember.getRoleId(),
 //                            roleMember.getAttributes(), fromDate, toDate);
-                    List<RoleResponsibilityAction> roleRspActionsToSave = getRoleRspActions(orr, roleMember);
-                    if(roleRspActionsToSave!=null){
-                        for(RoleResponsibilityAction rspActionInfo: roleRspActionsToSave){
+                    RoleResponsibilityAction roleRspActionToSave = getRoleRspAction(orr, roleMember);
+                    if(roleRspActionToSave!=null){
 //                            KimApiServiceLocator.getRoleService().saveRoleRspActions(
 //                                    rspActionInfo.getId(), roleMember.getRoleId(),
 //                                    rspActionInfo.getRoleResponsibilityId(), savedRoleMember.getId(),
 //                                    rspActionInfo.getActionTypeCode(), rspActionInfo.getActionPolicyCode(),
 //                                    rspActionInfo.getPriorityNumber(), new Boolean(rspActionInfo.isForceAction()));
-                        }
                     }
                 }
             }
@@ -374,7 +372,7 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
         return Collections.singletonList(delegationMember);
     }
 
-    private List<KfsKimDocRoleMember> getRoleMembersToSave(Role roleInfo, OrgReviewRole orr){
+    protected KfsKimDocRoleMember getRoleMemberToSave(Role roleInfo, OrgReviewRole orr){
         KfsKimDocRoleMember roleMember = null;
         if(StringUtils.isNotEmpty(orr.getRoleMemberRoleNamespaceCode()) && StringUtils.isNotEmpty(orr.getRoleMemberRoleName())){
             String memberId = KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(orr.getRoleMemberRoleNamespaceCode(), orr.getRoleMemberRoleName());
@@ -392,13 +390,19 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
                 roleMember = new KfsKimDocRoleMember(roleInfo.getId(), MemberType.PRINCIPAL, principal.getPrincipalId());
             }
         }
-        if(orr.isEdit()){
-            roleMember.setId(orr.getRoleMemberId());
+        if ( roleMember != null ) {
+            if(orr.isEdit()){
+                roleMember.setId(orr.getRoleMemberId());
+            }
+            roleMember.setAttributes(getAttributes(orr, roleInfo.getKimTypeId()));
+            if ( orr.getActiveFromDate() != null ) {
+                roleMember.setActiveFromDate( new DateTime( orr.getActiveFromDate().getTime() ) );
+            }
+            if ( orr.getActiveToDate() != null ) {
+                roleMember.setActiveToDate( new DateTime( orr.getActiveToDate().getTime() ) );
+            }
         }
-        roleMember.setAttributes(getAttributes(orr, roleInfo.getKimTypeId()));
-        roleMember.setActiveFromDate( new DateTime( orr.getActiveFromDate().getTime() ) );
-        roleMember.setActiveToDate( new DateTime( orr.getActiveToDate().getTime() ) );
-        return Collections.singletonList(roleMember);
+        return roleMember;
     }
 
     protected List<String> getRolesToSaveFor(List<String> roleNamesToConsider, String reviewRolesIndicator){
@@ -423,7 +427,10 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
         if(roleNamesToSaveFor!=null){
             for(String roleName: roleNamesToSaveFor){
                 Role roleInfo = getRoleInfo( KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName);
-                objectsToSave.addAll(getRoleMembersToSave(roleInfo, orr));
+                KfsKimDocRoleMember roleMemberToSave = getRoleMemberToSave(roleInfo, orr);
+                if ( roleMemberToSave != null ) {
+                    objectsToSave.add(roleMemberToSave);
+                }
             }
         }
         return objectsToSave;
@@ -468,39 +475,39 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
         return orr.getQualifierAsAttributeSet(attributeDataList);
     }
 
-    protected List<RoleResponsibilityAction> getRoleRspActions(OrgReviewRole orr, KfsKimDocRoleMember roleMember){
-        List<RoleResponsibilityAction> roleRspActions = new ArrayList<RoleResponsibilityAction>();
-        RoleResponsibilityAction.Builder roleRspAction;
+    protected RoleResponsibilityAction getRoleRspAction(OrgReviewRole orr, KfsKimDocRoleMember roleMember){
         //Assuming that there is only one responsibility for an org role
         //Get it now given the role id
-        List<RoleResponsibility> roleResponsibilityInfos = ((List<RoleResponsibility>)KimApiServiceLocator.getRoleService().getRoleResponsibilities(roleMember.getRoleId()));
+        List<RoleResponsibility> roleResponsibilityInfos = KimApiServiceLocator.getRoleService().getRoleResponsibilities(roleMember.getRoleId());
         //Assuming that there is only 1 responsibility for both the org review roles
-        if(roleResponsibilityInfos!=null && roleResponsibilityInfos.size()<1) {
+        if ( roleResponsibilityInfos == null || roleResponsibilityInfos.isEmpty() ) {
             throw new RuntimeException("The Org Review Role id:"+roleMember.getRoleId()+" does not have any responsibility associated with it");
         }
 
-        List<RoleResponsibilityAction> origRoleRspActions = ((List<RoleResponsibilityAction>)KimApiServiceLocator.getRoleService().getRoleMemberResponsibilityActions(roleMember.getId()));
-
-        roleRspAction = RoleResponsibilityAction.Builder.create();
-        if(origRoleRspActions!=null && origRoleRspActions.size()>0){
-            RoleResponsibilityAction origActionInfo = origRoleRspActions.get(0);
-            roleRspAction.setId(origActionInfo.getId());
+        List<RoleResponsibilityAction> origRoleRspActions = null;
+        if ( StringUtils.isNotBlank( roleMember.getId() ) ) {
+            origRoleRspActions = KimApiServiceLocator.getRoleService().getRoleMemberResponsibilityActions(roleMember.getId());
         }
-        roleRspAction.setRoleMemberId(roleMember.getId());
+        RoleResponsibilityAction.Builder rra = RoleResponsibilityAction.Builder.create();
+        if ( origRoleRspActions!=null && !origRoleRspActions.isEmpty() ) {
+            rra.setId(origRoleRspActions.get(0).getId());
+        }
+        rra.setRoleMemberId(roleMember.getId());
         RoleResponsibility roleResponsibilityInfo = roleResponsibilityInfos.get(0);
-        roleRspAction.setRoleResponsibilityId(roleResponsibilityInfo.getRoleResponsibilityId());
-        roleRspAction.setActionTypeCode(orr.getActionTypeCode());
-        roleRspAction.setActionPolicyCode(orr.getActionPolicyCode());
+        rra.setRoleResponsibilityId(roleResponsibilityInfo.getRoleResponsibilityId());
+        rra.setActionTypeCode(orr.getActionTypeCode());
+        rra.setActionPolicyCode(orr.getActionPolicyCode());
         if(StringUtils.isNotBlank(orr.getPriorityNumber())){
             try{
-                roleRspAction.setPriorityNumber(Integer.parseInt(orr.getPriorityNumber()));
+                rra.setPriorityNumber(Integer.parseInt(orr.getPriorityNumber()));
             } catch(Exception nfx){
-                //ignore
+                rra.setPriorityNumber(null);
             }
         }
-        roleRspAction.setForceAction(orr.isForceAction());
-        roleRspActions.add(roleRspAction.build());
-        return roleRspActions;
+        rra.setForceAction(orr.isForceAction());
+        rra.setVersionNumber(1L);
+        rra.setId("");
+        return rra.build();
     }
 
     protected KfsKimDocumentAttributeData getAttribute( String kimTypeId, String attributeName, String attributeValue ) {

@@ -193,6 +193,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
      * Sets the active attribute value.
      * @param active The active to set.
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -646,13 +647,6 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
         this.memberId = memberId;
     }
     /**
-     * Gets the attributes attribute.
-     * @return Returns the attributes.
-     */
-    public List<KfsKimDocumentAttributeData> getAttributes() {
-        return attributes;
-    }
-    /**
      * Sets the attributes attribute value.
      * @param attributes The attributes to set.
      */
@@ -665,7 +659,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
         return attributeData==null?"":attributeData.getAttrVal();
     }
 
-    private KfsKimDocumentAttributeData getAttribute(String attributeName){
+    protected KfsKimDocumentAttributeData getAttribute(String attributeName){
         if(StringUtils.isNotBlank(attributeName)) {
             for(KfsKimDocumentAttributeData attribute: attributes){
                 if( attribute.getKimAttribute()!=null

@@ -15,13 +15,13 @@
  */
 package org.kuali.kfs.coa.dataaccess.impl;
 
-import org.kuali.kfs.coa.dataaccess.PriorYearAccountDaoJdbc;
+import org.kuali.kfs.coa.dataaccess.PriorYearAccountDao;
 import org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJdbc;
 
 /**
  * This class performs actions against the database through direct SQL command calls.
  */
-public class PriorYearAccountDaoJdbcImpl extends PlatformAwareDaoBaseJdbc implements PriorYearAccountDaoJdbc {
+public class PriorYearAccountDaoJdbcImpl extends PlatformAwareDaoBaseJdbc implements PriorYearAccountDao {
 
     /** Constant used to retrieve row counts for tables. Obj_Id value exists in all tables in DB. */
     private static final String OBJ_ID = "OBJ_ID";

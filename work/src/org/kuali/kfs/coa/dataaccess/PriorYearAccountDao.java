@@ -18,7 +18,7 @@ package org.kuali.kfs.coa.dataaccess;
 /**
  * Methods needed to copy prior year accounts from current year accounts; this population is best done directly through JDBC
  */
-public interface PriorYearAccountDaoJdbc {
+public interface PriorYearAccountDao {
     /**
      * This method purges all records in the Prior Year table in the DB base on the input table name .
      * 

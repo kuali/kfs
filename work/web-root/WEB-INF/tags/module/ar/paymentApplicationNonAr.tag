@@ -227,11 +227,8 @@
                 <tr>
                     <th colspan='6'>&nbsp;</th>
                     <kul:htmlAttributeHeaderCell literalLabel="Non-AR Total"/>
-                    <td style="text-align: right;">
-                        <kul:htmlControlAttribute
-                            attributeEntry="${nonArTotal}"
-                            property="nonArTotal" readOnly="true" />
-                    	<!--${KualiForm.nonArTotal}-->
+                    <td style="text-align: right;">                    	
+                    	${KualiForm.nonArTotal}
                     </td>
                     <td>&nbsp;</td>
                 </tr>

@@ -57,6 +57,7 @@ public class OrgReviewRoleServiceImplTest extends KualiTestBase {
     KimTypeInfoService kimTypeInfoService;
     PersonService personService;
     Role orgHierRole;
+    Role acctHierRole;
 
     @Override
     protected void setUp() throws Exception {
@@ -67,6 +68,7 @@ public class OrgReviewRoleServiceImplTest extends KualiTestBase {
         kimTypeInfoService = KimApiServiceLocator.getKimTypeInfoService();
         personService = KimApiServiceLocator.getPersonService();
         orgHierRole = roleService.getRoleByNamespaceCodeAndName(KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAME);
+        acctHierRole = roleService.getRoleByNamespaceCodeAndName(KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, KFSConstants.SysKimApiConstants.ACCOUNTING_REVIEWER_ROLE_NAME);
     }
 
     protected OrgReviewRole buildOrgHierData() {
@@ -102,10 +104,10 @@ public class OrgReviewRoleServiceImplTest extends KualiTestBase {
     protected OrgReviewRole buildAcctOrgHierData() {
         OrgReviewRole orr = new OrgReviewRole();
 
-        orr.setRoleId( orgHierRole.getId() );
-        orr.setKimTypeId( orgHierRole.getKimTypeId() );
-        orr.setRoleName(orgHierRole.getName());
-        orr.setNamespaceCode(orgHierRole.getNamespaceCode());
+        orr.setRoleId( acctHierRole.getId() );
+        orr.setKimTypeId( acctHierRole.getKimTypeId() );
+        orr.setRoleName(acctHierRole.getName());
+        orr.setNamespaceCode(acctHierRole.getNamespaceCode());
 
         orr.setChartOfAccountsCode("BL");
         orr.setOrganizationCode("PSY");
@@ -143,7 +145,7 @@ public class OrgReviewRoleServiceImplTest extends KualiTestBase {
         return num;
     }
 
-    public void testSaveOrgReviewRoleToKim() throws Exception {
+    public void testSaveOrgReviewRoleToKim_OrgReview_New() throws Exception {
         OrgReviewRole orr = buildOrgHierData();
 
         orr.setEdit(false);
@@ -156,43 +158,119 @@ public class OrgReviewRoleServiceImplTest extends KualiTestBase {
         assertNotNull( "Returned role members object should not have been null", roleMembers );
         assertEquals( "One result should have been returned", 1, roleMembers.getResults().size() );
         RoleMember rm = roleMembers.getResults().get(0);
+
+        matchOrgReviewRoleToRoleMember(orr, rm, orgHierRole);
+    }
+
+    public void testSaveOrgReviewRoleToKim_AcctReview_New() throws Exception {
+        OrgReviewRole orr = buildAcctOrgHierData();
+
+        orr.setEdit(false);
+        orgReviewRoleService.saveOrgReviewRoleToKim(orr);
+        assertNotNull( "OrgReviewRole roleMemberId should not be null.", orr.getRoleMemberId() );
+        assertFalse( "OrgReviewRole roleMemberId should not have been blank.", orr.getRoleMemberId().equals("") );
+
+        // now, look in KIM for the role
+        RoleMemberQueryResults roleMembers = roleService.findRoleMembers(QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ID, orr.getRoleMemberId()))));
+        assertNotNull( "Returned role members object should not have been null", roleMembers );
+        assertEquals( "One result should have been returned", 1, roleMembers.getResults().size() );
+        RoleMember rm = roleMembers.getResults().get(0);
+        matchOrgReviewRoleToRoleMember(orr, rm, acctHierRole);
+
+    }
+
+    public void testSaveOrgReviewRoleToKim_OrgReview_Edit() throws Exception {
+        System.err.println( "Creating Role Entry to edit");
+        OrgReviewRole orr = buildOrgHierData();
+        orr.setEdit(false);
+        orgReviewRoleService.saveOrgReviewRoleToKim(orr);
+        assertNotNull( "OrgReviewRole roleMemberId should not be null.", orr.getRoleMemberId() );
+        assertFalse( "OrgReviewRole roleMemberId should not have been blank.", orr.getRoleMemberId().equals("") );
+        String createdRoleMemberId = orr.getRoleMemberId();
+
+        System.err.println("Checking created role");
+        RoleMemberQueryResults roleMembers = roleService.findRoleMembers(QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ID, orr.getRoleMemberId()))));
+        assertNotNull( "Returned role members object should not have been null", roleMembers );
+        assertEquals( "One result should have been returned", 1, roleMembers.getResults().size() );
+        RoleMember rm = roleMembers.getResults().get(0);
+        matchOrgReviewRoleToRoleMember(orr, rm, orgHierRole);
+
+        System.err.println("Creating update to just-created record");
+        orr = buildOrgHierData();
+        orr.setEdit(true);
+        orr.setORMId(createdRoleMemberId);
+        orr.setRoleMemberId(createdRoleMemberId);
+
+        orr.setActionTypeCode(ActionRequestType.ACKNOWLEDGE.getCode());
+        orgReviewRoleService.saveOrgReviewRoleToKim(orr);
+        assertEquals( "Role member ID should not have changed: ", createdRoleMemberId, orr.getRoleMemberId() );
+        System.err.println("Retrieving role member record");
+        roleMembers = roleService.findRoleMembers(QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ID, orr.getRoleMemberId()))));
+        assertNotNull( "Returned role members object should not have been null", roleMembers );
+        assertEquals( "One result should have been returned", 1, roleMembers.getResults().size() );
+        rm = roleMembers.getResults().get(0);
+        matchOrgReviewRoleToRoleMember(orr, rm, orgHierRole);
+    }
+
+    protected void matchOrgReviewRoleToRoleMember( OrgReviewRole orr, RoleMember rm, Role role ) {
         System.err.println( "RoleMember: " + rm );
+
         assertEquals( "RoleMember id should be that requested", orr.getRoleMemberId(), rm.getId() );
         assertEquals( "RoleMember's ID should match the inputs", orr.getPrincipalMemberPrincipalId(), rm.getMemberId() );
-        assertEquals( "Role should be org hierarchy", orgHierRole.getId(), rm.getRoleId() );
+        assertEquals( "Role should be " + role.getName(), role.getId(), rm.getRoleId() );
 
-        // and validate the data
-        assertNotNull( "The role member attributes should not have been null", rm.getAttributes() );
         Map<String,String> attr = rm.getAttributes();
-        assertEquals( "The number of attributes does not match", 3, attr.size() );
-        assertEquals("Chart attrib is incorrect", "BL", attr.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE));
-        assertEquals("Org attrib is incorrect", "PSY", attr.get(KfsKimAttributes.ORGANIZATION_CODE));
-        assertEquals("Doc Type attrib is incorrect", "ACCT", attr.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME));
+        assertNotNull( "The role member attributes should not have been null", rm.getAttributes() );
+        assertEquals("Chart attrib is incorrect", orr.getChartOfAccountsCode(), attr.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE));
+        assertEquals("Org attrib is incorrect", orr.getOrganizationCode(), attr.get(KfsKimAttributes.ORGANIZATION_CODE));
+        assertEquals("Doc Type attrib is incorrect", orr.getFinancialSystemDocumentTypeCode(), attr.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME));
+        assertEquals("From amount is incorrect", orr.getFromAmountStr(), attr.get(KfsKimAttributes.FROM_AMOUNT));
+        assertEquals("To amount is incorrect", orr.getToAmountStr(), attr.get(KfsKimAttributes.TO_AMOUNT));
 
         List<RoleResponsibilityAction> respActions = rm.getRoleRspActions();
         assertNotNull( "Role resp actions should not be null", respActions );
         assertFalse( "Role resp actions should not be empty", respActions.isEmpty() );
+        assertEquals( "There should only be one RoleRespAction", 1, respActions.size() );
+
         RoleResponsibilityAction rra = respActions.get(0);
-        assertEquals( "The responsibility should be for an approve.", ActionRequestType.APPROVE.getCode(), rra.getActionTypeCode() );
-        assertEquals( "The responsibility policy should be first approve.", ActionRequestPolicy.FIRST.getCode(), rra.getActionPolicyCode() );
+        assertEquals( "The responsibility type does not match", orr.getActionTypeCode(), rra.getActionTypeCode() );
+        assertEquals( "The responsibility policy does not match", orr.getActionPolicyCode(), rra.getActionPolicyCode() );
         assertEquals( "The role resp ID is not correct", "*", rra.getRoleResponsibilityId() );
-//        assertEquals( "The number of role resp action records should be equal to the number of attached responsibilities with actionDetailsAtRoleMemberLevel=true", getNumberOfResponsibilitiesWithRoleMemberLevelActions(orgHierRole), respActions.size() );
-        assertEquals( "The number of role resp action records should be 1", 1, respActions.size() );
+    }
+
+    public void testSaveOrgReviewRoleToKim_AcctReview_Edit() throws Exception {
+        fail("Not yet implemented");
+    }
+
+    public void testSaveOrgReviewRoleToKim_OrgReview_Delegate_New() throws Exception {
+        fail("Not yet implemented");
+    }
+
+    public void testSaveOrgReviewRoleToKim_AcctReview_Delegate_New() throws Exception {
+        fail("Not yet implemented");
+    }
+
+    public void testSaveOrgReviewRoleToKim_OrgReview_Delegate_Edit() throws Exception {
+        fail("Not yet implemented");
+    }
+
+    public void testSaveOrgReviewRoleToKim_AcctReview_Delegate_Edit() throws Exception {
+        fail("Not yet implemented");
     }
 
     // TODO: on save of delegates, ensure that other (existing) delegates are not removed
 
-    public void testPopulateOrgReviewRoleFromRoleMember() {
-        fail("Not yet implemented");
-    }
-
-    public void testPopulateOrgReviewRoleFromDelegationMember() {
-        fail("Not yet implemented");
-    }
-
-    public void testPopulateObjectExtras() {
-        fail("Not yet implemented");
-    }
+//    public void testPopulateOrgReviewRoleFromRoleMember() {
+//        fail("Not yet implemented");
+//    }
+//
+//    public void testPopulateOrgReviewRoleFromDelegationMember() {
+//        fail("Not yet implemented");
+//    }
+//
+//    public void testPopulateObjectExtras() {
+//        fail("Not yet implemented");
+//    }
 
     public void testIsValidDocumentTypeForOrgReview() {
         assertTrue( "DI should have been valid", orgReviewRoleService.isValidDocumentTypeForOrgReview("DI") );
@@ -221,13 +299,13 @@ public class OrgReviewRoleServiceImplTest extends KualiTestBase {
         assertFalse( "COAT should not have accounting org hierarchy", orgReviewRoleService.hasAccountingOrganizationHierarchy("COAT"));
     }
 
-    public void testGetClosestOrgReviewRoleParentDocumentTypeName() {
-        fail("Not yet implemented");
-    }
-
-    public void testGetRolesToConsider() {
-        fail("Not yet implemented");
-    }
+//    public void testGetClosestOrgReviewRoleParentDocumentTypeName() {
+//        fail("Not yet implemented");
+//    }
+//
+//    public void testGetRolesToConsider() {
+//        fail("Not yet implemented");
+//    }
 
 //    public void testCurrentDocTypeAndChildrenHaveZeroOrgAndAccountReviewRoles() {
 //        assertTrue( "COAT should have reported zero child docs with org review", orgReviewRoleService.currentDocTypeAndChildrenHaveZeroOrgAndAccountReviewRoles("COAT"));

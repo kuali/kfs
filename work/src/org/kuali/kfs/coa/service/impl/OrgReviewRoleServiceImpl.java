@@ -260,6 +260,7 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
 
     @Override
     public void saveOrgReviewRoleToKim( OrgReviewRole orr ) {
+        RoleService roleService = KimApiServiceLocator.getRoleService();
         if(orr.isDelegate() || orr.isCreateDelegation()){
             // Save delegation(s)
             List<KfsKimDocDelegateType> objectsToSave = getDelegations(orr);
@@ -280,14 +281,18 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
             if(objectsToSave!=null){
                 for(RoleMemberContract roleMember: objectsToSave){
                     List<RoleResponsibilityAction.Builder> roleRspActionsToSave = getRoleResponsibilityActions(orr, roleMember);
-                    if ( orr.isEdit() ) {
+                    RoleMemberQueryResults roleMembers = roleService.findRoleMembers(QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ID, roleMember.getId()))));
+                    if ( orr.isEdit() && roleMembers != null && roleMembers.getResults() != null && !roleMembers.getResults().isEmpty() ) {
+                        RoleMember existingRoleMember = roleMembers.getResults().get(0);
                         RoleMember.Builder updatedRoleMember = RoleMember.Builder.create(roleMember);
                         updatedRoleMember.setRoleRspActions( roleRspActionsToSave );
-                        roleMember = KimApiServiceLocator.getRoleService().updateRoleMember( updatedRoleMember.build() );
+                        updatedRoleMember.setVersionNumber(existingRoleMember.getVersionNumber());
+                        updatedRoleMember.setObjectId(existingRoleMember.getObjectId());
+                        roleMember = roleService.updateRoleMember( updatedRoleMember.build() );
                     } else {
                         RoleMember.Builder newRoleMember = RoleMember.Builder.create(roleMember);
                         newRoleMember.setRoleRspActions( roleRspActionsToSave );
-                        roleMember = KimApiServiceLocator.getRoleService().createRoleMember( newRoleMember.build() );
+                        roleMember = roleService.createRoleMember( newRoleMember.build() );
                     }
                     orr.setRoleMemberId(roleMember.getId());
                     orr.setORMId(roleMember.getId());

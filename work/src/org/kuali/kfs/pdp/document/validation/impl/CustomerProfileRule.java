@@ -47,13 +47,12 @@ public class CustomerProfileRule extends MaintenanceDocumentRuleBase {
         boolean isValid = true;
         isValid &= super.processCustomAddCollectionLineBusinessRules(document, collectionName, line);
         MessageMap errorMap = GlobalVariables.getMessageMap();
-        isValid &= errorMap.hasErrors();
+        isValid &= !errorMap.hasErrors();
 
         if (isValid) {
             if (collectionName.equals(PdpPropertyConstants.CustomerProfile.CUSTOMER_PROFILE_BANKS)) {
                 CustomerBank newCustomerBank = (CustomerBank) line;
-                
-                if((newCustomerBank.getDisbursementTypeCode() !=  null) && (newCustomerBank.getBank() != null)){
+                if(newCustomerBank.getDisbursementTypeCode()!=null){
                     // does the same disbursement type code exist?
                     CustomerProfile customerProfile = (CustomerProfile) document.getNewMaintainableObject().getBusinessObject();
                     for (CustomerBank bank : customerProfile.getCustomerBanks()) {
@@ -62,6 +61,8 @@ public class CustomerProfileRule extends MaintenanceDocumentRuleBase {
                             isValid = false;
                         }
                     }
+                }
+                if(newCustomerBank.getBank()!=null){
                     // check if the bank code type is allowed
                     newCustomerBank.refreshReferenceObject(PdpPropertyConstants.CUSTOMER_BANK);
                     Bank newBank = newCustomerBank.getBank();
@@ -73,9 +74,6 @@ public class CustomerProfileRule extends MaintenanceDocumentRuleBase {
                         errorMap.putError(PdpPropertyConstants.DISBURSEMENT_TYPE_CODE, PdpKeyConstants.ERROR_PDP_CHECK_BANK_NOT_ALLOWED, newBank.getBankCode() + " (" + newBank.getBankName() + ")");
                         isValid = false;
                     }
-                }
-                else {
-                    isValid = false;
                 }
             }
         }

@@ -40,6 +40,7 @@
 				<ref bean="Tickler-recipientGroups.assignedToGroup.name" />
 				<ref bean="Tickler-groupId" />
 				<ref bean="Tickler-groupLookup.name" />
+				<ref bean="Tickler-groupLookup.namespaceCode" />
 			</list>
 		</property>
 		<property name="collections">
@@ -67,6 +68,7 @@
 					<property name="supportAttributes">
 						<list>
 							<bean parent="SupportAttributeDefinition" p:sourceName="groupLookup.name" p:targetName="name" />
+							<bean parent="SupportAttributeDefinition" p:sourceName="groupLookup.namespaceCode" p:targetName="namespaceCode" />
 						</list>
 					</property>
 				</bean>
@@ -283,9 +285,16 @@
 	<bean id="Tickler-groupLookup.name-parentBean" abstract="true"
 		parent="TicklerRecipientGroup-assignedToGroupNameForLookup">
 		<property name="name" value="groupLookup.name" />
-		<property name="label" value="Group" />
+		<property name="label" value="Group Name" />
 	</bean>
 
+	<bean id="Tickler-groupLookup.namespaceCode" parent="Tickler-groupLookup.namespaceCode-parentBean" />
+
+	<bean id="Tickler-groupLookup.namespaceCode-parentBean" abstract="true"
+		parent="TicklerRecipientGroup-assignedToGroupNamespaceForLookup">
+		<property name="name" value="groupLookup.namespaceCode" />
+		<property name="label" value="Group Namespace" />
+	</bean>
 
 	<!-- Business Object Inquiry Definition -->
 
@@ -468,6 +477,7 @@
 					p:attributeName="recipientGroups.groupId"/>
 				-->
 				<bean parent="FieldDefinition" p:attributeName="groupId" />
+				<bean parent="FieldDefinition" p:attributeName="groupLookup.namespaceCode" />
 				<bean parent="FieldDefinition" p:attributeName="groupLookup.name"
 					p:forceLookup="true" />
 				<bean parent="FieldDefinition" p:attributeName="active" />

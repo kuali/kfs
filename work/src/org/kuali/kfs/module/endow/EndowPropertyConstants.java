@@ -579,6 +579,7 @@ public class EndowPropertyConstants {
     public static final String TICKLER_LOOKUP_UNIVERSAL_USER_ID_FIELD = "recipientPrincipals.principalId";
     public static final String TICKLER_RECIPIENT_GROUPID = "groupId";
     public static final String TICKLER_LOOKUP_GROUP_NAME_FIELD = "groupLookup.name";
+    public static final String TICKLER_LOOKUP_GROUP_NAME_SPACE_FIELD = "groupLookup.namespaceCode";
     public static final String TICKLER_LOOKUP_GROUP_USER_ID_FIELD = "recipientGroups.groupId";
     public static final String TICKLER_LOOKUP_KEMID = "kemIds.kemId";
 

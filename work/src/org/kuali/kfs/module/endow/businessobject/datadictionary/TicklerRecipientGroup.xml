@@ -68,13 +68,12 @@
 	<bean id="TicklerRecipientGroup-assignedToGroupNamespaceForLookup" parent="TicklerRecipientGroup-assignedToGroupNamespaceForLookup-parentBean" />
 	<bean id="TicklerRecipientGroup-assignedToGroupNamespaceForLookup-parentBean"
 		parent="Group-namespaceCode" abstract="true"
-		p:name="assignedToGroupNamespaceForLookup" p:required="false" />
+		p:name="assignedToGroup.namespaceCode" p:required="false" />
 
 	<bean id="TicklerRecipientGroup-assignedToGroupNameForLookup" parent="TicklerRecipientGroup-assignedToGroupNameForLookup-parentBean" />
 	<bean id="TicklerRecipientGroup-assignedToGroupNameForLookup-parentBean"
 		parent="Group-name" abstract="true" p:name="assignedToGroup.name"
 		p:required="false" />
-
 
 	<!-- Tickler Number -->
 	<bean id="TicklerRecipientGroup-number" parent="TicklerRecipientGroup-number-parentBean" />

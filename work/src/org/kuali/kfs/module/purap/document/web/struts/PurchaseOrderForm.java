@@ -27,9 +27,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
 import org.kuali.kfs.module.purap.businessobject.PurApGenericAttributes;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
@@ -54,8 +54,8 @@ import org.kuali.kfs.module.purap.util.PurApItemUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.document.DocumentStatusCategory;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
@@ -63,9 +63,6 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
-import org.kuali.rice.krad.bo.Note;
-import org.kuali.rice.krad.datadictionary.AttributeSecurity;
-import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -318,7 +315,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
 
         //KFSMI-4576 masking/unmasking PO number...
         //If the document status is not FINAL then check for permissions
-        if (!workflowDocument.getStatus().equals(KewApiConstants.ROUTE_HEADER_FINAL_CD)) {
+        if (!workflowDocument.getStatus().getCategory().equals(DocumentStatusCategory.SUCCESSFUL)) {
             String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
             String namespaceCode = KFSConstants.ParameterNamespaces.KNS;
             String permissionTemplateName = KimConstants.PermissionTemplateNames.FULL_UNMASK_FIELD;

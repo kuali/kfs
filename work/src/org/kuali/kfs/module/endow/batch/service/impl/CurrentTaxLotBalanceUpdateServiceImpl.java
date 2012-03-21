@@ -92,8 +92,8 @@ public class CurrentTaxLotBalanceUpdateServiceImpl implements CurrentTaxLotBalan
         boolean systemParameterExists = true;
         
         // check to make sure the system parameter has been setup...
-        if (!getParameterService().parameterExists(KfsParameterConstants.ENDOWMENT_BATCH.class, EndowParameterKeyConstants.FISCAL_YEAR_END_DAY_AND_MONTH)) {
-          LOG.warn("FISCAL_YEAR_END_DAY_AND_MONTH System parameter does not exist in the parameters list.  The job can not continue without this parameter");
+        if (!getParameterService().parameterExists(KfsParameterConstants.ENDOWMENT_BATCH.class, EndowParameterKeyConstants.FISCAL_YEAR_END_MONTH_AND_DAY)) {
+          LOG.warn("FISCAL_YEAR_END_MONTH_AND_DAY System parameter does not exist in the parameters list.  The job can not continue without this parameter");
           return false;
         }
         

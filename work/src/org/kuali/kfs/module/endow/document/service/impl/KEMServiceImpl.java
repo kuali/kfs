@@ -209,14 +209,14 @@ public class KEMServiceImpl implements KEMService {
 
     /**
      * @see org.kuali.kfs.module.endow.document.service.KEMService#getFiscalYearEndDayAndMonth() Gets the
-     *      FISCAL_YEAR_END_DAY_AND_MONTH system parameter
-     * @return FISCAL_YEAR_END_DAY_AND_MONTH value
+     *      FISCAL_YEAR_END_MONTH_AND_DAY system parameter
+     * @return FISCAL_YEAR_END_MONTH_AND_DAY value
      */
     public java.sql.Date getFiscalYearEndDayAndMonth() {
         java.sql.Date fiscalDate = null;
 
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        String yearEndDateAndMonth = parameterService.getParameterValueAsString(KfsParameterConstants.ENDOWMENT_BATCH.class, EndowParameterKeyConstants.FISCAL_YEAR_END_DAY_AND_MONTH);
+        String yearEndDateAndMonth = parameterService.getParameterValueAsString(KfsParameterConstants.ENDOWMENT_BATCH.class, EndowParameterKeyConstants.FISCAL_YEAR_END_MONTH_AND_DAY);
 
         Calendar calendar = Calendar.getInstance();
         

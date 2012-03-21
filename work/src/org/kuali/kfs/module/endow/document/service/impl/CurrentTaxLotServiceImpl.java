@@ -381,7 +381,7 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
     }
 
     /**
-     * Helper method to get the system parameter FISCAL_YEAR_END_DAY_AND_MONTH and convert the value into a date value
+     * Helper method to get the system parameter FISCAL_YEAR_END_MONTH_AND_DAY and convert the value into a date value
      */
     protected Date getFiscalYearEndDate() {
         Date fiscalYearEndDate = null;
@@ -389,7 +389,7 @@ public class CurrentTaxLotServiceImpl implements CurrentTaxLotService {
         fiscalYearEndDate = kEMService.getFiscalYearEndDayAndMonth();
 
         if (fiscalYearEndDate == null) {
-            throw new RuntimeException("ParseException: CurrentTaxLotBalanceUpdateStep job stopped because System Parameter FISCAL_YEAR_END_DAY_AND_MONTH is invalid");
+            throw new RuntimeException("ParseException: CurrentTaxLotBalanceUpdateStep job stopped because System Parameter FISCAL_YEAR_END_MONTH_AND_DAY is invalid");
         }
 
         return fiscalYearEndDate;

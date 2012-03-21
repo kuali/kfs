@@ -45,7 +45,7 @@ public class EndowParameterKeyConstants {
     public static final String PARAMETER_KEMID_COMPONENT = "KEMID";
 
     public static final String TAX_LOTS_ACCOUNTING_METHOD = "TAX_LOTS_ACCOUNTING_METHOD";
-    public static final String FISCAL_YEAR_END_DAY_AND_MONTH = "FISCAL_YEAR_END_MONTH_AND_DAY";
+    public static final String FISCAL_YEAR_END_MONTH_AND_DAY = "FISCAL_YEAR_END_MONTH_AND_DAY";
     public static final String TRANSACTION_ARCHIVE_DOCUMENT_TYPE_NAMES = "DOCUMENT_TYPES";
     public static final String GAIN_LOSS_NO_ROUTE_IND = "GAIN_LOSS_NO_ROUTE_IND";
     public static final String GAIN_LOSS_DESCRIPTION = "GAIN_LOSS_DESCRIPTION";
@@ -70,6 +70,4 @@ public class EndowParameterKeyConstants {
 
     public static final String ENDOWMENT_ACCOUNTING_LINE_IMPORT = "ENDOWMENT_ACCOUNTING_LINE_IMPORT";
     public static final String ENDOWMENT_TRANSACTION_LINE_IMPORT = "ENDOWMENT_TRANSACTION_LINE_IMPORT";
-
-    public static final String FISCAL_YEAR_END_MONTH_AND_DAY = "FISCAL_YEAR_END_MONTH_AND_DAY";
 }

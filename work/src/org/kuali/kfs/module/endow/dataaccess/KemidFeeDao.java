@@ -21,7 +21,7 @@ public interface KemidFeeDao {
 
     /**
      * Updates WAIVED_FEE_YTD column to zero (0). If the current date is the first day of the institution's fiscal year
-     * (FISCAL_YEAR_END_DAY_AND_MONTH parameter) then all values in END_KEMID_FEE_T: WAIVED_FEE_YTD are set to zero (0).
+     * (FISCAL_YEAR_END_MONTH_AND_DAY parameter) then all values in END_KEMID_FEE_T: WAIVED_FEE_YTD are set to zero (0).
      * 
      * @param firstDayAfterFiscalYear the first Day After Fiscal Year
      * @param currentDate the current date

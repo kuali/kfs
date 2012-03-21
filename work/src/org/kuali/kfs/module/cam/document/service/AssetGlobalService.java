@@ -105,9 +105,9 @@ public interface AssetGlobalService {
     public String getNonNewAcquisitionCodeGroup();
     
     /**
-     * Gets the FISCAL_YEAR_END_DAY_AND_MONTH system parameter
+     * Gets the FISCAL_YEAR_END_MONTH_AND_DAY system parameter
      * TODO This should be refactored to a generic parm accessible to any module.
-     * @return FISCAL_YEAR_END_DAY_AND_MONTH value
+     * @return FISCAL_YEAR_END_MONTH_AND_DAY value
      */
     public String getFiscalYearEndDayAndMonth();
 

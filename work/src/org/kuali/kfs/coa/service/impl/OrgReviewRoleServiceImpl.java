@@ -50,7 +50,6 @@ import org.kuali.rice.kim.api.role.RoleContract;
 import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.role.RoleMemberContract;
 import org.kuali.rice.kim.api.role.RoleMemberQueryResults;
-import org.kuali.rice.kim.api.role.RoleResponsibility;
 import org.kuali.rice.kim.api.role.RoleResponsibilityAction;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -78,12 +77,15 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
 
     @Override
     public void populateOrgReviewRoleFromRoleMember(OrgReviewRole orr, String roleMemberId) {
+        if ( StringUtils.isBlank(roleMemberId) ) {
+            throw new IllegalArgumentException( "Role member ID may not be blank" );
+        }
         RoleService roleService = KimApiServiceLocator.getRoleService();
         RoleMemberQueryResults roleMembers = roleService.findRoleMembers(QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ID, roleMemberId))));
-        RoleMember roleMember = null;
-        if(roleMembers!=null && !roleMembers.getResults().isEmpty() ){
-            roleMember = roleMembers.getResults().get(0);
+        if ( roleMembers == null || roleMembers.getResults() == null || roleMembers.getResults().isEmpty() ) {
+            throw new IllegalArgumentException( "Unknown role member ID passed in - nothing returned from KIM RoleService: " + roleMemberId );
         }
+        RoleMember roleMember = roleMembers.getResults().get(0);
         orr.setRoleMemberId(roleMember.getId());
         orr.setKimDocumentRoleMember(roleMember);
 
@@ -277,14 +279,14 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
             List<KfsKimDocRoleMember> objectsToSave = getRoleMembers(orr);
             if(objectsToSave!=null){
                 for(RoleMemberContract roleMember: objectsToSave){
-                    RoleResponsibilityAction.Builder roleRspActionToSave = getRoleRspAction(orr, roleMember);
+                    List<RoleResponsibilityAction.Builder> roleRspActionsToSave = getRoleResponsibilityActions(orr, roleMember);
                     if ( orr.isEdit() ) {
                         RoleMember.Builder updatedRoleMember = RoleMember.Builder.create(roleMember);
-                        updatedRoleMember.setRoleRspActions( Collections.singletonList(roleRspActionToSave) );
+                        updatedRoleMember.setRoleRspActions( roleRspActionsToSave );
                         roleMember = KimApiServiceLocator.getRoleService().updateRoleMember( updatedRoleMember.build() );
                     } else {
                         RoleMember.Builder newRoleMember = RoleMember.Builder.create(roleMember);
-                        newRoleMember.setRoleRspActions( Collections.singletonList(roleRspActionToSave) );
+                        newRoleMember.setRoleRspActions( roleRspActionsToSave );
                         roleMember = KimApiServiceLocator.getRoleService().createRoleMember( newRoleMember.build() );
                     }
                     orr.setRoleMemberId(roleMember.getId());
@@ -460,17 +462,30 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
         return orr.getQualifierAsAttributeSet(attributeDataList);
     }
 
-    protected RoleResponsibilityAction.Builder getRoleRspAction(OrgReviewRole orr, RoleMemberContract roleMember){
-        //Assuming that there is only one responsibility for an org role
-        //Get it now given the role id
-        List<RoleResponsibility> roleResponsibilityInfos = KimApiServiceLocator.getRoleService().getRoleResponsibilities(roleMember.getRoleId());
-        //Assuming that there is only 1 responsibility for both the org review roles
-        if ( roleResponsibilityInfos == null || roleResponsibilityInfos.isEmpty() ) {
-            throw new IllegalStateException("The Org Review Role id:"+roleMember.getRoleId()+" does not have any responsibility associated with it");
-        }
-        RoleResponsibility roleResponsibilityInfo = roleResponsibilityInfos.get(0);
+// JHK: Commented out as it is not needed at the moment.  If we decide that we need to link these to the
+// exact responsibilities in the future, I didn't want anyone to have to re-invent the wheel.
+//    protected List<RoleResponsibility> getResponsibilitiesWithRoleMemberLevelActions( String roleId ) {
+//        List<RoleResponsibility> roleResponsibilities = KimApiServiceLocator.getRoleService().getRoleResponsibilities(roleId);
+//        //Assuming that there is only 1 responsibility for both the org review roles
+//        if ( roleResponsibilities == null || roleResponsibilities.isEmpty() ) {
+//            throw new IllegalStateException("The Org Review Role id: " + roleId + " does not have any responsibilities associated with it");
+//        }
+//        List<RoleResponsibility> respWithRoleMemberActions = new ArrayList<RoleResponsibility>( roleResponsibilities.size() );
+//        for ( RoleResponsibility rr : roleResponsibilities ) {
+//            Responsibility r = KimApiServiceLocator.getResponsibilityService().getResponsibility(rr.getResponsibilityId());
+//            if ( Boolean.parseBoolean( r.getAttributes().get(KimConstants.AttributeConstants.ACTION_DETAILS_AT_ROLE_MEMBER_LEVEL) ) ) {
+//                respWithRoleMemberActions.add(rr);
+//            }
+//        }
+//        return respWithRoleMemberActions;
+//    }
+
+    protected List<RoleResponsibilityAction.Builder> getRoleResponsibilityActions(OrgReviewRole orr, RoleMemberContract roleMember){
+        List<RoleResponsibilityAction.Builder> roleResponsibilityActions = new ArrayList<RoleResponsibilityAction.Builder>(1);
 
         RoleResponsibilityAction.Builder rra = RoleResponsibilityAction.Builder.create();
+        // if this is an existing role member, pull matching role resp action record (and set ID in object) so it can be updated
+        // otherwise, it will be left blank and a new one will be created
         if ( StringUtils.isNotBlank( roleMember.getId() ) ) {
             List<RoleResponsibilityAction> origRoleRspActions = KimApiServiceLocator.getRoleService().getRoleMemberResponsibilityActions(roleMember.getId());
             if ( origRoleRspActions!=null && !origRoleRspActions.isEmpty() ) {
@@ -479,7 +494,7 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
         }
 
         rra.setRoleMemberId(roleMember.getId());
-        rra.setRoleResponsibilityId(roleResponsibilityInfo.getRoleResponsibilityId());
+        rra.setRoleResponsibilityId("*");
         rra.setActionTypeCode(orr.getActionTypeCode());
         rra.setActionPolicyCode(orr.getActionPolicyCode());
         if(StringUtils.isNotBlank(orr.getPriorityNumber())){
@@ -490,7 +505,8 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
             }
         }
         rra.setForceAction(orr.isForceAction());
-        return rra;
+        roleResponsibilityActions.add(rra);
+        return roleResponsibilityActions;
     }
 
     protected KfsKimDocumentAttributeData getAttribute( String kimTypeId, String attributeName, String attributeValue ) {

@@ -30,14 +30,18 @@ import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.core.api.criteria.PredicateUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.membership.MemberType;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.action.ActionRequestPolicy;
 import org.kuali.rice.kew.api.action.ActionRequestType;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.responsibility.Responsibility;
+import org.kuali.rice.kim.api.responsibility.ResponsibilityService;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.role.RoleMemberQueryResults;
+import org.kuali.rice.kim.api.role.RoleResponsibility;
 import org.kuali.rice.kim.api.role.RoleResponsibilityAction;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -49,6 +53,7 @@ public class OrgReviewRoleServiceImplTest extends KualiTestBase {
 
     OrgReviewRoleServiceImpl orgReviewRoleService;
     RoleService roleService;
+    ResponsibilityService responsibilityService;
     KimTypeInfoService kimTypeInfoService;
     PersonService personService;
     Role orgHierRole;
@@ -58,6 +63,7 @@ public class OrgReviewRoleServiceImplTest extends KualiTestBase {
         super.setUp();
         orgReviewRoleService = (OrgReviewRoleServiceImpl) SpringContext.getBean(OrgReviewRoleService.class);
         roleService = KimApiServiceLocator.getRoleService();
+        responsibilityService = KimApiServiceLocator.getResponsibilityService();
         kimTypeInfoService = KimApiServiceLocator.getKimTypeInfoService();
         personService = KimApiServiceLocator.getPersonService();
         orgHierRole = roleService.getRoleByNamespaceCodeAndName(KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAME);
@@ -93,6 +99,50 @@ public class OrgReviewRoleServiceImplTest extends KualiTestBase {
         return orr;
     }
 
+    protected OrgReviewRole buildAcctOrgHierData() {
+        OrgReviewRole orr = new OrgReviewRole();
+
+        orr.setRoleId( orgHierRole.getId() );
+        orr.setKimTypeId( orgHierRole.getKimTypeId() );
+        orr.setRoleName(orgHierRole.getName());
+        orr.setNamespaceCode(orgHierRole.getNamespaceCode());
+
+        orr.setChartOfAccountsCode("BL");
+        orr.setOrganizationCode("PSY");
+        orr.setOverrideCode("");
+        orr.setFromAmount(KualiDecimal.ZERO);
+        orr.setToAmount(new KualiDecimal("5000.00"));
+        orr.setFinancialSystemDocumentTypeCode("DI");
+
+        orr.setActionTypeCode(ActionRequestType.APPROVE.getCode());
+        orr.setPriorityNumber("1");
+        orr.setActionPolicyCode(ActionRequestPolicy.FIRST.getCode());
+        orr.setForceAction(false);
+
+        orr.setMemberTypeCode(MemberType.PRINCIPAL.getCode());
+        Person p = UserNameFixture.khuntley.getPerson();
+        orr.setPrincipalMemberPrincipalName(p.getPrincipalName());
+        orr.setPrincipalMemberPrincipalId(p.getPrincipalId());
+
+        //orr.setActiveFromDate(null);
+        //orr.setActiveToDate(null);
+        return orr;
+    }
+
+    protected int getNumberOfResponsibilitiesWithRoleMemberLevelActions( Role role ) {
+        List<RoleResponsibility> roleResponsibilities = roleService.getRoleResponsibilities(role.getId());
+        assertNotNull( "There should have been responsibilities assigned to the role (was null)", roleResponsibilities );
+        assertFalse( "There should have been responsibilities assigned to the role", roleResponsibilities.isEmpty() );
+        int num = 0;
+        for ( RoleResponsibility rr : roleResponsibilities ) {
+            Responsibility r = responsibilityService.getResponsibility(rr.getResponsibilityId());
+            if ( Boolean.parseBoolean( r.getAttributes().get(KimConstants.AttributeConstants.ACTION_DETAILS_AT_ROLE_MEMBER_LEVEL) ) ) {
+                num++;
+            }
+        }
+        return num;
+    }
+
     public void testSaveOrgReviewRoleToKim() throws Exception {
         OrgReviewRole orr = buildOrgHierData();
 
@@ -119,12 +169,15 @@ public class OrgReviewRoleServiceImplTest extends KualiTestBase {
         assertEquals("Org attrib is incorrect", "PSY", attr.get(KfsKimAttributes.ORGANIZATION_CODE));
         assertEquals("Doc Type attrib is incorrect", "ACCT", attr.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME));
 
-        // TODO: do we need to consider that there could be multiple responsibilities attached to this?
-
         List<RoleResponsibilityAction> respActions = rm.getRoleRspActions();
         assertNotNull( "Role resp actions should not be null", respActions );
-        assertEquals( "There should be one resp action for this role member", 1, respActions.size() );
-        fail( "Check of role responsibility data on role member not complete.");
+        assertFalse( "Role resp actions should not be empty", respActions.isEmpty() );
+        RoleResponsibilityAction rra = respActions.get(0);
+        assertEquals( "The responsibility should be for an approve.", ActionRequestType.APPROVE.getCode(), rra.getActionTypeCode() );
+        assertEquals( "The responsibility policy should be first approve.", ActionRequestPolicy.FIRST.getCode(), rra.getActionPolicyCode() );
+        assertEquals( "The role resp ID is not correct", "*", rra.getRoleResponsibilityId() );
+//        assertEquals( "The number of role resp action records should be equal to the number of attached responsibilities with actionDetailsAtRoleMemberLevel=true", getNumberOfResponsibilitiesWithRoleMemberLevelActions(orgHierRole), respActions.size() );
+        assertEquals( "The number of role resp action records should be 1", 1, respActions.size() );
     }
 
     // TODO: on save of delegates, ensure that other (existing) delegates are not removed

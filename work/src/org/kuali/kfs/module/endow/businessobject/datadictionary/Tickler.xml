@@ -438,6 +438,7 @@
 		<property name="numberOfColumns" value="1" />
 		<property name="inquiryFields">
 			<list>
+				<bean parent="FieldDefinition" p:attributeName="assignedToGroup.namespaceCode" />
 				<bean parent="FieldDefinition" p:attributeName="assignedToGroup.name"
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition" p:attributeName="groupId" />

@@ -16,6 +16,8 @@
 package org.kuali.kfs.coa.service.impl;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.coa.identity.OrgReviewRole;
 import org.kuali.kfs.coa.service.OrgReviewRoleService;
@@ -24,6 +26,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.core.api.criteria.PredicateUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.membership.MemberType;
@@ -33,7 +36,9 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.role.RoleMemberQueryResults;
+import org.kuali.rice.kim.api.role.RoleResponsibilityAction;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.api.type.KimTypeInfoService;
@@ -46,6 +51,7 @@ public class OrgReviewRoleServiceImplTest extends KualiTestBase {
     RoleService roleService;
     KimTypeInfoService kimTypeInfoService;
     PersonService personService;
+    Role orgHierRole;
 
     @Override
     protected void setUp() throws Exception {
@@ -54,16 +60,16 @@ public class OrgReviewRoleServiceImplTest extends KualiTestBase {
         roleService = KimApiServiceLocator.getRoleService();
         kimTypeInfoService = KimApiServiceLocator.getKimTypeInfoService();
         personService = KimApiServiceLocator.getPersonService();
+        orgHierRole = roleService.getRoleByNamespaceCodeAndName(KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAME);
     }
 
     protected OrgReviewRole buildOrgHierData() {
         OrgReviewRole orr = new OrgReviewRole();
-        Role role = roleService.getRoleByNamespaceCodeAndName(KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAME);
 
-        orr.setRoleId( role.getId() );
-        orr.setKimTypeId( role.getKimTypeId() );
-        orr.setRoleName(role.getName());
-        orr.setNamespaceCode(role.getNamespaceCode());
+        orr.setRoleId( orgHierRole.getId() );
+        orr.setKimTypeId( orgHierRole.getKimTypeId() );
+        orr.setRoleName(orgHierRole.getName());
+        orr.setNamespaceCode(orgHierRole.getNamespaceCode());
 
         orr.setChartOfAccountsCode("BL");
         orr.setOrganizationCode("PSY");
@@ -80,7 +86,7 @@ public class OrgReviewRoleServiceImplTest extends KualiTestBase {
         orr.setMemberTypeCode(MemberType.PRINCIPAL.getCode());
         Person p = UserNameFixture.khuntley.getPerson();
         orr.setPrincipalMemberPrincipalName(p.getPrincipalName());
-//        orr.setMemberId(p.getPrincipalId());
+        orr.setPrincipalMemberPrincipalId(p.getPrincipalId());
 
         //orr.setActiveFromDate(null);
         //orr.setActiveToDate(null);
@@ -97,11 +103,28 @@ public class OrgReviewRoleServiceImplTest extends KualiTestBase {
 
         // now, look in KIM for the role
         RoleMemberQueryResults roleMembers = roleService.findRoleMembers(QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ID, orr.getRoleMemberId()))));
-        fail( "Test for presence of user in role not implemented.");
-        // and validate the data
-        fail( "Check of attribute data on role member not implemented.");
+        assertNotNull( "Returned role members object should not have been null", roleMembers );
+        assertEquals( "One result should have been returned", 1, roleMembers.getResults().size() );
+        RoleMember rm = roleMembers.getResults().get(0);
+        System.err.println( "RoleMember: " + rm );
+        assertEquals( "RoleMember id should be that requested", orr.getRoleMemberId(), rm.getId() );
+        assertEquals( "RoleMember's ID should match the inputs", orr.getPrincipalMemberPrincipalId(), rm.getMemberId() );
+        assertEquals( "Role should be org hierarchy", orgHierRole.getId(), rm.getRoleId() );
 
-        fail( "Check of role responsibility data on role member not implemented.");
+        // and validate the data
+        assertNotNull( "The role member attributes should not have been null", rm.getAttributes() );
+        Map<String,String> attr = rm.getAttributes();
+        assertEquals( "The number of attributes does not match", 3, attr.size() );
+        assertEquals("Chart attrib is incorrect", "BL", attr.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE));
+        assertEquals("Org attrib is incorrect", "PSY", attr.get(KfsKimAttributes.ORGANIZATION_CODE));
+        assertEquals("Doc Type attrib is incorrect", "ACCT", attr.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME));
+
+        // TODO: do we need to consider that there could be multiple responsibilities attached to this?
+
+        List<RoleResponsibilityAction> respActions = rm.getRoleRspActions();
+        assertNotNull( "Role resp actions should not be null", respActions );
+        assertEquals( "There should be one resp action for this role member", 1, respActions.size() );
+        fail( "Check of role responsibility data on role member not complete.");
     }
 
     // TODO: on save of delegates, ensure that other (existing) delegates are not removed

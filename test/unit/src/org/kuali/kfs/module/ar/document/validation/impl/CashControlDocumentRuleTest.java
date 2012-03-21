@@ -35,6 +35,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class tests the rules in CashControlDocumentRule
@@ -99,7 +100,7 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
         detail1.setFinancialDocumentLineAmount(POSITIVE_AMOUNT);
         document.addCashControlDetail(detail1);
 
-        assertTrue(rule.validateCashControlDetails(document));
+        assertTrue("Document should have passed validation. " + GlobalVariables.getMessageMap(), rule.validateCashControlDetails(document));
 
     }
 
@@ -112,7 +113,7 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
         detail1.setFinancialDocumentLineAmount(NEGATIVE_AMOUNT);
         document.addCashControlDetail(detail1);
 
-        assertFalse(rule.validateCashControlDetails(document));
+        assertFalse("Document should have failed validation", rule.validateCashControlDetails(document));
     }
 
     /**
@@ -137,7 +138,7 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
 
         cashControlDocumentService.addNewCashControlDetail("desc", document, detail1);
         // get the first application document from the details as it is the only one we have added
-        PaymentApplicationDocument applicationDocument = (PaymentApplicationDocument) document.getCashControlDetail(0).getReferenceFinancialDocument();
+        PaymentApplicationDocument applicationDocument = document.getCashControlDetail(0).getReferenceFinancialDocument();
         // mock a fully approved payment application document
         applicationDocument.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
 

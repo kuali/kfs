@@ -62,6 +62,7 @@
   <bean id="ContractManagerAssignmentDocument-deliveryCampusCode-parentBean" abstract="true" parent="VendorGenericAttributes-campusCode">
     <property name="name" value="deliveryCampusCode"/>
     <property name="label" value="Delivery Campus"/>
+    <property name="required" value="false"/>
     <property name="shortLabel" value="Delivery Campus"/>
   </bean>
   <bean id="ContractManagerAssignmentDocument-vendorName" parent="ContractManagerAssignmentDocument-vendorName-parentBean"/>

@@ -44,32 +44,14 @@
 		p:callbackService-ref="excludeSingleActorSeparationOfDutiesRoleTypeService" p:localServiceName="excludeSingleActorSeparationOfDutiesRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
 
-	<bean id="KFSDocumentSearchCustomizer" class="org.kuali.kfs.sys.document.workflow.KFSDocumentSearchCustomizer" scope="prototype" />
 	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
 		p:callbackService-ref="KFSDocumentSearchCustomizer" p:localServiceName="KFSDocumentSearchCustomizer" 
 		p:serviceInterface="org.kuali.rice.kew.framework.document.search.DocumentSearchCustomizer">
-		<!-- 
-		<property name="serviceName">
-			<bean class="javax.xml.namespace.QName">
-				<constructor-arg index="0" value="KFS" />
-				<constructor-arg index="1" value="org.kuali.kfs.sys.document.workflow.KFSDocumentSearchCustomizer" />
-			</bean>
-		</property>
-		 -->
 	</bean>
 	
-	<bean id="FinancialSystemSearchableAttribute" class="org.kuali.kfs.sys.document.workflow.FinancialSystemSearchableAttribute" />
 	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
 		p:callbackService-ref="FinancialSystemSearchableAttribute" p:localServiceName="FinancialSystemSearchableAttribute" 
 		p:serviceInterface="org.kuali.rice.kew.framework.document.attribute.SearchableAttribute">
-		<!-- 
-		<property name="serviceName">
-			<bean class="javax.xml.namespace.QName">
-				<constructor-arg index="0" value="KFS" />
-				<constructor-arg index="1" value="org.kuali.kfs.sys.document.workflow.FinancialSystemSearchableAttribute" />
-			</bean>
-		</property>
-		 -->
 	</bean>
 	
 </beans>

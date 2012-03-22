@@ -100,6 +100,9 @@
 		</property>
 	</bean>
 
+	<bean id="KFSDocumentSearchCustomizer" class="org.kuali.kfs.sys.document.workflow.KFSDocumentSearchCustomizer" />
+	<bean id="FinancialSystemSearchableAttribute" class="org.kuali.kfs.sys.document.workflow.KFSDocumentSearchCustomizer" />
+
     <!-- begin batch framework -->
 	<bean id="scheduler" parent="scheduler-parentBean"/>	    
 	<bean id="scheduler-parentBean" class="org.kuali.kfs.sys.batch.SchedulerFactoryBean" abstract="true">

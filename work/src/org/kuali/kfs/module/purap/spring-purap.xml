@@ -113,6 +113,8 @@
 		</property>
 	</bean>
 
+	<bean id="KFSPurapDocumentSearchCustomizer" class="org.kuali.kfs.module.purap.document.workflow.KFSPurapDocumentSearchCustomizer" />
+	<bean id="PurchaseOrderActionListAttribute" class="org.kuali.kfs.module.purap.document.workflow.PurchaseOrderActionListAttribute" />
 
 	<!--  override accounting service -->
 	<bean id="purapAccountingLineRuleHelperService" parent="purapAccountingLineRuleHelperService-parentBean"/>

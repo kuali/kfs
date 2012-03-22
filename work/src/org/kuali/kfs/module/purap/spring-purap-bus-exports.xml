@@ -39,4 +39,19 @@
 		p:callbackService-ref="sensitiveDataRoleTypeService" p:localServiceName="sensitiveDataRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
                            	 
+	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
+		p:callbackService-ref="KFSPurapDocumentSearchCustomizer" p:localServiceName="KFSPurapDocumentSearchCustomizer" 
+		p:serviceInterface="org.kuali.rice.kew.framework.document.search.DocumentSearchCustomizer">
+	</bean>
+	
+	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
+		p:callbackService-ref="KFSPurapDocumentSearchCustomizer" p:localServiceName="PurapFinancialSystemSearchableAttribute" 
+		p:serviceInterface="org.kuali.rice.kew.framework.document.attribute.SearchableAttribute">
+	</bean>
+
+	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
+		p:callbackService-ref="PurchaseOrderActionListAttribute" p:localServiceName="PurchaseOrderActionListAttribute" 
+		p:serviceInterface="org.kuali.rice.kew.actionlist.CustomActionListAttribute">
+	</bean>
+
 </beans>

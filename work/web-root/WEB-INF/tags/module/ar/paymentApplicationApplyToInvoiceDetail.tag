@@ -176,12 +176,12 @@
 												</td>
 												<td style="text-align: right;">
 													<kul:htmlControlAttribute
-														attributeEntry="${invoiceAttributes.balance}"
+														attributeEntry="${invoiceAttributes.openAmount}"
 														property="selectedInvoiceBalance" readOnly="true" />
 												</td>
 												<td rowspan='2' style='vertical-align: top; text-align: right;'>
 													<kul:htmlControlAttribute
-														attributeEntry="${invoiceAttributes.balance}"
+														attributeEntry="${invoiceAttributes.openAmount}"
 														property="amountAppliedDirectlyToInvoice" readOnly="true" />
 												</td>
 											</tr>

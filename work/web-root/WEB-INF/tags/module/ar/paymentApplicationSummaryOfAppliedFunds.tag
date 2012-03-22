@@ -128,17 +128,11 @@
 									<c:if test="${!showCCAndBtbA}">
 		                        	    <c:if test="${readOnly ne true}">
 											<td style="text-align: right;">
-												<kul:htmlControlAttribute
-													attributeEntry="${totalFromControl}"
-													property="totalFromControl"
-													readOnly="true" />
+												${totalFromControl}
 												<!--$<c:out value="${KualiForm.totalFromControl}" />-->
 											</td>
 											<td style="text-align: right;">
-												<kul:htmlControlAttribute
-													attributeEntry="${unallocatedBalance}"
-													property="unallocatedBalance"
-													readOnly="true" />
+												${unallocatedBalance}												
 												<!--$<c:out value="${KualiForm.unallocatedBalance}" />-->
 											</td>
 										</c:if>
@@ -152,18 +146,12 @@
 											<!--$<c:out value="${KualiForm.document.documentHeader.financialDocumentTotalAmount}" />-->
 										</td>
 										<td style="text-align: right;">
-											<kul:htmlControlAttribute
-												attributeEntry="${unallocatedBalance}"
-												property="unallocatedBalance"
-												readOnly="true" />
+											${unallocatedBalance}									
 											<!--$<c:out value="${KualiForm.unallocatedBalance}" />-->
 										</td>
 									</c:if>
 									<td style="text-align: right;">
-										<kul:htmlControlAttribute
-											attributeEntry="${totalApplied}"
-											property="totalApplied"
-											readOnly="true" />
+										${totalApplied}								
 										<!--$<c:out value="${KualiForm.totalApplied}" />-->
 									</td>
 								</tr>

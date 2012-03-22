@@ -90,15 +90,13 @@
                         	    <kul:htmlAttributeHeaderCell align="right" literalLabel="Total:" />
                         	    <c:if test="${readOnly ne true}">
 	                        	    <td style="text-align: right;">
-			                			<kul:htmlControlAttribute
-											attributeEntry="${totalFromControl}"
-											property="totalFromControl" readOnly="true" />
+	                        	        ${totalFromControl}
+			                		
     							    </td>
                         	    </c:if>
                         	    <td style="text-align: right;">
-		                			<kul:htmlControlAttribute
-										attributeEntry="${totalApplied}"
-										property="totalApplied" readOnly="true" />
+                        	    	   ${totalApplied}
+		             
                         	    </td>
                         	</tr>
                         </table>

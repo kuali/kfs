@@ -31,4 +31,12 @@
 		</update>
 	</changeSet>
 	
+	<changeSet author="kfs50" id="KFSMI_7568_FIX_DOC_OPENING_IN_EMBEDDED_RICE_MODE">
+		<comment>Updates all the KFS document types to use the new "kfs.url" instead of "application.url".</comment>
+		<update tableName="KREW_DOC_TYP_T">
+			<column name="doc_hdlr_url" valueNumeric="REPLACE( DOC_HDLR_URL, 'application.url', 'kfs.url' )" />
+			<where>doc_typ_nm IN ( 'KFS','GLCP','AD','CMD','CR','CCR','JV','SB','AV','BA','DI','GEC','ICA','ND','PE','PCDO','TF','IB','DV','YEBA','YEDI','YEGE','YETF','CLOS','ECD','ST','LLJV','BT','LLCP','YEBT','YEST','ACM','REQS','PO','POA','POC','POPH','PORH','POR','PORT','POSP','POV','EIRT','CM','PREQ','RCVB','RCVC','RCVL','ECA','EUSA','EHVA','ELD','ELI','EST','GLET','ECR','EGLT','EHA','EAD','EAI','ECDD','ECI','ECT','FSDT','CTRL','APP','INVW','CRM','INV','BC','MPAY','AT','ELR','BCIE' )</where>
+		</update>
+	</changeSet>
+	
 </databaseChangeLog>

@@ -52,7 +52,7 @@ PERM_ID,OBJ_ID,VER_NBR,PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,ACTV_IND
 197,197,1,41,KFS-LD,Modify Accounting Lines 197,Allows users to modify the object code on Target (To side) accounting lines of the Salary Expense Transfer document.,Y
 198,198,1,41,KFS-PURAP,Modify Accounting Lines 198,Allows users to modify the Source accounting lines on documents answering to the parent document Purchasing Transactional Document when a document is at the Account Node of routing.,Y
 199,199,1,41,KFS-PURAP,Modify Accounting Lines 199,Allows users to modify the Source accounting lines on documents answering to the parent document Accounts PayableTransactional Document when a document is at the Account Node of routing.,Y
-20,20,1,1,KFS-CAM,Add Negative Payments 20,Allow the creation of negative payments when processing an Asset document. ,Y
+20,20,1,1,KFS-CAM,Add Negative Payments,Allow the creation of negative payments when processing an Asset document. ,Y
 200,200,1,41,KFS-CAM,Modify Accounting Lines 200,Allows users to modify the Source accounting lines on Asset Payment document at the Account Node of routing.,Y
 201,201,1,4,KFS-CG,Blanket Approve Document 201,Allows access to the Blanket Approval button on the Proposal Document.,Y
 202,202,1,10,KFS-LD,Initiate Document 202,Authorizes the initiation of the Salary Expense Transfer Document.,Y
@@ -60,25 +60,25 @@ PERM_ID,OBJ_ID,VER_NBR,PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,ACTV_IND
 206,206,1,31,KFS-EC,Use Transactional Document 206,Users who can access the Effort Detail Tab on the Effort Certification Document.,Y
 207,207,1,31,KFS-EC,Use Transactional Document 207,Users who can access the Effort Summary Tab on the Effort Certification Document.,Y
 209,209,1,31,KFS-FP,Use Transactional Document 209,Users who can complete the Nonresident Alien Tax Tab on the Disbursement Voucher document.,Y
-21,21,1,1,KFS-CAM,Merge 21,Users allowed to merge assets on the Asset Retirement document.,Y
+21,21,1,1,KFS-CAM,Merge,Users allowed to merge assets on the Asset Retirement document.,Y
 210,210,1,31,KFS-FP,Use Transactional Document 210,Users who can modify the Foreign Draft tab and disbursement amount on Disbursement Voucher documents.,Y
 211,211,1,31,KFS-FP,Use Transactional Document 211,Users who can modify Wire Transfer tab and disbursement amount on Disbursement Voucher documents.,Y
 212,212,1,31,KFS-FP,Use Transactional Document 212,"Users who can modify Non-Employee Travel Expense tab, disbursement amount on Disbursement Voucher documents.",Y
 217,217,1,31,KFS-PURAP,Use Transactional Document 217,Users who can edit specific data on a Payment Request or Credit Memo before the document is extracted to PDP.,Y
-22,22,1,1,KFS-CAM,Override CAPITALIZATION_LIMIT_AMOUNT 22,Users allowed to capitalize assets with dollar amounts below the institution's Capitalization limit.,Y
+22,22,1,1,KFS-CAM,Override CAPITALIZATION_LIMIT_AMOUNT,Users allowed to capitalize assets with dollar amounts below the institution's Capitalization limit.,Y
 220,220,1,48,KFS-SYS,Edit Bank Code 220,Users who can edit the Bank Code field on documents answering to the parent document Financial System Transactional Document.,Y
 225,225,1,40,KFS-BC,Open Document 225,Users who can open the Budget Construction document.,Y
-228,228,1,1,KFS-BC,Import / Export Payrate 228,Allows users to access the Import/Export Payrate screen in Budget Construction. By default granted to processors for the top level organization in the org hierarchy.,Y
-229,229,1,1,KFS-BC,Unlock 229,Allows users to access the Unlock screen in Budget Construction. By default granted to processors for the top level organization in the org hierarchy.,Y
-23,23,1,1,KFS-CAM,Raze 23,Users who can choose the Raze Asset Retirement Reason.,Y
-230,230,1,1,KFS-LD,Override Transfer Impacting Open Effort Certification 230,Users who receive an option to override the edit preventing the submission of Salary Expense Transfers involving an open Effort Certification Period.,Y
+228,228,1,1,KFS-BC,Import / Export Payrate,Allows users to access the Import/Export Payrate screen in Budget Construction. By default granted to processors for the top level organization in the org hierarchy.,Y
+229,229,1,1,KFS-BC,Unlock,Allows users to access the Unlock screen in Budget Construction. By default granted to processors for the top level organization in the org hierarchy.,Y
+23,23,1,1,KFS-CAM,Raze,Users who can choose the Raze Asset Retirement Reason.,Y
+230,230,1,1,KFS-LD,Override Transfer Impacting Open Effort Certification,Users who receive an option to override the edit preventing the submission of Salary Expense Transfers involving an open Effort Certification Period.,Y
 233,233,1,28,KFS-PDP,Partial Unmask Field 233,Authorizes users to view the last four-digits of the bank account number on the Payee ACH document and Inquiry.,Y
 234,234,1,27,KFS-PDP,Full Unmask Field 234,Authorizes users to view the entire bank routing number on the ACH Bank document and Inquiry.,Y
 235,235,1,27,KFS-PDP,Full Unmask Field 235,Authorizes users to view the entire bank account number on the Payee ACH document and Inquiry.,Y
 236,236,1,27,KFS-PDP,Full Unmask Field 236,Authorizes users to view the entire bank routing number on the Payee ACH document and Inquiry.,Y
 238,238,1,41,KFS-FP,Modify Accounting Lines 238,Allows users to modify the Source accounting lines on documents answering to the parent document Accounts Financial Processing Transactional Document when a document has not yet been submitted for routing.,Y
 239,239,1,41,KFS-FP,Modify Accounting Lines 239,Allows users to modify the Target accounting lines on documents answering to the parent document Financial Processing Transactional Document when a document has not yet been submitted for routing.,Y
-24,24,1,1,KFS-CAM,Retire Multiple 24,Users allowed to retire more than one asset on an Asset Retirement document.,Y
+24,24,1,1,KFS-CAM,Retire Multiple,Users allowed to retire more than one asset on an Asset Retirement document.,Y
 240,240,1,41,KFS-LD,Modify Accounting Lines 240,Allows users to modify the Target accounting lines on documents answering to the parent document Labor Distribution Transactional Document  when a document has not yet been submitted for routing.,Y
 241,241,1,41,KFS-PURAP,Modify Accounting Lines 241,Allows users to modify the Source accounting lines on documents answering to the parent document Purchasing Transactional Document when a document has not yet been submitted for routing.,Y
 242,242,1,41,KFS-PURAP,Modify Accounting Lines 242,Allows users to modify the Source accounting lines on documents answering to the parent document Accounts PayableTransactional Document when a document has not yet been submitted for routing.,Y
@@ -89,19 +89,19 @@ PERM_ID,OBJ_ID,VER_NBR,PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,ACTV_IND
 247,247,1,10,KFS-BC,Initiate Document 247,Authorizes the initiation of the Budget Construction Document.,Y
 248,248,1,42,KFS-AR,Create / Maintain Record(s) 248,Users allowed to create new and maintain existing records using the Organization Options document.,Y
 249,249,1,42,KFS-AR,Create / Maintain Record(s) 249,Users allowed to maintain existing (but not create new) records using the Organization Options document.,Y
-25,25,1,1,KFS-CAM,Retire Non-Movable Assets 25,Users authorized to retire non-movable assets.,Y
+25,25,1,1,KFS-CAM,Retire Non-Movable Assets,Users authorized to retire non-movable assets.,Y
 250,250,1,42,KFS-CAM,Create / Maintain Record(s) 250,Users allowed to create new and maintain existing  records using the Asset document.,Y
 251,251,1,29,KFS-BC,Use Screen 251,Allows users to access Budget Construction Selection.,Y
 256,256,1,23,KFS-SYS,Look Up Records 256,Allow users to access the Batch File lookup.,Y
 257,257,1,29,KFS-PURAP,Use Screen 257,Authorizes users to take the Shop Catalogs (or B2B) action.,Y
 258,258,1,45,KFS-PURAP,Add Note / Attachment 258,Users who can add notes and attachments to the Payment Request document when it is at the Invoice Attachment route node.,Y
-26,26,1,1,KFS-CAM,Separate 26,Users authorized to separate assets.,Y
+26,26,1,1,KFS-CAM,Separate,Users authorized to separate assets.,Y
 260,260,1,46,KFS-PURAP,View Note / Attachment 260,"Authorizes users to view attachments with a type of ""Invoice Image"" on Payment Request documents.",Y
 263,263,1,47,KFS-SYS,Delete Note / Attachment 263,Authorizes users to delete notes and attachments created by any user on documents answering to the Financial System Document parent document type.,Y
 266,266,1,16,KFS-BC,Edit Document 266,"The budget construction document does not really use workflow, and all editing is done after the workflow status is final. This permission allows the derived, Budget Construction Document Editor role to allow access to edit the document based on other roles, e.g. Fiscal Officer for account, Organization Reveiwer for org.",Y
 268,268,1,16,KFS-PURAP,Edit Document 268,Authorizes users who can edit Payment Request Documents that are in ENROUTE status.,Y
 269,269,1,40,KFS-PURAP,Open Document 269,Authorizes users to open Purchasing Accounts Payable Transactional documents.,Y
-27,27,1,1,KFS-CAM,Transfer Non-Movable Assets 27,Authorizes users who can transfer non-movable assets.,Y
+27,27,1,1,KFS-CAM,Transfer Non-Movable Assets,Authorizes users who can transfer non-movable assets.,Y
 270,270,1,29,KFS-PURAP,Use Screen 270,Authorizes users to take the Print action on a Purchase Order.,Y
 271,271,1,29,KFS-SYS,Use Screen 271,Allows users to access the Electronic Funds Transfer screen.,Y
 272,272,1,31,KFS-PURAP,Use Transactional Document 272,Users who can print a Purchase Order document.,Y
@@ -111,7 +111,7 @@ PERM_ID,OBJ_ID,VER_NBR,PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,ACTV_IND
 276,276,1,31,KFS-PURAP,Use Transactional Document 276,Users authorized to take the Request Cancel action on Payment Request documents.,Y
 277,277,1,31,KFS-PURAP,Use Transactional Document 277,Authorizes users to remove Holds or Cancels on Payment Request documents.,Y
 279,279,1,41,KFS-LD,Modify Accounting Lines 279,Allows users to modify the Source accounting lines on documents answering to the parent document Labor Distribution Transactional Document  when a document has yet to be submitted for routing.,Y
-28,28,1,1,KFS-CAM,"Use Acquisition Type ""New""" 28,"Authorizes users who can use the Acquisition Type of ""New"" on the Asset document.",Y
+28,28,1,1,KFS-CAM,"Use Acquisition Type ""New""","Authorizes users who can use the Acquisition Type of ""New"" on the Asset document.",Y
 280,280,1,41,KFS-FP,Modify Accounting Lines 280,Allows users to modify the Source accounting lines on a Procurement Card Document that is at the Account Full Entry Node of routing.,Y
 281,281,1,41,KFS-FP,Modify Accounting Lines 281,Allows users to modify the Target accounting lines on a Procurement Card Document that is at the Account Full Entry Node of routing.,Y
 282,282,1,31,KFS-PURAP,Use Transactional Document 282,Users who can cancel Payment Request or Credit Memo documents at a manager level.,Y
@@ -120,14 +120,14 @@ PERM_ID,OBJ_ID,VER_NBR,PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,ACTV_IND
 285,285,1,29,KFS-PDP,Use Screen 285,Allows users to access all Pre-Disbursement Processor screens.,Y
 286,286,1,31,KFS-PURAP,Use Transactional Document 286,Authorizes users to put Payment Request documents on Hold.,Y
 287,287,1,29,KFS-GL,Use Screen 287,Allows users to access Balance Inquiry screens. ,Y
-29,29,1,1,KFS-CAM,Use Restricted Retirement Reason 29,Allows the use of restricted retirement reasons on the Asset or Asset Retirement Global documents.,Y
+29,29,1,1,KFS-CAM,Use Restricted Retirement Reason,Allows the use of restricted retirement reasons on the Asset or Asset Retirement Global documents.,Y
 291,291,1,40,KFS-PURAP,Open Document 291,Authorizes users to open the Electronic Invoice Reject Document.,Y
 292,292,1,33,KFS-PURAP,Upload Batch Input File(s) 292,Authorizes users to upload eInvoice files.,Y
 293,293,1,31,KFS-PURAP,Use Transactional Document 293,Authorizes users to put Credit Memo documents on Hold.,Y
 294,294,1,31,KFS-PURAP,Use Transactional Document 294,Authorizes users to remove a Hold from Credit Memo documents.,Y
-295,295,1,1,KFS-BC,Use Organization Salary Setting 295,Allows users to access Organizaton Salary Setting within Budget Construction.,Y
-296,296,1,1,KFS-BC,Edit Appointment Funding 296,Authorizes users to edit Appointment Funding Lines within Budget Construction Salary Setting.,Y
-297,297,1,1,KFS-BC,View Appointment Funding Amounts 297,Authorizes users to view Appointment Funding Lines within Budget Construction Salary Setting.,Y
+295,295,1,1,KFS-BC,Use Organization Salary Setting,Allows users to access Organizaton Salary Setting within Budget Construction.,Y
+296,296,1,1,KFS-BC,Edit Appointment Funding,Authorizes users to edit Appointment Funding Lines within Budget Construction Salary Setting.,Y
+297,297,1,1,KFS-BC,View Appointment Funding Amounts,Authorizes users to view Appointment Funding Lines within Budget Construction Salary Setting.,Y
 3,3,1,10,KFS-AR,Initiate Document 3,Authorizes the initiation of the Accounts Receivable Complex Maintenance Documents.,Y
 301,301,1,29,KFS-GL,Use Screen 301,"Allows users to see menu of balance inquiries after hitting ""balance inquiry"" button on an accounting line in an accounting document.",Y
 302,302,1,10,KFS-CAM,Initiate Document 302,Authorizes the initiation of the Asset Depreciation Document.,Y
@@ -150,7 +150,7 @@ PERM_ID,OBJ_ID,VER_NBR,PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,ACTV_IND
 324,324,1,46,KFS PURAP,View Note / Attachment 324,"Authorizes users to view attachments with a type of ""Other-Restricted"" on Purchase Order documents and documents answering to that document type.",Y
 325,325,1,45,KFS-PURAP,Add Note / Attachment 325,"Authorizes users to add notes or attachments with a type of ""Credit Memo Image"" on Credit Memo documents.",Y
 326,326,1,46,KFS-PURAP,View Note / Attachment 326,"Authorizes users to view attachments with a type of ""Credit Memo Image"" on Credit Memo documents.",Y
-327,327,1,1,KFS-CAM,Maintain Asset Location 327,Allows user to maintain the location of assets on the Asset document.,Y
+327,327,1,1,KFS-CAM,Maintain Asset Location,Allows user to maintain the location of assets on the Asset document.,Y
 328,328,1,41,KFS-PURAP,Modify Accounting Lines 328,Allows users to modify the Source accounting lines on a Requisition Document that is at the Organization Node of routing.,Y
 329,329,1,29,KFS-FP,Use Screen 329,Allows access to the Cash Management Document screen that a user sees when they try to initiate and a document is already open for their campus. The screen provides them a link to the existing document for their campus.,Y
 33,33,1,26,KFS-CAM,Modify Maintenance Document Field 33,Users who can modify the Owner Account Number field on the Asset document.,Y
@@ -167,9 +167,9 @@ PERM_ID,OBJ_ID,VER_NBR,PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,ACTV_IND
 349,349,1,10,KFS-AR,Initiate Document 349,Authorizes the initiation of Customer Invoice Item Code Documents.,Y
 35,35,1,26,KFS-CAM,Modify Maintenance Document Field 35,Users who can modify the Agency Number field on the Asset document.,Y
 350,350,1,10,KFS-FP,Initiate Document 350,Authorizes the initiation of the Cash Receipt Document.,Y
-351,351,1,1,KFS-COA,Serve As Account Supervisor 351,Identifies users that can be Account Supervisors.,Y
-352,352,1,1,KFS-COA,Serve As Fiscal Officer 352,Identifies users that can be Account Fiscal Officers.,Y
-353,353,1,1,KFS-COA,Serve As Fiscal Officer Delegate 353,Identifies users that can be Account Fiscal Officer Delegates.,Y
+351,351,1,1,KFS-COA,Serve As Account Supervisor,Identifies users that can be Account Supervisors.,Y
+352,352,1,1,KFS-COA,Serve As Fiscal Officer,Identifies users that can be Account Fiscal Officers.,Y
+353,353,1,1,KFS-COA,Serve As Fiscal Officer Delegate,Identifies users that can be Account Fiscal Officer Delegates.,Y
 354,354,1,29,KFS-FP,Use Screen 354,???,Y
 355,355,1,41,KFS-PURAP,Modify Accounting Lines 355,Allows users to modify the Source accounting lines on a Purchase Order Amendment Document that is at the New Unordered Items Node of routing.,Y
 356,356,1,10,KFS-PURAP,Initiate Document 356,Authorizes the initiation of the Credit Memo Document.,Y
@@ -195,7 +195,7 @@ PERM_ID,OBJ_ID,VER_NBR,PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,ACTV_IND
 374,374,1,48,KFS-FP,Edit Bank Code 374,Users who can edit the Bank Code field on the Disbursement Voucher Document.,Y
 375,375,1,23,KFS-CAB,Look Up Records 375,Allows users to access the Pre-Asset Tagging screens.,Y
 376,376,1,42,KFS-CAB,Create / Maintain Record(s) 376,Users allowed to create new and maintain existing records using the Pre-Asset Tagging document.,Y
-377,377,1,1,KFS-CAM,Edit When Tagged Prior Fiscal Year 377,Authorizes users to edit assets tagged in a prior fiscal year.,Y
+377,377,1,1,KFS-CAM,Edit When Tagged Prior Fiscal Year,Authorizes users to edit assets tagged in a prior fiscal year.,Y
 379,379,1,10,KFS-SYS,Initiate Document 379,Authorizes the initiation of the KIM Group document.,Y
 38,38,1,26,KFS-CAM,Modify Maintenance Document Field 38,Users who can modify the Government Tag Number field on the Asset document.,Y
 380,380,1,10,KFS-COA,Initiate Document 380,Authorizes the initiation of the Organization Reversion Global Document.,Y
@@ -223,8 +223,8 @@ PERM_ID,OBJ_ID,VER_NBR,PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,ACTV_IND
 54,54,1,43,KFS-CG,View Inquiry or Maintenance Document Section 54,Authorizes users to vew the Research Risk tab on the Proposal document.,Y
 55,55,1,10,KFS-COA,Initiate Document 55,Authorizes the initiation of the Global Object Code Document.,Y
 56,56,1,10,KFS-COA,Initiate Document 56,Authorizes the initiation of the Organization Reversion Document.,Y
-58,58,1,1,KFS-COA,Edit Inactive Account 58,Users who can edit Accounts that are inactive.,Y
-59,59,1,1,KFS-COA,Serve As Account Manager 59,Identifies users that can be Account Managers,Y
+58,58,1,1,KFS-COA,Edit Inactive Account,Users who can edit Accounts that are inactive.,Y
+59,59,1,1,KFS-COA,Serve As Account Manager,Identifies users that can be Account Managers,Y
 6,6,1,10,KFS-AR,Initiate Document 6,Authorizes the initiation of the Cash Control Document.,Y
 60,60,1,26,KFS-COA,Modify Maintenance Document Field 60,Authorizes users to edit the Sub-Account Type Code on the Sub-Account document.,Y
 61,61,1,26,KFS-COA,Modify Maintenance Document Field 61,Users who can edit the Organization Plant Chart Code on the Organization document.,Y
@@ -246,14 +246,14 @@ PERM_ID,OBJ_ID,VER_NBR,PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,ACTV_IND
 78,78,1,10,KFS-LD,Initiate Document 78,Authorizes the initiation of the Labor Journal Voucher Document.,Y
 79,79,1,10,KFS-LD,Initiate Document 79,Authorizes the initiation of the  Labor Ledger Correction Process Document.,Y
 8,8,1,10,KFS-AR,Initiate Document 8,Authorizes the initiation of Accounts Receivable Transactional Documents.,Y
-80,80,1,1,KFS-PDP,Set as Immmediate Pay 80,Authorizes users to set and remove immediate status on payments in PDP.,Y
+80,80,1,1,KFS-PDP,Set as Immmediate Pay,Authorizes users to set and remove immediate status on payments in PDP.,Y
 81,81,1,10,KFS-PDP,Initiate Document 81,Authorizes the initiation of Pre-Disbursement Processor Simple Maintenance Documents.,Y
-82,82,1,1,KFS-PDP,Cancel Payment 82,Authorizes users to take the Cancel action on payments in PDP.,Y
-83,83,1,1,KFS-PDP,Format 83,Authorizes users to access and run the Format Checks /ACH screen in PDP,Y
-84,84,1,1,KFS-PDP,Hold Payment / Remove Non-Tax Payment Hold 84,Authorizes users to hold payments and remove non-tax related holds on payments in PDP.,Y
-86,86,1,1,KFS-PDP,Remove Format Lock 86,Users who can reset a format process in PDP.,Y
-87,87,1,1,KFS-PDP,Remove Payment Tax Hold 87,Authorizes users to remove payments held for tax review in PDP.,Y
-88,88,1,24,KFS-PDP,Inquire Into Records 88,Allows users to access Pre Disbursement Processor inquiries.,Y
+82,82,1,1,KFS-PDP,Cancel Payment,Authorizes users to take the Cancel action on payments in PDP.,Y
+83,83,1,1,KFS-PDP,Format,Authorizes users to access and run the Format Checks /ACH screen in PDP,Y
+84,84,1,1,KFS-PDP,Hold Payment / Remove Non-Tax Payment Hold,Authorizes users to hold payments and remove non-tax related holds on payments in PDP.,Y
+86,86,1,1,KFS-PDP,Remove Format Lock,Users who can reset a format process in PDP.,Y
+87,87,1,1,KFS-PDP,Remove Payment Tax Hold,Authorizes users to remove payments held for tax review in PDP.,Y
+88,88,1,24,KFS-PDP,Inquire Into Records,Allows users to access Pre Disbursement Processor inquiries.,Y
 89,89,1,23,KFS-PDP,Look Up Records 89,Allow users to access Pre Disbursement Processor lookups.,Y
 9,9,1,27,KFS-AR,Full Unmask Field 9,Authorizes users to view the entire Tax Number on the Customer document and Inquiry.,Y
 90,90,1,33,KFS-PDP,Upload Batch Input File(s) 90,Allows access to the Manually Upload Payment File screen in PDP.,Y
@@ -283,16 +283,16 @@ KFSENDOW6008,KFSENDOW6008,1,29,KFS-ENDOW,Use Endowment Reporting Screens KFSENDO
 KFSENDOW6009,KFSENDOW6009,1,29,KFS-ENDOW,Use Endowment Reporting Screens KFSENDOW6009,Authorizes the use of the Transaction Statement reporting screen within the Endowment module.,Y
 KFSENDOW6010,KFSENDOW6010,1,29,KFS-ENDOW,Use Endowment Reporting Screens KFSENDOW6010,Authorizes the use of the Transaction Summary reporting screen within the Endowment module.,Y
 KFSENDOW6011,KFSENDOW6011,1,29,KFS-ENDOW,Use Endowment Reporting Screens KFSENDOW6011,Authorizes the use of the Asset Statement reporting screen within the Endowment module.,Y
-KFSAR6012,KFSAR6012,1,33,KFS-AR,Upload Customer CSV Files KFSAR6012,Allows access to the Customer Upload Batch Upload page.,Y
-KFSPURAP6940,KFSPURAP6940,1,27,KFS-PURAP,Unmask PO # On PO Document KFSPURAP6940,Authorizes users to view the entire Purchase Order Number on the PO Document and Inquiry,Y
-KFSLD6987,KFSLD6987h,1,33,KFS-LD,Upload Labor Enterprise Feed Batch Files KFSLD6987,"Allows access to the Labor Enterprise Feed Upload Batch Upload page.",Y
-KFSSYS7145a,KFSSYS7145a,1,1,KFS-SYS,View Accounting Period KFSSYS7145a,Users who can view the accounting period field when enabled for year end processing.,Y
-KFSSYS7145b,KFSSYS7145b,1,1,KFS-SYS,Edit Accounting Period KFSSYS7145b,Users who can edit the accounting period field when enabled for year end processing.,Y
-KFSSYS6007,KFSSYS6007,1,31,KFS-SYS,Allow DV Immediate Disbursement KFSSYS6007,Allow Disbursement Voucher to be marked for immediate disbursement by the Pre-Disbursement Processor.,Y
-KFSAR6732,KFSAR6732,1,16,KFS-AR,Edit APP Document-PreRoute KFSAR6732,Edit permission for the Payment Application document prior to the document being submitted.,Y
-KFSAR5340P,KFSAR5340P,1,31,KFS-AR,Edit Invoice Processing Organization KFSAR5340P,Users who can edit the Processing Chart Code and the processing organization fields on the Customer Invoice Document.,Y
-KFSMI6886-PRM1,KFSMI6886-PRM1,1,42,KFS-PDP,Maintain ACH Accounts KFSMI6886PRM1,Allows to view and update Payee ACH Accounts of a certain transaction type.,Y
-KFSMI6886-PRM2,KFSMI6886-PRM2,1,23,KFS-PDP,Lookup ACH Accounts KFSMI6886PRM2,Allows the lookup of Payee ACH Account records of certain transaction type(s).,Y
-KFSMI6886-PRM3,KFSMI6886-PRM3,1,10,KFS-PDP,Initiate ACH Account Document KFSMI6886PRM3,Allows initiation the PDP Payee ACH Account maintenance document.,Y
-KFSMI7041-PRM,KFSMI7041-PRM,1,29,KFS-LD,View Fringe Benefit Inquiry KFSMI7041PRM,Permits access to screens controlled by org.kuali.kfs.module.ld.document.web.struts.FringeBenefitInquiryAction,Y
-KFSCNTRB162-PRM,KFSCNTRB162-PRM,1,33,KFS-VND,Use Vendor Exclude File Upload Screen KFSCNTRB162PRM,Authorizes users to access the Vendor Exclude File Upload page.,Y
+KFSAR6012,KFSAR6012,1,33,KFS-AR,Upload Customer CSV Files,Allows access to the Customer Upload Batch Upload page.,Y
+KFSPURAP6940,KFSPURAP6940,1,27,KFS-PURAP,Unmask PO # On PO Document,Authorizes users to view the entire Purchase Order Number on the PO Document and Inquiry,Y
+KFSLD6987,KFSLD6987h,1,33,KFS-LD,Upload Labor Enterprise Feed Batch Files,"Allows access to the Labor Enterprise Feed Upload Batch Upload page.",Y
+KFSSYS7145a,KFSSYS7145a,1,1,KFS-SYS,View Accounting Period,Users who can view the accounting period field when enabled for year end processing.,Y
+KFSSYS7145b,KFSSYS7145b,1,1,KFS-SYS,Edit Accounting Period,Users who can edit the accounting period field when enabled for year end processing.,Y
+KFSSYS6007,KFSSYS6007,1,31,KFS-SYS,Allow DV Immediate Disbursement,Allow Disbursement Voucher to be marked for immediate disbursement by the Pre-Disbursement Processor.,Y
+KFSAR6732,KFSAR6732,1,16,KFS-AR,Edit APP Document-PreRoute,Edit permission for the Payment Application document prior to the document being submitted.,Y
+KFSAR5340P,KFSAR5340P,1,31,KFS-AR,Edit Invoice Processing Organization,Users who can edit the Processing Chart Code and the processing organization fields on the Customer Invoice Document.,Y
+KFSMI6886-PRM1,KFSMI6886-PRM1,1,42,KFS-PDP,Maintain ACH Accounts,Allows to view and update Payee ACH Accounts of a certain transaction type.,Y
+KFSMI6886-PRM2,KFSMI6886-PRM2,1,23,KFS-PDP,Lookup ACH Accounts,Allows the lookup of Payee ACH Account records of certain transaction type(s).,Y
+KFSMI6886-PRM3,KFSMI6886-PRM3,1,10,KFS-PDP,Initiate ACH Account Document,Allows initiation the PDP Payee ACH Account maintenance document.,Y
+KFSMI7041-PRM,KFSMI7041-PRM,1,29,KFS-LD,View Fringe Benefit Inquiry,Permits access to screens controlled by org.kuali.kfs.module.ld.document.web.struts.FringeBenefitInquiryAction,Y
+KFSCNTRB162-PRM,KFSCNTRB162-PRM,1,33,KFS-VND,Use Vendor Exclude File Upload Screen,Authorizes users to access the Vendor Exclude File Upload page.,Y

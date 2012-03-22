@@ -33,6 +33,7 @@ import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
@@ -146,7 +147,7 @@ public class BulkReceivingDocument extends ReceivingDocumentBase{
             /**
              * This is to get the user name for display
              */
-            Person initiatorUser = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(requisitionPreparer);
+            Person initiatorUser = KimApiServiceLocator.getPersonService().getPerson(requisitionPreparer);
             setPreparerPersonName(initiatorUser.getName());
         }
         

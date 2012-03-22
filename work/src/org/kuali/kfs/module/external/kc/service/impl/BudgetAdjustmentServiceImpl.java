@@ -438,7 +438,6 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
 
         try {
             Person user = personService.getPerson(principalId);
-            // Person user = personService.getPersonByPrincipalName(principalId);
             DocumentAuthorizer documentAuthorizer = new MaintenanceDocumentAuthorizerBase();
             if (documentAuthorizer.canInitiate(SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getDocumentTypeName(Account.class), user)) {
                 // set the user session so that the user name can be displayed in the saved document

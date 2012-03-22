@@ -94,6 +94,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.bo.Attachment;
@@ -1225,7 +1226,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
         RequisitionDocument reqDoc = SpringContext.getBean(RequisitionService.class).getRequisitionById(poDoc.getRequisitionIdentifier());
         String reqDocInitiator = reqDoc.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
         try {
-            Person user = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).getPersonByPrincipalName(reqDocInitiator);
+            Person user = KimApiServiceLocator.getPersonService().getPerson(reqDocInitiator);
 
             setProcessingCampus(preqDoc, user.getCampusCode());
 

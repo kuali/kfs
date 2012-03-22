@@ -56,6 +56,7 @@ import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.exception.InfrastructureException;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -937,7 +938,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
         // check remaining conditions
         if (!fullApprovalRequired) {
             // initiator should be fiscal officer or primary delegate for account
-            Person initiator = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).getPersonByPrincipalName(getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
+            Person initiator = KimApiServiceLocator.getPersonService().getPerson(getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
             List userAccounts = SpringContext.getBean(AccountService.class).getAccountsThatUserIsResponsibleFor(initiator);
             Account userAccount = null;
             for (Iterator iter = userAccounts.iterator(); iter.hasNext();) {

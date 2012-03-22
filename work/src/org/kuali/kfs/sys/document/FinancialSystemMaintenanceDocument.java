@@ -24,6 +24,7 @@ import org.kuali.rice.kew.api.WorkflowRuntimeException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.krad.bo.DocumentHeader;
 
@@ -156,10 +157,9 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
      * @return a String array.
      */
     protected String[] getInitiatorPrimaryDepartmentCode() {
-        PersonService personService = SpringContext.getBean(PersonService.class);
         
         String netID = documentHeader.getWorkflowDocument().getInitiatorPrincipalId();
-        Person person =  personService.getPersonByPrincipalName(netID);
+        Person person =  KimApiServiceLocator.getPersonService().getPerson(netID);
        
         String deptCode = person.getPrimaryDepartmentCode();
         String[] chartOrg = deptCode.split("-");

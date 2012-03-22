@@ -36,6 +36,7 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.Note;
@@ -82,7 +83,7 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
             }
 
             try {
-                Person initUser = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).getPersonByPrincipalName(document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
+                Person initUser = KimApiServiceLocator.getPersonService().getPerson(document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
                 documentTitle += initUser.getCampusCode();
             }
             catch (Exception e) {

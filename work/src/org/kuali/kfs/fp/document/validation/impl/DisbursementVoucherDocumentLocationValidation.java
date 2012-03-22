@@ -30,6 +30,7 @@ import org.kuali.rice.core.api.parameter.ParameterEvaluator;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -88,7 +89,7 @@ public class DisbursementVoucherDocumentLocationValidation extends GenericValida
      * @return <code>KualiUser</code>
      */
     protected Person getInitiator(AccountingDocument document) {
-        Person initUser = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).getPersonByPrincipalName(document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
+        Person initUser = KimApiServiceLocator.getPersonService().getPerson(document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
         if (initUser == null) {
             throw new RuntimeException("Document Initiator not found ");
         }

@@ -8,6 +8,7 @@
 			<label>KFS Document Search Customizer</label>
 			<className>org.kuali.kfs.module.purap.document.workflow.KFSPurapDocumentSearchCustomizer</className>
 			<type>DocumentSearchCustomizer</type>
+		      <applicationId>KFS</applicationId>
 		</ruleAttribute>
 		<ruleAttribute>
 			<name>PurapFinancialSystemSearchableAttribute</name>
@@ -15,6 +16,7 @@
 			<label>Financial System Searchable Attribute</label>
 			<description>Financial System Searchable Attribute</description>
 			<type>SearchableAttribute</type>
+		      <applicationId>KFS</applicationId>
 		</ruleAttribute>
 		<ruleAttribute>
 			<name>NoFyiActionListAttribute</name>
@@ -22,6 +24,7 @@
 			<label>No FYI</label>
 			<description>No FYI Action List Attribute</description>
 			<type>ActionListAttribute</type>
+		      <applicationId>KFS</applicationId>
 		</ruleAttribute>
 	</ruleAttributes>
 	<documentTypes xmlns="ns:workflow/DocumentType"

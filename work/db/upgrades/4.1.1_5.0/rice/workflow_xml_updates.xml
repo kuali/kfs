@@ -7,6 +7,7 @@
       <label>KFS Document Search Customizer</label>
       <className>org.kuali.kfs.sys.document.workflow.KFSDocumentSearchCustomizer</className>
       <type>DocumentSearchCustomizer</type>
+      <applicationId>KFS</applicationId>
     </ruleAttribute>
     <ruleAttribute>
       <name>FinancialSystemSearchableAttribute</name>
@@ -14,6 +15,7 @@
       <label>Financial System Searchable Attribute</label>
       <description>Financial System Searchable Attribute</description>
       <type>SearchableAttribute</type>
+      <applicationId>KFS</applicationId>
     </ruleAttribute>
   </ruleAttributes>
 	<documentTypes xmlns="ns:workflow/DocumentType"

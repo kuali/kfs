@@ -68,7 +68,10 @@ public class CustomerRule extends MaintenanceDocumentRuleBase {
         boolean isValid = true;
         isValid &= super.processCustomRouteDocumentBusinessRules(document);
         MessageMap errorMap = GlobalVariables.getMessageMap();
-        isValid &= errorMap.hasErrors();
+        //negate the return value from hasErrors() becase when there are no errors
+        //the method returns false so we need to negate the resuls otherwise
+        //out validations will fail.
+        isValid &= !errorMap.hasErrors();
         if (isValid) {
             initializeAttributes(document);
             isValid &= checkCustomerHasAddress(newCustomer);

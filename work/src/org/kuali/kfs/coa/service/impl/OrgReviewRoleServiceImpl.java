@@ -26,7 +26,6 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.kuali.kfs.coa.identity.KfsKimDocDelegateMember;
-import org.kuali.kfs.coa.identity.KfsKimDocDelegateType;
 import org.kuali.kfs.coa.identity.KfsKimDocRoleMember;
 import org.kuali.kfs.coa.identity.KfsKimDocumentAttributeData;
 import org.kuali.kfs.coa.identity.OrgReviewRole;
@@ -260,64 +259,71 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
 
     @Override
     public void saveOrgReviewRoleToKim( OrgReviewRole orr ) {
-        RoleService roleService = KimApiServiceLocator.getRoleService();
         if(orr.isDelegate() || orr.isCreateDelegation()){
-            // Save delegation(s)
-            List<KfsKimDocDelegateType> objectsToSave = getDelegations(orr);
-            if(objectsToSave!=null){
-                for(KfsKimDocDelegateType delegateInfo: objectsToSave){
-                    for(KfsKimDocDelegateMember delegateMemberInfo: delegateInfo.getMembers()){
-//                        KimApiServiceLocator.getRoleService().saveDelegationMemberForRole(delegateMemberInfo.getDelegationMemberId(),
-//                            delegateMemberInfo.getRoleMemberId(), delegateMemberInfo.getMemberId(),
-//                            delegateMemberInfo.getType().getCode(), delegateInfo.getDelegationType().getCode(),
-//                            delegateInfo.getRoleId(), delegateMemberInfo.getAttributes(),
-//                            fromDate, toDate);
-                    }
-                }
-            }
+            saveDelegateMemberToKim(orr);
         } else{
-            // Save role member(s)
-            List<KfsKimDocRoleMember> objectsToSave = getRoleMembers(orr);
-            if(objectsToSave!=null){
-                for(RoleMemberContract roleMember: objectsToSave){
-                    List<RoleResponsibilityAction.Builder> roleRspActionsToSave = getRoleResponsibilityActions(orr, roleMember);
-                    RoleMemberQueryResults roleMembers = roleService.findRoleMembers(QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ID, roleMember.getId()))));
-                    if ( orr.isEdit() && roleMembers != null && roleMembers.getResults() != null && !roleMembers.getResults().isEmpty() ) {
-                        RoleMember existingRoleMember = roleMembers.getResults().get(0);
-                        RoleMember.Builder updatedRoleMember = RoleMember.Builder.create(roleMember);
-                        updatedRoleMember.setRoleRspActions( roleRspActionsToSave );
-                        updatedRoleMember.setVersionNumber(existingRoleMember.getVersionNumber());
-                        updatedRoleMember.setObjectId(existingRoleMember.getObjectId());
-                        roleMember = roleService.updateRoleMember( updatedRoleMember.build() );
-                    } else {
-                        RoleMember.Builder newRoleMember = RoleMember.Builder.create(roleMember);
-                        newRoleMember.setRoleRspActions( roleRspActionsToSave );
-                        roleMember = roleService.createRoleMember( newRoleMember.build() );
-                    }
-                    orr.setRoleMemberId(roleMember.getId());
-                    orr.setORMId(roleMember.getId());
+            saveRoleMemberToKim(orr);
+        }
+    }
+
+    protected void saveDelegateMemberToKim( OrgReviewRole orr ) {
+        RoleService roleService = KimApiServiceLocator.getRoleService();
+        // Save delegation(s)
+        List<KfsKimDocDelegateMember> delegationMembers = getDelegationMembersToSave(orr);
+        for( KfsKimDocDelegateMember dm : delegationMembers ) {
+            // retrieve the delegate type so it can be updated
+            DelegationType delegationType = dm.getDelegationType();
+            DelegateType existingDelegateType = roleService.getDelegateTypeByRoleIdAndDelegateTypeCode(orr.getRoleId(), delegationType);
+            DelegateType.Builder updatedDelegateType;
+            if ( existingDelegateType == null ) {
+                updatedDelegateType = DelegateType.Builder.create(orr.getRoleId(), delegationType, new ArrayList<DelegateMember.Builder>(1));
+            } else {
+                updatedDelegateType = DelegateType.Builder.create(existingDelegateType);
+            }
+
+            List<DelegateMember.Builder> members = updatedDelegateType.getMembers();
+            for ( DelegateMember.Builder member : members ) {
+                if ( member.getDelegationMemberId().equals(dm.getDelegationMemberId()) ) {
+                    member.setMemberId(dm.getMemberId());
+                    member.setType(dm.getType());
+                    member.setRoleMemberId(dm.getRoleMemberId());
+                    member.setAttributes(dm.getAttributes());
+                    member.setActiveFromDate(dm.getActiveFromDate());
+                    member.setActiveToDate(dm.getActiveToDate());
+                    break;
                 }
             }
-        }
 
-    }
-
-    protected List<KfsKimDocDelegateType> getDelegations(OrgReviewRole orr) {
-        // List<DelegateMember> delegationMembers = new ArrayList<DelegateMember>();
-        List<String> roleNamesToSaveFor = getRolesToSaveFor(orr.getRoleNamesToConsider(), orr.getReviewRolesIndicator());
-        if (roleNamesToSaveFor != null) {
-            List<KfsKimDocDelegateType> roleDelegations = new ArrayList<KfsKimDocDelegateType>(roleNamesToSaveFor.size());
-            for (String roleName : roleNamesToSaveFor) {
-                Role roleInfo = getRoleInfo(roleName);
-                KfsKimDocDelegateType roleDelegation = new KfsKimDocDelegateType(roleInfo);
-                roleDelegation.setMembers(getDelegationMembersToSave(orr));
-                roleDelegations.add(roleDelegation);
+            if ( existingDelegateType == null ) {
+                roleService.createDelegateType(updatedDelegateType.build());
+            } else {
+                roleService.updateDelegateType(updatedDelegateType.build());
             }
-            return roleDelegations;
         }
-        return Collections.emptyList();
     }
 
+    protected void saveRoleMemberToKim( OrgReviewRole orr ) {
+        RoleService roleService = KimApiServiceLocator.getRoleService();
+        // Save role member(s)
+        for( RoleMemberContract roleMember : getRoleMembers(orr) ) {
+            List<RoleResponsibilityAction.Builder> roleRspActionsToSave = getRoleResponsibilityActions(orr, roleMember);
+            RoleMemberQueryResults roleMembers = roleService.findRoleMembers(QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ID, roleMember.getId()))));
+            if ( orr.isEdit() && roleMembers != null && roleMembers.getResults() != null && !roleMembers.getResults().isEmpty() ) {
+                RoleMember existingRoleMember = roleMembers.getResults().get(0);
+                RoleMember.Builder updatedRoleMember = RoleMember.Builder.create(roleMember);
+                updatedRoleMember.setRoleRspActions( roleRspActionsToSave );
+                updatedRoleMember.setVersionNumber(existingRoleMember.getVersionNumber());
+                updatedRoleMember.setObjectId(existingRoleMember.getObjectId());
+                roleMember = roleService.updateRoleMember( updatedRoleMember.build() );
+            } else {
+                RoleMember.Builder newRoleMember = RoleMember.Builder.create(roleMember);
+                newRoleMember.setRoleRspActions( roleRspActionsToSave );
+                roleMember = roleService.createRoleMember( newRoleMember.build() );
+            }
+            orr.setRoleMemberId(roleMember.getId());
+            orr.setORMId(roleMember.getId());
+        }
+    }
 
     protected Role getRoleInfo( String roleName ) {
         if ( roleName == null ) {
@@ -334,7 +340,6 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
     }
 
     protected List<KfsKimDocDelegateMember> getDelegationMembersToSave(OrgReviewRole orr){
-        List<KfsKimDocDelegateMember> objectsToSave = new ArrayList<KfsKimDocDelegateMember>();
         KfsKimDocDelegateMember delegationMember = null;
         if(orr.isEdit() && !orr.isCreateDelegation()){
             delegationMember = new KfsKimDocDelegateMember( KimApiServiceLocator.getRoleService().getDelegationMemberById(orr.getDelegationMemberId()) );
@@ -364,29 +369,29 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
         return Collections.singletonList(delegationMember);
     }
 
-    protected KfsKimDocRoleMember getRoleMemberToSave(Role roleInfo, OrgReviewRole orr){
+    protected KfsKimDocRoleMember getRoleMemberToSave(Role role, OrgReviewRole orr){
         KfsKimDocRoleMember roleMember = null;
         if(StringUtils.isNotEmpty(orr.getRoleMemberRoleNamespaceCode()) && StringUtils.isNotEmpty(orr.getRoleMemberRoleName())){
             String memberId = KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(orr.getRoleMemberRoleNamespaceCode(), orr.getRoleMemberRoleName());
-            roleMember = new KfsKimDocRoleMember(roleInfo.getId(), MemberType.ROLE, memberId);
+            roleMember = new KfsKimDocRoleMember(role.getId(), MemberType.ROLE, memberId);
         }
         if(roleMember==null){
             if(StringUtils.isNotEmpty(orr.getGroupMemberGroupNamespaceCode()) && StringUtils.isNotEmpty(orr.getGroupMemberGroupName())){
                 Group groupInfo = KimApiServiceLocator.getGroupService().getGroupByNamespaceCodeAndName(orr.getGroupMemberGroupNamespaceCode(), orr.getGroupMemberGroupName());
-                roleMember = new KfsKimDocRoleMember(roleInfo.getId(), MemberType.GROUP, groupInfo.getId() );
+                roleMember = new KfsKimDocRoleMember(role.getId(), MemberType.GROUP, groupInfo.getId() );
             }
         }
         if(roleMember==null){
             if(StringUtils.isNotEmpty(orr.getPrincipalMemberPrincipalName())){
                 Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(orr.getPrincipalMemberPrincipalName());
-                roleMember = new KfsKimDocRoleMember(roleInfo.getId(), MemberType.PRINCIPAL, principal.getPrincipalId());
+                roleMember = new KfsKimDocRoleMember(role.getId(), MemberType.PRINCIPAL, principal.getPrincipalId());
             }
         }
         if ( roleMember != null ) {
             if(orr.isEdit()){
                 roleMember.setId(orr.getRoleMemberId());
             }
-            roleMember.setAttributes(getAttributes(orr, roleInfo.getKimTypeId()));
+            roleMember.setAttributes(getAttributes(orr, role.getKimTypeId()));
             if ( orr.getActiveFromDate() != null ) {
                 roleMember.setActiveFromDate( new DateTime( orr.getActiveFromDate().getTime() ) );
             }
@@ -416,13 +421,11 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
     protected List<KfsKimDocRoleMember> getRoleMembers(OrgReviewRole orr){
         List<KfsKimDocRoleMember> objectsToSave = new ArrayList<KfsKimDocRoleMember>();
         List<String> roleNamesToSaveFor = getRolesToSaveFor(orr.getRoleNamesToConsider(), orr.getReviewRolesIndicator());
-        if(roleNamesToSaveFor!=null){
-            for(String roleName: roleNamesToSaveFor){
-                Role roleInfo = getRoleInfo(roleName);
-                KfsKimDocRoleMember roleMemberToSave = getRoleMemberToSave(roleInfo, orr);
-                if ( roleMemberToSave != null ) {
-                    objectsToSave.add(roleMemberToSave);
-                }
+        for(String roleName: roleNamesToSaveFor){
+            Role roleInfo = getRoleInfo(roleName);
+            KfsKimDocRoleMember roleMemberToSave = getRoleMemberToSave(roleInfo, orr);
+            if ( roleMemberToSave != null ) {
+                objectsToSave.add(roleMemberToSave);
             }
         }
         return objectsToSave;

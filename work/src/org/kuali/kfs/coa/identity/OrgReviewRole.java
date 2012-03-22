@@ -391,8 +391,10 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
                 attributeData.setKimAttribute(attribute.build());
                 attributeData.setAttrVal(attributeValue);
                 attributes.add(attributeData);
-            } else
+            }
+            else {
                 attributeData.setAttrVal(attributeValue);
+            }
         }
     }
     /**
@@ -431,10 +433,12 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
     }
 
     public void setFromAmount(String fromAmount) {
-        if(StringUtils.isNotEmpty(fromAmount))
+        if(StringUtils.isNotEmpty(fromAmount)) {
             this.fromAmount = new KualiDecimal(fromAmount);
-        else
+        }
+        else {
             this.fromAmount = null;
+        }
     }
 
     /**
@@ -458,10 +462,12 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
     }
 
     public void setToAmount(String toAmount) {
-        if(StringUtils.isNotEmpty(toAmount))
+        if(StringUtils.isNotEmpty(toAmount)) {
             this.toAmount = new KualiDecimal(toAmount);
-        else
+        }
+        else {
             this.toAmount = null;
+        }
     }
 
     /**
@@ -1053,10 +1059,10 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
      */
     public void setDelegationMemberRole(DelegateMemberContract delegationMemberRole) {
         this.delegationMemberRole = new KfsKimDocDelegateMember( delegationMemberRole );
-        if(delegationMemberRole!=null){
-            RoleEbo roleInfo = RoleEbo.from(KimApiServiceLocator.getRoleService().getRole(delegationMemberRole.getMemberId()));
+//        if(delegationMemberRole!=null){
+//            RoleEbo roleInfo = RoleEbo.from(KimApiServiceLocator.getRoleService().getRole(delegationMemberRole.getMemberId()));
 //            setRole(roleInfo);
-        }
+//        }
     }
     /**
      * Gets the memberGroup attribute.
@@ -1115,12 +1121,15 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
 
     public void setRoleDocumentDelegationMember(DelegateMember delegationMember){
         if ( delegationMember != null ) {
-            if(MemberType.ROLE.equals(delegationMember.getType()))
+            if(MemberType.ROLE.equals(delegationMember.getType())) {
                 setDelegationMemberRole(delegationMember);
-            else if(MemberType.GROUP.equals(delegationMember.getType()))
+            }
+            else if(MemberType.GROUP.equals(delegationMember.getType())) {
                 setDelegationMemberGroup(delegationMember);
-            else if(MemberType.PRINCIPAL.equals(delegationMember.getType()))
+            }
+            else if(MemberType.PRINCIPAL.equals(delegationMember.getType())) {
                 setDelegationMemberPerson(delegationMember);
+            }
             if ( delegationMember.getActiveFromDate() != null ) {
                 setActiveFromDate(delegationMember.getActiveFromDate().toDate());
             } else {
@@ -1142,12 +1151,15 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
 
     public void setKimDocumentRoleMember(RoleMember roleMember){
         if ( roleMember != null ) {
-            if(MemberType.ROLE.equals(roleMember.getType()))
+            if(MemberType.ROLE.equals(roleMember.getType())) {
                 setMemberRole( new KfsKimDocRoleMember(roleMember));
-            else if(MemberType.GROUP.equals(roleMember.getType()))
+            }
+            else if(MemberType.GROUP.equals(roleMember.getType())) {
                 setMemberGroup(roleMember);
-            else if(MemberType.PRINCIPAL.equals(roleMember.getType()))
+            }
+            else if(MemberType.PRINCIPAL.equals(roleMember.getType())) {
                 setMemberPerson(roleMember);
+            }
             if ( roleMember.getActiveFromDate() != null ) {
                 setActiveFromDate(roleMember.getActiveFromDate().toDate());
             } else {

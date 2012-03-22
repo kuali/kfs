@@ -4,6 +4,8 @@
     <param name="application.host">localhost</param>
 	<param name="http.port">8080</param>
 
+    <param name="app.context.name">kr-dev2</param>
+
 	<param name="appserver.url">${application.http.scheme}://${application.host}:8080</param>
 
         <param name="kfs.url">http://localhost:8080/kfs-${environment}</param>

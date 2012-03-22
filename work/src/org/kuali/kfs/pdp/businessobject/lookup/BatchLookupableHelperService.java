@@ -221,7 +221,7 @@ public class BatchLookupableHelperService extends KualiLookupableHelperServiceIm
             }
         }
 
-        if (!GlobalVariables.getMessageMap().hasErrors()) {
+        if (GlobalVariables.getMessageMap().hasErrors()) {
             throw new ValidationException("errors in search criteria");
         }
     }

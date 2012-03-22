@@ -11977,6 +11977,7 @@
         <column name="PDP_PRM_PMT_CNCL_IND" size="1" type="VARCHAR"/>
         <column name="FDOC_TYP_CD" size="4" type="VARCHAR"/>
         <column name="FS_ORIGIN_CD" size="2" type="VARCHAR"/>
+        <column name="CUST_INST_NBR" size="30" type="VARCHAR"/>
         <foreign-key foreignTable="PDP_PMT_GRP_T" name="PDP_PMT_DTL_TR1">
             <reference foreign="PMT_GRP_ID" local="PMT_GRP_ID"/>
         </foreign-key>

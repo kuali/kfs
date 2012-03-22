@@ -11,7 +11,7 @@
         General Ledger Correction Process
       </label>
       <docHandler>
-        ${application.url}/generalLedgerCorrection.do?methodToCall=docHandler
+        ${kfs.url}/generalLedgerCorrection.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Fgeneralledgercorrectionprocess.htm

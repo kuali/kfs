@@ -16,7 +16,7 @@
 				Budget Construction Document
 </label>
 			<docHandler>
-				${application.url}/budgetBudgetConstruction.do?methodToCall=docHandler
+				${kfs.url}/budgetBudgetConstruction.do?methodToCall=docHandler
 			</docHandler>
 			<postProcessorName>
 				none

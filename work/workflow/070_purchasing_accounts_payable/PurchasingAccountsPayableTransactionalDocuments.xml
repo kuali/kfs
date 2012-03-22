@@ -96,7 +96,7 @@
         Contract Manager Assignment
       </label>
       <docHandler>
-        ${application.url}/purapContractManagerAssignment.do?methodToCall=docHandler
+        ${kfs.url}/purapContractManagerAssignment.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Fcontractmanagerassignment.htm
@@ -127,7 +127,7 @@
         Requisition
       </label>
       <docHandler>
-        ${application.url}/purapRequisition.do?methodToCall=docHandler
+        ${kfs.url}/purapRequisition.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Frequisition.htm
@@ -270,7 +270,7 @@
         Purchase Order
       </label>
       <docHandler>
-        ${application.url}/purapPurchaseOrder.do?methodToCall=docHandler
+        ${kfs.url}/purapPurchaseOrder.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Fpurchaseorder.htm
@@ -492,7 +492,7 @@
         Purchase Order Amendment
       </label>
       <docHandler>
-        ${application.url}/purapPurchaseOrder.do?methodToCall=docHandler
+        ${kfs.url}/purapPurchaseOrder.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Fpurchaseorderamend.htm
@@ -599,7 +599,7 @@
         Purchase Order Close
       </label>
       <docHandler>
-        ${application.url}/purapPurchaseOrder.do?methodToCall=docHandler
+        ${kfs.url}/purapPurchaseOrder.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Fpurchaseorderclose.htm
@@ -679,7 +679,7 @@
         Purchase Order Payment Hold
       </label>
       <docHandler>
-        ${application.url}/purapPurchaseOrder.do?methodToCall=docHandler
+        ${kfs.url}/purapPurchaseOrder.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Fpurchaseorderpaymenthold.htm
@@ -760,7 +760,7 @@
         Purchase Order Remove Payment Hold
       </label>
       <docHandler>
-        ${application.url}/purapPurchaseOrder.do?methodToCall=docHandler
+        ${kfs.url}/purapPurchaseOrder.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Fpurchaseorderremovepaymenthold.htm
@@ -846,7 +846,7 @@
         Purchase Order Reopen
       </label>
       <docHandler>
-        ${application.url}/purapPurchaseOrder.do?methodToCall=docHandler
+        ${kfs.url}/purapPurchaseOrder.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Fpurchaseorderreopen.htm
@@ -926,7 +926,7 @@
         Purchase Order Retransmit
       </label>
       <docHandler>
-        ${application.url}/purapPurchaseOrder.do?methodToCall=docHandler
+        ${kfs.url}/purapPurchaseOrder.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Fpurchaseorderretransmit.htm
@@ -1006,7 +1006,7 @@
         Purchase Order Split
       </label>
       <docHandler>
-        ${application.url}/purapPurchaseOrder.do?methodToCall=docHandler
+        ${kfs.url}/purapPurchaseOrder.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Fpurchaseordersplit.htm
@@ -1078,7 +1078,7 @@
         Purchase Order Void
       </label>
       <docHandler>
-        ${application.url}/purapPurchaseOrder.do?methodToCall=docHandler
+        ${kfs.url}/purapPurchaseOrder.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Fpurchaseordervoidlhtm
@@ -1158,7 +1158,7 @@
         Electronic Invoice Reject Document
       </label>
       <docHandler>
-        ${application.url}/purapElectronicInvoiceReject.do?methodToCall=docHandler
+        ${kfs.url}/purapElectronicInvoiceReject.do?methodToCall=docHandler
       </docHandler>
       <docSearchHelpURL>
         default.htm?turl=WordDocuments%2Felectronicinvoicerejects.htm
@@ -1195,7 +1195,7 @@
         Vendor Credit Memo
       </label>
       <docHandler>
-        ${application.url}/purapVendorCreditMemo.do?methodToCall=docHandler
+        ${kfs.url}/purapVendorCreditMemo.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Fvendorcreditmemo.htm
@@ -1275,7 +1275,7 @@
         Payment Request
       </label>
       <docHandler>
-        ${application.url}/purapPaymentRequest.do?methodToCall=docHandler
+        ${kfs.url}/purapPaymentRequest.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Fpaymentrequest.htm
@@ -1426,7 +1426,7 @@
         Bulk Receiving
       </label>
       <docHandler>
-        ${application.url}/purapBulkReceiving.do?methodToCall=docHandler
+        ${kfs.url}/purapBulkReceiving.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Fbulkreceiving.htm
@@ -1449,7 +1449,7 @@
         Correction Receiving
       </label>
       <docHandler>
-        ${application.url}/purapCorrectionReceiving.do?methodToCall=docHandler
+        ${kfs.url}/purapCorrectionReceiving.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Freceivingcorrectiondocument.htm
@@ -1472,7 +1472,7 @@
         Line Item Receiving
       </label>
       <docHandler>
-        ${application.url}/purapLineItemReceiving.do?methodToCall=docHandler
+        ${kfs.url}/purapLineItemReceiving.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Freceiving.htm

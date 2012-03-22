@@ -11,7 +11,7 @@
         Advance Deposit
       </label>
       <docHandler>
-        ${application.url}/financialAdvanceDeposit.do?methodToCall=docHandler
+        ${kfs.url}/financialAdvanceDeposit.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Fadvancedeposit.htm
@@ -42,7 +42,7 @@
         Cash Management
       </label>
       <docHandler>
-        ${application.url}/financialCashManagement.do?methodToCall=docHandler
+        ${kfs.url}/financialCashManagement.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Fcashmanagement.htm
@@ -73,7 +73,7 @@
         Cash Receipt
       </label>
       <docHandler>
-        ${application.url}/financialCashReceipt.do?methodToCall=docHandler
+        ${kfs.url}/financialCashReceipt.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Fcashreceipt.htm
@@ -113,7 +113,7 @@
         Credit Card Receipt
       </label>
       <docHandler>
-        ${application.url}/financialCreditCardReceipt.do?methodToCall=docHandler
+        ${kfs.url}/financialCreditCardReceipt.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Fcreditcardreceipt.htm
@@ -144,7 +144,7 @@
         Journal Voucher
       </label>
       <docHandler>
-        ${application.url}/financialJournalVoucher.do?methodToCall=docHandler
+        ${kfs.url}/financialJournalVoucher.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Fjournalvoucher.htm
@@ -175,7 +175,7 @@
         Service Billing
       </label>
       <docHandler>
-        ${application.url}/financialServiceBilling.do?methodToCall=docHandler
+        ${kfs.url}/financialServiceBilling.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Fservicebilling.htm
@@ -206,7 +206,7 @@
         Auxiliary Voucher
       </label>
       <docHandler>
-        ${application.url}/financialAuxiliaryVoucher.do?methodToCall=docHandler
+        ${kfs.url}/financialAuxiliaryVoucher.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Fauxiliaryvoucher.htm
@@ -255,7 +255,7 @@
         Budget Adjustment
       </label>
       <docHandler>
-        ${application.url}/financialBudgetAdjustment.do?methodToCall=docHandler
+        ${kfs.url}/financialBudgetAdjustment.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Fbudgetadjustment.htm
@@ -341,7 +341,7 @@
         Distribution Of Income And Expense
       </label>
       <docHandler>
-        ${application.url}/financialDistributionOfIncomeAndExpense.do?methodToCall=docHandler
+        ${kfs.url}/financialDistributionOfIncomeAndExpense.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Fdistributionofincomeandexpense.htm
@@ -408,7 +408,7 @@
         General Error Correction
       </label>
       <docHandler>
-        ${application.url}/financialGeneralErrorCorrection.do?methodToCall=docHandler
+        ${kfs.url}/financialGeneralErrorCorrection.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Fgeneralerrorcorrection.htm
@@ -475,7 +475,7 @@
         Indirect Cost Adjustment
       </label>
       <docHandler>
-        ${application.url}/financialIndirectCostAdjustment.do?methodToCall=docHandler
+        ${kfs.url}/financialIndirectCostAdjustment.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Findirectcostadjustment.htm
@@ -542,7 +542,7 @@
         Non-Check Disbursement
       </label>
       <docHandler>
-        ${application.url}/financialNonCheckDisbursement.do?methodToCall=docHandler
+        ${kfs.url}/financialNonCheckDisbursement.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Fnoncheckdisbursement.htm
@@ -609,7 +609,7 @@
         Pre-Encumbrance
       </label>
       <docHandler>
-        ${application.url}/financialPreEncumbrance.do?methodToCall=docHandler
+        ${kfs.url}/financialPreEncumbrance.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Fpreencumbrance.htm
@@ -667,7 +667,7 @@
         Procurement Card
       </label>
       <docHandler>
-        ${application.url}/financialProcurementCard.do?methodToCall=docHandler
+        ${kfs.url}/financialProcurementCard.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Fprocurementcard.htm
@@ -731,7 +731,7 @@
         Transfer Of Funds
       </label>
       <docHandler>
-        ${application.url}/financialTransferOfFunds.do?methodToCall=docHandler
+        ${kfs.url}/financialTransferOfFunds.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Ftransferoffunds.htm
@@ -850,7 +850,7 @@
         Internal Billing
       </label>
       <docHandler>
-        ${application.url}/financialInternalBilling.do?methodToCall=docHandler
+        ${kfs.url}/financialInternalBilling.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Finternalbilling.htm
@@ -908,7 +908,7 @@
         Disbursement Voucher
       </label>
       <docHandler>
-        ${application.url}/financialDisbursementVoucher.do?methodToCall=docHandler
+        ${kfs.url}/financialDisbursementVoucher.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Fdisbursementvoucher.htm
@@ -1096,7 +1096,7 @@
         Year End Budget Adjustment
       </label>
       <docHandler>
-        ${application.url}/financialYearEndBudgetAdjustment.do?methodToCall=docHandler
+        ${kfs.url}/financialYearEndBudgetAdjustment.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Ffinancialprocessingyearend.htm
@@ -1119,7 +1119,7 @@
         Year End Distribution Of Income And Expense
       </label>
       <docHandler>
-        ${application.url}/financialYearEndDistributionOfIncomeAndExpense.do?methodToCall=docHandler
+        ${kfs.url}/financialYearEndDistributionOfIncomeAndExpense.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Ffinancialprocessingyearend.htm
@@ -1142,7 +1142,7 @@
         Year End General Error Correction
       </label>
       <docHandler>
-        ${application.url}/financialYearEndGeneralErrorCorrection.do?methodToCall=docHandler
+        ${kfs.url}/financialYearEndGeneralErrorCorrection.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Ffinancialprocessingyearend.htm
@@ -1165,7 +1165,7 @@
         Year End Transfer Of Funds
       </label>
       <docHandler>
-        ${application.url}/financialYearEndTransferOfFunds.do?methodToCall=docHandler
+        ${kfs.url}/financialYearEndTransferOfFunds.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Ffinancialprocessingyearend.htm

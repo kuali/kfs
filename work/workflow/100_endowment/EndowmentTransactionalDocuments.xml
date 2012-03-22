@@ -14,7 +14,7 @@
 			<label>Endowment Corpus Adjustment</label>
 			<parent>ET</parent>
 			<docHandler>
-				${application.url}/endowCorpusAdjustmentDocument.do?methodToCall=docHandler </docHandler>
+				${kfs.url}/endowCorpusAdjustmentDocument.do?methodToCall=docHandler </docHandler>
 		</documentType>
 		<documentType>
 			<name>EUSA</name>
@@ -22,7 +22,7 @@
 			<label>Endowment Unit/Share Adjustment</label>
 			<parent>ET</parent>
 			<docHandler>
-				${application.url}/endowEndowmentUnitShareAdjustmentDocument.do?methodToCall=docHandler </docHandler>
+				${kfs.url}/endowEndowmentUnitShareAdjustmentDocument.do?methodToCall=docHandler </docHandler>
 		</documentType>
 		<documentType>
 			<name>EHVA</name>
@@ -30,7 +30,7 @@
 			<label>Endowment Holding History Value Adjustment</label>
 			<parent>ET</parent>
 			<docHandler>
-				${application.url}/endowHoldingHistoryValueAdjustmentDocument.do?methodToCall=docHandler </docHandler>
+				${kfs.url}/endowHoldingHistoryValueAdjustmentDocument.do?methodToCall=docHandler </docHandler>
 		</documentType>
 		<documentType>
 			<name>ELD</name>
@@ -38,7 +38,7 @@
 			<label>Endowment Liability Decrease</label>
 			<parent>ET</parent>
 			<docHandler>
-				${application.url}/endowLiabilityDecreaseDocument.do?methodToCall=docHandler </docHandler>
+				${kfs.url}/endowLiabilityDecreaseDocument.do?methodToCall=docHandler </docHandler>
 		</documentType>
 		<documentType>
 			<name>ELI</name>
@@ -46,7 +46,7 @@
 			<label>Endowment Liability Increase</label>
 			<parent>ET</parent>
 			<docHandler>
-				${application.url}/endowLiabilityIncreaseDocument.do?methodToCall=docHandler </docHandler>
+				${kfs.url}/endowLiabilityIncreaseDocument.do?methodToCall=docHandler </docHandler>
 		</documentType>
 		<documentType>
 			<name>EST</name>
@@ -54,21 +54,21 @@
 			<label>Endowment Security Transfer</label>
 			<parent>ET</parent>
 			<docHandler>
-				${application.url}/endowSecurityTransferDocument.do?methodToCall=docHandler </docHandler>
+				${kfs.url}/endowSecurityTransferDocument.do?methodToCall=docHandler </docHandler>
 		</documentType>
 		<documentType>
 			<name>GLET</name>
 			<helpDefinitionURL>default.htm?turl=WordDocuments%2Fgltoendowmenttransferoffunds.htm</helpDefinitionURL>
 			<label>GL To Endowment Transfer Of Funds</label>
 			<parent>ET</parent>
-			<docHandler>${application.url}/endowGLToEndowmentTransferOfFundsDocument.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kfs.url}/endowGLToEndowmentTransferOfFundsDocument.do?methodToCall=docHandler</docHandler>
 		</documentType>
 		<documentType>
 			<name>ECR</name>
 			<helpDefinitionURL>default.htm?turl=WordDocuments%2Fcorporatereorganization.htm</helpDefinitionURL>
 			<label>Endowment Corporate Reorganization</label>
 			<parent>ET</parent>
-			<docHandler>${application.url}/endowCorporateReorganizationDocument.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kfs.url}/endowCorporateReorganizationDocument.do?methodToCall=docHandler</docHandler>
 		</documentType>
 		<documentType>
 			<name>ETB</name>
@@ -108,14 +108,14 @@
 			<helpDefinitionURL>default.htm?turl=WordDocuments%2Fendowmenttogltransferoffunds.htm</helpDefinitionURL>
 			<label>Endowment To GL Transfer Of Funds</label>
 			<parent>ETB</parent>
-			<docHandler>${application.url}/endowEndowmentToGLTransferOfFundsDocument.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kfs.url}/endowEndowmentToGLTransferOfFundsDocument.do?methodToCall=docHandler</docHandler>
 		</documentType>
 		<documentType>
 			<name>EHA</name>
 			<helpDefinitionURL>default.htm?turl=WordDocuments%2Fholdingadjustment.htm</helpDefinitionURL>
 			<label>Endowment Holding Adjustment</label>
 			<parent>ETB</parent>
-			<docHandler>${application.url}/endowHoldingAdjustmentDocument.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kfs.url}/endowHoldingAdjustmentDocument.do?methodToCall=docHandler</docHandler>
 		</documentType>
 		<documentType>
 			<name>EAD</name>
@@ -123,7 +123,7 @@
 			<label>Endowment Asset Decrease</label>
 			<parent>ETB</parent>
 			<docHandler>
-				${application.url}/endowAssetDecreaseDocument.do?methodToCall=docHandler </docHandler>
+				${kfs.url}/endowAssetDecreaseDocument.do?methodToCall=docHandler </docHandler>
 		</documentType>
 		<documentType>
 			<name>EAI</name>
@@ -131,7 +131,7 @@
 			<label>Endowment Asset Increase</label>
 			<parent>ETB</parent>
 			<docHandler>
-				${application.url}/endowAssetIncreaseDocument.do?methodToCall=docHandler </docHandler>
+				${kfs.url}/endowAssetIncreaseDocument.do?methodToCall=docHandler </docHandler>
 		</documentType>
 		<documentType>
 			<name>ECDD</name>
@@ -139,7 +139,7 @@
 			<label>Endowment Cash Decrease</label>
 			<parent>ETB</parent>
 			<docHandler>
-				${application.url}/endowCashDecreaseDocument.do?methodToCall=docHandler </docHandler>
+				${kfs.url}/endowCashDecreaseDocument.do?methodToCall=docHandler </docHandler>
 		</documentType>
 		<documentType>
 			<name>ECI</name>
@@ -147,7 +147,7 @@
 			<label>Endowment Cash Increase</label>
 			<parent>ETB</parent>
 			<docHandler>
-				${application.url}/endowCashIncreaseDocument.do?methodToCall=docHandler </docHandler>
+				${kfs.url}/endowCashIncreaseDocument.do?methodToCall=docHandler </docHandler>
 		</documentType>
 		<documentType>
 			<name>ECT</name>
@@ -155,7 +155,7 @@
 			<label>Endowment Cash Transfer</label>
 			<parent>ETB</parent>
 			<docHandler>
-				${application.url}/endowCashTransferDocument.do?methodToCall=docHandler </docHandler>
+				${kfs.url}/endowCashTransferDocument.do?methodToCall=docHandler </docHandler>
 		</documentType>
 	</documentTypes>
 </data>

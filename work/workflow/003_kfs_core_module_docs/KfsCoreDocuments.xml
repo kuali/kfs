@@ -71,7 +71,7 @@
         Financial System Document Type Code
       </label>
       <docHandler>
-        ${application.url}/kr/maintenance.do?methodToCall=docHandler
+        ${kfs.url}/kr/maintenance.do?methodToCall=docHandler
       </docHandler>
       <active>
         true

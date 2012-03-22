@@ -29,7 +29,7 @@
         KFS
       </serviceNamespace>
       <docHandler>
-        ${application.url}/kr/maintenance.do?methodToCall=docHandler
+        ${kfs.url}/kr/maintenance.do?methodToCall=docHandler
       </docHandler>
       <postProcessorName>
         org.kuali.kfs.sys.document.workflow.PostProcessor

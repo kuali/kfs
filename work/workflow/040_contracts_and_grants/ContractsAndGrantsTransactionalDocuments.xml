@@ -11,7 +11,7 @@
         Proposal/Award Close
       </label>
       <docHandler>
-        ${application.url}/cgClose.do?methodToCall=docHandler
+        ${kfs.url}/cgClose.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Fproposalawardclose.htm

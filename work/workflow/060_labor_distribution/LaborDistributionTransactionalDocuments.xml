@@ -54,7 +54,7 @@
         Salary Expense Transfer
       </label>
       <docHandler>
-        ${application.url}/laborSalaryExpenseTransfer.do?methodToCall=docHandler
+        ${kfs.url}/laborSalaryExpenseTransfer.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Fsalaryexpensetransfer.htm
@@ -109,7 +109,7 @@
         Labor Journal Voucher
       </label>
       <docHandler>
-        ${application.url}/laborJournalVoucher.do?methodToCall=docHandler
+        ${kfs.url}/laborJournalVoucher.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Flaborjournalvoucher.htm
@@ -140,7 +140,7 @@
         Benefit Expense Transfer
       </label>
       <docHandler>
-        ${application.url}/laborBenefitExpenseTransfer.do?methodToCall=docHandler
+        ${kfs.url}/laborBenefitExpenseTransfer.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Fbenefitexpensetransfer.htm
@@ -195,7 +195,7 @@
         Labor Ledger Correction Process
       </label>
       <docHandler>
-        ${application.url}/laborLedgerCorrection.do?methodToCall=docHandler
+        ${kfs.url}/laborLedgerCorrection.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Flaborledgercorrectionprocess.htm
@@ -232,7 +232,7 @@
         Year End Benefit Expense Transfer
       </label>
       <docHandler>
-        ${application.url}/laborYearEndBenefitExpenseTransfer.do?methodToCall=docHandler
+        ${kfs.url}/laborYearEndBenefitExpenseTransfer.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Flabordistributionyearend.htm
@@ -255,7 +255,7 @@
         Year End Salary Expense Transfer
       </label>
       <docHandler>
-        ${application.url}/laborYearEndSalaryExpenseTransfer.do?methodToCall=docHandler
+        ${kfs.url}/laborYearEndSalaryExpenseTransfer.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Flabordistributionyearend.htm

@@ -28,7 +28,7 @@
         Asset Manual Payment
       </label>
       <docHandler>
-        ${application.url}/camsAssetPayment.do?methodToCall=docHandler
+        ${kfs.url}/camsAssetPayment.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Fassetmanualpayment.htm
@@ -65,7 +65,7 @@
         Asset Transfer
       </label>
       <docHandler>
-        ${application.url}/camsAssetTransfer.do?methodToCall=docHandler
+        ${kfs.url}/camsAssetTransfer.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Ftransferasset.htm
@@ -108,7 +108,7 @@
         Equipment Loan/Return
       </label>
       <docHandler>
-        ${application.url}/camsEquipmentLoanOrReturn.do?methodToCall=docHandler
+        ${kfs.url}/camsEquipmentLoanOrReturn.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Fequipmentloan.htm
@@ -157,7 +157,7 @@
         Barcode Inventory Error
       </label>
       <docHandler>
-        ${application.url}/camsBarcodeInventoryError.do?methodToCall=docHandler
+        ${kfs.url}/camsBarcodeInventoryError.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
         default.htm?turl=WordDocuments%2Fbarcodeinventoryprocess.htm

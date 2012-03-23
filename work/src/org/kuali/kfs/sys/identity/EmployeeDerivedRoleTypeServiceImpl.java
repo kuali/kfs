@@ -68,10 +68,10 @@ public class EmployeeDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
         if ((entity == null) || (entity.getEmployment() == null)) {
             return false;
         }
-        if (!entity.isActive() || !entity.getEmployment().isActive() || !ACTIVE_EMPLOYEE_STATUSES.contains(entity.getEmployment().getEmployeeStatus().toString())) {
+        if (!entity.isActive() || !entity.getEmployment().isActive() || !ACTIVE_EMPLOYEE_STATUSES.contains(entity.getEmployment().getEmployeeStatus().getCode())) {
             return false;
         }
-        if ((KFSConstants.SysKimApiConstants.ACTIVE_PROFESSIONAL_EMPLOYEE_KIM_ROLE_NAME.equals(roleName) || KFSConstants.SysKimApiConstants.ACTIVE_PROFESSIONAL_EMPLOYEE_AND_KFS_USER_KIM_ROLE_NAME.equals(roleName)) && !PROFESSIONAL_EMPLOYEE_TYPE_CODE.equals(entity.getEmployment().getEmployeeType().toString())) {
+        if ((KFSConstants.SysKimApiConstants.ACTIVE_PROFESSIONAL_EMPLOYEE_KIM_ROLE_NAME.equals(roleName) || KFSConstants.SysKimApiConstants.ACTIVE_PROFESSIONAL_EMPLOYEE_AND_KFS_USER_KIM_ROLE_NAME.equals(roleName)) && !PROFESSIONAL_EMPLOYEE_TYPE_CODE.equals(entity.getEmployment().getEmployeeType().getCode())) {
             return false;
         }
         if ((KFSConstants.SysKimApiConstants.ACTIVE_PROFESSIONAL_EMPLOYEE_AND_KFS_USER_KIM_ROLE_NAME.equals(roleName) || KFSConstants.SysKimApiConstants.ACTIVE_EMPLOYEE_AND_KFS_USER_KIM_ROLE_NAME.equals(roleName))) {

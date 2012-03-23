@@ -19,6 +19,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.identity.KfsKimDocDelegateMember;
 import org.kuali.kfs.coa.identity.OrgReviewRole;
 import org.kuali.kfs.coa.service.OrgReviewRoleService;
@@ -36,6 +38,8 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.action.ActionRequestPolicy;
 import org.kuali.rice.kew.api.action.ActionRequestType;
 import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.common.delegate.DelegateMember;
+import org.kuali.rice.kim.api.common.delegate.DelegateType;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.responsibility.Responsibility;
@@ -71,6 +75,7 @@ public class OrgReviewRoleServiceImplTest extends KualiTestBase {
         personService = KimApiServiceLocator.getPersonService();
         orgHierRole = roleService.getRoleByNamespaceCodeAndName(KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAME);
         acctHierRole = roleService.getRoleByNamespaceCodeAndName(KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, KFSConstants.SysKimApiConstants.ACCOUNTING_REVIEWER_ROLE_NAME);
+        Logger.getLogger(OrgReviewRoleServiceImpl.class).setLevel(Level.DEBUG);
     }
 
     protected OrgReviewRole buildOrgHierData() {
@@ -190,6 +195,12 @@ public class OrgReviewRoleServiceImplTest extends KualiTestBase {
         matchOrgReviewRoleToRoleMember(orr, rm, role);
     }
 
+    protected void checkForMatchingDelegationMember( OrgReviewRole orr, Role role ) {
+        DelegateMember dm = roleService.getDelegationMemberById(orr.getDelegationMemberId());
+        assertNotNull( "Returned delegation member object should not have been null", dm );
+        matchOrgReviewRoleToDelegationMember(orr, dm, role);
+    }
+
     protected void matchOrgReviewRoleToRoleMember( OrgReviewRole orr, RoleMember rm, Role role ) {
         System.err.println( "RoleMember: " + rm );
 
@@ -214,6 +225,22 @@ public class OrgReviewRoleServiceImplTest extends KualiTestBase {
         assertEquals( "The responsibility type does not match", orr.getActionTypeCode(), rra.getActionTypeCode() );
         assertEquals( "The responsibility policy does not match", orr.getActionPolicyCode(), rra.getActionPolicyCode() );
         assertEquals( "The role resp ID is not correct", "*", rra.getRoleResponsibilityId() );
+    }
+
+    protected void matchOrgReviewRoleToDelegationMember( OrgReviewRole orr, DelegateMember dm, Role role ) {
+        System.err.println( "DelegateMember: " + dm );
+
+        assertEquals( "DelegateMember id should be that requested", orr.getDelegationMemberId(), dm.getDelegationMemberId() );
+        assertEquals( "DelegateMember's ID should match the inputs", orr.getPrincipalMemberPrincipalId(), dm.getMemberId() );
+        assertEquals( "DelegateMember's role member ID should match the inputs", orr.getRoleMemberId(), dm.getRoleMemberId() );
+
+        Map<String,String> attr = dm.getAttributes();
+        assertNotNull( "The delegate member's attributes should not have been null", dm.getAttributes() );
+        assertEquals("Chart attrib is incorrect", orr.getChartOfAccountsCode(), attr.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE));
+        assertEquals("Org attrib is incorrect", orr.getOrganizationCode(), attr.get(KfsKimAttributes.ORGANIZATION_CODE));
+        assertEquals("Doc Type attrib is incorrect", orr.getFinancialSystemDocumentTypeCode(), attr.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME));
+        assertEquals("From amount is incorrect", orr.getFromAmountStr(), attr.get(KfsKimAttributes.FROM_AMOUNT));
+        assertEquals("To amount is incorrect", orr.getToAmountStr(), attr.get(KfsKimAttributes.TO_AMOUNT));
     }
 
     public void testSaveOrgReviewRoleToKim_OrgReview_New() throws Exception {
@@ -291,6 +318,7 @@ public class OrgReviewRoleServiceImplTest extends KualiTestBase {
     }
 
     public void testSaveOrgReviewRoleToKim_OrgReview_Delegate_New() throws Exception {
+        // FIRST - create a known role member
         OrgReviewRole orr = buildOrgHierData();
 
         orr.setEdit(false);
@@ -309,7 +337,13 @@ public class OrgReviewRoleServiceImplTest extends KualiTestBase {
         assertNotNull( "OrgReviewRole delegationMemberId should not be null.", orr.getDelegationMemberId() );
         assertFalse( "OrgReviewRole delegationMemberId should not have been blank.", orr.getDelegationMemberId().equals("") );
 
-        checkForMatchingRoleMember(orr, orgHierRole);
+        // ensure the delegate type now exists
+        DelegateType existingDelegateType = roleService.getDelegateTypeByRoleIdAndDelegateTypeCode(orr.getRoleId(), DelegationType.fromCode(orr.getDelegationTypeCode()));
+        assertNotNull( "Unable to retrieve delegate type object from the KIM Service", existingDelegateType );
+        DelegateMember dm = roleService.getDelegationMemberById(orr.getDelegationMemberId());
+        assertNotNull( "Unable to retrieve delegate member with given ID: " + dm.getDelegationMemberId(), dm );
+
+        checkForMatchingDelegationMember(orr, orgHierRole);
     }
 
     public void testSaveOrgReviewRoleToKim_AcctReview_Delegate_New() throws Exception {

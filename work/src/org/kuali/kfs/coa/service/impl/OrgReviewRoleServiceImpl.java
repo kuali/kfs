@@ -59,6 +59,7 @@ import org.kuali.rice.krad.exception.ValidationException;
 import org.springframework.cache.annotation.Cacheable;
 
 public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrgReviewRoleServiceImpl.class);
 
     protected static final String ROLES_TO_CONSIDER_CACHE_NAME = "OrgReviewRoleRolesToConsider";
     // note: this assumes that all use the KFS-SYS namespace
@@ -266,7 +267,20 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
         }
     }
 
+    protected void updateDelegateMemberFromDocDelegateMember( DelegateMember.Builder member, KfsKimDocDelegateMember dm ) {
+        member.setDelegationId(dm.getDelegationId());
+        member.setMemberId(dm.getMemberId());
+        member.setType(dm.getType());
+        member.setRoleMemberId(dm.getRoleMemberId());
+        member.setAttributes(dm.getAttributes());
+        member.setActiveFromDate(dm.getActiveFromDate());
+        member.setActiveToDate(dm.getActiveToDate());
+    }
+
     protected void saveDelegateMemberToKim( OrgReviewRole orr ) {
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug( "Saving delegate member from OrgReviewRole: " + orr );
+        }
         RoleService roleService = KimApiServiceLocator.getRoleService();
         // Save delegation(s)
         List<KfsKimDocDelegateMember> delegationMembers = getDelegationMembersToSave(orr);
@@ -280,29 +294,70 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
             } else {
                 updatedDelegateType = DelegateType.Builder.create(existingDelegateType);
             }
-
-            List<DelegateMember.Builder> members = updatedDelegateType.getMembers();
-            for ( DelegateMember.Builder member : members ) {
-                if ( member.getDelegationMemberId().equals(dm.getDelegationMemberId()) ) {
-                    member.setMemberId(dm.getMemberId());
-                    member.setType(dm.getType());
-                    member.setRoleMemberId(dm.getRoleMemberId());
-                    member.setAttributes(dm.getAttributes());
-                    member.setActiveFromDate(dm.getActiveFromDate());
-                    member.setActiveToDate(dm.getActiveToDate());
-                    break;
-                }
+            if ( LOG.isDebugEnabled() ) {
+                LOG.debug("Pulled DelegateType from KIM: " + updatedDelegateType);
             }
 
-            if ( existingDelegateType == null ) {
-                roleService.createDelegateType(updatedDelegateType.build());
+            // ensure this is set (for new delegation types)
+            updatedDelegateType.setKimTypeId(orr.getRole().getKimTypeId());
+            List<DelegateMember.Builder> members = updatedDelegateType.getMembers();
+            List<String> existingMemberIds = new ArrayList<String>(members.size());
+            boolean foundExistingMember = false;
+
+            // check for an existing delegation member given its unique ID
+            // if found, update that record
+            if ( StringUtils.isNotBlank(dm.getDelegationMemberId()) ) {
+                for ( DelegateMember.Builder member : members ) {
+                    existingMemberIds.add(member.getDelegationMemberId());
+                    if ( member.getDelegationMemberId().equals(dm.getDelegationMemberId()) ) {
+                        if ( LOG.isDebugEnabled() ) {
+                            LOG.debug("Found existing role member - updating existing record. " + member);
+                        }
+                        updateDelegateMemberFromDocDelegateMember(member, dm);
+                        foundExistingMember = true;
+                    }
+                }
+            }
+            // if we did not find one, then add a new entry to the list
+            if ( !foundExistingMember ) {
+                if ( LOG.isDebugEnabled() ) {
+                    LOG.debug("No existing role member found, adding as a new delegate: " + dm);
+                }
+                DelegateMember.Builder newMember = DelegateMember.Builder.create();
+                updateDelegateMemberFromDocDelegateMember(newMember, dm);
+                updatedDelegateType.getMembers().add(newMember);
+            }
+
+            DelegateType updatedType = updatedDelegateType.build();
+            if ( existingDelegateType == null || StringUtils.isBlank( existingDelegateType.getDelegationId() ) ) {
+                if ( LOG.isDebugEnabled() ) {
+                    LOG.debug( "Calling roleService.createDelegateType: " + updatedType );
+                }
+                updatedType = roleService.createDelegateType(updatedType);
             } else {
-                roleService.updateDelegateType(updatedDelegateType.build());
+                if ( LOG.isDebugEnabled() ) {
+                    LOG.debug( "Calling roleService.updateDelegateType: " + updatedType );
+                }
+                updatedType = roleService.updateDelegateType(updatedType);
+            }
+            if ( LOG.isDebugEnabled() ) {
+                LOG.debug( "Updated record - returned object from KIM: " + updatedType );
+            }
+            // to get the member we just added, filter out all the other IDs until we find one
+            // which was not there before
+            for ( DelegateMember member : updatedType.getMembers() ) {
+                if ( !existingMemberIds.contains(member.getDelegationMemberId()) ) {
+                    orr.setDelegationMemberId(member.getDelegationMemberId());
+                    break;
+                }
             }
         }
     }
 
     protected void saveRoleMemberToKim( OrgReviewRole orr ) {
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug( "Saving role member from OrgReviewRole: " + orr );
+        }
         RoleService roleService = KimApiServiceLocator.getRoleService();
         // Save role member(s)
         for( RoleMemberContract roleMember : getRoleMembers(orr) ) {
@@ -363,8 +418,12 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
         }
         delegationMember.setDelegationType(DelegationType.fromCode( orr.getDelegationTypeCode() ));
         delegationMember.setAttributes(getAttributes(orr, orr.getKimTypeId()));
-        delegationMember.setActiveFromDate( new DateTime( orr.getActiveFromDate() ) );
-        delegationMember.setActiveToDate( new DateTime( orr.getActiveToDate() ) );
+        if ( orr.getActiveFromDate() != null ) {
+            delegationMember.setActiveFromDate( new DateTime( orr.getActiveFromDate() ) );
+        }
+        if ( orr.getActiveToDate() != null ) {
+            delegationMember.setActiveToDate( new DateTime( orr.getActiveToDate() ) );
+        }
         delegationMember.setRoleMemberId(orr.getRoleMemberId());
         return Collections.singletonList(delegationMember);
     }

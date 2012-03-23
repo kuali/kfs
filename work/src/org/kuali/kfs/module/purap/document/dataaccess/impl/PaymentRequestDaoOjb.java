@@ -125,10 +125,6 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
     public List<PaymentRequestDocument> getPaymentRequestsToExtract(String campusCode, Integer paymentRequestIdentifier, Integer purchaseOrderIdentifier, Integer vendorHeaderGeneratedIdentifier, Integer vendorDetailAssignedIdentifier, Date currentSqlDateMidnight) {
         LOG.debug("getPaymentRequestsToExtract() started");
 
-//        List statuses = new ArrayList();
-//        statuses.add(PurapConstants.PaymentRequestStatuses.APPDOC_AUTO_APPROVED);
-//        statuses.add(PurapConstants.PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
-
         Criteria criteria = new Criteria();
         criteria.addEqualTo("processingCampusCode", campusCode);
         //criteria.addIn(PurapPropertyConstants.STATUS_CODE, statuses);
@@ -162,10 +158,6 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
      */
     public Collection<PaymentRequestDocument> getPaymentRequestsToExtractForVendor(String campusCode, VendorGroupingHelper vendor, Date onOrBeforePaymentRequestPayDate) {
         LOG.debug("getPaymentRequestsToExtract() started");
-
-//        List statuses = new ArrayList();
-//        statuses.add(PurapConstants.PaymentRequestStatuses.APPDOC_AUTO_APPROVED);
-//        statuses.add(PurapConstants.PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("processingCampusCode", campusCode);
@@ -248,8 +240,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
             throw new RuntimeException();
             
         } else {    
-            // at this part of the code, we know there's no more elements in iterator
-            return returnList.get(0).toString();
+            return (returnList.get(0));
         }
     }
 
@@ -264,7 +255,6 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
     protected List<String> getDocumentNumbersOfPaymentRequestByCriteria(Criteria criteria, boolean orderByAscending) {
         LOG.debug("getDocumentNumberOfPaymentRequestByCriteria() started");
         ReportQueryByCriteria rqbc = new ReportQueryByCriteria(PaymentRequestDocument.class, criteria);
-    //    rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
         if (orderByAscending) {
             rqbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
         }
@@ -278,7 +268,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
             returnList.add(prDoc.getDocumentNumber());
         }
         
-        return (List) getPersistenceBrokerTemplate().getCollectionByQuery(rqbc);
+        return returnList;
     }
 
     /**

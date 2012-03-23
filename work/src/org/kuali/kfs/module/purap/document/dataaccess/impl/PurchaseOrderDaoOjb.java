@@ -139,7 +139,6 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         ReportQueryByCriteria rqbc = new ReportQueryByCriteria(PurchaseOrderDocument.class, criteria);
         List<String> returnList = new ArrayList<String>();
         
-    //    rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
         rqbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
         
         List<PurchaseOrderDocument> poDocs = (List<PurchaseOrderDocument>) getPersistenceBrokerTemplate().getCollectionByQuery(rqbc);

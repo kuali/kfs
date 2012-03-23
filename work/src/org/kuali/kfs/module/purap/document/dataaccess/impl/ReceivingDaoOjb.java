@@ -75,7 +75,6 @@ public class ReceivingDaoOjb extends PlatformAwareDaoBaseOjb implements Receivin
      */
     protected List<String> getDocumentNumbersOfReceivingLineByCriteria(Criteria criteria, boolean orderByAscending) {
         ReportQueryByCriteria rqbc = new ReportQueryByCriteria(LineItemReceivingDocument.class, criteria);
-        rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
         if (orderByAscending) {
             rqbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
         }
@@ -83,12 +82,19 @@ public class ReceivingDaoOjb extends PlatformAwareDaoBaseOjb implements Receivin
             rqbc.addOrderByDescending(KFSPropertyConstants.DOCUMENT_NUMBER);
         }
         
-        return (List<String>) getPersistenceBrokerTemplate().getCollectionByQuery(rqbc);
+        List<LineItemReceivingDocument> lineItemRecvDocs = (List<LineItemReceivingDocument>) getPersistenceBrokerTemplate().getCollectionByQuery(rqbc);
+        
+        List<String> returnList = new ArrayList<String>();
+        
+        for (LineItemReceivingDocument lineItemRecvDoc : lineItemRecvDocs) {
+            returnList.add(lineItemRecvDoc.getDocumentNumber());
+        }
+        
+        return returnList;
     }
 
     protected List<String> getDocumentNumbersOfCorrectionReceivingByCriteria(Criteria criteria, boolean orderByAscending) {
         ReportQueryByCriteria rqbc = new ReportQueryByCriteria(CorrectionReceivingDocument.class, criteria);
-        rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
         if (orderByAscending) {
             rqbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
         }
@@ -96,7 +102,15 @@ public class ReceivingDaoOjb extends PlatformAwareDaoBaseOjb implements Receivin
             rqbc.addOrderByDescending(KFSPropertyConstants.DOCUMENT_NUMBER);
         }
         
-        return (List<String>) getPersistenceBrokerTemplate().getCollectionByQuery(rqbc);
+        List<CorrectionReceivingDocument> correctionRecvDocs = (List<CorrectionReceivingDocument>) getPersistenceBrokerTemplate().getCollectionByQuery(rqbc);
+        
+        List<String> returnList = new ArrayList<String>();
+        
+        for (CorrectionReceivingDocument correctionRecvDoc : correctionRecvDocs) {
+            returnList.add(correctionRecvDoc.getDocumentNumber());
+        }
+        
+        return returnList;
     }
 
     public List<String> duplicateBillOfLadingNumber(Integer poId, String billOfLadingNumber) {

@@ -42,20 +42,21 @@ public class RequisitionDaoOjb extends PlatformAwareDaoBaseOjb implements Requis
         criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
 
         ReportQueryByCriteria rqbc = new ReportQueryByCriteria(RequisitionDocument.class, criteria);
-        rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
+   //     rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
         rqbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
 
-        List<String> docNumbers = (List<String>) getPersistenceBrokerTemplate().getCollectionByQuery(rqbc);
-         
-        if (docNumbers.isEmpty()) {
+        List<RequisitionDocument> reqs = (List<RequisitionDocument>) getPersistenceBrokerTemplate().getCollectionByQuery(rqbc);
+        
+        if (reqs.isEmpty()) {
             return null;
         }
-        if (docNumbers.size() > 1) {
+        if (reqs.size() > 1) {
             String errorMsg = "Expected single document number for given criteria but multiple (at least 2) were returned";
             LOG.error(errorMsg);
             throw new RuntimeException();
         } else {
-            return docNumbers.get(0);
+            RequisitionDocument req = reqs.get(0);
+            return req.getDocumentNumber();
         }
     }
 }

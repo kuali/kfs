@@ -167,14 +167,21 @@ public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditM
     protected List<String> getDocumentNumbersOfCreditMemoByCriteria(Criteria criteria, boolean orderByAscending) {
         LOG.debug("getDocumentNumberOfCreditMemoByCriteria() started");
         ReportQueryByCriteria rqbc = new ReportQueryByCriteria(VendorCreditMemoDocument.class, criteria);
-        rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
         if (orderByAscending) {
             rqbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
         }
         else {
             rqbc.addOrderByDescending(KFSPropertyConstants.DOCUMENT_NUMBER);
         }
-        return (List<String>) getPersistenceBrokerTemplate().getCollectionByQuery(rqbc);
+        
+        List<VendorCreditMemoDocument> vcmds = (List<VendorCreditMemoDocument>) getPersistenceBrokerTemplate().getCollectionByQuery(rqbc);
+        
+        List<String> returnList = new ArrayList<String>();
+        
+        for (VendorCreditMemoDocument vcmd : vcmds) {
+            returnList.add(vcmd.getDocumentNumber());
+        }
+        return returnList;
     }
 
     public List<String> getActiveCreditMemoDocumentNumbersForPurchaseOrder(Integer purchaseOrderId){

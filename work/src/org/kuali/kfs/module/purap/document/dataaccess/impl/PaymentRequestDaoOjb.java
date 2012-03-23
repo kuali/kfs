@@ -263,6 +263,7 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         }
         
         List<String> returnList = new ArrayList<String>();
+        
         List<PaymentRequestDocument> prDocs = (List<PaymentRequestDocument>) getPersistenceBrokerTemplate().getCollectionByQuery(rqbc);
         for (PaymentRequestDocument prDoc : prDocs) {
             returnList.add(prDoc.getDocumentNumber());

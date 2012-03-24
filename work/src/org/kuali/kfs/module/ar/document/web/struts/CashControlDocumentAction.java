@@ -35,6 +35,7 @@ import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeader
 import org.kuali.kfs.module.ar.document.service.CashControlDocumentService;
 import org.kuali.kfs.module.ar.document.validation.event.AddCashControlDetailEvent;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentActionBase;
 import org.kuali.kfs.sys.service.BankService;
@@ -51,6 +52,7 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.service.SessionDocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 import com.lowagie.text.Document;
 
@@ -125,7 +127,12 @@ public class CashControlDocumentAction extends FinancialSystemTransactionalDocum
         CashControlDocument document = form.getCashControlDocument();
 
         //get the default bank code for the given document type, which is CTRL for this document.
-        document.setBankCode((SpringContext.getBean(BankService.class).getDefaultBankByDocType(form.getDocTypeName())).getBankCode());
+        
+        document.setBankCode("");
+        Bank defaultBank = SpringContext.getBean(BankService.class).getDefaultBankByDocType(form.getDocTypeName());
+        if (defaultBank != null) {
+            document.setBankCode(defaultBank.getBankCode());
+        }
         
         // set up the default values for the AR DOC Header (SHOULD PROBABLY MAKE THIS A SERVICE)
         AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);

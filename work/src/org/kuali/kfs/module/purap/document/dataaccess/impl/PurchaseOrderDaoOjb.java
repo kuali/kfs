@@ -22,14 +22,12 @@ import java.util.List;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.AutoClosePurchaseOrderView;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderItem;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.dataaccess.PurchaseOrderDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.util.TransactionalServiceUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.springframework.transaction.annotation.Transactional;
@@ -125,7 +123,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
             
         } else {    
             // at this part of the code, we know there's no more elements in iterator
-            return returnList.get(0).toString();
+            return returnList.get(0);
         }
     }
 
@@ -179,7 +177,6 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         LOG.debug("getAllOpenPurchaseOrders() started");
         Criteria criteria = new Criteria();
         criteria.addIsNull(PurapPropertyConstants.RECURRING_PAYMENT_TYPE_CODE);
-        criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_STATUS_CODE, PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN);
         criteria.addEqualTo(PurapPropertyConstants.TOTAL_ENCUMBRANCE, new KualiDecimal(0));
         criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_CURRENT_INDICATOR, true);
         for (String excludeCode : excludedVendorChoiceCodes) {
@@ -202,7 +199,8 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         LOG.debug("getAutoCloseRecurringPurchaseOrders() started.");
         Criteria criteria = new Criteria();
         criteria.addNotNull(PurapPropertyConstants.RECURRING_PAYMENT_TYPE_CODE);
-        criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_STATUS_CODE, PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN);
+        //PURCHASE_ORDER_STATUS_CODE does not exist in tables anymore but it is on workflowdocument.
+        //the checking for open status is done in PurchaseOrderServiceImpl class - autoCloseRecurringOrders method.
         for (String excludeCode : excludedVendorChoiceCodes) {
             criteria.addNotEqualTo(PurapPropertyConstants.VENDOR_CHOICE_CODE, excludeCode);
         }
@@ -211,6 +209,8 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
             LOG.debug("getAutoCloseRecurringPurchaseOrders() Query criteria is " + criteria.toString());
         }
         List<AutoClosePurchaseOrderView> l = (List<AutoClosePurchaseOrderView>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+        //we need to include in this list only those whose workflowdocument appDocStatus = APPDOC_OPEN
+        
         LOG.debug("getAutoCloseRecurringPurchaseOrders() ended.");
 
         return l;
@@ -219,7 +219,6 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
     public List<PurchaseOrderDocument> getPendingPurchaseOrdersForFaxing() {
         LOG.debug("Getting pending purchase orders for faxing");
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(PurapPropertyConstants.STATUS_CODE, PurapConstants.PurchaseOrderStatuses.APPDOC_PENDING_FAX);
         QueryByCriteria qbc = new QueryByCriteria(PurchaseOrderDocument.class,criteria);
         List<PurchaseOrderDocument> l = (List<PurchaseOrderDocument>) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
 

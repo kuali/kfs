@@ -33,15 +33,15 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.text.StrBuilder;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PODocumentsStrings;
 import org.kuali.kfs.module.purap.PurapConstants.POTransmissionMethods;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
-import org.kuali.kfs.module.purap.PurapKeyConstants;
-import org.kuali.kfs.module.purap.PurapParameterConstants;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.PurapRuleConstants;
 import org.kuali.kfs.module.purap.batch.AutoCloseRecurringOrdersStep;
 import org.kuali.kfs.module.purap.businessobject.AutoClosePurchaseOrderView;
 import org.kuali.kfs.module.purap.businessobject.ContractManagerAssignmentDetail;
@@ -113,6 +113,8 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.bo.AdHocRoutePerson;
 import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.datadictionary.exception.UnknownDocumentTypeException;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.DocumentBase;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
@@ -1778,7 +1780,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     public boolean autoCloseFullyDisencumberedOrders() {
         LOG.debug("autoCloseFullyDisencumberedOrders() started");
 
-        List<AutoClosePurchaseOrderView> purchaseOrderAutoCloseList = purchaseOrderDao.getAllOpenPurchaseOrders(getExcludedVendorChoiceCodes());
+        List<AutoClosePurchaseOrderView> autoCloseList = purchaseOrderDao.getAllOpenPurchaseOrders(getExcludedVendorChoiceCodes());
+        
+        //we need to eliminate the AutoClosePurchaseOrderView whose workflowdocument status is not OPEN..
+        //KFSMI-7533
+        List<AutoClosePurchaseOrderView> purchaseOrderAutoCloseList = filterDocumentsForAppDocStatusOpen(autoCloseList);
 
         for (AutoClosePurchaseOrderView poAutoClose : purchaseOrderAutoCloseList) {
             if ((poAutoClose.getTotalAmount() != null) && ((KualiDecimal.ZERO.compareTo(poAutoClose.getTotalAmount())) != 0)) {
@@ -1792,6 +1798,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
             }
         }
+        
         LOG.debug("autoCloseFullyDisencumberedOrders() ended");
 
         return true;
@@ -1872,7 +1879,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             return false;
         }
 
-        List<AutoClosePurchaseOrderView> purchaseOrderAutoCloseList = purchaseOrderDao.getAutoCloseRecurringPurchaseOrders(getExcludedVendorChoiceCodes());
+        List<AutoClosePurchaseOrderView> closeList = purchaseOrderDao.getAutoCloseRecurringPurchaseOrders(getExcludedVendorChoiceCodes());
+        
+        //we need to eliminate the AutoClosePurchaseOrderView whose workflowdocument status is not OPEN..
+        //KFSMI-7533
+        List<AutoClosePurchaseOrderView> purchaseOrderAutoCloseList = filterDocumentsForAppDocStatusOpen(closeList);
+        
         LOG.info("autoCloseRecurringOrders(): " + purchaseOrderAutoCloseList.size() + " PO's were returned for processing.");
         int counter = 0;
         for (AutoClosePurchaseOrderView poAutoClose : purchaseOrderAutoCloseList) {
@@ -1919,6 +1931,54 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         return true;
     }
 
+    /**
+     * Filter out the auto close purchase order view documents for the appDocStatus with status open
+     * For each document in the list, check if there is workflowdocument whose appdocstatus is open
+     * add add to the return list.
+     * @param List<AutoClosePurchaseOrderView>
+     * @param appDocStatus
+     * @return filteredAutoClosePOView filtered auto close po view documents where appdocstatus is open
+     */
+    protected List<AutoClosePurchaseOrderView> filterDocumentsForAppDocStatusOpen(List<AutoClosePurchaseOrderView> autoClosePurchaseOrderViews) {
+        List<AutoClosePurchaseOrderView> filteredAutoClosePOView = new ArrayList<AutoClosePurchaseOrderView>();
+        
+        for (AutoClosePurchaseOrderView autoClosePurchaseOrderView : autoClosePurchaseOrderViews) {
+            Document document = findDocument(autoClosePurchaseOrderView.getDocumentNumber());
+            
+            if (document != null) {
+                if (PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN.equalsIgnoreCase(
+                        document.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus())){
+                    //found the matched Awaiting Contract Manager Assignment status, retrieve the routeHeaderId and add to the list
+                    filteredAutoClosePOView.add(autoClosePurchaseOrderView);
+                }
+            }
+        }
+        
+        return filteredAutoClosePOView;
+    }
+    
+    /**
+     * This method finds the document for the given document header id
+     * @param documentHeaderId
+     * @return document The document in the workflow that matches the document header id.
+     */
+    protected Document findDocument(String documentHeaderId) {
+        Document document = null;
+        
+        try {
+            document = documentService.getByDocumentHeaderId(documentHeaderId);
+        }
+        catch (WorkflowException ex) {
+            LOG.error("Exception encountered on finding the document: " + documentHeaderId, ex );
+        } catch ( UnknownDocumentTypeException ex ) {
+            // don't blow up just because a document type is not installed (but don't return it either)
+            LOG.error("Exception encountered on finding the document: " + documentHeaderId, ex );
+        }
+        
+        return document;
+    }
+    
+    
     /**
      * Creates and returns a Calendar object of today minus three months.
      *

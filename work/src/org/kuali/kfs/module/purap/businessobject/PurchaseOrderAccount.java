@@ -31,14 +31,10 @@ public class PurchaseOrderAccount extends PurApAccountingLineBase {
     // private String documentNumber;
     private KualiDecimal itemAccountOutstandingEncumbranceAmount;
 
-    protected static final int BIG_DECIMAL_SCALE = 2;
-    
     /**
      * Default constructor.
      */
     public PurchaseOrderAccount() {
-     //   this.setAmount(KualiDecimal.ZERO);
-     //   this.setAccountLinePercent(null);
     }
 
     public PurchaseOrderAccount(PurApAccountingLine ra) {

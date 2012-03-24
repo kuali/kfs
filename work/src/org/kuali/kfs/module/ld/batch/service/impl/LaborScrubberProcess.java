@@ -834,7 +834,7 @@ public class LaborScrubberProcess {
         runDate = calculateRunDate(dateTimeService.getCurrentDate());
 
         // Without this step, the job fails with Optimistic Lock Exceptions
-        persistenceService.clearCache();
+      //  persistenceService.clearCache();
 
         DemergerReportData demergerReport = new DemergerReportData();
 

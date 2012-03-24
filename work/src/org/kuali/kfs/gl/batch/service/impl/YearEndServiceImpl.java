@@ -166,7 +166,7 @@ public class YearEndServiceImpl implements YearEndService {
                     LOG.info(new StringBuffer(" ORIGIN ENTRIES INSERTED = ").append(nominalActivityClosingCounts.get("sequenceCheckCount")).toString());
                 }
                 if (nominalActivityClosingCounts.get("globalSelectCount").intValue() % 1000 == 0) {
-                    persistenceService.clearCache();
+                //    persistenceService.clearCache();
                 }
                 accountNumberHold = balance.getAccountNumber();
             }
@@ -256,7 +256,7 @@ public class YearEndServiceImpl implements YearEndService {
             balance = generalBalances.next();
             balanceForwardRuleHelper.processGeneralForwardBalance(balance, closedPs, unclosedPs);
             if (balanceForwardRuleHelper.getState().getGlobalSelectCount() % 1000 == 0) {
-                persistenceService.clearCache();
+              //  persistenceService.clearCache();
             }
         }
 
@@ -266,7 +266,7 @@ public class YearEndServiceImpl implements YearEndService {
             balance = cumulativeBalances.next();
             balanceForwardRuleHelper.processCumulativeForwardBalance(balance, closedPs, unclosedPs);
             if (balanceForwardRuleHelper.getState().getGlobalSelectCount() % 1000 == 0) {
-                persistenceService.clearCache();
+            //    persistenceService.clearCache();
             }
         }
 
@@ -379,7 +379,7 @@ public class YearEndServiceImpl implements YearEndService {
                 }
             }
             if (counts.get("encumbrancesSelected").intValue() % 1000 == 0) {
-                persistenceService.clearCache();
+             //   persistenceService.clearCache();
             }
         }
         encumbranceForwardPs.close();

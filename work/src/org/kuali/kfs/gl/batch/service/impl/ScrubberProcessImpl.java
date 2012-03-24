@@ -369,7 +369,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
         Map<String, Integer> pMap = oefu.getFieldBeginningPositionMap();
         
         // Without this step, the job fails with Optimistic Lock Exceptions
-        persistenceService.clearCache();
+     //   persistenceService.clearCache();
 
         demergerReport = new DemergerReportData();
         
@@ -407,7 +407,7 @@ public class ScrubberProcessImpl implements ScrubberProcess {
         }
         
         // Without this step, the job fails with Optimistic Lock Exceptions
-        persistenceService.clearCache();
+    //    persistenceService.clearCache();
         
         FileReader INPUT_GLE_FILE = null;
         FileReader INPUT_ERR_FILE = null;

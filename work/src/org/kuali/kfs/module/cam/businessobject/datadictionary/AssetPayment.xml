@@ -172,9 +172,6 @@
   <bean id="AssetPayment-account.chartOfAccountsCode-parentBean" abstract="true" parent="Account-chartOfAccountsCode">
     <property name="name" value="account.chartOfAccountsCode"/>
     <property name="shortLabel" value="Chart"/>
-    <property name="control">
-      <ref bean="HiddenControl" />
-    </property>
   </bean>
 
   <bean id="AssetPayment-account.subFundGroupCode" parent="AssetPayment-account.subFundGroupCode-parentBean"/>
@@ -583,7 +580,7 @@
         <bean parent="FieldDefinition" p:attributeName="requisitionNumber"/>
         <bean parent="FieldDefinition" p:attributeName="financialDocumentTypeCode"/>
         <bean parent="FieldDefinition" p:attributeName="documentNumber"/>
-        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="account.chartOfAccountsCode"/>
         <bean parent="FieldDefinition" p:attributeName="account.organizationCode"/>    
         <bean parent="FieldDefinition" p:attributeName="accountNumber"/>                    
         <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>

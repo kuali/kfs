@@ -257,7 +257,7 @@ public class KFSPropertyConstants {
     public static final String BURSAR_USER = "bursarUser";
     public static final String CAB_USER = "cabUser";
     public static final String CAMPUS = KRADPropertyConstants.CAMPUS;
-    public static final String CAMPUS_CODE = KRADPropertyConstants.CAMPUS_CODE;
+    public static final String CAMPUS_CODE = "campusCode";
     public static final String CAMPUS_DESCRIPTION = "campusDescription";
     public static final String CAMPUS_LOCATION_CODE = "campusLocationCode";
     public static final String CAMPUS_MAXIMUM_PERIOD1_RATE = "campusMaximumPeriod1Rate";

@@ -63,10 +63,12 @@
 	</td>
 
 	<td align=left class="${cssClass}">
+		<c:if test="${propertyName}.referenceFinancialDocument.documentHeader.workflowDocument.statusDisplayValue">
 		<kul:htmlControlAttribute
 			attributeEntry="${cashControlDetailAttributes.status}"
 			property="${propertyName}.referenceFinancialDocument.documentHeader.workflowDocument.statusDisplayValue"
 			readOnly="true" />
+		</c:if>
 	</td>
 	<td align=left class="${cssClass}">
 		<kul:htmlControlAttribute

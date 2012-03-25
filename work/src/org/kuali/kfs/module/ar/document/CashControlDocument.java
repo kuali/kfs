@@ -570,11 +570,6 @@ public class CashControlDocument extends GeneralLedgerPostingDocumentBase implem
         this.electronicPaymentClaims = electronicPaymentClaims;
     }
 
-    public String getFinancialDocumentTypeCode() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
     public Document getReferenceFinancialDocument() {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         Document document = null;

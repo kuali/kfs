@@ -100,6 +100,7 @@ public class CashControlDocumentForm extends FinancialSystemTransactionalDocumen
      * @return cashControlDetail
      */
     public CashControlDetail getNewCashControlDetail() {
+        if (newCashControlDetail == null) newCashControlDetail = new CashControlDetail();
         return newCashControlDetail;
     }
 

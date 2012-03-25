@@ -29,25 +29,24 @@ public class CashDecreaseDocumentRules extends CashDocumentBaseRules {
     @Override
     public boolean processCustomRouteDocumentBusinessRules(Document document) {
         CashDecreaseDocument cashDecreaseDocument = (CashDecreaseDocument) document;
+        boolean isSourceDocument = true;
 
         // Validate at least one Tx was entered.
-        if (!transactionLineSizeGreaterThanZero(cashDecreaseDocument, true))
+        if (!transactionLineSizeGreaterThanZero(cashDecreaseDocument, isSourceDocument))
             return false;
 
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
         isValid &= !GlobalVariables.getMessageMap().hasErrors();
 
         if (isValid) {
-
-            // Checks if Security field is not empty, security code must be valid.
-            if (!isSecurityCodeEmpty(cashDecreaseDocument, true)) {
-                if (!validateSecurityCode(cashDecreaseDocument, true))
-                    return false;
-            }
-
-            for (int i = 0; i < cashDecreaseDocument.getSourceTransactionLines().size(); i++) {
-                EndowmentTransactionLine txLine = cashDecreaseDocument.getSourceTransactionLines().get(i);
-                isValid &= validateCashTransactionLine(cashDecreaseDocument, txLine, i);
+            //KFSMI-7505
+            //validations of security and registration attributes are moved to CashDocumentBaseRules class.
+            isValid &= validateSecurityAndRegistrationRules(document, isSourceDocument);
+            if (isValid) {
+                for (int i = 0; i < cashDecreaseDocument.getSourceTransactionLines().size(); i++) {
+                    EndowmentTransactionLine txLine = cashDecreaseDocument.getSourceTransactionLines().get(i);
+                    isValid &= validateCashTransactionLine(cashDecreaseDocument, txLine, i);
+                }
             }
         }
 

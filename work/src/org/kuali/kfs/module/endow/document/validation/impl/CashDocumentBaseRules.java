@@ -21,22 +21,58 @@ import org.kuali.kfs.module.endow.EndowKeyConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
+import org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionalDocument;
 import org.kuali.kfs.module.endow.document.service.EndowmentTransactionLinesDocumentService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class CashDocumentBaseRules extends EndowmentTransactionLinesDocumentBaseRules {
 
+    /**
+     * checks the security and registration fields for valid values for both cash documents.
+     * 
+     * @param document cash document (both increase and decrease documents)
+     * @param isSource indicates whether the document is a source or target document
+     * @return true if both secuity id and registrion code values are valid else return false
+     */
+    protected boolean validateSecurityAndRegistrationRules(Document cashDocument, boolean isSource) {
+        boolean valid = true;
+        
+        // Checks if Security field is not empty, security code must be valid.
+        if (isSecurityCodeEmpty((EndowmentTransactionalDocument)cashDocument, isSource)) {
+            return false;
+        } else {
+            if (!validateSecurityCode((EndowmentSecurityDetailsDocument)cashDocument, isSource))
+                return false;
+        }
+
+        //check for registration code validity..
+        if (isRegistrationCodeEmpty((EndowmentTransactionalDocument)cashDocument, isSource)) {
+            return false;
+        }
+        if (!validateRegistrationCode((EndowmentSecurityDetailsDocument)cashDocument, isSource)) {
+            return false;
+        }
+        // Checks if registration code is active
+        if (!isRegistrationCodeActive((EndowmentSecurityDetailsDocument)cashDocument, isSource)) {
+            return false;
+        }
+        
+        return valid;
+    }
+    
     protected boolean isSecurityCodeEmpty(EndowmentTransactionalDocument document, boolean isSource) {
         EndowmentTransactionSecurity tranSecurity = getEndowmentTransactionSecurity(document, isSource);
 
-        if (StringUtils.isEmpty(tranSecurity.getSecurityID()))
+        if (StringUtils.isEmpty(tranSecurity.getSecurityID())) {
+            putFieldError(getEndowmentTransactionSecurityPrefix(document, isSource) + EndowPropertyConstants.TRANSACTION_SECURITY_ID, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_SECURITY_REQUIRED);
             return true;
+        }
         else
             return false;
-
     }
 
     /**

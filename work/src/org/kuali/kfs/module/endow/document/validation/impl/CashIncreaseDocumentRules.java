@@ -18,6 +18,7 @@ package org.kuali.kfs.module.endow.document.validation.impl;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.document.CashIncreaseDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
+import org.kuali.kfs.module.endow.document.EndowmentTransactionalDocument;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -29,25 +30,24 @@ public class CashIncreaseDocumentRules extends CashDocumentBaseRules {
     @Override
     public boolean processCustomRouteDocumentBusinessRules(Document document) {
         CashIncreaseDocument cashIncreaseDocument = (CashIncreaseDocument) document;
-
+        boolean isSourceDocument = false;
+        
         // Validate at least one Tx was entered.
-        if (!transactionLineSizeGreaterThanZero(cashIncreaseDocument, false))
+        if (!transactionLineSizeGreaterThanZero(cashIncreaseDocument, isSourceDocument))
             return false;
 
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
         isValid &= !GlobalVariables.getMessageMap().hasErrors();
 
         if (isValid) {
-
-            // Checks if Security field is not empty, security code must be valid.
-            if (!isSecurityCodeEmpty(cashIncreaseDocument, true)) {
-                if (!validateSecurityCode(cashIncreaseDocument, true))
-                    return false;
-            }
-
-            for (int i = 0; i < cashIncreaseDocument.getTargetTransactionLines().size(); i++) {
-                EndowmentTransactionLine txLine = cashIncreaseDocument.getTargetTransactionLines().get(i);
-                isValid &= validateCashTransactionLine(cashIncreaseDocument, txLine, i);
+            //KFSMI-7505
+            //validations of security and registration attributes are moved to CashDocumentBaseRules class.
+            isValid &= validateSecurityAndRegistrationRules(document, isSourceDocument);
+            if (isValid) {
+                for (int i = 0; i < cashIncreaseDocument.getTargetTransactionLines().size(); i++) {
+                    EndowmentTransactionLine txLine = cashIncreaseDocument.getTargetTransactionLines().get(i);
+                    isValid &= validateCashTransactionLine(cashIncreaseDocument, txLine, i);
+                }
             }
         }
 

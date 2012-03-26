@@ -2039,7 +2039,10 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         }
 
         loadInputTransactions(GeneralLedgerConstants.BatchFileSystem.SCRUBBER_INPUT_FILE, inputTransactions);
-        persistenceService.clearCache();
+
+        //we do not need to call clearCache() since no dao and jdbc calls mixted in this method.
+        //refer to KFSMI-7637
+        // persistenceService.clearCache();
         scrubberService.scrubEntries();
 
         String inputFile = batchDirectory + File.separator + GeneralLedgerConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;

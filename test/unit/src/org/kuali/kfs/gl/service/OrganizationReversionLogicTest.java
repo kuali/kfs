@@ -253,7 +253,10 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
    
         clearGlBalanceTable();
         clearBatchFiles();
-        persistenceService.clearCache();
+        
+        //we do not need to call clearCache() since no dao and jdbc calls mixted in this method.
+        //refer to KFSMI-7637
+        // persistenceService.clearCache();
         
         Map<String, ?> jobParameters = organizationReversionProcessService.getJobParameters();
         currentFiscalYear = new Integer(((Number)jobParameters.get(KFSConstants.UNIV_FISCAL_YR)).intValue() + 1);

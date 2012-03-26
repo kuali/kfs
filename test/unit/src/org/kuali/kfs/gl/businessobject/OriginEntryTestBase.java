@@ -320,7 +320,9 @@ public class OriginEntryTestBase extends KualiTestBase {
      * @param requiredEntries an array of expected String-formatted entries to check against
      */
     protected void assertOriginEntries(int fileCount, EntryHolder[] requiredEntries) {
-        persistenceService.clearCache();
+        //we do not need to call clearCache() since no dao and jdbc calls mixted in this method.
+        //refer to KFSMI-7637
+        // persistenceService.clearCache();
 
         File[] files = new File(batchDirectory).listFiles(new BatchFilenameFilter());
         assertEquals("Number of groups is wrong", fileCount, files.length);

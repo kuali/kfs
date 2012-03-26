@@ -519,7 +519,9 @@ public class YearEndFlexibleOffsetTest extends OriginEntryTestBase {
         
         clearGlBalanceTable();
         clearBatchFiles();
-        persistenceService.clearCache();
+        //we do not need to call clearCache() since no dao and jdbc calls mixted in this method.
+        //refer to KFSMI-7637
+      //  persistenceService.clearCache();
         for (Balance bal : balancesToTest) {
             bal.setUniversityFiscalYear(previousFiscalYear);
             SpringContext.getBean(BusinessObjectService.class).save(bal);

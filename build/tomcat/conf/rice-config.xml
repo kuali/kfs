@@ -68,6 +68,12 @@
 	<param name="secure.workflowdocument.javaservice.endpoint">true</param>
 	<param name="secure.workflowutility.javaservice.endpoint">true</param>
 	<param name="sample.enabled">false</param>
+
+    <param name="notification.quartz.autostartup">false</param>
+
+	  <param name="kcb.messaging.synchronous" override="false">false</param>
+    <param name="kcb.messageprocessing.startDelayMS" override="false">75000</param>
+
 	
 	<param name="filter.login.class">org.kuali.rice.krad.web.filter.AutoLoginFilter</param>
 	<param name="filter.login.autouser">khuntley</param>

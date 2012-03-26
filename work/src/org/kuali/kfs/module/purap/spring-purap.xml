@@ -114,6 +114,7 @@
 	</bean>
 
 	<bean id="KFSPurapDocumentSearchCustomizer" class="org.kuali.kfs.module.purap.document.workflow.KFSPurapDocumentSearchCustomizer" />
+	<alias name="KFSPurapDocumentSearchCustomizer" alias="PurapFinancialSystemSearchableAttribute" />
 	<bean id="PurchaseOrderActionListAttribute" class="org.kuali.kfs.module.purap.document.workflow.PurchaseOrderActionListAttribute" />
 
 	<!--  override accounting service -->

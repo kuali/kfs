@@ -45,7 +45,7 @@
 	</bean>
 	
 	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
-		p:callbackService-ref="KFSPurapDocumentSearchCustomizer" p:localServiceName="PurapFinancialSystemSearchableAttribute" 
+		p:callbackService-ref="PurapFinancialSystemSearchableAttribute" p:localServiceName="PurapFinancialSystemSearchableAttribute" 
 		p:serviceInterface="org.kuali.rice.kew.framework.document.attribute.SearchableAttribute">
 	</bean>
 

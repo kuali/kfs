@@ -57,10 +57,16 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
 	@Override
     public void setGenerateDefaultValues(String docTypeName) {
         super.setGenerateDefaultValues(docTypeName);
-        NoteService noteService = KRADServiceLocator.getNoteService();
-        List<Note> notes = noteService.getByRemoteObjectId(this.getBusinessObject().getObjectId());
-        if (notes.isEmpty()) {
-            setVendorCreateAndUpdateNote(VendorConstants.VendorCreateAndUpdateNotePrefixes.ADD);
+        
+        
+        List<Note> notes = null;
+        if (getBusinessObject().getObjectId() != null) {
+                NoteService noteService = KRADServiceLocator.getNoteService();
+                notes = noteService.getByRemoteObjectId(this.getBusinessObject().getObjectId());
+                   
+            if (notes.isEmpty()) {
+                setVendorCreateAndUpdateNote(VendorConstants.VendorCreateAndUpdateNotePrefixes.ADD);
+            }
         }
     }
 

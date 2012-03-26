@@ -694,7 +694,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
             GlobalVariables.getMessageMap().addToErrorPath(errorPath);
 
             this.getDictionaryValidationService().validateBusinessObject(address);
-            if (!GlobalVariables.getMessageMap().hasErrors()) {
+            if (GlobalVariables.getMessageMap().hasErrors()) {
                 valid = false;
             }
             

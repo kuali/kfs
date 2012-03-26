@@ -31,6 +31,7 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.parameter.ParameterEvaluator;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowRuntimeException;
 import org.kuali.rice.kew.api.doctype.DocumentType;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
@@ -39,8 +40,6 @@ import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kew.docsearch.service.DocumentSearchService;
-import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.bo.Note;
@@ -245,9 +244,8 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
         criteria.setDocumentStatuses(Collections.singletonList(DocumentStatus.ENROUTE));
         criteria.setSaveName(null);
         
-        try {
-            DocumentSearchService documentSearch = KEWServiceLocator.getDocumentSearchService();
-            DocumentSearchResults results = documentSearch.lookupDocuments(principalId, criteria.build());
+        try {            
+            DocumentSearchResults results = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(principalId, criteria.build());
             
             String documentHeaderId = null;
             

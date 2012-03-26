@@ -52,6 +52,7 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
@@ -386,8 +387,7 @@ public class RequisitionServiceImpl implements RequisitionService {
         documentSearchCriteriaDTO.setDocumentTypeName(PurapConstants.REQUISITION_DOCUMENT_TYPE);
         documentSearchCriteriaDTO.setSaveName(null);
         
-        DocumentSearchService documentSearch = KEWServiceLocator.getDocumentSearchService();
-        DocumentSearchResults results = documentSearch.lookupDocuments(null, documentSearchCriteriaDTO.build());
+        DocumentSearchResults results = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(null, documentSearchCriteriaDTO.build());
 
         String documentHeaderId = null;
 

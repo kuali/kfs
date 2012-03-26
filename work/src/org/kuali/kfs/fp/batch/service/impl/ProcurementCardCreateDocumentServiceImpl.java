@@ -59,6 +59,7 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
@@ -181,9 +182,9 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         DocumentSearchCriteria.Builder criteria = DocumentSearchCriteria.Builder.create();
         criteria.setDocumentTypeName(KFSConstants.FinancialDocumentTypeCodes.PROCUREMENT_CARD);
         criteria.setDocumentStatuses(Collections.singletonList(DocumentStatus.fromCode(statusCode)));
-        DocumentSearchResults results = KEWServiceLocator.getDocumentSearchService().lookupDocuments(
-                GlobalVariables.getUserSession().getPrincipalId(), criteria.build());
-
+        DocumentSearchResults results = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(
+                GlobalVariables.getUserSession().getPrincipalId(), criteria.build());        
+        
         for (DocumentSearchResult resultRow: results.getSearchResults()) {
             documentIds.add(resultRow.getDocument().getDocumentId());
         }

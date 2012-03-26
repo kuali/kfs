@@ -68,12 +68,12 @@ import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.DocumentHeader;
@@ -224,7 +224,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         documentSearchCriteriaDTO.setDocumentId(routerHeaderIdBuilder.toString());
         documentSearchCriteriaDTO.setDocumentTypeName(PurapConstants.PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT);
 
-        DocumentSearchResults creditMemoDocumentsList = KEWServiceLocator.getDocumentSearchService().lookupDocuments(
+        DocumentSearchResults creditMemoDocumentsList = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(
                 GlobalVariables.getUserSession().getPrincipalId(), documentSearchCriteriaDTO.build());
 
         for (DocumentSearchResult creditMemoDocument : creditMemoDocumentsList.getSearchResults()) {

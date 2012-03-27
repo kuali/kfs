@@ -352,9 +352,9 @@
 				<loadfile property="institutional.log4j" srcfile="${institution.log4j.properties.file}"><filterchain><expandproperties/></filterchain></loadfile>
 			</then>
 		</if>
-		
+		<!--
 		<loadfile property="rice.config" srcfile="${build.appserver.directory}/standalone-rice-config.xml"><filterchain><expandproperties/></filterchain></loadfile>
-	
+		-->
 	</target>
 
 	<target name="init-b2b-properties" depends="init-property-files">
@@ -530,11 +530,13 @@
 				<present targetdir="${build.appserver.directory}" />
 			</fileset>
 		</delete>
+		<!--
 	    <delete file="${appserver.deploy.dir}/${rice.application}-${build.environment}.war" failonerror="false" verbose="true" />
 	    <delete dir="${appserver.deploy.dir}/${rice.application}-${build.environment}" failonerror="false"/>
 	    <delete file="${rice.config.property.file}" failonerror="false" verbose="true" />
+	    -->
 		<delete failonerror="false">
-			<fileset dir="${appserver.localhost.dir}" includes="kfs-*.xml" />
+			<fileset dir="${appserver.localhost.dir}" includes="kfs*.xml" />
 		</delete>
 	</target>
  

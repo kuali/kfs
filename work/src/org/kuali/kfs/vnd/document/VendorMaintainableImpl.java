@@ -58,8 +58,8 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
     public void setGenerateDefaultValues(String docTypeName) {
         super.setGenerateDefaultValues(docTypeName);
         
-        
         List<Note> notes = null;
+        
         if (getBusinessObject().getObjectId() != null) {
                 NoteService noteService = KRADServiceLocator.getNoteService();
                 notes = noteService.getByRemoteObjectId(this.getBusinessObject().getObjectId());
@@ -287,10 +287,15 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
      */
     private void setVendorCreateAndUpdateNote(String prefix) {
         boolean shouldAddNote = true;
+        
+        List<Note> notes = null;
+        if (this.getBusinessObject().getObjectId() != null) {
+            NoteService noteService = KRADServiceLocator.getNoteService();
+            notes = noteService.getByRemoteObjectId(this.getBusinessObject().getObjectId());
+        }
+        
         if (prefix.equals(VendorConstants.VendorCreateAndUpdateNotePrefixes.CHANGE)) {
             // Check whether the previous note was an "Add" with the same document number as this one
-            NoteService noteService = KRADServiceLocator.getNoteService();
-            List<Note> notes = noteService.getByRemoteObjectId(this.getBusinessObject().getObjectId());
             if (!notes.isEmpty()) {
                 Note previousNote = notes.get(notes.size() - 1 );
                 if (previousNote.getNoteText().contains(getDocumentNumber())) {
@@ -308,8 +313,6 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
                 throw new RuntimeException("Caught Exception While Trying To Add Note to Vendor", e);
             }
         
-            NoteService noteService = KRADServiceLocator.getNoteService();
-            List<Note> notes = noteService.getByRemoteObjectId(this.getBusinessObject().getObjectId());
             notes.add(newBONote);
         }
     }

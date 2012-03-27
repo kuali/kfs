@@ -33,11 +33,9 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 /**
- * This class overrids the base getActionUrls method
+ * This class overrides the base getActionUrls method
  */
 public class KualiAccountLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-
-    ThreadLocal<Person> currentUser = new ThreadLocal<Person>();
 
     /**
      * If the account is not closed or the user is an Administrator the "edit" link is added The "copy" link is added for Accounts
@@ -51,11 +49,7 @@ public class KualiAccountLookupableHelperServiceImpl extends KualiLookupableHelp
         StringBuffer actions = new StringBuffer();
         Account theAccount = (Account) businessObject;
         List<HtmlData> anchorHtmlDataList = new ArrayList<HtmlData>();
-        Person user = currentUser.get();
-        if (user == null) {
-            user = GlobalVariables.getUserSession().getPerson();
-            currentUser.set(user);
-        }
+        Person user = GlobalVariables.getUserSession().getPerson();
         AnchorHtmlData urlDataCopy = getUrlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
 
         if (theAccount.isActive()) {

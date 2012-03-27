@@ -63,119 +63,84 @@
 	</bean>
 
 
-    <bean id="accessSecurityService" parent="accessSecurityService-parentBean"/>
-	
+    <bean id="accessSecurityService" parent="accessSecurityService-parentBean"/>	
 	<bean id="accessSecurityService-parentBean" class="org.kuali.kfs.sec.service.impl.AccessSecurityServiceImpl" abstract="true">
-		<property name="dataDictionaryService">
-			<ref bean="dataDictionaryService" />
-		</property>
-		<property name="parameterService">
-			<ref bean="parameterService" />
-		</property>
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
+		<property name="parameterService" ref="parameterService" />
 		<property name="configurationService" ref="configurationService" />
-		<property name="contractsAndGrantsModuleService">
-			<ref bean="contractsAndGrantsModuleService" />
-		</property>							
+		<property name="contractsAndGrantsModuleService" ref="contractsAndGrantsModuleService" />
 	</bean>
 
     <bean id="securityAttributePermissionTypeService" parent="securityAttributePermissionTypeService-parentBean"/>	
 	<bean id="securityAttributePermissionTypeService-parentBean" class="org.kuali.kfs.sec.identity.SecurityAttributePermissionTypeServiceImpl" abstract="true" />
 		
     <bean id="securityAttributeDocTypePermissionTypeService" parent="securityAttributeDocTypePermissionTypeService-parentBean"/>
-	
 	<bean id="securityAttributeDocTypePermissionTypeService-parentBean" class="org.kuali.kfs.sec.identity.SecurityAttributeDocTypePermissionTypeServiceImpl" abstract="true" />
 		
     <bean id="securityAttributeNamespacePermissionTypeService" parent="securityAttributeNamespacePermissionTypeService-parentBean"/>
-	
 	<bean id="securityAttributeNamespacePermissionTypeService-parentBean" class="org.kuali.kfs.sec.identity.SecurityAttributeNamespacePermissionTypeServiceImpl" abstract="true" />
 		
     <bean id="securityAttributeRoleTypeService" parent="securityAttributeRoleTypeService-parentBean"/>
-	
 	<bean id="securityAttributeRoleTypeService-parentBean" class="org.kuali.kfs.sec.identity.SecurityAttributeRoleTypeServiceImpl" abstract="true" />
 	
 	<!-- security lookupables -->
-    <bean id="securityAccountLookupableHelperService" parent="securityAccountLookupableHelperService-parentBean" scope="prototype"/>
-	
-	<bean id="securityAccountLookupableHelperService-parentBean" class="org.kuali.kfs.sec.businessobject.lookup.AccessSecurityAccountLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
-		<property name="accessSecurityService">
-			<ref bean="accessSecurityService" />
-		</property>				
+    <bean id="securityAccountLookupableHelperService" parent="securityAccountLookupableHelperService-parentBean" scope="prototype"/>	
+	<bean id="securityAccountLookupableHelperService-parentBean" class="org.kuali.kfs.sec.businessobject.lookup.AccessSecurityAccountLookupableHelperServiceImpl" scope="prototype" parent="accountLookupableHelperService">
+		<property name="accessSecurityService" ref="accessSecurityService" />
 	</bean>	
-    <bean id="securityAccountLookupable" parent="securityAccountLookupable-parentBean" scope="prototype"/>
 	
-	<bean id="securityAccountLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
-		<property name="lookupableHelperService">
-			<ref bean="securityAccountLookupableHelperService" />
-		</property>
+    <bean id="securityAccountLookupable" parent="securityAccountLookupable-parentBean" scope="prototype"/>	
+	<bean id="securityAccountLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
+		<property name="lookupableHelperService" ref="securityAccountLookupableHelperService" />
 	</bean>
+	
     <bean id="securityLookupableHelperService" parent="securityLookupableHelperService-parentBean" scope="prototype"/>
-	
-	<bean id="securityLookupableHelperService-parentBean" class="org.kuali.kfs.sec.businessobject.lookup.AccessSecurityLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" >
-		<property name="accessSecurityService">
-			<ref bean="accessSecurityService" />
-		</property>				
+	<bean id="securityLookupableHelperService-parentBean" class="org.kuali.kfs.sec.businessobject.lookup.AccessSecurityLookupableHelperServiceImpl" parent="lookupableHelperService" abstract="true">
+		<property name="accessSecurityService" ref="accessSecurityService" />
 	</bean>		
-    <bean id="securityLookupable" parent="securityLookupable-parentBean" scope="prototype"/>
-		
-	<bean id="securityLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
-		<property name="lookupableHelperService">
-			<ref bean="securityLookupableHelperService" />
-		</property>
-	</bean>
-    <bean id="modelMemberLookupableHelperService" parent="modelMemberLookupableHelperService-parentBean" scope="prototype"/>
 	
-	<bean id="modelMemberLookupableHelperService-parentBean" abstract="true" class="org.kuali.kfs.sec.businessobject.lookup.ModelMemberLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />
+    <bean id="securityLookupable" parent="securityLookupable-parentBean" scope="prototype"/>
+	<bean id="securityLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
+		<property name="lookupableHelperService" ref="securityLookupableHelperService" />
+	</bean>
+	
+    <bean id="modelMemberLookupableHelperService" parent="modelMemberLookupableHelperService-parentBean" scope="prototype"/>
+	<bean id="modelMemberLookupableHelperService-parentBean" abstract="true" class="org.kuali.kfs.sec.businessobject.lookup.ModelMemberLookupableHelperServiceImpl" parent="lookupableHelperService" />
 
     <bean id="modelMemberLookupable" parent="modelMemberLookupable-parentBean" scope="prototype"/>
-
-	<bean id="modelMemberLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
-		<property name="lookupableHelperService">
-			<ref bean="modelMemberLookupableHelperService" />
-		</property>
+	<bean id="modelMemberLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
+		<property name="lookupableHelperService" ref="modelMemberLookupableHelperService" />
 	</bean>
+	
     <bean id="accessSecuritySimulationLookupableHelperService" parent="accessSecuritySimulationLookupableHelperService-parentBean" scope="prototype"/>
-	
-	<bean id="accessSecuritySimulationLookupableHelperService-parentBean" abstract="true" class="org.kuali.kfs.sec.businessobject.lookup.AccessSecuritySimulationLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService">
-		<property name="accessSecurityService">
-			<ref bean="accessSecurityService" />
-		</property>	
-		<property name="universityDateService">
-			<ref bean="universityDateService" />
-		</property>			
+	<bean id="accessSecuritySimulationLookupableHelperService-parentBean" abstract="true" class="org.kuali.kfs.sec.businessobject.lookup.AccessSecuritySimulationLookupableHelperServiceImpl" parent="lookupableHelperService">
+		<property name="accessSecurityService" ref="accessSecurityService" />
+		<property name="universityDateService" ref="universityDateService" />
 	</bean>
-    <bean id="accessSecuritySimulationLookupable" parent="accessSecuritySimulationLookupable-parentBean" scope="prototype"/>
 
-	<bean id="accessSecuritySimulationLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
-		<property name="lookupableHelperService">
-			<ref bean="accessSecuritySimulationLookupableHelperService" />
-		</property>
+    <bean id="accessSecuritySimulationLookupable" parent="accessSecuritySimulationLookupable-parentBean" scope="prototype"/>
+	<bean id="accessSecuritySimulationLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
+		<property name="lookupableHelperService" ref="accessSecuritySimulationLookupableHelperService" />
 	</bean>	
+	
     <bean id="securityAccountDelegateModelLookupableHelperService" parent="securityAccountDelegateModelLookupableHelperService-parentBean" scope="prototype"/>
-	
-	<bean id="securityAccountDelegateModelLookupableHelperService-parentBean" class="org.kuali.kfs.sec.businessobject.lookup.AccessSecurityAccountDelegateModelLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" >
-		<property name="accessSecurityService">
-			<ref bean="accessSecurityService" />
-		</property>				
+	<bean id="securityAccountDelegateModelLookupableHelperService-parentBean" class="org.kuali.kfs.sec.businessobject.lookup.AccessSecurityAccountDelegateModelLookupableHelperServiceImpl" parent="lookupableHelperService" >
+		<property name="accessSecurityService" ref="accessSecurityService" />
 	</bean>	
-    <bean id="securityAccountDelegateModelLookupable" parent="securityAccountDelegateModelLookupable-parentBean" scope="prototype"/>
 	
-	<bean id="securityAccountDelegateModelLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
-		<property name="lookupableHelperService">
-			<ref bean="securityAccountDelegateModelLookupableHelperService" />
-		</property>
+    <bean id="securityAccountDelegateModelLookupable" parent="securityAccountDelegateModelLookupable-parentBean" scope="prototype"/>	
+	<bean id="securityAccountDelegateModelLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
+		<property name="lookupableHelperService" ref="securityAccountDelegateModelLookupableHelperService" />
 	</bean>
+	
     <bean id="securityOrgReviewRoleLookupableHelperService" parent="securityOrgReviewRoleLookupableHelperService-parentBean" scope="prototype"/>
-    
-    <bean id="securityOrgReviewRoleLookupableHelperService-parentBean" class="org.kuali.kfs.sec.businessobject.lookup.AccountSecurityOrgReviewRoleLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" >
-        <property name="accessSecurityService">
-            <ref bean="accessSecurityService" />
-        </property>             
+    <bean id="securityOrgReviewRoleLookupableHelperService-parentBean" class="org.kuali.kfs.sec.businessobject.lookup.AccountSecurityOrgReviewRoleLookupableHelperServiceImpl" parent="orgReviewRoleLookupableHelperService" >
+        <property name="accessSecurityService" ref="accessSecurityService" />
     </bean> 
-    <bean id="securityOrgReviewRoleLookupable" parent="securityOrgReviewRoleLookupable-parentBean" scope="prototype"/>
-    
+
+    <bean id="securityOrgReviewRoleLookupable" parent="securityOrgReviewRoleLookupable-parentBean" scope="prototype"/>    
     <bean id="securityOrgReviewRoleLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
-        <property name="lookupableHelperService">
-            <ref bean="securityOrgReviewRoleLookupableHelperService" />
+        <property name="lookupableHelperService" ref="securityOrgReviewRoleLookupableHelperService" />
         </property>
     </bean>
     

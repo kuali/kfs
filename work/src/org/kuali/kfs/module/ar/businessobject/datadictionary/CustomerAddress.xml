@@ -234,12 +234,14 @@
 			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.state.StateValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
+		<property name="required" value="false" />
 	</bean>
 	<bean id="CustomerAddress-customerZipCode" parent="CustomerAddress-customerZipCode-parentBean" />
 
 	<bean id="CustomerAddress-customerZipCode-parentBean" abstract="true"
 		parent="PostalCode-code" >
 		<property name="name" value="customerZipCode" />
+		<property name="required" value="false" />
 	</bean>
 
 	<bean id="CustomerAddress-customerCountryCode" parent="CustomerAddress-customerCountryCode-parentBean" />

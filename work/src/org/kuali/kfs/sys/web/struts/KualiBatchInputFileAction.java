@@ -132,10 +132,10 @@ public class KualiBatchInputFileAction extends KualiAction {
             GlobalVariables.getMessageMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_PARSING_XML, new String[] { e.getMessage() });
         }
 
-        if (parsedObject != null && GlobalVariables.getMessageMap().hasErrors()) {
+        if (parsedObject != null && GlobalVariables.getMessageMap().hasNoErrors()) {
             boolean validateSuccessful = batchInputFileService.validate(batchType, parsedObject);
 
-            if (validateSuccessful && GlobalVariables.getMessageMap().hasErrors()) {
+            if (validateSuccessful && GlobalVariables.getMessageMap().hasNoErrors()) {
                 try {
                     InputStream saveStream = new ByteArrayInputStream(fileByteContent);
 

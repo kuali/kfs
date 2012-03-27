@@ -140,8 +140,7 @@
 
     <bean id="securityOrgReviewRoleLookupable" parent="securityOrgReviewRoleLookupable-parentBean" scope="prototype"/>    
     <bean id="securityOrgReviewRoleLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
-        <property name="lookupableHelperService" ref="securityOrgReviewRoleLookupableHelperService" />
-        </property>
+        <property name="lookupableHelperService" ref="securityOrgReviewRoleLookupableHelperService" />       
     </bean>
     
     <import resource="spring-sec-bus-exports.xml"/>    

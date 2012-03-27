@@ -321,7 +321,9 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
             }
             fieldValues.remove(VendorPropertyConstants.VENDOR_NUMBER);
             fieldValues.put(VendorPropertyConstants.VENDOR_HEADER_GENERATED_ID, vendorHeaderGeneratedIdentifier);
-            fieldValues.put(VendorPropertyConstants.VENDOR_DETAIL_ASSIGNED_ID, vendorDetailAssignedIdentifier);
+            if (StringUtils.isNotEmpty(vendorDetailAssignedIdentifier)) {
+                fieldValues.put(VendorPropertyConstants.VENDOR_DETAIL_ASSIGNED_ID, vendorDetailAssignedIdentifier);
+            }
         }
         catch (NumberFormatException headerExc) {
             GlobalVariables.getMessageMap().putError(VendorPropertyConstants.VENDOR_NUMBER, VendorKeyConstants.ERROR_VENDOR_LOOKUP_VNDR_NUM_NUMERIC_DASH_SEPARATED);

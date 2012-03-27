@@ -291,8 +291,14 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
 
     // get the search criteria valid for vendor lookup
     protected Map<String, String> getVendorFieldValues(Map<String, String> fieldValues) {
-        Map<String, String> vendorFieldValues = new HashMap<String, String>();
-        vendorFieldValues.putAll(fieldValues);
+        Map<String, String> vendorFieldValues = new HashMap<String, String>();        
+        vendorFieldValues.put(KFSPropertyConstants.TAX_NUMBER, fieldValues.get(KFSPropertyConstants.TAX_NUMBER));
+        vendorFieldValues.put(KFSPropertyConstants.VENDOR_NAME, fieldValues.get(KFSPropertyConstants.VENDOR_NAME));
+        vendorFieldValues.put(KFSPropertyConstants.VENDOR_NUMBER, fieldValues.get(KFSPropertyConstants.VENDOR_NUMBER));
+        vendorFieldValues.put(KFSPropertyConstants.PERSON_FIRST_NAME, fieldValues.get(KFSPropertyConstants.PERSON_FIRST_NAME));
+        vendorFieldValues.put(KFSPropertyConstants.PERSON_LAST_NAME, fieldValues.get(KFSPropertyConstants.PERSON_LAST_NAME));
+        vendorFieldValues.put(KFSPropertyConstants.ACTIVE, fieldValues.get(KFSPropertyConstants.ACTIVE));
+        
         Map<String, String> fieldConversionMap = disbursementVoucherPayeeService.getFieldConversionBetweenPayeeAndVendor();
         this.replaceFieldKeys(vendorFieldValues, fieldConversionMap);
 
@@ -355,7 +361,10 @@ public class DisbursementPayeeLookupableHelperServiceImpl extends KualiLookupabl
     // get the search criteria valid for person lookup
     protected Map<String, String> getPersonFieldValues(Map<String, String> fieldValues) {
         Map<String, String> personFieldValues = new HashMap<String, String>();
-        personFieldValues.putAll(fieldValues);
+        personFieldValues.put(KFSPropertyConstants.PERSON_FIRST_NAME, fieldValues.get(KFSPropertyConstants.PERSON_FIRST_NAME));
+        personFieldValues.put(KFSPropertyConstants.PERSON_LAST_NAME, fieldValues.get(KFSPropertyConstants.PERSON_LAST_NAME));
+        personFieldValues.put(KFSPropertyConstants.EMPLOYEE_ID, fieldValues.get(KFSPropertyConstants.EMPLOYEE_ID));
+        personFieldValues.put(KFSPropertyConstants.ACTIVE, fieldValues.get(KFSPropertyConstants.ACTIVE));
         Map<String, String> fieldConversionMap = disbursementVoucherPayeeService.getFieldConversionBetweenPayeeAndPerson();
         this.replaceFieldKeys(personFieldValues, fieldConversionMap);
 

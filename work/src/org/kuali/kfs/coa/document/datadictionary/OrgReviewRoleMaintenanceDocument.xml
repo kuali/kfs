@@ -47,7 +47,7 @@
       </list>
     </property>
 
-    <property name="documentTypeName" value="ORR"/>
+    <property name="documentTypeName" value="OR"/>
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.OrgReviewRoleRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
     <property name="workflowAttributes" ref="OrgReviewRoleMaintenanceDocument-workflowAttributes"/>

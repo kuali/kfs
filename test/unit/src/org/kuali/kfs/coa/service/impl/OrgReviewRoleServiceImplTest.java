@@ -57,13 +57,13 @@ import org.kuali.rice.krad.exception.ValidationException;
 @ConfigureContext
 public class OrgReviewRoleServiceImplTest extends KualiTestBase {
 
-    OrgReviewRoleServiceImpl orgReviewRoleService;
-    RoleService roleService;
-    ResponsibilityService responsibilityService;
-    KimTypeInfoService kimTypeInfoService;
-    PersonService personService;
-    Role orgHierRole;
-    Role acctHierRole;
+    protected OrgReviewRoleServiceImpl orgReviewRoleService;
+    protected RoleService roleService;
+    protected ResponsibilityService responsibilityService;
+    protected KimTypeInfoService kimTypeInfoService;
+    protected PersonService personService;
+    protected Role orgHierRole;
+    protected Role acctHierRole;
 
     @Override
     protected void setUp() throws Exception {
@@ -395,7 +395,7 @@ public class OrgReviewRoleServiceImplTest extends KualiTestBase {
 
     public void testHasAccountingOrganizationHierarchy() {
         assertFalse( "ACCT should not have accounting org hierarchy", orgReviewRoleService.hasAccountingOrganizationHierarchy("ACCT"));
-        assertFalse( "DI should not have accounting org hierarchy", orgReviewRoleService.hasAccountingOrganizationHierarchy("DI"));
+        assertTrue( "DI should have accounting org hierarchy", orgReviewRoleService.hasAccountingOrganizationHierarchy("DI"));
         assertFalse( "COAT should not have accounting org hierarchy", orgReviewRoleService.hasAccountingOrganizationHierarchy("COAT"));
     }
 

@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.identity.KfsKimDocDelegateMember;
 import org.kuali.kfs.coa.identity.OrgReviewRole;
 import org.kuali.kfs.coa.service.OrgReviewRoleService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -132,35 +131,65 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
     public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
         List<Section> sections = super.getSections(document, oldMaintainable);
         OrgReviewRole orr = (OrgReviewRole)document.getNewMaintainableObject().getBusinessObject();
+
+        String closestOrgReviewRoleParentDocumentTypeName = getOrgReviewRoleService().getClosestOrgReviewRoleParentDocumentTypeName(orr.getFinancialSystemDocumentTypeCode());
+        boolean isFSTransDoc = StringUtils.equals( orr.getFinancialSystemDocumentTypeCode(), KFSConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT)
+                || StringUtils.equals( KFSConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT, closestOrgReviewRoleParentDocumentTypeName);
+        boolean hasAccountingOrganizationHierarchy = isFSTransDoc || getOrgReviewRoleService().hasAccountingOrganizationHierarchy(orr.getFinancialSystemDocumentTypeCode());
+
+        boolean shouldReviewTypesFieldBeReadOnly = isFSTransDoc
+                || getOrgReviewRoleService().hasOrganizationHierarchy(orr.getFinancialSystemDocumentTypeCode())
+                || (StringUtils.isNotBlank(closestOrgReviewRoleParentDocumentTypeName)
+                        && StringUtils.equals(closestOrgReviewRoleParentDocumentTypeName, KFSConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT));
+
         //If oldMaintainable is null, it means we are trying to get sections for the old part
         //If oldMaintainable is not null, it means we are trying to get sections for the new part
         //Refer to KualiMaintenanceForm lines 288-294
         if(oldMaintainable!=null){
-            for (Section section : sections) {
-                for (Row row : section.getRows()) {
-                    for (Field field : row.getFields()) {
-                        if(orr.isCreateRoleMember() || orr.isCopyRoleMember()){
+            if(orr.isCreateRoleMember() || orr.isCopyRoleMember()){
+                for (Section section : sections) {
+                    for (Row row : section.getRows()) {
+                        for (Field field : row.getFields()) {
                             prepareFieldsForCreateRoleMemberMode(field);
-                        } else if(orr.isCreateDelegation() || orr.isCopyDelegation()){
-                            prepareFieldsForCreateDelegationMode(field);
-                        } else if(orr.isEditRoleMember()){
-                            prepareFieldsForEditRoleMember(field, orr);
-                        } else if(orr.isEditDelegation()){
-                            prepareFieldsForEditDelegation(field, orr);
+                            prepareFieldsCommon(field, shouldReviewTypesFieldBeReadOnly, hasAccountingOrganizationHierarchy );
                         }
-                        prepareFieldsCommon(orr,field);
+                    }
+                }
+            } else if(orr.isCreateDelegation() || orr.isCopyDelegation()){
+                for (Section section : sections) {
+                    for (Row row : section.getRows()) {
+                        for (Field field : row.getFields()) {
+                            prepareFieldsForCreateDelegationMode(field);
+                            prepareFieldsCommon(field, shouldReviewTypesFieldBeReadOnly, hasAccountingOrganizationHierarchy );
+                        }
+                    }
+                }
+            } else if(orr.isEditRoleMember()){
+                for (Section section : sections) {
+                    for (Row row : section.getRows()) {
+                        for (Field field : row.getFields()) {
+                            prepareFieldsForEditRoleMember(field);
+                            prepareFieldsCommon(field, shouldReviewTypesFieldBeReadOnly, hasAccountingOrganizationHierarchy );
+                        }
+                    }
+                }
+            } else if(orr.isEditDelegation()){
+                for (Section section : sections) {
+                    for (Row row : section.getRows()) {
+                        for (Field field : row.getFields()) {
+                            prepareFieldsForEditDelegation(field);
+                            prepareFieldsCommon(field, shouldReviewTypesFieldBeReadOnly, hasAccountingOrganizationHierarchy );
+                        }
                     }
                 }
             }
-        } else{
+        } else if ( orr.isCreateRoleMember() || orr.isCopyRoleMember() || orr.isEditRoleMember()) {
+            // If the member being edited is not a delegate, do not show the delegation type code
             for (Section section : sections) {
                 for (Row row : section.getRows()) {
                     for (Field field : row.getFields()) {
-                        if(orr.isCreateRoleMember() || orr.isCopyRoleMember() || orr.isEditRoleMember()){
-                            //If the member being edited is not a delegate, do not show the delegation type code
-                            if(OrgReviewRole.DELEGATION_TYPE_CODE.equals(field.getPropertyName())){
-                                field.setFieldType(Field.HIDDEN);
-                            }
+                        if(OrgReviewRole.DELEGATION_TYPE_CODE.equals(field.getPropertyName())){
+                            field.setFieldType(Field.HIDDEN);
                         }
                     }
                 }
@@ -169,29 +198,26 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         return sections;
     }
 
-    private void prepareFieldsCommon(OrgReviewRole orr, Field field){
+    protected void prepareFieldsCommon(Field field, boolean shouldReviewTypesFieldBeReadOnly, boolean hasAccountingOrganizationHierarchy){
+        if ( field == null ) {
+            throw new IllegalArgumentException( "The Field parameter may not be null." );
+        }
 
-        boolean hasOrganizationHierarchy = getOrgReviewRoleService().hasOrganizationHierarchy(orr.getFinancialSystemDocumentTypeCode());
-        String closestOrgReviewRoleParentDocumentTypeName = getOrgReviewRoleService().getClosestOrgReviewRoleParentDocumentTypeName(orr.getFinancialSystemDocumentTypeCode());
-        boolean isFSTransDoc = orr.getFinancialSystemDocumentTypeCode().equals(KFSConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT) || KFSConstants.FINANCIAL_SYSTEM_TRANSACTIONAL_DOCUMENT.equals(closestOrgReviewRoleParentDocumentTypeName);
-        boolean hasAccountingOrganizationHierarchy = getOrgReviewRoleService().hasAccountingOrganizationHierarchy(orr.getFinancialSystemDocumentTypeCode()) || isFSTransDoc;
-        boolean shouldReviewTypesFieldBeReadOnly = isFSTransDoc || hasOrganizationHierarchy || hasAccountingOrganizationHierarchy ||
-          (StringUtils.isNotEmpty(closestOrgReviewRoleParentDocumentTypeName) && closestOrgReviewRoleParentDocumentTypeName.equals(KFSConstants.FINANCIAL_SYSTEM_COMPLEX_MAINTENANCE_DOCUMENT));
+        if(!shouldReviewTypesFieldBeReadOnly) {
+            return; // nothing to make read only
+        }
 
         if(OrgReviewRole.REVIEW_ROLES_INDICATOR_FIELD_NAME.equals(field.getPropertyName())) {
-            if(shouldReviewTypesFieldBeReadOnly) {
-                field.setReadOnly(true);
-            }
-        } else if(OrgReviewRole.FROM_AMOUNT_FIELD_NAME.equals(field.getPropertyName()) ||
-                OrgReviewRole.TO_AMOUNT_FIELD_NAME.equals(field.getPropertyName()) ||
-                OrgReviewRole.OVERRIDE_CODE_FIELD_NAME.equals(field.getPropertyName())) {
-            if(!hasAccountingOrganizationHierarchy && shouldReviewTypesFieldBeReadOnly){
-                field.setReadOnly(true);
-            }
+            field.setReadOnly(true);
+        } else if( !hasAccountingOrganizationHierarchy
+                && (OrgReviewRole.FROM_AMOUNT_FIELD_NAME.equals(field.getPropertyName()) ||
+                        OrgReviewRole.TO_AMOUNT_FIELD_NAME.equals(field.getPropertyName()) ||
+                        OrgReviewRole.OVERRIDE_CODE_FIELD_NAME.equals(field.getPropertyName()))) {
+            field.setReadOnly(true);
         }
     }
 
-    private void prepareFieldsForEditRoleMember(Field field, OrgReviewRole orr){
+    protected void setCommonFieldsToReadOnlyOnEdit( Field field ) {
         if(OrgReviewRole.CHART_CODE_FIELD_NAME.equals(field.getPropertyName()) ||
                 OrgReviewRole.ORG_CODE_FIELD_NAME.equals(field.getPropertyName()) ||
                 OrgReviewRole.DOC_TYPE_NAME_FIELD_NAME.equals(field.getPropertyName()) ||
@@ -203,23 +229,19 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
                 OrgReviewRole.GROUP_NAME_FIELD_NAMESPACE_CODE.equals(field.getPropertyName())){
             field.setReadOnly(true);
         }
+    }
+
+    protected void prepareFieldsForEditRoleMember(Field field){
+        setCommonFieldsToReadOnlyOnEdit(field);
         //If the member being edited is not a delegate, do not show the delegation type code
         if(OrgReviewRole.DELEGATION_TYPE_CODE.equals(field.getPropertyName())){
             field.setFieldType(Field.HIDDEN);
         }
     }
 
-    private void prepareFieldsForEditDelegation(Field field, OrgReviewRole orr){
-        if(OrgReviewRole.CHART_CODE_FIELD_NAME.equals(field.getPropertyName()) ||
-                OrgReviewRole.ORG_CODE_FIELD_NAME.equals(field.getPropertyName()) ||
-                OrgReviewRole.DOC_TYPE_NAME_FIELD_NAME.equals(field.getPropertyName()) ||
-                OrgReviewRole.REVIEW_ROLES_INDICATOR_FIELD_NAME.equals(field.getPropertyName()) ||
-                OrgReviewRole.PRINCIPAL_NAME_FIELD_NAME.equals(field.getPropertyName()) ||
-                OrgReviewRole.ROLE_NAME_FIELD_NAME.equals(field.getPropertyName()) ||
-                OrgReviewRole.ROLE_NAME_FIELD_NAMESPACE_CODE.equals(field.getPropertyName()) ||
-                OrgReviewRole.GROUP_NAME_FIELD_NAME.equals(field.getPropertyName()) ||
-                OrgReviewRole.GROUP_NAME_FIELD_NAMESPACE_CODE.equals(field.getPropertyName()) ||
-                OrgReviewRole.ACTION_POLICY_CODE_FIELD_NAME.equals(field.getPropertyName()) ||
+    protected void prepareFieldsForEditDelegation(Field field){
+        setCommonFieldsToReadOnlyOnEdit(field);
+        if(OrgReviewRole.ACTION_POLICY_CODE_FIELD_NAME.equals(field.getPropertyName()) ||
                 OrgReviewRole.ACTION_TYPE_CODE_FIELD_NAME.equals(field.getPropertyName()) ||
                 OrgReviewRole.PRIORITY_CODE_FIELD_NAME.equals(field.getPropertyName()) ||
                 OrgReviewRole.FORCE_ACTION_FIELD_NAME.equals(field.getPropertyName())){
@@ -227,14 +249,14 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         }
     }
 
-    private void prepareFieldsForCreateRoleMemberMode(Field field){
+    protected void prepareFieldsForCreateRoleMemberMode(Field field){
         //If a role member (i.e. not a delegate) is being created, do not show the delegation type code
         if(OrgReviewRole.DELEGATION_TYPE_CODE.equals(field.getPropertyName())){
             field.setFieldType(Field.HIDDEN);
         }
     }
 
-    private void prepareFieldsForCreateDelegationMode(Field field){
+    protected void prepareFieldsForCreateDelegationMode(Field field){
         //TODO: in prepareBusinessObject, populate these fields for create delegation
         if(OrgReviewRole.CHART_CODE_FIELD_NAME.equals(field.getPropertyName()) ||
                 OrgReviewRole.ORG_CODE_FIELD_NAME.equals(field.getPropertyName()) ||
@@ -264,20 +286,20 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         return orgReviewRoleService;
     }
 
-    private KfsKimDocDelegateMember getDelegateMemberFromList(List<KfsKimDocDelegateMember> delegateMembers, String memberId, String memberTypeCode){
-        if(delegateMembers!=null){
-            if(StringUtils.isEmpty(memberId) || StringUtils.isEmpty(memberTypeCode)) {
-                return null;
-            }
-            for(KfsKimDocDelegateMember info: delegateMembers){
-                if(StringUtils.equals(info.getMemberId(), memberId) ||
-                        StringUtils.equals(info.getType().getCode(), memberTypeCode)){
-                    return info;
-                }
-            }
-        }
-        return null;
-    }
+//    protected KfsKimDocDelegateMember getDelegateMemberFromList(List<KfsKimDocDelegateMember> delegateMembers, String memberId, String memberTypeCode){
+//        if(delegateMembers!=null){
+//            if(StringUtils.isEmpty(memberId) || StringUtils.isEmpty(memberTypeCode)) {
+//                return null;
+//            }
+//            for(KfsKimDocDelegateMember info: delegateMembers){
+//                if(StringUtils.equals(info.getMemberId(), memberId) ||
+//                        StringUtils.equals(info.getType().getCode(), memberTypeCode)){
+//                    return info;
+//                }
+//            }
+//        }
+//        return null;
+//    }
 
     @Override
     public Map populateBusinessObject(Map<String, String> fieldValues, MaintenanceDocument maintenanceDocument, String methodToCall) {
@@ -286,8 +308,8 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
             docTypeName = fieldValues.get(OrgReviewRole.DOC_TYPE_NAME_FIELD_NAME);
         }
         if(KFSConstants.RETURN_METHOD_TO_CALL.equals(methodToCall) &&
-           fieldValues.containsKey(OrgReviewRole.DOC_TYPE_NAME_FIELD_NAME) &&
-           getOrgReviewRoleService().isValidDocumentTypeForOrgReview(docTypeName) == false){
+           StringUtils.isNotBlank(docTypeName) &&
+           !getOrgReviewRoleService().isValidDocumentTypeForOrgReview(docTypeName) ){
 
             GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + OrgReviewRole.DOC_TYPE_NAME_FIELD_NAME, KFSKeyConstants.ERROR_DOCUMENT_ORGREVIEW_INVALID_DOCUMENT_TYPE, docTypeName);
             return new HashMap();

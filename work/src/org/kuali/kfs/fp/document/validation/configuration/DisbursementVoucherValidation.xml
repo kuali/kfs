@@ -175,15 +175,6 @@
 		</property>
 	</bean>
 	
-	<bean id="DisbursementVoucher-accountingLineValuesAllowedValidation" class="org.kuali.kfs.sys.document.validation.impl.AccountingLineValuesAllowedValidationHutch" abstract="true">
-		<property name="objectTypeAllowedValidation" ref="AccountingDocument-IsObjectTypeAllowed-DefaultValidation" />
-		<property name="fundGroupAllowedValidation" ref="AccountingDocument-IsFundGroupAllowed-DefaultValidation" />
-		<property name="subFundGroupAllowedValidation" ref="AccountingDocument-IsSubFundGroupAllowed-DefaultValidation" />
-		<property name="objectSubTypeAllowedValidation" ref="AccountingDocument-IsObjectSubTypeAllowed-DefaultValidation" />
-		<property name="objectLevelAllowedValidation" ref="AccountingDocument-IsObjectLevelAllowed-DefaultValidation" />
-		<property name="objectConsolidationAllowedValidation" ref="AccountingDocument-IsObjectConsolidationAllowed-DefaultValidation" />
-	</bean>
-	
 	<bean id="DisbursementVoucher-addAccountingLineValidation" parent="DisbursementVoucher-addAccountingLineValidation-parentBean" />
 	<bean id="DisbursementVoucher-addAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">

@@ -128,15 +128,6 @@
 		</property>
 	</bean>
 	
-	<bean id="AuxiliaryVoucher-accountingLineValuesAllowedValidation" class="org.kuali.kfs.sys.document.validation.impl.AccountingLineValuesAllowedValidationHutch" abstract="true">
-		<property name="objectTypeAllowedValidation" ref="AccountingDocument-IsObjectTypeAllowed-DefaultValidation" />
-		<property name="fundGroupAllowedValidation" ref="AccountingDocument-IsFundGroupAllowed-DefaultValidation" />
-		<property name="subFundGroupAllowedValidation" ref="AccountingDocument-IsSubFundGroupAllowed-DefaultValidation" />
-		<property name="objectSubTypeAllowedValidation" ref="AccountingDocument-IsObjectSubTypeAllowed-DefaultValidation" />
-		<property name="objectLevelAllowedValidation" ref="AccountingDocument-IsObjectLevelAllowed-DefaultValidation" />
-		<property name="objectConsolidationAllowedValidation" ref="AccountingDocument-IsObjectConsolidationAllowed-DefaultValidation" />
-	</bean>
-	
 	<bean id="AuxiliaryVoucher-addAccountingLine-accountingLineStandardValidation" abstract="true" parent="CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
 		<property name="validations">
 			<list>
@@ -154,7 +145,7 @@
 					</property>
 					<property name="quitOnFail" value="true" />
 				</bean>
-				<bean parent="AuxiliaryVoucher-accountingLineValuesAllowedValidation" scope="prototype">
+				<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
 					<property name="accountingDocumentParameterPropertyName" value="document" />
 					<property name="accountingLineParameterPropertyName" value="accountingLine" />
 				</bean>
@@ -238,7 +229,7 @@
 					</property>
 					<property name="quitOnFail" value="true" />
 				</bean>
-				<bean parent="AuxiliaryVoucher-accountingLineValuesAllowedValidation" scope="prototype">
+				<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
 					<property name="accountingDocumentParameterPropertyName" value="document" />
 					<property name="accountingLineParameterPropertyName" value="updatedAccountingLine" />
 				</bean>
@@ -288,7 +279,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="AuxiliaryVoucher-accountingLineValuesAllowedValidation" scope="prototype">
+				<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
 					<property name="accountingDocumentParameterPropertyName" value="document" />
 					<property name="accountingLineParameterPropertyName" value="accountingLine" />
 				</bean>

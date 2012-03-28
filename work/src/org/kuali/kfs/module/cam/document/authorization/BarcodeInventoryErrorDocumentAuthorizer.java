@@ -19,10 +19,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.rice.kew.actionrequest.ActionRequestValue;
-import org.kuali.rice.kew.actionrequest.dao.ActionRequestDAO;
+import org.kuali.rice.kew.actionrequest.service.ActionRequestService;
+import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -48,8 +48,9 @@ public class BarcodeInventoryErrorDocumentAuthorizer extends FinancialSystemTran
         
         if (document.getDocumentHeader().getWorkflowDocument().isEnroute()) {
             //retrieve all future actions records sitting in table: KREW_ACTN_RQST_T
-            List<ActionRequestValue> futureActions = SpringContext.getBean(ActionRequestDAO.class).findAllByDocId(documentId);
-           
+             ActionRequestService actionRequestService = KEWServiceLocator.getService(KEWServiceLocator.ACTION_REQUEST_SRV);
+             List<ActionRequestValue> futureActions = actionRequestService.findAllActionRequestsByDocumentId(documentId);
+            
             for (Iterator<ActionRequestValue> futureAction = futureActions.iterator(); futureAction.hasNext();) {
                 //if logged in principal id is same as the one in future actions record then add the edit permission
                 // check jira: KFSMI-5698

@@ -350,7 +350,7 @@
   <bean id="Asset-acquisitionTypeCode-parentBean" abstract="true" parent="AssetAcquisitionType-acquisitionTypeCode">
     <property name="shortLabel" value="Acquisition Type"/>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kfs.module.cam.businessobject.AssetAcquisitionType" p:valuesFinderClass=" org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder" p:includeKeyInLabel="true" p:includeBlankRow="true" p:keyAttribute="acquisitionTypeCode" p:labelAttribute="acquisitionTypeName"/>
+          	<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.cam.businessobject.defaultvalue.AssetAquisitionTypeValuesFinder" p:includeBlankRow="true"/>
     </property>
   </bean>
   
@@ -716,7 +716,7 @@
   <bean id="Asset-primaryDepreciationMethodCode-parentBean" abstract="true" parent="AssetDepreciationMethod-depreciationMethodCode">
     <property name="name" value="primaryDepreciationMethodCode"/>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kfs.module.cam.businessobject.AssetDepreciationMethod" p:valuesFinderClass=" org.kuali.rice.krad.keyvalues.PersistableBusinessObjectValuesFinder" p:includeKeyInLabel="true" p:includeBlankRow="true" p:keyAttribute="depreciationMethodCode" p:labelAttribute="depreciationMethodName"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.cam.businessobject.defaultvalue.AssetDepreciationMethodValuesFinder" p:includeBlankRow="true"/>
     </property>
   </bean>
   

@@ -31,7 +31,7 @@
 			</tr>
 			<tr>
 				<th class="grid" width="25%" align="right">Depreciable Lifelimit:</th>
-				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.capitalAssetType.depreciableLifeLimit" attributeEntry="${assetAttributes.capitalAssetType.depreciableLifeLimit}" readOnly="true"/></td>								
+				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.capitalAssetType.depreciableLifeLimit" attributeEntry="${assetAttributes['capitalAssetType.depreciableLifeLimit']}" readOnly="true"/></td>								
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.salvageAmount}" readOnly="true" /></th>
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="${assetValueObj}.salvageAmount" attributeEntry="${assetAttributes.salvageAmount}" readOnly="true"/></td>								
 			</tr>

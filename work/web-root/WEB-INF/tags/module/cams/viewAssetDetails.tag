@@ -71,9 +71,9 @@
                 		</kul:inquiry>&nbsp;
             		</kul:htmlControlAttribute>
 		      	</td>
-		        <th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${accountAttributes.organizationCode}" readOnly="true" /></th>
+		        <th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetAttributes.organizationCode}" readOnly="true" /></th>
 	   	        <td class="grid" width="25%">
-	   	        	<kul:htmlControlAttribute property="${assetValueObj}.organizationOwnerAccount.organizationCode" attributeEntry="${assetAttributes.organizationOwnerAccount.organizationCode}" readOnly="true" readOnlyBody="true"> 
+	   	        	<kul:htmlControlAttribute property="${assetValueObj}.organizationOwnerAccount.organizationCode" attributeEntry="${assetAttributes['organizationOwnerAccount.organizationCode']}" readOnly="true" readOnlyBody="true"> 
 						<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.Account" keyValues="chartOfAccountsCode=${assetValue.organizationOwnerChartOfAccountsCode}&amp;accountNumber=${assetValue.organizationOwnerAccountNumber}&amp;organizationCode=${assetValue.organizationOwnerAccount.organizationCode}" render="true">
                 			<html:hidden write="true" property="${assetValueObj}.organizationOwnerAccount.organizationCode" />
                 		</kul:inquiry>&nbsp;

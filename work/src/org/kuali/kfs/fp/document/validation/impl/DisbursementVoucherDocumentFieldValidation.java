@@ -59,7 +59,8 @@ public class DisbursementVoucherDocumentFieldValidation extends GenericValidatio
         errors.removeFromErrorPath(KFSPropertyConstants.DV_PAYEE_DETAIL);
         errors.removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
 
-        if (!errors.hasErrors()) {
+        //hasErrors() returns true if it not empty else false.  
+        if (errors.hasErrors()) {
             return false;
         }
 

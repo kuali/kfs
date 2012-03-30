@@ -40,7 +40,7 @@ import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
 import org.kuali.kfs.sys.fixture.AccountingLineFixture;
 import org.kuali.kfs.sys.monitor.ChangeMonitor;
-import org.kuali.kfs.sys.monitor.DocumentStatusMonitor;
+import org.kuali.kfs.sys.monitor.FinancialSystemDocumentStatusMonitor;
 import org.kuali.kfs.sys.monitor.DocumentWorkflowStatusMonitor;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.document.DocumentStatus;
@@ -249,11 +249,11 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         Document document = buildDocument();
         assertFalse(DocumentStatus.ENROUTE.equals(document.getDocumentHeader().getWorkflowDocument().getStatus()));
         SpringContext.getBean(DocumentService.class).routeDocument(document, "saving copy source document", null);
-        // jv docs go straight to final
+        // jv docs go sttraight to final
         WorkflowTestUtils.waitForStatusChange(document.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
         // also check the Kuali (not Workflow) document status
-        DocumentStatusMonitor statusMonitor = new DocumentStatusMonitor(SpringContext.getBean(DocumentService.class), document.getDocumentHeader().getDocumentNumber(), DocumentStatus.PROCESSED);
-        assertTrue(ChangeMonitor.waitUntilChange(statusMonitor, 240, 5));
+        FinancialSystemDocumentStatusMonitor statusMonitor = new FinancialSystemDocumentStatusMonitor(SpringContext.getBean(DocumentService.class), document.getDocumentHeader().getDocumentNumber(), KFSConstants.DocumentStatusCodes.APPROVED);
+        assertTrue(ChangeMonitor.waitUntilChange(statusMonitor, 30, 5));
     }
 
     private Document getDocumentParameterFixture() throws Exception {

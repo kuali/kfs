@@ -29,6 +29,7 @@ import org.kuali.kfs.sys.monitor.DocumentWorkflowRequestMonitor;
 import org.kuali.kfs.sys.monitor.DocumentWorkflowStatusMonitor;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.action.ActionRequestType;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
@@ -79,7 +80,7 @@ public class WorkflowTestUtils {
 
     public static void waitForApproveRequest(String docHeaderId, Person user) throws Exception {
         LOG.info("Entering: waitForApproveRequest(" + docHeaderId + "," + user.getPrincipalName() + ")");
-        DocumentWorkflowRequestMonitor monitor = new DocumentWorkflowRequestMonitor(docHeaderId, user, KewApiConstants.ACTION_REQUEST_APPROVE_REQ);
+        DocumentWorkflowRequestMonitor monitor = new DocumentWorkflowRequestMonitor(docHeaderId, user, ActionRequestType.APPROVE);
         Assert.assertTrue("waitForApproveRequest(" + docHeaderId + "," + user.getPrincipalName() + ") timed out", ChangeMonitor.waitUntilChange(monitor, MAX_WAIT_SECONDS, INITIAL_PAUSE_SECONDS));
     }
 

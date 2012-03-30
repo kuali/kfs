@@ -15,9 +15,13 @@
  */
 package org.kuali.kfs.sys.monitor;
 
+import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 /**
  * DocumentWorkflowStatusMonitor
@@ -41,9 +45,9 @@ public class DocumentWorkflowStatusMonitor extends ChangeMonitor {
 
     @Override
     public boolean valueChanged() throws Exception {
-        Document d = documentService.getByDocumentHeaderId(docHeaderId.toString());
+        WorkflowDocument document = SpringContext.getBean(WorkflowDocumentService.class).loadWorkflowDocument(docHeaderId, UserNameFixture.kfs.getPerson() );
 
-        DocumentStatus currentStatus = d.getDocumentHeader().getWorkflowDocument().getStatus();
+        DocumentStatus currentStatus = document.getStatus();
 
         for ( DocumentStatus desiredState : desiredWorkflowStates ) {
             if (desiredState.equals(currentStatus)) {

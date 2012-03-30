@@ -18,34 +18,35 @@ package org.kuali.kfs.sys.monitor;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.action.ActionRequestType;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 public class DocumentWorkflowRequestMonitor extends ChangeMonitor {
 
-    private final String docHeaderId;
-    private final Person user;
-    private final String actionRequestedCode;
+    final String docHeaderId;
+    final Person user;
+    final ActionRequestType actionRequested;
 
-    public DocumentWorkflowRequestMonitor(String docHeaderId, Person user, String actionRequestedCode) {
+    public DocumentWorkflowRequestMonitor(String docHeaderId, Person user, ActionRequestType actionRequested) {
         this.docHeaderId = docHeaderId;
         this.user = user;
-        this.actionRequestedCode = actionRequestedCode;
+        this.actionRequested = actionRequested;
     }
 
     public boolean valueChanged() throws WorkflowException {
         WorkflowDocument document = SpringContext.getBean(WorkflowDocumentService.class).loadWorkflowDocument(docHeaderId, user);
-        if (KewApiConstants.ACTION_REQUEST_COMPLETE_REQ.equals(actionRequestedCode)) {
+        if ( ActionRequestType.COMPLETE.equals(actionRequested)) {
             return document.isCompletionRequested();
         }
-        else if (KewApiConstants.ACTION_REQUEST_APPROVE_REQ.equals(actionRequestedCode)) {
+        else if (ActionRequestType.APPROVE.equals(actionRequested)) {
             return document.isApprovalRequested();
         }
-        else if (KewApiConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ.equals(actionRequestedCode)) {
+        else if (ActionRequestType.ACKNOWLEDGE.equals(actionRequested)) {
             return document.isAcknowledgeRequested();
         }
-        else if (KewApiConstants.ACTION_REQUEST_FYI_REQ.equals(actionRequestedCode)) {
+        else if (ActionRequestType.FYI.equals(actionRequested)) {
             return document.isFYIRequested();
         }
         return false;

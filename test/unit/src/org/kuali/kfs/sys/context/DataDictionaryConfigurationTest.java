@@ -248,16 +248,14 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "State-" );
         EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "PostalCode-" );
         EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "PersonImpl-" );
-        EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "RoleMemberImpl-" );
+        EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "RoleMemberBo-" );
         EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "KimAttributes-" );
         EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "KimDocRoleMember-" );
         EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "DocRoleMember-" );
-        EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "KimResponsibilityImpl-" );
-        EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "KimPermissionImpl-" );
-        EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "ResponsibilityImpl-" );
-        EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "PermissionImpl-" );
+        EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "Responsibility-" );
+        EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "PermissionBo-" );
         EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "ReviewResponsibility-" );
-        EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "GenericPermission-" );
+        EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "GenericPermissionBo-" );
         EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "RuleTemplateAttribute-" );
         EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "-versionNumber" );
     }

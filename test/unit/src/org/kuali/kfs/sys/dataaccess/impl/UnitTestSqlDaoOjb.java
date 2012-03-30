@@ -26,12 +26,11 @@ import java.util.Map;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-
 /**
  * NOTE: Do NOT use this code in production. It is only there for testing purposes.
  */
 public class UnitTestSqlDaoOjb extends PlatformAwareDaoBaseOjb implements UnitTestSqlDao {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(UnitTestSqlDaoOjb.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(UnitTestSqlDaoOjb.class);
 
     /*
      * (non-Javadoc)
@@ -44,12 +43,12 @@ public class UnitTestSqlDaoOjb extends PlatformAwareDaoBaseOjb implements UnitTe
         Statement stmt = null;
 
         try {
-            Connection c = getPersistenceBroker(false).serviceConnectionManager().getConnection();
+            Connection c = getPersistenceBroker(true).serviceConnectionManager().getConnection();
             stmt = c.createStatement();
             return stmt.executeUpdate(sql);
         }
         catch (Exception e) {
-            throw new RuntimeException("Unable to execute: " + e.getMessage());
+            throw new RuntimeException("Unable to execute: " + sql, e);
         }
         finally {
             try {
@@ -58,7 +57,7 @@ public class UnitTestSqlDaoOjb extends PlatformAwareDaoBaseOjb implements UnitTe
                 }
             }
             catch (Exception e) {
-                throw new RuntimeException("Unable to close connection: " + e.getMessage());
+                throw new RuntimeException("Unable to close connection: " + sql, e);
             }
         }
     }
@@ -74,7 +73,7 @@ public class UnitTestSqlDaoOjb extends PlatformAwareDaoBaseOjb implements UnitTe
         Statement stmt = null;
 
         try {
-            Connection c = getPersistenceBroker(false).serviceConnectionManager().getConnection();
+            Connection c = getPersistenceBroker(true).serviceConnectionManager().getConnection();
             stmt = c.createStatement();
 
             ResultSet rs = stmt.executeQuery(sql);
@@ -90,7 +89,7 @@ public class UnitTestSqlDaoOjb extends PlatformAwareDaoBaseOjb implements UnitTe
             return result;
         }
         catch (Exception e) {
-            throw new RuntimeException("Unable to execute: " + e.getMessage());
+            throw new RuntimeException("Unable to execute: " + sql, e);
         }
         finally {
             try {
@@ -99,7 +98,7 @@ public class UnitTestSqlDaoOjb extends PlatformAwareDaoBaseOjb implements UnitTe
                 }
             }
             catch (Exception e) {
-                throw new RuntimeException("Unable to close connection: " + e.getMessage());
+                throw new RuntimeException("Unable to close connection: " + sql, e);
             }
         }
     }

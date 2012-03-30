@@ -9040,7 +9040,7 @@
         <column name="DOC_HDR_ID" primaryKey="true" size="14" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="FDOC_DESC" size="40" type="VARCHAR"/>
+        <column name="FDOC_DESC" size="255" type="VARCHAR"/>
         <column name="ORG_DOC_HDR_ID" size="10" type="VARCHAR"/>
         <column name="TMPL_DOC_HDR_ID" size="14" type="VARCHAR"/>
         <column name="EXPLANATION" size="400" type="VARCHAR"/>
@@ -9166,6 +9166,8 @@
         <column name="SERIALZD_DOC_FRM" type="BLOB"/>
         <column name="LAST_UPDT_DT" type="DATE"/>
         <column default="N" name="CONTENT_ENCRYPTED_IND" size="1" type="CHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column default="0" name="VER_NBR" size="8" type="DECIMAL"/>
         <index name="KRNS_SESN_DOC_TI1">
             <index-column name="LAST_UPDT_DT"/>
         </index>

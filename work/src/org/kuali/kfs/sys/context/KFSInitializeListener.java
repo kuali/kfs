@@ -85,12 +85,16 @@ public class KFSInitializeListener extends KualiInitializeListener {
         Map<String,Step> steps = SpringContext.getBeansOfType(Step.class);
         List<Component> stepComponents = new ArrayList<Component>( steps.size() );
         for ( Step step : steps.values() ) {
+            Step unproxiedStep = (Step) ProxyUtils.getTargetIfProxied(step);
             String namespaceCode = KFSConstants.CoreModuleNamespaces.KFS;
-            ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(step.getClass());
+            if ( LOG.isDebugEnabled() ) {
+                LOG.debug( "Building component for step: " + unproxiedStep.getName() + "(" + unproxiedStep.getClass() + ")" );
+            }
+            ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(unproxiedStep.getClass());
             if ( moduleService != null ) {
                 namespaceCode = moduleService.getModuleConfiguration().getNamespaceCode();
             }
-            Component.Builder component = Component.Builder.create(namespaceCode, step.getClass().getSimpleName(), step.getClass().getSimpleName());
+            Component.Builder component = Component.Builder.create(namespaceCode, unproxiedStep.getClass().getSimpleName(), unproxiedStep.getClass().getSimpleName());
             component.setComponentSetId(KFS_BATCH_STEP_COMPONENT_SET_ID);
             component.setActive(true);
             stepComponents.add(component.build());

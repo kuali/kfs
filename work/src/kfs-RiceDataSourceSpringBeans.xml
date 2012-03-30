@@ -35,7 +35,6 @@
 		<property name="initialSize" value="${rice.datasource.pool.initialSize}" />
     </bean>
 
-
 	<bean id="kfsDataSourceXAPool" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource">
 		<property name="transactionManager" ref="transactionManagerXAPool" />
 		<property name="driverClassName" value="${datasource.driver.name}" />

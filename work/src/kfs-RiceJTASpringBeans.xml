@@ -31,7 +31,12 @@
   <bean id="transactionManagerXAPool" class="org.springframework.transaction.jta.JotmFactoryBean" lazy-init="true">
     <property name="defaultTimeout" value="${transaction.timeout}"/>
   </bean>
-  <bean id="btmConfig" factory-method="getConfiguration" class="bitronix.tm.TransactionManagerServices" lazy-init="true" />
+
+  <bean id="btmConfig" factory-method="getConfiguration" class="bitronix.tm.TransactionManagerServices" lazy-init="true">
+    <!-- best to set from command line -Dbitronix.tm.Configuration= -->
+    <!--<property name="serverId" value="spring-btm" />
+    <property name="disableJmx" value="true" />-->
+  </bean>
 
   <bean id="transactionManagerBitronix" class="bitronix.tm.TransactionManagerServices"
         factory-method="getTransactionManager" depends-on="btmConfig" destroy-method="shutdown" lazy-init="true"/>
@@ -39,12 +44,9 @@
   <bean id="transactionManagerBitronixXa" class="bitronix.tm.TransactionManagerServices"
         factory-method="getTransactionManager" depends-on="btmConfig" destroy-method="shutdown" lazy-init="true"/>
 
-  <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" lazy-init="true">
-    <property name="userTransaction" ref="jtaUserTransaction" />
-    <property name="transactionManager" ref="jtaTransactionManager" />
-  </bean>
-
   <alias name="transactionManager${connection.pool.impl}" alias="jtaTransactionManager"/>
   <alias name="transactionManager${connection.pool.impl}" alias="jtaUserTransaction"/>
+  <alias name="transactionManager${connection.pool.impl}" alias="transactionManager"/>
 
+  <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="false" />
 </beans>

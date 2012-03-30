@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.sys.context;
 
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.HashSet;
@@ -50,11 +51,11 @@ public class DocumentSerializabilityTest extends KualiTestBase {
                 
             final Set<String> unserializableFields;
             final Class<?> testedClass;
-            if (entry instanceof org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry) {
-                testedClass = ((org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry)entry).getMaintainableClass();
+            if (entry instanceof MaintenanceDocumentEntry) {
+                testedClass = ((MaintenanceDocumentEntry)entry).getMaintainableClass();
                 unserializableFields = getUnserializableFieldsFromClass(testedClass);
-            } else if (entry instanceof org.kuali.rice.kns.datadictionary.TransactionalDocumentEntry) {
-                testedClass = ((org.kuali.rice.kns.datadictionary.TransactionalDocumentEntry)entry).getDocumentClass();
+            } else if (entry instanceof TransactionalDocumentEntry) {
+                testedClass = ((TransactionalDocumentEntry)entry).getDocumentClass();
                 unserializableFields = getUnserializableFieldsFromClass(testedClass);
             } else {
                 unserializableFields = null;

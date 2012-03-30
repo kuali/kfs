@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2007-2008 The Kuali Foundation
+ Copyright 2005-2008 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -14,26 +14,23 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans>	
-
-    <bean id="unitTestSqlDao" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.UnitTestSqlDaoOjb" />
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
     
-<!-- 	<bean id="trigger"  parent="trigger-parentBean"/>   -->
-	<bean id="trigger-parentBean" abstract="true">
-		<property name="group" value="scheduled" />
-		<property name="dateTimeService" ref="dateTimeService" />
-		<property name="testMode" value="true" />
-	</bean>
-	
 	<bean id="mockAvailableCashUpdateService" parent="availableCashUpdateService">
 	</bean>
     
 	<bean id="mockCurrentTaxLotBalanceUpdateService" parent="currentTaxLotBalanceUpdateService">
 	</bean>
-    
-    <bean id="mockReportWriterService"  parent="mockReportWriterService-parentBean"/>
-    <bean id="mockReportWriterService-parentBean" class="org.kuali.kfs.gl.service.impl.MockReportWriterService"  abstract="true"/>
     
     <bean id="mockHoldingHistoryMarketValuesUpdateService" parent="holdingHistoryMarketValuesUpdateService">
     	<property name="holdingHistoryMarketValuesExceptionReportWriterService">

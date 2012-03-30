@@ -63,4 +63,18 @@
 	<bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"  p:config-location="classpath:kfs.ehcache.xml" />
 	
  -->
+  <bean id="kfsCoreCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+    <property name="cacheManager">
+      <bean class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" p:configLocation="classpath:kfs.ehcache.xml"/>
+    </property>
+  </bean>
+ 
+ 
+   <bean id="kfs.import.globalCacheManager" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+    <property name="serviceName" value="globalCacheManager" />
+   </bean>
+ 
+   <cache:annotation-driven cache-manager="kfs.import.globalCacheManager" />
+ 
+	<import resource="classpath:org/kuali/rice/core/CommonSpringBeans.xml"/> 
 </beans>

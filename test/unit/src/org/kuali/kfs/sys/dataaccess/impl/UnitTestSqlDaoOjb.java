@@ -48,7 +48,7 @@ public class UnitTestSqlDaoOjb extends PlatformAwareDaoBaseOjb implements UnitTe
             return stmt.executeUpdate(sql);
         }
         catch (Exception e) {
-            throw new RuntimeException("Unable to execute: " + e.getMessage());
+            throw new RuntimeException("Unable to execute: " + sql, e);
         }
         finally {
             try {
@@ -57,7 +57,7 @@ public class UnitTestSqlDaoOjb extends PlatformAwareDaoBaseOjb implements UnitTe
                 }
             }
             catch (Exception e) {
-                throw new RuntimeException("Unable to close connection: " + e.getMessage());
+                throw new RuntimeException("Unable to close connection: " + sql, e);
             }
         }
     }
@@ -89,7 +89,7 @@ public class UnitTestSqlDaoOjb extends PlatformAwareDaoBaseOjb implements UnitTe
             return result;
         }
         catch (Exception e) {
-            throw new RuntimeException("Unable to execute: " + e.getMessage());
+            throw new RuntimeException("Unable to execute: " + sql, e);
         }
         finally {
             try {
@@ -98,7 +98,7 @@ public class UnitTestSqlDaoOjb extends PlatformAwareDaoBaseOjb implements UnitTe
                 }
             }
             catch (Exception e) {
-                throw new RuntimeException("Unable to close connection: " + e.getMessage());
+                throw new RuntimeException("Unable to close connection: " + sql, e);
             }
         }
     }

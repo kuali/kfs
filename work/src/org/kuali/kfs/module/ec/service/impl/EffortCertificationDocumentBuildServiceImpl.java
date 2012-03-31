@@ -40,17 +40,17 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class EffortCertificationDocumentBuildServiceImpl implements EffortCertificationDocumentBuildService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocumentBuildServiceImpl.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocumentBuildServiceImpl.class);
 
-    private EffortCertificationDetailBuildService effortCertificationDetailBuildService;
-    private BusinessObjectService businessObjectService;
+    protected EffortCertificationDetailBuildService effortCertificationDetailBuildService;
+    protected BusinessObjectService businessObjectService;
 
     /**
      * @see org.kuali.kfs.module.ec.service.EffortCertificationDocumentBuildService#removeExistingDocumentBuild(java.util.Map)
      */
     public void removeExistingDocumentBuild(Map<String, String> fieldValues) {
          Collection<EffortCertificationDocumentBuild> documents = businessObjectService.findMatching(EffortCertificationDocumentBuild.class, fieldValues);
-        businessObjectService.delete((PersistableBusinessObject) documents);
+        businessObjectService.delete( new ArrayList<EffortCertificationDocumentBuild>( documents ) );
     }
 
     /**

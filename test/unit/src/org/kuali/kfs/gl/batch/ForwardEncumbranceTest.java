@@ -135,6 +135,7 @@ public class ForwardEncumbranceTest extends OriginEntryTestBase {
         assertTrue(encumbranceClosingOriginEntryGenerationService.shouldForwardCostShareForEncumbrance(entryPair.getEntry(), entryPair.getOffset(), encumbrance, ENCUMBRANCE_FIXTURE.COST_SHARE_ENCUMBRANCE.getObjectType()));
 
         OriginEntryOffsetPair costShareEntryPair = encumbranceClosingOriginEntryGenerationService.createCostShareBeginningBalanceEntryOffsetPair(encumbrance, new java.sql.Date(new GregorianCalendar().getTimeInMillis()));
+        assertFalse( "Should not have had a fatal error: " + costShareEntryPair, costShareEntryPair.isFatalErrorFlag() );
         LOG.info(costShareEntryPair.getEntry().getLine());
         LOG.info(costShareEntryPair.getOffset().getLine());
 

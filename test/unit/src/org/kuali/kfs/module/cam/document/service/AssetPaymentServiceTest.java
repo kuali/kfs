@@ -56,7 +56,6 @@ public class AssetPaymentServiceTest extends KualiTestBase {
     private UniversityDateService universityDateService;
     private AssetPaymentService assetPaymentService;
     private BusinessObjectService businessObjectService;
-    private WorkflowDocumentService workflowDocumentService;
 
     @Override
     // @ConfigureContext(session = UserNameFixture.khuntley)
@@ -64,7 +63,6 @@ public class AssetPaymentServiceTest extends KualiTestBase {
         super.setUp();
         assetPaymentService = SpringContext.getBean(AssetPaymentService.class);
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        workflowDocumentService = SpringContext.getBean(WorkflowDocumentService.class);
         universityDateService   = SpringContext.getBean(UniversityDateService.class);
         dateTimeService  = SpringContext.getBean(DateTimeService.class);
     }

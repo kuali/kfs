@@ -26,10 +26,10 @@ import org.kuali.rice.krad.bo.DocumentHeader;
  */
 public class FinancialSystemDocumentHeader extends DocumentHeader {
     
-    private KualiDecimal financialDocumentTotalAmount;
-    private String correctedByDocumentId;
-    private String financialDocumentInErrorNumber;
-    private String financialDocumentStatusCode;
+    protected KualiDecimal financialDocumentTotalAmount;
+    protected String correctedByDocumentId;
+    protected String financialDocumentInErrorNumber;
+    protected String financialDocumentStatusCode;
     
     /**
      * Constructor - creates empty instances of dependent objects
@@ -39,26 +39,6 @@ public class FinancialSystemDocumentHeader extends DocumentHeader {
         super();
         financialDocumentStatusCode = KFSConstants.DocumentStatusCodes.INITIATED;
     }
-
-//    /**
-//     * @return null if {@link #getDocumentTemplateNumber()} returns a non-blank value
-//     */
-//    public KeyValue getAdditionalDocId1() {
-//        if (StringUtils.isNotBlank(getFinancialDocumentInErrorNumber())) {
-//            return new ConcreteKeyValue("DataDictionary.FinancialSystemDocumentHeader.attributes.financialDocumentInErrorNumber", getFinancialDocumentInErrorNumber());
-//        }
-//        return super.getAdditionalDocId1();
-//    }
-//
-//    /**
-//     * @return null
-//     */
-//    public KeyValue getAdditionalDocId2() {
-//        if (StringUtils.isNotBlank(getCorrectedByDocumentId())) {
-//            return new ConcreteKeyValue("DataDictionary.FinancialSystemDocumentHeader.attributes.correctedByDocumentId", getCorrectedByDocumentId());
-//        }
-//        return super.getAdditionalDocId2();
-//    }
 
     /**
      * Gets the financialDocumentTotalAmount attribute. 

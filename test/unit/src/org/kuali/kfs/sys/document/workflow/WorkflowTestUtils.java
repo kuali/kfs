@@ -23,6 +23,7 @@ import junit.framework.Assert;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.monitor.ChangeMonitor;
 import org.kuali.kfs.sys.monitor.DocumentWorkflowNodeMonitor;
 import org.kuali.kfs.sys.monitor.DocumentWorkflowRequestMonitor;
@@ -33,13 +34,15 @@ import org.kuali.rice.kew.api.action.ActionRequestType;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 public class WorkflowTestUtils {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(WorkflowTestUtils.class);
     protected static final int INITIAL_PAUSE_SECONDS = 5;
     protected static final int MAX_WAIT_SECONDS = 30;
-    private static final Log LOG = LogFactory.getLog(WorkflowTestUtils.class);
 
     public static boolean isAtNode(Document document, String nodeName) throws WorkflowException {
         return isAtNode(document.getDocumentHeader().getWorkflowDocument(), nodeName);
@@ -59,7 +62,11 @@ public class WorkflowTestUtils {
     public static void waitForNodeChange(WorkflowDocument document, String desiredNodeName) throws Exception {
         LOG.info("Entering: waitForNodeChange(" + document.getDocumentId() + "," + desiredNodeName + ")");
         DocumentWorkflowNodeMonitor monitor = new DocumentWorkflowNodeMonitor(document, desiredNodeName);
-        Assert.assertTrue("waitForNodeChange(" + document.getDocumentId() + "," + desiredNodeName + ") timed out", ChangeMonitor.waitUntilChange(monitor, MAX_WAIT_SECONDS, INITIAL_PAUSE_SECONDS));
+        boolean success = ChangeMonitor.waitUntilChange(monitor, MAX_WAIT_SECONDS, INITIAL_PAUSE_SECONDS);
+        if ( !success ) {
+            document = SpringContext.getBean(WorkflowDocumentService.class).loadWorkflowDocument(document.getDocumentId(), UserNameFixture.kfs.getPerson() );
+            Assert.fail( "waitForNodeChange(" + document.getDocumentId() + "," + desiredNodeName + ") timed out. Document was at the " + document.getCurrentNodeNames() + " node." );
+        }
     }
 
     public static void waitForStatusChange(WorkflowDocument document, DocumentStatus desiredStatus) throws Exception {
@@ -69,19 +76,31 @@ public class WorkflowTestUtils {
     public static void waitForStatusChange(int numSeconds, WorkflowDocument document, DocumentStatus desiredStatus) throws Exception {
         LOG.info("Entering: waitForStatusChange(" + numSeconds + "," + document.getDocumentId() + "," + desiredStatus + ")");
         DocumentWorkflowStatusMonitor monitor = new DocumentWorkflowStatusMonitor(SpringContext.getBean(DocumentService.class), "" + document.getDocumentId(), desiredStatus);
-        Assert.assertTrue("waitForStatusChange(" + numSeconds + "," + document.getDocumentId() + "," + desiredStatus + ") timed out", ChangeMonitor.waitUntilChange(monitor, numSeconds, INITIAL_PAUSE_SECONDS));
+        boolean success = ChangeMonitor.waitUntilChange(monitor, numSeconds, INITIAL_PAUSE_SECONDS);
+        if ( !success ) {
+            document = SpringContext.getBean(WorkflowDocumentService.class).loadWorkflowDocument(document.getDocumentId(), UserNameFixture.kfs.getPerson() );
+            Assert.fail( "waitForStatusChange(" + document.getDocumentId() + "," + desiredStatus + ") timed out. Document was in " + document.getStatus() + " state." );
+        }
     }
 
     public static void waitForStatusChange(int numSeconds, WorkflowDocument document, DocumentStatus[] desiredStatuses) throws Exception {
         LOG.info("Entering: waitForStatusChange(" + numSeconds + "," + document.getDocumentId() + "," + desiredStatuses + ")");
         DocumentWorkflowStatusMonitor monitor = new DocumentWorkflowStatusMonitor(SpringContext.getBean(DocumentService.class), "" + document.getDocumentId(), desiredStatuses);
-        Assert.assertTrue("waitForStatusChange(" + numSeconds + "," + document.getDocumentId() + "," + desiredStatuses + ") timed out", ChangeMonitor.waitUntilChange(monitor, numSeconds, INITIAL_PAUSE_SECONDS));
+        boolean success = ChangeMonitor.waitUntilChange(monitor, numSeconds, INITIAL_PAUSE_SECONDS);
+        if ( !success ) {
+            document = SpringContext.getBean(WorkflowDocumentService.class).loadWorkflowDocument(document.getDocumentId(), UserNameFixture.kfs.getPerson() );
+            Assert.fail( "waitForStatusChange(" + document.getDocumentId() + "," + desiredStatuses + ") timed out. Document was in " + document.getStatus() + " state." );
+        }
     }
 
     public static void waitForApproveRequest(String docHeaderId, Person user) throws Exception {
         LOG.info("Entering: waitForApproveRequest(" + docHeaderId + "," + user.getPrincipalName() + ")");
         DocumentWorkflowRequestMonitor monitor = new DocumentWorkflowRequestMonitor(docHeaderId, user, ActionRequestType.APPROVE);
-        Assert.assertTrue("waitForApproveRequest(" + docHeaderId + "," + user.getPrincipalName() + ") timed out", ChangeMonitor.waitUntilChange(monitor, MAX_WAIT_SECONDS, INITIAL_PAUSE_SECONDS));
+        boolean success = ChangeMonitor.waitUntilChange(monitor, MAX_WAIT_SECONDS, INITIAL_PAUSE_SECONDS);
+        if ( !success ) {
+            WorkflowDocument document = SpringContext.getBean(WorkflowDocumentService.class).loadWorkflowDocument(docHeaderId, UserNameFixture.kfs.getPerson() );
+            Assert.fail( "waitForApproveRequest(" + docHeaderId + "," + user.getPrincipalName() + ") timed out. Document was in " + document.getStatus() + " state." );
+        }
     }
 
 }

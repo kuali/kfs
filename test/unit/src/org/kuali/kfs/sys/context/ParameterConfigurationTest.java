@@ -60,11 +60,11 @@ public class ParameterConfigurationTest extends KualiTestBase {
             try{
                if (!paramRule.checkComponent(param)) {
                if (param.getNamespaceCode().startsWith("KR"))continue;
-                badComponents.append("\n").append(param.getNamespaceCode()).append("\t").append(param.getParameterTypeCode()).append("\t").append(param.getName()).append("\t");
+                badComponents.append("\n").append(param.getNamespaceCode()).append("\t").append(param.getComponentCode()).append("\t").append(param.getName()).append("\t");
                 failCount++;
             }
             }catch (Exception e){
-                badComponents.append("\n").append(e.getMessage()).append(param.getNamespaceCode()).append("\t").append(param.getParameterTypeCode()).append("\t").append(param.getName()).append("\t");
+                badComponents.append("\n").append(e.getMessage()).append(param.getNamespaceCode()).append("\t").append(param.getComponentCode()).append("\t").append(param.getName()).append("\t");
                 failCount++;
             }
         }

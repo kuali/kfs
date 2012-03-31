@@ -13625,7 +13625,7 @@
         <column default="Y" name="USE_TAX_IND" required="true" size="1" type="VARCHAR"/>
         <column name="DLVY_BLDG_OTHR_IND" size="1" type="VARCHAR"/>
         <column name="VNDR_ATTN_NM" size="45" type="VARCHAR"/>
-        <column default="P" name="ACCT_DISTR_MTD_IND" required="true" size="1" type="VARCHAR"/>
+        <column default="P" name="ACCT_DISTR_MTD_IND" size="1" type="VARCHAR"/>
         <column name="VNDR_DEBRD_REAS_TXT" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="CA_ORG_T" name="PUR_REQS_TR10">
             <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>

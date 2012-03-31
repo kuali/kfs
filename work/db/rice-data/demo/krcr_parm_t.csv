@@ -379,7 +379,7 @@ If this parameter is left blank, then the program will assume the current system
 "KFS-GL","Batch","ANNUAL_CLOSING_FISCAL_YEAR","KFS303","1","CONFG","2010","Fiscal to select from when determining GL balance for the year-end process.","A","KFS"
 "KFS-GL","Batch","ANNUAL_CLOSING_FUND_BALANCE_OBJECT_CODE","KFS304","1","CONFG","9899","Object Code for remaining fund balances in the year-end closing process.","A","KFS"
 "KFS-GL","Batch","ANNUAL_CLOSING_FUND_BALANCE_OBJECT_TYPE","KFS305","1","CONFG","FB","Object Type for remaining fund balances in the year-end closing process.","A","KFS"
-"KFS-GL","Batch","ANNUAL_CLOSING_TRANSACTION_DATE","KFS306","1","CONFG","7/30/2010","Date used on all transactions related to year-end closing process.","A","KFS"
+"KFS-GL","Batch","ANNUAL_CLOSING_TRANSACTION_DATE","KFS306","1","CONFG","2010-07-30","Date used on all transactions related to year-end closing process.","A","KFS"
 "KFS-GL","Batch","FROM_EMAIL_ADDRESS","KFSMI6820_1","1","CONFG","","From email address used for messages sent by the system.","A","KFS"
 "KFS-GL","Batch","MANUAL_FEED_ORIGINATION","KFS307","1","CONFG","MF","Default origin code for entries created in the accounting cycle and during year-end closing processes.","A","KFS"
 "KFS-GL","CollectorStep","EQUAL_DEBIT_CREDIT_TOTAL_DOCUMENT_TYPES","KFS308","1","CONFG","ID*;EB*","Document types that trigger a balance of credits, debits and total as part of the Collector Step process.","A","KFS"

@@ -15,24 +15,10 @@
  */
 package org.kuali.kfs.sys.context;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
-import javax.xml.namespace.QName;
-
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.batch.Step;
 import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.framework.resourceloader.SpringResourceLoader;
 import org.kuali.rice.core.impl.config.property.JAXBConfigImpl;
-import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
-import org.kuali.rice.coreservice.api.component.Component;
-import org.kuali.rice.krad.service.KRADServiceLocatorInternal;
-import org.kuali.rice.krad.service.KualiModuleService;
-import org.kuali.rice.krad.service.ModuleService;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class KFSTestStartup {
@@ -65,36 +51,6 @@ public class KFSTestStartup {
         long endInit = System.currentTimeMillis();
         LOG.info("...Kuali Rice Application successfully initialized, startup took " + (endInit - startInit) + " ms.");
 
-        SpringResourceLoader mainKfsSpringResourceLoader = (SpringResourceLoader)GlobalResourceLoader.getResourceLoader( new QName("KFS", "KFS_RICE_SPRING_RESOURCE_LOADER_NAME") );
-        SpringContext.applicationContext = mainKfsSpringResourceLoader.getContext();
-
-        // KFS addition - republish all components now - until this point, the KFS DD has not been loaded
-        KRADServiceLocatorInternal.getDataDictionaryComponentPublisherService().publishAllComponents();
-
-        // KFS addition - we also publish all our Step classes as components - and these are not in the
-        // DD so are not published by the command above
-        publishBatchStepComponents();
-    }
-
-    protected static void publishBatchStepComponents() {
-        Map<String,Step> steps = SpringContext.getBeansOfType(Step.class);
-        List<Component> stepComponents = new ArrayList<Component>( steps.size() );
-        for ( Step step : steps.values() ) {
-            Step unproxiedStep = (Step) ProxyUtils.getTargetIfProxied(step);
-            String namespaceCode = KFSConstants.CoreModuleNamespaces.KFS;
-            if ( LOG.isDebugEnabled() ) {
-                LOG.debug( "Building component for step: " + unproxiedStep.getName() + "(" + unproxiedStep.getClass() + ")" );
-            }
-            ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(unproxiedStep.getClass());
-            if ( moduleService != null ) {
-                namespaceCode = moduleService.getModuleConfiguration().getNamespaceCode();
-            }
-            Component.Builder component = Component.Builder.create(namespaceCode, unproxiedStep.getClass().getSimpleName(), unproxiedStep.getClass().getSimpleName());
-            component.setComponentSetId("STEP:KFS");
-            component.setActive(true);
-            stepComponents.add(component.build());
-        }
-
-        CoreServiceApiServiceLocator.getComponentService().publishDerivedComponents("STEP:KFS", stepComponents);
+        SpringContext.finishInitializationAfterRiceStartup();
     }
 }

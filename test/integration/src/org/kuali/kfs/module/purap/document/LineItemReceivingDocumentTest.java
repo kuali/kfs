@@ -63,7 +63,7 @@ public class LineItemReceivingDocumentTest extends KualiTestBase {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         po.prepareForSave();
         AccountingDocumentTestUtils.routeDocument(po, "saving copy source document", null, documentService);
-        WorkflowTestUtils.waitForStatusChange(po.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+        WorkflowTestUtils.waitForDocumentApproval(po.getDocumentNumber());
         PurchaseOrderDocument poResult = (PurchaseOrderDocument) documentService.getByDocumentHeaderId(po.getDocumentNumber());
 
         //create Receiving
@@ -73,9 +73,9 @@ public class LineItemReceivingDocumentTest extends KualiTestBase {
             rli.setItemReceivedTotalQuantity( rli.getItemOrderedQuantity());
         }
         receivingLineDocument.prepareForSave();
-        assertFalse("R".equals(receivingLineDocument.getDocumentHeader().getWorkflowDocument().getStatus()));
+        assertFalse(DocumentStatus.ENROUTE.equals(receivingLineDocument.getDocumentHeader().getWorkflowDocument().getStatus()));
         routeDocument(receivingLineDocument, "routing line item receiving document", documentService);
-        WorkflowTestUtils.waitForStatusChange(receivingLineDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+        WorkflowTestUtils.waitForDocumentApproval(receivingLineDocument.getDocumentNumber());
         Document document = documentService.getByDocumentHeaderId(receivingLineDocument.getDocumentNumber());
         assertTrue("Document should now be final.", receivingLineDocument.getDocumentHeader().getWorkflowDocument().isFinal());
     }

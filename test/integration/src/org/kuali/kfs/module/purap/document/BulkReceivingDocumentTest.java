@@ -50,7 +50,7 @@ public class BulkReceivingDocumentTest extends KualiTestBase {
         doc.prepareForSave();
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         routeDocument(doc, "routing bulk receiving document", documentService);
-        WorkflowTestUtils.waitForStatusChange(doc.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+        WorkflowTestUtils.waitForDocumentApproval(doc.getDocumentNumber());
         Document document = documentService.getByDocumentHeaderId(doc.getDocumentNumber());
         assertTrue("Document should now be final.", doc.getDocumentHeader().getWorkflowDocument().isFinal());
     }
@@ -62,13 +62,13 @@ public class BulkReceivingDocumentTest extends KualiTestBase {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         po.prepareForSave();
         AccountingDocumentTestUtils.routeDocument(po, "saving copy source document", null, documentService);
-        WorkflowTestUtils.waitForStatusChange(po.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+        WorkflowTestUtils.waitForDocumentApproval(po.getDocumentNumber());
         PurchaseOrderDocument poResult = (PurchaseOrderDocument) documentService.getByDocumentHeaderId(po.getDocumentNumber());
 
         BulkReceivingDocument doc = BulkReceivingDocumentFixture.SIMPLE_DOCUMENT_FOR_PO.createBulkReceivingDocument(po);
         doc.prepareForSave();
         routeDocument(doc, "routing bulk receiving document", documentService);
-        WorkflowTestUtils.waitForStatusChange(doc.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+        WorkflowTestUtils.waitForDocumentApproval(doc.getDocumentNumber());
         Document document = documentService.getByDocumentHeaderId(doc.getDocumentNumber());
         assertTrue("Document should now be final.", doc.getDocumentHeader().getWorkflowDocument().isFinal());
 

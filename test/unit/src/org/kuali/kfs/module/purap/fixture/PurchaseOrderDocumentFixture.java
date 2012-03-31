@@ -18,7 +18,9 @@ package org.kuali.kfs.module.purap.fixture;
 import java.sql.Date;
 import java.sql.Timestamp;
 
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.module.purap.exception.PurapConfigurationException;
 import org.kuali.kfs.module.purap.fixture.PurapTestConstants.PO;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
@@ -418,7 +420,7 @@ public enum PurchaseOrderDocumentFixture {
      */
     public PurchaseOrderDocument createPurchaseOrderDocument() {
         PurchaseOrderDocument doc = purchasingDocumentFixture.createPurchaseOrderDocument(purapDocumentFixture);
-        doc.setAccountDistributionMethod("S"); //account distribution method is sequential
+        doc.setAccountDistributionMethod(PurapConstants.AccountDistributionMethodCodes.PROPORTIONAL_CODE); //account distribution method is sequential
         doc.setPurchaseOrderCreateTimestamp(this.purchaseOrderCreateDate);
         doc.setRequisitionIdentifier(this.requisitionIdentifier);
         doc.setPurchaseOrderVendorChoiceCode(this.purchaseOrderVendorChoiceCode);

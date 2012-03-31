@@ -27,25 +27,17 @@ import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
  * DocumentWorkflowStatusMonitor
  */
 public class DocumentWorkflowStatusMonitor extends ChangeMonitor {
-    final DocumentService documentService;
-    final private String docHeaderId;
+    final private String documentNumber;
     final private DocumentStatus[] desiredWorkflowStates;
 
-    public DocumentWorkflowStatusMonitor(DocumentService documentService, String docHeaderId, DocumentStatus desiredWorkflowStatus) {
-        this.documentService = documentService;
-        this.docHeaderId = docHeaderId;
-        this.desiredWorkflowStates = new DocumentStatus[] { desiredWorkflowStatus };
-    }
-
-    public DocumentWorkflowStatusMonitor(DocumentService documentService, String docHeaderId, DocumentStatus[] desiredWorkflowStates) {
-        this.documentService = documentService;
-        this.docHeaderId = docHeaderId;
+    public DocumentWorkflowStatusMonitor(String docHeaderId, DocumentStatus... desiredWorkflowStates) {
+        this.documentNumber = docHeaderId;
         this.desiredWorkflowStates = desiredWorkflowStates;
     }
 
     @Override
     public boolean valueChanged() throws Exception {
-        WorkflowDocument document = SpringContext.getBean(WorkflowDocumentService.class).loadWorkflowDocument(docHeaderId, UserNameFixture.kfs.getPerson() );
+        WorkflowDocument document = SpringContext.getBean(WorkflowDocumentService.class).loadWorkflowDocument(documentNumber, UserNameFixture.kfs.getPerson() );
 
         DocumentStatus currentStatus = document.getStatus();
 

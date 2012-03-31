@@ -236,39 +236,4 @@ public abstract class MaintenanceRuleTestBase extends KualiTestBase {
         boolean result = GlobalVariables.getMessageMap().fieldHasMessage(KFSConstants.DOCUMENT_ERRORS, errorKey);
         assertTrue("Document should contain errorKey: " + errorKey, result);
     }
-
-
-    /**
-     * This method is used during debugging to dump the contents of the error map, including the key names. It is not used by the
-     * application in normal circumstances at all.
-     */
-    protected void showMessageMap() {
-
-        if (GlobalVariables.getMessageMap().hasNoErrors()) {
-            return;
-        }
-
-        for ( String key : GlobalVariables.getMessageMap().getErrorMessages().keySet() ) {
-            List<ErrorMessage> errorList = GlobalVariables.getMessageMap().getErrorMessages().get(key);
-
-            for ( ErrorMessage em : errorList ) {
-                StringBuilder message = new StringBuilder();
-                message.append(key).append(" = ").append( em.getErrorKey() );
-                if (em.getMessageParameters() == null) {
-                    System.err.println(message.toString());
-                } else {
-                    message.append( " : " );
-                    String delim = "";
-                    for ( String parm : em.getMessageParameters() ) {
-                        message.append(delim).append("'").append(parm).append("'");
-                        if ("".equals(delim)) {
-                            delim = ", ";
-                        }                        
-                    }
-                    System.err.println(message.toString());
-                }
-            }
-        }
-
-    }
 }

@@ -78,11 +78,7 @@ public enum EndowmentHoldingValueAdjustmentDocumentFixture {
             ehva.refreshReferenceObject("security");
 
             documentService.routeDocument(ehva, "We want to see the document status as final", null);
-            try {
-                WorkflowTestUtils.waitForStatusChange(ehva.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
-            } catch (Exception ex) {
-              return null;
-            }
+            WorkflowTestUtils.waitForDocumentApproval(ehva.getDocumentNumber());
 
             return ehva;
         } catch (WorkflowException wfe) {

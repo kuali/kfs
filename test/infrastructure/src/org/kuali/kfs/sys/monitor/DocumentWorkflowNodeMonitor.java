@@ -20,6 +20,7 @@ import java.util.Set;
 
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.workflow.WorkflowTestUtils;
+import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -30,18 +31,16 @@ import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
  */
 public class DocumentWorkflowNodeMonitor extends ChangeMonitor {
 
-    private String docHeaderId;
-    private String initiatorPrincipalIdId;
-    private String desiredNodeName;
+    protected String documentNumber;
+    protected String desiredNodeName;
 
-    public DocumentWorkflowNodeMonitor(WorkflowDocument document, String desiredNodeName) throws WorkflowException {
-        this.docHeaderId = document.getDocumentId();
-        this.initiatorPrincipalIdId = document.getInitiatorPrincipalId();
+    public DocumentWorkflowNodeMonitor(String documentNumber, String desiredNodeName) throws WorkflowException {
+        this.documentNumber = documentNumber;
         this.desiredNodeName = desiredNodeName;
     }
 
     public boolean valueChanged() throws Exception {
-        WorkflowDocument document = SpringContext.getBean(WorkflowDocumentService.class).loadWorkflowDocument(docHeaderId, SpringContext.getBean(PersonService.class).getPerson(initiatorPrincipalIdId));
+        WorkflowDocument document = SpringContext.getBean(WorkflowDocumentService.class).loadWorkflowDocument(documentNumber, UserNameFixture.kfs.getPerson());
         return WorkflowTestUtils.isAtNode(document, desiredNodeName);
     }
 

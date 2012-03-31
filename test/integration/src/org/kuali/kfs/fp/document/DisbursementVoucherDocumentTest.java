@@ -46,7 +46,6 @@ import org.kuali.kfs.sys.fixture.AccountingLineFixture;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
@@ -166,7 +165,7 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
         assertTrue("Should have an approve request.", document.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
         SpringContext.getBean(DocumentService.class).approveDocument(document, "Approve", null);*/
 
-        WorkflowTestUtils.waitForStatusChange(document.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+        WorkflowTestUtils.waitForDocumentApproval(document.getDocumentNumber());
 
         changeCurrentUser(vputman);
         document = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);

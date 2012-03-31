@@ -177,7 +177,8 @@ public class RequisitionDocumentTest extends KualiTestBase {
         requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         SpringContext.getBean(DocumentService.class).acknowledgeDocument(requisitionDocument, "Acknowledging as jgerhart", null);
 
-        WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+        WorkflowTestUtils.waitForDocumentApproval(requisitionDocument.getDocumentNumber());
+
 
         changeCurrentUser(khuntley);
         requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
@@ -219,7 +220,7 @@ public class RequisitionDocumentTest extends KualiTestBase {
         requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         SpringContext.getBean(DocumentService.class).acknowledgeDocument(requisitionDocument, "Acknowledging as jgerhart", null);
 
-        WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+        WorkflowTestUtils.waitForDocumentApproval(requisitionDocument.getDocumentNumber());
 
         changeCurrentUser(khuntley);
         requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);

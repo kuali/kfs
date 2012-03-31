@@ -111,9 +111,9 @@ public class CreditMemoDocumentTest extends KualiTestBase {
         SpringContext.getBean(CreditMemoService.class).calculateCreditMemo(creditMemoDocument);
         creditMemoDocument.prepareForSave();
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
-        assertFalse("R".equals(creditMemoDocument.getDocumentHeader().getWorkflowDocument().getStatus()));
+        assertFalse(DocumentStatus.ENROUTE.equals(creditMemoDocument.getDocumentHeader().getWorkflowDocument().getStatus()));
         AccountingDocumentTestUtils.routeDocument(creditMemoDocument, "saving copy source docu ament", null, documentService);
-        WorkflowTestUtils.waitForStatusChange(creditMemoDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+        WorkflowTestUtils.waitForDocumentApproval(creditMemoDocument.getDocumentNumber());
         return creditMemoDocument;
     }
 
@@ -142,7 +142,7 @@ public class CreditMemoDocumentTest extends KualiTestBase {
         //SpringContext.getBean(AccountsPayableService.class).updateItemList(creditMemoDocument);
         SpringContext.getBean(CreditMemoCreateService.class).populateDocumentAfterInit(creditMemoDocument);
         SpringContext.getBean(CreditMemoService.class).calculateCreditMemo(creditMemoDocument);
-        assertFalse("R".equals(creditMemoDocument.getDocumentHeader().getWorkflowDocument().getStatus()));
+        assertFalse(DocumentStatus.ENROUTE.equals(creditMemoDocument.getDocumentHeader().getWorkflowDocument().getStatus()));
 
         // Route and test.
         AccountingDocumentTestUtils.routeDocument(creditMemoDocument, "routing document", null, SpringContext.getBean(DocumentService.class));

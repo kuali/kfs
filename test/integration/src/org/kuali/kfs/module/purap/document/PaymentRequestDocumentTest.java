@@ -141,7 +141,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
         assertTrue("rorenfro should have an approve request.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
         documentService.approveDocument(paymentRequestDocument, "Test approving as rorenfro", null);
 
-        WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+        WorkflowTestUtils.waitForDocumentApproval(paymentRequestDocument.getDocumentNumber());
 
         paymentRequestDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docId);
         assertTrue("Document should now be final.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isFinal());
@@ -336,7 +336,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
         // assertTrue("total values should be 183", paymentRequestDocument.getTotalDollarAmount().equals(new KualiDecimal(183)));
         documentService.approveDocument(paymentRequestDocument, "Test approving as rorenfro", null);
 
-        WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+        WorkflowTestUtils.waitForDocumentApproval(paymentRequestDocument.getDocumentNumber());
 
         paymentRequestDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docId);
         assertTrue("Document should now be final.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isFinal());
@@ -376,14 +376,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
         // route if requested
         if (routePO) {
             AccountingDocumentTestUtils.testRouteDocument(po, documentService);
-            WorkflowTestUtils.waitForStatusChange(po.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
-            /*WorkflowTestUtils.waitForNodeChange(po.getDocumentHeader().getWorkflowDocument(), BUDGET_REVIEW);
-
-            changeCurrentUser(butt);
-            po =(PurchaseOrderDocument) documentService.getByDocumentHeaderId(poDocId);
-            AccountingDocumentTestUtils.approveDocument(po, documentService);
-            WorkflowTestUtils.waitForStatusChange(po.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);
-            */
+            WorkflowTestUtils.waitForDocumentApproval(po.getDocumentNumber());
             po = (PurchaseOrderDocument) documentService.getByDocumentHeaderId(poDocId);
         }
         po.setAccountDistributionMethod("S");

@@ -177,8 +177,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         // route the original doc, wait for status change
         SpringContext.getBean(DocumentService.class).routeDocument(document, "saving errorCorrection source document", null);
         // jv docs go straight to final
-        DocumentWorkflowStatusMonitor routeMonitor = new DocumentWorkflowStatusMonitor(SpringContext.getBean(DocumentService.class), documentHeaderId, DocumentStatus.FINAL);
-        assertTrue("Document did not complete routing to the expected status (" + routeMonitor + ") within the time limit",ChangeMonitor.waitUntilChange(routeMonitor, 60, 5));
+        WorkflowTestUtils.waitForDocumentApproval(documentHeaderId);
         document = (AccountingDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentHeaderId);
         // collect some preCorrect data
         String preCorrectId = document.getDocumentNumber();
@@ -250,7 +249,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         assertFalse(DocumentStatus.ENROUTE.equals(document.getDocumentHeader().getWorkflowDocument().getStatus()));
         SpringContext.getBean(DocumentService.class).routeDocument(document, "saving copy source document", null);
         // jv docs go sttraight to final
-        WorkflowTestUtils.waitForStatusChange(document.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+        WorkflowTestUtils.waitForDocumentApproval(document.getDocumentNumber());
         // also check the Kuali (not Workflow) document status
         FinancialSystemDocumentStatusMonitor statusMonitor = new FinancialSystemDocumentStatusMonitor(SpringContext.getBean(DocumentService.class), document.getDocumentHeader().getDocumentNumber(), KFSConstants.DocumentStatusCodes.APPROVED);
         assertTrue(ChangeMonitor.waitUntilChange(statusMonitor, 30, 5));

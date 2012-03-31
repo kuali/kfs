@@ -33,6 +33,7 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.ValidationException;
@@ -436,11 +437,9 @@ public class CloseServiceTest extends KualiTestBase {
     }
 
     public static void routeDocument(Document document, DocumentService documentService) throws Exception {
-        final String ENROUTE_STATUS = "R";
-        final String FINAL_STATUS = "F";
 
         // Verify that the doc isn't yet routed.
-        assertFalse(ENROUTE_STATUS.equals(document.getDocumentHeader().getWorkflowDocument().getStatus()));
+        assertFalse("Document should not be already ENROUTE: " + document,DocumentStatus.ENROUTE.equals(document.getDocumentHeader().getWorkflowDocument().getStatus()));
 
         // Route the doc.
         try {

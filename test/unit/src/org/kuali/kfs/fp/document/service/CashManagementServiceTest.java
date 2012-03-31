@@ -40,6 +40,7 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.document.Document;
@@ -98,7 +99,7 @@ public class CashManagementServiceTest extends KualiTestBase {
 
             // verify that the doc was saved
             CashManagementDocument retrievedDoc = (CashManagementDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(testDocumentId);
-            assertEquals("S", retrievedDoc.getDocumentHeader().getWorkflowDocument().getStatus());
+            assertEquals("Document is in incorrect workflow status", DocumentStatus.SAVED, retrievedDoc.getDocumentHeader().getWorkflowDocument().getStatus());
         }
         finally {
             // cancel the document

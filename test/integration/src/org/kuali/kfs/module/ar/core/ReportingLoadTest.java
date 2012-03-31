@@ -272,7 +272,7 @@ public class ReportingLoadTest extends KualiTestBase {
 
             //  route it, and wait for it go to final
             documentService.blanketApproveDocument(document, "BlanketApproved by performance testing script.", null);
-            WorkflowTestUtils.waitForStatusChange(10, document.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+            WorkflowTestUtils.waitForDocumentApproval(document.getDocumentNumber());
 
             //  increement or reset the scenario type
             if (typeOfInvoice == 5) {
@@ -307,7 +307,7 @@ public class ReportingLoadTest extends KualiTestBase {
 
             //  route it, and wait for it go to final
             documentService.blanketApproveDocument(document, "BlanketApproved by performance testing script.", null);
-            WorkflowTestUtils.waitForStatusChange(10, document.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+            WorkflowTestUtils.waitForDocumentApproval(document.getDocumentNumber());
 
             //  increement or reset the scenario type
             if (typeOfInvoice == 5) {

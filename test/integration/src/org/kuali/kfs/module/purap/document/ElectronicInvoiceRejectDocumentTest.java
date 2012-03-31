@@ -65,7 +65,7 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
         eirDoc = ElectronicInvoiceRejectDocumentFixture.EIR_ONLY_REQUIRED_FIELDS.createElectronicInvoiceRejectDocument(eils);
         eirDoc.prepareForSave();
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
-        assertFalse("R".equals(eirDoc.getDocumentHeader().getWorkflowDocument().getStatus()));
+        assertFalse(DocumentStatus.ENROUTE.equals(eirDoc.getDocumentHeader().getWorkflowDocument().getStatus()));
         saveDocument(eirDoc, "saving copy source document", documentService);
         GlobalVariables.getUserSession().clearBackdoorUser();
 
@@ -90,7 +90,7 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
         eirDoc.setInvoicePurchaseOrderNumber(poId.toString());
         eirDoc.prepareForSave();
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
-        assertFalse("R".equals(eirDoc.getDocumentHeader().getWorkflowDocument().getStatus()));
+        assertFalse(DocumentStatus.ENROUTE.equals(eirDoc.getDocumentHeader().getWorkflowDocument().getStatus()));
         saveDocument(eirDoc, "saving copy source document", documentService);
         GlobalVariables.getUserSession().clearBackdoorUser();
 
@@ -115,7 +115,7 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
         eirDoc.setInvoicePurchaseOrderNumber(poId.toString());
         eirDoc.prepareForSave();
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
-        assertFalse("R".equals(eirDoc.getDocumentHeader().getWorkflowDocument().getStatus()));
+        assertFalse(DocumentStatus.ENROUTE.equals(eirDoc.getDocumentHeader().getWorkflowDocument().getStatus()));
         saveDocument(eirDoc, "saving copy source document", documentService);
         GlobalVariables.getUserSession().clearBackdoorUser();
 
@@ -136,7 +136,7 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
 //        eirDoc.prepareForSave();
 //
 //        DocumentService documentService = SpringContext.getBean(DocumentService.class);
-//        assertFalse("R".equals(eirDoc.getDocumentHeader().getWorkflowDocument().getStatus()));
+//        assertFalse(DocumentStatus.ENROUTE.equals(eirDoc.getDocumentHeader().getWorkflowDocument().getStatus()));
 //        routeDocument(eirDoc, "saving copy source document", documentService);
 //        WorkflowTestUtils.waitForStatusChange(eirDoc.getDocumentHeader().getWorkflowDocument(), KewApiConstants.ROUTE_HEADER_FINAL_CD);
 //        Document result = documentService.getByDocumentHeaderId(eirDoc.getDocumentNumber());
@@ -231,7 +231,7 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
             DocumentService documentService = SpringContext.getBean(DocumentService.class);
             poDocument.prepareForSave();
             AccountingDocumentTestUtils.routeDocument(poDocument, "saving copy source document", null, documentService);
-            WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+            WorkflowTestUtils.waitForDocumentApproval(poDocument.getDocumentNumber());
             return poDocument.getPurapDocumentIdentifier();
         }
         catch (Exception e) {
@@ -249,7 +249,7 @@ public class ElectronicInvoiceRejectDocumentTest extends KualiTestBase {
             DocumentService documentService = SpringContext.getBean(DocumentService.class);
             poDocument.prepareForSave();
             AccountingDocumentTestUtils.routeDocument(poDocument, "saving copy source document", null, documentService);
-            WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+            WorkflowTestUtils.waitForDocumentApproval(poDocument.getDocumentNumber());
             return poDocument.getPurapDocumentIdentifier();
         }
         catch (Exception e) {

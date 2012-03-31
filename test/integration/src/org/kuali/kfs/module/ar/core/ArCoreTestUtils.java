@@ -89,9 +89,8 @@ public class ArCoreTestUtils extends Assert {
     protected static CustomerInvoiceDocument createFinalizedInvoiceOneLine() throws Exception {
         CustomerInvoiceDocument document = newInvoiceDocumentOneLine();
         documentService.routeDocument(document, "Unit test routing document.", null);
-        WorkflowTestUtils.waitForStatusChange(10, document.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+        WorkflowTestUtils.waitForDocumentApproval(document.getDocumentNumber());
         String docNumber = document.getDocumentNumber();
-        document = null;
         document = (CustomerInvoiceDocument) documentService.getByDocumentHeaderId(docNumber);
         return document;
     }
@@ -99,9 +98,8 @@ public class ArCoreTestUtils extends Assert {
     protected static CustomerInvoiceDocument createFinalizedInvoiceTwoLines() throws Exception {
         CustomerInvoiceDocument document = newInvoiceDocumentTwoLines();
         documentService.routeDocument(document, "Unit test routing document.", null);
-        WorkflowTestUtils.waitForStatusChange(10, document.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+        WorkflowTestUtils.waitForDocumentApproval(document.getDocumentNumber());
         String docNumber = document.getDocumentNumber();
-        document = null;
         document = (CustomerInvoiceDocument) documentService.getByDocumentHeaderId(docNumber);
         return document;
     }
@@ -109,9 +107,8 @@ public class ArCoreTestUtils extends Assert {
     protected static CustomerInvoiceDocument createFinalizedInvoiceOneLineDiscounted() throws Exception {
         CustomerInvoiceDocument document = newInvoiceDocumentOneLineDiscounted();
         documentService.routeDocument(document, "Unit test routing document.", null);
-        WorkflowTestUtils.waitForStatusChange(10, document.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+        WorkflowTestUtils.waitForDocumentApproval(document.getDocumentNumber());
         String docNumber = document.getDocumentNumber();
-        document = null;
         document = (CustomerInvoiceDocument) documentService.getByDocumentHeaderId(docNumber);
         return document;
     }
@@ -119,9 +116,8 @@ public class ArCoreTestUtils extends Assert {
     protected static CustomerInvoiceDocument createFinalizedInvoiceTwoLinesOneIsDiscounted() throws Exception {
         CustomerInvoiceDocument document = newInvoiceDocumentTwoLinesOneIsDiscounted();
         documentService.routeDocument(document, "Unit test routing document.", null);
-        WorkflowTestUtils.waitForStatusChange(10, document.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+        WorkflowTestUtils.waitForDocumentApproval(document.getDocumentNumber());
         String docNumber = document.getDocumentNumber();
-        document = null;
         document = (CustomerInvoiceDocument) documentService.getByDocumentHeaderId(docNumber);
         return document;
     }
@@ -129,9 +125,8 @@ public class ArCoreTestUtils extends Assert {
     protected static CustomerInvoiceDocument createFinalizedInvoiceTwoLinesDiscounted() throws Exception {
         CustomerInvoiceDocument document = newInvoiceDocumentTwoLinesDiscounted();
         documentService.routeDocument(document, "Unit test routing document.", null);
-        WorkflowTestUtils.waitForStatusChange(10, document.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+        WorkflowTestUtils.waitForDocumentApproval(document.getDocumentNumber());
         String docNumber = document.getDocumentNumber();
-        document = null;
         document = (CustomerInvoiceDocument) documentService.getByDocumentHeaderId(docNumber);
         return document;
     }

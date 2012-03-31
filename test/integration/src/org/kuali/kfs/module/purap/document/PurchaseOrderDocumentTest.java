@@ -86,9 +86,9 @@ public class PurchaseOrderDocumentTest extends KualiTestBase {
         PurchaseOrderDocument poDocument = buildSimpleDocument();
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         poDocument.prepareForSave();
-        assertFalse("R".equals(poDocument.getDocumentHeader().getWorkflowDocument().getStatus()));
+        assertFalse("Document should not have been in ENROUTE status.",DocumentStatus.ENROUTE.equals(poDocument.getDocumentHeader().getWorkflowDocument().getStatus()));
         AccountingDocumentTestUtils.routeDocument(poDocument, "test annotation", null, documentService);
-        WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+        WorkflowTestUtils.waitForDocumentApproval(poDocument.getDocumentNumber());
         assertTrue("Document should now be final.", poDocument.getDocumentHeader().getWorkflowDocument().isFinal());
     }
 

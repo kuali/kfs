@@ -18,6 +18,7 @@ package org.kuali.kfs.sys.context;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import junit.framework.TestCase;
@@ -31,6 +32,7 @@ import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.service.ConfigurableDateService;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -237,5 +239,36 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
             }
         }
         throw new RuntimeException("KualiTestBase was unable to getMethod: " + methodName);
+    }
+    
+    /**
+     * This method is used during debugging to dump the contents of the error map, including the key names. It is not used by the
+     * application in normal circumstances at all.
+     */
+    protected String dumpMessageMapErrors() {
+        if (GlobalVariables.getMessageMap().hasNoErrors()) {
+            return "";
+        }
+
+        StringBuilder message = new StringBuilder();
+        for ( String key : GlobalVariables.getMessageMap().getErrorMessages().keySet() ) {
+            List<ErrorMessage> errorList = GlobalVariables.getMessageMap().getErrorMessages().get(key);
+
+            for ( ErrorMessage em : errorList ) {
+                message.append(key).append(" = ").append( em.getErrorKey() );
+                if (em.getMessageParameters() != null) {
+                    message.append( " : " );
+                    String delim = "";
+                    for ( String parm : em.getMessageParameters() ) {
+                        message.append(delim).append("'").append(parm).append("'");
+                        if ("".equals(delim)) {
+                            delim = ", ";
+                        }                        
+                    }
+                }
+            }
+            message.append( '\n' );
+        }
+        return message.toString();
     }
 }

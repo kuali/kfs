@@ -96,13 +96,13 @@ public class PurapFullProcessDocumentTest extends KualiTestBase {
         changeCurrentUser(parke);
         PurchaseOrderAmendmentDocument amendDoc = (PurchaseOrderAmendmentDocument) SpringContext.getBean(PurchaseOrderService.class).createAndSavePotentialChangeDocument(poNumber, PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, PurchaseOrderStatuses.APPDOC_AMENDMENT);
         documentService.routeDocument(amendDoc, "Test routing as parke", null);
-        WorkflowTestUtils.waitForStatusChange(amendDoc.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+        WorkflowTestUtils.waitForDocumentApproval(amendDoc.getDocumentNumber());
 
         // 5. use the PO number to create a Close PO and have it go final
         changeCurrentUser(parke);
         PurchaseOrderCloseDocument closeDoc = (PurchaseOrderCloseDocument) SpringContext.getBean(PurchaseOrderService.class).createAndSavePotentialChangeDocument(poNumber, PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT, PurchaseOrderStatuses.APPDOC_PENDING_CLOSE);
         documentService.routeDocument(closeDoc, "Test routing as parke", null);
-        WorkflowTestUtils.waitForStatusChange(closeDoc.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+        WorkflowTestUtils.waitForDocumentApproval(closeDoc.getDocumentNumber());
 
         LOG.info("Requisition document: " + reqDoc.getDocumentNumber());
         LOG.info("PO document: " + poDoc.getDocumentNumber());
@@ -141,7 +141,7 @@ public class PurapFullProcessDocumentTest extends KualiTestBase {
         assertTrue("ferland should have an approve request.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
         documentService.approveDocument(paymentRequestDocument, "Test approving as ferland", null);
 
-        WorkflowTestUtils.waitForStatusChange(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+        WorkflowTestUtils.waitForDocumentApproval(paymentRequestDocument.getDocumentNumber());
 
         paymentRequestDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docId);
         assertTrue("Document should now be final.", paymentRequestDocument.getDocumentHeader().getWorkflowDocument().isFinal());

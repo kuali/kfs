@@ -29,6 +29,7 @@ import org.kuali.kfs.module.purap.fixture.RequisitionItemFixture;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 @ConfigureContext(session = khuntley)
@@ -87,11 +88,15 @@ public class PurchasingServiceTest extends KualiTestBase {
         
         List<PurchasingCapitalAssetItem> afterDeletion = requisition.getPurchasingCapitalAssetItems();
      
-        SpringContext.getBean(PurapService.class).saveDocumentNoValidation(requisition);
-        assertTrue(afterDeletion.size() == 1);
+        try {
+            SpringContext.getBean(PurapService.class).saveDocumentNoValidation(requisition);
+        } catch ( ValidationException ex ) {
+            fail( "Validation error when saving document without validation: " + dumpMessageMapErrors() );
+        }
+        assertEquals(1, afterDeletion.size());
         
         for (PurchasingCapitalAssetItem camsItem : afterDeletion) {
-            assertTrue(camsItem.getPurchasingCapitalAssetSystem() != null);
+            assertEquals("PurchasingCapitalAssetSystem on " + camsItem + " should not have been null", null,camsItem.getPurchasingCapitalAssetSystem());
         }
     }
     

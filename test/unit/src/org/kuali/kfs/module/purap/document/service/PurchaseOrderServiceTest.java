@@ -49,6 +49,7 @@ import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
@@ -91,7 +92,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
             po = poService.getPurchaseOrderByDocumentNumber(po.getDocumentNumber());
         }
         catch (ValidationException ve) {
-            throw new ValidationException(GlobalVariables.getMessageMap().toString() + ve);
+            fail( "Validation errors creating PO retransmit document: " + dumpMessageMapErrors() );
         }
         assertMatchRetransmit(po, poRetrans);
         ((PurchaseOrderItem)poRetrans.getItem(0)).setItemSelectedForRetransmitIndicator(true);
@@ -248,7 +249,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
      */
     public void testCreateAutomaticPurchaseOrderDocument() throws Exception {
         RequisitionDocument req = RequisitionDocumentFixture.REQ_APO_VALID.createRequisitionDocument();
-        AccountingDocumentTestUtils.routeDocument(req, SpringContext.getBean(DocumentService.class));
+        routeRequisition(req);
         String docId = req.getDocumentNumber();
         poService.createAutomaticPurchaseOrderDocument(req);
         RequisitionDocument requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
@@ -266,7 +267,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
      */
     public void testCreatePurchaseOrderDocument() throws Exception {
         RequisitionDocument req = RequisitionDocumentFixture.REQ_NO_APO_VALID.createRequisitionDocument();
-        AccountingDocumentTestUtils.routeDocument(req, SpringContext.getBean(DocumentService.class));
+        routeRequisition(req);
         String docId = req.getDocumentNumber();
         Integer contractManagerCode = new Integer(12);
         poService.createPurchaseOrderDocument(req, "parke", contractManagerCode);
@@ -277,6 +278,26 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         assertEquals(purchaseOrderDocument.getContractManagerCode(), contractManagerCode);
     }
 
+    protected void routeRequisition( RequisitionDocument req ) {
+        try {
+            AccountingDocumentTestUtils.routeDocument(req, SpringContext.getBean(DocumentService.class));
+        } catch ( ValidationException ex ) {
+            fail( "Validation problems routing document: " + dumpMessageMapErrors() );
+        } catch (WorkflowException ex) {
+            fail( "Error routing document: " + ex.getMessage() );
+        }
+    }
+    
+    protected void routePurchaseOrder( PurchaseOrderDocument poDoc ) {
+        try {
+            AccountingDocumentTestUtils.routeDocument(poDoc, SpringContext.getBean(DocumentService.class));
+        } catch ( ValidationException ex ) {
+            fail( "Validation problems routing document: " + dumpMessageMapErrors() );
+        } catch (WorkflowException ex) {
+            fail( "Error routing document: " + ex.getMessage() );
+        }
+    }
+    
     /**
      * Tests that the PurchaseOrderService would create and save potential change document.
      *
@@ -285,7 +306,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
     public void testCreateAndSavePotentialChangeDocument() throws Exception {
         //Need to create a requisition first to be used to create an APO
         RequisitionDocument req = RequisitionDocumentFixture.REQ_APO_VALID.createRequisitionDocument();
-        AccountingDocumentTestUtils.routeDocument(req, SpringContext.getBean(DocumentService.class));
+        routeRequisition(req);
         String docId = req.getDocumentNumber();
 
         //Create an APO using the requisition we created earlier in this method
@@ -311,7 +332,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
     public void testCreateAndRoutePotentialChangeDocument() throws Exception {
         //Need to create a requisition first to be used to create an APO
         RequisitionDocument req = RequisitionDocumentFixture.REQ_ALTERNATE_APO.createRequisitionDocument();
-        AccountingDocumentTestUtils.routeDocument(req, SpringContext.getBean(DocumentService.class));
+        routeRequisition(req);
         String docId = req.getDocumentNumber();
 
         //Create an APO using the requisition we created earlier in this method
@@ -319,7 +340,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         RequisitionDocument requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         String poDocId = requisitionDocument.getRelatedViews().getRelatedPurchaseOrderViews().get(0).getDocumentNumber();
         PurchaseOrderDocument purchaseOrderDocument = (PurchaseOrderDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(poDocId);
-        WorkflowTestUtils.waitForStatusChange(purchaseOrderDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+        WorkflowTestUtils.waitForDocumentApproval(purchaseOrderDocument.getDocumentNumber());
         //Test the status codes after invoking
         //the createAndRoutePotentialChangeDocument method.
         PurchaseOrderDocument newDocument = poService.createAndRoutePotentialChangeDocument(poDocId, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_VOID_DOCUMENT, "", null, PurchaseOrderStatuses.APPDOC_PENDING_VOID);
@@ -538,12 +559,12 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
     public void testCompletePurchaseOrder_B2B() throws Exception {
         RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_B2B_WITH_PO_VENDOR.createRequisitionDocument();
         final String docId = requisitionDocument.getDocumentNumber();
-        AccountingDocumentTestUtils.routeDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
+        routeRequisition(requisitionDocument);
         poService.createAutomaticPurchaseOrderDocument(requisitionDocument);
         requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         String poDocId = requisitionDocument.getRelatedViews().getRelatedPurchaseOrderViews().get(0).getDocumentNumber();
         PurchaseOrderDocument purchaseOrderDocument = (PurchaseOrderDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(poDocId);
-        WorkflowTestUtils.waitForStatusChange(purchaseOrderDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+        WorkflowTestUtils.waitForDocumentApproval(purchaseOrderDocument.getDocumentNumber());
         poService.completePurchaseOrder(purchaseOrderDocument);
         assertEquals(purchaseOrderDocument.getAppDocStatus(), PurchaseOrderStatuses.APPDOC_OPEN);
         assertTrue(purchaseOrderDocument.isPurchaseOrderCurrentIndicator());
@@ -574,9 +595,9 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         //Create and route a basic PO to Open status.
         PurchaseOrderDocument poDocument = PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS.createPurchaseOrderDocument();
         poDocument.prepareForSave();
-        assertFalse("R".equals(poDocument.getDocumentHeader().getWorkflowDocument().getStatus()));
-        AccountingDocumentTestUtils.routeDocument(poDocument, "test annotation", null, docService);
-        WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+        assertFalse(DocumentStatus.ENROUTE.equals(poDocument.getDocumentHeader().getWorkflowDocument().getStatus()));
+        routePurchaseOrder(poDocument);
+        WorkflowTestUtils.waitForDocumentApproval(poDocument.getDocumentNumber());
 
         assertTrue(poService.isPurchaseOrderOpenForProcessing(poDocument.getPurapDocumentIdentifier()));
 

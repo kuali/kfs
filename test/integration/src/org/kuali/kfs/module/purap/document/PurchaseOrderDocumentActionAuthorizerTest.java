@@ -94,7 +94,7 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
         poDocument.prepareForSave();
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         AccountingDocumentTestUtils.routeDocument(poDocument, "saving copy source document", null, documentService);
-        WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+        WorkflowTestUtils.waitForDocumentApproval(poDocument.getDocumentNumber());
         assertTrue("Document should now be final.", poDocument.getDocumentHeader().getWorkflowDocument().isFinal());
 
         PurchaseOrderService purchaseOrderService = SpringContext.getBean(PurchaseOrderService.class);
@@ -130,7 +130,7 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
         poDocument.prepareForSave();
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         AccountingDocumentTestUtils.routeDocument(poDocument, "saving copy source document", null, documentService);
-        WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+        WorkflowTestUtils.waitForDocumentApproval(poDocument.getDocumentNumber());
         assertTrue("Document should now be final.", poDocument.getDocumentHeader().getWorkflowDocument().isFinal());
 
         PurchaseOrderService purchaseOrderService = SpringContext.getBean(PurchaseOrderService.class);
@@ -165,7 +165,7 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
 //        DocumentService documentService = SpringContext.getBean(DocumentService.class);
 //        poDocument.prepareForSave();
 //        AccountingDocumentTestUtils.routeDocument(poDocument, "saving copy source document", null, documentService);
-//        WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), "F");
+//        WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
 //        assertTrue("Document should now be final.", poDocument.getDocumentHeader().getWorkflowDocument().isFinal());
 //
 //        PurchaseOrderDocumentActionAuthorizer auth = new PurchaseOrderDocumentActionAuthorizer(poDocument, editMode, documentActions);
@@ -205,7 +205,7 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
 //        poDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(dummyReqDocument.getAccountsPayablePurchasingDocumentLinkIdentifier());
 //        poDocument.prepareForSave();
 //        AccountingDocumentTestUtils.routeDocument(poDocument, "saving copy source document", null, documentService);
-//        WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), "F");
+//        WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
 //        changeCurrentUser(appleton);
 //        PaymentRequestDocument preq = PaymentRequestDocumentFixture.PREQ_FOR_PO_CLOSE_DOC.createPaymentRequestDocument();
 //        preq.setPurchaseOrderIdentifier(poDocument.getPurapDocumentIdentifier());

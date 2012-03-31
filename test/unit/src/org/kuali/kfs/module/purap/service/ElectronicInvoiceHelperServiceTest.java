@@ -193,9 +193,9 @@ public class ElectronicInvoiceHelperServiceTest extends KualiTestBase {
         }
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         poDocument.prepareForSave();
-        assertFalse("R".equals(poDocument.getDocumentHeader().getWorkflowDocument().getStatus()));
+        assertFalse(DocumentStatus.ENROUTE.equals(poDocument.getDocumentHeader().getWorkflowDocument().getStatus()));
         AccountingDocumentTestUtils.routeDocument(poDocument, "saving copy source document", null, documentService);
-        WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+        WorkflowTestUtils.waitForDocumentApproval(poDocument.getDocumentNumber());
         assertTrue("Document should now be final.", poDocument.getDocumentHeader().getWorkflowDocument().isFinal());
 
         return poDocument;

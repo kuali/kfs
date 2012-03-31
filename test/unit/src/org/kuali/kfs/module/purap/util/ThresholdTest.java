@@ -256,9 +256,9 @@ public class ThresholdTest extends KualiTestBase {
       String docId = poDocument.getDocumentNumber();
       DocumentService documentService = SpringContext.getBean(DocumentService.class);
       poDocument.prepareForSave();
-      assertFalse("R".equals(poDocument.getDocumentHeader().getWorkflowDocument().getStatus()));
+      assertFalse(DocumentStatus.ENROUTE.equals(poDocument.getDocumentHeader().getWorkflowDocument().getStatus()));
       AccountingDocumentTestUtils.routeDocument(poDocument, "saving copy source document", null, documentService);
-      WorkflowTestUtils.waitForStatusChange(poDocument.getDocumentHeader().getWorkflowDocument(), DocumentStatus.FINAL);
+      WorkflowTestUtils.waitForDocumentApproval(poDocument.getDocumentNumber());
 
       PurchaseOrderDocument result = (PurchaseOrderDocument) documentService.getByDocumentHeaderId(docId);
       return result;

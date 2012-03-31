@@ -48,9 +48,9 @@ public enum AccountingLineFixture {
     LINE18(null, "BL", "1031400", null, null, "5000", null, null, null, null, null, null, null, null, "1.10"),
 
     APO_LINE1(null, "BL", "0212007", null, null, "4000", null, null, null, null, null, null, null, GL_DEBIT_CODE, "995.00"), APO_LINE2(null, "BL", "0212007", null, null, "4000", null, null, null, null, null, null, null, GL_DEBIT_CODE, "120.00"), APO_LINE3(null, "BL", "0212008", null, null, "4000", null, null,  null, null, null, null, null, GL_DEBIT_CODE, "119.99"), APO_LINE4(null, "BL", "0212009", null, null, "4000", null, null, null, null, null, null, null, GL_DEBIT_CODE, "12.49"),
-    PURAP_LINE1(null, "BL", "1031400", null, null, "5000", null, null, null, null, null, null, null, null, "1000.00"),
-    PURAP_LINE2(null, "BL", "0212007", null, null, "5000", null, null, null, null, null, null, null, null, "1000.00"),
-    PURAP_LINE3(null, "BL", "2231401", null, null, "5000", null, null, null, null, null, null, null, null, "1000.00"),
+    PURAP_LINE1(null, "BL", "1031400", null, null, "5000", null, null, null, null, null, null, null, null, "1.00"),
+    PURAP_LINE2(null, "BL", "0212007", null, null, "5000", null, null, null, null, null, null, null, null, "1.00"),
+    PURAP_LINE3(null, "BL", "2231401", null, null, "5000", null, null, null, null, null, null, null, null, "1.00"),
     PURAP_PERFORMANCE_LINE(null, "BL", "1031497", null, null, "5000", null, null, null, null, null, null, null, null, "10.00"),
     PURAP_LINE_NEGATIVE_AMT(null, "BL", "2231401", null, null, "5000", null, null, null, null, null, null, null, null, "-56.00"),
     

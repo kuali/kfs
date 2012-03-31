@@ -268,7 +268,7 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
             event.setIterationSubject(item);
             valid &= validation.validate(event);
         }                
-        assertTrue(valid);
+        assertTrue("There should have been no validation errors: " + GlobalVariables.getMessageMap().getErrorMessages(), valid);
         GlobalVariables.getMessageMap().clearErrorMessages();
         TestUtils.setSystemParameter(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND, "Y");
         PurchaseOrderDocumentWithCommodityCodeFixture poFixture = PurchaseOrderDocumentWithCommodityCodeFixture.PO_VALID_ACTIVE_COMMODITY_CODE;
@@ -282,7 +282,7 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
             event.setIterationSubject(item);
             valid &= validation.validate(event);
         }                                
-        assertTrue(valid);
+        assertTrue("There should have been no validation errors: " + GlobalVariables.getMessageMap().getErrorMessages(), valid);
     }
     
     /**

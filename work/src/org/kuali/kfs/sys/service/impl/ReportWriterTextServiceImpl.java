@@ -97,6 +97,10 @@ public class ReportWriterTextServiceImpl implements ReportWriterService, Wrappin
     // For printing new headers when the BO is changed
     protected Class<? extends BusinessObject> businessObjectClass;
 
+    public ReportWriterTextServiceImpl() {
+        // TODO Auto-generated constructor stub
+    }
+    
     /**
      * @see org.kuali.kfs.sys.batch.service.WrappingBatchService#initialize()
      */

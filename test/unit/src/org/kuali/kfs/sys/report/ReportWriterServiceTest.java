@@ -29,11 +29,11 @@ import org.kuali.kfs.sys.service.ReportWriterService;
 
 @ConfigureContext
 public class ReportWriterServiceTest extends KualiTestBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReportWriterServiceTest.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReportWriterServiceTest.class);
     
-    private ReportWriterService tableReportWriterService;
-    private ReportWriterService colspanTableReportWriterService;
-    private ReportWriterService ledgerReportWriterService;
+    protected ReportWriterService tableReportWriterService;
+    protected ReportWriterService colspanTableReportWriterService;
+    protected ReportWriterService ledgerReportWriterService;
 
     @Override
     public void setUp() throws Exception {
@@ -95,7 +95,7 @@ public class ReportWriterServiceTest extends KualiTestBase {
         ledgerReportWriterService.writeTable(ledgerEntries, true, false);
     }
 
-    private List<LedgerEntryForReporting> getLedgerEntryTestData(int countOfData) {
+    protected List<LedgerEntryForReporting> getLedgerEntryTestData(int countOfData) {
         List<LedgerEntryForReporting> ledgerEntries = new ArrayList<LedgerEntryForReporting>();
         for(int i = 0; i < countOfData; i++) {
             LedgerEntryForReporting entry = new LedgerEntryForReporting();
@@ -110,7 +110,7 @@ public class ReportWriterServiceTest extends KualiTestBase {
         return ledgerEntries;
     }
 
-    private List<GlSummary> getTestData(int countOfData) {
+    protected List<GlSummary> getTestData(int countOfData) {
         List<GlSummary> summaryList = new ArrayList<GlSummary>();
         for(int i = 0; i < countOfData; i++) {
             GlSummary summary = new GlSummary();

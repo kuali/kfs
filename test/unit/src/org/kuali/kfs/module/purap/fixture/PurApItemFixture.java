@@ -27,13 +27,13 @@ public enum PurApItemFixture {
             "PCS", // itemUnitOfMeasureCode
             "", // itemCatalogNumber
             "description1", // itemDescription
-            new BigDecimal(1), // itemUnitPrice
+            new BigDecimal(1000), // itemUnitPrice
             "ITEM", // itemTypeCode
             "", // itemAuxiliaryPartIdentifier
             "", // externalOrganizationB2bProductReferenceNumber
             "", // externalOrganizationB2bProductTypeName
             false, // itemAssignedToTradeInIndicator
-            new KualiDecimal(1), // extendedPrice
+            new KualiDecimal(1000), // extendedPrice
             new KualiDecimal(1) // itemQuantity
     ), BASIC_QTY_ITEM_2(null, // itemIdentifier
             new Integer(2), // itemLineNumber

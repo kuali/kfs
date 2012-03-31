@@ -201,7 +201,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
             String documentHeaderId = document.getDocumentNumber();
             LOG.debug("documentHeaderId = " + documentHeaderId);
             // route the original doc, wait for status change
-            routeDocument(document, "saving errorCorrection source document", null, documentService);
+            blanketApproveDocument(document, "saving errorCorrection source document", null, documentService);
             if (!document.getDocumentHeader().getWorkflowDocument().isApproved()) {
                 DocumentWorkflowStatusMonitor routeMonitor = new DocumentWorkflowStatusMonitor(documentService, documentHeaderId, DocumentStatus.ENROUTE);
                 assertTrue("Document did not complete routing to the expected status (" + routeMonitor + ") within the time limit",ChangeMonitor.waitUntilChange(routeMonitor, ROUTE_STATUS_CHANGE_WAIT_TIME_SECONDS, ROUTE_STATUS_CHANGE_INITIAL_WAIT_TIME_SECONDS));
@@ -376,6 +376,17 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
         }
     }
 
+    // helper methods
+    public static void blanketApproveDocument(FinancialSystemTransactionalDocument document, String annotation, List<AdHocRouteRecipient> adHocRoutingRecipients, DocumentService documentService) throws WorkflowException {
+        try {
+            documentService.blanketApproveDocument(document, annotation, adHocRoutingRecipients);
+        }
+        catch (ValidationException e) {
+            // If the business rule evaluation fails then give us more info for debugging this test.
+            fail(e.getMessage() + ", " + GlobalVariables.getMessageMap());
+        }
+    }
+
     public static void approveDocument(AccountingDocument document, DocumentService documentService) throws Exception {
         Long initialVersion = document.getVersionNumber();
         Long nextVersion = new Long(initialVersion.longValue() + 1);
@@ -390,6 +401,15 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
         documentService.routeDocument(document, "routing test doc", null);
 
         DocumentWorkflowStatusMonitor am = new DocumentWorkflowStatusMonitor(documentService, document.getDocumentNumber(), DocumentStatus.ENROUTE);
+        assertTrue("Document did not complete routing to the expected status (" + am + ") within the time limit",ChangeMonitor.waitUntilChange(am, ROUTE_STATUS_CHANGE_WAIT_TIME_SECONDS, ROUTE_STATUS_CHANGE_INITIAL_WAIT_TIME_SECONDS));
+        assertEquals("Document not in correct state after routing", DocumentStatus.ENROUTE, document.getDocumentHeader().getWorkflowDocument().getStatus());
+    }
+
+    public static void blanketApproveDocument(AccountingDocument document, DocumentService documentService) throws Exception {
+        assertFalse("Document not in correct state before routing. Was: " + document.getDocumentHeader().getWorkflowDocument().getStatus(), DocumentStatus.ENROUTE.equals(document.getDocumentHeader().getWorkflowDocument().getStatus()));
+        documentService.blanketApproveDocument(document, "routing test doc", null);
+
+        DocumentWorkflowStatusMonitor am = new DocumentWorkflowStatusMonitor(documentService, document.getDocumentNumber(), new DocumentStatus[] { DocumentStatus.PROCESSED, DocumentStatus.FINAL } );
         assertTrue("Document did not complete routing to the expected status (" + am + ") within the time limit",ChangeMonitor.waitUntilChange(am, ROUTE_STATUS_CHANGE_WAIT_TIME_SECONDS, ROUTE_STATUS_CHANGE_INITIAL_WAIT_TIME_SECONDS));
         assertEquals("Document not in correct state after routing", DocumentStatus.ENROUTE, document.getDocumentHeader().getWorkflowDocument().getStatus());
     }

@@ -45,7 +45,9 @@ import org.springframework.util.ObjectUtils;
  * Base class for all FinancialSystemDocumentPresentationControllers.
  */
 public class FinancialSystemTransactionalDocumentPresentationControllerBase extends TransactionalDocumentPresentationControllerBase implements FinancialSystemTransactionalDocumentPresentationController {
-    private static Log LOG = LogFactory.getLog(FinancialSystemTransactionalDocumentPresentationControllerBase.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FinancialSystemTransactionalDocumentPresentationControllerBase.class);
+
+    private static BankService bankService;
 
     /**
      * Makes sure that the given document implements error correction, that error correction is turned on for the document in the
@@ -83,7 +85,7 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
             return false;
         }
 
-        return (workflowDocument.isApproved() || workflowDocument.isProcessed() || workflowDocument.isFinal());
+        return workflowDocument.isApproved();
     }
 
     protected boolean isApprovalDateWithinFiscalYear(WorkflowDocument workflowDocument) {
@@ -170,7 +172,6 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
         return false;
     }
 
-    private static BankService bankService;
 
     protected BankService getBankService() {
         if (bankService == null) {

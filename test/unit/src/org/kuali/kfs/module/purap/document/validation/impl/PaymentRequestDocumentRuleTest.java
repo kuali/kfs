@@ -254,7 +254,7 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
         document2.getDocumentHeader().setWorkflowDocument(workflowDocument);
         document2.setPaymentRequestPayDate(yesterday);
         assertTrue("Didn't change past pay date, so doucment should validate successfully.", validation.validate(new AttributedDocumentEventBase("","", document2)) );
-        assertTrue("Error map should be empty", GlobalVariables.getMessageMap().hasErrors());
+        assertTrue("Error map should be empty: " + GlobalVariables.getMessageMap().getErrorMessages(), GlobalVariables.getMessageMap().hasErrors());
 
         document2.setPaymentRequestPayDate(getDateFromOffsetFromToday(-2));
         assertFalse("changed past pay date to another past pay date, so document should fail.", validation.validate(new AttributedDocumentEventBase("","", document2)) );
@@ -263,7 +263,7 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
 
         document2.setPaymentRequestPayDate(getDateFromOffsetFromToday(3));
         assertTrue("Changed past pay date to future, so doucment should validate successfully.", validation.validate(new AttributedDocumentEventBase("","", document2)) );
-        assertTrue("Error map should be empty", GlobalVariables.getMessageMap().hasErrors());
+        assertTrue("Error map should be empty: " + GlobalVariables.getMessageMap().getErrorMessages(), GlobalVariables.getMessageMap().hasErrors());
 
     }
 
@@ -345,7 +345,7 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
         document2.getDocumentHeader().setWorkflowDocument(workflowDocument);
         document2.setPaymentRequestPayDate(tomorrow);
         assertTrue("Didn't change future pay date, so doucment should validate successfully.", validation.validate(new AttributedDocumentEventBase("","", document2)) );
-        assertTrue("Error map should be empty", GlobalVariables.getMessageMap().hasErrors());
+        assertTrue("Error map should be empty: " + GlobalVariables.getMessageMap().getErrorMessages(), GlobalVariables.getMessageMap().hasErrors());
 
         document2.setPaymentRequestPayDate(getDateFromOffsetFromToday(-2));
         assertFalse("changed future pay date to  past pay date, so document should fail.", validation.validate(new AttributedDocumentEventBase("","", document2)) );
@@ -354,7 +354,7 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
 
         document2.setPaymentRequestPayDate(getDateFromOffsetFromToday(3));
         assertTrue("Changed future pay date to another future date, so doucment should validate successfully.", validation.validate(new AttributedDocumentEventBase("","", document2)) );
-        assertTrue("Error map should be empty", GlobalVariables.getMessageMap().hasErrors());
+        assertTrue("Error map should be empty: " + GlobalVariables.getMessageMap().getErrorMessages(), GlobalVariables.getMessageMap().hasErrors());
     }
 
     public void testValidatePaymentRequestDates_Today() {

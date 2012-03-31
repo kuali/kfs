@@ -216,27 +216,27 @@ public class VendorRuleTest extends MaintenanceRuleTestBase {
         }
     }
 
-    public void testCheckAddressCountryEmptyStateZip_WithUSWithoutStatesWithoutZips() {
-        List<VendorAddress> addrList = VendorRuleAddressStateZipFixture.BOTH_US_WITHOUT_STATES_WITHOUT_ZIPS.populateAddresses();
-        VendorRule rule = (VendorRule) setupMaintDocRule(newVendor, VendorRule.class);
-        rule.refreshSubObjects(newVendor);
-        int i = 0;
-        for (VendorAddress address : addrList) {
-            i++;
-            assertFalse(rule.checkAddressCountryEmptyStateZip(address));
-        }
-    }
-
-    public void testCheckAddressCountryEmptyStateZip_WithUSWithEmptyStatesEmptyZips() {
-        List<VendorAddress> addrList = VendorRuleAddressStateZipFixture.BOTH_US_EMPTY_STATES_EMPTY_ZIPS.populateAddresses();
-        VendorRule rule = (VendorRule) setupMaintDocRule(newVendor, VendorRule.class);
-        rule.refreshSubObjects(newVendor);
-        int i = 0;
-        for (VendorAddress address : addrList) {
-            i++;
-            assertFalse(rule.checkAddressCountryEmptyStateZip(address));
-        }
-    }
+//    public void testCheckAddressCountryEmptyStateZip_WithUSWithoutStatesWithoutZips() {
+//        List<VendorAddress> addrList = VendorRuleAddressStateZipFixture.BOTH_US_WITHOUT_STATES_WITHOUT_ZIPS.populateAddresses();
+//        VendorRule rule = (VendorRule) setupMaintDocRule(newVendor, VendorRule.class);
+//        rule.refreshSubObjects(newVendor);
+//        int i = 0;
+//        for (VendorAddress address : addrList) {
+//            i++;
+//            assertFalse(rule.checkAddressCountryEmptyStateZip(address));
+//        }
+//    }
+//
+//    public void testCheckAddressCountryEmptyStateZip_WithUSWithEmptyStatesEmptyZips() {
+//        List<VendorAddress> addrList = VendorRuleAddressStateZipFixture.BOTH_US_EMPTY_STATES_EMPTY_ZIPS.populateAddresses();
+//        VendorRule rule = (VendorRule) setupMaintDocRule(newVendor, VendorRule.class);
+//        rule.refreshSubObjects(newVendor);
+//        int i = 0;
+//        for (VendorAddress address : addrList) {
+//            i++;
+//            assertFalse(rule.checkAddressCountryEmptyStateZip(address));
+//        }
+//    }
 
     public void testCheckAddressCountryEmptyStateZip_WithUSWithBothStatesWithOneZipOneNull() {
         List<VendorAddress> addrList = VendorRuleAddressStateZipFixture.BOTH_US_BOTH_STATES_ONE_ZIP_ONE_NULL.populateAddresses();
@@ -268,38 +268,38 @@ public class VendorRuleTest extends MaintenanceRuleTestBase {
         }
     }
 
-    public void testCheckAddressCountryEmptyStateZip_WithoutUSBothStatesWithoutZips() {
-        List<VendorAddress> addrList = VendorRuleAddressStateZipFixture.WITHOUT_US_BOTH_STATES_WITHOUT_ZIPS.populateAddresses();
-        VendorRule rule = (VendorRule) setupMaintDocRule(newVendor, VendorRule.class);
-        rule.refreshSubObjects(newVendor);
-        int i = 0;
-        for (VendorAddress address : addrList) {
-            i++;
-            assertTrue(rule.checkAddressCountryEmptyStateZip(address));
-        }
-    }
-
-    public void testCheckAddressCountryEmptyStateZip_WithoutUSBothStatesWithEmptyZips() {
-        List<VendorAddress> addrList = VendorRuleAddressStateZipFixture.WITHOUT_US_BOTH_STATES_EMPTY_ZIPS.populateAddresses();
-        VendorRule rule = (VendorRule) setupMaintDocRule(newVendor, VendorRule.class);
-        rule.refreshSubObjects(newVendor);
-        int i = 0;
-        for (VendorAddress address : addrList) {
-            i++;
-            assertTrue(rule.checkAddressCountryEmptyStateZip(address));
-        }
-    }
-
-    public void testCheckAddressCountryEmptyStateZip_WithoutUSBothStatesWithBothZips() {
-        List<VendorAddress> addrList = VendorRuleAddressStateZipFixture.WITHOUT_US_BOTH_STATES_BOTH_ZIPS.populateAddresses();
-        VendorRule rule = (VendorRule) setupMaintDocRule(newVendor, VendorRule.class);
-        rule.refreshSubObjects(newVendor);
-        int i = 0;
-        for (VendorAddress address : addrList) {
-            i++;
-            assertTrue(rule.checkAddressCountryEmptyStateZip(address));
-        }
-    }
+//    public void testCheckAddressCountryEmptyStateZip_WithoutUSBothStatesWithoutZips() {
+//        List<VendorAddress> addrList = VendorRuleAddressStateZipFixture.WITHOUT_US_BOTH_STATES_WITHOUT_ZIPS.populateAddresses();
+//        VendorRule rule = (VendorRule) setupMaintDocRule(newVendor, VendorRule.class);
+//        rule.refreshSubObjects(newVendor);
+//        int i = 0;
+//        for (VendorAddress address : addrList) {
+//            i++;
+//            assertTrue(rule.checkAddressCountryEmptyStateZip(address));
+//        }
+//    }
+//
+//    public void testCheckAddressCountryEmptyStateZip_WithoutUSBothStatesWithEmptyZips() {
+//        List<VendorAddress> addrList = VendorRuleAddressStateZipFixture.WITHOUT_US_BOTH_STATES_EMPTY_ZIPS.populateAddresses();
+//        VendorRule rule = (VendorRule) setupMaintDocRule(newVendor, VendorRule.class);
+//        rule.refreshSubObjects(newVendor);
+//        int i = 0;
+//        for (VendorAddress address : addrList) {
+//            i++;
+//            assertTrue(rule.checkAddressCountryEmptyStateZip(address));
+//        }
+//    }
+//
+//    public void testCheckAddressCountryEmptyStateZip_WithoutUSBothStatesWithBothZips() {
+//        List<VendorAddress> addrList = VendorRuleAddressStateZipFixture.WITHOUT_US_BOTH_STATES_BOTH_ZIPS.populateAddresses();
+//        VendorRule rule = (VendorRule) setupMaintDocRule(newVendor, VendorRule.class);
+//        rule.refreshSubObjects(newVendor);
+//        int i = 0;
+//        for (VendorAddress address : addrList) {
+//            i++;
+//            assertTrue(rule.checkAddressCountryEmptyStateZip(address));
+//        }
+//    }
 
     /*
      * TESTS OF CheckFaxNumber

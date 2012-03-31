@@ -30,8 +30,15 @@ import org.kuali.rice.location.framework.state.StateEbo;
 
 public enum VendorRuleAddressStateZipFixture {
 
-    BOTH_US_BOTH_STATES_BOTH_ZIPS(KFSConstants.COUNTRY_CODE_UNITED_STATES, StatesZips.stateCd, StatesZips.zipCode, KFSConstants.COUNTRY_CODE_UNITED_STATES, StatesZips.stateCd, StatesZips.zipCode), BOTH_US_WITHOUT_STATES_WITHOUT_ZIPS(KFSConstants.COUNTRY_CODE_UNITED_STATES, null, null, KFSConstants.COUNTRY_CODE_UNITED_STATES, null, null), BOTH_US_EMPTY_STATES_EMPTY_ZIPS(KFSConstants.COUNTRY_CODE_UNITED_STATES, "", "", KFSConstants.COUNTRY_CODE_UNITED_STATES, "", ""), BOTH_US_BOTH_STATES_ONE_ZIP_ONE_NULL(KFSConstants.COUNTRY_CODE_UNITED_STATES, StatesZips.stateCd, StatesZips.zipCode, KFSConstants.COUNTRY_CODE_UNITED_STATES, StatesZips.stateCd, null), BOTH_US_BOTH_STATES_ONE_ZIP_ONE_EMPTY(KFSConstants.COUNTRY_CODE_UNITED_STATES, StatesZips.stateCd, StatesZips.zipCode, KFSConstants.COUNTRY_CODE_UNITED_STATES, StatesZips.stateCd, ""), WITHOUT_US_BOTH_STATES_WITHOUT_ZIPS("", StatesZips.stateCd, null, "", StatesZips.stateCd, null), WITHOUT_US_BOTH_STATES_EMPTY_ZIPS("", StatesZips.stateCd,
-            "", "", StatesZips.stateCd, ""), WITHOUT_US_BOTH_STATES_BOTH_ZIPS("", StatesZips.stateCd, StatesZips.zipCode, "", StatesZips.stateCd, StatesZips.zipCode), ;
+    BOTH_US_BOTH_STATES_BOTH_ZIPS(KFSConstants.COUNTRY_CODE_UNITED_STATES, StatesZips.stateCd, StatesZips.zipCode, KFSConstants.COUNTRY_CODE_UNITED_STATES, StatesZips.stateCd, StatesZips.zipCode)
+//    , BOTH_US_WITHOUT_STATES_WITHOUT_ZIPS(KFSConstants.COUNTRY_CODE_UNITED_STATES, null, null, KFSConstants.COUNTRY_CODE_UNITED_STATES, null, null)
+//    , BOTH_US_EMPTY_STATES_EMPTY_ZIPS(KFSConstants.COUNTRY_CODE_UNITED_STATES, "", "", KFSConstants.COUNTRY_CODE_UNITED_STATES, "", "")
+    , BOTH_US_BOTH_STATES_ONE_ZIP_ONE_NULL(KFSConstants.COUNTRY_CODE_UNITED_STATES, StatesZips.stateCd, StatesZips.zipCode, KFSConstants.COUNTRY_CODE_UNITED_STATES, StatesZips.stateCd, null)
+    , BOTH_US_BOTH_STATES_ONE_ZIP_ONE_EMPTY(KFSConstants.COUNTRY_CODE_UNITED_STATES, StatesZips.stateCd, StatesZips.zipCode, KFSConstants.COUNTRY_CODE_UNITED_STATES, StatesZips.stateCd, "")
+//    , WITHOUT_US_BOTH_STATES_WITHOUT_ZIPS("", StatesZips.stateCd, null, "", StatesZips.stateCd, null) 
+//    , WITHOUT_US_BOTH_STATES_EMPTY_ZIPS("", StatesZips.stateCd, "", "", StatesZips.stateCd, "") 
+//    , WITHOUT_US_BOTH_STATES_BOTH_ZIPS("", StatesZips.stateCd, StatesZips.zipCode, "", StatesZips.stateCd, StatesZips.zipCode), 
+    ;
 
     // Country and State were moved from KFS, so any module cannot instantiate a country or state object directly
     private KualiModuleService kualiModuleService = SpringContext.getBean(KualiModuleService.class);

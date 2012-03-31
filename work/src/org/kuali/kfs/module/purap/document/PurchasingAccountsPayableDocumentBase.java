@@ -860,8 +860,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     @Override
     public String getAppDocStatus(){
         WorkflowDocument document = getWorkflowDocument();
-
-        return document.getApplicationDocumentStatus();
+        return StringUtils.trimToEmpty(document.getApplicationDocumentStatus());
     }
 
     @Override
@@ -892,7 +891,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
             workflowDocument = SpringContext.getBean(WorkflowDocumentService.class).loadWorkflowDocument(getDocumentNumber(), GlobalVariables.getUserSession().getPerson());
         }
         catch (WorkflowException we) {
-            throw new RuntimeException(we);
+            throw new RuntimeException("Unable to load a WorkflowDocument object for " + getDocumentNumber(), we);
         }
 
         return workflowDocument;

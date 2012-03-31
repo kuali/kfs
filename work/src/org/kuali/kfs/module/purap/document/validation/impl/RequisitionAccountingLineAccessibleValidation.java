@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionStatuses;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
@@ -36,7 +37,7 @@ public class RequisitionAccountingLineAccessibleValidation extends PurchasingAcc
         //to be removed
        //remove (requisitionDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.CONTENT_REVIEW) - kfsmi-4592
         if (requisitionDocument.isDocumentStoppedInRouteNode(RequisitionStatuses.NODE_CONTENT_REVIEW) ||                
-            requisitionDocument.getAppDocStatus().equals(PurapConstants.RequisitionStatuses.APPDOC_IN_PROCESS)) {
+            StringUtils.equals( requisitionDocument.getAppDocStatus(), PurapConstants.RequisitionStatuses.APPDOC_IN_PROCESS) ) {
             // DO NOTHING: do not check that user owns acct lines; at this level, approvers can edit all detail on REQ
 
             return true;

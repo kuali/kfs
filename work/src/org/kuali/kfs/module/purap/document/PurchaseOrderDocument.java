@@ -247,7 +247,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
             routeLevel = nodeNames.iterator().next();
         }
 
-            if (getAppDocStatus().equals(PurchaseOrderStatuses.APPDOC_OPEN)) {
+        if ( StringUtils.equals( getAppDocStatus(), PurchaseOrderStatuses.APPDOC_OPEN)) {
             documentTitle = super.getDocumentTitle();
         }
             else if (routeLevel.equals(PurchaseOrderStatuses.NODE_BUDGET_OFFICE_REVIEW) || routeLevel.equals(PurchaseOrderStatuses.NODE_CONTRACTS_AND_GRANTS_REVIEW)) {

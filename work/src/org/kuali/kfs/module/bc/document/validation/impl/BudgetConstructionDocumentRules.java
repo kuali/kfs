@@ -61,6 +61,7 @@ import org.kuali.kfs.sys.document.service.AccountingLineRuleHelperService;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.core.api.util.type.TypeUtils;
 import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.datadictionary.DataDictionary;
 import org.kuali.rice.krad.document.Document;
@@ -111,7 +112,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
 
         // validate primitives for required field and formatting checks
         int originalErrorCount = errors.getErrorCount();
-        getDictionaryValidationService().validateBusinessObject(budgetConstructionDocument);
+        SpringContext.getBean(DictionaryValidationService.class).validateBusinessObject(budgetConstructionDocument);
 
         // check to see if any errors were reported
         int currentErrorCount = errors.getErrorCount();
@@ -260,7 +261,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         int originalErrorCount = errors.getErrorCount();
 
         // validate primitives for required field and formatting checks
-        getDictionaryValidationService().validateBusinessObject(pendingBudgetConstructionGeneralLedger);
+        SpringContext.getBean(DictionaryValidationService.class).validateBusinessObject(pendingBudgetConstructionGeneralLedger);
 
         // check to see if any errors were reported
         int currentErrorCount = errors.getErrorCount();
@@ -370,7 +371,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
         int originalErrorCount = errors.getErrorCount();
 
         // validate primitives for required field and formatting checks
-        getDictionaryValidationService().validateBusinessObject(budgetConstructionMonthly);
+        SpringContext.getBean(DictionaryValidationService.class).validateBusinessObject(budgetConstructionMonthly);
 
         // check to see if any errors were reported
         int currentErrorCount = errors.getErrorCount();
@@ -735,10 +736,10 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
                 // check value format against dictionary
                 if (value != null && StringUtils.isNotBlank(value.toString())) {
                     if (!TypeUtils.isTemporalClass(propertyType)) {
-                        getDictionaryValidationService().validate( object, entryName, propertyDescriptor.getName(), false);
+                        SpringContext.getBean(DictionaryValidationService.class).validate( object, entryName, propertyDescriptor.getName(), false);
                     }
                 } else if (validateRequired) {
-                    getDictionaryValidationService().validate( object, entryName, propertyDescriptor.getName(), true);
+                    SpringContext.getBean(DictionaryValidationService.class).validate( object, entryName, propertyDescriptor.getName(), true);
                 }
             }
         }
@@ -935,7 +936,7 @@ public class BudgetConstructionDocumentRules extends TransactionalDocumentRuleBa
             searchCriteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, budgetConstructionDocument.getChartOfAccountsCode());
             searchCriteria.put(KFSPropertyConstants.ACCOUNT_NUMBER, budgetConstructionDocument.getAccountNumber());
             searchCriteria.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, budgetConstructionDocument.getSubAccountNumber());
-            A21SubAccount a21SubAccount = (A21SubAccount) businessObjectService.findByPrimaryKey(A21SubAccount.class, searchCriteria);
+            A21SubAccount a21SubAccount = businessObjectService.findByPrimaryKey(A21SubAccount.class, searchCriteria);
             if (ObjectUtils.isNotNull(a21SubAccount)) {
                 if (a21SubAccount.getSubAccountTypeCode().equalsIgnoreCase(KFSConstants.SubAccountType.COST_SHARE)) {
                     isAllowed = false;

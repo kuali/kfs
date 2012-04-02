@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -43,16 +43,16 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.DataDictionaryService;
-import org.kuali.rice.krad.service.DictionaryValidationService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.location.api.campus.CampusService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * 
+ *
  * This is the default implementation of the CashReceiptService interface.
  */
 @Transactional
@@ -67,7 +67,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
     /**
      * This method verifies the campus code provided exists.  This is done by retrieving all the available campuses from
      * the BusinessObjectService and then looking for a matching campus code within the result set.
-     * 
+     *
      * @param campusCode The campus code to be verified.
      * @return True if the campus code provided is valid and exists, false otherwise.
      */
@@ -79,12 +79,13 @@ public class CashReceiptServiceImpl implements CashReceiptService {
     /**
      * This method retrieves the cash receipt verification unit based on the user provided.  This is done by retrieving the campus
      * code associated with the user provided and then performing the lookup using this campus code.
-     * 
+     *
      * @param user The user to be used to retrieve the verification unit.
      * @return The cash receipt verification unit associated with the user provided.
-     * 
+     *
      * @see org.kuali.kfs.fp.document.service.CashReceiptService#getCashReceiptVerificationUnit(org.kuali.rice.krad.bo.user.KualiUser)
      */
+    @Override
     public String getCashReceiptVerificationUnitForUser(Person user) {
         String unitName = null;
 
@@ -97,15 +98,16 @@ public class CashReceiptServiceImpl implements CashReceiptService {
 
 
     /**
-     * This method retrieves a collection of cash receipts using the verification unit and the status provided to 
-     * retrieve the cash receipts.  
-     * 
+     * This method retrieves a collection of cash receipts using the verification unit and the status provided to
+     * retrieve the cash receipts.
+     *
      * @param verificationUnit The verification unit used to retrieve a collection of associated cash receipts.
-     * @param statusCode The status code of the cash receipts to be retrieved.  
+     * @param statusCode The status code of the cash receipts to be retrieved.
      * @return A collection of cash receipt documents which match the search criteria provided.
-     * 
+     *
      * @see org.kuali.kfs.fp.document.service.CashReceiptService#getCashReceipts(java.lang.String, java.lang.String)
      */
+    @Override
     public List getCashReceipts(String verificationUnit, String statusCode) {
         if (StringUtils.isBlank(statusCode)) {
             throw new IllegalArgumentException("invalid (blank) statusCode");
@@ -116,15 +118,16 @@ public class CashReceiptServiceImpl implements CashReceiptService {
     }
 
     /**
-     * This method retrieves a collection of cash receipts using the verification unit and the statuses provided to 
-     * retrieve the cash receipts.  
-     * 
+     * This method retrieves a collection of cash receipts using the verification unit and the statuses provided to
+     * retrieve the cash receipts.
+     *
      * @param verificationUnit The verification unit used to retrieve a collection of associated cash receipts.
      * @param statii A collection of possible statuses that will be used in the lookup of cash receipts.
      * @return A collection of cash receipt documents which match the search criteria provided.
-     * 
+     *
      * @see org.kuali.kfs.fp.document.service.CashReceiptService#getCashReceipts(java.lang.String, java.lang.String[])
      */
+    @Override
     public List getCashReceipts(String verificationUnit, String[] statii) {
         if (StringUtils.isBlank(verificationUnit)) {
             throw new IllegalArgumentException("invalid (blank) verificationUnit");
@@ -149,9 +152,9 @@ public class CashReceiptServiceImpl implements CashReceiptService {
     }
 
     /**
-     * This method retrieves a populated collection of cash receipts using the lookup parameters provided.  A populated 
+     * This method retrieves a populated collection of cash receipts using the lookup parameters provided.  A populated
      * cash receipt document is a cash receipt document with fully populated workflow fields.
-     * 
+     *
      * @param verificationUnit The verification unit used to retrieve a collection of associated cash receipts.
      * @param statii A collection of possible statuses that will be used in the lookup of the cash receipts.
      * @return List of CashReceiptDocument instances with their associated workflowDocuments populated.
@@ -169,7 +172,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
 
     /**
      * This method builds out a map of search criteria for performing cash receipt lookups using the values provided.
-     * 
+     *
      * @param campusCode The campus code to use as search criteria for looking up cash receipts.
      * @param statii A collection of possible statuses to use as search criteria for looking up cash receipts.
      * @return The search criteria provided in a map with CashReceiptConstants used as keys to the parameters given.
@@ -192,7 +195,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
 
     /**
      * This method populates the workflowDocument field of each CashReceiptDocument in the given List
-     * 
+     *
      * @param documents A collection of CashReceiptDocuments to be populated with workflow document data.
      */
     protected void populateWorkflowFields(List documents) {
@@ -206,13 +209,14 @@ public class CashReceiptServiceImpl implements CashReceiptService {
     }
 
     /**
-     * This method retrieves the cash details from the cash receipt document provided and adds those details to the 
+     * This method retrieves the cash details from the cash receipt document provided and adds those details to the
      * associated cash drawer.  After the details are added to the drawer, the drawer is persisted to the database.
-     * 
+     *
      * @param crDoc The cash receipt document the cash details will be retrieved from.
-     * 
+     *
      * @see org.kuali.kfs.fp.document.service.CashReceiptService#addCashDetailsToCashDrawer(org.kuali.kfs.fp.document.CashReceiptDocument)
      */
+    @Override
     public void addCashDetailsToCashDrawer(CashReceiptDocument crDoc) {
         CashDrawer drawer = retrieveCashDrawer(crDoc);
         // we need to to add the currency and coin to the cash management doc's cumulative CR as well
@@ -221,7 +225,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
             cumulativeCurrencyDetail.add(crDoc.getConfirmedCurrencyDetail());
             cumulativeCurrencyDetail.subtract(crDoc.getChangeCurrencyDetail());
             businessObjectService.save(cumulativeCurrencyDetail);
-            
+
             drawer.addCurrency(crDoc.getConfirmedCurrencyDetail());
             drawer.removeCurrency(crDoc.getChangeCurrencyDetail());
         }
@@ -230,16 +234,16 @@ public class CashReceiptServiceImpl implements CashReceiptService {
             cumulativeCoinDetail.add(crDoc.getConfirmedCoinDetail());
             cumulativeCoinDetail.subtract(crDoc.getChangeCoinDetail());
             businessObjectService.save(cumulativeCoinDetail);
-            
+
             drawer.addCoin(crDoc.getConfirmedCoinDetail());
             drawer.removeCoin(crDoc.getChangeCoinDetail());
         }
         businessObjectService.save(drawer);
     }
-    
+
     /**
      * This method finds the appropriate cash drawer for this cash receipt document to add cash to.
-     * 
+     *
      * @param crDoc The document the cash drawer will be retrieved from.
      * @return An instance of a cash drawer associated with the cash receipt document provided.
      */
@@ -248,17 +252,18 @@ public class CashReceiptServiceImpl implements CashReceiptService {
         if (campusCode == null) {
             throw new RuntimeException("Cannot find workgroup name for Cash Receipt document: "+crDoc.getDocumentNumber());
         }
-        
+
         CashDrawer drawer = cashDrawerService.getByCampusCode(campusCode);
         if (drawer == null) {
             throw new RuntimeException("There is no Cash Drawer for Workgroup "+campusCode);
         }
         return drawer;
     }
-    
+
     /**
      * @see org.kuali.module.financial.service.CashReceiptTotalsVerificationService#areCashTotalsInvalid(org.kuali.kfs.fp.document.CashReceiptDocument)
      */
+    @Override
     public boolean areCashTotalsInvalid(CashReceiptDocument cashReceiptDocument) {
         String documentEntryName = cashReceiptDocument.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
 
@@ -273,7 +278,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
 
     /**
      * Puts an error message in the error map for that property if the amount is negative.
-     * 
+     *
      * @param cashReceiptDocument submitted cash receipt document
      * @param totalAmount total amount (cash total, check total, etc)
      * @param documentEntryName document type

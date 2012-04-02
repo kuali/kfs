@@ -27,13 +27,13 @@ import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeader
 import org.kuali.kfs.module.ar.document.service.CashControlDocumentService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.DocumentTestUtils;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -43,20 +43,20 @@ import org.kuali.rice.krad.util.GlobalVariables;
 @ConfigureContext(session = khuntley)
 public class CashControlDocumentRuleTest extends KualiTestBase {
 
-    private CashControlDocumentRule rule;
-    private CashControlDocument document;
-    private DocumentService documentService;
-    private CashControlDocumentService cashControlDocumentService;
-    private AccountsReceivableDocumentHeaderService arDocHeaderService;
-    private PaymentApplicationDocument appDoc;
+    protected CashControlDocumentRule rule;
+    protected CashControlDocument document;
+    protected DocumentService documentService;
+    protected CashControlDocumentService cashControlDocumentService;
+    protected AccountsReceivableDocumentHeaderService arDocHeaderService;
+    protected PaymentApplicationDocument appDoc;
 
-    private static final KualiDecimal ZERO_AMOUNT = new KualiDecimal(0);
-    private static final KualiDecimal NEGATIVE_AMOUNT = new KualiDecimal(-1);
-    private static final KualiDecimal POSITIVE_AMOUNT = new KualiDecimal(2);
+    protected static final KualiDecimal ZERO_AMOUNT = KualiDecimal.ZERO;
+    protected static final KualiDecimal NEGATIVE_AMOUNT = new KualiDecimal(-1);
+    protected static final KualiDecimal POSITIVE_AMOUNT = new KualiDecimal(2);
 
     // any value that does not represent a valid payment medium code
-    private static final String CUSTOMER_PAYMENT_MEDIUM_NOT_VALID_CODE = "MEH";
-    private static final String REFERENCE_DOCUMENT_NUMBER = "123456";
+    protected static final String CUSTOMER_PAYMENT_MEDIUM_NOT_VALID_CODE = "MEH";
+    protected static final String REFERENCE_DOCUMENT_NUMBER = "123456";
 
     @Override
     protected void setUp() throws Exception {
@@ -77,16 +77,21 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
         super.tearDown();
     }
 
-    private CashControlDocument createCashControlDocument() throws WorkflowException {
+    protected CashControlDocument createCashControlDocument() throws WorkflowException {
 
         CashControlDocument doc = (CashControlDocument) documentService.getNewDocument(CashControlDocument.class);
         doc.getDocumentHeader().setDocumentDescription("This is a test document.");
+        doc.setCustomerPaymentMediumCode("CK");
 
         AccountsReceivableDocumentHeader arDocHeader = arDocHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
         arDocHeader.setDocumentNumber(doc.getDocumentNumber());
         doc.setAccountsReceivableDocumentHeader(arDocHeader);
 
-        documentService.saveDocument(doc);
+        try {
+            documentService.saveDocument(doc);
+        } catch ( ValidationException ex ) {
+            fail( "Unable to save document - failed validation: \n" + dumpMessageMapErrors() + "\nDocument: " + doc);
+        }
 
         return doc;
     }
@@ -128,35 +133,35 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
         assertFalse(rule.validateCashControlDetails(document));
     }
 
-    /**
-     * This method tests that checkAllAppDocsApproved returns true when all application document are approved
-     */
-    public void testCheckAllAppDocsApproved_True() throws WorkflowException {
+//    /**
+//     * This method tests that checkAllAppDocsApproved returns true when all application document are approved
+//     */
+//    public void testCheckAllAppDocsApproved_True() throws WorkflowException {
+//
+//        CashControlDetail detail1 = new CashControlDetail();
+//        detail1.setFinancialDocumentLineAmount(POSITIVE_AMOUNT);
+//
+//        cashControlDocumentService.addNewCashControlDetail("desc", document, detail1);
+//        // get the first application document from the details as it is the only one we have added
+//        PaymentApplicationDocument applicationDocument = document.getCashControlDetail(0).getReferenceFinancialDocument();
+//        // mock a fully approved payment application document
+//        applicationDocument.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
+//
+//    }
 
-        CashControlDetail detail1 = new CashControlDetail();
-        detail1.setFinancialDocumentLineAmount(POSITIVE_AMOUNT);
-
-        cashControlDocumentService.addNewCashControlDetail("desc", document, detail1);
-        // get the first application document from the details as it is the only one we have added
-        PaymentApplicationDocument applicationDocument = document.getCashControlDetail(0).getReferenceFinancialDocument();
-        // mock a fully approved payment application document
-        applicationDocument.getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
-
-    }
-
-    /**
-     * This method tests that checkAllAppDocsApproved rule returns false when at least one application document is in other state
-     * than approved
-     */
-    public void testCheckAllAppDocsApproved_False() throws WorkflowException {
-
-        CashControlDetail detail1 = new CashControlDetail();
-        detail1.setFinancialDocumentLineAmount(POSITIVE_AMOUNT);
-
-        CashControlDocumentService cashControlDocumentService = SpringContext.getBean(CashControlDocumentService.class);
-        cashControlDocumentService.addNewCashControlDetail("desc", document, detail1);
-
-    }
+//    /**
+//     * This method tests that checkAllAppDocsApproved rule returns false when at least one application document is in other state
+//     * than approved
+//     */
+//    public void testCheckAllAppDocsApproved_False() throws WorkflowException {
+//
+//        CashControlDetail detail1 = new CashControlDetail();
+//        detail1.setFinancialDocumentLineAmount(POSITIVE_AMOUNT);
+//
+//        CashControlDocumentService cashControlDocumentService = SpringContext.getBean(CashControlDocumentService.class);
+//        cashControlDocumentService.addNewCashControlDetail("desc", document, detail1);
+//
+//    }
 
     /**
      * This method tests that checkGLPEsCreated rule returns true when glpes are not null
@@ -168,7 +173,7 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
         documentService.saveDocument(tempDocument);
         document.getGeneralLedgerPendingEntries().add(tempEntry);
 
-        assertTrue(rule.checkGLPEsCreated(document));
+        assertTrue("GLPE's should have been created: " + dumpMessageMapErrors(),rule.checkGLPEsCreated(document));
     }
 
     /**
@@ -178,7 +183,7 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
 
         document.setGeneralLedgerPendingEntries(null);
 
-        assertFalse(rule.checkGLPEsCreated(document));
+        assertFalse("GLPE's should not have been created", rule.checkGLPEsCreated(document));
     }
 
     /**
@@ -188,7 +193,7 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
 
         document.setCustomerPaymentMediumCode(ArConstants.PaymentMediumCode.CASH);
 
-        assertTrue(rule.checkPaymentMedium(document));
+        assertTrue("Business Rules should not have failed: " + dumpMessageMapErrors(), rule.checkPaymentMedium(document));
     }
 
     /**
@@ -223,7 +228,7 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
         document.setCustomerPaymentMediumCode(ArConstants.PaymentMediumCode.CASH);
         document.setReferenceFinancialDocumentNumber(tempDoc.getDocumentNumber());
 
-        assertTrue(rule.checkRefDocNumber(document));
+        assertTrue("Business Rules should not have failed: " + dumpMessageMapErrors(),rule.checkRefDocNumber(document));
     }
 
     /**
@@ -245,7 +250,7 @@ public class CashControlDocumentRuleTest extends KualiTestBase {
 
         document.setGeneralLedgerPendingEntries(null);
 
-        assertTrue(rule.checkGLPEsNotGenerated(document));
+        assertTrue("Business Rules should not have failed: " + dumpMessageMapErrors(), rule.checkGLPEsNotGenerated(document));
 
     }
 

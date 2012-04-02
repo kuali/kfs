@@ -171,6 +171,9 @@
 		<addColumn tableName="CM_AST_RPR_HIST_T">
 			<column name="ACTV_IND" type="VARCHAR2(1)" defaultValue="Y" />
 		</addColumn>
+		<modifySql dbms='mysql'>
+			<replace replace='VARCHAR2' with='VARCHAR' />
+		</modifySql>
 	</changeSet>
 
 </databaseChangeLog>

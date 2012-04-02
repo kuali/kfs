@@ -32,6 +32,10 @@
 			<column name="ACH_ELGBL_IND" value="Y"/>
 			<where>PAYEE_TYP_CD in ('E','V', 'T')</where>
 		</update>
+		<modifySql dbms='mysql'>
+			<replace replace='VARCHAR2' with='VARCHAR' />
+		</modifySql>
+
 	</changeSet>
 
 </databaseChangeLog>

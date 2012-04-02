@@ -161,6 +161,11 @@
 			<column name="LST_UPDT_TS" type="DATE"/>
 			<column name="LST_UPDT_PRNCPL_NM" type="VARCHAR2(100)"/>
 		</createTable>
+		<modifySql dbms='mysql'>
+			<replace replace='VARCHAR2' with='VARCHAR' />
+			<replace replace='NUMBER' with='DECIMAL' />
+		</modifySql>
+
 	</changeSet>
 
 </databaseChangeLog>

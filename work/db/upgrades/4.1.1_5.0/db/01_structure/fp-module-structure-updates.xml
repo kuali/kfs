@@ -334,18 +334,28 @@
             <column name="PROJECT_CD" type="VARCHAR2(10)" />
             <column name="ROW_ACTV_IND" type="VARCHAR2(1)" />
         </createTable>
+		<modifySql dbms='mysql'>
+			<replace replace='VARCHAR2' with='VARCHAR' />
+			<replace replace='NUMBER' with='DECIMAL' />
+		</modifySql>		
 	</changeSet>
 
 	<changeSet author="jksmith" id="KFSMI307_STRUCTURE_CHANGES">
 		<addColumn tableName="FP_DV_DOC_T">
 			<column name="IMD_PMT_IND" type="VARCHAR2(1)" defaultValue="N"/>
 		</addColumn>
+		<modifySql dbms='mysql'>
+			<replace replace='VARCHAR2' with='VARCHAR' />
+		</modifySql>		
 	</changeSet>
 	
 	<changeSet author="kekanaya" id="KFSMI4123_STRUCTURE_CHANGES">
 		<addColumn tableName="FP_CASH_RCPT_DOC_T">
 			<column name="FDOC_BNK_CD" type="VARCHAR2(4)"/>
 		</addColumn>
+		<modifySql dbms='mysql'>
+			<replace replace='VARCHAR2' with='VARCHAR' />
+		</modifySql>		
 	</changeSet>
 
 	<changeSet author="jksmith" id="KFSMI6965_PCDO_ACCT_LINES_DESC">
@@ -353,7 +363,22 @@
 		<addColumn tableName="FP_PRCRMNT_ACCT_LINES_T">
 			<column name="FDOC_LINE_DESC" type="VARCHAR2(40)" />
 		</addColumn>
+		<modifySql dbms='mysql'>
+			<replace replace='VARCHAR2' with='VARCHAR' />
+		</modifySql>		
 	</changeSet>
 	
+	<changeSet author="KFS50" id="KFSMI7666_ACCTG_CTGRY_CD">
+		<comment>Add ACCTG_CTGRY_CD to balance consolidaiton temp tables</comment>
+		<addColumn tableName="FP_INTERIM2_CONS_MT">
+			<column name="ACCTG_CTGRY_CD" type="VARCHAR2(2)" />
+		</addColumn>
+		<addColumn tableName="FP_BAL_BY_CONS_MT">
+			<column name="ACCTG_CTGRY_CD" type="VARCHAR2(2)" />
+		</addColumn>
+		<modifySql dbms='mysql'>
+			<replace replace='VARCHAR2' with='VARCHAR' />
+		</modifySql>		
+	</changeSet>
 
 </databaseChangeLog>

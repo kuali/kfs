@@ -47,8 +47,8 @@ public class BudgetConstructionProcessorServiceImpl implements BudgetConstructio
      */
     public List<Organization> getProcessorOrgs(Person person) {
         List<Organization> processorOrgs = new ArrayList<Organization>();
-
-        List<Map<String,String>> allQualifications = getRoleService().getNestedRoleQualifersForPrincipalByNamespaceAndRolename(person.getPrincipalId(), BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimApiConstants.BC_PROCESSOR_ROLE_NAME, null);
+        Map<String, String> qualification = new HashMap<String,String>();
+        List<Map<String,String>> allQualifications = getRoleService().getNestedRoleQualifersForPrincipalByNamespaceAndRolename(person.getPrincipalId(), BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimApiConstants.BC_PROCESSOR_ROLE_NAME, qualification);
         for (Map<String,String> attributeSet : allQualifications) {
             String chartOfAccountsCode = attributeSet.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
             String organizationCode = attributeSet.get(KfsKimAttributes.ORGANIZATION_CODE);

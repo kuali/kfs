@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -52,7 +52,8 @@ public class TransactionalAnnotationTest extends KualiTestBase {
         excludedClasses.add( "org.kuali.kfs.coa.service.impl.SubFundGroupServiceImpl" );
         excludedClasses.add( "org.kuali.kfs.module.purap.service.impl.SensitiveDataServiceImpl" );
     }
-    
+
+    @Override
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -70,7 +71,7 @@ public class TransactionalAnnotationTest extends KualiTestBase {
         assertTrue(failureMessage.toString(), incorrectlyAnnotatedTransactionalServices.isEmpty());
 
     }
-    
+
     public void testNoTransactionAnnotations() {
         getNonAnnotatedTransactionalServices();
         for (String beanName : new TreeSet<String>(nonAnnotatedTransactionalServices.keySet())) {
@@ -84,7 +85,7 @@ public class TransactionalAnnotationTest extends KualiTestBase {
         assertTrue(failureMessage.toString(), nonAnnotatedTransactionalServices.isEmpty());
 
     }
-    
+
     public void testDoubleTransactionAnnotations() {
         getNonAnnotatedTransactionalServices();
         for (String beanName : new TreeSet<String>(doubleAnnotatedTransactionalServices.keySet())) {
@@ -104,11 +105,13 @@ public class TransactionalAnnotationTest extends KualiTestBase {
         /* We only want to run getNonAnnotatedTransactionalSerivces once.
          * The tests actually just read the Maps that are generated here.
          */
-        if (incorrectlyAnnotatedTransactionalServices != null) return;
+        if (incorrectlyAnnotatedTransactionalServices != null) {
+            return;
+        }
         incorrectlyAnnotatedTransactionalServices = new HashMap<String, Class<? extends Object>>();
         nonAnnotatedTransactionalServices = new HashMap<String, String>();
         doubleAnnotatedTransactionalServices = new HashMap<String, String>();
-       
+
         String[] beanNames = SpringContext.getBeanNames();
         for (String beanName : beanNames) {
             if ( beanName.endsWith( "-parentBean" ) ) {
@@ -128,12 +131,12 @@ public class TransactionalAnnotationTest extends KualiTestBase {
                 if (beanClass.getName().startsWith("$Proxy")) {
                     beanClass = AopUtils.getTargetClass(bean);
                 }
-                if (beanClass.getName().startsWith("org.kuali") 
-                        && !Modifier.isAbstract(beanClass.getModifiers()) 
-                        && !beanClass.getName().endsWith("DaoOjb") 
-                        && !beanClass.getName().endsWith("DaoJdbc") 
-                        && !beanClass.getName().endsWith("Factory") 
-                        && !beanClass.getName().contains("Lookupable") 
+                if (beanClass.getName().startsWith("org.kuali")
+                        && !Modifier.isAbstract(beanClass.getModifiers())
+                        && !beanClass.getName().endsWith("DaoOjb")
+                        && !beanClass.getName().endsWith("DaoJdbc")
+                        && !beanClass.getName().endsWith("Factory")
+                        && !beanClass.getName().contains("Lookupable")
                         && !isClassAnnotated(beanName, beanClass)) {
                     incorrectlyAnnotatedTransactionalServices.put(beanName, beanClass);
                 }
@@ -143,10 +146,10 @@ public class TransactionalAnnotationTest extends KualiTestBase {
     }
 
     private boolean isExcludedClass( Class<? extends Object> beanClass ) {
-        return beanClass.getName().startsWith("org.kuali.rice") 
+        return beanClass.getName().startsWith("org.kuali.rice")
                 || excludedClasses.contains(beanClass.getName());
     }
-    
+
     private boolean isClassAnnotated(String beanName, Class<? extends Object> beanClass) {
         boolean hasClassAnnotation = false;
         if (shouldHaveTransaction(beanClass)&& !isExcludedClass(beanClass)){
@@ -163,11 +166,15 @@ public class TransactionalAnnotationTest extends KualiTestBase {
             for( Method beanMethod : beanClass.getDeclaredMethods()){
                 if (Modifier.isPublic(beanMethod.getModifiers())){
                     hasMethodAnnotation = false;
-                    if (beanMethod.getAnnotation(org.springframework.transaction.annotation.Transactional.class) != null) hasMethodAnnotation = true;
-                    if (beanMethod.getAnnotation(org.kuali.kfs.sys.service.NonTransactional.class) != null) hasMethodAnnotation = true;
+                    if (beanMethod.getAnnotation(org.springframework.transaction.annotation.Transactional.class) != null) {
+                        hasMethodAnnotation = true;
+                    }
+                    if (beanMethod.getAnnotation(org.kuali.kfs.sys.service.NonTransactional.class) != null) {
+                        hasMethodAnnotation = true;
+                    }
                     if (hasMethodAnnotation == false && hasClassAnnotation == false) {
                         nonAnnotatedTransactionalServices.put(beanName, beanClass.getName() + "." + beanMethod.getName());
-                        return false; 
+                        return false;
                     }
                     if (hasMethodAnnotation == true && hasClassAnnotation == true){
                         doubleAnnotatedTransactionalServices.put(beanName, beanClass.getName() + "." + beanMethod.getName());
@@ -187,8 +194,9 @@ public class TransactionalAnnotationTest extends KualiTestBase {
      */
     private boolean shouldHaveTransaction(Class<? extends Object> beanClass) {
         Boolean result = seenClasses.get(beanClass);
-        if (result != null)
+        if (result != null) {
             return result;
+        }
         if (seenClasses.containsKey(beanClass)) {
             return false;
         }

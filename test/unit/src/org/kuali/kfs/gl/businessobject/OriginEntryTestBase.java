@@ -27,7 +27,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -325,7 +324,7 @@ public class OriginEntryTestBase extends KualiTestBase {
         // persistenceService.clearCache();
 
         File[] files = new File(batchDirectory).listFiles(new BatchFilenameFilter());
-        assertEquals("Number of groups is wrong", fileCount, files.length);
+        assertEquals("Number of groups is wrong: " + Arrays.toString(files), fileCount, files.length);
 
         List<EntryHolder> sortedEntryTransactions = new ArrayList<EntryHolder>();
         for (File file : files) {
@@ -368,23 +367,21 @@ public class OriginEntryTestBase extends KualiTestBase {
         Arrays.sort(requiredEntries, entryHolderComparator);
 
         // This is for debugging purposes - change to true for output
-        if (true) {
-            System.err.println("Files:");
-            for (File file : files) {
-                System.err.println("F:" + file.getName());
-            }
-
-            System.err.println("Transactions:");
-            for (EntryHolder element : sortedEntryTransactions) {
-                System.err.println("L:" + element.baseFileName + " " + element.transactionLine);
-            }
-            System.err.println("Expected Transactions:");
-            for (EntryHolder element : requiredEntries) {
-                System.err.println("L:" + element.baseFileName + " " + element.transactionLine);
-            }
+        System.err.println("Files:");
+        for (File file : files) {
+            System.err.println("F:" + file.getName());
         }
 
-        assertEquals("Wrong number of transactions in Origin Entry", requiredEntries.length, sortedEntryTransactions.size());
+        System.err.println("Transactions:");
+        for (EntryHolder element : sortedEntryTransactions) {
+            System.err.println("L:" + element.baseFileName + " " + element.transactionLine);
+        }
+        System.err.println("Expected Transactions:");
+        for (EntryHolder element : requiredEntries) {
+            System.err.println("L:" + element.baseFileName + " " + element.transactionLine);
+        }
+
+        assertEquals("Wrong number of transactions in Origin Entry\nExpected: " + requiredEntries + "\nActual: " + sortedEntryTransactions, requiredEntries.length, sortedEntryTransactions.size());
 
         int count = 0;
         for (EntryHolder foundTransaction : sortedEntryTransactions) {
@@ -402,7 +399,7 @@ public class OriginEntryTestBase extends KualiTestBase {
                 System.err.println("Expected transaction: " + expected);
                 System.err.println("Found transaction:    " + found);
 
-                fail("Transaction " + count + " doesn't match expected output");
+                assertEquals("Transaction " + count + " doesn't match expected output", expected, found);
             }
             count++;
         }
@@ -430,37 +427,4 @@ public class OriginEntryTestBase extends KualiTestBase {
         TestUtils.setSystemParameter(componentClass, name, value ? "Y" : "N");
     }
 
-
-    /**
-     * Outputs the entire contents of a List to System.out
-     *
-     * @param list a List, presumably of Origin entries, but really, it could be anything
-     * @param name the name of the list to display in the output
-     */
-    protected void traceList(List<?> list, String name) {
-        trace("StartList " + name + "( " + list.size() + " elements): ", 0);
-
-        for (Iterator<?> iterator = list.iterator(); iterator.hasNext();) {
-            trace(iterator.next(), 1);
-        }
-
-        trace("EndList " + name + ": ", 0);
-        trace("", 0);
-    }
-
-    /**
-     * Writes an object to standard out
-     *
-     * @param o the object to output, after..
-     * @param tabIndentCount the number of tabs to push the object output
-     */
-    protected void trace(Object o, int tabIndentCount) {
-        PrintStream out = System.out;
-
-        for (int i = 0; i < tabIndentCount; i++) {
-            out.print("\t");
-        }
-
-        out.println(null == o ? "NULL" : o.toString());
-    }
 }

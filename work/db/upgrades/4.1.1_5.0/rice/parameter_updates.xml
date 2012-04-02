@@ -90,7 +90,7 @@
 		<update tableName="KRCR_PARM_T">
 			<column name="VAL"
 				value="customerLoadInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;customerLoadCSVInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;procurementCardInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;collectorFlatFileInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;collectorXmlInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;enterpriseFeederFileSetType=default.htm?turl=WordDocuments%2Fbatch.htm;laborEnterpriseFeederFileSetType=default.htm?turl=WordDocuments%2Fbatch.htm;assetBarcodeInventoryInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;paymentInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm" />
-			<where>NMSPC_CD='KFS_SYS' AND PARM_NM='BATCH_UPLOAD_HELP_URL' AND APPL_ID = 'KFS'</where>
+			<where>NMSPC_CD='KFS-SYS' AND PARM_NM='BATCH_UPLOAD_HELP_URL' AND APPL_ID = 'KFS'</where>
 		</update>
 	</changeSet>
 	
@@ -873,5 +873,12 @@
 		</insert>
 	</changeSet>
 	
+	<changeSet author="KFS50" id="UPDATE_CFDA_PARAM_NAMESPACE">
+		<comment>The CFDA Code was moved into the COA module instead of CG.</comment>
+		<update tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-COA" />
+			<where>NMSPC_CD='KFS-CG' AND CMPNT_CD = 'CfdaBatchStep' AND APPL_ID = 'KFS'</where>
+		</update>
+	</changeSet>
 	
 </databaseChangeLog>

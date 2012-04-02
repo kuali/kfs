@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,32 +22,25 @@ import org.kuali.kfs.sys.service.NonTransactional;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
 
-@NonTransactional
 public class HomeOriginationServiceImpl implements HomeOriginationService {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(HomeOriginationServiceImpl.class);
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(HomeOriginationServiceImpl.class);
-
-    private HomeOriginationDao homeOriginationDao;
+    protected HomeOriginationDao homeOriginationDao;
 
     /**
      * Retrieves a HomeOrigination object. Currently, there is only a single, unique HomeOriginationCode record in the database.
      */
+    @Override
     @Cacheable(value=HomeOrigination.CACHE_NAME, key="'{getHomeOrigination}'")
     @Transactional(readOnly=true)
     public HomeOrigination getHomeOrigination() {
-        return getHomeOriginationDao().getHomeOrigination();
-    }
-
-    /**
-     * @return Returns the homeOriginationDao.
-     */
-    public HomeOriginationDao getHomeOriginationDao() {
-        return homeOriginationDao;
+        return homeOriginationDao.getHomeOrigination();
     }
 
     /**
      * @param homeOriginationDao The homeOriginationDao to set.
      */
+    @NonTransactional
     public void setHomeOriginationDao(HomeOriginationDao homeOriginationDao) {
         this.homeOriginationDao = homeOriginationDao;
     }

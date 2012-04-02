@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -98,11 +98,12 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
      * @see org.kuali.module.gl.service.GeneralLedgerPendingEntryService#getExpenseSummary(java.util.List, java.lang.String,
      *      java.lang.String, boolean, boolean)
      */
+    @Override
     public KualiDecimal getExpenseSummary(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String sufficientFundsObjectCode, boolean isDebit, boolean isYearEnd) {
         LOG.debug("getExpenseSummary() started");
 
         // FIXME! - this ObjectTypeService should be injected
-        ObjectTypeService objectTypeService = (ObjectTypeService) SpringContext.getBean(ObjectTypeService.class);
+        ObjectTypeService objectTypeService = SpringContext.getBean(ObjectTypeService.class);
         List<String> objectTypes = objectTypeService.getExpenseObjectTypes(universityFiscalYear);
 
         // FIXME! - cache this list - balance type code will not change during the lifetime of the server
@@ -118,11 +119,12 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
      * @see org.kuali.module.gl.service.GeneralLedgerPendingEntryService#getEncumbranceSummary(java.lang.Integer, java.lang.String,
      *      java.lang.String, java.lang.String, boolean, boolean)
      */
+    @Override
     public KualiDecimal getEncumbranceSummary(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String sufficientFundsObjectCode, boolean isDebit, boolean isYearEnd) {
         LOG.debug("getEncumbranceSummary() started");
 
         // FIXME! - this ObjectTypeService should be injected
-        ObjectTypeService objectTypeService = (ObjectTypeService) SpringContext.getBean(ObjectTypeService.class);
+        ObjectTypeService objectTypeService = SpringContext.getBean(ObjectTypeService.class);
         List<String> objectTypes = objectTypeService.getExpenseObjectTypes(universityFiscalYear);
 
         SystemOptions options = optionsService.getOptions(universityFiscalYear);
@@ -138,10 +140,11 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
      * @see org.kuali.module.gl.service.GeneralLedgerPendingEntryService#getBudgetSummary(java.lang.Integer, java.lang.String,
      *      java.lang.String, java.lang.String, boolean)
      */
+    @Override
     public KualiDecimal getBudgetSummary(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String sufficientFundsObjectCode, boolean isYearEnd) {
         LOG.debug("getBudgetSummary() started");
 
-        ObjectTypeService objectTypeService = (ObjectTypeService) SpringContext.getBean(ObjectTypeService.class);
+        ObjectTypeService objectTypeService = SpringContext.getBean(ObjectTypeService.class);
         List<String> objectTypes = objectTypeService.getExpenseObjectTypes(universityFiscalYear);
 
         SystemOptions options = optionsService.getOptions(universityFiscalYear);
@@ -157,6 +160,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
      * @see org.kuali.module.gl.service.GeneralLedgerPendingEntryService#getCashSummary(java.util.Collection, java.lang.String,
      *      java.lang.String, boolean)
      */
+    @Override
     public KualiDecimal getCashSummary(List universityFiscalYears, String chartOfAccountsCode, String accountNumber, boolean isDebit) {
         LOG.debug("getCashSummary() started");
 
@@ -181,6 +185,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
      * @see org.kuali.module.gl.service.GeneralLedgerPendingEntryService#getActualSummary(java.util.List, java.lang.String,
      *      java.lang.String, boolean)
      */
+    @Override
     public KualiDecimal getActualSummary(List universityFiscalYears, String chartOfAccountsCode, String accountNumber, boolean isDebit) {
         LOG.debug("getActualSummary() started");
 
@@ -200,15 +205,17 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     /**
      * @see org.kuali.module.gl.service.GeneralLedgerPendingEntryService#getByPrimaryId(java.lang.Integer, java.lang.String)
      */
+    @Override
     public GeneralLedgerPendingEntry getByPrimaryId(Integer transactionEntrySequenceId, String documentHeaderId) {
         LOG.debug("getByPrimaryId() started");
         Map<String, Object> keys = new HashMap<String, Object>();
         keys.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentHeaderId);
         keys.put("transactionLedgerEntrySequenceNumber", transactionEntrySequenceId);
         // FIXME! - this ObjectService should be injected
-        return (GeneralLedgerPendingEntry) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(GeneralLedgerPendingEntry.class, keys);
+        return SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(GeneralLedgerPendingEntry.class, keys);
     }
 
+    @Override
     public void fillInFiscalPeriodYear(GeneralLedgerPendingEntry glpe) {
         LOG.debug("fillInFiscalPeriodYear() started");
 
@@ -224,10 +231,11 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
 
     /**
      * Invokes generateEntries method on the financial document.
-     * 
+     *
      * @param document - document whose pending entries need generated
      * @return whether the business rules succeeded
      */
+    @Override
     public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySource glpeSource) {
         boolean success = true;
 
@@ -256,12 +264,13 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
 
     /**
      * This populates an empty GeneralLedgerPendingEntry explicitEntry object instance with default values.
-     * 
+     *
      * @param accountingDocument
      * @param accountingLine
      * @param sequenceHelper
      * @param explicitEntry
      */
+    @Override
     public void populateExplicitGeneralLedgerPendingEntry(GeneralLedgerPendingEntrySource glpeSource, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntry explicitEntry) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("populateExplicitGeneralLedgerPendingEntry(AccountingDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper, GeneralLedgerPendingEntry) - start");
@@ -334,7 +343,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
 
     /**
      * Convenience method to build a GLPE without a generalLedgerPendingEntrySourceDetail
-     * 
+     *
      * @param document a GeneralLedgerPostingDocument
      * @param account the account for use in the GLPE
      * @param objectCode the object code for use in the GLPE
@@ -351,6 +360,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
      * @param sequenceHelper the sequence helper to use
      * @return a populated general ledger pending entry
      */
+    @Override
     public GeneralLedgerPendingEntry buildGeneralLedgerPendingEntry(GeneralLedgerPostingDocument document, Account account, ObjectCode objectCode, String subAccountNumber, String subObjectCode, String organizationReferenceId, String projectCode, String referenceNumber, String referenceTypeCode, String referenceOriginCode, String description, boolean isDebit, KualiDecimal amount, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("populateExplicitGeneralLedgerPendingEntry(AccountingDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper, GeneralLedgerPendingEntry) - start");
@@ -404,13 +414,14 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     /**
      * This populates an GeneralLedgerPendingEntry offsetEntry object instance with values that differ from the values supplied in
      * the explicit entry that it was cloned from. Note that the entries do not contain BOs now.
-     * 
+     *
      * @param universityFiscalYear
      * @param explicitEntry
      * @param sequenceHelper
      * @param offsetEntry Cloned from the explicit entry
      * @return whether the offset generation is successful
      */
+    @Override
     public boolean populateOffsetGeneralLedgerPendingEntry(Integer universityFiscalYear, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntry offsetEntry) {
         LOG.debug("populateOffsetGeneralLedgerPendingEntry(Integer, GeneralLedgerPendingEntry, GeneralLedgerPendingEntrySequenceHelper, GeneralLedgerPendingEntry) - start");
 
@@ -466,7 +477,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     /**
      * Applies the given flexible offset account to the given offset entry. Does nothing if flexibleOffsetAccount is null or its COA
      * and account number are the same as the offset entry's.
-     * 
+     *
      * @param flexibleOffsetAccount may be null
      * @param offsetEntry may be modified
      */
@@ -496,7 +507,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
 
     /**
      * Helper method that determines the offset entry's financial object type code.
-     * 
+     *
      * @param offsetDefinition
      * @return String
      */
@@ -518,7 +529,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     /**
      * Helper method that determines the debit/credit code for the offset entry. If the explicit was a debit, the offset is a
      * credit. Otherwise, it's opposite.
-     * 
+     *
      * @param explicitEntry
      * @return String
      */
@@ -539,7 +550,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
 
     /**
      * Helper method that determines the offset entry's financial object code.
-     * 
+     *
      * @param offsetDefinition
      * @return String
      */
@@ -561,7 +572,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     /**
      * This populates an empty GeneralLedgerPendingEntry instance with default values for a bank offset. A global error will be
      * posted as a side-effect if the given bank has not defined the necessary bank offset relations.
-     * 
+     *
      * @param bank
      * @param depositAmount
      * @param financialDocument
@@ -571,6 +582,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
      * @param errorPropertyName
      * @return whether the entry was populated successfully
      */
+    @Override
     public boolean populateBankOffsetGeneralLedgerPendingEntry(Bank bank, KualiDecimal depositAmount, GeneralLedgerPostingDocument financialDocument, Integer universityFiscalYear, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntry bankOffsetEntry, String errorPropertyName) {
         bankOffsetEntry.setFinancialDocumentTypeCode(dataDictionaryService.getDocumentTypeNameByClass(financialDocument.getClass()));
         bankOffsetEntry.setVersionNumber(1L);
@@ -672,17 +684,20 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     /**
      * @see org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService#save(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)
      */
+    @Override
     public void save(GeneralLedgerPendingEntry generalLedgerPendingEntry) {
         LOG.debug("save() started");
         SpringContext.getBean(BusinessObjectService.class).save(generalLedgerPendingEntry);
     }
 
+    @Override
     public void delete(String documentHeaderId) {
         LOG.debug("delete() started");
 
         this.generalLedgerPendingEntryDao.delete(documentHeaderId);
     }
 
+    @Override
     public void deleteByFinancialDocumentApprovedCode(String financialDocumentApprovedCode) {
         LOG.debug("deleteByFinancialDocumentApprovedCode() started");
 
@@ -692,6 +707,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     /**
      * @see org.kuali.module.gl.service.GeneralLedgerPendingEntryService#findApprovedPendingLedgerEntries()
      */
+    @Override
     public Iterator findApprovedPendingLedgerEntries() {
         LOG.debug("findApprovedPendingLedgerEntries() started");
 
@@ -702,6 +718,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
      * @see org.kuali.module.gl.service.GeneralLedgerPendingEntryService#findPendingLedgerEntries(org.kuali.kfs.gl.businessobject.Encumbrance,
      *      boolean)
      */
+    @Override
     public Iterator findPendingLedgerEntries(Encumbrance encumbrance, boolean isApproved) {
         LOG.debug("findPendingLedgerEntries() started");
 
@@ -711,7 +728,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     /**
      * @see org.kuali.module.gl.service.GeneralLedgerPendingEntryService#hasPendingGeneralLedgerEntry(org.kuali.kfs.coa.businessobject.Account)
      */
-    @Transactional(readOnly=true)
+    @Override
     public boolean hasPendingGeneralLedgerEntry(Account account) {
         LOG.debug("hasPendingGeneralLedgerEntry() started");
 
@@ -721,6 +738,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     /**
      * @see org.kuali.module.gl.service.GeneralLedgerPendingEntryService#findPendingLedgerEntries(Balance, boolean, boolean)
      */
+    @Override
     public Iterator findPendingLedgerEntries(Balance balance, boolean isApproved, boolean isConsolidated) {
         LOG.debug("findPendingLedgerEntries() started");
 
@@ -730,6 +748,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     /**
      * @see org.kuali.module.gl.service.GeneralLedgerPendingEntryService#findPendingLedgerEntriesForEntry(java.util.Map, boolean)
      */
+    @Override
     public Iterator findPendingLedgerEntriesForEntry(Map fieldValues, boolean isApproved) {
         LOG.debug("findPendingLedgerEntriesForEntry() started");
 
@@ -744,6 +763,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     /**
      * @see org.kuali.module.gl.service.GeneralLedgerPendingEntryService#findPendingLedgerEntriesForEncumbrance(Map, boolean)
      */
+    @Override
     public Iterator findPendingLedgerEntriesForEncumbrance(Map fieldValues, boolean isApproved) {
         LOG.debug("findPendingLedgerEntriesForEncumbrance() started");
 
@@ -760,6 +780,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
      * @see org.kuali.module.gl.service.GeneralLedgerPendingEntryService#findPendingLedgerEntriesForCashBalance(java.util.Map,
      *      boolean)
      */
+    @Override
     public Iterator findPendingLedgerEntriesForCashBalance(Map fieldValues, boolean isApproved) {
         LOG.debug("findPendingLedgerEntriesForCashBalance() started");
 
@@ -774,6 +795,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     /**
      * @see org.kuali.module.gl.service.GeneralLedgerPendingEntryService#findPendingLedgerEntriesForBalance(java.util.Map, boolean)
      */
+    @Override
     public Iterator findPendingLedgerEntriesForBalance(Map fieldValues, boolean isApproved) {
         LOG.debug("findPendingLedgerEntriesForBalance() started");
 
@@ -789,6 +811,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
      * @see org.kuali.module.gl.service.GeneralLedgerPendingEntryService#findPendingLedgerEntriesForAccountBalance(java.util.Map,
      *      boolean, boolean)
      */
+    @Override
     public Iterator findPendingLedgerEntriesForAccountBalance(Map fieldValues, boolean isApproved) {
         LOG.debug("findPendingLedgerEntriesForAccountBalance() started");
 
@@ -804,6 +827,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
      * @see org.kuali.module.gl.service.GeneralLedgerPendingEntryService#findPendingLedgerEntrySummaryForAccountBalance(java.util.Map,
      *      boolean, boolean)
      */
+    @Override
     public Iterator findPendingLedgerEntrySummaryForAccountBalance(Map fieldValues, boolean isApproved) {
         LOG.debug("findPendingLedgerEntrySummaryForAccountBalance() started");
 
@@ -815,6 +839,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         return generalLedgerPendingEntryDao.findPendingLedgerEntrySummaryForAccountBalance(fieldValues, isApproved, currentFiscalPeriodCode, currentFiscalYear, encumbranceBalanceTypes);
     }
 
+    @Override
     public Collection findPendingEntries(Map fieldValues, boolean isApproved) {
         LOG.debug("findPendingEntries() started");
 
@@ -829,7 +854,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     /**
      * A helper method that checks the intended target value for null and empty strings. If the intended target value is not null or
      * an empty string, it returns that value, ohterwise, it returns a backup value.
-     * 
+     *
      * @param targetValue
      * @param backupValue
      * @return String
@@ -849,10 +874,11 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
 
     /**
      * Determines if the given GeneralLedgerPendingEntry represents offsets to cash
-     * 
+     *
      * @param generalLedgerPendingEntry the GeneralLedgerPendingEntry to check
      * @return true if the GeneralLedgerPendingEntry represents an offset to cash; false otherwise
      */
+    @Override
     public boolean isOffsetToCash(GeneralLedgerPendingEntry generalLedgerPendingEntry) {
         if (generalLedgerPendingEntry.isTransactionEntryOffsetIndicator()) {
             final Chart entryChart = chartService.getByPrimaryId(generalLedgerPendingEntry.getChartOfAccountsCode());
@@ -865,10 +891,11 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
 
     /**
      * Adds up the amounts of all cash to offset GeneralLedgerPendingEntry records on the given AccountingDocument
-     * 
+     *
      * @param glPostingDocument the accounting document total the offset to cash amount for
      * @return the offset to cash amount, where debited values have been subtracted and credited values have been added
      */
+    @Override
     public KualiDecimal getOffsetToCashAmount(GeneralLedgerPostingDocument glPostingDocument) {
         KualiDecimal total = KualiDecimal.ZERO;
         for (GeneralLedgerPendingEntry glpe : glPostingDocument.getGeneralLedgerPendingEntries()) {
@@ -887,6 +914,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
     /**
      * @see org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService#getEncumbranceBalanceTypes(java.util.Map, java.lang.Integer)
      */
+    @Override
     public List<String> getEncumbranceBalanceTypes(Map fieldValues, Integer currentFiscalYear) {
 
         String fiscalYearFromForm = null;
@@ -941,7 +969,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
 
     /**
      * Sets the dateTimeService attribute value.
-     * 
+     *
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -950,7 +978,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
 
     /**
      * Sets the dataDictionaryService attribute value.
-     * 
+     *
      * @param dataDictionaryService The dataDictionaryService to set.
      */
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
@@ -959,7 +987,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
 
     /**
      * Gets the persistenceStructureService attribute.
-     * 
+     *
      * @return Returns the persistenceStructureService.
      */
     public PersistenceStructureService getPersistenceStructureService() {
@@ -968,7 +996,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
 
     /**
      * Sets the persistenceStructureService attribute value.
-     * 
+     *
      * @param persistenceStructureService The persistenceStructureService to set.
      */
     public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
@@ -977,7 +1005,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
 
     /**
      * Sets the universityDateService.
-     * 
+     *
      * @param universityDateService
      */
     public void setUniversityDateService(UniversityDateService universityDateService) {

@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,8 +25,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.rice.krad.datadictionary.DataDictionary;
 import org.kuali.rice.krad.datadictionary.DocumentEntry;
-import org.kuali.rice.krad.datadictionary.MaintenanceDocumentEntry;
-import org.kuali.rice.krad.datadictionary.TransactionalDocumentEntry;
 import org.kuali.rice.krad.service.DataDictionaryService;
 
 @ConfigureContext
@@ -44,23 +42,31 @@ public class DocumentSerializabilityTest extends KualiTestBase {
         Set<Class<?>> checkedClasses = new HashSet<Class<?>>();
         Set<Class<?>> unserializableClasses = new HashSet<Class<?>>();
         String errorMessage = "";
-        
+
         for (String documentEntryName : documentEntries.keySet()) {
-            final DocumentEntry entry = documentEntries.get(documentEntryName);
-                
-            final Set<String> unserializableFields;
-            final Class<?> testedClass;
+            DocumentEntry entry = documentEntries.get(documentEntryName);
+
+            Set<String> unserializableFields = null;
+            Class<?> testedClass;
             if (entry instanceof org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry) {
                 testedClass = ((org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry)entry).getMaintainableClass();
-                unserializableFields = getUnserializableFieldsFromClass(testedClass);
+                if ( testedClass == null ) {
+                    errorMessage += "Maintenance Document entry: " + documentEntryName + " has a null maintainable class";
+                } else {
+                    unserializableFields = getUnserializableFieldsFromClass(testedClass);
+                }
             } else if (entry instanceof org.kuali.rice.kns.datadictionary.TransactionalDocumentEntry) {
                 testedClass = ((org.kuali.rice.kns.datadictionary.TransactionalDocumentEntry)entry).getDocumentClass();
-                unserializableFields = getUnserializableFieldsFromClass(testedClass);
+                if ( testedClass == null ) {
+                    errorMessage += "Transactional Document entry: " + documentEntryName + " has a null document class";
+                } else {
+                    unserializableFields = getUnserializableFieldsFromClass(testedClass);
+                }
             } else {
                 unserializableFields = null;
                 testedClass = null;
             }
-            
+
             if (testedClass != null && !checkedClasses.contains(testedClass)) {
                 checkedClasses.add(testedClass);
                 if (unserializableFields != null && !unserializableFields.isEmpty()) {
@@ -69,21 +75,21 @@ public class DocumentSerializabilityTest extends KualiTestBase {
                 }
             }
         }
-        
+
         if (!StringUtils.isBlank(errorMessage)) {
             LOG.info(errorMessage);
         }
-        assertTrue(errorMessage, unserializableClasses.isEmpty());
+        assertTrue(errorMessage, StringUtils.isEmpty(errorMessage) );
     }
-    
+
     /**
-     * Determines if any of the fields of the given class are unserializable 
+     * Determines if any of the fields of the given class are unserializable
      * @param clazz the class to check
      * @return a Set of field names, the unserializable field names
      */
     protected Set<String> getUnserializableFieldsFromClass(Class<?> clazz) {
         Set<String> unserializableFields = new HashSet<String>();
-        
+
         if (clazz.getSuperclass() != null && !clazz.equals(java.lang.Object.class)) {
             unserializableFields.addAll(getUnserializableFieldsFromClass(clazz.getSuperclass()));
         }
@@ -93,10 +99,10 @@ public class DocumentSerializabilityTest extends KualiTestBase {
                 unserializableFields.add(field.getName());
             }
         }
-        
+
         return unserializableFields;
     }
-    
+
     /**
      * Determines if a given field is serializable
      * @param field the field to check
@@ -105,7 +111,7 @@ public class DocumentSerializabilityTest extends KualiTestBase {
     protected boolean isSerializable(Field field) {
         return java.io.Serializable.class.isAssignableFrom(field.getType()) || java.util.Collection.class.isAssignableFrom(field.getType()) || java.util.Map.class.isAssignableFrom(field.getType()) || Modifier.isTransient(field.getModifiers()) || Modifier.isStatic(field.getModifiers()) || isPrimitive(field.getType());
     }
-    
+
     /**
      * Determines if the given class represents one of the eight Java primitives
      * @param clazz the class to check

@@ -20,7 +20,6 @@ import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.doctype.DocumentType;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
-import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.krad.util.KRADConstants;
 
 public class GlAndPurApHelperServiceImpl implements GlAndPurApHelperService {

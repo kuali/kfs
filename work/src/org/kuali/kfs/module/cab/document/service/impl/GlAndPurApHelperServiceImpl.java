@@ -17,6 +17,7 @@ package org.kuali.kfs.module.cab.document.service.impl;
 
 import org.kuali.kfs.module.cab.document.service.GlAndPurApHelperService;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.doctype.DocumentType;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kew.service.KEWServiceLocator;
@@ -26,7 +27,7 @@ public class GlAndPurApHelperServiceImpl implements GlAndPurApHelperService {
 
     @Override
     public String getDocHandlerUrl(String documentNumber, String docTypeName) {
-        DocumentTypeService documentTypeService = (DocumentTypeService) KEWServiceLocator.getService(KEWServiceLocator.DOCUMENT_TYPE_SERVICE);
+        DocumentTypeService documentTypeService = (DocumentTypeService) KewApiServiceLocator.getDocumentTypeService();
         DocumentType docType = documentTypeService.getDocumentTypeByName(docTypeName);
         String docHandlerUrl = docType.getResolvedDocumentHandlerUrl();
         if (docHandlerUrl.indexOf("?") == -1) {

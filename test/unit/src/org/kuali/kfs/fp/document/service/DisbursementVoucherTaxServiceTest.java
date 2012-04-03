@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,20 +25,22 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class tests the DisbursementVoucherTax service.
  */
-@ConfigureContext
+@ConfigureContext(session=UserNameFixture.khuntley)
 public class DisbursementVoucherTaxServiceTest extends KualiTestBase {
     private DisbursementVoucherDocument dvDocument;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        dvDocument = new DisbursementVoucherDocument();
+        dvDocument = (DisbursementVoucherDocument) SpringContext.getBean(DocumentService.class).getNewDocument(DisbursementVoucherDocument.class);
         dvDocument.setDvPayeeDetail(new DisbursementVoucherPayeeDetail());
         dvDocument.setDvNonResidentAlienTax(new DisbursementVoucherNonResidentAlienTax());
         dvDocument.getDvPayeeDetail().setDisbVchrAlienPaymentCode(true);
@@ -56,7 +58,7 @@ public class DisbursementVoucherTaxServiceTest extends KualiTestBase {
 
     /**
      * Test validation of nra information before generation of lines
-     * 
+     *
      * @throws Exception
      */
     public void testValidateNRA() throws Exception {

@@ -16,15 +16,11 @@
 package org.kuali.kfs.gl.service.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.IteratorUtils;
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.businessobject.BasicAccountingCategory;
-import org.kuali.kfs.coa.businessobject.ObjectType;
 import org.kuali.kfs.coa.service.ObjectTypeService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.OJBUtility;
@@ -120,8 +116,6 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
             allObjectTypes[count++] = expenseTransferObjectTypes[i];
         }
 
-        Map<String, BasicAccountingCategory> reportSortCodeToAccountingCateogryMap = buildReportSortCodeToAccountingCateogryMap(objectTypeService.getAllObjectType());
-        
         // Put the total lines at the beginning of the list
         List results = new ArrayList();
         AccountBalance income = new AccountBalance(kualiConfigurationService.getPropertyValueAsString(KFSKeyConstants.AccountBalanceService.INCOME));
@@ -149,7 +143,7 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
         SystemOptions options = optionsService.getOptions(universityFiscalYear);
         UniversityDate today = universityDateService.getCurrentUniversityDate();
         // Get the data
-        List balances = findAccountBalanceByConsolidationByObjectTypes(allObjectTypes, universityFiscalYear, chartOfAccountsCode, accountNumber, isCostShareExcluded, isConsolidated, pendingEntryCode, options, today, reportSortCodeToAccountingCateogryMap);
+        List balances = accountBalanceDao.findAccountBalanceByConsolidationByObjectTypes(allObjectTypes, universityFiscalYear, chartOfAccountsCode, accountNumber, isCostShareExcluded, isConsolidated, pendingEntryCode, options, today);
 
         // Convert it to Account Balances
         for (Iterator iter = balances.iterator(); iter.hasNext();) {
@@ -169,7 +163,7 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
         // Calculate totals
 
         // Get balances for these parameters, then based on the object type code, put balances into the correct summary line
-        List data = findAccountBalanceByConsolidationByObjectTypes(incomeObjectTypes, universityFiscalYear, chartOfAccountsCode, accountNumber, isCostShareExcluded, isConsolidated, pendingEntryCode, options, today, reportSortCodeToAccountingCateogryMap);
+        List data = accountBalanceDao.findAccountBalanceByConsolidationByObjectTypes(incomeObjectTypes, universityFiscalYear, chartOfAccountsCode, accountNumber, isCostShareExcluded, isConsolidated, pendingEntryCode, options, today);
         for (Iterator iter = data.iterator(); iter.hasNext();) {
             Map bal = (Map) iter.next();
             AccountBalance bbc = new AccountBalance(AccountBalance.TYPE_CONSOLIDATION, bal, universityFiscalYear, chartOfAccountsCode, accountNumber);
@@ -192,7 +186,7 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
             }
         }
 
-        data = findAccountBalanceByConsolidationByObjectTypes(incomeTransferObjectTypes, universityFiscalYear, chartOfAccountsCode, accountNumber, isCostShareExcluded, isConsolidated, pendingEntryCode, options, today, reportSortCodeToAccountingCateogryMap);
+        data = accountBalanceDao.findAccountBalanceByConsolidationByObjectTypes(incomeTransferObjectTypes, universityFiscalYear, chartOfAccountsCode, accountNumber, isCostShareExcluded, isConsolidated, pendingEntryCode, options, today);
         for (Iterator iter = data.iterator(); iter.hasNext();) {
             Map bal = (Map) iter.next();
             AccountBalance bbc = new AccountBalance(AccountBalance.TYPE_CONSOLIDATION, bal, universityFiscalYear, chartOfAccountsCode, accountNumber);
@@ -208,7 +202,7 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
             }
         }
 
-        data = findAccountBalanceByConsolidationByObjectTypes(expenseObjectTypes, universityFiscalYear, chartOfAccountsCode, accountNumber, isCostShareExcluded, isConsolidated, pendingEntryCode, options, today, reportSortCodeToAccountingCateogryMap);
+        data = accountBalanceDao.findAccountBalanceByConsolidationByObjectTypes(expenseObjectTypes, universityFiscalYear, chartOfAccountsCode, accountNumber, isCostShareExcluded, isConsolidated, pendingEntryCode, options, today);
         for (Iterator iter = data.iterator(); iter.hasNext();) {
             Map bal = (Map) iter.next();
             AccountBalance bbc = new AccountBalance(AccountBalance.TYPE_CONSOLIDATION, bal, universityFiscalYear, chartOfAccountsCode, accountNumber);
@@ -231,7 +225,7 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
             }
         }
 
-        data = findAccountBalanceByConsolidationByObjectTypes(expenseTransferObjectTypes, universityFiscalYear, chartOfAccountsCode, accountNumber, isCostShareExcluded, isConsolidated, pendingEntryCode, options, today, reportSortCodeToAccountingCateogryMap);
+        data = accountBalanceDao.findAccountBalanceByConsolidationByObjectTypes(expenseTransferObjectTypes, universityFiscalYear, chartOfAccountsCode, accountNumber, isCostShareExcluded, isConsolidated, pendingEntryCode, options, today);
         for (Iterator iter = data.iterator(); iter.hasNext();) {
             Map bal = (Map) iter.next();
             AccountBalance bbc = new AccountBalance(AccountBalance.TYPE_CONSOLIDATION, bal, universityFiscalYear, chartOfAccountsCode, accountNumber);
@@ -259,63 +253,6 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
         total.getDummyBusinessObject().setGenericAmount(incomeTotal.getDummyBusinessObject().getGenericAmount().add(expenseTotal.getDummyBusinessObject().getGenericAmount()));
 
         return results;
-    }
-
-    /**
-     * Wrapper class to account balance dao in order to add the accounting category code to the data based on the report sort code
-     * 
-     * @param objectTypes
-     * @param universityFiscalYear
-     * @param chartOfAccountsCode
-     * @param accountNumber
-     * @param isCostShareExcluded
-     * @param isConsolidated
-     * @param pendingEntryCode
-     * @param options
-     * @param today
-     * @param reportSortCodeToAccountingCateogryMap
-     * @return
-     */
-    private List findAccountBalanceByConsolidationByObjectTypes(String[] objectTypes, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntryCode, SystemOptions options, UniversityDate today, Map<String, BasicAccountingCategory> reportSortCodeToAccountingCateogryMap){
-        List data = accountBalanceDao.findAccountBalanceByConsolidationByObjectTypes(objectTypes, universityFiscalYear, chartOfAccountsCode, accountNumber, isCostShareExcluded, isConsolidated, pendingEntryCode, options, today);
-        
-        for (Map bal : (List<Map>) data) {
-            //populate the data map with accounting category code
-            populateAccountingCategoryCodeToAccountBalanceDataMap(bal, reportSortCodeToAccountingCateogryMap);    
-        }
-        return data;
-    }
-    
-    /**
-     * Add the Accounting Category Code to the data map; Category code will be used for calculating the variances
-     * 
-     * NOTE: this is only necessary for Balance By Consolidation; Level & Object is forced to bypass this checking and
-     * always calculate variances as Expense category
-     * 
-     * @param reportSortCodeToAccountingCateogryMap
-     */
-    private void populateAccountingCategoryCodeToAccountBalanceDataMap(Map data, Map<String, BasicAccountingCategory> reportSortCodeToAccountingCateogryMap) {
-        String reportSortCode = (String) data.get(GeneralLedgerConstants.ColumnNames.REPORT_SORT_CODE);
-        data.put(GeneralLedgerConstants.ColumnNames.ACCTG_CTGRY_CD, reportSortCodeToAccountingCateogryMap.get(reportSortCode).getCode());
-    }
-
-    /**
-     * Create a mapping of report sort code to the corresponding basic accounting category; this will be use in Account Balance to set
-     * the appropriate Basic Accounting Category for variance calculation 
-     * 
-     * @param allObjectType
-     * @return
-     */
-    private Map<String, BasicAccountingCategory> buildReportSortCodeToAccountingCateogryMap(List<ObjectType> allObjectType) {
-        Map<String, BasicAccountingCategory> reportSortCodeToAccountingCateogryMap = new HashMap<String, BasicAccountingCategory>();
-        String firstCharacterKey = ""; 
-        for (ObjectType type : allObjectType){
-            firstCharacterKey = type.getFinancialReportingSortCode().substring(0, 1);
-            if (!reportSortCodeToAccountingCateogryMap.containsKey(firstCharacterKey)){
-                reportSortCodeToAccountingCateogryMap.put(firstCharacterKey, type.getBasicAccountingCategory());
-            }
-        }
-        return reportSortCodeToAccountingCateogryMap;
     }
 
     /**

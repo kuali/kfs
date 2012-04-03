@@ -79,8 +79,12 @@ public class AccountBalanceConsolidationDaoJdbc extends AccountBalanceDaoJdbcBas
 
             // Add some reference data
             getSimpleJdbcTemplate().update(
-                    "INSERT INTO FP_INTERIM2_CONS_MT (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, " + "ACLN_ENCUM_BAL_AMT, TIMESTAMP, FIN_REPORT_SORT_CD,FIN_OBJ_TYP_CD, SESID, CONS_FIN_REPORT_SORT_CD, FIN_CONS_OBJ_CD ) " + "SELECT a.UNIV_FISCAL_YR, a.FIN_COA_CD, a.ACCOUNT_NBR, a.SUB_ACCT_NBR,a.FIN_OBJECT_CD, a.FIN_SUB_OBJ_CD, a.CURR_BDLN_BAL_AMT, a.ACLN_ACTLS_BAL_AMT, " + "a.ACLN_ENCUM_BAL_AMT, a.TIMESTAMP, a.FIN_REPORT_SORT_CD, a.FIN_OBJ_TYP_CD, a.SESID,c.fin_report_sort_cd,c.fin_cons_obj_cd" + " FROM FP_INTERIM1_CONS_MT a,CA_OBJECT_CODE_T o,CA_OBJ_LEVEL_T l,CA_OBJ_CONSOLDTN_T c WHERE a.univ_fiscal_yr = o.univ_fiscal_yr " + " AND a.fin_coa_cd = o.fin_coa_cd AND a.fin_object_cd = o.fin_object_cd AND o.fin_coa_cd = l.fin_coa_cd AND o.fin_obj_level_cd = l.fin_obj_level_cd " + " AND c.fin_coa_cd = l.fin_coa_cd AND c.fin_cons_obj_cd = l.fin_cons_obj_cd AND o.univ_fiscal_yr = ?" + " AND o.fin_coa_cd = ?"
-                            + " AND l.fin_coa_cd = ?" + " AND a.SESID = ?", universityFiscalYear, chartOfAccountsCode, chartOfAccountsCode, sessionId);
+                    "INSERT INTO FP_INTERIM2_CONS_MT (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, " + "ACLN_ENCUM_BAL_AMT, TIMESTAMP, FIN_REPORT_SORT_CD,FIN_OBJ_TYP_CD, SESID, CONS_FIN_REPORT_SORT_CD, FIN_CONS_OBJ_CD, ACCTG_CTGRY_CD ) " + 
+                            " SELECT a.UNIV_FISCAL_YR, a.FIN_COA_CD, a.ACCOUNT_NBR, a.SUB_ACCT_NBR,a.FIN_OBJECT_CD, a.FIN_SUB_OBJ_CD, a.CURR_BDLN_BAL_AMT, a.ACLN_ACTLS_BAL_AMT, " + "a.ACLN_ENCUM_BAL_AMT, a.TIMESTAMP, a.FIN_REPORT_SORT_CD, a.FIN_OBJ_TYP_CD, a.SESID,c.fin_report_sort_cd,c.fin_cons_obj_cd,t.acctg_ctgry_cd" + 
+                            " FROM FP_INTERIM1_CONS_MT a,CA_OBJECT_CODE_T o,CA_OBJ_LEVEL_T l,CA_OBJ_CONSOLDTN_T c, CA_OBJ_TYPE_T t" +
+                            " WHERE a.univ_fiscal_yr = o.univ_fiscal_yr " + " AND a.fin_coa_cd = o.fin_coa_cd AND a.fin_object_cd = o.fin_object_cd AND o.fin_coa_cd = l.fin_coa_cd AND o.fin_obj_level_cd = l.fin_obj_level_cd " + " AND c.fin_coa_cd = l.fin_coa_cd AND c.fin_cons_obj_cd = l.fin_cons_obj_cd AND o.fin_obj_typ_cd = t.fin_obj_typ_cd " + 
+                    		" AND o.univ_fiscal_yr = ?" + " AND o.fin_coa_cd = ?" + 
+                            " AND l.fin_coa_cd = ?" + " AND a.SESID = ?", universityFiscalYear, chartOfAccountsCode, chartOfAccountsCode, sessionId);
 
             // Get rid of stuff we don't need
             if (isExcludeCostShare) {
@@ -89,14 +93,14 @@ public class AccountBalanceConsolidationDaoJdbc extends AccountBalanceDaoJdbcBas
 
             // Summarize
             if (isConsolidated) {
-                getSimpleJdbcTemplate().update("INSERT INTO FP_BAL_BY_CONS_MT (SUB_ACCT_NBR, FIN_REPORT_SORT_CD, CONS_FIN_REPORT_SORT_CD, FIN_CONS_OBJ_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, " + "ACLN_ENCUM_BAL_AMT, SESID) " + "SELECT '*ALL*',fin_report_sort_cd,cons_fin_report_sort_cd,fin_cons_obj_cd,SUM(curr_bdln_bal_amt), " + "SUM(acln_actls_bal_amt), SUM(acln_encum_bal_amt), MAX(sesid)" + " FROM FP_INTERIM2_CONS_MT WHERE FP_INTERIM2_CONS_MT.SESID = ?" + " GROUP BY cons_fin_report_sort_cd, fin_report_sort_cd, fin_cons_obj_cd", sessionId);
+                getSimpleJdbcTemplate().update("INSERT INTO FP_BAL_BY_CONS_MT (SUB_ACCT_NBR, FIN_REPORT_SORT_CD, CONS_FIN_REPORT_SORT_CD, FIN_CONS_OBJ_CD, ACCTG_CTGRY_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, SESID) SELECT '*ALL*',fin_report_sort_cd,cons_fin_report_sort_cd,fin_cons_obj_cd, acctg_ctgry_cd, SUM(curr_bdln_bal_amt), " + "SUM(acln_actls_bal_amt), SUM(acln_encum_bal_amt), MAX(sesid)" + " FROM FP_INTERIM2_CONS_MT WHERE FP_INTERIM2_CONS_MT.SESID = ?" + " GROUP BY cons_fin_report_sort_cd, fin_report_sort_cd, fin_cons_obj_cd, acctg_ctgry_cd", sessionId);
             }
             else {
-                getSimpleJdbcTemplate().update("INSERT INTO FP_BAL_BY_CONS_MT (SUB_ACCT_NBR, FIN_REPORT_SORT_CD, CONS_FIN_REPORT_SORT_CD, FIN_CONS_OBJ_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, " + "ACLN_ENCUM_BAL_AMT, SESID) SELECT sub_acct_nbr, fin_report_sort_cd, cons_fin_report_sort_cd, fin_cons_obj_cd, SUM(curr_bdln_bal_amt), " + "SUM(acln_actls_bal_amt), SUM(acln_encum_bal_amt), MAX(sesid) " + " FROM FP_INTERIM2_CONS_MT WHERE FP_INTERIM2_CONS_MT.SESID = ?" + " GROUP BY sub_acct_nbr, cons_fin_report_sort_cd, fin_report_sort_cd, fin_cons_obj_cd", sessionId);
+                getSimpleJdbcTemplate().update("INSERT INTO FP_BAL_BY_CONS_MT (SUB_ACCT_NBR, FIN_REPORT_SORT_CD, CONS_FIN_REPORT_SORT_CD, FIN_CONS_OBJ_CD, ACCTG_CTGRY_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, SESID) SELECT sub_acct_nbr, fin_report_sort_cd, cons_fin_report_sort_cd, fin_cons_obj_cd, acctg_ctgry_cd, SUM(curr_bdln_bal_amt), " + "SUM(acln_actls_bal_amt), SUM(acln_encum_bal_amt), MAX(sesid) " + " FROM FP_INTERIM2_CONS_MT WHERE FP_INTERIM2_CONS_MT.SESID = ?" + " GROUP BY sub_acct_nbr, cons_fin_report_sort_cd, fin_report_sort_cd, fin_cons_obj_cd, acctg_ctgry_cd", sessionId);
             }
 
             // Here's the data
-            data = getSimpleJdbcTemplate().queryForList("select SUB_ACCT_NBR, FIN_REPORT_SORT_CD, CONS_FIN_REPORT_SORT_CD, FIN_CONS_OBJ_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT " + "from FP_BAL_BY_CONS_MT where SESID = ?" + " order by fin_report_sort_cd,cons_fin_report_sort_cd", sessionId);
+            data = getSimpleJdbcTemplate().queryForList("select SUB_ACCT_NBR, FIN_REPORT_SORT_CD, CONS_FIN_REPORT_SORT_CD, FIN_CONS_OBJ_CD, ACCTG_CTGRY_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT " + "from FP_BAL_BY_CONS_MT where SESID = ?" + " order by fin_report_sort_cd,cons_fin_report_sort_cd", sessionId);
         }
         finally {
             // Clean up everything

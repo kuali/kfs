@@ -97,6 +97,9 @@ public class PaymentFileServiceImpl extends InitiateDirectoryBase implements Pay
                 if (paymentFile != null || paymentFile.isPassedValidation()) {
                     // load payment data
                     loadPayments(paymentFile, status, incomingFileName);
+                }else{
+                    //if we encounter an error for the payment file, we will remove the .done file so it will not be parse again
+                    removeDoneFile(incomingFileName);
                 }
 
                 createOutputFile(status, incomingFileName);

@@ -120,7 +120,7 @@ public class PaymentFileServiceImpl extends InitiateDirectoryBase implements Pay
         // parse xml, if errors found return with failure
         PaymentFileLoad paymentFile = parsePaymentFile(paymentInputFileType, incomingFileName, errorMap);
 
-        if (errorMap.hasErrors()) {
+        if (errorMap.hasNoErrors()) {
             // do validation
             doPaymentFileValidation(paymentFile, errorMap);
         }
@@ -135,7 +135,7 @@ public class PaymentFileServiceImpl extends InitiateDirectoryBase implements Pay
     public void doPaymentFileValidation(PaymentFileLoad paymentFile, MessageMap errorMap) {
         paymentFileValidationService.doHardEdits(paymentFile, errorMap);
 
-        if (!errorMap.hasErrors()) {
+        if (errorMap.hasErrors()) {
             paymentFileEmailService.sendErrorEmail(paymentFile, errorMap);
         }
 

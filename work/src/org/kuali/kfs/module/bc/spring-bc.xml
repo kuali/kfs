@@ -716,11 +716,7 @@
 	</bean>
     
     <bean id="budgetParameterService"  parent="budgetParameterService-parentBean"/>
-    <bean id="budgetParameterService-parentBean" class="org.kuali.kfs.module.bc.document.service.impl.BudgetParameterServiceImpl" abstract="true">
-    <property name="parameterService">
-    	<ref bean="parameterService" />
-    </property>
-    </bean>
+    <bean id="budgetParameterService-parentBean" class="org.kuali.kfs.module.bc.document.service.impl.BudgetParameterServiceImpl" abstract="true" />
  	
 	<bean id="budgetConstructionAccountSummaryReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.kfs.module.bc.document.dataaccess.impl.BudgetConstructionAccountSummaryReportDaoJdbc" />
 	

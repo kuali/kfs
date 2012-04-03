@@ -687,6 +687,10 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @return a CFDA record
      */
     public CFDA getCfda() {
+        if (cfda == null) {
+            return (new CFDA());
+        }
+        
         return cfda ;
     }
     
@@ -810,6 +814,9 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @return Returns the organization
      */
     public Organization getOrganization() {
+        if (organization == null) {
+            return (new Organization());
+        }
         return organization;
     }
 
@@ -829,6 +836,10 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @return Returns the accountType
      */
     public AccountType getAccountType() {
+        if (accountType == null) {
+            return (new AccountType());
+        }
+        
         return accountType;
     }
 
@@ -887,6 +898,10 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @return Returns the subFundGroup
      */
     public SubFundGroup getSubFundGroup() {
+        if (subFundGroup == null) {
+            return (new SubFundGroup());
+        }
+        
         return subFundGroup;
     }
 
@@ -906,6 +921,10 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @return Returns the financialHigherEdFunction
      */
     public HigherEducationFunction getFinancialHigherEdFunction() {
+        if (financialHigherEdFunction == null) {
+            return (new HigherEducationFunction());
+        }
+        
         return financialHigherEdFunction;
     }
 
@@ -925,6 +944,10 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @return Returns the accountRestrictedStatus
      */
     public RestrictedStatus getAccountRestrictedStatus() {
+        if (accountRestrictedStatus == null) {
+            return (new RestrictedStatus());
+        }
+        
         return accountRestrictedStatus;
     }
 
@@ -944,6 +967,10 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @return Returns the reportsToAccount
      */
     public Account getReportsToAccount() {
+        if (reportsToAccount == null) {
+            return (new Account());
+        }
+        
         return reportsToAccount;
     }
 
@@ -963,6 +990,10 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @return Returns the endowmentIncomeAccount
      */
     public Account getEndowmentIncomeAccount() {
+        if (endowmentIncomeAccount == null) {
+            return (new Account());
+        }
+        
         return endowmentIncomeAccount;
     }
 
@@ -982,6 +1013,10 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @return Returns the contractControlAccount
      */
     public Account getContractControlAccount() {
+        if (contractControlAccount == null) {
+            return (new Account());
+        }
+        
         return contractControlAccount;
     }
 
@@ -1002,6 +1037,10 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @return Returns the incomeStreamAccount
      */
     public Account getIncomeStreamAccount() {
+        if (incomeStreamAccount == null) {
+            return (new Account());
+        }
+        
         return incomeStreamAccount;
     }
 
@@ -1074,6 +1113,10 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @return Returns the continuationAccount.
      */
     public Account getContinuationAccount() {
+        if (continuationAccount == null) {
+            return (new Account());
+        }
+        
         return continuationAccount;
     }
 
@@ -1090,6 +1133,9 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @return Returns the accountGuideline.
      */
     public AccountGuideline getAccountGuideline() {
+        if (accountGuideline == null) {
+            return (new AccountGuideline());
+        }
         return accountGuideline;
     }
 
@@ -1108,6 +1154,9 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @return Returns the accountDescription.
      */
     public AccountDescription getAccountDescription() {
+        if (accountDescription == null) {
+            return (new AccountDescription());
+        }
         return accountDescription;
     }
 
@@ -1484,6 +1533,10 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @return Returns the sufficientFundsCode.
      */
     public SufficientFundsCode getSufficientFundsCode() {
+        if (sufficientFundsCode == null) {
+            return (new SufficientFundsCode());
+        }
+        
         return sufficientFundsCode;
     }
 
@@ -1502,6 +1555,10 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @return Returns the acctIndirectCostRcvyType.
      */
     public IndirectCostRecoveryType getAcctIndirectCostRcvyType() {
+        if (acctIndirectCostRcvyType == null) {
+            return (new IndirectCostRecoveryType());
+        }
+        
         return acctIndirectCostRcvyType;
     }
 

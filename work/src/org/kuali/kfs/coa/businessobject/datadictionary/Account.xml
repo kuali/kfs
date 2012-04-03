@@ -834,7 +834,7 @@
 		parent="Account-accountGuideline.accountExpenseGuidelineText-parentBean" />
 
 	<bean id="Account-accountGuideline.accountExpenseGuidelineText-parentBean"
-		abstract="true" parent="GenericAttributes-genericBigText">
+		abstract="true" parent="AccountGuideline-accountExpenseGuidelineText">
 		<property name="name" value="accountGuideline.accountExpenseGuidelineText" />
 		<property name="label" value="Account Expense Guideline Text" />
 		<property name="shortLabel" value="ExpGuideTxt" />
@@ -844,7 +844,7 @@
 		parent="Account-accountGuideline.accountIncomeGuidelineText-parentBean" />
 
 	<bean id="Account-accountGuideline.accountIncomeGuidelineText-parentBean"
-		abstract="true" parent="GenericAttributes-genericBigText">
+		abstract="true" parent="AccountGuideline-accountIncomeGuidelineText">
 		<property name="name" value="accountGuideline.accountIncomeGuidelineText" />
 		<property name="label" value="Account Income Guideline Text" />
 		<property name="shortLabel" value="IncGuideTxt" />
@@ -853,7 +853,7 @@
 	<bean id="Account-accountGuideline.accountPurposeText" parent="Account-accountGuideline.accountPurposeText-parentBean" />
 
 	<bean id="Account-accountGuideline.accountPurposeText-parentBean"
-		abstract="true" parent="GenericAttributes-genericBigText">
+		abstract="true" parent="AccountGuideline-accountPurposeText">
 		<property name="name" value="accountGuideline.accountPurposeText" />
 		<property name="label" value="Account Purpose Text" />
 		<property name="shortLabel" value="AcctPurpTxt" />

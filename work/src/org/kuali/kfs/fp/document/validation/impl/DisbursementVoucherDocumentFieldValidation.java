@@ -104,11 +104,6 @@ public class DisbursementVoucherDocumentFieldValidation extends GenericValidatio
     protected boolean hasNoNotes(DisbursementVoucherDocument document) {
         List<Note> notes = document.getNotes();
 
-        if(notes == null || notes.isEmpty()) {
-            String remoteObjectId = document.getDocumentHeader().getObjectId();
-            notes = SpringContext.getBean(NoteService.class).getByRemoteObjectId(remoteObjectId);
-        }
-
         return (notes == null || notes.isEmpty());
     }
 

@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,9 +27,17 @@ public enum UserNameFixture {
                 // cannot be removed because that file cannot be committed).
     ghatten, stroud, dfogle, rjweiss, rorenfro, sterner, ferland, hschrein, hsoucy, lraab, jhavens, kcopley, mhkozlow, ineff, vputman, cswinson, mylarge, rruffner, season, dqperron, aatwood, parke, appleton, twatson, butt, jkitchen , bomiddle, aickes, day, jgerhart,
     // Regional Budget Manager
-    ocmcnall, 
+    ocmcnall,
     // University Administration Budget Manager
-    wbrazil;
+    wbrazil,
+    // Non-KFS User
+    bcoffee,
+    // Account secondary delegate
+    rmunroe,
+    // Org Hierarchy Reviewer
+    cknotts,
+    // Accounting Hierarchy Reviewer
+    jrichard;
 
     static {
         // Assert.assertEquals(KualiUser.SYSTEM_USER, kuluser.toString());

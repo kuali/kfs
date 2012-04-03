@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,6 +28,7 @@ import org.kuali.kfs.sys.identity.KfsKimAttributes;
 @ConfigureContext//(session=UserNameFixture.hfore)
 public class OrganizationOptionalHierarchyRoleTypeServiceImplTest extends KualiTestBase {
 
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
     }
@@ -35,12 +36,12 @@ public class OrganizationOptionalHierarchyRoleTypeServiceImplTest extends KualiT
     public void testPerformMatch() {
         OrganizationOptionalHierarchyRoleTypeServiceImpl roleTypeService = new OrganizationOptionalHierarchyRoleTypeServiceImpl();
         roleTypeService.setOrganizationService(SpringContext.getBean(OrganizationService.class));
-        
+
         Map<String,String> roleQualifier = new HashMap<String,String>();
         roleQualifier.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, "BL");
         roleQualifier.put(KFSPropertyConstants.ORGANIZATION_CODE, "PHYS");
         roleQualifier.put(KfsKimAttributes.DESCEND_HIERARCHY, "Y");
-        
+
         Map<String,String> qualification = new HashMap<String,String>();
         qualification.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, "BL");
         qualification.put(KFSPropertyConstants.ORGANIZATION_CODE, "PHYS");
@@ -50,6 +51,22 @@ public class OrganizationOptionalHierarchyRoleTypeServiceImplTest extends KualiT
         assertTrue( "BL-BCMI- hierarchy match - should have passed", roleTypeService.performMatch(qualification, roleQualifier));
         qualification.put(KFSPropertyConstants.ORGANIZATION_CODE, "ARSC");
         assertFalse( "BL-ARSC - higher-level org - should not have passed", roleTypeService.performMatch(qualification, roleQualifier));
+    }
+
+    public void testPerformMatch_PSY_HMNF() {
+        OrganizationOptionalHierarchyRoleTypeServiceImpl roleTypeService = new OrganizationOptionalHierarchyRoleTypeServiceImpl();
+        roleTypeService.setOrganizationService(SpringContext.getBean(OrganizationService.class));
+
+        Map<String,String> roleQualifier = new HashMap<String,String>();
+        roleQualifier.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, "BL");
+        roleQualifier.put(KFSPropertyConstants.ORGANIZATION_CODE, "PSY");
+        roleQualifier.put(KfsKimAttributes.DESCEND_HIERARCHY, "Y");
+
+        Map<String,String> qualification = new HashMap<String,String>();
+        qualification.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, "BL");
+        qualification.put(KFSPropertyConstants.ORGANIZATION_CODE, "HMNF");
+        qualification.put(KfsKimAttributes.DESCEND_HIERARCHY, "Y");
+        assertTrue( "BL-HMNF reports to BL-PSY - should have passed", roleTypeService.performMatch(qualification, roleQualifier));
     }
 
     // assumes data which may not be present in KULDBA - commenting out for now

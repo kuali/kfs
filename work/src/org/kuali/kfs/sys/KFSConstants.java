@@ -1163,8 +1163,10 @@ public class KFSConstants {
         public static final String ACTIVE_PROFESSIONAL_EMPLOYEE_AND_KFS_USER_KIM_ROLE_NAME = "Active Professional Employee & Financial System User";
         public static final String CHART_MANAGER_KIM_ROLE_NAME = "Chart Manager";
         public static final String ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE = CoreModuleNamespaces.KFS;
+        public static final String ACCOUNTING_REVIEWER_ROLE_NAMESPACECODE = CoreModuleNamespaces.KFS;
         public static final String ACCOUNTING_REVIEWER_ROLE_NAME = "Accounting Reviewer";
         public static final String ORGANIZATION_REVIEWER_ROLE_NAME = "Organization Reviewer";
+        public static final String KFS_USER_ROLE_NAME = "User";
     }
 
     public enum PermissionAttributeValue {

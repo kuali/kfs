@@ -611,7 +611,7 @@ public class EndowmentTransactionLinesDocumentBaseRules extends EndowmentTransac
 
         Map criteria = new HashMap();
         criteria.put(EndowPropertyConstants.KEMID, kemid);
-        KEMIDCurrentAvailableBalance theKEMIDCurrentAvailableBalance = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(KEMIDCurrentAvailableBalance.class, criteria);
+        KEMIDCurrentAvailableBalance theKEMIDCurrentAvailableBalance = (KEMIDCurrentAvailableBalance) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(KEMIDCurrentAvailableBalance.class, criteria);
 
         if (ObjectUtils.isNotNull(theKEMIDCurrentAvailableBalance)) {
             if (EndowConstants.IncomePrincipalIndicator.PRINCIPAL.equalsIgnoreCase(ipIndicatorCode)) {

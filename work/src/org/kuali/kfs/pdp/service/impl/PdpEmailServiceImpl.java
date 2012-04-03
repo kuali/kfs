@@ -88,7 +88,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
 
         MailMessage message = new MailMessage();
 
-        String returnAddress = parameterService.getParameterValueAsString(KFSConstants.ParameterNamespaces.PDP, "Batch", KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
+        String returnAddress = parameterService.getParameterValueAsString(KfsParameterConstants.PRE_DISBURSEMENT_BATCH.class, KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
         if(StringUtils.isEmpty(returnAddress)) {
             returnAddress = mailService.getBatchMailingList();
         }
@@ -201,7 +201,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
 
         MailMessage message = new MailMessage();
 
-        String returnAddress = parameterService.getParameterValueAsString(KFSConstants.ParameterNamespaces.PDP, "Batch", KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
+        String returnAddress = parameterService.getParameterValueAsString(KfsParameterConstants.PRE_DISBURSEMENT_BATCH.class, KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
         if(StringUtils.isEmpty(returnAddress)) {
             returnAddress = mailService.getBatchMailingList();
         }
@@ -258,7 +258,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
     protected void sendThresholdEmail(boolean fileThreshold, PaymentFileLoad paymentFile, CustomerProfile customer) {
         MailMessage message = new MailMessage();
 
-        String returnAddress = parameterService.getParameterValueAsString(KFSConstants.ParameterNamespaces.PDP, "Batch", KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
+        String returnAddress = parameterService.getParameterValueAsString(KfsParameterConstants.PRE_DISBURSEMENT_BATCH.class, KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
         if(StringUtils.isEmpty(returnAddress)) {
             returnAddress = mailService.getBatchMailingList();
         }
@@ -316,7 +316,7 @@ public class PdpEmailServiceImpl implements PdpEmailService {
 
         MailMessage message = new MailMessage();
 
-        String returnAddress = parameterService.getParameterValueAsString(KFSConstants.ParameterNamespaces.PDP, "Batch", KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
+        String returnAddress = parameterService.getParameterValueAsString(KfsParameterConstants.PRE_DISBURSEMENT_BATCH.class, KFSConstants.FROM_EMAIL_ADDRESS_PARM_NM);
         if(StringUtils.isEmpty(returnAddress)) {
             returnAddress = mailService.getBatchMailingList();
         }
@@ -831,18 +831,21 @@ public class PdpEmailServiceImpl implements PdpEmailService {
 
     /**
      * Reads system parameter indicating whether to status emails should be sent
+     * 
+     * NOTE: The parameter NO_PAYMENT_FILE_TO_EMAIL_ADDRESSES suppose to indicate the actual email address 
+     * instead of an indicator to send email.
+     * 
+     * Email is enabled if the parameter is not null
      *
      * @return true if email should be sent, false otherwise
      */
     @Override
     public boolean isPaymentEmailEnabled() {
-        boolean noEmail = parameterService.getParameterValueAsBoolean(KfsParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.NO_PAYMENT_FILE_EMAIL);
-        if (noEmail) {
+        boolean sendEmail = StringUtils.isNotBlank(parameterService.getParameterValueAsString(KfsParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.NO_PAYMENT_FILE_EMAIL));
+        if (!sendEmail) {
             LOG.debug("sendLoadEmail() sending payment file email is disabled");
-            return false;
         }
-
-        return true;
+        return sendEmail;
     }
 
     /**

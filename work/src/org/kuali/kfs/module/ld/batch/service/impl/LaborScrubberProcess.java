@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -91,98 +91,98 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * it's own instance variables instead of being shared.
  */
 public class LaborScrubberProcess {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborScrubberProcess.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborScrubberProcess.class);
 
     // 40 spaces - used for filling in descriptions with spaces
-    private static String SPACES = "                                        ";
+    protected static String SPACES = "                                        ";
 
     /* Services required */
-    private FlexibleOffsetAccountService flexibleOffsetAccountService;
-    private LaborOriginEntryService laborOriginEntryService;
-    private OriginEntryGroupService originEntryGroupService;
-    private DateTimeService dateTimeService;
-    private OffsetDefinitionService offsetDefinitionService;
-    private ObjectCodeService objectCodeService;
-    private ConfigurationService kualiConfigurationService;
-    private UniversityDateDao universityDateDao;
-    private PersistenceService persistenceService;
-    private ScrubberValidator scrubberValidator;
-    private LaborAccountingCycleCachingService laborAccountingCycleCachingService;
-    private PreScrubberService laborPreScrubberService;
-    
-    private DocumentNumberAwareReportWriterService laborMainReportWriterService;
-    private DocumentNumberAwareReportWriterService laborLedgerReportWriterService;
-    private ReportWriterService laborBadBalanceTypeReportWriterService;
-    private ReportWriterService laborErrorListingReportWriterService;
-    private DocumentNumberAwareReportWriterService laborGeneratedTransactionsReportWriterService;
-    private ReportWriterService laborDemergerReportWriterService;
-    private DocumentNumberAwareReportWriterService laborPreScrubberReportWriterService;
-    private ParameterService parameterService;
-    
-    private String batchFileDirectoryName;
+    protected FlexibleOffsetAccountService flexibleOffsetAccountService;
+    protected LaborOriginEntryService laborOriginEntryService;
+    protected OriginEntryGroupService originEntryGroupService;
+    protected DateTimeService dateTimeService;
+    protected OffsetDefinitionService offsetDefinitionService;
+    protected ObjectCodeService objectCodeService;
+    protected ConfigurationService kualiConfigurationService;
+    protected UniversityDateDao universityDateDao;
+    protected PersistenceService persistenceService;
+    protected ScrubberValidator scrubberValidator;
+    protected LaborAccountingCycleCachingService laborAccountingCycleCachingService;
+    protected PreScrubberService laborPreScrubberService;
+
+    protected DocumentNumberAwareReportWriterService laborMainReportWriterService;
+    protected DocumentNumberAwareReportWriterService laborLedgerReportWriterService;
+    protected ReportWriterService laborBadBalanceTypeReportWriterService;
+    protected ReportWriterService laborErrorListingReportWriterService;
+    protected DocumentNumberAwareReportWriterService laborGeneratedTransactionsReportWriterService;
+    protected ReportWriterService laborDemergerReportWriterService;
+    protected DocumentNumberAwareReportWriterService laborPreScrubberReportWriterService;
+    protected ParameterService parameterService;
+
+    protected String batchFileDirectoryName;
 
     enum GROUP_TYPE {
         VALID, ERROR, EXPIRED
     }
 
     /* These are all different forms of the run date for this job */
-    private Date runDate;
-    private Calendar runCal;
-    private UniversityDate universityRunDate;
-    private String offsetString;
+    protected Date runDate;
+    protected Calendar runCal;
+    protected UniversityDate universityRunDate;
+    protected String offsetString;
 
     /*
      * These fields are used to control whether the job was run before some set time, if so, the rundate of the job will be set to
      * 11:59 PM of the previous day
      */
-    private Integer cutoffHour;
-    private Integer cutoffMinute;
-    private Integer cutoffSecond;
+    protected Integer cutoffHour;
+    protected Integer cutoffMinute;
+    protected Integer cutoffSecond;
 
     /* These are the output groups */
-    private OriginEntryGroup validGroup;
-    private OriginEntryGroup errorGroup;
-    private OriginEntryGroup expiredGroup;
+    protected OriginEntryGroup validGroup;
+    protected OriginEntryGroup errorGroup;
+    protected OriginEntryGroup expiredGroup;
 
     /* Unit Of Work info */
-    private UnitOfWorkInfo unitOfWork;
-    private KualiDecimal scrubCostShareAmount;
-    private ScrubberReportData scrubberReport;
+    protected UnitOfWorkInfo unitOfWork;
+    protected KualiDecimal scrubCostShareAmount;
+    protected ScrubberReportData scrubberReport;
 
     /* Description names */
-    private String offsetDescription;
-    private String capitalizationDescription;
-    private String liabilityDescription;
-    private String transferDescription;
-    private String costShareDescription;
+    protected String offsetDescription;
+    protected String capitalizationDescription;
+    protected String liabilityDescription;
+    protected String transferDescription;
+    protected String costShareDescription;
 
-    private String inputFile;
-    private String validFile;
-    private String errorFile;
-    private String expiredFile;
+    protected String inputFile;
+    protected String validFile;
+    protected String errorFile;
+    protected String expiredFile;
 
     /**
      * These parameters are all the dependencies.
      */
-    public LaborScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, 
-                                LaborAccountingCycleCachingService laborAccountingCycleCachingService, 
-                                LaborOriginEntryService laborOriginEntryService, 
-                                OriginEntryGroupService originEntryGroupService, 
-                                DateTimeService dateTimeService, 
-                                OffsetDefinitionService offsetDefinitionService, 
-                                ObjectCodeService objectCodeService, 
-                                ConfigurationService kualiConfigurationService, 
-                                UniversityDateDao universityDateDao, 
-                                PersistenceService persistenceService, 
-                                ScrubberValidator scrubberValidator, 
-                                String batchFileDirectoryName, 
-                                DocumentNumberAwareReportWriterService laborMainReportWriterService, 
-                                DocumentNumberAwareReportWriterService laborLedgerReportWriterService, 
-                                ReportWriterService laborBadBalanceTypeReportWriterService, 
-                                ReportWriterService laborErrorListingReportWriterService, 
-                                DocumentNumberAwareReportWriterService laborGeneratedTransactionsReportWriterService, 
-                                ReportWriterService laborDemergerReportWriterService, 
-                                PreScrubberService laborPreScrubberService, 
+    public LaborScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService,
+                                LaborAccountingCycleCachingService laborAccountingCycleCachingService,
+                                LaborOriginEntryService laborOriginEntryService,
+                                OriginEntryGroupService originEntryGroupService,
+                                DateTimeService dateTimeService,
+                                OffsetDefinitionService offsetDefinitionService,
+                                ObjectCodeService objectCodeService,
+                                ConfigurationService kualiConfigurationService,
+                                UniversityDateDao universityDateDao,
+                                PersistenceService persistenceService,
+                                ScrubberValidator scrubberValidator,
+                                String batchFileDirectoryName,
+                                DocumentNumberAwareReportWriterService laborMainReportWriterService,
+                                DocumentNumberAwareReportWriterService laborLedgerReportWriterService,
+                                ReportWriterService laborBadBalanceTypeReportWriterService,
+                                ReportWriterService laborErrorListingReportWriterService,
+                                DocumentNumberAwareReportWriterService laborGeneratedTransactionsReportWriterService,
+                                ReportWriterService laborDemergerReportWriterService,
+                                PreScrubberService laborPreScrubberService,
                                 DocumentNumberAwareReportWriterService laborPreScrubberReportWriterService,
                                 ParameterService parameterService) {
         super();
@@ -207,7 +207,7 @@ public class LaborScrubberProcess {
         this.laborPreScrubberService = laborPreScrubberService;
         this.laborPreScrubberReportWriterService = laborPreScrubberReportWriterService;
         this.parameterService = parameterService;
-        
+
         cutoffHour = null;
         cutoffMinute = null;
         cutoffSecond = null;
@@ -217,7 +217,7 @@ public class LaborScrubberProcess {
 
     /**
      * Scrub this single group read only. This will only output the scrubber report. It won't output any other groups.
-     * 
+     *
      * @param group
      */
     public void scrubGroupReportOnly(String fileName, String documentNumber) {
@@ -227,7 +227,7 @@ public class LaborScrubberProcess {
         this.errorFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_ERROR_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         this.expiredFile = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_EXPIRED_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         String prescrubOutput = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.PRE_SCRUBBER_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
-        
+
         PreScrubberReportData preScrubberReportData = null;
         // run pre-scrubber on the raw input into the sort process
         LineIterator inputEntries = null;
@@ -335,7 +335,7 @@ public class LaborScrubberProcess {
 
     /**
      * Determine the type of the transaction by looking at attributes
-     * 
+     *
      * @param transaction Transaction to identify
      * @return CE (Cost share encumbrance, O (Offset), C (apitalization), L (Liability), T (Transfer), CS (Cost Share), X (Other)
      */
@@ -373,11 +373,10 @@ public class LaborScrubberProcess {
     /**
      * This will process a group of origin entries. The COBOL code was refactored a lot to get this so there isn't a 1 to 1 section
      * of Cobol relating to this.
-     * 
+     *
      * @param originEntryGroup Group to process
      */
     protected void processGroup() {
-        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         LaborOriginEntry lastEntry = null;
         scrubCostShareAmount = KualiDecimal.ZERO;
         unitOfWork = new UnitOfWorkInfo();
@@ -508,7 +507,7 @@ public class LaborScrubberProcess {
                             this.laborMainReportWriterService.writeError(unscrubbedEntry, transactionErrors);
                         }
 
-  
+
                         if (saveValidTransaction) {
                             scrubbedEntry.setTransactionScrubberOffsetGenerationIndicator(false);
                             createOutputEntry(scrubbedEntry, OUTPUT_GLE_FILE_ps);
@@ -591,7 +590,7 @@ public class LaborScrubberProcess {
 
     /**
      * Generate the offset message with the flag at the end
-     * 
+     *
      * @return Offset message
      */
     protected String getOffsetMessage() {
@@ -640,6 +639,7 @@ public class LaborScrubberProcess {
             return univFiscalYr.equals(e.getUniversityFiscalYear()) && finCoaCd.equals(e.getChartOfAccountsCode()) && accountNbr.equals(e.getAccountNumber()) && subAcctNbr.equals(e.getSubAccountNumber()) && finBalanceTypCd.equals(e.getFinancialBalanceTypeCode()) && fdocTypCd.equals(e.getFinancialDocumentTypeCode()) && fsOriginCd.equals(e.getFinancialSystemOriginationCode()) && fdocNbr.equals(e.getDocumentNumber()) && ObjectHelper.isEqual(fdocReversalDt, e.getFinancialDocumentReversalDate()) && univFiscalPrdCd.equals(e.getUniversityFiscalPeriodCode());
         }
 
+        @Override
         public String toString() {
             return univFiscalYr + finCoaCd + accountNbr + subAcctNbr + finBalanceTypCd + fdocTypCd + fsOriginCd + fdocNbr + fdocReversalDt + univFiscalPrdCd;
         }
@@ -720,7 +720,7 @@ public class LaborScrubberProcess {
     /**
      * This method modifies the run date if it is before the cutoff time specified by calling the setCutoffTimeForPreviousDay
      * method. See KULRNE-70 This method is public to facilitate unit testing
-     * 
+     *
      * @param currentDate
      * @return
      */
@@ -764,7 +764,7 @@ public class LaborScrubberProcess {
     }
 
     protected void initCutoffTime() {
-        String cutoffTime = SpringContext.getBean(ParameterService.class).getParameterValueAsString(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.SCRUBBER_CUTOFF_TIME);
+        String cutoffTime = parameterService.getParameterValueAsString(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.SCRUBBER_CUTOFF_TIME);
         if (StringUtils.isBlank(cutoffTime)) {
             LOG.debug("Cutoff time system parameter not found");
             unsetCutoffTimeForPreviousDay();
@@ -820,7 +820,7 @@ public class LaborScrubberProcess {
      * The demerger process reads all of the documents in the error group, then moves all of the original entries for that document
      * from the valid group to the error group. It does not move generated entries to the error group. Those are deleted. It also
      * modifies the doc number and origin code of cost share transfers.
-     * 
+     *
      * @param errorGroup
      * @param validGroup
      */
@@ -828,7 +828,7 @@ public class LaborScrubberProcess {
         LOG.debug("performDemerger() started");
         LaborOriginEntryFieldUtil loefu = new LaborOriginEntryFieldUtil();
         Map<String, Integer> pMap = loefu.getFieldBeginningPositionMap();
-        
+
         String validOutputFilename = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_VALID_OUTPUT_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         String errorOutputFilename = batchFileDirectoryName + File.separator + LaborConstants.BatchFileSystem.SCRUBBER_ERROR_SORTED_FILE + GeneralLedgerConstants.BatchFileSystem.EXTENSION;
         runDate = calculateRunDate(dateTimeService.getCurrentDate());
@@ -840,9 +840,9 @@ public class LaborScrubberProcess {
 
         OriginEntryStatistics eOes = laborOriginEntryService.getStatistics(errorOutputFilename);
         demergerReport.setErrorTransactionsRead(eOes.getRowCount());
-        
+
         //
-        // Get the list of document type codes from the parameter.  If the 
+        // Get the list of document type codes from the parameter.  If the
         // current document type matches any of parameter defined type codes,
         // then demerge all other entries for this document; otherwise, only
         // pull the entry with the error and don't demerge anything else.
@@ -962,7 +962,7 @@ public class LaborScrubberProcess {
             throw new RuntimeException("performDemerger() stopped due to: " + e.getMessage(), e);
         }
         finally {
-            
+
             try {
                 if (INPUT_GLE_FILE_br != null) {
                     INPUT_GLE_FILE_br.close();
@@ -971,7 +971,7 @@ public class LaborScrubberProcess {
             catch (IOException e) {
                 LOG.error("performDemerger() s" + "Failed to close resources due to: " + e.getMessage(), e);
             }
-            
+
             try {
                 if (INPUT_ERR_FILE_br != null) {
                     INPUT_ERR_FILE_br.close();
@@ -1047,6 +1047,7 @@ public class LaborScrubberProcess {
      */
     protected void generateScrubberBadBalanceTypeListingReport() {
         LaborOriginEntryFilter blankBalanceTypeFilter = new LaborOriginEntryFilter() {
+            @Override
             public boolean accept(LaborOriginEntry originEntry) {
                 BalanceType originEntryBalanceType = laborAccountingCycleCachingService.getBalanceType(originEntry.getFinancialBalanceTypeCode());
                 return ObjectUtils.isNull(originEntryBalanceType);

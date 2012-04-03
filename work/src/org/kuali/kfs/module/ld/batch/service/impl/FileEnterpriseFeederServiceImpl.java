@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -49,50 +49,53 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
  * transaction.
  */
 public class FileEnterpriseFeederServiceImpl extends InitiateDirectoryBase implements EnterpriseFeederService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FileEnterpriseFeederServiceImpl.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FileEnterpriseFeederServiceImpl.class);
 
-    private String directoryName;
-    private String laborOriginEntryDirectoryName;
+    protected String directoryName;
+    protected String laborOriginEntryDirectoryName;
 
-    private DateTimeService dateTimeService;
-    private FileEnterpriseFeederHelperService fileEnterpriseFeederHelperService;
-    private EnterpriseFeederNotificationService enterpriseFeederNotificationService;
-    private ParameterService parameterService;
-    private ConfigurationService configurationService;
-    
-    private String reconciliationTableId;
+    protected DateTimeService dateTimeService;
+    protected FileEnterpriseFeederHelperService fileEnterpriseFeederHelperService;
+    protected EnterpriseFeederNotificationService enterpriseFeederNotificationService;
+    protected ParameterService parameterService;
+    protected ConfigurationService configurationService;
 
-    private ReportWriterService reportWriterService;
-    private ReportWriterService errorStatisticsReport;
-    
+    protected String reconciliationTableId;
+
+    protected ReportWriterService reportWriterService;
+    protected ReportWriterService errorStatisticsReport;
+
     /**
      * Feeds file sets in the directory whose name is returned by the invocation to getDirectoryName()
-     * 
+     *
      * @see org.kuali.kfs.gl.batch.service.EnterpriseFeederService#feed(java.lang.String)
      */
+    @Override
     public void feed(String processName, boolean performNotifications) {
         // ensure that this feeder implementation may not be run concurrently on this JVM
         // to consider: maybe use java NIO classes to perform done file locking?
-        synchronized (FileEnterpriseFeederServiceImpl.class) {
+        synchronized (this) {
             if (StringUtils.isBlank(directoryName)) {
                 throw new IllegalArgumentException("directoryName not set for FileEnterpriseFeederServiceImpl.");
             }
             FileFilter doneFileFilter = new SuffixFileFilter(DONE_FILE_SUFFIX);
 
             File enterpriseFeedFile = null;
-            String enterpriseFeedFileName = LaborConstants.BatchFileSystem.LABOR_ENTERPRISE_FEED + LaborConstants.BatchFileSystem.EXTENSION; 
+            String enterpriseFeedFileName = LaborConstants.BatchFileSystem.LABOR_ENTERPRISE_FEED + LaborConstants.BatchFileSystem.EXTENSION;
             enterpriseFeedFile = new File(laborOriginEntryDirectoryName + File.separator + enterpriseFeedFileName);
-            
+
 			PrintStream enterpriseFeedPs = null;
 			try {
 				enterpriseFeedPs = new PrintStream(enterpriseFeedFile);
-			} 
+			}
 			catch (FileNotFoundException e) {
 				LOG.error("enterpriseFeedFile doesn't exist " + enterpriseFeedFileName);
 				throw new RuntimeException("enterpriseFeedFile doesn't exist " + enterpriseFeedFileName);
 			}
 
-			LOG.info("New File created for enterprise feeder service run: " + enterpriseFeedFileName);
+			if ( LOG.isInfoEnabled() ) {
+			    LOG.info("New File created for enterprise feeder service run: " + enterpriseFeedFileName);
+			}
 
 			File directory = new File(directoryName);
 			if (!directory.exists() || !directory.isDirectory()) {
@@ -109,7 +112,7 @@ public class FileEnterpriseFeederServiceImpl extends InitiateDirectoryBase imple
 			EnterpriseFeederReportData feederReportData = new EnterpriseFeederReportData();
 
 			List<EnterpriseFeederStatusAndErrorMessagesWrapper> statusAndErrorsList = new ArrayList<EnterpriseFeederStatusAndErrorMessagesWrapper>();
-			
+
 			for (File doneFile : doneFiles) {
 				File dataFile = null;
 				File reconFile = null;
@@ -128,7 +131,7 @@ public class FileEnterpriseFeederServiceImpl extends InitiateDirectoryBase imple
 							new Message("Unable to find data file for done file: " + doneFile.getAbsolutePath(), Message.TYPE_FATAL));
 					statusAndErrors.setStatus(new RequiredFilesMissingStatus());
 				}
-				
+
 				if (reconFile == null) {
 					LOG.error("Unable to find recon file for done file: " + doneFile.getAbsolutePath());
 					statusAndErrors.getErrorMessages().add(
@@ -138,17 +141,19 @@ public class FileEnterpriseFeederServiceImpl extends InitiateDirectoryBase imple
 
 				try {
 					if (dataFile != null && reconFile != null) {
-						LOG.info("Data file: " + dataFile.getAbsolutePath());
-						LOG.info("Reconciliation File: " + reconFile.getAbsolutePath());
+					    if ( LOG.isInfoEnabled() ) {
+					        LOG.info("Data file: " + dataFile.getAbsolutePath());
+	                        LOG.info("Reconciliation File: " + reconFile.getAbsolutePath());
+					    }
 
 						fileEnterpriseFeederHelperService.feedOnFile(doneFile, dataFile, reconFile, enterpriseFeedPs, processName,
 								reconciliationTableId, statusAndErrors, ledgerSummaryReport, errorStatisticsReport, feederReportData);
 					}
-				} 
+				}
 				catch (RuntimeException e) {
 					// we need to be extremely resistant to a file load failing so that it doesn't prevent other files from loading
 					LOG.error("Caught exception when feeding done file: " + doneFile.getAbsolutePath());
-				} 
+				}
 				finally {
 					statusAndErrorsList.add(statusAndErrors);
 					boolean doneFileDeleted = doneFile.delete();
@@ -188,12 +193,14 @@ public class FileEnterpriseFeederServiceImpl extends InitiateDirectoryBase imple
 
 				enterpriseFeedFileCreated = true;
 			}
-			
+
 			// write out totals to log file
-			LOG.info("Total records read: " + feederReportData.getNumberOfRecordsRead());
-			LOG.info("Total amount read: " + feederReportData.getTotalAmountRead());
-			LOG.info("Total records written: " + feederReportData.getNumberOfRecordsRead());
-			LOG.info("Total amount written: " + feederReportData.getTotalAmountWritten());
+			if ( LOG.isInfoEnabled() ) {
+	            LOG.info("Total records read: " + feederReportData.getNumberOfRecordsRead());
+	            LOG.info("Total amount read: " + feederReportData.getTotalAmountRead());
+	            LOG.info("Total records written: " + feederReportData.getNumberOfRecordsRead());
+	            LOG.info("Total amount written: " + feederReportData.getTotalAmountWritten());
+			}
 
 			generateReport(enterpriseFeedFileCreated, feederReportData, statusAndErrorsList, ledgerSummaryReport,
 					laborOriginEntryDirectoryName + File.separator + enterpriseFeedFileName);
@@ -211,7 +218,7 @@ public class FileEnterpriseFeederServiceImpl extends InitiateDirectoryBase imple
     /**
      * Reorders the files in case there's a dependency on the order in which files are fed upon. For this implementation, the
      * purpose is to always order files in a way such that unit testing will be predictable.
-     * 
+     *
      * @param doneFiles
      */
     protected void reorderDoneFiles(File[] doneFiles) {
@@ -221,7 +228,7 @@ public class FileEnterpriseFeederServiceImpl extends InitiateDirectoryBase imple
 
     /**
      * Given the doneFile, this method finds the data file corresponding to the done file
-     * 
+     *
      * @param doneFile
      * @return a File for the data file, or null if the file doesn't exist or is not readable
      */
@@ -242,7 +249,7 @@ public class FileEnterpriseFeederServiceImpl extends InitiateDirectoryBase imple
 
     /**
      * Given the doneFile, this method finds the reconciliation file corresponding to the data file
-     * 
+     *
      * @param doneFile
      * @return a file for the reconciliation data, or null if the file doesn't exist or is not readable
      */
@@ -263,81 +270,40 @@ public class FileEnterpriseFeederServiceImpl extends InitiateDirectoryBase imple
 
     /**
      * Gets the directoryName attribute.
-     * 
+     *
      * @return Returns the directoryName.
      */
+    @Override
     public String getDirectoryName() {
         return directoryName;
     }
 
     /**
      * Sets the directoryName attribute value.
-     * 
+     *
      * @param directoryName The directoryName to set.
      */
     public void setDirectoryName(String directoryName) {
         this.directoryName = directoryName;
     }
 
-  
 
-    /**
-     * Gets the dateTimeService attribute.
-     * 
-     * @return Returns the dateTimeService.
-     */
-    public DateTimeService getDateTimeService() {
-        return dateTimeService;
-    }
 
-    /**
-     * Sets the dateTimeService attribute value.
-     * 
-     * @param dateTimeService The dateTimeService to set.
-     */
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
 
-    /**
-     * Gets the fileEnterpriseFeederHelperService attribute.
-     * 
-     * @return Returns the fileEnterpriseFeederHelperService.
-     */
-    public FileEnterpriseFeederHelperService getFileEnterpriseFeederHelperService() {
-        return fileEnterpriseFeederHelperService;
-    }
-
-    /**
-     * Sets the fileEnterpriseFeederHelperService attribute value.
-     * 
-     * @param fileEnterpriseFeederHelperService The fileEnterpriseFeederHelperService to set.
-     */
     public void setFileEnterpriseFeederHelperService(FileEnterpriseFeederHelperService fileEnterpriseFeederHelperServiceImpl) {
         this.fileEnterpriseFeederHelperService = fileEnterpriseFeederHelperServiceImpl;
     }
 
-    /**
-     * Gets the enterpriseFeederNotificationService attribute.
-     * 
-     * @return Returns the enterpriseFeederNotificationService.
-     */
-    public EnterpriseFeederNotificationService getEnterpriseFeederNotificationService() {
-        return enterpriseFeederNotificationService;
-    }
-
-    /**
-     * Sets the enterpriseFeederNotificationService attribute value.
-     * 
-     * @param enterpriseFeederNotificationService The enterpriseFeederNotificationService to set.
-     */
     public void setEnterpriseFeederNotificationService(EnterpriseFeederNotificationService enterpriseFeederNotificationService) {
         this.enterpriseFeederNotificationService = enterpriseFeederNotificationService;
     }
 
     /**
      * Gets the reconciliationTableId attribute.
-     * 
+     *
      * @return Returns the reconciliationTableId.
      */
     public String getReconciliationTableId() {
@@ -346,7 +312,7 @@ public class FileEnterpriseFeederServiceImpl extends InitiateDirectoryBase imple
 
     /**
      * Sets the reconciliationTableId attribute value.
-     * 
+     *
      * @param reconciliationTableId The reconciliationTableId to set.
      */
     public void setReconciliationTableId(String reconciliationTableId) {
@@ -363,14 +329,14 @@ public class FileEnterpriseFeederServiceImpl extends InitiateDirectoryBase imple
 					.writeFormattedMessageLine(configurationService.getPropertyValueAsString(LaborKeyConstants.EnterpriseFeed.ERROR_OUTPUT_FILE_NOT_GENERATED));
 		}
         reportWriterService.writeNewLines(1);
-        
+
         generateFilesLoadedStatusReport(statusAndErrorsList);
         reportWriterService.pageBreak();
         report.writeReport(reportWriterService);
-        
+
         generateErrorAndStatisticsReport(feederReportData);
     }
-    
+
     protected void generateFilesLoadedStatusReport(List<EnterpriseFeederStatusAndErrorMessagesWrapper> statusAndErrorsList) {
         boolean successfulFileLoaded = false;
         reportWriterService.writeSubTitle("Files Successfully Loaded");
@@ -380,16 +346,16 @@ public class FileEnterpriseFeederServiceImpl extends InitiateDirectoryBase imple
                 reportWriterService.writeFormattedMessageLine("Reconciliation file:     %s", statusAndErrors.getReconFileName());
                 reportWriterService.writeFormattedMessageLine("Status:                  %s", statusAndErrors.getStatus().getStatusDescription());
                 reportWriterService.writeNewLines(1);
-                
+
                 successfulFileLoaded = true;
             }
         }
         if (!successfulFileLoaded) {
             reportWriterService.writeFormattedMessageLine("No files were successfully loaded");
         }
-        
+
         reportWriterService.writeNewLines(2);
-        
+
         boolean unsuccessfulFileLoaded = false;
         reportWriterService.writeSubTitle("Files NOT Successfully Loaded");
         for (EnterpriseFeederStatusAndErrorMessagesWrapper statusAndErrors : statusAndErrorsList) {
@@ -398,16 +364,16 @@ public class FileEnterpriseFeederServiceImpl extends InitiateDirectoryBase imple
                 reportWriterService.writeFormattedMessageLine("Reconciliation file:     %s", statusAndErrors.getReconFileName() == null ? "" : statusAndErrors.getReconFileName());
                 reportWriterService.writeFormattedMessageLine("Status:                  %s", statusAndErrors.getStatus().getStatusDescription());
                 reportWriterService.writeNewLines(1);
-                
+
                 unsuccessfulFileLoaded = true;
             }
         }
         if (!unsuccessfulFileLoaded) {
             reportWriterService.writeFormattedMessageLine("All files were successfully loaded");
         }
-        
+
     }
-    
+
     protected void generateErrorAndStatisticsReport(EnterpriseFeederReportData feederReportData) {
     	errorStatisticsReport.writeStatisticLine("LABOR LEDGER RECORDS READ                    %,9d", feederReportData.getNumberOfRecordsRead());
     	errorStatisticsReport.writeStatisticLine("LABOR LEDGER ACTUALS READ                    %,9d", feederReportData.getNumberOfBalanceTypeActualsRead());
@@ -417,18 +383,18 @@ public class FileEnterpriseFeederServiceImpl extends InitiateDirectoryBase imple
     	errorStatisticsReport.writeStatisticLine("MAX NUMBER OF ERRORS ALLOWED                 %,9d", getMaximumNumberOfErrorsAllowed());
     	errorStatisticsReport.writeStatisticLine("NUMBER OF ERRORS FOUND                       %,9d", feederReportData.getNumberOfErrorEncountered());
     }
-    
+
 	/**
 	 * Retrieves the system parameter value that indicates the maximum number of
 	 * errors that are allowed to occur in benefit generation
-	 * 
+	 *
 	 * @return int max number of errors
 	 */
 	protected int getMaximumNumberOfErrorsAllowed() {
 		String maxBenefitGenerationErrorsStr = parameterService	.getParameterValueAsString(LaborEnterpriseFeedStep.class,
 						LaborConstants.BenefitCalculation.MAX_NUMBER_OF_ERRORS_ALLOWED_PARAMETER);
 		int maxBenefitGenerationErrors = 0;
-		if (StringUtils.isNotBlank(maxBenefitGenerationErrorsStr)) {
+		if (StringUtils.isNumeric(maxBenefitGenerationErrorsStr)) {
 			maxBenefitGenerationErrors = Integer.parseInt(maxBenefitGenerationErrorsStr);
 		}
 
@@ -458,5 +424,5 @@ public class FileEnterpriseFeederServiceImpl extends InitiateDirectoryBase imple
     public void setErrorStatisticsReport(ReportWriterService errorStatisticsReport) {
         this.errorStatisticsReport = errorStatisticsReport;
     }
-    
+
 }

@@ -344,6 +344,12 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
+		<property name="financialSystemUserService">
+			<ref bean="financialSystemUserService" />
+		</property>
+		<property name="objectCodeService">
+			<ref bean="objectCodeService" />
+		</property>
 		<property name="paidAppliedService">
 			<ref bean="invoicePaidAppliedService" />
 		</property>

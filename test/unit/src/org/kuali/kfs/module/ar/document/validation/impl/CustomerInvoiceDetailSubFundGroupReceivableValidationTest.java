@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,54 +26,53 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 @ConfigureContext(session = khuntley)
 public class CustomerInvoiceDetailSubFundGroupReceivableValidationTest extends KualiTestBase {
-    
-    private CustomerInvoiceDetailSubFundGroupReceivableValidation validation;
-    private final static String VALID_CHART_OF_ACCOUNTS_CODE = "UA";
-    private final static String VALID_ACCOUNT_NUMBER = "1912810";
-    private final static String INVALID_ACCOUNT_NUMBER_WITHOUT_MATCHING_OBJECT_CODE = "1912201";
-    private final static String INVALID_ACCOUNT_NUMBER_WITH_MATCHING_OBJECT_CODE = "2312810"; 
-    
+
+    protected CustomerInvoiceDetailSubFundGroupReceivableValidation validation;
+    protected final static String VALID_CHART_OF_ACCOUNTS_CODE = "UA";
+    protected final static String VALID_ACCOUNT_NUMBER = "1912810";
+    protected final static String INVALID_ACCOUNT_NUMBER_WITHOUT_MATCHING_OBJECT_CODE = "1912201";
+    protected final static String INVALID_ACCOUNT_NUMBER_WITH_MATCHING_OBJECT_CODE = "2312810";
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         validation = new CustomerInvoiceDetailSubFundGroupReceivableValidation();
         validation.setParameterService(SpringContext.getBean(ParameterService.class));
         validation.setCustomerInvoiceDetail(new CustomerInvoiceDetail());
-        validation.getCustomerInvoiceDetail().setChartOfAccountsCode(VALID_CHART_OF_ACCOUNTS_CODE);
-        validation.getCustomerInvoiceDetail().setPostingYear(TestUtils.getFiscalYearForTesting());
-        validation.setParameterService(SpringContext.getBean(ParameterService.class));
+        validation.customerInvoiceDetail.setChartOfAccountsCode(VALID_CHART_OF_ACCOUNTS_CODE);
+        validation.customerInvoiceDetail.setPostingYear(TestUtils.getFiscalYearForTesting());
     }
 
     @Override
     protected void tearDown() throws Exception {
         validation = null;
         super.tearDown();
-    }    
-    
+    }
+
     /**
      * This method tests if a valid account number has a corresponding sub fund group that has a corresponding receivable object code in
      * the system parameter asserts true.
      */
     public void testValidAccountNumberWithSubFundGroupParameterReceviable(){
-        validation.getCustomerInvoiceDetail().setAccountNumber(VALID_ACCOUNT_NUMBER);
+        validation.customerInvoiceDetail.setAccountNumber(VALID_ACCOUNT_NUMBER);
         assertTrue(validation.validate(null));
     }
-    
+
     /**
-     * This method tests if a valid account number without a corresponding sub fund group defined in the system parameter asserts false. 
+     * This method tests if a valid account number without a corresponding sub fund group defined in the system parameter asserts false.
      */
     public void testValidAccountNumberWithNoSubFundGroupParameter(){
-        validation.getCustomerInvoiceDetail().setAccountNumber(INVALID_ACCOUNT_NUMBER_WITHOUT_MATCHING_OBJECT_CODE);
-        assertFalse(validation.validate(null));        
-    }    
-    
-    
+        validation.customerInvoiceDetail.setAccountNumber(INVALID_ACCOUNT_NUMBER_WITHOUT_MATCHING_OBJECT_CODE);
+        assertFalse(validation.validate(null));
+    }
+
+
     /**
      * This method tests if a valid account number number with a corresponding sub fund group defined in the system parameter, but doesn't
      * have a valid receivable object code.
      */
     public void testValidAccountNumberWithSubFundGroupNoReceivable(){
-        validation.getCustomerInvoiceDetail().setAccountNumber(INVALID_ACCOUNT_NUMBER_WITH_MATCHING_OBJECT_CODE);
+        validation.customerInvoiceDetail.setAccountNumber(INVALID_ACCOUNT_NUMBER_WITH_MATCHING_OBJECT_CODE);
         assertFalse(validation.validate(null));
     }
 

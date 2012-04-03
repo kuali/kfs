@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -46,6 +46,7 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
     /**
      * @see org.kuali.rice.krad.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.krad.document.Document)
      */
+    @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean success = super.processCustomSaveDocumentBusinessRules(document);
 
@@ -87,7 +88,7 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
 
     /**
      * This method validates any writeoff GLPE required information
-     * 
+     *
      * @param customerInvoiceWriteoffDocument
      * @return
      */
@@ -115,14 +116,14 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
 
     /**
      * This method checks if the chart object code using on the invoice detail has a corresponding
-     * 
+     *
      * @param customerInvoiceDetail
      * @return TODO
      */
     protected boolean doesChartCodeHaveCorrespondingWriteoffObjectCode(CustomerInvoiceDetail customerInvoiceDetail) {
         boolean success = true;
 
-        String writeoffObjectCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_OBJECT_CODE_BY_CHART, customerInvoiceDetail.getChartOfAccountsCode());
+        String writeoffObjectCode = SpringContext.getBean(ParameterService.class).getSubParameterValueAsString(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_OBJECT_CODE_BY_CHART, customerInvoiceDetail.getChartOfAccountsCode());
         if (StringUtils.isBlank(writeoffObjectCode)) {
             GlobalVariables.getMessageMap().putError(ArPropertyConstants.CustomerInvoiceWriteoffDocumentFields.CUSTOMER_INVOICE_DETAILS_FOR_WRITEOFF, ArKeyConstants.ERROR_CUSTOMER_INVOICE_WRITEOFF_CHART_WRITEOFF_OBJECT_DOESNT_EXIST, customerInvoiceDetail.getChartOfAccountsCode());
             success = false;
@@ -160,7 +161,7 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
 
     /**
      * This method returns true if payment account number is provided and is valid.
-     * 
+     *
      * @param doc
      * @return
      */
@@ -176,7 +177,7 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
 
     /**
      * This method returns true if payment chart of accounts code is provided and is valid
-     * 
+     *
      * @param doc
      * @return
      */
@@ -192,7 +193,7 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
 
     /**
      * This method returns true if payment financial object code is provided and is valid
-     * 
+     *
      * @param doc
      * @return
      */
@@ -208,7 +209,7 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
     /**
      * This method returns true if customer invoice document for writeoff does not have a credit balance (i.e. a open amount less
      * than 0).
-     * 
+     *
      * @param customerInvoiceWriteoffDocument
      * @return
      */
@@ -223,7 +224,7 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
     /**
      * This method checks if there is no another CRM in route for the invoice not in route if CRM status is one of the following:
      * processed, cancelled, or disapproved
-     * 
+     *
      * @param invoice
      * @return
      */
@@ -239,7 +240,7 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
     /**
      * This method checks if there is no another writeoff in route for the invoice not in route if CRM status is one of the
      * following: processed, cancelled, or disapproved
-     * 
+     *
      * @param invoice
      * @return
      */
@@ -256,6 +257,7 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
      * @see org.kuali.kfs.module.ar.document.validation.ContinueCustomerInvoiceWriteoffDocumentRule#processContinueCustomerInvoiceWriteoffDocumentRules(org.kuali.kfs.sys.document.AccountingDocument)
      */
 
+    @Override
     public boolean processContinueCustomerInvoiceWriteoffDocumentRules(TransactionalDocument document) {
         boolean success;
         CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument = (CustomerInvoiceWriteoffDocument) document;

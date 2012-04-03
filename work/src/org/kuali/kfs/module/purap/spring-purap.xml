@@ -276,6 +276,11 @@
         <property name="vendorService" ref="vendorService" />
         <property name="dataDictionaryService" ref="dataDictionaryService" />
         <property name="universityDateService" ref="universityDateService"/>
+        <property name="bankService" ref="bankService" />
+        <property name="purchaseOrderService" ref="purchaseOrderService" />
+        <!-- <property name="purapGeneralLedgerService" ref="purapGeneralLedgerService" /> -->
+        <property name="financialSystemWorkflowHelperService" ref="financialSystemWorkflowHelperService" />
+        <property name="kualiRuleService" ref="kualiRuleService" />
     </bean>
 	
 	<bean id="creditMemoDao" parent="platformAwareDao" class="org.kuali.kfs.module.purap.document.dataaccess.impl.CreditMemoDaoOjb" />

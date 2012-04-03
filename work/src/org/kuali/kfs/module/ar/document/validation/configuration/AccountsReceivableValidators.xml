@@ -182,7 +182,11 @@
    		</property>
    	</bean>
    	
-   	<bean id="CustomerInvoiceWriteoff-chartCodeHasCorrespondingWriteoffObjectCodeValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceWriteoffChartCodeHasCorrespondingWriteoffObjectCodeValidation" abstract="true"/>
+   	<bean id="CustomerInvoiceWriteoff-chartCodeHasCorrespondingWriteoffObjectCodeValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceWriteoffChartCodeHasCorrespondingWriteoffObjectCodeValidation" abstract="true">
+   		<property name="parameterService" >
+   			<ref bean="parameterService" />
+   		</property>
+   	</bean>  	
    	
    	<bean id="CustomerInvoiceWriteoff-chartOfAccountsCodeValidation" class="org.kuali.kfs.module.ar.document.validation.impl.CustomerInvoiceWriteoffChartOfAccountsCodeValidation" abstract="true" >
    		<property name="businessObjectService">

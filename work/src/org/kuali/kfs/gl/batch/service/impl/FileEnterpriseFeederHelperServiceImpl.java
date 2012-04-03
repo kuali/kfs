@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,20 +34,20 @@ import org.kuali.kfs.gl.service.impl.EnterpriseFeederStatusAndErrorMessagesWrapp
 import org.kuali.kfs.sys.Message;
 
 /**
- * This class reads origin entries in a flat file format, reconciles them, and loads them into the origin entry table. 
+ * This class reads origin entries in a flat file format, reconciles them, and loads them into the origin entry table.
  * Note: the feeding algorithm of this service will read the data file twice to minimize memory usage.
  */
 public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeederHelperService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FileEnterpriseFeederHelperServiceImpl.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FileEnterpriseFeederHelperServiceImpl.class);
 
-    private ReconciliationParserService reconciliationParserService;
-    private ReconciliationService reconciliationService;
-    private OriginEntryService originEntryService;
+    protected ReconciliationParserService reconciliationParserService;
+    protected ReconciliationService reconciliationService;
+    protected OriginEntryService originEntryService;
 
     /**
      * This method does the reading and the loading of reconciliation. Read class description. This method DOES NOT handle the
      * deletion of the done file
-     * 
+     *
      * @param doneFile a URL that must be present. The contents may be empty
      * @param dataFile a URL to a flat file of origin entry rows.
      * @param reconFile a URL to the reconciliation file. See the implementation of {@link ReconciliationParserService} for file
@@ -59,8 +59,11 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
      * @see org.kuali.module.gl.service.impl.FileEnterpriseFeederHelperService#feedOnFile(java.io.File, java.io.File, java.io.File,
      *      org.kuali.kfs.gl.businessobject.OriginEntryGroup)
      */
+    @Override
     public void feedOnFile(File doneFile, File dataFile, File reconFile, PrintStream enterpriseFeedPs, String feederProcessName, String reconciliationTableId, EnterpriseFeederStatusAndErrorMessagesWrapper statusAndErrors, LedgerSummaryReport ledgerSummaryReport) {
-        LOG.info("Processing done file: " + doneFile.getAbsolutePath());
+        if ( LOG.isInfoEnabled() ) {
+            LOG.info("Processing done file: " + doneFile.getAbsolutePath());
+        }
 
         List<Message> errorMessages = statusAndErrors.getErrorMessages();
         BufferedReader dataFileReader = null;
@@ -114,7 +117,7 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
                 dataFileReader = new BufferedReader(new FileReader(dataFile));
                 String line;
                 int count = 0;
-                
+
                 // create an entry to temporarily parse each line as it comes in
                 OriginEntryFull tempEntry = new OriginEntryFull();
                 while ((line = dataFileReader.readLine()) != null) {
@@ -125,7 +128,7 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
                     } catch (Exception e) {
                         throw new IOException(e.toString());
                     }
-                    
+
                     count++;
                 }
                 dataFileReader.close();
@@ -167,7 +170,7 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
      * Returns whether the reconciliation process succeeded by looking at the reconciliation error messages For this implementation,
      * the reconciliation does not succeed if at least one of the error messages in the list has a type of
      * {@link Message#TYPE_FATAL}
-     * 
+     *
      * @param errorMessages a List of errorMessages
      * @return true if any of those error messages were fatal
      */
@@ -180,56 +183,12 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
         return true;
     }
 
-    /**
-     * Gets the reconciliationParserService attribute.
-     * 
-     * @return Returns the reconciliationParserService.
-     */
-    public ReconciliationParserService getReconciliationParserService() {
-        return reconciliationParserService;
-    }
-
-    /**
-     * Sets the reconciliationParserService attribute value.
-     * 
-     * @param reconciliationParserService The reconciliationParserService to set.
-     */
     public void setReconciliationParserService(ReconciliationParserService reconciliationParserService) {
         this.reconciliationParserService = reconciliationParserService;
     }
-
-    /**
-     * Gets the reconciliationService attribute.
-     * 
-     * @return Returns the reconciliationService.
-     */
-    public ReconciliationService getReconciliationService() {
-        return reconciliationService;
-    }
-
-    /**
-     * Sets the reconciliationService attribute value.
-     * 
-     * @param reconciliationService The reconciliationService to set.
-     */
     public void setReconciliationService(ReconciliationService reconciliationService) {
         this.reconciliationService = reconciliationService;
     }
-
-    /**
-     * Gets the originEntryService attribute.
-     * 
-     * @return Returns the originEntryService.
-     */
-    public OriginEntryService getOriginEntryService() {
-        return originEntryService;
-    }
-
-    /**
-     * Sets the originEntryService attribute value.
-     * 
-     * @param originEntryService The originEntryService to set.
-     */
     public void setOriginEntryService(OriginEntryService originEntryService) {
         this.originEntryService = originEntryService;
     }

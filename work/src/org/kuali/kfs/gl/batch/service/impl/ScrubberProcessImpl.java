@@ -1184,8 +1184,8 @@ public class ScrubberProcessImpl implements ScrubberProcess {
 
                 String objectSubTypeCode = scrubbedEntryObjectCode.getFinancialObjectSubTypeCode();
 
-                String capitalizationObjectCode = parameterService.getParameterValueAsString(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.CAPITALIZATION_SUBTYPE_OBJECT, objectSubTypeCode);
-                if (capitalizationObjectCode != null) {
+                String capitalizationObjectCode = parameterService.getSubParameterValueAsString(ScrubberStep.class, GeneralLedgerConstants.GlScrubberGroupParameters.CAPITALIZATION_SUBTYPE_OBJECT, objectSubTypeCode);
+                if ( org.apache.commons.lang.StringUtils.isNotBlank( capitalizationObjectCode ) ) {
                     capitalizationEntry.setFinancialObjectCode(capitalizationObjectCode);
                     capitalizationEntry.setFinancialObject(accountingCycleCachingService.getObjectCode(capitalizationEntry.getUniversityFiscalYear(), capitalizationEntry.getChartOfAccountsCode(), capitalizationEntry.getFinancialObjectCode()));
                 }

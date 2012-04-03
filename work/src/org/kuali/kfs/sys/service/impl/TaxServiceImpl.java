@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,15 +34,16 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class TaxServiceImpl implements TaxService {
 
-    private static final String POSTAL_CODE_DIGITS_PASSED_TO_SALES_TAX_REGION_SERVICE = "POSTAL_CODE_DIGITS_PASSED_TO_SALES_TAX_REGION_SERVICE";
-    
-    private TaxRegionService taxRegionService;
-    private ParameterService parameterService;
-    
+    protected static final String POSTAL_CODE_DIGITS_PASSED_TO_SALES_TAX_REGION_SERVICE = "POSTAL_CODE_DIGITS_PASSED_TO_SALES_TAX_REGION_SERVICE";
+
+    protected TaxRegionService taxRegionService;
+    protected ParameterService parameterService;
+
     /**
      * @see org.kuali.kfs.sys.service.TaxService#getSalesTaxDetails(java.lang.String, java.lang.String,
      *      org.kuali.rice.core.api.util.type.KualiDecimal)
      */
+    @Override
     public List<TaxDetail> getSalesTaxDetails(Date dateOfTransaction, String postalCode, KualiDecimal amount) {
         List<TaxDetail> salesTaxDetails = new ArrayList<TaxDetail>();
 
@@ -64,14 +65,15 @@ public class TaxServiceImpl implements TaxService {
      * @see org.kuali.kfs.sys.service.TaxService#getUseTaxDetails(java.lang.String, java.lang.String,
      *      org.kuali.rice.core.api.util.type.KualiDecimal)
      */
+    @Override
     public List<TaxDetail> getUseTaxDetails(Date dateOfTransaction, String postalCode, KualiDecimal amount) {
         List<TaxDetail> useTaxDetails = new ArrayList<TaxDetail>();
 
         if (StringUtils.isNotEmpty(postalCode)) {
-            //  strip digits from the postal code before passing it to the sales tax regions 
+            //  strip digits from the postal code before passing it to the sales tax regions
             // if the parameters indicate to do so.
             postalCode = truncatePostalCodeForSalesTaxRegionService(postalCode);
-            
+
             for (TaxRegion taxRegion : taxRegionService.getUseTaxRegions(postalCode)) {
                 useTaxDetails.add(populateTaxDetail(taxRegion, dateOfTransaction, amount));
             }
@@ -84,15 +86,16 @@ public class TaxServiceImpl implements TaxService {
      * @see org.kuali.kfs.sys.service.TaxService#getTotalSalesTaxAmount(java.lang.String, java.lang.String,
      *      org.kuali.rice.core.api.util.type.KualiDecimal)
      */
+    @Override
     public KualiDecimal getTotalSalesTaxAmount(Date dateOfTransaction, String postalCode, KualiDecimal amount) {
         KualiDecimal totalSalesTaxAmount = KualiDecimal.ZERO;
 
         if (StringUtils.isNotEmpty(postalCode)) {
 
-            //  strip digits from the postal code before passing it to the sales tax regions 
+            //  strip digits from the postal code before passing it to the sales tax regions
             // if the parameters indicate to do so.
             postalCode = truncatePostalCodeForSalesTaxRegionService(postalCode);
-            
+
             List<TaxDetail> salesTaxDetails = getSalesTaxDetails(dateOfTransaction, postalCode, amount);
             KualiDecimal newTaxAmount = KualiDecimal.ZERO;
             for (TaxDetail taxDetail : salesTaxDetails) {
@@ -106,13 +109,14 @@ public class TaxServiceImpl implements TaxService {
 
     /**
      * This method returns a preTax amount
-     * 
+     *
      * @param dateOfTransaction
      * @param postalCode
      * @param amountWithTax
      * @return
      */
 
+    @Override
     public KualiDecimal getPretaxAmount(Date dateOfTransaction, String postalCode, KualiDecimal amountWithTax) {
         BigDecimal totalTaxRate = BigDecimal.ZERO;
 
@@ -120,10 +124,10 @@ public class TaxServiceImpl implements TaxService {
         if (StringUtils.isEmpty(postalCode))
             return amountWithTax;
 
-        //  strip digits from the postal code before passing it to the sales tax regions 
+        //  strip digits from the postal code before passing it to the sales tax regions
         // if the parameters indicate to do so.
         postalCode = truncatePostalCodeForSalesTaxRegionService(postalCode);
-        
+
         List<TaxRegion> salesTaxRegions = taxRegionService.getSalesTaxRegions(postalCode);
         if (salesTaxRegions.size() == 0)
             return amountWithTax;
@@ -141,7 +145,7 @@ public class TaxServiceImpl implements TaxService {
 
     /**
      * This method returns a populated Tax Detail BO based on the Tax Region BO and amount
-     * 
+     *
      * @param taxRegion
      * @param amount
      * @return
@@ -171,9 +175,9 @@ public class TaxServiceImpl implements TaxService {
             return postalCode; // unchanged
         }
     }
-    
+
     protected Integer postalCodeDigitsToUse() {
-        String digits = parameterService.getParameterValueAsString(SalesTax.class, 
+        String digits = parameterService.getParameterValueAsString(SalesTax.class,
                 POSTAL_CODE_DIGITS_PASSED_TO_SALES_TAX_REGION_SERVICE);
         if (StringUtils.isBlank(digits)) { return null; }
         Integer digitsToUse;
@@ -185,15 +189,10 @@ public class TaxServiceImpl implements TaxService {
         }
         return digitsToUse;
     }
-    
-    public TaxRegionService getTaxRegionService() {
-        return taxRegionService;
-    }
 
     public void setTaxRegionService(TaxRegionService taxRegionService) {
         this.taxRegionService = taxRegionService;
     }
-
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }

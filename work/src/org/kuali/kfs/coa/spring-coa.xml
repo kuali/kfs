@@ -90,15 +90,11 @@
 
 	<bean id="accountService"  parent="accountService-parentBean"/>
 	<bean id="accountService-parentBean" class="org.kuali.kfs.coa.service.impl.AccountServiceImpl" abstract="true">
-		<property name="accountDao">
-			<ref bean="accountDao" />
-		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
-		<property name="parameterService">
-			<ref bean="parameterService" />
-		</property>
+		<property name="accountDao" ref="accountDao" />
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="parameterService" ref="parameterService" />
+		<property name="documentTypeService" ref="rice.kew.documentTypeService" />
+		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 	
 	<bean id="AccountReferenceExemption" abstract="true" parent="AccountReferenceExemption-parentBean"/>

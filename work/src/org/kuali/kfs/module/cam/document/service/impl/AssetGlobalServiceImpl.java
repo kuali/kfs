@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -63,6 +63,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
     protected enum AmountCategory {
 
         PAYMENT {
+            @Override
             void setParams(AssetGlpeSourceDetail postable, AssetPaymentDetail assetPaymentDetail, AssetObjectCode assetObjectCode, OffsetDefinition offsetDefinition, AssetAcquisitionType acquisitionType) {
                 postable.setPayment(true);
                 postable.setFinancialDocumentLineDescription(CamsConstants.AssetGlobal.LINE_DESCRIPTION_PAYMENT);
@@ -72,6 +73,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
 
         },
         PAYMENT_OFFSET {
+            @Override
             void setParams(AssetGlpeSourceDetail postable, AssetPaymentDetail assetPaymentDetail, AssetObjectCode assetObjectCode, OffsetDefinition offsetDefinition, AssetAcquisitionType acquisitionType) {
                 postable.setPaymentOffset(true);
                 postable.setFinancialDocumentLineDescription(CamsConstants.AssetGlobal.LINE_DESCRIPTION_PAYMENT_OFFSET);
@@ -84,20 +86,22 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         abstract void setParams(AssetGlpeSourceDetail postable, AssetPaymentDetail assetPaymentDetail, AssetObjectCode assetObjectCode, OffsetDefinition offsetDefinition, AssetAcquisitionType acquisitionType);
     }
 
-    private ParameterService parameterService;
-    private AssetService assetService;
-    private UniversityDateService universityDateService;
-    private AssetObjectCodeService assetObjectCodeService;
-    private BusinessObjectService businessObjectService;
-    private AssetPaymentService assetPaymentService;
-    private PaymentSummaryService paymentSummaryService;
-    private DateTimeService dateTimeService;
+    protected ParameterService parameterService;
+    protected AssetService assetService;
+    protected UniversityDateService universityDateService;
+    protected AssetObjectCodeService assetObjectCodeService;
+    protected BusinessObjectService businessObjectService;
+    protected AssetPaymentService assetPaymentService;
+    protected PaymentSummaryService paymentSummaryService;
+    protected DateTimeService dateTimeService;
+    protected ObjectCodeService objectCodeService;
+    protected OffsetDefinitionService offsetDefinitionService;
 
     private static final Logger LOG = Logger.getLogger(AssetGlobalServiceImpl.class);
 
     /**
      * Creates an instance of AssetGlpeSourceDetail depending on the source flag
-     * 
+     *
      * @param universityDateService University Date Service
      * @param assetPayment Payment record for which postable is created
      * @param isSource Indicates if postable is for source organization
@@ -118,18 +122,17 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         postable.setChartOfAccountsCode(assetPaymentDetail.getChartOfAccountsCode());
         postable.setDocumentNumber(document.getDocumentNumber());
         postable.setFinancialSubObjectCode(assetPaymentDetail.getFinancialSubObjectCode());
-        postable.setPostingYear(getUniversityDateService().getCurrentUniversityDate().getUniversityFiscalYear());
+        postable.setPostingYear(universityDateService.getCurrentUniversityDate().getUniversityFiscalYear());
         postable.setProjectCode(assetPaymentDetail.getProjectCode());
         postable.setSubAccountNumber(assetPaymentDetail.getSubAccountNumber());
         postable.setOrganizationReferenceId(assetPaymentDetail.getOrganizationReferenceId());
 
         assetPaymentDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentDetail.OBJECT_CODE);
-        ObjectCodeService objectCodeService = (ObjectCodeService) SpringContext.getBean(ObjectCodeService.class);
         ObjectCode objectCode = objectCodeService.getByPrimaryIdForCurrentYear(assetPaymentDetail.getChartOfAccountsCode(), assetPaymentDetail.getFinancialObjectCode());
 
-        AssetObjectCode assetObjectCode = getAssetObjectCodeService().findAssetObjectCode(assetPaymentDetail.getChartOfAccountsCode(), objectCode.getFinancialObjectSubTypeCode());
+        AssetObjectCode assetObjectCode = assetObjectCodeService.findAssetObjectCode(assetPaymentDetail.getChartOfAccountsCode(), objectCode.getFinancialObjectSubTypeCode());
 
-        OffsetDefinition offsetDefinition = SpringContext.getBean(OffsetDefinitionService.class).getByPrimaryId(getUniversityDateService().getCurrentFiscalYear(), assetPaymentDetail.getChartOfAccountsCode(), CamsConstants.AssetTransfer.DOCUMENT_TYPE_CODE, CamsConstants.Postable.GL_BALANCE_TYPE_CODE_AC);
+        OffsetDefinition offsetDefinition = offsetDefinitionService.getByPrimaryId(universityDateService.getCurrentFiscalYear(), assetPaymentDetail.getChartOfAccountsCode(), CamsConstants.AssetTransfer.DOCUMENT_TYPE_CODE, CamsConstants.Postable.GL_BALANCE_TYPE_CODE_AC);
         document.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.ACQUISITION_TYPE);
         amountCategory.setParams(postable, assetPaymentDetail, assetObjectCode, offsetDefinition, document.getAcquisitionType());
         if (LOG.isDebugEnabled()) {
@@ -141,6 +144,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
     /**
      * @see org.kuali.kfs.module.cam.document.service.AssetGlobalService#createGLPostables(org.kuali.module.cams.document.AssetGlobal)
      */
+    @Override
     public void createGLPostables(AssetGlobal assetGlobal, CamsGeneralLedgerPendingEntrySourceBase assetGlobalGlPoster) {
         List<AssetPaymentDetail> assetPaymentDetails = assetGlobal.getAssetPaymentDetails();
 
@@ -155,91 +159,22 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         }
     }
 
-
-    public ParameterService getParameterService() {
-        return parameterService;
-    }
-
-
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
 
-
-    /**
-     * Gets the assetObjectCodeService attribute.
-     * 
-     * @return Returns the assetObjectCodeService.
-     */
-    public AssetObjectCodeService getAssetObjectCodeService() {
-        return assetObjectCodeService;
-    }
-
-
-    /**
-     * Sets the assetObjectCodeService attribute value.
-     * 
-     * @param assetObjectCodeService The assetObjectCodeService to set.
-     */
     public void setAssetObjectCodeService(AssetObjectCodeService assetObjectCodeService) {
         this.assetObjectCodeService = assetObjectCodeService;
     }
 
-
-    /**
-     * Gets the assetPaymentService attribute.
-     * 
-     * @return Returns the assetPaymentService.
-     */
-    public AssetPaymentService getAssetPaymentService() {
-        return assetPaymentService;
-    }
-
-
-    /**
-     * Sets the assetPaymentService attribute value.
-     * 
-     * @param assetPaymentService The assetPaymentService to set.
-     */
     public void setAssetPaymentService(AssetPaymentService assetPaymentService) {
         this.assetPaymentService = assetPaymentService;
     }
 
-    /**
-     * Gets the businessObjectService attribute.
-     * 
-     * @return Returns the businessObjectService.
-     */
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-
-    /**
-     * Sets the businessObjectService attribute value.
-     * 
-     * @param businessObjectService The businessObjectService to set.
-     */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
 
-
-    /**
-     * Gets the universityDateService attribute.
-     * 
-     * @return Returns the universityDateService.
-     */
-    public UniversityDateService getUniversityDateService() {
-        return universityDateService;
-    }
-
-
-    /**
-     * Sets the universityDateService attribute value.
-     * 
-     * @param universityDateService The universityDateService to set.
-     */
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
     }
@@ -247,9 +182,10 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
     /**
      * We need to calculate asset total amount from the sum of its payments. Otherwise, the asset total amount could mismatch with
      * the sum of payments.
-     * 
+     *
      * @see org.kuali.kfs.module.cam.document.service.AssetGlobalService#totalPaymentByAsset(org.kuali.kfs.module.cam.businessobject.AssetGlobal)
      */
+    @Override
     public KualiDecimal totalPaymentByAsset(AssetGlobal assetGlobal, boolean lastEntry) {
         KualiDecimal assetTotalAmount = KualiDecimal.ZERO;
         List<AssetPaymentDetail> assetPaymentDetails = assetGlobal.getAssetPaymentDetails();
@@ -270,6 +206,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
     /**
      * @see org.kuali.kfs.module.cam.document.service.AssetGlobalService#existsInGroup(java.lang.String, java.lang.String)
      */
+    @Override
     public boolean existsInGroup(String groupName, String memberName) {
         if (StringUtils.isBlank(groupName) || StringUtils.isBlank(memberName)) {
             return false;
@@ -278,31 +215,13 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
     }
 
     protected boolean isPaymentFinancialObjectActive(AssetPaymentDetail assetPayment) {
-        ObjectCode financialObjectCode = new ObjectCode();
-        financialObjectCode.setUniversityFiscalYear(getUniversityDateService().getCurrentFiscalYear());
-        financialObjectCode.setChartOfAccountsCode(assetPayment.getChartOfAccountsCode());
-        financialObjectCode.setFinancialObjectCode(assetPayment.getFinancialObjectCode());
-        financialObjectCode = (ObjectCode) getBusinessObjectService().retrieve(financialObjectCode);
-        if (ObjectUtils.isNotNull(financialObjectCode)) {
+        ObjectCode financialObjectCode = (ObjectCode) objectCodeService.getByPrimaryIdForCurrentYear(assetPayment.getChartOfAccountsCode(),assetPayment.getFinancialObjectCode());
+        if ( financialObjectCode != null ) {
             return financialObjectCode.isActive();
         }
         return false;
     }
 
-    /**
-     * Gets the assetService attribute.
-     * 
-     * @return Returns the assetService.
-     */
-    public AssetService getAssetService() {
-        return assetService;
-    }
-
-    /**
-     * Sets the assetService attribute value.
-     * 
-     * @param assetService The assetService to set.
-     */
     public void setAssetService(AssetService assetService) {
         this.assetService = assetService;
     }
@@ -310,6 +229,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
     /**
      * @see org.kuali.kfs.module.cam.document.service.AssetGlobalService#isAssetSeparate(org.kuali.kfs.module.cam.businessobject.AssetGlobal)
      */
+    @Override
     public boolean isAssetSeparate(AssetGlobal assetGlobal) {
         if (ObjectUtils.isNotNull(assetGlobal.getFinancialDocumentTypeCode()) && assetGlobal.getFinancialDocumentTypeCode().equals(CamsConstants.PaymentDocumentTypeCodes.ASSET_GLOBAL_SEPARATE)) {
             return true;
@@ -320,6 +240,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
     /**
      * @see org.kuali.kfs.module.cam.document.service.AssetGlobalService#isAssetSeparateByPayment(org.kuali.kfs.module.cam.businessobject.AssetGlobal)
      */
+    @Override
     public boolean isAssetSeparateByPayment(AssetGlobal assetGlobal) {
         if (this.isAssetSeparate(assetGlobal) && ObjectUtils.isNotNull(assetGlobal.getSeparateSourcePaymentSequenceNumber())) {
             return true;
@@ -329,10 +250,11 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
 
     /**
      * Add and return the total amount for all unique assets created.
-     * 
+     *
      * @param assetGlobal
      * @return Returns the total separate source amount
      */
+    @Override
     public KualiDecimal getUniqueAssetsTotalAmount(AssetGlobal assetGlobal) {
         KualiDecimal totalAmount = KualiDecimal.ZERO;
         // add new asset location
@@ -351,6 +273,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
     /**
      * @see org.kuali.kfs.module.cam.document.service.AssetGlobalService#getCreateNewAssets(org.kuali.kfs.module.cam.businessobject.AssetGlobal)
      */
+    @Override
     public List<PersistableBusinessObject> getCreateNewAssets(AssetGlobal assetGlobal) {
         List<PersistableBusinessObject> persistables = new ArrayList<PersistableBusinessObject>();
 
@@ -386,6 +309,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
     /**
      * @see org.kuali.kfs.module.cam.document.service.AssetGlobalService#getSeparateAssets(org.kuali.kfs.module.cam.businessobject.AssetGlobal)
      */
+    @Override
     public List<PersistableBusinessObject> getSeparateAssets(AssetGlobal assetGlobal) {
 
         // set the source asset amounts properly
@@ -415,12 +339,12 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         separateSourceCapitalAsset.setReplacementAmount(kualiDecimalUtils.safeMultiply(assetGlobal.getSeparateSourceCapitalAsset().getReplacementAmount(), separateRatio));
         separateSourceCapitalAsset.setFabricationEstimatedTotalAmount(kualiDecimalUtils.safeMultiply(assetGlobal.getSeparateSourceCapitalAsset().getFabricationEstimatedTotalAmount(), separateRatio));
 
-        Integer maxSequenceNumber = SpringContext.getBean(AssetPaymentService.class).getMaxSequenceNumber(separateSourceCapitalAsset.getCapitalAssetNumber());
+        Integer maxSequenceNumber = assetPaymentService.getMaxSequenceNumber(separateSourceCapitalAsset.getCapitalAssetNumber());
         // Add to the save list
         AssetSeparatePaymentDistributor distributor = new AssetSeparatePaymentDistributor(separateSourceCapitalAsset, sourcePayments, maxSequenceNumber, assetGlobal, newAssets);
         distributor.distribute();
         // re-compute the source total cost amount after split
-        separateSourceCapitalAsset.setTotalCostAmount(getPaymentSummaryService().calculatePaymentTotalCost(separateSourceCapitalAsset));
+        separateSourceCapitalAsset.setTotalCostAmount(paymentSummaryService.calculatePaymentTotalCost(separateSourceCapitalAsset));
         List<PersistableBusinessObject> persistables = new ArrayList<PersistableBusinessObject>();
         persistables.add(separateSourceCapitalAsset);
         persistables.addAll(newAssets);
@@ -429,7 +353,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
 
     /**
      * Creates a new Asset appropriate for either create new or separate. This does not create the payments for this asset.
-     * 
+     *
      * @param assetGlobal containing data for the asset to be created
      * @param assetGlobalDetail containing data for the asset to be created
      * @param separate indicating whether this is a separate and asset or not
@@ -441,9 +365,8 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
 
         // set financialObjectSubTypeCode per first payment entry if one exists
         if (!assetGlobal.getAssetPaymentDetails().isEmpty() && ObjectUtils.isNotNull(assetGlobal.getAssetPaymentDetails().get(0).getObjectCode())) {
-            ObjectCodeService objectCodeService = (ObjectCodeService) SpringContext.getBean(ObjectCodeService.class);
             AssetPaymentDetail assetPaymentDetail = assetGlobal.getAssetPaymentDetails().get(0);
-            
+
             ObjectCode objectCode = objectCodeService.getByPrimaryIdForCurrentYear(assetPaymentDetail.getChartOfAccountsCode(), assetPaymentDetail.getFinancialObjectCode());
 
             asset.setFinancialObjectSubTypeCode(objectCode.getFinancialObjectSubTypeCode());
@@ -472,7 +395,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
 
     /**
      * Off campus location appropriately set for this asset.
-     * 
+     *
      * @param assetGlobalDetail containing data for the location
      * @param asset object that location is set in
      */
@@ -499,7 +422,7 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
 
     /**
      * Creates a payment for an asset in create new mode.
-     * 
+     *
      * @param capitalAssetNumber to use for the payment
      * @param acquisitionTypeCode for logic in determining how dates are to be set
      * @param assetGlobalDetailsSize for logic in determining depreciation amounts (if asset is depreciable)
@@ -517,7 +440,6 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         KualiDecimal[] amountBuckets = kualiDecimalService.allocateByQuantity(assetGlobalDetailsSize);
 
         assetPayment.setAccountChargeAmount(amountBuckets[assetGlobalDetailsIndex]);
-        ObjectCodeService objectCodeService = (ObjectCodeService) SpringContext.getBean(ObjectCodeService.class);
         ObjectCode objectCode = objectCodeService.getByPrimaryIdForCurrentYear(assetPayment.getChartOfAccountsCode(), assetPayment.getFinancialObjectCode());
 
         boolean isDepreciablePayment = ObjectUtils.isNotNull(assetPaymentDetail.getObjectCode()) && !Arrays.asList(parameterService.getParameterValueAsString(CAPITAL_ASSETS_BATCH.class, CamsConstants.Parameters.NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES).split(";")).contains(objectCode.getFinancialObjectSubTypeCode());
@@ -531,74 +453,54 @@ public class AssetGlobalServiceImpl implements AssetGlobalService {
         return assetPayment;
     }
 
-
-    /**
-     * Gets the paymentSummaryService attribute.
-     * 
-     * @return Returns the paymentSummaryService.
-     */
-    public PaymentSummaryService getPaymentSummaryService() {
-        return paymentSummaryService;
-    }
-
-    /**
-     * Sets the paymentSummaryService attribute value.
-     * 
-     * @param paymentSummaryService The paymentSummaryService to set.
-     */
     public void setPaymentSummaryService(PaymentSummaryService paymentSummaryService) {
         this.paymentSummaryService = paymentSummaryService;
     }
-    
+
     /**
      * @return the parameter value for the new acquisition type code
      */
+    @Override
     public String getNewAcquisitionTypeCode() {
-        return getParameterService().getParameterValueAsString(AssetGlobal.class, 
-                CamsConstants.AssetGlobal.NEW_ACQUISITION_CODE_PARAM); 
+        return parameterService.getParameterValueAsString(AssetGlobal.class,
+                CamsConstants.AssetGlobal.NEW_ACQUISITION_CODE_PARAM);
     }
     /**
      * @return the parameter value for the capital object acquisition code group
      */
+    @Override
     public String getCapitalObjectAcquisitionCodeGroup() {
-        return getParameterService().getParameterValueAsString(AssetGlobal.class, 
-                CamsConstants.AssetGlobal.CAPITAL_OBJECT_ACQUISITION_CODE_PARAM);  
+        return parameterService.getParameterValueAsString(AssetGlobal.class,
+                CamsConstants.AssetGlobal.CAPITAL_OBJECT_ACQUISITION_CODE_PARAM);
     }
     /**
-     * @return the parameter value for the not new acquisition code group 
+     * @return the parameter value for the not new acquisition code group
      */
+    @Override
     public String getNonNewAcquisitionCodeGroup() {
-        return getParameterService().getParameterValueAsString(AssetGlobal.class, 
-                CamsConstants.AssetGlobal.NON_NEW_ACQUISITION_GROUP_PARAM);         
+        return parameterService.getParameterValueAsString(AssetGlobal.class,
+                CamsConstants.AssetGlobal.NON_NEW_ACQUISITION_GROUP_PARAM);
     }
 
-    
+
     /**
      * @see org.kuali.kfs.module.cam.document.service.AssetGlobalService#getFiscalYearEndDayAndMonth()
      */
+    @Override
     public String getFiscalYearEndDayAndMonth() {
-        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         String yearEndDateAndMonth = parameterService.getParameterValueAsString(KfsParameterConstants.CAPITAL_ASSETS_ALL.class, CamsConstants.Parameters.FISCAL_YEAR_END_MONTH_AND_DAY);
         return yearEndDateAndMonth.substring(0, 2).concat("/").concat(yearEndDateAndMonth.substring(2, 4));
     }
 
-
-    /**
-     * Sets dateTimeService.
-     * 
-     * @param dateTimeService
-     */
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
 
-    /**
-     * Gets the dateTimeService.
-     * 
-     * @return dateTimeService
-     */
-    public DateTimeService getDateTimeService() {
-        return dateTimeService;
+    public void setObjectCodeService(ObjectCodeService objectCodeService) {
+        this.objectCodeService = objectCodeService;
     }
 
+    public void setOffsetDefinitionService(OffsetDefinitionService offsetDefinitionService) {
+        this.offsetDefinitionService = offsetDefinitionService;
+    }
 }

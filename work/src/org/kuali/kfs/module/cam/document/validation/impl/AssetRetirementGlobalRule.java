@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -77,7 +77,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Forces the processing of rules when saving.
-     * 
+     *
      * @param document MaintenanceDocument
      * @return boolean true when valid; Namely we need to enforce foreign key constraints else
      *         processCustomSaveDocumentBusinessRules does not force user back to the document for error correction.
@@ -100,7 +100,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Processes rules when saving this global.
-     * 
+     *
      * @param document MaintenanceDocument type of document to be processed.
      * @return boolean true when success
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
@@ -183,7 +183,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Check if all asset payments are federal owned.
-     * 
+     *
      * @param assetRetirementGlobal
      * @return
      */
@@ -201,7 +201,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validate Asset Object Codes and Fin Object Codes eligible for GL Posting.
-     * 
+     *
      * @param assetRetirementGlobal
      * @return
      */
@@ -229,7 +229,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Check Financial Object Code for GLPE.
-     * 
+     *
      * @param asset
      * @param assetPayment
      * @return
@@ -253,14 +253,18 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
         }
         if (assetPaymentService.isPaymentEligibleForOffsetGLPosting(assetPayment)) {
             // check for offset financial object code existing.
-            valid &= validateFinObjectCodeForGLPosting(asset.getOrganizationOwnerChartOfAccountsCode(), SpringContext.getBean(ParameterService.class).getParameterValueAsString(AssetRetirementGlobal.class, CamsConstants.Parameters.DEFAULT_GAIN_LOSS_DISPOSITION_OBJECT_CODE), getAssetRetirementService().getOffsetFinancialObject(asset.getOrganizationOwnerChartOfAccountsCode()), CamsConstants.GLPostingObjectCodeType.OFFSET_AMOUNT);
+            valid &= validateFinObjectCodeForGLPosting(
+                    asset.getOrganizationOwnerChartOfAccountsCode(),
+                    SpringContext.getBean(ParameterService.class).getParameterValueAsString(AssetRetirementGlobal.class, CamsConstants.Parameters.DEFAULT_GAIN_LOSS_DISPOSITION_OBJECT_CODE)
+                    , getAssetRetirementService().getOffsetFinancialObject(asset.getOrganizationOwnerChartOfAccountsCode())
+                    , CamsConstants.GLPostingObjectCodeType.OFFSET_AMOUNT);
         }
         return valid;
     }
 
     /**
      * check existence and active status for given financial Object Code BO.
-     * 
+     *
      * @param chartCode
      * @param finObjectCode
      * @param finObject
@@ -288,7 +292,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Asset Object Code must exist as an active status.
-     * 
+     *
      * @param asset
      * @param assetPayment
      * @return
@@ -352,7 +356,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Check if only single asset is allowed to retire.
-     * 
+     *
      * @param retirementReasonCode
      * @param assetRetirementDetails
      * @param maxNumber
@@ -372,7 +376,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * This method validates each asset to be retired.
-     * 
+     *
      * @param assetRetirementGlobalDetails
      * @param maintenanceDocument
      * @return
@@ -404,7 +408,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * This method validates one asset is a valid asset and no duplicate with target asset when merge.
-     * 
+     *
      * @param assetRetirementGlobalDetail
      * @param assetRetirementGlobal
      * @param maintenanceDocument
@@ -438,7 +442,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Check for Merge Asset, no duplicate capitalAssetNumber between "from" and "to".
-     * 
+     *
      * @param targetAssetNumber
      * @param sourceAssetNumber
      * @return
@@ -456,7 +460,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * User must be in work group CM_SUPER_USERS to retire a non-moveable asset.
-     * 
+     *
      * @param asset
      * @param maintenanceDocument
      * @return
@@ -478,7 +482,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validate Asset Retirement Global and Details.
-     * 
+     *
      * @param assetRetirementGlobal
      * @param maintenanceDocument
      * @return
@@ -501,7 +505,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validate mergedTargetCapitalAsset. Only valid and active capital asset is allowed.
-     * 
+     *
      * @param assetRetirementGlobal
      * @return
      */
@@ -543,7 +547,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Only active capital equipment can be retired using the asset retirement document.
-     * 
+     *
      * @param valid
      * @param detail
      * @return
@@ -569,7 +573,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validate required fields for given retirement reason code
-     * 
+     *
      * @param assetRetirementGlobal
      * @return
      */
@@ -603,7 +607,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * validates Cash Receipt Financial Document Number
-     * 
+     *
      * @param sharedRetirementInfo
      * @return boolean
      */
@@ -624,7 +628,7 @@ public class AssetRetirementGlobalRule extends MaintenanceDocumentRuleBase {
 
     /**
      * Validates whether or not asset is on loan status
-     * 
+     *
      * @param assetRetirementGlobalDetail
      * @return boolean
      */

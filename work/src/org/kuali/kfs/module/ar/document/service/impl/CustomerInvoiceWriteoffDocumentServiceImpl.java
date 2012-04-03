@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -63,25 +63,27 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoiceWriteoffDocumentService {
 
-    private ParameterService parameterService;
-    private UniversityDateService universityDateService;
-    private BusinessObjectService businessObjectService;
-    private AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;
-    private CustomerInvoiceDocumentService customerInvoiceDocumentService;
-    private CustomerService customerService;
-    private DocumentService documentService;
-    private CustomerInvoiceWriteoffBatchService invoiceWriteoffBatchService;
-    private DateTimeService dateTimeService;
-    private InvoicePaidAppliedService<CustomerInvoiceDetail> paidAppliedService;
+    protected ParameterService parameterService;
+    protected UniversityDateService universityDateService;
+    protected BusinessObjectService businessObjectService;
+    protected AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService;
+    protected CustomerInvoiceDocumentService customerInvoiceDocumentService;
+    protected CustomerService customerService;
+    protected DocumentService documentService;
+    protected CustomerInvoiceWriteoffBatchService invoiceWriteoffBatchService;
+    protected DateTimeService dateTimeService;
+    protected InvoicePaidAppliedService<CustomerInvoiceDetail> paidAppliedService;
+    protected FinancialSystemUserService financialSystemUserService;
+    protected ObjectCodeService objectCodeService;
 
-    
     /**
-     * 
+     *
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService#completeWriteoffProcess(org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument)
      */
+    @Override
     public void completeWriteoffProcess(CustomerInvoiceWriteoffDocument writeoff) {
-        
-        //  retrieve the document and make sure its not already closed, crash if so 
+
+        //  retrieve the document and make sure its not already closed, crash if so
         String invoiceNumber = writeoff.getFinancialDocumentReferenceInvoiceNumber();
         CustomerInvoiceDocument invoice;
         try {
@@ -91,14 +93,14 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
             throw new RuntimeException("A WorkflowException was generated when trying to load Customer Invoice #" + invoiceNumber + ".", e);
         }
         if (!invoice.isOpenInvoiceIndicator()) {
-            throw new UnsupportedOperationException("The Invoice Writeoff Document #" + writeoff.getDocumentNumber() + " attempted to writeoff " + 
+            throw new UnsupportedOperationException("The Invoice Writeoff Document #" + writeoff.getDocumentNumber() + " attempted to writeoff " +
                     "an Invoice [#" + invoiceNumber + "] that was already closed.  This is not supported.");
         }
-        
+
         Integer paidAppliedItemNumber = 0;
         KualiDecimal totalApplied = KualiDecimal.ZERO;
-        
-        //  retrieve the customer invoice details, and generate paid applieds for each 
+
+        //  retrieve the customer invoice details, and generate paid applieds for each
         List<CustomerInvoiceDetail> invoiceDetails = invoice.getCustomerInvoiceDetailsWithoutDiscounts();
         for (CustomerInvoiceDetail invoiceDetail : invoiceDetails) {
 
@@ -106,13 +108,13 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
             if (invoiceDetail.getAmountOpen().isZero()) {
                 continue;
             }
-            
+
             //  retrieve the number of current paid applieds, so we dont have item number overlap
             if (paidAppliedItemNumber == 0) {
-                paidAppliedItemNumber = paidAppliedService.getNumberOfInvoicePaidAppliedsForInvoiceDetail(invoiceNumber, 
+                paidAppliedItemNumber = paidAppliedService.getNumberOfInvoicePaidAppliedsForInvoiceDetail(invoiceNumber,
                         invoiceDetail.getInvoiceItemNumber());
             }
-            
+
             //  create and save the paidApplied
             InvoicePaidApplied invoicePaidApplied = new InvoicePaidApplied();
             invoicePaidApplied.setDocumentNumber(writeoff.getDocumentNumber());
@@ -127,21 +129,22 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
             //  record how much we're applying
             totalApplied = totalApplied.add(invoicePaidApplied.getInvoiceItemAppliedAmount());
         }
-        
+
         //  close the document
         invoice.setOpenInvoiceIndicator(false);
         invoice.setClosedDate(dateTimeService.getCurrentSqlDate());
         documentService.updateDocument(invoice);
-        
+
         //  set the final document total for the invoice
         writeoff.setInvoiceWriteoffAmount(totalApplied);
         writeoff.getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(totalApplied);
         documentService.updateDocument(writeoff);
     }
-    
+
     /**
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService#setupDefaultValuesForNewCustomerInvoiceWriteoffDocument(org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument)
      */
+    @Override
     public void setupDefaultValuesForNewCustomerInvoiceWriteoffDocument(CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument) {
 
         // update status
@@ -162,9 +165,9 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         if (isUsingOrgAcctDefaultWriteoffFAU || isUsingTaxGenerationMethodDisallow) {
 
             Integer currentUniversityFiscalYear = universityDateService.getCurrentFiscalYear();
-            ChartOrgHolder currentUser = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(GlobalVariables.getUserSession().getPerson(), ArConstants.AR_NAMESPACE_CODE);
+            ChartOrgHolder currentUser = financialSystemUserService.getPrimaryOrganization(GlobalVariables.getUserSession().getPerson(), ArConstants.AR_NAMESPACE_CODE);
 
-            Map<String, Object> criteria = new HashMap<String, Object>();
+            Map<String, Object> criteria = new HashMap<String, Object>(3);
             criteria.put("universityFiscalYear", currentUniversityFiscalYear);
             criteria.put("chartOfAccountsCode", customerInvoiceWriteoffDocument.getCustomerInvoiceDocument().getBillByChartOfAccountCode());
             criteria.put("organizationCode", customerInvoiceWriteoffDocument.getCustomerInvoiceDocument().getBilledByOrganizationCode());
@@ -181,37 +184,25 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
             }
         }
     }
-    
 
+
+    @Override
     public boolean isCustomerInvoiceWriteoffDocumentApproved(String customerInvoiceWriteoffDocumentNumber) {
-        Map criteria = new HashMap();
+        Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put("documentNumber", customerInvoiceWriteoffDocumentNumber);
         criteria.put("documentHeader.financialDocumentStatusCode", KFSConstants.DocumentStatusCodes.APPROVED);
         return businessObjectService.countMatching(CustomerInvoiceWriteoffDocument.class, criteria) == 1;
-    }    
-/*
-    public Collection<CustomerInvoiceWriteoffLookupResult> getCustomerInvoiceDocumentsForInvoiceWriteoffLookup() {
-        // change this service call to a service method that actually takes in the lookup parameters
-        Collection<CustomerInvoiceDocument> customerInvoiceDocuments = customerInvoiceDocumentService.getAllCustomerInvoiceDocumentsWithoutWorkflowInfo();
-        
-        Collection<CustomerInvoiceDocument> customerInvoiceDocumentsWithOpenBalance = new ArrayList<CustomerInvoiceDocument>();
-        for (Iterator itr = customerInvoiceDocuments.iterator(); itr.hasNext();) {
-            CustomerInvoiceDocument invoice = (CustomerInvoiceDocument) itr.next();
-            if (invoice.getOpenAmount().isGreaterThan(KualiDecimal.ZERO))
-                customerInvoiceDocumentsWithOpenBalance.add(invoice);
-        }
-
-        return CustomerInvoiceWriteoffLookupUtil.getPopulatedCustomerInvoiceWriteoffLookupResults(customerInvoiceDocumentsWithOpenBalance);
     }
-    */
+
+    @Override
     public Collection<CustomerInvoiceWriteoffLookupResult> getCustomerInvoiceDocumentsForInvoiceWriteoffLookup(Map<String, String> fieldValues) {
-        
+
         //  only one of these four will be used, based on priority
         String customerNumber = fieldValues.get(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NUMBER);
         String customerName = fieldValues.get(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_NAME);
         String customerTypeCode = fieldValues.get(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_TYPE_CODE);
         String customerInvoiceNumber = fieldValues.get(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.CUSTOMER_INVOICE_NUMBER);
-        
+
         //  this may be combined with any of the four above
         String age = fieldValues.get(ArPropertyConstants.CustomerInvoiceWriteoffLookupResultFields.AGE);
 
@@ -238,29 +229,29 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         else {
              customerInvoiceDocuments = customerInvoiceDocumentService.getAllOpenCustomerInvoiceDocumentsWithoutWorkflow();
         }
-        
+
         // attach headers
         customerInvoiceDocuments = customerInvoiceDocumentService.attachWorkflowHeadersToTheInvoices(customerInvoiceDocuments);
         // filter invoices which have related CRMs and writeoffs in route.
         Collection<CustomerInvoiceDocument> filteredCustomerInvoiceDocuments = filterInvoices(customerInvoiceDocuments);
-        
+
         //  if no age value was specified, then we're done!
         if (StringUtils.isEmpty(age)) {
             return CustomerInvoiceWriteoffLookupUtil.getPopulatedCustomerInvoiceWriteoffLookupResults(filteredCustomerInvoiceDocuments);
         }
-        
+
         // walk through what we have, and do any extra filtering based on age, if necessary
         boolean eligibleInvoiceFlag;
         Collection<CustomerInvoiceDocument> eligibleInvoices = new ArrayList<CustomerInvoiceDocument>();
         for (CustomerInvoiceDocument invoice : filteredCustomerInvoiceDocuments) {
             eligibleInvoiceFlag = true;
-            
+
             if (ObjectUtils.isNotNull(invoice.getAge())) {
                 eligibleInvoiceFlag &=((new Integer(age)).compareTo(invoice.getAge()) <= 0);
             } else {
                 eligibleInvoiceFlag = false;
             }
-        
+
             if (eligibleInvoiceFlag) {
                 eligibleInvoices.add(invoice);
             }
@@ -268,17 +259,18 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
 
         return CustomerInvoiceWriteoffLookupUtil.getPopulatedCustomerInvoiceWriteoffLookupResults(eligibleInvoices);
     }
-    
+
     /**
      * This method returns invoices which are in FINAL status and have no related CRMs and writeoffs in route
-     * 
+     *
      * @param customerInvoiceDocuments
      * @return filteredInvoices
-     */    
+     */
+    @Override
     public Collection<CustomerInvoiceDocument> filterInvoices(Collection<CustomerInvoiceDocument> customerInvoiceDocuments) {
         Collection<CustomerInvoiceDocument> filteredInvoices = new ArrayList<CustomerInvoiceDocument>();
         boolean hasNoDocumentsInRouteFlag;
-        
+
         for (CustomerInvoiceDocument invoice : customerInvoiceDocuments) {
             if (invoice.getDocumentHeader().getWorkflowDocument().isFinal()) {
                 hasNoDocumentsInRouteFlag = checkIfThereIsNoAnotherCRMInRouteForTheInvoice(invoice.getDocumentNumber());
@@ -290,14 +282,15 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         }
         return filteredInvoices;
     }
-    
+
     /**
      * This method checks if there is no another CRM in route for the invoice
      * Not in route if CRM status is one of the following: processed, cancelled, or disapproved
-     * 
+     *
      * @param invoice
      * @return
      */
+    @Override
     public boolean checkIfThereIsNoAnotherCRMInRouteForTheInvoice(String invoiceDocumentNumber) {
 
         WorkflowDocument workflowDocument;
@@ -306,14 +299,13 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("financialDocumentReferenceInvoiceNumber", invoiceDocumentNumber);
 
-        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         Collection<CustomerCreditMemoDocument> customerCreditMemoDocuments = businessObjectService.findMatching(CustomerCreditMemoDocument.class, fieldValues);
 
         // no CRMs associated with the invoice are found
         if (customerCreditMemoDocuments.isEmpty())
             return success;
 
-        String userId = GlobalVariables.getUserSession().getPrincipalId();        
+        String userId = GlobalVariables.getUserSession().getPrincipalId();
         for(CustomerCreditMemoDocument customerCreditMemoDocument : customerCreditMemoDocuments) {
             workflowDocument = WorkflowDocumentFactory.loadDocument(userId, customerCreditMemoDocument.getDocumentNumber());
             if (!(workflowDocument.isApproved() || workflowDocument.isCanceled() || workflowDocument.isDisapproved())) {
@@ -327,10 +319,11 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
     /**
      * This method checks if there is no another writeoff in route for the invoice
      * Not in route if writeoff status is one of the following: processed, cancelled, or disapproved
-     * 
+     *
      * @param invoice
      * @return
      */
+    @Override
     public boolean checkIfThereIsNoAnotherWriteoffInRouteForTheInvoice(String invoiceDocumentNumber) {
 
         WorkflowDocument workflowDocument;
@@ -339,14 +332,13 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("financialDocumentReferenceInvoiceNumber", invoiceDocumentNumber);
 
-        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         Collection<CustomerInvoiceWriteoffDocument> customerInvoiceWriteoffDocuments = businessObjectService.findMatching(CustomerInvoiceWriteoffDocument.class, fieldValues);
 
         // no writeoffs associated with the invoice are found
         if (customerInvoiceWriteoffDocuments.isEmpty())
             return success;
 
-        String userId = GlobalVariables.getUserSession().getPrincipalId();        
+        String userId = GlobalVariables.getUserSession().getPrincipalId();
         for(CustomerInvoiceWriteoffDocument customerInvoiceWriteoffDocument : customerInvoiceWriteoffDocuments) {
             workflowDocument = WorkflowDocumentFactory.loadDocument(userId, customerInvoiceWriteoffDocument.getDocumentNumber());
             if (!(workflowDocument.isApproved() || workflowDocument.isCanceled() || workflowDocument.isDisapproved())) {
@@ -357,18 +349,19 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         return success;
     }
 
-    
+
     /**
-     * 
+     *
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService#sendCustomerInvoiceWriteoffDocumentsToBatch(org.kuali.rice.kim.api.identity.Person, java.util.Collection)
      */
+    @Override
     public String sendCustomerInvoiceWriteoffDocumentsToBatch(Person person, Collection<CustomerInvoiceWriteoffLookupResult> customerInvoiceWriteoffLookupResults) {
-        
+
         CustomerInvoiceWriteoffBatchVO batch = new CustomerInvoiceWriteoffBatchVO(person.getPrincipalName());
-        
+
         //  add the date
         batch.setSubmittedOn(dateTimeService.getCurrentTimestamp().toString());
-        
+
         //  add the customer note, if one was added
         String note = null;
         for( CustomerInvoiceWriteoffLookupResult customerInvoiceWriteoffLookupResult : customerInvoiceWriteoffLookupResults ){
@@ -377,33 +370,35 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         if (StringUtils.isNotBlank(note)) {
             batch.setNote(note);
         }
-        
+
         //  add the document numbers
         for( CustomerInvoiceWriteoffLookupResult customerInvoiceWriteoffLookupResult : customerInvoiceWriteoffLookupResults ){
             for( CustomerInvoiceDocument customerInvoiceDocument : customerInvoiceWriteoffLookupResult.getCustomerInvoiceDocuments() ){
                 batch.addInvoiceNumber(customerInvoiceDocument.getDocumentNumber());
             }
         }
-        
+
         // use the batch service to create the XML and drop it in the directory
         return invoiceWriteoffBatchService.createBatchDrop(person, batch);
     }
-    
+
+    @Override
     public String createCustomerInvoiceWriteoffDocument(Person initiator, String invoiceNumber, String note) throws WorkflowException {
 
         //  force the initiating user into the header
-        GlobalVariables.getUserSession().setBackdoorUser(initiator.getPrincipalName());
-        
+        // JHK: removed!  This can not work in production!
+//        GlobalVariables.getUserSession().setBackdoorUser(initiator.getPrincipalName());
+
         //  create the new writeoff document
         CustomerInvoiceWriteoffDocument document = (CustomerInvoiceWriteoffDocument) documentService.getNewDocument(CustomerInvoiceWriteoffDocument.class);
-        
+
         //  setup the defaults and tie it to the Invoice document
         document.setFinancialDocumentReferenceInvoiceNumber(invoiceNumber);
         setupDefaultValuesForNewCustomerInvoiceWriteoffDocument( document );
         document.getDocumentHeader().setDocumentDescription(ArConstants.CUSTOMER_INVOICE_WRITEOFF_DOCUMENT_DESCRIPTION + " " + invoiceNumber + ".");
-        
+
         document.setCustomerNote(note);
-        
+
         //  satisfy silly > 10 chars explanation rule
         if (StringUtils.isBlank(note)) {
             note = "Document created by batch process.";
@@ -412,165 +407,76 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
             note = "Document created by batch process.  " + note;
         }
         document.getDocumentHeader().setExplanation(note);
-        
+
         //  route the document
         documentService.routeDocument(document, "Routed by Customer Invoice Writeoff Document Batch Service", null);
 
         //  clear the user overrid
-        GlobalVariables.getUserSession().clearBackdoorUser();
-        
+//        GlobalVariables.getUserSession().clearBackdoorUser();
+
         return document.getDocumentNumber();
     }
 
-    /**
-     * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService#getCustomerInvoiceWriteoffDocumentsByCustomerNumber(java.lang.String)
-     */
-    /*
-    public Collection<CustomerInvoiceWriteoffDocument> getCustomerInvoiceWriteoffDocumentsByCustomerNumber(String customerNumber) {
-
-        Collection<CustomerInvoiceWriteoffDocument> wirteoffList = new ArrayList<CustomerInvoiceWriteoffDocument>();
-
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("customerNumber", customerNumber);
-
-        Collection<AccountsReceivableDocumentHeader> documentHeaders = businessObjectService.findMatching(AccountsReceivableDocumentHeader.class, fieldValues);
-
-        List<String> documentHeaderIds = new ArrayList<String>();
-        for (AccountsReceivableDocumentHeader header : documentHeaders) {
-            String documentNumber = null;
-            try {
-                Long.parseLong(header.getDocumentHeader().getDocumentNumber());
-                documentNumber = header.getDocumentHeader().getDocumentNumber();
-                documentHeaderIds.add(documentNumber);
-            }
-            catch (NumberFormatException nfe) {
-            }
-        }
-
-        if (0 < documentHeaderIds.size()) {
-            try {
-                wirteoffList = documentService.getDocumentsByListOfDocumentHeaderIds(CustomerInvoiceWriteoffDocument.class, documentHeaderIds);
-            }
-            catch (WorkflowException e) {
-                //LOG.error(e.getMessage(), e);
-            }
-        }
-        return wirteoffList;
-    }
-    
-    public Collection<CustomerInvoiceWriteoffDocument> getCustomerInvoiceWriteoffDocumentsByAccountNumber(String accountNumber) {
-
-        Collection<CustomerInvoiceDocument> invoiceList = SpringContext.getBean(CustomerInvoiceDocumentService.class).getCustomerInvoiceDocumentsByAccountNumber(accountNumber);
-        
-        Set<String> customerNumberSet = new HashSet<String>();
-        for (CustomerInvoiceDocument invoice : invoiceList) {
-            Map<String, String> fieldValues = new HashMap<String, String>();
-            fieldValues.put("documentNumber", invoice.getDocumentNumber());
-
-            AccountsReceivableDocumentHeader arDocHeader = (AccountsReceivableDocumentHeader)businessObjectService.findByPrimaryKey(AccountsReceivableDocumentHeader.class, fieldValues);
-            customerNumberSet.add(arDocHeader.getCustomerNumber());
-        }
-
-        Collection<CustomerInvoiceWriteoffDocument> customerInvoiceWriteoffDocumentList = new ArrayList<CustomerInvoiceWriteoffDocument>();        
-        for (String customerNumber : customerNumberSet) {
-            customerInvoiceWriteoffDocumentList.addAll(getCustomerInvoiceWriteoffDocumentsByCustomerNumber(customerNumber));
-        }
-        
-        return customerInvoiceWriteoffDocumentList;
-    }
-    */
-    
+    @Override
     public Collection<CustomerInvoiceWriteoffDocument> getCustomerCreditMemoDocumentByInvoiceDocument(String invoiceNumber) {
-        Map<String, String> fieldValues = new HashMap<String, String>();
+        Map<String, String> fieldValues = new HashMap<String, String>(1);
         fieldValues.put("financialDocumentReferenceInvoiceNumber", invoiceNumber);
-        BusinessObjectService service = SpringContext.getBean(BusinessObjectService.class);
-        
-        Collection<CustomerInvoiceWriteoffDocument> writeoffs = service.findMatching(CustomerInvoiceWriteoffDocument.class, fieldValues);
-        
+
+        Collection<CustomerInvoiceWriteoffDocument> writeoffs = businessObjectService.findMatching(CustomerInvoiceWriteoffDocument.class, fieldValues);
+
         return writeoffs;
     }
-    
+
+    @Override
     public String getFinancialObjectCode(CustomerInvoiceDetail postable, CustomerInvoiceWriteoffDocument poster, boolean isUsingOrgAcctDefaultWriteoffFAU, boolean isUsingChartForWriteoff, String chartOfAccountsCode) {
 
         if ( isUsingOrgAcctDefaultWriteoffFAU ){
             return poster.getFinancialObjectCode();
         } else if ( isUsingChartForWriteoff ) {
-            return SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_OBJECT_CODE_BY_CHART, chartOfAccountsCode);
+            return parameterService.getParameterValueAsString(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_OBJECT_CODE_BY_CHART, chartOfAccountsCode);
         } else {
             return postable.getAccountsReceivableObjectCode();
         }
     }
 
+    @Override
     public ObjectCode getObjectCode(CustomerInvoiceDetail postable, CustomerInvoiceWriteoffDocument poster, boolean isUsingOrgAcctDefaultWriteoffFAU, boolean isUsingChartForWriteoff, String chartOfAccountsCode) {
-        
-        return SpringContext.getBean(ObjectCodeService.class).getByPrimaryIdForCurrentYear(chartOfAccountsCode, this.getFinancialObjectCode(postable, poster, isUsingOrgAcctDefaultWriteoffFAU,isUsingChartForWriteoff, chartOfAccountsCode));
-    }
-    
-    public ParameterService getParameterService() {
-        return parameterService;
+        return objectCodeService.getByPrimaryIdForCurrentYear(
+                chartOfAccountsCode,
+                getFinancialObjectCode(postable, poster, isUsingOrgAcctDefaultWriteoffFAU,isUsingChartForWriteoff, chartOfAccountsCode));
     }
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
 
-    public UniversityDateService getUniversityDateService() {
-        return universityDateService;
-    }
-
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
-    }
-
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
     }
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
 
-    public CustomerInvoiceDocumentService getCustomerInvoiceDocumentService() {
-        return customerInvoiceDocumentService;
-    }
-
     public void setCustomerInvoiceDocumentService(CustomerInvoiceDocumentService customerInvoiceDocumentService) {
         this.customerInvoiceDocumentService = customerInvoiceDocumentService;
-    }
-
-    public AccountsReceivableDocumentHeaderService getAccountsReceivableDocumentHeaderService() {
-        return accountsReceivableDocumentHeaderService;
     }
 
     public void setAccountsReceivableDocumentHeaderService(AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService) {
         this.accountsReceivableDocumentHeaderService = accountsReceivableDocumentHeaderService;
     }
 
-
-    public CustomerService getCustomerService() {
-        return customerService;
-    }
-
-
     public void setCustomerService(CustomerService customerService) {
         this.customerService = customerService;
     }
-
-
-    public DocumentService getDocumentService() {
-        return documentService;
-    }
-
 
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
 
-
     public void setInvoiceWriteoffBatchService(CustomerInvoiceWriteoffBatchService invoiceWriteoffBatchService) {
         this.invoiceWriteoffBatchService = invoiceWriteoffBatchService;
     }
-
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
@@ -578,6 +484,14 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
 
     public void setPaidAppliedService(InvoicePaidAppliedService<CustomerInvoiceDetail> paidAppliedService) {
         this.paidAppliedService = paidAppliedService;
+    }
+
+    public void setFinancialSystemUserService(FinancialSystemUserService financialSystemUserService) {
+        this.financialSystemUserService = financialSystemUserService;
+    }
+
+    public void setObjectCodeService(ObjectCodeService objectCodeService) {
+        this.objectCodeService = objectCodeService;
     }
 
 }

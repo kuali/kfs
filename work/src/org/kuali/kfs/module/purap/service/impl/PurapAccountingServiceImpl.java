@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -66,13 +66,13 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 @NonTransactional
 public class PurapAccountingServiceImpl implements PurapAccountingService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurapAccountingServiceImpl.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurapAccountingServiceImpl.class);
 
     protected static final BigDecimal ONE_HUNDRED = new BigDecimal(100);
     protected static final int SCALE = 340;
     protected static final int BIG_DECIMAL_ROUNDING_MODE = BigDecimal.ROUND_HALF_UP;
     protected static final int BIG_DECIMAL_SCALE = 2;
-    
+
     // local constants
     protected static final Boolean ITEM_TYPES_INCLUDED_VALUE = Boolean.TRUE;;
     protected static final Boolean ITEM_TYPES_EXCLUDED_VALUE = Boolean.FALSE;
@@ -83,14 +83,14 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     protected static final Boolean USE_TAX_INCLUDED = Boolean.TRUE;
     protected static final Boolean USE_TAX_EXCLUDED = Boolean.FALSE;
 
-    private ParameterService parameterService;
-    private PurApAccountingDao purApAccountingDao;
-    private PurapService purapService;
+    protected ParameterService parameterService;
+    protected PurapService purapService;
+    protected PurApAccountingDao purApAccountingDao;
     protected BusinessObjectService businessObjectService;
 
     /**
      * gets the lowest possible number for rounding, it works for ROUND_HALF_UP
-     * 
+     *
      * @return a BigDecimal representing the lowest possible number for rounding
      */
     protected BigDecimal getLowestPossibleRoundUpNumber() {
@@ -103,7 +103,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
 
     /**
      * Helper method to log and throw an error
-     * 
+     *
      * @param methodName the method it's coming from
      * @param errorMessage the actual error
      */
@@ -117,6 +117,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      * @see org.kuali.kfs.module.purap.service.PurapAccountingService#generateAccountDistributionForProration(java.util.List,
      *      org.kuali.rice.core.api.util.type.KualiDecimal, java.lang.Integer)
      */
+    @Override
     public List<PurApAccountingLine> generateAccountDistributionForProration(List<SourceAccountingLine> accounts, KualiDecimal totalAmount, Integer percentScale) {
         return null;
     }
@@ -125,6 +126,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      * @see org.kuali.kfs.module.purap.service.PurapAccountingService#generateAccountDistributionForProration(java.util.List,
      *      org.kuali.rice.core.api.util.type.KualiDecimal, java.lang.Integer)
      */
+    @Override
     public List<PurApAccountingLine> generateAccountDistributionForProration(List<SourceAccountingLine> accounts, KualiDecimal totalAmount, Integer percentScale, Class clazz) {
         String methodName = "generateAccountDistributionForProration()";
         if (LOG.isDebugEnabled()) {
@@ -143,7 +145,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             if (ObjectUtils.isNotNull(accountingLine.getAmount())) {
                 amt = accountingLine.getAmount();
             }
-            
+
             if (LOG.isDebugEnabled()) {
                 LOG.debug(methodName + " " + accountingLine.getAccountNumber() + " " + amt + "/" + totalAmountBigDecimal);
             }
@@ -210,7 +212,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                 if (ObjectUtils.isNotNull(potentialSlushAccount.getAccountLinePercent())) {
                     linePercent = potentialSlushAccount.getAccountLinePercent();
                 }
-                
+
                 if ((difference.compareTo(linePercent)) < 0) {
                     // the difference amount is less than the current accounts percent... use this account
                     // the 'potentialSlushAccount' technically is now the true 'Slush Account'
@@ -240,7 +242,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                 LOG.debug(methodName + " Rounding down by " + difference);
             }
             PurApAccountingLine slushAccount = (PurApAccountingLine) newAccounts.get(newAccounts.size() - 1);
-            
+
             BigDecimal slushLinePercent = BigDecimal.ZERO;
             if (ObjectUtils.isNotNull(slushAccount.getAccountLinePercent())) {
                 slushLinePercent = slushAccount.getAccountLinePercent();
@@ -258,6 +260,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      * @see org.kuali.kfs.module.purap.service.PurapAccountingService#generateAccountDistributionForProrationWithZeroTotal(java.util.List,
      *      java.lang.Integer)
      */
+    @Override
     public List<PurApAccountingLine> generateAccountDistributionForProrationWithZeroTotal(PurchasingAccountsPayableDocument purapDoc) {
         String methodName = "generateAccountDistributionForProrationWithZeroTotal()";
         if (LOG.isDebugEnabled()) {
@@ -273,7 +276,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             if (ObjectUtils.isNotNull(accountingLine.getAccountLinePercent())) {
                 linePercent = accountingLine.getAccountLinePercent();
             }
-            
+
             totalPercentValue = totalPercentValue.add(linePercent).movePointLeft(2).stripTrailingZeros().movePointRight(2);
         }
 
@@ -290,11 +293,11 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             i++;
             BigDecimal percentToUse = BigDecimal.ZERO;
             KualiDecimal amt = KualiDecimal.ZERO;
-            
+
             if (ObjectUtils.isNotNull(accountingLine.getAmount())) {
-                amt = accountingLine.getAmount();   
+                amt = accountingLine.getAmount();
             }
-            
+
             if (LOG.isDebugEnabled()) {
                 LOG.debug(methodName + " " + accountingLine.getChartOfAccountsCode() + "-" + accountingLine.getAccountNumber() + " " + amt + "/" + percentToUse);
             }
@@ -302,9 +305,9 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             // if it's the last account make up the leftover percent
             BigDecimal acctPercent = BigDecimal.ZERO;
             if (ObjectUtils.isNotNull(accountingLine.getAccountLinePercent())) {
-                acctPercent = accountingLine.getAccountLinePercent();   
+                acctPercent = accountingLine.getAccountLinePercent();
             }
-            
+
             if ((i != accountListSize) || (accountListSize == 1)) {
                 // this account is not the last account or there is only one account
                 percentToUse = (acctPercent.divide(totalPercentValue, SCALE, BIG_DECIMAL_ROUNDING_MODE)).multiply(ONE_HUNDRED);
@@ -338,6 +341,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     /**
      * @see org.kuali.kfs.module.purap.service.PurapAccountingService#generateSummary(java.util.List)
      */
+    @Override
     public List<SourceAccountingLine> generateSummary(List<PurApItem> items) {
         String methodName = "generateSummary()";
         if (LOG.isDebugEnabled()) {
@@ -350,6 +354,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         return returnList;
     }
 
+    @Override
     public List<SourceAccountingLine> generateSummaryTaxableAccounts(List<PurApItem> items) {
         String methodName = "generateSummary()";
         if (LOG.isDebugEnabled()) {
@@ -365,6 +370,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     /**
      * @see org.kuali.kfs.module.purap.service.PurapAccountingService#generateSummaryAccounts(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
      */
+    @Override
     public List<SummaryAccount> generateSummaryAccounts(PurchasingAccountsPayableDocument document) {
         // always update the amounts first
         updateAccountAmounts(document);
@@ -375,6 +381,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     /**
      * @see org.kuali.kfs.module.purap.service.PurapAccountingService#generateSummaryAccountsWithNoZeroTotals(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
      */
+    @Override
     public List<SummaryAccount> generateSummaryAccountsWithNoZeroTotals(PurchasingAccountsPayableDocument document) {
         // always update the amounts first
         updateAccountAmounts(document);
@@ -384,6 +391,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     /**
      * @see org.kuali.kfs.module.purap.service.PurapAccountingService#generateSummaryAccountsWithNoZeroTotals(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
      */
+    @Override
     public List<SummaryAccount> generateSummaryAccountsWithNoZeroTotalsNoUseTax(PurchasingAccountsPayableDocument document) {
         // always update the amounts first
         updateAccountAmounts(document);
@@ -392,7 +400,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
 
     /**
      * This creates summary accounts based on a list of items.
-     * 
+     *
      * @param items a list of PurAp Items.
      * @return a list of summary accounts.
      */
@@ -440,6 +448,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     /**
      * @see org.kuali.kfs.module.purap.service.PurapAccountingService#generateSummaryWithNoZeroTotals(java.util.List)
      */
+    @Override
     public List<SourceAccountingLine> generateSummaryWithNoZeroTotals(List<PurApItem> items) {
         String methodName = "generateSummaryWithNoZeroTotals()";
         if (LOG.isDebugEnabled()) {
@@ -455,6 +464,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     /**
      * calls generateSummary with no use tax included
      */
+    @Override
     public List<SourceAccountingLine> generateSummaryWithNoZeroTotalsNoUseTax(List<PurApItem> items) {
         String methodName = "generateSummaryWithNoZeroTotalsNoUseTax()";
         if (LOG.isDebugEnabled()) {
@@ -471,6 +481,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     /**
      * @see org.kuali.kfs.module.purap.service.PurapAccountingService#generateSummaryWithNoZeroTotalsUsingAlternateAmount(java.util.List)
      */
+    @Override
     public List<SourceAccountingLine> generateSummaryWithNoZeroTotalsUsingAlternateAmount(List<PurApItem> items) {
         String methodName = "generateSummaryWithNoZeroTotals()";
         if (LOG.isDebugEnabled()) {
@@ -486,6 +497,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     /**
      * @see org.kuali.kfs.module.purap.service.PurapAccountingService#generateSummaryExcludeItemTypes(java.util.List, java.util.Set)
      */
+    @Override
     public List<SourceAccountingLine> generateSummaryExcludeItemTypes(List<PurApItem> items, Set excludedItemTypeCodes) {
         String methodName = "generateSummaryExcludeItemTypes()";
         if (LOG.isDebugEnabled()) {
@@ -502,6 +514,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      * @see org.kuali.kfs.module.purap.service.PurapAccountingService#generateSummaryIncludeItemTypesAndNoZeroTotals(java.util.List,
      *      java.util.Set)
      */
+    @Override
     public List<SourceAccountingLine> generateSummaryIncludeItemTypesAndNoZeroTotals(List<PurApItem> items, Set includedItemTypeCodes) {
         String methodName = "generateSummaryExcludeItemTypesAndNoZeroTotals()";
         if (LOG.isDebugEnabled()) {
@@ -517,6 +530,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     /**
      * @see org.kuali.kfs.module.purap.service.PurapAccountingService#generateSummaryIncludeItemTypes(java.util.List, java.util.Set)
      */
+    @Override
     public List<SourceAccountingLine> generateSummaryIncludeItemTypes(List<PurApItem> items, Set includedItemTypeCodes) {
         String methodName = "generateSummaryIncludeItemTypes()";
         if (LOG.isDebugEnabled()) {
@@ -533,6 +547,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      * @see org.kuali.kfs.module.purap.service.PurapAccountingService#generateSummaryExcludeItemTypesAndNoZeroTotals(java.util.List,
      *      java.util.Set)
      */
+    @Override
     public List<SourceAccountingLine> generateSummaryExcludeItemTypesAndNoZeroTotals(List<PurApItem> items, Set excludedItemTypeCodes) {
         String methodName = "generateSummaryIncludeItemTypesAndNoZeroTotals()";
         if (LOG.isDebugEnabled()) {
@@ -548,7 +563,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     /**
      * Generates an account summary, that is it creates a list of source accounts by rounding up the purap accounts off of the purap
      * items.
-     * 
+     *
      * @param items the items to determ
      * @param itemTypeCodes the item types to determine whether to look at an item in combination with itemTypeCodesAreIncluded
      * @param itemTypeCodesAreIncluded value to tell whether the itemTypeCodes parameter lists inclusion or exclusion variables
@@ -629,6 +644,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
 
         // sort the sourceAccounts list first by account number, then by object code, ignoring chart code
         Collections.sort(sourceAccounts, new Comparator<SourceAccountingLine>() {
+            @Override
             public int compare(SourceAccountingLine sal1, SourceAccountingLine sal2) {
                 int compare = 0;
                 if (sal1 != null && sal2 != null) {
@@ -663,7 +679,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      * itemTypeCodes = "ITEM","FRHT"<br>
      * itemTypeCodesAreIncluded = ITEM_TYPES_INCLUDED_VALUE<br>
      * return items "ITEM", "FRHT"<br>
-     * 
+     *
      * @param items - list of {@link PurchasingApItem} objects that need to be parsed
      * @param itemTypeCodes - list of {@link org.kuali.kfs.module.purap.businessobject.ItemType} codes used in conjunction with
      *        itemTypeCodesAreIncluded parameter
@@ -723,13 +739,14 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     /**
      * @see org.kuali.kfs.module.purap.service.PurapAccountingService#updateAccountAmounts(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
      */
+    @Override
     public void updateAccountAmounts(PurchasingAccountsPayableDocument document) {
-        
+
         PurchasingAccountsPayableDocumentBase purApDocument = (PurchasingAccountsPayableDocumentBase) document;
         String accountDistributionMethod = purApDocument.getAccountDistributionMethod();
-        
+
         KualiRuleService kualiRuleService = (KualiRuleService) SpringContext.getBean(KualiRuleService.class);
-        
+
         // the percent at fiscal approve
         // don't update if past the AP review level
         if ((document instanceof PaymentRequestDocument) && purapService.isFullDocumentEntryCompleted(document)) {
@@ -738,17 +755,17 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             return;
         }
         document.fixItemReferences();
-        
-      //if distribution method is sequential and document is PREQ then...        
+
+      //if distribution method is sequential and document is PREQ then...
         if ((document instanceof PaymentRequestDocument) && PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
             // update the accounts amounts for PREQ and distribution method = sequential
             for (PurApItem item : document.getItems()) {
                 updatePreqItemAccountAmounts(item);
             }
-            
+
             return;
         }
-        
+
         //if distribution method is proportional and document is PREQ then...
         if ((document instanceof PaymentRequestDocument) && PurapConstants.AccountDistributionMethodCodes.PROPORTIONAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
             // update the accounts amounts for PREQ and distribution method = sequential
@@ -761,10 +778,10 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                     updatePreqProportionalItemAccountAmounts(item);
                 }
             }
-            
+
             return;
         }
-        
+
         //do recalculate only if the account distribution method code is not equal to "S" sequential ON REQ or POs..
         if (PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
             for (PurApItem item : document.getItems()) {
@@ -775,8 +792,8 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                 return;
             }
         }
-        
-        //do recalculate only if the account distribution method code is not equal to "P" proportional. 
+
+        //do recalculate only if the account distribution method code is not equal to "P" proportional.
         if (!PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
             for (PurApItem item : document.getItems()) {
                 boolean rulePassed = true;
@@ -793,6 +810,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     /**
      * @see org.kuali.kfs.module.purap.service.PurapAccountingService#updateItemAccountAmounts(org.kuali.kfs.module.purap.businessobject.PurApItem)
      */
+    @Override
     public void updateItemAccountAmounts(PurApItem item) {
         List<PurApAccountingLine> sourceAccountingLines = item.getSourceAccountingLines();
         KualiDecimal totalAmount = item.getTotalAmount();
@@ -801,10 +819,11 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
 
     /**
      * calculates values for a list of accounting lines based on an amount
-     * 
+     *
      * @param sourceAccountingLines
      * @param totalAmount
      */
+    @Override
     public <T extends PurApAccountingLine> void updateAccountAmountsWithTotal(List<T> sourceAccountingLines, KualiDecimal totalAmount) {
         if ((totalAmount != null) && KualiDecimal.ZERO.compareTo(totalAmount) != 0) {
 
@@ -828,14 +847,14 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                         }
                     }
                 }
-                
+
                 if (ObjectUtils.isNotNull(account.getAmount())) {
                     accountTotal = accountTotal.add(account.getAmount());
                 }
                 if (ObjectUtils.isNotNull(account.getAccountLinePercent())) {
                     accountTotalPercent = accountTotalPercent.add(account.getAccountLinePercent());
                 }
-                
+
                 lastAccount = account;
             }
 
@@ -845,7 +864,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                 if (ObjectUtils.isNotNull(lastAccount.getAmount())) {
                     lastAccount.setAmount(lastAccount.getAmount().add(difference));
                 }
-                
+
                 BigDecimal percentDifference = new BigDecimal(100).subtract(accountTotalPercent).setScale(BIG_DECIMAL_SCALE);
                 if (ObjectUtils.isNotNull(lastAccount.getAccountLinePercent())) {
                     lastAccount.setAccountLinePercent(lastAccount.getAccountLinePercent().add(percentDifference));
@@ -865,19 +884,21 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     /**
      * @see org.kuali.kfs.module.purap.service.PurapAccountingService#updatePreqProportionalItemAccountAmounts(org.kuali.kfs.module.purap.businessobject.PurApItem)
      */
+    @Override
     public void updatePreqProportionalItemAccountAmounts(PurApItem item) {
         List<PurApAccountingLine> sourceAccountingLines = item.getSourceAccountingLines();
         KualiDecimal totalAmount = item.getTotalAmount();
 
         updatePreqProporationalAccountAmountsWithTotal(sourceAccountingLines, totalAmount);
     }
-    
+
     /**
      * calculates values for a list of accounting lines based on an amount for proportional method
-     * 
+     *
      * @param sourceAccountingLines
      * @param totalAmount
      */
+    @Override
     public <T extends PurApAccountingLine> void updatePreqProporationalAccountAmountsWithTotal(List<T> sourceAccountingLines, KualiDecimal totalAmount) {
         if ((totalAmount != null) && KualiDecimal.ZERO.compareTo(totalAmount) != 0) {
             KualiDecimal accountTotal = KualiDecimal.ZERO;
@@ -891,14 +912,14 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                         account.setAmount(new KualiDecimal(pct.multiply(new BigDecimal(totalAmount.toString())).setScale(KualiDecimal.SCALE, KualiDecimal.ROUND_BEHAVIOR)));
                     }
                 }
-                
+
                 if (ObjectUtils.isNotNull(account.getAmount())) {
                     accountTotal = accountTotal.add(account.getAmount());
                 }
                 if (ObjectUtils.isNotNull(account.getAccountLinePercent())) {
                     accountTotalPercent = accountTotalPercent.add(account.getAccountLinePercent());
                 }
-                
+
                 lastAccount = account;
             }
 
@@ -908,7 +929,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                 if (ObjectUtils.isNotNull(lastAccount.getAmount())) {
                     lastAccount.setAmount(lastAccount.getAmount().add(difference));
                 }
-                
+
                 BigDecimal percentDifference = new BigDecimal(100).subtract(accountTotalPercent).setScale(BIG_DECIMAL_SCALE);
                 if (ObjectUtils.isNotNull(lastAccount.getAccountLinePercent())) {
                     lastAccount.setAccountLinePercent(lastAccount.getAccountLinePercent().add(percentDifference));
@@ -916,24 +937,26 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             }
         }
     }
-    
+
     /**
      * @see org.kuali.kfs.module.purap.service.PurapAccountingService#updatePreqItemAccountAmounts(org.kuali.kfs.module.purap.businessobject.PurApItem)
      */
+    @Override
     public void updatePreqItemAccountAmounts(PurApItem item) {
         List<PurApAccountingLine> sourceAccountingLines = item.getSourceAccountingLines();
         KualiDecimal totalAmount = item.getTotalAmount();
 
         updatePreqAccountAmountsWithTotal(sourceAccountingLines, totalAmount);
     }
-    
+
     /**
      * calculates values for a list of accounting lines based on an amount.  Preq item's extended
      * cost is distributed to the accounting lines.
-     * 
+     *
      * @param sourceAccountingLines
      * @param totalAmount
      */
+    @Override
     public <T extends PurApAccountingLine> void updatePreqAccountAmountsWithTotal(List<T> sourceAccountingLines, KualiDecimal totalAmount) {
         if ((totalAmount != null) && KualiDecimal.ZERO.compareTo(totalAmount) != 0) {
             KualiDecimal accountTotal = KualiDecimal.ZERO;
@@ -951,10 +974,10 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                         }
                     }
                 }
-                
+
                 totalAmount = totalAmount.subtract(account.getAmount());
-            }   
-           
+            }
+
             if (totalAmount.isGreaterThan(KualiDecimal.ZERO)) {
                 for (T account : sourceAccountingLines) {
                     if (account.getAmount().isZero() || account.getAccountLinePercent().compareTo(BigDecimal.ZERO) == 1) {
@@ -962,19 +985,19 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                         account.setAmount(account.getAmount().add(new KualiDecimal(account.getAccountLinePercent()).multiply(totalAmount).divide(new KualiDecimal(100))));
                         accountTotal = accountTotal.add(account.getAmount().subtract(priorAmount));
                         lastAccount = account;
-                    }    
+                    }
                 }
-            }    
-            
+            }
+
             accountTotal = totalAmount.subtract(accountTotal);
-            
+
             if (accountTotal.isGreaterThan(KualiDecimal.ZERO) && ObjectUtils.isNotNull(lastAccount)) {
                 //add the difference to the last overage account....
                 lastAccount.setAmount(lastAccount.getAmount().add(accountTotal));
             }
         }
-    } 
-    
+    }
+
     public List<PurApAccountingLine> generatePercentSummary(PurchasingAccountsPayableDocument purapDoc) {
         List<PurApAccountingLine> accounts = new ArrayList<PurApAccountingLine>();
         for (PurApItem currentItem : purapDoc.getItems()) {
@@ -992,7 +1015,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                             if (ObjectUtils.isNotNull(account.getAccountLinePercent())) {
                                 accountLinePercent = account.getAccountLinePercent();
                             }
-                                
+
                             alreadyAddedAccount.setAccountLinePercent(alreadyAddedAccountLinePercent.add(accountLinePercent));
 
                             thisAccountAlreadyInSet = true;
@@ -1012,6 +1035,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     /**
      * @see org.kuali.kfs.module.purap.service.PurapAccountingService#convertMoneyToPercent(org.kuali.kfs.module.purap.document.PaymentRequestDocument)
      */
+    @Override
     public void convertMoneyToPercent(PaymentRequestDocument pr) {
         LOG.debug("convertMoneyToPercent() started");
 
@@ -1080,6 +1104,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     /**
      * @see org.kuali.kfs.module.purap.service.PurapAccountingService#deleteSummaryAccounts(java.lang.Integer, java.lang.String)
      */
+    @Override
     public void deleteSummaryAccounts(Integer purapDocumentIdentifier, String docType) {
         if (PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT.equals(docType)) {
             purApAccountingDao.deleteSummaryAccountsbyPaymentRequestIdentifier(purapDocumentIdentifier);
@@ -1089,6 +1114,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         }
     }
 
+    @Override
     public List getAccountsPayableSummaryAccounts(Integer purapDocumentIdentifier, String docType) {
         if (PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT.equals(docType)) {
             return getSummaryAccountsbyPaymentRequestIdentifier(purapDocumentIdentifier);
@@ -1099,10 +1125,12 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         return null;
     }
 
+    @Override
     public List<PurApAccountingLine> getAccountsFromItem(PurApItem item) {
         return purApAccountingDao.getAccountingLinesForItem(item);
     }
 
+    @Override
     public List<SourceAccountingLine> generateSourceAccountsForVendorRemit(PurchasingAccountsPayableDocument document) {
         // correct initial amounts or percents
         updateAccountAmounts(document);
@@ -1116,7 +1144,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
 
     /**
      * gets sum total of accounts
-     * 
+     *
      * @param accounts
      * @return
      */
@@ -1135,7 +1163,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
 
     /**
      * Replaces amount field with prorated tax amount in list
-     * 
+     *
      * @param accounts list of accounts
      * @param useTax tax to be allocated to these accounts
      * @param newSourceLines rewrites the source account lines
@@ -1155,7 +1183,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             if (ObjectUtils.isNotNull(purApAccountingLine.getAccountLinePercent())) {
                 linePercent = purApAccountingLine.getAccountLinePercent();
             }
-            
+
             proratedAmtBD = useTax.bigDecimalValue().multiply(linePercent);
             // last object takes the rest of the amount
             // proratedAmt = (accounts.indexOf(purApAccountingLine) == last) ? useTax.subtract(total) : proratedAmt.divide(HUNDRED);
@@ -1177,6 +1205,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     /**
      * @see org.kuali.kfs.module.purap.service.PurapAccountingService#generateUseTaxAccount(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument)
      */
+    @Override
     public List<UseTaxContainer> generateUseTaxAccount(PurchasingAccountsPayableDocument document) {
         List<UseTaxContainer> useTaxAccounts = new ArrayList<UseTaxContainer>();
 
@@ -1239,6 +1268,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      * @see org.kuali.kfs.module.purap.service.PurapAccountingService#isTaxAccount(org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument,
      *      org.kuali.kfs.sys.businessobject.SourceAccountingLine)
      */
+    @Override
     public boolean isTaxAccount(PurchasingAccountsPayableDocument document, SourceAccountingLine account) {
         boolean isTaxAccount = false;
 
@@ -1249,23 +1279,23 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
 
                 String federalChartCode = parameterService.getParameterValueAsString(PaymentRequestDocument.class, NRATaxParameters.FEDERAL_TAX_PARM_PREFIX + NRATaxParameters.TAX_PARM_CHART_SUFFIX);
                 String federalAccountNumber = parameterService.getParameterValueAsString(PaymentRequestDocument.class, NRATaxParameters.FEDERAL_TAX_PARM_PREFIX + NRATaxParameters.TAX_PARM_ACCOUNT_SUFFIX);
-                String federalObjectCode = parameterService.getParameterValueAsString(PaymentRequestDocument.class, NRATaxParameters.FEDERAL_TAX_PARM_PREFIX + NRATaxParameters.TAX_PARM_OBJECT_BY_INCOME_CLASS_SUFFIX, incomeClassCode);
+                String federalObjectCode = parameterService.getSubParameterValueAsString(PaymentRequestDocument.class, NRATaxParameters.FEDERAL_TAX_PARM_PREFIX + NRATaxParameters.TAX_PARM_OBJECT_BY_INCOME_CLASS_SUFFIX, incomeClassCode);
 
                 String stateChartCode = parameterService.getParameterValueAsString(PaymentRequestDocument.class, NRATaxParameters.STATE_TAX_PARM_PREFIX + NRATaxParameters.TAX_PARM_CHART_SUFFIX);
                 String stateAccountNumber = parameterService.getParameterValueAsString(PaymentRequestDocument.class, NRATaxParameters.STATE_TAX_PARM_PREFIX + NRATaxParameters.TAX_PARM_ACCOUNT_SUFFIX);
-                String stateObjectCode = parameterService.getParameterValueAsString(PaymentRequestDocument.class, NRATaxParameters.STATE_TAX_PARM_PREFIX + NRATaxParameters.TAX_PARM_OBJECT_BY_INCOME_CLASS_SUFFIX, incomeClassCode);
+                String stateObjectCode = parameterService.getSubParameterValueAsString(PaymentRequestDocument.class, NRATaxParameters.STATE_TAX_PARM_PREFIX + NRATaxParameters.TAX_PARM_OBJECT_BY_INCOME_CLASS_SUFFIX, incomeClassCode);
 
                 String chartCode = account.getChartOfAccountsCode();
                 String accountNumber = account.getAccountNumber();
                 String objectCode = account.getFinancialObjectCode();
 
                 boolean isFederalAccount = StringUtils.equals(federalChartCode, chartCode);
-                isFederalAccount = isFederalAccount && StringUtils.equals(federalAccountNumber, accountNumber);
-                isFederalAccount = isFederalAccount && StringUtils.equals(federalObjectCode, objectCode);
+                isFederalAccount &= StringUtils.equals(federalAccountNumber, accountNumber);
+                isFederalAccount &= StringUtils.equals(federalObjectCode, objectCode);
 
                 boolean isStateAccount = StringUtils.equals(stateChartCode, chartCode);
-                isStateAccount = isStateAccount && StringUtils.equals(stateAccountNumber, accountNumber);
-                isStateAccount = isStateAccount && StringUtils.equals(stateObjectCode, objectCode);
+                isStateAccount &= StringUtils.equals(stateAccountNumber, accountNumber);
+                isStateAccount &= StringUtils.equals(stateObjectCode, objectCode);
 
                 isTaxAccount = isFederalAccount || isStateAccount;
             }
@@ -1286,6 +1316,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         this.purapService = purapService;
     }
 
+    @Override
     public List<SourceAccountingLine> mergeAccountingLineLists(List<SourceAccountingLine> accountingLines1, List<SourceAccountingLine> accountingLines2) {
 
         KualiDecimal totalAmount = KualiDecimal.ZERO;
@@ -1296,13 +1327,13 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             if (ObjectUtils.isNotNull(line1.getAmount())) {
                 line1Amount = line1.getAmount();
             }
-            
+
             for (SourceAccountingLine line2 : accountingLines2) {
                 KualiDecimal line2Amount = KualiDecimal.ZERO;
                 if (ObjectUtils.isNotNull(line2.getAmount())) {
                     line2Amount = line2.getAmount();
                 }
-                
+
                 // if we find a match between lists, then merge amounts
                 if (line1.equals(line2)) {
                     // add the two amounts
@@ -1320,6 +1351,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     /**
      * @see org.kuali.kfs.module.purap.service.PurapAccountingService#getSummaryAccountsbyPaymentRequestIdentifier(java.lang.Integer)
      */
+    @Override
     public List getSummaryAccountsbyPaymentRequestIdentifier(Integer paymentRequestIdentifier) {
         if (paymentRequestIdentifier != null) {
             Map fieldValues = new HashMap();
@@ -1332,6 +1364,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
     /**
      * @see org.kuali.kfs.module.purap.service.PurapAccountingService#getSummaryAccountsbyCreditMemoIdentifier(java.lang.Integer)
      */
+    @Override
     public List getSummaryAccountsbyCreditMemoIdentifier(Integer creditMemoIdentifier) {
         if (creditMemoIdentifier != null) {
             Map fieldValues = new HashMap();
@@ -1343,7 +1376,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
 
     /**
      * Sest the businessObjectService.
-     * 
+     *
      * @param businessObjectService
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {

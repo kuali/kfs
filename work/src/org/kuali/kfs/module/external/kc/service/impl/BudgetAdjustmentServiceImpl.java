@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,6 +18,7 @@ package org.kuali.kfs.module.external.kc.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
@@ -46,8 +47,8 @@ import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.DocumentAuthorizer;
-import org.kuali.rice.krad.maintenance.MaintenanceDocumentAuthorizerBase;
 import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.maintenance.MaintenanceDocumentAuthorizerBase;
 import org.kuali.rice.krad.rules.rule.event.BlanketApproveDocumentEvent;
 import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
 import org.kuali.rice.krad.rules.rule.event.SaveDocumentEvent;
@@ -58,20 +59,21 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
 
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetAdjustmentServiceImpl.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetAdjustmentServiceImpl.class);
 
-    private DocumentService documentService;
-    private ParameterService parameterService;
-    private DataDictionaryService dataDictionaryService;
-    private BusinessObjectService businessObjectService;
+    protected DocumentService documentService;
+    protected ParameterService parameterService;
+    protected DataDictionaryService dataDictionaryService;
+    protected BusinessObjectService businessObjectService;
 
     /**
      * This is the web service method that facilitates budget adjustment 1. Creates a Budget Adjustment Doc using the parameters
      * from KC 2. Returns the status object
-     * 
+     *
      * @param BudgetAdjustmentParametersDTO
      * @return BudgetAdjustmentStatusDTO
      */
+    @Override
     public BudgetAdjustmentCreationStatusDTO createBudgetAdjustment(BudgetAdjustmentParametersDTO budgetAdjustmentParameters) {
         BudgetAdjustmentDocument budgetAdjustmentDoc = null;
 
@@ -89,13 +91,13 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
         try {
             // create a Budget Adjustment object
             budgetAdjustmentDoc = createBudgetAdjustmentObject( budgetAdjustmentCreationStatus);
-            
+
             if (!isValidParameters(budgetAdjustmentDoc.getPostingYear(), budgetAdjustmentCreationStatus, budgetAdjustmentParameters)) {
                 return budgetAdjustmentCreationStatus;
             }
 
             // create a Budget Adjustment object, then route if successful
-            if( populateBudgetAdjustmentDocDetails(budgetAdjustmentParameters, budgetAdjustmentDoc, budgetAdjustmentCreationStatus) ){                            
+            if( populateBudgetAdjustmentDocDetails(budgetAdjustmentParameters, budgetAdjustmentDoc, budgetAdjustmentCreationStatus) ){
                 routeBudgetAdjustmentDocument(budgetAdjustmentDoc, budgetAdjustmentCreationStatus);
             }else{
                 //return as we have a failure
@@ -115,15 +117,15 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
         else {
             // save the document
             try {
-                try{                 
+                try{
                     GlobalVariables.getMessageMap().clearErrorMessages();
                     getDocumentService().saveDocument(budgetAdjustmentDoc);
-                }catch(ValidationException ve){                    
+                }catch(ValidationException ve){
                 }
                 budgetAdjustmentCreationStatus.setDocumentNumber(budgetAdjustmentDoc.getDocumentNumber());
             }
             catch (Exception ex) {
-                LOG.error( KcUtils.getErrorMessage(ContractsAndGrantsConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_NOT_SAVED, null) + ": " + ex.getMessage());                
+                LOG.error( KcUtils.getErrorMessage(ContractsAndGrantsConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_NOT_SAVED, null) + ": " + ex.getMessage());
                 budgetAdjustmentCreationStatus.setErrorMessages(GlobalVariablesExtractHelper.extractGlobalVariableErrors());
                 budgetAdjustmentCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_FAILURE);
 
@@ -203,7 +205,7 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
 
     /**
      * This method creates an account to be used for automatic maintenance document
-     * 
+     *
      * @param AccountParametersDTO
      * @return Account
      */
@@ -213,9 +215,9 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
         budgetAdjustmentDocument.initiateDocument();
          return budgetAdjustmentDocument;
     }
-    
+
     protected boolean populateBudgetAdjustmentDocDetails(BudgetAdjustmentParametersDTO parameters, BudgetAdjustmentDocument budgetAdjustmentDocument, BudgetAdjustmentCreationStatusDTO budgetAdjustmentCreationStatus) {
-        
+
         boolean methodSuccessful = true;
 
         // The Description of the BA document should carry the Award Document Number and Budget Version Number.
@@ -246,8 +248,8 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
                 }
             }
         }
-        
-        return methodSuccessful;        
+
+        return methodSuccessful;
     }
 
     protected void populateAccountingLine(BudgetAdjustmentAccountingLine acctLine, Integer postingYear, String chart, String accountNumber, String proj, String objCode, KualiDecimal currentBudgetAdjustmentAmount) {
@@ -281,11 +283,10 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
 
     protected boolean generateIncomeAccountingLine(Integer postingYear, String sponsorType, BudgetAdjustmentDocument baDoc, KualiDecimal amount) {
         BudgetAdjustmentParametersDTO.Details incomeDetail = new BudgetAdjustmentParametersDTO.Details();
-        if (!parameterService.parameterExists(BudgetAdjustmentDocument.class, ContractsAndGrantsConstants.BudgetAdjustmentService.PARAMETER_INCOME_OBJECT_CODES_BY_SPONSOR_TYPE))
+        String sponsorCodeMapValue = parameterService.getSubParameterValueAsString(BudgetAdjustmentDocument.class, ContractsAndGrantsConstants.BudgetAdjustmentService.PARAMETER_INCOME_OBJECT_CODES_BY_SPONSOR_TYPE, sponsorType);
+        if ( StringUtils.isBlank(sponsorCodeMapValue) ) {
             return false;
-        String sponsorCodeMapValue = parameterService.getParameterValueAsString(BudgetAdjustmentDocument.class, ContractsAndGrantsConstants.BudgetAdjustmentService.PARAMETER_INCOME_OBJECT_CODES_BY_SPONSOR_TYPE, sponsorType);
-        if (sponsorCodeMapValue == null)
-            return false;
+        }
         if (amount.isNegative()) { // from side
             AccountingLine accountingLineDetail = baDoc.getSourceAccountingLine(0);
             BudgetAdjustmentSourceAccountingLine budgetAdjustmentSourceAccountingLine = new BudgetAdjustmentSourceAccountingLine();
@@ -305,7 +306,7 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
     /**
      * This method will use the DocumentService to create a new document. The documentTypeName is gathered by using
      * MaintenanceDocumentDictionaryService which uses Account class to get the document type name.
-     * 
+     *
      * @param AccountCreationStatusDTO
      * @return document returns a new document for the account document type or null if there is an exception thrown.
      */
@@ -327,7 +328,7 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
      * This method processes the workflow document actions like save, route and blanket approve depending on the
      * ACCOUNT_AUTO_CREATE_ROUTE system parameter value. If the system parameter value is not of save or submit or blanketapprove,
      * put an error message and quit. Throws an document WorkflowException if the specific document action fails to perform.
-     * 
+     *
      * @param maintenanceAccountDocument, errorMessages
      * @return success returns true if the workflow document action is successful else return false.
      */
@@ -351,20 +352,20 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
             if (BudgetAdjustAutoRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_SAVE)) {
                 //attempt to save if apply rules were successful and there are no errors
                 boolean rulesPassed = SpringContext.getBean(KualiRuleService.class).applyRules(new SaveDocumentEvent(budgetAdjustmentDocument));
-                
+
                 if( rulesPassed && GlobalVariables.getMessageMap().hasNoErrors()){
                     getDocumentService().saveDocument(budgetAdjustmentDocument);
                 }else{
                     //get errors from apply rules invocation, also clears global variables
-                    budgetAdjustmentCreationStatus.setErrorMessages(GlobalVariablesExtractHelper.extractGlobalVariableErrors());                        
+                    budgetAdjustmentCreationStatus.setErrorMessages(GlobalVariablesExtractHelper.extractGlobalVariableErrors());
                     try{
                         //save document, and catch VE's as we want to do this silently
                         getDocumentService().saveDocument(budgetAdjustmentDocument);
                     }catch(ValidationException ve){}
-                    
-                    budgetAdjustmentCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_SUCCESS);                    
+
+                    budgetAdjustmentCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_SUCCESS);
                     LOG.error( KcUtils.getErrorMessage(ContractsAndGrantsConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_BA_RULES_EXCEPTION, new String[]{budgetAdjustmentDocument.getDocumentNumber()}));
-                    
+
                     return false;
                 }
 
@@ -373,42 +374,42 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
 
                 //attempt to blanket approve if apply rules were successful and there are no errors
                 boolean rulesPassed = SpringContext.getBean(KualiRuleService.class).applyRules(new BlanketApproveDocumentEvent(budgetAdjustmentDocument));
-                
+
                 if( rulesPassed && GlobalVariables.getMessageMap().hasNoErrors()){
                     getDocumentService().blanketApproveDocument(budgetAdjustmentDocument, "", null);
                 }else{
                     //get errors from apply rules invocation, also clears global variables
-                    budgetAdjustmentCreationStatus.setErrorMessages(GlobalVariablesExtractHelper.extractGlobalVariableErrors());                        
+                    budgetAdjustmentCreationStatus.setErrorMessages(GlobalVariablesExtractHelper.extractGlobalVariableErrors());
                     try{
                         //save document, and catch VE's as we want to do this silently
                         getDocumentService().saveDocument(budgetAdjustmentDocument);
                     }catch(ValidationException ve){}
-                    
-                    budgetAdjustmentCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_SUCCESS);                    
+
+                    budgetAdjustmentCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_SUCCESS);
                     LOG.error( KcUtils.getErrorMessage(ContractsAndGrantsConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_BA_RULES_EXCEPTION, new String[]{budgetAdjustmentDocument.getDocumentNumber()}));
-                    
+
                     return false;
                 }
-                
+
             }
             else if (BudgetAdjustAutoRouteValue.equalsIgnoreCase("submit")) {
 
                 //attempt to blanket approve if apply rules were successful and there are no errors
                 boolean rulesPassed = SpringContext.getBean(KualiRuleService.class).applyRules(new RouteDocumentEvent(budgetAdjustmentDocument));
-                
+
                 if( rulesPassed && GlobalVariables.getMessageMap().hasNoErrors()){
                     getDocumentService().routeDocument(budgetAdjustmentDocument, "", null);
                 }else{
                     //get errors from apply rules invocation, also clears global variables
-                    budgetAdjustmentCreationStatus.setErrorMessages(GlobalVariablesExtractHelper.extractGlobalVariableErrors());                        
+                    budgetAdjustmentCreationStatus.setErrorMessages(GlobalVariablesExtractHelper.extractGlobalVariableErrors());
                     try{
                         //save document, and catch VE's as we want to do this silently
                         getDocumentService().saveDocument(budgetAdjustmentDocument);
                     }catch(ValidationException ve){}
-                    
-                    budgetAdjustmentCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_SUCCESS);                    
+
+                    budgetAdjustmentCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_SUCCESS);
                     LOG.error( KcUtils.getErrorMessage(ContractsAndGrantsConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_BA_RULES_EXCEPTION, new String[]{budgetAdjustmentDocument.getDocumentNumber()}));
-                
+
                     return false;
                 }
 
@@ -427,7 +428,7 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
 
     /**
      * This method check to see if the user can create the account maintenance document and set the user session
-     * 
+     *
      * @param String principalId
      * @return boolean
      */
@@ -449,7 +450,7 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
             }
         }
         catch (Exception ex) {
-            
+
             LOG.error( KcUtils.getErrorMessage(ContractsAndGrantsConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_INVALID_USER, new String[]{principalId}));
             return false;
         }
@@ -458,7 +459,7 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
 
     /**
      * Gets the documentService attribute.
-     * 
+     *
      * @return Current value of documentService.
      */
     protected DocumentService getDocumentService() {
@@ -467,7 +468,7 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
 
     /**
      * Sets the documentService attribute value.
-     * 
+     *
      * @param documentService
      */
     public void setDocumentService(DocumentService documentService) {
@@ -476,7 +477,7 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
 
     /**
      * Gets the parameterService attribute.
-     * 
+     *
      * @return Returns the parameterService.
      */
     protected ParameterService getParameterService() {
@@ -485,7 +486,7 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
 
     /**
      * Sets the parameterService attribute value.
-     * 
+     *
      * @param parameterService The parameterService to set.
      */
     public void setParameterService(ParameterService parameterService) {
@@ -502,7 +503,7 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -511,7 +512,7 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
 
     /**
      * Gets the businessObjectService attribute.
-     * 
+     *
      * @return Returns the businessObjectService.
      */
     protected BusinessObjectService getBusinessObjectService() {

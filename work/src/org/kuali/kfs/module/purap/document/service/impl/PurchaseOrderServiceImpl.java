@@ -132,95 +132,28 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class PurchaseOrderServiceImpl implements PurchaseOrderService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderServiceImpl.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderServiceImpl.class);
 
-    private BusinessObjectService businessObjectService;
+    protected BusinessObjectService businessObjectService;
     protected DateTimeService dateTimeService;
-    private DocumentService documentService;
-    private NoteService noteService;
+    protected DocumentService documentService;
+    protected NoteService noteService;
     protected PurapService purapService;
-    private PrintService printService;
-    private PurchaseOrderDao purchaseOrderDao;
-    private WorkflowDocumentService workflowDocumentService;
-    private ConfigurationService kualiConfigurationService;
-    private KualiRuleService kualiRuleService;
-    private VendorService vendorService;
-    private RequisitionService requisitionService;
-    private PurApWorkflowIntegrationService purapWorkflowIntegrationService;
-    private MaintenanceDocumentService maintenanceDocumentService;
-    private ParameterService parameterService;
-    private PersonService personService;
-    private MailService mailService;
-    private B2BPurchaseOrderService b2bPurchaseOrderService;
-    private DataDictionaryService dataDictionaryService;
+    protected PrintService printService;
+    protected PurchaseOrderDao purchaseOrderDao;
+    protected WorkflowDocumentService workflowDocumentService;
+    protected ConfigurationService kualiConfigurationService;
+    protected KualiRuleService kualiRuleService;
+    protected VendorService vendorService;
+    protected RequisitionService requisitionService;
+    protected PurApWorkflowIntegrationService purapWorkflowIntegrationService;
+    protected MaintenanceDocumentService maintenanceDocumentService;
+    protected ParameterService parameterService;
+    protected PersonService personService;
+    protected MailService mailService;
+    protected B2BPurchaseOrderService b2bPurchaseOrderService;
+    protected DataDictionaryService dataDictionaryService;
 
-    public void setB2bPurchaseOrderService(B2BPurchaseOrderService purchaseOrderService) {
-        b2bPurchaseOrderService = purchaseOrderService;
-    }
-
-    public void setBusinessObjectService(BusinessObjectService boService) {
-        this.businessObjectService = boService;
-    }
-
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
-    }
-
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
-    }
-
-    public void setNoteService(NoteService noteService) {
-        this.noteService = noteService;
-    }
-
-    public void setPurapService(PurapService purapService) {
-        this.purapService = purapService;
-    }
-
-    public void setPrintService(PrintService printService) {
-        this.printService = printService;
-    }
-
-    public void setPurchaseOrderDao(PurchaseOrderDao purchaseOrderDao) {
-        this.purchaseOrderDao = purchaseOrderDao;
-    }
-
-    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
-        this.workflowDocumentService = workflowDocumentService;
-    }
-
-    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
-    }
-
-    public void setKualiRuleService(KualiRuleService kualiRuleService) {
-        this.kualiRuleService = kualiRuleService;
-    }
-
-    public void setVendorService(VendorService vendorService) {
-        this.vendorService = vendorService;
-    }
-
-    public void setRequisitionService(RequisitionService requisitionService) {
-        this.requisitionService = requisitionService;
-    }
-
-    public void setPurapWorkflowIntegrationService(PurApWorkflowIntegrationService purapWorkflowIntegrationService) {
-        this.purapWorkflowIntegrationService = purapWorkflowIntegrationService;
-    }
-
-    public void setMaintenanceDocumentService(MaintenanceDocumentService maintenanceDocumentService) {
-        this.maintenanceDocumentService = maintenanceDocumentService;
-    }
-
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
-
-    public void setMailService(MailService mailService) {
-        this.mailService = mailService;
-    }
 
 
     @Override
@@ -337,7 +270,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     po.setDefaultValuesForAPO();
                     po.setContractManagerCode(PurapConstants.APO_CONTRACT_MANAGER);
                     documentService.routeDocument(po, null, null);
-                    final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();                            
+                    final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();
                     documentAttributeIndexingQueue.indexDocument(po.getDocumentNumber());
                      return null;
                 }
@@ -797,7 +730,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 newDocument.setAccountDistributionMethod(currentDocument.getAccountDistributionMethod());
                 // Add in and renumber the items that the new document should have.
                 newDocument.setItems(newPOItems);
-                SpringContext.getBean(PurapService.class).addBelowLineItems(newDocument);
+                purapService.addBelowLineItems(newDocument);
                 newDocument.renumberItems(0);
 
                 newDocument.setPostingYear(currentDocument.getPostingYear());
@@ -917,7 +850,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             String userToRouteFyi = po.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId();
             if (po.getPurchaseOrderAutomaticIndicator()) {
                 //if APO, use the user that initiated the requisition
-                RequisitionDocument req = SpringContext.getBean(RequisitionService.class).getRequisitionById(po.getRequisitionIdentifier());
+                RequisitionDocument req = requisitionService.getRequisitionById(po.getRequisitionIdentifier());
                 userToRouteFyi = req.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
             }
 
@@ -1230,7 +1163,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             String oldestDocumentNumber = purchaseOrderDao.getOldestPurchaseOrderDocumentNumber(po.getPurapDocumentIdentifier());
             if (StringUtils.equals(oldestDocumentNumber, po.getDocumentNumber())) {
                 // manually set bo notes - this is mainly done for performance reasons (preferably we could call
-                // retrieve doc notes in PersistableBusinessObjectBase but that is private)
+                // retrieve doc notes in PersistableBusinessObjectBase but that is protected)
                 updateNotes(po, documentBusinessObject);
                 LOG.debug("exiting getOldestPO(PurchaseOrderDocument)");
                 return po;
@@ -1730,7 +1663,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @param vendor The VendorDetail object whose default address we'll obtain and set the fields.
      */
     protected void updateDefaultVendorAddress(VendorDetail vendor) {
-        VendorAddress defaultAddress = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(vendor.getVendorAddresses(), vendor.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
+        VendorAddress defaultAddress = vendorService.getVendorDefaultAddress(vendor.getVendorAddresses(), vendor.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
         if (defaultAddress != null ) {
             if (defaultAddress.getVendorState() != null) {
                 vendor.setVendorStateForLookup(defaultAddress.getVendorState().getName());
@@ -1758,7 +1691,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
             if (ObjectUtils.isNotNull(detail.getContractManagerCode())) {
                 // Get the requisition for this ContractManagerAssignmentDetail.
-                RequisitionDocument req = SpringContext.getBean(RequisitionService.class).getRequisitionById(detail.getRequisitionIdentifier());
+                RequisitionDocument req = requisitionService.getRequisitionById(detail.getRequisitionIdentifier());
 
                 if ( PurapConstants.RequisitionStatuses.APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN.equals(req.getAppDocStatus())) {
                     // only update REQ if code is empty and status is correct
@@ -1780,7 +1713,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         LOG.debug("autoCloseFullyDisencumberedOrders() started");
 
         List<AutoClosePurchaseOrderView> autoCloseList = purchaseOrderDao.getAllOpenPurchaseOrders(getExcludedVendorChoiceCodes());
-        
+
         //we need to eliminate the AutoClosePurchaseOrderView whose workflowdocument status is not OPEN..
         //KFSMI-7533
         List<AutoClosePurchaseOrderView> purchaseOrderAutoCloseList = filterDocumentsForAppDocStatusOpen(autoCloseList);
@@ -1797,7 +1730,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
             }
         }
-        
+
         LOG.debug("autoCloseFullyDisencumberedOrders() ended");
 
         return true;
@@ -1879,11 +1812,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
 
         List<AutoClosePurchaseOrderView> closeList = purchaseOrderDao.getAutoCloseRecurringPurchaseOrders(getExcludedVendorChoiceCodes());
-        
+
         //we need to eliminate the AutoClosePurchaseOrderView whose workflowdocument status is not OPEN..
         //KFSMI-7533
         List<AutoClosePurchaseOrderView> purchaseOrderAutoCloseList = filterDocumentsForAppDocStatusOpen(closeList);
-        
+
         LOG.info("autoCloseRecurringOrders(): " + purchaseOrderAutoCloseList.size() + " PO's were returned for processing.");
         int counter = 0;
         for (AutoClosePurchaseOrderView poAutoClose : purchaseOrderAutoCloseList) {
@@ -1893,7 +1826,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 String annotation = "This recurring PO was automatically closed in batch.";
                 String documentType = PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT;
                 PurchaseOrderDocument document = getPurchaseOrderByDocumentNumber(poAutoClose.getDocumentNumber());
-                boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AttributedRouteDocumentEvent("", document));
+                boolean rulePassed = kualiRuleService.applyRules(new AttributedRouteDocumentEvent("", document));
 
 				boolean success = true;
                 if (success) {
@@ -1940,10 +1873,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      */
     protected List<AutoClosePurchaseOrderView> filterDocumentsForAppDocStatusOpen(List<AutoClosePurchaseOrderView> autoClosePurchaseOrderViews) {
         List<AutoClosePurchaseOrderView> filteredAutoClosePOView = new ArrayList<AutoClosePurchaseOrderView>();
-        
+
         for (AutoClosePurchaseOrderView autoClosePurchaseOrderView : autoClosePurchaseOrderViews) {
             Document document = findDocument(autoClosePurchaseOrderView.getDocumentNumber());
-            
+
             if (document != null) {
                 if (PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN.equalsIgnoreCase(
                         document.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus())){
@@ -1952,10 +1885,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 }
             }
         }
-        
+
         return filteredAutoClosePOView;
     }
-    
+
     /**
      * This method finds the document for the given document header id
      * @param documentHeaderId
@@ -1963,7 +1896,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      */
     protected Document findDocument(String documentHeaderId) {
         Document document = null;
-        
+
         try {
             document = documentService.getByDocumentHeaderId(documentHeaderId);
         }
@@ -1973,11 +1906,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             // don't blow up just because a document type is not installed (but don't return it either)
             LOG.error("Exception encountered on finding the document: " + documentHeaderId, ex );
         }
-        
+
         return document;
     }
-    
-    
+
+
     /**
      * Creates and returns a Calendar object of today minus three months.
      *
@@ -2155,7 +2088,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @param appDocStatus
      * @return
      */
-    private List<PurchaseOrderDocument> filterPurchaseOrderDocumentByAppDocStatus(Collection<PurchaseOrderDocument> purchaseOrderDocuments, String... appDocStatus) {
+    protected List<PurchaseOrderDocument> filterPurchaseOrderDocumentByAppDocStatus(Collection<PurchaseOrderDocument> purchaseOrderDocuments, String... appDocStatus) {
         List<String> purchaseOrderDocNumbers = new ArrayList<String>();
         for (PurchaseOrderDocument purchaseOrder : purchaseOrderDocuments){
             purchaseOrderDocNumbers.add(purchaseOrder.getDocumentNumber());
@@ -2184,7 +2117,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @param appDocStatus
      * @return List<String> purchaseOrderDocumentNumbers
      */
-    private List<String> filterPurchaseOrderDocumentNumbersByAppDocStatus(List<String> lookupDocNumbers, String... appDocStatus) {
+    protected List<String> filterPurchaseOrderDocumentNumbersByAppDocStatus(List<String> lookupDocNumbers, String... appDocStatus) {
         boolean valid = false;
 
         final String DOC_NUM_DELIM = "|";
@@ -2233,4 +2166,71 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         this.dataDictionaryService = dataDictionaryService;
     }
 
+    public void setB2bPurchaseOrderService(B2BPurchaseOrderService purchaseOrderService) {
+        this.b2bPurchaseOrderService = purchaseOrderService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService boService) {
+        this.businessObjectService = boService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+
+    public void setNoteService(NoteService noteService) {
+        this.noteService = noteService;
+    }
+
+    public void setPurapService(PurapService purapService) {
+        this.purapService = purapService;
+    }
+
+    public void setPrintService(PrintService printService) {
+        this.printService = printService;
+    }
+
+    public void setPurchaseOrderDao(PurchaseOrderDao purchaseOrderDao) {
+        this.purchaseOrderDao = purchaseOrderDao;
+    }
+
+    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
+        this.workflowDocumentService = workflowDocumentService;
+    }
+
+    public void setConfigurationService(ConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
+    }
+
+    public void setKualiRuleService(KualiRuleService kualiRuleService) {
+        this.kualiRuleService = kualiRuleService;
+    }
+
+    public void setVendorService(VendorService vendorService) {
+        this.vendorService = vendorService;
+    }
+
+    public void setRequisitionService(RequisitionService requisitionService) {
+        this.requisitionService = requisitionService;
+    }
+
+    public void setPurapWorkflowIntegrationService(PurApWorkflowIntegrationService purapWorkflowIntegrationService) {
+        this.purapWorkflowIntegrationService = purapWorkflowIntegrationService;
+    }
+
+    public void setMaintenanceDocumentService(MaintenanceDocumentService maintenanceDocumentService) {
+        this.maintenanceDocumentService = maintenanceDocumentService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    public void setMailService(MailService mailService) {
+        this.mailService = mailService;
+    }
 }

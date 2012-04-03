@@ -72,7 +72,7 @@
 					</div>
 				</th>
 				<td>
-					<kul:htmlControlAttribute attributeEntry="${documentAttributes.invoice.billingDate}"
+					<kul:htmlControlAttribute attributeEntry="${DataDictionary.CustomerInvoiceDocument.attributes.billingDateForDisplay}"
                        	property="document.invoice.billingDateForDisplay"
                        	readOnly="true" />
 				</td>

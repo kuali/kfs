@@ -513,12 +513,14 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
 
     public void populateCustomerNote() {
         customerNote = "";
-        String remoteObjectId = getCustomerInvoiceDocument().getCustomer().getObjectId();
-        List<Note> boNotes = SpringContext.getBean(NoteService.class).getByRemoteObjectId(remoteObjectId);        
+        
+        List<Note> boNotes = this.getNotes();
+        
         if ( !boNotes.isEmpty() ) {
             for ( Note note : boNotes ) {
                 customerNote = customerNote + note.getNoteText() + " ";
             }
+            
             customerNote = customerNote.trim();
         }
     }

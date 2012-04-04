@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.purap.businessobject;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -30,7 +29,6 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.datadictionary.exception.UnknownDocumentTypeException;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -73,9 +71,8 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
 
     public List<Note> getNotes() {
         if (notes == null) {
-            notes = new ArrayList<Note>();
-            List<Note> tmpNotes = SpringContext.getBean(NoteService.class).getByRemoteObjectId(this.getObjectId());
-            //FIXME if NoteService returns notes in descending order (newer ones first) then remove the following
+            //reverse the order of notes only when anything exists in it..
+            List<Note> tmpNotes = this.getNotes();
             // reverse the order of notes retrieved so that newest note is in the front
             for (int i = tmpNotes.size()-1; i>=0; i--) {
                 Note note = tmpNotes.get(i);

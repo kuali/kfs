@@ -176,8 +176,7 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
     public boolean getPurchaseOrderNotes() {
         boolean hasNotes = false;
 
-        List<Note> poNotes = SpringContext.getBean(NoteService.class).getByRemoteObjectId((this.getPurchaseOrderIdentifier()).toString());
-        if (poNotes.size() > 0) {
+        if (this.getNotes().size() > 0) {
             hasNotes = true;
         }
 

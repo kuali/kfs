@@ -21,6 +21,7 @@ import java.util.LinkedHashMap;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sec.SecPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.group.Group;
@@ -159,17 +160,17 @@ public class SecurityModelMember extends PersistableBusinessObjectBase {
     public String getMemberName() {
         if ( StringUtils.isBlank(memberName) ) {
             if (StringUtils.isNotBlank(memberTypeCode) && StringUtils.isNotBlank(memberId)) {
-                if (KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL.equals(memberTypeCode)) {
+                if (MemberType.PRINCIPAL.getCode().equals(memberTypeCode)) {
                     Person person = SpringContext.getBean(PersonService.class).getPerson(memberId);
                     if (person != null) {
                         memberName = person.getName();
                     }
-                } else if (KimConstants.KimUIConstants.MEMBER_TYPE_ROLE.equals(memberTypeCode)) {
+                } else if (MemberType.ROLE.getCode().equals(memberTypeCode)) {
                     Role roleInfo = SpringContext.getBean(RoleService.class).getRole(memberId);
                     if (roleInfo != null) {
                         memberName = roleInfo.getName();
                     }
-                } else if (KimConstants.KimUIConstants.MEMBER_TYPE_GROUP.equals(memberTypeCode)) {
+                } else if (MemberType.GROUP.getCode().equals(memberTypeCode)) {
                     Group groupInfo = SpringContext.getBean(GroupService.class).getGroup(memberId);
                     if (groupInfo != null) {
                         memberName = groupInfo.getName();

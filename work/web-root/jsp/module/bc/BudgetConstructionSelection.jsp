@@ -124,7 +124,6 @@
 				<th class="grid" align="center" colspan="1">
 				<html:hidden property="budgetConstructionHeader.universityFiscalYear" /> 
 				<html:hidden property="budgetConstructionHeader.documentNumber" />
-				<html:hidden property="budgetConstructionHeader.chartOfAccountsCode" /> 
 				<kul:htmlAttributeLabel	attributeEntry="${bcHeaderAttributes.chartOfAccountsCode}"
 					labelFor="budgetConstructionHeader.chartOfAccountsCode"
 					useShortLabel="true" noColon="true" /></th>
@@ -139,6 +138,7 @@
 			<tr>
 				<%--first cell in row above spans two rows --%>
 				<c:if test="${!accountsCanCrossCharts}">
+				<html:hidden property="budgetConstructionHeader.chartOfAccountsCode" />
 					<bc:pbglLineDataCell dataCellCssClass="grid"
 						accountingLine="budgetConstructionHeader"
 						field="chartOfAccountsCode"

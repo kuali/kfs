@@ -156,7 +156,7 @@
 	      <td align="center" valign="middle">
 	      	<kul:htmlControlAttribute
 	      	    property="document.account.subFundGroup.subFundGroupDescription"
-	      	    attributeEntry="${DataDictionary.SubFundGroup.attributes.subfundGroupDescription}"
+	      	    attributeEntry="${subFundGroupAttributes['subFundGroupDescription']}"
 	      	    readOnly="${true}"
 	      	    readOnlyBody="true">
 			    ${KualiForm.document.account.subFundGroup.subFundGroupDescription}
@@ -187,7 +187,7 @@
 	      <td align="center" valign="middle">
 	      	<kul:htmlControlAttribute
 	      	    property="document.account.organization.organizationName"
-	      	    attributeEntry="${DataDictionary.Organization.attributes.organizationName}"
+	      	    attributeEntry="${orgAttributes['organizationName']}"
 	      	    readOnly="${true}"
 	      	    readOnlyBody="true">
 	      	    ${KualiForm.document.account.organization.organizationName}
@@ -231,7 +231,7 @@
 	      <td align="center" valign="middle">
 	      	<kul:htmlControlAttribute
 	      	    property="${orgPropString}.reportsToOrganization.organizationName"
-	      	    attributeEntry="${organizationAttributes.organizationName}"
+	      	    attributeEntry="${orgAttributes['organizationName']}"
 	      	    readOnly="${true}"
 	      	    readOnlyBody="true">
 	      	    ${orgVals.reportsToOrganization.organizationName}
@@ -355,7 +355,7 @@
 	      <td align="center" valign="middle">
 	      	<kul:htmlControlAttribute
 	      	    property="${orgRptsPropString}.reportsToOrganization.organizationName"
-	      	    attributeEntry="${organizationAttributes.organizationName}"
+	      	    attributeEntry="${orgAttributes['organizationName']}"
 	      	    readOnly="${true}"
 	      	    readOnlyBody="true">
 	      	    ${orgRptsVals.reportsToOrganization.organizationName}

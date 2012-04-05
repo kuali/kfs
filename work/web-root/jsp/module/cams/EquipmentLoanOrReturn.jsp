@@ -124,14 +124,14 @@
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerStateCode" attributeEntry="${equipAttributes.borrowerStateCode}" readOnly="${readOnly}" />								
 					<c:if test="${not readOnly}">
 						&nbsp;
-		                <kul:lookup boClassName="org.kuali.rice.krad.bo.State" fieldConversions="stateCode:document.borrowerStateCode" lookupParameters="document.borrowerCountryCode:postalCountryCode,document.borrowerStateCode:stateCode" />
+		                <kul:lookup boClassName="org.kuali.rice.location.framework.state.StateEbo" fieldConversions="stateCode:document.borrowerStateCode" lookupParameters="document.borrowerCountryCode:postalCountryCode,document.borrowerStateCode:stateCode" />
 					</c:if>
                 </td>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${equipAttributes.borrowerStorageStateCode}" readOnly="true"/></th>
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.borrowerStorageStateCode" attributeEntry="${equipAttributes.borrowerStorageStateCode}" readOnly="${readOnly}" />								
 					<c:if test="${not readOnly}">
 						&nbsp;
-		                <kul:lookup boClassName="org.kuali.rice.krad.bo.State" fieldConversions="stateCode:document.borrowerStorageStateCode" lookupParameters="document.borrowerStorageCountryCode:postalCountryCode,document.borrowerStorageStateCode:stateCode" />
+		                <kul:lookup boClassName="org.kuali.rice.location.framework.state.StateEbo" fieldConversions="stateCode:document.borrowerStorageStateCode" lookupParameters="document.borrowerStorageCountryCode:postalCountryCode,document.borrowerStorageStateCode:stateCode" />
 					</c:if>
                 </td>
 			</tr>

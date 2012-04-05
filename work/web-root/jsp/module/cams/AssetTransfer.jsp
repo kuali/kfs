@@ -102,7 +102,7 @@
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.campusCode" attributeEntry="${assetTransferAttributes.campusCode}" readOnly="${readOnly}"/>
 					<c:if test="${not readOnly}">
 						&nbsp;
-		                <kul:lookup boClassName="org.kuali.rice.krad.bo.Campus" fieldConversions="campusCode:document.campusCode" lookupParameters="document.campusCode:campusCode" />
+		                <kul:lookup boClassName="org.kuali.rice.location.api.campus.CampusContract" fieldConversions="campusCode:document.campusCode" lookupParameters="document.campusCode:campusCode" />
 		            </c:if>
 				</td>
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${assetTransferAttributes.offCampusName}" /></th>  
@@ -137,7 +137,7 @@
 				<td class="grid" width="25%"><kul:htmlControlAttribute property="document.offCampusStateCode" attributeEntry="${assetTransferAttributes.offCampusStateCode}" readOnly="${readOnly}"/>						
 					<c:if test="${not readOnly}">
 						&nbsp;
-		                <kul:lookup boClassName="org.kuali.rice.krad.bo.State" fieldConversions="stateCode:document.offCampusStateCode" lookupParameters="document.offCampusCountryCode:postalCountryCode,document.offCampusStateCode:stateCode," />
+		                <kul:lookup boClassName="org.kuali.rice.location.api.state.StateContract" fieldConversions="stateCode:document.offCampusStateCode" lookupParameters="document.offCampusCountryCode:postalCountryCode,document.offCampusStateCode:stateCode," />
 	                </c:if>
 				</td>						
 			</tr>

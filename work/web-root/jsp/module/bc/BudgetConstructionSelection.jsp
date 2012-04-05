@@ -17,17 +17,6 @@
 <%@ page import="org.kuali.kfs.sys.context.SpringContext"%>
 <%@ page import="org.kuali.kfs.coa.service.AccountService"%>
 
-
-
-<c:if test="${!accountingLineScriptsLoaded}">
-	<script type='text/javascript' src="dwr/interface/ChartService.js"></script>
-	<script type='text/javascript' src="dwr/interface/AccountService.js"></script>
-	<script type='text/javascript' src="dwr/interface/SubAccountService.js"></script>
-	<script language="JavaScript" type="text/javascript" src="scripts/sys/objectInfo.js"></script>
-	<script language="JavaScript" type="text/javascript" src="scripts/module/bc/objectInfo.js"></script>
-	<c:set var="accountingLineScriptsLoaded" value="true" scope="request" />
-</c:if>
-
 <c:set var="bcHeaderAttributes"
 	value="${DataDictionary.BudgetConstructionHeader.attributes}" />
 <c:set var="accountAttributes"
@@ -66,6 +55,15 @@
 <kul:page showDocumentInfo="false"
 	htmlFormAction="budgetBudgetConstructionSelection"
 	renderMultipart="true" docTitle="" transactionalDocument="false">
+
+    <c:if test="${!accountingLineScriptsLoaded}">
+        <script type='text/javascript' src="dwr/interface/ChartService.js"></script>
+        <script type='text/javascript' src="dwr/interface/AccountService.js"></script>
+        <script type='text/javascript' src="dwr/interface/SubAccountService.js"></script>
+        <script language="JavaScript" type="text/javascript" src="scripts/sys/objectInfo.js"></script>
+        <script language="JavaScript" type="text/javascript" src="scripts/module/bc/objectInfo.js"></script>
+        <c:set var="accountingLineScriptsLoaded" value="true" scope="request" />
+    </c:if>
 
 	<strong>
 	<h2>Budget Construction Selection<a
@@ -201,8 +199,8 @@
 			</tr>
 			<tr>
 				<th class="grid" align="right" colspan="2">Sub-Fund Group:</th>
-				<td class="grid" valign="center" rowspan="1" colspan="2"><c:if
-					test="${showTheDetail}">
+				<td class="grid" valign="center" rowspan="1" colspan="2">
+				<c:if test="${showTheDetail}">
 					<kul:htmlControlAttribute
 						property="budgetConstructionHeader.account.subFundGroupCode"
 						attributeEntry="${accountAttributes.subFundGroupCode}"
@@ -214,15 +212,14 @@
 							<html:hidden write="true"
 								property="budgetConstructionHeader.account.subFundGroupCode" />
 						</kul:inquiry>&nbsp;
-                </kul:htmlControlAttribute>
+                    </kul:htmlControlAttribute>
 				</c:if>&nbsp;</td>
-				<td class="grid" valign="center" rowspan="1" colspan="3"><c:if
-					test="${showTheDetail}">
-					<kul:htmlControlAttribute
-						property="budgetConstructionHeader.account.subFundGroup"
-						attributeEntry="${accountAttributes.subFundGroupCode}"
-						extraReadOnlyProperty="${subFundGroupAttributes.subfundGroupDescription}"
-						readOnly="true" />
+				<td class="grid" valign="center" rowspan="1" colspan="3">
+				<c:if test="${showTheDetail}">
+                    <kul:htmlControlAttribute
+                        property="budgetConstructionHeader.account.subFundGroup.subFundGroupDescription"
+                        attributeEntry="${subFundGroupAttributes['subFundGroupDescription']}"
+                        readOnly="true" />
 				</c:if>&nbsp;</td>
 			</tr>
 			<tr>

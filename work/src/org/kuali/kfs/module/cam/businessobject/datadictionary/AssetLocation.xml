@@ -106,14 +106,10 @@
   
   <bean id="AssetLocation-assetLocationCountryCode" parent="AssetLocation-assetLocationCountryCode-parentBean"/>
   <bean id="AssetLocation-assetLocationCountryCode-parentBean" abstract="true" parent="Country-code">
-      <property name="name" value="assetLocationCountryCode"/>
-    <property name="forceUppercase" value="false"/>
+    <property name="name" value="assetLocationCountryCode"/>
     <property name="label" value="Asset Location Country Code"/>
     <property name="shortLabel" value="Code"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
+    <property name="required" value="false" />
     <property name="control">
       <bean parent="SelectControlDefinition" p:includeBlankRow="true" p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryValuesFinder"/>
     </property>
@@ -155,6 +151,7 @@
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Asset Location State Code"/>
     <property name="shortLabel" value="Code"/>
+    <property name="required" value="false"/>
   </bean>
   
   <bean id="AssetLocation-assetLocationStreetAddress" parent="AssetLocation-assetLocationStreetAddress-parentBean"/>

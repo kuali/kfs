@@ -69,13 +69,9 @@
   </bean>
 
   <bean id="PurchaseOrderCapitalAssetLocation-campusCode" parent="PurchaseOrderCapitalAssetLocation-campusCode-parentBean"/>
-  <bean id="PurchaseOrderCapitalAssetLocation-campusCode-parentBean" parent="AttributeDefinition" abstract="true" p:name="campusCode" p:forceUppercase="false" p:label="Campus" p:shortLabel="Campus" p:maxLength="10" p:required="false">
-    <property name="validationPattern">
-      <ref bean="AnyCharacterWithWhitespaceValidation" />
-    </property>
-    <property name="control">
-      <ref bean="TenCharacterTextControl" />
-    </property>
+  <bean id="PurchaseOrderCapitalAssetLocation-campusCode-parentBean" parent="Campus-code" abstract="true" 
+  		p:name="campusCode" p:label="Campus" p:shortLabel="Campus"
+  		p:required="false">
   </bean>
 
   <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetCityName" parent="PurchaseOrderCapitalAssetLocation-capitalAssetCityName-parentBean"/>
@@ -89,10 +85,10 @@
   </bean>
 
   <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetCountryCode" parent="PurchaseOrderCapitalAssetLocation-capitalAssetCountryCode-parentBean"/>
-  <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetCountryCode-parentBean" parent="AttributeDefinition" abstract="true" p:name="capitalAssetCountryCode" p:forceUppercase="false" p:label="Country" p:shortLabel="Country" p:maxLength="10" p:required="false">
-    <property name="validationPattern">
-      <ref bean="AnyCharacterWithWhitespaceValidation" />
-    </property>
+  <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetCountryCode-parentBean" 
+  		parent="Country-code" abstract="true" 
+  		p:name="capitalAssetCountryCode" 
+		p:label="Country" p:shortLabel="Country" p:required="false">
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryNotRestrictedValuesFinder" p:includeKeyInLabel="false"/>
     </property>
@@ -119,20 +115,17 @@
   </bean>
 
   <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetPostalCode" parent="PurchaseOrderCapitalAssetLocation-capitalAssetPostalCode-parentBean"/>
-  <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetPostalCode-parentBean" parent="PostalCode-code" abstract="true" p:name="capitalAssetPostalCode" p:forceUppercase="false" p:label="Postal Code" p:shortLabel="Postal Code" p:maxLength="10" p:required="false">
-    <property name="validationPattern">
-      <ref bean="AnyCharacterWithWhitespaceValidation" />
-    </property>
-    <property name="control">
-      <ref bean="TenCharacterTextControl" />
-    </property>
+  <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetPostalCode-parentBean" parent="PostalCode-code" abstract="true" 
+  		p:name="capitalAssetPostalCode" 
+  		p:label="Postal Code" p:shortLabel="Postal Code" 
+  		p:required="false">
   </bean>
 
   <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetStateCode" parent="PurchaseOrderCapitalAssetLocation-capitalAssetStateCode-parentBean"/>
-  <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetStateCode-parentBean" parent="AttributeDefinition" abstract="true" p:name="capitalAssetStateCode" p:forceUppercase="false" p:label="State" p:shortLabel="State" p:maxLength="10" p:required="false">
-    <property name="validationPattern">
-      <ref bean="AnyCharacterWithWhitespaceValidation" />
-    </property>
+  <bean id="PurchaseOrderCapitalAssetLocation-capitalAssetStateCode-parentBean" parent="State-code" abstract="true" 
+  		p:name="capitalAssetStateCode" 
+  		p:label="State" p:shortLabel="State" 
+  		p:required="false">
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.state.StateValuesFinder" p:includeKeyInLabel="false"/>
     </property>

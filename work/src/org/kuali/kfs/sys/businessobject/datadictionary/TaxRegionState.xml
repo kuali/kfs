@@ -47,20 +47,17 @@
   
   <bean id="TaxRegionState-postalCountryCode-parentBean" abstract="true" parent="Country-code" >
 	<property name="name" value="postalCountryCode"/>
-	<property name="forceUppercase" value="true"/>
   </bean>	
   
   <bean id="TaxRegionState-stateCode" parent="TaxRegionState-stateCode-parentBean"/>
 
   <bean id="TaxRegionState-stateCode-parentBean" abstract="true" parent="State-code">
     <property name="name" value="stateCode"/>
-    <property name="forceUppercase" value="true"/>
   </bean>
   
   <bean id="TaxRegionState-taxRegionCode" parent="TaxRegionState-taxRegionCode-parentBean"/>
 
   <bean id="TaxRegionState-taxRegionCode-parentBean" abstract="true" parent="TaxRegion-taxRegionCode">
-  	<property name="forceUppercase" value="true"/>  
   </bean>
   
   <bean id="TaxRegionState-active" parent="TaxRegionState-active-parentBean"/>

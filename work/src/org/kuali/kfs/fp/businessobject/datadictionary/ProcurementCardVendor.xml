@@ -140,10 +140,7 @@
 		<property name="name" value="vendorStateCode" />
 		<property name="label" value="Vendor State Code" />
 		<property name="shortLabel" value="Code" />
-		<property name="maxLength" value="2" />
-		<property name="control">
-			<ref bean="FourCharacterTextControl" />
-		</property>
+		<property name="required" value="false"/>
 	</bean>
 	<bean id="ProcurementCardVendor-vendorZipCode" parent="ProcurementCardVendor-vendorZipCode-parentBean" />
 
@@ -152,6 +149,7 @@
 		<property name="name" value="vendorZipCode" />
 		<property name="label" value="Vendor Postal (ZIP) Code" />
 		<property name="shortLabel" value="Code" />
+		<property name="required" value="false"/>
 	</bean>
 	<bean id="ProcurementCardVendor-visaVendorIdentifier" parent="ProcurementCardVendor-visaVendorIdentifier-parentBean" />
 

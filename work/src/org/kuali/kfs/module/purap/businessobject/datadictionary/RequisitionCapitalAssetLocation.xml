@@ -93,15 +93,12 @@
 
   <bean id="RequisitionCapitalAssetLocation-campusCode-parentBean" abstract="true" parent="Campus-code">
     <property name="name" value="campusCode"/>
-    <property name="forceUppercase" value="true"/>
     <property name="label" value="Campus"/>
     <property name="shortLabel" value="Campus"/>
-    <property name="control">
-      <ref bean="FourCharacterTextControl" />
-    </property>
+    <property name="required" value="false"/>
   </bean>
-  <bean id="RequisitionCapitalAssetLocation-capitalAssetCityName" parent="RequisitionCapitalAssetLocation-capitalAssetCityName-parentBean"/>
 
+  <bean id="RequisitionCapitalAssetLocation-capitalAssetCityName" parent="RequisitionCapitalAssetLocation-capitalAssetCityName-parentBean"/>
   <bean id="RequisitionCapitalAssetLocation-capitalAssetCityName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetCityName"/>
     <property name="label" value="City"/>
@@ -114,23 +111,19 @@
       <bean parent="TextControlDefinition" p:size="47"/>
     </property>
   </bean>
-  <bean id="RequisitionCapitalAssetLocation-capitalAssetCountryCode" parent="RequisitionCapitalAssetLocation-capitalAssetCountryCode-parentBean"/>
 
-  <bean id="RequisitionCapitalAssetLocation-capitalAssetCountryCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="RequisitionCapitalAssetLocation-capitalAssetCountryCode" parent="RequisitionCapitalAssetLocation-capitalAssetCountryCode-parentBean"/>
+  <bean id="RequisitionCapitalAssetLocation-capitalAssetCountryCode-parentBean" abstract="true" parent="Country-code">
     <property name="name" value="capitalAssetCountryCode"/>
-    <property name="forceUppercase" value="true"/>
     <property name="label" value="Country"/>
     <property name="shortLabel" value="Country"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
+    <property name="required" value="false"/>
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryNotRestrictedValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
-  <bean id="RequisitionCapitalAssetLocation-capitalAssetLine1Address" parent="RequisitionCapitalAssetLocation-capitalAssetLine1Address-parentBean"/>
 
+  <bean id="RequisitionCapitalAssetLocation-capitalAssetLine1Address" parent="RequisitionCapitalAssetLocation-capitalAssetLine1Address-parentBean"/>
   <bean id="RequisitionCapitalAssetLocation-capitalAssetLine1Address-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="capitalAssetLine1Address"/>
     <property name="label" value="Address"/>
@@ -162,19 +155,16 @@
   <bean id="RequisitionCapitalAssetLocation-capitalAssetPostalCode" parent="RequisitionCapitalAssetLocation-capitalAssetPostalCode-parentBean"/>
   <bean id="RequisitionCapitalAssetLocation-capitalAssetPostalCode-parentBean" parent="PostalCode-code">
     <property name="name" value="capitalAssetPostalCode"/>
+    <property name="required" value="false"/>
   </bean>
   
   <bean id="RequisitionCapitalAssetLocation-capitalAssetStateCode" parent="RequisitionCapitalAssetLocation-capitalAssetStateCode-parentBean"/>
 
   <bean id="RequisitionCapitalAssetLocation-capitalAssetStateCode-parentBean" abstract="true" parent="State-code">
     <property name="name" value="capitalAssetStateCode"/>
-    <property name="forceUppercase" value="true"/>
     <property name="label" value="State"/>
     <property name="shortLabel" value="State"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
+    <property name="required" value="false"/>
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.state.StateValuesFinder" p:includeKeyInLabel="false"/>
     </property>

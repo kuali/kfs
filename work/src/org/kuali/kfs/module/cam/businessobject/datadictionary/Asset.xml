@@ -1415,48 +1415,57 @@
   <bean id="Asset-offCampusLocation.assetLocationState.stateCode" parent="Asset-offCampusLocation.assetLocationState.stateCode-parentBean"/>
   <bean id="Asset-offCampusLocation.assetLocationState.stateCode-parentBean" abstract="true" parent="State-code">
    	<property name="name" value="offCampusLocation.assetLocationState.code"/>
+    <property name="required" value="false"/>
   </bean>
 
 
   <bean id="Asset-offCampusLocation.postalZipCode.postalCode" parent="Asset-offCampusLocation.postalZipCode.postalCode-parentBean"/>
   <bean id="Asset-offCampusLocation.postalZipCode.postalCode-parentBean" abstract="true" parent="PostalCode-code">
-  <property name="name" value="offCampusLocation.postalZipCode.code"/>
+  	<property name="name" value="offCampusLocation.postalZipCode.code"/>
+    <property name="required" value="false"/>
   </bean>
 
 
   <bean id="Asset-offCampusLocation.assetLocationCountry.postalCountryName" parent="Asset-offCampusLocation.assetLocationCountry.postalCountryName-parentBean"/>
   <bean id="Asset-offCampusLocation.assetLocationCountry.postalCountryName-parentBean" abstract="true" parent="Country-name">
 	<property name="name" value="offCampusLocation.assetLocationCountry.name"/>
+    <property name="required" value="false"/>
   </bean>
   
   <bean id="Asset-borrowerLocation.assetLocationState.stateCode" parent="Asset-borrowerLocation.assetLocationState.stateCode-parentBean"/>
   <bean id="Asset-borrowerLocation.assetLocationState.stateCode-parentBean" abstract="true" parent="State-code">
       <property name="name" value="borrowerLocation.assetLocationState.code"/>
+    <property name="required" value="false"/>
   </bean>
   
   <bean id="Asset-borrowerLocation.postalZipCode.postalCode" parent="Asset-borrowerLocation.postalZipCode.postalCode-parentBean"/>
   <bean id="Asset-borrowerLocation.postalZipCode.postalCode-parentBean" abstract="true" parent="PostalCode-code">
       <property name="name" value="borrowerLocation.postalZipCode.code"/>
+    <property name="required" value="false"/>
   </bean>
 
   <bean id="Asset-borrowerLocation.assetLocationCountry.postalCountryName" parent="Asset-borrowerLocation.assetLocationCountry.postalCountryName-parentBean"/>
   <bean id="Asset-borrowerLocation.assetLocationCountry.postalCountryName-parentBean" abstract="true" parent="Country-name">
     <property name="name" value="borrowerLocation.assetLocationCountry.name"/>
+    <property name="required" value="false"/>
   </bean>
   
   <bean id="Asset-borrowerStorageLocation.assetLocationState.stateCode" parent="Asset-borrowerStorageLocation.assetLocationState.stateCode-parentBean"/>
   <bean id="Asset-borrowerStorageLocation.assetLocationState.stateCode-parentBean" abstract="true" parent="State-code">
       <property name="name" value="borrowerStorageLocation.assetLocationState.code"/>
+    <property name="required" value="false"/>
   </bean>
   
   <bean id="Asset-borrowerStorageLocation.postalZipCode.postalCode" parent="Asset-borrowerStorageLocation.postalZipCode.postalCode-parentBean"/>
   <bean id="Asset-borrowerStorageLocation.postalZipCode.postalCode-parentBean" abstract="true" parent="PostalCode-code">
       <property name="name" value="borrowerStorageLocation.postalZipCode.code"/>
+    <property name="required" value="false"/>
   </bean>
 
   <bean id="Asset-borrowerStorageLocation.assetLocationCountry.postalCountryName" parent="Asset-borrowerStorageLocation.assetLocationCountry.postalCountryName-parentBean"/>
   <bean id="Asset-borrowerStorageLocation.assetLocationCountry.postalCountryName-parentBean" abstract="true" parent="Country-name">
     <property name="name" value="borrowerStorageLocation.assetLocationCountry.name"/>
+    <property name="required" value="false"/>
   </bean>
 
   <bean id="Asset-assetPayments.paymentSequenceNumber" parent="Asset-assetPayments.paymentSequenceNumber-parentBean"/>

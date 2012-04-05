@@ -139,47 +139,35 @@
     
     
   </bean>
+  
   <bean id="Building-buildingAddressStateCode" parent="Building-buildingAddressStateCode-parentBean"/>
-
   <bean id="Building-buildingAddressStateCode-parentBean" abstract="true" parent="State-code" >
     <property name="name" value="buildingAddressStateCode"/>
     <property name="label" value="Building Address State Code"/>
     <property name="shortLabel" value="Bldg. State"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:exactLength="2"/>
-    </property>
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.state.StateValuesFinder" p:includeKeyInLabel="false"/>
     </property>
-    
-    
+    <property name="required" value="false"/>
   </bean>
-  <bean id="Building-buildingAddressZipCode" parent="Building-buildingAddressZipCode-parentBean"/>
 
+  <bean id="Building-buildingAddressZipCode" parent="Building-buildingAddressZipCode-parentBean"/>
   <bean id="Building-buildingAddressZipCode-parentBean" abstract="true" parent="PostalCode-code" >
     <property name="name" value="buildingAddressZipCode"/>
     <property name="label" value="Building Address Postal Code"/>
     <property name="shortLabel" value="Bldg. Postal Code"/>
-    
-    
+    <property name="required" value="false"/>
   </bean>
   
-   <bean id="Building-buildingAddressCountryCode" parent="Building-buildingAddressCountryCode-parentBean"/>
-
+  <bean id="Building-buildingAddressCountryCode" parent="Building-buildingAddressCountryCode-parentBean"/>
   <bean id="Building-buildingAddressCountryCode-parentBean" abstract="true" parent="Country-code" >
     <property name="name" value="buildingAddressCountryCode"/>
     <property name="label" value="Building Address Country Code"/>
     <property name="shortLabel" value="Bldg. Country"/>
-    <property name="maxLength" value="2"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern" p:exactLength="2"/>
-    </property>
+    <property name="required" value="false"/>
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryValuesFinder" p:includeKeyInLabel="false"/>
     </property>
-    
-    
   </bean>
   
   <bean id="Building-alternateBuildingCode" parent="Building-alternateBuildingCode-parentBean"/>

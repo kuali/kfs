@@ -332,9 +332,7 @@
 	</bean>
 	<bean id="OrganizationOptions-organizationRemitToStateCode"
 		parent="OrganizationOptions-organizationRemitToStateCode-parentBean" />
-
-	<bean id="OrganizationOptions-organizationRemitToStateCode-parentBean"
-		abstract="true" parent="State-code">
+	<bean id="OrganizationOptions-organizationRemitToStateCode-parentBean" abstract="true" parent="State-code">
 		<property name="name" value="organizationRemitToStateCode" />
 		<property name="control">
 			<bean parent="SelectControlDefinition"
@@ -342,16 +340,16 @@
 				p:includeKeyInLabel="false" />
 		</property>
 	</bean>
+	
 	<bean id="OrganizationOptions-organizationRemitToZipCode"
 		parent="OrganizationOptions-organizationRemitToZipCode-parentBean" />
-
 	<bean id="OrganizationOptions-organizationRemitToZipCode-parentBean"
 		abstract="true" parent="PostalCode-code">
 		<property name="name" value="organizationRemitToZipCode" />
 		<property name="required" value="true" />
 	</bean>
+	
 	<bean id="OrganizationOptions-printInvoiceIndicator" parent="OrganizationOptions-printInvoiceIndicator-parentBean" />
-
 	<bean id="OrganizationOptions-printInvoiceIndicator-parentBean"
 		abstract="true" parent="AttributeDefinition">
 		<property name="name" value="printInvoiceIndicator" />
@@ -398,7 +396,7 @@
 		parent="OrganizationOptions-organizationPostalCountryCode-parentBean" />
 
 	<bean id="OrganizationOptions-organizationPostalCountryCode-parentBean"
-		abstract="true" parent="PostalCode-code">
+		abstract="true" parent="Country-code">
 		<property name="name" value="organizationPostalCountryCode" />
 		<property name="label" value="Organization Postal Country Code" />
 		<property name="shortLabel" value="Org Country Cd" />

@@ -160,13 +160,9 @@
 	<bean id="ProcurementCardHolder-cardHolderStateCode-parentBean"
 		abstract="true" parent="State-code">
 		<property name="name" value="cardHolderStateCode" />
-		<property name="forceUppercase" value="false" />
 		<property name="label" value="Card Holder State Code" />
 		<property name="shortLabel" value="Code" />
-		<property name="maxLength" value="2" />
-		<property name="control">
-			<ref bean="FourCharacterTextControl" />
-		</property>
+		<property name="required" value="false"/>
 	</bean>
 	<bean id="ProcurementCardHolder-cardHolderWorkPhoneNumber"
 		parent="ProcurementCardHolder-cardHolderWorkPhoneNumber-parentBean" />
@@ -189,6 +185,7 @@
 		<property name="name" value="cardHolderZipCode" />
 		<property name="label" value="Card Holder Postal (ZIP) Code" />
 		<property name="shortLabel" value="Code" />
+		<property name="required" value="false"/>
 	</bean>
 	<bean id="ProcurementCardHolder-cardLimit" parent="ProcurementCardHolder-cardLimit-parentBean" />
 

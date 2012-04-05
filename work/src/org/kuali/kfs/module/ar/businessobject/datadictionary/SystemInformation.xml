@@ -327,14 +327,15 @@
 	<bean id="SystemInformation-organizationRemitToStateCode-parentBean"
 		abstract="true" parent="State-code">
 		<property name="name" value="organizationRemitToStateCode" />
-		<property name="forceUppercase" value="true" />
 		<property name="label" value="State" />
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="SystemInformation-organizationRemitToZipCode" parent="SystemInformation-organizationRemitToZipCode-parentBean" />
 	<bean id="SystemInformation-organizationRemitToZipCode-parentBean"
 		abstract="true" parent="PostalCode-code">
 		<property name="name" value="organizationRemitToZipCode" />
+		<property name="required" value="false"/>
 	</bean>
 
 	<!-- Business Object Inquiry Definition -->

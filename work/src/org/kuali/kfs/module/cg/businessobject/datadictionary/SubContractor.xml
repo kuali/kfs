@@ -145,6 +145,7 @@
 		<property name="name" value="subcontractorStateCode" />
 		<property name="label" value="State Code" />
 		<property name="shortLabel" value="State" />
+	    <property name="required" value="true"/>
 	</bean>
 	<bean id="SubContractor-subcontractorZipCode" parent="SubContractor-subcontractorZipCode-parentBean" />
 
@@ -159,7 +160,7 @@
 		abstract="true" parent="Country-code">
 		<property name="name" value="subcontractorCountryCode" />
 		<property name="shortLabel" value="Country" />
-		<property name="maxLength" value="15" />
+	    <property name="required" value="false"/>
 	</bean>
 	<bean id="SubContractor-active" parent="SubContractor-active-parentBean" />
 

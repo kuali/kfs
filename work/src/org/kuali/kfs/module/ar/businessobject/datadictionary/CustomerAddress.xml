@@ -218,44 +218,32 @@
 			<bean parent="TextControlDefinition" p:size="11" />
 		</property>
 	</bean>
-	<bean id="CustomerAddress-customerStateCode" parent="CustomerAddress-customerStateCode-parentBean" />
 
-	<bean id="CustomerAddress-customerStateCode-parentBean" abstract="true"
-		parent="State-code">
+	<bean id="CustomerAddress-customerStateCode" parent="CustomerAddress-customerStateCode-parentBean" />
+	<bean id="CustomerAddress-customerStateCode-parentBean" abstract="true" parent="State-code">
 		<property name="name" value="customerStateCode" />
-		<property name="forceUppercase" value="true" />
 		<property name="label" value="State" />
 		<property name="shortLabel" value="State" />
-		<property name="maxLength" value="2" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterValidation" />
-		</property>
+	    <property name="required" value="false"/>
 		<property name="control">
 			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.state.StateValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
-		<property name="required" value="false" />
 	</bean>
+	
 	<bean id="CustomerAddress-customerZipCode" parent="CustomerAddress-customerZipCode-parentBean" />
-
-	<bean id="CustomerAddress-customerZipCode-parentBean" abstract="true"
-		parent="PostalCode-code" >
+	<bean id="CustomerAddress-customerZipCode-parentBean" abstract="true" parent="PostalCode-code" >
 		<property name="name" value="customerZipCode" />
 		<property name="required" value="false" />
 	</bean>
 
 	<bean id="CustomerAddress-customerCountryCode" parent="CustomerAddress-customerCountryCode-parentBean" />
-
 	<bean id="CustomerAddress-customerCountryCode-parentBean"
 		abstract="true" parent="Country-code">
 		<property name="name" value="customerCountryCode" />
-		<property name="forceUppercase" value="true" />
 		<property name="label" value="Country" />
 		<property name="shortLabel" value="Country" />
-		<property name="maxLength" value="2" />
-		<property name="validationPattern">
-			<ref bean="AnyCharacterValidation" />
-		</property>
+	    <property name="required" value="false"/>
 		<property name="control">
 			<bean parent="SelectControlDefinition"
 				p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryNotRestrictedValuesFinder"

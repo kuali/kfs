@@ -23,6 +23,7 @@
 		<property name="initialSize" value="${kfs.datasource.pool.initialSize}" />
     </bean>
 
+	<!-- 
     <bean id="riceNonTransactionalDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="${rice.datasource.driver.name}"/>
         <property name="validationQuery" value="${rice.datasource.validating.query}"/>
@@ -34,6 +35,7 @@
 		<property name="minIdle" value="${rice.datasource.pool.minIdle}" />
 		<property name="initialSize" value="${rice.datasource.pool.initialSize}" />
     </bean>
+     -->
 
 	<bean id="kfsDataSourceXAPool" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource">
 		<property name="transactionManager" ref="transactionManagerXAPool" />

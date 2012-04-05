@@ -70,9 +70,10 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
     }
 
     public List<Note> getNotes() {
-        if (notes == null) {
+        if (notes != null) {
             //reverse the order of notes only when anything exists in it..
-            List<Note> tmpNotes = this.getNotes();
+            List<Note> tmpNotes = notes;
+            notes.clear();
             // reverse the order of notes retrieved so that newest note is in the front
             for (int i = tmpNotes.size()-1; i>=0; i--) {
                 Note note = tmpNotes.get(i);

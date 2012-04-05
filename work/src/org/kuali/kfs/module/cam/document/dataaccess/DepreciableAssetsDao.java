@@ -30,19 +30,15 @@ public interface DepreciableAssetsDao {
      * @param documentNumber Document number that will be print out in the report
      * @param fiscalYear fiscal year of the date in depreciation
      * @param fiscalMonth fiscal month of the date in depreciation
-     * @param depreciationDate depreciation date that will be print out
+     * @param depreciationDate depreciation date 
+     * @param depreciationRunDate depreciation date that will be print out
      * @param a Collection of all AssetObjectCodes
+     * @param fiscalStartMonth fiscal month
+     * @param errorMessage
      * @return
      */
-    public List<String[]> generateStatistics(boolean beforeDepreciationReport, List<String> documentNumbers, Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate, Collection<AssetObjectCode> assetObjectCodes);
+    public List<String[]> generateStatistics(boolean beforeDepreciationReport, List<String> documentNumbers, Integer fiscalYear, Integer fiscalMonth, Calendar depreciationDate, String depreciationRunDate, Collection<AssetObjectCode> assetObjectCodes, int fiscalStartMonth, String errorMessage);
 
 
-    /**
-     * This method retrieves a list of valid asset object codes for a particular fiscal year
-     * 
-     * @param fiscalYear
-     * @return Collection<AssetObjectCode>
-     */
-    public Collection<AssetObjectCode> getAssetObjectCodes(Integer fiscalYear);
-
+ 
 }

@@ -131,6 +131,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         String depreciationDateParameter = null;
         DateFormat dateFormat = new SimpleDateFormat(CamsConstants.DateFormats.YEAR_MONTH_DAY);
         boolean executeJob = false;
+        String errorMessage = kualiConfigurationService.getPropertyValueAsString(CamsKeyConstants.Depreciation.DEPRECIATION_ALREADY_RAN_MSG);
 
         try {
             executeJob = runAssetDepreciation();
@@ -167,13 +168,13 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
 
                 fiscalYear = universityDate.getUniversityFiscalYear();
                 fiscalMonth = new Integer(universityDate.getUniversityFiscalAccountingPeriod());
-                
-                assetObjectCodes = depreciableAssetsDao.getAssetObjectCodes(fiscalYear);
+                  assetObjectCodes = getAssetObjectCodes(fiscalYear);
                 // If the depreciation date is not = to the system date then, the depreciation process cannot run.
                 if ( LOG.isInfoEnabled() ) {
                     LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Fiscal Year = " + fiscalYear + " & Fiscal Period=" + fiscalMonth);
                 }
-                reportLog.addAll(depreciableAssetsDao.generateStatistics(true, null, fiscalYear, fiscalMonth, depreciationDate, assetObjectCodes));
+                int fiscalStartMonth = Integer.parseInt(optionsService.getCurrentYearOptions().getUniversityFiscalYearStartMo());
+                reportLog.addAll(depreciableAssetsDao.generateStatistics(true, null, fiscalYear, fiscalMonth, depreciationDate,dateTimeService.toDateString(depreciationDate.getTime()), assetObjectCodes,fiscalStartMonth, errorMessage));
                 // update if fiscal period is 12
                 depreciationBatchDao.updateAssetsCreatedInLastFiscalPeriod(fiscalMonth, fiscalYear);
                 // Retrieving eligible asset payment details
@@ -198,7 +199,8 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         }
         finally {
             if (!hasErrors && executeJob) {
-                reportLog.addAll(depreciableAssetsDao.generateStatistics(false, documentNos, fiscalYear, fiscalMonth, depreciationDate, assetObjectCodes));
+                int fiscalStartMonth = Integer.parseInt(optionsService.getCurrentYearOptions().getUniversityFiscalYearStartMo());                
+                reportLog.addAll(depreciableAssetsDao.generateStatistics(false, documentNos, fiscalYear, fiscalMonth, depreciationDate,dateTimeService.toDateString(depreciationDate.getTime()), assetObjectCodes, fiscalStartMonth, errorMessage));
             }
             // the report will be generated only when there is an error or when the log has something.
             if (!reportLog.isEmpty() || !errorMsg.trim().equals("")) {
@@ -209,6 +211,21 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 LOG.debug("*******" + CamsConstants.Depreciation.DEPRECIATION_BATCH + " HAS ENDED *******");
             }
         }
+    }
+
+    public Collection<AssetObjectCode> getAssetObjectCodes(Integer fiscalYear) {
+        LOG.debug("DepreciableAssetsDAoOjb.getAssetObjectCodes() -  started");
+        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Getting asset object codes.");
+
+        Collection<AssetObjectCode> assetObjectCodesCollection;
+        HashMap<String, Object> fields = new HashMap<String, Object>();
+        fields.put(CamsPropertyConstants.AssetObject.UNIVERSITY_FISCAL_YEAR, fiscalYear);
+        fields.put(CamsPropertyConstants.AssetObject.ACTIVE, Boolean.TRUE);
+        assetObjectCodesCollection = (Collection<AssetObjectCode>) businessObjectService.findMatching(AssetObjectCode.class, fields);
+
+        LOG.info(CamsConstants.Depreciation.DEPRECIATION_BATCH + "Finished getting asset object codes - which are:" + assetObjectCodesCollection.toString());
+        LOG.debug("DepreciableAssetsDAoOjb.getAssetObjectCodes() -  ended");
+        return assetObjectCodesCollection;
     }
 
     // CSU 6702 BEGIN
@@ -273,7 +290,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             depreciationDate.setTime(java.sql.Date.valueOf(fiscalYearToDepreciate.toString()+getLastDayOfFiscalyear()));
             fiscalYear = fiscalYearToDepreciate;
             fiscalMonth = 12;
-            Collection<AssetObjectCode> assetObjectCodes = depreciableAssetsDao.getAssetObjectCodes(fiscalYear);
+            Collection<AssetObjectCode> assetObjectCodes = getAssetObjectCodes(fiscalYear);
 
             // If the depreciation date is not = to the system date then, the depreciation process cannot run.
             if ( LOG.isInfoEnabled() ) {

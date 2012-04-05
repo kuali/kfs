@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -43,19 +43,21 @@ public class SchedulerFactoryBean extends org.springframework.scheduling.quartz.
         }
     }
 
+    @Override
     public void afterPropertiesSet() throws Exception {
         if (useQuartzScheduling) {
             if (useJdbcJobstore) {
                 quartzPropertiesReference.put("org.quartz.jobStore.useProperties", "false");
                 quartzPropertiesReference.put("org.quartz.jobStore.isClustered", "true");
                 setDataSource((DataSource) ConfigContext.getCurrentContextConfig().getObject(RiceConstants.DATASOURCE_OBJ));
-                setNonTransactionalDataSource((DataSource) ConfigContext.getCurrentContextConfig().getObject(RiceConstants.DATASOURCE_OBJ));
+                setNonTransactionalDataSource((DataSource) ConfigContext.getCurrentContextConfig().getObject(RiceConstants.NON_TRANSACTIONAL_DATASOURCE_OBJ));
             }
             setQuartzProperties(quartzPropertiesReference);
             super.afterPropertiesSet();
         }
     }
 
+    @Override
     public Scheduler getObject() {
         if (useQuartzScheduling) {
             return super.getObject();
@@ -72,10 +74,10 @@ public class SchedulerFactoryBean extends org.springframework.scheduling.quartz.
         scheduler.addJobListener(new MessageServiceExecutorJobListener());
         return scheduler;
     }
-    
+
     /**
      * Sets the useJdbcJobstore attribute value.
-     * 
+     *
      * @param useJdbcJobstore The useJdbcJobstore to set.
      */
     public void setUseJdbcJobstore(boolean useJdbcJobstore) {
@@ -84,7 +86,7 @@ public class SchedulerFactoryBean extends org.springframework.scheduling.quartz.
 
     /**
      * Sets the useQuartzScheduling attribute value.
-     * 
+     *
      * @param useQuartzScheduling The useQuartzScheduling to set.
      */
     public void setUseQuartzScheduling(boolean useQuartzScheduling) {
@@ -93,7 +95,7 @@ public class SchedulerFactoryBean extends org.springframework.scheduling.quartz.
 
     /**
      * Sets the quartzPropertiesReference attribute value.
-     * 
+     *
      * @param quartzPropertiesReference The quartzPropertiesReference to set.
      */
     public void setQuartzPropertiesReference(Properties quartzPropertiesReference) {

@@ -119,7 +119,7 @@
   </bean>
   
   <bean id="SecurityModel-inquiryCollectionDefinition-modelDefinition" parent="SecurityModel-inquiryCollectionDefinition-modelDefinition-parentBean"/>
-  <bean id="SecurityModel-inquiryCollectionDefinition-modelDefinition-parentBean" parent="InquiryCollectionDefinition" p:attributeName="modelMembers" abstract="true">
+  <bean id="SecurityModel-inquiryCollectionDefinition-modelDefinition-parentBean" parent="InquiryCollectionDefinition" p:attributeName="modelDefinitions" abstract="true">
     <property name="businessObjectClass" value="org.kuali.kfs.sec.businessobject.SecurityModelDefinition"/>
     <property name="inquiryFields">
       <list>

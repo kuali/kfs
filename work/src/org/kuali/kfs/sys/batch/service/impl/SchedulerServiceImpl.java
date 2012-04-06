@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -86,10 +86,11 @@ public class SchedulerServiceImpl implements SchedulerService {
     public SchedulerServiceImpl() {
         externalizedJobDescriptors = new HashMap<String, JobDescriptor>();
     }
-    
+
     /**
      * @see org.kuali.kfs.sys.batch.service.SchedulerService#initialize()
      */
+    @Override
     public void initialize() {
         LOG.info("Initializing the schedule");
         jobListener.setSchedulerService(this);
@@ -104,7 +105,7 @@ public class SchedulerServiceImpl implements SchedulerService {
             initializeJobsForModule(moduleService);
             initializeTriggersForModule(moduleService);
         }
-        
+
         dropDependenciesNotScheduled();
     }
 
@@ -117,7 +118,7 @@ public class SchedulerServiceImpl implements SchedulerService {
             LOG.info("Loading scheduled jobs for: " + moduleService.getModuleConfiguration().getNamespaceCode());
         }
         JobDescriptor jobDescriptor;
-        if ( moduleService.getModuleConfiguration().getJobNames() != null ) { 
+        if ( moduleService.getModuleConfiguration().getJobNames() != null ) {
             for (String jobName : moduleService.getModuleConfiguration().getJobNames()) {
                 try {
                     if (moduleService instanceof BatchModuleService && ((BatchModuleService) moduleService).isExternalJob(jobName)) {
@@ -168,7 +169,7 @@ public class SchedulerServiceImpl implements SchedulerService {
             addJob(jobDetail);
         }
     }
-    
+
     /**
      * Remove dependencies that are not scheduled. Important for modularization if some
      * modules arn't loaded or if institutions don't schedule some dependencies
@@ -176,7 +177,7 @@ public class SchedulerServiceImpl implements SchedulerService {
     protected void dropDependenciesNotScheduled() {
         try {
             List<String> scheduledGroupJobNames = Arrays.asList(scheduler.getJobNames(SCHEDULED_GROUP));
-            
+
             for (String jobName : scheduledGroupJobNames) {
                 JobDescriptor jobDescriptor = BatchSpringContext.getJobDescriptor(jobName);
 
@@ -202,6 +203,7 @@ public class SchedulerServiceImpl implements SchedulerService {
     /**
      * @see org.kuali.kfs.sys.batch.service.SchedulerService#initializeJob(java.lang.String,org.kuali.kfs.sys.batch.Job)
      */
+    @Override
     public void initializeJob(String jobName, Job job) {
         job.setSchedulerService(this);
         job.setParameterService(parameterService);
@@ -212,12 +214,13 @@ public class SchedulerServiceImpl implements SchedulerService {
     /**
      * @see org.kuali.kfs.sys.batch.service.SchedulerService#hasIncompleteJob()
      */
+    @Override
     public boolean hasIncompleteJob() {
         StringBuilder log = new StringBuilder("The schedule has incomplete jobs.");
         boolean hasIncompleteJob = false;
         for (String scheduledJobName : getJobNamesForScheduleJob() ) {
             JobDetail scheduledJobDetail = getScheduledJobDetail(scheduledJobName);
-            
+
             boolean jobIsIncomplete = isIncomplete(scheduledJobDetail);
             if (jobIsIncomplete) {
                 log.append("\n\t").append(scheduledJobDetail.getFullName());
@@ -234,13 +237,14 @@ public class SchedulerServiceImpl implements SchedulerService {
         if ( scheduledJobDetail == null ) {
             return false;
         }
-         
+
         return !SCHEDULE_JOB_NAME.equals(scheduledJobDetail.getName()) && (isPending(scheduledJobDetail) || isScheduled(scheduledJobDetail));
     }
 
     /**
      * @see org.kuali.kfs.sys.batch.service.SchedulerService#isPastScheduleCutoffTime()
      */
+    @Override
     public boolean isPastScheduleCutoffTime() {
         return isPastScheduleCutoffTime(dateTimeService.getCurrentCalendar(), true);
     }
@@ -255,16 +259,32 @@ public class SchedulerServiceImpl implements SchedulerService {
             else {
                 scheduleCutoffTime = dateTimeService.getCalendar(scheduleCutoffTimeTemp);
             }
-            String[] scheduleStepCutoffTime = StringUtils.split(parameterService.getParameterValueAsString(ScheduleStep.class, KFSConstants.SystemGroupParameterNames.BATCH_SCHEDULE_CUTOFF_TIME), ":");
-            scheduleCutoffTime.set(Calendar.HOUR, Integer.parseInt(scheduleStepCutoffTime[0]));
+            String cutoffParameter = parameterService.getParameterValueAsString(ScheduleStep.class, KFSConstants.SystemGroupParameterNames.BATCH_SCHEDULE_CUTOFF_TIME);
+            String[] scheduleStepCutoffTime = StringUtils.split(cutoffParameter, ":");
+            if ( scheduleStepCutoffTime.length != 3 && scheduleStepCutoffTime.length != 4 ) {
+                throw new IllegalArgumentException( "Error! The " + KFSConstants.SystemGroupParameterNames.BATCH_SCHEDULE_CUTOFF_TIME + " parameter had an invalid value: " + cutoffParameter );
+            }
+            // if there are 4 components, then we have an AM/PM delimiter
+            // otherwise, assume 24-hour time
+            if ( scheduleStepCutoffTime.length == 4 ) {
+                int hour = Integer.parseInt(scheduleStepCutoffTime[0]);
+                // need to adjust for meaning of hour
+                if ( hour == 12 ) {
+                    hour = 0;
+                } else {
+                    hour--;
+                }
+                scheduleCutoffTime.set(Calendar.HOUR, hour );
+                if ( StringUtils.containsIgnoreCase(scheduleStepCutoffTime[3], "AM") ) {
+                    scheduleCutoffTime.set(Calendar.AM_PM, Calendar.AM);
+                } else {
+                    scheduleCutoffTime.set(Calendar.AM_PM, Calendar.PM);
+                }
+            } else {
+                scheduleCutoffTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(scheduleStepCutoffTime[0]));
+            }
             scheduleCutoffTime.set(Calendar.MINUTE, Integer.parseInt(scheduleStepCutoffTime[1]));
             scheduleCutoffTime.set(Calendar.SECOND, Integer.parseInt(scheduleStepCutoffTime[2]));
-            if ("AM".equals(scheduleStepCutoffTime[3].trim())) {
-                scheduleCutoffTime.set(Calendar.AM_PM, Calendar.AM);
-            }
-            else {
-                scheduleCutoffTime.set(Calendar.AM_PM, Calendar.PM);
-            }
             if (parameterService.getParameterValueAsBoolean(ScheduleStep.class, KFSConstants.SystemGroupParameterNames.BATCH_SCHEDULE_CUTOFF_TIME_IS_NEXT_DAY)) {
                 scheduleCutoffTime.add(Calendar.DAY_OF_YEAR, 1);
             }
@@ -285,6 +305,7 @@ public class SchedulerServiceImpl implements SchedulerService {
     /**
      * @see org.kuali.kfs.sys.batch.service.SchedulerService#processWaitingJobs()
      */
+    @Override
     public void processWaitingJobs() {
         for ( String scheduledJobName : getJobNamesForScheduleJob() ) {
             JobDetail jobDetail = getScheduledJobDetail(scheduledJobName);
@@ -302,6 +323,7 @@ public class SchedulerServiceImpl implements SchedulerService {
     /**
      * @see org.kuali.kfs.sys.batch.service.SchedulerService#logScheduleResults()
      */
+    @Override
     public void logScheduleResults() {
         StringBuilder scheduleResults = new StringBuilder("The schedule completed.");
         for ( String scheduledJobName : getJobNamesForScheduleJob() ) {
@@ -316,6 +338,7 @@ public class SchedulerServiceImpl implements SchedulerService {
     /**
      * @see org.kuali.kfs.sys.batch.service.SchedulerService#shouldNotRun(org.quartz.JobDetail)
      */
+    @Override
     public boolean shouldNotRun(JobDetail jobDetail) {
         if (SCHEDULED_GROUP.equals(jobDetail.getGroup())) {
             if (isCancelled(jobDetail)) {
@@ -341,6 +364,7 @@ public class SchedulerServiceImpl implements SchedulerService {
     /**
      * @see org.kuali.kfs.sys.batch.service.SchedulerService#updateStatus(org.quartz.JobDetail,java.lang.String jobStatus)
      */
+    @Override
     public void updateStatus(JobDetail jobDetail, String jobStatus) {
         if ( LOG.isInfoEnabled() ) {
             LOG.info("Updating status of job: "+jobDetail.getName()+"="+jobStatus);
@@ -348,14 +372,17 @@ public class SchedulerServiceImpl implements SchedulerService {
         jobDetail.getJobDataMap().put(JOB_STATUS_PARAMETER, jobStatus);
     }
 
+    @Override
     public void runJob(String jobName, String requestorEmailAddress) {
         runJob(jobName, 0, 0, new Date(), requestorEmailAddress);
     }
 
+    @Override
     public void runJob(String jobName, int startStep, int stopStep, Date startTime, String requestorEmailAddress) {
         runJob(UNSCHEDULED_GROUP, jobName, startStep, stopStep, startTime, requestorEmailAddress);
     }
 
+    @Override
     public void runJob(String groupName, String jobName, int startStep, int stopStep, Date jobStartTime, String requestorEmailAddress) {
         if ( LOG.isInfoEnabled() ) {
             LOG.info("Executing user initiated job: " + groupName + "." + jobName + " (startStep=" + startStep + " / stopStep=" + stopStep + " / startTime=" + jobStartTime + " / requestorEmailAddress=" + requestorEmailAddress + ")");
@@ -398,6 +425,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         }
     }
 
+    @Override
     public boolean isJobRunning(String jobName) {
         List<JobExecutionContext> runningJobs = getRunningJobs();
         for (JobExecutionContext jobCtx : runningJobs) {
@@ -542,6 +570,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         return CANCELLED_JOB_STATUS_CODE.equals(getStatus(jobDetail));
     }
 
+    @Override
     public String getStatus(JobDetail jobDetail) {
         if ( jobDetail == null ) {
             return FAILED_JOB_STATUS_CODE;
@@ -549,7 +578,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         KfsModuleServiceImpl moduleService = (KfsModuleServiceImpl)
             SpringContext.getBean(KualiModuleService.class).getResponsibleModuleServiceForJob(jobDetail.getName());
         //If the module service has status information for a job, get the status from it
-        //else get status from job detail data map 
+        //else get status from job detail data map
         return (moduleService!=null && moduleService.isExternalJob(jobDetail.getName()))
                     ? moduleService.getExternalJobStatus(jobDetail.getName())
                     : jobDetail.getJobDataMap().getString(SchedulerServiceImpl.JOB_STATUS_PARAMETER);
@@ -571,9 +600,10 @@ public class SchedulerServiceImpl implements SchedulerService {
 
     /**
      * Sets the scheduler attribute value.
-     * 
+     *
      * @param scheduler The scheduler to set.
      */
+    @Override
     public void setScheduler(Scheduler scheduler) {
         this.scheduler = scheduler;
     }
@@ -584,7 +614,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 
     /**
      * Sets the dateTimeService attribute value.
-     * 
+     *
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -593,7 +623,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 
     /**
      * Sets the moduleService attribute value.
-     * 
+     *
      * @param moduleService The moduleService to set.
      */
     public void setKualiModuleService(KualiModuleService moduleService) {
@@ -602,13 +632,14 @@ public class SchedulerServiceImpl implements SchedulerService {
 
     /**
      * Sets the jobListener attribute value.
-     * 
+     *
      * @param jobListener The jobListener to set.
      */
     public void setJobListener(JobListener jobListener) {
         this.jobListener = jobListener;
     }
 
+    @Override
     public List<BatchJobStatus> getJobs() {
         ArrayList<BatchJobStatus> jobs = new ArrayList<BatchJobStatus>();
         try {
@@ -632,6 +663,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         return jobs;
     }
 
+    @Override
     public BatchJobStatus getJob(String groupName, String jobName) {
         for (BatchJobStatus job : getJobs()) {
             if (job.getName().equals(jobName) && job.getGroup().equals(groupName)) {
@@ -641,6 +673,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         return null;
     }
 
+    @Override
     public List<BatchJobStatus> getJobs(String groupName) {
         ArrayList<BatchJobStatus> jobs = new ArrayList<BatchJobStatus>();
         try {
@@ -662,6 +695,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         return jobs;
     }
 
+    @Override
     public List<JobExecutionContext> getRunningJobs() {
         try {
             List<JobExecutionContext> jobContexts = scheduler.getCurrentlyExecutingJobs();
@@ -683,6 +717,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         }
     }
 
+    @Override
     public void removeScheduled(String jobName) {
         try {
             scheduler.deleteJob(jobName, SCHEDULED_GROUP);
@@ -692,6 +727,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         }
     }
 
+    @Override
     public void addScheduled(JobDetail job) {
         try {
             job.setGroup(SCHEDULED_GROUP);
@@ -702,6 +738,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         }
     }
 
+    @Override
     public void addUnscheduled(JobDetail job) {
         try {
             job.setGroup(UNSCHEDULED_GROUP);
@@ -712,6 +749,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         }
     }
 
+    @Override
     public List<String> getSchedulerGroups() {
         try {
             return Arrays.asList(scheduler.getJobGroupNames());
@@ -721,10 +759,12 @@ public class SchedulerServiceImpl implements SchedulerService {
         }
     }
 
+    @Override
     public List<String> getJobStatuses() {
         return jobStatuses;
     }
 
+    @Override
     public void interruptJob(String jobName) {
         List<JobExecutionContext> runningJobs = getRunningJobs();
         for (JobExecutionContext jobCtx : runningJobs) {
@@ -742,6 +782,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 
     }
 
+    @Override
     public Date getNextStartTime(BatchJobStatus job) {
         try {
             Trigger[] triggers = scheduler.getTriggersOfJob(job.getName(), job.getGroup());
@@ -762,6 +803,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         return null;
     }
 
+    @Override
     public Date getNextStartTime(String groupName, String jobName) {
         BatchJobStatus job = getJob(groupName, jobName);
 
@@ -771,16 +813,16 @@ public class SchedulerServiceImpl implements SchedulerService {
     public void setMailService(MailService mailService) {
         this.mailService = mailService;
     }
-    
+
     protected JobDescriptor retrieveJobDescriptor(String jobName) {
         if (externalizedJobDescriptors.containsKey(jobName)) {
             return externalizedJobDescriptors.get(jobName);
         }
         return BatchSpringContext.getJobDescriptor(jobName);
     }
-    
+
     ThreadLocal<List<String>> jobNamesForScheduleJob = new ThreadLocal<List<String>>();
-    
+
     protected List<String> getJobNamesForScheduleJob() {
         List<String> jobNames = new ArrayList<String>();
         try {
@@ -795,7 +837,8 @@ public class SchedulerServiceImpl implements SchedulerService {
         }
         return jobNames;
     }
-    
+
+    @Override
     public void reinitializeScheduledJobs() {
         try {
             for (String scheduledJobName : getJobNamesForScheduleJob() ) {

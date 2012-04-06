@@ -40,7 +40,7 @@
 	<bean id="kimConfigurer" class="org.kuali.rice.kim.config.KIMConfigurer" />
 
 	<bean id="kewConfigurer" class="org.kuali.rice.kew.config.KEWConfigurer">
-		<property name="dataSource" ref="dataSource" />
+		<property name="dataSource" ref="riceDataSource" />
 	</bean>
 	<!-- <bean id="kenConfigurer" class="org.kuali.rice.ken.impl.config.KENConfigurer"/> 
 		<bean id="edlConfigurer" class="org.kuali.rice.edl.impl.config.EDLConfigurer"/> 

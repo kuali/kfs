@@ -262,6 +262,10 @@ public class TempListLookupAction extends KualiLookupAction {
                 SpringContext.getBean(OrganizationBCDocumentSearchService.class).cleanAccountSelectPullList(tempListLookupForm.getPrincipalId(), tempListLookupForm.getUniversityFiscalYear());
         }
 
+        // catch and fix any null docNum so we can use super.cancel without complaints from requestProcessor 
+        if (tempListLookupForm.getDocNum() == null) {
+            tempListLookupForm.setDocNum("");
+        }
         return super.cancel(mapping, form, request, response);
     }
 

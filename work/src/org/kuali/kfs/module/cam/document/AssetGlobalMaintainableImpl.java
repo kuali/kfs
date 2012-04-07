@@ -514,7 +514,7 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
             }
         }
         assetGlobal.getAssetGlobalDetails().clear();
-        assetGlobal.setAssetGlobalDetails(newDetails);
+        assetGlobal.getAssetGlobalDetails().addAll(newDetails);
     }
 
     /**

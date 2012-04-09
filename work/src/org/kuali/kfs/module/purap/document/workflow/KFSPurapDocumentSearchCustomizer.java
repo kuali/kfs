@@ -39,6 +39,9 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 public class KFSPurapDocumentSearchCustomizer extends KFSDocumentSearchCustomizer {
 
+    /**
+     * @see org.kuali.kfs.sys.document.workflow.KFSDocumentSearchCustomizer#customizeResults(org.kuali.rice.kew.api.document.search.DocumentSearchCriteria, java.util.List)
+     */
     @Override
     public DocumentSearchResultValues customizeResults(DocumentSearchCriteria documentSearchCriteria, List<DocumentSearchResult> defaultResults) {
         // since we know we are looking up POs at this time - add the warning about disclosing them
@@ -59,6 +62,11 @@ public class KFSPurapDocumentSearchCustomizer extends KFSDocumentSearchCustomize
         for (DocumentSearchResult result : defaultResults) {
             List<DocumentAttribute.AbstractBuilder<?>> custAttrBuilders = new ArrayList<DocumentAttribute.AbstractBuilder<?>>();
             Document document = result.getDocument();
+            //we need to capture the application document status value from the document to statusDescription attribute.
+            DocumentAttributeString.Builder appDocStatusBuilder = DocumentAttributeString.Builder.create(KFSPropertyConstants.APPLICATION_DOCUMENT_STATUS);
+            appDocStatusBuilder.setValue(document.getApplicationDocumentStatus());
+            custAttrBuilders.add(appDocStatusBuilder);
+            
             for (DocumentAttribute documentAttribute : result.getDocumentAttributes()) {
                 if (KFSPropertyConstants.PURAP_DOC_ID.equals(documentAttribute.getName())) {
                     if (!isAuthorizedToViewPurapDocId && !document.getStatus().getCategory().equals(DocumentStatusCategory.SUCCESSFUL) ) {

@@ -212,7 +212,7 @@
     </property>
     <property name="control">
       <bean parent="HiddenControlDefinition" />
-    </property>
+    </property>    
   </bean>            
   <bean id="PurApGenericAttributes-purchaseOrderStatus" parent="PurApGenericAttributes-purchaseOrderStatus-parentBean"/>
 
@@ -226,7 +226,7 @@
       <bean parent="AnyCharacterValidation" p:allowWhitespace="true" />
     </property>
     <property name="control">
-      <bean parent="HiddenControlDefinition" />
+      <bean parent="TextControlDefinition" p:size="20"/>
     </property>    
   </bean>
   <bean id="PurApGenericAttributes-paymentRequestStatus" parent="PurApGenericAttributes-paymentRequestStatus-parentBean"/>

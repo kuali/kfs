@@ -16,6 +16,8 @@
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <c:if test="${!accountingLineScriptsLoaded}">
+    <script type='text/javascript' src="dwr/interface/ObjectCodeService.js"></script>
+    <script type='text/javascript' src="dwr/interface/SubObjectCodeService.js"></script> 
 	<script language="JavaScript" type="text/javascript" src="scripts/sys/objectInfo.js"></script>
 	<c:set var="accountingLineScriptsLoaded" value="true" scope="request" />
 </c:if>

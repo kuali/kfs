@@ -27,9 +27,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.kfs.module.bc.BCConstants.LockStatus;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.BCConstants.LockStatus;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockStatus;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
 import org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding;
@@ -44,7 +44,6 @@ import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.MessageMap;
@@ -64,7 +63,6 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
 
     private SalarySettingService salarySettingService = SpringContext.getBean(SalarySettingService.class);
     private BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
-    private PermissionService permissionService = SpringContext.getBean(PermissionService.class);
     private LockService lockService = SpringContext.getBean(LockService.class);
     private BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
 

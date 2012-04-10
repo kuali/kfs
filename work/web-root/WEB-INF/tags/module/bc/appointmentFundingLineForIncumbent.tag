@@ -114,7 +114,7 @@
 				accountingLineValuesMap="${fundingLine.valuesMap}" />
 	 	</c:if> 
 		<c:set var="doAccountLookupOrInquiry" value="false"/>
-	  	<c:if test="${fundingLine.subAccountNumber ne BCConstants.DASH_SUB_ACCOUNT_NUMBER}">
+	  	<c:if test="${fundingLine.subAccountNumber ne KualiForm.dashSubAccountNumber}">
 	      	<c:set var="doAccountLookupOrInquiry" value="true"/>
 	  	</c:if>
 	  	
@@ -143,7 +143,7 @@
 			inquiryExtraKeyValues="universityFiscalYear=${fundingLine.universityFiscalYear}" />
 	
 	  	<c:set var="doLookupOrInquiry" value="false"/>
-	  	<c:if test="${fundingLine.financialSubObjectCode ne BCConstants.DASH_SUB_OBJECT_CODE}">
+	  	<c:if test="${fundingLine.financialSubObjectCode ne KualiForm.dashFinancialSubObjectCode}">
 	      	<c:set var="doLookupOrInquiry" value="true"/>
 	  	</c:if>
 	  	

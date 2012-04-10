@@ -66,7 +66,7 @@
 			accountingLineValuesMap="${KualiForm.salarySettingExpansion.valuesMap}" />
 
 		<%-- Sub-Account Number and Name --%>
-		<c:set var="doLookupOrInquiry" value="${KualiForm.salarySettingExpansion.subAccountNumber ne '-----' ? true : false}" />
+		<c:set var="doLookupOrInquiry" value="${KualiForm.salarySettingExpansion.subAccountNumber ne KualiForm.dashSubAccountNumber ? true : false}" />
 		<bc:pbglLineDataCell dataCellCssClass="datacell" 
 			accountingLine="${accountingLine}" 
 			field="subAccountNumber" 
@@ -86,7 +86,7 @@
 			accountingLineValuesMap="${KualiForm.salarySettingExpansion.valuesMap}" />
 
 		<%-- Sub-Object Code and Name --%>
-		<c:set var="doLookupOrInquiry" value="${KualiForm.salarySettingExpansion.financialSubObjectCode ne '---' ? true : false}" />
+		<c:set var="doLookupOrInquiry" value="${KualiForm.salarySettingExpansion.financialSubObjectCode ne KualiForm.dashFinancialSubObjectCode ? true : false}" />
 		<bc:pbglLineDataCell dataCellCssClass="datacell" 
 			accountingLine="${accountingLine}" field="financialSubObjectCode" 
 			detailFunction="loadSubObjectInfo" detailField="financialSubObject.financialSubObjectCodeName"

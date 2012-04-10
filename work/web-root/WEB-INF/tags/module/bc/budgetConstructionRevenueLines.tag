@@ -153,7 +153,7 @@
                   anchor="revenueexistingLineLineAnchor${status.index}" />
 
               <c:set var="doLookupOrInquiry" value="false"/>
-              <c:if test="${item.financialSubObjectCode ne BCConstants.DASH_SUB_OBJECT_CODE}">
+              <c:if test="${item.financialSubObjectCode ne KualiForm.dashFinancialSubObjectCode}">
                   <c:set var="doLookupOrInquiry" value="true"/>
               </c:if>
 

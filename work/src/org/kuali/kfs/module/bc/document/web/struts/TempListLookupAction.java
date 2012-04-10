@@ -33,9 +33,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.module.bc.BCConstants;
-import org.kuali.kfs.module.bc.BCConstants.LockStatus;
 import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
+import org.kuali.kfs.module.bc.BCConstants.LockStatus;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionIntendedIncumbent;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionLockSummary;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionPosition;
@@ -277,6 +277,7 @@ public class TempListLookupAction extends KualiLookupAction {
      */
     public ActionForward performExtendedPositionSearch(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TempListLookupForm tempListLookupForm = (TempListLookupForm) form;
+        tempListLookupForm.setMethodToCall("refresh");
 
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
@@ -354,6 +355,7 @@ public class TempListLookupAction extends KualiLookupAction {
      */
     public ActionForward performExtendedIncumbentSearch(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TempListLookupForm tempListLookupForm = (TempListLookupForm) form;
+        tempListLookupForm.setMethodToCall("refresh");
 
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
@@ -581,6 +583,17 @@ public class TempListLookupAction extends KualiLookupAction {
         }
 
         return lockKeyMessage;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.web.struts.action.KualiAction#performLookup(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward performLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        TempListLookupForm tempListLookupForm = (TempListLookupForm) form;
+        tempListLookupForm.setMethodToCall("refresh");
+        return super.performLookup(mapping, form, request, response);
     }
 
 }

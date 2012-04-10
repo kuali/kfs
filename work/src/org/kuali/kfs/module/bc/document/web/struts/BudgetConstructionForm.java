@@ -94,6 +94,9 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
     // it is only set when setting up to do balance inquiry and reset in refresh
     protected String balanceInquiryReturnAnchor;
 
+    protected String dashSubAccountNumber;
+    protected String dashFinancialSubObjectCode;
+
     public BudgetConstructionForm() {
         super();
 
@@ -103,6 +106,9 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
         this.setAccountOrgHierLevels(new ArrayList<BudgetConstructionAccountOrganizationHierarchy>());
         this.setPullupLevelKeyLabels(new ArrayList<BCKeyLabelPair>());
         this.setPushdownLevelKeyLabels(new ArrayList<BCKeyLabelPair>());
+
+        this.setDashFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
+        this.setDashSubAccountNumber(KFSConstants.getDashSubAccountNumber());
 
         LOG.debug("creating BudgetConstructionForm");
     }
@@ -963,5 +969,43 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
             expenditureObjectTypeCodesLookup = SpringContext.getBean(BudgetParameterService.class).getLookupObjectTypes(false);
         }
         return expenditureObjectTypeCodesLookup;
+    }
+
+    /**
+     * Gets the dashSubAccountNumber attribute.
+     * 
+     * @return Returns the dashSubAccountNumber
+     */
+    
+    public String getDashSubAccountNumber() {
+        return dashSubAccountNumber;
+    }
+
+    /**	
+     * Sets the dashSubAccountNumber attribute.
+     * 
+     * @param dashSubAccountNumber The dashSubAccountNumber to set.
+     */
+    public void setDashSubAccountNumber(String dashSubAccountNumber) {
+        this.dashSubAccountNumber = dashSubAccountNumber;
+    }
+
+    /**
+     * Gets the dashFinancialSubObjectCode attribute.
+     * 
+     * @return Returns the dashFinancialSubObjectCode
+     */
+    
+    public String getDashFinancialSubObjectCode() {
+        return dashFinancialSubObjectCode;
+    }
+
+    /**	
+     * Sets the dashFinancialSubObjectCode attribute.
+     * 
+     * @param dashFinancialSubObjectCode The dashFinancialSubObjectCode to set.
+     */
+    public void setDashFinancialSubObjectCode(String dashFinancialSubObjectCode) {
+        this.dashFinancialSubObjectCode = dashFinancialSubObjectCode;
     }
 }

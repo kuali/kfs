@@ -28,6 +28,7 @@ import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.module.bc.util.SalarySettingCalculator;
 import org.kuali.kfs.module.bc.util.SalarySettingFieldsHolder;
 import org.kuali.kfs.sys.DynamicCollectionComparator;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.ObjectUtil;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -67,6 +68,16 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
     private BudgetDocumentService budgetDocumentService = SpringContext.getBean(BudgetDocumentService.class);
 
     private Person person = GlobalVariables.getUserSession().getPerson();
+
+    protected String dashSubAccountNumber;
+    protected String dashFinancialSubObjectCode;
+
+    public SalarySettingBaseForm() {
+        super();
+
+        this.setDashFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
+        this.setDashSubAccountNumber(KFSConstants.getDashSubAccountNumber());
+    }
 
     /**
      * get the refresh caller name of the current form
@@ -608,5 +619,43 @@ public abstract class SalarySettingBaseForm extends BudgetExpansionForm {
      */
     public boolean isPayrollPositionFeedIndicator() {
         return BudgetParameterFinder.getPayrollPositionFeedIndicator();
+    }
+
+    /**
+     * Gets the dashSubAccountNumber attribute.
+     * 
+     * @return Returns the dashSubAccountNumber
+     */
+    
+    public String getDashSubAccountNumber() {
+        return dashSubAccountNumber;
+    }
+
+    /**	
+     * Sets the dashSubAccountNumber attribute.
+     * 
+     * @param dashSubAccountNumber The dashSubAccountNumber to set.
+     */
+    public void setDashSubAccountNumber(String dashSubAccountNumber) {
+        this.dashSubAccountNumber = dashSubAccountNumber;
+    }
+
+    /**
+     * Gets the dashFinancialSubObjectCode attribute.
+     * 
+     * @return Returns the dashFinancialSubObjectCode
+     */
+    
+    public String getDashFinancialSubObjectCode() {
+        return dashFinancialSubObjectCode;
+    }
+
+    /**	
+     * Sets the dashFinancialSubObjectCode attribute.
+     * 
+     * @param dashFinancialSubObjectCode The dashFinancialSubObjectCode to set.
+     */
+    public void setDashFinancialSubObjectCode(String dashFinancialSubObjectCode) {
+        this.dashFinancialSubObjectCode = dashFinancialSubObjectCode;
     }
 }

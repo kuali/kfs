@@ -78,10 +78,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
      * Default constructor.
      */
     public ObjectCodeGlobal() {
-
-
         objectCodeGlobalDetails = new ArrayList<ObjectCodeGlobalDetail>();
-
     }
 
     /**
@@ -667,7 +664,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
      */
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
         LOG.debug("applyGlobalChanges");
-        List result = new ArrayList();
+        List<PersistableBusinessObject> persistables = new ArrayList<PersistableBusinessObject>();
 
         // Iterate through Object Codes; create new or update as necessary
         // Set reports-to Chart to appropriate value
@@ -693,11 +690,11 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
                 Map<String, String> hierarchy = SpringContext.getBean(ChartService.class).getReportsToHierarchy();
                 objectCode.setReportsToChartOfAccountsCode(hierarchy.get(chart));
 
-                result.add(objectCode);
+                persistables.add(objectCode);
             }
         }
 
-        return result;
+        return persistables;
     }
 
     public void populate(ObjectCode old, ObjectCodeGlobalDetail detail) {

@@ -168,6 +168,8 @@ public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements Ac
             this.setMaxDictionaryValidationDepth(maxDictionaryValidationDepth);
         }
         
+        //refresh GLPE nonupdateable business object references....
+        document.refreshNonUpdateableReferences();
         return super.isDocumentAttributesValid(document, validateRequired);
     }
 }

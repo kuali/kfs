@@ -767,8 +767,10 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
     @Override
     public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiAccountingDocumentFormBase tmpForm = (KualiAccountingDocumentFormBase) form;
-    //    this.applyCapitalAssetInformation(tmpForm);
 
+        checkSalesTaxRequiredAllLines(tmpForm, tmpForm.getFinancialDocument().getSourceAccountingLines());
+        checkSalesTaxRequiredAllLines(tmpForm, tmpForm.getFinancialDocument().getTargetAccountingLines());
+        
         ActionForward forward = super.blanketApprove(mapping, form, request, response);
 
         return forward;
@@ -789,6 +791,9 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
             populateSalesTax(line);
             // check to see if the sales tax info has been put in
             passed &= isValidSalesTaxEntered(line, source, newLine, index);
+        } else {
+            //we do not need the saleTax bo for the line otherwise validations will fail.
+            line.setSalesTax(null);
         }
         return passed;
     }
@@ -934,6 +939,11 @@ public class KualiAccountingDocumentActionBase extends FinancialSystemTransactio
         else if (!salesTaxRequired && hasSalesTaxBeenEntered(formLine, source, newLine, index)) {
             // remove it if it has been added but is no longer required
             removeSalesTax(formLine);
+            formLine.setSalesTax(null);
+        }
+        
+        if (!salesTaxRequired) {
+            formLine.setSalesTax(null);
         }
     }
 

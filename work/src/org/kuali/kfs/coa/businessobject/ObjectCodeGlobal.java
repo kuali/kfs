@@ -72,7 +72,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
     private MandatoryTransferEliminationCode finObjMandatoryTrnfrelim;
     private FederalFundedCode financialFederalFunded;
 
-    private Collection<ObjectCodeGlobalDetail> objectCodeGlobalDetails;
+    private List<ObjectCodeGlobalDetail> objectCodeGlobalDetails;
 
     /**
      * Default constructor.
@@ -642,7 +642,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
         return m;
     }
 
-    public Collection<ObjectCodeGlobalDetail> getObjectCodeGlobalDetails() {
+    public List<ObjectCodeGlobalDetail> getObjectCodeGlobalDetails() {
         return objectCodeGlobalDetails;
     }
 
@@ -739,7 +739,7 @@ public class ObjectCodeGlobal extends PersistableBusinessObjectBase implements G
     }
 
     public List<? extends GlobalBusinessObjectDetail> getAllDetailObjects() {
-        return new ArrayList<GlobalBusinessObjectDetail>( getObjectCodeGlobalDetails() );
+        return getObjectCodeGlobalDetails();
     }
 
     /**

@@ -134,7 +134,8 @@ Renaming from: rice-xxx-${rice.version}-xxxxx.jar
         <attribute name="dir" default="" />
     	<sequential>
       		<java classname="org.codehaus.plexus.classworlds.launcher.Launcher" dir="@{dir}" fork="true" failonerror="true">
-      		    <jvmarg value="-Xmx1g" />
+      		   	<jvmarg value="-Xmx768m" />
+      		    <jvmarg value="-XX:MaxPermSize=384m" />
         		<arg line="@{options} @{goals}"/>
         		<sysproperty key="classworlds.conf" value="${maven.home.directory}/bin/m2.conf"/>
         		<sysproperty key="maven.home" value="${maven.home.directory}"/>

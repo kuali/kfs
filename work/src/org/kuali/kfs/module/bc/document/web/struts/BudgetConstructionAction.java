@@ -1001,6 +1001,9 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         BudgetConstructionDocument bcDoc = (BudgetConstructionDocument) budgetConstructionForm.getDocument();
 
+        // KFSMI-7828 reset object type from object code table
+        line.setFinancialObjectTypeCode(line.getFinancialObject().getFinancialObjectTypeCode());
+
         // null subobj must be set to dashes
         if (StringUtils.isBlank(line.getFinancialSubObjectCode())) {
             line.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());

@@ -434,6 +434,7 @@ public class BudgetConstructionForm extends FinancialSystemTransactionalDocument
         line.setFinancialBeginningBalanceLineAmount(KualiInteger.ZERO);
         line.setAccountLineAnnualBalanceAmount(KualiInteger.ZERO);
 
+        // KFSMI-7828 object type is now reset from object code table in BudgetConstructionAction.insertPBGLLine()
         if (isRevenue) {
             line.setFinancialObjectTypeCode(optionsService.getOptions(tdoc.getUniversityFiscalYear()).getFinObjectTypeIncomecashCode());
         }

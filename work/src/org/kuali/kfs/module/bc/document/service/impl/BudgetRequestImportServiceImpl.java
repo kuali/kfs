@@ -64,6 +64,7 @@ import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lowagie.text.Document;
@@ -255,6 +256,12 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
                 errorMessages.add(record.getErrorLinePrefixForLogFile() + " " + BCConstants.RequestImportErrorCode.DATA_VALIDATION_ACCOUNT_EXPIRED_ERROR_CODE.getMessage());
             }
 
+            // invalid sub-account code NOSA
+            else if (!record.getSubAccountNumber().equalsIgnoreCase(KFSConstants.getDashSubAccountNumber()) && ObjectUtils.isNull(record.getSubAccount())) {
+                record.setRequestUpdateErrorCode(BCConstants.RequestImportErrorCode.DATA_VALIDATION_SUB_ACCOUNT_INVALID_ERROR_CODE.getErrorCode());
+                errorMessages.add(record.getErrorLinePrefixForLogFile() + " " + BCConstants.RequestImportErrorCode.DATA_VALIDATION_SUB_ACCOUNT_INVALID_ERROR_CODE.getMessage());
+            }
+            
             else if (!record.getSubAccountNumber().equalsIgnoreCase(KFSConstants.getDashSubAccountNumber()) && !record.getSubAccount().isActive()) {
                 record.setRequestUpdateErrorCode(BCConstants.RequestImportErrorCode.DATA_VALIDATION_SUB_ACCOUNT_INACTIVE_ERROR_CODE.getErrorCode());
                 errorMessages.add(record.getErrorLinePrefixForLogFile() + " " + BCConstants.RequestImportErrorCode.DATA_VALIDATION_SUB_ACCOUNT_INACTIVE_ERROR_CODE.getMessage());

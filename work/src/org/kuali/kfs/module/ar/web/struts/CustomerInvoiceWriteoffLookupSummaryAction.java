@@ -37,6 +37,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class CustomerInvoiceWriteoffLookupSummaryAction extends KualiAction {
 
@@ -48,6 +49,7 @@ public class CustomerInvoiceWriteoffLookupSummaryAction extends KualiAction {
             String personId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
             Collection<CustomerInvoiceWriteoffLookupResult> customerInvoiceWriteoffLookupResults = CustomerInvoiceWriteoffLookupUtil.getCustomerInvoiceWriteoffResutlsFromLookupResultsSequenceNumber(lookupResultsSequenceNumber,personId);
             customerInvoiceWriteoffLookupSummaryForm.setCustomerInvoiceWriteoffLookupResults(customerInvoiceWriteoffLookupResults);
+            GlobalVariables.getUserSession().addObject(KRADConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER, lookupResultsSequenceNumber);
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -57,7 +59,7 @@ public class CustomerInvoiceWriteoffLookupSummaryAction extends KualiAction {
         CustomerInvoiceWriteoffLookupSummaryForm customerInvoiceWriteoffLookupSummaryForm = (CustomerInvoiceWriteoffLookupSummaryForm) form;        
 
         Person person = GlobalVariables.getUserSession().getPerson();
-
+          
         CustomerInvoiceWriteoffDocumentService service = SpringContext.getBean(CustomerInvoiceWriteoffDocumentService.class);
         Collection<CustomerInvoiceWriteoffLookupResult> lookupResults = customerInvoiceWriteoffLookupSummaryForm.getCustomerInvoiceWriteoffLookupResults();
 

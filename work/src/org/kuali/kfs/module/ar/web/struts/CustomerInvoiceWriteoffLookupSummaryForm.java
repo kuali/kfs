@@ -18,9 +18,17 @@ package org.kuali.kfs.module.ar.web.struts;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
+import org.kuali.kfs.module.ar.businessobject.lookup.CustomerInvoiceWriteoffLookupUtil;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class CustomerInvoiceWriteoffLookupSummaryForm extends KualiForm {
     
@@ -61,5 +69,17 @@ public class CustomerInvoiceWriteoffLookupSummaryForm extends KualiForm {
     public void setSentToBatch(boolean sentToBatch) {
         this.sentToBatch = sentToBatch;
     }
-
+    @Override
+    public void populate(HttpServletRequest request) {
+        Person person = GlobalVariables.getUserSession().getPerson();
+        String lookupResultsSequenceNumber =  (String) GlobalVariables.getUserSession().getObjectMap().get(KRADConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER);
+        if (!StringUtils.isEmpty(lookupResultsSequenceNumber)) {
+            Map params = request.getParameterMap();
+            GlobalVariables.getUserSession().removeObject(KRADConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER);
+            Collection<CustomerInvoiceWriteoffLookupResult> customerInvoiceWriteoffLookupResults = CustomerInvoiceWriteoffLookupUtil.getCustomerInvoiceWriteoffResutlsFromLookupResultsSequenceNumber(lookupResultsSequenceNumber,person.getPrincipalId());
+            this.setCustomerInvoiceWriteoffLookupResults(customerInvoiceWriteoffLookupResults);
+            this.setLookupResultsSequenceNumber(lookupResultsSequenceNumber);
+        }
+        super.populate(request);
+     }
 }

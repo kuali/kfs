@@ -23,6 +23,7 @@
 <c:set var="cashReceiptAttributes" value="${DataDictionary.CashReceiptDocument.attributes}" />
 <c:set var="checkAttributes" value="${DataDictionary.CheckBase.attributes}" />
 <c:set var="dummyAttributes" value="${DataDictionary.AttributeReferenceDummy.attributes}" />
+<c:set var="documentHeaderAttributes" value="${DataDictionary.FinancialSystemDocumentHeader.attributes}" />
 
 
 <kul:page showDocumentInfo="false" showTabButtons="false"
@@ -193,7 +194,7 @@ function checkCheckAllOrNone() {
 						<td>
 						<div align="center"><kul:htmlControlAttribute
 							property="depositableCashReceipt[${ctr}].documentHeader.documentDescription"
-							attributeEntry="${cashReceiptAttributes.documentDescription}"
+							attributeEntry="${documentHeaderAttributes.documentDescription}"
 							readOnly="true" /></div>
 						</td>
 						<td>
@@ -291,7 +292,7 @@ function checkCheckAllOrNone() {
 						<td>
 						<div align="center"><kul:htmlControlAttribute
 							property="checkFreeCashReceipt[${ctr}].documentHeader.documentDescription"
-							attributeEntry="${cashReceiptAttributes.documentDescription}"
+							attributeEntry="${documentHeaderAttributes.documentDescription}"
 							readOnly="true" /></div>
 						</td>
 						<td>

@@ -44,6 +44,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class PayrateImportExportAction extends BudgetExpansionAction {
     
@@ -171,30 +172,33 @@ public class PayrateImportExportAction extends BudgetExpansionAction {
         PayrateImportExportForm importForm = (PayrateImportExportForm) form;
         MessageMap errorMap = GlobalVariables.getMessageMap();
         PayrateExportService payrateExportService = SpringContext.getBean(PayrateExportService.class);
-        
-        if (StringUtils.isBlank(importForm.getPositionUnionCode()) ) {
+
+        if (ObjectUtils.isNull(importForm.getPositionUnionCode()) || StringUtils.isBlank(importForm.getPositionUnionCode())) {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_PAYRATE_EXPORT_POSITION_UNION_CODE_REQUIRED);
             isValid = false;
         }
-        if (StringUtils.isBlank(importForm.getCsfFreezeDate()) ) {
+        else {
+            if (!payrateExportService.isValidPositionUnionCode(form.getPositionUnionCode())) {
+                errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_PAYRATE_EXPORT_INVALID_POSITION_UNION_CODE, form.getPositionUnionCode());
+                isValid = false;
+            }
+        }
+        if (ObjectUtils.isNull(importForm.getCsfFreezeDate()) || StringUtils.isBlank(importForm.getCsfFreezeDate())) {
             errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_PAYRATE_EXPORT_CSF_FREEZE_DATE_REQUIRED);
             isValid = false;
         }
-        if (!payrateExportService.isValidPositionUnionCode(form.getPositionUnionCode()) ) {
-            errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_PAYRATE_EXPORT_INVALID_POSITION_UNION_CODE);
-            isValid = false;
+        else {
+            SimpleDateFormat validDateFormatter = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
+            SimpleDateFormat exportFileFormat = new SimpleDateFormat("yyyyMMdd", Locale.US);
+            try {
+                Date validDate = validDateFormatter.parse(form.getCsfFreezeDate());
+                importForm.setCsfFreezeDateFormattedForExportFile(exportFileFormat.format(validDate));
+            }
+            catch (ParseException e) {
+                errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_PAYRATE_EXPORT_CSF_FREEZE_DATE_INCORRECT_FORMAT);
+                isValid = false;
+            }
         }
-        SimpleDateFormat validDateFormatter = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
-        SimpleDateFormat exportFileFormat = new SimpleDateFormat("yyyyMMdd", Locale.US);
-        try {
-            Date validDate = validDateFormatter.parse(form.getCsfFreezeDate());
-            importForm.setCsfFreezeDateFormattedForExportFile(exportFileFormat.format(validDate));
-        }
-        catch (ParseException e) {
-            errorMap.putError(KFSConstants.GLOBAL_ERRORS, BCKeyConstants.ERROR_PAYRATE_EXPORT_CSF_FREEZE_DATE_INCORRECT_FORMAT);
-            isValid = false;
-        }
-        
         return isValid;
     }
 }

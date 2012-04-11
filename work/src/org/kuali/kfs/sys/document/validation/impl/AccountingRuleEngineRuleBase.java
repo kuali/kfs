@@ -17,7 +17,9 @@ package org.kuali.kfs.sys.document.validation.impl;
 
 import java.util.Map;
 
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
 import org.kuali.kfs.sys.document.validation.AccountingRuleEngineRule;
 import org.kuali.kfs.sys.document.validation.Validation;
@@ -168,8 +170,15 @@ public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements Ac
             this.setMaxDictionaryValidationDepth(maxDictionaryValidationDepth);
         }
         
-        //refresh GLPE nonupdateable business object references....
+        //refresh the document's objects..
         document.refreshNonUpdateableReferences();
+        
+        //refresh GLPE nonupdateable business object references....
+        GeneralLedgerPostingDocumentBase glpeDocument = (GeneralLedgerPostingDocumentBase) document;
+        for (GeneralLedgerPendingEntry glpe : glpeDocument.getGeneralLedgerPendingEntries()) {
+            glpe.refreshNonUpdateableReferences();
+        }
+        
         return super.isDocumentAttributesValid(document, validateRequired);
     }
 }

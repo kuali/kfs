@@ -259,6 +259,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
 
         // doc specific pending entries generation
         success &= glpeSource.generateDocumentGeneralLedgerPendingEntries(sequenceHelper);
+            
         return success;
     }
 

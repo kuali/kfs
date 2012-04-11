@@ -248,6 +248,7 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
         GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
         SpringContext.getBean(GeneralLedgerPendingEntryService.class).populateExplicitGeneralLedgerPendingEntry(this, postable, sequenceHelper, explicitEntry);
         customizeExplicitGeneralLedgerPendingEntry(postable, explicitEntry);
+        explicitEntry.refreshNonUpdateableReferences();
         addPendingEntry(explicitEntry);
         return true;
     }

@@ -170,13 +170,13 @@ public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements Ac
             this.setMaxDictionaryValidationDepth(maxDictionaryValidationDepth);
         }
         
-        //refresh the document's objects..
+        //refresh the document's reference objects..
         document.refreshNonUpdateableReferences();
         
         //refresh GLPE nonupdateable business object references....
         GeneralLedgerPostingDocumentBase glpeDocument = (GeneralLedgerPostingDocumentBase) document;
         for (GeneralLedgerPendingEntry glpe : glpeDocument.getGeneralLedgerPendingEntries()) {
-            glpe.refreshNonUpdateableReferences();
+            glpe.refreshReferenceObject("financialObject");
         }
         
         return super.isDocumentAttributesValid(document, validateRequired);

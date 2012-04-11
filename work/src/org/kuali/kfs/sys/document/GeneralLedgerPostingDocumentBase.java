@@ -183,7 +183,7 @@ public class GeneralLedgerPostingDocumentBase extends LedgerPostingDocumentBase 
      * @param pendingEntry a pending entry to add
      */
     public void addPendingEntry(GeneralLedgerPendingEntry pendingEntry) {
-        pendingEntry.refreshNonUpdateableReferences();
+        pendingEntry.refreshReferenceObject("financialObject");
         generalLedgerPendingEntries.add(pendingEntry);
     }
     

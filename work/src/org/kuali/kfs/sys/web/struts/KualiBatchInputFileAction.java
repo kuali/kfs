@@ -177,7 +177,7 @@ public class KualiBatchInputFileAction extends KualiAction {
             throw new RuntimeException(("Batch input type implementation not found for id " + form.getBatchUpload().getBatchInputTypeName()));
         }
         ParameterService parmeterService =  SpringContext.getBean(ParameterService.class);
-        String url = parmeterService.getParameterValueAsString(BatchUpload.class,KFSConstants.BATCH_UPLOAD_HELP_SYS_PARAM_NAME, batchInputFileType.getFileTypeIdentifer());
+        String url = parmeterService.getSubParameterValueAsString(BatchUpload.class,KFSConstants.BATCH_UPLOAD_HELP_SYS_PARAM_NAME, batchInputFileType.getFileTypeIdentifer());
         form.setUrl(url);
           // set title key
         form.setTitleKey(batchInputFileType.getTitleKey());

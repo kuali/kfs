@@ -235,7 +235,7 @@
         ${kfs.url}/laborYearEndBenefitExpenseTransfer.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
-        default.htm?turl=WordDocuments%2Flabordistributionyearend.htm
+      	default.htm?turl=WordDocuments%2Fyearendedocs.htm
       </helpDefinitionURL>
       <active>
         true
@@ -258,7 +258,7 @@
         ${kfs.url}/laborYearEndSalaryExpenseTransfer.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
-        default.htm?turl=WordDocuments%2Flabordistributionyearend.htm
+      	default.htm?turl=WordDocuments%2Fyearendedocs.htm
       </helpDefinitionURL>
       <active>
         true

@@ -1145,7 +1145,7 @@
         ${kfs.url}/financialYearEndGeneralErrorCorrection.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
-        default.htm?turl=WordDocuments%2Ffinancialprocessingyearend.htm
+      	default.htm?turl=WordDocuments%2Fyearendedocs1.htm
       </helpDefinitionURL>
       <active>
         true
@@ -1168,7 +1168,7 @@
         ${kfs.url}/financialYearEndTransferOfFunds.do?methodToCall=docHandler
       </docHandler>
       <helpDefinitionURL>
-        default.htm?turl=WordDocuments%2Ffinancialprocessingyearend.htm
+      	default.htm?turl=WordDocuments%2Fyearendedocs1.htm
       </helpDefinitionURL>
       <active>
         true

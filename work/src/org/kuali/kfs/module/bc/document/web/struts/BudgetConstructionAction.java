@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.bc.document.web.struts;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -35,6 +36,7 @@ import org.kuali.kfs.module.bc.BCKeyConstants;
 import org.kuali.kfs.module.bc.BCPropertyConstants;
 import org.kuali.kfs.module.bc.BCConstants.LockStatus;
 import org.kuali.kfs.module.bc.BCConstants.MonthSpreadDeleteType;
+import org.kuali.kfs.module.bc.businessobject.BCKeyLabelPair;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionAuthorizationStatus;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader;
@@ -261,6 +263,10 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                     if (!budgetConstructionForm.getAccountOrgHierLevels().isEmpty()) {
                         budgetConstructionForm.populatePushPullLevelKeyLabels(budgetConstructionForm.getBudgetConstructionDocument(), budgetConstructionForm.getAccountOrgHierLevels(), false);
                     }
+                }
+                else {
+                    // document(account) at level zero - clear out the pushdownKeyLabels widget for any previous performPush case
+                    budgetConstructionForm.setPushdownLevelKeyLabels(new ArrayList<BCKeyLabelPair>());
                 }
             } // FULL_ENTRY
 

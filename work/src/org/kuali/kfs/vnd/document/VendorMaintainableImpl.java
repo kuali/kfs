@@ -339,6 +339,7 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
     @Override
     public void setBusinessObject(PersistableBusinessObject bo) {
         VendorDetail originalBo = (VendorDetail) bo;
+        
         String vendorName = originalBo.getVendorName();
         if (originalBo.isVendorFirstLastNameIndicator() && ObjectUtils.isNotNull(vendorName)) {
             int start = vendorName.indexOf(VendorConstants.NAME_DELIM);
@@ -354,7 +355,8 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
                 originalBo.setVendorName(null);
             }
         }
-        this.businessObject = originalBo;
+        
+        super.setBusinessObject(originalBo);
     }
 
     /**

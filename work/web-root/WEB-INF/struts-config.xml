@@ -597,6 +597,15 @@
 			<forward name="lostSessionReturning" path="/jsp/module/bc/LostSessionReturning.jsp" />
 		</action>
 
+        <action path="/budgetOrganizationReportSelection" name="OrganizationReportSelectionForm"
+            input="/jsp/module/bc/OrganizationReportSelection.jsp"
+            type="org.kuali.kfs.module.bc.document.web.struts.OrganizationReportSelectionAction"
+            scope="session" parameter="methodToCall" validate="true" attribute="KualiForm">
+            <set-property property="cancellable" value="true" />
+            <forward name="basic" path="/jsp/module/bc/OrganizationReportSelection.jsp" />
+            <forward name="lostSessionReturning" path="/jsp/module/bc/LostSessionReturning.jsp" />
+        </action>
+
 		<action path="/budgetMonthlyBudget" name="MonthlyBudgetForm"
 			input="/jsp/module/bc/MonthlyBudget.jsp"
 			type="org.kuali.kfs.module.bc.document.web.struts.MonthlyBudgetAction"

@@ -605,7 +605,9 @@ public class PerDiemExpense extends PersistableBusinessObjectBase {
     public Boolean getIncidentalsWithMealsOnly() {
         if (incidentalsWithMealsOnly == null) {
             String incidentalsWithMealsOnlyParam = SpringContext.getBean(ParameterService.class).getParameterValue(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, TravelParameters.INCIDENTALS_WITH_MEALS_ONLY_IND);
-            incidentalsWithMealsOnly = incidentalsWithMealsOnlyParam != null && incidentalsWithMealsOnlyParam.equals(KFSConstants.DocumentTypeAttributes.INDICATOR_ATTRIBUTE_TRUE_VALUE);
+            
+            //incidentalsWithMealsOnly = incidentalsWithMealsOnlyParam != null && incidentalsWithMealsOnlyParam.equals(KFSConstants.DocumentTypeAttributes.INDICATOR_ATTRIBUTE_TRUE_VALUE);
+            incidentalsWithMealsOnly = incidentalsWithMealsOnlyParam != null && incidentalsWithMealsOnlyParam.equals(KFSConstants.ParameterValues.YES);
         }
 
         return incidentalsWithMealsOnly;

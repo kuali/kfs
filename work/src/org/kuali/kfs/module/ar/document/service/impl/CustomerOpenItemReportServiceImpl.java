@@ -105,11 +105,9 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             workflowDocument = WorkflowDocumentFactory.loadDocument(userId, documentHeader.getDocumentNumber());
 
             // do not display not approved documents
+            if (ObjectUtils.isNull(workflowDocument.getDateApproved())) continue;
             Date approvedDate = getSqlDate(workflowDocument.getDateApproved().toCalendar(Locale.getDefault()));
-            if (ObjectUtils.isNull(approvedDate)) {
-                continue;
-            }
-
+ 
             // Document Type
             String documentType = workflowDocument.getDocumentTypeName();
             detail.setDocumentType(documentType);
@@ -635,11 +633,9 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             workflowDocument = WorkflowDocumentFactory.loadDocument(userId, documentHeader.getDocumentNumber());
 
             // do not display not approved documents
+            if (ObjectUtils.isNull(workflowDocument.getDateApproved())) continue;
             Date approvedDate = getSqlDate(workflowDocument.getDateApproved().toCalendar(Locale.getDefault()));
-            if (ObjectUtils.isNull(approvedDate)) {
-                continue;
-            }
-
+ 
             // Document Type
             String documentType = workflowDocument.getDocumentTypeName();
 

@@ -59,8 +59,9 @@ public class AccountsReceivableDocumentHeaderDaoOjb extends PlatformAwareDaoBase
         
         // get the payment application documents, which belong to the customer but not in specified in AR_DOC_HDR_T 
         Criteria criteria2 = new Criteria();
-        criteria2.addIn("financialDocumentReferenceInvoiceNumber",documentNumbers);
- 
+        if (!documentNumbers.isEmpty()) {
+            criteria2.addIn("financialDocumentReferenceInvoiceNumber",documentNumbers);
+        }
         Collection<InvoicePaidApplied> invoicePaidAppliedList = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(InvoicePaidApplied.class, criteria2));
         
         Set<String> appDocumentNumbers = new HashSet<String>();
@@ -73,8 +74,9 @@ public class AccountsReceivableDocumentHeaderDaoOjb extends PlatformAwareDaoBase
 
         // get the final AR documents
         Criteria criteria3 = new Criteria();
-        criteria3.addIn(KFSConstants.CustomerOpenItemReport.DOCUMENT_NUMBER,documentNumbers);
-
+        if (!documentNumbers.isEmpty()) {
+            criteria3.addIn(KFSConstants.CustomerOpenItemReport.DOCUMENT_NUMBER,documentNumbers);
+        }
         return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(AccountsReceivableDocumentHeader.class, criteria3));
     }
 }

@@ -357,6 +357,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.refresh(mapping, form, request, response);
+
         refreshBillToAddress(mapping, form, request, response);
         refreshShipToAddress(mapping, form, request, response);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

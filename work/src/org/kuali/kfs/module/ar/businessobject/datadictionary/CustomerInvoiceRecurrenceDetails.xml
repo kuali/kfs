@@ -194,6 +194,7 @@
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="Invoice Initiator Network Principal Name" />
 		<property name="shortLabel" value="InvInitID" />
+		<property name="required" value="false" />		
 		<property name="control">
 			<ref bean="HiddenControl" />
 		</property>
@@ -208,6 +209,7 @@
 		<property name="name" value="documentInitiatorUser.principalName" />
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="Invoice Initiator Principal Name" />
+		<property name="required" value="false" />
 		<property name="shortLabel" value="InvInitID" />
 		<property name="control">
 			<bean parent="KualiUserControlDefinition"
@@ -225,6 +227,7 @@
 		<property name="name" value="documentInitiatorUser.name" />
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="Invoice Initiator Name" />
+		<property name="required" value="false" />		
 		<property name="shortLabel" value="InvInitNm" />
 	</bean>
 	<bean id="CustomerInvoiceRecurrenceDetails-documentLastCreateDate"

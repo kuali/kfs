@@ -538,8 +538,9 @@ VALUES ('ST', SYS_GUID(), 1, 'Show Tickets', 'N', 'Y', '6000');
 
 
 --  KUALITEM-273 updating parameters and maintenace tables to make testing easier
-UPDATE KRNS_PARM_T SET TXT = '1=C;2=C;3=C;4=C;5=C;6=C;A=V;B=V,E;C=V,S,E;D=V;E=V;F=V,E;G=V;H=V;K=V,F;L=V;M=V,E;N=V;P=V,E;R=V;T=C,V;W=V;X=V;Z=E' WHERE PARM_NM = 'VALID_PAYEE_TYPES_BY_PAYMENT_REASON';
-UPDATE KRNS_PARM_T SET TXT = 'A=T;B=T;E=T;F=T;G=T;H=T;K=T;L=T;R=T;W=T;Z=T' WHERE PARM_NM = 'INVALID_DOCUMENTATION_LOCATIONS_BY_PAYMENT_REASON';
+-- SW: taken cared of in the krns_parm_t.csv convertion
+-- UPDATE KRNS_PARM_T SET TXT = '1=C;2=C;3=C;4=C;5=C;6=C;A=V;B=V,E;C=V,S,E;D=V;E=V;F=V,E;G=V;H=V;K=V,F;L=V;M=V,E;N=V;P=V,E;R=V;T=C,V;W=V;X=V;Z=E' WHERE PARM_NM = 'VALID_PAYEE_TYPES_BY_PAYMENT_REASON';
+-- UPDATE KRNS_PARM_T SET TXT = 'A=T;B=T;E=T;F=T;G=T;H=T;K=T;L=T;R=T;W=T;Z=T' WHERE PARM_NM = 'INVALID_DOCUMENTATION_LOCATIONS_BY_PAYMENT_REASON';
 UPDATE FP_DV_PMT_REAS_T SET DV_PMT_REAS_NM = 'Travel and Entertainment Module (TEM)' WHERE DV_PMT_REAS_CD = 'T';
 UPDATE AR_ORG_OPTION_T SET AR_PRN_INV_IND = 'U' WHERE FIN_COA_CD = 'UA' AND ORG_CD = 'VPIT';
 
@@ -684,12 +685,12 @@ VALUES ('66', '11', '16', '34', '5', '49.50', TO_DATE('2011-08-31','yyyy-mm-dd')
 INSERT INTO TEM_PER_DIEM_MIE_BREAK_DOWN_T (MEALS_INC, BKFST, LUNCH, DIN, INC, FIRST_LAST_DAY_AMOUNT, LAST_UPD_DT, ACTV_IND, VER_NBR, OBJ_ID)
 VALUES ('71', '12', '18', '36', '5', '53.25', TO_DATE('2011-08-31','yyyy-mm-dd'), 'Y', '1', SYS_GUID());
 
-INSERT INTO FP_DV_PMT_REAS_T (DV_PMT_REAS_CD,OBJ_ID,VER_NBR,DV_PMT_REAS_NM,DV_PMT_REAS_DESC,DV_PMT_REAS_ACTV_IND,AR_REFND_IND)
-VALUES(4,SYS_GUID(),1,'Entertainment Reimbursments','used by Travel Managers','Y','N');
-
 -- Dummy value for custom per diem expenses.
 INSERT INTO TEM_PER_DIEM_T (ID,TRIP_TYP_CD,COUNTRY,COUNTRY_NM,COUNTY_CD,PRI_DEST,EFFECT_FROM_DT,EFFECT_TO_DT,BKFST,LUNCH,DIN,LODGING,INC,MEALS_INC,ACTV_IND,VER_NBR,OBJ_ID)
 VALUES (2147483647,'IN','***','***','***','Record used for custom per diems',NULL,NULL,0,0,0,0.00,0.00,0.00,'Y',1,SYS_GUID());
+
+INSERT INTO FP_DV_PMT_REAS_T (DV_PMT_REAS_CD,OBJ_ID,VER_NBR,DV_PMT_REAS_NM,DV_PMT_REAS_DESC,DV_PMT_REAS_ACTV_IND,AR_REFND_IND)
+VALUES(4,SYS_GUID(),1,'Entertainment Reimbursments','used by Travel Managers','Y','N');
 
 INSERT INTO FP_DV_PMT_REAS_T(DV_PMT_REAS_CD,OBJ_ID,VER_NBR,DV_PMT_REAS_NM,DV_PMT_REAS_DESC,DV_PMT_REAS_ACTV_IND,AR_REFND_IND)
 VALUES ('3',SYS_GUID(),1,'Travel Vendor Payments','Used to make payments to the vendor','Y','N');
@@ -706,4 +707,5 @@ VALUES ('6',SYS_GUID(),1,'Corporate Card Bank Payment','Used to make payments to
 INSERT INTO FP_DV_PMT_REAS_T(DV_PMT_REAS_CD,OBJ_ID,VER_NBR,DV_PMT_REAS_NM,DV_PMT_REAS_DESC,DV_PMT_REAS_ACTV_IND,AR_REFND_IND)
 VALUES ('1',SYS_GUID(),1,'Travel Advances','Used for Travel Advances','Y','N');
 
-UPDATE KRNS_PARM_T SET TXT = 'customerLoadInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;procurementCardInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;collectorFlatFileInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;collectorXmlInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;enterpriseFeederFileSetType=default.htm?turl=WordDocuments%2Fbatch.htm;laborEnterpriseFeederFileSetType=default.htm?turl=WordDocuments%2Fbatch.htm;assetBarcodeInventoryInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;paymentInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;creditCardDataXmlInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;agencyDataXmlInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;perDiemTxtInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;perDiemXmlInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;' WHERE PARM_NM='BATCH_UPLOAD_HELP_URL' AND NMSPC_CD='KFS-SYS';
+-- SW: taken cared of in the krns_parm_t.csv convertion
+-- UPDATE KRNS_PARM_T SET TXT = 'customerLoadInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;procurementCardInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;collectorFlatFileInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;collectorXmlInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;enterpriseFeederFileSetType=default.htm?turl=WordDocuments%2Fbatch.htm;laborEnterpriseFeederFileSetType=default.htm?turl=WordDocuments%2Fbatch.htm;assetBarcodeInventoryInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;paymentInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;creditCardDataXmlInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;agencyDataXmlInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;perDiemTxtInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;perDiemXmlInputFileType=default.htm?turl=WordDocuments%2Fbatch.htm;' WHERE PARM_NM='BATCH_UPLOAD_HELP_URL' AND NMSPC_CD='KFS-SYS';

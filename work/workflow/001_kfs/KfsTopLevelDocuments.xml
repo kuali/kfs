@@ -123,9 +123,11 @@
       <active>
         true
       </active>
+      <!-- RICE20 Removing as this is making all transactional documents fail to authorize
       <security>
         <securityAttribute class="org.kuali.kfs.sys.document.workflow.SensitiveDataSecurityAttribute"/>
       </security>
+      -->
       <routingVersion>
         2
       </routingVersion>

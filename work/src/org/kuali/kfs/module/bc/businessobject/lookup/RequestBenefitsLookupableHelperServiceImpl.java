@@ -123,7 +123,7 @@ public class RequestBenefitsLookupableHelperServiceImpl extends KualiLookupableH
 
                     LOG.debug("Looking up benefits calcuation {" + fiscalYear + "," + chartOfAccountsCode + "," + positionObjectBenefit.getFinancialObjectBenefitsTypeCode() + "," + positionObjectBenefit.getFinancialObjectCode() + "," + laborBenefitRateCategoryCode + "}");
                     // use the map to lookup a benefit calculation
-                    ArrayList<BenefitsCalculation> bcArrayList = (ArrayList<BenefitsCalculation>) businessObjectService.findMatching(BenefitsCalculation.class, benefitMap);
+                    List<BenefitsCalculation> bcArrayList = (List<BenefitsCalculation>) businessObjectService.findMatching(BenefitsCalculation.class, benefitMap);
 
                     // make sure a benefits calculation was found
                     if (bcArrayList.size() > 0) {
@@ -153,6 +153,7 @@ public class RequestBenefitsLookupableHelperServiceImpl extends KualiLookupableH
             }
             else {
                 requestBenefit.setPositionFringeBenefitPercent(positionObjectBenefit.getLaborLedgerBenefitsCalculation().getPositionFringeBenefitPercent());
+                fringePct = positionObjectBenefit.getLaborLedgerBenefitsCalculation().getPositionFringeBenefitPercent();
             }
 
 

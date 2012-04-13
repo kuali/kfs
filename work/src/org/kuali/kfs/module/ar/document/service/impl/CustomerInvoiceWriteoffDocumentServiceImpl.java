@@ -433,8 +433,8 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         if ( isUsingOrgAcctDefaultWriteoffFAU ){
             return poster.getFinancialObjectCode();
         } else if ( isUsingChartForWriteoff ) {
-            return parameterService.getParameterValueAsString(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_OBJECT_CODE_BY_CHART, chartOfAccountsCode);
-        } else {
+            return parameterService.getSubParameterValueAsString(CustomerInvoiceWriteoffDocument.class, ArConstants.GLPE_WRITEOFF_OBJECT_CODE_BY_CHART, chartOfAccountsCode);
+         } else {
             return postable.getAccountsReceivableObjectCode();
         }
     }

@@ -136,9 +136,12 @@
               		<tr>
                 		<th>Open Amount</th>
                 		<td>
+                			<%--
                 			<kul:htmlControlAttribute
 								attributeEntry="${unallocatedBalance}"
 								property="unallocatedBalance" readOnly="true" />
+							 --%>
+							 <c:out value="${KualiForm.document.unallocatedBalance}" />&nbsp;
                 		</td>
               		</tr>
               		<tr>

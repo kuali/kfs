@@ -139,6 +139,7 @@ public class CustomerOpenItemReportServiceImpl implements CustomerOpenItemReport
             CustomerOpenItemReportDetail detail = new CustomerOpenItemReportDetail();
             detail.setDocumentType(ArConstants.PAYMENT_APPLICATION_DOCUMENT_TYPE_CODE);
             detail.setDocumentNumber(nonAppliedHolding.getReferenceFinancialDocumentNumber());
+            if (ObjectUtils.isNull(workflowDocument.getDateApproved())) continue;
             Date documentApprovedDate = getSqlDate(workflowDocument.getDateApproved().toCalendar(Locale.getDefault()));
             detail.setDueApprovedDate(documentApprovedDate);
             details.put(nonAppliedHolding.getReferenceFinancialDocumentNumber(), detail);

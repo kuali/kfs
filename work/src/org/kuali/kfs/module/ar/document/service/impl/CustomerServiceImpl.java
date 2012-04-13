@@ -16,7 +16,9 @@
 package org.kuali.kfs.module.ar.document.service.impl;
 
 import java.util.Collection;
+import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.dataaccess.CustomerDao;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
@@ -24,6 +26,7 @@ import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -130,15 +133,23 @@ public class CustomerServiceImpl implements CustomerService {
 
     public void createCustomerNote(String customerNumber, String customerNote) {
         Customer customer = getByPrimaryKey(customerNumber);
-        Note note = new Note();
-        note.setNoteText(customerNote);
-        try {
-            note = noteService.createNote(note, customer, GlobalVariables.getUserSession().getPrincipalId());
-            noteService.save(note);
+         try {
+            if (StringUtils.isNotBlank(customerNote)) {
+                
+                Note note = noteService.createNote(new Note(), customer, GlobalVariables.getUserSession().getPrincipalId());
+                note.setNoteText(customerNote);
+                note.setNotePostedTimestampToCurrent();
+                noteService.save(note); 
+  
+                NoteService noteService = KRADServiceLocator.getNoteService();
+                List<Note> notes = noteService.getByRemoteObjectId(customer.getObjectId());
+                notes.add(note);
+          
+             }
         } catch (Exception e){
             throw new RuntimeException("Problems creating note for Customer " + customerNumber);
         }
-    }
+       }
 
     public NoteService getNoteService() {
         return noteService;

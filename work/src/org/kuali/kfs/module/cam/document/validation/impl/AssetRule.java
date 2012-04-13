@@ -135,6 +135,7 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             valid &= processAssetValidation(document);
             valid &= validateWarrantyInformation(newAsset);
             valid &= validateDepreciationData(newAsset);
+            valid &= checkAssetDepreciationMethodChange();
 
             valid &= super.processCustomSaveDocumentBusinessRules(document);
             if (valid) {
@@ -558,7 +559,6 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
         // check for change
         valid &= checkAcquisitionTypeCodeChange();
         valid &= checkConditionCodeChange();
-        valid &= checkAssetDepreciationMethodChange();
         valid &= checkAssetStatusCodeChange();
         valid &= checkAssetTypeCodeChange();
         valid &= checkFinancialObjectSubtypeCodeChange();

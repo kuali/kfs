@@ -20,8 +20,12 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.module.ar.document.service.CustomerService;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
@@ -53,6 +57,7 @@ public class Customer extends PersistableBusinessObjectBase implements MutableIn
 
     private Customer customerParentCompany;
     private CustomerType customerType;
+    private List    boNotes;
 
     private List<CustomerAddress> customerAddresses;
 
@@ -489,6 +494,27 @@ public class Customer extends PersistableBusinessObjectBase implements MutableIn
 
     public void setCustomerTaxTypeCode(String customerTaxTypeCode) {
         this.customerTaxTypeCode = customerTaxTypeCode;
+    }
+
+    /**
+     * Gets the boNotes attribute.
+     * 
+     * @return Returns the boNotes
+     */
+    
+    public List<Note> getBoNotes() {    
+        if (StringUtils.isEmpty(customerNumber)) return new ArrayList<Note>();
+        CustomerService customerService = SpringContext.getBean(CustomerService.class);
+        return customerService.getCustomerNotes(customerNumber);
+    }
+
+    /**	
+     * Sets the boNotes attribute.
+     * 
+     * @param boNotes The boNotes to set.
+     */
+    public void setBoNotes(List boNotes) {
+        this.boNotes = boNotes;
     }
     
 }

@@ -16,9 +16,11 @@
 package org.kuali.kfs.module.ar.document.service;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.rice.krad.bo.Note;
 
 public interface CustomerService {
 
@@ -65,4 +67,5 @@ public interface CustomerService {
     
     public void createCustomerNote( String customerNumber, String customerNote );
 
+    public List<Note> getCustomerNotes(String customerNumber) ;
 }

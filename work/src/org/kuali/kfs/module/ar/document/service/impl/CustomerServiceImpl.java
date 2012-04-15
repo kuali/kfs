@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.document.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -22,14 +23,17 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.dataaccess.CustomerDao;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -131,25 +135,30 @@ public class CustomerServiceImpl implements CustomerService {
         return customerInvoiceDocumentService.getCustomerInvoiceDocumentsByCustomerNumber(customerNumber);
     }
 
+    
     public void createCustomerNote(String customerNumber, String customerNote) {
         Customer customer = getByPrimaryKey(customerNumber);
          try {
             if (StringUtils.isNotBlank(customerNote)) {
-                
-                Note note = noteService.createNote(new Note(), customer, GlobalVariables.getUserSession().getPrincipalId());
-                note.setNoteText(customerNote);
-                note.setNotePostedTimestampToCurrent();
+                Note newBONote = new Note();
+                newBONote.setNoteText(customerNote);
+                newBONote.setNotePostedTimestampToCurrent();
+                Note note = noteService.createNote(newBONote, customer, GlobalVariables.getUserSession().getPrincipalId());
                 noteService.save(note); 
-  
-                NoteService noteService = KRADServiceLocator.getNoteService();
-                List<Note> notes = noteService.getByRemoteObjectId(customer.getObjectId());
-                notes.add(note);
-          
-             }
+              }
         } catch (Exception e){
             throw new RuntimeException("Problems creating note for Customer " + customerNumber);
         }
        }
+
+    public List<Note> getCustomerNotes(String customerNumber) {
+        Customer customer = getByPrimaryKey(customerNumber);
+        List<Note> notes = new ArrayList<Note>();
+       if (ObjectUtils.isNotNull(customer)) {
+            notes = noteService.getByRemoteObjectId(customer.getObjectId());
+        }
+        return notes;
+    }
 
     public NoteService getNoteService() {
         return noteService;
@@ -158,5 +167,4 @@ public class CustomerServiceImpl implements CustomerService {
     public void setNoteService(NoteService noteService) {
         this.noteService = noteService;
     }
-
 }

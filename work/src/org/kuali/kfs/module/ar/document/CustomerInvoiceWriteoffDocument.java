@@ -36,6 +36,7 @@ import org.kuali.kfs.module.ar.businessobject.WriteoffTaxCustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableTaxService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceGLPEService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceWriteoffDocumentService;
+import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
@@ -495,11 +496,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
      * @return Returns the customerNote.
      */
     public String getCustomerNote() {
-        /*
-         * ArrayList boNotes = (ArrayList) this.getCustomerInvoiceDocument().getCustomer().getNotes(); if (boNotes.size() > 0)
-         * customerNote = boNotes.toString(); else customerNote = "";
-         */
-        return customerNote;
+		return customerNote;
     }
 
     /**
@@ -513,16 +510,16 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
 
     public void populateCustomerNote() {
         customerNote = "";
-        
-        List<Note> boNotes = this.getNotes();
-        
-        if ( !boNotes.isEmpty() ) {
-            for ( Note note : boNotes ) {
-                customerNote = customerNote + note.getNoteText() + " ";
+        CustomerService customerService = SpringContext.getBean(CustomerService.class);
+        List<Note> boNotes = customerService.getCustomerNotes(this.getCustomerInvoiceDocument().getCustomer().getCustomerNumber());
+        StringBuffer customerNotes = new StringBuffer();
+        if (boNotes.size() > 0) {
+         
+            for (Note note : boNotes) {
+                customerNotes.append(note.getNoteText().trim() + " ");
             }
-            
-            customerNote = customerNote.trim();
-        }
+            this.customerNote = customerNotes.toString().trim();
+        }  
     }
 
     /**

@@ -159,9 +159,9 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
             docSearchRows.add(new Row(Collections.singletonList(searchField)));
         }
 
-// RICE20: removing because disabling document search
-        Row resultType = createSearchResultDisplayTypeRow();
-        docSearchRows.add(resultType);
+        // RICE20: removing because disabling document search
+        //Row resultType = createSearchResultDisplayTypeRow();
+        //docSearchRows.add(resultType);
         return docSearchRows;
     }
 

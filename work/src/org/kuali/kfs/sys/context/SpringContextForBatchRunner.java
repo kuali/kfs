@@ -17,11 +17,7 @@ package org.kuali.kfs.sys.context;
 
 import java.util.Properties;
 
-import javax.xml.namespace.QName;
-
 import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.framework.resourceloader.SpringResourceLoader;
 import org.kuali.rice.core.impl.config.property.JAXBConfigImpl;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -46,8 +42,7 @@ public class SpringContextForBatchRunner {
         context.start();
         long endInit = System.currentTimeMillis();
         LOG.info("...Kuali Rice Application successfully initialized, startup took " + (endInit - startInit) + " ms.");
-        SpringResourceLoader mainKfsSpringResourceLoader = (SpringResourceLoader)GlobalResourceLoader.getResourceLoader( new QName("KFS", "CORE_RICE_SPRING_RESOURCE_LOADER_NAME") );
-        SpringContext.applicationContext = mainKfsSpringResourceLoader.getContext();
+        SpringContext.finishInitializationAfterRiceStartup();
     }
 
 }

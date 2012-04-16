@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -61,16 +61,16 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements TestingStep {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentBatchStep.class);
-    
+
     protected static final long MAX_SEQ_NBR_OFFSET = 1000;
-    
-    protected CustomerInvoiceDocumentService customerInvoiceDocumentService; 
+
+    protected CustomerInvoiceDocumentService customerInvoiceDocumentService;
     protected BusinessObjectService businessObjectService;
     protected DocumentService documentService;
     protected DateTimeService dateTimeService;
     protected Collection<String> createdInvoices = new ArrayList<String>();
 
-    
+
 
     // parameter constants and logging
     protected static final int NUMBER_OF_INVOICES_TO_CREATE = 5;
@@ -82,22 +82,23 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
     protected static final String RUN_INDICATOR_PARAMETER_DESCRIPTION = "Tells the job framework whether to run this job or not; because the CustomerInvoiceDocumentBatchStep needs to only be run once after database initialization.";
     protected static final String RUN_INDICATOR_PARAMETER_TYPE = "CONFG";
     protected static final String INITIATOR_PRINCIPAL_NAME = "khuntley";
-    
+
     protected final int currentYear = Calendar.getInstance().get(Calendar.YEAR);
 
+    @Override
     public boolean execute(String jobName, Date jobRunDate) throws InterruptedException {
 
-        
-        Parameter runIndicatorParameter = getParameterService().getParameter(RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE, RUN_INDICATOR_PARAMETER_NAMESPACE_STEP, Job.STEP_RUN_PARM_NM);
+
+        Parameter runIndicatorParameter = getParameterService().getParameter(RUN_INDICATOR_PARAMETER_NAMESPACE_CODE, RUN_INDICATOR_PARAMETER_NAMESPACE_STEP, Job.STEP_RUN_PARM_NM);
         if (runIndicatorParameter == null || StringUtils.equals("Y", runIndicatorParameter.getValue())) {
 
             GlobalVariables.clear();
             GlobalVariables.setUserSession(new UserSession(INITIATOR_PRINCIPAL_NAME));
             setDateTimeService(SpringContext.getBean(DateTimeService.class));
-        
+
             Date billingDate = getDateTimeService().getCurrentDate();
             List<String> customernames;
-        
+
             if ((jobName.length() <=8 ) && (jobName.length() >= 4)) {
                 setCustomerInvoiceDocumentService(SpringContext.getBean(CustomerInvoiceDocumentService.class));
                 setBusinessObjectService(SpringContext.getBean(BusinessObjectService.class));
@@ -111,13 +112,13 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
             // create non-random data
             if (customernames.size() > 1) {
                 for (int i = 0; i < NUMBER_OF_INVOICES_TO_CREATE; i++) {
-    
+
                     billingDate = DateUtils.addDays(billingDate, -30);
-    
+
                     createCustomerInvoiceDocumentForFunctionalTesting("HIL22195", billingDate, 1, new KualiDecimal(10), new BigDecimal(1), "2336320", "BL", "BUSCF");  // $10 entries
                     createCustomerInvoiceDocumentForFunctionalTesting("IBM2655", billingDate, 2, new KualiDecimal(10), new BigDecimal(1), "2336320", "BL", "IBCE");  // $20 entries
                     createCustomerInvoiceDocumentForFunctionalTesting("JAS19572", billingDate, 3, new KualiDecimal(10), new BigDecimal(1), "2336320", "BL", "WRB");  // $30 entries
-    
+
                     Thread.sleep(500);
                 }
             }
@@ -165,30 +166,30 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
 
             // save runParameter as "N" so that the job won't run until DB has been cleared
             setInitiatedParameter();
-        }    
+        }
         return true;
     }
-   
+
     private long findAvailableLockboxBaseSeqNbr() {
         LockboxService lockboxService = SpringContext.getBean(LockboxService.class);
         return lockboxService.getMaxLockboxSequenceNumber() + MAX_SEQ_NBR_OFFSET;
     }
-    
+
     private boolean dupLockboxRecordExists(Long seqNbr) {
         Map<String,Long> pks = new HashMap<String,Long>();
         pks.put("invoiceSequenceNumber", seqNbr);
-        Lockbox dupLockBox = (Lockbox) businessObjectService.findByPrimaryKey(Lockbox.class, pks);
+        Lockbox dupLockBox = businessObjectService.findByPrimaryKey(Lockbox.class, pks);
         return (dupLockBox != null);
     }
-    
+
     /**
      * This method sets a parameter that tells the step that it has already run and it does not need to run again.
      */
     private void setInitiatedParameter() {
         // first see if we can find an existing Parameter object with this key
-        Parameter runIndicatorParameter = getParameterService().getParameter(RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE, RUN_INDICATOR_PARAMETER_NAMESPACE_STEP, Job.STEP_RUN_PARM_NM);
+        Parameter runIndicatorParameter = getParameterService().getParameter(RUN_INDICATOR_PARAMETER_NAMESPACE_CODE, RUN_INDICATOR_PARAMETER_NAMESPACE_STEP, Job.STEP_RUN_PARM_NM);
         if (runIndicatorParameter == null) {
-            Parameter.Builder newParm = Parameter.Builder.create(RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE, RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE, RUN_INDICATOR_PARAMETER_NAMESPACE_STEP, Job.STEP_RUN_PARM_NM, ParameterType.Builder.create(RUN_INDICATOR_PARAMETER_TYPE));
+            Parameter.Builder newParm = Parameter.Builder.create(RUN_INDICATOR_PARAMETER_APPLICATION_NAMESPACE_CODE, RUN_INDICATOR_PARAMETER_NAMESPACE_CODE, RUN_INDICATOR_PARAMETER_NAMESPACE_STEP, Job.STEP_RUN_PARM_NM, ParameterType.Builder.create(RUN_INDICATOR_PARAMETER_TYPE));
             newParm.setEvaluationOperator(EvaluationOperator.ALLOW);
             newParm.setDescription(RUN_INDICATOR_PARAMETER_DESCRIPTION);
             newParm.setValue("N");
@@ -202,9 +203,9 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
     }
 
     private Lockbox populateLockbox(String invoiceNumber, Long seqNbr) {
-        
+
         CustomerInvoiceDocument customerInvoiceDocument = customerInvoiceDocumentService.getInvoiceByInvoiceDocumentNumber(invoiceNumber);
-        
+
         Lockbox newLockbox = new Lockbox();
         newLockbox.setFinancialDocumentReferenceInvoiceNumber(invoiceNumber);
         newLockbox.setCustomerNumber(customerInvoiceDocument.getCustomer().getCustomerNumber());
@@ -219,9 +220,9 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
 
         return newLockbox;
     }
-    
+
     private void createLockboxesForFunctionalTesting(String invoiceNumber, Long seqNbr, int testtype) throws InterruptedException {
-        
+
         Lockbox newLockbox = populateLockbox(invoiceNumber, seqNbr);
 
         // 1) Payment matches customer (CUST_NBR), invoice number (FDOC_REF_INV_NBR), and amount (AR_INV_PD_APLD_AMT). These should auto-approve, the remaining scenarios should not.
@@ -271,17 +272,17 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
     public void writeoffInvoice(String invoiceNumberToWriteOff) {
         CustomerInvoiceWriteoffDocumentService writeoffService = SpringContext.getBean(CustomerInvoiceWriteoffDocumentService.class);
         Person initiator = SpringContext.getBean(PersonService.class).getPersonByPrincipalName(INITIATOR_PRINCIPAL_NAME);
-        
+
         //  have the service create us a new writeoff doc
         String writeoffDocNumber;
         try {
-            writeoffDocNumber = writeoffService.createCustomerInvoiceWriteoffDocument(initiator, invoiceNumberToWriteOff, 
+            writeoffDocNumber = writeoffService.createCustomerInvoiceWriteoffDocument(initiator, invoiceNumberToWriteOff,
                     "Created by CustomerInvoiceDocumentBatch process.");
         }
         catch (WorkflowException e) {
             throw new RuntimeException("A WorkflowException was thrown when trying to create a new Invoice Writeoff document.", e);
         }
-        
+
         //  load the newly created writeoff doc from the db
         CustomerInvoiceWriteoffDocument writeoff;
         try {
@@ -290,7 +291,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
         catch (WorkflowException e) {
             throw new RuntimeException("A WorkflowException was thrown when trying to load Invoice Writeoff doc #" + writeoffDocNumber + ".", e);
         }
-        
+
         boolean wentToFinal = false;
         try {
             wentToFinal = waitForStatusChange(60, writeoff.getDocumentHeader().getWorkflowDocument(), new String[] {"F", "P"});
@@ -303,7 +304,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
         if (!wentToFinal) {
             try {
                 if (writeoff.getDocumentHeader().getWorkflowDocument().isFinal()) {
-                    
+
                 }
                 writeoff.getDocumentHeader().getWorkflowDocument().blanketApprove("BlanketApproved by CustomerInvoiceDocumentBatch process.");
             }
@@ -320,7 +321,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
                 throw new RuntimeException("An Exception was thrown when trying to monitor writeoff doc #" + writeoffDocNumber +" going to FINAL.", e);
             }
         }
-        
+
         if (!wentToFinal) {
             throw new RuntimeException("InvoiceWriteoff document #" + writeoffDocNumber + " failed to route to FINAL.");
         }
@@ -334,7 +335,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
     /**
      * Iterates, with pauseSeconds seconds between iterations, until either the given ChangeMonitor's valueChanged method returns
      * true, or at least maxWaitSeconds seconds have passed.
-     * 
+     *
      * @param monitor ChangeMonitor instance which watches for whatever change your test is waiting for
      * @param maxWaitSeconds
      * @param pauseSeconds
@@ -362,7 +363,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
         }
         return valueChanged;
     }
-    
+
 //    public void writeoffInvoice(String invoiceToWriteOff) {
 //        CustomerCreditMemoDetailService customerCreditMemoDetailService = SpringContext.getBean(CustomerCreditMemoDetailService.class);
 //        CustomerCreditMemoDocument customerCreditMemoDocument;
@@ -397,12 +398,12 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
 //        customerInvoiceDocument.setBillingInternationalMailCode(customerBillToAddress.getCustomerInternationalMailCode());
 //        customerInvoiceDocument.setBillingEmailAddress(customerBillToAddress.getCustomerEmailAddress());
 //        customerInvoiceDocument.addSourceAccountingLine(createCustomerInvoiceDetailForFunctionalTesting(customerInvoiceDocument, new KualiDecimal(1), new BigDecimal(100), "2336320", "BL", "ISRT" ));
-//        
+//
 //        customerCreditMemoDetail.setCreditMemoItemQuantity(new BigDecimal(100));
 //        customerCreditMemoDetail.setDuplicateCreditMemoItemTotalAmount();
 //        try {
 //            // the document header is created and set here
-//            
+//
 //            customerCreditMemoDocument = (CustomerCreditMemoDocument) DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), CustomerCreditMemoDocument.class);
 //        }
 //        catch (WorkflowException e) {
@@ -434,7 +435,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
 
     public void createCustomerInvoiceDocumentForFunctionalTesting(String customerNumber, Date billingDate, int numinvoicedetails,  KualiDecimal nonrandomquantity, BigDecimal nonrandomunitprice, String accountnumber, String chartcode, String invoiceitemcode) {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-        
+
         CustomerInvoiceDocument customerInvoiceDocument;
         try {
             customerInvoiceDocument = (CustomerInvoiceDocument)documentService.getNewDocument(CustomerInvoiceDocument.class);
@@ -442,7 +443,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
         } catch (WorkflowException e) {
             throw new RuntimeException("Customer Invoice Document creation failed.");
         }
-        
+
         customerInvoiceDocumentService.setupDefaultValuesForNewCustomerInvoiceDocument(customerInvoiceDocument);
         //customerInvoiceDocument.getDocumentHeader().setDocumentDescription(customerNumber+" - TEST CUSTOMER INVOICE DOCUMENT");// - BILLING DATE - "+sdf.format(billingDate));
         customerInvoiceDocument.getDocumentHeader().setDocumentDescription("TEST CUSTOMER INVOICE DOCUMENT");
@@ -481,15 +482,18 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
 
 
         if (ObjectUtils.isNotNull(nonrandomquantity)&&ObjectUtils.isNotNull(nonrandomunitprice)&&numinvoicedetails>=1) {
-            for (int i = 0; i < numinvoicedetails; i++) { 
+            for (int i = 0; i < numinvoicedetails; i++) {
                 customerInvoiceDocument.addSourceAccountingLine(createCustomerInvoiceDetailForFunctionalTesting(customerInvoiceDocument, nonrandomquantity, nonrandomunitprice, accountnumber, chartcode, invoiceitemcode));
-            }  
-        } else {       
+            }
+        } else {
             int randomnuminvoicedetails = (int) (Math.random()*9); // add up to 9
-            if (randomnuminvoicedetails==0) randomnuminvoicedetails=1; // add at least one
-            for (int i = 0; i < randomnuminvoicedetails; i++) { 
+            if (randomnuminvoicedetails==0)
+             {
+                randomnuminvoicedetails=1; // add at least one
+            }
+            for (int i = 0; i < randomnuminvoicedetails; i++) {
                 customerInvoiceDocument.addSourceAccountingLine(createCustomerInvoiceDetailForFunctionalTesting(customerInvoiceDocument, null, null, accountnumber, chartcode, invoiceitemcode));
-            }              
+            }
         }
         try {
             documentService.blanketApproveDocument(customerInvoiceDocument, null, null);
@@ -499,26 +503,26 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
             throw new RuntimeException("Customer Invoice Document routing failed.");
         }
     }
-    
+
     public CustomerInvoiceDetail createCustomerInvoiceDetailForFunctionalTesting(CustomerInvoiceDocument customerInvoiceDocument, KualiDecimal nonrandomquantity, BigDecimal nonrandomunitprice, String accountnumber, String chartcode, String invoiceitemcode){
-        
+
         KualiDecimal quantity;
         BigDecimal unitprice;
-        
+
         if (ObjectUtils.isNull(nonrandomquantity)) {
             quantity = new KualiDecimal(100*Math.random()); // random number 0 to 100 total items      // TODO FIXME  <-- InvoiceItemQuantities of more than 2 decimal places cause rule errors; BigDecimal values such as 5.3333333333 should be valid InvoiceItemQuantities
         } else {
             quantity = nonrandomquantity;
         }
-        if (ObjectUtils.isNull(nonrandomunitprice)) {    
+        if (ObjectUtils.isNull(nonrandomunitprice)) {
         unitprice = new BigDecimal(1); // 0.00 to 100.00 dollars per item
         } else {
             unitprice = nonrandomunitprice;
-        }                
-        
+        }
+
         KualiDecimal amount = quantity.multiply(new KualiDecimal(unitprice)); // setAmount has to be set explicitly below; so we calculate it here
         //LOG.info("\n\n\n\n\t\t\t\t quantity="+quantity.toString()+"\t\t\t\tprice="+unitprice.toString()+"\t\t\t\tamount="+amount.toString()+"\t\t\t\t"+customerInvoiceDocument.getCustomerName());
-        
+
         CustomerInvoiceDetail customerInvoiceDetail = new CustomerInvoiceDetail();
         customerInvoiceDetail.setDocumentNumber(customerInvoiceDocument.getDocumentNumber());
         customerInvoiceDetail.setChartOfAccountsCode(chartcode);
@@ -536,14 +540,16 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
 
 
         return customerInvoiceDetail;
-    }  
-    
-    
+    }
+
+
+    @Override
     public DateTimeService getDateTimeService() {
         return dateTimeService;
     }
 
 
+    @Override
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
@@ -556,8 +562,8 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
 
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
-    }    
-    
+    }
+
     public CustomerInvoiceDocumentService getCustomerInvoiceDocumentService() {
         return customerInvoiceDocumentService;
     }
@@ -575,7 +581,7 @@ public class CustomerInvoiceDocumentBatchStep extends AbstractStep implements Te
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
-    }    
+    }
 
     private class DocWorkflowStatusMonitor {
         final DocumentService documentService;

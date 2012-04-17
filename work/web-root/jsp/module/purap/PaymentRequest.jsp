@@ -82,6 +82,9 @@
 	    <purap:paymentHistory documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
     	
         <gl:generalLedgerPendingEntries />
+
+		<kul:notes />
+        
 	    <kul:adHocRecipients />
 	    
 	    <kul:routeLog />

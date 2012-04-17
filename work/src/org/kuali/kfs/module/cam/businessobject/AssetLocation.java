@@ -1,12 +1,12 @@
 /*
  * Copyright 2008-2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 package org.kuali.kfs.module.cam.businessobject;
-
-import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -32,24 +30,24 @@ import org.kuali.rice.location.framework.state.StateEbo;
  */
 public class AssetLocation extends PersistableBusinessObjectBase {
 
-    private Long capitalAssetNumber;
-    private String assetLocationTypeCode;
-    private String assetLocationContactName;
-    private String assetLocationContactIdentifier;
-    private String assetLocationInstitutionName;
-    private String assetLocationPhoneNumber;
-    private String assetLocationStreetAddress;
-    private String assetLocationCityName;
-    private String assetLocationStateCode;
-    private String assetLocationCountryCode;
-    private String assetLocationZipCode;
+    protected Long capitalAssetNumber;
+    protected String assetLocationTypeCode;
+    protected String assetLocationContactName;
+    protected String assetLocationContactIdentifier;
+    protected String assetLocationInstitutionName;
+    protected String assetLocationPhoneNumber;
+    protected String assetLocationStreetAddress;
+    protected String assetLocationCityName;
+    protected String assetLocationStateCode;
+    protected String assetLocationCountryCode;
+    protected String assetLocationZipCode;
 
-    private Asset asset;
-    private AssetLocationType assetLocationType;
+    protected Asset asset;
+    protected AssetLocationType assetLocationType;
 
-    private StateEbo assetLocationState;
-    private CountryEbo assetLocationCountry;
-    private PostalCodeEbo postalZipCode;
+    protected StateEbo assetLocationState;
+    protected CountryEbo assetLocationCountry;
+    protected PostalCodeEbo postalZipCode;
 
     /**
      * Default constructor.
@@ -78,7 +76,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
 
     /**
      * Gets the capitalAssetNumber attribute.
-     * 
+     *
      * @return Returns the capitalAssetNumber
      */
     public Long getCapitalAssetNumber() {
@@ -87,7 +85,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
 
     /**
      * Sets the capitalAssetNumber attribute.
-     * 
+     *
      * @param capitalAssetNumber The capitalAssetNumber to set.
      */
     public void setCapitalAssetNumber(Long capitalAssetNumber) {
@@ -97,7 +95,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
 
     /**
      * Gets the assetLocationTypeCode attribute.
-     * 
+     *
      * @return Returns the assetLocationTypeCode
      */
     public String getAssetLocationTypeCode() {
@@ -106,7 +104,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
 
     /**
      * Sets the assetLocationTypeCode attribute.
-     * 
+     *
      * @param assetLocationTypeCode The assetLocationTypeCode to set.
      */
     public void setAssetLocationTypeCode(String assetLocationTypeCode) {
@@ -116,7 +114,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
 
     /**
      * Gets the assetLocationContactName attribute.
-     * 
+     *
      * @return Returns the assetLocationContactName
      */
     public String getAssetLocationContactName() {
@@ -125,7 +123,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
 
     /**
      * Sets the assetLocationContactName attribute.
-     * 
+     *
      * @param assetLocationContactName The assetLocationContactName to set.
      */
     public void setAssetLocationContactName(String assetLocationContactName) {
@@ -135,7 +133,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
 
     /**
      * Gets the assetLocationContactIdentifier attribute.
-     * 
+     *
      * @return Returns the assetLocationContactIdentifier
      */
     public String getAssetLocationContactIdentifier() {
@@ -144,7 +142,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
 
     /**
      * Sets the assetLocationContactIdentifier attribute.
-     * 
+     *
      * @param assetLocationContactIdentifier The assetLocationContactIdentifier to set.
      */
     public void setAssetLocationContactIdentifier(String assetLocationContactIdentifier) {
@@ -154,7 +152,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
 
     /**
      * Gets the assetLocationInstitutionName attribute.
-     * 
+     *
      * @return Returns the assetLocationInstitutionName
      */
     public String getAssetLocationInstitutionName() {
@@ -163,7 +161,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
 
     /**
      * Sets the assetLocationInstitutionName attribute.
-     * 
+     *
      * @param assetLocationInstitutionName The assetLocationInstitutionName to set.
      */
     public void setAssetLocationInstitutionName(String assetLocationInstitutionName) {
@@ -173,7 +171,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
 
     /**
      * Gets the assetLocationPhoneNumber attribute.
-     * 
+     *
      * @return Returns the assetLocationPhoneNumber
      */
     public String getAssetLocationPhoneNumber() {
@@ -182,7 +180,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
 
     /**
      * Sets the assetLocationPhoneNumber attribute.
-     * 
+     *
      * @param assetLocationPhoneNumber The assetLocationPhoneNumber to set.
      */
     public void setAssetLocationPhoneNumber(String assetLocationPhoneNumber) {
@@ -192,7 +190,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
 
     /**
      * Gets the assetLocationStreetAddress attribute.
-     * 
+     *
      * @return Returns the assetLocationStreetAddress
      */
     public String getAssetLocationStreetAddress() {
@@ -201,7 +199,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
 
     /**
      * Sets the assetLocationStreetAddress attribute.
-     * 
+     *
      * @param assetLocationStreetAddress The assetLocationStreetAddress to set.
      */
     public void setAssetLocationStreetAddress(String assetLocationStreetAddress) {
@@ -211,7 +209,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
 
     /**
      * Gets the assetLocationCityName attribute.
-     * 
+     *
      * @return Returns the assetLocationCityName
      */
     public String getAssetLocationCityName() {
@@ -220,7 +218,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
 
     /**
      * Sets the assetLocationCityName attribute.
-     * 
+     *
      * @param assetLocationCityName The assetLocationCityName to set.
      */
     public void setAssetLocationCityName(String assetLocationCityName) {
@@ -230,7 +228,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
 
     /**
      * Gets the assetLocationStateCode attribute.
-     * 
+     *
      * @return Returns the assetLocationStateCode
      */
     public String getAssetLocationStateCode() {
@@ -239,7 +237,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
 
     /**
      * Sets the assetLocationStateCode attribute.
-     * 
+     *
      * @param assetLocationStateCode The assetLocationStateCode to set.
      */
     public void setAssetLocationStateCode(String assetLocationStateCode) {
@@ -249,7 +247,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
 
     /**
      * Gets the assetLocationCountryCode attribute.
-     * 
+     *
      * @return Returns the assetLocationCountryCode
      */
     public String getAssetLocationCountryCode() {
@@ -258,7 +256,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
 
     /**
      * Sets the assetLocationCountryCode attribute.
-     * 
+     *
      * @param assetLocationCountryCode The assetLocationCountryCode to set.
      */
     public void setAssetLocationCountryCode(String assetLocationCountryCode) {
@@ -268,7 +266,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
 
     /**
      * Gets the assetLocationZipCode attribute.
-     * 
+     *
      * @return Returns the assetLocationZipCode
      */
     public String getAssetLocationZipCode() {
@@ -277,7 +275,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
 
     /**
      * Sets the assetLocationZipCode attribute.
-     * 
+     *
      * @param assetLocationZipCode The assetLocationZipCode to set.
      */
     public void setAssetLocationZipCode(String assetLocationZipCode) {
@@ -286,7 +284,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
 
     /**
      * Gets the postalZipCode attribute.
-     * 
+     *
      * @return Returns the postalZipCode
      */
     public PostalCodeEbo getPostalZipCode() {
@@ -296,7 +294,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
 
     /**
      * Sets the postalZipCode attribute.
-     * 
+     *
      * @param postalZipCode The postalZipCode to set.
      */
     public void setPostalZipCode(PostalCodeEbo postalZipCode) {
@@ -305,7 +303,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
 
     /**
      * Gets the asset attribute.
-     * 
+     *
      * @return Returns the asset
      */
     public Asset getAsset() {
@@ -314,7 +312,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
 
     /**
      * Sets the asset attribute.
-     * 
+     *
      * @param asset The asset to set.
      * @deprecated
      */
@@ -324,7 +322,7 @@ public class AssetLocation extends PersistableBusinessObjectBase {
 
     /**
      * Gets the assetLocationType attribute.
-     * 
+     *
      * @return Returns the assetLocationType.
      */
     public AssetLocationType getAssetLocationType() {
@@ -333,24 +331,12 @@ public class AssetLocation extends PersistableBusinessObjectBase {
 
     /**
      * Sets the assetLocationType attribute value.
-     * 
+     *
      * @param assetLocationType The assetLocationType to set.
      * @deprecated
      */
     public void setAssetLocationType(AssetLocationType assetLocationType) {
         this.assetLocationType = assetLocationType;
-    }
-
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-        if (this.capitalAssetNumber != null) {
-            m.put("capitalAssetNumber", this.capitalAssetNumber.toString());
-        }
-        m.put("assetLocationTypeCode", this.assetLocationTypeCode);
-        return m;
     }
 
     public CountryEbo getAssetLocationCountry() {

@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,7 +18,6 @@ package org.kuali.kfs.module.cam.businessobject;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Properties;
 
@@ -51,124 +50,124 @@ import org.kuali.rice.location.framework.campus.CampusEbo;
 
 public class AssetBase extends PersistableBusinessObjectBase {
 
-    private Long capitalAssetNumber;
-    private String capitalAssetDescription;
-    private String capitalAssetTypeCode;
-    private String conditionCode;
-    private Date createDate;
-    private Date receiveDate;
-    private Date loanReturnDate;
-    private Date loanDate;
-    private Date expectedReturnDate;
-    private String financialDocumentPostingPeriodCode;
-    private Integer financialDocumentPostingYear;
-    private String organizationOwnerAccountNumber;
-    private String organizationOwnerChartOfAccountsCode;
-    private String vendorName;
-    private String acquisitionTypeCode;
-    private KualiDecimal totalCostAmount;
-    private KualiDecimal replacementAmount;
-    private KualiDecimal salePrice;
-    private KualiDecimal estimatedSellingPrice;
-    private KualiDecimal salvageAmount;
-    private String campusCode;
-    private String buildingCode;
-    private String buildingRoomNumber;
-    private String buildingSubRoomNumber;
-    private String retirementChartOfAccountsCode;
-    private String retirementAccountNumber;
-    private String retirementReasonCode;
-    private String retirementPeriodCode;
-    private Integer retirementFiscalYear;
-    private String cashReceiptFinancialDocumentNumber;
-    private String primaryDepreciationMethodCode;
-    private Date estimatedFabricationCompletionDate;
-    private KualiDecimal fabricationEstimatedTotalAmount;
-    private String transferOfFundsFinancialDocumentNumber;
-    private String inventoryStatusCode;
-    private String campusTagNumber;
-    private Timestamp lastInventoryDate;
-    private String organizationInventoryName;
-    private String oldTagNumber;
-    private String manufacturerName;
-    private String manufacturerModelNumber;
-    private String serialNumber;
-    private String representativeUniversalIdentifier;
-    private String agencyNumber;
-    private String campusPoliceDepartmentCaseNumber;
-    private String inventoryScannedCode;
-    private boolean active;
-    private Date capitalAssetInServiceDate;
-    private String governmentTagNumber;
-    private String nationalStockNumber;
-    private String landCountyName;
-    private Integer landAcreageSize;
-    private String landParcelNumber;
-    private Date depreciationDate;
-    private String financialObjectSubTypeCode;
-    private Integer fabricationEstimatedRetentionYears;
+    protected Long capitalAssetNumber;
+    protected String capitalAssetDescription;
+    protected String capitalAssetTypeCode;
+    protected String conditionCode;
+    protected Date createDate;
+    protected Date receiveDate;
+    protected Date loanReturnDate;
+    protected Date loanDate;
+    protected Date expectedReturnDate;
+    protected String financialDocumentPostingPeriodCode;
+    protected Integer financialDocumentPostingYear;
+    protected String organizationOwnerAccountNumber;
+    protected String organizationOwnerChartOfAccountsCode;
+    protected String vendorName;
+    protected String acquisitionTypeCode;
+    protected KualiDecimal totalCostAmount;
+    protected KualiDecimal replacementAmount;
+    protected KualiDecimal salePrice;
+    protected KualiDecimal estimatedSellingPrice;
+    protected KualiDecimal salvageAmount;
+    protected String campusCode;
+    protected String buildingCode;
+    protected String buildingRoomNumber;
+    protected String buildingSubRoomNumber;
+    protected String retirementChartOfAccountsCode;
+    protected String retirementAccountNumber;
+    protected String retirementReasonCode;
+    protected String retirementPeriodCode;
+    protected Integer retirementFiscalYear;
+    protected String cashReceiptFinancialDocumentNumber;
+    protected String primaryDepreciationMethodCode;
+    protected Date estimatedFabricationCompletionDate;
+    protected KualiDecimal fabricationEstimatedTotalAmount;
+    protected String transferOfFundsFinancialDocumentNumber;
+    protected String inventoryStatusCode;
+    protected String campusTagNumber;
+    protected Timestamp lastInventoryDate;
+    protected String organizationInventoryName;
+    protected String oldTagNumber;
+    protected String manufacturerName;
+    protected String manufacturerModelNumber;
+    protected String serialNumber;
+    protected String representativeUniversalIdentifier;
+    protected String agencyNumber;
+    protected String campusPoliceDepartmentCaseNumber;
+    protected String inventoryScannedCode;
+    protected boolean active;
+    protected Date capitalAssetInServiceDate;
+    protected String governmentTagNumber;
+    protected String nationalStockNumber;
+    protected String landCountyName;
+    protected Integer landAcreageSize;
+    protected String landParcelNumber;
+    protected Date depreciationDate;
+    protected String financialObjectSubTypeCode;
+    protected Integer fabricationEstimatedRetentionYears;
 
-    private AssetType capitalAssetType;
-    private Account organizationOwnerAccount;
-    private Chart organizationOwnerChartOfAccounts;
-    private CampusEbo campus;
-    private Room buildingRoom;
-    private Account retirementAccount;
-    private Chart retirementChartOfAccounts;
-    private AccountingPeriod financialDocumentPostingPeriod;
-    private Building building;
-    private AccountingPeriod retirementPeriod;
-    private AssetRetirementReason retirementReason;
-    private DocumentHeader cashReceiptFinancialDocument;
-    private DocumentHeader transferOfFundsFinancialDocument;
-    private AssetCondition condition;
-    private AssetStatus inventoryStatus;
-    private List<AssetPayment> assetPayments;
-    private Person assetRepresentative;
-    private Person borrowerPerson;
-    private AssetOrganization assetOrganization;
-    private String organizationTagNumber;
-    private List<AssetRepairHistory> assetRepairHistory;
-    private AssetWarranty assetWarranty;
-    private List<AssetComponent> assetComponents;
-    private List<AssetLocation> assetLocations;
-    private List<AssetRetirementGlobalDetail> assetRetirementHistory;
-    private AssetDepreciationMethod assetPrimaryDepreciationMethod;
-    private List<AssetRetirementGlobal> retirementGlobals;
-    private ObjectSubType financialObjectSubType;
-    private AssetAcquisitionType acquisitionType;
-    private ContractsAndGrantsAgency agency;
+    protected AssetType capitalAssetType;
+    protected Account organizationOwnerAccount;
+    protected Chart organizationOwnerChartOfAccounts;
+    protected CampusEbo campus;
+    protected Room buildingRoom;
+    protected Account retirementAccount;
+    protected Chart retirementChartOfAccounts;
+    protected AccountingPeriod financialDocumentPostingPeriod;
+    protected Building building;
+    protected AccountingPeriod retirementPeriod;
+    protected AssetRetirementReason retirementReason;
+    protected DocumentHeader cashReceiptFinancialDocument;
+    protected DocumentHeader transferOfFundsFinancialDocument;
+    protected AssetCondition condition;
+    protected AssetStatus inventoryStatus;
+    protected List<AssetPayment> assetPayments;
+    protected Person assetRepresentative;
+    protected Person borrowerPerson;
+    protected AssetOrganization assetOrganization;
+    protected String organizationTagNumber;
+    protected List<AssetRepairHistory> assetRepairHistory;
+    protected AssetWarranty assetWarranty;
+    protected List<AssetComponent> assetComponents;
+    protected List<AssetLocation> assetLocations;
+    protected List<AssetRetirementGlobalDetail> assetRetirementHistory;
+    protected AssetDepreciationMethod assetPrimaryDepreciationMethod;
+    protected List<AssetRetirementGlobal> retirementGlobals;
+    protected ObjectSubType financialObjectSubType;
+    protected AssetAcquisitionType acquisitionType;
+    protected ContractsAndGrantsAgency agency;
 
 
     // Non-persisted attributes:
-    private KualiDecimal paymentTotalCost;
-    private transient AssetGlobal separateHistory;
-    private List<AssetRetirementGlobalDetail> mergeHistory;
-    private KualiDecimal federalContribution;
-    private AssetRetirementGlobalDetail retirementInfo;
-    private AssetLocation offCampusLocation;
-    private AssetLocation borrowerLocation;
-    private AssetLocation borrowerStorageLocation;
+    protected KualiDecimal paymentTotalCost;
+    protected transient AssetGlobal separateHistory;
+    protected List<AssetRetirementGlobalDetail> mergeHistory;
+    protected KualiDecimal federalContribution;
+    protected AssetRetirementGlobalDetail retirementInfo;
+    protected AssetLocation offCampusLocation;
+    protected AssetLocation borrowerLocation;
+    protected AssetLocation borrowerStorageLocation;
     // calculated depreciation amounts
-    private KualiDecimal accumulatedDepreciation;
-    private KualiDecimal baseAmount;
-    private KualiDecimal bookValue;
-    private KualiDecimal prevYearDepreciation;
-    private KualiDecimal yearToDateDepreciation;
-    private KualiDecimal currentMonthDepreciation;
-    private Date depreciationDateCopy;
-    private transient Integer quantity;
-    private String lookup;
-    private String assetTransferDocumentLookup;
-    private String assetMaintenanceDocumentLookup;
-    private String assetFabricationDocumentLookup;
-    private String assetCreateOrSeparateDocumentLookup;
-    private String assetPaymentDocumentLookup;
-    private String assetEquipmentLoanOrReturnDocumentLookup;
-    private String assetLocationDocumentLookup;
-    private String assetMergeOrRetirementDocumentLookup;
-    private String camsComplexMaintenanceDocumentLookup;
-    private boolean tagged;
+    protected KualiDecimal accumulatedDepreciation;
+    protected KualiDecimal baseAmount;
+    protected KualiDecimal bookValue;
+    protected KualiDecimal prevYearDepreciation;
+    protected KualiDecimal yearToDateDepreciation;
+    protected KualiDecimal currentMonthDepreciation;
+    protected Date depreciationDateCopy;
+    protected transient Integer quantity;
+    protected String lookup;
+    protected String assetTransferDocumentLookup;
+    protected String assetMaintenanceDocumentLookup;
+    protected String assetFabricationDocumentLookup;
+    protected String assetCreateOrSeparateDocumentLookup;
+    protected String assetPaymentDocumentLookup;
+    protected String assetEquipmentLoanOrReturnDocumentLookup;
+    protected String assetLocationDocumentLookup;
+    protected String assetMergeOrRetirementDocumentLookup;
+    protected String camsComplexMaintenanceDocumentLookup;
+    protected boolean tagged;
 
     /**
      * Default constructor.
@@ -186,7 +185,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
     /**
      * Constructs a Asset object. Includes logic to properly set fields depending if it's creating a new asset or separating an
      * asset
-     * 
+     *
      * @param assetGlobal
      * @param assetGlobalDetail
      * @param separate if it's seprate an asset
@@ -324,7 +323,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the capitalAssetNumber attribute.
-     * 
+     *
      * @return Returns the capitalAssetNumber
      */
     public Long getCapitalAssetNumber() {
@@ -333,7 +332,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the capitalAssetNumber attribute.
-     * 
+     *
      * @param capitalAssetNumber The capitalAssetNumber to set.
      */
     public void setCapitalAssetNumber(Long capitalAssetNumber) {
@@ -343,7 +342,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the capitalAssetDescription attribute
-     * 
+     *
      * @return Returns the capitalAssetDescription
      */
     public String getCapitalAssetDescription() {
@@ -352,7 +351,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the capitalAssetDescription attribute.
-     * 
+     *
      * @param capitalAssetDescription The capitalAssetDescription to set.
      */
     public void setCapitalAssetDescription(String capitalAssetDescription) {
@@ -362,7 +361,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the capitalAssetTypeCode attribute.
-     * 
+     *
      * @return Returns the capitalAssetTypeCode
      */
     public String getCapitalAssetTypeCode() {
@@ -371,7 +370,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the capitalAssetTypeCode attribute.
-     * 
+     *
      * @param capitalAssetTypeCode The capitalAssetTypeCode to set.
      */
     public void setCapitalAssetTypeCode(String capitalAssetTypeCode) {
@@ -381,7 +380,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the conditionCode attribute.
-     * 
+     *
      * @return Returns the conditionCode
      */
     public String getConditionCode() {
@@ -390,7 +389,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the conditionCode attribute.
-     * 
+     *
      * @param conditionCode The conditionCode to set.
      */
     public void setConditionCode(String conditionCode) {
@@ -400,7 +399,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the createDate attribute.
-     * 
+     *
      * @return Returns the createDate
      */
     public Date getCreateDate() {
@@ -409,7 +408,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the createDate attribute.
-     * 
+     *
      * @param createDate The createDate to set.
      */
     public void setCreateDate(Date createDate) {
@@ -419,7 +418,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the receiveDate attribute.
-     * 
+     *
      * @return Returns the receiveDate
      */
     public Date getReceiveDate() {
@@ -428,7 +427,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the receiveDate attribute.
-     * 
+     *
      * @param receiveDate The receiveDate to set.
      */
     public void setReceiveDate(Date receiveDate) {
@@ -438,7 +437,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the loanReturnDate attribute.
-     * 
+     *
      * @return Returns the loanReturnDate
      */
     public Date getLoanReturnDate() {
@@ -447,7 +446,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the loanReturnDate attribute.
-     * 
+     *
      * @param loanReturnDate The loanReturnDate to set.
      */
     public void setLoanReturnDate(Date loanReturnDate) {
@@ -457,7 +456,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the loanDate attribute.
-     * 
+     *
      * @return Returns the loanDate
      */
     public Date getLoanDate() {
@@ -466,7 +465,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the loanDate attribute.
-     * 
+     *
      * @param loanDate The loanDate to set.
      */
     public void setLoanDate(Date loanDate) {
@@ -476,7 +475,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the expectedReturnDate attribute.
-     * 
+     *
      * @return Returns the expectedReturnDate
      */
     public Date getExpectedReturnDate() {
@@ -485,7 +484,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the expectedReturnDate attribute.
-     * 
+     *
      * @param expectedReturnDate The expectedReturnDate to set.
      */
     public void setExpectedReturnDate(Date expectedReturnDate) {
@@ -495,7 +494,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the financialDocumentPostingPeriodCode attribute.
-     * 
+     *
      * @return Returns the financialDocumentPostingPeriodCode
      */
     public String getFinancialDocumentPostingPeriodCode() {
@@ -504,7 +503,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialDocumentPostingPeriodCode attribute.
-     * 
+     *
      * @param financialDocumentPostingPeriodCode The financialDocumentPostingPeriodCode to set.
      */
     public void setFinancialDocumentPostingPeriodCode(String financialDocumentPostingPeriodCode) {
@@ -514,7 +513,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the financialDocumentPostingYear attribute.
-     * 
+     *
      * @return Returns the financialDocumentPostingYear
      */
     public Integer getFinancialDocumentPostingYear() {
@@ -523,7 +522,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialDocumentPostingYear attribute.
-     * 
+     *
      * @param financialDocumentPostingYear The financialDocumentPostingYear to set.
      */
     public void setFinancialDocumentPostingYear(Integer financialDocumentPostingYear) {
@@ -533,7 +532,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the organizationOwnerAccountNumber attribute.
-     * 
+     *
      * @return Returns the organizationOwnerAccountNumber
      */
     public String getOrganizationOwnerAccountNumber() {
@@ -542,7 +541,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the organizationOwnerAccountNumber attribute.
-     * 
+     *
      * @param organizationOwnerAccountNumber The organizationOwnerAccountNumber to set.
      */
     public void setOrganizationOwnerAccountNumber(String organizationOwnerAccountNumber) {
@@ -552,7 +551,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the organizationOwnerChartOfAccountsCode attribute.
-     * 
+     *
      * @return Returns the organizationOwnerChartOfAccountsCode
      */
     public String getOrganizationOwnerChartOfAccountsCode() {
@@ -561,7 +560,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the organizationOwnerChartOfAccountsCode attribute.
-     * 
+     *
      * @param organizationOwnerChartOfAccountsCode The organizationOwnerChartOfAccountsCode to set.
      */
     public void setOrganizationOwnerChartOfAccountsCode(String organizationOwnerChartOfAccountsCode) {
@@ -571,7 +570,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the vendorName attribute.
-     * 
+     *
      * @return Returns the vendorName
      */
     public String getVendorName() {
@@ -580,7 +579,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the vendorName attribute.
-     * 
+     *
      * @param vendorName The vendorName to set.
      */
     public void setVendorName(String vendorName) {
@@ -590,7 +589,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the acquisitionTypeCode attribute.
-     * 
+     *
      * @return Returns the acquisitionTypeCode
      */
     public String getAcquisitionTypeCode() {
@@ -599,7 +598,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the acquisitionTypeCode attribute.
-     * 
+     *
      * @param acquisitionTypeCode The acquisitionTypeCode to set.
      */
     public void setAcquisitionTypeCode(String acquisitionTypeCode) {
@@ -609,7 +608,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the totalCostAmount attribute.
-     * 
+     *
      * @return Returns the totalCostAmount
      */
     public KualiDecimal getTotalCostAmount() {
@@ -618,7 +617,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the totalCostAmount attribute.
-     * 
+     *
      * @param totalCostAmount The totalCostAmount to set.
      */
     public void setTotalCostAmount(KualiDecimal totalCostAmount) {
@@ -628,7 +627,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the replacementAmount attribute.
-     * 
+     *
      * @return Returns the replacementAmount
      */
     public KualiDecimal getReplacementAmount() {
@@ -637,7 +636,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the replacementAmount attribute.
-     * 
+     *
      * @param replacementAmount The replacementAmount to set.
      */
     public void setReplacementAmount(KualiDecimal replacementAmount) {
@@ -647,7 +646,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the salePrice attribute.
-     * 
+     *
      * @return Returns the salePrice
      */
     public KualiDecimal getSalePrice() {
@@ -656,7 +655,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the salePrice attribute.
-     * 
+     *
      * @param salePrice The salePrice to set.
      */
     public void setSalePrice(KualiDecimal salePrice) {
@@ -666,7 +665,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the estimatedSellingPrice attribute.
-     * 
+     *
      * @return Returns the estimatedSellingPrice
      */
     public KualiDecimal getEstimatedSellingPrice() {
@@ -675,7 +674,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the estimatedSellingPrice attribute.
-     * 
+     *
      * @param estimatedSellingPrice The estimatedSellingPrice to set.
      */
     public void setEstimatedSellingPrice(KualiDecimal estimatedSellingPrice) {
@@ -685,7 +684,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the salvageAmount attribute.
-     * 
+     *
      * @return Returns the salvageAmount
      */
     public KualiDecimal getSalvageAmount() {
@@ -695,7 +694,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the salvageAmount attribute.
-     * 
+     *
      * @param salvageAmount The salvageAmount to set.
      */
     public void setSalvageAmount(KualiDecimal salvageAmount) {
@@ -705,7 +704,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the campusCode attribute.
-     * 
+     *
      * @return Returns the campusCode
      */
     public String getCampusCode() {
@@ -714,7 +713,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the campusCode attribute.
-     * 
+     *
      * @param campusCode The campusCode to set.
      */
     public void setCampusCode(String campusCode) {
@@ -724,7 +723,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the buildingCode attribute.
-     * 
+     *
      * @return Returns the buildingCode
      */
     public String getBuildingCode() {
@@ -733,7 +732,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the buildingCode attribute.
-     * 
+     *
      * @param buildingCode The buildingCode to set.
      */
     public void setBuildingCode(String buildingCode) {
@@ -743,7 +742,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the buildingRoomNumber attribute.
-     * 
+     *
      * @return Returns the buildingRoomNumber
      */
     public String getBuildingRoomNumber() {
@@ -752,7 +751,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the buildingRoomNumber attribute.
-     * 
+     *
      * @param buildingRoomNumber The buildingRoomNumber to set.
      */
     public void setBuildingRoomNumber(String buildingRoomNumber) {
@@ -762,7 +761,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the buildingSubRoomNumber attribute.
-     * 
+     *
      * @return Returns the buildingSubRoomNumber
      */
     public String getBuildingSubRoomNumber() {
@@ -771,7 +770,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the buildingSubRoomNumber attribute.
-     * 
+     *
      * @param buildingSubRoomNumber The buildingSubRoomNumber to set.
      */
     public void setBuildingSubRoomNumber(String buildingSubRoomNumber) {
@@ -781,7 +780,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the retirementChartOfAccountsCode attribute.
-     * 
+     *
      * @return Returns the retirementChartOfAccountsCode
      */
     public String getRetirementChartOfAccountsCode() {
@@ -790,7 +789,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the retirementChartOfAccountsCode attribute.
-     * 
+     *
      * @param retirementChartOfAccountsCode The retirementChartOfAccountsCode to set.
      */
     public void setRetirementChartOfAccountsCode(String retirementChartOfAccountsCode) {
@@ -800,7 +799,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the retirementAccountNumber attribute.
-     * 
+     *
      * @return Returns the retirementAccountNumber
      */
     public String getRetirementAccountNumber() {
@@ -809,7 +808,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the retirementAccountNumber attribute.
-     * 
+     *
      * @param retirementAccountNumber The retirementAccountNumber to set.
      */
     public void setRetirementAccountNumber(String retirementAccountNumber) {
@@ -819,7 +818,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the retirementReasonCode attribute.
-     * 
+     *
      * @return Returns the retirementReasonCode
      */
     public String getRetirementReasonCode() {
@@ -828,7 +827,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the retirementReasonCode attribute.
-     * 
+     *
      * @param retirementReasonCode The retirementReasonCode to set.
      */
     public void setRetirementReasonCode(String retirementReasonCode) {
@@ -838,7 +837,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the retirementPeriodCode attribute.
-     * 
+     *
      * @return Returns the retirementPeriodCode
      */
     public String getRetirementPeriodCode() {
@@ -847,7 +846,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the retirementPeriodCode attribute.
-     * 
+     *
      * @param retirementPeriodCode The retirementPeriodCode to set.
      */
     public void setRetirementPeriodCode(String retirementPeriodCode) {
@@ -857,7 +856,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the retirementFiscalYear attribute.
-     * 
+     *
      * @return Returns the retirementFiscalYear
      */
     public Integer getRetirementFiscalYear() {
@@ -866,7 +865,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the retirementFiscalYear attribute.
-     * 
+     *
      * @param retirementFiscalYear The retirementFiscalYear to set.
      */
     public void setRetirementFiscalYear(Integer retirementFiscalYear) {
@@ -875,7 +874,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the cashReceiptFinancialDocumentNumber attribute.
-     * 
+     *
      * @return Returns the cashReceiptFinancialDocumentNumber
      */
     public String getCashReceiptFinancialDocumentNumber() {
@@ -884,7 +883,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the cashReceiptFinancialDocumentNumber attribute.
-     * 
+     *
      * @param cashReceiptFinancialDocumentNumber The cashReceiptFinancialDocumentNumber to set.
      */
     public void setCashReceiptFinancialDocumentNumber(String cashReceiptFinancialDocumentNumber) {
@@ -894,7 +893,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the primaryDepreciationMethodCode attribute.
-     * 
+     *
      * @return Returns the primaryDepreciationMethodCode
      */
     public String getPrimaryDepreciationMethodCode() {
@@ -903,7 +902,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the primaryDepreciationMethodCode attribute.
-     * 
+     *
      * @param primaryDepreciationMethodCode The primaryDepreciationMethodCode to set.
      */
     public void setPrimaryDepreciationMethodCode(String primaryDepreciationMethodCode) {
@@ -913,7 +912,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the estimatedFabricationCompletionDate attribute.
-     * 
+     *
      * @return Returns the estimatedFabricationCompletionDate
      */
     public Date getEstimatedFabricationCompletionDate() {
@@ -922,7 +921,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the estimatedFabricationCompletionDate attribute.
-     * 
+     *
      * @param estimatedFabricationCompletionDate The estimatedFabricationCompletionDate to set.
      */
     public void setEstimatedFabricationCompletionDate(Date estimatedFabricationCompletionDate) {
@@ -932,7 +931,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the fabricationEstimatedTotalAmount attribute.
-     * 
+     *
      * @return Returns the fabricationEstimatedTotalAmount
      */
     public KualiDecimal getFabricationEstimatedTotalAmount() {
@@ -941,7 +940,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the fabricationEstimatedTotalAmount attribute.
-     * 
+     *
      * @param fabricationEstimatedTotalAmount The fabricationEstimatedTotalAmount to set.
      */
     public void setFabricationEstimatedTotalAmount(KualiDecimal fabricationEstimatedTotalAmount) {
@@ -950,7 +949,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the transferOfFundsFinancialDocumentNumber attribute.
-     * 
+     *
      * @return Returns the transferOfFundsFinancialDocumentNumber
      */
     public String getTransferOfFundsFinancialDocumentNumber() {
@@ -959,7 +958,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the transferOfFundsFinancialDocumentNumber attribute.
-     * 
+     *
      * @param transferOfFundsFinancialDocumentNumber The transferOfFundsFinancialDocumentNumber to set.
      */
     public void setTransferOfFundsFinancialDocumentNumber(String transferOfFundsFinancialDocumentNumber) {
@@ -968,7 +967,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the inventoryStatusCode attribute.
-     * 
+     *
      * @return Returns the inventoryStatusCode
      */
     public String getInventoryStatusCode() {
@@ -977,7 +976,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the inventoryStatusCode attribute.
-     * 
+     *
      * @param inventoryStatusCode The inventoryStatusCode to set.
      */
     public void setInventoryStatusCode(String inventoryStatusCode) {
@@ -986,7 +985,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the campusTagNumber attribute.
-     * 
+     *
      * @return Returns the campusTagNumber
      */
     public String getCampusTagNumber() {
@@ -995,7 +994,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the campusTagNumber attribute.
-     * 
+     *
      * @param campusTagNumber The campusTagNumber to set.
      */
     public void setCampusTagNumber(String campusTagNumber) {
@@ -1005,7 +1004,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the lastInventoryDate attribute.
-     * 
+     *
      * @return Returns the lastInventoryDate
      */
     public Timestamp getLastInventoryDate() {
@@ -1014,7 +1013,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the lastInventoryDate attribute.
-     * 
+     *
      * @param lastInventoryDate The lastInventoryDate to set.
      */
     public void setLastInventoryDate(Timestamp lastInventoryDate) {
@@ -1024,7 +1023,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the organizationInventoryName attribute.
-     * 
+     *
      * @return Returns the organizationInventoryName
      */
     public String getOrganizationInventoryName() {
@@ -1033,7 +1032,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the organizationInventoryName attribute.
-     * 
+     *
      * @param organizationInventoryName The organizationInventoryName to set.
      */
     public void setOrganizationInventoryName(String organizationInventoryName) {
@@ -1043,7 +1042,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the oldTagNumber attribute.
-     * 
+     *
      * @return Returns the oldTagNumber
      */
     public String getOldTagNumber() {
@@ -1052,7 +1051,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the oldTagNumber attribute.
-     * 
+     *
      * @param oldTagNumber The oldTagNumber to set.
      */
     public void setOldTagNumber(String oldTagNumber) {
@@ -1062,7 +1061,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the manufacturerName attribute.
-     * 
+     *
      * @return Returns the manufacturerName
      */
     public String getManufacturerName() {
@@ -1071,7 +1070,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the manufacturerName attribute.
-     * 
+     *
      * @param manufacturerName The manufacturerName to set.
      */
     public void setManufacturerName(String manufacturerName) {
@@ -1081,7 +1080,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the manufacturerModelNumber attribute.
-     * 
+     *
      * @return Returns the manufacturerModelNumber
      */
     public String getManufacturerModelNumber() {
@@ -1090,7 +1089,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the manufacturerModelNumber attribute.
-     * 
+     *
      * @param manufacturerModelNumber The manufacturerModelNumber to set.
      */
     public void setManufacturerModelNumber(String manufacturerModelNumber) {
@@ -1100,7 +1099,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the serialNumber attribute.
-     * 
+     *
      * @return Returns the serialNumber
      */
     public String getSerialNumber() {
@@ -1109,7 +1108,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the serialNumber attribute.
-     * 
+     *
      * @param serialNumber The serialNumber to set.
      */
     public void setSerialNumber(String serialNumber) {
@@ -1119,7 +1118,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the representativeUniversalIdentifier attribute.
-     * 
+     *
      * @return Returns the representativeUniversalIdentifier
      */
     public String getRepresentativeUniversalIdentifier() {
@@ -1128,7 +1127,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the representativeUniversalIdentifier attribute.
-     * 
+     *
      * @param representativeUniversalIdentifier The representativeUniversalIdentifier to set.
      */
     public void setRepresentativeUniversalIdentifier(String representativeUniversalIdentifier) {
@@ -1138,7 +1137,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the agencyNumber attribute.
-     * 
+     *
      * @return Returns the agencyNumber
      */
     public String getAgencyNumber() {
@@ -1147,7 +1146,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the agencyNumber attribute.
-     * 
+     *
      * @param agencyNumber The agencyNumber to set.
      */
     public void setAgencyNumber(String agencyNumber) {
@@ -1157,7 +1156,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the campusPoliceDepartmentCaseNumber attribute.
-     * 
+     *
      * @return Returns the campusPoliceDepartmentCaseNumber
      */
     public String getCampusPoliceDepartmentCaseNumber() {
@@ -1166,7 +1165,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the campusPoliceDepartmentCaseNumber attribute.
-     * 
+     *
      * @param campusPoliceDepartmentCaseNumber The campusPoliceDepartmentCaseNumber to set.
      */
     public void setCampusPoliceDepartmentCaseNumber(String campusPoliceDepartmentCaseNumber) {
@@ -1176,7 +1175,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the inventoryScannedCode attribute.
-     * 
+     *
      * @return Returns the inventoryScannedCode
      */
     public String getInventoryScannedCode() {
@@ -1185,7 +1184,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the inventoryScannedCode attribute.
-     * 
+     *
      * @param inventoryScannedCode The inventoryScannedCode to set.
      */
     public void setInventoryScannedCode(String inventoryScannedCode) {
@@ -1194,7 +1193,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the capitalAssetInServiceDate attribute.
-     * 
+     *
      * @return Returns the capitalAssetInServiceDate.
      */
     public Date getCapitalAssetInServiceDate() {
@@ -1203,7 +1202,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the capitalAssetInServiceDate attribute value.
-     * 
+     *
      * @param capitalAssetInServiceDate The capitalAssetInServiceDate to set.
      */
     public void setCapitalAssetInServiceDate(Date capitalAssetInServiceDate) {
@@ -1212,7 +1211,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the governmentTagNumber attribute.
-     * 
+     *
      * @return Returns the governmentTagNumber.
      */
     public String getGovernmentTagNumber() {
@@ -1221,7 +1220,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the governmentTagNumber attribute value.
-     * 
+     *
      * @param governmentTagNumber The governmentTagNumber to set.
      */
     public void setGovernmentTagNumber(String governmentTagNumber) {
@@ -1230,7 +1229,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the nationalStockNumber attribute.
-     * 
+     *
      * @return Returns the nationalStockNumber.
      */
     public String getNationalStockNumber() {
@@ -1239,7 +1238,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the nationalStockNumber attribute value.
-     * 
+     *
      * @param nationalStockNumber The nationalStockNumber to set.
      */
     public void setNationalStockNumber(String nationalStockNumber) {
@@ -1248,7 +1247,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the landAcreageSize attribute.
-     * 
+     *
      * @return Returns the landAcreageSize.
      */
     public Integer getLandAcreageSize() {
@@ -1257,7 +1256,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the landAcreageSize attribute value.
-     * 
+     *
      * @param landAcreageSize The landAcreageSize to set.
      */
     public void setLandAcreageSize(Integer landAcreageSize) {
@@ -1266,7 +1265,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the landCountyName attribute.
-     * 
+     *
      * @return Returns the landCountyName.
      */
     public String getLandCountyName() {
@@ -1275,7 +1274,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the landCountyName attribute value.
-     * 
+     *
      * @param landCountyName The landCountyName to set.
      */
     public void setLandCountyName(String landCountyName) {
@@ -1284,7 +1283,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the landParcelNumber attribute.
-     * 
+     *
      * @return Returns the landParcelNumber.
      */
     public String getLandParcelNumber() {
@@ -1293,7 +1292,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the landParcelNumber attribute value.
-     * 
+     *
      * @param landParcelNumber The landParcelNumber to set.
      */
     public void setLandParcelNumber(String landParcelNumber) {
@@ -1302,7 +1301,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the depreciationDate attribute.
-     * 
+     *
      * @return Returns the depreciationDate.
      */
     public Date getDepreciationDate() {
@@ -1311,7 +1310,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the depreciationDate attribute value.
-     * 
+     *
      * @param depreciationDate The depreciationDate to set.
      */
     public void setDepreciationDate(Date depreciationDate) {
@@ -1320,7 +1319,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the capitalAssetType attribute.
-     * 
+     *
      * @return Returns the capitalAssetType
      */
     public AssetType getCapitalAssetType() {
@@ -1329,7 +1328,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the capitalAssetType attribute.
-     * 
+     *
      * @param capitalAssetType The capitalAssetType to set.
      * @deprecated
      */
@@ -1339,7 +1338,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the organizationOwnerAccount attribute.
-     * 
+     *
      * @return Returns the organizationOwnerAccount
      */
     public Account getOrganizationOwnerAccount() {
@@ -1348,7 +1347,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the organizationOwnerAccount attribute.
-     * 
+     *
      * @param organizationOwnerAccount The organizationOwnerAccount to set.
      * @deprecated
      */
@@ -1358,7 +1357,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the organizationOwnerChartOfAccounts attribute.
-     * 
+     *
      * @return Returns the organizationOwnerChartOfAccounts
      */
     public Chart getOrganizationOwnerChartOfAccounts() {
@@ -1367,7 +1366,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the organizationOwnerChartOfAccounts attribute.
-     * 
+     *
      * @param organizationOwnerChartOfAccounts The organizationOwnerChartOfAccounts to set.
      * @deprecated
      */
@@ -1377,7 +1376,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the campus attribute.
-     * 
+     *
      * @return Returns the campus
      */
     public CampusEbo getCampus() {
@@ -1386,7 +1385,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the campus attribute.
-     * 
+     *
      * @param campus The campus to set.
      * @deprecated
      */
@@ -1396,7 +1395,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the buildingRoom attribute.
-     * 
+     *
      * @return Returns the buildingRoom
      */
     public Room getBuildingRoom() {
@@ -1405,7 +1404,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the buildingRoom attribute.
-     * 
+     *
      * @param buildingRoom The buildingRoom to set.
      * @deprecated
      */
@@ -1415,7 +1414,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the retirementAccount attribute.
-     * 
+     *
      * @return Returns the retirementAccount
      */
     public Account getRetirementAccount() {
@@ -1424,7 +1423,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the retirementAccount attribute.
-     * 
+     *
      * @param retirementAccount The retirementAccount to set.
      * @deprecated
      */
@@ -1434,7 +1433,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the retirementChartOfAccounts attribute.
-     * 
+     *
      * @return Returns the retirementChartOfAccounts
      */
     public Chart getRetirementChartOfAccounts() {
@@ -1443,7 +1442,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the retirementChartOfAccounts attribute.
-     * 
+     *
      * @param retirementChartOfAccounts The retirementChartOfAccounts to set.
      * @deprecated
      */
@@ -1453,7 +1452,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the building attribute.
-     * 
+     *
      * @return Returns the building.
      */
     public Building getBuilding() {
@@ -1462,7 +1461,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the building attribute value.
-     * 
+     *
      * @param building The building to set.
      * @deprecated
      */
@@ -1472,7 +1471,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the cashReceiptFinancialDocument attribute.
-     * 
+     *
      * @return Returns the cashReceiptFinancialDocument.
      */
     public DocumentHeader getCashReceiptFinancialDocument() {
@@ -1481,7 +1480,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the cashReceiptFinancialDocument attribute value.
-     * 
+     *
      * @param cashReceiptFinancialDocument The cashReceiptFinancialDocument to set.
      * @deprecated
      */
@@ -1491,7 +1490,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the retirementPeriod attribute.
-     * 
+     *
      * @return Returns the retirementPeriod.
      */
     public AccountingPeriod getRetirementPeriod() {
@@ -1500,7 +1499,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the retirementPeriod attribute value.
-     * 
+     *
      * @param retirementPeriod The retirementPeriod to set.
      * @deprecated
      */
@@ -1510,7 +1509,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the retirementReason attribute.
-     * 
+     *
      * @return Returns the retirementReason.
      */
     public AssetRetirementReason getRetirementReason() {
@@ -1519,7 +1518,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the retirementReason attribute value.
-     * 
+     *
      * @param retirementReason The retirementReason to set.
      * @deprecated
      */
@@ -1529,7 +1528,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the transferOfFundsFinancialDocument attribute.
-     * 
+     *
      * @return Returns the transferOfFundsFinancialDocument.
      */
     public DocumentHeader getTransferOfFundsFinancialDocument() {
@@ -1538,7 +1537,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the transferOfFundsFinancialDocument attribute value.
-     * 
+     *
      * @param transferOfFundsFinancialDocument The transferOfFundsFinancialDocument to set.
      * @deprecated
      */
@@ -1548,7 +1547,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the financialDocumentPostingPeriod attribute.
-     * 
+     *
      * @return Returns the financialDocumentPostingPeriod.
      */
     public AccountingPeriod getFinancialDocumentPostingPeriod() {
@@ -1557,7 +1556,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialDocumentPostingPeriod attribute value.
-     * 
+     *
      * @param financialDocumentPostingPeriod The financialDocumentPostingPeriod to set.
      * @deprecated
      */
@@ -1567,7 +1566,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the condition attribute.
-     * 
+     *
      * @return Returns the condition.
      */
     public AssetCondition getCondition() {
@@ -1576,7 +1575,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the condition attribute value.
-     * 
+     *
      * @param condition The condition to set.
      * @deprecated
      */
@@ -1586,7 +1585,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the active attribute.
-     * 
+     *
      * @return Returns the active
      */
     public boolean isActive() {
@@ -1595,23 +1594,11 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the active attribute.
-     * 
+     *
      * @param active The active to set.
      */
     public void setActive(boolean active) {
         this.active = active;
-    }
-
-
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
-        if (this.capitalAssetNumber != null) {
-            m.put("capitalAssetNumber", this.capitalAssetNumber.toString());
-        }
-        return m;
     }
 
     public List<AssetPayment> getAssetPayments() {
@@ -1624,7 +1611,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the inventoryStatus attribute.
-     * 
+     *
      * @return Returns the inventoryStatus.
      */
     public AssetStatus getInventoryStatus() {
@@ -1633,7 +1620,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the inventoryStatus attribute value.
-     * 
+     *
      * @param inventoryStatus The inventoryStatus to set.
      */
     public void setInventoryStatus(AssetStatus inventoryStatus) {
@@ -1642,7 +1629,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the assetRepresentative attribute.
-     * 
+     *
      * @return Returns the assetRepresentative.
      */
     public Person getAssetRepresentative() {
@@ -1652,7 +1639,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the assetRepresentative attribute value.
-     * 
+     *
      * @deprecated
      * @param assetRepresentative The assetRepresentative to set.
      */
@@ -1663,7 +1650,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the borrowerPerson attribute.
-     * 
+     *
      * @return Returns the borrowerPerson.
      */
     public Person getBorrowerPerson() {
@@ -1675,7 +1662,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the borrowerPerson attribute value.
-     * 
+     *
      * @param borrowerPerson The borrowerPerson to set.
      */
     public void setBorrowerPerson(Person borrowerPerson) {
@@ -1684,7 +1671,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the assetOrganization attribute.
-     * 
+     *
      * @return Returns the assetOrganization.
      */
     public AssetOrganization getAssetOrganization() {
@@ -1693,7 +1680,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the assetOrganization attribute value.
-     * 
+     *
      * @param assetOrganization The assetOrganization to set.
      */
     public void setAssetOrganization(AssetOrganization assetOrganization) {
@@ -1702,7 +1689,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the organizationTagNumber attribute.
-     * 
+     *
      * @return Returns the organizationTagNumber.
      */
     public String getOrganizationTagNumber() {
@@ -1711,7 +1698,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the organizationTagNumber attribute value.
-     * 
+     *
      * @param organizationTagNumber The organizationTagNumber to set.
      */
     public void setOrganizationTagNumber(String organizationTagNumber) {
@@ -1736,7 +1723,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the paymentTotalCost attribute.
-     * 
+     *
      * @return Returns the paymentTotalCost.
      */
     public KualiDecimal getPaymentTotalCost() {
@@ -1745,7 +1732,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the paymentTotalCost attribute value.
-     * 
+     *
      * @param paymentTotalCost The paymentTotalCost to set.
      */
     public void setPaymentTotalCost(KualiDecimal paymentTotalCost) {
@@ -1762,7 +1749,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the federalContribution attribute.
-     * 
+     *
      * @return Returns the federalContribution.
      */
     public KualiDecimal getFederalContribution() {
@@ -1771,7 +1758,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the federalContribution attribute value.
-     * 
+     *
      * @param federalContribution The federalContribution to set.
      */
     public void setFederalContribution(KualiDecimal federalContribution) {
@@ -1820,7 +1807,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the fabricationEstimatedRetentionYears attribute.
-     * 
+     *
      * @return Returns the fabricationEstimatedRetentionYears.
      */
     public Integer getFabricationEstimatedRetentionYears() {
@@ -1829,7 +1816,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the fabricationEstimatedRetentionYears attribute value.
-     * 
+     *
      * @param fabricationEstimatedRetentionYears The fabricationEstimatedRetentionYears to set.
      */
     public void setFabricationEstimatedRetentionYears(Integer fabricationEstimatedRetentionYears) {
@@ -1863,7 +1850,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the financialObjectSubTypeCode attribute.
-     * 
+     *
      * @return Returns the financialObjectSubTypeCode.
      */
     public String getFinancialObjectSubTypeCode() {
@@ -1872,7 +1859,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialObjectSubTypeCode attribute value.
-     * 
+     *
      * @param financialObjectSubTypeCode The financialObjectSubTypeCode to set.
      */
     public void setFinancialObjectSubTypeCode(String financialObjectSubTypeCode) {
@@ -1881,7 +1868,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the financialObjectSubType attribute.
-     * 
+     *
      * @return Returns the financialObjectSubType.
      */
     public ObjectSubType getFinancialObjectSubType() {
@@ -1890,7 +1877,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialObjectSubType attribute value.
-     * 
+     *
      * @param financialObjectSubType The financialObjectSubType to set.
      * @deprecated
      */
@@ -1927,7 +1914,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
      * the following hack:<br>
      * ObjectUtils.materializeAllSubObjects(oldBo); // hack to resolve XStream not dealing well with Proxies<br>
      * so as long as that is there we need this setter otherwise a NoSuchMethodException occurs.
-     * 
+     *
      * @deprecated
      */
     public void setAgency(ContractsAndGrantsAgency agency) {
@@ -1948,7 +1935,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the borrowerLocation attribute.
-     * 
+     *
      * @return Returns the borrowerLocation.
      */
     public AssetLocation getBorrowerLocation() {
@@ -1957,7 +1944,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the borrowerLocation attribute value.
-     * 
+     *
      * @param borrowerLocation The borrowerLocation to set.
      */
     public void setBorrowerLocation(AssetLocation borrowerLocation) {
@@ -1966,7 +1953,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the borrowerStorageLocation attribute.
-     * 
+     *
      * @return Returns the borrowerStorageLocation.
      */
     public AssetLocation getBorrowerStorageLocation() {
@@ -1975,7 +1962,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Sets the borrowerStorageLocation attribute value.
-     * 
+     *
      * @param borrowerStorageLocation The borrowerStorageLocation to set.
      */
     public void setBorrowerStorageLocation(AssetLocation borrowerStorageLocation) {
@@ -1985,7 +1972,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Return the link for payment lookup
-     * 
+     *
      * @return
      */
     public String getLookup() {
@@ -2005,10 +1992,10 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Build the properties collection for document lookup link. This link will be used for related document lookup.
-     * 
+     *
      * @return
      */
-    private Properties buildDocumentLookupLinkProperties() {
+    protected Properties buildDocumentLookupLinkProperties() {
         Properties params = new Properties();
         params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
         params.put(KFSConstants.DOC_FORM_KEY, "88888888");
@@ -2022,7 +2009,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * return the link for asset transfer document lookup for given capital asset number.
-     * 
+     *
      * @return
      */
     public String getAssetTransferDocumentLookup() {
@@ -2037,7 +2024,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * return the link for asset maintenance document lookup for given capital asset number.
-     * 
+     *
      * @return
      */
     public String getAssetMaintenanceDocumentLookup() {
@@ -2052,7 +2039,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * return the link for asset fabrication document lookup for given capital asset number.
-     * 
+     *
      * @return
      */
     public String getAssetFabricationDocumentLookup() {
@@ -2067,7 +2054,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * return the link for asset create or separate global document lookup for given capital asset number.
-     * 
+     *
      * @return
      */
     public String getAssetCreateOrSeparateDocumentLookup() {
@@ -2082,7 +2069,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * return the link for asset payment document lookup for given capital asset number.
-     * 
+     *
      * @return
      */
     public String getAssetPaymentDocumentLookup() {
@@ -2097,7 +2084,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * return the link for asset equipment loan or return document lookup for given capital asset number.
-     * 
+     *
      * @return
      */
     public String getAssetEquipmentLoanOrReturnDocumentLookup() {
@@ -2112,7 +2099,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * return the link for asset location global document lookup for given capital asset number.
-     * 
+     *
      * @return
      */
     public String getAssetLocationDocumentLookup() {
@@ -2127,7 +2114,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * return the link for asset retirement or merge document lookup for given capital asset number.
-     * 
+     *
      * @return
      */
     public String getAssetMergeOrRetirementDocumentLookup() {
@@ -2143,7 +2130,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * Gets the camsComplexMaintenanceDocumentLookup attribute.
-     * 
+     *
      * @return Returns the camsComplexMaintenanceDocumentLookup.
      */
     public String getCamsComplexMaintenanceDocumentLookup() {
@@ -2159,7 +2146,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
     /**
      * override this method so we can remove the offcampus location
-     * 
+     *
      * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
     @Override

@@ -89,7 +89,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
         criteria.put(KFSPropertyConstants.ORGANIZATION_CODE, organizationCode);
-        criteria.put(KFSPropertyConstants.ACTIVE, Boolean.FALSE);
+        criteria.put(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
         return new ArrayList<Account>( boService.findMatching(Account.class, criteria) );
     }
 

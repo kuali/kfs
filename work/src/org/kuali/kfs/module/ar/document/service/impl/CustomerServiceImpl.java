@@ -27,6 +27,7 @@ import org.kuali.kfs.module.ar.document.CustomerInvoiceWriteoffDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -143,6 +144,7 @@ public class CustomerServiceImpl implements CustomerService {
                 Note newBONote = new Note();
                 newBONote.setNoteText(customerNote);
                 newBONote.setNotePostedTimestampToCurrent();
+                newBONote.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
                 Note note = noteService.createNote(newBONote, customer, GlobalVariables.getUserSession().getPrincipalId());
                 noteService.save(note); 
               }

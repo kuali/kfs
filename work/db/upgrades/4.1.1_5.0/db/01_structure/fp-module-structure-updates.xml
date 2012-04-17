@@ -380,5 +380,89 @@
 			<replace replace='VARCHAR2' with='VARCHAR' />
 		</modifySql>		
 	</changeSet>
+	
+  <changeSet author='samuel' id='KFS_50_Add_ACCTG_CTGRY_CD'>
+    <comment>KFSMI-KFSMI-7873 Add ACCTG_CTGRY_CD to object/level consolidaiton temp tables</comment>
+    <addColumn tableName='FP_BAL_BY_LEVEL_MT'>
+      <column name='ACCTG_CTGRY_CD' type='VARCHAR2(2)' />
+    </addColumn>
+  
+    <addColumn tableName='FP_BAL_BY_OBJ_MT'>
+      <column name='ACCTG_CTGRY_CD' type='VARCHAR2(2)' />
+    </addColumn>
 
+    <createTable tableName='FP_INTERIM2_LEVEL_MT'>
+      <column name='SESID' type='VARCHAR2(36)'>
+        <constraints primaryKey='true' />
+      </column>
+      <column name='UNIV_FISCAL_YR' type='NUMBER(4,0)'>
+        <constraints primaryKey='true' />
+      </column>
+      <column name='FIN_COA_CD' type='VARCHAR2(2)'>
+        <constraints primaryKey='true' />
+      </column>
+      <column name='ACCOUNT_NBR' type='VARCHAR2(7)'>
+        <constraints primaryKey='true' />
+      </column>
+      <column name='SUB_ACCT_NBR' type='VARCHAR2(5)'>
+        <constraints primaryKey='true' />
+      </column>
+      <column name='FIN_OBJECT_CD' type='VARCHAR2(4)'>
+        <constraints primaryKey='true' />
+      </column>
+      <column name='FIN_SUB_OBJ_CD' type='VARCHAR2(3)'>
+        <constraints primaryKey='true' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8,0)'>
+      	<constraints nullable="false" />
+      </column>
+      <column name='CURR_BDLN_BAL_AMT' type='NUMBER(19,2)'/>
+      <column name='ACLN_ACTLS_BAL_AMT' type='NUMBER(19,2)'/>
+      <column name='ACLN_ENCUM_BAL_AMT' type='NUMBER(19,2)'/>
+      <column name='TIMESTAMP' type='date'/>
+      <column name='FIN_REPORT_SORT_CD' type='VARCHAR2(2)'/>
+      <column name='FIN_OBJ_LEVEL_CD' type='VARCHAR2(4)'/>
+      <column name='ACCTG_CTGRY_CD' type='VARCHAR2(2)'/>
+    </createTable>
+    
+     <createTable tableName='FP_INTERIM2_OBJ_MT'>
+      <column name='SESID' type='VARCHAR2(36)'>
+        <constraints primaryKey='true' />
+      </column>
+      <column name='UNIV_FISCAL_YR' type='NUMBER(4,0)'>
+        <constraints primaryKey='true' />
+      </column>
+      <column name='FIN_COA_CD' type='VARCHAR2(2)'>
+        <constraints primaryKey='true' />
+      </column>
+      <column name='ACCOUNT_NBR' type='VARCHAR2(7)'>
+        <constraints primaryKey='true' />
+      </column>
+      <column name='SUB_ACCT_NBR' type='VARCHAR2(5)'>
+        <constraints primaryKey='true' />
+      </column>
+      <column name='FIN_OBJECT_CD' type='VARCHAR2(4)'>
+        <constraints primaryKey='true' />
+      </column>
+      <column name='FIN_SUB_OBJ_CD' type='VARCHAR2(3)'>
+        <constraints primaryKey='true' />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8,0)'>
+      	<constraints nullable="false" />
+      </column>
+      <column name='CURR_BDLN_BAL_AMT' type='NUMBER(19,2)' />
+      <column name='ACLN_ACTLS_BAL_AMT' type='NUMBER(19,2)' />
+      <column name='ACLN_ENCUM_BAL_AMT' type='NUMBER(19,2)' />
+      <column name='TIMESTAMP' type='date' />
+      <column name='FIN_REPORT_SORT_CD' type='VARCHAR2(2)' />
+      <column name='ACCTG_CTGRY_CD' type='VARCHAR2(2)' />
+    </createTable>
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+    </modifySql>
+    <modifySql dbms='mysql'>
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+  
 </databaseChangeLog>

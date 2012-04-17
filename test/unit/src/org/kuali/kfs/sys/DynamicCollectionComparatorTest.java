@@ -159,4 +159,5 @@ public class DynamicCollectionComparatorTest extends TestCase {
 
         return true;
     }
+    
 }

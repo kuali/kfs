@@ -27,16 +27,9 @@ import org.kuali.rice.krad.service.PersistenceStructureService;
  * This class...
  */
 public class LedgerEntryBalanceCachingDaoJdbc extends PlatformAwareDaoBaseJdbc implements LedgerEntryBalanceCachingDao {
-    PersistenceStructureService persistenceStructureService;
-    UniversityDateService universityDateService;
 
-    public List compareEntryHistory(Class entryClass, Class historyClass, int pastYears) {
+    public List compareEntryHistory(String entryTable, String historyTable, int fiscalYear) {
         List<Map<String, Object>> data = null;
-        String entryTable = persistenceStructureService.getTableName(entryClass);
-        String historyTable = persistenceStructureService.getTableName(historyClass);
-        
-        //String[] pks = persistenceService.getPrimaryKeys(arg0)
-        int fiscalYear = universityDateService.getCurrentFiscalYear()-pastYears;
         
         StringBuilder queryBuilder = new StringBuilder();
 
@@ -58,13 +51,9 @@ public class LedgerEntryBalanceCachingDaoJdbc extends PlatformAwareDaoBaseJdbc i
         return data;
 
     }
-
-    public List compareBalanceHistory(Class balanceClass, Class historyClass, int pastYears) {
+    
+    public List compareBalanceHistory(String balanceTable, String historyTable, int fiscalYear) {
         List<Map<String, Object>> data = null;
-        String balanceTable = persistenceStructureService.getTableName(balanceClass);
-        String historyTable = persistenceStructureService.getTableName(historyClass);
-        
-        int fiscalYear = universityDateService.getCurrentFiscalYear()-pastYears;
         StringBuilder queryBuilder = new StringBuilder();
 
         queryBuilder.append("select bh.* ");
@@ -86,13 +75,8 @@ public class LedgerEntryBalanceCachingDaoJdbc extends PlatformAwareDaoBaseJdbc i
 
     }
 
-    public List accountBalanceCompareHistory(Class accountBalanceClass, Class historyClass, int pastYears) {
+    public List accountBalanceCompareHistory(String accountBalanceTable, String historyTable, int fiscalYear) {
         List<Map<String, Object>> data = null;
-        String accountBalanceTable = persistenceStructureService.getTableName(accountBalanceClass);
-        String historyTable = persistenceStructureService.getTableName(historyClass);
-        
-        //String[] pks = persistenceService.getPrimaryKeys(arg0)
-        int fiscalYear = universityDateService.getCurrentFiscalYear()-pastYears;
         StringBuilder queryBuilder = new StringBuilder();
 
         queryBuilder.append("select abh.* ");
@@ -110,13 +94,8 @@ public class LedgerEntryBalanceCachingDaoJdbc extends PlatformAwareDaoBaseJdbc i
 
     }
 
-    public List encumbranceCompareHistory(Class encumbranceClass, Class historyClass, int pastYears) {
+    public List encumbranceCompareHistory(String encumbranceTable, String historyTable, int fiscalYear) {
         List<Map<String, Object>> data = null;
-        String encumbranceTable = persistenceStructureService.getTableName(encumbranceClass);
-        String historyTable = persistenceStructureService.getTableName(historyClass);
-        
-        //String[] pks = persistenceService.getPrimaryKeys(arg0)
-        int fiscalYear = universityDateService.getCurrentFiscalYear()-pastYears;
         StringBuilder queryBuilder = new StringBuilder();
 
         queryBuilder.append("select eh.*  ");

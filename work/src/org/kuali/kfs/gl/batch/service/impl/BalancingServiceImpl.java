@@ -42,12 +42,16 @@ import org.kuali.kfs.gl.businessobject.OriginEntryInformation;
 import org.kuali.kfs.gl.dataaccess.AccountBalanceDao;
 import org.kuali.kfs.gl.dataaccess.BalancingDao;
 import org.kuali.kfs.gl.dataaccess.EncumbranceDao;
+import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
+import org.kuali.kfs.module.ld.businessobject.LedgerEntry;
 import org.kuali.kfs.sys.FileUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.PersistenceStructureService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -377,7 +381,11 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
     protected Integer compareBalanceHistory() {
         Integer countComparisionFailures = 0;
         
-        List<Balance> data = ledgerEntryBalanceCachingDao.compareBalanceHistory(Balance.class, balanceHistoryPersistentClass, getPastFiscalYearsToConsider());
+        
+        String balanceTable = persistenceStructureService.getTableName(Balance.class);
+        String historyTable = persistenceStructureService.getTableName(balanceHistoryPersistentClass);
+        
+        List<Balance> data = ledgerEntryBalanceCachingDao.compareBalanceHistory(balanceTable, historyTable, getFiscalYear());
 
         if (!data.isEmpty()) {
             for (Iterator<Balance> itr = data.iterator(); itr.hasNext();) {
@@ -399,7 +407,10 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
     protected Integer compareEntryHistory() {
         Integer countComparisionFailures = 0;
         
-        List<Entry> data = ledgerEntryBalanceCachingDao.compareEntryHistory(Entry.class, entryHistoryPersistentClass, getPastFiscalYearsToConsider());
+        String entryTable = persistenceStructureService.getTableName(Entry.class);
+        String historyTable = persistenceStructureService.getTableName(entryHistoryPersistentClass);
+        
+        List<Entry> data = ledgerEntryBalanceCachingDao.compareEntryHistory(entryTable, historyTable, getFiscalYear());
         
         if (!data.isEmpty()) {
             for (Iterator<Entry> itr = data.iterator(); itr.hasNext();) {
@@ -478,7 +489,11 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
     protected Integer accountBalanceCompareHistory() {
         Integer countComparisionFailures = 0;
         
-        List<AccountBalance> data = ledgerEntryBalanceCachingDao.accountBalanceCompareHistory(AccountBalance.class, AccountBalanceHistory.class, getPastFiscalYearsToConsider());
+        String accountBalanceTable = persistenceStructureService.getTableName(AccountBalance.class);
+        String historyTable = persistenceStructureService.getTableName(AccountBalanceHistory.class);
+        
+        
+        List<AccountBalance> data = ledgerEntryBalanceCachingDao.accountBalanceCompareHistory(accountBalanceTable, historyTable, getFiscalYear());
 
         if (!data.isEmpty()) {
             for (Iterator<AccountBalance> itr = data.iterator(); itr.hasNext();) {
@@ -504,7 +519,10 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
     protected Integer encumbranceCompareHistory() {
         Integer countComparisionFailures = 0;
         
-        List<Encumbrance> data = ledgerEntryBalanceCachingDao.encumbranceCompareHistory(Encumbrance.class, EncumbranceHistory.class, getPastFiscalYearsToConsider());
+        String encumbranceTable = persistenceStructureService.getTableName(Encumbrance.class);
+        String historyTable = persistenceStructureService.getTableName(EncumbranceHistory.class);
+        
+        List<Encumbrance> data = ledgerEntryBalanceCachingDao.encumbranceCompareHistory(encumbranceTable, historyTable, getFiscalYear());
         
         if (!data.isEmpty()) {
             for (Iterator<Encumbrance> itr = data.iterator(); itr.hasNext();) {
@@ -659,5 +677,5 @@ public class BalancingServiceImpl extends BalancingServiceBaseImpl<EntryHistory,
             return new KualiDecimal(biggy);
     
     }
-    
+
 }

@@ -43,7 +43,9 @@ import org.kuali.kfs.sys.FileUtil;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.service.PersistenceStructureService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -215,7 +217,10 @@ public class LaborBalancingServiceImpl extends BalancingServiceBaseImpl<LaborEnt
     protected Integer compareBalanceHistory() {
         Integer countComparisionFailures = 0;
         
-        List<LedgerBalance> data = ledgerEntryBalanceCachingDao.compareBalanceHistory(LedgerBalance.class, balanceHistoryPersistentClass, getPastFiscalYearsToConsider());
+        String balanceTable = persistenceStructureService.getTableName(LedgerBalance.class);
+        String historyTable = persistenceStructureService.getTableName(balanceHistoryPersistentClass);
+        
+        List<LedgerBalance> data = ledgerEntryBalanceCachingDao.compareBalanceHistory(balanceTable, historyTable, getFiscalYear());
         
         if (!data.isEmpty()) {
             for (Iterator<LedgerBalance> itr = data.iterator(); itr.hasNext();) {
@@ -237,7 +242,10 @@ public class LaborBalancingServiceImpl extends BalancingServiceBaseImpl<LaborEnt
     protected Integer compareEntryHistory() {
         Integer countComparisionFailures = 0;
         
-        List<LedgerEntry> data = ledgerEntryBalanceCachingDao.compareEntryHistory(LedgerEntry.class, entryHistoryPersistentClass, getPastFiscalYearsToConsider());
+        String entryTable = persistenceStructureService.getTableName(LedgerEntry.class);
+        String historyTable = persistenceStructureService.getTableName(entryHistoryPersistentClass);
+        
+        List<LedgerEntry> data = ledgerEntryBalanceCachingDao.compareEntryHistory(entryTable, historyTable, getFiscalYear());
         
         if (!data.isEmpty()) {
             for (Iterator<LedgerEntry> itr = data.iterator(); itr.hasNext();) {
@@ -252,7 +260,6 @@ public class LaborBalancingServiceImpl extends BalancingServiceBaseImpl<LaborEnt
 
         return countComparisionFailures;
     }
-    
     
     /**
      * 
@@ -374,5 +381,5 @@ public class LaborBalancingServiceImpl extends BalancingServiceBaseImpl<LaborEnt
     public File getICRErrorOutputFile(){
         return null;
     }
-    
+
 }

@@ -22,13 +22,13 @@ import java.util.List;
  */
 public interface LedgerEntryBalanceCachingDao {
 
-    public List compareEntryHistory(Class entryClass, Class historyClass, int pastYears);
+    public List compareEntryHistory(String entryTable, String historyTable, int fiscalYear);
     
-    public List compareBalanceHistory(Class balanceClass, Class historyClass, int pastYears);
+    public List compareBalanceHistory(String entryTable, String historyTable, int fiscalYear);
     
-    public List accountBalanceCompareHistory(Class accountBalanceClass, Class historyClass, int pastYears);
+    public List accountBalanceCompareHistory(String accountBalanceTable, String historyTable, int fiscalYear);
     
-    public List encumbranceCompareHistory(Class encumbranceClass, Class historyClass, int pastYears);
+    public List encumbranceCompareHistory(String encumbranceTable, String historyTable, int fiscalYear);
 
 
 }

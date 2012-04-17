@@ -299,7 +299,15 @@ public abstract class BalancingServiceBaseImpl<T extends Entry, S extends Balanc
 
     abstract protected Integer compareEntryHistory();
 
-
+    /**
+     * 
+     * @return
+     */
+    protected int getFiscalYear(){
+        return universityDateService.getCurrentFiscalYear()-getPastFiscalYearsToConsider();
+    }
+    
+    
     /**
      * Possible override if sub class has additional history tables. Populates custom history tables.
      *

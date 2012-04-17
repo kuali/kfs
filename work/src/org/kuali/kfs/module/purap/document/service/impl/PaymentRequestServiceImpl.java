@@ -1292,7 +1292,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         // cancel extracted should not reopen PO
         paymentRequest.setReopenPurchaseOrderIndicator(false);
 
-        accountsPayableService.cancelAccountsPayableDocument(paymentRequest, ""); // Performs save, so
+        getAccountsPayableService().cancelAccountsPayableDocument(paymentRequest, ""); // Performs save, so
         // no explicit save
         // is necessary
         if (LOG.isDebugEnabled()) {
@@ -1338,7 +1338,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         PurchaseOrderDocument purchaseOrderDocument = paymentRequestDocument.getPurchaseOrderDocument();
 
         // make a call to search for expired/closed accounts
-        HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList = accountsPayableService.getExpiredOrClosedAccountList(paymentRequestDocument);
+        HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountList = getAccountsPayableService().getExpiredOrClosedAccountList(paymentRequestDocument);
 
         paymentRequestDocument.populatePaymentRequestFromPurchaseOrder(purchaseOrderDocument, expiredOrClosedAccountList);
 
@@ -1346,7 +1346,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
         // write a note for expired/closed accounts if any exist and add a message stating there were expired/closed accounts at the
         // top of the document
-        accountsPayableService.generateExpiredOrClosedAccountNote(paymentRequestDocument, expiredOrClosedAccountList);
+        getAccountsPayableService().generateExpiredOrClosedAccountNote(paymentRequestDocument, expiredOrClosedAccountList);
 
         // set indicator so a message is displayed for accounts that were replaced due to expired/closed status
         if (!expiredOrClosedAccountList.isEmpty()) {
@@ -2011,5 +2011,15 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
     public void setKualiRuleService(KualiRuleService kualiRuleService) {
         this.kualiRuleService = kualiRuleService;
+    }
+    
+    /**
+     * Gets the accountsPayableService attribute.
+     * 
+     * @return Returns the accountsPayableService
+     */
+    
+    public AccountsPayableService getAccountsPayableService() {
+        return SpringContext.getBean(AccountsPayableService.class);
     }
 }

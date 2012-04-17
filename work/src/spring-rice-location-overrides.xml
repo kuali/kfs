@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2007-2008 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd" default-lazy-init="false">
+<!-- 
+  <bean id="locationModuleConfiguration" class="org.kuali.rice.krad.bo.ModuleConfiguration">
+    <property name="namespaceCode" value="KR-NS"/>
+    <property name="dataSourceName" value="locationDataSource"/>
+    <property name="initializeDataDictionary" value="false"/>
+    <property name="packagePrefixes">
+      <list>
+        <value>org.kuali.rice.location.</value>
+      </list>
+    </property>
+    <property name="externalizableBusinessObjectImplementations">
+      <map>
+        <entry key="org.kuali.rice.location.api.country.CountryContract"
+               value="org.kuali.rice.location.framework.country.CountryEbo"/>
+        <entry key="org.kuali.rice.location.api.state.StateContract"
+               value="org.kuali.rice.location.framework.state.StateEbo"/>
+        <entry key="org.kuali.rice.location.api.postalcode.PostalCodeContract"
+               value="org.kuali.rice.location.framework.postalcode.PostalCodeEbo"/>
+        <entry key="org.kuali.rice.location.api.county.CountyContract"
+               value="org.kuali.rice.location.framework.county.CountyEbo"/>
+        <entry key="org.kuali.rice.location.api.campus.CampusContract"
+               value="org.kuali.rice.location.framework.campus.CampusEbo"/>
+        <entry key="org.kuali.rice.location.api.campus.CampusTypeContract"
+               value="org.kuali.rice.location.framework.campus.CampusTypeEbo"/>
+ -->               
+<!-- 
+        <entry key="org.kuali.rice.location.api.country.CountryContract"
+               value="org.kuali.rice.location.impl.country.CountryBo"/>
+        <entry key="org.kuali.rice.location.api.state.StateContract"
+               value="org.kuali.rice.location.impl.state.StateBo"/>
+        <entry key="org.kuali.rice.location.api.postalcode.PostalCodeContract"
+               value="org.kuali.rice.location.impl.postalcode.PostalCodeBo"/>
+        <entry key="org.kuali.rice.location.api.county.CountyContract"
+               value="org.kuali.rice.location.impl.county.CountyBo"/>
+        <entry key="org.kuali.rice.location.api.campus.CampusContract"
+               value="org.kuali.rice.location.impl.campus.CampusBo"/>
+        <entry key="org.kuali.rice.location.api.campus.CampusTypeContract"
+               value="org.kuali.rice.location.impl.campus.CampusTypeBo"/>
+ -->
+<!-- 
+        <entry key="org.kuali.rice.location.framework.country.CountryEbo"
+               value="org.kuali.rice.location.impl.country.CountryBo"/>
+        <entry key="org.kuali.rice.location.framework.state.StateEbo"
+               value="org.kuali.rice.location.impl.state.StateBo"/>
+        <entry key="org.kuali.rice.location.framework.postalcode.PostalCodeEbo"
+               value="org.kuali.rice.location.impl.postalcode.PostalCodeBo"/>
+        <entry key="org.kuali.rice.location.framework.county.CountyEbo"
+               value="org.kuali.rice.location.impl.county.CountyBo"/>
+        <entry key="org.kuali.rice.location.framework.campus.CampusEbo"
+               value="org.kuali.rice.location.impl.campus.CampusBo"/>
+        <entry key="org.kuali.rice.location.framework.campus.CampusTypeEbo"
+               value="org.kuali.rice.location.impl.campus.CampusTypeBo"/>
+ -->
+ <!-- 
+        <entry key="org.kuali.rice.location.framework.country.CountryEbo"
+               value="org.kuali.rice.location.framework.country.CountryEbo"/>
+        <entry key="org.kuali.rice.location.framework.state.StateEbo"
+               value="org.kuali.rice.location.framework.state.StateEbo"/>
+        <entry key="org.kuali.rice.location.framework.postalcode.PostalCodeEbo"
+               value="org.kuali.rice.location.framework.postalcode.PostalCodeEbo"/>
+        <entry key="org.kuali.rice.location.framework.county.CountyEbo"
+               value="org.kuali.rice.location.framework.county.CountyEbo"/>
+        <entry key="org.kuali.rice.location.framework.campus.CampusEbo"
+               value="org.kuali.rice.location.framework.campus.CampusEbo"/>
+        <entry key="org.kuali.rice.location.framework.campus.CampusTypeEbo"
+               value="org.kuali.rice.location.framework.campus.CampusTypeEbo"/>
+      </map>
+    </property>
+  </bean>
+ -->
+</beans>

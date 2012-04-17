@@ -744,10 +744,9 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         if (parameter != null) {
             SimpleDateFormat format = new SimpleDateFormat(CabConstants.DateFormats.MONTH_DAY_YEAR + " " + CabConstants.DateFormats.MILITARY_TIME);
 
-
             Parameter.Builder updatedParameter = Parameter.Builder.create(parameter);
             updatedParameter.setValue(format.format(time));
-            parameterService.updateParameter(parameter);
+            parameterService.updateParameter(updatedParameter.build());
         }
     }
 

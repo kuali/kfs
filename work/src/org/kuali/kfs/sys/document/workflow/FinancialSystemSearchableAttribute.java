@@ -94,6 +94,9 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
     protected List<Row> getSearchingRows(String documentTypeName) {
         if ( LOG.isDebugEnabled() ) {
             LOG.debug( "getSearchingRows( " + documentTypeName + " )" );
+            if ( LOG.isTraceEnabled() ) {
+                LOG.trace("Stack Trace at point of call", new Throwable());
+            }
         }
 
         DataDictionaryService ddService = SpringContext.getBean(DataDictionaryService.class);
@@ -164,8 +167,11 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
         }
 
         // RICE20: removing because disabling document search
-        Row resultType = createSearchResultDisplayTypeRow();
-        docSearchRows.add(resultType);
+//        Row resultType = createSearchResultDisplayTypeRow();
+//        docSearchRows.add(resultType);
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug( "Returning Rows: " + docSearchRows );
+        }
         return docSearchRows;
     }
 

@@ -39,7 +39,6 @@ import org.kuali.kfs.sys.document.GeneralLedgerPostingDocument;
 import org.kuali.kfs.sys.document.datadictionary.AccountingLineGroupDefinition;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
 import org.kuali.rice.core.api.uif.RemotableAttributeError;
-import org.kuali.rice.core.api.uif.RemotableAttributeField;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kew.api.KewApiConstants.SearchableAttributeConstants;
@@ -65,6 +64,7 @@ import org.kuali.rice.krad.workflow.attribute.DataDictionarySearchableAttribute;
 
 //RICE20 This class needs to be fixed to support pre-rice2.0 features
 public class FinancialSystemSearchableAttribute extends DataDictionarySearchableAttribute {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FinancialSystemSearchableAttribute.class);
 
     protected static final String DISPLAY_TYPE_SEARCH_ATTRIBUTE_LABEL = "Search Result Type";
     protected static final String WORKFLOW_DISPLAY_TYPE_LABEL = "Workflow Data";
@@ -92,6 +92,10 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
 
     @Override
     protected List<Row> getSearchingRows(String documentTypeName) {
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug( "getSearchingRows( " + documentTypeName + " )" );
+        }
+
         DataDictionaryService ddService = SpringContext.getBean(DataDictionaryService.class);
 
         List<Row> docSearchRows = super.getSearchingRows(documentTypeName);
@@ -160,53 +164,60 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
         }
 
         // RICE20: removing because disabling document search
-        //Row resultType = createSearchResultDisplayTypeRow();
-        //docSearchRows.add(resultType);
+        Row resultType = createSearchResultDisplayTypeRow();
+        docSearchRows.add(resultType);
         return docSearchRows;
     }
 
     @Override
     public List<DocumentAttribute> extractDocumentAttributes(ExtensionDefinition extensionDefinition, DocumentWithContent documentWithContent) {
-      List<DocumentAttribute> searchAttrValues =  super.extractDocumentAttributes(extensionDefinition, documentWithContent);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("extractDocumentAttributes( " + extensionDefinition + ", " + documentWithContent + " )");
+        }
+        List<DocumentAttribute> searchAttrValues = super.extractDocumentAttributes(extensionDefinition, documentWithContent);
 
-      String docId = documentWithContent.getDocument().getDocumentId();
-      DocumentService docService = SpringContext.getBean(DocumentService.class);
-      Document doc = null;
-      try  {
-          doc = docService.getByDocumentHeaderIdSessionless(docId);
-      } catch (WorkflowException we) {
+        String docId = documentWithContent.getDocument().getDocumentId();
+        DocumentService docService = SpringContext.getBean(DocumentService.class);
+        Document doc = null;
+        try {
+            doc = docService.getByDocumentHeaderIdSessionless(docId);
+        }
+        catch (WorkflowException we) {
 
-      }
-      if ( doc != null ) {
-      if (doc instanceof AmountTotaling) {
-          DocumentAttributeDecimal.Builder searchableAttributeValue = DocumentAttributeDecimal.Builder.create(KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT);
-          searchableAttributeValue.setValue(((AmountTotaling)doc).getTotalDollarAmount().bigDecimalValue());
-          searchAttrValues.add(searchableAttributeValue.build());
-      }
+        }
+        if (doc != null) {
+            if (doc instanceof AmountTotaling) {
+                DocumentAttributeDecimal.Builder searchableAttributeValue = DocumentAttributeDecimal.Builder.create(KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT);
+                searchableAttributeValue.setValue(((AmountTotaling) doc).getTotalDollarAmount().bigDecimalValue());
+                searchAttrValues.add(searchableAttributeValue.build());
+            }
 
-      if (doc instanceof AccountingDocument) {
-          AccountingDocument accountingDoc = (AccountingDocument)doc;
-          searchAttrValues.addAll(harvestAccountingDocumentSearchableAttributes(accountingDoc));
-      }
+            if (doc instanceof AccountingDocument) {
+                AccountingDocument accountingDoc = (AccountingDocument) doc;
+                searchAttrValues.addAll(harvestAccountingDocumentSearchableAttributes(accountingDoc));
+            }
 
-      boolean indexedLedgerDoc = false;
-      if (doc instanceof LaborLedgerPostingDocumentForSearching) {
-          LaborLedgerPostingDocumentForSearching LLPostingDoc = (LaborLedgerPostingDocumentForSearching)doc;
-          searchAttrValues.addAll(harvestLLPDocumentSearchableAttributes(LLPostingDoc));
-          indexedLedgerDoc = true;
-      }
+            boolean indexedLedgerDoc = false;
+            if (doc instanceof LaborLedgerPostingDocumentForSearching) {
+                LaborLedgerPostingDocumentForSearching LLPostingDoc = (LaborLedgerPostingDocumentForSearching) doc;
+                searchAttrValues.addAll(harvestLLPDocumentSearchableAttributes(LLPostingDoc));
+                indexedLedgerDoc = true;
+            }
 
-      if (doc instanceof GeneralLedgerPostingDocument && !indexedLedgerDoc) {
-          GeneralLedgerPostingDocument GLPostingDoc = (GeneralLedgerPostingDocument)doc;
-          searchAttrValues.addAll(harvestGLPDocumentSearchableAttributes(GLPostingDoc));
-      }
+            if (doc instanceof GeneralLedgerPostingDocument && !indexedLedgerDoc) {
+                GeneralLedgerPostingDocument GLPostingDoc = (GeneralLedgerPostingDocument) doc;
+                searchAttrValues.addAll(harvestGLPDocumentSearchableAttributes(GLPostingDoc));
+            }
 
-      }
-      return searchAttrValues;
+        }
+        return searchAttrValues;
     }
 
     @Override
     public List<RemotableAttributeError> validateDocumentAttributeCriteria(ExtensionDefinition extensionDefinition, DocumentSearchCriteria documentSearchCriteria) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("validateDocumentAttributeCriteria( " + extensionDefinition + ", " + documentSearchCriteria + " )");
+        }
         // this list is irrelevant. the validation errors are put on the stack in the validationService.
         List<RemotableAttributeError> errors =  super.validateDocumentAttributeCriteria(extensionDefinition, documentSearchCriteria);
 
@@ -337,19 +348,22 @@ public class FinancialSystemSearchableAttribute extends DataDictionarySearchable
 
 
     // RICE20: fixes to allow document search to function until Rice 2.0.1
-    @Override
-    public List<RemotableAttributeField> getSearchFields(ExtensionDefinition extensionDefinition, String documentTypeName) {
-        List<Row> searchRows = getSearchingRows(documentTypeName);
-        for ( Row row : searchRows ) {
-            for ( Field field : row.getFields() ) {
-                if ( field.getFieldType().equals(Field.CURRENCY) ) {
-                    field.setFieldType(Field.TEXT);
-                }
-                if ( field.getMaxLength() < 1 ) {
-                    field.setMaxLength(100);
-                }
-            }
-        }
-        return FieldUtils.convertRowsToAttributeFields(searchRows);
-    }
+//    @Override
+//    public List<RemotableAttributeField> getSearchFields(ExtensionDefinition extensionDefinition, String documentTypeName) {
+//        if (LOG.isDebugEnabled()) {
+//            LOG.debug("getSearchFields( " + extensionDefinition + ", " + documentTypeName + " )");
+//        }
+//        List<Row> searchRows = getSearchingRows(documentTypeName);
+//        for ( Row row : searchRows ) {
+//            for ( Field field : row.getFields() ) {
+//                if ( field.getFieldType().equals(Field.CURRENCY) ) {
+//                    field.setFieldType(Field.TEXT);
+//                }
+//                if ( field.getMaxLength() < 1 ) {
+//                    field.setMaxLength(100);
+//                }
+//            }
+//        }
+//        return FieldUtils.convertRowsToAttributeFields(searchRows);
+//    }
 }

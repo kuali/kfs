@@ -34,6 +34,7 @@ import org.kuali.rice.kew.framework.document.search.DocumentSearchResultValues;
 import org.kuali.rice.kew.framework.document.search.StandardResultField;
 
 public class KFSDocumentSearchCustomizer implements SearchableAttribute, DocumentSearchCustomizer {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KFSDocumentSearchCustomizer.class);
 
     protected SearchableAttribute searchableAttribute;
 
@@ -47,6 +48,9 @@ public class KFSDocumentSearchCustomizer implements SearchableAttribute, Documen
 
     @Override
     public DocumentSearchResultValues customizeResults(DocumentSearchCriteria documentSearchCriteria, List<DocumentSearchResult> defaultResults) {
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug( "customizeResults( " + documentSearchCriteria + ", " + defaultResults + " )" );
+        }
         return null;
     }
 
@@ -54,24 +58,36 @@ public class KFSDocumentSearchCustomizer implements SearchableAttribute, Documen
     public final String generateSearchContent(ExtensionDefinition extensionDefinition,
             String documentTypeName,
             WorkflowAttributeDefinition attributeDefinition) {
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug( "generateSearchContent( " + extensionDefinition + ", " + documentTypeName + ", " + attributeDefinition + " )" );
+        }
         return getSearchableAttribute().generateSearchContent(extensionDefinition, documentTypeName, attributeDefinition);
     }
 
     @Override
     public final List<DocumentAttribute> extractDocumentAttributes(ExtensionDefinition extensionDefinition,
             DocumentWithContent documentWithContent) {
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug( "extractDocumentAttributes( " + extensionDefinition + ", " + documentWithContent + " )" );
+        }
         return getSearchableAttribute().extractDocumentAttributes(extensionDefinition, documentWithContent);
     }
 
     @Override
     public final List<RemotableAttributeField> getSearchFields(ExtensionDefinition extensionDefinition,
             String documentTypeName) {
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug( "getSearchFields( " + extensionDefinition + ", " + documentTypeName + " )" );
+        }
         return getSearchableAttribute().getSearchFields(extensionDefinition, documentTypeName);
     }
 
     @Override
     public final List<RemotableAttributeError> validateDocumentAttributeCriteria(ExtensionDefinition extensionDefinition,
             DocumentSearchCriteria documentSearchCriteria) {
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug( "validateDocumentAttributeCriteria( " + extensionDefinition + ", " + documentSearchCriteria + " )" );
+        }
         return getSearchableAttribute().validateDocumentAttributeCriteria(extensionDefinition, documentSearchCriteria);
     }
 
@@ -85,6 +101,9 @@ public class KFSDocumentSearchCustomizer implements SearchableAttribute, Documen
 
     @Override
     public DocumentSearchCriteria customizeCriteria(DocumentSearchCriteria documentSearchCriteria) {
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug( "customizeCriteria( " + documentSearchCriteria + " )" );
+        }
         if ( documentSearchCriteria.getDocumentAttributeValues().containsKey( FinancialSystemSearchableAttribute.DISPLAY_TYPE_SEARCH_ATTRIBUTE_NAME ) ) {
             DocumentSearchCriteria.Builder newCriteria = DocumentSearchCriteria.Builder.create(documentSearchCriteria);
             newCriteria.getDocumentAttributeValues().remove( FinancialSystemSearchableAttribute.DISPLAY_TYPE_SEARCH_ATTRIBUTE_NAME );
@@ -95,6 +114,9 @@ public class KFSDocumentSearchCustomizer implements SearchableAttribute, Documen
 
     @Override
     public DocumentSearchCriteria customizeClearCriteria(DocumentSearchCriteria documentSearchCriteria) {
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug( "customizeClearCriteria( " + documentSearchCriteria + " )" );
+        }
         DocumentSearchCriteria.Builder newCriteria = DocumentSearchCriteria.Builder.create();
         newCriteria.setDocumentTypeName(documentSearchCriteria.getDocumentTypeName());
         return newCriteria.build();
@@ -109,6 +131,9 @@ public class KFSDocumentSearchCustomizer implements SearchableAttribute, Documen
 
     @Override
     public DocumentSearchResultSetConfiguration customizeResultSetConfiguration(DocumentSearchCriteria documentSearchCriteria) {
+        if ( LOG.isDebugEnabled() ) {
+            LOG.debug( "customizeResultSetConfiguration( " + documentSearchCriteria + " )" );
+        }
         DocumentSearchResultSetConfiguration.Builder config = DocumentSearchResultSetConfiguration.Builder.create();
         config.setOverrideSearchableAttributes(false);
         config.setStandardResultFieldsToRemove(standardResultsToRemove);

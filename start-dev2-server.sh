@@ -3,11 +3,13 @@ pushd build/tomcat
 mkdir -p -v conf/Catalina/localhost
 echo "Clearing out web configuration files"
 rm -v conf/Catalina/localhost/*.xml
-rm -rf webapps/kr-dev2
-rm -rf webapps/kfs-dev2
+rm -rf work/*
+rm -rf temp/*
+rm -rf logs/*
+rm -rf webapps/kr-*
+rm -rf webapps/kfs-*
 echo "Moving Rice descriptor into path"
 cp -v conf/kr-dev2.xml conf/Catalina/localhost
-rm -rf logs/*
 export JAVA_TOOL_OPTIONS=
 export CATALINA_OPTS="-Dxxxxxxx=kfs-dev2 -DTOMCAT_DIR=$PWD -Xmx3g -Xms512m -XX:MaxPermSize=256m -Djava.awt.headless=true -Dadditional.config.locations=${PWD}/conf/rice-config.xml"
 if [[ "$1" == "-debug" ]]; then

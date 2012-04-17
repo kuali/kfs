@@ -6547,6 +6547,7 @@
         <column name="ACLN_ACTLS_BAL_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="ACLN_ENCUM_BAL_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="TYP_FIN_REPORT_SORT_CD" size="2" type="VARCHAR"/>
+        <column name="ACCTG_CTGRY_CD" size="2" type="VARCHAR"/>
     </table>
     <table name="FP_BAL_BY_OBJ_MT">
         <column name="SESID" primaryKey="true" size="36" type="VARCHAR"/>
@@ -6557,6 +6558,7 @@
         <column name="ACLN_ACTLS_BAL_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="ACLN_ENCUM_BAL_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="FIN_REPORT_SORT_CD" size="2" type="VARCHAR"/>
+        <column name="ACCTG_CTGRY_CD" size="2" type="VARCHAR"/>
     </table>
     <table name="FP_BANK_T">
         <column name="BNK_CD" primaryKey="true" size="4" type="VARCHAR"/>
@@ -7538,6 +7540,39 @@
         <column name="FIN_OBJ_TYP_CD" size="2" type="VARCHAR"/>
         <column name="CONS_FIN_REPORT_SORT_CD" size="2" type="VARCHAR"/>
         <column name="FIN_CONS_OBJ_CD" size="4" type="VARCHAR"/>
+        <column name="ACCTG_CTGRY_CD" size="2" type="VARCHAR"/>
+    </table>
+    <table name="FP_INTERIM2_LEVEL_MT">
+        <column name="SESID" primaryKey="true" size="36" type="VARCHAR"/>
+        <column name="UNIV_FISCAL_YR" primaryKey="true" size="4" type="DECIMAL"/>
+        <column name="FIN_COA_CD" primaryKey="true" size="2" type="VARCHAR"/>
+        <column name="ACCOUNT_NBR" primaryKey="true" size="7" type="VARCHAR"/>
+        <column name="SUB_ACCT_NBR" primaryKey="true" size="5" type="VARCHAR"/>
+        <column name="FIN_OBJECT_CD" primaryKey="true" size="4" type="VARCHAR"/>
+        <column name="FIN_SUB_OBJ_CD" primaryKey="true" size="3" type="VARCHAR"/>
+        <column name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="CURR_BDLN_BAL_AMT" scale="2" size="19" type="DECIMAL"/>
+        <column name="ACLN_ACTLS_BAL_AMT" scale="2" size="19" type="DECIMAL"/>
+        <column name="ACLN_ENCUM_BAL_AMT" scale="2" size="19" type="DECIMAL"/>
+        <column name="TIMESTAMP" type="DATE"/>
+        <column name="FIN_REPORT_SORT_CD" size="2" type="VARCHAR"/>
+        <column name="FIN_OBJ_LEVEL_CD" size="4" type="VARCHAR"/>
+        <column name="ACCTG_CTGRY_CD" size="2" type="VARCHAR"/>
+    </table>
+    <table name="FP_INTERIM2_OBJ_MT">
+        <column name="SESID" primaryKey="true" size="36" type="VARCHAR"/>
+        <column name="UNIV_FISCAL_YR" primaryKey="true" size="4" type="DECIMAL"/>
+        <column name="FIN_COA_CD" primaryKey="true" size="2" type="VARCHAR"/>
+        <column name="ACCOUNT_NBR" primaryKey="true" size="7" type="VARCHAR"/>
+        <column name="SUB_ACCT_NBR" primaryKey="true" size="5" type="VARCHAR"/>
+        <column name="FIN_OBJECT_CD" primaryKey="true" size="4" type="VARCHAR"/>
+        <column name="FIN_SUB_OBJ_CD" primaryKey="true" size="3" type="VARCHAR"/>
+        <column name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="CURR_BDLN_BAL_AMT" scale="2" size="19" type="DECIMAL"/>
+        <column name="ACLN_ACTLS_BAL_AMT" scale="2" size="19" type="DECIMAL"/>
+        <column name="ACLN_ENCUM_BAL_AMT" scale="2" size="19" type="DECIMAL"/>
+        <column name="TIMESTAMP" type="DATE"/>
+        <column name="FIN_REPORT_SORT_CD" size="2" type="VARCHAR"/>
         <column name="ACCTG_CTGRY_CD" size="2" type="VARCHAR"/>
     </table>
     <table name="FP_INT_BILL_DOC_T">

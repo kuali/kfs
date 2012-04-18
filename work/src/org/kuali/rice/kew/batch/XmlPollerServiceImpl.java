@@ -16,12 +16,23 @@
  */
 package org.kuali.rice.kew.batch;
 
-import org.kuali.rice.kew.service.KEWServiceLocator;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+
+import org.apache.commons.io.comparator.NameFileComparator;
+import org.kuali.rice.kew.service.KEWServiceLocator;
 
 
 /**
@@ -83,6 +94,11 @@ public class XmlPollerServiceImpl implements XmlPollerService {
         if (files == null || files.length == 0) {
         	return;
         }
+        
+        // FIX the file list to be sorted; otherwise the XML ingestion could become an issue
+        LOG.info("Sorting file list with NameFileComparator.NAME_INSENSITIVE_COMPARATOR.");
+        Arrays.sort(files, NameFileComparator.NAME_INSENSITIVE_COMPARATOR);
+        
         LOG.info("Found " + files.length + " files to ingest.");
         List<XmlDocCollection> collections = new ArrayList<XmlDocCollection>();
         for (File file : files)

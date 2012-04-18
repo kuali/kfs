@@ -18,6 +18,9 @@ package org.kuali.rice.kew.batch;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.util.Arrays;
+
+import org.apache.commons.io.comparator.NameFileComparator;
 
 /**
  * An XmlDocCollection backed by a directory of XML files
@@ -35,6 +38,10 @@ public class DirectoryXmlDocCollection extends BaseXmlDocCollection {
         super(dir);
         File[] xmlDataFiles = file.listFiles(FILTER);
         if (xmlDataFiles != null) {
+            
+            // FIX the file list to be sorted; otherwise the XML ingestion could become an issue
+            Arrays.sort(xmlDataFiles, NameFileComparator.NAME_INSENSITIVE_COMPARATOR);
+            
             for (File xmlDataFile : xmlDataFiles)
             {
                 xmlDocs.add(new FileXmlDoc(xmlDataFile, this));

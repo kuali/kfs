@@ -115,7 +115,7 @@ public class AccountBalance extends PersistableBusinessObjectBase implements Rep
             financialObject.getFinancialObjectLevel().setFinancialObjectLevelCode((String) data.get(GeneralLedgerConstants.ColumnNames.OBJECT_LEVEL_CODE2));
 
             // tricking it so getVariance() works
-            financialObject.getFinancialObjectType().setBasicAccountingCategoryCode(getAccountingCategoryExpenseCode());
+            financialObject.getFinancialObjectType().setBasicAccountingCategoryCode((String) data.get(GeneralLedgerConstants.ColumnNames.ACCTG_CTGRY_CD));
             fixVariance();
         }
         else if (TYPE_OBJECT.equals(type)) {
@@ -124,7 +124,7 @@ public class AccountBalance extends PersistableBusinessObjectBase implements Rep
             financialObject.getFinancialObjectLevel().setFinancialObjectLevelCode((String) data.get(GeneralLedgerConstants.ColumnNames.OBJECT_LEVEL_CODE));
 
             // tricking it so getVariance() works
-            financialObject.getFinancialObjectType().setBasicAccountingCategoryCode(getAccountingCategoryExpenseCode());
+            financialObject.getFinancialObjectType().setBasicAccountingCategoryCode((String) data.get(GeneralLedgerConstants.ColumnNames.ACCTG_CTGRY_CD));
             fixVariance();
         }
         else {

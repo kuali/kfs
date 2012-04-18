@@ -222,6 +222,8 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
 
             pendingLedgerEntry.setTransactionLedgerEntrySequenceNumber(sequenceHelper.getSequenceCounter());
 
+            pendingLedgerEntry.refreshReferenceObject("financialObject");
+            
             this.getLaborLedgerPendingEntries().add(pendingLedgerEntry);
 
             sequenceHelper.increment();

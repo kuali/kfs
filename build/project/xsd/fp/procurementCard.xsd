@@ -39,8 +39,8 @@
     <xsd:element name="transactionReferenceNumber" type="${xsd:normalizedString,dd:ProcurementCardTransaction.transactionReferenceNumber}"/>
     <xsd:element name="transactionMerchantCategoryCode" type="${xsd:normalizedString,dd:ProcurementCardTransaction.transactionMerchantCategoryCode}"/>
     <xsd:element name="transactionPostingDate" type="${xsd:date,dd:ProcurementCardTransaction.transactionPostingDate}"/>
-    <xsd:element name="transactionOriginalCurrencyCode" type="${xsd:date,dd:ProcurementCardTransaction.transactionOriginalCurrencyCode}"/>
-    <xsd:element name="transactionBillingCurrencyCode" type="${xsd:date,dd:ProcurementCardTransaction.transactionBillingCurrencyCode}"/>
+    <xsd:element name="transactionOriginalCurrencyCode" type="${xsd:normalizedString,dd:ProcurementCardTransaction.transactionOriginalCurrencyCode}"/>
+    <xsd:element name="transactionBillingCurrencyCode" type="${xsd:normalizedString,dd:ProcurementCardTransaction.transactionBillingCurrencyCode}"/>
     <xsd:element name="transactionOriginalCurrencyAmount" type="${xsd:decimal,dd:ProcurementCardTransaction.transactionOriginalCurrencyAmount}"/>
     <xsd:element name="transactionCurrencyExchangeRate" type="${xsd:decimal,dd:ProcurementCardTransaction.transactionCurrencyExchangeRate}"/>
     <xsd:element name="transactionSettlementAmount" type="${xsd:decimal,dd:ProcurementCardTransaction.transactionSettlementAmount}"/>

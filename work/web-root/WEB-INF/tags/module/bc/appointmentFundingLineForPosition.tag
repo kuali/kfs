@@ -169,7 +169,7 @@
 			field="financialSubObjectCode" detailFunction="loadSubObjectInfo"
 			detailFunctionExtraParam="${fundingLine.universityFiscalYear}, "
 			detailField="financialSubObject.financialSubObjectCdshortNm"
-			attributes="${pbcafAttributes}" lookup="true" inquiry="${doAccountLookupOrInquiry}" 
+			attributes="${pbcafAttributes}" lookup="true" inquiry="${doLookupOrInquiry}" 
 			boClassSimpleName="SubObjectCode"
 			readOnly="${hasBeenAdded || isKeyFieldsLocked}"
 			displayHidden="false"

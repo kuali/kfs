@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.cam.businessobject;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
@@ -24,12 +22,12 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  */
 public class AssetOrganization extends PersistableBusinessObjectBase {
 
-	private Long capitalAssetNumber;
-	private String organizationAssetTypeIdentifier;
-	private String organizationTagNumber;
-	private String organizationText;
+	protected Long capitalAssetNumber;
+	protected String organizationAssetTypeIdentifier;
+	protected String organizationTagNumber;
+	protected String organizationText;
 
-    private Asset asset;
+    protected Asset asset;
 
 	/**
 	 * Default constructor.
@@ -40,19 +38,19 @@ public class AssetOrganization extends PersistableBusinessObjectBase {
 
 	/**
 	 * Gets the capitalAssetNumber attribute.
-	 * 
+	 *
 	 * @return Returns the capitalAssetNumber
-	 * 
+	 *
 	 */
-	public Long getCapitalAssetNumber() { 
+	public Long getCapitalAssetNumber() {
 		return capitalAssetNumber;
 	}
 
 	/**
 	 * Sets the capitalAssetNumber attribute.
-	 * 
+	 *
 	 * @param capitalAssetNumber The capitalAssetNumber to set.
-	 * 
+	 *
 	 */
 	public void setCapitalAssetNumber(Long capitalAssetNumber) {
 		this.capitalAssetNumber = capitalAssetNumber;
@@ -61,19 +59,19 @@ public class AssetOrganization extends PersistableBusinessObjectBase {
 
 	/**
 	 * Gets the organizationAssetTypeIdentifier attribute.
-	 * 
+	 *
 	 * @return Returns the organizationAssetTypeIdentifier
-	 * 
+	 *
 	 */
-	public String getOrganizationAssetTypeIdentifier() { 
+	public String getOrganizationAssetTypeIdentifier() {
 		return organizationAssetTypeIdentifier;
 	}
 
 	/**
 	 * Sets the organizationAssetTypeIdentifier attribute.
-	 * 
+	 *
 	 * @param organizationAssetTypeIdentifier The organizationAssetTypeIdentifier to set.
-	 * 
+	 *
 	 */
 	public void setOrganizationAssetTypeIdentifier(String organizationAssetTypeIdentifier) {
 		this.organizationAssetTypeIdentifier = organizationAssetTypeIdentifier;
@@ -82,19 +80,19 @@ public class AssetOrganization extends PersistableBusinessObjectBase {
 
 	/**
 	 * Gets the organizationTagNumber attribute.
-	 * 
+	 *
 	 * @return Returns the organizationTagNumber
-	 * 
+	 *
 	 */
-	public String getOrganizationTagNumber() { 
+	public String getOrganizationTagNumber() {
 		return organizationTagNumber;
 	}
 
 	/**
 	 * Sets the organizationTagNumber attribute.
-	 * 
+	 *
 	 * @param organizationTagNumber The organizationTagNumber to set.
-	 * 
+	 *
 	 */
 	public void setOrganizationTagNumber(String organizationTagNumber) {
 		this.organizationTagNumber = organizationTagNumber;
@@ -103,19 +101,19 @@ public class AssetOrganization extends PersistableBusinessObjectBase {
 
 	/**
 	 * Gets the organizationText attribute.
-	 * 
+	 *
 	 * @return Returns the organizationText
-	 * 
+	 *
 	 */
-	public String getOrganizationText() { 
+	public String getOrganizationText() {
 		return organizationText;
 	}
 
 	/**
 	 * Sets the organizationText attribute.
-	 * 
+	 *
 	 * @param organizationText The organizationText to set.
-	 * 
+	 *
 	 */
 	public void setOrganizationText(String organizationText) {
 		this.organizationText = organizationText;
@@ -124,32 +122,21 @@ public class AssetOrganization extends PersistableBusinessObjectBase {
 
 	/**
 	 * Gets the asset attribute.
-	 * 
+	 *
 	 * @return Returns the asset
-	 * 
+	 *
 	 */
-	public Asset getAsset() { 
+	public Asset getAsset() {
 		return asset;
 	}
 
 	/**
 	 * Sets the asset attribute.
-	 * 
+	 *
 	 * @param asset The asset to set.
 	 * @deprecated
 	 */
 	public void setAsset(Asset asset) {
 		this.asset = asset;
 	}
-
-	/**
-	 * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-	    LinkedHashMap m = new LinkedHashMap();	    
-        if (this.capitalAssetNumber != null) {
-            m.put("capitalAssetNumber", this.capitalAssetNumber.toString());
-        }
-	    return m;
-    }
 }

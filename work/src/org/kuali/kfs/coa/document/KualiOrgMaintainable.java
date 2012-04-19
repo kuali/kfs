@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,7 +16,6 @@
 package org.kuali.kfs.coa.document;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -34,16 +33,15 @@ import org.kuali.rice.kns.web.ui.Section;
  * This class overrides the getCoreSections method to provide specific field conversions for the postal code
  */
 public class KualiOrgMaintainable extends FinancialSystemMaintainable {
-
     private static final long serialVersionUID = -3182120468758958991L;
 
-    public static final String KUALI_ORG_SECTION = "Edit Organization Code";
+    protected static final String KUALI_ORG_SECTION = "Edit Organization Code";
 
     /**
      * Provides special field conversions for the Org.organizationZipCode
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.Maintainable#getCoreSections(org.kuali.rice.kns.maintenance.Maintainable)
-     * 
+     *
      * KRAD Conversion: Maintainable performs the logic to adds new fields to sections if
      * organization zip code field exists in the core sections.
      * The fields definitions are built here for the new section.  They are not in data dictionary.
@@ -54,38 +52,23 @@ public class KualiOrgMaintainable extends FinancialSystemMaintainable {
         boolean fieldFound = false;
         boolean sectionFound = false;
 
-        String orgPostalCodeFieldName = KFSPropertyConstants.ORGANIZATION_ZIP_CODE;
-
         // walk the sections
-        List sections = super.getCoreSections(document, oldMaintainable);
-        for (Iterator sectionIterator = sections.iterator(); sectionIterator.hasNext();) {
-            Section section = (Section) sectionIterator.next();
-
+        List<Section> sections = super.getCoreSections(document, oldMaintainable);
+        for ( Section section : sections ) {
             // if this is the section we're looking for
             if (section.getSectionTitle().equalsIgnoreCase(KUALI_ORG_SECTION)) {
-
                 // mark that we found the section
                 sectionFound = true;
-
                 // walk the rows
                 List rows = section.getRows();
-                for (Iterator rowIterator = rows.iterator(); rowIterator.hasNext();) {
-                    Row row = (Row) rowIterator.next();
-
+                for ( Row row : section.getRows() ) {
                     // walk the fields
-                    List fields = row.getFields();
-                    for (Iterator fieldIterator = fields.iterator(); fieldIterator.hasNext();) {
-                        Field field = (Field) fieldIterator.next();
-
+                    for ( Field field : row.getFields() ) {
                         // if this is the field we're looking for ...
-                        if (field.getPropertyName().equalsIgnoreCase(orgPostalCodeFieldName)) {
-
-                            // mark that we've found the field
-                            fieldFound = true;
-
+                        if (field.getPropertyName().equalsIgnoreCase(KFSPropertyConstants.ORGANIZATION_ZIP_CODE)) {
                             // build the fieldConversions for the UserID field lookup
-                            Map fieldConversions = new HashMap();
-                            fieldConversions.put(KFSPropertyConstants.POSTAL_CODE, KFSPropertyConstants.ORGANIZATION_ZIP_CODE);
+                            Map<String,String> fieldConversions = new HashMap<String,String>(3);
+                            fieldConversions.put(KFSPropertyConstants.CODE, KFSPropertyConstants.ORGANIZATION_ZIP_CODE);
                             fieldConversions.put(KFSPropertyConstants.POSTAL_STATE_CODE, KFSPropertyConstants.ORGANIZATION_STATE_CODE);
                             fieldConversions.put(KFSPropertyConstants.POSTAL_CITY_NAME, KFSPropertyConstants.ORGANIZATION_CITY_NAME);
 
@@ -93,20 +76,28 @@ public class KualiOrgMaintainable extends FinancialSystemMaintainable {
                             field.setFieldConversions(fieldConversions);
                             // field.setLookupParameters(lookupParameters);
                             // field.setQuickFinderClassNameImpl(Person.class.getName());
+
+                            // mark that we've found the field
+                            fieldFound = true;
+                            break;
                         }
                     }
+                    // if we found the field, we don't need the rest of the rows
+                    if ( fieldFound ) {
+                        break;
+                    }
                 }
+                break; // we've found the section, no need to look further
             }
-
         }
 
         // if the section no longer exists, fail loudly
         if (!sectionFound) {
-            throw new RuntimeException("There is no longer a section titled '" + KUALI_ORG_SECTION + "'. " + "As a result, the lookup setup will not work as expected and the maintenance document " + "will be broken.  The correct name needs to be set in the Constant in this class.");
+            throw new RuntimeException("There is no longer a section titled '" + KUALI_ORG_SECTION + "'. " + "As a result, the lookup setup will not work as expected and the maintenance document will be broken.  The correct name needs to be set in the Constant in this class.");
         }
         // if the field was not found, fail loudly
-        else if (!fieldFound) {
-            throw new RuntimeException("There is no longer a field titled '" + KFSPropertyConstants.ORGANIZATION_ZIP_CODE + "'. " + "As a result, the lookup setup will not work as expected and the maintenance document " + "will be broken.  The correct name needs to be set in the KFSPropertyConstants class.");
+        if (!fieldFound) {
+            throw new RuntimeException("There is no longer a field titled '" + KFSPropertyConstants.ORGANIZATION_ZIP_CODE + "'. " + "As a result, the lookup setup will not work as expected and the maintenance document will be broken.  The correct name needs to be set in the KFSPropertyConstants class.");
         }
 
         return sections;

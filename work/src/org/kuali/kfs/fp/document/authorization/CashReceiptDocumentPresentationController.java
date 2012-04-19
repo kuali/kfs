@@ -47,6 +47,11 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
      */
     @Override
     public boolean canBlanketApprove(Document document) {
+        // blanket approve only available for cash management confirm edit mode
+        if(!this.isInCashManageConfirmMode(document)){
+            return false;
+        }
+        
         return this.canApproveOrBlanketApprove(document) ? super.canBlanketApprove(document) : false;
     }
 
@@ -95,14 +100,9 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
         return editModes;
     }
 
-    protected void addFullEntryEntryMode(Document document, Set<String> editModes) {
-        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-
-        if (workflowDocument.isEnroute()) {
-            Set<String> currentRouteLevels = workflowDocument.getCurrentNodeNames();
-            if(currentRouteLevels.contains("CashManagement")) {
-                editModes.add(KfsAuthorizationConstants.CashReceiptEditMode.CASH_MANAGER_CONFIRM_MODE);
-            }
+    protected void addFullEntryEntryMode(Document document, Set<String> editModes) {        
+        if (this.isInCashManageConfirmMode(document)){
+            editModes.add(KfsAuthorizationConstants.CashReceiptEditMode.CASH_MANAGER_CONFIRM_MODE);
         }
     }
 
@@ -112,5 +112,20 @@ public class CashReceiptDocumentPresentationController extends LedgerPostingDocu
             editModes.add(KfsAuthorizationConstants.CashReceiptEditMode.CHANGE_REQUEST_MODE);
         }
     }
+    
+    /**
+     * determine whether the given document is in cash management confirm edit mode
+     */
+    protected boolean isInCashManageConfirmMode(Document document){
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
+        if (workflowDocument.isEnroute()) {
+            Set<String> currentRouteLevels = workflowDocument.getCurrentNodeNames();
+            if(currentRouteLevels.contains(CASH_MANAGEMENT_NODE_NAME)) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
 }

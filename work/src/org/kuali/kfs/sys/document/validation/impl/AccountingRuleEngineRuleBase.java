@@ -174,9 +174,11 @@ public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements Ac
         document.refreshNonUpdateableReferences();
         
         //refresh GLPE nonupdateable business object references....
-        GeneralLedgerPostingDocumentBase glpeDocument = (GeneralLedgerPostingDocumentBase) document;
-        for (GeneralLedgerPendingEntry glpe : glpeDocument.getGeneralLedgerPendingEntries()) {
-            glpe.refreshReferenceObject("financialObject");
+        if (document instanceof GeneralLedgerPostingDocumentBase) {
+            GeneralLedgerPostingDocumentBase glpeDocument = (GeneralLedgerPostingDocumentBase) document;
+            for (GeneralLedgerPendingEntry glpe : glpeDocument.getGeneralLedgerPendingEntries()) {
+                glpe.refreshReferenceObject("financialObject");
+            }
         }
         
         return super.isDocumentAttributesValid(document, validateRequired);

@@ -74,13 +74,21 @@ public class BulkReceivingDaoOjb  extends PlatformAwareDaoBaseOjb implements Bul
     }
     
     protected List<String> getDocumentNumbersOfBulkReceivingByCriteria(Criteria criteria, boolean orderByAscending) {
+        List<String> returnList = new ArrayList<String>();
+        
         ReportQueryByCriteria rqbc = new ReportQueryByCriteria(BulkReceivingDocument.class, criteria);
-        rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
         if (orderByAscending) {
             rqbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
         }else {
             rqbc.addOrderByDescending(KFSPropertyConstants.DOCUMENT_NUMBER);
         }
-        return (List) getPersistenceBrokerTemplate().getCollectionByQuery(rqbc);
+        
+        List<BulkReceivingDocument> bulkReceivingDocs = (List<BulkReceivingDocument>) getPersistenceBrokerTemplate().getCollectionByQuery(rqbc);
+        
+        for (BulkReceivingDocument bulkReceivingDoc : bulkReceivingDocs) {
+            returnList.add(bulkReceivingDoc.getDocumentNumber());    
+        }
+        
+        return returnList;
     }
 }

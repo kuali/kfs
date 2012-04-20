@@ -102,6 +102,10 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
                 rawValues = SpringContext.getBean(SegmentedLookupResultsService.class).retrieveSelectedResultBOs(lookupResultsSequenceNumber, segmentedSelection.keySet(), Asset.class, GlobalVariables.getUserSession().getPerson().getPrincipalId());
             }
             
+            if (rawValues.size() == 0) {
+                return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            }
+            
             KualiAccountingDocumentFormBase kualiAccountingDocumentFormBase = (KualiAccountingDocumentFormBase) form;
             CapitalAccountingLinesFormBase calfb = (CapitalAccountingLinesFormBase) form;
             CapitalAccountingLinesDocumentBase caldb = (CapitalAccountingLinesDocumentBase) calfb.getFinancialDocument();

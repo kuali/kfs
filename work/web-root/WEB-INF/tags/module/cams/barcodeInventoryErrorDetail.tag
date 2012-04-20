@@ -68,7 +68,7 @@
 				readOnly="${readOnly}" />
 			<c:if test="${not readOnly}">
 				&nbsp;
-				<kul:lookup boClassName="org.kuali.rice.krad.bo.Campus" fieldConversions="campusCode:${propertyName}.campusCode" />
+				<kul:lookup boClassName="org.kuali.rice.location.framework.campus.CampusEbo" fieldConversions="code:${propertyName}.campusCode" />
 			</c:if>
 		</td>
 		

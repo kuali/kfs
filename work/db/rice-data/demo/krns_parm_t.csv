@@ -821,7 +821,6 @@ KFS-TEM,TaxableRamificationNotificationStep,TEM_EMAIL_SENDER,KFS-TEM-PARM-125,1,
 KFS-TEM,TravelImportedExpenseNotificationStep,IMPORTED_EXPENSE_NOTIFICATION_SUBJECT,KFS-TEM-PARM-126,1,CONFG,Newly Imported Expenses,The email notification subject.,A,KFS
 KFS-TEM,TravelImportedExpenseNotificationStep,IMPORTED_EXPENSE_NOTIFICATION_TEXT,KFS-TEM-PARM-127,1,CONFG,"You have newly imported expenses from corporate card, CTS, or pre-trip payments that need to be reconciled.",The text which should be sent to the travelers who have newly imported expenses.,A,KFS
 KFS-TEM,All,TEM_EMAIL_SENDER,KFS-TEM-PARM-128,1,CONFG,quickstart@localhost,The email address from which the notification is sent from,A,KFS
-KR-NS,All,LOGOFF_REDIRECT_URL,KFS-TEM-PARM-129,1,CONFG,http://temnightly.kfs.rsmart.com/cas/logout,The url to redirect to after a logout,A,KUALI
 KFS-AR,CustomerAgingReportNotificationStep,AR_EMAIL_NOTIFICATION_SELECTION,KFS-TEM-PARM-130,1,CONFG,"CHART=BL;ORG=VPIT,PSY","AR customer email notification selection criteria. Syntax is Selection Criteria=Value. Available selection criteria are: CHART, ORG and ACCOUNT",A,KFS
 KFS-AR,CustomerAgingReportNotificationStep,AR_EMAIL_NOTIFICATION_SELECTION_TYPE,KFS-TEM-PARM-131,1,CONFG,PROCESSING_ORG,"The notification selection option. Its valid value can be PROCESSING_ORG, BILLING_ORG or ACCOUNT",A,KFS
 KFS-AR,CustomerAgingReportNotificationStep,AR_EMAIL_NOTIFICATION_SUBJECT,KFS-TEM-PARM-132,1,CONFG,Customer Aging Report for ,The email notification subject.,A,KFS

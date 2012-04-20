@@ -169,10 +169,7 @@
 													</a>
 												</td>
 												<td>
-													<kul:htmlControlAttribute
-														attributeEntry="${invoiceAttributes.invoiceHeaderText}"
-														property="selectedInvoiceApplication.invoice.invoiceHeaderText"
-														readOnly="true" />
+													<c:out value="${selectedInvoiceApplication.invoice.invoiceHeaderText}" />
 												</td>
 												<td style="text-align: right;">
 													<kul:htmlControlAttribute
@@ -187,16 +184,10 @@
 											</tr>
 											<tr>
 												<td>
-													<kul:htmlControlAttribute
-														attributeEntry="${invoiceAttributes.billingDate}"
-														property="selectedInvoiceApplication.invoice.billingDate"
-														readOnly="true" />
+													<c:out value="${selectedInvoiceApplication.invoice.billingDate}"/>
 												</td>
 												<td>
-													<kul:htmlControlAttribute
-														attributeEntry="${customerAttributes.customerNumber}"
-														property="selectedInvoiceApplication.invoice.accountsReceivableDocumentHeader.customer.customerName"
-														readOnly="true" />
+													<c:out value="${selectedInvoiceApplication.invoice.accountsReceivableDocumentHeader.customer.customerName}" />
 												</td>
 												<td style="text-align: right;">
 													<kul:htmlControlAttribute

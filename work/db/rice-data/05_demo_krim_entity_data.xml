@@ -17,6 +17,12 @@
 	<changeSet context="demo" author="kfs" id="KRIM_ENTITY_EMAIL_T">
 		<loadData tableName="KRIM_ENTITY_EMAIL_T" file="demo/krim_entity_email_t.csv" />
     </changeSet>
+  <changeSet context="demo" author="kfs" id="KRIM_ENTITY_ADDR_T">
+    <loadData tableName="KRIM_ENTITY_ADDR_T" file="demo/krim_entity_addr_t.csv" />
+  </changeSet>
+  <changeSet context="demo" author="kfs" id="KRIM_ENTITY_PHONE_T">
+    <loadData tableName="KRIM_ENTITY_PHONE_T" file="demo/krim_entity_phone_t.csv" />
+  </changeSet>
 	<changeSet context="demo" author="kfs" id="KRIM_ENTITY_EMP_INFO_T">
 		<loadData tableName="KRIM_ENTITY_EMP_INFO_T" file="demo/krim_entity_emp_info_t.csv" />
     </changeSet>

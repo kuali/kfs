@@ -250,6 +250,10 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @see org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService#getAllAssetTransactionTypes()
      */
     public List<CapitalAssetBuilderAssetTransactionType> getAllAssetTransactionTypes() {
+        // RICE20: FIX ME!!!!!  Someone did not understand the concept of "Externalizable" business objects...We can not
+        // necessarily retrieve them from the business object service
+        // Actually - using the EBO system here is not necessary at all
+        // Since this *IS* the implementation for the built in CAB module, it can use it's BO classes freely
         Class<? extends CapitalAssetBuilderAssetTransactionType> assetTransactionTypeClass = this.getKualiModuleService().getResponsibleModuleService(CapitalAssetBuilderAssetTransactionType.class).getExternalizableBusinessObjectImplementation(CapitalAssetBuilderAssetTransactionType.class);
         Map<String, Object> searchKeys = new HashMap<String, Object>();
         searchKeys.put("active", "Y");

@@ -30,6 +30,9 @@
 	</ciManagement>
 
 	<properties>
+		<classes.output.dir>../../work/web-root/WEB-INF/classes</classes.output.dir>
+		<optional.module.base.path>org/kuali/kfs/module</optional.module.base.path>
+	
 		<rice.version>2.0.2-SNAPSHOT</rice.version>
 		<servlet-api.version>2.5</servlet-api.version>
 		<jsp-api.version>2.1</jsp-api.version>

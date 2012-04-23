@@ -33,7 +33,7 @@
 
 	<build>
 		<sourceDirectory>../../work/src</sourceDirectory>
-		<outputDirectory>../../work/web-root/WEB-INF/classes</outputDirectory>
+		<outputDirectory>${classes.output.dir}</outputDirectory>
 		<defaultGoal>compile</defaultGoal>
 		<resources>
 			<resource>
@@ -41,7 +41,7 @@
 				<filtering>false</filtering>
 				<!-- <includes> <include>org/kuali/kfs/**</include> </includes> -->
 				<excludes>
-					<exclude>org/kuali/kfs/module/**</exclude>
+					<exclude>${optional.module.base.path}/**</exclude>
 					<exclude>**/*.java</exclude>
 				</excludes>
 			</resource>
@@ -56,7 +56,7 @@
 					<target>1.6</target>
 					<!-- <includes> <include>org/kuali/kfs/**</include> </includes> -->
 					<excludes>
-						<exclude>org/kuali/kfs/module/**</exclude>
+						<exclude>${optional.module.base.path}/**</exclude>
 					</excludes>
 				</configuration>
 			</plugin>

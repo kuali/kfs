@@ -18,14 +18,16 @@
 	</parent>
 
 	<groupId>org.kuali.kfs</groupId>
-	<artifactId>opt-module</artifactId>
+	<artifactId>optional</artifactId>
 	<packaging>pom</packaging>
 	<name>KFS Optional Modules</name>
 	<inceptionYear>2004</inceptionYear>
 	<version>5.0-SNAPSHOT</version>
 		
 	<properties>
-		<module.file.path>unset</module.file.path>
+		<module.file.path>UNSET</module.file.path>
+		<module.base.source.dir>../../../work/src</module.base.source.dir>
+		<classes.output.dir>../../../work/web-root/WEB-INF/classes</classes.output.dir>
 	</properties>
 
 	<profiles>
@@ -40,18 +42,18 @@
 	</modules>
 
 	<build>
-		<sourceDirectory>../../../work/src</sourceDirectory>
-		<outputDirectory>../../../work/web-root/WEB-INF/classes</outputDirectory>
+		<sourceDirectory>${module.base.source.dir}</sourceDirectory>
+		<outputDirectory>${classes.output.dir}</outputDirectory>
 		<defaultGoal>compile</defaultGoal>
 		<resources>
 			<resource>
-				<directory>../../../work/src</directory>
+				<directory>${module.base.source.dir}</directory>
 				<filtering>false</filtering>
 				<includes>
-					<include>org/kuali/kfs/module/${module.file.path}/**</include>
+					<include>${optional.module.base.path}/${module.file.path}/**</include>
 				</includes>
 				<excludes>
-					<exclude>org/kuali/kfs/module/**</exclude>
+					<exclude>${optional.module.base.path}/**</exclude>
 					<exclude>**/*.java</exclude>
 				</excludes>
 			</resource>

@@ -13,12 +13,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.kuali.kfs</groupId>
-		<artifactId>optional</artifactId>
+		<artifactId>kfs-optional</artifactId>
 		<version>5.0-SNAPSHOT</version>
 	</parent>
 
 	<groupId>org.kuali.kfs</groupId>
-	<artifactId>ar</artifactId>
+	<artifactId>kfs-ar</artifactId>
 	<packaging>jar</packaging>
 	<name>KFS Accounts Receivable</name>
 	<inceptionYear>2004</inceptionYear>
@@ -27,10 +27,6 @@
 	<properties>
 		<module.file.path>ar</module.file.path>
 	</properties>
-
-	<build>
-		<finalName>kfs-${project.artifactId}-${project.version}</finalName>
-	</build>
 
 	<profiles>
 		<!-- <profile> <id></id> <properties> </properties> </profile> -->

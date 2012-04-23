@@ -30,10 +30,14 @@
 	</ciManagement>
 
 	<properties>
+		<!-- application properties -->
+		<application.id>${project.artifactId}</application.id>
+	
+		<!-- Maven build paths -->
 		<classes.output.dir>../../work/web-root/WEB-INF/classes</classes.output.dir>
 		<optional.module.base.path>org/kuali/kfs/module</optional.module.base.path>
 	
-	
+		<!-- optional module switches (changed by profiles - do not change manually) -->
 		<module.labor.distribution.enabled>false</module.labor.distribution.enabled>
 		<module.endowment.enabled>false</module.endowment.enabled>
 		<module.capital.asset.enabled>false</module.capital.asset.enabled>		
@@ -42,6 +46,7 @@
 		<module.contracts.and.grants.enabled>false</module.contracts.and.grants.enabled>
 		<module.external.kuali.coeus.enabled>false</module.external.kuali.coeus.enabled>
 	
+		<!-- library versions -->
 		<rice.version>2.0.2-SNAPSHOT</rice.version>
 		<servlet-api.version>2.5</servlet-api.version>
 		<jsp-api.version>2.1</jsp-api.version>

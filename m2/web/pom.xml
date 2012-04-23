@@ -15,24 +15,28 @@
 		<artifactId>kfs</artifactId>
 		<version>5.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>web</artifactId>
+	<artifactId>kfs-web</artifactId>
 	<packaging>war</packaging>
 
 	<properties>
 		<monitoring.filter />
 		<monitoring.mapping />
 		<monitoring.listener />
+		
+		<bootstrap.spring.file>classpath:kfs-startup.xml</bootstrap.spring.file>
+		<http.session.timeout.minutes>15</http.session.timeout.minutes>
+		
+		<distributable.tag><![CDATA[<distributable />]]></distributable.tag>
+		
+		<monitoring.filter.definitions><![CDATA[]]></monitoring.filter.definitions>
+		<authentication.filter.definition><![CDATA[]]></authentication.filter.definition>
+		<authentication.filter.mappings><![CDATA[]]></authentication.filter.mappings>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>core</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>cg</artifactId>
+			<artifactId>kfs-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -49,7 +53,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>kfs-${version}</finalName>
+		<finalName>kfs-${project.version}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -118,43 +122,183 @@
 
 	<profiles>
 		<profile>
-			<id>monitoring</id>
+			<id>dev</id>
 			<properties>
-				<monitoring.filter>
-          <![CDATA[
-<filter>
-    <filter-name>monitoring</filter-name>
-    <filter-class>net.bull.javamelody.MonitoringFilter</filter-class>
-    <init-param>
-        <param-name>log</param-name>
-        <param-value>true</param-value>
-    </init-param>
-    <init-param>
-             <param-name>system-actions-enabled</param-name>
-             <param-value>true</param-value>
-    </init-param>
-    <init-param>
-              <param-name>url-exclude-pattern</param-name>
-              <param-value>/static/.*|/kr/static/.*|/kr/images/.*|/images-portal/.*</param-value>
-    </init-param>
-</filter>
-          ]]>
-				</monitoring.filter>
-				<monitoring.mapping>
-          <![CDATA[
-<filter-mapping>
-    <filter-name>monitoring</filter-name>
-    <url-pattern>/*</url-pattern>
-</filter-mapping>
-          ]]>
-				</monitoring.mapping>
-				<monitoring.listener>
-          <![CDATA[
-<listener>
-    <listener-class>net.bull.javamelody.SessionListener</listener-class>
-</listener>
-          ]]>
-				</monitoring.listener>
+				<authentication.filter.definition><![CDATA[
+	<filter>
+		<filter-name>DummyLoginFilter</filter-name>
+		<filter-class>org.kuali.kfs.sys.web.filter.DevelopmentLoginFilter</filter-class>
+			<init-param>
+				<param-name>loginUser</param-name>
+				<param-value>khuntley</param-value>
+			</init-param>
+	</filter>
+]]></authentication.filter.definition>
+				<authentication.filter.mappings><![CDATA[
+	<filter-mapping>
+		<filter-name>DummyLoginFilter</filter-name>
+		<servlet-name>action</servlet-name>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>DummyLoginFilter</filter-name>
+		<servlet-name>dwr-invoker</servlet-name>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>DummyLoginFilter</filter-name>
+		<servlet-name>batchFileUpload</servlet-name>
+	</filter-mapping>
+]]></authentication.filter.mappings>
+			</properties>
+		</profile>
+		<profile>
+			<id>cg</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>${project.groupId}</groupId>
+					<artifactId>kfs-cg</artifactId>
+					<version>${project.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>ar</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>${project.groupId}</groupId>
+					<artifactId>kfs-ar</artifactId>
+					<version>${project.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>cab</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>${project.groupId}</groupId>
+					<artifactId>kfs-cab</artifactId>
+					<version>${project.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>cam</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>${project.groupId}</groupId>
+					<artifactId>kfs-cam</artifactId>
+					<version>${project.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>purap</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>${project.groupId}</groupId>
+					<artifactId>kfs-purap</artifactId>
+					<version>${project.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>ld</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>${project.groupId}</groupId>
+					<artifactId>kfs-ld</artifactId>
+					<version>${project.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>ec</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>${project.groupId}</groupId>
+					<artifactId>kfs-ec</artifactId>
+					<version>${project.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>bc</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>${project.groupId}</groupId>
+					<artifactId>kfs-bc</artifactId>
+					<version>${project.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>endow</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>${project.groupId}</groupId>
+					<artifactId>kfs-endow</artifactId>
+					<version>${project.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+
+		<profile>
+			<id>monitoring</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+		<monitoring.filter.definitions><![CDATA[
+    <filter>
+		<filter-name>monitoring</filter-name>
+		<filter-class>net.bull.javamelody.MonitoringFilter</filter-class>
+		<init-param>
+			<param-name>url-exclude-pattern</param-name>
+			<param-value>/static/.*|/kr/static/.*|/kr/images/.*|/images-portal/.*</param-value>
+		</init-param>
+		<init-param>
+			<param-name>system-actions-enabled</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>http-transform-pattern</param-name>
+			<param-value>\d+</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>monitoring</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<listener>
+		<listener-class>net.bull.javamelody.SessionListener</listener-class>
+	</listener>
+		]]></monitoring.filter.definitions>
 			</properties>
 			<build>
 			</build>

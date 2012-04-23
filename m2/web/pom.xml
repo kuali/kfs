@@ -1,0 +1,206 @@
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <name>KFS Web</name>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.kuali.kfs</groupId>
+    <artifactId>kfs</artifactId>
+    <version>5.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>web</artifactId>
+  <packaging>war</packaging>
+
+  <properties>
+    <monitoring.filter />
+    <monitoring.mapping />
+    <monitoring.listener />
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>cg</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <webResources>
+            <resource>
+              <filtering>true</filtering>
+              <!-- this is relative to the pom.xml directory -->
+              <directory>../../work/web-root</directory>
+              <includes>
+                <include>**/web.xml</include>
+              </includes>
+            </resource>
+            <resource>
+              <filtering>false</filtering>
+              <!-- this is relative to the pom.xml directory -->
+              <directory>../../work/web-root</directory>
+              <excludes>
+                <exclude>**/web.xml</exclude>
+                <exclude>**/*.class</exclude>
+              </excludes>
+            </resource>
+          </webResources>
+        </configuration>
+      </plugin>
+      <!--
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>process-resources</phase>
+            <configuration>
+              <tasks>
+                <echo>Extracting Help Files</echo>
+                <unzip src="${basedir}/src/main/help/RiceHelp.zip" dest="${project.build.directory}/help/kr/static/help/" />
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      -->
+      <!--
+      <plugin>
+        <groupId>com.samaxes.maven</groupId>
+        <artifactId>maven-minify-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>default-minify</id>
+            <phase>process-resources</phase>
+            <configuration>
+              <webappSourceDir>../../work/web-root</webappSourceDir>
+              <cssSourceDir>css</cssSourceDir>
+              <cssSourceIncludes>
+                <cssSourceInclude>**/*.css</cssSourceInclude>
+              </cssSourceIncludes>
+              <jsSourceDir>scripts</jsSourceDir>
+              <jsSourceIncludes>
+                <jsSourceInclude>**/*.js</jsSourceInclude>
+              </jsSourceIncludes>
+              <cssTargetDir>css</cssTargetDir>
+              <cssFinalFile>kfs.css</cssFinalFile>
+              <jsTargetDir>scripts</jsTargetDir>
+              <jsFinalFile>kfs.js</jsFinalFile>
+            </configuration>
+            <goals>
+              <goal>minify</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      -->
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>monitoring</id>
+      <properties>
+        <monitoring.filter>
+          <![CDATA[
+<filter>
+    <filter-name>monitoring</filter-name>
+    <filter-class>net.bull.javamelody.MonitoringFilter</filter-class>
+    <init-param>
+        <param-name>log</param-name>
+        <param-value>true</param-value>
+    </init-param>
+    <init-param>
+             <param-name>system-actions-enabled</param-name>
+             <param-value>true</param-value>
+    </init-param>
+    <init-param>
+              <param-name>url-exclude-pattern</param-name>
+              <param-value>/static/.*|/kr/static/.*|/kr/images/.*|/images-portal/.*</param-value>
+    </init-param>
+</filter>
+          ]]>
+        </monitoring.filter>
+        <monitoring.mapping>
+          <![CDATA[
+<filter-mapping>
+    <filter-name>monitoring</filter-name>
+    <url-pattern>/*</url-pattern>
+</filter-mapping>
+          ]]>
+        </monitoring.mapping>
+        <monitoring.listener>
+          <![CDATA[
+<listener>
+    <listener-class>net.bull.javamelody.SessionListener</listener-class>
+</listener>
+          ]]>
+        </monitoring.listener>
+      </properties>
+      <build>
+      </build>
+      <dependencies>
+        <!-- javamelody-core -->
+        <dependency>
+          <groupId>net.bull.javamelody</groupId>
+          <artifactId>javamelody-core</artifactId>
+          <version>1.31.0</version>
+        </dependency>
+        <!-- itext, option to add PDF export -->
+        <dependency>
+          <groupId>com.lowagie</groupId>
+          <artifactId>itext</artifactId>
+          <version>2.1.7</version>
+          <exclusions>
+            <exclusion>
+              <artifactId>bcmail-jdk14</artifactId>
+              <groupId>bouncycastle</groupId>
+            </exclusion>
+            <exclusion>
+              <artifactId>bcprov-jdk14</artifactId>
+              <groupId>bouncycastle</groupId>
+            </exclusion>
+            <exclusion>
+              <artifactId>bctsp-jdk14</artifactId>
+              <groupId>bouncycastle</groupId>
+            </exclusion>
+          </exclusions>
+        </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
+
+</project>

@@ -358,9 +358,7 @@
 	<modules>
 		<module>core</module>
 		<module>optional</module>
-		<!-- <module>ar</module> <module>cam</module> <module>cab</module> <module>purap</module> 
-			<module>ld</module> <module>bc</module>  <module>endow</module> 
-			<module>ec</module> <module>kc</module> -->
+		<module>web</module>
 	</modules>
 
 	<repositories>

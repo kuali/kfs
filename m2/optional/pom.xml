@@ -48,6 +48,7 @@
 	</modules>
 
 	<build>
+		<finalName>kfs-${project.artifactId}-${project.version}</finalName>
 		<sourceDirectory>${module.base.source.dir}</sourceDirectory>
 		<outputDirectory>${classes.output.dir}</outputDirectory>
 		<defaultGoal>compile</defaultGoal>

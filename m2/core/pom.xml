@@ -32,6 +32,7 @@
 	</profiles>
 
 	<build>
+		<finalName>kfs-${artifactId}-${version}</finalName>
 		<sourceDirectory>../../work/src</sourceDirectory>
 		<outputDirectory>${classes.output.dir}</outputDirectory>
 		<defaultGoal>compile</defaultGoal>

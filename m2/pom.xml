@@ -43,6 +43,7 @@
 	</profiles>
 
 	<build>
+		<finalName>kfs-${artifactId}-${version}</finalName>
 		<testResources>
 			<!-- NOTE: Because Maven test runs can be spawned in a new JVM, the system 
 				properties on the initial Maven command line are not necessarily propagated 

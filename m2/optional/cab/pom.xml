@@ -28,6 +28,10 @@
 		<module.file.path>cab</module.file.path>
 	</properties>
 
+	<build>
+		<finalName>kfs-${project.artifactId}-${project.version}</finalName>
+	</build>
+
 	<profiles>
 		<!-- <profile> <id></id> <properties> </properties> </profile> -->
 	</profiles>

@@ -40,12 +40,12 @@
 	</modules>
 
 	<build>
-		<sourceDirectory>../../work/src</sourceDirectory>
-		<outputDirectory>../../work/web-root/WEB-INF/classes</outputDirectory>
+		<sourceDirectory>../../../work/src</sourceDirectory>
+		<outputDirectory>../../../work/web-root/WEB-INF/classes</outputDirectory>
 		<defaultGoal>compile</defaultGoal>
 		<resources>
 			<resource>
-				<directory>../../work/src</directory>
+				<directory>../../../work/src</directory>
 				<filtering>false</filtering>
 				<includes>
 					<include>org/kuali/kfs/module/${module.file.path}/**</include>

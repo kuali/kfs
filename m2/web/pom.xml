@@ -31,6 +31,8 @@
 		<monitoring.filter.definitions><![CDATA[]]></monitoring.filter.definitions>
 		<authentication.filter.definition><![CDATA[]]></authentication.filter.definition>
 		<authentication.filter.mappings><![CDATA[]]></authentication.filter.mappings>
+		
+		<spring.source.files>${core.spring.source.files}${contracts.and.grants.spring.files}</spring.source.files>
 	</properties>
 
 	<dependencies>

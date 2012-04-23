@@ -46,6 +46,10 @@
 		<module.contracts.and.grants.enabled>false</module.contracts.and.grants.enabled>
 		<module.external.kuali.coeus.enabled>false</module.external.kuali.coeus.enabled>
 	
+	
+		<contracts.and.grants.spring.files></contracts.and.grants.spring.files>
+		<core.spring.source.files>classpath:net/bull/javamelody/monitoring-spring.xml,classpath:org/kuali/kfs/sys/spring-sys.xml,classpath:org/kuali/kfs/coa/spring-coa.xml,classpath:org/kuali/kfs/fp/spring-fp.xml,classpath:org/kuali/kfs/gl/spring-gl.xml,classpath:org/kuali/kfs/pdp/spring-pdp.xml,classpath:org/kuali/kfs/vnd/spring-vnd.xml</core.spring.source.files>
+		
 		<!-- library versions -->
 		<rice.version>2.0.2-SNAPSHOT</rice.version>
 		<servlet-api.version>2.5</servlet-api.version>
@@ -69,6 +73,7 @@
 			</activation>
 			<properties>
 				<module.contracts.and.grants.enabled>true</module.contracts.and.grants.enabled>
+				<contracts.and.grants.spring.files>,classpath:org/kuali/kfs/module/cg/spring-cg.xml</contracts.and.grants.spring.files>
 			</properties>
 		</profile>
 		<profile>

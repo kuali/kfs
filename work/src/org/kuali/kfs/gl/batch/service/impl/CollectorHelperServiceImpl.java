@@ -250,7 +250,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
             Set<String> multipleChartCodesCache = new HashSet<String>();
             Map<String, String> accountNumberToChartCodeCache = new HashMap<String, String>();
             
-            Iterator<Object> originEntryAndDetailIterator = IteratorUtils.chainedIterator(collectorBatch.getOriginEntries().iterator(), collectorBatch.getCollectorDetails().iterator());
+            Iterator<?> originEntryAndDetailIterator = IteratorUtils.chainedIterator(collectorBatch.getOriginEntries().iterator(), collectorBatch.getCollectorDetails().iterator());
             while (originEntryAndDetailIterator.hasNext()) {
                 Object originEntryOrDetail = originEntryAndDetailIterator.next();
                 if (StringUtils.isBlank(extractChartOfAccountsCode(originEntryOrDetail))) {

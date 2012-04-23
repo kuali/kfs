@@ -20,6 +20,7 @@
 	description="If document is in read only mode"%>
 <%@ attribute name="isCustomerSelected" required="true"
     description="Whether or not the customer is set" %>
+<c:set var="docHeaderAttributes" value="${DataDictionary.FinancialSystemDocumentHeader.attributes}" />
 
 <kul:tab tabTitle="Summary of Applied Funds"
 	defaultOpen="${isCustomerSelected}"
@@ -139,11 +140,11 @@
 									</c:if>
 									<c:if test="${showCCAndBtbA}">
 										<td style="text-align: right;">
-											<kul:htmlControlAttribute
-												attributeEntry="${document.documentHeader.financialDocumentTotalAmount}"
+											 <kul:htmlControlAttribute
+												attributeEntry="${docHeaderAttributes.financialDocumentTotalAmount}"
 												property="document.documentHeader.financialDocumentTotalAmount"
 												readOnly="true" />
-											<!--$<c:out value="${KualiForm.document.documentHeader.financialDocumentTotalAmount}" />-->
+											 <!--$<c:out value="${KualiForm.document.documentHeader.financialDocumentTotalAmount}" />-->
 										</td>
 										<td style="text-align: right;">
 											${unallocatedBalance}									

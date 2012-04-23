@@ -39,7 +39,7 @@ KFS-CAB,Batch,BALANCE_TYPES,KFS32,1,CONFG,AC,Balance types allowed for transacti
 KFS-CAB,Batch,CHARTS,KFS33,1,CONFG,HO,Set of chart codes excluded from CAB.,D,KFS
 KFS-CAB,Batch,DOCUMENT_TYPES,KFS34,1,CONFG,ACLO;TF;YETF;AA;SACH,Set of document type codes that are excluded from CAB.,D,KFS
 KFS-CAB,Batch,FISCAL_PERIODS,KFS35,1,CONFG,CB;BB,Fiscal periods that are excluded from CAB.,D,KFS
-KFS-CAB,Batch,LAST_EXTRACT_TIME,KFS36,1,CONFG,6/1/2008 0:00,Last CAB extract time stamp which is modified every time batch runs successfully.,A,KFS
+KFS-CAB,Batch,LAST_EXTRACT_TIME,KFS36,1,CONFG,6/1/2008 12:00:00,Last CAB extract time stamp which is modified every time batch runs successfully.,A,KFS
 KFS-CAB,Batch,OBJECT_SUB_TYPES,KFS37,1,CONFG,AM;BY;BR;BX;CF;C1;C2;CM;CO;CP;ES;UC;UF;UO,Object Sub-Type codes allowed for transactions processed in CAB.,A,KFS
 KFS-CAB,Batch,SUB_FUND_GROUPS,KFS38,1,CONFG,EXTAGY,Set of sub fund group codes excluded from CAB.,D,KFS
 KFS-CAB,Document,CHARTS_REQUIRING_ASSET_NUMBER_ON_PURCHASE_ORDER,KFS39,1,CONFG,IN;BA,Requires the capital asset asset number for the given Chart(s) when capital asset data is allowed on the Purchase Order.,A,KFS

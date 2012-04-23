@@ -65,6 +65,8 @@
 			</activation>
 			<modules>
 				<module>cab</module>
+				<module>cam</module>
+				<module>purap</module>
 			</modules>
 		</profile>
 		<profile>
@@ -74,6 +76,7 @@
 			</activation>
 			<modules>
 				<module>bc</module>
+				<module>ld</module>
 			</modules>
 		</profile>
 		<profile>
@@ -83,6 +86,7 @@
 			</activation>
 			<modules>
 				<module>ec</module>
+				<module>ld</module>
 			</modules>
 		</profile>
 		<profile>
@@ -116,18 +120,7 @@
 	</profiles>
 
 	<modules>
-		<!-- 
-		<module>ar</module>
-		<module>cg</module>
-		<module>cam</module>
-		<module>cab</module>
-		<module>purap</module>
-		<module>ld</module>
-		<module>bc</module>
-		<module>ec</module>
-		<module>endow</module>
-		-->
-		<!--  <module>kc</module> -->
+		<!-- modules are defined in the profiles above -->
 	</modules>
 
 	<build>
@@ -157,7 +150,7 @@
 					<source>1.6</source>
 					<target>1.6</target>
 					<includes>
-						<include>org/kuali/kfs/module/${module.file.path}/**</include>
+						<include>${optional.module.base.path}/${module.file.path}/**</include>
 					</includes>
 				</configuration>
 			</plugin>

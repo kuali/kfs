@@ -33,17 +33,108 @@
 		<classes.output.dir>../../work/web-root/WEB-INF/classes</classes.output.dir>
 		<optional.module.base.path>org/kuali/kfs/module</optional.module.base.path>
 	
+	
+		<module.labor.distribution.enabled>false</module.labor.distribution.enabled>
+		<module.endowment.enabled>false</module.endowment.enabled>
+		<module.capital.asset.enabled>false</module.capital.asset.enabled>		
+		<module.accounts.receivable.enabled>false</module.accounts.receivable.enabled>
+		<module.purchasing.enabled>false</module.purchasing.enabled>
+		<module.contracts.and.grants.enabled>false</module.contracts.and.grants.enabled>
+		<module.external.kuali.coeus.enabled>false</module.external.kuali.coeus.enabled>
+	
 		<rice.version>2.0.2-SNAPSHOT</rice.version>
 		<servlet-api.version>2.5</servlet-api.version>
 		<jsp-api.version>2.1</jsp-api.version>
 	</properties>
 
 	<profiles>
-		<!-- <profile> <id></id> <properties> </properties> </profile> -->
+		<profile>
+			<id>ar</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<module.accounts.receivable.enabled>true</module.accounts.receivable.enabled>
+			</properties>
+		</profile>
+		<profile>
+			<id>cg</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<module.contracts.and.grants.enabled>true</module.contracts.and.grants.enabled>
+			</properties>
+		</profile>
+		<profile>
+			<id>cam</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<module.capital.asset.enabled>true</module.capital.asset.enabled>
+			</properties>
+		</profile>
+		<profile>
+			<id>cab</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<module.capital.asset.enabled>true</module.capital.asset.enabled>
+				<module.purchasing.enabled>true</module.purchasing.enabled>
+			</properties>
+		</profile>
+		<profile>
+			<id>bc</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<module.labor.distribution.enabled>true</module.labor.distribution.enabled>			
+			</properties>
+		</profile>
+		<profile>
+			<id>ec</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<module.labor.distribution.enabled>true</module.labor.distribution.enabled>			
+			</properties>
+		</profile>
+		<profile>
+			<id>endow</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<module.endowment.enabled>true</module.endowment.enabled>
+			</properties>
+		</profile>
+		<profile>
+			<id>ld</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<module.labor.distribution.enabled>true</module.labor.distribution.enabled>			
+			</properties>
+		</profile>
+		<profile>
+			<id>purap</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<module.purchasing.enabled>true</module.purchasing.enabled>
+			</properties>
+		</profile>
+
 	</profiles>
 
 	<build>
-		<finalName>kfs-${artifactId}-${version}</finalName>
+		<finalName>kfs-${project.artifactId}-${project.version}</finalName>
 		<testResources>
 			<!-- NOTE: Because Maven test runs can be spawned in a new JVM, the system 
 				properties on the initial Maven command line are not necessarily propagated 

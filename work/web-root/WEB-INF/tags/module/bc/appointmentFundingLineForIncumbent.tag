@@ -159,7 +159,7 @@
 			detailFunctionExtraParam="${fundingLine.universityFiscalYear}, "
 			detailField="financialSubObject.financialSubObjectCdshortNm"
 			attributes="${pbcafAttributes}" lookup="true" inquiry="${doLookupOrInquiry}" 
-			boClassSimpleName="SubObjCd"
+			boClassSimpleName="SubObjectCode"
 			readOnly="${hasBeenAdded || isKeyFieldsLocked}"
 			displayHidden="false"
 			lookupOrInquiryKeys="universityFiscalYear,chartOfAccountsCode,financialObjectCode,accountNumber"

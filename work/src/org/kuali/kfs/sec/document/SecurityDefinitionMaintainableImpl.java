@@ -29,7 +29,6 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.common.template.Template;
 import org.kuali.rice.kim.api.permission.Permission;
 import org.kuali.rice.kim.api.role.Role;
-import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.DocumentHeader;
@@ -67,9 +66,6 @@ public class SecurityDefinitionMaintainableImpl extends AbstractSecurityModuleMa
                 createOrUpdateDocumentPermissions(newSecurityDefinition);
                 createOrUpdateLookupPermission(newSecurityDefinition);
                 createOrUpdateInquiryPermissions(newSecurityDefinition);
-
-
-                SpringContext.getBean(IdentityManagementService.class).flushAllCaches();
             }
             catch (WorkflowException e) {
                 LOG.error("caught exception while handling handleRouteStatusChange -> documentService.getByDocumentHeaderId(" + documentHeader.getDocumentNumber() + "). ", e);

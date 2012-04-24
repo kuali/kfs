@@ -35,7 +35,6 @@ import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.role.RoleService;
-import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.DocumentHeader;
@@ -75,8 +74,6 @@ public class SecurityModelMaintainableImpl extends AbstractSecurityModuleMaintai
                 if (!newSecurityModel.isActive()) {
                     inactivateModelRole(modelRole);
                 }
-
-                SpringContext.getBean(IdentityManagementService.class).flushAllCaches();
             }
             catch (WorkflowException e) {
                 LOG.error("caught exception while handling handleRouteStatusChange -> documentService.getByDocumentHeaderId(" + documentHeader.getDocumentNumber() + "). ", e);

@@ -1,12 +1,12 @@
 /*
  * Copyright 2005-2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.coa.businessobject;
 
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.KualiCodeBase;
 
@@ -24,9 +25,11 @@ import org.kuali.rice.krad.bo.KualiCodeBase;
  */
 public class BalanceType extends KualiCodeBase implements MutableInactivatable {
 
-    private String financialBalanceTypeShortNm;
-    private boolean financialOffsetGenerationIndicator;
-    private boolean finBalanceTypeEncumIndicator;
+    public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + "BalanceType";
+
+    protected String financialBalanceTypeShortNm;
+    protected boolean financialOffsetGenerationIndicator;
+    protected boolean finBalanceTypeEncumIndicator;
 
     /**
      * Constructs a BalanceTyp.java.

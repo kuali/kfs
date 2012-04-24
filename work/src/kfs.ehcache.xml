@@ -18,7 +18,7 @@
 <ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
          updateCheck="false" monitoring="autodetect"
-         dynamicConfig="true" name="kfsCoreLocalCacheManager">
+         dynamicConfig="true" name="kfs.core.LocalCacheManager">
 
   <defaultCache eternal="false"
          overflowToDisk="false"
@@ -40,62 +40,18 @@
 	<cache name="KFS/AccountingPeriod" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />
 	<cache name="KFS/Organization" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />
 	<cache name="KFS/SubAccount" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />
+  	<cache name="KFS/ProjectCode" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />
 
   	<!-- Cache (replacement for @CacheNoCopy)-->
+  	<cache name="KFS/Chart" maxEntriesLocalHeap="10000" /> 
   	<cache name="KFS/UniversityDate" maxEntriesLocalHeap="10000" /> 
   	<cache name="KFS/SystemOptions" maxEntriesLocalHeap="10000" />
   	<cache name="KFS/ObjectCode" maxEntriesLocalHeap="10000" />
+  	<cache name="KFS/ObjectType" maxEntriesLocalHeap="10000" />
+  	<cache name="KFS/BalanceType" maxEntriesLocalHeap="10000" />
   	<!-- <cache name="KFS/Organization" /> -->
-  	<cache name="KFS/ProjectCode" maxEntriesLocalHeap="10000" />
   	<cache name="KFS/HomeOrigination" maxEntriesLocalHeap="10000" />
   	<cache name="KFS/AssetObjectCode" maxEntriesLocalHeap="10000" />  
-
-<!-- EhCache configuration option from ehcache.xsd --> 
-<!-- <xs:element name="cache">
-	<xs:complexType>
-		<xs:sequence>
-			<xs:element minOccurs="0" maxOccurs="unbounded" ref="cacheEventListenerFactory" />
-			<xs:element minOccurs="0" maxOccurs="unbounded"	ref="cacheExtensionFactory" />
-			<xs:element minOccurs="0" maxOccurs="unbounded" ref="cacheLoaderFactory" />
-			<xs:element minOccurs="0" maxOccurs="unbounded"	ref="cacheDecoratorFactory" />
-			<xs:element minOccurs="0" maxOccurs="1"	ref="bootstrapCacheLoaderFactory" />
-			<xs:element minOccurs="0" maxOccurs="1"	ref="cacheExceptionHandlerFactory" />
-			<xs:element minOccurs="0" maxOccurs="1" ref="pinning" />
-			<xs:element minOccurs="0" maxOccurs="1" ref="terracotta" />
-			<xs:element minOccurs="0" maxOccurs="1" ref="cacheWriter" />
-			<xs:element minOccurs="0" maxOccurs="1" ref="copyStrategy" />
-			<xs:element minOccurs="0" maxOccurs="1" ref="searchable" />
-			<xs:element minOccurs="0" maxOccurs="1"	ref="elementValueComparator" />
-		</xs:sequence>
-		<xs:attribute name="diskExpiryThreadIntervalSeconds" type="xs:integer" use="optional" />
-		<xs:attribute name="diskSpoolBufferSizeMB" type="xs:integer" use="optional" />
-		<xs:attribute name="diskPersistent" type="xs:boolean" use="optional" />
-		<xs:attribute name="diskAccessStripes" type="xs:integer" use="optional" default="1" />
-***		<xs:attribute name="eternal" type="xs:boolean" use="required" />
-		<xs:attribute name="maxElementsInMemory" type="xs:integer" use="optional" />
-		<xs:attribute name="maxEntriesLocalHeap" type="xs:integer" use="optional" />
-		<xs:attribute name="memoryStoreEvictionPolicy" type="xs:string"	use="optional" />
-		<xs:attribute name="clearOnFlush" type="xs:boolean" use="optional" />
-***		<xs:attribute name="name" type="xs:string" use="required" />
-***		<xs:attribute name="overflowToDisk" type="xs:boolean" use="required" />
-		<xs:attribute name="timeToIdleSeconds" type="xs:integer" use="optional" />
-		<xs:attribute name="timeToLiveSeconds" type="xs:integer" use="optional" />
-		<xs:attribute name="maxElementsOnDisk" type="xs:integer" use="optional" />
-		<xs:attribute name="maxEntriesLocalDisk" type="xs:integer" use="optional" />
-		<xs:attribute name="transactionalMode" type="transactionalMode"	use="optional" default="off" />
-		<xs:attribute name="statistics" type="xs:boolean" use="optional" default="false" />
-		<xs:attribute name="copyOnRead" type="xs:boolean" use="optional" default="false" />
-		<xs:attribute name="copyOnWrite" type="xs:boolean" use="optional" default="false" />
-		<xs:attribute name="logging" type="xs:boolean" use="optional" default="false" />
-		<xs:attribute name="cacheLoaderTimeoutMillis" type="xs:integer"	use="optional" default="0" />
-		<xs:attribute name="overflowToOffHeap" type="xs:boolean" use="optional" default="false" />
-		<xs:attribute name="maxMemoryOffHeap" type="xs:string" use="optional" />
-		<xs:attribute default="0" name="maxBytesLocalHeap" type="memoryUnitOrPercentage" use="optional" />
-		<xs:attribute default="0" name="maxBytesLocalOffHeap" type="memoryUnitOrPercentage" use="optional" />
-		<xs:attribute default="0" name="maxBytesLocalDisk" type="memoryUnitOrPercentage" use="optional" />
-	</xs:complexType>
-</xs:element> -->
-
 
   
 </ehcache>

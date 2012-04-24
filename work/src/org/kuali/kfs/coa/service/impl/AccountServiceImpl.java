@@ -91,12 +91,9 @@ public class AccountServiceImpl implements AccountService {
      * @see org.kuali.kfs.coa.service.impl.AccountServiceImpl#getByPrimaryId(java.lang.String, java.lang.String)
      */
     @Override
-    @Cacheable(value=Account.CACHE_NAME, key="'chartOfAccountsCode=' + #p0 + '|' + 'accountNumber=' + #p1")
+    @Cacheable(value=Account.CACHE_NAME, key="#chartOfAccountsCode+'-'+#accountNumber")
     public Account getByPrimaryIdWithCaching(String chartOfAccountsCode, String accountNumber) {
-        Map<String, Object> keys = new HashMap<String, Object>(2);
-        keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
-        keys.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
-        return businessObjectService.findByPrimaryKey(Account.class, keys);
+        return getByPrimaryId(chartOfAccountsCode, accountNumber);
     }
 
     /**

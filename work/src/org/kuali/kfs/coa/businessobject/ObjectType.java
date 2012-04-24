@@ -1,12 +1,12 @@
 /*
  * Copyright 2005-2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,36 +15,28 @@
  */
 package org.kuali.kfs.coa.businessobject;
 
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.KualiCodeBase;
 
 /**
- * 
+ *
  */
 public class ObjectType extends KualiCodeBase implements MutableInactivatable {
 
-    /**
-     * Default no-arg constructor.
-     */
-    public ObjectType() {
-        super.setActive(true); // always active
-    }
+    public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + "ObjectType";
 
-    public ObjectType(String string) { // FIXME eliminate this constructor
-        throw new RuntimeException();
-    }
+    protected String finObjectTypeDebitcreditCd;
+    protected boolean finObjectTypeIcrSelectionIndicator;
+    protected boolean fundBalanceIndicator;
+    protected String financialReportingSortCode;
+    protected String basicAccountingCategoryCode;
 
-    private String finObjectTypeDebitcreditCd;
-    private boolean finObjectTypeIcrSelectionIndicator;
-    private boolean fundBalanceIndicator;
-    private String financialReportingSortCode;
-    private String basicAccountingCategoryCode;
-
-    private BasicAccountingCategory basicAccountingCategory;
+    protected BasicAccountingCategory basicAccountingCategory;
 
     /**
      * Gets the finObjectTypeDebitcreditCd attribute.
-     * 
+     *
      * @return Returns the finObjectTypeDebitcreditCd
      */
     public String getFinObjectTypeDebitcreditCd() {
@@ -53,7 +45,7 @@ public class ObjectType extends KualiCodeBase implements MutableInactivatable {
 
     /**
      * Sets the finObjectTypeDebitcreditCd attribute.
-     * 
+     *
      * @param finObjectTypeDebitcreditCd The finObjectTypeDebitcreditCd to set.
      */
     public void setFinObjectTypeDebitcreditCd(String finObjectTypeDebitcreditCd) {
@@ -62,7 +54,7 @@ public class ObjectType extends KualiCodeBase implements MutableInactivatable {
 
     /**
      * Gets the finObjectTypeIcrSelectionIndicator attribute.
-     * 
+     *
      * @return Returns the finObjectTypeIcrSelectionIndicator
      */
     public boolean isFinObjectTypeIcrSelectionIndicator() {
@@ -71,7 +63,7 @@ public class ObjectType extends KualiCodeBase implements MutableInactivatable {
 
     /**
      * Sets the finObjectTypeIcrSelectionIndicator attribute.
-     * 
+     *
      * @param finObjectTypeIcrSelectionIndicator The finObjectTypeIcrSelectionIndicator to set.
      */
     public void setFinObjectTypeIcrSelectionIndicator(boolean finObjectTypeIcrSelectionIndicator) {
@@ -80,7 +72,7 @@ public class ObjectType extends KualiCodeBase implements MutableInactivatable {
 
     /**
      * Gets the fundBalanceIndicator attribute.
-     * 
+     *
      * @return Returns the fundBalanceIndicator
      */
     public boolean isFundBalanceIndicator() {
@@ -89,7 +81,7 @@ public class ObjectType extends KualiCodeBase implements MutableInactivatable {
 
     /**
      * Sets the fundBalanceIndicator attribute.
-     * 
+     *
      * @param fundBalanceIndicator The fundBalanceIndicator to set.
      */
     public void setFundBalanceIndicator(boolean fundBalanceIndicator) {
@@ -98,7 +90,7 @@ public class ObjectType extends KualiCodeBase implements MutableInactivatable {
 
     /**
      * Gets the financialReportingSortCode attribute.
-     * 
+     *
      * @return Returns the financialReportingSortCode
      */
     public String getFinancialReportingSortCode() {
@@ -107,7 +99,7 @@ public class ObjectType extends KualiCodeBase implements MutableInactivatable {
 
     /**
      * Sets the financialReportingSortCode attribute.
-     * 
+     *
      * @param financialReportingSortCode The financialReportingSortCode to set.
      */
     public void setFinancialReportingSortCode(String financialReportingSortCode) {
@@ -116,7 +108,7 @@ public class ObjectType extends KualiCodeBase implements MutableInactivatable {
 
     /**
      * Gets the accountCategoryCode attribute.
-     * 
+     *
      * @return Returns the accountCategoryCode.
      */
     public String getBasicAccountingCategoryCode() {
@@ -125,7 +117,7 @@ public class ObjectType extends KualiCodeBase implements MutableInactivatable {
 
     /**
      * Sets the accountCategoryCode attribute value.
-     * 
+     *
      * @param accountCategoryCode The accountCategoryCode to set.
      */
     public void setBasicAccountingCategoryCode(String accountCategoryCode) {
@@ -134,7 +126,7 @@ public class ObjectType extends KualiCodeBase implements MutableInactivatable {
 
     /**
      * Gets the basicAccountingCategory attribute.
-     * 
+     *
      * @return Returns the basicAccountingCategory.
      */
     public BasicAccountingCategory getBasicAccountingCategory() {
@@ -143,10 +135,11 @@ public class ObjectType extends KualiCodeBase implements MutableInactivatable {
 
     /**
      * Sets the basicAccountingCategory attribute value.
-     * 
+     *
      * @param basicAccountingCategory The basicAccountingCategory to set.
      * @deprecated
      */
+    @Deprecated
     public void setBasicAccountingCategory(BasicAccountingCategory basicAccountingCategory) {
         this.basicAccountingCategory = basicAccountingCategory;
     }

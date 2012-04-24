@@ -117,18 +117,10 @@
 	</bean>
 
 	<bean id="projectCodeService"  parent="projectCodeService-parentBean"/>
-	<bean id="projectCodeService-parentBean" class="org.kuali.kfs.coa.service.impl.ProjectCodeServiceImpl" abstract="true">
-		<property name="projectCodeDao">
-			<ref bean="projectCodeDao" />
-		</property>
-	</bean>
+	<bean id="projectCodeService-parentBean" class="org.kuali.kfs.coa.service.impl.ProjectCodeServiceImpl" abstract="true" />
 
 	<bean id="subAccountService"  parent="subAccountService-parentBean"/>
-	<bean id="subAccountService-parentBean" class="org.kuali.kfs.coa.service.impl.SubAccountServiceImpl" abstract="true">
-		<property name="subAccountDao">
-			<ref bean="subAccountDao" />
-		</property>
-	</bean>
+	<bean id="subAccountService-parentBean" class="org.kuali.kfs.coa.service.impl.SubAccountServiceImpl" abstract="true" />
 
 	<bean id="subObjectCodeService"  parent="subObjectCodeService-parentBean"/>
 	<bean id="subObjectCodeService-parentBean" class="org.kuali.kfs.coa.service.impl.SubObjectCodeServiceImpl" abstract="true">
@@ -218,12 +210,8 @@
 
 	<bean id="objectTypeService"  parent="objectTypeService-parentBean"/>
 	<bean id="objectTypeService-parentBean" class="org.kuali.kfs.coa.service.impl.ObjectTypeServiceImpl" abstract="true">
-		<property name="objectTypeDao">
-			<ref bean="objectTypeDao" />
-		</property>
-        <property name="universityDateService">
-            <ref bean="universityDateService" />
-        </property>
+        <property name="universityDateService" ref="universityDateService" />
+		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 
 	<bean id="a21SubAccountService"  parent="a21SubAccountService-parentBean"/>
@@ -258,12 +246,6 @@
 	<bean id="objectCodeDao" parent="platformAwareDao"
 		class="org.kuali.kfs.coa.dataaccess.impl.ObjectCodeDaoOjb" />
 
-	<bean id="projectCodeDao" parent="platformAwareDao"
-		class="org.kuali.kfs.coa.dataaccess.impl.ProjectCodeDaoOjb" />
-
-	<bean id="subAccountDao" parent="platformAwareDao"
-		class="org.kuali.kfs.coa.dataaccess.impl.SubAccountDaoOjb" />
-
 	<bean id="organizationReversionDao" parent="platformAwareDao"
 		class="org.kuali.kfs.coa.dataaccess.impl.OrganizationReversionDaoOjb" />
 
@@ -278,9 +260,6 @@
 
 	<bean id="subFundGroupDao" parent="platformAwareDao"
 		class="org.kuali.kfs.coa.dataaccess.impl.SubFundGroupDaoOjb" />
-
-	<bean id="objectTypeDao" parent="platformAwareDao"
-		class="org.kuali.kfs.coa.dataaccess.impl.ObjectTypeDaoOjb" />
 
 	<bean id="indirectCostRecoveryRateDetailDao" parent="platformAwareDao"
 		class="org.kuali.kfs.coa.dataaccess.impl.IndirectCostRecoveryRateDetailDaoOjb" />

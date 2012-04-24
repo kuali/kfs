@@ -1,12 +1,12 @@
 /*
  * Copyright 2005-2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,63 +41,38 @@ import org.springframework.cache.annotation.Cacheable;
 @NonTransactional
 public class ObjectCodeServiceImpl implements ObjectCodeService {
 
-    private ObjectCodeDao objectCodeDao;
-    private UniversityDateService universityDateService;
+    protected ObjectCodeDao objectCodeDao;
+    protected UniversityDateService universityDateService;
 
     /**
      * @see org.kuali.kfs.coa.service.ObjectCodeService#getByPrimaryId(java.lang.Integer, java.lang.String, java.lang.String)
      */
+    @Override
     public ObjectCode getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode) {
         Map<String, Object> keys = new HashMap<String, Object>();
         keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
         keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
         keys.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, financialObjectCode);
-        return (ObjectCode)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ObjectCode.class, keys);
+        return SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ObjectCode.class, keys);
     }
 
     /**
      * @see org.kuali.kfs.coa.service.ObjectCodeService#getByPrimaryIdWithCaching(java.lang.Integer, java.lang.String,
      *      java.lang.String)
      */
-    @Cacheable(value=ObjectCode.CACHE_NAME, key="'universityFiscalYear=' + #p0 + '|' + 'chartOfAccountsCode=' + #p1 + '|' + 'financialObjectCode=' + #p2")
+    @Override
+    @Cacheable(value=ObjectCode.CACHE_NAME, key="#universityFiscalYear+'-'+#chartOfAccountsCode+'-'+#financialObjectCode")
     public ObjectCode getByPrimaryIdWithCaching(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode) {
         Map<String, Object> keys = new HashMap<String, Object>();
         keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
         keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
         keys.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, financialObjectCode);
-        return (ObjectCode)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ObjectCode.class, keys);
+        return SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ObjectCode.class, keys);
     }
 
-    /**
-     * @return ObjectCodeDao
-     */
-    public ObjectCodeDao getObjectCodeDao() {
-        return objectCodeDao;
-    }
-
-    /**
-     * Injects the ObjectCodeDao
-     * 
-     * @param objectCodeDao
-     */
     public void setObjectCodeDao(ObjectCodeDao objectCodeDao) {
         this.objectCodeDao = objectCodeDao;
     }
-
-    /**
-     * Gets the universityDateService attribute.
-     * 
-     * @return Returns the universityDateService.
-     */
-    public UniversityDateService getUniversityDateService() {
-        return universityDateService;
-    }
-
-    /**
-     * Sets the universityDateService attribute value.
-     * 
-     * @param universityDateService The universityDateService to set.
-     */
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
     }
@@ -105,6 +80,7 @@ public class ObjectCodeServiceImpl implements ObjectCodeService {
     /**
      * @see org.kuali.kfs.coa.service.ObjectCodeService#getYearList(java.lang.String, java.lang.String)
      */
+    @Override
     public List getYearList(String chartOfAccountsCode, String financialObjectCode) {
         return objectCodeDao.getYearList(chartOfAccountsCode, financialObjectCode);
     }
@@ -113,6 +89,7 @@ public class ObjectCodeServiceImpl implements ObjectCodeService {
      * @see org.kuali.kfs.coa.service.ObjectCodeService#getObjectCodeNamesByCharts(java.lang.Integer, java.lang.String[],
      *      java.lang.String)
      */
+    @Override
     public String getObjectCodeNamesByCharts(Integer universityFiscalYear, String[] chartOfAccountCodes, String financialObjectCode) {
         String onlyObjectCodeName = "";
         SortedSet<String> objectCodeNames = new TreeSet<String>();
@@ -140,7 +117,8 @@ public class ObjectCodeServiceImpl implements ObjectCodeService {
     /**
      * @see org.kuali.kfs.coa.service.ObjectCodeService#getByPrimaryIdForCurrentYear(java.lang.String, java.lang.String)
      */
+    @Override
     public ObjectCode getByPrimaryIdForCurrentYear(String chartOfAccountsCode, String financialObjectCode) {
-        return this.getByPrimaryId(universityDateService.getCurrentFiscalYear(), chartOfAccountsCode, financialObjectCode);
+        return getByPrimaryId(universityDateService.getCurrentFiscalYear(), chartOfAccountsCode, financialObjectCode);
     }
 }

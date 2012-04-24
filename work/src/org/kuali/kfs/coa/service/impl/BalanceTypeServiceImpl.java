@@ -39,14 +39,11 @@ import org.springframework.cache.annotation.Cacheable;
 
 @NonTransactional
 public class BalanceTypeServiceImpl implements BalanceTypeService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceTypeServiceImpl.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceTypeServiceImpl.class);
 
-    // balance type constants
-
-    private BusinessObjectService businessObjectService;
-    private BalanceTypeDao balanceTypeDao;
-
-    private UniversityDateService universityDateService;
+    protected BusinessObjectService businessObjectService;
+    protected BalanceTypeDao balanceTypeDao;
+    protected UniversityDateService universityDateService;
 
     /**
      * This method retrieves a BalanceTyp instance from the Kuali database by its primary key - the balance type's code.
@@ -55,40 +52,26 @@ public class BalanceTypeServiceImpl implements BalanceTypeService {
      * @return A fully populated object instance.
      */
     @Override
+    @Cacheable(value=BalanceType.CACHE_NAME, key="#code")
     public BalanceType getBalanceTypeByCode(String code) {
-       return (BalanceType) businessObjectService.findBySinglePrimaryKey(BalanceType.class, code);
+       return businessObjectService.findBySinglePrimaryKey(BalanceType.class, code);
     }
 
     /**
      * @see org.kuali.kfs.coa.service.BalanceTypService#getAllBalanceTyps()
      */
     @Override
+    @Cacheable(value=BalanceType.CACHE_NAME, key="'{getAllBalanceTypes}'")
     public Collection<BalanceType> getAllBalanceTypes() {
         return businessObjectService.findAll(BalanceType.class);
     }
 
-    /**
-     * Sets the businessObjectService attribute value.
-     * @param businessObjectService The businessObjectService to set.
-     */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-
-    /**
-     *
-     * This method injects the BalanceTypeDao
-     * @param balanceTypeDao
-     */
     public void setBalanceTypeDao(BalanceTypeDao balanceTypeDao) {
         this.balanceTypeDao = balanceTypeDao;
     }
-
-    /**
-     *
-     * This method injects the UniversityDateService
-     * @param universityDateService
-     */
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
     }
@@ -97,11 +80,11 @@ public class BalanceTypeServiceImpl implements BalanceTypeService {
      * @see org.kuali.kfs.coa.service.BalanceTypeService#getCostShareEncumbranceBalanceType(java.lang.Integer)
      */
     @Override
-    @Cacheable(value=SystemOptions.CACHE_NAME, key="'{getCostShareEncumbranceBalanceType} universityFiscalYear=' + #p0")
+    @Cacheable(value=SystemOptions.CACHE_NAME, key="'{getCostShareEncumbranceBalanceType}'+#universityFiscalYear")
     public String getCostShareEncumbranceBalanceType(Integer universityFiscalYear) {
         Map<String, Object> keys = new HashMap<String, Object>();
         keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
-        SystemOptions option = (SystemOptions)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemOptions.class, keys);
+        SystemOptions option = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemOptions.class, keys);
         return option.getCostShareEncumbranceBalanceTypeCd();
     }
 
@@ -110,11 +93,11 @@ public class BalanceTypeServiceImpl implements BalanceTypeService {
      * @see org.kuali.kfs.coa.service.BalanceTypeService#getEncumbranceBalanceTypes(java.lang.Integer)
      */
     @Override
-    @Cacheable(value=SystemOptions.CACHE_NAME, key="'{getEncumbranceBalanceTypes} universityFiscalYear=' + #p0")
+    @Cacheable(value=SystemOptions.CACHE_NAME, key="'{getEncumbranceBalanceTypes}'+#universityFiscalYear")
     public List<String> getEncumbranceBalanceTypes(Integer universityFiscalYear) {
         Map<String, Object> keys = new HashMap<String, Object>();
         keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
-        SystemOptions option = (SystemOptions)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemOptions.class, keys);
+        SystemOptions option = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemOptions.class, keys);
         List<String> encumberanceBalanceTypes = new ArrayList<String>();
         encumberanceBalanceTypes.add(option.getExtrnlEncumFinBalanceTypCd());
         encumberanceBalanceTypes.add(option.getIntrnlEncumFinBalanceTypCd());
@@ -128,7 +111,7 @@ public class BalanceTypeServiceImpl implements BalanceTypeService {
      * @see org.kuali.kfs.coa.service.BalanceTypService#getCurrentYearCostShareEncumbranceBalanceType()
      */
     @Override
-    @Cacheable(value=SystemOptions.CACHE_NAME, key="'{getCostShareEncumbranceBalanceType} universityFiscalYear=Current'")
+    @Cacheable(value=SystemOptions.CACHE_NAME, key="'{getCostShareEncumbranceBalanceType}CurrentFY'")
     public String getCurrentYearCostShareEncumbranceBalanceType() {
         return getCostShareEncumbranceBalanceType(universityDateService.getCurrentFiscalYear());
     }
@@ -138,7 +121,7 @@ public class BalanceTypeServiceImpl implements BalanceTypeService {
      * @see org.kuali.kfs.coa.service.BalanceTypService#getCurrentYearEncumbranceBalanceTypes()
      */
     @Override
-    @Cacheable(value=SystemOptions.CACHE_NAME, key="'{getEncumbranceBalanceTypes} universityFiscalYear=Current'")
+    @Cacheable(value=SystemOptions.CACHE_NAME, key="'{getEncumbranceBalanceTypes}CurrentFY'")
     public List<String> getCurrentYearEncumbranceBalanceTypes() {
         return getEncumbranceBalanceTypes(universityDateService.getCurrentFiscalYear());
     }
@@ -148,12 +131,10 @@ public class BalanceTypeServiceImpl implements BalanceTypeService {
      * @see org.kuali.kfs.coa.service.BalanceTypService#getContinuationAccountBypassBalanceTypeCodes(java.lang.Integer)
      */
     @Override
-    @Cacheable(value=SystemOptions.CACHE_NAME, key="'{getContinuationAccountBypassBalanceTypeCodes} universityFiscalYear=' + #p0")
+    @Cacheable(value=SystemOptions.CACHE_NAME, key="'{getContinuationAccountBypassBalanceTypeCodes}'+#universityFiscalYear")
     public List<String> getContinuationAccountBypassBalanceTypeCodes(Integer universityFiscalYear) {
-        Map<String, Object> keys = new HashMap<String, Object>();
-        keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
-        SystemOptions option = (SystemOptions)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemOptions.class, keys);
-        List<String> continuationAccountBypassBalanceTypes = new ArrayList<String>();
+        SystemOptions option = businessObjectService.findBySinglePrimaryKey(SystemOptions.class, universityFiscalYear);
+        List<String> continuationAccountBypassBalanceTypes = new ArrayList<String>(3);
         continuationAccountBypassBalanceTypes.add(option.getExtrnlEncumFinBalanceTypCd());
         continuationAccountBypassBalanceTypes.add(option.getIntrnlEncumFinBalanceTypCd());
         continuationAccountBypassBalanceTypes.add(option.getPreencumbranceFinBalTypeCd());

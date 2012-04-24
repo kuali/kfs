@@ -1,12 +1,12 @@
 /*
  * Copyright 2005-2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 package org.kuali.kfs.coa.service;
-
-import java.util.List;
 
 import org.kuali.kfs.coa.businessobject.SubAccount;
 
@@ -25,7 +23,7 @@ import org.kuali.kfs.coa.businessobject.SubAccount;
 public interface SubAccountService {
     /**
      * Retrieves a SubAccount object based on primary key.
-     * 
+     *
      * @param chartOfAccountsCode - Chart of Accounts Code
      * @param accountNumber - Account Number
      * @param subAccountNumber - Sub Account Number
@@ -36,18 +34,9 @@ public interface SubAccountService {
 
     /**
      * Method is used by KualiSubAccountAttribute to enable caching for routing.
-     * 
+     *
      * @see SubAccountService#getByPrimaryId(String, String, String)
      */
     public SubAccount getByPrimaryIdWithCaching(String chartOfAccountsCode, String accountNumber, String subAccountNumber);
 
-    /**
-     * Retrieves SubAccount objects associated with the given chart-org-subAccount code combination
-     * 
-     * @param chartOfAccountsCode - 'Reports To' Chart of Accounts Code
-     * @param organizationCode - 'Reports To' Organization Code
-     * @param subAccountNumber - Sub Account Number
-     * @return a list of SubAccount objects
-     */
-    public List getSubAccountsByReportsToOrganization(String chartOfAccountsCode, String organizationCode, String subAccountNumber);
 }

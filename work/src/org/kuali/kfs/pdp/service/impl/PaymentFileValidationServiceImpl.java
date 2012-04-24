@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,7 +30,6 @@ import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.ObjectCodeService;
-import org.kuali.kfs.coa.service.ProjectCodeService;
 import org.kuali.kfs.coa.service.SubAccountService;
 import org.kuali.kfs.coa.service.SubObjectCodeService;
 import org.kuali.kfs.pdp.PdpConstants;
@@ -79,7 +78,6 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
     protected SubAccountService subAccountService;
     protected ObjectCodeService objectCodeService;
     protected SubObjectCodeService subObjectCodeService;
-    protected ProjectCodeService projectCodeService;
     protected BankService bankService;
     protected OriginationCodeService originationCodeService;
     protected DocumentTypeService documentTypeService;
@@ -89,6 +87,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
      * @see org.kuali.kfs.pdp.batch.service.PaymentFileValidationService#doHardEdits(org.kuali.kfs.pdp.businessobject.PaymentFile,
      *      org.kuali.rice.krad.util.MessageMap)
      */
+    @Override
     public void doHardEdits(PaymentFileLoad paymentFile, MessageMap errorMap) {
         processHeaderValidation(paymentFile, errorMap);
 
@@ -103,7 +102,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
     /**
      * Validates payment file header fields <li>Checks customer exists in customer profile table and is active</li>
-     * 
+     *
      * @param paymentFile payment file object
      * @param errorMap map in which errors will be added to
      */
@@ -125,7 +124,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
     /**
      * Validates payment file trailer fields <li>Reconciles actual to expected payment count and totals</li> <li>Verifies the batch
      * is not a duplicate</li>
-     * 
+     *
      * @param paymentFile payment file object
      * @param errorMap map in which errors will be added to
      */
@@ -151,7 +150,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
     /**
      * Validates payment file groups <li>Checks number of note lines needed is not above the configured maximum allowed</li> <li>
      * Verifies group total is not negative</li> <li>Verifies detail accounting total equals net payment amount</li>
-     * 
+     *
      * @param paymentFile payment file object
      * @param errorMap map in which errors will be added to
      */
@@ -174,7 +173,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
             // validate payee id type
             if (StringUtils.isNotBlank(paymentGroup.getPayeeIdTypeCd())) {
-                PayeeType payeeType = (PayeeType) businessObjectService.findBySinglePrimaryKey(PayeeType.class, paymentGroup.getPayeeIdTypeCd());
+                PayeeType payeeType = businessObjectService.findBySinglePrimaryKey(PayeeType.class, paymentGroup.getPayeeIdTypeCd());
                 if (payeeType == null) {
                     errorMap.putError(KFSConstants.GLOBAL_ERRORS, PdpKeyConstants.ERROR_PAYMENT_LOAD_INVALID_PAYEE_ID_TYPE, Integer.toString(groupCount), paymentGroup.getPayeeIdTypeCd());
                 }
@@ -244,6 +243,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
     /**
      * @see org.kuali.kfs.pdp.service.PaymentFileValidationService#doSoftEdits(org.kuali.kfs.pdp.businessobject.PaymentFile)
      */
+    @Override
     public List<String> doSoftEdits(PaymentFileLoad paymentFile) {
         List<String> warnings = new ArrayList<String>();
 
@@ -262,13 +262,13 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
     /**
      * Set defaults for group fields and do tax checks.
-     * 
+     *
      * @param paymentFile payment file object
      * @param customer payment customer
      * @param warnings <code>List</code> list of accumulated warning messages
      */
     public void processGroupSoftEdits(PaymentFileLoad paymentFile, CustomerProfile customer, List<String> warnings) {
-        PaymentStatus openStatus = (PaymentStatus) businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.OPEN);
+        PaymentStatus openStatus = businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.OPEN);
 
         for (PaymentGroup paymentGroup : paymentFile.getPaymentGroups()) {
             paymentGroup.setBatchId(paymentFile.getBatchId());
@@ -294,7 +294,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
     /**
      * Set default fields on detail line and check amount against customer threshold.
-     * 
+     *
      * @param paymentFile payment file object
      * @param customer payment customer
      * @param paymentDetail <code>PaymentDetail</code> object to process
@@ -330,7 +330,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
     /**
      * Set default fields on account line and perform account field existence checks
-     * 
+     *
      * @param paymentFile payment file object
      * @param customer payment customer
      * @param paymentAccountDetail <code>PaymentAccountDetail</code> object to process
@@ -349,7 +349,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
             if (account == null) {
                 addWarningMessage(warnings, PdpKeyConstants.MESSAGE_PAYMENT_LOAD_INVALID_ACCOUNT, paymentAccountDetail.getFinChartCode(), paymentAccountDetail.getAccountNbr());
 
-                KualiCodeBase objChangeCd = (KualiCodeBase) businessObjectService.findBySinglePrimaryKey(AccountingChangeCode.class, PdpConstants.AccountChangeCodes.INVALID_ACCOUNT);
+                KualiCodeBase objChangeCd = businessObjectService.findBySinglePrimaryKey(AccountingChangeCode.class, PdpConstants.AccountChangeCodes.INVALID_ACCOUNT);
                 replaceAccountingString(objChangeCd, changeRecords, customer, paymentAccountDetail);
             }
             else {
@@ -359,7 +359,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
                     if (subAccount == null) {
                         addWarningMessage(warnings, PdpKeyConstants.MESSAGE_PAYMENT_LOAD_INVALID_SUB_ACCOUNT, paymentAccountDetail.getFinChartCode(), paymentAccountDetail.getAccountNbr(), paymentAccountDetail.getSubAccountNbr());
 
-                        KualiCodeBase objChangeCd = (KualiCodeBase) businessObjectService.findBySinglePrimaryKey(AccountingChangeCode.class, PdpConstants.AccountChangeCodes.INVALID_SUB_ACCOUNT);
+                        KualiCodeBase objChangeCd = businessObjectService.findBySinglePrimaryKey(AccountingChangeCode.class, PdpConstants.AccountChangeCodes.INVALID_SUB_ACCOUNT);
                         changeRecords.add(newAccountHistory(PdpPropertyConstants.SUB_ACCOUNT_DB_COLUMN_NAME, KFSConstants.getDashSubAccountNumber(), paymentAccountDetail.getSubAccountNbr(), objChangeCd));
 
                         paymentAccountDetail.setSubAccountNbr(KFSConstants.getDashSubAccountNumber());
@@ -371,7 +371,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
                 if (objectCode == null) {
                     addWarningMessage(warnings, PdpKeyConstants.MESSAGE_PAYMENT_LOAD_INVALID_OBJECT, paymentAccountDetail.getFinChartCode(), paymentAccountDetail.getFinObjectCode());
 
-                    KualiCodeBase objChangeCd = (KualiCodeBase) businessObjectService.findBySinglePrimaryKey(AccountingChangeCode.class, PdpConstants.AccountChangeCodes.INVALID_OBJECT);
+                    KualiCodeBase objChangeCd = businessObjectService.findBySinglePrimaryKey(AccountingChangeCode.class, PdpConstants.AccountChangeCodes.INVALID_OBJECT);
                     replaceAccountingString(objChangeCd, changeRecords, customer, paymentAccountDetail);
                 }
 
@@ -381,7 +381,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
                     if (subObjectCode == null) {
                         addWarningMessage(warnings, PdpKeyConstants.MESSAGE_PAYMENT_LOAD_INVALID_SUB_OBJECT, paymentAccountDetail.getFinChartCode(), paymentAccountDetail.getAccountNbr(), paymentAccountDetail.getFinObjectCode(), paymentAccountDetail.getFinSubObjectCode());
 
-                        KualiCodeBase objChangeCd = (KualiCodeBase) businessObjectService.findBySinglePrimaryKey(AccountingChangeCode.class, PdpConstants.AccountChangeCodes.INVALID_SUB_OBJECT);
+                        KualiCodeBase objChangeCd = businessObjectService.findBySinglePrimaryKey(AccountingChangeCode.class, PdpConstants.AccountChangeCodes.INVALID_SUB_OBJECT);
                         changeRecords.add(newAccountHistory(PdpPropertyConstants.SUB_OBJECT_DB_COLUMN_NAME, KFSConstants.getDashFinancialSubObjectCode(), paymentAccountDetail.getFinSubObjectCode(), objChangeCd));
 
                         paymentAccountDetail.setFinSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
@@ -391,11 +391,11 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
             // check project code
             if (StringUtils.isNotBlank(paymentAccountDetail.getProjectCode())) {
-                ProjectCode projectCode = projectCodeService.getByPrimaryId(paymentAccountDetail.getProjectCode());
+                ProjectCode projectCode = businessObjectService.findBySinglePrimaryKey(ProjectCode.class, paymentAccountDetail.getProjectCode());
                 if (projectCode == null) {
                     addWarningMessage(warnings, PdpKeyConstants.MESSAGE_PAYMENT_LOAD_INVALID_PROJECT, paymentAccountDetail.getProjectCode());
 
-                    KualiCodeBase objChangeCd = (KualiCodeBase) businessObjectService.findBySinglePrimaryKey(AccountingChangeCode.class, PdpConstants.AccountChangeCodes.INVALID_PROJECT);
+                    KualiCodeBase objChangeCd = businessObjectService.findBySinglePrimaryKey(AccountingChangeCode.class, PdpConstants.AccountChangeCodes.INVALID_PROJECT);
                     changeRecords.add(newAccountHistory(PdpPropertyConstants.PROJECT_DB_COLUMN_NAME, KFSConstants.getDashProjectCode(), paymentAccountDetail.getProjectCode(), objChangeCd));
                     paymentAccountDetail.setProjectCode(KFSConstants.getDashProjectCode());
                 }
@@ -419,7 +419,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
     /**
      * Replaces the entire accounting string with defaults from the customer profile.
-     * 
+     *
      * @param objChangeCd code indicating reason for change
      * @param changeRecords <code>List</code> of <code>PaymentAccountHistory</code> records
      * @param customer profile of payment customer
@@ -451,7 +451,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
     /**
      * Helper method to construct a new payment account history record
-     * 
+     *
      * @param attName name of field that has changed
      * @param newValue new value for the field
      * @param oldValue field value that was changed
@@ -472,7 +472,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
     /**
      * Sets null amount fields to 0
-     * 
+     *
      * @param paymentDetail <code>PaymentDetail</code> to update
      */
     protected void updateDetailAmounts(PaymentDetail paymentDetail) {
@@ -511,7 +511,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
     /**
      * Sets null indicators to false
-     * 
+     *
      * @param paymentGroup <code>PaymentGroup</code> to update
      */
     protected void defaultGroupIndicators(PaymentGroup paymentGroup) {
@@ -551,15 +551,15 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
     /**
      * Checks whether payment status should be set to held and a tax email sent indicating so
-     * 
+     *
      * @param paymentFile payment file object
      * @param paymentGroup <code>PaymentGroup</code> being checked
      * @param customer payment customer
      */
     protected void checkForTaxEmailRequired(PaymentFileLoad paymentFile, PaymentGroup paymentGroup, CustomerProfile customer) {
-        PaymentStatus heldForNRAEmployee = (PaymentStatus) businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_EMPL_CD);
-        PaymentStatus heldForEmployee = (PaymentStatus) businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.HELD_TAX_EMPLOYEE_CD);
-        PaymentStatus heldForNRA = (PaymentStatus) businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_CD);
+        PaymentStatus heldForNRAEmployee = businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_EMPL_CD);
+        PaymentStatus heldForEmployee = businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.HELD_TAX_EMPLOYEE_CD);
+        PaymentStatus heldForNRA = businessObjectService.findBySinglePrimaryKey(PaymentStatus.class, PdpConstants.PaymentStatusCodes.HELD_TAX_NRA_CD);
 
         if (customer.getNraReview() && customer.getEmployeeCheck() && paymentGroup.getEmployeeIndicator().booleanValue() && paymentGroup.getNraPayment().booleanValue()) {
             paymentGroup.setPaymentStatus(heldForNRAEmployee);
@@ -579,7 +579,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
     /**
      * Checks the payment date is not more than 30 days past or 30 days coming
-     * 
+     *
      * @param paymentGroup <code>PaymentGroup</code> being checked
      * @param warnings <code>List</code> list of accumulated warning messages
      */
@@ -630,7 +630,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
     /**
      * Helper method for subsituting message parameters and adding the message to the warning list.
-     * 
+     *
      * @param warnings <code>List</code> of messages to add to
      * @param messageKey resource key for message
      * @param arguments message substitute parameters
@@ -642,7 +642,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
     /**
      * Sets the customerProfileService attribute value.
-     * 
+     *
      * @param customerProfileService The customerProfileService to set.
      */
     public void setCustomerProfileService(CustomerProfileService customerProfileService) {
@@ -651,7 +651,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
     /**
      * Sets the paymentFileLoadDao attribute value.
-     * 
+     *
      * @param paymentFileLoadDao The paymentFileLoadDao to set.
      */
     public void setPaymentFileLoadDao(PaymentFileLoadDao paymentFileLoadDao) {
@@ -660,7 +660,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
     /**
      * Sets the parameterService attribute value.
-     * 
+     *
      * @param parameterService The parameterService to set.
      */
     public void setParameterService(ParameterService parameterService) {
@@ -669,7 +669,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
     /**
      * Sets the dateTimeService attribute value.
-     * 
+     *
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -678,7 +678,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
     /**
      * Sets the accountService attribute value.
-     * 
+     *
      * @param accountService The accountService to set.
      */
     public void setAccountService(AccountService accountService) {
@@ -687,7 +687,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
     /**
      * Sets the subAccountService attribute value.
-     * 
+     *
      * @param subAccountService The subAccountService to set.
      */
     public void setSubAccountService(SubAccountService subAccountService) {
@@ -696,7 +696,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
     /**
      * Sets the objectCodeService attribute value.
-     * 
+     *
      * @param objectCodeService The objectCodeService to set.
      */
     public void setObjectCodeService(ObjectCodeService objectCodeService) {
@@ -705,7 +705,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
     /**
      * Sets the subObjectCodeService attribute value.
-     * 
+     *
      * @param subObjectCodeService The subObjectCodeService to set.
      */
     public void setSubObjectCodeService(SubObjectCodeService subObjectCodeService) {
@@ -713,17 +713,8 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
     }
 
     /**
-     * Sets the projectCodeService attribute value.
-     * 
-     * @param projectCodeService The projectCodeService to set.
-     */
-    public void setProjectCodeService(ProjectCodeService projectCodeService) {
-        this.projectCodeService = projectCodeService;
-    }
-
-    /**
      * Sets the kualiConfigurationService attribute value.
-     * 
+     *
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
     public void setConfigurationService(ConfigurationService kualiConfigurationService) {
@@ -732,7 +723,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
     /**
      * Sets the bankService attribute value.
-     * 
+     *
      * @param bankService The bankService to set.
      */
     public void setBankService(BankService bankService) {
@@ -741,7 +732,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
     /**
      * Sets the originationCodeService attribute value.
-     * 
+     *
      * @param originationCodeService The originationCodeService to set.
      */
     public void setOriginationCodeService(OriginationCodeService originationCodeService) {
@@ -750,7 +741,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
     /**
      * Gets the businessObjectService attribute.
-     * 
+     *
      * @return Returns the businessObjectService.
      */
     protected BusinessObjectService getBusinessObjectService() {
@@ -759,7 +750,7 @@ public class PaymentFileValidationServiceImpl implements PaymentFileValidationSe
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {

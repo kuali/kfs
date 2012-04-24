@@ -446,7 +446,6 @@
 		<property name="subAccountService" ref="subAccountService"/>
 		<property name="objectCodeService" ref="objectCodeService" />
 		<property name="subObjectCodeService" ref="subObjectCodeService"/>
-		<property name="projectCodeService" ref="projectCodeService" />
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="bankService" ref="bankService" />
 		<property name="originationCodeService" ref="originationCodeService" />

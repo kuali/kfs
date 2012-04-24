@@ -1,12 +1,12 @@
 /*
  * Copyright 2005 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -52,7 +52,8 @@ public class ChartServiceImpl implements ChartService {
     /**
      * @see org.kuali.kfs.coa.service.ChartService#getByPrimaryId(java.lang.String)
      */
-    @Cacheable(value=Chart.CACHE_NAME,key="'chartOfAccountsCode='+#p0")
+    @Override
+    @Cacheable(value=Chart.CACHE_NAME,key="#chartOfAccountsCode")
     public Chart getByPrimaryId(String chartOfAccountsCode) {
         Map<String, Object> pkMap = new HashMap<String, Object>();
         pkMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
@@ -62,11 +63,12 @@ public class ChartServiceImpl implements ChartService {
     /**
      * @see org.kuali.kfs.coa.service.ChartService#getUniversityChart()
      */
-    @Cacheable(value=Chart.CACHE_NAME,key="UniversityChart")
+    @Override
+    @Cacheable(value=Chart.CACHE_NAME,key="'UniversityChart'")
     public Chart getUniversityChart() {
         // 1. find the organization with the type which reports to itself
         String organizationReportsToSelfParameterValue = parameterService.getParameterValueAsString(Organization.class, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES);
-        
+
         Map<String,String> orgCriteria = new HashMap<String, String>(2);
         orgCriteria.put(KFSPropertyConstants.ORGANIZATION_TYPE_CODE, organizationReportsToSelfParameterValue);
         orgCriteria.put(KFSPropertyConstants.ACTIVE, KFSConstants.ACTIVE_INDICATOR);
@@ -74,17 +76,18 @@ public class ChartServiceImpl implements ChartService {
         if ( orgs != null && !orgs.isEmpty() ) {
             return getByPrimaryId(orgs.iterator().next().getChartOfAccountsCode());
         }
-        
+
         return null;
     }
 
     /**
      * @see org.kuali.kfs.coa.service.ChartService#getAllChartCodes()
      */
-    @Cacheable(value=Chart.CACHE_NAME,key="AllChartCodes")
+    @Override
+    @Cacheable(value=Chart.CACHE_NAME,key="'AllChartCodes'")
     public List<String> getAllChartCodes() {
-        Collection<Chart> charts = businessObjectService.findAllOrderBy(Chart.class, "chartOfAccountsCode", true);
-        List<String> chartCodes = new ArrayList<String>();
+        Collection<Chart> charts = businessObjectService.findAllOrderBy(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, true);
+        List<String> chartCodes = new ArrayList<String>(charts.size());
         for (Chart chart : charts) {
             chartCodes.add(chart.getChartOfAccountsCode());
         }
@@ -96,9 +99,9 @@ public class ChartServiceImpl implements ChartService {
     /**
      * @see org.kuali.module.chart.service.getReportsToHierarchy()
      */
-    @Cacheable(value=Chart.CACHE_NAME,key="ReportsToHierarchy")
+    @Override
+    @Cacheable(value=Chart.CACHE_NAME,key="'ReportsToHierarchy'")
     public Map<String, String> getReportsToHierarchy() {
-        LOG.debug("getReportsToHierarchy");
         Map<String, String> reportsToHierarchy = new HashMap<String, String>();
 
         for ( String chartCode : getAllChartCodes() ) {
@@ -114,7 +117,7 @@ public class ChartServiceImpl implements ChartService {
     }
 
     @Override
-    @Cacheable(value=Chart.CACHE_NAME,key="UniversityChart")
+    @Cacheable(value=Chart.CACHE_NAME,key="'{isParentChart?}'+#potentialChildChartCode+'-->'+#potentialParentChartCode")
     public boolean isParentChart(String potentialChildChartCode, String potentialParentChartCode) {
         if ((potentialChildChartCode == null) || (potentialParentChartCode == null)) {
             throw new IllegalArgumentException("The isParentChartCode method requires a non-null potentialChildChartCode and potentialParentChartCode");
@@ -155,7 +158,7 @@ public class ChartServiceImpl implements ChartService {
         return chartManager;
     }
 
-    public RoleService getRoleService() {
+    protected RoleService getRoleService() {
         if ( roleService == null ) {
             roleService = SpringContext.getBean(RoleService.class);
         }

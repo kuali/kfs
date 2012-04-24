@@ -321,16 +321,4 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         return personService;
     }
 
-    /**
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getReturnInputHtmlData(org.kuali.rice.krad.bo.BusinessObject, java.util.Properties, org.kuali.rice.kns.web.struts.form.LookupForm, java.util.List, org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions)
-     */
-    @Override
-    protected HtmlData getReturnInputHtmlData(BusinessObject businessObject, Properties parameters, LookupForm lookupForm, List returnKeys, BusinessObjectRestrictions businessObjectRestrictions) {
-  
-        HtmlData data = new AnchorHtmlData();
-        Asset asset = (Asset) businessObject;
-        if (! super.allowsMaintenanceEditAction(asset)) return ( data );
-        return super.getReturnInputHtmlData(businessObject, parameters, lookupForm, returnKeys, businessObjectRestrictions);
-    }
-
 }

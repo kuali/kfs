@@ -34,7 +34,7 @@
     <html:hidden property="${claimProperty}.financialDocumentLineNumber" write="true" />
   </td>
   <td>
-    <html:hidden property="${claimProperty}.generatingDocument.documentHeader.documentFinalDate" write="true" />
+    
   </td>
   <td>
     <html:hidden property="${claimProperty}.generatingAccountingLine.financialDocumentLineDescription" write="true" />

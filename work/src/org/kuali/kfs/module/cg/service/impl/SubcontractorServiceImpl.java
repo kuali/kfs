@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,25 +22,24 @@ import org.kuali.kfs.module.cg.businessobject.SubContractor;
 import org.kuali.kfs.module.cg.service.SubcontractorService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.springframework.cache.annotation.Cacheable;
 
 /**
  * Implementation of the Subcontractor service.
  */
 public class SubcontractorServiceImpl implements SubcontractorService {
 
-    private BusinessObjectService businessObjectService;
+    protected BusinessObjectService businessObjectService;
 
     /**
      * @see org.kuali.kfs.module.cg.service.SubcontractorService#getByPrimaryId(String)
      */
-    @Cacheable(value=SubContractor.CACHE_NAME,key="subcontractorNumber")
+    @Override
     public SubContractor getByPrimaryId(String subcontractorNumber) {
-        return (SubContractor) businessObjectService.findByPrimaryKey(SubContractor.class, mapPrimaryKeys(subcontractorNumber));
+        return businessObjectService.findByPrimaryKey(SubContractor.class, mapPrimaryKeys(subcontractorNumber));
     }
 
     protected Map<String, Object> mapPrimaryKeys(String subcontractorNumber) {
-        Map<String, Object> primaryKeys = new HashMap();
+        Map<String, Object> primaryKeys = new HashMap<String, Object>();
         primaryKeys.put(KFSPropertyConstants.SUBCONTRACTOR_NUMBER, subcontractorNumber.trim());
         return primaryKeys;
     }

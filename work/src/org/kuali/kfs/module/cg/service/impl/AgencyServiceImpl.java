@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,21 +22,20 @@ import org.kuali.kfs.module.cg.businessobject.Agency;
 import org.kuali.kfs.module.cg.service.AgencyService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.springframework.cache.annotation.Cacheable;
 
 /**
  * Implementation of the Agency service.
  */
 public class AgencyServiceImpl implements AgencyService {
 
-    private BusinessObjectService businessObjectService;
+    protected BusinessObjectService businessObjectService;
 
     /**
      * @see org.kuali.kfs.module.cg.service.AgencyService#getByPrimaryId(String)
      */
-    @Cacheable(value=Agency.CACHE_NAME,key="agencyNumber")
+    @Override
     public Agency getByPrimaryId(String agencyNumber) {
-        return (Agency) businessObjectService.findByPrimaryKey(Agency.class, mapPrimaryKeys(agencyNumber));
+        return businessObjectService.findByPrimaryKey(Agency.class, mapPrimaryKeys(agencyNumber));
     }
 
     protected Map<String, Object> mapPrimaryKeys(String agencyNumber) {
@@ -45,11 +44,6 @@ public class AgencyServiceImpl implements AgencyService {
         return primaryKeys;
     }
 
-    /**
-     * Sets the BusinessObjectService. Provides Spring compatibility.
-     * 
-     * @param businessObjectService
-     */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

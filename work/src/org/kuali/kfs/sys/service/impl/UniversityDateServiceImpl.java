@@ -15,11 +15,7 @@
  */
 package org.kuali.kfs.sys.service.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.log4j.Logger;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.dataaccess.UniversityDateDao;
@@ -53,10 +49,7 @@ public class UniversityDateServiceImpl implements UniversityDateService {
     @Override
     public UniversityDate getCurrentUniversityDate() {
         java.util.Date now = dateTimeService.getCurrentDate();
-        UniversityDate universityDate = new UniversityDate();
-        universityDate.setUniversityDate(new java.sql.Date( KfsDateUtils.clearTimeFields(now).getTime() ));
-
-        return SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(UniversityDate.class, universityDate);
+        return SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(UniversityDate.class, new java.sql.Date( KfsDateUtils.clearTimeFields(now).getTime() ));
     }
 
     /**
@@ -68,12 +61,9 @@ public class UniversityDateServiceImpl implements UniversityDateService {
      */
     @Override
     public Integer getCurrentFiscalYear() {
-        //Timer t0 = new Timer("getCurrentFiscalYear");
         java.util.Date now = dateTimeService.getCurrentDate();
 
-        Integer result = getFiscalYear(KfsDateUtils.clearTimeFields(now));
-        //t0.log();
-        return result;
+        return getFiscalYear(KfsDateUtils.clearTimeFields(now));
     }
 
     /**
@@ -85,14 +75,12 @@ public class UniversityDateServiceImpl implements UniversityDateService {
      * @see org.kuali.rice.core.api.datetime.DateTimeService#getFiscalYear(java.util.Date)
      */
     @Override
-    @Cacheable(value=UniversityDate.CACHE_NAME, key="date")
+    @Cacheable(value=UniversityDate.CACHE_NAME, key="'{FiscalYear}'+#date")
     public Integer getFiscalYear(java.util.Date date) {
         if (date == null) {
             throw new IllegalArgumentException("invalid (null) date");
         }
-        Map<String, Object> pkMap = new HashMap<String, Object>();
-        pkMap.put(KFSPropertyConstants.UNIVERSITY_DATE, new java.sql.Date( date.getTime() ));
-        UniversityDate uDate = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(UniversityDate.class, pkMap);
+        UniversityDate uDate = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(UniversityDate.class, KfsDateUtils.clearTimeFields(date));
         return (uDate == null) ? null : uDate.getUniversityFiscalYear();
     }
 
@@ -104,8 +92,8 @@ public class UniversityDateServiceImpl implements UniversityDateService {
      *
      * @see org.kuali.kfs.sys.service.UniversityDateService#getFirstDateOfFiscalYear(java.lang.Integer)
      */
-//    @Cacheable(value=UniversityDate.CACHE_NAME, key="'{getFirstDateOfFiscalYear} fiscalYear=' + #p0")
     @Override
+    @Cacheable(value=UniversityDate.CACHE_NAME, key="'{FirstDateOfFiscalYear}'+#fiscalYear")
     public java.util.Date getFirstDateOfFiscalYear(Integer fiscalYear) {
         UniversityDate uDate = universityDateDao.getFirstFiscalYearDate(fiscalYear);
         return (uDate == null) ? null : uDate.getUniversityDate();
@@ -119,25 +107,16 @@ public class UniversityDateServiceImpl implements UniversityDateService {
      *
      * @see org.kuali.kfs.sys.service.UniversityDateService#getLastDateOfFiscalYear(java.lang.Integer)
      */
-//    @Cacheable(value=UniversityDate.CACHE_NAME, key="'{getLastDateOfFiscalYear} fiscalYear=' + #p0")
     @Override
+    @Cacheable(value=UniversityDate.CACHE_NAME, key="'{LastDateOfFiscalYear}'+#fiscalYear")
     public java.util.Date getLastDateOfFiscalYear(Integer fiscalYear) {
         UniversityDate uDate = universityDateDao.getLastFiscalYearDate(fiscalYear);
         return (uDate == null) ? null : uDate.getUniversityDate();
     }
 
-    /**
-     * Sets the universityDateDao attribute value.
-     * @param universityDateDao The universityDateDao to set.
-     */
     public void setUniversityDateDao(UniversityDateDao universityDateDao) {
         this.universityDateDao = universityDateDao;
     }
-
-    public DateTimeService getDateTimeService() {
-        return dateTimeService;
-    }
-
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }

@@ -16,33 +16,26 @@
 package org.kuali.kfs.sys.service.impl;
 
 import org.kuali.kfs.sys.businessobject.HomeOrigination;
-import org.kuali.kfs.sys.dataaccess.HomeOriginationDao;
 import org.kuali.kfs.sys.service.HomeOriginationService;
-import org.kuali.kfs.sys.service.NonTransactional;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.transaction.annotation.Transactional;
 
 public class HomeOriginationServiceImpl implements HomeOriginationService {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(HomeOriginationServiceImpl.class);
-
-    protected HomeOriginationDao homeOriginationDao;
+    protected BusinessObjectService businessObjectService;
 
     /**
      * Retrieves a HomeOrigination object. Currently, there is only a single, unique HomeOriginationCode record in the database.
      */
     @Override
     @Cacheable(value=HomeOrigination.CACHE_NAME, key="'{getHomeOrigination}'")
-    @Transactional(readOnly=true)
     public HomeOrigination getHomeOrigination() {
-        return homeOriginationDao.getHomeOrigination();
+        // no, I'm not doing null checking - if this is missing, we have other problems
+        return businessObjectService.findAll(HomeOrigination.class).iterator().next();
     }
 
-    /**
-     * @param homeOriginationDao The homeOriginationDao to set.
-     */
-    @NonTransactional
-    public void setHomeOriginationDao(HomeOriginationDao homeOriginationDao) {
-        this.homeOriginationDao = homeOriginationDao;
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
 }

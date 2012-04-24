@@ -463,9 +463,6 @@
 		</property>
 	</bean>
 	
-    <bean id="homeOriginationDao" parent="homeOriginationDao-parentBean"/>
-	<bean id="homeOriginationDao-parentBean" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.HomeOriginationDaoOjb" abstract="true" />
-	
     <bean id="originationCodeDao" parent="originationCodeDao-parentBean"/>
 	<bean id="originationCodeDao-parentBean" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.OriginationCodeDaoOjb" abstract="true" />
 
@@ -497,9 +494,7 @@
 	
 	<bean id="homeOriginationService" parent="homeOriginationService-parentBean"/>
 	<bean id="homeOriginationService-parentBean" class="org.kuali.kfs.sys.service.impl.HomeOriginationServiceImpl" abstract="true">
-		<property name="homeOriginationDao">
-			<ref bean="homeOriginationDao" />
-		</property>
+		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 	
 	<bean id="originationCodeService" parent="originationCodeService-parentBean"/>

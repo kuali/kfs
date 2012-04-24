@@ -72,7 +72,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
         criteria.put("chartOfAccountsCode", chartOfAccountsCode);
         criteria.put("organizationCode", organizationCode);
 
-        OrganizationAccountingDefault organizationAccountingDefault = (OrganizationAccountingDefault) businessObjectService.findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
+        OrganizationAccountingDefault organizationAccountingDefault = businessObjectService.findByPrimaryKey(OrganizationAccountingDefault.class, criteria);
         if (ObjectUtils.isNotNull(organizationAccountingDefault)) {
             customerInvoiceDetail.setChartOfAccountsCode(organizationAccountingDefault.getDefaultInvoiceChartOfAccountsCode());
             customerInvoiceDetail.setAccountNumber(organizationAccountingDefault.getDefaultInvoiceAccountNumber());
@@ -113,7 +113,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
         criteria.put("invoiceItemCode", invoiceItemCode);
         criteria.put("chartOfAccountsCode", chartOfAccountsCode);
         criteria.put("organizationCode", organizationCode);
-        CustomerInvoiceItemCode customerInvoiceItemCode = (CustomerInvoiceItemCode) businessObjectService.findByPrimaryKey(CustomerInvoiceItemCode.class, criteria);
+        CustomerInvoiceItemCode customerInvoiceItemCode = businessObjectService.findByPrimaryKey(CustomerInvoiceItemCode.class, criteria);
 
         CustomerInvoiceDetail customerInvoiceDetail = null;
         if (ObjectUtils.isNotNull(customerInvoiceItemCode)) {
@@ -188,7 +188,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
         criteria.put("processingChartOfAccountCode", chartOfAccountsCode);
         criteria.put("processingOrganizationCode", organizationCode);
 
-        SystemInformation systemInformation = (SystemInformation) businessObjectService.findByPrimaryKey(SystemInformation.class, criteria);
+        SystemInformation systemInformation = businessObjectService.findByPrimaryKey(SystemInformation.class, criteria);
         if (ObjectUtils.isNotNull(systemInformation)) {
             discountCustomerInvoiceDetail.setFinancialObjectCode(systemInformation.getDiscountObjectCode());
         }
@@ -264,7 +264,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
         criteria.put("documentNumber", documentNumber);
         criteria.put("sequenceNumber", sequenceNumber.toString());
 
-        return (CustomerInvoiceDetail) businessObjectService.findByPrimaryKey(CustomerInvoiceDetail.class, criteria);
+        return businessObjectService.findByPrimaryKey(CustomerInvoiceDetail.class, criteria);
     }
 
     /**
@@ -282,7 +282,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getCustomerInvoiceDetailsForInvoiceWithCaching(java.lang.String)
      */
     @Override
-    @Cacheable(value=CustomerInvoiceDetail.CACHE_NAME, key="{getCustomerInvoiceDetailsForInvoiceWithCaching} 'customerInvoiceDocumentNumber=' + #p0")
+    @Cacheable(value=CustomerInvoiceDetail.CACHE_NAME, key="'{getCustomerInvoiceDetailsForInvoiceWithCaching}'+#customerInvoiceDocumentNumber")
     public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForInvoiceWithCaching(String customerInvoiceDocumentNumber) {
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("documentNumber", customerInvoiceDocumentNumber);

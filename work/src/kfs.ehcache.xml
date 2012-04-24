@@ -18,7 +18,7 @@
 <ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
          updateCheck="false" monitoring="autodetect"
-         dynamicConfig="true" name="kfsCoreCacheManager">
+         dynamicConfig="true" name="kfsCoreLocalCacheManager">
 
   <defaultCache eternal="false"
          overflowToDisk="false"
@@ -37,7 +37,7 @@
  -->
 	<!-- Cache with copyOnRead (replacement for @Cached) -->
 	<cache name="KFS/Account" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />
-	<cache name="KFS/AccountPeriod" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />
+	<cache name="KFS/AccountingPeriod" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />
 	<cache name="KFS/Organization" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />
 	<cache name="KFS/SubAccount" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />
 

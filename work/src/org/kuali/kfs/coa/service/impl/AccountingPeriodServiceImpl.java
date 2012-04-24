@@ -1,12 +1,12 @@
 /*
  * Copyright 2005 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,6 +29,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
 /**
@@ -36,11 +37,11 @@ import org.springframework.cache.annotation.Cacheable;
  */
 public class AccountingPeriodServiceImpl implements AccountingPeriodService {
     // member data
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingPeriodServiceImpl.class);
-    private BusinessObjectService businessObjectService;
-    private DateTimeService dateTimeService;
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingPeriodServiceImpl.class);
+    protected BusinessObjectService businessObjectService;
+    protected DateTimeService dateTimeService;
 
-    protected static final Set _invalidPeriodCodes = new TreeSet();
+    protected static final Set<String> _invalidPeriodCodes = new TreeSet<String>();
 
     static {
         _invalidPeriodCodes.add("13");
@@ -51,21 +52,24 @@ public class AccountingPeriodServiceImpl implements AccountingPeriodService {
 
     /**
      * The default implementation.
-     * 
+     *
      * @see org.kuali.kfs.coa.service.AccountingPeriodService#getAllAccountingPeriods()
      */
-    public Collection getAllAccountingPeriods() {
+    @Override
+    @Cacheable(value=AccountingPeriod.CACHE_NAME, key="'{getAllAccountingPeriods}'")
+    public Collection<AccountingPeriod> getAllAccountingPeriods() {
         return businessObjectService.findAll(AccountingPeriod.class);
     }
 
     /**
      * Implements by choosing only accounting periods that are active.
-     * 
+     *
      * @see org.kuali.kfs.coa.service.AccountingPeriodService#getOpenAccountingPeriods()
      */
-    @Cacheable(value=AccountingPeriod.CACHE_NAME, key="{getOpenAccountingPeriods}'")
-    public Collection getOpenAccountingPeriods() {
-        HashMap map = new HashMap();
+    @Override
+    @Cacheable(value=AccountingPeriod.CACHE_NAME, key="'{getOpenAccountingPeriods}'")
+    public Collection<AccountingPeriod> getOpenAccountingPeriods() {
+        HashMap<String,Object> map = new HashMap<String,Object>();
         map.put(KFSConstants.ACCOUNTING_PERIOD_ACTIVE_INDICATOR_FIELD, Boolean.TRUE);
 
         return businessObjectService.findMatchingOrderBy(AccountingPeriod.class, map, KFSPropertyConstants.ACCTING_PERIOD_UNIV_FISCAL_PERIOD_END_DATE, true);
@@ -73,26 +77,28 @@ public class AccountingPeriodServiceImpl implements AccountingPeriodService {
 
     /**
      * This method is a helper method to easily grab an accounting period by looking up it's period and fiscal year
-     * 
+     *
      * @param periodCode
      * @param fiscalYear
      * @return an accounting period
      */
-    @Cacheable(value=AccountingPeriod.CACHE_NAME, key="{getByPeriod} 'periodCode=' + #p0 + '|' + 'fiscalYear=' + #p1")
+    @Override
+    @Cacheable(value=AccountingPeriod.CACHE_NAME, key="#periodCode+'-'+#fiscalYear")
     public AccountingPeriod getByPeriod(String periodCode, Integer fiscalYear) {
         // build up the hashmap to find the accounting period
-        Map keys = new HashMap();
-        keys.put("universityFiscalPeriodCode", periodCode);
-        keys.put("universityFiscalYear", fiscalYear);
-        AccountingPeriod acctPeriod = (AccountingPeriod) getBusinessObjectService().findByPrimaryKey(AccountingPeriod.class, keys);
+        HashMap<String,Object> keys = new HashMap<String,Object>();
+        keys.put( KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, periodCode);
+        keys.put( KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
+        AccountingPeriod acctPeriod = businessObjectService.findByPrimaryKey(AccountingPeriod.class, keys);
         return acctPeriod;
     }
 
     /**
      * This method allows for AccountingPeriod retrieval via String date.
-     * 
+     *
      * @param String
      */
+    @Override
     public AccountingPeriod getByStringDate(String dateString) {
         AccountingPeriod acctPeriod;
         try {
@@ -107,23 +113,24 @@ public class AccountingPeriodServiceImpl implements AccountingPeriodService {
 
     /**
      * This method is a helper method to get the current period.
-     * 
+     *
      * @see org.kuali.kfs.coa.service.AccountingPeriodService#getByDate(java.sql.Date)
      */
-    @Cacheable(value=AccountingPeriod.CACHE_NAME, key="{getByDate} 'date=' + #p0")
+    @Override
+    @Cacheable(value=AccountingPeriod.CACHE_NAME, key="#date")
     public AccountingPeriod getByDate(Date date) {
-        Map primaryKeys = new HashMap();
-        primaryKeys.put("universityDate", date);
-        UniversityDate universityDate = (UniversityDate) getBusinessObjectService().findByPrimaryKey(UniversityDate.class, primaryKeys);
+        Map<String,Object> primaryKeys = new HashMap<String, Object>();
+        primaryKeys.put(KFSPropertyConstants.UNIVERSITY_DATE, date);
+        UniversityDate universityDate = businessObjectService.findByPrimaryKey(UniversityDate.class, primaryKeys);
         primaryKeys.clear();
-        primaryKeys.put("universityFiscalYear", universityDate.getUniversityFiscalYear());
-        primaryKeys.put("universityFiscalPeriodCode", universityDate.getUniversityFiscalAccountingPeriod());
-        return (AccountingPeriod) getBusinessObjectService().findByPrimaryKey(AccountingPeriod.class, primaryKeys);
+        primaryKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityDate.getUniversityFiscalYear());
+        primaryKeys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, universityDate.getUniversityFiscalAccountingPeriod());
+        return businessObjectService.findByPrimaryKey(AccountingPeriod.class, primaryKeys);
     }
 
     /**
      * This checks to see if the period code is empty or invalid ("13", "AB", "BB", "CB")
-     * 
+     *
      * @param period
      * @return
      */
@@ -139,6 +146,7 @@ public class AccountingPeriodServiceImpl implements AccountingPeriodService {
      * @see org.kuali.kfs.coa.service.AccountingPeriodService#compareAccountingPeriodsByDate(org.kuali.kfs.coa.businessobject.AccountingPeriod,
      *      org.kuali.kfs.coa.businessobject.AccountingPeriod)
      */
+    @Override
     public int compareAccountingPeriodsByDate(AccountingPeriod tweedleDee, AccountingPeriod tweedleDum) {
         // note the lack of defensive programming here. If you send a null accounting
         // period...then chances are, you deserve the NPE that you receive
@@ -148,41 +156,16 @@ public class AccountingPeriodServiceImpl implements AccountingPeriodService {
         return tweedleDeeClose.compareTo(tweedleDumClose);
     }
 
-    /**
-     * This method retrieves an instance of the businessObjectService.
-     * 
-     * @return
-     */
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
+    @Override
+    @CacheEvict(value=AccountingPeriod.CACHE_NAME,allEntries=true)
+    public void clearCache() {
+        // nothing to do - annotation does it all
     }
 
-    /**
-     * This method sets the instance of the businessObjectService.
-     * 
-     * @param businessObjectService
-     */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-
-    /**
-     * Gets the dateTimeService attribute.
-     * 
-     * @return Returns the dateTimeService.
-     */
-    public DateTimeService getDateTimeService() {
-        return dateTimeService;
-    }
-
-    /**
-     * Sets the dateTimeService attribute value.
-     * 
-     * @param dateTimeService The dateTimeService to set.
-     */
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
-
-
 }

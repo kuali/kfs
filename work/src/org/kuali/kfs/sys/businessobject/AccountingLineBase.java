@@ -50,48 +50,48 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * items necessary to create a pending entry to the G/L. All transaction documents will use this business object inherently.
  */
 public abstract class AccountingLineBase extends PersistableBusinessObjectBase implements Serializable, AccountingLine, GeneralLedgerPendingEntrySourceDetail {
-    private static Logger LOG = Logger.getLogger(AccountingLineBase.class);
+    private static final Logger LOG = Logger.getLogger(AccountingLineBase.class);
 
-    private String documentNumber;
-    private Integer sequenceNumber; // relative to the grouping of acctng lines
-    private Integer postingYear;
-    private KualiDecimal amount;
-    private String referenceOriginCode;
-    private String referenceNumber;
-    private String referenceTypeCode;
-    private String overrideCode = AccountingLineOverride.CODE.NONE;
-    private boolean accountExpiredOverride; // for the UI, persisted in overrideCode
-    private boolean accountExpiredOverrideNeeded; // for the UI, not persisted
-    private boolean nonFringeAccountOverride; // for the UI, persisted in overrideCode
-    private boolean nonFringeAccountOverrideNeeded; // for the UI, not persisted
-    private boolean objectBudgetOverride;
-    private boolean objectBudgetOverrideNeeded;
-    private String organizationReferenceId;
-    private String debitCreditCode; // should only be set by the Journal Voucher or Auxiliary Voucher document
-    private String encumbranceUpdateCode; // should only be set by the Journal Voucher document
+    protected String documentNumber;
+    protected Integer sequenceNumber; // relative to the grouping of acctng lines
+    protected Integer postingYear;
+    protected KualiDecimal amount;
+    protected String referenceOriginCode;
+    protected String referenceNumber;
+    protected String referenceTypeCode;
+    protected String overrideCode = AccountingLineOverride.CODE.NONE;
+    protected boolean accountExpiredOverride; // for the UI, persisted in overrideCode
+    protected boolean accountExpiredOverrideNeeded; // for the UI, not persisted
+    protected boolean nonFringeAccountOverride; // for the UI, persisted in overrideCode
+    protected boolean nonFringeAccountOverrideNeeded; // for the UI, not persisted
+    protected boolean objectBudgetOverride;
+    protected boolean objectBudgetOverrideNeeded;
+    protected String organizationReferenceId;
+    protected String debitCreditCode; // should only be set by the Journal Voucher or Auxiliary Voucher document
+    protected String encumbranceUpdateCode; // should only be set by the Journal Voucher document
     protected String financialDocumentLineTypeCode;
     protected String financialDocumentLineDescription;
     protected boolean salesTaxRequired;
 
-    private String chartOfAccountsCode;
-    private String accountNumber;
-    private String financialObjectCode;
-    private String subAccountNumber;
-    private String financialSubObjectCode;
-    private String projectCode;
-    private String balanceTypeCode;
+    protected String chartOfAccountsCode;
+    protected String accountNumber;
+    protected String financialObjectCode;
+    protected String subAccountNumber;
+    protected String financialSubObjectCode;
+    protected String projectCode;
+    protected String balanceTypeCode;
 
     // bo references
-    private Chart chart;
-    private Account account;
-    private ObjectCode objectCode;
-    private SubAccount subAccount;
-    private SubObjectCode subObjectCode;
-    private ProjectCode project;
-    private BalanceType balanceTyp;
-    private OriginationCode referenceOrigin;
-    private DocumentTypeEBO referenceFinancialSystemDocumentTypeCode;
-    private SalesTax salesTax;
+    protected Chart chart;
+    protected Account account;
+    protected ObjectCode objectCode;
+    protected SubAccount subAccount;
+    protected SubObjectCode subObjectCode;
+    protected ProjectCode project;
+    protected BalanceType balanceTyp;
+    protected OriginationCode referenceOrigin;
+    protected DocumentTypeEBO referenceFinancialSystemDocumentTypeCode;
+    protected SalesTax salesTax;
 
     /**
      * This constructor sets up empty instances for the dependent objects.
@@ -123,6 +123,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      * @param account The account to set.
      * @deprecated
      */
+    @Deprecated
     @Override
     public void setAccount(Account account) {
         this.account = account;
@@ -140,6 +141,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      * @param chart The chartOfAccountsCode to set.
      * @deprecated
      */
+    @Deprecated
     @Override
     public void setChart(Chart chart) {
         this.chart = chart;
@@ -181,6 +183,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      * @param balanceTyp The balanceTyp to set.
      * @deprecated
      */
+    @Deprecated
     @Override
     public void setBalanceTyp(BalanceType balanceTyp) {
         this.balanceTyp = balanceTyp;
@@ -198,6 +201,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      * @param objectCode The objectCode to set.
      * @deprecated
      */
+    @Deprecated
     @Override
     public void setObjectCode(ObjectCode objectCode) {
         this.objectCode = objectCode;
@@ -235,6 +239,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      * @param referenceOrigin
      * @deprecated
      */
+    @Deprecated
     @Override
     public void setReferenceOrigin(OriginationCode referenceOrigin) {
         this.referenceOrigin = referenceOrigin;
@@ -388,6 +393,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      * @param subAccount The subAccount to set.
      * @deprecated
      */
+    @Deprecated
     @Override
     public void setSubAccount(SubAccount subAccount) {
         this.subAccount = subAccount;
@@ -405,6 +411,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      * @param subObjectCode The subObjectCode to set.
      * @deprecated
      */
+    @Deprecated
     @Override
     public void setSubObjectCode(SubObjectCode subObjectCode) {
         this.subObjectCode = subObjectCode;
@@ -423,6 +430,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      * @see org.kuali.kfs.sys.businessobject.AccountingLine#setSalesTax(org.kuali.kfs.fp.businessobject.SalesTax)
      * @deprecated
      */
+    @Deprecated
     @Override
     public void setSalesTax(SalesTax salesTax) {
         this.salesTax = salesTax;
@@ -640,6 +648,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
      * @param project The project to set.
      * @deprecated
      */
+    @Deprecated
     @Override
     public void setProject(ProjectCode project) {
         this.project = project;

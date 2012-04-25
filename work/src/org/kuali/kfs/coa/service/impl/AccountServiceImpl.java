@@ -95,6 +95,7 @@ public class AccountServiceImpl implements AccountService {
     @Cacheable(value=Account.CACHE_NAME, key="#chartOfAccountsCode+'-'+#accountNumber")
     public Account getByPrimaryIdWithCaching(String chartOfAccountsCode, String accountNumber) {
         Account account = getByPrimaryId(chartOfAccountsCode, accountNumber);
+        account.getChartOfAccounts().getChartOfAccountsCode();
         return account;
     }
 

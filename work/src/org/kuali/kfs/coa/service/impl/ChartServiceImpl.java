@@ -56,9 +56,7 @@ public class ChartServiceImpl implements ChartService {
     @Override
     @Cacheable(value=Chart.CACHE_NAME,key="#chartOfAccountsCode")
     public Chart getByPrimaryId(String chartOfAccountsCode) {
-        Map<String, Object> pkMap = new HashMap<String, Object>();
-        pkMap.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
-        return businessObjectService.findByPrimaryKey(Chart.class, pkMap);
+        return businessObjectService.findBySinglePrimaryKey(Chart.class, chartOfAccountsCode);
     }
 
     /**

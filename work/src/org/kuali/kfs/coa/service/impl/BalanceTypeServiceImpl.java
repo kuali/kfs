@@ -17,16 +17,12 @@ package org.kuali.kfs.coa.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.BalanceType;
 import org.kuali.kfs.coa.dataaccess.BalanceTypeDao;
 import org.kuali.kfs.coa.service.BalanceTypeService;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -82,9 +78,7 @@ public class BalanceTypeServiceImpl implements BalanceTypeService {
     @Override
     @Cacheable(value=SystemOptions.CACHE_NAME, key="'{getCostShareEncumbranceBalanceType}'+#universityFiscalYear")
     public String getCostShareEncumbranceBalanceType(Integer universityFiscalYear) {
-        Map<String, Object> keys = new HashMap<String, Object>();
-        keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
-        SystemOptions option = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemOptions.class, keys);
+        SystemOptions option = businessObjectService.findBySinglePrimaryKey(SystemOptions.class, universityFiscalYear);
         return option.getCostShareEncumbranceBalanceTypeCd();
     }
 
@@ -95,9 +89,7 @@ public class BalanceTypeServiceImpl implements BalanceTypeService {
     @Override
     @Cacheable(value=SystemOptions.CACHE_NAME, key="'{getEncumbranceBalanceTypes}'+#universityFiscalYear")
     public List<String> getEncumbranceBalanceTypes(Integer universityFiscalYear) {
-        Map<String, Object> keys = new HashMap<String, Object>();
-        keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
-        SystemOptions option = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SystemOptions.class, keys);
+        SystemOptions option = businessObjectService.findBySinglePrimaryKey(SystemOptions.class, universityFiscalYear);
         List<String> encumberanceBalanceTypes = new ArrayList<String>();
         encumberanceBalanceTypes.add(option.getExtrnlEncumFinBalanceTypCd());
         encumberanceBalanceTypes.add(option.getIntrnlEncumFinBalanceTypCd());

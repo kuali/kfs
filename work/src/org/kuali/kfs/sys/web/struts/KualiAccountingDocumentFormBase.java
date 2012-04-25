@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -51,7 +51,8 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * This class is the base action form for all financial documents.
  */
 public class KualiAccountingDocumentFormBase extends FinancialSystemTransactionalDocumentFormBase {
-    protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiAccountingDocumentFormBase.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiAccountingDocumentFormBase.class);
+
     protected SourceAccountingLine newSourceLine;
     protected TargetAccountingLine newTargetLine;
 
@@ -79,7 +80,7 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
     /**
      * Overrides the parent to call super.populate and then to call the accounting lines populate method that is specific to loading
      * the two select lists on the page.
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.pojo.PojoForm#populate(javax.servlet.http.HttpServletRequest)
      */
     @Override
@@ -92,7 +93,7 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
 
         setDocTypeName(discoverDocumentTypeName());
     }
-    
+
     /**
      * Populates the accounting lines which need to be updated to successfully complete a response to the request
      * @param methodToCall the method to call in the action to complete this request transaction
@@ -113,7 +114,7 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
      * This method iterates over all of the source lines and all of the target lines in a transactional document, and calls
      * prepareAccountingLineForValidationAndPersistence on each one. This is called because a user could have updated already
      * existing accounting lines that had blank values in composite key fields.
-     * 
+     *
      * @param parameterMap the map of parameters that were sent in with the request
      */
     protected void populateAccountingLines(Map parameterMap) {
@@ -138,7 +139,7 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
      * Populates a source accounting line bo using values from the struts form. This is in place to make sure that all of the
      * composite key objects have the correct values in them. This should be overridden by children forms in the situation where
      * document level attributes need to be pushed down into the accounting lines.
-     * 
+     *
      * @param sourceLine
      * @param accountingLinePropertyName the property path from the form to the accounting line
      * @param parameterMap the map of parameters that were sent in with the request
@@ -151,7 +152,7 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
      * Populates a target accounting line bo using values from the struts form. This is in place to make sure that all of the
      * composite key objects have the correct values in them. This should be overridden by children forms in the situation where
      * document level attributes need to be pushed down into the accounting lines.
-     * 
+     *
      * @param targetLine
      * @param accountingLinePropertyName the property path from the form to the accounting line
      * @param parameterMap the map of parameters that were sent in with the request
@@ -162,7 +163,7 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
 
     /**
      * Populates the dependent fields of objects contained within the given accountingLine
-     * 
+     *
      * @param line
      * @param accountingLinePropertyName the property path from the form to the accounting line
      * @param parameterMap the map of parameters that were sent in with the request
@@ -197,12 +198,12 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
         line.getSubObjectCode().setAccountNumber(line.getAccountNumber());
         line.getSubObjectCode().setFinancialObjectCode(line.getFinancialObjectCode());
         line.getSubObjectCode().setUniversityFiscalYear(getFinancialDocument().getPostingYear());
-        
+
         repopulateOverrides(line, accountingLinePropertyName, parameterMap);
 
         AccountingLineOverride.populateFromInput(line);
     }
-    
+
     /**
      * This repopulates the override values from the request
      * @param line the line to repopulate override values for
@@ -232,7 +233,7 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
 
     /**
      * This method retrieves an instance of the form.
-     * 
+     *
      * @return
      */
     public AccountingDocument getFinancialDocument() {
@@ -340,7 +341,7 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
 
     /**
      * Retrieves the source accounting lines total in a currency format with commas.
-     * 
+     *
      * @return String
      */
     public String getCurrencyFormattedSourceTotal() {
@@ -349,7 +350,7 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
 
     /**
      * Retrieves the source accounting lines total in a currency format with commas.
-     * 
+     *
      * @return String
      */
     public String getCurrencyFormattedTargetTotal() {
@@ -398,7 +399,7 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
     /**
      * This method takes a generic list, hopefully with some AccountingLine objects in it, and returns a list of AccountingLine
      * objects, because Java generics are just so wonderful.
-     * 
+     *
      * @param lines a list of objects
      * @return a list of the accounting lines that were in the lines parameter
      */
@@ -414,7 +415,7 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
 
     /**
      * A <code>{@link Map}</code> of names of optional accounting line fields that require a quickfinder.
-     * 
+     *
      * @return a Map of fields
      */
     public void setForcedLookupOptionalFields(Map fieldMap) {
@@ -423,7 +424,7 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
 
     /**
      * A <code>{@link Map}</code> of names of optional accounting line fields that require a quickfinder.
-     * 
+     *
      * @return a Map of fields
      */
     public Map getForcedLookupOptionalFields() {
@@ -432,7 +433,7 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
 
     /**
      * Adds the accounting line file size to the list of max file sizes.
-     * 
+     *
      * @see org.kuali.rice.kns.web.struts.form.pojo.PojoFormBase#customInitMaxUploadSizes()
      */
     @Override
@@ -440,12 +441,12 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
         super.customInitMaxUploadSizes();
         addMaxUploadSize(SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_DOCUMENT.class, KFSConstants.ACCOUNTING_LINE_IMPORT_MAX_FILE_SIZE_PARM_NM));
     }
-    
+
     /**
      * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#shouldMethodToCallParameterBeUsed(java.lang.String, java.lang.String, javax.servlet.http.HttpServletRequest)
      */
     @Override
-    public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {                
+    public boolean shouldMethodToCallParameterBeUsed(String methodToCallParameterName, String methodToCallParameterValue, HttpServletRequest request) {
         if(StringUtils.equals(methodToCallParameterName, KRADConstants.DISPATCH_REQUEST_PARAMETER)) {
             if(this.getExcludedmethodToCall().contains(methodToCallParameterValue)) {
                 return true;
@@ -453,10 +454,10 @@ public class KualiAccountingDocumentFormBase extends FinancialSystemTransactiona
         }
         return super.shouldMethodToCallParameterBeUsed(methodToCallParameterName, methodToCallParameterValue, request);
     }
-    
+
     /**
      * get the names of the methods to call that can be excluded from the "be used" check.
-     * @return the names of the methods to call that can be excluded from the "be used" check 
+     * @return the names of the methods to call that can be excluded from the "be used" check
      */
     protected List<String> getExcludedmethodToCall() {
         return new ArrayList<String>();

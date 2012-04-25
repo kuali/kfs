@@ -121,7 +121,7 @@
 	<bean id="kfs.core.CacheAdminService.exporter" parent="kfs.core.serviceExporter">
 		<property name="serviceDefinition">
 			<bean parent="kfs.core.Service" p:service-ref="kfs.core.CacheAdminService"
-				p:localServiceName="kfs.core.CacheAdminService" p:queue="false" />
+				p:localServiceName="kfsCoreCacheAdminService" p:queue="false" />
 		</property>
 	</bean>
 

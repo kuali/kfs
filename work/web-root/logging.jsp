@@ -177,7 +177,7 @@
     String containsFilter = "Contains";
     String beginsWithFilter = "Begins With";
 
-    String[] logLevels = {"debug", "info", "warn", "error", "fatal", "off"};
+    String[] logLevels = {"trace", "debug", "info", "warn", "error", "fatal", "off"};
 
     String targetOperation = (String) request.getParameter("operation");
 

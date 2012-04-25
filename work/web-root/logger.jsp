@@ -99,6 +99,7 @@ if (displayLoggerList)
     	<TD>Choose Level:<BR>
     	<SELECT NAME='loggerLevel'>
     	<OPTION VALUE="ALL">All</OPTION>
+    	<OPTION VALUE="TRACE">Trace</OPTION>
     	<OPTION VALUE="DEBUG">Debug</OPTION>
     	<OPTION VALUE="ERROR">Error</OPTION>
     	<OPTION VALUE="FATAL">Fatal</OPTION>

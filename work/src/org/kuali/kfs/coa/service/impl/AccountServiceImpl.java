@@ -70,6 +70,7 @@ public class AccountServiceImpl implements AccountService {
      * @see AccountService
      */
     @Override
+    @Cacheable(value=Account.CACHE_NAME, key="#chartOfAccountsCode+'-'+#accountNumber")
     public Account getByPrimaryId(String chartOfAccountsCode, String accountNumber) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("retrieving account by primaryId (" + chartOfAccountsCode + "," + accountNumber + ")");
@@ -93,13 +94,15 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @Cacheable(value=Account.CACHE_NAME, key="#chartOfAccountsCode+'-'+#accountNumber")
     public Account getByPrimaryIdWithCaching(String chartOfAccountsCode, String accountNumber) {
-        return getByPrimaryId(chartOfAccountsCode, accountNumber);
+        Account account = getByPrimaryId(chartOfAccountsCode, accountNumber);
+        return account;
     }
 
     /**
      * @see org.kuali.kfs.coa.service.AccountService#getAccountsThatUserIsResponsibleFor(org.kuali.bo.user.KualiUser)
      */
     @Override
+    @Cacheable(value=Account.CACHE_NAME, key="'ResponsibleForAccounts'+#person.principalId")
     public List getAccountsThatUserIsResponsibleFor(Person person) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("retrieving accountsResponsible list for user " + person.getName());
@@ -118,6 +121,7 @@ public class AccountServiceImpl implements AccountService {
      *      org.kuali.kfs.coa.businessobject.Account)
      */
     @Override
+    @Cacheable(value=Account.CACHE_NAME, key="'ResponsibilityOnAccount'+#kualiUser.principalId+'-'+#account.chartOfAccountsCode+'-'+#account.accountNumber")
     public boolean hasResponsibilityOnAccount(Person kualiUser, Account account) {
         return accountDao.determineUserResponsibilityOnAccount(kualiUser, account, dateTimeService.getCurrentSqlDate());
     }
@@ -286,6 +290,7 @@ public class AccountServiceImpl implements AccountService {
      * @see org.kuali.kfs.coa.service.AccountService#getAccountsForAccountNumber(java.lang.String)
      */
     @Override
+    @Cacheable(value=Account.CACHE_NAME, key="'AccountsForAccountNumber'+#accountNumber")
     public Collection<Account> getAccountsForAccountNumber(String accountNumber) {
         return accountDao.getAccountsForAccountNumber(accountNumber);
     }
@@ -293,9 +298,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public String getDefaultLaborBenefitRateCategoryCodeForAccountType(String accountTypeCode) {
-        String benefitRateCategory = "";
-
-        benefitRateCategory = parameterService.getSubParameterValueAsString(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE_BY_ACCOUNT_TYPE", accountTypeCode);
+        String benefitRateCategory = parameterService.getSubParameterValueAsString(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE_BY_ACCOUNT_TYPE", accountTypeCode);
         if ( StringUtils.isBlank(benefitRateCategory) ) {
             benefitRateCategory = parameterService.getParameterValueAsString(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE");
         }
@@ -307,6 +310,7 @@ public class AccountServiceImpl implements AccountService {
      * @see org.kuali.kfs.coa.service.AccountService#getUniqueAccountForAccountNumber(java.lang.String)
      */
     @Override
+    @Cacheable(value=Account.CACHE_NAME, key="'UniqueAccountForAccountNumber'+#accountNumber")
     public Account getUniqueAccountForAccountNumber(String accountNumber) {
         Iterator<Account> accounts = accountDao.getAccountsForAccountNumber(accountNumber).iterator();
         Account account = null;

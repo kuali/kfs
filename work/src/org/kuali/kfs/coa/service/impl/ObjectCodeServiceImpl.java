@@ -48,8 +48,9 @@ public class ObjectCodeServiceImpl implements ObjectCodeService {
      * @see org.kuali.kfs.coa.service.ObjectCodeService#getByPrimaryId(java.lang.Integer, java.lang.String, java.lang.String)
      */
     @Override
+    @Cacheable(value=ObjectCode.CACHE_NAME, key="#universityFiscalYear+'-'+#chartOfAccountsCode+'-'+#financialObjectCode")
     public ObjectCode getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode) {
-        Map<String, Object> keys = new HashMap<String, Object>();
+        Map<String, Object> keys = new HashMap<String, Object>(3);
         keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
         keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
         keys.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, financialObjectCode);
@@ -63,11 +64,8 @@ public class ObjectCodeServiceImpl implements ObjectCodeService {
     @Override
     @Cacheable(value=ObjectCode.CACHE_NAME, key="#universityFiscalYear+'-'+#chartOfAccountsCode+'-'+#financialObjectCode")
     public ObjectCode getByPrimaryIdWithCaching(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode) {
-        Map<String, Object> keys = new HashMap<String, Object>();
-        keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
-        keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
-        keys.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, financialObjectCode);
-        return SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(ObjectCode.class, keys);
+        ObjectCode objectCode = getByPrimaryId(universityFiscalYear, chartOfAccountsCode, financialObjectCode);
+        return objectCode;
     }
 
     public void setObjectCodeDao(ObjectCodeDao objectCodeDao) {
@@ -118,6 +116,7 @@ public class ObjectCodeServiceImpl implements ObjectCodeService {
      * @see org.kuali.kfs.coa.service.ObjectCodeService#getByPrimaryIdForCurrentYear(java.lang.String, java.lang.String)
      */
     @Override
+    @Cacheable(value=ObjectCode.CACHE_NAME, key="'CurrentFY'+'-'+#chartOfAccountsCode+'-'+#financialObjectCode")
     public ObjectCode getByPrimaryIdForCurrentYear(String chartOfAccountsCode, String financialObjectCode) {
         return getByPrimaryId(universityDateService.getCurrentFiscalYear(), chartOfAccountsCode, financialObjectCode);
     }

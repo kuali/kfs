@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,14 +26,16 @@ import junit.framework.TestCase;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.OptimisticLockException;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KualiTestConstants;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.service.ConfigurableDateService;
-import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.core.impl.services.CoreImplServiceLocator;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
@@ -42,7 +44,7 @@ import org.springmodules.orm.ojb.OjbOperationException;
 
 /**
  * This class should be extended by all Kuali unit tests.
- * 
+ *
  * @see ConfigureContext
  * @see RelatesTo
  */
@@ -62,7 +64,7 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
      * Determines whether to actually run the test using the RelatesTo annotation, onfigures the appropriate context using the
      * ConfigureContext annotation, and logs extra details if the test invocation's OJB operations happen to encounter an
      * OptimisticLockException or if this test has related Jiras.
-     * 
+     *
      * @throws Throwable
      */
     @Override
@@ -89,7 +91,7 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
             }
             catch (OjbOperationException e) {
                 // log more detail for OptimisticLockExceptions
-                OjbOperationException ooe = (OjbOperationException) e;
+                OjbOperationException ooe = e;
                 Throwable cause = ooe.getCause();
                 if (cause instanceof OptimisticLockException) {
                     OptimisticLockException ole = (OptimisticLockException) cause;
@@ -113,15 +115,12 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
                 tearDown();
                 if ( springContextInitialized ) {
                     LOG.info( "clearing caches" );
-                    clearMethodCache();
-                    clearParameterCache();
+                    clearAllCaches();
                 }
             }
-        }
-        catch (Throwable t) {
+        } catch (Throwable t) {
             throw t;
-        }
-        finally {
+        } finally {
             if (contextConfiguration != null) {
                 endTestTransaction();
             }
@@ -146,21 +145,35 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
     }
 
     @CacheEvict(allEntries=true, value = { "" })
-    protected void clearMethodCache() {
+    protected void clearAllCaches() {
+        for ( CacheManager cm :  CoreImplServiceLocator.getCacheManagerRegistry().getCacheManagers() ) {
+            for ( String cacheName : cm.getCacheNames() ) {
+                cm.getCache(cacheName).clear();
+            }
+        }
     }
-    
-    @CacheEvict(value={Parameter.Cache.NAME}, allEntries = true)
-    protected void clearParameterCache() {
+
+    protected void clearBoCache( Class boClass ) {
+        String cacheManagerName = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + boClass.getSimpleName();
+        CacheManager cm = CoreImplServiceLocator.getCacheManagerRegistry().getCacheManager(cacheManagerName);
+        if ( cm != null ) {
+            cm.getCache(cacheManagerName).clear();
+            if ( LOG.isDebugEnabled() ) {
+                LOG.debug( "Cleared " + cacheManagerName + " cache upon business object save." );
+            }
+        } else {
+            LOG.warn( "Unable to find cache manager for " + cacheManagerName );
+        }
     }
-    
+
     protected void changeCurrentUser(UserNameFixture sessionUser) throws Exception {
         GlobalVariables.setUserSession(new UserSession(sessionUser.toString()));
     }
-    
+
     protected void addGeneratedFile(String filePath) {
         generatedFiles.add(filePath);
     }
-    
+
     /**
      *  Do not call this method!  It is used by the ContinuousIntegrationShutdown "test" to stop the context and clear its state.
      *  Any other use will likely break the CI environment.
@@ -169,13 +182,13 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
         if ( springContextInitialized ) {
             try {
                 SpringContext.close();
-            } catch (Exception e) {                
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             springContextInitialized = false;
         }
     }
-    
+
     private void configure(ConfigureContext contextConfiguration) throws Exception {
         if (configurationFailure != null) {
             throw configurationFailure;
@@ -240,7 +253,7 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
         }
         throw new RuntimeException("KualiTestBase was unable to getMethod: " + methodName);
     }
-    
+
     /**
      * This method is used during debugging to dump the contents of the error map, including the key names. It is not used by the
      * application in normal circumstances at all.
@@ -263,7 +276,7 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
                         message.append(delim).append("'").append(parm).append("'");
                         if ("".equals(delim)) {
                             delim = ", ";
-                        }                        
+                        }
                     }
                 }
             }

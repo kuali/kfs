@@ -17,6 +17,7 @@ package org.kuali.kfs.coa.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -95,6 +96,13 @@ public class ChartServiceImpl implements ChartService {
         return chartCodes;
     }
 
+    @Override
+    @Cacheable(value=Chart.CACHE_NAME,key="'AllActiveCharts'")
+    public Collection<Chart> getAllActiveCharts() {
+        return businessObjectService.findMatchingOrderBy(Chart.class,
+                Collections.singletonMap(KFSPropertyConstants.ACTIVE, true),
+                KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, true);
+    }
 
     /**
      * @see org.kuali.module.chart.service.getReportsToHierarchy()

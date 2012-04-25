@@ -206,7 +206,7 @@ function loadObjectInfo(fiscalYear, objectTypeNameRecipient, objectTypeCodeRecip
 				clearRecipients( objectTypeNameRecipient );
 			}
 		};
-		ObjectCodeService.getByPrimaryIdWithCaching( fiscalYear, coaCode, objectCode, dwrReply );
+		ObjectCodeService.getByPrimaryId( fiscalYear, coaCode, objectCode, dwrReply );
 	}
 }
 
@@ -238,7 +238,7 @@ function loadObjectCodeInfo(objectCodeFieldName, objectNameFieldName) {
 				setRecipientValue( objectNameFieldName, wrapError( "object not found" ), true );
 			}
 		};
-		ObjectCodeService.getByPrimaryIdWithCaching( fiscalYear, coaCode, objectCode, dwrReply );
+		ObjectCodeService.getByPrimaryId( fiscalYear, coaCode, objectCode, dwrReply );
 	}
 }
 

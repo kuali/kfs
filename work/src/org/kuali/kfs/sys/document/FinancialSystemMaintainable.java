@@ -22,16 +22,14 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountPersistenceStructureService;
 import org.kuali.kfs.coa.service.AccountService;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.batch.service.CacheService;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.core.impl.services.CoreImplServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.springframework.cache.CacheManager;
 
 /**
  * This class...
@@ -164,20 +162,7 @@ public class FinancialSystemMaintainable extends KualiMaintainableImpl {
     public void saveBusinessObject() {
         super.saveBusinessObject();
         // clear any caches for the selected business object (as long as they are using the normal conventions)
-        try {
-            String cacheManagerName = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + getBoClass().getSimpleName();
-            CacheManager cm = CoreImplServiceLocator.getCacheManagerRegistry().getCacheManager(cacheManagerName);
-            if ( cm != null ) {
-                cm.getCache(cacheManagerName).clear();
-                if ( LOG.isDebugEnabled() ) {
-                    LOG.debug( "Cleared " + cacheManagerName + " cache upon business object save." );
-                }
-            } else {
-                LOG.warn( "Unable to find cache manager for " + cacheManagerName );
-            }
-        } catch ( Exception ex ) {
-            LOG.warn( "Exception while attempting to clear cache for " + getBusinessObject(), ex );
-        }
+        SpringContext.getBean(CacheService.class).clearKfsBusinessObjectCache(getBoClass());
     }
 
     /**

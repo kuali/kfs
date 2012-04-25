@@ -26,16 +26,14 @@ import junit.framework.TestCase;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.OptimisticLockException;
 import org.kuali.kfs.sys.ConfigureContext;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KualiTestConstants;
+import org.kuali.kfs.sys.batch.service.CacheService;
 import org.kuali.kfs.sys.batch.service.SchedulerService;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.service.ConfigurableDateService;
-import org.kuali.rice.core.impl.services.CoreImplServiceLocator;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
@@ -146,24 +144,11 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
 
     @CacheEvict(allEntries=true, value = { "" })
     protected void clearAllCaches() {
-        for ( CacheManager cm :  CoreImplServiceLocator.getCacheManagerRegistry().getCacheManagers() ) {
-            for ( String cacheName : cm.getCacheNames() ) {
-                cm.getCache(cacheName).clear();
-            }
-        }
+        SpringContext.getBean(CacheService.class).clearSystemCaches();
     }
 
     protected void clearBoCache( Class boClass ) {
-        String cacheManagerName = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + boClass.getSimpleName();
-        CacheManager cm = CoreImplServiceLocator.getCacheManagerRegistry().getCacheManager(cacheManagerName);
-        if ( cm != null ) {
-            cm.getCache(cacheManagerName).clear();
-            if ( LOG.isDebugEnabled() ) {
-                LOG.debug( "Cleared " + cacheManagerName + " cache upon business object save." );
-            }
-        } else {
-            LOG.warn( "Unable to find cache manager for " + cacheManagerName );
-        }
+        SpringContext.getBean(CacheService.class).clearKfsBusinessObjectCache(boClass);
     }
 
     protected void changeCurrentUser(UserNameFixture sessionUser) throws Exception {

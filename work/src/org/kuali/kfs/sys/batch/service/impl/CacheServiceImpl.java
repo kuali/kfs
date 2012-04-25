@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.sys.batch.service.impl;
 
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.batch.service.CacheService;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.core.impl.services.CoreImplServiceLocator;
@@ -25,17 +26,38 @@ import org.springframework.cache.CacheManager;
  */
 @NonTransactional
 public class CacheServiceImpl implements CacheService {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CacheServiceImpl.class);
 
     /**
      * @see org.kuali.kfs.sys.batch.service.CacheService#clearSystemCache()
      */
     @Override
-    public void clearSystemCache() {
+    public void clearSystemCaches() {
         for ( CacheManager cm :  CoreImplServiceLocator.getCacheManagerRegistry().getCacheManagers() ) {
             for ( String cacheName : cm.getCacheNames() ) {
                 cm.getCache(cacheName).clear();
             }
         }
+    }
+
+    @Override
+    public void clearNamedCache(String cacheManagerName) {
+        CacheManager cm = CoreImplServiceLocator.getCacheManagerRegistry().getCacheManager(cacheManagerName);
+        if ( cm != null ) {
+            cm.getCache(cacheManagerName).clear();
+            if ( LOG.isDebugEnabled() ) {
+                LOG.debug( "Cleared " + cacheManagerName + " cache." );
+            }
+        } else {
+            // this is at debug level intentionally, since not all BOs have caches
+            LOG.debug( "Unable to find cache manager for " + cacheManagerName );
+        }
+    }
+
+    @Override
+    public void clearKfsBusinessObjectCache(Class boClass) {
+        String cacheManagerName = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + boClass.getSimpleName();
+        clearNamedCache(cacheManagerName);
     }
 
 }

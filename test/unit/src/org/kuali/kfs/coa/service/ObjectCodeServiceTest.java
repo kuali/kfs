@@ -1,12 +1,12 @@
 /*
  * Copyright 2005-2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -40,8 +40,6 @@ public class ObjectCodeServiceTest extends KualiTestBase {
     }
 
     public void testGetYersList() {
-        ObjectCode objectCode = new ObjectCode();
-        // objectCode = ObjectCodeDao.
         List list = SpringContext.getBean(ObjectCodeService.class).getYearList("BL", "5050");
         assertNotNull("interface garuentee not returning Null", list);
 
@@ -50,8 +48,6 @@ public class ObjectCodeServiceTest extends KualiTestBase {
     }
 
     public void testGetYersListEmpty() {
-        ObjectCode objectCode = new ObjectCode();
-        // objectCode = ObjectCodeDao.
         List list = SpringContext.getBean(ObjectCodeService.class).getYearList("BL", "asdfasdf");
         assertNotNull("interface garuentee not returning Null", list);
         assertTrue("expect more than one result", list.size() == 0);

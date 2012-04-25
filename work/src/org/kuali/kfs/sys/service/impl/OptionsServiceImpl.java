@@ -29,7 +29,7 @@ public class OptionsServiceImpl implements OptionsService {
     protected UniversityDateService universityDateService;
 
     @Override
-    @Cacheable(value=SystemOptions.CACHE_NAME, key="CurrentFY")
+    @Cacheable(value=SystemOptions.CACHE_NAME, key="'CurrentFY'")
     public SystemOptions getCurrentYearOptions() {
         Integer fy = universityDateService.getCurrentFiscalYear();
         return SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(SystemOptions.class, fy);

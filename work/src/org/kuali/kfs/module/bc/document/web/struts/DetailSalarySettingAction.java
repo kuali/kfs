@@ -134,6 +134,17 @@ public abstract class DetailSalarySettingAction extends SalarySettingBaseAction 
         String refreshCaller = request.getParameter(KFSConstants.REFRESH_CALLER);
 
         if (refreshCaller != null && refreshCaller.endsWith(KFSConstants.LOOKUPABLE_SUFFIX)) {
+            // user could return from a lookup using a different fiscal year - do not allow it to change the funding line
+            if (!salarySettingForm.getNewBCAFLine().getUniversityFiscalYear().equals(salarySettingForm.getUniversityFiscalYear())){
+                salarySettingForm.getNewBCAFLine().setUniversityFiscalYear(salarySettingForm.getUniversityFiscalYear());
+            }
+            if (salarySettingForm instanceof PositionSalarySettingForm){
+                // check that the object code is consistent with the position default object
+                PositionSalarySettingForm ssPosForm = (PositionSalarySettingForm) salarySettingForm;
+                if (!ssPosForm.getNewBCAFLine().getFinancialObjectCode().equals(ssPosForm.getBudgetConstructionPosition().getIuDefaultObjectCode())){
+                    ssPosForm.getNewBCAFLine().setFinancialObjectCode(ssPosForm.getBudgetConstructionPosition().getIuDefaultObjectCode());
+                }
+            }
             salarySettingForm.refreshBCAFLine(salarySettingForm.getNewBCAFLine());
         }
 

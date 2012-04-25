@@ -1278,6 +1278,10 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         }
 
         if (refreshCaller != null && refreshCaller.equalsIgnoreCase(KFSConstants.KUALI_LOOKUPABLE_IMPL)) {
+
+            this.checkAndFixReturnedLookupValues(budgetConstructionForm.getNewRevenueLine(), budgetConstructionForm.getBudgetConstructionDocument());
+            this.checkAndFixReturnedLookupValues(budgetConstructionForm.getNewExpenditureLine(), budgetConstructionForm.getBudgetConstructionDocument());
+            
             final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "financialObject", "financialSubObject" }));
             SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(budgetConstructionForm.getNewRevenueLine(), REFRESH_FIELDS);
             SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(budgetConstructionForm.getNewExpenditureLine(), REFRESH_FIELDS);
@@ -1289,6 +1293,25 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             budgetConstructionForm.setBalanceInquiryReturnAnchor(null);
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * checks the passed in newLine for any data consistency problems compared to the currently loaded document
+     * this is typically called after return from a lookup since the user can potentially select from other fiscal years, etc. 
+     * 
+     * @param newLine
+     * @param bcDoc
+     */
+    protected void checkAndFixReturnedLookupValues(PendingBudgetConstructionGeneralLedger newLine, BudgetConstructionDocument bcDoc){
+        if (!newLine.getUniversityFiscalYear().equals(bcDoc.getUniversityFiscalYear())){
+            newLine.setUniversityFiscalYear(bcDoc.getUniversityFiscalYear());
+        }
+        if (!newLine.getChartOfAccountsCode().equals(bcDoc.getChartOfAccountsCode())){
+            newLine.setChartOfAccountsCode(bcDoc.getChartOfAccountsCode());
+        }
+        if (!newLine.getAccountNumber().equals(bcDoc.getAccountNumber())){
+            newLine.setAccountNumber(bcDoc.getAccountNumber());
+        }
     }
 
     /**

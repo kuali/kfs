@@ -102,7 +102,7 @@
 		</bean>        
         <bean parent="MaintainableFieldDefinition" p:name="organizationOwnerAccount.organizationCode" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="agencyNumber"/>
-        <bean parent="MaintainableFieldDefinition" p:name="acquisitionTypeCode" p:unconditionallyReadOnly="false" p:defaultValue="C"/>
+        <bean parent="MaintainableFieldDefinition" p:name="acquisitionTypeCode" p:unconditionallyReadOnly="true" p:defaultValue="C"/>
         <bean parent="MaintainableFieldDefinition" p:name="inventoryStatusCode" p:required="true" p:defaultValue="U"/>
         <bean parent="MaintainableFieldDefinition" p:name="conditionCode" p:required="true" p:noLookup="true" />
         <bean parent="MaintainableFieldDefinition" p:name="capitalAssetDescription" p:required="true"/>

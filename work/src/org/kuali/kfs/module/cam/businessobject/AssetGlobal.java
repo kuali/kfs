@@ -16,10 +16,14 @@
 package org.kuali.kfs.module.cam.businessobject;
 
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -33,14 +37,15 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
-import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.GlobalBusinessObject;
 import org.kuali.rice.krad.bo.GlobalBusinessObjectDetail;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -903,13 +908,37 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         if (this.documentNumber == null || !SpringContext.getBean(AssetGlobalService.class).isAssetSeparate(this)) {
             return null;
         }
-        DocumentRouteHeaderValue routeHeader = SpringContext.getBean(RouteHeaderService.class).getRouteHeader(this.documentNumber);
-        if (routeHeader != null && routeHeader.getApprovedDate() != null) {
-            return new Date(routeHeader.getApprovedDate().getTime());
+//        DocumentRouteHeaderValue routeHeader = SpringContext.getBean(RouteHeaderService.class).getRouteHeader(this.documentNumber);
+//        if (routeHeader != null && routeHeader.getApprovedDate() != null) {
+//            return new Date(routeHeader.getApprovedDate().getTime());
+//        }
+//        
+        String userId = GlobalVariables.getUserSession().getPrincipalId();
+        WorkflowDocument workflowDocument = WorkflowDocumentFactory.loadDocument(userId, getDocumentNumber());
+
+        // do not display not approved documents
+        if (ObjectUtils.isNotNull(workflowDocument.getDateApproved())) {
+            return getSqlDate(workflowDocument.getDateApproved().toCalendar(Locale.getDefault()));
         }
+        
         return null;
     }
 
+    protected Date getSqlDate(Calendar cal) {
+        Date sqlDueDate = null;
+
+        if (ObjectUtils.isNull(cal))
+            return sqlDueDate;
+        try {
+            sqlDueDate = SpringContext.getBean(DateTimeService.class).convertToSqlDate(new Timestamp(cal.getTime().getTime()));
+        }
+        catch (ParseException e) {
+            // TODO: throw an error here, but don't die
+        }
+        return sqlDueDate;
+    }
+
+    
     public boolean isCapitalAssetBuilderOriginIndicator() {
         return capitalAssetBuilderOriginIndicator;
     }

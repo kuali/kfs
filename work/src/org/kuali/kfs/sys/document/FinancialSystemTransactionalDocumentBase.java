@@ -43,7 +43,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * This class is a KFS specific TransactionalDocumentBase class
  */
 public class FinancialSystemTransactionalDocumentBase extends TransactionalDocumentBase implements FinancialSystemTransactionalDocument {
-    protected static final Logger LOG = Logger.getLogger(FinancialSystemTransactionalDocumentBase.class);
+    private static final Logger LOG = Logger.getLogger(FinancialSystemTransactionalDocumentBase.class);
 
     protected static final String UPDATE_TOTAL_AMOUNT_IN_POST_PROCESSING_PARAMETER_NAME = "UPDATE_TOTAL_AMOUNT_IN_POST_PROCESSING_IND";
 
@@ -51,9 +51,7 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
     private static transient FinancialSystemDocumentService financialSystemDocumentService;
     private static transient ParameterService parameterService;
 
-    private transient Map<String,Boolean> canEditCache = new HashMap<String,Boolean>();
-
-    protected FinancialSystemDocumentHeader documentHeader;
+    private transient Map<String,Boolean> canEditCache;
 
     /**
      * Constructs a FinancialSystemTransactionalDocumentBase.java.
@@ -62,17 +60,9 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
         super();
     }
 
-    /**
-     * @see org.kuali.rice.krad.document.DocumentBase#getDocumentHeader()
-     */
-    @Override
-    public DocumentHeader getDocumentHeader() {
-        return documentHeader;
-    }
-
     @Override
     public FinancialSystemDocumentHeader getFinancialSystemDocumentHeader() {
-        return documentHeader;
+        return (FinancialSystemDocumentHeader) documentHeader;
     }
 
     /**
@@ -83,7 +73,7 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
         if ((documentHeader != null) && (!FinancialSystemDocumentHeader.class.isAssignableFrom(documentHeader.getClass()))) {
             throw new IllegalArgumentException("document header of class '" + documentHeader.getClass() + "' is not assignable from financial document header class '" + FinancialSystemDocumentHeader.class + "'");
         }
-        this.documentHeader = (FinancialSystemDocumentHeader) documentHeader;
+        this.documentHeader = documentHeader;
     }
 
     /**
@@ -108,12 +98,12 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
     public void processAfterRetrieve() {
         // set correctedByDocumentId manually, since OJB doesn't maintain that relationship
         try {
-            DocumentHeader correctingDocumentHeader = SpringContext.getBean(FinancialSystemDocumentHeaderDao.class).getCorrectingDocumentHeader(getFinancialSystemDocumentHeader().getWorkflowDocument().getDocumentId().toString());
+            DocumentHeader correctingDocumentHeader = SpringContext.getBean(FinancialSystemDocumentHeaderDao.class).getCorrectingDocumentHeader(getFinancialSystemDocumentHeader().getDocumentNumber());
             if (correctingDocumentHeader != null) {
                 getFinancialSystemDocumentHeader().setCorrectedByDocumentId(correctingDocumentHeader.getDocumentNumber());
             }
         } catch (Exception e) {
-            LOG.error("Received WorkflowException trying to get route header id from workflow document. Exception was " + e);
+            LOG.error("Received WorkflowException trying to get route header id from workflow document.", e);
             throw new WorkflowRuntimeException(e);
         }
         // set the ad hoc route recipients too, since OJB doesn't maintain that relationship
@@ -162,9 +152,9 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
                 && getParameterService().parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_DOCUMENT.class, UPDATE_TOTAL_AMOUNT_IN_POST_PROCESSING_PARAMETER_NAME)
                 && getParameterService().getParameterValueAsBoolean(KfsParameterConstants.FINANCIAL_SYSTEM_DOCUMENT.class, UPDATE_TOTAL_AMOUNT_IN_POST_PROCESSING_PARAMETER_NAME)) {
             final KualiDecimal currentTotal = ((AmountTotaling)this).getTotalDollarAmount();
-            if (!currentTotal.equals(((FinancialSystemDocumentHeader)getDocumentHeader()).getFinancialDocumentTotalAmount())) {
-                ((FinancialSystemDocumentHeader)getDocumentHeader()).setFinancialDocumentTotalAmount(currentTotal);
-                getBusinessObjectService().save(getDocumentHeader());
+            if (!currentTotal.equals(getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount())) {
+                getFinancialSystemDocumentHeader().setFinancialDocumentTotalAmount(currentTotal);
+                getBusinessObjectService().save(getFinancialSystemDocumentHeader());
             }
         }
         super.doRouteLevelChange(levelChangeEvent);
@@ -245,7 +235,7 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
         }
         canEditCache.put(user.getPrincipalId(), canEdit);
     }
-    
+
     /**
      * Updates status of this document and saves the workflow data
      *
@@ -253,25 +243,25 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
      * @throws WorkflowException
      */
     protected void updateAndSaveAppDocStatus(String applicationDocumentStatus) throws WorkflowException {
-        documentHeader.updateAndSaveAppDocStatus(applicationDocumentStatus);
-    }
-    
-    /**
-     * Gets the applicationDocumentStatus attribute.
-     * 
-     * @return Returns the applicationDocumentStatus
-     */
-    
-    public String getApplicationDocumentStatus() {
-        return documentHeader.getApplicationDocumentStatus();
+        getFinancialSystemDocumentHeader().updateAndSaveAppDocStatus(applicationDocumentStatus);
     }
 
-    /** 
+    /**
+     * Gets the applicationDocumentStatus attribute.
+     *
+     * @return Returns the applicationDocumentStatus
+     */
+
+    public String getApplicationDocumentStatus() {
+        return getFinancialSystemDocumentHeader().getApplicationDocumentStatus();
+    }
+
+    /**
      * Sets the applicationDocumentStatus attribute.
-     * 
+     *
      * @param applicationDocumentStatus The applicationDocumentStatus to set.
      */
     public void setApplicationDocumentStatus(String applicationDocumentStatus) {
-        documentHeader.setApplicationDocumentStatus(applicationDocumentStatus);
+        getFinancialSystemDocumentHeader().setApplicationDocumentStatus(applicationDocumentStatus);
     }
 }

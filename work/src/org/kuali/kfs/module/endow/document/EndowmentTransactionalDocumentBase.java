@@ -32,6 +32,8 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 
 public abstract class EndowmentTransactionalDocumentBase extends FinancialSystemTransactionalDocumentBase implements EndowmentTransactionalDocument {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EndowmentTransactionalDocumentBase.class);
+
     protected static final String CHECK_IF_ROUTE_SPLIT = "CheckIfNoRoute";
     protected String transactionSubTypeCode;
     protected String transactionSourceTypeCode;
@@ -40,7 +42,7 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
     protected EndowmentTransactionSubType transactionSubType;
     protected EndowmentTransactionSourceType transactionSourceType;
 
-    protected static transient DateTimeService dateTimeService;
+    private static transient DateTimeService dateTimeService;
 
     protected boolean noRouteIndicator;
 
@@ -200,8 +202,8 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
             ObjectUtils.setObjectPropertyDeep(this, KRADPropertyConstants.VERSION_NUMBER, versionNumber.getClass(), 0L);
         }
         catch (Exception e) {
-            LOG.error("Unable to set version number property in copied document " + e.getMessage());
-            throw new RuntimeException("Unable to set version number property in copied document " + e.getMessage());
+            LOG.error("Unable to set version number property in copied document " + e.getMessage(), e);
+            throw new RuntimeException("Unable to set version number property in copied document " + e.getMessage(), e);
         }
     }
 
@@ -244,7 +246,7 @@ public abstract class EndowmentTransactionalDocumentBase extends FinancialSystem
 
     @Override
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        if (nodeName.equals(this.CHECK_IF_ROUTE_SPLIT))
+        if (nodeName.equals(CHECK_IF_ROUTE_SPLIT))
             return this.noRouteIndicator;
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
     }

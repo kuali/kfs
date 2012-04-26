@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 The Kuali Foundation
+ * Copyright 2012 The Kuali Foundation.
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,17 @@
  */
 package org.kuali.kfs.sys.document;
 
-import org.kuali.rice.krad.document.TransactionalDocument;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.document.Document;
 
-public interface FinancialSystemTransactionalDocument extends TransactionalDocument, FinancialSystemDocument {
+public interface FinancialSystemDocument extends Document {
+
+    FinancialSystemDocumentHeader getFinancialSystemDocumentHeader();
+
+    boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException;
+
+    Boolean canEdit(Person user);
+    void setCanEdit( Person user, Boolean canEdit );
+
 }

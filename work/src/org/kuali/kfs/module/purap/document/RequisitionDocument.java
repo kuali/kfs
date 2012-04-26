@@ -28,10 +28,10 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapConstants.RequisitionStatuses;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants;
-import org.kuali.kfs.module.purap.PurapConstants.RequisitionStatuses;
 import org.kuali.kfs.module.purap.businessobject.BillingAddress;
 import org.kuali.kfs.module.purap.businessobject.DefaultPrincipalAddress;
 import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
@@ -60,7 +60,6 @@ import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.kfs.vnd.service.PhoneNumberService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -160,7 +159,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         KualiDecimal maxAllowedAmount = new KualiDecimal(parameterService.getParameterValueAsString(RequisitionDocument.class, PurapParameterConstants.SEPARATION_OF_DUTIES_DOLLAR_AMOUNT));
         // if app param amount is greater than or equal to documentTotalAmount... no need for separation of duties
-        KualiDecimal totalAmount = documentHeader.getFinancialDocumentTotalAmount();
+        KualiDecimal totalAmount = getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount();
         if (ObjectUtils.isNotNull(maxAllowedAmount) && ObjectUtils.isNotNull(totalAmount) && (maxAllowedAmount.compareTo(totalAmount) >= 0)) {
             return false;
         }
@@ -211,7 +210,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     public void initiateDocument() throws WorkflowException {
         this.setupAccountDistributionMethod();
         this.setRequisitionSourceCode(PurapConstants.RequisitionSources.STANDARD_ORDER);
-        updateAndSaveAppDocStatus(PurapConstants.RequisitionStatuses.APPDOC_IN_PROCESS);        
+        updateAndSaveAppDocStatus(PurapConstants.RequisitionStatuses.APPDOC_IN_PROCESS);
         this.setPurchaseOrderCostSourceCode(PurapConstants.POCostSources.ESTIMATE);
         this.setPurchaseOrderTransmissionMethodCode(determinePurchaseOrderTransmissionMethod());
         this.setDocumentFundingSourceCode(SpringContext.getBean(ParameterService.class).getParameterValueAsString(RequisitionDocument.class, PurapParameterConstants.DEFAULT_FUNDING_SOURCE));
@@ -233,7 +232,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 
         DefaultPrincipalAddress defaultPrincipalAddress = new DefaultPrincipalAddress(currentUser.getPrincipalId());
         Map addressKeys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(defaultPrincipalAddress);
-        defaultPrincipalAddress = (DefaultPrincipalAddress) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(DefaultPrincipalAddress.class, addressKeys);
+        defaultPrincipalAddress = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(DefaultPrincipalAddress.class, addressKeys);
         if (ObjectUtils.isNotNull(defaultPrincipalAddress) && ObjectUtils.isNotNull(defaultPrincipalAddress.getBuilding())) {
             if (defaultPrincipalAddress.getBuilding().isActive()) {
                 this.setDeliveryCampusCode(defaultPrincipalAddress.getCampusCode());
@@ -253,7 +252,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         BillingAddress billingAddress = new BillingAddress();
         billingAddress.setBillingCampusCode(this.getDeliveryCampusCode());
         Map keys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(billingAddress);
-        billingAddress = (BillingAddress) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BillingAddress.class, keys);
+        billingAddress = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BillingAddress.class, keys);
         this.templateBillingAddress(billingAddress);
 
         // populate receiving address with the default one for the chart/org
@@ -326,7 +325,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     @Override
     public void toCopy() throws WorkflowException, ValidationException {
         super.toCopy();
-        
+
         // Clear related views
         this.setAccountsPayablePurchasingDocumentLinkIdentifier(null);
         this.setRelatedViews(null);
@@ -352,7 +351,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         VendorContract vendorContract = new VendorContract();
         vendorContract.setVendorContractGeneratedIdentifier(this.getVendorContractGeneratedIdentifier());
         Map keys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(vendorContract);
-        vendorContract = (VendorContract) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(VendorContract.class, keys);
+        vendorContract = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(VendorContract.class, keys);
         if (!(vendorContract != null && today.after(vendorContract.getVendorContractBeginningDate()) && today.before(vendorContract.getVendorContractEndDate()))) {
             activeContract = false;
         }
@@ -387,7 +386,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             RequisitionItem item = (RequisitionItem) iter.next();
             item.setPurapDocumentIdentifier(null);
             item.setItemIdentifier(null);
-            
+
             for (Iterator acctIter = item.getSourceAccountingLines().iterator(); acctIter.hasNext();) {
                 RequisitionAccount account = (RequisitionAccount) acctIter.next();
                 account.setAccountIdentifier(null);

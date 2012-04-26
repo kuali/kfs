@@ -1,12 +1,12 @@
 /*
  * Copyright 2005-2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,13 +35,14 @@ public class FinancialSystemDocumentStatusMonitor extends ChangeMonitor {
         this.desiredStatus = desiredStatus;
     }
 
+    @Override
     public boolean valueChanged() throws Exception {
         Document d = documentService.getByDocumentHeaderId(docHeaderId.toString());
         String currentStatus = null;
         if (d instanceof FinancialSystemTransactionalDocument) {
             currentStatus = ((FinancialSystemTransactionalDocument) d).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode();
         } else if (d instanceof FinancialSystemMaintenanceDocument) {
-            currentStatus = ((FinancialSystemMaintenanceDocument) d).getDocumentHeader().getFinancialDocumentStatusCode();
+            currentStatus = ((FinancialSystemMaintenanceDocument) d).getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode();
         } else {
             throw new IllegalArgumentException("Document with id " + docHeaderId + " is not an instance of " + FinancialSystemMaintenanceDocument.class + " or " + FinancialSystemTransactionalDocument.class);
         }

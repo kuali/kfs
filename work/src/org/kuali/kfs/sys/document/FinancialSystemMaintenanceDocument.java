@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 package org.kuali.kfs.sys.document;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.KFSConstants;
@@ -23,7 +26,6 @@ import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
 import org.kuali.rice.kew.api.WorkflowRuntimeException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.krad.bo.DocumentHeader;
@@ -31,10 +33,10 @@ import org.kuali.rice.krad.bo.DocumentHeader;
 /**
  * This class is used by the system to use financial specific objects and data for maintenance documents
  */
-public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase {
+public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase implements FinancialSystemDocument {
     private static final Logger LOG = Logger.getLogger(FinancialSystemMaintenanceDocument.class);
 
-    protected FinancialSystemDocumentHeader documentHeader;
+    private transient Map<String,Boolean> canEditCache;
 
     /**
      * Constructs a FinancialSystemMaintenanceDocument.java.
@@ -52,14 +54,6 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
     }
 
     /**
-     * @see org.kuali.rice.krad.document.DocumentBase#getDocumentHeader()
-     */
-    @Override
-    public FinancialSystemDocumentHeader getDocumentHeader() {
-        return documentHeader;
-    }
-
-    /**
      * @see org.kuali.rice.krad.document.DocumentBase#setDocumentHeader(org.kuali.rice.krad.bo.DocumentHeader)
      */
     @Override
@@ -67,12 +61,12 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
         if ((documentHeader != null) && (!FinancialSystemDocumentHeader.class.isAssignableFrom(documentHeader.getClass()))) {
             throw new IllegalArgumentException("document header of class '" + documentHeader.getClass() + "' is not assignable from financial document header class '" + FinancialSystemDocumentHeader.class + "'");
         }
-        this.documentHeader = (FinancialSystemDocumentHeader) documentHeader;
+        this.documentHeader = documentHeader;
     }
 
     /**
      * This is the default implementation which ensures that document note attachment references are loaded.
-     * 
+     *
      * @see org.kuali.rice.krad.document.Document#processAfterRetrieve()
      */
     @Override
@@ -81,7 +75,7 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
         try {
             DocumentHeader correctingDocumentHeader = SpringContext.getBean(FinancialSystemDocumentHeaderDao.class).getCorrectingDocumentHeader(getDocumentHeader().getWorkflowDocument().getDocumentId());
             if (correctingDocumentHeader != null) {
-                getDocumentHeader().setCorrectedByDocumentId(correctingDocumentHeader.getDocumentNumber());
+                getFinancialSystemDocumentHeader().setCorrectedByDocumentId(correctingDocumentHeader.getDocumentNumber());
             }
         } catch (RuntimeException e) {
             LOG.error("Received WorkflowException trying to get route header id from workflow document");
@@ -95,30 +89,31 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
 
     /**
      * This is the default implementation which checks for a different workflow statuses, and updates the Kuali status accordingly.
-     * 
+     *
      * @see org.kuali.rice.krad.document.Document#doRouteStatusChange()
      */
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         if (getDocumentHeader().getWorkflowDocument().isCanceled()) {
-            getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CANCELLED);
+            getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CANCELLED);
         }
         else if (getDocumentHeader().getWorkflowDocument().isEnroute()) {
-            getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.ENROUTE);
+            getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.ENROUTE);
         }
         if (getDocumentHeader().getWorkflowDocument().isDisapproved()) {
-            getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.DISAPPROVED);
+            getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.DISAPPROVED);
         }
         if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
-            getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
+            getFinancialSystemDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.APPROVED);
         }
         if ( LOG.isInfoEnabled() ) {
-            LOG.info("Status is: " + getDocumentHeader().getFinancialDocumentStatusCode());
+            LOG.info("Status is: " + getFinancialSystemDocumentHeader().getFinancialDocumentStatusCode());
         }
-        
+
         super.doRouteStatusChange(statusChangeEvent);
     }
-    
+
+    @Override
     public boolean answerSplitNodeQuestion(String nodeName) {
         if (getNewMaintainableObject() == null) {
             throw new UnsupportedOperationException("Cannot access Maintainable class to answer split node question");
@@ -131,7 +126,7 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
             throw new UnsupportedOperationException("Maintainable for "+getNewMaintainableObject().getBoClass().getName()+" does not extend org.kuali.kfs.sys.document.FinancialSystemMaintainable nor org.kuali.kfs.sys.document.FinancialSystemGlobalMaintainable and therefore cannot answer split node question");
         }
     }
-    
+
     /**
      * This method is used for routing and simply returns the initiator's Chart code.
      * @return The Chart code of the document initiator
@@ -140,7 +135,7 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
         String[] chartOrg = getInitiatorPrimaryDepartmentCode();
         return chartOrg[0];
     }
-    
+
     /**
      * This method is used for routing and simply returns the initiator's Organization code.
      * @return The Organization code of the document initiator
@@ -149,23 +144,47 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
         String[] chartOrg = getInitiatorPrimaryDepartmentCode();
         return chartOrg[1];
     }
-    
+
     /**
-     * 
+     *
      * This method is a utility method that returns a String array containing the document initiator's
      * ChartCode in the first index and the OrganizationCode in the second.
      * @return a String array.
      */
     protected String[] getInitiatorPrimaryDepartmentCode() {
-        
+
         String netID = documentHeader.getWorkflowDocument().getInitiatorPrincipalId();
         Person person =  KimApiServiceLocator.getPersonService().getPerson(netID);
-       
+
         String deptCode = person.getPrimaryDepartmentCode();
         String[] chartOrg = deptCode.split("-");
         return chartOrg;
-        
+
     }
-    
+
+    @Override
+    public Boolean canEdit(Person user) {
+        if ( canEditCache == null || user == null ) {
+            return null;
+        }
+        return canEditCache.get(user.getPrincipalId());
+    }
+
+    @Override
+    public void setCanEdit(Person user, Boolean canEdit) {
+        if ( user == null ) {
+            return;
+        }
+        if ( canEditCache == null ) {
+            canEditCache = new HashMap<String, Boolean>();
+        }
+        canEditCache.put(user.getPrincipalId(), canEdit);
+    }
+
+    @Override
+    public FinancialSystemDocumentHeader getFinancialSystemDocumentHeader() {
+        return (FinancialSystemDocumentHeader)documentHeader;
+    }
+
 }
 

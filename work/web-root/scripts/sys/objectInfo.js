@@ -351,10 +351,10 @@ function loadEmplInfo( emplIdFieldName, userNameFieldName ) {
             if ( data != null && typeof data == "object" ) {
                 dwr.util.setValue(containerDiv.id, data.name, {escapeHtml:true} );
             } else {
-                dwr.util.setValue(containerDiv.id, wrapError( "person not found" ));
+                dwr.util.setValue(containerDiv.id, wrapError( "person not found" ), { escapeHtml:false });
             } },
             errorHandler:function( errorMessage ) { 
-                dwr.util.setValue(containerDiv.id, wrapError( "person not found" ));
+                dwr.util.setValue(containerDiv.id, wrapError( "person not found" ), { escapeHtml:false });
             }
         };
         PersonService.getPersonByEmployeeId( userId, dwrReply );

@@ -245,4 +245,33 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
         }
         canEditCache.put(user.getPrincipalId(), canEdit);
     }
+    
+    /**
+     * Updates status of this document and saves the workflow data
+     *
+     * @param applicationDocumentStatus is the app doc status to save
+     * @throws WorkflowException
+     */
+    protected void updateAndSaveAppDocStatus(String applicationDocumentStatus) throws WorkflowException {
+        documentHeader.updateAndSaveAppDocStatus(applicationDocumentStatus);
+    }
+    
+    /**
+     * Gets the applicationDocumentStatus attribute.
+     * 
+     * @return Returns the applicationDocumentStatus
+     */
+    
+    public String getApplicationDocumentStatus() {
+        return documentHeader.getApplicationDocumentStatus();
+    }
+
+    /** 
+     * Sets the applicationDocumentStatus attribute.
+     * 
+     * @param applicationDocumentStatus The applicationDocumentStatus to set.
+     */
+    public void setApplicationDocumentStatus(String applicationDocumentStatus) {
+        documentHeader.setApplicationDocumentStatus(applicationDocumentStatus);
+    }
 }

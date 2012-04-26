@@ -33,7 +33,6 @@
 
 	<build>
 		<sourceDirectory>../../work/src</sourceDirectory>
-		<outputDirectory>${classes.output.dir}</outputDirectory>
 		<defaultGoal>compile</defaultGoal>
 		<resources>
 			<resource>

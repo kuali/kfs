@@ -46,8 +46,7 @@
     
     <property name="attributes">
       <list>
-        <ref bean="PaymentRequestDocument-appDocStatus"/>
-        <ref bean="PaymentRequestDocument-statusDescription"/>
+        <ref bean="PaymentRequestDocument-applicationDocumentStatus"/>
         <ref bean="PaymentRequestDocument-requisitionIdentifier"/>
         <ref bean="PaymentRequestDocument-versionNumber"/>
         <ref bean="PaymentRequestDocument-postingYear"/>
@@ -189,15 +188,12 @@
 
 <!-- Attribute Definitions -->
 
-  <bean id="PaymentRequestDocument-appDocStatus" parent="PaymentRequestDocument-appDocStatus-parentBean"/>
+  <bean id="PaymentRequestDocument-applicationDocumentStatus" parent="PaymentRequestDocument-applicationDocumentStatus-parentBean"/>
 
-  <bean id="PaymentRequestDocument-appDocStatus-parentBean" abstract="true" parent="PurApGenericAttributes-paymentRequestStatus">
-    <property name="name" value="appDocStatus"/>
-  </bean>
-  <bean id="PaymentRequestDocument-statusDescription" parent="PaymentRequestDocument-statusDescription-parentBean"/>
-
-  <bean id="PaymentRequestDocument-statusDescription-parentBean" abstract="true" parent="PurApGenericAttributes-paymentRequestStatus">
-    <property name="name" value="statusDescription"/>
+  <bean id="PaymentRequestDocument-applicationDocumentStatus-parentBean" abstract="true" parent="PurApGenericAttributes-applicationDocumentStatus">
+    <property name="name" value="applicationDocumentStatus"/>
+    <property name="label" value="Payment Request Doc Status" />
+    <property name="shortLabel" value="Payment Request Doc Status" />
   </bean>
   <bean id="PaymentRequestDocument-requisitionIdentifier" parent="PaymentRequestDocument-requisitionIdentifier-parentBean"/>
 
@@ -1137,6 +1133,7 @@
 
     <bean id="PaymentRequestDocument-sensitive-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     	<property name="name" value="sensitive"/>
+  		<property name="label" value="Sensitive"/>
     </bean>
 	<bean id="PaymentRequestDocument-accountDistributionMethod" parent="PaymentRequestDocument-accountDistributionMethod-parentBean"/>
 	
@@ -1229,14 +1226,14 @@
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.PaymentRequestDocument"/>
-    						<property name="attributeName" value="statusDescription"/>
+    						<property name="attributeName" value="applicationDocumentStatus"/>
     						<property name="showAttributeInSearchCriteria" value="false"/>
     						<property name="showAttributeInResultSet" value="true"/>
     					</bean>
     				</property>
     				<property name="documentValues">
     					<list>
-    						<value>statusDescription</value>
+    						<value>documentHeader.workflowDocument.applicationDocumentStatus</value>
     					</list>
     				</property>
     			</bean>

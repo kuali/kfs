@@ -40,7 +40,7 @@
     </property>    
     <property name="attributes">
       <list>
-        <ref bean="PurchaseOrderDocument-appDocStatus"/>
+        <ref bean="PurchaseOrderDocument-applicationDocumentStatus"/>
         <ref bean="PurchaseOrderDocument-contractManagerName"/>
         <ref bean="PurchaseOrderDocument-versionNumber"/>
         <ref bean="PurchaseOrderDocument-postingYear"/>

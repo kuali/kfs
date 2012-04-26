@@ -147,7 +147,7 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
         this.poNumberMasked = poNumberMasked;
     }
     
-    public String getAppDocStatus() {
+    public String getApplicationDocumentStatus() {
         Document document = findDocument(this.getDocumentNumber());
         if (ObjectUtils.isNotNull(document)) {
             return document.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus();

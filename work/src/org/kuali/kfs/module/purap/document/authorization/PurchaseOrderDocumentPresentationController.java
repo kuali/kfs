@@ -42,13 +42,13 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
     public boolean canEdit(Document document) {
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
 
-        if (!PurchaseOrderStatuses.APPDOC_IN_PROCESS.equals(poDocument.getAppDocStatus()) &&
-                !PurchaseOrderStatuses.APPDOC_WAITING_FOR_DEPARTMENT.equals(poDocument.getAppDocStatus()) &&
-                !PurchaseOrderStatuses.APPDOC_WAITING_FOR_VENDOR.equals(poDocument.getAppDocStatus()) &&
-                !PurchaseOrderStatuses.APPDOC_QUOTE.equals(poDocument.getAppDocStatus()) &&
-                !PurchaseOrderStatuses.APPDOC_AWAIT_PURCHASING_REVIEW.equals(poDocument.getAppDocStatus()) &&
-                !PurchaseOrderStatuses.APPDOC_AWAIT_NEW_UNORDERED_ITEM_REVIEW.equals(poDocument.getAppDocStatus()) &&
-                !PurchaseOrderStatuses.APPDOC_CHANGE_IN_PROCESS.equals(poDocument.getAppDocStatus())) {
+        if (!PurchaseOrderStatuses.APPDOC_IN_PROCESS.equals(poDocument.getApplicationDocumentStatus()) &&
+                !PurchaseOrderStatuses.APPDOC_WAITING_FOR_DEPARTMENT.equals(poDocument.getApplicationDocumentStatus()) &&
+                !PurchaseOrderStatuses.APPDOC_WAITING_FOR_VENDOR.equals(poDocument.getApplicationDocumentStatus()) &&
+                !PurchaseOrderStatuses.APPDOC_QUOTE.equals(poDocument.getApplicationDocumentStatus()) &&
+                !PurchaseOrderStatuses.APPDOC_AWAIT_PURCHASING_REVIEW.equals(poDocument.getApplicationDocumentStatus()) &&
+                !PurchaseOrderStatuses.APPDOC_AWAIT_NEW_UNORDERED_ITEM_REVIEW.equals(poDocument.getApplicationDocumentStatus()) &&
+                !PurchaseOrderStatuses.APPDOC_CHANGE_IN_PROCESS.equals(poDocument.getApplicationDocumentStatus())) {
             return false;
         }
         return super.canEdit(document);
@@ -57,7 +57,7 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
     @Override
     public boolean canFyi(Document document) {
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument) document;
-        if (PurchaseOrderStatuses.APPDOC_PENDING_PRINT.equals(poDocument.getAppDocStatus())) {
+        if (PurchaseOrderStatuses.APPDOC_PENDING_PRINT.equals(poDocument.getApplicationDocumentStatus())) {
             return false;
         }
         return super.canFyi(document);
@@ -110,7 +110,7 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
     @Override
     public boolean canRoute(Document document) {
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
-        String statusCode = poDocument.getAppDocStatus();
+        String statusCode = poDocument.getApplicationDocumentStatus();
 
         if (StringUtils.equals(statusCode, PurchaseOrderStatuses.APPDOC_WAITING_FOR_DEPARTMENT) || 
                 StringUtils.equals(statusCode, PurchaseOrderStatuses.APPDOC_WAITING_FOR_VENDOR) || 
@@ -130,7 +130,7 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
         Set<String> editModes = super.getEditModes(document);
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
-        String statusCode = poDocument.getAppDocStatus();
+        String statusCode = poDocument.getApplicationDocumentStatus();
 
         editModes.add(PurchaseOrderEditMode.ASSIGN_SENSITIVE_DATA);
 
@@ -235,9 +235,9 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
      */
     protected boolean canFirstTransmitPrintPo(PurchaseOrderDocument poDocument) {
         // status shall be Pending Print, or the transmission method is changed to PRINT during amendment, 
-        boolean can = PurchaseOrderStatuses.APPDOC_PENDING_PRINT.equals(poDocument.getAppDocStatus());
+        boolean can = PurchaseOrderStatuses.APPDOC_PENDING_PRINT.equals(poDocument.getApplicationDocumentStatus());
         if (!can) {
-            can = PurchaseOrderStatuses.APPDOC_OPEN.equals(poDocument.getAppDocStatus());
+            can = PurchaseOrderStatuses.APPDOC_OPEN.equals(poDocument.getApplicationDocumentStatus());
             can = can && poDocument.getDocumentHeader().getWorkflowDocument().isFinal();
             can = can && poDocument.getPurchaseOrderLastTransmitTimestamp() == null;
             can = can && PurapConstants.POTransmissionMethods.PRINT.equals(poDocument.getPurchaseOrderTransmissionMethodCode());
@@ -275,7 +275,7 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
      */
     protected boolean canResendCxml(PurchaseOrderDocument poDocument) {
         // check PO status etc
-        boolean can = PurchaseOrderStatuses.APPDOC_CXML_ERROR.equals(poDocument.getAppDocStatus());
+        boolean can = PurchaseOrderStatuses.APPDOC_CXML_ERROR.equals(poDocument.getApplicationDocumentStatus());
         can = can && poDocument.isPurchaseOrderCurrentIndicator() && !poDocument.isPendingActionIndicator();
 
         return can;

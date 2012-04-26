@@ -391,7 +391,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
 
         // calculation just for the tax area, only at tax review stage
         // by now, the general calculation shall have been done.
-        if (StringUtils.equals(preqDoc.getAppDocStatus(), PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW)) {
+        if (StringUtils.equals(preqDoc.getApplicationDocumentStatus(), PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW)) {
             SpringContext.getBean(PaymentRequestService.class).calculateTaxArea(preqDoc);
             return;
         }
@@ -487,7 +487,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
      */
     protected boolean requiresCalculateTax(PaymentRequestForm preqForm) {
         PaymentRequestDocument preq = (PaymentRequestDocument) preqForm.getDocument();
-        boolean requiresCalculateTax = StringUtils.equals(preq.getAppDocStatus(), PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW) && !preqForm.isCalculatedTax(); 
+        boolean requiresCalculateTax = StringUtils.equals(preq.getApplicationDocumentStatus(), PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW) && !preqForm.isCalculatedTax(); 
         return requiresCalculateTax;
     }
 

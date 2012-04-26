@@ -100,9 +100,9 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
     @Override
     public boolean isInquiryRendered() {
         if ( isPostingYearPrior() && 
-             ( getAppDocStatus().equals(PurapConstants.CreditMemoStatuses.APPDOC_COMPLETE) ||
-               getAppDocStatus().equals(PurapConstants.PaymentRequestStatuses.APPDOC_CANCELLED_POST_AP_APPROVE) ||
-               getAppDocStatus().equals(PurapConstants.PaymentRequestStatuses.APPDOC_CANCELLED_IN_PROCESS) ) )  {
+             ( getApplicationDocumentStatus().equals(PurapConstants.CreditMemoStatuses.APPDOC_COMPLETE) ||
+               getApplicationDocumentStatus().equals(PurapConstants.PaymentRequestStatuses.APPDOC_CANCELLED_POST_AP_APPROVE) ||
+               getApplicationDocumentStatus().equals(PurapConstants.PaymentRequestStatuses.APPDOC_CANCELLED_IN_PROCESS) ) )  {
                return false;            
         }
         else {
@@ -215,7 +215,7 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
                 
                 String disapprovalStatus = CreditMemoStatuses.getCreditMemoAppDocDisapproveStatuses().get(nodeName);
                                 
-                if (((StringUtils.isBlank(disapprovalStatus)) && ((CreditMemoStatuses.APPDOC_INITIATE.equals(getAppDocStatus())) || (CreditMemoStatuses.APPDOC_IN_PROCESS.equals(getAppDocStatus()))))) {
+                if (((StringUtils.isBlank(disapprovalStatus)) && ((CreditMemoStatuses.APPDOC_INITIATE.equals(getApplicationDocumentStatus())) || (CreditMemoStatuses.APPDOC_IN_PROCESS.equals(getApplicationDocumentStatus()))))) {
                     disapprovalStatus = CreditMemoStatuses.APPDOC_CANCELLED_IN_PROCESS;
                     updateAndSaveAppDocStatus(disapprovalStatus);                    
                 }
@@ -564,23 +564,6 @@ public class VendorCreditMemoDocument extends AccountsPayableDocumentBase {
 
     public void setPurchaseOrderEndDate(Date purchaseOrderEndDate) {
         this.purchaseOrderEndDate = purchaseOrderEndDate;
-    }
-
-    /**
-     * USED FOR ROUTING ONLY
-     * 
-     * @deprecated
-     */
-    public String getStatusDescription() {
-        return "";
-    }
-
-    /**
-     * USED FOR ROUTING ONLY
-     * 
-     * @deprecated
-     */
-    public void setStatusDescription(String statusDescription) {
     }
 
     /**

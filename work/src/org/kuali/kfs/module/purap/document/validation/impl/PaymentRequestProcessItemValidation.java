@@ -137,7 +137,7 @@ public class PaymentRequestProcessItemValidation extends GenericValidation {
         }
 
         // check that non-quantity based items are not trying to pay on a zero encumbrance amount (check only prior to ap approval)
-        if ((ObjectUtils.isNull(item.getPaymentRequest().getPurapDocumentIdentifier())) || (PurapConstants.PaymentRequestStatuses.APPDOC_IN_PROCESS.equals(item.getPaymentRequest().getAppDocStatus()))) {
+        if ((ObjectUtils.isNull(item.getPaymentRequest().getPurapDocumentIdentifier())) || (PurapConstants.PaymentRequestStatuses.APPDOC_IN_PROCESS.equals(item.getPaymentRequest().getApplicationDocumentStatus()))) {
 // RICE20 : needed? :  !purapService.isFullDocumentEntryCompleted(item.getPaymentRequest())) {
             if ((item.getItemType().isAmountBasedGeneralLedgerIndicator()) && ((item.getExtendedPrice() != null) && item.getExtendedPrice().isNonZero())) {
                 if (item.getPoOutstandingAmount() == null || item.getPoOutstandingAmount().isZero()) {

@@ -60,7 +60,7 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
         boolean preRulesOK = true;
 
         PaymentRequestDocument preq = (PaymentRequestDocument) document;
-        if ((!SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(preq)) || (StringUtils.equals(preq.getAppDocStatus(), PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_ACCOUNTS_PAYABLE_REVIEW))) {
+        if ((!SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(preq)) || (StringUtils.equals(preq.getApplicationDocumentStatus(), PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_ACCOUNTS_PAYABLE_REVIEW))) {
             if (!confirmPayDayNotOverThresholdDaysAway(preq)) {
                 return false;
             }
@@ -231,7 +231,7 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
     }
     @Override
     protected boolean checkCAMSWarningStatus(PurchasingAccountsPayableDocument purapDocument) {
-        return PurapConstants.CAMSWarningStatuses.PAYMENT_REQUEST_STATUS_WARNING_NO_CAMS_DATA.contains(purapDocument.getAppDocStatus());
+        return PurapConstants.CAMSWarningStatuses.PAYMENT_REQUEST_STATUS_WARNING_NO_CAMS_DATA.contains(purapDocument.getApplicationDocumentStatus());
     }
 
 }

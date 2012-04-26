@@ -273,7 +273,7 @@
 		</c:if>
 				
 		<c:if test="${!empty KualiForm.editingMode['allowItemEntry'] && !empty itemLine.itemUnitPrice || empty KualiForm.editingMode['allowItemEntry']}">
-		    <c:if test="${!amendmentEntry && KualiForm.document.appDocStatus!='Awaiting Fiscal Officer Approval' || KualiForm.document.appDocStatus =='Awaiting Fiscal Officer Approval' && !empty KualiForm.document.items[ctr].itemUnitPrice}">
+		    <c:if test="${!amendmentEntry && KualiForm.document.applicationDocumentStatus!='Awaiting Fiscal Officer Approval' || KualiForm.document.applicationDocumentStatus =='Awaiting Fiscal Officer Approval' && !empty KualiForm.document.items[ctr].itemUnitPrice}">
 			    <purap:purapGeneralAccounting 
 				    accountPrefix="document.item[${ctr}]."
 				    itemColSpan="${mainColumnCount}" />

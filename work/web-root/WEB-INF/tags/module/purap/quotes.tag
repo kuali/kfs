@@ -24,9 +24,9 @@
 <c:set var="tabindexOverrideBase" value="20" />
 
 <c:set var="fullEntryMode" value="${KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
-<c:set var="poInProcess" value="${KualiForm.document.appDocStatus eq 'In Process'}" />
-<c:set var="poOpen" value="${KualiForm.document.appDocStatus eq 'Open'}" />
-<c:set var="poOutForQuote" value="${KualiForm.document.appDocStatus eq 'Out for Quote'}" />
+<c:set var="poInProcess" value="${KualiForm.document.applicationDocumentStatus eq 'In Process'}" />
+<c:set var="poOpen" value="${KualiForm.document.applicationDocumentStatus eq 'Open'}" />
+<c:set var="poOutForQuote" value="${KualiForm.document.applicationDocumentStatus eq 'Out for Quote'}" />
 
 <c:set var="quoteOpen" value="${poOutForQuote || poOpen || isPurchaseOrderAwarded}" />
 <c:set var="quoteEditable" value="${poOutForQuote && !isPurchaseOrderAwarded && fullEntryMode}" />

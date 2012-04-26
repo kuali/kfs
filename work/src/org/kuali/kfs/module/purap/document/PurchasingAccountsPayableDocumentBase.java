@@ -858,46 +858,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     @Override
-    public String getAppDocStatus(){
-        WorkflowDocument document = getWorkflowDocument();
-        return StringUtils.trimToEmpty(document.getApplicationDocumentStatus());
-    }
-
-    @Override
-    public void setAppDocStatus(String appDocStatus){
-        WorkflowDocument document = getWorkflowDocument();
-
-        document.setApplicationDocumentStatus(appDocStatus);
-    }
-
-    /**
-     * method to retrieve the workflow document for the given documentHeader.
-     *
-     * @return workflowDocument
-     */
-    public WorkflowDocument getWorkflowDocument() {
-        
-        WorkflowDocument workflowDocument = null;
-        
-        if (getDocumentHeader().hasWorkflowDocument()) {
-            workflowDocument = getDocumentHeader().getWorkflowDocument();
-        }
-        
-        try {
-            if (workflowDocument != null) {
-                return workflowDocument;
-            }
-
-            workflowDocument = SpringContext.getBean(WorkflowDocumentService.class).loadWorkflowDocument(getDocumentNumber(), GlobalVariables.getUserSession().getPerson());
-        }
-        catch (WorkflowException we) {
-            throw new RuntimeException("Unable to load a WorkflowDocument object for " + getDocumentNumber(), we);
-        }
-
-        return workflowDocument;
-    }
-
-    @Override
     public VendorDetail getVendorDetail() {
         return vendorDetail;
     }
@@ -1329,17 +1289,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         return currentSourceLines;
     }
 
-    /**
-     * Updates status of this document and saves the workflow data
-     *
-     * @param appDocStatus is the app doc status to save
-     * @throws WorkflowException
-     */
-    protected void updateAndSaveAppDocStatus(String appDocStatus) throws WorkflowException {
-       setAppDocStatus(appDocStatus);
-       SpringContext.getBean(WorkflowDocumentService.class).saveRoutingData(getDocumentHeader().getWorkflowDocument());
-    }
-    
     /**
      * Gets the statusCode attribute.
      * 

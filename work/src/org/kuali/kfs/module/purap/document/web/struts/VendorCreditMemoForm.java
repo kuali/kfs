@@ -60,25 +60,17 @@ public class VendorCreditMemoForm extends AccountsPayableFormBase {
             getDocInfo().add(new HeaderField("DataDictionary.VendorCreditMemoDocument.attributes.purapDocumentIdentifier", ((VendorCreditMemoDocument) getDocument()).getPurapDocumentIdentifier().toString()));
         }
         else {
-            getDocInfo().add(new HeaderField("DataDictionary.VendorCreditMemoDocument.attributes.purapDocumentIdentifier", "Not Available"));
+            getDocInfo().add(new HeaderField("DataDictionary.VendorCreditMemoDocument.attributes.purapDocumentIdentifier", PurapConstants.PURAP_APPLICATION_DOCUMENT_ID_NOT_AVAILABLE));
         }
-        if (ObjectUtils.isNotNull(((VendorCreditMemoDocument) getDocument()).getAppDocStatus())) {
-            
-            String vcmStatus = "";
-            String appDocStatus ="";
-                       
-            appDocStatus = workflowDocument.getApplicationDocumentStatus();
-            if (!StringUtils.isEmpty(appDocStatus)) {
-                vcmStatus = appDocStatus;
-            }
-         
-            getDocInfo().add(new HeaderField("DataDictionary.VendorCreditMemoDocument.attributes.appDocStatus", vcmStatus));
-       
-            
+        
+        String applicationDocumentStatus = PurapConstants.PURAP_APPLICATION_DOCUMENT_STATUS_NOT_AVAILABLE;
+        
+        if (ObjectUtils.isNotNull(((VendorCreditMemoDocument) getDocument()).getApplicationDocumentStatus())) {
+            applicationDocumentStatus = workflowDocument.getApplicationDocumentStatus();
         }
-        else {
-            getDocInfo().add(new HeaderField("DataDictionary.VendorCreditMemoDocument.attributes.appDocStatus", "Not Available"));
-        }
+        
+        getDocInfo().add(new HeaderField("DataDictionary.VendorCreditMemoDocument.attributes.applicationDocumentStatus", applicationDocumentStatus));
+        
     }
 
     /**
@@ -116,7 +108,7 @@ public class VendorCreditMemoForm extends AccountsPayableFormBase {
             if (getEditingMode().containsKey(CreditMemoEditMode.ACCOUNTS_PAYABLE_PROCESSOR_CANCEL)) {
                 if (cmDocument.isSourceDocumentPaymentRequest() || cmDocument.isSourceDocumentPurchaseOrder()) {
                     //if the source is PREQ or PO, check the PO status
-                    if (PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED.equals(cmDocument.getPurchaseOrderDocument().getAppDocStatus())) {
+                    if (PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED.equals(cmDocument.getPurchaseOrderDocument().getApplicationDocumentStatus())) {
                         //if the PO is CLOSED, show the 'open order' button; but only if there are no pending actions on the PO
                         if (!cmDocument.getPurchaseOrderDocument().isPendingActionIndicator()) {
                             addExtraButton("methodToCall.reopenPo", appExternalImageURL + "buttonsmall_openorder.gif", "Reopen PO");

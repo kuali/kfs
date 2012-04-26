@@ -1437,7 +1437,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
-        if (!PurchaseOrderStatuses.APPDOC_IN_PROCESS.equals(document.getAppDocStatus())) {
+        if (!PurchaseOrderStatuses.APPDOC_IN_PROCESS.equals(document.getApplicationDocumentStatus())) {
             // PO must be "in process" in order to initiate a quote
             GlobalVariables.getMessageMap().putError(PurapPropertyConstants.VENDOR_QUOTES, PurapKeyConstants.ERROR_PURCHASE_ORDER_QUOTE_NOT_IN_PROCESS);
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -1782,7 +1782,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
         PurchaseOrderDocument po = poForm.getPurchaseOrderDocument();
 
-        if (StringUtils.isNotBlank(po.getAppDocStatus()) && StringUtils.isNotBlank(po.getStatusChange()) && (!StringUtils.equals(po.getAppDocStatus(), po.getStatusChange()))) {
+        if (StringUtils.isNotBlank(po.getApplicationDocumentStatus()) && StringUtils.isNotBlank(po.getStatusChange()) && (!StringUtils.equals(po.getApplicationDocumentStatus(), po.getStatusChange()))) {
 
             WorkflowDocument workflowDocument = po.getDocumentHeader().getWorkflowDocument();
             if (ObjectUtils.isNull(workflowDocument) || workflowDocument.isInitiated() || workflowDocument.isSaved()) {
@@ -1839,7 +1839,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 manuallyChangeableStatuses.put(PurchaseOrderStatuses.APPDOC_WAITING_FOR_DEPARTMENT, "Waiting for Department");
 
                 String key = kualiConfiguration.getPropertyValueAsString(PurapKeyConstants.PURCHASE_ORDER_MANUAL_STATUS_CHANGE_NOTE_PREFIX);
-                String oldStatus = manuallyChangeableStatuses.get(po.getAppDocStatus());
+                String oldStatus = manuallyChangeableStatuses.get(po.getApplicationDocumentStatus());
                 String newStatus = manuallyChangeableStatuses.get(po.getStatusChange());
                 key = StringUtils.replace(key, "{0}", (StringUtils.isBlank(oldStatus) ? " " : oldStatus));
                 notePrefix = StringUtils.replace(key, "{1}", (StringUtils.isBlank(newStatus) ? " " : newStatus));
@@ -1900,7 +1900,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      */
     protected void executeManualStatusChange(PurchaseOrderDocument po) {
         try {            
-            po.setAppDocStatus(po.getStatusChange());
+            po.setApplicationDocumentStatus(po.getStatusChange());
             SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);
         }
         catch (Exception e) {

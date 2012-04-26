@@ -163,14 +163,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     @Override
     public boolean isPurchaseOrderOpenForProcessing(PurchaseOrderDocument purchaseOrderDocument) {
-        boolean can = PurchaseOrderStatuses.APPDOC_OPEN.equals(purchaseOrderDocument.getAppDocStatus());
+        boolean can = PurchaseOrderStatuses.APPDOC_OPEN.equals(purchaseOrderDocument.getApplicationDocumentStatus());
         can = can && purchaseOrderDocument.isPurchaseOrderCurrentIndicator() && !purchaseOrderDocument.isPendingActionIndicator();
         // can't be any PREQ or CM that have not completed fullDocumentEntry
         if (can) {
             List<PaymentRequestView> preqViews = purchaseOrderDocument.getRelatedViews().getRelatedPaymentRequestViews();
             if ( preqViews != null ) {
                 for (PaymentRequestView preqView : preqViews) {
-                if (!purapService.isPaymentRequestFullDocumentEntryCompleted(preqView.getAppDocStatus())) {
+                if (!purapService.isPaymentRequestFullDocumentEntryCompleted(preqView.getApplicationDocumentStatus())) {
                         return false;
                     }
                 }
@@ -178,7 +178,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             List<CreditMemoView> cmViews = purchaseOrderDocument.getRelatedViews().getRelatedCreditMemoViews();
             if ( cmViews != null ) {
                 for (CreditMemoView cmView : cmViews) {
-                if (!purapService.isVendorCreditMemoFullDocumentEntryCompleted(cmView.getAppDocStatus())) {
+                if (!purapService.isVendorCreditMemoFullDocumentEntryCompleted(cmView.getApplicationDocumentStatus())) {
                         return false;
                     }
                 }
@@ -492,7 +492,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             purapWorkflowIntegrationService.takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission by user " + GlobalVariables.getUserSession().getPerson().getName(), PurapConstants.PurchaseOrderStatuses.NODE_DOCUMENT_TRANSMISSION, systemUserPerson, KFSConstants.SYSTEM_USER);
         }
         po.setOverrideWorkflowButtons(Boolean.TRUE);
-        if (!po.getAppDocStatus().equals(PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN)) {
+        if (!po.getApplicationDocumentStatus().equals(PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN)) {
             attemptSetupOfInitialOpenOfDocument(po);
         }
         purapService.saveDocumentNoValidation(po);
@@ -839,13 +839,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         // FOLLOWING LINES COULD INVOLVE TRANSMITTING THE PO TO THE VENDOR WHICH WILL NOT BE REVERSED IN A TRANSACTION ROLLBACK
 
         // if the document is set in a Pending Transmission status then don't OPEN the PO just leave it as is
-        if (!PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.values().contains(po.getAppDocStatus())) {
+        if (!PurchaseOrderStatuses.STATUSES_BY_TRANSMISSION_TYPE.values().contains(po.getApplicationDocumentStatus())) {
             attemptSetupOfInitialOpenOfDocument(po);
         }
-        else if (PurchaseOrderStatuses.APPDOC_PENDING_CXML.equals(po.getAppDocStatus())) {
+        else if (PurchaseOrderStatuses.APPDOC_PENDING_CXML.equals(po.getApplicationDocumentStatus())) {
             completeB2BPurchaseOrder(po);
         }
-        else if (PurchaseOrderStatuses.APPDOC_PENDING_PRINT.equals(po.getAppDocStatus())) {
+        else if (PurchaseOrderStatuses.APPDOC_PENDING_PRINT.equals(po.getApplicationDocumentStatus())) {
             //default to using user that routed PO
             String userToRouteFyi = po.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId();
             if (po.getPurchaseOrderAutomaticIndicator()) {
@@ -1101,7 +1101,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             LOG.debug("attemptSetupOfInitialOpenOfDocument() started using document with doc id " + po.getDocumentNumber());
         }
 
-        if (!PurchaseOrderStatuses.APPDOC_OPEN.equals(po.getAppDocStatus())) {
+        if (!PurchaseOrderStatuses.APPDOC_OPEN.equals(po.getApplicationDocumentStatus())) {
             if (ObjectUtils.isNull(po.getPurchaseOrderInitialOpenTimestamp())) {
                 LOG.debug("attemptSetupOfInitialOpenOfDocument() setting initial open date on document");
                 po.setPurchaseOrderInitialOpenTimestamp(dateTimeService.getCurrentTimestamp());
@@ -1109,7 +1109,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             else {
                 throw new RuntimeException("Document does not have status code '" + PurchaseOrderStatuses.APPDOC_OPEN + "' on it but value of initial open date is " + po.getPurchaseOrderInitialOpenTimestamp());
             }
-            LOG.info("attemptSetupOfInitialOpenOfDocument() Setting po document id " + po.getDocumentNumber() + " status from '" + po.getAppDocStatus() + "' to '" + PurchaseOrderStatuses.APPDOC_OPEN + "'");
+            LOG.info("attemptSetupOfInitialOpenOfDocument() Setting po document id " + po.getDocumentNumber() + " status from '" + po.getApplicationDocumentStatus() + "' to '" + PurchaseOrderStatuses.APPDOC_OPEN + "'");
             po.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurchaseOrderStatuses.APPDOC_OPEN);
             //no need to save here because calling class should handle the save if needed
         }
@@ -1693,9 +1693,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 // Get the requisition for this ContractManagerAssignmentDetail.
                 RequisitionDocument req = requisitionService.getRequisitionById(detail.getRequisitionIdentifier());
 
-                if ( PurapConstants.RequisitionStatuses.APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN.equals(req.getAppDocStatus())) {
+                if ( PurapConstants.RequisitionStatuses.APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN.equals(req.getApplicationDocumentStatus())) {
                     // only update REQ if code is empty and status is correct
-                    req.setAppDocStatus(PurapConstants.RequisitionStatuses.APPDOC_CLOSED);
+                    req.setApplicationDocumentStatus(PurapConstants.RequisitionStatuses.APPDOC_CLOSED);
                     purapService.saveDocumentNoValidation(req);
                     createPurchaseOrderDocument(req, KFSConstants.SYSTEM_USER, detail.getContractManagerCode());
                 }
@@ -1838,7 +1838,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     createNoteForAutoCloseOrders(document, annotation);
                     createAndRoutePotentialChangeDocument(poAutoClose.getDocumentNumber(), documentType, annotation, null, newStatus);
                     if (shouldSendEmail) {
-                        emailBody.append("\n\n" + counter + " PO ID: " + poAutoClose.getPurapDocumentIdentifier() + ", End Date: " + poAutoClose.getRecurringPaymentEndDate() + ", Status: " + poAutoClose.getAppDocStatus() + ", VendorChoice: " + poAutoClose.getVendorChoiceCode() + ", RecurringPaymentType: " + poAutoClose.getRecurringPaymentTypeCode());
+                        emailBody.append("\n\n" + counter + " PO ID: " + poAutoClose.getPurapDocumentIdentifier() + ", End Date: " + poAutoClose.getRecurringPaymentEndDate() + ", Status: " + poAutoClose.getApplicationDocumentStatus() + ", VendorChoice: " + poAutoClose.getVendorChoiceCode() + ", RecurringPaymentType: " + poAutoClose.getRecurringPaymentTypeCode());
                     }
                 }
                 else {

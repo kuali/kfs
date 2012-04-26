@@ -50,7 +50,7 @@
 <c:set var="contentReadOnly" value="${(not empty KualiForm.editingMode['lockContentEntry'])}" />
 <c:set var="internalPurchasingReadOnly" value="${(not empty KualiForm.editingMode['lockInternalPurchasingEntry'])}" />
 <c:set var="tabindexOverrideBase" value="10" />
-<c:set var="poOutForQuote" value="${KualiForm.document.appDocStatus eq 'Out for Quote'}" />
+<c:set var="poOutForQuote" value="${KualiForm.document.applicationDocumentStatus eq 'Out for Quote'}" />
 
 <h3><c:out value="${detailSectionLabel}"/> </h3>
 <div class="tab-container-error"><div class="left-errmsg-tab"><kul:errors keyMatch="document.assignedUserPrincipalName"/></div></div>		        

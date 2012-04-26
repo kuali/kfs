@@ -262,7 +262,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         PaymentRequestDocument paymentRequestDocument = null;
         try {
             paymentRequestDocument = (PaymentRequestDocument) documentService.getByDocumentHeaderId(docNumber);
-            if (paymentRequestDocument.isHoldIndicator() || paymentRequestDocument.isPaymentRequestedCancelIndicator() || !Arrays.asList(PurapConstants.PaymentRequestStatuses.PREQ_STATUSES_FOR_AUTO_APPROVE).contains(paymentRequestDocument.getAppDocStatus())) {
+            if (paymentRequestDocument.isHoldIndicator() || paymentRequestDocument.isPaymentRequestedCancelIndicator() || !Arrays.asList(PurapConstants.PaymentRequestStatuses.PREQ_STATUSES_FOR_AUTO_APPROVE).contains(paymentRequestDocument.getApplicationDocumentStatus())) {
                 // this condition is based on the conditions that PaymentRequestDaoOjb.getEligibleDocumentNumbersForAutoApproval()
                 // uses to query
                 // the database. Rechecking these conditions to ensure that the document is eligible for auto-approval, because
@@ -491,10 +491,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                 boolean foundCanceledPostApprove = false; // cancelled
                 boolean foundCanceledPreApprove = false; // voided
                 for (PaymentRequestDocument testPREQ : preqs) {
-                    if (StringUtils.equals(testPREQ.getAppDocStatus(), PaymentRequestStatuses.APPDOC_CANCELLED_POST_AP_APPROVE)) {
+                    if (StringUtils.equals(testPREQ.getApplicationDocumentStatus(), PaymentRequestStatuses.APPDOC_CANCELLED_POST_AP_APPROVE)) {
                         foundCanceledPostApprove |= true;
                     }
-                    else if (StringUtils.equals(testPREQ.getAppDocStatus(), PaymentRequestStatuses.APPDOC_CANCELLED_IN_PROCESS)) {
+                    else if (StringUtils.equals(testPREQ.getApplicationDocumentStatus(), PaymentRequestStatuses.APPDOC_CANCELLED_IN_PROCESS)) {
                         foundCanceledPreApprove |= true;
                     }
                     else {
@@ -526,10 +526,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                 boolean foundCanceledPreApprove = false; // voided
                 msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, configurationService.getPropertyValueAsString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT));
                 for (PaymentRequestDocument testPREQ : preqs) {
-                    if (StringUtils.equalsIgnoreCase(testPREQ.getAppDocStatus(), PaymentRequestStatuses.APPDOC_CANCELLED_POST_AP_APPROVE)) {
+                    if (StringUtils.equalsIgnoreCase(testPREQ.getApplicationDocumentStatus(), PaymentRequestStatuses.APPDOC_CANCELLED_POST_AP_APPROVE)) {
                         foundCanceledPostApprove |= true;
                     }
-                    else if (StringUtils.equalsIgnoreCase(testPREQ.getAppDocStatus(), PaymentRequestStatuses.APPDOC_CANCELLED_IN_PROCESS)) {
+                    else if (StringUtils.equalsIgnoreCase(testPREQ.getApplicationDocumentStatus(), PaymentRequestStatuses.APPDOC_CANCELLED_IN_PROCESS)) {
                         foundCanceledPreApprove |= true;
                     }
                     else {
@@ -1275,7 +1275,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     @Override
     public void cancelExtractedPaymentRequest(PaymentRequestDocument paymentRequest, String note) {
         LOG.debug("cancelExtractedPaymentRequest() started");
-        if (PaymentRequestStatuses.CANCELLED_STATUSES.contains(paymentRequest.getAppDocStatus())) {
+        if (PaymentRequestStatuses.CANCELLED_STATUSES.contains(paymentRequest.getApplicationDocumentStatus())) {
             LOG.debug("cancelExtractedPaymentRequest() ended");
             return;
         }
@@ -1308,7 +1308,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     @Override
     public void resetExtractedPaymentRequest(PaymentRequestDocument paymentRequest, String note) {
         LOG.debug("resetExtractedPaymentRequest() started");
-        if (PaymentRequestStatuses.CANCELLED_STATUSES.contains(paymentRequest.getAppDocStatus())) {
+        if (PaymentRequestStatuses.CANCELLED_STATUSES.contains(paymentRequest.getApplicationDocumentStatus())) {
             LOG.debug("resetExtractedPaymentRequest() ended");
             return;
         }
@@ -1393,16 +1393,16 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     @Override
     public void populateAndSavePaymentRequest(PaymentRequestDocument preq) throws WorkflowException {
         try {
-            preq.setAppDocStatus(PurapConstants.PaymentRequestStatuses.APPDOC_IN_PROCESS);
+            preq.setApplicationDocumentStatus(PurapConstants.PaymentRequestStatuses.APPDOC_IN_PROCESS);
             preq.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurapConstants.PaymentRequestStatuses.APPDOC_IN_PROCESS);
             documentService.saveDocument(preq, AttributedContinuePurapEvent.class);
         }
         catch (ValidationException ve) {
-            preq.setAppDocStatus(PurapConstants.PaymentRequestStatuses.APPDOC_INITIATE);
+            preq.setApplicationDocumentStatus(PurapConstants.PaymentRequestStatuses.APPDOC_INITIATE);
             preq.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurapConstants.PaymentRequestStatuses.APPDOC_INITIATE);
         }
         catch (WorkflowException we) {
-            preq.setAppDocStatus(PurapConstants.PaymentRequestStatuses.APPDOC_INITIATE);
+            preq.setApplicationDocumentStatus(PurapConstants.PaymentRequestStatuses.APPDOC_INITIATE);
             preq.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurapConstants.PaymentRequestStatuses.APPDOC_INITIATE);
             String errorMsg = "Error saving document # " + preq.getDocumentHeader().getDocumentNumber() + " " + we.getMessage();
             LOG.error(errorMsg, we);
@@ -1426,7 +1426,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             throw new RuntimeException("po should never be null on PREQ");
         }
         // if past full entry and already closed return true
-        if (purapService.isFullDocumentEntryCompleted(apDoc) && StringUtils.equalsIgnoreCase(PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED, po.getAppDocStatus())) {
+        if (purapService.isFullDocumentEntryCompleted(apDoc) && StringUtils.equalsIgnoreCase(PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED, po.getApplicationDocumentStatus())) {
             return true;
         }
         return false;
@@ -1890,7 +1890,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_PENDING_ACTION);
             valid &= false;
         }
-        else if (!StringUtils.equals(purchaseOrderDocument.getAppDocStatus(), PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN)) {
+        else if (!StringUtils.equals(purchaseOrderDocument.getApplicationDocumentStatus(), PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN)) {
             GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_NOT_OPEN);
             valid &= false;
             // if the PO is pending and it is not a Retransmit, we cannot generate a Payment Request for it

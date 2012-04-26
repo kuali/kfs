@@ -546,10 +546,10 @@ public class PurapServiceImpl implements PurapService {
         // for now just return true if not in one of the first few states
         boolean value = false;
         if (purapDocument instanceof PaymentRequestDocument) {
-            value = PurapConstants.PaymentRequestStatuses.STATUS_ORDER.isFullDocumentEntryCompleted(purapDocument.getAppDocStatus());
+            value = PurapConstants.PaymentRequestStatuses.STATUS_ORDER.isFullDocumentEntryCompleted(purapDocument.getApplicationDocumentStatus());
         }
         else if (purapDocument instanceof VendorCreditMemoDocument) {
-            value = PurapConstants.CreditMemoStatuses.STATUS_ORDER.isFullDocumentEntryCompleted(purapDocument.getAppDocStatus());
+            value = PurapConstants.CreditMemoStatuses.STATUS_ORDER.isFullDocumentEntryCompleted(purapDocument.getApplicationDocumentStatus());
         }
         return value;
     }
@@ -581,7 +581,7 @@ public class PurapServiceImpl implements PurapService {
         if (purapDocument instanceof PaymentRequestDocument) {
             PaymentRequestDocument paymentRequest = (PaymentRequestDocument) purapDocument;
 
-            if (paymentRequest.isClosePurchaseOrderIndicator() && PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN.equals(paymentRequest.getPurchaseOrderDocument().getAppDocStatus())) {
+            if (paymentRequest.isClosePurchaseOrderIndicator() && PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN.equals(paymentRequest.getPurchaseOrderDocument().getApplicationDocumentStatus())) {
                 // get the po id and get the current po
                 // check the current po: if status is not closed and there is no pending action... route close po as system user
                 processCloseReopenPo((AccountsPayableDocumentBase) purapDocument, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT);
@@ -591,7 +591,7 @@ public class PurapServiceImpl implements PurapService {
         else if (purapDocument instanceof VendorCreditMemoDocument) {
             VendorCreditMemoDocument creditMemo = (VendorCreditMemoDocument) purapDocument;
 
-            if (creditMemo.isReopenPurchaseOrderIndicator() && PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED.equals(creditMemo.getPurchaseOrderDocument().getAppDocStatus())) {
+            if (creditMemo.isReopenPurchaseOrderIndicator() && PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED.equals(creditMemo.getPurchaseOrderDocument().getApplicationDocumentStatus())) {
                 // get the po id and get the current PO
                 // route 'Re-Open PO Document' if PO criteria meets requirements from business rules
                 processCloseReopenPo((AccountsPayableDocumentBase) purapDocument, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT);

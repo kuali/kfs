@@ -518,7 +518,7 @@ public class PurapAccountingServiceTest extends KualiTestBase {
     public void testUpdateAccountAmounts_AfterFullEntry_AmountToPercent() {
         PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.PREQ_PRORATION_THIRDS;
         PurchasingAccountsPayableDocument preq = fixture.generatePaymentRequestDocument_OneItem();
-        preq.setAppDocStatus(PurapConstants.PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
+        preq.setApplicationDocumentStatus(PurapConstants.PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
         purapAccountingService.updateAccountAmounts(preq);
         PurApItem item = preq.getItems().get(0);
         int i = 0;
@@ -532,7 +532,7 @@ public class PurapAccountingServiceTest extends KualiTestBase {
     public void testUpdateAccountAmounts_AfterFullEntry_PercentNotToAmount() {
         PurapAccountingServiceFixture fixture = PurapAccountingServiceFixture.PREQ_PRORATION_THIRDS;
         PurchasingAccountsPayableDocument preq = fixture.generatePaymentRequestDocument_OneItem();
-        preq.setAppDocStatus(PurapConstants.PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
+        preq.setApplicationDocumentStatus(PurapConstants.PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
         preq.getItems().get(0).setExtendedPrice(KualiDecimal.ZERO);
         purapAccountingService.updateAccountAmounts(preq);
         assertTrue(preq.getItems().get(0).getTotalAmount().isZero());

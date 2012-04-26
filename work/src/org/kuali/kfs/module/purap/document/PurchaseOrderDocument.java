@@ -196,12 +196,12 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
      */
     @Override
     public boolean isInquiryRendered() {
-        String appDocStatus = getAppDocStatus();
+        String applicationDocumentStatus = getApplicationDocumentStatus();
         
         if ( isPostingYearPrior() && 
-             ( PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED.equals(appDocStatus) || 
-               PurapConstants.PurchaseOrderStatuses.APPDOC_CANCELLED.equals(appDocStatus) ||
-               PurapConstants.PurchaseOrderStatuses.APPDOC_VOID.equals(appDocStatus) ) )  {
+             ( PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED.equals(applicationDocumentStatus) || 
+               PurapConstants.PurchaseOrderStatuses.APPDOC_CANCELLED.equals(applicationDocumentStatus) ||
+               PurapConstants.PurchaseOrderStatuses.APPDOC_VOID.equals(applicationDocumentStatus) ) )  {
                return false;            
         }
         else {
@@ -247,7 +247,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
             routeLevel = nodeNames.iterator().next();
         }
 
-        if ( StringUtils.equals( getAppDocStatus(), PurchaseOrderStatuses.APPDOC_OPEN)) {
+        if ( StringUtils.equals(getApplicationDocumentStatus(), PurchaseOrderStatuses.APPDOC_OPEN)) {
             documentTitle = super.getDocumentTitle();
         }
             else if (routeLevel.equals(PurchaseOrderStatuses.NODE_BUDGET_OFFICE_REVIEW) || routeLevel.equals(PurchaseOrderStatuses.NODE_CONTRACTS_AND_GRANTS_REVIEW)) {
@@ -562,7 +562,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         this.setReceivingDocumentRequiredIndicator(requisitionDocument.isReceivingDocumentRequiredIndicator());
         this.setPaymentRequestPositiveApprovalIndicator(requisitionDocument.isPaymentRequestPositiveApprovalIndicator());
 
-        setAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS);        
+        setApplicationDocumentStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS);        
         this.setAccountDistributionMethod(requisitionDocument.getAccountDistributionMethod());
         // Copy items from requisition (which will copy the item's accounts and capital assets)
         List<PurchaseOrderItem> items = new ArrayList();
@@ -604,7 +604,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         List<PurchaseOrderView> relatedPoViews = getRelatedViews().getRelatedPurchaseOrderViews();
         for (PurchaseOrderView poView : relatedPoViews) {
             //don't lock related PO's if this is a split PO that's in process
-            if(!( (PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS.equals(this.getAppDocStatus()) || PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS.equals(this.getAppDocStatus())) && PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT.equals(currentDocumentTypeName))){
+            if(!( (PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS.equals(this.getApplicationDocumentStatus()) || PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS.equals(this.getApplicationDocumentStatus())) && PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT.equals(currentDocumentTypeName))){
                 docIdStrings.add(poView.getDocumentNumber());
             }
         }
@@ -718,7 +718,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
                             // if an approve or complete request will be created then we need to set the status as awaiting for
                             // the new node
                             SpringContext.getBean(PurapService.class).updateStatus(this, newStatusCode);
-                            setAppDocStatus(PurapConstants.PurchaseOrderStatuses.getPurchaseOrderAppDocDisapproveStatuses().get(newStatusCode));                                                       
+                            setApplicationDocumentStatus(PurapConstants.PurchaseOrderStatuses.getPurchaseOrderAppDocDisapproveStatuses().get(newStatusCode));                                                       
                             SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
                         }
                     }
@@ -1369,7 +1369,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
             for (PaymentRequestView element : getRelatedViews().getRelatedPaymentRequestViews()) {
                 // If the PREQ is neither cancelled nor voided, check whether the PREQ has been paid.
                 // If it has not been paid, then this method will return true.
-                if (!PurapConstants.PaymentRequestStatuses.CANCELLED_STATUSES.contains(element.getAppDocStatus())) {
+                if (!PurapConstants.PaymentRequestStatuses.CANCELLED_STATUSES.contains(element.getApplicationDocumentStatus())) {
                     if (element.getPaymentPaidTimestamp() == null) {
                         return true;
                     }
@@ -1380,7 +1380,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
             for (CreditMemoView element : getRelatedViews().getRelatedCreditMemoViews()) {
                 // If the CM is cancelled, check whether the CM has been paid.
                 // If it has not been paid, then this method will return true.
-                if (!CreditMemoStatuses.CANCELLED_STATUSES.contains(element.getAppDocStatus())) {
+                if (!CreditMemoStatuses.CANCELLED_STATUSES.contains(element.getApplicationDocumentStatus())) {
                     if (element.getCreditMemoPaidTimestamp() == null) {
                         return true;
                     }
@@ -1419,21 +1419,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
      * @deprecated
      */
     public void setContractManagerName(String contractManagerName) {
-    }
-
-    /**
-     * Used for routing only.
-     * @deprecated
-     */
-    public String getStatusDescription() {
-        return "";        
-    }
-
-    /**
-     * Used for routing only.
-     * @deprecated
-     */
-    public void setStatusDescription(String statusDescription) {
     }
 
     public KualiDecimal getInternalPurchasingLimit() {

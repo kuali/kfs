@@ -48,6 +48,7 @@ public class PurApGenericAttributes extends PersistableBusinessObjectBase {
     private String receivingDocumentRequiredIndicator;
     private String paymentRequestPositiveApprovalIndicator;
     private String sequenceId;
+    private String applicationDocumentStatus;
     
     /**
      * Default constructor
@@ -242,4 +243,22 @@ public class PurApGenericAttributes extends PersistableBusinessObjectBase {
         this.sequenceId = sequenceId;
     }
 
+    /**
+     * Gets the applicationDocumentStatus attribute.
+     * 
+     * @return Returns the applicationDocumentStatus
+     */
+    
+    public String getApplicationDocumentStatus() {
+        return applicationDocumentStatus;
+    }
+
+    /** 
+     * Sets the applicationDocumentStatus attribute.
+     * 
+     * @param applicationDocumentStatus The applicationDocumentStatus to set.
+     */
+    public void setApplicationDocumentStatus(String applicationDocumentStatus) {
+        this.applicationDocumentStatus = applicationDocumentStatus;
+    }
 }

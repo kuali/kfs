@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.purap.CapitalAssetLocation;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionStatuses;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.businessobject.RequisitionAccount;
@@ -69,34 +70,29 @@ public class RequisitionForm extends PurchasingFormBase {
     }
     
     /**
-    * KRAD Conversion: Performs customization of an header fields.
+    * KRAD Conversion: Performs customization of header fields.
     * 
     * Use of data dictionary for bo RequisitionDocument.
     */
+    @Override    
     public void populateHeaderFields(WorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
+        
         if (ObjectUtils.isNotNull(this.getRequisitionDocument().getPurapDocumentIdentifier())) {
             getDocInfo().add(new HeaderField("DataDictionary.RequisitionDocument.attributes.purapDocumentIdentifier", ((RequisitionDocument) this.getDocument()).getPurapDocumentIdentifier().toString()));
         }
         else {
-            getDocInfo().add(new HeaderField("DataDictionary.RequisitionDocument.attributes.purapDocumentIdentifier", "Not Available"));
+            getDocInfo().add(new HeaderField("DataDictionary.RequisitionDocument.attributes.purapDocumentIdentifier", PurapConstants.PURAP_APPLICATION_DOCUMENT_ID_NOT_AVAILABLE));
         }
-        if (ObjectUtils.isNotNull(this.getRequisitionDocument().getAppDocStatus())) {
-            String reqStatus = "";
-            String appDocStatus ="";
-                       
-            appDocStatus = workflowDocument.getApplicationDocumentStatus();
-            if (!StringUtils.isEmpty(appDocStatus)) {
-                reqStatus = appDocStatus;
-            }
-         
-            getDocInfo().add(new HeaderField("DataDictionary.RequisitionDocument.attributes.appDocStatus", reqStatus));
+        
+        String applicationDocumentStatus = PurapConstants.PURAP_APPLICATION_DOCUMENT_STATUS_NOT_AVAILABLE;
+        
+        if (ObjectUtils.isNotNull(this.getRequisitionDocument().getApplicationDocumentStatus())) {
+            applicationDocumentStatus = workflowDocument.getApplicationDocumentStatus();
         }
-        else {
-            getDocInfo().add(new HeaderField("DataDictionary.RequisitionDocument.attributes.appDocStatus", "Not Available"));
-            
-        }
-        }
+        
+        getDocInfo().add(new HeaderField("DataDictionary.RequisitionDocument.attributes.applicationDocumentStatus", applicationDocumentStatus));
+    }
 
     /**
      * @see org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase#shouldMethodToCallParameterBeUsed(java.lang.String, java.lang.String, javax.servlet.http.HttpServletRequest)

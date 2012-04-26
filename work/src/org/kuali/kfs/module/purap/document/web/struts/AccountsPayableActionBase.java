@@ -166,7 +166,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
             customCalculate(apDoc);
 
             // set calculated flag according to document type and status
-            if (apForm instanceof PaymentRequestForm && apDoc.getAppDocStatus().equals(PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW)) {
+            if (apForm instanceof PaymentRequestForm && apDoc.getApplicationDocumentStatus().equals(PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW)) {
                 // set calculated tax flag for tax area calculation 
                 PaymentRequestForm preqForm = (PaymentRequestForm)apForm;
                 preqForm.setCalculatedTax(true);
@@ -525,7 +525,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
             }
 
             PurchaseOrderDocument po = apDoc.getPurchaseOrderDocument();
-            if (!po.isPendingActionIndicator() && PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED.equals(po.getAppDocStatus())) {
+            if (!po.isPendingActionIndicator() && PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED.equals(po.getApplicationDocumentStatus())) {
                 /*
                  * Below if-else code block calls PurchaseOrderService methods that will throw ValidationException objects if errors
                  * occur during any process in the attempt to perform its actions. Assume, if these return successfully, that the
@@ -621,7 +621,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
 
         // calculation just for the tax area, only at tax review stage
         // by now, the general calculation shall have been done.
-        if (preqDoc.getAppDocStatus().equals(PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW)) {
+        if (preqDoc.getApplicationDocumentStatus().equals(PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW)) {
             SpringContext.getBean(PaymentRequestService.class).calculateTaxArea(preqDoc);
         }
         

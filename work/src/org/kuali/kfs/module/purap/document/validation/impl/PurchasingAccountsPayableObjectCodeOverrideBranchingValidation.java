@@ -63,9 +63,9 @@ public class PurchasingAccountsPayableObjectCodeOverrideBranchingValidation exte
             PurApAccountingLine purapAccountingLine = (PurApAccountingLine)accountingLineForValidation;
             PurApItem item = purapAccountingLine.getPurapItem();
             
-            if (StringUtils.equals(PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW, preq.getAppDocStatus())){                
+            if (StringUtils.equals(PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW, preq.getApplicationDocumentStatus())){                
                 isTaxApproval = true;
-            }else if(StringUtils.equals(PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED, preq.getAppDocStatus()) &&
+            }else if(StringUtils.equals(PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED, preq.getApplicationDocumentStatus()) &&
                      (ObjectUtils.isNotNull(item) && item.getItemType().getIsTaxCharge()) ){
                 isTaxApproval = true;
             }

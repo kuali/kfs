@@ -196,8 +196,8 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     @Override
     public boolean isInquiryRendered() {
         if ( isPostingYearPrior() &&
-             ( getAppDocStatus().equals(PurapConstants.RequisitionStatuses.APPDOC_CLOSED) ||
-               getAppDocStatus().equals(PurapConstants.RequisitionStatuses.APPDOC_CANCELLED) ) )  {
+             ( getApplicationDocumentStatus().equals(PurapConstants.RequisitionStatuses.APPDOC_CLOSED) ||
+                     getApplicationDocumentStatus().equals(PurapConstants.RequisitionStatuses.APPDOC_CANCELLED) ) )  {
                return false;
         }
         else {
@@ -211,7 +211,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     public void initiateDocument() throws WorkflowException {
         this.setupAccountDistributionMethod();
         this.setRequisitionSourceCode(PurapConstants.RequisitionSources.STANDARD_ORDER);
-    //    setAppDocStatus(PurapConstants.RequisitionStatuses.APPDOC_IN_PROCESS);
         updateAndSaveAppDocStatus(PurapConstants.RequisitionStatuses.APPDOC_IN_PROCESS);        
         this.setPurchaseOrderCostSourceCode(PurapConstants.POCostSources.ESTIMATE);
         this.setPurchaseOrderTransmissionMethodCode(determinePurchaseOrderTransmissionMethod());
@@ -662,23 +661,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     /**
-     * Used for routing only.
-     *
-     * @deprecated
-     */
-    public String getStatusDescription() {
-        return getAppDocStatus();
-    }
-
-    /**
-     * Used for routing only.
-     *
-     * @deprecated
-     */
-    public void setStatusDescription(String statusDescription) {
-    }
-
-    /**
      * This is a "do nothing" version of the method - it just won't create GLPEs
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#generateGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
@@ -703,7 +685,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         //for app doc status
         //remove   isDocumentStoppedInRouteNode(NodeDetailEnum.CONTENT_REVIEW) kfsmi - 4592
         if (isDocumentStoppedInRouteNode(RequisitionStatuses.NODE_CONTENT_REVIEW) ||
-            getAppDocStatus().equals(PurapConstants.RequisitionStatuses.APPDOC_IN_PROCESS)) {
+                getApplicationDocumentStatus().equals(PurapConstants.RequisitionStatuses.APPDOC_IN_PROCESS)) {
             return false;
         }
         return true;
@@ -727,18 +709,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
      */
     public void setBlanketApproveRequest(boolean isBlanketApproveRequest) {
         this.isBlanketApproveRequest = isBlanketApproveRequest;
-    }
-
-    public String getStatusDescription(String statusCode) {
-
-        for (Iterator i = reqStatusList.iterator(); i.hasNext();) {
-                ConcreteKeyValue pair = (ConcreteKeyValue) i.next();
-                if (StringUtils.equals((String) pair.getKey(), statusCode)) {
-                    return pair.getValue();
-                }
-            }
-            return "";
-
     }
 
     /**

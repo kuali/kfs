@@ -61,7 +61,7 @@ public class VendorCreditMemoInitTabReferenceNumberValidation extends GenericVal
                     valid = false;
                 }
 // RICE20 : !purapService.isFullDocumentEntryCompleted(preq) ||
-                else if ((PurapConstants.PaymentRequestStatuses.APPDOC_IN_PROCESS.equals(preq.getAppDocStatus())) || (PurapConstants.PaymentRequestStatuses.CANCELLED_STATUSES.contains(preq.getAppDocStatus()))) {
+                else if ((PurapConstants.PaymentRequestStatuses.APPDOC_IN_PROCESS.equals(preq.getApplicationDocumentStatus())) || (PurapConstants.PaymentRequestStatuses.CANCELLED_STATUSES.contains(preq.getApplicationDocumentStatus()))) {
                     GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(PurapPropertyConstants.PAYMENT_REQUEST_ID, PurapKeyConstants.ERROR_CREDIT_MEMO_PAYMENT_REQEUEST_INVALID_SATATUS, preqNumber.toString());
                     valid = false;
                 }
@@ -79,7 +79,7 @@ public class VendorCreditMemoInitTabReferenceNumberValidation extends GenericVal
                     GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_PENDING_ACTION);
                     valid &= false;
                 }
-                else if (!(StringUtils.equals(purchaseOrder.getAppDocStatus(), PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN) || StringUtils.equals(purchaseOrder.getAppDocStatus(), PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED))) {
+                else if (!(StringUtils.equals(purchaseOrder.getApplicationDocumentStatus(), PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN) || StringUtils.equals(purchaseOrder.getApplicationDocumentStatus(), PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED))) {
                     GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_CREDIT_MEMO_PURCAHSE_ORDER_INVALID_STATUS, purchaseOrderID.toString());
                     valid = false;
                 }

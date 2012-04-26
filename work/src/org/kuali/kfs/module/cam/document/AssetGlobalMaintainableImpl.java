@@ -461,7 +461,8 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
     @Override
     public void prepareForSave() {
         super.prepareForSave();
-        AssetGlobal assetGlobal = (AssetGlobal) getBusinessObject();
+        AssetGlobal assetGlobal = (AssetGlobal) this.getBusinessObject();
+        
         List<AssetGlobalDetail> assetSharedDetails = assetGlobal.getAssetSharedDetails();
         List<AssetGlobalDetail> newDetails = new ArrayList<AssetGlobalDetail>();
         AssetGlobalDetail newAssetGlobalDetail = null;

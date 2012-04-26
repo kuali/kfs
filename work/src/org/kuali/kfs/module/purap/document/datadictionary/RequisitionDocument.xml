@@ -50,8 +50,7 @@
   
     <property name="attributes">
       <list>
-        <ref bean="RequisitionDocument-appDocStatus"/>
-        <ref bean="RequisitionDocument-statusDescription"/>
+        <ref bean="RequisitionDocument-applicationDocumentStatus"/>
         <ref bean="RequisitionDocument-versionNumber"/>
         <ref bean="RequisitionDocument-postingYear"/>
         <ref bean="RequisitionDocument-vendorNumber"/>
@@ -213,15 +212,12 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="RequisitionDocument-appDocStatus" parent="RequisitionDocument-appDocStatus-parentBean"/>
+  <bean id="RequisitionDocument-applicationDocumentStatus" parent="RequisitionDocument-applicationDocumentStatus-parentBean"/>
 
-  <bean id="RequisitionDocument-appDocStatus-parentBean" abstract="true" parent="PurApGenericAttributes-requisitionStatus">
-    <property name="name" value="appDocStatus"/>
-  </bean>
-  <bean id="RequisitionDocument-statusDescription" parent="RequisitionDocument-statusDescription-parentBean"/>
-
-  <bean id="RequisitionDocument-statusDescription-parentBean" abstract="true" parent="PurApGenericAttributes-requisitionStatus">
-    <property name="name" value="statusDescription"/>
+  <bean id="RequisitionDocument-applicationDocumentStatus-parentBean" abstract="true" parent="PurApGenericAttributes-applicationDocumentStatus">
+    <property name="name" value="applicationDocumentStatus"/>
+    <property name="label" value="Requisition Doc Status" />
+    <property name="shortLabel" value="Requisition Doc Status"/>
   </bean>
   <bean id="RequisitionDocument-versionNumber" parent="RequisitionDocument-versionNumber-parentBean"/>
 
@@ -1200,6 +1196,7 @@
 
     <bean id="RequisitionDocument-sensitive-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
   		<property name="name" value="sensitive"/>
+  		<property name="label" value="Sensitive"/>
     </bean> 
   	
     <!-- workflow attributes for routing -->
@@ -1241,14 +1238,14 @@
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.RequisitionDocument"/>
-    						<property name="attributeName" value="statusDescription"/>
+    						<property name="attributeName" value="applicationDocumentStatus"/>
     						<property name="showAttributeInSearchCriteria" value="false"/>
     						<property name="showAttributeInResultSet" value="true"/>
     					</bean>
     				</property>
     				<property name="documentValues">
     					<list>
-    						<value>statusDescription</value>
+    						<value>documentHeader.workflowDocument.applicationDocumentStatus</value>
     					</list>
     				</property>
     			</bean>

@@ -125,7 +125,7 @@ public class PurchaseOrderDocumentTest extends KualiTestBase {
         Assert.assertEquals(doc1.getVendorDetailAssignedIdentifier(), doc2.getVendorDetailAssignedIdentifier());
         Assert.assertEquals(doc1.getVendorName(), doc2.getVendorName());
         Assert.assertEquals(doc1.getVendorNumber(), doc2.getVendorNumber());
-        Assert.assertEquals(doc1.getAppDocStatus(), doc2.getAppDocStatus());
+        Assert.assertEquals(doc1.getApplicationDocumentStatus(), doc2.getApplicationDocumentStatus());
 
         Assert.assertEquals(doc1.getChartOfAccountsCode(), doc2.getChartOfAccountsCode());
         Assert.assertEquals(doc1.getOrganizationCode(), doc2.getOrganizationCode());

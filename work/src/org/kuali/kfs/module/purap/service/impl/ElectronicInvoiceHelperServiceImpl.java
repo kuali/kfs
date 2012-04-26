@@ -1818,7 +1818,7 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
             throw new RuntimeException("PurchaseOrder not available");
         }
 
-        if (!poDoc.getAppDocStatus().equals(PurchaseOrderStatuses.APPDOC_OPEN)) {
+        if (!poDoc.getApplicationDocumentStatus().equals(PurchaseOrderStatuses.APPDOC_OPEN)) {
             orderHolder.addInvoiceOrderRejectReason(matchingService.createRejectReason(PurapConstants.ElectronicInvoice.PO_NOT_OPEN,null,orderHolder.getFileName()));
             return;
         }

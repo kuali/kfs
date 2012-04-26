@@ -27,7 +27,7 @@ public class PaymentRequestAccountingLineAccessibleBranchingValidation extends B
     
     @Override
     protected String determineBranch(AttributedDocumentEvent event) {
-        String status = ((PaymentRequestDocument)event.getDocument()).getAppDocStatus();
+        String status = ((PaymentRequestDocument)event.getDocument()).getApplicationDocumentStatus();
         if (StringUtils.equals(PaymentRequestStatuses.APPDOC_AWAITING_ACCOUNTS_PAYABLE_REVIEW, status)) {
             return null;
         } else if (StringUtils.equals(PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW, status)) {

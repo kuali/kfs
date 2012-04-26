@@ -392,7 +392,7 @@ public enum PurchasingAccountsPayableDocumentFixture {
             throw new RuntimeException("Document creation failed.");
         }
         doc.setPurapDocumentIdentifier(this.purapDocumentIdentifier);
-        doc.setAppDocStatus(this.statusCode);
+        doc.setApplicationDocumentStatus(this.statusCode);
         doc.setVendorHeaderGeneratedIdentifier(this.vendorHeaderGeneratedIdentifier);
         doc.setVendorDetailAssignedIdentifier(this.vendorDetailAssignedIdentifier);
         doc.setVendorName(this.vendorName);

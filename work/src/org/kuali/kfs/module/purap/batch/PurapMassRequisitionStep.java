@@ -239,7 +239,7 @@ public class PurapMassRequisitionStep extends AbstractStep implements TestingSte
             reqDoc.setBillingCountryCode("US");
             reqDoc.setBillingPhoneNumber("111-111-1111");
             reqDoc.setPurchaseOrderAutomaticIndicator(false);            
-            reqDoc.setAppDocStatus(RequisitionStatuses.APPDOC_IN_PROCESS);
+            reqDoc.setApplicationDocumentStatus(RequisitionStatuses.APPDOC_IN_PROCESS);
             reqDoc.setVendorHeaderGeneratedIdentifier(1002);
             reqDoc.setVendorDetailAssignedIdentifier(0);
             reqDoc.setVendorName("MK CORPORATION ACTIVE");
@@ -320,7 +320,7 @@ public class PurapMassRequisitionStep extends AbstractStep implements TestingSte
             reqDoc.setBillingCountryCode("US");
             reqDoc.setBillingPhoneNumber("111-111-1111");
             reqDoc.setPurchaseOrderAutomaticIndicator(false);
-            reqDoc.setAppDocStatus(RequisitionStatuses.APPDOC_IN_PROCESS);
+            reqDoc.setApplicationDocumentStatus(RequisitionStatuses.APPDOC_IN_PROCESS);
             reqDoc.setVendorHeaderGeneratedIdentifier(1016);
             reqDoc.setVendorDetailAssignedIdentifier(0);
             reqDoc.setVendorName("PHYSIK INSTRUMENT L.P.");
@@ -398,7 +398,7 @@ public class PurapMassRequisitionStep extends AbstractStep implements TestingSte
             reqDoc.setBillingCountryCode("US");
             reqDoc.setBillingPhoneNumber("111-111-1111");
             reqDoc.setPurchaseOrderAutomaticIndicator(false);
-            reqDoc.setAppDocStatus(RequisitionStatuses.APPDOC_IN_PROCESS);
+            reqDoc.setApplicationDocumentStatus(RequisitionStatuses.APPDOC_IN_PROCESS);
             reqDoc.setVendorHeaderGeneratedIdentifier(1002);
             reqDoc.setVendorDetailAssignedIdentifier(0);
             reqDoc.setVendorName("MK CORPORATION ACTIVE");
@@ -526,7 +526,7 @@ public class PurapMassRequisitionStep extends AbstractStep implements TestingSte
             reqDoc.setBillingCountryCode("US");
             reqDoc.setBillingPhoneNumber("111-111-1111");
             reqDoc.setPurchaseOrderAutomaticIndicator(false);
-            reqDoc.setAppDocStatus(RequisitionStatuses.APPDOC_IN_PROCESS);
+            reqDoc.setApplicationDocumentStatus(RequisitionStatuses.APPDOC_IN_PROCESS);
             reqDoc.setVendorHeaderGeneratedIdentifier(1002);
             reqDoc.setVendorDetailAssignedIdentifier(0);
             reqDoc.setVendorName("MK CORPORATION ACTIVE");

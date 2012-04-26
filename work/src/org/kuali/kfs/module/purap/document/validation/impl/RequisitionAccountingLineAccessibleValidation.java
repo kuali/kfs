@@ -37,7 +37,7 @@ public class RequisitionAccountingLineAccessibleValidation extends PurchasingAcc
         //to be removed
        //remove (requisitionDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.CONTENT_REVIEW) - kfsmi-4592
         if (requisitionDocument.isDocumentStoppedInRouteNode(RequisitionStatuses.NODE_CONTENT_REVIEW) ||                
-            StringUtils.equals( requisitionDocument.getAppDocStatus(), PurapConstants.RequisitionStatuses.APPDOC_IN_PROCESS) ) {
+            StringUtils.equals( requisitionDocument.getApplicationDocumentStatus(), PurapConstants.RequisitionStatuses.APPDOC_IN_PROCESS) ) {
             // DO NOTHING: do not check that user owns acct lines; at this level, approvers can edit all detail on REQ
 
             return true;

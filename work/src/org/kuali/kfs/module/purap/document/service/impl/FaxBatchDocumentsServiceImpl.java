@@ -67,7 +67,7 @@ public class FaxBatchDocumentsServiceImpl implements FaxBatchDocumentsService {
          faxService.faxPurchaseOrderPdf(po,false);
        
          if (GlobalVariables.getMessageMap().hasErrors()){
-             po.setAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN);
+             po.setApplicationDocumentStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN);
              po.setPurchaseOrderInitialOpenTimestamp(dateTimeService.getCurrentTimestamp());
              po.setPurchaseOrderLastTransmitTimestamp(dateTimeService.getCurrentTimestamp());
              purapService.saveDocumentNoValidation(po);

@@ -100,8 +100,8 @@ public class BulkReceivingDocumentRule extends DocumentRuleBase implements Conti
                 GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_BULK_RECEIVING_DOCUMENT_INVALID_PO, bulkReceivingDocument.getDocumentNumber(), bulkReceivingDocument.getPurchaseOrderIdentifier().toString());
                 valid = false;
             }else{
-                if (!(po.getAppDocStatus().equals(PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN) || 
-                    po.getAppDocStatus().equals(PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED))){
+                if (!(po.getApplicationDocumentStatus().equals(PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN) || 
+                    po.getApplicationDocumentStatus().equals(PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED))){
                     valid &= false;
                     GlobalVariables.getMessageMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_BULK_RECEIVING_PO_NOT_OPEN, bulkReceivingDocument.getDocumentNumber(), bulkReceivingDocument.getPurchaseOrderIdentifier().toString());
                 }else{

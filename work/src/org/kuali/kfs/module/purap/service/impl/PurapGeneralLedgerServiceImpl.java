@@ -347,7 +347,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
         GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper(getNextAvailableSequence(preq.getDocumentNumber()));
 
         // when cancelling a PREQ, do not book encumbrances if PO is CLOSED
-        if (encumbrances != null && !(CANCEL_PAYMENT_REQUEST.equals(processType) && PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED.equals(preq.getPurchaseOrderDocument().getAppDocStatus()))) {
+        if (encumbrances != null && !(CANCEL_PAYMENT_REQUEST.equals(processType) && PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED.equals(preq.getPurchaseOrderDocument().getApplicationDocumentStatus()))) {
             LOG.debug("generateEntriesPaymentRequest() generate encumbrance entries");
             if (CREATE_PAYMENT_REQUEST.equals(processType)) {
                 // on create, use CREDIT code for encumbrances
@@ -456,7 +456,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
 
             // for CM cancel or create, do not book encumbrances if PO is CLOSED, but do update the amounts on the PO
             List encumbrances = getCreditMemoEncumbrance(cm, po, isCancel);
-            if (!(PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED.equals(po.getAppDocStatus()))) {
+            if (!(PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED.equals(po.getApplicationDocumentStatus()))) {
                 if (encumbrances != null) {
                     cm.setGenerateEncumbranceEntries(true);
 

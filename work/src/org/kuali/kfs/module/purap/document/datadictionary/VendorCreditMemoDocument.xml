@@ -43,8 +43,7 @@
     </property>       
     <property name="attributes">
       <list>
-        <ref bean="VendorCreditMemoDocument-appDocStatus"/>
-        <ref bean="VendorCreditMemoDocument-statusDescription"/>
+        <ref bean="VendorCreditMemoDocument-applicationDocumentStatus"/>
         <ref bean="VendorCreditMemoDocument-versionNumber"/>
         <ref bean="VendorCreditMemoDocument-postingYear"/>
         <ref bean="VendorCreditMemoDocument-vendorNumber"/>
@@ -146,16 +145,14 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="VendorCreditMemoDocument-appDocStatus" parent="VendorCreditMemoDocument-appDocStatus-parentBean"/>
+  <bean id="VendorCreditMemoDocument-applicationDocumentStatus" parent="VendorCreditMemoDocument-applicationDocumentStatus-parentBean"/>
 
-  <bean id="VendorCreditMemoDocument-appDocStatus-parentBean" abstract="true" parent="PurApGenericAttributes-creditMemoStatus">
-    <property name="name" value="appDocStatus"/>
+  <bean id="VendorCreditMemoDocument-applicationDocumentStatus-parentBean" abstract="true" parent="PurApGenericAttributes-applicationDocumentStatus">
+    <property name="name" value="applicationDocumentStatus"/>
+    <property name="label" value="Vendor Credit Memo Doc Status" />
+    <property name="shortLabel" value="Vendor Credit Memo Doc Status"/>
   </bean>
-  <bean id="VendorCreditMemoDocument-statusDescription" parent="VendorCreditMemoDocument-statusDescription-parentBean"/>
-
-  <bean id="VendorCreditMemoDocument-statusDescription-parentBean" abstract="true" parent="PurApGenericAttributes-creditMemoStatus">
-    <property name="name" value="statusDescription"/>
-  </bean>
+  
   <bean id="VendorCreditMemoDocument-versionNumber" parent="VendorCreditMemoDocument-versionNumber-parentBean"/>
 
   <bean id="VendorCreditMemoDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">
@@ -714,6 +711,7 @@
 
     <bean id="VendorCreditMemoDocument-sensitive-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
   		<property name="name" value="sensitive"/>
+  		<property name="label" value="Sensitive"/>
     </bean>
       
     <!-- workflow attributes -->
@@ -803,14 +801,14 @@
     				<property name="searchingAttribute">
     					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
     						<property name="businessObjectClassName" value="org.kuali.kfs.module.purap.document.VendorCreditMemoDocument"/>
-    						<property name="attributeName" value="statusDescription"/>
+    						<property name="attributeName" value="applicationDocumentStatus"/>
     						<property name="showAttributeInSearchCriteria" value="false"/>
     						<property name="showAttributeInResultSet" value="true"/>
     					</bean>
     				</property>
     				<property name="documentValues">
     					<list>
-    						<value>statusDescription</value>
+    						<value>documentHeader.workflowDocument.applicationDocumentStatus</value>
     					</list>
     				</property>
     			</bean>

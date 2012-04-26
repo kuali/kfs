@@ -466,7 +466,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     protected boolean isFiscalUser(AccountsPayableDocument document, Person user) {
         boolean isFiscalUser = false;
 
-        if (PaymentRequestStatuses.APPDOC_AWAITING_FISCAL_REVIEW.equals(document.getAppDocStatus()) && document.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) {
+        if (PaymentRequestStatuses.APPDOC_AWAITING_FISCAL_REVIEW.equals(document.getApplicationDocumentStatus()) && document.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) {
             isFiscalUser = true;
         }
 
@@ -483,9 +483,9 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     protected boolean isAPUser(AccountsPayableDocument document, Person user) {
         boolean isFiscalUser = false;
 
-        if ((PaymentRequestStatuses.APPDOC_AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(document.getAppDocStatus()) &&
+        if ((PaymentRequestStatuses.APPDOC_AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(document.getApplicationDocumentStatus()) &&
              document.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) ||
-             PaymentRequestStatuses.APPDOC_IN_PROCESS.equals(document.getAppDocStatus())) {
+             PaymentRequestStatuses.APPDOC_IN_PROCESS.equals(document.getApplicationDocumentStatus())) {
                 isFiscalUser = true;
         }
 
@@ -514,15 +514,15 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     public void cancelAccountsPayableDocumentByCheckingDocumentStatus(AccountsPayableDocument document, String noteText) throws Exception {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
 
-        if (PurapConstants.CreditMemoStatuses.APPDOC_IN_PROCESS.equals(document.getAppDocStatus())) {
+        if (PurapConstants.CreditMemoStatuses.APPDOC_IN_PROCESS.equals(document.getApplicationDocumentStatus())) {
             //prior to submit, just call regular cancel logic
             documentService.cancelDocument(document, noteText);
         }
-        else if (PurapConstants.CreditMemoStatuses.APPDOC_AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(document.getAppDocStatus())) {
+        else if (PurapConstants.CreditMemoStatuses.APPDOC_AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(document.getApplicationDocumentStatus())) {
             //while awaiting AP approval, just call regular disapprove logic as user will have action request
             documentService.disapproveDocument(document, noteText);
         }
-        else if (document instanceof PaymentRequestDocument && PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_FISCAL_REVIEW.equals(document.getAppDocStatus()) && ((PaymentRequestDocument)document).isPaymentRequestedCancelIndicator()) {
+        else if (document instanceof PaymentRequestDocument && PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_FISCAL_REVIEW.equals(document.getApplicationDocumentStatus()) && ((PaymentRequestDocument)document).isPaymentRequestedCancelIndicator()) {
             // special logic to disapprove PREQ as the fiscal officer
             DocumentActionParameters.Builder p = DocumentActionParameters.Builder.create(document.getDocumentNumber(), document.getLastActionPerformedByPersonId());
             p.setAnnotation("Document cancelled after requested cancel by "+GlobalVariables.getUserSession().getPrincipalName());

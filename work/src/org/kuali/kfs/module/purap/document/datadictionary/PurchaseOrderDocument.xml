@@ -51,9 +51,8 @@
     	</map>
     </property>
     <property name="attributes">
-      <list>
-        <ref bean="PurchaseOrderDocument-appDocStatus"/>
-        <ref bean="PurchaseOrderDocument-statusDescription"/>
+      	<list>
+        <ref bean="PurchaseOrderDocument-applicationDocumentStatus"/>
         <ref bean="PurchaseOrderDocument-contractManagerName"/>
         <ref bean="PurchaseOrderDocument-versionNumber"/>
         <ref bean="PurchaseOrderDocument-postingYear"/>
@@ -239,15 +238,12 @@
 
 <!-- Attribute Definitions -->
 
-  <bean id="PurchaseOrderDocument-appDocStatus" parent="PurchaseOrderDocument-appDocStatus-parentBean"/>
+  <bean id="PurchaseOrderDocument-applicationDocumentStatus" parent="PurchaseOrderDocument-applicationDocumentStatus-parentBean"/>
 
-  <bean id="PurchaseOrderDocument-appDocStatus-parentBean" abstract="true" parent="PurApGenericAttributes-purchaseOrderStatus">
-    <property name="name" value="appDocStatus"/>
-  </bean>
-  <bean id="PurchaseOrderDocument-statusDescription" parent="PurchaseOrderDocument-statusDescription-parentBean"/>
-
-  <bean id="PurchaseOrderDocument-statusDescription-parentBean" abstract="true" parent="PurApGenericAttributes-purchaseOrderStatus">
-    <property name="name" value="statusDescription"/>
+  <bean id="PurchaseOrderDocument-applicationDocumentStatus-parentBean" abstract="true" parent="PurApGenericAttributes-applicationDocumentStatus">
+    <property name="name" value="applicationDocumentStatus"/>
+    <property name="label" value="Purchase Order Doc Status" />
+    <property name="shortLabel" value="Purchase Order Doc Status"/>
   </bean>
   <bean id="PurchaseOrderDocument-contractManagerName" parent="PurchaseOrderDocument-contractManagerName-parentBean"/>
 
@@ -1498,6 +1494,7 @@
 
     <bean id="PurchaseOrderDocument-sensitive-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
     	<property name="name" value="sensitive"/>
+        <property name="label" value="Sensitive"/>
     </bean>
 	<bean id="PurchaseOrderDocument-accountDistributionMethod" parent="PurchaseOrderDocument-accountDistributionMethod-parentBean"/>
 	

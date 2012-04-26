@@ -90,7 +90,7 @@ public class PaymentRequestServiceTest extends KualiTestBase {
         Date today = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
         // paymentRequestDocument.initiateDocument();
         paymentRequestDocument.setInvoiceDate(today);
-        paymentRequestDocument.setAppDocStatus(PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_ACCOUNTS_PAYABLE_REVIEW);// IN_PROCESS);
+        paymentRequestDocument.setApplicationDocumentStatus(PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_ACCOUNTS_PAYABLE_REVIEW);// IN_PROCESS);
         paymentRequestDocument.setPaymentRequestCostSourceCode(PurapConstants.POCostSources.ESTIMATE);
         purchaseOrderDocument.setPurchaseOrderCreateTimestamp(new Timestamp(today.getTime()));
         // purchaseOrderDocument.setDefaultValuesForAPO();

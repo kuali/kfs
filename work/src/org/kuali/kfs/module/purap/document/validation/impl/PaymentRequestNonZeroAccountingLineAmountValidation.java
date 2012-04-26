@@ -39,7 +39,7 @@ public class PaymentRequestNonZeroAccountingLineAmountValidation extends Purchas
     
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;        
-        String status = ((PaymentRequestDocument)event.getDocument()).getAppDocStatus();
+        String status = ((PaymentRequestDocument)event.getDocument()).getApplicationDocumentStatus();
 
         AccountingDocument accountingDocument = (AccountingDocument)event.getDocument();
         this.setAccountingDocumentForValidation(accountingDocument);

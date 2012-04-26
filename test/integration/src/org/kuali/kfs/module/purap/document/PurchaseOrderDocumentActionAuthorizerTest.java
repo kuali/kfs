@@ -99,7 +99,7 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
 
         PurchaseOrderService purchaseOrderService = SpringContext.getBean(PurchaseOrderService.class);
         PurchaseOrderDocument poRetransmitDocument = purchaseOrderService.createAndRoutePotentialChangeDocument(poDocument.getDocumentNumber(), PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, null, null, "RTPE");
-        poRetransmitDocument.setAppDocStatus(PurchaseOrderStatuses.APPDOC_CHANGE_IN_PROCESS);
+        poRetransmitDocument.setApplicationDocumentStatus(PurchaseOrderStatuses.APPDOC_CHANGE_IN_PROCESS);
         PurchaseOrderForm poForm = new PurchaseOrderForm();
         poForm.setDocument(poRetransmitDocument);
         poForm.setEditingMode(editMode);
@@ -135,7 +135,7 @@ public class PurchaseOrderDocumentActionAuthorizerTest extends KualiTestBase {
 
         PurchaseOrderService purchaseOrderService = SpringContext.getBean(PurchaseOrderService.class);
         PurchaseOrderDocument poRetransmitDocument = purchaseOrderService.createAndRoutePotentialChangeDocument(poDocument.getDocumentNumber(), PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, null, null, "RTPE");
-        poRetransmitDocument.setAppDocStatus(PurchaseOrderStatuses.APPDOC_CHANGE_IN_PROCESS);
+        poRetransmitDocument.setApplicationDocumentStatus(PurchaseOrderStatuses.APPDOC_CHANGE_IN_PROCESS);
         poRetransmitDocument.setPurchaseOrderAutomaticIndicator(true);
         changeCurrentUser(rorenfro);
         PurchaseOrderForm poForm = new PurchaseOrderForm();

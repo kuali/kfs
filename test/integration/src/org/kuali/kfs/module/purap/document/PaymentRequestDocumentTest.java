@@ -365,7 +365,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
         // setup purchase order and save
         changeCurrentUser(parke);
         PurchaseOrderDocument po = poFixture.createPurchaseOrderDocument();
-        po.setAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN);
+        po.setApplicationDocumentStatus(PurchaseOrderStatuses.APPDOC_OPEN);
         po.refreshNonUpdateableReferences();
         AccountingDocumentTestUtils.testSaveDocument(po, documentService);
 

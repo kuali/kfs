@@ -90,19 +90,17 @@ public class LineItemReceivingForm extends ReceivingFormBase {
     @Override
     public void populateHeaderFields(WorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
+        
         //leave the first field blank to match the other PURAP docs
         getDocInfo().add(new HeaderField());
 
+        String applicationDocumentStatus = PurapConstants.PURAP_APPLICATION_DOCUMENT_STATUS_NOT_AVAILABLE;
+        
         if (ObjectUtils.isNotNull(this.getLineItemReceivingDocument().getAppDocStatus())) {
-
-            String appDocStatus = workflowDocument.getApplicationDocumentStatus();
-
-            getDocInfo().add(new HeaderField("DataDictionary.LineItemReceivingDocument.attributes.appDocStatus", appDocStatus));
+            applicationDocumentStatus = workflowDocument.getApplicationDocumentStatus();
         }
-
-        else {
-            getDocInfo().add(new HeaderField("DataDictionary.LineItemReceivingDocument.attributes.appDocStatus", "Not Available"));
-        }
+        
+        getDocInfo().add(new HeaderField("DataDictionary.LineItemReceivingDocument.attributes.applicationDocumentStatus", applicationDocumentStatus));
     }
 
     /**

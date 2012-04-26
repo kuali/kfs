@@ -17,9 +17,15 @@ package org.kuali.kfs.sys.businessobject;
 
 import java.sql.Date;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 /**
  * This class is a custom {@link DocumentHeader} class used by KFS to facilitate custom data fields and a few UI fields
@@ -112,4 +118,64 @@ public class FinancialSystemDocumentHeader extends DocumentHeader {
         return  new java.sql.Date(this.getWorkflowDocument().getDateFinalized().getMillis());
     }
 
+    /**
+     * Gets the applicationDocumentStatus attribute.
+     * 
+     * @return Returns the applicationDocumentStatus
+     */
+    
+    public String getApplicationDocumentStatus() {
+        WorkflowDocument document = getWorkflowDocument();
+        return StringUtils.trimToEmpty(document.getApplicationDocumentStatus());
+    }
+
+    /** 
+     * Sets the applicationDocumentStatus attribute.
+     * 
+     * @param applicationDocumentStatus The applicationDocumentStatus to set.
+     */
+    public void setApplicationDocumentStatus(String applicationDocumentStatus) {
+        WorkflowDocument document = getWorkflowDocument();
+
+        document.setApplicationDocumentStatus(applicationDocumentStatus);
+    }
+    
+    /**
+     * method to retrieve the workflow document for the given documentHeader.
+     *
+     * @return workflowDocument
+     */
+    public WorkflowDocument getWorkflowDocument() {
+        
+        WorkflowDocument workflowDocument = null;
+        
+        if (hasWorkflowDocument()) {
+            workflowDocument = super.getWorkflowDocument();
+        }
+        
+        try {
+            if (workflowDocument != null) {
+                return workflowDocument;
+            }
+
+            workflowDocument = SpringContext.getBean(WorkflowDocumentService.class).loadWorkflowDocument(getDocumentNumber(), GlobalVariables.getUserSession().getPerson());
+        }
+        catch (WorkflowException we) {
+            throw new RuntimeException("Unable to load a WorkflowDocument object for " + getDocumentNumber(), we);
+        }
+
+        return workflowDocument;
+    }
+    
+    /**
+     * Updates status of this document and saves the workflow data
+     *
+     * @param applicationDocumentStatus is the app doc status to save
+     * @throws WorkflowException
+     */
+    public void updateAndSaveAppDocStatus(String applicationDocumentStatus) throws WorkflowException {
+       setApplicationDocumentStatus(applicationDocumentStatus);
+       SpringContext.getBean(WorkflowDocumentService.class).saveRoutingData(getWorkflowDocument());
+    }
+    
 }

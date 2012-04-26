@@ -189,7 +189,7 @@ public enum PurchaseOrderAmendmentDocumentFixture {
         doc.setPurchaseOrderCurrentIndicator(this.purchaseOrderCurrentIndicator);
         doc.setPendingActionIndicator(this.pendingActionIndicator);
         doc.setPurchaseOrderFirstTransmissionTimestamp(this.purchaseOrderFirstTransmissionTimestamp);
-        doc.setAppDocStatus(status);
+        doc.setApplicationDocumentStatus(status);
         
         for (PurchaseOrderItemFixture purchaseOrderItemFixture : purchaseOrderItemFixtures) {
             purchaseOrderItemFixture.addTo(doc);

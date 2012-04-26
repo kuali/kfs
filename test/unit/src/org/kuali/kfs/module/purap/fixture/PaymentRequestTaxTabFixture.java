@@ -118,7 +118,7 @@ public enum PaymentRequestTaxTabFixture {
         preqDocument.setTaxForeignSourceIndicator(foreignSourceIndicator);
         preqDocument.setTaxUSAIDPerDiemIndicator(taxUSAIDPerDiemIndicator);
         preqDocument.setTaxOtherExemptIndicator(otherTaxExemptIndicator);
-        preqDocument.setAppDocStatus(statusCode);
+        preqDocument.setApplicationDocumentStatus(statusCode);
 
         return preqDocument;
     }

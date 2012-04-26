@@ -1254,6 +1254,6 @@ public class KFSPropertyConstants {
     public static final String PURAP_DOC_ID = "purapDocumentIdentifier";
     public static final String PURCHASE_ORDER_DOCUMENT_SIMPLE_NAME = "PurchaseOrderDocument";
     public static final String CAPITAL_ASSET_LINE_AMOUNT = "capitalAssetLineAmount";
-    public static final String APPLICATION_DOCUMENT_STATUS = "statusDescription";
+    public static final String APPLICATION_DOCUMENT_STATUS = "applicationDocumentStatus";
 }
 

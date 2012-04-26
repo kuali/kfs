@@ -67,7 +67,7 @@
 		        				<c:out value="${preqHistory.purchaseOrderIdentifier}" />
 			        		</td>
 		        			<td align="left" valign="middle" class="datacell">
-		        				<c:out value="${preqHistory.appDocStatus}" />
+		        				<c:out value="${preqHistory.applicationDocumentStatus}" />
 			        		</td>
 			        		<td align="left" valign="middle" class="datacell">
 			        			<c:choose>
@@ -151,7 +151,7 @@
 		        				<c:out value="${cmHistory.purchaseOrderIdentifier}" />
 			        		</td>
 			        		<td align="left" valign="middle" class="datacell">
-		        				<c:out value="${cmHistory.appDocStatus}" />
+		        				<c:out value="${cmHistory.applicationDocumentStatus}" />
 			        		</td>
 			        		<td align="left" valign="middle" class="datacell">
 			        			<c:choose>

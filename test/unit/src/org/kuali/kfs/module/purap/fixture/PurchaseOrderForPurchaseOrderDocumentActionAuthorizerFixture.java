@@ -103,7 +103,7 @@ public enum PurchaseOrderForPurchaseOrderDocumentActionAuthorizerFixture {
     
     public PurchaseOrderDocument createPurchaseOrderDocument() {
         PurchaseOrderDocument doc = PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS.createPurchaseOrderDocument();
-        doc.setAppDocStatus(this.statusCode);
+        doc.setApplicationDocumentStatus(this.statusCode);
         doc.setPurchaseOrderLastTransmitTimestamp(this.purchaseOrderLastTransmitTimestamp);
         doc.setPurchaseOrderCurrentIndicator(this.purchaseOrderCurrentIndicator);
         doc.setPendingActionIndicator(this.pendingActionIndicator);

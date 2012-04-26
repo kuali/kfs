@@ -1401,4 +1401,8 @@ public class PurapConstants {
         public static String INCLUDE_RETIRED_ASSETS_IND = "INCLUDE_RETIRED_ASSETS_IND";
     }
     // CSU 6702 BEGIN
+    
+
+    public static final String PURAP_APPLICATION_DOCUMENT_ID_NOT_AVAILABLE = "Not Available";
+    public static final String PURAP_APPLICATION_DOCUMENT_STATUS_NOT_AVAILABLE = "Not Available";
 }

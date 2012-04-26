@@ -46,7 +46,7 @@ public class PaymentRequestAccountingLineRuleHelperServiceImpl extends PurapAcco
         boolean hasOverrides = true;
         
         Account account = SpringContext.getBean(AccountService.class).getByPrimaryId(line.getChartOfAccountsCode(), line.getAccountNumber());
-        String docStatus = getDocument().getAppDocStatus();
+        String docStatus = getDocument().getApplicationDocumentStatus();
                 
         //if account exists
         if(ObjectUtils.isNotNull(account)){

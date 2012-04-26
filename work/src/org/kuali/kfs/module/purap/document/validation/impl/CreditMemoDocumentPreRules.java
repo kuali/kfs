@@ -86,7 +86,7 @@ public class CreditMemoDocumentPreRules extends AccountsPayableDocumentPreRulesB
     
     @Override
     protected boolean checkCAMSWarningStatus(PurchasingAccountsPayableDocument purapDocument) {
-        return PurapConstants.CAMSWarningStatuses.CREDIT_MEMO_STATUS_WARNING_NO_CAMS_DATA.contains(purapDocument.getAppDocStatus());
+        return PurapConstants.CAMSWarningStatuses.CREDIT_MEMO_STATUS_WARNING_NO_CAMS_DATA.contains(purapDocument.getApplicationDocumentStatus());
     }
     
 }

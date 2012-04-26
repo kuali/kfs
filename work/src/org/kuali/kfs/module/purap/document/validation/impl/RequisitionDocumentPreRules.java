@@ -43,7 +43,7 @@ public class RequisitionDocumentPreRules extends PurchasingDocumentPreRulesBase 
 
     @Override
     protected boolean checkCAMSWarningStatus(PurchasingAccountsPayableDocument purapDocument) {
-        return PurapConstants.CAMSWarningStatuses.REQUISITION_STATUS_WARNING_NO_CAMS_DATA.contains(purapDocument.getAppDocStatus());
+        return PurapConstants.CAMSWarningStatuses.REQUISITION_STATUS_WARNING_NO_CAMS_DATA.contains(purapDocument.getApplicationDocumentStatus());
     }
     
 }

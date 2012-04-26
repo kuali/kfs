@@ -47,7 +47,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
     public boolean canSave(Document document) {
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
         
-        if (StringUtils.equals(paymentRequestDocument.getAppDocStatus(), PaymentRequestStatuses.APPDOC_INITIATE)) {
+        if (StringUtils.equals(paymentRequestDocument.getApplicationDocumentStatus(), PaymentRequestStatuses.APPDOC_INITIATE)) {
             return false;
         }
 
@@ -62,7 +62,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
     public boolean canReload(Document document) {
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
 
-        if (StringUtils.equals(paymentRequestDocument.getAppDocStatus(), PaymentRequestStatuses.APPDOC_INITIATE)) {
+        if (StringUtils.equals(paymentRequestDocument.getApplicationDocumentStatus(), PaymentRequestStatuses.APPDOC_INITIATE)) {
             return false;
         }
         
@@ -166,7 +166,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
         if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(paymentRequestDocument)) {
             editModes.add(PaymentRequestEditMode.FULL_DOCUMENT_ENTRY_COMPLETED);
         }
-        else if (ObjectUtils.isNotNull(paymentRequestDocument.getPurchaseOrderDocument()) && PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN.equals(paymentRequestDocument.getPurchaseOrderDocument().getAppDocStatus())) {
+        else if (ObjectUtils.isNotNull(paymentRequestDocument.getPurchaseOrderDocument()) && PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN.equals(paymentRequestDocument.getPurchaseOrderDocument().getApplicationDocumentStatus())) {
             editModes.add(PaymentRequestEditMode.ALLOW_CLOSE_PURCHASE_ORDER);
         }
 
@@ -202,7 +202,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
         */
         
         // the tax tab is viewable to everyone after tax is approved
-        if (PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED.equals(paymentRequestDocument.getAppDocStatus()) &&
+        if (PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED.equals(paymentRequestDocument.getApplicationDocumentStatus()) &&
                 // if and only if the preq has gone through tax review would TaxClassificationCode be non-empty
                 !StringUtils.isEmpty(paymentRequestDocument.getTaxClassificationCode())) {
             editModes.add(PaymentRequestEditMode.TAX_INFO_VIEWABLE);
@@ -236,7 +236,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
 
     protected boolean canProcessorInit(PaymentRequestDocument paymentRequestDocument) {
         // if Payment Request is in INITIATE status or NULL returned from getAppDocStatus
-        String status = paymentRequestDocument.getAppDocStatus();
+        String status = paymentRequestDocument.getApplicationDocumentStatus();
         if (StringUtils.equals(status, PaymentRequestStatuses.APPDOC_INITIATE)) {
             return true;
         }
@@ -250,7 +250,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
             return false;
         }
         
-        String docStatus = paymentRequestDocument.getAppDocStatus();
+        String docStatus = paymentRequestDocument.getApplicationDocumentStatus();
         boolean requestCancelIndicator = paymentRequestDocument.getPaymentRequestedCancelIndicator();
         boolean holdIndicator = paymentRequestDocument.isHoldIndicator();        
         boolean extracted = paymentRequestDocument.isExtracted();
@@ -287,7 +287,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
             return false;
         }
         
-        String docStatus = paymentRequestDocument.getAppDocStatus();
+        String docStatus = paymentRequestDocument.getApplicationDocumentStatus();
         boolean requestCancelIndicator = paymentRequestDocument.getPaymentRequestedCancelIndicator();
         boolean holdIndicator = paymentRequestDocument.isHoldIndicator();        
         boolean extracted = paymentRequestDocument.isExtracted();
@@ -329,7 +329,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
         boolean can = !paymentRequestDocument.isHoldIndicator() && !paymentRequestDocument.isPaymentRequestedCancelIndicator() && !paymentRequestDocument.isExtracted();
         if (can) {
             can = SpringContext.getBean(FinancialSystemWorkflowHelperService.class).isAdhocApprovalRequestedForPrincipal(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), GlobalVariables.getUserSession().getPrincipalId());            
-            can = can || !PaymentRequestStatuses.STATUSES_DISALLOWING_HOLD.contains(paymentRequestDocument.getAppDocStatus());
+            can = can || !PaymentRequestStatuses.STATUSES_DISALLOWING_HOLD.contains(paymentRequestDocument.getApplicationDocumentStatus());
         }
         
         return can;
@@ -348,7 +348,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
         boolean can = !paymentRequestDocument.isPaymentRequestedCancelIndicator() && !paymentRequestDocument.isHoldIndicator() && !paymentRequestDocument.isExtracted();
         if (can) {
             can = SpringContext.getBean(FinancialSystemWorkflowHelperService.class).isAdhocApprovalRequestedForPrincipal(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), GlobalVariables.getUserSession().getPrincipalId());
-            can = can || !PaymentRequestStatuses.STATUSES_DISALLOWING_REQUEST_CANCEL.contains(paymentRequestDocument.getAppDocStatus());
+            can = can || !PaymentRequestStatuses.STATUSES_DISALLOWING_REQUEST_CANCEL.contains(paymentRequestDocument.getApplicationDocumentStatus());
         }
 
         return can;
@@ -385,7 +385,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
     protected boolean canEditPreExtraction(PaymentRequestDocument paymentRequestDocument) {
         return (!paymentRequestDocument.isExtracted() &&
                 !SpringContext.getBean(FinancialSystemWorkflowHelperService.class).isAdhocApprovalRequestedForPrincipal(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), GlobalVariables.getUserSession().getPrincipalId()) &&
-                !PurapConstants.PaymentRequestStatuses.CANCELLED_STATUSES.contains(paymentRequestDocument.getAppDocStatus()));
+                !PurapConstants.PaymentRequestStatuses.CANCELLED_STATUSES.contains(paymentRequestDocument.getApplicationDocumentStatus()));
     }
 
 }

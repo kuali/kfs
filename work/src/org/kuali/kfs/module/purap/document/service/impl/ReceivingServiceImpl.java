@@ -209,9 +209,9 @@ public class ReceivingServiceImpl implements ReceivingService {
         return po != null &&
                ObjectUtils.isNotNull(po.getPurapDocumentIdentifier()) && 
                po.isPurchaseOrderCurrentIndicator() && 
-                   (PurchaseOrderStatuses.APPDOC_OPEN.equals(po.getAppDocStatus()) || 
-                    PurchaseOrderStatuses.APPDOC_CLOSED.equals(po.getAppDocStatus()) || 
-                    PurchaseOrderStatuses.APPDOC_PAYMENT_HOLD.equals(po.getAppDocStatus()));
+                   (PurchaseOrderStatuses.APPDOC_OPEN.equals(po.getApplicationDocumentStatus()) || 
+                    PurchaseOrderStatuses.APPDOC_CLOSED.equals(po.getApplicationDocumentStatus()) || 
+                    PurchaseOrderStatuses.APPDOC_PAYMENT_HOLD.equals(po.getApplicationDocumentStatus()));
     }
 
     @Override

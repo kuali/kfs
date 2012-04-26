@@ -94,7 +94,7 @@ public class PaymentRequestTaxAreaValidation extends GenericValidation {
         PaymentRequestDocument preq = (PaymentRequestDocument)event.getDocument();
         
         // do this validation only at route level of awaiting tax review
-        if ( ! StringUtils.equals(preq.getAppDocStatus(), PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW))
+        if ( ! StringUtils.equals(preq.getApplicationDocumentStatus(), PaymentRequestStatuses.APPDOC_AWAITING_TAX_REVIEW))
             return true;
         
         MessageMap errorMap = GlobalVariables.getMessageMap();        

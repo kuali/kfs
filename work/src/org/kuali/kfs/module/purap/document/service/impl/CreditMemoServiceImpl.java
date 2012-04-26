@@ -438,7 +438,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     @Override
     public void populateAndSaveCreditMemo(VendorCreditMemoDocument document) {
         try {
-            document.setAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_IN_PROCESS);
+            document.setApplicationDocumentStatus(PurapConstants.CreditMemoStatuses.APPDOC_IN_PROCESS);
             document.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurapConstants.CreditMemoStatuses.APPDOC_IN_PROCESS);
             if (document.isSourceDocumentPaymentRequest()) {
                 document.setBankCode(document.getPaymentRequestDocument().getBankCode());
@@ -457,11 +457,11 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         }
         catch (ValidationException ve) {
             document.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurapConstants.CreditMemoStatuses.APPDOC_INITIATE);
-            document.setAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_INITIATE);
+            document.setApplicationDocumentStatus(PurapConstants.CreditMemoStatuses.APPDOC_INITIATE);
         }
         catch (WorkflowException we) {
             // set the status back to initiate
-            document.setAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_INITIATE);
+            document.setApplicationDocumentStatus(PurapConstants.CreditMemoStatuses.APPDOC_INITIATE);
             document.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurapConstants.CreditMemoStatuses.APPDOC_INITIATE);
             String errorMsg = "Error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + we.getMessage();
             LOG.error(errorMsg, we);
@@ -484,7 +484,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         if (ObjectUtils.isNotNull(purchaseOrderDocumentId)) {
             PurchaseOrderDocument purchaseOrderDocument = purchaseOrderService.getCurrentPurchaseOrder(purchaseOrderDocumentId);
             // only reopen if the po is not null, it does not have a pending change already scheduled, and it is in closed status
-            if (ObjectUtils.isNotNull(purchaseOrderDocument) && (!purchaseOrderDocument.isPendingActionIndicator()) && PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED.equals(purchaseOrderDocument.getAppDocStatus())) {
+            if (ObjectUtils.isNotNull(purchaseOrderDocument) && (!purchaseOrderDocument.isPendingActionIndicator()) && PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED.equals(purchaseOrderDocument.getApplicationDocumentStatus())) {
 
             }
         }
@@ -565,7 +565,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         }
 
         if (StringUtils.isNotBlank(cancelledStatusCode)) {
-            cmDoc.setAppDocStatus(cancelledStatusCode);
+            cmDoc.setApplicationDocumentStatus(cancelledStatusCode);
             purapService.saveDocumentNoValidation(cmDoc);
             return cancelledStatusCode;
         }
@@ -582,7 +582,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     @Override
     public void cancelExtractedCreditMemo(VendorCreditMemoDocument cmDocument, String note) {
         LOG.debug("cancelExtractedCreditMemo() started");
-        if (CreditMemoStatuses.CANCELLED_STATUSES.contains(cmDocument.getAppDocStatus())) {
+        if (CreditMemoStatuses.CANCELLED_STATUSES.contains(cmDocument.getApplicationDocumentStatus())) {
             LOG.debug("cancelExtractedCreditMemo() ended");
             return;
         }
@@ -610,7 +610,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     @Override
     public void resetExtractedCreditMemo(VendorCreditMemoDocument cmDocument, String note) {
         LOG.debug("resetExtractedCreditMemo() started");
-        if (CreditMemoStatuses.CANCELLED_STATUSES.contains(cmDocument.getAppDocStatus())) {
+        if (CreditMemoStatuses.CANCELLED_STATUSES.contains(cmDocument.getApplicationDocumentStatus())) {
             LOG.debug("resetExtractedCreditMemo() ended");
             return;
         }

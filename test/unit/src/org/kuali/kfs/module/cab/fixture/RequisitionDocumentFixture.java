@@ -34,7 +34,7 @@ public enum RequisitionDocumentFixture {
             obj.setDocumentNumber("11");
             obj.setDocumentFundingSourceCode("INST");
             obj.setRequisitionSourceCode("STAN");
-            obj.setAppDocStatus(RequisitionStatuses.APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN);
+            obj.setApplicationDocumentStatus(RequisitionStatuses.APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN);
             obj.setPurchaseOrderTransmissionMethodCode("PRIN");
             obj.setPurchaseOrderCostSourceCode("EST");
             obj.setChartOfAccountsCode("UA");
@@ -77,7 +77,7 @@ public enum RequisitionDocumentFixture {
             obj.setDocumentNumber("12");
             obj.setDocumentFundingSourceCode("INST");
             obj.setRequisitionSourceCode("STAN");
-            obj.setAppDocStatus(RequisitionStatuses.APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN);
+            obj.setApplicationDocumentStatus(RequisitionStatuses.APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN);
             obj.setPurchaseOrderTransmissionMethodCode("PRIN");
             obj.setPurchaseOrderCostSourceCode("EST");
             obj.setChartOfAccountsCode("UA");
@@ -120,7 +120,7 @@ public enum RequisitionDocumentFixture {
             obj.setDocumentNumber("13");
             obj.setDocumentFundingSourceCode("INST");
             obj.setRequisitionSourceCode("STAN");
-            obj.setAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN);
+            obj.setApplicationDocumentStatus(PurchaseOrderStatuses.APPDOC_OPEN);
             obj.setPurchaseOrderTransmissionMethodCode("PRIN");
             obj.setPurchaseOrderCostSourceCode("EST");
             obj.setChartOfAccountsCode("UA");

@@ -84,27 +84,21 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
     @Override
     public void populateHeaderFields(WorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
+        
         if (ObjectUtils.isNotNull(this.getPaymentRequestDocument().getPurapDocumentIdentifier())) {
             getDocInfo().add(new HeaderField("DataDictionary.PaymentRequestDocument.attributes.purapDocumentIdentifier", ((PaymentRequestDocument) this.getDocument()).getPurapDocumentIdentifier().toString()));
         }
         else {
             getDocInfo().add(new HeaderField("DataDictionary.PaymentRequestDocument.attributes.purapDocumentIdentifier", "Not Available"));
         }
-        if (ObjectUtils.isNotNull(this.getPaymentRequestDocument().getAppDocStatus())) {
-            String preqStatus = "";
-            String appDocStatus ="";
-                       
-            appDocStatus = workflowDocument.getApplicationDocumentStatus();
-            if (!StringUtils.isEmpty(appDocStatus)) {
-                preqStatus = appDocStatus;
-            }
-         
-            getDocInfo().add(new HeaderField("DataDictionary.PaymentRequestDocument.attributes.appDocStatus", preqStatus));
 
+        String applicationDocumentStatus = "Not Available";
+        
+        if (ObjectUtils.isNotNull(this.getPaymentRequestDocument().getApplicationDocumentStatus())) {
+            applicationDocumentStatus = workflowDocument.getApplicationDocumentStatus();
         }
-        else {
-            getDocInfo().add(new HeaderField("DataDictionary.PaymentRequestDocument.attributes.appDocStatus", "Not Available"));
-        }
+
+        getDocInfo().add(new HeaderField("DataDictionary.PaymentRequestDocument.attributes.applicationDocumentStatus", applicationDocumentStatus));
     }
     
     /**
@@ -158,7 +152,7 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
             
             if (getEditingMode().containsKey(PaymentRequestEditMode.ACCOUNTS_PAYABLE_PROCESSOR_CANCEL) ||
                     getEditingMode().containsKey(PaymentRequestEditMode.ACCOUNTS_PAYABLE_MANAGER_CANCEL)) {
-                if (PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED.equals(paymentRequestDocument.getPurchaseOrderDocument().getAppDocStatus())) {
+                if (PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED.equals(paymentRequestDocument.getPurchaseOrderDocument().getApplicationDocumentStatus())) {
                     //if the PO is CLOSED, show the 'open order' button; but only if there are no pending actions on the PO
                     if (!paymentRequestDocument.getPurchaseOrderDocument().isPendingActionIndicator()) {
                         addExtraButton("methodToCall.reopenPo", appExternalImageURL + "buttonsmall_openorder.gif", "Reopen PO");
@@ -182,7 +176,7 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
      */
     public boolean canContinue() {
         // preq must be in initiated status
-        boolean can = PaymentRequestStatuses.APPDOC_INITIATE.equals(getPaymentRequestDocument().getAppDocStatus());
+        boolean can = PaymentRequestStatuses.APPDOC_INITIATE.equals(getPaymentRequestDocument().getApplicationDocumentStatus());
         
         // check user authorization
         if (can) {

@@ -166,7 +166,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      */
     @Override
     public boolean isInquiryRendered() {
-        if (isPostingYearPrior() && (getAppDocStatus().equals(PurapConstants.PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED) || getAppDocStatus().equals(PurapConstants.PaymentRequestStatuses.APPDOC_AUTO_APPROVED) || getAppDocStatus().equals(PurapConstants.PaymentRequestStatuses.APPDOC_CANCELLED_POST_AP_APPROVE) || getAppDocStatus().equals(PurapConstants.PaymentRequestStatuses.APPDOC_CANCELLED_IN_PROCESS))) {
+        if (isPostingYearPrior() && (getApplicationDocumentStatus().equals(PurapConstants.PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED) || getApplicationDocumentStatus().equals(PurapConstants.PaymentRequestStatuses.APPDOC_AUTO_APPROVED) || getApplicationDocumentStatus().equals(PurapConstants.PaymentRequestStatuses.APPDOC_CANCELLED_POST_AP_APPROVE) || getApplicationDocumentStatus().equals(PurapConstants.PaymentRequestStatuses.APPDOC_CANCELLED_IN_PROCESS))) {
             return false;
         }
         else {
@@ -696,7 +696,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         try{
             // DOCUMENT PROCESSED
             if (this.getDocumentHeader().getWorkflowDocument().isProcessed()) {
-                if (!PaymentRequestStatuses.APPDOC_AUTO_APPROVED.equals(getAppDocStatus())) {                    
+                if (!PaymentRequestStatuses.APPDOC_AUTO_APPROVED.equals(getApplicationDocumentStatus())) {                    
                     populateDocumentForRouting();
                     updateAndSaveAppDocStatus(PurapConstants.PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
                 }
@@ -707,7 +707,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                 String disapprovalStatus = PurapConstants.PaymentRequestStatuses.getPaymentRequestAppDocDisapproveStatuses().get(nodeName);
                         
                 if (ObjectUtils.isNotNull(nodeName)) {                    
-                    if (((StringUtils.isBlank(disapprovalStatus)) && ((PaymentRequestStatuses.APPDOC_INITIATE.equals(getAppDocStatus())) || (PaymentRequestStatuses.APPDOC_IN_PROCESS.equals(getAppDocStatus()))))) {
+                    if (((StringUtils.isBlank(disapprovalStatus)) && ((PaymentRequestStatuses.APPDOC_INITIATE.equals(getApplicationDocumentStatus())) || (PaymentRequestStatuses.APPDOC_IN_PROCESS.equals(getApplicationDocumentStatus()))))) {
                         disapprovalStatus = PaymentRequestStatuses.APPDOC_CANCELLED_IN_PROCESS;
                     }
                     if (StringUtils.isNotBlank(disapprovalStatus)) {
@@ -761,7 +761,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      * @see org.kuali.kfs.module.purap.document.AccountsPayableDocumentBase#processNodeChange(java.lang.String, java.lang.String)
      */
     public boolean processNodeChange(String newNodeName, String oldNodeName) {
-        if (PaymentRequestStatuses.APPDOC_AUTO_APPROVED.equals(getAppDocStatus())) {
+        if (PaymentRequestStatuses.APPDOC_AUTO_APPROVED.equals(getApplicationDocumentStatus())) {
             // do nothing for an auto approval
             return false;
         }
@@ -984,23 +984,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     protected List<String> getCurrentRouteLevels(WorkflowDocument workflowDocument) {
         Set<String> names = workflowDocument.getCurrentNodeNames();
         return new ArrayList<String>(names);
-    }
-
-    /**
-     * USED FOR ROUTING ONLY
-     * 
-     * @deprecated
-     */
-    public String getStatusDescription() {
-        return "";
-    }
-
-    /**
-     * USED FOR ROUTING ONLY
-     * 
-     * @deprecated
-     */
-    public void setStatusDescription(String statusDescription) {
     }
 
     public RecurringPaymentType getRecurringPaymentType() {

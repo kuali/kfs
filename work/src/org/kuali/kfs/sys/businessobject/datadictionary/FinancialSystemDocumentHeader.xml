@@ -23,6 +23,7 @@
     <property name="objectLabel" value="Financial System Document Header"/>
     <property name="attributes">
       <list>
+        <ref bean="FinancialSystemDocumentHeader-applicationDocumentStatus"/>
         <ref bean="FinancialSystemDocumentHeader-documentDescription"/>
         <ref bean="FinancialSystemDocumentHeader-organizationDocumentNumber"/>
         <ref bean="FinancialSystemDocumentHeader-documentNumber"/>
@@ -42,6 +43,21 @@
 
   <bean id="FinancialSystemDocumentHeader-documentDescription-parentBean" abstract="true" parent="DocumentHeader-documentDescription"/>
 
+  <bean id="FinancialSystemDocumentHeader-applicationDocumentStatus" parent="FinancialSystemDocumentHeader-applicationDocumentStatus-parentBean"/>
+
+  <bean id="FinancialSystemDocumentHeader-applicationDocumentStatus-parentBean" abstract="true" parent="AttributeDefinition">
+	<property name="name" value="documentHeader.workflowDocument.applicationDocumentStatus"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Application Document Status"/>
+    <property name="shortLabel" value="App Doc Status"/>
+    <property name="maxLength" value="64"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidation" p:allowWhitespace="true" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="20"/>
+    </property>    
+  </bean>
 
   <bean id="FinancialSystemDocumentHeader-organizationDocumentNumber" parent="FinancialSystemDocumentHeader-organizationDocumentNumber-parentBean"/>
 

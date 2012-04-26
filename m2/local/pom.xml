@@ -1,0 +1,128 @@
+<!-- Copyright 2005-2012 The Kuali Foundation Licensed under the Educational 
+	Community License, Version 2.0 (the "License"); you may not use this file 
+	except in compliance with the License. You may obtain a copy of the License 
+	at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+	law or agreed to in writing, software distributed under the License is distributed 
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+	express or implied. See the License for the specific language governing permissions 
+	and limitations under the License. -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<name>KFS Local Configuration Setup</name>
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.kuali.kfs</groupId>
+		<artifactId>kfs</artifactId>
+		<version>5.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>kfs-local</artifactId>
+	<packaging>jar</packaging>
+
+	<properties>
+
+	</properties>
+
+	<dependencies>
+	</dependencies>
+	
+	<build>
+		<directory>${external.config.directory}</directory>
+		<defaultGoal>process-resources</defaultGoal>
+		<resources>
+			<resource>
+				<directory>../../build/external</directory>
+				<includes>
+					<include>log4j.properties</include>
+				</includes>
+				<filtering>true</filtering>
+				<targetPath>opt/settings</targetPath>
+			</resource>
+			<resource>
+				<directory>../../build/project</directory>
+				<includes>
+					<include>configuration.properties</include>
+				</includes>
+				<filtering>true</filtering>
+				<targetPath>opt/settings</targetPath>
+			</resource>
+			<resource>
+				<directory>../../build/external/work</directory>
+				<excludes>
+					<exclude>**/placeholder.txt</exclude>
+				</excludes>
+				<filtering>true</filtering>
+				<targetPath>opt/work</targetPath>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>initialize</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<mkdir dir="${external.config.directory}" />
+								<mkdir dir="${base.security.directory}" />
+								<mkdir dir="${base.settings.directory}" />
+								<mkdir dir="${base.logs.directory}" />
+								<mkdir dir="${base.work.directory}" />
+								<mkdir dir="${security.directory}" />
+								<mkdir dir="${settings.directory}" />
+								<mkdir dir="${logs.directory}" />
+								<mkdir dir="${external.work.directory}" />
+								<mkdir dir="${attachments.directory}" />
+								<mkdir dir="${staging.directory}" />
+								<mkdir dir="${reports.directory}" />
+								<mkdir dir="${temp.directory}" />
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- 
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<delete dir="${external.config.directory}/antrun" />
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>			
+			 -->
+			<!-- TODO:
+				(copy to appserver?)
+				copy log4j
+				copy contents of institutional settings dir
+				copy contents of institutional security dir
+				copy contents of institutional work dir
+				copy keystore
+				copy security.properties
+				copy configuration.properties
+		<copy todir="${external.work.directory}">
+			<fileset dir="${build.work.directory}" />
+			<filterset>
+				<filter token="externalizable.static.content.url" value="${externalizable.static.content.url}" />
+			</filterset>
+		</copy>
+			 -->
+		</plugins>
+	</build>
+
+	<profiles>
+	</profiles>
+
+</project>

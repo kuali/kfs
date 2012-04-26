@@ -49,6 +49,29 @@
 	
 		<contracts.and.grants.spring.files></contracts.and.grants.spring.files>
 		<core.spring.source.files>classpath:net/bull/javamelody/monitoring-spring.xml,classpath:org/kuali/kfs/sys/spring-sys.xml,classpath:org/kuali/kfs/coa/spring-coa.xml,classpath:org/kuali/kfs/fp/spring-fp.xml,classpath:org/kuali/kfs/gl/spring-gl.xml,classpath:org/kuali/kfs/pdp/spring-pdp.xml,classpath:org/kuali/kfs/vnd/spring-vnd.xml</core.spring.source.files>
+
+		<external.config.directory>/opt</external.config.directory>
+		<base.security.directory>${external.config.directory}/security</base.security.directory>
+		<base.settings.directory>${external.config.directory}/settings</base.settings.directory>
+		<base.logs.directory>${external.config.directory}/logs</base.logs.directory>
+		<base.work.directory>${external.config.directory}/work</base.work.directory>
+
+		<security.directory>${base.security.directory}/${build.environment}/kfs</security.directory>
+		<!-- the directory that contains the non-secure property files that are nonetheless external to the deployed application -->
+		<settings.directory>${base.settings.directory}/${build.environment}/kfs</settings.directory>
+		<!-- the directory containing the log files output by the application -->
+		<logs.directory>${base.logs.directory}/${build.environment}/kfs</logs.directory>
+		<!-- the working directory that is external to the application -->
+		<external.work.directory>${base.work.directory}/${build.environment}/kfs</external.work.directory>
+		<!-- the base working directory for storage of note-associated attachments that are uploaded by users -->
+		<attachments.directory>${external.work.directory}/attachments</attachments.directory>
+		<!-- the base working directory for storage of batch input files -->
+		<staging.directory>${external.work.directory}/staging</staging.directory>
+		<!-- a directory for temporary file storage, e.g. during pdf generation -->
+		<temp.directory>${external.work.directory}/temp</temp.directory>
+		<!-- the base working directory for oltp and batch report generation -->
+		<reports.directory>${external.work.directory}/reports</reports.directory>
+
 		
 		<!-- library versions -->
 		<rice.version>2.0.2-SNAPSHOT</rice.version>
@@ -57,7 +80,7 @@
 	</properties>
 
 	<profiles>
-		<profile>
+		<profile><!-- ar -->
 			<id>ar</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
@@ -66,7 +89,7 @@
 				<module.accounts.receivable.enabled>true</module.accounts.receivable.enabled>
 			</properties>
 		</profile>
-		<profile>
+		<profile><!-- cg -->
 			<id>cg</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
@@ -76,7 +99,7 @@
 				<contracts.and.grants.spring.files>,classpath:org/kuali/kfs/module/cg/spring-cg.xml</contracts.and.grants.spring.files>
 			</properties>
 		</profile>
-		<profile>
+		<profile><!-- cam -->
 			<id>cam</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
@@ -85,7 +108,7 @@
 				<module.capital.asset.enabled>true</module.capital.asset.enabled>
 			</properties>
 		</profile>
-		<profile>
+		<profile><!-- cab -->
 			<id>cab</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
@@ -140,7 +163,30 @@
 				<module.purchasing.enabled>true</module.purchasing.enabled>
 			</properties>
 		</profile>
-
+		<profile>
+			<id>local</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<external.config.directory>../../temp/opt</external.config.directory>
+				<security.directory>${base.security.directory}</security.directory>
+				<!-- the directory that contains the non-secure property files that are nonetheless external to the deployed application -->
+				<settings.directory>${base.settings.directory}</settings.directory>
+				<!-- the directory containing the log files output by the application -->
+				<logs.directory>${base.logs.directory}</logs.directory>
+				<!-- the working directory that is external to the application -->
+				<external.work.directory>${base.work.directory}</external.work.directory>
+				<!-- the base working directory for storage of note-associated attachments that are uploaded by users -->
+				<attachments.directory>${external.work.directory}/attachments</attachments.directory>
+				<!-- the base working directory for storage of batch input files -->
+				<staging.directory>${external.work.directory}/staging</staging.directory>
+				<!-- a directory for temporary file storage, e.g. during pdf generation -->
+				<temp.directory>${external.work.directory}/temp</temp.directory>
+				<!-- the base working directory for oltp and batch report generation -->
+				<reports.directory>${external.work.directory}/reports</reports.directory>
+			</properties>
+		</profile>
 	</profiles>
 
 	<build>

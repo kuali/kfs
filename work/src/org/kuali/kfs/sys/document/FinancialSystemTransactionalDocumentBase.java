@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.sys.document;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -30,6 +32,7 @@ import org.kuali.rice.kew.api.WorkflowRuntimeException;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteLevelChange;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.document.TransactionalDocumentBase;
@@ -47,6 +50,8 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
     private static transient BusinessObjectService businessObjectService;
     private static transient FinancialSystemDocumentService financialSystemDocumentService;
     private static transient ParameterService parameterService;
+
+    private transient Map<String,Boolean> canEditCache = new HashMap<String,Boolean>();
 
     protected FinancialSystemDocumentHeader documentHeader;
 
@@ -218,7 +223,26 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
     public void toCopy() throws WorkflowException, IllegalStateException {
         FinancialSystemDocumentHeader oldDocumentHeader = getFinancialSystemDocumentHeader();
         super.toCopy();
-        
+
         getFinancialSystemDocumentService().prepareToCopy(oldDocumentHeader, this);
+    }
+
+    @Override
+    public Boolean canEdit(Person user) {
+        if ( canEditCache == null || user == null ) {
+            return null;
+        }
+        return canEditCache.get(user.getPrincipalId());
+    }
+
+    @Override
+    public void setCanEdit(Person user,Boolean canEdit) {
+        if ( user == null ) {
+            return;
+        }
+        if ( canEditCache == null ) {
+            canEditCache = new HashMap<String, Boolean>();
+        }
+        canEditCache.put(user.getPrincipalId(), canEdit);
     }
 }

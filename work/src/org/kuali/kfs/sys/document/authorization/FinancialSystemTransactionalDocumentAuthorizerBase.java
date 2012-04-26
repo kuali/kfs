@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,6 +21,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.PermissionTemplate;
+import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase;
 import org.kuali.rice.krad.document.Document;
@@ -31,25 +32,25 @@ public class FinancialSystemTransactionalDocumentAuthorizerBase extends Transact
 
     /**
      * Overridden to check if document error correction can be allowed here.
-     * 
+     *
      * @see org.kuali.rice.krad.document.authorization.DocumentAuthorizerBase#getDocumentActions(org.kuali.rice.krad.document.Document,
      *      org.kuali.rice.kim.api.identity.Person, java.util.Set)
      */
     @Override
     public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActionsFromPresentationController) {
         Set<String> documentActionsToReturn = super.getDocumentActions(document, user, documentActionsFromPresentationController);
-        
-        if (documentActionsToReturn.contains(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT) 
-                && !(documentActionsToReturn.contains(KRADConstants.KUALI_ACTION_CAN_COPY) 
+
+        if (documentActionsToReturn.contains(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT)
+                && !(documentActionsToReturn.contains(KRADConstants.KUALI_ACTION_CAN_COPY)
                 && canErrorCorrect(document, user))) {
             documentActionsToReturn.remove(KFSConstants.KFS_ACTION_CAN_ERROR_CORRECT);
         }
-        
-        if (documentActionsToReturn.contains(KFSConstants.KFS_ACTION_CAN_EDIT_BANK) 
+
+        if (documentActionsToReturn.contains(KFSConstants.KFS_ACTION_CAN_EDIT_BANK)
                 && !canEditBankCode(document, user)) {
             documentActionsToReturn.remove(KFSConstants.KFS_ACTION_CAN_EDIT_BANK);
         }
-        
+
         // CSU 6702 BEGIN
         // rSmart-jkneal-KFSCSU-199-begin mod for adding accounting period edit action
         if (documentActionsToReturn.contains(KRADConstants.KUALI_ACTION_CAN_EDIT) && documentActionsToReturn.contains(KFSConstants.YEAR_END_ACCOUNTING_PERIOD_VIEW_DOCUMENT_ACTION)) {
@@ -69,7 +70,7 @@ public class FinancialSystemTransactionalDocumentAuthorizerBase extends Transact
 
     /**
      * Determines if the KIM permission is available to error correct the given document
-     * 
+     *
      * @param document the document to correct
      * @param user the user to check error correction for
      * @return true if the user can error correct, false otherwise
@@ -77,15 +78,29 @@ public class FinancialSystemTransactionalDocumentAuthorizerBase extends Transact
     public boolean canErrorCorrect(Document document, Person user) {
         return isAuthorizedByTemplate(document, KFSConstants.CoreModuleNamespaces.KFS, PermissionTemplate.ERROR_CORRECT_DOCUMENT.name, user.getPrincipalId());
     }
-    
+
     /**
      * Determines if the KIM permission is available to error correct the given document
-     * 
+     *
      * @param document the document to correct
      * @param user the user to check error correction for
      * @return true if the user can error correct, false otherwise
      */
     public boolean canEditBankCode(Document document, Person user) {
         return isAuthorizedByTemplate(document, KFSConstants.CoreModuleNamespaces.KFS, PermissionTemplate.EDIT_BANK_CODE.name, user.getPrincipalId());
+    }
+
+    @Override
+    public boolean canEdit(Document document, Person user) {
+        if ( document instanceof FinancialSystemTransactionalDocument ) {
+            if ( ((FinancialSystemTransactionalDocument)document).canEdit(user) != null ) {
+                return ((FinancialSystemTransactionalDocument)document).canEdit(user);
+            } else {
+                boolean canEdit = super.canEdit(document, user);
+                ((FinancialSystemTransactionalDocument)document).setCanEdit(user, canEdit);
+                return canEdit;
+            }
+        }
+        return super.canEdit(document, user);
     }
 }

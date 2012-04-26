@@ -179,6 +179,11 @@
         <property name="postalCodeValidationService" ref="postalCodeValidationService" />
 	</bean>
 
+
+	<bean id="PurchasingAccountsPayable-processRequestorPhoneAndEmailAddressValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingProcessRequestorPhoneAndEmailAddressValidation" abstract="true">
+	</bean>
+
+
 	<bean id="Purchasing-capitalAssetValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingCapitalAssetValidation" abstract="true">
 		<property name="purchasingService" ref="purchasingService" />
 		<property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />

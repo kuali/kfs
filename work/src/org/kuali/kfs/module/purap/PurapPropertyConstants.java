@@ -142,6 +142,8 @@ public class PurapPropertyConstants {
     public static final String PURCHASE_ORDER_IDENTIFIER = "purchaseOrderIdentifier";
 
     // REQUISITION DOCUMENT
+    public static final String REQUESTOR_PERSON_PHONE_NUMBER = "requestorPersonPhoneNumber";
+    public static final String REQUESTOR_PERSON_EMAIL_ADDRESS = "requestorPersonEmailAddress";
 
     // PURCHASE ORDER DOCUMENT
     public static final String PURCHASE_ORDER_CURRENT_INDICATOR = "purchaseOrderCurrentIndicator";

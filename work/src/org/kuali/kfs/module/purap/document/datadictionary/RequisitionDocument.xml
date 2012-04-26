@@ -790,6 +790,9 @@
     <property name="label" value="Requestor Phone"/>
     <property name="shortLabel" value="Phone Number"/>
     <property name="required" value="true"/>
+    <property name="validationPattern">
+      <bean parent="PhoneNumberValidationPattern"/>
+    </property>
   </bean>
   <bean id="RequisitionDocument-requisitionSourceCode" parent="RequisitionDocument-requisitionSourceCode-parentBean"/>
 

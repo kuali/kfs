@@ -42,6 +42,8 @@ public class PurapKeyConstants {
     public static final String ERROR_RECURRING_TYPE_NO_DATE = "errors.recurring.dates";
     public static final String ERROR_POSTAL_CODE_INVALID = "errors.postalCode.invalid";
     public static final String ERROR_FAX_NUMBER_INVALID = "errors.faxNumber.invalid";
+    public static final String ERROR_INVALID_PH0NE_NUMBER = "errors.invalid.requestorPhoneNumber";
+    public static final String ERROR_INVALID_EMAIL_ADDRESS = "errors.invalid.requestorEmailAddress";
     public static final String ERROR_FAX_NUMBER_PO_TRANSMISSION_TYPE = "error.faxNumber.PoTransmissionType";
     public static final String ERROR_INVALID_VENDOR_TYPE = "error.vendorType.invalid";
     public static final String ERROR_DEBARRED_VENDOR = "error.debarred.vendor";

@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,9 +15,6 @@
  */
 package org.kuali.kfs.sec.businessobject;
 
-import java.util.LinkedHashMap;
-
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
@@ -27,17 +24,17 @@ import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
  */
 public class AccessSecuritySimulation extends TransientBusinessObjectBase {
     // search fields
-    private String principalId;
-    private String templateId;
-    private String attributeName;
-    private String financialSystemDocumentTypeCode;
-    private String inquiryNamespaceCode;
+    protected String principalId;
+    protected String templateId;
+    protected String attributeName;
+    protected String financialSystemDocumentTypeCode;
+    protected String inquiryNamespaceCode;
 
     // return fields
-    private String attributeValue;
-    private String attributeValueName;
+    protected String attributeValue;
+    protected String attributeValueName;
 
-    private Person securityPerson;
+    protected Person securityPerson;
 
     public AccessSecuritySimulation() {
 
@@ -46,7 +43,7 @@ public class AccessSecuritySimulation extends TransientBusinessObjectBase {
 
     /**
      * Gets the attributeName attribute.
-     * 
+     *
      * @return Returns the attributeName.
      */
     public String getAttributeName() {
@@ -56,7 +53,7 @@ public class AccessSecuritySimulation extends TransientBusinessObjectBase {
 
     /**
      * Sets the attributeName attribute value.
-     * 
+     *
      * @param attributeName The attributeName to set.
      */
     public void setAttributeName(String attributeName) {
@@ -66,7 +63,7 @@ public class AccessSecuritySimulation extends TransientBusinessObjectBase {
 
     /**
      * Gets the principalId attribute.
-     * 
+     *
      * @return Returns the principalId.
      */
     public String getPrincipalId() {
@@ -76,7 +73,7 @@ public class AccessSecuritySimulation extends TransientBusinessObjectBase {
 
     /**
      * Sets the principalId attribute value.
-     * 
+     *
      * @param principalId The principalId to set.
      */
     public void setPrincipalId(String principalId) {
@@ -86,7 +83,7 @@ public class AccessSecuritySimulation extends TransientBusinessObjectBase {
 
     /**
      * Gets the templateId attribute.
-     * 
+     *
      * @return Returns the templateId.
      */
     public String getTemplateId() {
@@ -96,7 +93,7 @@ public class AccessSecuritySimulation extends TransientBusinessObjectBase {
 
     /**
      * Sets the templateId attribute value.
-     * 
+     *
      * @param templateId The templateId to set.
      */
     public void setTemplateId(String templateId) {
@@ -106,7 +103,7 @@ public class AccessSecuritySimulation extends TransientBusinessObjectBase {
 
     /**
      * Gets the financialSystemDocumentTypeCode attribute.
-     * 
+     *
      * @return Returns the financialSystemDocumentTypeCode.
      */
     public String getFinancialSystemDocumentTypeCode() {
@@ -116,7 +113,7 @@ public class AccessSecuritySimulation extends TransientBusinessObjectBase {
 
     /**
      * Sets the financialSystemDocumentTypeCode attribute value.
-     * 
+     *
      * @param financialSystemDocumentTypeCode The financialSystemDocumentTypeCode to set.
      */
     public void setFinancialSystemDocumentTypeCode(String financialSystemDocumentTypeCode) {
@@ -126,7 +123,7 @@ public class AccessSecuritySimulation extends TransientBusinessObjectBase {
 
     /**
      * Gets the inquiryNamespaceCode attribute.
-     * 
+     *
      * @return Returns the inquiryNamespaceCode.
      */
     public String getInquiryNamespaceCode() {
@@ -136,7 +133,7 @@ public class AccessSecuritySimulation extends TransientBusinessObjectBase {
 
     /**
      * Sets the inquiryNamespaceCode attribute value.
-     * 
+     *
      * @param inquiryNamespaceCode The inquiryNamespaceCode to set.
      */
     public void setInquiryNamespaceCode(String inquiryNamespaceCode) {
@@ -146,7 +143,7 @@ public class AccessSecuritySimulation extends TransientBusinessObjectBase {
 
     /**
      * Gets the attributeValue attribute.
-     * 
+     *
      * @return Returns the attributeValue.
      */
     public String getAttributeValue() {
@@ -156,7 +153,7 @@ public class AccessSecuritySimulation extends TransientBusinessObjectBase {
 
     /**
      * Sets the attributeValue attribute value.
-     * 
+     *
      * @param attributeValue The attributeValue to set.
      */
     public void setAttributeValue(String attributeValue) {
@@ -166,7 +163,7 @@ public class AccessSecuritySimulation extends TransientBusinessObjectBase {
 
     /**
      * Gets the attributeValueName attribute.
-     * 
+     *
      * @return Returns the attributeValueName.
      */
     public String getAttributeValueName() {
@@ -176,7 +173,7 @@ public class AccessSecuritySimulation extends TransientBusinessObjectBase {
 
     /**
      * Sets the attributeValueName attribute value.
-     * 
+     *
      * @param attributeValueName The attributeValueName to set.
      */
     public void setAttributeValueName(String attributeValueName) {
@@ -185,7 +182,7 @@ public class AccessSecuritySimulation extends TransientBusinessObjectBase {
 
     /**
      * Gets the securityPerson attribute.
-     * 
+     *
      * @return Returns the securityPerson.
      */
     public Person getSecurityPerson() {
@@ -196,21 +193,11 @@ public class AccessSecuritySimulation extends TransientBusinessObjectBase {
 
     /**
      * Sets the securityPerson attribute value.
-     * 
+     *
      * @param securityPerson The securityPerson to set.
      */
     public void setSecurityPerson(Person securityPerson) {
         this.securityPerson = securityPerson;
-    }
-
-
-    
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-
-        m.put(KFSPropertyConstants.PRINCIPAL_ID, this.principalId);
-
-        return m;
     }
 
 }

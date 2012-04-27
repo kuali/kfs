@@ -323,6 +323,7 @@
 	<bean id="purchaseOrderService" parent="purchaseOrderService-parentBean" />		
 	<bean id="purchaseOrderService-parentBean" class="org.kuali.kfs.module.purap.document.service.impl.PurchaseOrderServiceImpl" abstract="true">
         <property name="b2bPurchaseOrderService" ref="b2bPurchaseOrderService" />
+        <property name="requisitionService" ref="requisitionService"/>
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="dateTimeService" ref="dateTimeService" />
         <property name="documentService" ref="documentService" />

@@ -62,8 +62,10 @@ import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.PersistenceService;
+import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.springframework.util.AutoPopulatingList;
 
 /**
  * Business rules applicable to VendorDetail document.
@@ -988,7 +990,8 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
             GlobalVariables.getMessageMap().addToErrorPath(errorPath);
 
             this.getDictionaryValidationService().validateBusinessObject(contact);
-            if (!GlobalVariables.getMessageMap().hasErrors()) {
+            Map<String, AutoPopulatingList<ErrorMessage>> errors = GlobalVariables.getMessageMap().getErrorMessages();
+            if ((errors != null ) && (!errors.isEmpty())) {
                 valid = false;
             }
             i++;

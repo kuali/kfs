@@ -406,7 +406,7 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
         else if (note.length() <= 10) {
             note = "Document created by batch process.  " + note;
         }
-        document.getDocumentHeader().setExplanation(note);
+        document.setCustomerNote(note);
 
         //  route the document
         documentService.routeDocument(document, "Routed by Customer Invoice Writeoff Document Batch Service", null);

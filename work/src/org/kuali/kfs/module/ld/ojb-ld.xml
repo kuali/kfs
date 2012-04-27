@@ -88,11 +88,7 @@
 		<field-descriptor name="laborBenefitRateCategoryCode"
 			column="LBR_BEN_RT_CAT_CD" jdbc-type="VARCHAR"
 			index="true" />
-		<field-descriptor name="laborBenefitRateCategoryCode"
-			column="LBR_BEN_RT_CAT_CD" jdbc-type="VARCHAR"  />
 		<field-descriptor name="accountCodeOffset" column="OFFSET_ACCOUNT_NBR"
-			jdbc-type="VARCHAR" />
-		<field-descriptor name="objectCodeOffset" column="OFFSET_FIN_OBJECT_CD"
 			jdbc-type="VARCHAR" />
 
 		<reference-descriptor name="positionFringeBenefitObject"

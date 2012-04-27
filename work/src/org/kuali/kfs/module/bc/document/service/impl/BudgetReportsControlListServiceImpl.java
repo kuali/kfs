@@ -30,6 +30,7 @@ import org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao;
 import org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.PersistenceService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -39,6 +40,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class BudgetReportsControlListServiceImpl implements BudgetReportsControlListService {
     BudgetReportsControlListDao budgetReportsControlListDao;
     BusinessObjectService businessObjectService;
+    PersistenceService persistenceServiceOjb;
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateReportsControlList(java.lang.String,
@@ -102,6 +104,9 @@ public class BudgetReportsControlListServiceImpl implements BudgetReportsControl
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#retrieveSubFundList(java.lang.String)
      */
     public Collection<BudgetConstructionSubFundPick> retrieveSubFundList(String principalId) {
+        // force OJB to go to DB since it is populated using JDBC
+        persistenceServiceOjb.clearCache();
+
         Map criteria = new HashMap();
         criteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, principalId);
 
@@ -112,6 +117,9 @@ public class BudgetReportsControlListServiceImpl implements BudgetReportsControl
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#retrieveObjectCodeList(java.lang.String)
      */
     public Collection<BudgetConstructionObjectPick> retrieveObjectCodeList(String principalId) {
+        // force OJB to go to DB since it is populated using JDBC
+        persistenceServiceOjb.clearCache();
+
         Map criteria = new HashMap();
         criteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, principalId);
 
@@ -122,6 +130,9 @@ public class BudgetReportsControlListServiceImpl implements BudgetReportsControl
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#retrieveReasonCodeList(java.lang.String)
      */
     public Collection<BudgetConstructionReasonCodePick> retrieveReasonCodeList(String principalId) {
+        // force OJB to go to DB since it is populated using JDBC
+        persistenceServiceOjb.clearCache();
+
         Map criteria = new HashMap();
         criteria.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, principalId);
 
@@ -147,6 +158,25 @@ public class BudgetReportsControlListServiceImpl implements BudgetReportsControl
      */
     public void updateSubFundSelectFlags(List<BudgetConstructionSubFundPick> subFundPickList) {
         budgetReportsControlListDao.updateSubFundSelectFlags(subFundPickList);
+    }
+
+    /**
+     * Gets the persistenceServiceOjb attribute.
+     * 
+     * @return Returns the persistenceServiceOjb
+     */
+    
+    public PersistenceService getPersistenceServiceOjb() {
+        return persistenceServiceOjb;
+    }
+
+    /**	
+     * Sets the persistenceServiceOjb attribute.
+     * 
+     * @param persistenceServiceOjb The persistenceServiceOjb to set.
+     */
+    public void setPersistenceServiceOjb(PersistenceService persistenceServiceOjb) {
+        this.persistenceServiceOjb = persistenceServiceOjb;
     }
 }
 

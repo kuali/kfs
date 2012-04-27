@@ -145,6 +145,9 @@
 		<property name="budgetPullupDao">
 			<ref bean="bcBudgetPullupDao" />
 		</property>
+        <property name="persistenceServiceOjb">
+            <ref bean="persistenceServiceOjb" />
+        </property>
 	</bean>
 
 	<bean id="budgetPushPullService"  parent="budgetPushPullService-parentBean"/>
@@ -448,6 +451,9 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
+        <property name="persistenceServiceOjb">
+            <ref bean="persistenceServiceOjb" />
+        </property>
 	</bean>
 	
 	<bean id="budgetConstructionOrganizationReportsService"  parent="budgetConstructionOrganizationReportsService-parentBean"/>
@@ -524,6 +530,9 @@
     <property name="businessObjectService">
 		<ref bean="businessObjectService" />
     </property>
+    <property name="persistenceServiceOjb">
+        <ref bean="persistenceServiceOjb" />
+    </property>
 	</bean>
 	
 	<bean id="budgetConstructionAccountFundingDetailReportService"  parent="budgetConstructionAccountFundingDetailReportService-parentBean"/>
@@ -598,6 +607,9 @@
     <property name="businessObjectService">
     	<ref bean="businessObjectService" />
     </property>
+    <property name="persistenceServiceOjb">
+        <ref bean="persistenceServiceOjb" />
+    </property>
     </bean>
     
     <bean id="budgetConstructionReasonSummaryReportService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionReasonSummaryReportServiceImpl">
@@ -635,6 +647,9 @@
     <property name="businessObjectService">
     	<ref bean="businessObjectService" />
     </property>
+    <property name="persistenceServiceOjb">
+        <ref bean="persistenceServiceOjb" />
+    </property>
     </bean>
     
     <bean id="budgetConstructionList2PLGReportService"  parent="budgetConstructionList2PLGReportService-parentBean"/>
@@ -650,6 +665,9 @@
     </property>
     <property name="businessObjectService">
     	<ref bean="businessObjectService" />
+    </property>
+    <property name="persistenceServiceOjb">
+        <ref bean="persistenceServiceOjb" />
     </property>
     </bean>
     
@@ -667,6 +685,9 @@
     <property name="businessObjectService">
     	<ref bean="businessObjectService" />
     </property>
+    <property name="persistenceServiceOjb">
+        <ref bean="persistenceServiceOjb" />
+    </property>
     </bean>
     
     <bean id="budgetConstructionReportsServiceHelper"  parent="budgetConstructionReportsServiceHelper-parentBean"/>
@@ -677,6 +698,9 @@
 	<property name="businessObjectService">
 		<ref bean="businessObjectService" />
 		</property>
+    <property name="persistenceServiceOjb">
+        <ref bean="persistenceServiceOjb" />
+        </property>
     </bean>
     
     <bean id="BudgetConstructionDocumentAccountObjectDetailReportService"  parent="BudgetConstructionDocumentAccountObjectDetailReportService-parentBean"/>
@@ -877,6 +901,9 @@
     <bean id="budgetConstructionMonthlyBudgetsCreateDeleteService-parentBean" class="org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionMonthlyBudgetsCreateDeleteServiceImpl" abstract="true">
       <property name="budgetConstructionMonthlyBudgetsCreateDeleteDao">
         <ref bean="budgetConstructionMonthlyBudgetsCreateDeleteDao"/>
+      </property>
+      <property name="persistenceServiceOjb">
+        <ref bean="persistenceServiceOjb" />
       </property>
     </bean>
 

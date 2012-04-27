@@ -28,6 +28,7 @@ import org.kuali.kfs.module.bc.document.dataaccess.BudgetPullupDao;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService;
 import org.kuali.kfs.module.bc.document.service.BudgetOrganizationTreeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.PersistenceService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -41,6 +42,7 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
     private BusinessObjectService businessObjectService;
     private BudgetConstructionDao budgetConstructionDao;
     private BudgetPullupDao budgetPullupDao;
+    private PersistenceService persistenceServiceOjb;
 
     // controls used to trap any runaways due to cycles in the reporting tree
     protected static final int MAXLEVEL = 50;
@@ -107,9 +109,11 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
 
         curLevel++;
         budgetPullupDao.buildSubTree(principalName, bcOrgRpts.getChartOfAccountsCode(), bcOrgRpts.getOrganizationCode(), curLevel);
-//        budgetPullupDao.initPointOfView(principalName, bcOrgRpts.getChartOfAccountsCode(), bcOrgRpts.getOrganizationCode(), curLevel);
-//        budgetPullupDao.insertChildOrgs(principalName, curLevel);
-        
+//      budgetPullupDao.initPointOfView(principalName, bcOrgRpts.getChartOfAccountsCode(), bcOrgRpts.getOrganizationCode(), curLevel);
+//      budgetPullupDao.insertChildOrgs(principalName, curLevel);
+      
+        // force OJB to go to DB since it is populated using JDBC
+        persistenceServiceOjb.clearCache();
     }
 
     /**
@@ -120,6 +124,8 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
 //        budgetConstructionDao.deleteBudgetConstructionPullupByUserId(principalName);
         budgetPullupDao.cleanGeneralLedgerObjectSummaryTable(principalName);
 
+        // force OJB to go to DB since it is populated using JDBC
+        persistenceServiceOjb.clearCache();
     }
 
     /**
@@ -240,6 +246,25 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
      */
     public void setBudgetPullupDao(BudgetPullupDao budgetPullupDao) {
         this.budgetPullupDao = budgetPullupDao;
+    }
+
+    /**
+     * Gets the persistenceServiceOjb attribute.
+     * 
+     * @return Returns the persistenceServiceOjb
+     */
+    
+    public PersistenceService getPersistenceServiceOjb() {
+        return persistenceServiceOjb;
+    }
+
+    /**	
+     * Sets the persistenceServiceOjb attribute.
+     * 
+     * @param persistenceServiceOjb The persistenceServiceOjb to set.
+     */
+    public void setPersistenceServiceOjb(PersistenceService persistenceServiceOjb) {
+        this.persistenceServiceOjb = persistenceServiceOjb;
     }
 
 }

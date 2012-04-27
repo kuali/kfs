@@ -37,6 +37,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.PersistenceService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -50,6 +51,7 @@ public class BudgetConstructionReasonStatisticsReportServiceImpl implements Budg
     private BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
     ConfigurationService kualiConfigurationService;
     BusinessObjectService businessObjectService;
+    PersistenceService persistenceServiceOjb;
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionReasonStatisticsReportService#updateReasonStatisticsReport(java.lang.String,
@@ -76,6 +78,11 @@ public class BudgetConstructionReasonStatisticsReportServiceImpl implements Budg
         Collection<BudgetConstructionOrgReasonStatisticsReport> reportSet = new ArrayList<BudgetConstructionOrgReasonStatisticsReport>();
 
         BudgetConstructionOrgReasonStatisticsReport orgReasonStatisticsReportEntry;
+
+        // force OJB to go to DB since it is populated using JDBC
+        // normally done in BudgetConstructionReportsServiceHelperImpl.getDataForBuildingReports
+        persistenceServiceOjb.clearCache();
+
         // build searchCriteria
         Map<String, Object> searchCriteria = new HashMap<String, Object>();
         searchCriteria.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, principalId);
@@ -234,5 +241,24 @@ public class BudgetConstructionReasonStatisticsReportServiceImpl implements Budg
      */
     public void setBudgetConstructionReportsServiceHelper(BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper) {
         this.budgetConstructionReportsServiceHelper = budgetConstructionReportsServiceHelper;
+    }
+
+    /**
+     * Gets the persistenceServiceOjb attribute.
+     * 
+     * @return Returns the persistenceServiceOjb
+     */
+    
+    public PersistenceService getPersistenceServiceOjb() {
+        return persistenceServiceOjb;
+    }
+
+    /**	
+     * Sets the persistenceServiceOjb attribute.
+     * 
+     * @param persistenceServiceOjb The persistenceServiceOjb to set.
+     */
+    public void setPersistenceServiceOjb(PersistenceService persistenceServiceOjb) {
+        this.persistenceServiceOjb = persistenceServiceOjb;
     }
 }

@@ -21,6 +21,7 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionMonthlyBudgetsCreateDeleteDao;
 import org.kuali.kfs.module.bc.document.service.BudgetConstructionMonthlyBudgetsCreateDeleteService;
 import org.kuali.kfs.module.bc.util.BudgetConstructionUtils;
+import org.kuali.rice.krad.service.PersistenceService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -33,6 +34,7 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteServiceImpl implements 
 
 
     private BudgetConstructionMonthlyBudgetsCreateDeleteDao budgetConstructionMonthlyBudgetsCreateDeleteDao;
+    private PersistenceService persistenceServiceOjb; 
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionMonthlyBudgetsCreateDeleteService#deleteBudgetConstructionMonthlyBudgetsRevenue(java.lang.String,
@@ -41,6 +43,9 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteServiceImpl implements 
     public void deleteBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) throws IOException, NoSuchFieldException {
         String revenueINList = BudgetConstructionUtils.getRevenueINList();
         budgetConstructionMonthlyBudgetsCreateDeleteDao.deleteBudgetConstructionMonthlyBudgetsRevenue(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, revenueINList);
+
+        // force OJB to go to DB since it is populated using JDBC
+        persistenceServiceOjb.clearCache();
     }
 
     /**
@@ -50,6 +55,9 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteServiceImpl implements 
     public void deleteBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) throws IOException, NoSuchFieldException {
         String expenditureINList = BudgetConstructionUtils.getExpenditureINList();
         budgetConstructionMonthlyBudgetsCreateDeleteDao.deleteBudgetConstructionMonthlyBudgetsExpenditure(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, expenditureINList);
+
+        // force OJB to go to DB since it is populated using JDBC
+        persistenceServiceOjb.clearCache();
     }
 
     /**
@@ -59,6 +67,9 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteServiceImpl implements 
     public void spreadBudgetConstructionMonthlyBudgetsRevenue(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) throws IOException, NoSuchFieldException {
         String revenueINList = BudgetConstructionUtils.getRevenueINList();
         budgetConstructionMonthlyBudgetsCreateDeleteDao.spreadBudgetConstructionMonthlyBudgetsRevenue(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, revenueINList);
+
+        // force OJB to go to DB since it is populated using JDBC
+        persistenceServiceOjb.clearCache();
     }
 
     /**
@@ -67,7 +78,12 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteServiceImpl implements 
      */
     public boolean spreadBudgetConstructionMonthlyBudgetsExpenditure(String documentNumber, Integer fiscalYear, String chartCode, String accountNumber, String subAccountNumber) throws IOException, NoSuchFieldException {
         String expenditureINList = BudgetConstructionUtils.getExpenditureINList();
-        return (budgetConstructionMonthlyBudgetsCreateDeleteDao.spreadBudgetConstructionMonthlyBudgetsExpenditure(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, expenditureINList));
+        boolean retVal = (budgetConstructionMonthlyBudgetsCreateDeleteDao.spreadBudgetConstructionMonthlyBudgetsExpenditure(documentNumber, fiscalYear, chartCode, accountNumber, subAccountNumber, expenditureINList));
+
+        // force OJB to go to DB since it is populated using JDBC
+        persistenceServiceOjb.clearCache();
+        
+        return retVal;
     }
 
     /**
@@ -77,5 +93,24 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteServiceImpl implements 
      */
     public void setBudgetConstructionMonthlyBudgetsCreateDeleteDao(BudgetConstructionMonthlyBudgetsCreateDeleteDao budgetConstructionMonthlyBudgetsCreateDeleteDao) {
         this.budgetConstructionMonthlyBudgetsCreateDeleteDao = budgetConstructionMonthlyBudgetsCreateDeleteDao;
+    }
+
+    /**
+     * Gets the persistenceServiceOjb attribute.
+     * 
+     * @return Returns the persistenceServiceOjb
+     */
+    
+    public PersistenceService getPersistenceServiceOjb() {
+        return persistenceServiceOjb;
+    }
+
+    /**	
+     * Sets the persistenceServiceOjb attribute.
+     * 
+     * @param persistenceServiceOjb The persistenceServiceOjb to set.
+     */
+    public void setPersistenceServiceOjb(PersistenceService persistenceServiceOjb) {
+        this.persistenceServiceOjb = persistenceServiceOjb;
     }
 }

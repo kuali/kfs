@@ -38,6 +38,7 @@ import org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsService
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.PersistenceService;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lowagie.text.Document;
@@ -52,6 +53,7 @@ public class BudgetConstructionReportsServiceHelperImpl implements BudgetConstru
 
     BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService;
     BusinessObjectService businessObjectService;
+    PersistenceService persistenceServiceOjb; 
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper#getDataForBuildingReports(java.lang.Class,
@@ -59,6 +61,9 @@ public class BudgetConstructionReportsServiceHelperImpl implements BudgetConstru
      */
     @Transactional
     public Collection getDataForBuildingReports(Class clazz, String principalName, List<String> orderList) {
+
+        // most of the reports use this to get data previously populated by jdbc call - ensure ojb goes to DB
+        persistenceServiceOjb.clearCache();
 
         // build searchCriteria
         Map searchCriteria = new HashMap();
@@ -265,5 +270,26 @@ public class BudgetConstructionReportsServiceHelperImpl implements BudgetConstru
     @NonTransactional
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    /**
+     * Gets the persistenceServiceOjb attribute.
+     * 
+     * @return Returns the persistenceServiceOjb
+     */
+    
+    @NonTransactional
+    public PersistenceService getPersistenceServiceOjb() {
+        return persistenceServiceOjb;
+    }
+
+    /**	
+     * Sets the persistenceServiceOjb attribute.
+     * 
+     * @param persistenceServiceOjb The persistenceServiceOjb to set.
+     */
+    @NonTransactional
+    public void setPersistenceServiceOjb(PersistenceService persistenceServiceOjb) {
+        this.persistenceServiceOjb = persistenceServiceOjb;
     }
 }

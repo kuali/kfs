@@ -126,10 +126,10 @@ if [[ "$RUN_UPGRADE_SCRIPTS" == "true" ]]; then
 EOF
 	) > $TEMP_DIR/liquibase.properties
 	pushd $UPGRADE_SCRIPT_DIR
-	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=rice-client-script.xml update
-	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=master-structure-script.xml update
-	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=master-data-script.xml update
-	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=master-constraint-script.xml update
+	java -jar liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=rice-client-script.xml update
+	java -jar liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=master-structure-script.xml update
+	java -jar liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=master-data-script.xml update
+	java -jar liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=master-constraint-script.xml update
 	popd
 fi
 

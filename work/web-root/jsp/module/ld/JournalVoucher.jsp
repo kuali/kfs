@@ -95,7 +95,7 @@
 								alt="press this button to refresh the page after changing the balance type" />
 						</NOSCRIPT>
 						<kul:lookup
-							boClassName="org.kuali.kfs.coa.businessobject.BalanceTyp"
+							boClassName="org.kuali.kfs.coa.businessobject.BalanceType"
 							fieldConversions="code:selectedBalanceType.code"
 							lookupParameters="selectedBalanceType.code:code" 
 							fieldLabel="${journalVoucherAttributes.balanceTypeCode.label}" />

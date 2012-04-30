@@ -129,7 +129,8 @@
 		<property name="serviceName" value="globalCacheManager" />
 	</bean>
 
-	<cache:annotation-driven cache-manager="kfs.import.globalCacheManager" />
+	<!-- RICE20 removing due to caching issues
+	 <cache:annotation-driven cache-manager="kfs.import.globalCacheManager" /> -->
 
 	<import resource="classpath:org/kuali/rice/core/CommonSpringBeans.xml"/> 
 </beans>

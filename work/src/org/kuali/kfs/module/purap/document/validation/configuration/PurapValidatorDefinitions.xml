@@ -198,6 +198,7 @@
 		<property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
 	</bean>
 
+
 	<bean id="Purchasing-deliveryValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingDeliveryValidation" abstract="true">
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="businessObjectService" ref="businessObjectService" />

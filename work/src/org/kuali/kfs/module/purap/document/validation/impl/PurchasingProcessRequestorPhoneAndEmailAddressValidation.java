@@ -44,8 +44,7 @@ public class PurchasingProcessRequestorPhoneAndEmailAddressValidation extends Pu
 
         //perform the validation against phone Number
         if (StringUtils.isNotBlank(purDocument.getRequestorPersonPhoneNumber())) {
-            PhoneNumberValidationPattern phonePattern = new PhoneNumberValidationPattern();
-            if (!phonePattern.matches(purDocument.getRequestorPersonPhoneNumber())) {
+            if (!validatePhoneNumber(purDocument.getRequestorPersonPhoneNumber())) {
                 valid &= false;
                 errorMap.putError(PurapPropertyConstants.REQUESTOR_PERSON_PHONE_NUMBER, PurapKeyConstants.ERROR_INVALID_PH0NE_NUMBER);
             }
@@ -53,8 +52,7 @@ public class PurchasingProcessRequestorPhoneAndEmailAddressValidation extends Pu
 
         //perform the validation against email address
         if (StringUtils.isNotBlank(purDocument.getRequestorPersonEmailAddress())) {
-            EmailAddressValidationPattern emailAddressPattern = new EmailAddressValidationPattern();
-            if (!emailAddressPattern.matches(purDocument.getRequestorPersonEmailAddress())) {
+            if (!validateEmailAddress(purDocument.getRequestorPersonEmailAddress())) {
                 valid &= false;
                 errorMap.putError(PurapPropertyConstants.REQUESTOR_PERSON_EMAIL_ADDRESS, PurapKeyConstants.ERROR_INVALID_EMAIL_ADDRESS);
             }

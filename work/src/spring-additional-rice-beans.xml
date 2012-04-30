@@ -128,9 +128,8 @@
 	<bean id="kfs.import.globalCacheManager" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
 		<property name="serviceName" value="globalCacheManager" />
 	</bean>
-
-	<!-- RICE20 removing due to caching issues
-	 <cache:annotation-driven cache-manager="kfs.import.globalCacheManager" /> -->
+	
+	<cache:annotation-driven cache-manager="kfs.import.globalCacheManager" />
 
 	<import resource="classpath:org/kuali/rice/core/CommonSpringBeans.xml"/> 
 </beans>

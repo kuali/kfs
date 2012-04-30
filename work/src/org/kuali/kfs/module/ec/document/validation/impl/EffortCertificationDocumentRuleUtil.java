@@ -83,8 +83,10 @@ public class EffortCertificationDocumentRuleUtil {
             detailLine.setEffortCertificationUpdatedOverallPercent(0);
         }
 
-        UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
-        detailLine.setUniversityFiscalYear(universityDateService.getCurrentFiscalYear());
+        if(ObjectUtils.isNull(detailLine.getUniversityFiscalYear())){
+            UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
+            detailLine.setUniversityFiscalYear(universityDateService.getCurrentFiscalYear());
+        }
     }
 
     /**

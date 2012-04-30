@@ -80,7 +80,7 @@ public class UniversityDateServiceImpl implements UniversityDateService {
         if (date == null) {
             throw new IllegalArgumentException("invalid (null) date");
         }
-        UniversityDate uDate = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(UniversityDate.class, KfsDateUtils.clearTimeFields(date));
+        UniversityDate uDate = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(UniversityDate.class, new java.sql.Date( KfsDateUtils.clearTimeFields(date).getTime() ) );
         return (uDate == null) ? null : uDate.getUniversityFiscalYear();
     }
 

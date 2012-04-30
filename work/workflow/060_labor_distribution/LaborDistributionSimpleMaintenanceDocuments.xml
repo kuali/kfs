@@ -100,5 +100,25 @@
         2
       </routingVersion>
     </documentType>
+    <documentType>
+      <name>
+        BNRC
+      </name>
+      <parent>
+        LDSM
+      </parent>
+      <label>
+        Labor Benefit Rate Category
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2FlaborBenefitRateCategory.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>    
   </documentTypes>
 </data>

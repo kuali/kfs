@@ -125,11 +125,11 @@ if [[ "$RUN_UPGRADE_SCRIPTS" == "true" ]]; then
 		password=$DB_PASSWORD		
 EOF
 	) > $TEMP_DIR/liquibase.properties
-	pushd $UPGRADE_SCRIPT_DIR
-	java -jar liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=rice-client-script.xml update
-	java -jar liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=master-structure-script.xml update
-	java -jar liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=master-data-script.xml update
-	java -jar liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=master-constraint-script.xml update
+	pushd $UPGRADE_SCRIPT_DIR/db
+	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=rice-client-script.xml update
+	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=master-structure-script.xml update
+	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=master-data-script.xml update
+	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=master-constraint-script.xml update
 	popd
 fi
 

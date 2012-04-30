@@ -41,6 +41,7 @@
 	<cache name="KFS/Organization" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />
 	<cache name="KFS/SubAccount" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />
   	<cache name="KFS/ProjectCode" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />
+  	<cache name="KFS/CustomerInvoiceDetail" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />  	
 
   	<!-- Cache (replacement for @CacheNoCopy)-->
   	<cache name="KFS/Chart" maxEntriesLocalHeap="10000" /> 

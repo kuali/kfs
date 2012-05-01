@@ -94,15 +94,17 @@ public class PaymentFileServiceImpl extends InitiateDirectoryBase implements Pay
 
                 // process payment file
                 PaymentFileLoad paymentFile = processPaymentFile(paymentInputFileType, incomingFileName, status.getMessageMap());
-                if (paymentFile != null || paymentFile.isPassedValidation()) {
+                if (paymentFile != null && paymentFile.isPassedValidation()) {
                     // load payment data
                     loadPayments(paymentFile, status, incomingFileName);
+
+                    createOutputFile(status, incomingFileName);
                 }else{
                     //if we encounter an error for the payment file, we will remove the .done file so it will not be parse again
+                    
+                    LOG.warn("Encounter a problem while processing payment file: " + incomingFileName + " .  Removing the done file to stop re-process.");
                     removeDoneFile(incomingFileName);
                 }
-
-                createOutputFile(status, incomingFileName);
             }
             catch (RuntimeException e) {
                 LOG.error("Caught exception trying to load payment file: " + incomingFileName, e);

@@ -38,6 +38,27 @@ public interface StatusCodeAndDescriptionForPurapDocumentsDao {
     public Map<String, String> getPurchaseOrderDocumentStatuses();
     
     /**
+     * Retrieves the status code and status description for purchase orders.
+     * 
+     * @return Map<String, String>
+     */
+    public Map<String, String> getPurchaseOrderVendorQuoteDocumentStatuses();
+    
+    /**
+     * Retrieves the status code and status description for vendor credit memos.
+     * 
+     * @return Map<String, String>
+     */
+    public Map<String, String> getVendorCreditMemoDocumentStatuses();
+    
+    /**
+     * Retrieves the status code and status description for payment request.
+     * 
+     * @return Map<String, String>
+     */
+    public Map<String, String> getPaymentRequestDocumentStatuses();
+    
+    /**
      * The workflowdocument is updated with new application document status and
      * gets set with new application document status modified date.
      * 

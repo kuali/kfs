@@ -67,7 +67,62 @@ public class StatusCodeAndDescriptionForPurapDocumentsDaoJdbc extends PlatformAw
         return purchaseOrderStatuses;
     }
     
+    /**
+     * @see org.kuali.kfs.module.purap.dataaccess.StatusCodeAndDescriptionForPurapDocumentsDao#getPurchaseOrderVendorQuoteDocumentStatuses()
+     */
+    public Map<String, String> getPurchaseOrderVendorQuoteDocumentStatuses() {
+        LOG.debug("getPurchaseOrderVendorQuoteDocumentStatuses() started");
+        
+        Map<String, String> purchaseOrderVendorQuoteStatuses = new HashMap<String, String>();
+        
+        SqlRowSet statusesRowSet = getJdbcTemplate().queryForRowSet("SELECT * FROM PUR_PO_QT_STAT_T ORDER BY PO_QT_STAT_CD"); 
+
+        while (statusesRowSet.next()) {
+            purchaseOrderVendorQuoteStatuses.put(statusesRowSet.getString("PO_QT_STAT_CD"), statusesRowSet.getString("PO_QT_STAT_DESC"));
+        }
+        
+        LOG.debug("getPurchaseOrderVendorQuoteDocumentStatuses() exited");
+        
+        return purchaseOrderVendorQuoteStatuses;
+    }
     
+    /**
+     * @see org.kuali.kfs.module.purap.dataaccess.StatusCodeAndDescriptionForPurapDocumentsDao#getPaymentRequestDocumentStatuses()
+     */
+    public Map<String, String> getPaymentRequestDocumentStatuses() {
+        LOG.debug("getPaymentRequestDocumentStatuses() started");
+        
+        Map<String, String> paymentRequestStatuses = new HashMap<String, String>();
+        
+        SqlRowSet statusesRowSet = getJdbcTemplate().queryForRowSet("SELECT * FROM AP_PMT_RQST_STAT_T ORDER BY PMT_RQST_STAT_CD"); 
+
+        while (statusesRowSet.next()) {
+            paymentRequestStatuses.put(statusesRowSet.getString("PMT_RQST_STAT_CD"), statusesRowSet.getString("PMT_RQST_STAT_DESC"));
+        }
+        
+        LOG.debug("getPaymentRequestDocumentStatuses() exited");
+        
+        return paymentRequestStatuses;
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.purap.dataaccess.StatusCodeAndDescriptionForPurapDocumentsDao#getVendorCreditMemoDocumentStatuses()
+     */
+    public Map<String, String> getVendorCreditMemoDocumentStatuses() {
+        LOG.debug("getVendorCreditMemoDocumentStatuses() started");
+        
+        Map<String, String> vendorCreditMemoStatuses = new HashMap<String, String>();
+        
+        SqlRowSet statusesRowSet = getJdbcTemplate().queryForRowSet("SELECT * FROM AP_CRDT_MEMO_STAT_T ORDER BY CRDT_MEMO_STAT_CD"); 
+
+        while (statusesRowSet.next()) {
+            vendorCreditMemoStatuses.put(statusesRowSet.getString("CRDT_MEMO_STAT_CD"), statusesRowSet.getString("CRDT_MEMO_STAT_DESC"));
+        }
+        
+        LOG.debug("getVendorCreditMemoDocumentStatuses() exited");
+        
+        return vendorCreditMemoStatuses;
+    }
     
     /**
      * @see org.kuali.kfs.module.purap.dataaccess.StatusCodeAndDescriptionForPurapDocumentsDao#saveMigratedApplicationDocumentStatuses(org.kuali.rice.kew.api.WorkflowDocument, java.lang.String)

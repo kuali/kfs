@@ -20,9 +20,12 @@ import java.util.List;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.kfs.module.purap.dataaccess.PurapDocumentsStatusCodeMigrationDao;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 /**
@@ -57,5 +60,44 @@ public class PurapDocumentsStatusCodeMigrationDaoOjb extends PlatformAwareDaoBas
         QueryByCriteria query = QueryFactory.newQuery(PurchaseOrderDocument.class, criteria);
         return (List<PurchaseOrderDocument>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
+    /**
+     * @see org.kuali.kfs.module.purap.dataaccess.PurapDocumentsStatusCodeMigrationDao#getPurchaseOrderVendorQuoteDocumentsForStatusCodeMigration()
+     */
+    public List<PurchaseOrderVendorQuote> getPurchaseOrderVendorQuoteDocumentsForStatusCodeMigration() {
+        LOG.debug("getPurchaseOrderVendorQuoteDocumentsForStatusCodeMigration() started");
+        
+        Criteria criteria = new Criteria();
+        criteria.addNotNull("PO_QT_STAT_CD");
+        
+        QueryByCriteria query = QueryFactory.newQuery(PurchaseOrderVendorQuote.class, criteria);
+        return (List<PurchaseOrderVendorQuote>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.purap.dataaccess.PurapDocumentsStatusCodeMigrationDao#getPaymentRequestDocumentsForStatusCodeMigration()
+     */
+    public List<PaymentRequestDocument> getPaymentRequestDocumentsForStatusCodeMigration() {
+        LOG.debug("getPaymentRequestDocumentsForStatusCodeMigration() started");
+        
+        Criteria criteria = new Criteria();
+        criteria.addNotNull("PMT_RQST_STAT_CD");
+        
+        QueryByCriteria query = QueryFactory.newQuery(PaymentRequestDocument.class, criteria);
+        return (List<PaymentRequestDocument>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.purap.dataaccess.PurapDocumentsStatusCodeMigrationDao#getVendorCreditMemoDocumentsForStatusCodeMigration()
+     */
+    public List<VendorCreditMemoDocument> getVendorCreditMemoDocumentsForStatusCodeMigration() {
+        LOG.debug("getVendorCreditMemoDocumentsForStatusCodeMigration() started");
+        
+        Criteria criteria = new Criteria();
+        criteria.addNotNull("CRDT_MEMO_STAT_CD");
+        
+        QueryByCriteria query = QueryFactory.newQuery(VendorCreditMemoDocument.class, criteria);
+        return (List<VendorCreditMemoDocument>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
+    }
+    
     
 }   

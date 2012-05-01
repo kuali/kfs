@@ -17,8 +17,11 @@ package org.kuali.kfs.module.purap.dataaccess;
 
 import java.util.List;
 
+import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
+import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 
 /**
  * An interface to methods needed to join transaction related tables to create records
@@ -38,5 +41,27 @@ public interface PurapDocumentsStatusCodeMigrationDao {
      * @return purchase order documents where status code exists.
      */
     public List<PurchaseOrderDocument> getPurchaseOrderDocumentsForStatusCodeMigration();
+    
+    /**
+     * Retrieves the purchase order vendor quote documents to migrate status code to workflow side
+     * 
+     * @return purchase order vendor quote documents where status code exists.
+     */
+    public List<PurchaseOrderVendorQuote> getPurchaseOrderVendorQuoteDocumentsForStatusCodeMigration();
+    
+    /**
+     * Retrieves the payment request documents to migrate status code to workflow side
+     * 
+     * @return payment request documents where status code exists.
+     */
+    public List<PaymentRequestDocument> getPaymentRequestDocumentsForStatusCodeMigration();
+    
+    /**
+     * Retrieves the vendor credit memo documents to migrate status code to workflow side
+     * 
+     * @return vendor credit memo documents where status code exists.
+     */
+    public List<VendorCreditMemoDocument> getVendorCreditMemoDocumentsForStatusCodeMigration();
+    
     
 }

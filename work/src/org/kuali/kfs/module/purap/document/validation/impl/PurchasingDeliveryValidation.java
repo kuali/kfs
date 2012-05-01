@@ -30,7 +30,7 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class PurchasingDeliveryValidation extends PurchasingAccountsPayableProcessVendorValidation {
+public class PurchasingDeliveryValidation extends PurchasingProcessRequestorPhoneAndEmailAddressValidation {
 
     protected DateTimeService dateTimeService;
     protected BusinessObjectService businessObjectService;

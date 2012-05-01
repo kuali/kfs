@@ -102,7 +102,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
                 rawValues = SpringContext.getBean(SegmentedLookupResultsService.class).retrieveSelectedResultBOs(lookupResultsSequenceNumber, segmentedSelection.keySet(), Asset.class, GlobalVariables.getUserSession().getPerson().getPrincipalId());
             }
             
-            if (rawValues.size() == 0) {
+            if (rawValues == null || rawValues.size() == 0) {
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
             

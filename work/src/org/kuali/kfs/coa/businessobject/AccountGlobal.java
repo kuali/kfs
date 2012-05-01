@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,10 +19,13 @@ package org.kuali.kfs.coa.businessobject;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.integration.ld.LaborBenefitRateCategory;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.DocumentHeader;
@@ -32,14 +35,14 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
 import org.kuali.rice.krad.service.PersistenceStructureService;
-import org.kuali.rice.location.api.postalcode.PostalCodeService;
-import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.location.api.LocationConstants;
 import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
 import org.kuali.rice.location.framework.state.StateEbo;
 
 /**
- * 
+ *
  */
 public class AccountGlobal extends PersistableBusinessObjectBase implements GlobalBusinessObject {
 
@@ -96,6 +99,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
     /**
      * @see org.kuali.rice.krad.document.GlobalBusinessObject#getGlobalChangesToDelete()
      */
+    @Override
     public List<PersistableBusinessObject> generateDeactivationsToPersist() {
         return null;
     }
@@ -103,6 +107,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
     /**
      * @see org.kuali.rice.krad.document.GlobalBusinessObject#applyGlobalChanges(org.kuali.rice.krad.bo.BusinessObject)
      */
+    @Override
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
 
 
@@ -232,25 +237,27 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Gets the documentNumber attribute.
-     * 
+     *
      * @return Returns the documentNumber
      */
+    @Override
     public String getDocumentNumber() {
         return documentNumber;
     }
 
     /**
      * Sets the documentNumber attribute.
-     * 
+     *
      * @param documentNumber The documentNumber to set.
      */
+    @Override
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
     }
 
     /**
      * Gets the chartOfAccountsCode attribute.
-     * 
+     *
      * @return Returns the chartOfAccountsCode.
      */
     public String getChartOfAccountsCode() {
@@ -259,7 +266,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Sets the chartOfAccountsCode attribute value.
-     * 
+     *
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -268,7 +275,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Gets the organizationCode attribute.
-     * 
+     *
      * @return Returns the organizationCode
      */
     public String getOrganizationCode() {
@@ -277,7 +284,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Sets the organizationCode attribute.
-     * 
+     *
      * @param organizationCode The organizationCode to set.
      */
     public void setOrganizationCode(String organizationCode) {
@@ -286,7 +293,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Gets the subFundGroupCode attribute.
-     * 
+     *
      * @return Returns the subFundGroupCode
      */
     public String getSubFundGroupCode() {
@@ -295,7 +302,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Sets the subFundGroupCode attribute.
-     * 
+     *
      * @param subFundGroupCode The subFundGroupCode to set.
      */
     public void setSubFundGroupCode(String subFundGroupCode) {
@@ -304,7 +311,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Gets the accountCityName attribute.
-     * 
+     *
      * @return Returns the accountCityName
      */
     public String getAccountCityName() {
@@ -313,7 +320,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Sets the accountCityName attribute.
-     * 
+     *
      * @param accountCityName The accountCityName to set.
      */
     public void setAccountCityName(String accountCityName) {
@@ -323,7 +330,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Gets the accountStateCode attribute.
-     * 
+     *
      * @return Returns the accountStateCode
      */
     public String getAccountStateCode() {
@@ -332,7 +339,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Sets the accountStateCode attribute.
-     * 
+     *
      * @param accountStateCode The accountStateCode to set.
      */
     public void setAccountStateCode(String accountStateCode) {
@@ -342,7 +349,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Gets the accountStreetAddress attribute.
-     * 
+     *
      * @return Returns the accountStreetAddress
      */
     public String getAccountStreetAddress() {
@@ -351,7 +358,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Sets the accountStreetAddress attribute.
-     * 
+     *
      * @param accountStreetAddress The accountStreetAddress to set.
      */
     public void setAccountStreetAddress(String accountStreetAddress) {
@@ -361,7 +368,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Gets the accountZipCode attribute.
-     * 
+     *
      * @return Returns the accountZipCode
      */
     public String getAccountZipCode() {
@@ -370,7 +377,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Sets the accountZipCode attribute.
-     * 
+     *
      * @param accountZipCode The accountZipCode to set.
      */
     public void setAccountZipCode(String accountZipCode) {
@@ -379,7 +386,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Gets the accountExpirationDate attribute.
-     * 
+     *
      * @return Returns the accountExpirationDate
      */
     public Date getAccountExpirationDate() {
@@ -388,7 +395,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Sets the accountExpirationDate attribute.
-     * 
+     *
      * @param accountExpirationDate The accountExpirationDate to set.
      */
     public void setAccountExpirationDate(Date accountExpirationDate) {
@@ -398,7 +405,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Gets the continuationFinChrtOfAcctCd attribute.
-     * 
+     *
      * @return Returns the continuationFinChrtOfAcctCd
      */
     public String getContinuationFinChrtOfAcctCd() {
@@ -407,7 +414,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Sets the continuationFinChrtOfAcctCd attribute.
-     * 
+     *
      * @param continuationFinChrtOfAcctCd The continuationFinChrtOfAcctCd to set.
      */
     public void setContinuationFinChrtOfAcctCd(String continuationFinChrtOfAcctCd) {
@@ -417,7 +424,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Gets the continuationAccountNumber attribute.
-     * 
+     *
      * @return Returns the continuationAccountNumber
      */
     public String getContinuationAccountNumber() {
@@ -426,7 +433,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Sets the continuationAccountNumber attribute.
-     * 
+     *
      * @param continuationAccountNumber The continuationAccountNumber to set.
      */
     public void setContinuationAccountNumber(String continuationAccountNumber) {
@@ -435,7 +442,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Gets the incomeStreamFinancialCoaCode attribute.
-     * 
+     *
      * @return Returns the incomeStreamFinancialCoaCode
      */
     public String getIncomeStreamFinancialCoaCode() {
@@ -444,7 +451,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Sets the incomeStreamFinancialCoaCode attribute.
-     * 
+     *
      * @param incomeStreamFinancialCoaCode The incomeStreamFinancialCoaCode to set.
      */
     public void setIncomeStreamFinancialCoaCode(String incomeStreamFinancialCoaCode) {
@@ -454,7 +461,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Gets the incomeStreamAccountNumber attribute.
-     * 
+     *
      * @return Returns the incomeStreamAccountNumber
      */
     public String getIncomeStreamAccountNumber() {
@@ -463,7 +470,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Sets the incomeStreamAccountNumber attribute.
-     * 
+     *
      * @param incomeStreamAccountNumber The incomeStreamAccountNumber to set.
      */
     public void setIncomeStreamAccountNumber(String incomeStreamAccountNumber) {
@@ -472,7 +479,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Gets the accountSufficientFundsCode attribute.
-     * 
+     *
      * @return Returns the accountSufficientFundsCode
      */
     public String getAccountSufficientFundsCode() {
@@ -481,7 +488,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Sets the accountSufficientFundsCode attribute.
-     * 
+     *
      * @param accountSufficientFundsCode The accountSufficientFundsCode to set.
      */
     public void setAccountSufficientFundsCode(String accountSufficientFundsCode) {
@@ -491,7 +498,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Gets the pendingAcctSufficientFundsIndicator attribute.
-     * 
+     *
      * @return Returns the pendingAcctSufficientFundsIndicator
      */
     public Boolean getPendingAcctSufficientFundsIndicator() {
@@ -501,7 +508,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Sets the pendingAcctSufficientFundsIndicator attribute.
-     * 
+     *
      * @param pendingAcctSufficientFundsIndicator The pendingAcctSufficientFundsIndicator to set.
      */
     public void setPendingAcctSufficientFundsIndicator(Boolean pendingAcctSufficientFundsIndicator) {
@@ -510,7 +517,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Gets the accountCfdaNumber attribute.
-     * 
+     *
      * @return Returns the accountCfdaNumber
      */
     public String getAccountCfdaNumber() {
@@ -519,7 +526,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Sets the accountCfdaNumber attribute.
-     * 
+     *
      * @param accountCfdaNumber The accountCfdaNumber to set.
      */
     public void setAccountCfdaNumber(String accountCfdaNumber) {
@@ -528,7 +535,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Gets the accountSearchCriteriaTxt attribute.
-     * 
+     *
      * @return Returns the accountSearchCriteriaTxt
      */
     public String getAccountSearchCriteriaTxt() {
@@ -537,7 +544,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Sets the accountSearchCriteriaTxt attribute.
-     * 
+     *
      * @param accountSearchCriteriaTxt The accountSearchCriteriaTxt to set.
      */
     public void setAccountSearchCriteriaTxt(String accountSearchCriteriaTxt) {
@@ -547,7 +554,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Gets the financialDocument attribute.
-     * 
+     *
      * @return Returns the financialDocument
      */
     public DocumentHeader getFinancialDocument() {
@@ -556,7 +563,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Sets the financialDocument attribute.
-     * 
+     *
      * @param financialDocument The financialDocument to set.
      * @deprecated
      */
@@ -608,7 +615,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Gets the continuationFinChrtOfAcct attribute.
-     * 
+     *
      * @return Returns the continuationFinChrtOfAcct
      */
     public Chart getContinuationFinChrtOfAcct() {
@@ -617,7 +624,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Sets the continuationFinChrtOfAcct attribute.
-     * 
+     *
      * @param continuationFinChrtOfAcct The continuationFinChrtOfAcct to set.
      * @deprecated
      */
@@ -627,7 +634,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Gets the continuationAccount attribute.
-     * 
+     *
      * @return Returns the continuationAccount
      */
     public Account getContinuationAccount() {
@@ -636,7 +643,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Sets the continuationAccount attribute.
-     * 
+     *
      * @param continuationAccount The continuationAccount to set.
      * @deprecated
      */
@@ -646,7 +653,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Gets the incomeStreamAccount attribute.
-     * 
+     *
      * @return Returns the incomeStreamAccount
      */
     public Account getIncomeStreamAccount() {
@@ -655,7 +662,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Sets the incomeStreamAccount attribute.
-     * 
+     *
      * @param incomeStreamAccount The incomeStreamAccount to set.
      * @deprecated
      */
@@ -665,7 +672,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Gets the incomeStreamFinancialCoa attribute.
-     * 
+     *
      * @return Returns the incomeStreamFinancialCoa
      */
     public Chart getIncomeStreamFinancialCoa() {
@@ -674,7 +681,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Sets the incomeStreamFinancialCoa attribute.
-     * 
+     *
      * @param incomeStreamFinancialCoa The incomeStreamFinancialCoa to set.
      * @deprecated
      */
@@ -698,7 +705,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Gets the financialHigherEdFunctionCd attribute.
-     * 
+     *
      * @return Returns the financialHigherEdFunctionCd.
      */
     public String getFinancialHigherEdFunctionCd() {
@@ -707,7 +714,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Sets the financialHigherEdFunctionCd attribute value.
-     * 
+     *
      * @param financialHigherEdFunctionCd The financialHigherEdFunctionCd to set.
      */
     public void setFinancialHigherEdFunctionCd(String financialHigherEdFunctionCd) {
@@ -716,7 +723,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Gets the accountFiscalOfficerSystemIdentifier attribute.
-     * 
+     *
      * @return Returns the accountFiscalOfficerSystemIdentifier.
      */
     public String getAccountFiscalOfficerSystemIdentifier() {
@@ -725,7 +732,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Sets the accountFiscalOfficerSystemIdentifier attribute value.
-     * 
+     *
      * @param accountFiscalOfficerSystemIdentifier The accountFiscalOfficerSystemIdentifier to set.
      */
     public void setAccountFiscalOfficerSystemIdentifier(String accountFiscalOfficerSystemIdentifier) {
@@ -734,7 +741,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Gets the accountManagerSystemIdentifier attribute.
-     * 
+     *
      * @return Returns the accountManagerSystemIdentifier.
      */
     public String getAccountManagerSystemIdentifier() {
@@ -743,7 +750,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Sets the accountManagerSystemIdentifier attribute value.
-     * 
+     *
      * @param accountManagerSystemIdentifier The accountManagerSystemIdentifier to set.
      */
     public void setAccountManagerSystemIdentifier(String accountManagerSystemIdentifier) {
@@ -752,7 +759,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Gets the accountsSupervisorySystemsIdentifier attribute.
-     * 
+     *
      * @return Returns the accountsSupervisorySystemsIdentifier.
      */
     public String getAccountsSupervisorySystemsIdentifier() {
@@ -761,7 +768,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Sets the accountsSupervisorySystemsIdentifier attribute value.
-     * 
+     *
      * @param accountsSupervisorySystemsIdentifier The accountsSupervisorySystemsIdentifier to set.
      */
     public void setAccountsSupervisorySystemsIdentifier(String accountsSupervisorySystemsIdentifier) {
@@ -770,7 +777,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Gets the chartOfAccounts attribute.
-     * 
+     *
      * @return Returns the chartOfAccounts.
      */
     public Chart getChartOfAccounts() {
@@ -779,7 +786,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Sets the chartOfAccounts attribute value.
-     * 
+     *
      * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated
      */
@@ -789,17 +796,31 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Gets the accountState attribute.
-     * 
+     *
      * @return Returns the accountState.
      */
     public StateEbo getAccountState() {
-        accountState = (StringUtils.isBlank(accountStateCode))?null:( accountState == null||!StringUtils.equals( accountState.getCode(),accountStateCode))? StateEbo.from( SpringContext.getBean(StateService.class).getState("US"/*REFACTORME*/,accountStateCode)): accountState;
+        if ( StringUtils.isBlank(accountStateCode) || StringUtils.isBlank(KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
+            accountState = null;
+        } else {
+            if ( accountState == null || !StringUtils.equals( accountState.getCode(),accountStateCode) || !StringUtils.equals(accountState.getCountryCode(), KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(StateEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(2);
+                    keys.put(LocationConstants.PrimaryKeyConstants.COUNTRY_CODE, KFSConstants.COUNTRY_CODE_UNITED_STATES);/*RICE20_REFACTORME*/
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, accountStateCode);
+                    accountState = moduleService.getExternalizableBusinessObject(StateEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
         return accountState;
     }
 
     /**
      * Sets the accountState attribute value.
-     * 
+     *
      * @param accountState The accountState to set.
      */
     public void setAccountState(StateEbo accountState) {
@@ -808,7 +829,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Gets the financialHigherEdFunction attribute.
-     * 
+     *
      * @return Returns the financialHigherEdFunction.
      */
     public HigherEducationFunction getFinancialHigherEdFunction() {
@@ -817,7 +838,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Sets the financialHigherEdFunction attribute value.
-     * 
+     *
      * @param financialHigherEdFunction The financialHigherEdFunction to set.
      */
     public void setFinancialHigherEdFunction(HigherEducationFunction financialHigherEdFunction) {
@@ -826,7 +847,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Gets the organization attribute.
-     * 
+     *
      * @return Returns the organization.
      */
     public Organization getOrganization() {
@@ -835,7 +856,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Sets the organization attribute value.
-     * 
+     *
      * @param organization The organization to set.
      */
     public void setOrganization(Organization organization) {
@@ -844,18 +865,31 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Gets the postalZipCode attribute.
-     * 
+     *
      * @return Returns the postalZipCode.
      */
     public PostalCodeEbo getPostalZipCode() {
-        postalZipCode = (accountZipCode == null)?null:( postalZipCode == null || !StringUtils.equals( postalZipCode.getCode(),accountZipCode))?PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode("US"/*RICE20_REFACTORME*/,accountZipCode)): postalZipCode;
-        
+        if ( StringUtils.isBlank(accountZipCode) || StringUtils.isBlank(KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
+            postalZipCode = null;
+        } else {
+            if ( postalZipCode == null || !StringUtils.equals( postalZipCode.getCode(),accountZipCode) || !StringUtils.equals(postalZipCode.getCountryCode(), KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(PostalCodeEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(2);
+                    keys.put(LocationConstants.PrimaryKeyConstants.COUNTRY_CODE, KFSConstants.COUNTRY_CODE_UNITED_STATES);/*RICE20_REFACTORME*/
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, accountZipCode);
+                    postalZipCode = moduleService.getExternalizableBusinessObject(PostalCodeEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
         return postalZipCode;
     }
 
     /**
      * Sets the postalZipCode attribute value.
-     * 
+     *
      * @param postalZipCode The postalZipCode to set.
      */
     public void setPostalZipCode(PostalCodeEbo postalZipCode) {
@@ -864,7 +898,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Gets the subFundGroup attribute.
-     * 
+     *
      * @return Returns the subFundGroup.
      */
     public SubFundGroup getSubFundGroup() {
@@ -873,7 +907,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Sets the subFundGroup attribute value.
-     * 
+     *
      * @param subFundGroup The subFundGroup to set.
      */
     public void setSubFundGroup(SubFundGroup subFundGroup) {
@@ -882,7 +916,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Gets the sufficientFundsCode attribute.
-     * 
+     *
      * @return Returns the sufficientFundsCode.
      */
     public final SufficientFundsCode getSufficientFundsCode() {
@@ -891,7 +925,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Sets the sufficientFundsCode attribute value.
-     * 
+     *
      * @param sufficientFundsCode The sufficientFundsCode to set.
      */
     public final void setSufficientFundsCode(SufficientFundsCode sufficientFundsCode) {
@@ -901,6 +935,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
     /**
      * @see org.kuali.rice.krad.document.GlobalBusinessObject#isPersistable()
      */
+    @Override
     public boolean isPersistable() {
         PersistenceStructureService persistenceStructureService = SpringContext.getBean(PersistenceStructureService.class);
 
@@ -920,6 +955,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
         return true;
     }
 
+    @Override
     public List<? extends GlobalBusinessObjectDetail> getAllDetailObjects() {
         return accountGlobalDetails;
     }
@@ -938,7 +974,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Gets the laborBenefitRateCategoryCode attribute.
-     * 
+     *
      * @return Returns the laborBenefitRateCategoryCode.
      */
     public String getLaborBenefitRateCategoryCode() {
@@ -947,7 +983,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Sets the laborBenefitRateCategoryCode attribute value.
-     * 
+     *
      * @param laborBenefitRateCategoryCode The laborBenefitRateCategoryCode to set.
      */
     public void setLaborBenefitRateCategoryCode(String laborBenefitRateCategoryCode) {
@@ -957,7 +993,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Sets the laborBenefitRateCategory attribute value.
-     * 
+     *
      * @param laborBenefitRateCategory The laborBenefitRateCategory to set.
      */
     public void setLaborBenefitRateCategory(LaborBenefitRateCategory laborBenefitRateCategory) {
@@ -966,7 +1002,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
     /**
      * Gets the laborBenefitRateCategory attribute.
-     * 
+     *
      * @return Returns the laborBenefitRateCategory.
      */
     public LaborBenefitRateCategory getLaborBenefitRateCategory() {

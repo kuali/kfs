@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,16 +17,20 @@
 package org.kuali.kfs.coa.businessobject;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.location.api.campus.CampusService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
+import org.kuali.rice.location.api.LocationConstants;
 import org.kuali.rice.location.framework.campus.CampusEbo;
 
 /**
- * 
+ *
  */
 public class OrganizationExtension extends PersistableBusinessObjectBase {
 
@@ -88,7 +92,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the chartOfAccountsCode attribute.
-     * 
+     *
      * @return Returns the chartOfAccountsCode
      */
     public String getChartOfAccountsCode() {
@@ -97,7 +101,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the chartOfAccountsCode attribute.
-     * 
+     *
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -107,7 +111,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the organizationCode attribute.
-     * 
+     *
      * @return Returns the organizationCode
      */
     public String getOrganizationCode() {
@@ -116,7 +120,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the organizationCode attribute.
-     * 
+     *
      * @param organizationCode The organizationCode to set.
      */
     public void setOrganizationCode(String organizationCode) {
@@ -126,7 +130,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsShortDescription attribute.
-     * 
+     *
      * @return Returns the hrmsShortDescription
      */
     public String getHrmsShortDescription() {
@@ -135,7 +139,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsShortDescription attribute.
-     * 
+     *
      * @param hrmsShortDescription The hrmsShortDescription to set.
      */
     public void setHrmsShortDescription(String hrmsShortDescription) {
@@ -145,7 +149,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsCompany attribute.
-     * 
+     *
      * @return Returns the hrmsCompany
      */
     public String getHrmsCompany() {
@@ -154,7 +158,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsCompany attribute.
-     * 
+     *
      * @param hrmsCompany The hrmsCompany to set.
      */
     public void setHrmsCompany(String hrmsCompany) {
@@ -164,7 +168,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsSetIdLocation attribute.
-     * 
+     *
      * @return Returns the hrmsSetIdLocation
      */
     public String getHrmsSetIdLocation() {
@@ -173,7 +177,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsSetIdLocation attribute.
-     * 
+     *
      * @param hrmsSetIdLocation The hrmsSetIdLocation to set.
      */
     public void setHrmsSetIdLocation(String hrmsSetIdLocation) {
@@ -183,7 +187,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsLocation attribute.
-     * 
+     *
      * @return Returns the hrmsLocation
      */
     public String getHrmsLocation() {
@@ -192,7 +196,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsLocation attribute.
-     * 
+     *
      * @param hrmsLocation The hrmsLocation to set.
      */
     public void setHrmsLocation(String hrmsLocation) {
@@ -202,7 +206,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsTaxLocationCode attribute.
-     * 
+     *
      * @return Returns the hrmsTaxLocationCode
      */
     public String getHrmsTaxLocationCode() {
@@ -211,7 +215,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsTaxLocationCode attribute.
-     * 
+     *
      * @param hrmsTaxLocationCode The hrmsTaxLocationCode to set.
      */
     public void setHrmsTaxLocationCode(String hrmsTaxLocationCode) {
@@ -221,7 +225,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsPersonnelApproverUniversalId attribute.
-     * 
+     *
      * @return Returns the hrmsPersonnelApproverUniversalId
      */
     public String getHrmsPersonnelApproverUniversalId() {
@@ -230,7 +234,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsPersonnelApproverUniversalId attribute.
-     * 
+     *
      * @param hrmsPersonnelApproverUniversalId The hrmsPersonnelApproverUniversalId to set.
      */
     public void setHrmsPersonnelApproverUniversalId(String hrmsPersonnelApproverUniversalId) {
@@ -240,7 +244,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsManagerPositionNumber attribute.
-     * 
+     *
      * @return Returns the hrmsManagerPositionNumber
      */
     public String getHrmsManagerPositionNumber() {
@@ -249,7 +253,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsManagerPositionNumber attribute.
-     * 
+     *
      * @param hrmsManagerPositionNumber The hrmsManagerPositionNumber to set.
      */
     public void setHrmsManagerPositionNumber(String hrmsManagerPositionNumber) {
@@ -259,7 +263,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsBudgetYearEndDate attribute.
-     * 
+     *
      * @return Returns the hrmsBudgetYearEndDate
      */
     public Integer getHrmsBudgetYearEndDate() {
@@ -268,7 +272,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsBudgetYearEndDate attribute.
-     * 
+     *
      * @param hrmsBudgetYearEndDate The hrmsBudgetYearEndDate to set.
      */
     public void setHrmsBudgetYearEndDate(Integer hrmsBudgetYearEndDate) {
@@ -278,7 +282,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsBudgetLevel attribute.
-     * 
+     *
      * @return Returns the hrmsBudgetLevel
      */
     public String getHrmsBudgetLevel() {
@@ -287,7 +291,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsBudgetLevel attribute.
-     * 
+     *
      * @param hrmsBudgetLevel The hrmsBudgetLevel to set.
      */
     public void setHrmsBudgetLevel(String hrmsBudgetLevel) {
@@ -297,7 +301,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsGeneralLedgerExpense attribute.
-     * 
+     *
      * @return Returns the hrmsGeneralLedgerExpense
      */
     public String getHrmsGeneralLedgerExpense() {
@@ -306,7 +310,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsGeneralLedgerExpense attribute.
-     * 
+     *
      * @param hrmsGeneralLedgerExpense The hrmsGeneralLedgerExpense to set.
      */
     public void setHrmsGeneralLedgerExpense(String hrmsGeneralLedgerExpense) {
@@ -316,7 +320,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsEqualEmploymentOpportunity4Function attribute.
-     * 
+     *
      * @return Returns the hrmsEqualEmploymentOpportunity4Function
      */
     public String getHrmsEqualEmploymentOpportunity4Function() {
@@ -325,7 +329,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsEqualEmploymentOpportunity4Function attribute.
-     * 
+     *
      * @param hrmsEqualEmploymentOpportunity4Function The hrmsEqualEmploymentOpportunity4Function to set.
      */
     public void setHrmsEqualEmploymentOpportunity4Function(String hrmsEqualEmploymentOpportunity4Function) {
@@ -335,7 +339,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsAccidentInsurance attribute.
-     * 
+     *
      * @return Returns the hrmsAccidentInsurance
      */
     public String getHrmsAccidentInsurance() {
@@ -344,7 +348,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsAccidentInsurance attribute.
-     * 
+     *
      * @param hrmsAccidentInsurance The hrmsAccidentInsurance to set.
      */
     public void setHrmsAccidentInsurance(String hrmsAccidentInsurance) {
@@ -354,7 +358,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsSocialInsuranceAccidentNumber attribute.
-     * 
+     *
      * @return Returns the hrmsSocialInsuranceAccidentNumber
      */
     public String getHrmsSocialInsuranceAccidentNumber() {
@@ -363,7 +367,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsSocialInsuranceAccidentNumber attribute.
-     * 
+     *
      * @param hrmsSocialInsuranceAccidentNumber The hrmsSocialInsuranceAccidentNumber to set.
      */
     public void setHrmsSocialInsuranceAccidentNumber(String hrmsSocialInsuranceAccidentNumber) {
@@ -373,7 +377,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsHazard attribute.
-     * 
+     *
      * @return Returns the hrmsHazard
      */
     public String getHrmsHazard() {
@@ -382,7 +386,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsHazard attribute.
-     * 
+     *
      * @param hrmsHazard The hrmsHazard to set.
      */
     public void setHrmsHazard(String hrmsHazard) {
@@ -392,7 +396,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsEstablishmentId attribute.
-     * 
+     *
      * @return Returns the hrmsEstablishmentId
      */
     public String getHrmsEstablishmentId() {
@@ -401,7 +405,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsEstablishmentId attribute.
-     * 
+     *
      * @param hrmsEstablishmentId The hrmsEstablishmentId to set.
      */
     public void setHrmsEstablishmentId(String hrmsEstablishmentId) {
@@ -411,7 +415,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsRiskCode attribute.
-     * 
+     *
      * @return Returns the hrmsRiskCode
      */
     public String getHrmsRiskCode() {
@@ -420,7 +424,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsRiskCode attribute.
-     * 
+     *
      * @param hrmsRiskCode The hrmsRiskCode to set.
      */
     public void setHrmsRiskCode(String hrmsRiskCode) {
@@ -430,7 +434,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsFullTimeEmploymentEditIndicator attribute.
-     * 
+     *
      * @return Returns the hrmsFullTimeEmploymentEditIndicator
      */
     public String getHrmsFullTimeEmploymentEditIndicator() {
@@ -439,7 +443,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsFullTimeEmploymentEditIndicator attribute.
-     * 
+     *
      * @param hrmsFullTimeEmploymentEditIndicator The hrmsFullTimeEmploymentEditIndicator to set.
      */
     public void setHrmsFullTimeEmploymentEditIndicator(String hrmsFullTimeEmploymentEditIndicator) {
@@ -449,7 +453,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsDepartmentTenureFlag attribute.
-     * 
+     *
      * @return Returns the hrmsDepartmentTenureFlag
      */
     public String getHrmsDepartmentTenureFlag() {
@@ -458,7 +462,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsDepartmentTenureFlag attribute.
-     * 
+     *
      * @param hrmsDepartmentTenureFlag The hrmsDepartmentTenureFlag to set.
      */
     public void setHrmsDepartmentTenureFlag(String hrmsDepartmentTenureFlag) {
@@ -468,7 +472,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsTimeAndLaborDistributionInformation attribute.
-     * 
+     *
      * @return Returns the hrmsTimeAndLaborDistributionInformation
      */
     public String getHrmsTimeAndLaborDistributionInformation() {
@@ -477,7 +481,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsTimeAndLaborDistributionInformation attribute.
-     * 
+     *
      * @param hrmsTimeAndLaborDistributionInformation The hrmsTimeAndLaborDistributionInformation to set.
      */
     public void setHrmsTimeAndLaborDistributionInformation(String hrmsTimeAndLaborDistributionInformation) {
@@ -487,7 +491,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsUseBudgetsIndicator attribute.
-     * 
+     *
      * @return Returns the hrmsUseBudgetsIndicator
      */
     public String getHrmsUseBudgetsIndicator() {
@@ -496,7 +500,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsUseBudgetsIndicator attribute.
-     * 
+     *
      * @param hrmsUseBudgetsIndicator The hrmsUseBudgetsIndicator to set.
      */
     public void setHrmsUseBudgetsIndicator(String hrmsUseBudgetsIndicator) {
@@ -506,7 +510,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsUseEncumbrancesIndicator attribute.
-     * 
+     *
      * @return Returns the hrmsUseEncumbrancesIndicator
      */
     public String getHrmsUseEncumbrancesIndicator() {
@@ -515,7 +519,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsUseEncumbrancesIndicator attribute.
-     * 
+     *
      * @param hrmsUseEncumbrancesIndicator The hrmsUseEncumbrancesIndicator to set.
      */
     public void setHrmsUseEncumbrancesIndicator(String hrmsUseEncumbrancesIndicator) {
@@ -525,7 +529,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsUseDistributionIndicator attribute.
-     * 
+     *
      * @return Returns the hrmsUseDistributionIndicator
      */
     public String getHrmsUseDistributionIndicator() {
@@ -534,7 +538,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsUseDistributionIndicator attribute.
-     * 
+     *
      * @param hrmsUseDistributionIndicator The hrmsUseDistributionIndicator to set.
      */
     public void setHrmsUseDistributionIndicator(String hrmsUseDistributionIndicator) {
@@ -544,7 +548,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsBudgetDepartmentId attribute.
-     * 
+     *
      * @return Returns the hrmsBudgetDepartmentId
      */
     public String getHrmsBudgetDepartmentId() {
@@ -553,7 +557,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsBudgetDepartmentId attribute.
-     * 
+     *
      * @param hrmsBudgetDepartmentId The hrmsBudgetDepartmentId to set.
      */
     public void setHrmsBudgetDepartmentId(String hrmsBudgetDepartmentId) {
@@ -563,7 +567,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsDistributionProrateOption attribute.
-     * 
+     *
      * @return Returns the hrmsDistributionProrateOption
      */
     public String getHrmsDistributionProrateOption() {
@@ -572,7 +576,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsDistributionProrateOption attribute.
-     * 
+     *
      * @param hrmsDistributionProrateOption The hrmsDistributionProrateOption to set.
      */
     public void setHrmsDistributionProrateOption(String hrmsDistributionProrateOption) {
@@ -582,7 +586,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsHealthProgramStatisticsDepartmentCode attribute.
-     * 
+     *
      * @return Returns the hrmsHealthProgramStatisticsDepartmentCode
      */
     public String getHrmsHealthProgramStatisticsDepartmentCode() {
@@ -591,7 +595,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsHealthProgramStatisticsDepartmentCode attribute.
-     * 
+     *
      * @param hrmsHealthProgramStatisticsDepartmentCode The hrmsHealthProgramStatisticsDepartmentCode to set.
      */
     public void setHrmsHealthProgramStatisticsDepartmentCode(String hrmsHealthProgramStatisticsDepartmentCode) {
@@ -601,7 +605,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsHealthProgramStatisticsFaculty attribute.
-     * 
+     *
      * @return Returns the hrmsHealthProgramStatisticsFaculty
      */
     public String getHrmsHealthProgramStatisticsFaculty() {
@@ -610,7 +614,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsHealthProgramStatisticsFaculty attribute.
-     * 
+     *
      * @param hrmsHealthProgramStatisticsFaculty The hrmsHealthProgramStatisticsFaculty to set.
      */
     public void setHrmsHealthProgramStatisticsFaculty(String hrmsHealthProgramStatisticsFaculty) {
@@ -620,7 +624,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsAccountingOwner attribute.
-     * 
+     *
      * @return Returns the hrmsAccountingOwner
      */
     public String getHrmsAccountingOwner() {
@@ -629,7 +633,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsAccountingOwner attribute.
-     * 
+     *
      * @param hrmsAccountingOwner The hrmsAccountingOwner to set.
      */
     public void setHrmsAccountingOwner(String hrmsAccountingOwner) {
@@ -639,7 +643,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsCountryGroup attribute.
-     * 
+     *
      * @return Returns the hrmsCountryGroup
      */
     public String getHrmsCountryGroup() {
@@ -648,7 +652,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsCountryGroup attribute.
-     * 
+     *
      * @param hrmsCountryGroup The hrmsCountryGroup to set.
      */
     public void setHrmsCountryGroup(String hrmsCountryGroup) {
@@ -658,7 +662,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsIuOrganizationMailDropCode attribute.
-     * 
+     *
      * @return Returns the hrmsIuOrganizationMailDropCode
      */
     public String getHrmsIuOrganizationMailDropCode() {
@@ -667,7 +671,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsIuOrganizationMailDropCode attribute.
-     * 
+     *
      * @param hrmsIuOrganizationMailDropCode The hrmsIuOrganizationMailDropCode to set.
      */
     public void setHrmsIuOrganizationMailDropCode(String hrmsIuOrganizationMailDropCode) {
@@ -677,7 +681,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsIuOrganizationAddress2 attribute.
-     * 
+     *
      * @return Returns the hrmsIuOrganizationAddress2
      */
     public String getHrmsIuOrganizationAddress2() {
@@ -686,7 +690,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsIuOrganizationAddress2 attribute.
-     * 
+     *
      * @param hrmsIuOrganizationAddress2 The hrmsIuOrganizationAddress2 to set.
      */
     public void setHrmsIuOrganizationAddress2(String hrmsIuOrganizationAddress2) {
@@ -696,7 +700,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsIuOrganizationAddress3 attribute.
-     * 
+     *
      * @return Returns the hrmsIuOrganizationAddress3
      */
     public String getHrmsIuOrganizationAddress3() {
@@ -705,7 +709,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsIuOrganizationAddress3 attribute.
-     * 
+     *
      * @param hrmsIuOrganizationAddress3 The hrmsIuOrganizationAddress3 to set.
      */
     public void setHrmsIuOrganizationAddress3(String hrmsIuOrganizationAddress3) {
@@ -715,7 +719,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsIuCampusCode attribute.
-     * 
+     *
      * @return Returns the hrmsIuCampusCode
      */
     public String getHrmsIuCampusCode() {
@@ -724,7 +728,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsIuCampusCode attribute.
-     * 
+     *
      * @param hrmsIuCampusCode The hrmsIuCampusCode to set.
      */
     public void setHrmsIuCampusCode(String hrmsIuCampusCode) {
@@ -734,7 +738,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsIuCampusBuilding attribute.
-     * 
+     *
      * @return Returns the hrmsIuCampusBuilding
      */
     public String getHrmsIuCampusBuilding() {
@@ -743,7 +747,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsIuCampusBuilding attribute.
-     * 
+     *
      * @param hrmsIuCampusBuilding The hrmsIuCampusBuilding to set.
      */
     public void setHrmsIuCampusBuilding(String hrmsIuCampusBuilding) {
@@ -753,7 +757,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsIuCampusRoom attribute.
-     * 
+     *
      * @return Returns the hrmsIuCampusRoom
      */
     public String getHrmsIuCampusRoom() {
@@ -762,7 +766,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsIuCampusRoom attribute.
-     * 
+     *
      * @param hrmsIuCampusRoom The hrmsIuCampusRoom to set.
      */
     public void setHrmsIuCampusRoom(String hrmsIuCampusRoom) {
@@ -771,7 +775,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsIuOccupationalUnitAllowedFlag attribute.
-     * 
+     *
      * @return Returns the hrmsIuOccupationalUnitAllowedFlag.
      */
     public final boolean isHrmsIuOccupationalUnitAllowedFlag() {
@@ -780,7 +784,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsIuOccupationalUnitAllowedFlag attribute value.
-     * 
+     *
      * @param hrmsIuOccupationalUnitAllowedFlag The hrmsIuOccupationalUnitAllowedFlag to set.
      */
     public final void setHrmsIuOccupationalUnitAllowedFlag(boolean hrmsIuOccupationalUnitAllowedFlag) {
@@ -789,7 +793,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsIuPositionAllowedFlag attribute.
-     * 
+     *
      * @return Returns the hrmsIuPositionAllowedFlag.
      */
     public final boolean isHrmsIuPositionAllowedFlag() {
@@ -798,7 +802,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsIuPositionAllowedFlag attribute value.
-     * 
+     *
      * @param hrmsIuPositionAllowedFlag The hrmsIuPositionAllowedFlag to set.
      */
     public final void setHrmsIuPositionAllowedFlag(boolean hrmsIuPositionAllowedFlag) {
@@ -807,7 +811,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsIuTenureAllowedFlag attribute.
-     * 
+     *
      * @return Returns the hrmsIuTenureAllowedFlag.
      */
     public final boolean isHrmsIuTenureAllowedFlag() {
@@ -816,7 +820,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsIuTenureAllowedFlag attribute value.
-     * 
+     *
      * @param hrmsIuTenureAllowedFlag The hrmsIuTenureAllowedFlag to set.
      */
     public final void setHrmsIuTenureAllowedFlag(boolean hrmsIuTenureAllowedFlag) {
@@ -825,7 +829,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsIuTitleAllowedFlag attribute.
-     * 
+     *
      * @return Returns the hrmsIuTitleAllowedFlag.
      */
     public final boolean isHrmsIuTitleAllowedFlag() {
@@ -834,7 +838,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsIuTitleAllowedFlag attribute value.
-     * 
+     *
      * @param hrmsIuTitleAllowedFlag The hrmsIuTitleAllowedFlag to set.
      */
     public final void setHrmsIuTitleAllowedFlag(boolean hrmsIuTitleAllowedFlag) {
@@ -843,7 +847,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the fiscalApproverUniversalId attribute.
-     * 
+     *
      * @return Returns the fiscalApproverUniversalId
      */
     public String getFiscalApproverUniversalId() {
@@ -852,7 +856,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the fiscalApproverUniversalId attribute.
-     * 
+     *
      * @param fiscalApproverUniversalId The fiscalApproverUniversalId to set.
      */
     public void setFiscalApproverUniversalId(String fiscalApproverUniversalId) {
@@ -862,7 +866,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsLastUpdateDate attribute.
-     * 
+     *
      * @return Returns the hrmsLastUpdateDate
      */
     public Timestamp getHrmsLastUpdateDate() {
@@ -871,7 +875,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsLastUpdateDate attribute.
-     * 
+     *
      * @param hrmsLastUpdateDate The hrmsLastUpdateDate to set.
      */
     public void setHrmsLastUpdateDate(Timestamp hrmsLastUpdateDate) {
@@ -881,7 +885,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the chartOfAccounts attribute.
-     * 
+     *
      * @return Returns the chartOfAccounts
      */
     public Chart getChartOfAccounts() {
@@ -890,7 +894,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the chartOfAccounts attribute.
-     * 
+     *
      * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated
      */
@@ -900,7 +904,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the organization attribute.
-     * 
+     *
      * @return Returns the organization
      */
     public Organization getOrganization() {
@@ -909,7 +913,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the organization attribute.
-     * 
+     *
      * @param organization The organization to set.
      * @deprecated
      */
@@ -924,7 +928,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the hrmsPersonnelApproverUniversal attribute.
-     * 
+     *
      * @param hrmsPersonnelApproverUniversal The hrmsPersonnelApproverUniversal to set.
      * @deprecated
      */
@@ -934,16 +938,30 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Gets the hrmsIuCampus attribute.
-     * 
+     *
      * @return Returns the hrmsIuCampus
      */
     public CampusEbo getHrmsIuCampus() {
-        return hrmsIuCampus = StringUtils.isBlank( hrmsIuCampusCode)?null:((hrmsIuCampus!=null && hrmsIuCampus.getCode().equals( hrmsIuCampusCode))?hrmsIuCampus:CampusEbo.from(SpringContext.getBean(CampusService.class).getCampus( hrmsIuCampusCode)));
+        if ( StringUtils.isBlank(hrmsIuCampusCode) ) {
+            hrmsIuCampus = null;
+        } else {
+            if ( hrmsIuCampus == null || !StringUtils.equals( hrmsIuCampus.getCode(),hrmsIuCampusCode) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CampusEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, hrmsIuCampusCode);
+                    hrmsIuCampus = moduleService.getExternalizableBusinessObject(CampusEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
+        return hrmsIuCampus;
     }
 
     /**
      * Sets the hrmsIuCampus attribute.
-     * 
+     *
      * @param hrmsIuCampus The hrmsIuCampus to set.
      * @deprecated
      */
@@ -958,7 +976,7 @@ public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     /**
      * Sets the fiscalApproverUniversal attribute.
-     * 
+     *
      * @param fiscalApproverUniversal The fiscalApproverUniversal to set.
      * @deprecated
      */

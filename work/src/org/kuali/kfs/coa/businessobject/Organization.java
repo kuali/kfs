@@ -1,12 +1,12 @@
 /*
  * Copyright 2005 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,7 +16,9 @@
 package org.kuali.kfs.coa.businessobject;
 
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
@@ -29,16 +31,16 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
 import org.kuali.rice.krad.util.UrlFactory;
-import org.kuali.rice.location.api.campus.CampusService;
-import org.kuali.rice.location.api.country.CountryService;
-import org.kuali.rice.location.api.postalcode.PostalCodeService;
+import org.kuali.rice.location.api.LocationConstants;
 import org.kuali.rice.location.framework.campus.CampusEbo;
 import org.kuali.rice.location.framework.country.CountryEbo;
 import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
 
 /**
- * 
+ *
  */
 public class Organization extends PersistableBusinessObjectBase implements MutableInactivatable {
     private static final Logger LOG = Logger.getLogger(Organization.class);
@@ -46,7 +48,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
     private static final long serialVersionUID = 121873645110037203L;
 
     public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + "Organization";
-    
+
     /**
      * Default no-arg constructor.
      */
@@ -109,7 +111,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Gets the organizationCode attribute.
-     * 
+     *
      * @return Returns the organizationCode
      */
     public String getOrganizationCode() {
@@ -118,7 +120,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Sets the organizationCode attribute.
-     * 
+     *
      * @param organizationCode The organizationCode to set.
      */
     public void setOrganizationCode(String organizationCode) {
@@ -127,7 +129,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Gets the organizationName attribute.
-     * 
+     *
      * @return Returns the organizationName
      */
     public String getOrganizationName() {
@@ -136,7 +138,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Sets the organizationName attribute.
-     * 
+     *
      * @param organizationName The organizationName to set.
      */
     public void setOrganizationName(String organizationName) {
@@ -145,7 +147,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Gets the organizationCityName attribute.
-     * 
+     *
      * @return Returns the organizationCityName
      */
     public String getOrganizationCityName() {
@@ -154,7 +156,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Sets the organizationCityName attribute.
-     * 
+     *
      * @param organizationCityName The organizationCityName to set.
      */
     public void setOrganizationCityName(String organizationCityName) {
@@ -163,7 +165,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Gets the organizationStateCode attribute.
-     * 
+     *
      * @return Returns the organizationStateCode
      */
     public String getOrganizationStateCode() {
@@ -172,7 +174,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Sets the organizationStateCode attribute.
-     * 
+     *
      * @param organizationStateCode The organizationStateCode to set.
      */
     public void setOrganizationStateCode(String organizationStateCode) {
@@ -181,7 +183,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Gets the organizationZipCode attribute.
-     * 
+     *
      * @return Returns the organizationZipCode
      */
     public String getOrganizationZipCode() {
@@ -190,7 +192,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Sets the organizationZipCode attribute.
-     * 
+     *
      * @param organizationZipCode The organizationZipCode to set.
      */
     public void setOrganizationZipCode(String organizationZipCode) {
@@ -199,7 +201,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Gets the organizationBeginDate attribute.
-     * 
+     *
      * @return Returns the organizationBeginDate
      */
     public Date getOrganizationBeginDate() {
@@ -208,7 +210,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Sets the organizationBeginDate attribute.
-     * 
+     *
      * @param organizationBeginDate The organizationBeginDate to set.
      */
     public void setOrganizationBeginDate(Date organizationBeginDate) {
@@ -217,7 +219,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Gets the organizationEndDate attribute.
-     * 
+     *
      * @return Returns the organizationEndDate
      */
     public Date getOrganizationEndDate() {
@@ -226,7 +228,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Sets the organizationEndDate attribute.
-     * 
+     *
      * @param organizationEndDate The organizationEndDate to set.
      */
     public void setOrganizationEndDate(Date organizationEndDate) {
@@ -235,7 +237,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Gets the organizationInFinancialProcessingIndicator attribute.
-     * 
+     *
      * @return Returns the organizationInFinancialProcessingIndicator
      */
     public boolean isOrganizationInFinancialProcessingIndicator() {
@@ -244,7 +246,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Sets the organizationInFinancialProcessingIndicator attribute.
-     * 
+     *
      * @param organizationInFinancialProcessingIndicator The organizationInFinancialProcessingIndicator to set.
      */
     public void setOrganizationInFinancialProcessingIndicator(boolean organizationInFinancialProcessingIndicator) {
@@ -253,7 +255,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Gets the chartOfAccounts attribute.
-     * 
+     *
      * @return Returns the chartOfAccounts
      */
     public Chart getChartOfAccounts() {
@@ -262,7 +264,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Sets the chartOfAccounts attribute.
-     * 
+     *
      * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated
      */
@@ -272,7 +274,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Gets the organizationDefaultAccount attribute.
-     * 
+     *
      * @return Returns the organizationDefaultAccount
      */
     public Account getOrganizationDefaultAccount() {
@@ -281,7 +283,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Sets the organizationDefaultAccount attribute.
-     * 
+     *
      * @param organizationDefaultAccount The organizationDefaultAccount to set.
      * @deprecated
      */
@@ -296,7 +298,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Sets the organizationManagerUniversal attribute.
-     * 
+     *
      * @param organizationManagerUniversal The organizationManagerUniversal to set.
      * @deprecated
      */
@@ -306,7 +308,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Gets the responsibilityCenter attribute.
-     * 
+     *
      * @return Returns the responsibilityCenter
      */
     public ResponsibilityCenter getResponsibilityCenter() {
@@ -315,7 +317,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Sets the responsibilityCenter attribute.
-     * 
+     *
      * @param responsibilityCenter The responsibilityCenter to set.
      * @deprecated
      */
@@ -325,16 +327,30 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Gets the organizationPhysicalCampus attribute.
-     * 
+     *
      * @return Returns the organizationPhysicalCampus
      */
     public CampusEbo getOrganizationPhysicalCampus() {
-        return organizationPhysicalCampus = StringUtils.isBlank( organizationPhysicalCampusCode)?null:((organizationPhysicalCampus!=null && organizationPhysicalCampus.getCode().equals( organizationPhysicalCampusCode))?organizationPhysicalCampus:CampusEbo.from(SpringContext.getBean(CampusService.class).getCampus( organizationPhysicalCampusCode)));
+        if ( StringUtils.isBlank(organizationPhysicalCampusCode) ) {
+            organizationPhysicalCampus = null;
+        } else {
+            if ( organizationPhysicalCampus == null || !StringUtils.equals( organizationPhysicalCampus.getCode(),organizationPhysicalCampusCode) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CampusEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, organizationPhysicalCampusCode);
+                    organizationPhysicalCampus = moduleService.getExternalizableBusinessObject(CampusEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
+        return organizationPhysicalCampus;
     }
 
     /**
      * Sets the organizationPhysicalCampus attribute.
-     * 
+     *
      * @param organizationPhysicalCampus The organizationPhysicalCampus to set.
      * @deprecated
      */
@@ -344,7 +360,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Gets the organizationType attribute.
-     * 
+     *
      * @return Returns the organizationType
      */
     public OrganizationType getOrganizationType() {
@@ -353,7 +369,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Sets the organizationType attribute.
-     * 
+     *
      * @param organizationType The organizationType to set.
      * @deprecated
      */
@@ -363,7 +379,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Gets the reportsToOrganization attribute.
-     * 
+     *
      * @return Returns the reportsToOrganization
      */
     public Organization getReportsToOrganization() {
@@ -372,7 +388,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Sets the reportsToOrganization attribute.
-     * 
+     *
      * @param reportsToOrganization The reportsToOrganization to set.
      * @deprecated
      */
@@ -382,7 +398,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Gets the reportsToChartOfAccounts attribute.
-     * 
+     *
      * @return Returns the reportsToChartOfAccounts
      */
     public Chart getReportsToChartOfAccounts() {
@@ -391,7 +407,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Sets the reportsToChartOfAccounts attribute.
-     * 
+     *
      * @param reportsToChartOfAccounts The reportsToChartOfAccounts to set.
      * @deprecated
      */
@@ -401,7 +417,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Gets the organizationPlantAccount attribute.
-     * 
+     *
      * @return Returns the organizationPlantAccount
      */
     public Account getOrganizationPlantAccount() {
@@ -410,7 +426,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Sets the organizationPlantAccount attribute.
-     * 
+     *
      * @param organizationPlantAccount The organizationPlantAccount to set.
      * @deprecated
      */
@@ -420,7 +436,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Gets the campusPlantAccount attribute.
-     * 
+     *
      * @return Returns the campusPlantAccount
      */
     public Account getCampusPlantAccount() {
@@ -429,7 +445,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Sets the campusPlantAccount attribute.
-     * 
+     *
      * @param campusPlantAccount The campusPlantAccount to set.
      * @deprecated
      */
@@ -439,7 +455,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Gets the organizationPlantChart attribute.
-     * 
+     *
      * @return Returns the organizationPlantChart
      */
     public Chart getOrganizationPlantChart() {
@@ -448,7 +464,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Sets the organizationPlantChart attribute.
-     * 
+     *
      * @param organizationPlantChart The organizationPlantChart to set.
      * @deprecated
      */
@@ -458,7 +474,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Gets the campusPlantChart attribute.
-     * 
+     *
      * @return Returns the campusPlantChart
      */
     public Chart getCampusPlantChart() {
@@ -467,7 +483,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Sets the campusPlantChart attribute.
-     * 
+     *
      * @param campusPlantChart The campusPlantChart to set.
      * @deprecated
      */
@@ -477,17 +493,30 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Gets the organizationCountry attribute.
-     * 
+     *
      * @return Returns the organizationCountry.
      */
     public CountryEbo getOrganizationCountry() {
-        organizationCountry = (organizationCountryCode == null)?null:( organizationCountry == null || !StringUtils.equals( organizationCountry.getCode(),organizationCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(organizationCountryCode)): organizationCountry;
+        if ( StringUtils.isBlank(organizationCountryCode) ) {
+            organizationCountry = null;
+        } else {
+            if ( organizationCountry == null || !StringUtils.equals( organizationCountry.getCode(),organizationCountryCode) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CountryEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, organizationCountryCode);
+                    organizationCountry = moduleService.getExternalizableBusinessObject(CountryEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
         return organizationCountry;
     }
 
     /**
      * Sets the organizationCountry attribute value.
-     * 
+     *
      * @param organizationCountry The organizationCountry to set.
      * @deprecated
      */
@@ -497,7 +526,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Gets the chartOfAccountsCode attribute.
-     * 
+     *
      * @return Returns the chartOfAccountsCode.
      */
     public String getChartOfAccountsCode() {
@@ -506,7 +535,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Sets the chartOfAccountsCode attribute value.
-     * 
+     *
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -515,7 +544,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Gets the organizationDefaultAccountNumber attribute.
-     * 
+     *
      * @return Returns the organizationDefaultAccountNumber.
      */
     public String getOrganizationDefaultAccountNumber() {
@@ -524,7 +553,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Sets the organizationDefaultAccountNumber attribute value.
-     * 
+     *
      * @param organizationDefaultAccountNumber The organizationDefaultAccountNumber to set.
      */
     public void setOrganizationDefaultAccountNumber(String organizationDefaultAccountNumber) {
@@ -673,17 +702,31 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Gets the postalZip attribute.
-     * 
+     *
      * @return Returns the postalZip.
      */
     public PostalCodeEbo getPostalZip() {
-        postalZip = (StringUtils.isBlank(organizationCountryCode) || StringUtils.isBlank( organizationZipCode))?null:( postalZip == null || !StringUtils.equals( postalZip.getCountryCode(),organizationCountryCode)|| !StringUtils.equals( postalZip.getCode(), organizationZipCode))?PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode(organizationCountryCode, organizationZipCode)): postalZip;
+        if ( StringUtils.isBlank(organizationZipCode) || StringUtils.isBlank(organizationCountryCode) ) {
+            postalZip = null;
+        } else {
+            if ( postalZip == null || !StringUtils.equals( postalZip.getCode(),organizationZipCode) || !StringUtils.equals(postalZip.getCountryCode(), KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(PostalCodeEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(2);
+                    keys.put(LocationConstants.PrimaryKeyConstants.COUNTRY_CODE, organizationCountryCode);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, organizationZipCode);
+                    postalZip = moduleService.getExternalizableBusinessObject(PostalCodeEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
         return postalZip;
     }
 
     /**
      * Sets the postalZip attribute value.
-     * 
+     *
      * @param postalZip The postalZip to set.
      */
     public void setPostalZip(PostalCodeEbo postalZip) {
@@ -692,7 +735,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Gets the organizationCountryCode attribute.
-     * 
+     *
      * @return Returns the organizationCountryCode.
      */
     public String getOrganizationCountryCode() {
@@ -701,7 +744,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Sets the organizationCountryCode attribute value.
-     * 
+     *
      * @param organizationCountryCode The organizationCountryCode to set.
      */
     public void setOrganizationCountryCode(String organizationCountryCode) {
@@ -710,7 +753,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Gets the organizationLine1Address attribute.
-     * 
+     *
      * @return Returns the organizationLine1Address.
      */
     public String getOrganizationLine1Address() {
@@ -719,7 +762,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Sets the organizationLine1Address attribute value.
-     * 
+     *
      * @param organizationLine1Address The organizationLine1Address to set.
      */
     public void setOrganizationLine1Address(String organizationLine1Address) {
@@ -728,7 +771,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Gets the organizationLine2Address attribute.
-     * 
+     *
      * @return Returns the organizationLine2Address.
      */
     public String getOrganizationLine2Address() {
@@ -737,7 +780,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Sets the organizationLine2Address attribute value.
-     * 
+     *
      * @param organizationLine2Address The organizationLine2Address to set.
      */
     public void setOrganizationLine2Address(String organizationLine2Address) {
@@ -746,7 +789,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Gets the editPlantAccountsSection attribute.
-     * 
+     *
      * @return Returns the editPlantAccountsSection.
      */
     public String getEditPlantAccountsSection() {
@@ -755,7 +798,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Gets the editPlantAccountsSectionBlank attribute.
-     * 
+     *
      * @return Returns the editPlantAccountsSectionBlank.
      */
     public String getEditPlantAccountsSectionBlank() {
@@ -764,7 +807,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Gets the editHrmsUnitSection attribute.
-     * 
+     *
      * @return Returns the editHrmsUnitSection.
      */
     public final String getEditHrmsUnitSection() {
@@ -773,7 +816,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Sets the editHrmsUnitSection attribute value.
-     * 
+     *
      * @param editHrmsUnitSection The editHrmsUnitSection to set.
      */
     public final void setEditHrmsUnitSection(String editHrmsUnitSection) {
@@ -782,7 +825,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Gets the editHrmsUnitSectionBlank attribute.
-     * 
+     *
      * @return Returns the editHrmsUnitSectionBlank.
      */
     public final String getEditHrmsUnitSectionBlank() {
@@ -791,7 +834,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Sets the editHrmsUnitSectionBlank attribute value.
-     * 
+     *
      * @param editHrmsUnitSectionBlank The editHrmsUnitSectionBlank to set.
      */
     public final void setEditHrmsUnitSectionBlank(String editHrmsUnitSectionBlank) {
@@ -800,7 +843,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Gets the organizationExtension attribute.
-     * 
+     *
      * @return Returns the organizationExtension.
      */
     public final OrganizationExtension getOrganizationExtension() {
@@ -809,7 +852,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Sets the organizationExtension attribute value.
-     * 
+     *
      * @param organizationExtension The organizationExtension to set.
      */
     public final void setOrganizationExtension(OrganizationExtension organizationExtension) {
@@ -859,7 +902,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Gets the campus code for Endowment Report
-     * 
+     *
      * @return
      */
     public String getOrganizationPhysicalCampusCodeForReport() {
@@ -868,9 +911,10 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     /**
      * Implementing equals so Org will behave reasonably in a hashed datastructure.
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
+    @Override
     public boolean equals(Object obj) {
         boolean equal = false;
 
@@ -905,22 +949,25 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
     /**
      * @see java.lang.Object#hashCode()
      */
+    @Override
     public int hashCode() {
         String hashString = getChartOfAccountsCode() + "|" + getOrganizationCode();
         return hashString.hashCode();
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
 
     /**
      * Gets the organizationName attribute for report
-     * 
+     *
      * @return Returns the organizationName
      */
     public String getOrganizationCodeForReport() {

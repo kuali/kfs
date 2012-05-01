@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,8 +20,9 @@
 package org.kuali.kfs.pdp.businessobject;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -32,85 +33,83 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.location.api.campus.CampusService;
-import org.kuali.rice.location.api.country.CountryService;
-import org.kuali.rice.location.api.postalcode.PostalCodeService;
-import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
+import org.kuali.rice.location.api.LocationConstants;
 import org.kuali.rice.location.framework.campus.CampusEbo;
 import org.kuali.rice.location.framework.country.CountryEbo;
 import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
 import org.kuali.rice.location.framework.state.StateEbo;
 
 public class CustomerProfile extends PersistableBusinessObjectBase implements MutableInactivatable {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerProfile.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerProfile.class);
 
-    private String achPaymentDescription; // ACH_PMT_DESC
-    private String additionalCheckNoteTextLine1;
-    private String additionalCheckNoteTextLine2;
-    private String additionalCheckNoteTextLine3;
-    private String additionalCheckNoteTextLine4;
-    private String address1; // CUST_LN1_ADDR
-    private String address2; // CUST_LN2_ADDR
-    private String address3; // CUST_LN3_ADDR
-    private String address4; // CUST_LN4_ADDR
-    private boolean adviceCreate; // ADV_CRTE_IND
-    private String adviceHeaderText; // ADV_HDR_TXT
-    private String adviceSubjectLine;
-    private String adviceReturnEmailAddr;
-    private String chartCode; // FIN_COA_CD
-    private String checkHeaderNoteTextLine1;
-    private String checkHeaderNoteTextLine2;
-    private String checkHeaderNoteTextLine3;
-    private String checkHeaderNoteTextLine4;
-    private String city; // CUST_CTY_NM
-    private String contactFullName; // CUST_CNTC_FULL_NM
-    private String countryCode; // CUST_CNTRY_NM
-    private String customerDescription; // CUST_DESC
-    private String defaultChartCode; // DFLT_COA_CD
-    private String defaultAccountNumber; // DFLT_ACCT_NBR
-    private String defaultSubAccountNumber; // DFLT_SUB_ACCT_NBR
-    private String defaultObjectCode; // DFLT_OBJ_CD
-    private String defaultPhysicalCampusProcessingCode; // DFLT_PHYS_CMP_PROC_CD
-    private String defaultSubObjectCode; // DFLT_SUB_OBJ_CD
-    private boolean employeeCheck; // CUST_EMP_CHK_IND
-    private KualiDecimal fileThresholdAmount; // FL_THRSHLD_AMT
-    private String fileThresholdEmailAddress; // CUST_FILE_THRSHLD_EMAIL_ADDR
-    private KualiInteger id; // CUST_ID
-    private boolean nraReview; // CUST_NRA_RVW_IND
-    private String unitCode; // ORG_CD
-    private boolean ownershipCodeRequired; // CUST_OWNR_CD_REQ_IND
-    private boolean payeeIdRequired; // CUST_PAYEE_ID_REQ_IND
-    private KualiDecimal paymentThresholdAmount; // PMT_THRSHLD_AMT
-    private String paymentThresholdEmailAddress; // CUST_PMT_THRSHLD_EMAIL_ADDR
-    private String processingEmailAddr; // CUST_PRCS_EMAIL_ADDR
-    private String achTransactionType; 
-    private String stateCode; // CUST_ST_CD
-    private String subUnitCode; // SBUNT_CD
-    private String zipCode; // CUST_ZIP_CD
-    private boolean accountingEditRequired; // ACCTG_EDIT_REQ_IND
-    private boolean relieveLiabilities;
-    private boolean active; 
-    private boolean selectedForFormat;
+    protected String achPaymentDescription; // ACH_PMT_DESC
+    protected String additionalCheckNoteTextLine1;
+    protected String additionalCheckNoteTextLine2;
+    protected String additionalCheckNoteTextLine3;
+    protected String additionalCheckNoteTextLine4;
+    protected String address1; // CUST_LN1_ADDR
+    protected String address2; // CUST_LN2_ADDR
+    protected String address3; // CUST_LN3_ADDR
+    protected String address4; // CUST_LN4_ADDR
+    protected boolean adviceCreate; // ADV_CRTE_IND
+    protected String adviceHeaderText; // ADV_HDR_TXT
+    protected String adviceSubjectLine;
+    protected String adviceReturnEmailAddr;
+    protected String chartCode; // FIN_COA_CD
+    protected String checkHeaderNoteTextLine1;
+    protected String checkHeaderNoteTextLine2;
+    protected String checkHeaderNoteTextLine3;
+    protected String checkHeaderNoteTextLine4;
+    protected String city; // CUST_CTY_NM
+    protected String contactFullName; // CUST_CNTC_FULL_NM
+    protected String countryCode; // CUST_CNTRY_NM
+    protected String customerDescription; // CUST_DESC
+    protected String defaultChartCode; // DFLT_COA_CD
+    protected String defaultAccountNumber; // DFLT_ACCT_NBR
+    protected String defaultSubAccountNumber; // DFLT_SUB_ACCT_NBR
+    protected String defaultObjectCode; // DFLT_OBJ_CD
+    protected String defaultPhysicalCampusProcessingCode; // DFLT_PHYS_CMP_PROC_CD
+    protected String defaultSubObjectCode; // DFLT_SUB_OBJ_CD
+    protected boolean employeeCheck; // CUST_EMP_CHK_IND
+    protected KualiDecimal fileThresholdAmount; // FL_THRSHLD_AMT
+    protected String fileThresholdEmailAddress; // CUST_FILE_THRSHLD_EMAIL_ADDR
+    protected KualiInteger id; // CUST_ID
+    protected boolean nraReview; // CUST_NRA_RVW_IND
+    protected String unitCode; // ORG_CD
+    protected boolean ownershipCodeRequired; // CUST_OWNR_CD_REQ_IND
+    protected boolean payeeIdRequired; // CUST_PAYEE_ID_REQ_IND
+    protected KualiDecimal paymentThresholdAmount; // PMT_THRSHLD_AMT
+    protected String paymentThresholdEmailAddress; // CUST_PMT_THRSHLD_EMAIL_ADDR
+    protected String processingEmailAddr; // CUST_PRCS_EMAIL_ADDR
+    protected String achTransactionType;
+    protected String stateCode; // CUST_ST_CD
+    protected String subUnitCode; // SBUNT_CD
+    protected String zipCode; // CUST_ZIP_CD
+    protected boolean accountingEditRequired; // ACCTG_EDIT_REQ_IND
+    protected boolean relieveLiabilities;
+    protected boolean active;
+    protected boolean selectedForFormat;
 
-    private Chart chartOfAccounts;
-    private CampusEbo defaultProcessingCampus;
-    private Chart defaultChart;
-    private Account defaultAccount;
-    private SubAccount defaultSubAccount;
-    private ObjectCode defaultObject;
-    private SubObjectCode defaultSubObject;
-    private StateEbo state;
-    private PostalCodeEbo postalCode;
-    private CountryEbo country;
-    private ACHTransactionType transactionType;
+    protected Chart chartOfAccounts;
+    protected CampusEbo defaultProcessingCampus;
+    protected Chart defaultChart;
+    protected Account defaultAccount;
+    protected SubAccount defaultSubAccount;
+    protected ObjectCode defaultObject;
+    protected SubObjectCode defaultSubObject;
+    protected StateEbo state;
+    protected PostalCodeEbo postalCode;
+    protected CountryEbo country;
+    protected ACHTransactionType transactionType;
 
-    private List<CustomerBank> customerBanks;
+    protected List<CustomerBank> customerBanks;
 
 
     public CustomerProfile() {
@@ -123,7 +122,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
     }
 
     public void setCustomerShortName(String customerShortName) {
-        
+
     }
 
     public String getSortName() {
@@ -178,6 +177,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
         customerBanks = cbs;
     }
 
+    @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof CustomerProfile)) {
             return false;
@@ -459,6 +459,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
         return zipCode;
     }
 
+    @Override
     public int hashCode() {
         return new HashCodeBuilder(59, 67).append(chartCode).append(unitCode).append(subUnitCode).toHashCode();
     }
@@ -813,6 +814,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
         this.relieveLiabilities = relieveLiabilities;
     }
 
+    @Override
     public String toString() {
         return new ToStringBuilder(this).append("chartCode", this.chartCode).append("unitCode", this.unitCode).append("subUnitCode", this.subUnitCode).toString();
     }
@@ -828,16 +830,30 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Gets the defaultProcessingCampus attribute.
-     * 
+     *
      * @return Returns the defaultProcessingCampus.
      */
     public CampusEbo getDefaultProcessingCampus() {
-        return defaultProcessingCampus = StringUtils.isBlank( defaultPhysicalCampusProcessingCode)?null:((defaultProcessingCampus!=null && defaultProcessingCampus.getCode().equals( defaultPhysicalCampusProcessingCode))?defaultProcessingCampus:CampusEbo.from(SpringContext.getBean(CampusService.class).getCampus( defaultPhysicalCampusProcessingCode)));
+        if ( StringUtils.isBlank(defaultPhysicalCampusProcessingCode) ) {
+            defaultProcessingCampus = null;
+        } else {
+            if ( defaultProcessingCampus == null || !StringUtils.equals( defaultProcessingCampus.getCode(),defaultPhysicalCampusProcessingCode) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CampusEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, defaultPhysicalCampusProcessingCode);
+                    defaultProcessingCampus = moduleService.getExternalizableBusinessObject(CampusEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
+        return defaultProcessingCampus;
     }
 
     /**
      * Sets the defaultProcessingCampus attribute value.
-     * 
+     *
      * @param defaultProcessingCampus The defaultProcessingCampus to set.
      */
     public void setDefaultProcessingCampus(CampusEbo defaultProcessingCampus) {
@@ -846,7 +862,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Gets the defaultChart attribute.
-     * 
+     *
      * @return Returns the defaultChart.
      */
     public Chart getDefaultChart() {
@@ -855,7 +871,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Sets the defaultChart attribute value.
-     * 
+     *
      * @param defaultChart The defaultChart to set.
      */
     public void setDefaultChart(Chart defaultChart) {
@@ -864,7 +880,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Gets the defaultAccount attribute.
-     * 
+     *
      * @return Returns the defaultAccount.
      */
     public Account getDefaultAccount() {
@@ -873,7 +889,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Sets the defaultAccount attribute value.
-     * 
+     *
      * @param defaultAccount The defaultAccount to set.
      */
     public void setDefaultAccount(Account defaultAccount) {
@@ -882,7 +898,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Gets the defaultSubAccount attribute.
-     * 
+     *
      * @return Returns the defaultSubAccount.
      */
     public SubAccount getDefaultSubAccount() {
@@ -891,7 +907,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Sets the defaultSubAccount attribute value.
-     * 
+     *
      * @param defaultSubAccount The defaultSubAccount to set.
      */
     public void setDefaultSubAccount(SubAccount defaultSubAccount) {
@@ -900,7 +916,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Gets the defaultObject attribute.
-     * 
+     *
      * @return Returns the defaultObject.
      */
     public ObjectCode getDefaultObject() {
@@ -909,7 +925,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Sets the defaultObject attribute value.
-     * 
+     *
      * @param defaultObject The defaultObject to set.
      */
     public void setDefaultObject(ObjectCode defaultObject) {
@@ -918,7 +934,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Gets the defaultSubObject attribute.
-     * 
+     *
      * @return Returns the defaultSubObject.
      */
     public SubObjectCode getDefaultSubObject() {
@@ -927,7 +943,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Sets the defaultSubObject attribute value.
-     * 
+     *
      * @param defaultSubObject The defaultSubObject to set.
      */
     public void setDefaultSubObject(SubObjectCode defaultSubObject) {
@@ -936,17 +952,31 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Gets the state attribute.
-     * 
+     *
      * @return Returns the state.
      */
     public StateEbo getState() {
-        state = (StringUtils.isBlank(this.stateCode))?null:( this.state == null||!StringUtils.equals( this.state.getCode(),this.stateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState("US"/*REFACTORME*/,this.stateCode)): this.state;
+        if ( StringUtils.isBlank(stateCode) || StringUtils.isBlank(countryCode ) ) {
+            state = null;
+        } else {
+            if ( state == null || !StringUtils.equals( state.getCode(),stateCode) || !StringUtils.equals(state.getCountryCode(), countryCode ) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(StateEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(2);
+                    keys.put(LocationConstants.PrimaryKeyConstants.COUNTRY_CODE, countryCode);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, stateCode);
+                    state = moduleService.getExternalizableBusinessObject(StateEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
         return state;
     }
 
     /**
      * Sets the state attribute value.
-     * 
+     *
      * @param state The state to set.
      */
     public void setState(StateEbo state) {
@@ -955,17 +985,31 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Gets the postalCode attribute.
-     * 
+     *
      * @return Returns the postalCode.
      */
     public PostalCodeEbo getPostalCode() {
-        postalCode = (this.zipCode == null)?null:( this.postalCode == null || !StringUtils.equals( this.postalCode.getCode(),this.zipCode))?PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode("US"/*RICE20_REFACTORME*/,this.zipCode)): this.postalCode;
+        if ( StringUtils.isBlank(zipCode) || StringUtils.isBlank(countryCode) ) {
+            postalCode = null;
+        } else {
+            if ( postalCode == null || !StringUtils.equals( postalCode.getCode(),zipCode) || !StringUtils.equals(postalCode.getCountryCode(), countryCode ) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(PostalCodeEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(2);
+                    keys.put(LocationConstants.PrimaryKeyConstants.COUNTRY_CODE, countryCode);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, zipCode);
+                    postalCode = moduleService.getExternalizableBusinessObject(PostalCodeEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
         return postalCode;
     }
 
     /**
      * Sets the postalCode attribute value.
-     * 
+     *
      * @param postalCode The postalCode to set.
      */
     public void setPostalCode(PostalCodeEbo postalCode) {
@@ -974,17 +1018,30 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Gets the country attribute.
-     * 
+     *
      * @return Returns the country.
      */
     public CountryEbo getCountry() {
-        country = (this.countryCode == null)?null:( this.country == null || !StringUtils.equals( this.country.getCode(),this.countryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(this.countryCode)): this.country;
+        if ( StringUtils.isBlank(countryCode) ) {
+            country = null;
+        } else {
+            if ( country == null || !StringUtils.equals( country.getCode(),countryCode) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CountryEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, countryCode);
+                    country = moduleService.getExternalizableBusinessObject(CountryEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
         return country;
     }
 
     /**
      * Sets the country attribute value.
-     * 
+     *
      * @param country The country to set.
      */
     public void setCountry(CountryEbo country) {
@@ -994,6 +1051,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
     /**
      * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#isActive()
      */
+    @Override
     public boolean isActive() {
         return active;
     }
@@ -1001,12 +1059,13 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
     /**
      * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#setActive(boolean)
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
 
     /**
-     * Gets the countryCode attribute. 
+     * Gets the countryCode attribute.
      * @return Returns the countryCode.
      */
     public String getCountryCode() {
@@ -1023,7 +1082,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Gets the achTransactionType attribute.
-     * 
+     *
      * @return Returns the achTransactionType.
      */
     public String getAchTransactionType() {
@@ -1032,7 +1091,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Sets the achTransactionType attribute value.
-     * 
+     *
      * @param achTransactionType The achTransactionType to set.
      */
     public void setAchTransactionType(String achTransactionType) {
@@ -1041,7 +1100,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Gets the transactionType attribute.
-     * 
+     *
      * @return Returns the transactionType.
      */
     public ACHTransactionType getTransactionType() {
@@ -1050,21 +1109,11 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
 
     /**
      * Sets the transactionType attribute value.
-     * 
+     *
      * @param transactionType The transactionType to set.
      */
     public void setTransactionType(ACHTransactionType transactionType) {
         this.transactionType = transactionType;
-    }
-
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put(KFSPropertyConstants.ID, this.id);
-        
-        return m;
     }
 
     /**
@@ -1081,5 +1130,5 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
     public void setSelectedForFormat(boolean sameCampus) {
         this.selectedForFormat = sameCampus;
     }
-    
+
 }

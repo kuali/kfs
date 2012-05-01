@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,33 +20,34 @@
 package org.kuali.kfs.pdp.businessobject;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.pdp.PdpPropertyConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.location.api.campus.CampusService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
+import org.kuali.rice.location.api.LocationConstants;
 import org.kuali.rice.location.framework.campus.CampusEbo;
 
 public class DisbursementNumberRange extends PersistableBusinessObjectBase implements MutableInactivatable {
 
-    private String physCampusProcCode;
-    private KualiInteger beginDisbursementNbr;
-    private KualiInteger lastAssignedDisbNbr;
-    private KualiInteger endDisbursementNbr;
-    private Date disbNbrRangeStartDt;
-    private String bankCode;
-    private String disbursementTypeCode;
-    private boolean active;
+    protected String physCampusProcCode;
+    protected KualiInteger beginDisbursementNbr;
+    protected KualiInteger lastAssignedDisbNbr;
+    protected KualiInteger endDisbursementNbr;
+    protected Date disbNbrRangeStartDt;
+    protected String bankCode;
+    protected String disbursementTypeCode;
+    protected boolean active;
 
-    private CampusEbo campus;
-    private Bank bank;
-    private DisbursementType disbursementType;
+    protected CampusEbo campus;
+    protected Bank bank;
+    protected DisbursementType disbursementType;
 
     public DisbursementNumberRange() {
         super();
@@ -61,7 +62,7 @@ public class DisbursementNumberRange extends PersistableBusinessObjectBase imple
 
     /**
      * Gets the bankCode attribute.
-     * 
+     *
      * @return Returns the bankCode.
      */
     public String getBankCode() {
@@ -70,7 +71,7 @@ public class DisbursementNumberRange extends PersistableBusinessObjectBase imple
 
     /**
      * Sets the bankCode attribute value.
-     * 
+     *
      * @param bankCode The bankCode to set.
      */
     public void setBankCode(String bankCode) {
@@ -147,7 +148,7 @@ public class DisbursementNumberRange extends PersistableBusinessObjectBase imple
 
     /**
      * Gets the disbursementTypeCode attribute.
-     * 
+     *
      * @return Returns the disbursementTypeCode.
      */
     public String getDisbursementTypeCode() {
@@ -156,7 +157,7 @@ public class DisbursementNumberRange extends PersistableBusinessObjectBase imple
 
     /**
      * Sets the disbursementTypeCode attribute value.
-     * 
+     *
      * @param disbursementTypeCode The disbursementTypeCode to set.
      */
     public void setDisbursementTypeCode(String disbursementTypeCode) {
@@ -165,7 +166,7 @@ public class DisbursementNumberRange extends PersistableBusinessObjectBase imple
 
     /**
      * Gets the disbursementType attribute.
-     * 
+     *
      * @return Returns the disbursementType.
      */
     public DisbursementType getDisbursementType() {
@@ -174,7 +175,7 @@ public class DisbursementNumberRange extends PersistableBusinessObjectBase imple
 
     /**
      * Sets the disbursementType attribute value.
-     * 
+     *
      * @param disbursementType The disbursementType to set.
      */
     public void setDisbursementType(DisbursementType disbursementType) {
@@ -183,16 +184,30 @@ public class DisbursementNumberRange extends PersistableBusinessObjectBase imple
 
     /**
      * Gets the campus attribute.
-     * 
+     *
      * @return Returns the campus.
      */
     public CampusEbo getCampus() {
-        return campus = StringUtils.isBlank( physCampusProcCode)?null:((campus!=null && campus.getCode().equals( physCampusProcCode))?campus:CampusEbo.from(SpringContext.getBean(CampusService.class).getCampus( physCampusProcCode)));
+        if ( StringUtils.isBlank(physCampusProcCode) ) {
+            campus = null;
+        } else {
+            if ( campus == null || !StringUtils.equals( campus.getCode(),physCampusProcCode) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CampusEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, physCampusProcCode);
+                    campus = moduleService.getExternalizableBusinessObject(CampusEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
+        return campus;
     }
 
     /**
      * Sets the campus attribute value.
-     * 
+     *
      * @param campus The campus to set.
      */
     public void setCampus(CampusEbo campus) {
@@ -202,6 +217,7 @@ public class DisbursementNumberRange extends PersistableBusinessObjectBase imple
     /**
      * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#isActive()
      */
+    @Override
     public boolean isActive() {
         return active;
     }
@@ -209,13 +225,14 @@ public class DisbursementNumberRange extends PersistableBusinessObjectBase imple
     /**
      * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#setActive(boolean)
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
 
     /**
      * Gets the disbNbrRangeStartDt attribute.
-     * 
+     *
      * @return Returns the disbNbrRangeStartDt.
      */
     public Date getDisbNbrRangeStartDt() {
@@ -224,24 +241,11 @@ public class DisbursementNumberRange extends PersistableBusinessObjectBase imple
 
     /**
      * Sets the disbNbrRangeStartDt attribute value.
-     * 
+     *
      * @param disbNbrRangeStartDt The disbNbrRangeStartDt to set.
      */
     public void setDisbNbrRangeStartDt(Date disbNbrRangeStartDt) {
         this.disbNbrRangeStartDt = disbNbrRangeStartDt;
     }
 
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put(PdpPropertyConstants.PHYS_CAMPUS_PROC_CODE, this.physCampusProcCode);
-        m.put(PdpPropertyConstants.DISBURSEMENT_TYPE_CODE, this.disbursementTypeCode);
-        m.put(KFSPropertyConstants.BANK_CODE, this.bankCode);
-        m.put(PdpPropertyConstants.DISBURSEMENT_NUMBER_RANGE_START_DATE, this.disbNbrRangeStartDt);
-
-        return m;
-    }
 }

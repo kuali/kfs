@@ -880,5 +880,24 @@
 			<where>NMSPC_CD='KFS-CG' AND CMPNT_CD = 'CfdaBatchStep' AND APPL_ID = 'KFS'</where>
 		</update>
 	</changeSet>
-	
+
+	<changeSet author="KFS50" id="UPDATE_NO_PAYMENT_FILE_TO_EMAIL_ADDRESSES">
+		<comment>PDP Parameter NO_PAYMENT_FILE_TO_EMAIL_ADDRESSES evaluated incorrectly causing NPE</comment>
+		<delete tableName="KRCR_PARM_T">
+			<where>NMSPC_CD='KFS-PDP' AND CMPNT_CD = 'All' AND PARM_NM='SEND_ACH_EMAIL_NOTIFICATION_IND' AND APPL_ID = 'KFS'</where>
+		</delete>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-PDP" />
+			<column name="CMPNT_CD" value="All" />
+			<column name="PARM_NM" value="SEND_ACH_EMAIL_NOTIFICATION_IND" />
+			<column name="APPL_ID" value="KFS" />
+			<column name="OBJ_ID" value="KFS409" />
+			<column name="VER_NBR" value="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="VAL" value="Y" />
+			<column name="PARM_DESC_TXT" value="If set to Y PDP will send ACH email notifications to payees. If set to N PDP will not send these notifications." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+		</insert>
+	</changeSet>
+
 </databaseChangeLog>

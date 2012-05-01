@@ -30,15 +30,15 @@ import org.kuali.rice.location.framework.county.CountyEbo;
 
 public class TaxRegionCounty extends PersistableBusinessObjectBase implements MutableInactivatable {
 
-    private String postalCountryCode;
-	private String countyCode;
-	private String stateCode;
-	private String taxRegionCode;
-	private boolean active;
+    protected String postalCountryCode;
+	protected String countyCode;
+	protected String stateCode;
+	protected String taxRegionCode;
+	protected boolean active;
 
-	private CountryEbo country;
-	private CountyEbo county;
-	private TaxRegion taxRegion;
+	protected CountryEbo country;
+	protected CountyEbo county;
+	protected TaxRegion taxRegion;
 
 	public String getCountyCode() {
 		return countyCode;

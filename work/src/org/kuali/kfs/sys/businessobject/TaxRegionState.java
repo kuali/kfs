@@ -31,14 +31,14 @@ import org.kuali.rice.location.framework.state.StateEbo;
 
 public class TaxRegionState extends PersistableBusinessObjectBase implements MutableInactivatable {
 
-    private String postalCountryCode;
-    private String stateCode;
-    private String taxRegionCode;
-    private boolean active;
+    protected String postalCountryCode;
+    protected String stateCode;
+    protected String taxRegionCode;
+    protected boolean active;
 
-    private CountryEbo country;
-    private StateEbo state;
-    private TaxRegion taxRegion;
+    protected CountryEbo country;
+    protected StateEbo state;
+    protected TaxRegion taxRegion;
 
     @Override
     public boolean isActive() {

@@ -31,14 +31,14 @@ import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
 
 public class TaxRegionPostalCode extends PersistableBusinessObjectBase implements MutableInactivatable {
 
-    private String postalCountryCode;
-	private String postalCode;
-	private String taxRegionCode;
-	private boolean active;
+    protected String postalCountryCode;
+	protected String postalCode;
+	protected String taxRegionCode;
+	protected boolean active;
 
-	private CountryEbo country;
-	private PostalCodeEbo postalZip;
-	private TaxRegion taxRegion;
+	protected CountryEbo country;
+	protected PostalCodeEbo postalZip;
+	protected TaxRegion taxRegion;
 
 	public PostalCodeEbo getPostalZip() {
         if ( StringUtils.isBlank(postalCode) || StringUtils.isBlank(postalCountryCode) ) {

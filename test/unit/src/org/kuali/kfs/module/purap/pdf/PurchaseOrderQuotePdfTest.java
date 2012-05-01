@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,9 +33,9 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.country.CountryService;
 import org.kuali.rice.location.framework.country.CountryEbo;
+import org.kuali.rice.location.impl.country.CountryBo;
 
 @ConfigureContext
 public class PurchaseOrderQuotePdfTest extends KualiTestBase {
@@ -82,7 +82,7 @@ public class PurchaseOrderQuotePdfTest extends KualiTestBase {
         poqv.setVendorPhoneNumber("1-800-DUSTY-CELL");
         poqv.setVendorPostalCode("48864");
 
-        CountryEbo country = CountryEbo.from(countryService.getCountry("US"));
+        CountryEbo country = CountryBo.from(countryService.getCountry("US"));
         poqv.setVendorCountry(country);
         PurchaseOrderItem poi = new PurchaseOrderItem();
         ItemType it = new ItemType();

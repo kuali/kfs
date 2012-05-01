@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,15 +17,17 @@
 package org.kuali.kfs.vnd.businessobject;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.location.api.country.CountryService;
-import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
+import org.kuali.rice.location.api.LocationConstants;
 import org.kuali.rice.location.framework.country.CountryEbo;
 import org.kuali.rice.location.framework.state.StateEbo;
 
@@ -147,10 +149,12 @@ public class VendorContact extends PersistableBusinessObjectBase implements Muta
         this.vendorAddressInternationalProvinceName = vendorAddressInternationalProvinceName;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -212,7 +216,20 @@ public class VendorContact extends PersistableBusinessObjectBase implements Muta
     }
 
     public CountryEbo getVendorCountry() {
-        vendorCountry = (vendorCountryCode == null)?null:( vendorCountry == null || !StringUtils.equals( vendorCountry.getCode(),vendorCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(vendorCountryCode)): vendorCountry;
+        if ( StringUtils.isBlank(vendorCountryCode) ) {
+            vendorCountry = null;
+        } else {
+            if ( vendorCountry == null || !StringUtils.equals( vendorCountry.getCode(),vendorCountryCode) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CountryEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, vendorCountryCode);
+                    vendorCountry = moduleService.getExternalizableBusinessObject(CountryEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
         return vendorCountry;
     }
 
@@ -221,7 +238,21 @@ public class VendorContact extends PersistableBusinessObjectBase implements Muta
     }
 
     public StateEbo getVendorState() {
-        vendorState = (StringUtils.isBlank(vendorCountryCode) || StringUtils.isBlank( vendorStateCode))?null:( vendorState == null || !StringUtils.equals( vendorState.getCountryCode(),vendorCountryCode)|| !StringUtils.equals( vendorState.getCode(), vendorStateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState(vendorCountryCode, vendorStateCode)): vendorState;
+        if ( StringUtils.isBlank(vendorStateCode) || StringUtils.isBlank(vendorCountryCode ) ) {
+            vendorState = null;
+        } else {
+            if ( vendorState == null || !StringUtils.equals( vendorState.getCode(),vendorStateCode) || !StringUtils.equals(vendorState.getCountryCode(), vendorCountryCode ) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(StateEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(2);
+                    keys.put(LocationConstants.PrimaryKeyConstants.COUNTRY_CODE, vendorCountryCode);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, vendorStateCode);
+                    vendorState = moduleService.getExternalizableBusinessObject(StateEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
         return vendorState;
     }
 

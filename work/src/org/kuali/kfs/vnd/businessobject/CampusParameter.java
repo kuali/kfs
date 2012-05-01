@@ -1,12 +1,12 @@
 /*
  * Copyright 2006-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,13 +16,16 @@
 
 package org.kuali.kfs.vnd.businessobject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.location.api.campus.CampusService;
-import org.kuali.rice.location.api.country.CountryService;
-import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
+import org.kuali.rice.location.api.LocationConstants;
 import org.kuali.rice.location.framework.campus.CampusEbo;
 import org.kuali.rice.location.framework.country.CountryEbo;
 import org.kuali.rice.location.framework.state.StateEbo;
@@ -51,7 +54,21 @@ public class CampusParameter extends PersistableBusinessObjectBase implements Mu
     protected CountryEbo purchasingDepartmentCountry;
 
     public CampusEbo getCampus() {
-        return campus = StringUtils.isBlank( campusCode)?null:((campus!=null && campus.getCode().equals( campusCode))?campus:CampusEbo.from(SpringContext.getBean(CampusService.class).getCampus( campusCode)));
+        if ( StringUtils.isBlank(campusCode) ) {
+            campus = null;
+        } else {
+            if ( campus == null || !StringUtils.equals( campus.getCode(),campusCode) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CampusEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, campusCode);
+                    campus = moduleService.getExternalizableBusinessObject(CampusEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
+        return campus;
     }
 
     @Deprecated
@@ -100,7 +117,20 @@ public class CampusParameter extends PersistableBusinessObjectBase implements Mu
     }
 
     public CountryEbo getPurchasingDepartmentCountry() {
-        purchasingDepartmentCountry = (purchasingDepartmentCountryCode == null)?null:( purchasingDepartmentCountry == null || !StringUtils.equals( purchasingDepartmentCountry.getCode(),purchasingDepartmentCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(purchasingDepartmentCountryCode)): purchasingDepartmentCountry;
+        if ( StringUtils.isBlank(purchasingDepartmentCountryCode) ) {
+            purchasingDepartmentCountry = null;
+        } else {
+            if ( purchasingDepartmentCountry == null || !StringUtils.equals( purchasingDepartmentCountry.getCode(),purchasingDepartmentCountryCode) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CountryEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, purchasingDepartmentCountryCode);
+                    purchasingDepartmentCountry = moduleService.getExternalizableBusinessObject(CountryEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
         return purchasingDepartmentCountry;
     }
 
@@ -142,7 +172,21 @@ public class CampusParameter extends PersistableBusinessObjectBase implements Mu
     }
 
     public StateEbo getPurchasingDepartmentState() {
-        purchasingDepartmentState = (StringUtils.isBlank(purchasingDepartmentCountryCode) || StringUtils.isBlank( purchasingDepartmentStateCode))?null:( purchasingDepartmentState == null || !StringUtils.equals( purchasingDepartmentState.getCountryCode(),purchasingDepartmentCountryCode)|| !StringUtils.equals( purchasingDepartmentState.getCode(), purchasingDepartmentStateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState(purchasingDepartmentCountryCode, purchasingDepartmentStateCode)): purchasingDepartmentState;
+        if ( StringUtils.isBlank(purchasingDepartmentStateCode) || StringUtils.isBlank(purchasingDepartmentCountryCode ) ) {
+            purchasingDepartmentState = null;
+        } else {
+            if ( purchasingDepartmentState == null || !StringUtils.equals( purchasingDepartmentState.getCode(),purchasingDepartmentStateCode) || !StringUtils.equals(purchasingDepartmentState.getCountryCode(), purchasingDepartmentCountryCode ) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(StateEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(2);
+                    keys.put(LocationConstants.PrimaryKeyConstants.COUNTRY_CODE, purchasingDepartmentCountryCode);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, purchasingDepartmentStateCode);
+                    purchasingDepartmentState = moduleService.getExternalizableBusinessObject(StateEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
         return purchasingDepartmentState;
     }
 
@@ -177,10 +221,12 @@ public class CampusParameter extends PersistableBusinessObjectBase implements Mu
         this.purchasingInstitutionName = purchasingInstitutionName;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

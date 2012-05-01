@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,15 +15,17 @@
  */
 package org.kuali.kfs.pdp.businessobject;
 
-import java.util.LinkedHashMap;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.pdp.PdpPropertyConstants;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.location.api.postalcode.PostalCodeService;
-import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
+import org.kuali.rice.location.api.LocationConstants;
 import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
 import org.kuali.rice.location.framework.state.StateEbo;
 
@@ -45,10 +47,10 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
     private String bankInstitutionStatusCode;
     private String bankDataViewCode;
     private boolean active;
-    
+
     private StateEbo bankState;
     private PostalCodeEbo postalCode;
-    
+
     /**
      * Default constructor.
      */
@@ -58,7 +60,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
 
     /**
      * This constructor takes a line of data from https://www.fededirectory.frb.org/FedACHdir.txt and populates the object
-     * 
+     *
      * @param fileData
      */
     public ACHBank(String fileData) {
@@ -110,7 +112,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
 
     /**
      * Gets the bankRoutingNumber attribute.
-     * 
+     *
      * @return Returns the bankRoutingNumber
      */
     public String getBankRoutingNumber() {
@@ -119,7 +121,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
 
     /**
      * Sets the bankRoutingNumber attribute.
-     * 
+     *
      * @param bankRoutingNumber The bankRoutingNumber to set.
      */
     public void setBankRoutingNumber(String bankRoutingNumber) {
@@ -129,7 +131,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
 
     /**
      * Gets the bankOfficeCode attribute.
-     * 
+     *
      * @return Returns the bankOfficeCode
      */
     public String getBankOfficeCode() {
@@ -138,7 +140,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
 
     /**
      * Sets the bankOfficeCode attribute.
-     * 
+     *
      * @param bankOfficeCode The bankOfficeCode to set.
      */
     public void setBankOfficeCode(String bankOfficeCode) {
@@ -148,7 +150,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
 
     /**
      * Gets the bankServiceNumber attribute.
-     * 
+     *
      * @return Returns the bankServiceNumber
      */
     public String getBankServiceNumber() {
@@ -157,7 +159,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
 
     /**
      * Sets the bankServiceNumber attribute.
-     * 
+     *
      * @param bankServiceNumber The bankServiceNumber to set.
      */
     public void setBankServiceNumber(String bankServiceNumber) {
@@ -167,7 +169,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
 
     /**
      * Gets the bankTypeCode attribute.
-     * 
+     *
      * @return Returns the bankTypeCode
      */
     public String getBankTypeCode() {
@@ -176,7 +178,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
 
     /**
      * Sets the bankTypeCode attribute.
-     * 
+     *
      * @param bankTypeCode The bankTypeCode to set.
      */
     public void setBankTypeCode(String bankTypeCode) {
@@ -186,7 +188,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
 
     /**
      * Gets the bankNewRoutingNumber attribute.
-     * 
+     *
      * @return Returns the bankNewRoutingNumber
      */
     public String getBankNewRoutingNumber() {
@@ -195,7 +197,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
 
     /**
      * Sets the bankNewRoutingNumber attribute.
-     * 
+     *
      * @param bankNewRoutingNumber The bankNewRoutingNumber to set.
      */
     public void setBankNewRoutingNumber(String bankNewRoutingNumber) {
@@ -205,7 +207,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
 
     /**
      * Gets the bankName attribute.
-     * 
+     *
      * @return Returns the bankName
      */
     public String getBankName() {
@@ -214,7 +216,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
 
     /**
      * Sets the bankName attribute.
-     * 
+     *
      * @param bankName The bankName to set.
      */
     public void setBankName(String bankName) {
@@ -224,7 +226,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
 
     /**
      * Gets the bankStreetAddress attribute.
-     * 
+     *
      * @return Returns the bankStreetAddress
      */
     public String getBankStreetAddress() {
@@ -233,7 +235,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
 
     /**
      * Sets the bankStreetAddress attribute.
-     * 
+     *
      * @param bankStreetAddress The bankStreetAddress to set.
      */
     public void setBankStreetAddress(String bankStreetAddress) {
@@ -243,7 +245,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
 
     /**
      * Gets the bankCityName attribute.
-     * 
+     *
      * @return Returns the bankCityName
      */
     public String getBankCityName() {
@@ -252,7 +254,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
 
     /**
      * Sets the bankCityName attribute.
-     * 
+     *
      * @param bankCityName The bankCityName to set.
      */
     public void setBankCityName(String bankCityName) {
@@ -262,7 +264,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
 
     /**
      * Gets the bankStateCode attribute.
-     * 
+     *
      * @return Returns the bankStateCode
      */
     public String getBankStateCode() {
@@ -271,7 +273,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
 
     /**
      * Sets the bankStateCode attribute.
-     * 
+     *
      * @param bankStateCode The bankStateCode to set.
      */
     public void setBankStateCode(String bankStateCode) {
@@ -281,7 +283,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
 
     /**
      * Gets the bankZipCode attribute.
-     * 
+     *
      * @return Returns the bankZipCode
      */
     public String getBankZipCode() {
@@ -290,7 +292,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
 
     /**
      * Sets the bankZipCode attribute.
-     * 
+     *
      * @param bankZipCode The bankZipCode to set.
      */
     public void setBankZipCode(String bankZipCode) {
@@ -299,7 +301,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
 
     /**
      * Gets the bankPhoneAreaCode attribute.
-     * 
+     *
      * @return Returns the bankPhoneAreaCode
      */
     public String getBankPhoneAreaCode() {
@@ -308,7 +310,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
 
     /**
      * Sets the bankPhoneAreaCode attribute.
-     * 
+     *
      * @param bankPhoneAreaCode The bankPhoneAreaCode to set.
      */
     public void setBankPhoneAreaCode(String bankPhoneAreaCode) {
@@ -318,7 +320,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
 
     /**
      * Gets the bankPhonePrefixNumber attribute.
-     * 
+     *
      * @return Returns the bankPhonePrefixNumber
      */
     public String getBankPhonePrefixNumber() {
@@ -327,7 +329,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
 
     /**
      * Sets the bankPhonePrefixNumber attribute.
-     * 
+     *
      * @param bankPhonePrefixNumber The bankPhonePrefixNumber to set.
      */
     public void setBankPhonePrefixNumber(String bankPhonePrefixNumber) {
@@ -337,7 +339,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
 
     /**
      * Gets the bankPhoneSuffixNumber attribute.
-     * 
+     *
      * @return Returns the bankPhoneSuffixNumber
      */
     public String getBankPhoneSuffixNumber() {
@@ -346,7 +348,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
 
     /**
      * Sets the bankPhoneSuffixNumber attribute.
-     * 
+     *
      * @param bankPhoneSuffixNumber The bankPhoneSuffixNumber to set.
      */
     public void setBankPhoneSuffixNumber(String bankPhoneSuffixNumber) {
@@ -356,7 +358,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
 
     /**
      * Gets the bankInstitutionStatusCode attribute.
-     * 
+     *
      * @return Returns the bankInstitutionStatusCode
      */
     public String getBankInstitutionStatusCode() {
@@ -365,7 +367,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
 
     /**
      * Sets the bankInstitutionStatusCode attribute.
-     * 
+     *
      * @param bankInstitutionStatusCode The bankInstitutionStatusCode to set.
      */
     public void setBankInstitutionStatusCode(String bankInstitutionStatusCode) {
@@ -375,7 +377,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
 
     /**
      * Gets the bankDataViewCode attribute.
-     * 
+     *
      * @return Returns the bankDataViewCode
      */
     public String getBankDataViewCode() {
@@ -384,7 +386,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
 
     /**
      * Sets the bankDataViewCode attribute.
-     * 
+     *
      * @param bankDataViewCode The bankDataViewCode to set.
      */
     public void setBankDataViewCode(String bankDataViewCode) {
@@ -393,47 +395,67 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
 
     /**
      * Gets the bankState attribute.
-     * 
+     *
      * @return Returns the bankState.
      */
     public StateEbo getBankState() {
-        bankState = (StringUtils.isBlank(bankStateCode))?null:( bankState == null||!StringUtils.equals( bankState.getCode(),bankStateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState("US"/*REFACTORME*/,bankStateCode)): bankState;
+        if ( StringUtils.isBlank(bankStateCode) || StringUtils.isBlank(KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
+            bankState = null;
+        } else {
+            if ( bankState == null || !StringUtils.equals( bankState.getCode(),bankStateCode) || !StringUtils.equals(bankState.getCountryCode(), KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(StateEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(2);
+                    keys.put(LocationConstants.PrimaryKeyConstants.COUNTRY_CODE, KFSConstants.COUNTRY_CODE_UNITED_STATES);/*RICE20_REFACTORME*/
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, bankStateCode);
+                    bankState = moduleService.getExternalizableBusinessObject(StateEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
         return bankState;
     }
 
     /**
      * Gets the postalCode attribute.
-     * 
+     *
      * @return Returns the postalCode.
      */
     public PostalCodeEbo getPostalCode() {
-        postalCode = (bankZipCode == null)?null:( postalCode == null || !StringUtils.equals( postalCode.getCode(),bankZipCode))?PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode("US"/*RICE20_REFACTORME*/,bankZipCode)): postalCode;
+        if ( StringUtils.isBlank(bankZipCode) || StringUtils.isBlank(KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
+            postalCode = null;
+        } else {
+            if ( postalCode == null || !StringUtils.equals( postalCode.getCode(),bankZipCode) || !StringUtils.equals(postalCode.getCountryCode(), KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(PostalCodeEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(2);
+                    keys.put(LocationConstants.PrimaryKeyConstants.COUNTRY_CODE, KFSConstants.COUNTRY_CODE_UNITED_STATES);/*RICE20_REFACTORME*/
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, bankZipCode);
+                    postalCode = moduleService.getExternalizableBusinessObject(PostalCodeEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
         return postalCode;
     }
-    
+
     /**
-     * 
+     *
      * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#isActive()
      */
+    @Override
     public boolean isActive() {
         return active;
     }
-    
+
     /**
-     * 
+     *
      * @see org.kuali.rice.core.api.mo.common.active.MutableInactivatable#setActive(boolean)
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
-
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put(PdpPropertyConstants.BANK_ROUTING_NUMBER, this.bankRoutingNumber);
-        return m;
-    }
-
 }

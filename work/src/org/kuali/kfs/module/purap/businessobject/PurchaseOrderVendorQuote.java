@@ -18,14 +18,18 @@ package org.kuali.kfs.module.purap.businessobject;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.location.api.LocationConstants;
 import org.kuali.rice.location.framework.country.CountryEbo;
 
 /**
@@ -83,11 +87,30 @@ public class PurchaseOrderVendorQuote extends PersistableBusinessObjectBase {
         return purchaseOrderVendorQuoteIdentifier;
     }
 
+    /**
+     * Gets the vendorCountryCode attribute.
+     *
+     * @return Returns the vendorCountryCode.
+     */
     public CountryEbo getVendorCountry() {
-        vendorCountry = (vendorCountryCode == null)?null:( vendorCountry == null || !StringUtils.equals( vendorCountry.getCode(),vendorCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(vendorCountryCode)): vendorCountry;
+        if ( StringUtils.isBlank(vendorCountryCode) ) {
+            vendorCountry = null;
+        } else {
+            if ( vendorCountry == null || !StringUtils.equals( vendorCountry.getCode(), vendorCountryCode) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CountryEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, vendorCountryCode);
+                    vendorCountry = moduleService.getExternalizableBusinessObject(CountryEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
+        
         return vendorCountry;
     }
-
+    
     public void setVendorCountry(CountryEbo vendorCountry) {
         this.vendorCountry = vendorCountry;
     }

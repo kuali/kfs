@@ -16,15 +16,17 @@
 
 package org.kuali.kfs.module.cg.businessobject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.location.api.country.Country;
-import org.kuali.rice.location.api.country.CountryService;
-import org.kuali.rice.location.api.state.State;
-import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
+import org.kuali.rice.location.api.LocationConstants;
 import org.kuali.rice.location.framework.country.CountryEbo;
 import org.kuali.rice.location.framework.state.StateEbo;
 
@@ -222,10 +224,23 @@ public class SubContractor extends PersistableBusinessObjectBase implements Muta
      * @return the {@link Country} in which the subcontractor is located.
      */
     public CountryEbo getSubcontractorCountry() {
-        subcontractorCountry = (subcontractorCountryCode == null)?null:( subcontractorCountry == null || !StringUtils.equals( subcontractorCountry.getCode(),subcontractorCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(subcontractorCountryCode)): subcontractorCountry;
+        if ( StringUtils.isBlank(subcontractorCountryCode) ) {
+            subcontractorCountry = null;
+        } else {
+            if ( subcontractorCountry == null || !StringUtils.equals( subcontractorCountry.getCode(), subcontractorCountryCode) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CountryEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, subcontractorCountryCode);
+                    subcontractorCountry = moduleService.getExternalizableBusinessObject(CountryEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
         return subcontractorCountry;
     }
-
+    
     /**
      * Sets the {@link Country} in which the subcontractor is located.
      * 
@@ -237,14 +252,30 @@ public class SubContractor extends PersistableBusinessObjectBase implements Muta
 
     /**
      * Gets the {@link State} in which the subcontractor is located.
-     * 
+     *
      * @return the {@link State} in which the subcontractor is located.
      */
     public StateEbo getSubcontractorState() {
-        subcontractorState = (StringUtils.isBlank(subcontractorCountryCode) || StringUtils.isBlank( subcontractorStateCode))?null:( subcontractorState == null || !StringUtils.equals( subcontractorState.getCountryCode(),subcontractorCountryCode)|| !StringUtils.equals( subcontractorState.getCode(), subcontractorStateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState(subcontractorCountryCode, subcontractorStateCode)): subcontractorState;
+        if ( StringUtils.isBlank(subcontractorCountryCode) || StringUtils.isBlank(KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
+            subcontractorState = null;
+        } else {
+            if ( subcontractorState == null || !StringUtils.equals( subcontractorState.getCode(),subcontractorCountryCode) || !StringUtils.equals(subcontractorState.getCountryCode(), KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(StateEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(2);
+                    keys.put(LocationConstants.PrimaryKeyConstants.COUNTRY_CODE, KFSConstants.COUNTRY_CODE_UNITED_STATES);/*RICE20_REFACTORME*/
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, subcontractorCountryCode);
+                    subcontractorState = moduleService.getExternalizableBusinessObject(StateEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
+        
         return subcontractorState;
     }
-
+    
+    
     /**
      * Sets the {@link State} in which the subcontractor is located.
      * 

@@ -50,8 +50,11 @@ import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.rules.rule.event.SaveDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.location.api.LocationConstants;
 import org.kuali.rice.location.api.campus.CampusService;
 import org.kuali.rice.location.api.country.CountryService;
 import org.kuali.rice.location.api.postalcode.PostalCodeService;
@@ -207,9 +210,21 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * @return Returns the campus
      */
     public CampusEbo getCampus() {
-        Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put(KRADPropertyConstants.CAMPUS_CODE, campusCode);
-        return campus = CampusEbo.from(SpringContext.getBean(CampusService.class).getCampus(campusCode/*RICE_20_REFACTORME  criteria */));
+        if ( StringUtils.isBlank(campusCode) ) {
+            campus = null;
+        } else {
+            if ( campus == null || !StringUtils.equals( campus.getCode(),campusCode) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CampusEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, campusCode);
+                    campus = moduleService.getExternalizableBusinessObject(CampusEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
+        return campus;
     }
 
     /**
@@ -278,7 +293,22 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * @return Returns the offCampusState.
      */
     public StateEbo getOffCampusState() {
-        offCampusState = (StringUtils.isBlank(offCampusCountryCode) || StringUtils.isBlank( offCampusStateCode))?null:( offCampusState == null || !StringUtils.equals( offCampusState.getCountryCode(),offCampusCountryCode)|| !StringUtils.equals( offCampusState.getCode(), offCampusStateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState(offCampusCountryCode, offCampusStateCode)): offCampusState;
+        if ( StringUtils.isBlank(offCampusCountryCode) || StringUtils.isBlank(offCampusStateCode) ) {
+            offCampusState = null;
+        } else {
+            if ( offCampusState == null || !StringUtils.equals( offCampusState.getCountryCode(),offCampusCountryCode)|| !StringUtils.equals( offCampusState.getCode(), offCampusStateCode)) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(StateEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(2);
+                    keys.put(LocationConstants.PrimaryKeyConstants.COUNTRY_CODE, offCampusCountryCode);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, offCampusStateCode);
+                    offCampusState = moduleService.getExternalizableBusinessObject(StateEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
+        
         return offCampusState;
     }
 
@@ -307,8 +337,23 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * @return Returns the postalZipCode
      */
     public PostalCodeEbo getPostalZipCode() {
-        postalZipCode = (StringUtils.isBlank(offCampusCountryCode) || StringUtils.isBlank( offCampusZipCode))?null:( postalZipCode == null || !StringUtils.equals( postalZipCode.getCountryCode(),offCampusCountryCode)|| !StringUtils.equals( postalZipCode.getCode(), offCampusZipCode))?PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode(offCampusCountryCode, offCampusZipCode)): postalZipCode;
-        return postalZipCode;
+        if ( StringUtils.isBlank(offCampusCountryCode) || StringUtils.isBlank(offCampusZipCode) ) {
+            postalZipCode = null;
+        } else {
+            if (  postalZipCode == null || !StringUtils.equals( postalZipCode.getCountryCode(),offCampusCountryCode)|| !StringUtils.equals( postalZipCode.getCode(), offCampusZipCode)) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(PostalCodeEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(2);
+                    keys.put(LocationConstants.PrimaryKeyConstants.COUNTRY_CODE, offCampusCountryCode);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, offCampusZipCode);
+                    postalZipCode = moduleService.getExternalizableBusinessObject(PostalCodeEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
+        
+        return postalZipCode;        
     }
 
     /**
@@ -317,7 +362,20 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * @return Returns the offCampusCountry.
      */
     public CountryEbo getOffCampusCountry() {
-        offCampusCountry = (offCampusCountryCode == null)?null:( offCampusCountry == null || !StringUtils.equals( offCampusCountry.getCode(),offCampusCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(offCampusCountryCode)): offCampusCountry;
+        if ( StringUtils.isBlank(offCampusCountryCode) ) {
+            offCampusCountry = null;
+        } else {
+            if ( offCampusCountry == null || !StringUtils.equals( offCampusCountry.getCode(),offCampusCountryCode) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CountryEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, offCampusCountryCode);
+                    offCampusCountry = moduleService.getExternalizableBusinessObject(CountryEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
         return offCampusCountry;
     }
 

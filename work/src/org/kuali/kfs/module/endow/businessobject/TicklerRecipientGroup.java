@@ -15,10 +15,19 @@
  */
 package org.kuali.kfs.module.endow.businessobject;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.framework.group.GroupEbo;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
+import org.kuali.rice.location.api.LocationConstants;
+import org.kuali.rice.location.framework.campus.CampusEbo;
 
 public class TicklerRecipientGroup extends PersistableBusinessObjectBase implements MutableInactivatable
 {
@@ -76,7 +85,20 @@ public class TicklerRecipientGroup extends PersistableBusinessObjectBase impleme
     }
 
     public GroupEbo getGroup(String groupId) {
-        return GroupEbo.from( KimApiServiceLocator.getGroupService().getGroup(groupId) );
+        GroupEbo groupEbo = null;
+        if ( StringUtils.isBlank(groupId) ) {
+          } else {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(GroupEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, groupId);
+                    groupEbo = moduleService.getExternalizableBusinessObject(GroupEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+
+        }
+        return groupEbo;
     }
 
     public void setAssignedToGroup(GroupEbo assignedToGroup) {

@@ -53,6 +53,7 @@ import org.kuali.rice.krad.service.ModuleService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.location.api.LocationConstants;
 import org.kuali.rice.location.api.postalcode.PostalCodeService;
+import org.kuali.rice.location.framework.campus.CampusEbo;
 import org.kuali.rice.location.framework.country.CountryEbo;
 import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
 import org.kuali.rice.location.framework.state.StateEbo;
@@ -582,9 +583,24 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      * @return Returns the postalZipCode
      */
     public PostalCodeEbo getPostalZipCode() {
-        postalZipCode = (StringUtils.isBlank(retirementCountryCode) || StringUtils.isBlank( retirementZipCode))?null:( postalZipCode == null || !StringUtils.equals( postalZipCode.getCountryCode(),retirementCountryCode)|| !StringUtils.equals( postalZipCode.getCode(), retirementZipCode))?PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode(retirementCountryCode, retirementZipCode)): postalZipCode;
+        if ( StringUtils.isBlank(retirementCountryCode) || StringUtils.isBlank(retirementZipCode) ) {
+            postalZipCode = null;
+        } else {
+            if ( postalZipCode == null || !StringUtils.equals( postalZipCode.getCode(), retirementCountryCode) || !StringUtils.equals(postalZipCode.getCode(), retirementZipCode ) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(PostalCodeEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(2);
+                    keys.put(LocationConstants.PrimaryKeyConstants.COUNTRY_CODE, retirementCountryCode);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, retirementZipCode);
+                    postalZipCode = moduleService.getExternalizableBusinessObject(PostalCodeEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
+        
         return postalZipCode;
-    }
+      }
 
     /**
      * Sets the postalZipCode attribute.

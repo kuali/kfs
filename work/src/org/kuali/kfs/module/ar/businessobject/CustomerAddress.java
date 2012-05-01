@@ -16,13 +16,17 @@
 package org.kuali.kfs.module.ar.businessobject;
 
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.document.service.CustomerAddressService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
+import org.kuali.rice.location.api.LocationConstants;
 import org.kuali.rice.location.framework.country.CountryEbo;
 
 /**
@@ -361,9 +365,23 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
      * @return Returns the customerCountry.
      */
     public CountryEbo getCustomerCountry() {
-        customerCountry = (customerCountryCode == null)?null:( customerCountry == null || !StringUtils.equals( customerCountry.getCode(),customerCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(customerCountryCode)): customerCountry;
-        return customerCountry;
+        if (StringUtils.isBlank(customerCountryCode)) {
+            customerCountry = null;
+        } else {
+            if (customerCountry == null || !StringUtils.equals(customerCountry.getCode(), customerCountryCode)) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CountryEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, customerCountryCode);
+                    customerCountry = moduleService.getExternalizableBusinessObject(CountryEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
+        return customerCountry;    
     }
+
 
     /**
      * Sets the customerCountry attribute value.

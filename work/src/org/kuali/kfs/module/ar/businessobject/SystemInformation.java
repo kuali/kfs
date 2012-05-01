@@ -15,7 +15,9 @@
  */
 package org.kuali.kfs.module.ar.businessobject;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -30,8 +32,12 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
+import org.kuali.rice.location.api.LocationConstants;
 import org.kuali.rice.location.api.postalcode.PostalCodeService;
 import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.location.framework.campus.CampusEbo;
 import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
 import org.kuali.rice.location.framework.state.StateEbo;
 
@@ -770,7 +776,20 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
      * @return Returns the organizationRemitToState.
      */
     public StateEbo getOrganizationRemitToState() {
-        organizationRemitToState = (StringUtils.isBlank(organizationRemitToStateCode))?null:( organizationRemitToState == null||!StringUtils.equals( organizationRemitToState.getCode(),organizationRemitToStateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState("US"/*REFACTORME*/,organizationRemitToStateCode)): organizationRemitToState;
+        if ( StringUtils.isBlank(organizationRemitToStateCode) ) {
+            organizationRemitToState = null;
+        } else {
+            if ( organizationRemitToState == null || !StringUtils.equals( organizationRemitToState.getCode(),organizationRemitToStateCode) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(StateEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, organizationRemitToStateCode);
+                    organizationRemitToState = moduleService.getExternalizableBusinessObject(StateEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
         return organizationRemitToState;
     }
 
@@ -927,7 +946,20 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
      * @return Returns the orgRemitToZipCode.
      */
     public PostalCodeEbo getOrgRemitToZipCode() {
-        orgRemitToZipCode = (organizationRemitToZipCode == null)?null:( orgRemitToZipCode == null || !StringUtils.equals( orgRemitToZipCode.getCode(),organizationRemitToZipCode))?PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode("US"/*RICE20_REFACTORME*/,organizationRemitToZipCode)): orgRemitToZipCode;
+        if ( StringUtils.isBlank(organizationRemitToZipCode) ) {
+            orgRemitToZipCode = null;
+        } else {
+            if ( orgRemitToZipCode == null || !StringUtils.equals( orgRemitToZipCode.getCode(),organizationRemitToZipCode) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(PostalCodeEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, organizationRemitToZipCode);
+                    orgRemitToZipCode = moduleService.getExternalizableBusinessObject(PostalCodeEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
         return orgRemitToZipCode;
     }
 

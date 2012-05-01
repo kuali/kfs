@@ -15,7 +15,9 @@
  */
 package org.kuali.kfs.module.ar.businessobject;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Chart;
@@ -26,9 +28,10 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.location.api.postalcode.PostalCodeService;
-import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
+import org.kuali.rice.location.api.LocationConstants;
+import org.kuali.rice.location.framework.campus.CampusEbo;
 import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
 import org.kuali.rice.location.framework.state.StateEbo;
 
@@ -575,7 +578,20 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
      * @return Returns the organizationRemitToState.
      */
     public StateEbo getOrganizationRemitToState() {
-        organizationRemitToState = (StringUtils.isBlank(organizationRemitToStateCode))?null:( organizationRemitToState == null||!StringUtils.equals( organizationRemitToState.getCode(),organizationRemitToStateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState("US"/*REFACTORME*/,organizationRemitToStateCode)): organizationRemitToState;
+        if ( StringUtils.isBlank(organizationRemitToStateCode) ) {
+            organizationRemitToState = null;
+        } else {
+            if ( organizationRemitToState == null || !StringUtils.equals( organizationRemitToState.getCode(),organizationRemitToStateCode) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(StateEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, organizationRemitToStateCode);
+                    organizationRemitToState = moduleService.getExternalizableBusinessObject(StateEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
         return organizationRemitToState;
     }
 
@@ -642,9 +658,20 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
     }
 
     public PostalCodeEbo getOrgPostalZipCode() {
-        if(ObjectUtils.isNull(orgPostalZipCode)) {
-            orgPostalZipCode = PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode( "US"/*RICE_20_REFACTORME*/, organizationPostalZipCode ));
-        }
+        if ( StringUtils.isBlank(organizationPostalZipCode) ) {
+            orgPostalZipCode = null;
+        } else {
+            if ( orgPostalZipCode == null || !StringUtils.equals( orgPostalZipCode.getCode(),organizationPostalZipCode) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(PostalCodeEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, organizationPostalZipCode);
+                    orgPostalZipCode = moduleService.getExternalizableBusinessObject(PostalCodeEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }        
         return orgPostalZipCode;
     }
 
@@ -653,8 +680,19 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
     }
 
     public PostalCodeEbo getOrgRemitToZipCode() {
-        if(ObjectUtils.isNull(orgRemitToZipCode)) {
-            orgRemitToZipCode = PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode( "US"/*RICE_20_REFACTORME*/, organizationRemitToZipCode ));
+        if ( StringUtils.isBlank(organizationRemitToZipCode) ) {
+            orgRemitToZipCode = null;
+        } else {
+            if ( orgRemitToZipCode == null || !StringUtils.equals( orgRemitToZipCode.getCode(),organizationRemitToZipCode) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CampusEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, organizationRemitToZipCode);
+                    orgRemitToZipCode = moduleService.getExternalizableBusinessObject(PostalCodeEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
         }
         return orgRemitToZipCode;
     }

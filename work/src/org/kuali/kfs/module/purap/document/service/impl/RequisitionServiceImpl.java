@@ -380,9 +380,10 @@ public class RequisitionServiceImpl implements RequisitionService {
         List<String> requisitionDocumentNumbers = new ArrayList<String>();
              
         DocumentSearchCriteria.Builder documentSearchCriteriaDTO = DocumentSearchCriteria.Builder.create();
-        //Search for status of P and F        
+        //Search for status of P and F and "Awaiting Contract Manager Assignment" application document status      
         documentSearchCriteriaDTO.setDocumentStatuses(Arrays.asList(DocumentStatus.PROCESSED, DocumentStatus.FINAL));
         documentSearchCriteriaDTO.setDocumentTypeName(PurapConstants.REQUISITION_DOCUMENT_TYPE);
+        documentSearchCriteriaDTO.setApplicationDocumentStatus(PurapConstants.RequisitionStatuses.APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN);
         documentSearchCriteriaDTO.setSaveName(null);
         
         DocumentSearchResults results = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(null, documentSearchCriteriaDTO.build());
@@ -390,45 +391,10 @@ public class RequisitionServiceImpl implements RequisitionService {
         String documentHeaderId = null;
 
         for (DocumentSearchResult result : results.getSearchResults()) {
-            documentHeaderId = result.getDocument().getDocumentId();
-            Document document = findDocument(documentHeaderId);
-            
-            if (document != null) {
-                
-                
-                ///use the appDocStatus from the KeyValueDTO result to look up contract manager assignment status
-                if (PurapConstants.RequisitionStatuses.APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN.equalsIgnoreCase(
-                        document.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus())){
-                    //found the matched Awaiting Contract Manager Assignment status, retrieve the routeHeaderId and add to the list
-                    requisitionDocumentNumbers.add(document.getDocumentNumber());
-                }
-            }else{
-                LOG.error("Document is NULL.  It should never have been null");                
-            }
+            requisitionDocumentNumbers.add(result.getDocument().getDocumentId());            
         }
         
         return requisitionDocumentNumbers;
-    }
-    
-    /**
-     * This method finds the document for the given document header id
-     * @param documentHeaderId
-     * @return document The document in the workflow that matches the document header id.
-     */
-    protected Document findDocument(String documentHeaderId) {
-        Document document = null;
-        
-        try {
-            document = documentService.getByDocumentHeaderId(documentHeaderId);
-        }
-        catch (WorkflowException ex) {
-            LOG.error("Exception encountered on finding the document: " + documentHeaderId, ex );
-        } catch ( UnknownDocumentTypeException ex ) {
-            // don't blow up just because a document type is not installed (but don't return it either)
-            LOG.error("Exception encountered on finding the document: " + documentHeaderId, ex );
-        }
-        
-        return document;
     }
     
     /**

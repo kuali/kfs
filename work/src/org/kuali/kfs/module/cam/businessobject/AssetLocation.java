@@ -15,12 +15,17 @@
  */
 package org.kuali.kfs.module.cam.businessobject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
+import org.kuali.rice.location.api.LocationConstants;
 import org.kuali.rice.location.api.postalcode.PostalCodeService;
-import org.kuali.rice.location.api.state.StateService;
 import org.kuali.rice.location.framework.country.CountryEbo;
 import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
 import org.kuali.rice.location.framework.state.StateEbo;
@@ -284,14 +289,29 @@ public class AssetLocation extends PersistableBusinessObjectBase {
 
     /**
      * Gets the postalZipCode attribute.
-     *
-     * @return Returns the postalZipCode
+     * 
+     * @return Returns the postalZipCode.
      */
     public PostalCodeEbo getPostalZipCode() {
-        postalZipCode = (StringUtils.isBlank(assetLocationCountryCode) || StringUtils.isBlank( assetLocationZipCode))?null:( postalZipCode == null || !StringUtils.equals( postalZipCode.getCountryCode(),assetLocationCountryCode)|| !StringUtils.equals( postalZipCode.getCode(), assetLocationZipCode))?PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode(assetLocationCountryCode, assetLocationZipCode)): postalZipCode;
+        if ( StringUtils.isBlank(assetLocationZipCode) || StringUtils.isBlank(KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
+            postalZipCode = null;
+        } else {
+            if ( postalZipCode == null || !StringUtils.equals( postalZipCode.getCode(), assetLocationZipCode) || !StringUtils.equals(postalZipCode.getCountryCode(), KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(PostalCodeEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(2);
+                    keys.put(LocationConstants.PrimaryKeyConstants.COUNTRY_CODE, KFSConstants.COUNTRY_CODE_UNITED_STATES);/*RICE20_REFACTORME*/
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, assetLocationZipCode);
+                    postalZipCode = moduleService.getExternalizableBusinessObject(PostalCodeEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
+        
         return postalZipCode;
     }
-
+    
     /**
      * Sets the postalZipCode attribute.
      *
@@ -339,17 +359,57 @@ public class AssetLocation extends PersistableBusinessObjectBase {
         this.assetLocationType = assetLocationType;
     }
 
+    /**
+     * Gets the assetLocationCountry attribute.
+     *
+     * @return Returns the assetLocationCountry.
+     */
     public CountryEbo getAssetLocationCountry() {
-        assetLocationCountry = (assetLocationCountryCode == null)?null:( assetLocationCountry == null || !StringUtils.equals( assetLocationCountry.getCode(),assetLocationCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(assetLocationCountryCode)): assetLocationCountry;
+        if ( StringUtils.isBlank(assetLocationCountryCode) ) {
+            assetLocationCountry = null;
+        } else {
+            if ( assetLocationCountry == null || !StringUtils.equals( assetLocationCountry.getCode(), assetLocationCountryCode) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CountryEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, assetLocationCountryCode);
+                    assetLocationCountry = moduleService.getExternalizableBusinessObject(CountryEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
+        
         return assetLocationCountry;
     }
 
+    
     public void setAssetLocationCountry(CountryEbo assetLocationCountry) {
         this.assetLocationCountry = assetLocationCountry;
     }
-
+    
+    /**
+     * Gets the assetLocationState attribute
+     *
+     * @return Returns the assetLocationState
+     */
     public StateEbo getAssetLocationState() {
-        assetLocationState = (StringUtils.isBlank(assetLocationCountryCode) || StringUtils.isBlank( assetLocationStateCode))?null:( assetLocationState == null || !StringUtils.equals( assetLocationState.getCountryCode(),assetLocationCountryCode)|| !StringUtils.equals( assetLocationState.getCode(), assetLocationStateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState(assetLocationCountryCode, assetLocationStateCode)): assetLocationState;
+        if ( StringUtils.isBlank(assetLocationStateCode) || StringUtils.isBlank(KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
+            assetLocationState = null;
+        } else {
+            if ( assetLocationState == null || !StringUtils.equals( assetLocationState.getCode(), assetLocationStateCode) || !StringUtils.equals(assetLocationState.getCountryCode(), KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(StateEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(2);
+                    keys.put(LocationConstants.PrimaryKeyConstants.COUNTRY_CODE, KFSConstants.COUNTRY_CODE_UNITED_STATES);/*RICE20_REFACTORME*/
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, assetLocationStateCode);
+                    assetLocationState = moduleService.getExternalizableBusinessObject(StateEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
+        
         return assetLocationState;
     }
 

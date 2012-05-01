@@ -16,20 +16,22 @@
 package org.kuali.kfs.module.cam.businessobject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.GlobalBusinessObjectDetailBase;
-import org.kuali.rice.location.api.campus.CampusService;
-import org.kuali.rice.location.api.country.CountryService;
-import org.kuali.rice.location.api.postalcode.PostalCodeService;
-import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
+import org.kuali.rice.location.api.LocationConstants;
 import org.kuali.rice.location.framework.campus.CampusEbo;
 import org.kuali.rice.location.framework.country.CountryEbo;
 import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
@@ -66,7 +68,6 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
     private StateEbo offCampusState;
     private CountryEbo offCampusCountry;
     private PostalCodeEbo postalZipCode;
-
 
     private Integer locationQuantity;
     private String representativeUniversalIdentifier;
@@ -457,13 +458,27 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
 
     /**
      * Gets the campus attribute.
-     * 
+     *
      * @return Returns the campus
      */
     public CampusEbo getCampus() {
-        return campus = StringUtils.isBlank( campusCode)?null:((campus!=null && campus.getCode().equals( campusCode))?campus:CampusEbo.from(SpringContext.getBean(CampusService.class).getCampus( campusCode)));
+        if ( StringUtils.isBlank(campusCode) ) {
+            campus = null;
+        } else {
+            if ( campus == null || !StringUtils.equals( campus.getCode(), campusCode) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CampusEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, campusCode);
+                    campus = moduleService.getExternalizableBusinessObject(CampusEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
+        return campus;
     }
-
+    
     /**
      * Sets the campus attribute.
      * 
@@ -513,15 +528,29 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
     }
 
     /**
-     * Gets the offCampusState attribute.
-     * 
-     * @return Returns the offCampusState.
+     * Gets the offCampusState attribute
+     *
+     * @return Returns the offCampusState
      */
-    public StateEbo getOffCampusState() {
-        offCampusState = (StringUtils.isBlank(offCampusCountryCode) || StringUtils.isBlank( offCampusStateCode))?null:( offCampusState == null || !StringUtils.equals( offCampusState.getCountryCode(),offCampusCountryCode)|| !StringUtils.equals( offCampusState.getCode(), offCampusStateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState(offCampusCountryCode, offCampusStateCode)): offCampusState;
+    public StateEbo getAccountState() {
+        if ( StringUtils.isBlank(offCampusStateCode) || StringUtils.isBlank(KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
+            offCampusState = null;
+        } else {
+            if ( offCampusState == null || !StringUtils.equals( offCampusState.getCode(), offCampusStateCode) || !StringUtils.equals(offCampusState.getCountryCode(), KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(StateEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(2);
+                    keys.put(LocationConstants.PrimaryKeyConstants.COUNTRY_CODE, KFSConstants.COUNTRY_CODE_UNITED_STATES);/*RICE20_REFACTORME*/
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, offCampusStateCode);
+                    offCampusState = moduleService.getExternalizableBusinessObject(StateEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
         return offCampusState;
     }
-
+    
     /**
      * Sets the offCampusState attribute value.
      * 
@@ -538,10 +567,25 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
      * @return Returns the postalZipCode.
      */
     public PostalCodeEbo getPostalZipCode() {
-        postalZipCode = (StringUtils.isBlank(offCampusCountryCode) || StringUtils.isBlank( offCampusZipCode))?null:( postalZipCode == null || !StringUtils.equals( postalZipCode.getCountryCode(),offCampusCountryCode)|| !StringUtils.equals( postalZipCode.getCode(), offCampusZipCode))?PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode(offCampusCountryCode, offCampusZipCode)): postalZipCode;
+        if ( StringUtils.isBlank(offCampusZipCode) || StringUtils.isBlank(KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
+            postalZipCode = null;
+        } else {
+            if ( postalZipCode == null || !StringUtils.equals( postalZipCode.getCode(), offCampusZipCode) || !StringUtils.equals(postalZipCode.getCountryCode(), KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(PostalCodeEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(2);
+                    keys.put(LocationConstants.PrimaryKeyConstants.COUNTRY_CODE, KFSConstants.COUNTRY_CODE_UNITED_STATES);/*RICE20_REFACTORME*/
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, offCampusZipCode);
+                    postalZipCode = moduleService.getExternalizableBusinessObject(PostalCodeEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
+        
         return postalZipCode;
     }
-
+    
     /**
      * Sets the postalZipCode attribute value.
      * 
@@ -558,10 +602,23 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
      * @return Returns the offCampusCountry.
      */
     public CountryEbo getOffCampusCountry() {
-        offCampusCountry = (offCampusCountryCode == null)?null:( offCampusCountry == null || !StringUtils.equals( offCampusCountry.getCode(),offCampusCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(offCampusCountryCode)): offCampusCountry;
+        if ( StringUtils.isBlank(offCampusCountryCode) ) {
+            offCampusCountry = null;
+        } else {
+            if ( offCampusCountry == null || !StringUtils.equals( offCampusCountry.getCode(), offCampusCountryCode) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CountryEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, offCampusCountryCode);
+                    offCampusCountry = moduleService.getExternalizableBusinessObject(CountryEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
         return offCampusCountry;
     }
-
+    
     /**
      * Sets the offCampusCountry attribute value.
      * 

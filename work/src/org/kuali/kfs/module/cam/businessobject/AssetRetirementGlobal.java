@@ -19,8 +19,10 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -32,6 +34,7 @@ import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.service.AssetRetirementService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
@@ -45,10 +48,11 @@ import org.kuali.rice.krad.bo.GlobalBusinessObjectDetail;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.location.api.LocationConstants;
 import org.kuali.rice.location.api.postalcode.PostalCodeService;
-import org.kuali.rice.location.api.state.StateService;
 import org.kuali.rice.location.framework.country.CountryEbo;
 import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
 import org.kuali.rice.location.framework.state.StateEbo;
@@ -825,11 +829,25 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      * 
      * @return Returns the retirementCountry.
      */
-    public CountryEbo getRetirementCountry() {
-        retirementCountry = (retirementCountryCode == null)?null:( retirementCountry == null || !StringUtils.equals( retirementCountry.getCode(),retirementCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(retirementCountryCode)): retirementCountry;
+    public CountryEbo getAssetLocationCountry() {
+        if ( StringUtils.isBlank(retirementCountryCode) ) {
+            retirementCountry = null;
+        } else {
+            if ( retirementCountry == null || !StringUtils.equals( retirementCountry.getCode(), retirementCountryCode) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CountryEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, retirementCountryCode);
+                    retirementCountry = moduleService.getExternalizableBusinessObject(CountryEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
+        
         return retirementCountry;
     }
-
+    
     /**
      * Sets the retirementCountry attribute value.
      * 
@@ -845,11 +863,26 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      * 
      * @return Returns the retirementState.
      */
-    public StateEbo getRetirementState() {
-        retirementState = (StringUtils.isBlank(retirementCountryCode) || StringUtils.isBlank( retirementStateCode))?null:( retirementState == null || !StringUtils.equals( retirementState.getCountryCode(),retirementCountryCode)|| !StringUtils.equals( retirementState.getCode(), retirementStateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState(retirementCountryCode, retirementStateCode)): retirementState;
+    public StateEbo getAssetLocationState() {
+        if ( StringUtils.isBlank(retirementStateCode) || StringUtils.isBlank(KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
+            retirementState = null;
+        } else {
+            if ( retirementState == null || !StringUtils.equals( retirementState.getCode(), retirementStateCode) || !StringUtils.equals(retirementState.getCountryCode(), KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(StateEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(2);
+                    keys.put(LocationConstants.PrimaryKeyConstants.COUNTRY_CODE, KFSConstants.COUNTRY_CODE_UNITED_STATES);/*RICE20_REFACTORME*/
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, retirementStateCode);
+                    retirementState = moduleService.getExternalizableBusinessObject(StateEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
+        
         return retirementState;
     }
-
+    
     /**
      * Sets the retirementState attribute value.
      * 

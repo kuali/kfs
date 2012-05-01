@@ -29,6 +29,13 @@ public interface StatusCodeAndDescriptionForPurapDocumentsDao {
      * @return Map<String, String>
      */
     public Map<String, String> getRequisitionDocumentStatuses();
+
+    /**
+     * Retrieves the status code and status description for purchase orders.
+     * 
+     * @return Map<String, String>
+     */
+    public Map<String, String> getPurchaseOrderDocumentStatuses();
     
     /**
      * The workflowdocument is updated with new application document status and

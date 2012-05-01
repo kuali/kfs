@@ -17,6 +17,7 @@ package org.kuali.kfs.module.purap.dataaccess;
 
 import java.util.List;
 
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 
 /**
@@ -30,5 +31,12 @@ public interface PurapDocumentsStatusCodeMigrationDao {
      * @return requisition documents where status code exists.
      */
     public List<RequisitionDocument> getRequisitionDocumentsForStatusCodeMigration();
+
+    /**
+     * Retrieves the purchase order documents to migrate status code to workflow side
+     * 
+     * @return purchase order documents where status code exists.
+     */
+    public List<PurchaseOrderDocument> getPurchaseOrderDocumentsForStatusCodeMigration();
     
 }

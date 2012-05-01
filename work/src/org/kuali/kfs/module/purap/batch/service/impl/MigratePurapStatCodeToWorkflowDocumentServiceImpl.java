@@ -21,6 +21,7 @@ import java.util.Map;
 import org.kuali.kfs.module.purap.batch.service.MigratePurapStatCodeToWorkflowDocumentService;
 import org.kuali.kfs.module.purap.dataaccess.PurapDocumentsStatusCodeMigrationDao;
 import org.kuali.kfs.module.purap.dataaccess.StatusCodeAndDescriptionForPurapDocumentsDao;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ReportWriterService;
@@ -66,6 +67,8 @@ public class MigratePurapStatCodeToWorkflowDocumentServiceImpl implements Migrat
         //Step 1: Go through REQ documents and move the status code to workflow documents
         success &= processRequisitionDocumentsForStatusCodeMigration();
         
+        success &= processPurchaseOrderDocumentsForStatusCodeMigration();
+        
         LOG.debug("migratePurapStatCodeToWorkflowDocuments() completed");
         
         return success;
@@ -86,6 +89,8 @@ public class MigratePurapStatCodeToWorkflowDocumentServiceImpl implements Migrat
 
         migratePurapStatCodeReportService.writeFormattedMessageLine("********** Migration of Requistions StatusCode to Workflow document started **********\n");
         
+        final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();
+        
         //get the status code/descriptions from the table pur_reqs_stat_t
         Map<String, String> requisitionStatusMap = getStatusCodeAndDescriptionForPurapDocumentsDao().getRequisitionDocumentStatuses();
         
@@ -98,15 +103,53 @@ public class MigratePurapStatCodeToWorkflowDocumentServiceImpl implements Migrat
             
             //find the workflow document and update the app_doc_stat and app_doc_stat_mdfn_dt columns.
             getStatusCodeAndDescriptionForPurapDocumentsDao().updateAndSaveMigratedApplicationDocumentStatuses(reqDoc.getDocumentNumber(), newApplicationDocumentStatus, getDateTimeService().getCurrentTimestamp());
-        }
-        
-        migratePurapStatCodeReportService.writeFormattedMessageLine("\n********** Migration of Requistions StatusCode to Workflow document completed **********\n");
-        
-        //now reindex the requistions for search...
-        for (RequisitionDocument reqDoc : reqDocs) {
-            final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();
+
+            //now reindex the requistion for document search...
             documentAttributeIndexingQueue.indexDocument(reqDoc.getDocumentNumber());
         }
+        
+        migratePurapStatCodeReportService.writeFormattedMessageLine("\n********** Migration of Requistions StatusCode to Workflow document completed **********\n\n");
+        
+        LOG.debug("processRequisitionDocumentsForStatusCodeMigration() completed");
+        
+        return success;
+    }
+    
+    /**
+     * Processes the requisitions for status code migration.  Creates a list of documents numbers
+     * and current status code where status code needs migration and using that list the workflow documents
+     * will be retrieved.  Each workflow document then will be updated with the corresponding
+     * application document status that is new in KFS 5.0
+     * 
+     * @return true if the requisitions status code successfully migrates else return false.
+     */
+    protected boolean processPurchaseOrderDocumentsForStatusCodeMigration() {
+        LOG.debug("processPurchaseOrderDocumentsForStatusCodeMigration() started");
+        
+        boolean success = true;
+
+        migratePurapStatCodeReportService.writeFormattedMessageLine("********** Migration of Purchase Orders StatusCode to Workflow document started **********\n");
+        
+        final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();
+ 
+        //get the status code/descriptions from the table pur_po_stat_t
+        Map<String, String> purchaseOrderStatusMap = getStatusCodeAndDescriptionForPurapDocumentsDao().getPurchaseOrderDocumentStatuses();
+        
+        //get the purchase orders where PO_STAT_CD is not null....
+        List<PurchaseOrderDocument> poDocs = (List<PurchaseOrderDocument>) SpringContext.getBean(PurapDocumentsStatusCodeMigrationDao.class).getPurchaseOrderDocumentsForStatusCodeMigration();
+        
+        for (PurchaseOrderDocument poDoc : poDocs) {
+            String newApplicationDocumentStatus = purchaseOrderStatusMap.get(poDoc.getStatusCode());
+            migratePurapStatCodeReportService.writeFormattedMessageLine("\t\tPO Doc: " + poDoc.getDocumentNumber() + " Status Code: " + poDoc.getStatusCode() + " Status Description: " + newApplicationDocumentStatus);
+            
+            //find the workflow document and update the app_doc_stat and app_doc_stat_mdfn_dt columns.
+            getStatusCodeAndDescriptionForPurapDocumentsDao().updateAndSaveMigratedApplicationDocumentStatuses(poDoc.getDocumentNumber(), newApplicationDocumentStatus, getDateTimeService().getCurrentTimestamp());
+
+            //now reindex the purchase order for document search...
+            documentAttributeIndexingQueue.indexDocument(poDoc.getDocumentNumber());
+        }
+        
+        migratePurapStatCodeReportService.writeFormattedMessageLine("\n********** Migration of Purchase Orders StatusCode to Workflow document completed **********\n\n");
         
         LOG.debug("processRequisitionDocumentsForStatusCodeMigration() completed");
         

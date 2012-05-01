@@ -49,6 +49,27 @@ public class StatusCodeAndDescriptionForPurapDocumentsDaoJdbc extends PlatformAw
     }
     
     /**
+     * @see org.kuali.kfs.module.purap.dataaccess.StatusCodeAndDescriptionForPurapDocumentsDao#getPurchaseOrderDocumentStatuses()
+     */
+    public Map<String, String> getPurchaseOrderDocumentStatuses() {
+        LOG.debug("getPurchaseOrderDocumentStatuses() started");
+        
+        Map<String, String> purchaseOrderStatuses = new HashMap<String, String>();
+        
+        SqlRowSet statusesRowSet = getJdbcTemplate().queryForRowSet("SELECT * FROM PUR_PO_STAT_T ORDER BY PO_STAT_CD"); 
+
+        while (statusesRowSet.next()) {
+            purchaseOrderStatuses.put(statusesRowSet.getString("PO_STAT_CD"), statusesRowSet.getString("PO_STAT_DESC"));
+        }
+        
+        LOG.debug("getPurchaseOrderDocumentStatuses() exited");
+        
+        return purchaseOrderStatuses;
+    }
+    
+    
+    
+    /**
      * @see org.kuali.kfs.module.purap.dataaccess.StatusCodeAndDescriptionForPurapDocumentsDao#saveMigratedApplicationDocumentStatuses(org.kuali.rice.kew.api.WorkflowDocument, java.lang.String)
      */
     public boolean updateAndSaveMigratedApplicationDocumentStatuses(String documentNumber, String applicationDocumentStatus, Date applicationDocumentStatusModifiedDate) {

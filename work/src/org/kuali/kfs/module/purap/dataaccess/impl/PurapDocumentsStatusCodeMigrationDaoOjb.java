@@ -21,6 +21,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.module.purap.dataaccess.PurapDocumentsStatusCodeMigrationDao;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
@@ -35,13 +36,26 @@ public class PurapDocumentsStatusCodeMigrationDaoOjb extends PlatformAwareDaoBas
      * @see org.kuali.kfs.module.endow.batch.dataaccess.GLInterfaceBatchProcessDao#findDocumentTypes()
      */
     public List<RequisitionDocument> getRequisitionDocumentsForStatusCodeMigration() {
-        LOG.debug("getRequisitionDocumentStatuses() started");
+        LOG.debug("getRequisitionDocumentsForStatusCodeMigration() started");
         
         Criteria criteria = new Criteria();
         criteria.addNotNull("REQS_STAT_CD");
         
         QueryByCriteria query = QueryFactory.newQuery(RequisitionDocument.class, criteria);
         return (List<RequisitionDocument>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.purap.dataaccess.PurapDocumentsStatusCodeMigrationDao#getPurchaseOrderDocumentsForStatusCodeMigration()
+     */
+    public List<PurchaseOrderDocument> getPurchaseOrderDocumentsForStatusCodeMigration() {
+        LOG.debug("getPurchaseOrderDocumentsForStatusCodeMigration() started");
+        
+        Criteria criteria = new Criteria();
+        criteria.addNotNull("PO_STAT_CD");
+        
+        QueryByCriteria query = QueryFactory.newQuery(PurchaseOrderDocument.class, criteria);
+        return (List<PurchaseOrderDocument>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
     
 }   

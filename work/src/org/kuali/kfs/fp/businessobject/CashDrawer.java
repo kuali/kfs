@@ -25,7 +25,10 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
+import org.kuali.rice.location.api.LocationConstants;
 import org.kuali.rice.location.api.campus.CampusService;
 import org.kuali.rice.location.framework.campus.CampusEbo;
 
@@ -1070,21 +1073,29 @@ public class CashDrawer extends PersistableBusinessObjectBase {
     }
     
     /**
-     * @return the campus associated with this cash drawer
+     * Gets the campus attribute.
+     *
+     * @return Returns the campus.
      */
     public CampusEbo getCampus() {
-        if (campusCode != null && (campus == null || !campus.getCode().equals(campusCode))) {
-            campus = retrieveCampus();
+        if ( StringUtils.isBlank(campusCode) ) {
+            campus = null;
+        } else {
+            if ( campus == null || !StringUtils.equals( campus.getCode(),campusCode) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CampusEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, campusCode);
+                    campus = moduleService.getExternalizableBusinessObject(CampusEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
         }
+        
         return campus;
     }
     
-    private CampusEbo retrieveCampus() {
-        Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put(KRADPropertyConstants.CAMPUS_CODE, campusCode);
-        return campus = CampusEbo.from(SpringContext.getBean(CampusService.class).getCampus(campusCode/*RICE_20_REFACTORME  criteria */));
-    }
-
     /**
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */

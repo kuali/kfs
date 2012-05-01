@@ -16,15 +16,21 @@
 
 package org.kuali.kfs.fp.businessobject;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.location.api.LocationConstants;
 import org.kuali.rice.location.api.country.CountryService;
 import org.kuali.rice.location.api.postalcode.PostalCodeService;
 import org.kuali.rice.location.api.state.StateService;
@@ -764,14 +770,30 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
     }
     
     /**
-     * Gets the disbVchrPayeeState attribute. 
+     * Gets the disbVchrPayeeState attribute.
+     *
      * @return Returns the disbVchrPayeeState.
      */
     public StateEbo getDisbVchrPayeeState() {
-        disbVchrPayeeState = (StringUtils.isBlank( disbVchrPayeeCountryCode) || StringUtils.isBlank( disbVchrPayeeStateCode))?null:( disbVchrPayeeState == null || !StringUtils.equals( disbVchrPayeeState.getCountryCode(), disbVchrPayeeCountryCode)|| !StringUtils.equals( disbVchrPayeeState.getCode(), disbVchrPayeeStateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState( disbVchrPayeeCountryCode, disbVchrPayeeStateCode)): disbVchrPayeeState;
+        if ( StringUtils.isBlank(disbVchrPayeeStateCode) || StringUtils.isBlank(KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
+            disbVchrPayeeState = null;
+        } else {
+            if ( disbVchrPayeeState == null || !StringUtils.equals( disbVchrPayeeState.getCode(),disbVchrPayeeStateCode) || !StringUtils.equals(disbVchrPayeeState.getCountryCode(), KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(StateEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(2);
+                    keys.put(LocationConstants.PrimaryKeyConstants.COUNTRY_CODE, KFSConstants.COUNTRY_CODE_UNITED_STATES);/*RICE20_REFACTORME*/
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, disbVchrPayeeStateCode);
+                    disbVchrPayeeState = moduleService.getExternalizableBusinessObject(StateEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
+        
         return disbVchrPayeeState;
     }
-
+    
     /**
      * Sets the disbVchrPayeeState attribute value.
      * @param disbVchrPayeeState The disbVchrPayeeState to set.
@@ -781,14 +803,28 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
     }
 
     /**
-     * Gets the disbVchrPayeeCountry attribute. 
+     * Gets the disbVchrPayeeCountry attribute.
+     *
      * @return Returns the disbVchrPayeeCountry.
      */
     public CountryEbo getDisbVchrPayeeCountry() {
-        disbVchrPayeeCountry = (disbVchrPayeeCountryCode == null)?null:( disbVchrPayeeCountry == null || !StringUtils.equals( disbVchrPayeeCountry.getCode(),disbVchrPayeeCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(disbVchrPayeeCountryCode)): disbVchrPayeeCountry;
+        if ( StringUtils.isBlank(disbVchrPayeeCountryCode) ) {
+            disbVchrPayeeCountry = null;
+        } else {
+            if ( disbVchrPayeeCountry == null || !StringUtils.equals( disbVchrPayeeState.getCode(),disbVchrPayeeCountryCode) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CountryEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, disbVchrPayeeCountryCode);
+                    disbVchrPayeeCountry = moduleService.getExternalizableBusinessObject(CountryEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
         return disbVchrPayeeCountry;
     }
-
+    
     /**
      * Sets the disbVchrPayeeCountry attribute value.
      * @param disbVchrPayeeCountry The disbVchrPayeeCountry to set.
@@ -797,15 +833,32 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
         this.disbVchrPayeeCountry = disbVchrPayeeCountry;
     }
 
+    
     /**
-     * Gets the disbVchrPayeePostalZipCode attribute. 
+     * Gets the disbVchrPayeePostalZipCode attribute.
+     *
      * @return Returns the disbVchrPayeePostalZipCode.
      */
     public PostalCodeEbo getDisbVchrPayeePostalZipCode() {
-        disbVchrPayeePostalZipCode = (StringUtils.isBlank(disbVchrPayeeCountryCode) || StringUtils.isBlank( disbVchrPayeeZipCode))?null:( disbVchrPayeePostalZipCode == null || !StringUtils.equals( disbVchrPayeePostalZipCode.getCountryCode(),disbVchrPayeeCountryCode)|| !StringUtils.equals( disbVchrPayeePostalZipCode.getCode(), disbVchrPayeeZipCode))? PostalCodeEbo.from(SpringContext.getBean(PostalCodeService.class).getPostalCode(disbVchrPayeeCountryCode, disbVchrPayeeZipCode)): disbVchrPayeePostalZipCode;
+        if ( StringUtils.isBlank(disbVchrPayeeCountryCode) || StringUtils.isBlank(KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
+            disbVchrPayeePostalZipCode = null;
+        } else {
+            if ( disbVchrPayeePostalZipCode == null || !StringUtils.equals( disbVchrPayeePostalZipCode.getCode(), disbVchrPayeeCountryCode) || !StringUtils.equals(disbVchrPayeePostalZipCode.getCountryCode(), KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(PostalCodeEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(2);
+                    keys.put(LocationConstants.PrimaryKeyConstants.COUNTRY_CODE, KFSConstants.COUNTRY_CODE_UNITED_STATES);/*RICE20_REFACTORME*/
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, disbVchrPayeeCountryCode);
+                    disbVchrPayeePostalZipCode = moduleService.getExternalizableBusinessObject(PostalCodeEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
+        
         return disbVchrPayeePostalZipCode;
     }
-
+    
     /**
      * Sets the disbVchrPayeePostalZipCode attribute value.
      * @param disbVchrPayeePostalZipCode The disbVchrPayeePostalZipCode to set.

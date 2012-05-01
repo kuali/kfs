@@ -50,7 +50,10 @@ import org.kuali.rice.kim.api.type.KimTypeAttribute;
 import org.kuali.rice.kim.framework.group.GroupEbo;
 import org.kuali.rice.kim.framework.role.RoleEbo;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.location.framework.country.CountryEbo;
 
 /**
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
@@ -1005,7 +1008,14 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
      */
     public RoleEbo getRole() {
         if ( role == null || !StringUtils.equals(role.getId(), roleId)) {
-            role = RoleEbo.from(KimApiServiceLocator.getRoleService().getRole(roleId));
+            ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CountryEbo.class);
+            if ( moduleService != null ) {
+                Map<String,Object> keys = new HashMap<String, Object>(1);
+                keys.put(KimConstants.PrimaryKeyConstants.ID, roleId);
+                role = moduleService.getExternalizableBusinessObject(RoleEbo.class, keys);
+            } else {
+                throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+            }
         }
         return role;
     }

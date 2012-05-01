@@ -1,12 +1,12 @@
 /*
  * Copyright 2008-2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,40 +15,43 @@
  */
 package org.kuali.kfs.sys.businessobject;
 
-import java.util.LinkedHashMap;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
-import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.location.api.country.CountryService;
-import org.kuali.rice.location.api.county.CountyService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
+import org.kuali.rice.location.api.LocationConstants;
 import org.kuali.rice.location.framework.country.CountryEbo;
 import org.kuali.rice.location.framework.county.CountyEbo;
 
 public class TaxRegionCounty extends PersistableBusinessObjectBase implements MutableInactivatable {
-	
+
     private String postalCountryCode;
 	private String countyCode;
 	private String stateCode;
 	private String taxRegionCode;
 	private boolean active;
-	
+
 	private CountryEbo country;
 	private CountyEbo county;
 	private TaxRegion taxRegion;
-	
+
 	public String getCountyCode() {
 		return countyCode;
 	}
 	public void setCountyCode(String countyCode) {
 		this.countyCode = countyCode;
 	}
-	public boolean isActive() {
+	@Override
+    public boolean isActive() {
 		return active;
 	}
-	public void setActive(boolean active) {
+	@Override
+    public void setActive(boolean active) {
 		this.active = active;
 	}
 	public TaxRegion getTaxRegion() {
@@ -69,16 +72,34 @@ public class TaxRegionCounty extends PersistableBusinessObjectBase implements Mu
 	public void setTaxRegionCode(String taxRegionCode) {
 		this.taxRegionCode = taxRegionCode;
 	}
-	
+
 	public CountyEbo getCounty() {
-	    county = (StringUtils.isBlank(postalCountryCode) || StringUtils.isBlank( stateCode) || StringUtils.isBlank( countyCode))?null:( county == null || !StringUtils.equals( county.getCountryCode(),postalCountryCode)|| !StringUtils.equals( county.getStateCode(), stateCode)|| !StringUtils.equals( county.getCode(), countyCode))?CountyEbo.from( SpringContext.getBean(CountyService.class).getCounty(postalCountryCode, stateCode, countyCode) ): county;
-		return county;
+        if ( StringUtils.isBlank(postalCountryCode) || StringUtils.isBlank(stateCode) || StringUtils.isBlank(countyCode) ) {
+            county = null;
+        } else {
+            if ( county == null
+                    || !StringUtils.equals( county.getCode(),countyCode)
+                    || !StringUtils.equals( county.getStateCode(), stateCode )
+                    || !StringUtils.equals( county.getCountryCode(), postalCountryCode )) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CountyEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(3);
+                    keys.put(LocationConstants.PrimaryKeyConstants.COUNTRY_CODE, postalCountryCode);
+                    keys.put(LocationConstants.PrimaryKeyConstants.STATE_CODE, stateCode);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, countyCode);
+                    county = moduleService.getExternalizableBusinessObject(CountyEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
+        return county;
 	}
 	public void setCounty(CountyEbo county) {
 		this.county = county;
 	}
     /**
-     * Gets the postalCountryCode attribute. 
+     * Gets the postalCountryCode attribute.
      * @return Returns the postalCountryCode.
      */
     public String getPostalCountryCode() {
@@ -92,11 +113,24 @@ public class TaxRegionCounty extends PersistableBusinessObjectBase implements Mu
         this.postalCountryCode = postalCountryCode;
     }
     /**
-     * Gets the country attribute. 
+     * Gets the country attribute.
      * @return Returns the country.
      */
     public CountryEbo getCountry() {
-        country = (postalCountryCode == null)?null:( country == null || !StringUtils.equals( country.getCode(),postalCountryCode))?CountryEbo.from( SpringContext.getBean(CountryService.class).getCountry(postalCountryCode) ): country;
+        if ( StringUtils.isBlank(postalCountryCode) ) {
+            country = null;
+        } else {
+            if ( country == null || !StringUtils.equals( country.getCode(),postalCountryCode) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CountryEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, postalCountryCode);
+                    country = moduleService.getExternalizableBusinessObject(CountryEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
         return country;
     }
     /**

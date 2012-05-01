@@ -150,8 +150,8 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     protected List<ContractsAndGrantsAccountAwardInformation> awards;
     protected List<IndirectCostRecoveryAccount> indirectCostRecoveryAccounts;
     //added for the employee labor benefit calculation
-    private String laborBenefitRateCategoryCode;
-    private LaborBenefitRateCategory laborBenefitRateCategory;
+    protected String laborBenefitRateCategoryCode;
+    protected LaborBenefitRateCategory laborBenefitRateCategory;
     /**
      * Default no-arg constructor.
      */

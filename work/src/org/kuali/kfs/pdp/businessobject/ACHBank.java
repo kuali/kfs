@@ -31,25 +31,25 @@ import org.kuali.rice.location.framework.state.StateEbo;
 
 public class ACHBank extends PersistableBusinessObjectBase implements MutableInactivatable {
 
-    private String bankRoutingNumber;
-    private String bankOfficeCode;
-    private String bankServiceNumber;
-    private String bankTypeCode;
-    private String bankNewRoutingNumber;
-    private String bankName;
-    private String bankStreetAddress;
-    private String bankCityName;
-    private String bankStateCode;
-    private String bankZipCode;
-    private String bankPhoneAreaCode;
-    private String bankPhonePrefixNumber;
-    private String bankPhoneSuffixNumber;
-    private String bankInstitutionStatusCode;
-    private String bankDataViewCode;
-    private boolean active;
+    protected String bankRoutingNumber;
+    protected String bankOfficeCode;
+    protected String bankServiceNumber;
+    protected String bankTypeCode;
+    protected String bankNewRoutingNumber;
+    protected String bankName;
+    protected String bankStreetAddress;
+    protected String bankCityName;
+    protected String bankStateCode;
+    protected String bankZipCode;
+    protected String bankPhoneAreaCode;
+    protected String bankPhonePrefixNumber;
+    protected String bankPhoneSuffixNumber;
+    protected String bankInstitutionStatusCode;
+    protected String bankDataViewCode;
+    protected boolean active;
 
-    private StateEbo bankState;
-    private PostalCodeEbo postalCode;
+    protected StateEbo bankState;
+    protected PostalCodeEbo postalCode;
 
     /**
      * Default constructor.
@@ -106,7 +106,7 @@ public class ACHBank extends PersistableBusinessObjectBase implements MutableIna
         setActive(true);
     }
 
-    private String getField(String data, int startChar, int length) {
+    protected String getField(String data, int startChar, int length) {
         return data.substring(startChar - 1, startChar + length - 1).trim();
     }
 

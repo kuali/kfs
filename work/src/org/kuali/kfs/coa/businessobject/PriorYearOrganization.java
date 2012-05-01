@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,57 +17,60 @@
 package org.kuali.kfs.coa.businessobject;
 
 import java.sql.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.location.api.campus.CampusService;
-import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
+import org.kuali.rice.location.api.LocationConstants;
 import org.kuali.rice.location.framework.campus.CampusEbo;
 import org.kuali.rice.location.framework.country.CountryEbo;
 
 /**
- * 
+ *
  */
 public class PriorYearOrganization extends PersistableBusinessObjectBase implements MutableInactivatable {
 
-    private String chartOfAccountsCode;
-    private String organizationCode;
-    private String organizationManagerUniversalId;
-    private String organizationName;
-    private String responsibilityCenterCode;
-    private String organizationPhysicalCampusCode;
-    private String organizationTypeCode;
-    private String organizationDefaultAccountNumber;
-    private String organizationCityName;
-    private String organizationStateCode;
-    private String organizationZipCode;
-    private Date organizationBeginDate;
-    private Date organizationEndDate;
-    private String reportsToChartOfAccountsCode;
-    private String reportsToOrganizationCode;
-    private boolean active;
-    private boolean organizationInFinancialProcessingIndicator;
-    private String organizationPlantAccountNumber;
-    private String campusPlantAccountNumber;
-    private String organizationPlantChartCode;
-    private String campusPlantChartCode;
-    private String organizationCountryCode;
-    private String organizationLine1Address;
-    private String organizationLine2Address;
+    protected String chartOfAccountsCode;
+    protected String organizationCode;
+    protected String organizationManagerUniversalId;
+    protected String organizationName;
+    protected String responsibilityCenterCode;
+    protected String organizationPhysicalCampusCode;
+    protected String organizationTypeCode;
+    protected String organizationDefaultAccountNumber;
+    protected String organizationCityName;
+    protected String organizationStateCode;
+    protected String organizationZipCode;
+    protected Date organizationBeginDate;
+    protected Date organizationEndDate;
+    protected String reportsToChartOfAccountsCode;
+    protected String reportsToOrganizationCode;
+    protected boolean active;
+    protected boolean organizationInFinancialProcessingIndicator;
+    protected String organizationPlantAccountNumber;
+    protected String campusPlantAccountNumber;
+    protected String organizationPlantChartCode;
+    protected String campusPlantChartCode;
+    protected String organizationCountryCode;
+    protected String organizationLine1Address;
+    protected String organizationLine2Address;
 
-    private Chart chartOfAccounts;
-    private Account organizationDefaultAccount;
-    private Organization organization;
-    private CampusEbo organizationPhysicalCampus;
-    private Organization reportsToOrganization;
-    private Chart reportsToChartOfAccounts;
-    private Account organizationPlantAccount;
-    private Account campusPlantAccount;
-    private Chart organizationPlantChart;
-    private Chart campusPlantChart;
-    private CountryEbo organizationCountry;
+    protected Chart chartOfAccounts;
+    protected Account organizationDefaultAccount;
+    protected Organization organization;
+    protected CampusEbo organizationPhysicalCampus;
+    protected Organization reportsToOrganization;
+    protected Chart reportsToChartOfAccounts;
+    protected Account organizationPlantAccount;
+    protected Account campusPlantAccount;
+    protected Chart organizationPlantChart;
+    protected Chart campusPlantChart;
+    protected CountryEbo organizationCountry;
 
     /**
      * Default constructor.
@@ -78,7 +81,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the chartOfAccountsCode attribute.
-     * 
+     *
      * @return Returns the chartOfAccountsCode
      */
     public String getChartOfAccountsCode() {
@@ -87,7 +90,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the chartOfAccountsCode attribute.
-     * 
+     *
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -97,7 +100,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the organizationCode attribute.
-     * 
+     *
      * @return Returns the organizationCode
      */
     public String getOrganizationCode() {
@@ -106,7 +109,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the organizationCode attribute.
-     * 
+     *
      * @param organizationCode The organizationCode to set.
      */
     public void setOrganizationCode(String organizationCode) {
@@ -116,7 +119,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the organizationManagerUniversalId attribute.
-     * 
+     *
      * @return Returns the organizationManagerUniversalId
      */
     public String getOrganizationManagerUniversalId() {
@@ -125,7 +128,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the organizationManagerUniversalId attribute.
-     * 
+     *
      * @param organizationManagerUniversalId The organizationManagerUniversalId to set.
      */
     public void setOrganizationManagerUniversalId(String organizationManagerUniversalId) {
@@ -135,7 +138,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the organizationName attribute.
-     * 
+     *
      * @return Returns the organizationName
      */
     public String getOrganizationName() {
@@ -144,7 +147,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the organizationName attribute.
-     * 
+     *
      * @param organizationName The organizationName to set.
      */
     public void setOrganizationName(String organizationName) {
@@ -154,7 +157,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the responsibilityCenterCode attribute.
-     * 
+     *
      * @return Returns the responsibilityCenterCode
      */
     public String getResponsibilityCenterCode() {
@@ -163,7 +166,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the responsibilityCenterCode attribute.
-     * 
+     *
      * @param responsibilityCenterCode The responsibilityCenterCode to set.
      */
     public void setResponsibilityCenterCode(String responsibilityCenterCode) {
@@ -173,7 +176,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the organizationPhysicalCampusCode attribute.
-     * 
+     *
      * @return Returns the organizationPhysicalCampusCode
      */
     public String getOrganizationPhysicalCampusCode() {
@@ -182,7 +185,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the organizationPhysicalCampusCode attribute.
-     * 
+     *
      * @param organizationPhysicalCampusCode The organizationPhysicalCampusCode to set.
      */
     public void setOrganizationPhysicalCampusCode(String organizationPhysicalCampusCode) {
@@ -192,7 +195,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the organizationTypeCode attribute.
-     * 
+     *
      * @return Returns the organizationTypeCode
      */
     public String getOrganizationTypeCode() {
@@ -201,7 +204,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the organizationTypeCode attribute.
-     * 
+     *
      * @param organizationTypeCode The organizationTypeCode to set.
      */
     public void setOrganizationTypeCode(String organizationTypeCode) {
@@ -211,7 +214,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the organizationDefaultAccountNumber attribute.
-     * 
+     *
      * @return Returns the organizationDefaultAccountNumber
      */
     public String getOrganizationDefaultAccountNumber() {
@@ -220,7 +223,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the organizationDefaultAccountNumber attribute.
-     * 
+     *
      * @param organizationDefaultAccountNumber The organizationDefaultAccountNumber to set.
      */
     public void setOrganizationDefaultAccountNumber(String organizationDefaultAccountNumber) {
@@ -229,7 +232,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the organizationCityName attribute.
-     * 
+     *
      * @return Returns the organizationCityName
      */
     public String getOrganizationCityName() {
@@ -238,7 +241,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the organizationCityName attribute.
-     * 
+     *
      * @param organizationCityName The organizationCityName to set.
      */
     public void setOrganizationCityName(String organizationCityName) {
@@ -248,7 +251,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the organizationStateCode attribute.
-     * 
+     *
      * @return Returns the organizationStateCode
      */
     public String getOrganizationStateCode() {
@@ -257,7 +260,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the organizationStateCode attribute.
-     * 
+     *
      * @param organizationStateCode The organizationStateCode to set.
      */
     public void setOrganizationStateCode(String organizationStateCode) {
@@ -267,7 +270,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the organizationZipCode attribute.
-     * 
+     *
      * @return Returns the organizationZipCode
      */
     public String getOrganizationZipCode() {
@@ -276,7 +279,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the organizationZipCode attribute.
-     * 
+     *
      * @param organizationZipCode The organizationZipCode to set.
      */
     public void setOrganizationZipCode(String organizationZipCode) {
@@ -286,7 +289,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the organizationBeginDate attribute.
-     * 
+     *
      * @return Returns the organizationBeginDate
      */
     public Date getOrganizationBeginDate() {
@@ -295,7 +298,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the organizationBeginDate attribute.
-     * 
+     *
      * @param organizationBeginDate The organizationBeginDate to set.
      */
     public void setOrganizationBeginDate(Date organizationBeginDate) {
@@ -305,7 +308,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the organizationEndDate attribute.
-     * 
+     *
      * @return Returns the organizationEndDate
      */
     public Date getOrganizationEndDate() {
@@ -314,7 +317,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the organizationEndDate attribute.
-     * 
+     *
      * @param organizationEndDate The organizationEndDate to set.
      */
     public void setOrganizationEndDate(Date organizationEndDate) {
@@ -324,7 +327,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the reportsToChartOfAccountsCode attribute.
-     * 
+     *
      * @return Returns the reportsToChartOfAccountsCode
      */
     public String getReportsToChartOfAccountsCode() {
@@ -333,7 +336,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the reportsToChartOfAccountsCode attribute.
-     * 
+     *
      * @param reportsToChartOfAccountsCode The reportsToChartOfAccountsCode to set.
      */
     public void setReportsToChartOfAccountsCode(String reportsToChartOfAccountsCode) {
@@ -343,7 +346,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the reportsToOrganizationCode attribute.
-     * 
+     *
      * @return Returns the reportsToOrganizationCode
      */
     public String getReportsToOrganizationCode() {
@@ -352,7 +355,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the reportsToOrganizationCode attribute.
-     * 
+     *
      * @param reportsToOrganizationCode The reportsToOrganizationCode to set.
      */
     public void setReportsToOrganizationCode(String reportsToOrganizationCode) {
@@ -362,9 +365,10 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the active attribute.
-     * 
+     *
      * @return Returns the active
      */
+    @Override
     public boolean isActive() {
         return active;
     }
@@ -372,9 +376,10 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the active attribute.
-     * 
+     *
      * @param active The active to set.
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -382,7 +387,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the organizationInFinancialProcessingIndicator attribute.
-     * 
+     *
      * @return Returns the organizationInFinancialProcessingIndicator
      */
     public boolean isOrganizationInFinancialProcessingIndicator() {
@@ -392,7 +397,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the organizationInFinancialProcessingIndicator attribute.
-     * 
+     *
      * @param organizationInFinancialProcessingIndicator The organizationInFinancialProcessingIndicator to set.
      */
     public void setOrganizationInFinancialProcessingIndicator(boolean organizationInFinancialProcessingIndicator) {
@@ -402,7 +407,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the organizationPlantAccountNumber attribute.
-     * 
+     *
      * @return Returns the organizationPlantAccountNumber
      */
     public String getOrganizationPlantAccountNumber() {
@@ -411,7 +416,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the organizationPlantAccountNumber attribute.
-     * 
+     *
      * @param organizationPlantAccountNumber The organizationPlantAccountNumber to set.
      */
     public void setOrganizationPlantAccountNumber(String organizationPlantAccountNumber) {
@@ -421,7 +426,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the campusPlantAccountNumber attribute.
-     * 
+     *
      * @return Returns the campusPlantAccountNumber
      */
     public String getCampusPlantAccountNumber() {
@@ -430,7 +435,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the campusPlantAccountNumber attribute.
-     * 
+     *
      * @param campusPlantAccountNumber The campusPlantAccountNumber to set.
      */
     public void setCampusPlantAccountNumber(String campusPlantAccountNumber) {
@@ -440,7 +445,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the organizationPlantChartCode attribute.
-     * 
+     *
      * @return Returns the organizationPlantChartCode
      */
     public String getOrganizationPlantChartCode() {
@@ -449,7 +454,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the organizationPlantChartCode attribute.
-     * 
+     *
      * @param organizationPlantChartCode The organizationPlantChartCode to set.
      */
     public void setOrganizationPlantChartCode(String organizationPlantChartCode) {
@@ -459,7 +464,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the campusPlantChartCode attribute.
-     * 
+     *
      * @return Returns the campusPlantChartCode
      */
     public String getCampusPlantChartCode() {
@@ -468,7 +473,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the campusPlantChartCode attribute.
-     * 
+     *
      * @param campusPlantChartCode The campusPlantChartCode to set.
      */
     public void setCampusPlantChartCode(String campusPlantChartCode) {
@@ -477,7 +482,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the organizationCountryCode attribute.
-     * 
+     *
      * @return Returns the organizationCountryCode.
      */
     public String getOrganizationCountryCode() {
@@ -486,7 +491,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the organizationCountryCode attribute value.
-     * 
+     *
      * @param organizationCountryCode The organizationCountryCode to set.
      */
     public void setOrganizationCountryCode(String organizationCountryCode) {
@@ -495,7 +500,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the organizationLine1Address attribute.
-     * 
+     *
      * @return Returns the organizationLine1Address.
      */
     public String getOrganizationLine1Address() {
@@ -504,7 +509,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the organizationLine1Address attribute value.
-     * 
+     *
      * @param organizationLine1Address The organizationLine1Address to set.
      */
     public void setOrganizationLine1Address(String organizationLine1Address) {
@@ -513,7 +518,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the organizationLine2Address attribute.
-     * 
+     *
      * @return Returns the organizationLine2Address.
      */
     public String getOrganizationLine2Address() {
@@ -522,7 +527,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the organizationLine2Address attribute value.
-     * 
+     *
      * @param organizationLine2Address The organizationLine2Address to set.
      */
     public void setOrganizationLine2Address(String organizationLine2Address) {
@@ -531,7 +536,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the chartOfAccounts attribute.
-     * 
+     *
      * @return Returns the chartOfAccounts
      */
     public Chart getChartOfAccounts() {
@@ -540,7 +545,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the chartOfAccounts attribute.
-     * 
+     *
      * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated
      */
@@ -550,7 +555,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the organizationDefaultAccount attribute.
-     * 
+     *
      * @return Returns the organizationDefaultAccount
      */
     public Account getOrganizationDefaultAccount() {
@@ -559,7 +564,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the organizationDefaultAccount attribute.
-     * 
+     *
      * @param organizationDefaultAccount The organizationDefaultAccount to set.
      * @deprecated
      */
@@ -569,7 +574,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the organization attribute.
-     * 
+     *
      * @return Returns the organization
      */
     public Organization getOrganization() {
@@ -578,7 +583,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the organization attribute.
-     * 
+     *
      * @param organization The organization to set.
      * @deprecated
      */
@@ -588,16 +593,30 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the organizationPhysicalCampus attribute.
-     * 
+     *
      * @return Returns the organizationPhysicalCampus
      */
     public CampusEbo getOrganizationPhysicalCampus() {
-        return organizationPhysicalCampus = CampusEbo.from( SpringContext.getBean(CampusService.class).getCampus(organizationPhysicalCampusCode) );
+        if ( StringUtils.isBlank(organizationPhysicalCampusCode) ) {
+            organizationPhysicalCampus = null;
+        } else {
+            if ( organizationPhysicalCampus == null || !StringUtils.equals( organizationPhysicalCampus.getCode(),organizationPhysicalCampusCode) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CampusEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, organizationPhysicalCampusCode);
+                    organizationPhysicalCampus = moduleService.getExternalizableBusinessObject(CampusEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
+        return organizationPhysicalCampus;
     }
 
     /**
      * Sets the organizationPhysicalCampus attribute.
-     * 
+     *
      * @param organizationPhysicalCampus The organizationPhysicalCampus to set.
      * @deprecated
      */
@@ -607,7 +626,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the reportsToOrganization attribute.
-     * 
+     *
      * @return Returns the reportsToOrganization
      */
     public Organization getReportsToOrganization() {
@@ -616,7 +635,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the reportsToOrganization attribute.
-     * 
+     *
      * @param reportsToOrganization The reportsToOrganization to set.
      * @deprecated
      */
@@ -626,7 +645,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the reportsToChartOfAccounts attribute.
-     * 
+     *
      * @return Returns the reportsToChartOfAccounts
      */
     public Chart getReportsToChartOfAccounts() {
@@ -635,7 +654,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the reportsToChartOfAccounts attribute.
-     * 
+     *
      * @param reportsToChartOfAccounts The reportsToChartOfAccounts to set.
      * @deprecated
      */
@@ -645,7 +664,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the organizationPlantAccount attribute.
-     * 
+     *
      * @return Returns the organizationPlantAccount
      */
     public Account getOrganizationPlantAccount() {
@@ -654,7 +673,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the organizationPlantAccount attribute.
-     * 
+     *
      * @param organizationPlantAccount The organizationPlantAccount to set.
      * @deprecated
      */
@@ -664,7 +683,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the campusPlantAccount attribute.
-     * 
+     *
      * @return Returns the campusPlantAccount
      */
     public Account getCampusPlantAccount() {
@@ -673,7 +692,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the campusPlantAccount attribute.
-     * 
+     *
      * @param campusPlantAccount The campusPlantAccount to set.
      * @deprecated
      */
@@ -683,7 +702,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the organizationPlantChart attribute.
-     * 
+     *
      * @return Returns the organizationPlantChart
      */
     public Chart getOrganizationPlantChart() {
@@ -692,7 +711,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the organizationPlantChart attribute.
-     * 
+     *
      * @param organizationPlantChart The organizationPlantChart to set.
      * @deprecated
      */
@@ -702,7 +721,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the campusPlantChart attribute.
-     * 
+     *
      * @return Returns the campusPlantChart
      */
     public Chart getCampusPlantChart() {
@@ -711,7 +730,7 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the campusPlantChart attribute.
-     * 
+     *
      * @param campusPlantChart The campusPlantChart to set.
      * @deprecated
      */
@@ -721,17 +740,30 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the organizationCountry attribute.
-     * 
+     *
      * @return Returns the organizationCountry.
      */
     public CountryEbo getOrganizationCountry() {
-        organizationCountry = (organizationCountryCode == null)?null:( organizationCountry == null || !StringUtils.equals( organizationCountry.getCode(),organizationCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(organizationCountryCode)): organizationCountry;
+        if ( StringUtils.isBlank(organizationCountryCode) ) {
+            organizationCountry = null;
+        } else {
+            if ( organizationCountry == null || !StringUtils.equals( organizationCountry.getCode(),organizationCountryCode) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CountryEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, organizationCountryCode);
+                    organizationCountry = moduleService.getExternalizableBusinessObject(CountryEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
         return organizationCountry;
     }
 
     /**
      * Sets the organizationCountry attribute value.
-     * 
+     *
      * @param organizationCountry The organizationCountry to set.
      * @deprecated
      */

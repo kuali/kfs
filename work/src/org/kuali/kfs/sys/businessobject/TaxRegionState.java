@@ -1,12 +1,12 @@
 /*
  * Copyright 2008-2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,15 +15,17 @@
  */
 package org.kuali.kfs.sys.businessobject;
 
-import java.util.LinkedHashMap;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.location.api.country.CountryService;
-import org.kuali.rice.location.api.state.StateService;
+import org.kuali.rice.location.api.LocationConstants;
 import org.kuali.rice.location.framework.country.CountryEbo;
 import org.kuali.rice.location.framework.state.StateEbo;
 
@@ -38,10 +40,12 @@ public class TaxRegionState extends PersistableBusinessObjectBase implements Mut
     private StateEbo state;
     private TaxRegion taxRegion;
 
+    @Override
     public boolean isActive() {
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -54,7 +58,7 @@ public class TaxRegionState extends PersistableBusinessObjectBase implements Mut
         this.stateCode = stateCode;
     }
 
-    public TaxRegion getTaxRegion() {        
+    public TaxRegion getTaxRegion() {
         if(ObjectUtils.isNull(taxRegion)){
             this.refreshReferenceObject("taxRegion");
         }
@@ -74,7 +78,21 @@ public class TaxRegionState extends PersistableBusinessObjectBase implements Mut
     }
 
     public StateEbo getState() {
-        state = (StringUtils.isBlank(postalCountryCode) || StringUtils.isBlank( stateCode))?null:( state == null || !StringUtils.equals( state.getCountryCode(),postalCountryCode)|| !StringUtils.equals( state.getCode(), stateCode))?StateEbo.from(SpringContext.getBean(StateService.class).getState(postalCountryCode, stateCode)): state;
+        if ( StringUtils.isBlank(stateCode) || StringUtils.isBlank(postalCountryCode ) ) {
+            state = null;
+        } else {
+            if ( state == null || !StringUtils.equals( state.getCode(),stateCode) || !StringUtils.equals(state.getCountryCode(), postalCountryCode ) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(StateEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(2);
+                    keys.put(LocationConstants.PrimaryKeyConstants.COUNTRY_CODE, postalCountryCode);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, stateCode);
+                    state = moduleService.getExternalizableBusinessObject(StateEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
         return state;
     }
 
@@ -84,7 +102,7 @@ public class TaxRegionState extends PersistableBusinessObjectBase implements Mut
 
     /**
      * Gets the postalCountryCode attribute.
-     * 
+     *
      * @return Returns the postalCountryCode.
      */
     public String getPostalCountryCode() {
@@ -93,7 +111,7 @@ public class TaxRegionState extends PersistableBusinessObjectBase implements Mut
 
     /**
      * Sets the postalCountryCode attribute value.
-     * 
+     *
      * @param postalCountryCode The postalCountryCode to set.
      */
     public void setPostalCountryCode(String postalCountryCode) {
@@ -101,11 +119,24 @@ public class TaxRegionState extends PersistableBusinessObjectBase implements Mut
     }
 
     /**
-     * Gets the country attribute. 
+     * Gets the country attribute.
      * @return Returns the country.
      */
     public CountryEbo getCountry() {
-        country = (postalCountryCode == null)?null:( country == null || !StringUtils.equals( country.getCode(),postalCountryCode))?CountryEbo.from(SpringContext.getBean(CountryService.class).getCountry(postalCountryCode)): country;
+        if ( StringUtils.isBlank(postalCountryCode) ) {
+            country = null;
+        } else {
+            if ( country == null || !StringUtils.equals( country.getCode(),postalCountryCode) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CountryEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, postalCountryCode);
+                    country = moduleService.getExternalizableBusinessObject(CountryEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
         return country;
     }
 

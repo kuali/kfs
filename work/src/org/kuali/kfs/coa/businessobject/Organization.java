@@ -56,58 +56,58 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
         organizationInFinancialProcessingIndicator = false;
     }
 
-    private String organizationCode;
-    private String organizationName;
-    private String organizationCityName;
-    private String organizationStateCode;
-    private String organizationZipCode;
-    private Date organizationBeginDate;
-    private Date organizationEndDate;
-    private boolean organizationInFinancialProcessingIndicator;
-    private String organizationManagerUniversalId;
-    private String responsibilityCenterCode;
-    private String organizationPhysicalCampusCode;
-    private String organizationTypeCode;
-    private String reportsToChartOfAccountsCode;
-    private String reportsToOrganizationCode;
-    private String organizationPlantAccountNumber;
-    private String campusPlantAccountNumber;
-    private String organizationPlantChartCode;
-    private String campusPlantChartCode;
-    private String organizationCountryCode;
-    private String organizationLine1Address;
-    private String organizationLine2Address;
+    protected String organizationCode;
+    protected String organizationName;
+    protected String organizationCityName;
+    protected String organizationStateCode;
+    protected String organizationZipCode;
+    protected Date organizationBeginDate;
+    protected Date organizationEndDate;
+    protected boolean organizationInFinancialProcessingIndicator;
+    protected String organizationManagerUniversalId;
+    protected String responsibilityCenterCode;
+    protected String organizationPhysicalCampusCode;
+    protected String organizationTypeCode;
+    protected String reportsToChartOfAccountsCode;
+    protected String reportsToOrganizationCode;
+    protected String organizationPlantAccountNumber;
+    protected String campusPlantAccountNumber;
+    protected String organizationPlantChartCode;
+    protected String campusPlantChartCode;
+    protected String organizationCountryCode;
+    protected String organizationLine1Address;
+    protected String organizationLine2Address;
 
-    private Chart chartOfAccounts;
-    private Organization hrisOrganization;
-    private Account organizationDefaultAccount;
-    private Person organizationManagerUniversal;
-    private ResponsibilityCenter responsibilityCenter;
-    private CampusEbo organizationPhysicalCampus;
-    private OrganizationType organizationType;
-    private Organization reportsToOrganization;
-    private Chart reportsToChartOfAccounts;
-    private Account organizationPlantAccount;
-    private Account campusPlantAccount;
-    private Chart organizationPlantChart;
-    private Chart campusPlantChart;
-    private PostalCodeEbo postalZip;
-    private CountryEbo organizationCountry;
+    protected Chart chartOfAccounts;
+    protected Organization hrisOrganization;
+    protected Account organizationDefaultAccount;
+    protected Person organizationManagerUniversal;
+    protected ResponsibilityCenter responsibilityCenter;
+    protected CampusEbo organizationPhysicalCampus;
+    protected OrganizationType organizationType;
+    protected Organization reportsToOrganization;
+    protected Chart reportsToChartOfAccounts;
+    protected Account organizationPlantAccount;
+    protected Account campusPlantAccount;
+    protected Chart organizationPlantChart;
+    protected Chart campusPlantChart;
+    protected PostalCodeEbo postalZip;
+    protected CountryEbo organizationCountry;
 
     // HRMS Org fields
-    private OrganizationExtension organizationExtension;
-    private String editHrmsUnitSectionBlank;
-    private String editHrmsUnitSection;
+    protected OrganizationExtension organizationExtension;
+    protected String editHrmsUnitSectionBlank;
+    protected String editHrmsUnitSection;
 
     // fields for mixed anonymous keys
-    private String organizationDefaultAccountNumber;
-    private String chartOfAccountsCode;
+    protected String organizationDefaultAccountNumber;
+    protected String chartOfAccountsCode;
 
     // Several kinds of Dummy Attributes for dividing sections on Inquiry page
-    private String editPlantAccountsSectionBlank;
-    private String editPlantAccountsSection;
+    protected String editPlantAccountsSectionBlank;
+    protected String editPlantAccountsSection;
 
-    private boolean active;
+    protected boolean active;
 
     /**
      * Gets the organizationCode attribute.
@@ -709,7 +709,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
         if ( StringUtils.isBlank(organizationZipCode) || StringUtils.isBlank(organizationCountryCode) ) {
             postalZip = null;
         } else {
-            if ( postalZip == null || !StringUtils.equals( postalZip.getCode(),organizationZipCode) || !StringUtils.equals(postalZip.getCountryCode(), KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
+            if ( postalZip == null || !StringUtils.equals( postalZip.getCode(),organizationZipCode) || !StringUtils.equals(postalZip.getCountryCode(), organizationCountryCode ) ) {
                 ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(PostalCodeEbo.class);
                 if ( moduleService != null ) {
                     Map<String,Object> keys = new HashMap<String, Object>(2);

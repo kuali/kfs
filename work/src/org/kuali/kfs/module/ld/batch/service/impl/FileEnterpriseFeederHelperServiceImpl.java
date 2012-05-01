@@ -55,7 +55,9 @@ import org.kuali.kfs.module.ld.util.LaborOriginEntryFileIterator;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.ReportWriterService;
+import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -182,7 +184,8 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
                     try {
                         LaborOriginEntry tempEntry = new LaborOriginEntry();
                         tempEntry.setFromTextFileForBatch(line, count);
-
+                        this.applyDefaultIfNecessary(tempEntry);
+                        
                         feederReportData.incrementNumberOfRecordsRead();
                         feederReportData.addToTotalAmountRead(tempEntry.getTransactionLedgerEntryAmount());
 
@@ -341,8 +344,7 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
         }
     }
 
-
-	/**
+    /**
 	 * <p>
 	 * Generates the benefit
 	 * <code>LaborOriginEntry<code> lines for the given wage entry
@@ -513,6 +515,17 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
             }
         }
         return true;
+    }
+    
+    /**
+     * apply default values to the fields if their values are not provided
+     */
+    protected void applyDefaultIfNecessary(LaborOriginEntry laborOriginEntry) {
+        // apply the current fiscal year if it is not provided
+        if(ObjectUtils.isNull(laborOriginEntry.getUniversityFiscalYear())){
+            UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
+            laborOriginEntry.setUniversityFiscalYear(universityDateService.getCurrentFiscalYear());
+        }        
     }
 
     public void setReconciliationParserService(ReconciliationParserService reconciliationParserService) {

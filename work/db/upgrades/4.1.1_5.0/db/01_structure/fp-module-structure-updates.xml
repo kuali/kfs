@@ -9,15 +9,15 @@
 		<dropPrimaryKey tableName="FP_CPTL_AST_INFO_DTL_T" />
 
 		<addColumn tableName="FP_CPTL_AST_INFO_T">
-			<column name="CPTLAST_LINE_NBR" type="NUMBER(7,0)" defaultValue="1" />
-			<column name="CPTLAST_LINE_QTY" type="NUMBER(7,0)" defaultValue="0" />
-			<column name="CPTLAST_LINE_AMT" type="NUMBER(19,2)" defaultValue="0.00" />
+			<column name="CPTLAST_LINE_NBR" type="NUMBER(7,0)" defaultValueNumeric="1" />
+			<column name="CPTLAST_LINE_QTY" type="NUMBER(7,0)" defaultValueNumeric="0" />
+			<column name="CPTLAST_LINE_AMT" type="NUMBER(19,2)" defaultValueNumeric="0.00" />
 			<column name="CPTLAST_ACTION_IND" type="VARCHAR2(1)" defaultValue="C" />
 			<column name="CPTLAST_PROCESSED_IND" type="VARCHAR2(1)" defaultValue="N" />
 		</addColumn>
 		
 		<addColumn tableName="FP_CPTL_AST_INFO_DTL_T">
-			<column name="CPTLAST_LINE_NBR" type="NUMBER(7,0)" defaultValue="1" />
+			<column name="CPTLAST_LINE_NBR" type="NUMBER(7,0)" defaultValueNumeric="1" />
 		</addColumn>
 
 		<modifyColumn tableName="FP_CPTL_AST_INFO_DTL_T">
@@ -34,22 +34,17 @@
 		<addPrimaryKey tableName="FP_CPTL_AST_INFO_DTL_T" constraintName="FP_CPTL_AST_INFO_DTL_TP1" 
 					   columnNames="FDOC_NBR, CPTLAST_LINE_NBR, ITM_LN_NBR" />
 
-		<addForeignKeyConstraint 
-						constraintName="FP_CPTL_AST_INFO_DTL_TR1"
-						baseTableName="FP_CPTL_AST_INFO_DTL_T" baseColumnNames="FDOC_NBR, CPTLAST_LINE_NBR"
-						referencedTableName="FP_CPTL_AST_INFO_T" referencedColumnNames="FDOC_NBR, CPTLAST_LINE_NBR" />
-					   
 		<createTable tableName="FP_CPTL_AST_ACCT_GRP_DTL_T">
 			<column name="FDOC_NBR" type="VARCHAR2(14)">
 				<constraints primaryKey="true" primaryKeyName="FP_CPTL_AST_ACCT_GRP_DTL_TP1" />
 			</column>
-			<column name="CPTLAST_LINE_NBR" type="NUMBER(7,0)" defaultValue="1">
+			<column name="CPTLAST_LINE_NBR" type="NUMBER(7,0)" defaultValueNumeric="1">
 				<constraints primaryKey="true" primaryKeyName="FP_CPTL_AST_ACCT_GRP_DTL_TP1" />
 			</column>
-			<column name="CPTLAST_ACCTLINE_NBR" type="NUMBER(7,0)" defaultValue="1">
+			<column name="CPTLAST_ACCTLINE_NBR" type="NUMBER(7,0)" defaultValueNumeric="1">
 				<constraints primaryKey="true" primaryKeyName="FP_CPTL_AST_ACCT_GRP_DTL_TP1" />
 			</column>
-			<column name="FDOC_LINE_NBR" type="NUMBER(7,0)" defaultValue="1">
+			<column name="FDOC_LINE_NBR" type="NUMBER(7,0)" defaultValueNumeric="1">
 				<constraints primaryKey="true" primaryKeyName="FP_CPTL_AST_ACCT_GRP_DTL_TP1" />
 			</column>
 			<column name="OBJ_ID" type="VARCHAR2(36)">
@@ -64,11 +59,6 @@
 			<column name="FIN_OBJECT_CD" type="VARCHAR2(4)" />
 			<column name="FDOC_LINE_AMT" type="NUMBER(19,2)" defaultValueNumeric="0.00" />
 		</createTable>
-
-		<addForeignKeyConstraint 
-						constraintName="FP_CPTL_AST_ACCT_GRP_DTL_TR1"
-						baseTableName="FP_CPTL_AST_ACCT_GRP_DTL_T" baseColumnNames="FDOC_NBR, CPTLAST_LINE_NBR"
-						referencedTableName="FP_CPTL_AST_INFO_T" referencedColumnNames="FDOC_NBR, CPTLAST_LINE_NBR" />
 
 		<modifySql dbms='mysql'>
 			<replace replace='VARCHAR2' with='VARCHAR' />
@@ -459,8 +449,6 @@
     </createTable>
     <modifySql dbms='mysql'>
       <replace replace='VARCHAR2' with='VARCHAR' />
-    </modifySql>
-    <modifySql dbms='mysql'>
       <replace replace='NUMBER' with='DECIMAL' />
     </modifySql>
   </changeSet>

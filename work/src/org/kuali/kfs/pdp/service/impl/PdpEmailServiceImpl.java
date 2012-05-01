@@ -832,16 +832,11 @@ public class PdpEmailServiceImpl implements PdpEmailService {
     /**
      * Reads system parameter indicating whether to status emails should be sent
      * 
-     * NOTE: The parameter NO_PAYMENT_FILE_TO_EMAIL_ADDRESSES suppose to indicate the actual email address 
-     * instead of an indicator to send email.
-     * 
-     * Email is enabled if the parameter is not null
-     *
      * @return true if email should be sent, false otherwise
      */
     @Override
     public boolean isPaymentEmailEnabled() {
-        boolean sendEmail = StringUtils.isNotBlank(parameterService.getParameterValueAsString(KfsParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.NO_PAYMENT_FILE_EMAIL));
+        boolean sendEmail = parameterService.getParameterValueAsBoolean(KfsParameterConstants.PRE_DISBURSEMENT_ALL.class, PdpParameterConstants.SEND_ACH_EMAIL_NOTIFICATION);
         if (!sendEmail) {
             LOG.debug("sendLoadEmail() sending payment file email is disabled");
         }

@@ -27,7 +27,6 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.ModuleService;
 import org.kuali.rice.location.api.LocationConstants;
-import org.kuali.rice.location.api.campus.CampusService;
 import org.kuali.rice.location.framework.campus.CampusEbo;
 
 public class CapitalAssetInformationDetail extends PersistableBusinessObjectBase {

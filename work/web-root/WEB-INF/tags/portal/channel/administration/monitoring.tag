@@ -19,14 +19,14 @@
 <div class="body">
 	<strong>Service Bus</strong></br>
    	<ul class="chan">
-		<li><portal:portalLink displayTitle="true" title="Message Queue" url="${ConfigProperties.ksb.url}/${ConfigProperties.message.queue.url}" /></li>
-		<li><portal:portalLink displayTitle="true" title="Service Registry" url="${ConfigProperties.ksb.url}/${ConfigProperties.service.registry.url}" /></li>
-		<li><portal:portalLink displayTitle="true" title="Thread Pool" url="${ConfigProperties.ksb.url}/${ConfigProperties.thread.pool.url}" /></li>
+		<li><portal:portalLink displayTitle="true" title="Message Queue" url="${ConfigProperties.ksb.client.url}/${ConfigProperties.message.queue.url}" /></li>
+		<li><portal:portalLink displayTitle="true" title="Service Registry" url="${ConfigProperties.ksb.server.url}/${ConfigProperties.service.registry.url}" /></li>
+		<li><portal:portalLink displayTitle="true" title="Thread Pool" url="${ConfigProperties.ksb.client.url}/${ConfigProperties.thread.pool.url}" /></li>
 	</ul>
 	<strong>Workflow</strong></br>
    	<ul class="chan">
-		<li><portal:portalLink displayTitle="true" title="Document Operation" url="${ConfigProperties.workflow.url}/DocumentOperation.do" /></li>
-		<li><portal:portalLink displayTitle="true" title="Statistics Report" url="${ConfigProperties.workflow.url}/Stats.do" /></li>
+		<li><portal:portalLink displayTitle="true" title="Document Operation" url="${ConfigProperties.kew.url}/DocumentOperation.do" /></li>
+		<li><portal:portalLink displayTitle="true" title="Statistics Report" url="${ConfigProperties.kew.url}/Stats.do" /></li>
 	</ul>	
 </div>
 <channel:portalChannelBottom />

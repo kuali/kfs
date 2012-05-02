@@ -36,10 +36,7 @@
 	<changeSet author='KFS50' id='KFSMI-6951'>
 		<comment>KFSMI-6951 Need to add new columns to the existing tables</comment>
 		<addColumn tableName='PUR_REQS_T'>
-			<column name='ACCT_DISTR_MTD_IND' type='VARCHAR2(1)'
-				defaultValue='P'>
-				<constraints nullable='false' />
-			</column>
+			<column name='ACCT_DISTR_MTD_IND' type='VARCHAR2(1)' defaultValue='P' />
 		</addColumn>
 		<modifyColumn tableName='PUR_REQS_ACCT_T'>
 			<column name='ACLN_PCT' type='NUMBER(35,20)' />
@@ -48,10 +45,7 @@
 			<column name='FDOC_LINE_NBR' type='NUMBER(7,0)' />
 		</addColumn>
 		<addColumn tableName='PUR_PO_T'>
-			<column name='ACCT_DISTR_MTD_IND' type='VARCHAR2(1)'
-				defaultValue='P'>
-				<constraints nullable='false' />
-			</column>
+			<column name='ACCT_DISTR_MTD_IND' type='VARCHAR2(1)' defaultValue='P' />
 		</addColumn>
 		<modifyColumn tableName='PUR_PO_ACCT_T'>
 			<column name='ACLN_PCT' type='NUMBER(35,20)' />
@@ -60,20 +54,14 @@
 			<column name='FDOC_LINE_NBR' type='NUMBER(7,0)' />
 		</addColumn>
 		<addColumn tableName='AP_PMT_RQST_T'>
-			<column name='ACCT_DISTR_MTD_IND' type='VARCHAR2(1)'
-				defaultValue='P'>
-				<constraints nullable='false' />
-			</column>
+			<column name='ACCT_DISTR_MTD_IND' type='VARCHAR2(1)' defaultValue='P' />
 		</addColumn>
 
 		<addColumn tableName='AP_PMT_RQST_ACCT_T'>
 			<column name='FDOC_LINE_NBR' type='NUMBER(7,0)' />
 		</addColumn>
 		<addColumn tableName='AP_CRDT_MEMO_T'>
-			<column name='ACCT_DISTR_MTD_IND' type='VARCHAR2(1)'
-				defaultValue='P'>
-				<constraints nullable='false' />
-			</column>
+			<column name='ACCT_DISTR_MTD_IND' type='VARCHAR2(1)' defaultValue='P' />
 		</addColumn>
 		<addColumn tableName='AP_CRDT_MEMO_ACCT_T'>
 			<column name='FDOC_LINE_NBR' type='NUMBER(7,0)' />
@@ -84,7 +72,7 @@
 		</modifySql>
 	</changeSet>
 
-	<changeSet author="KFS50" id="KFSMI-7256">
+	<changeSet author="KFS50" id="KFSMI-7256" failOnError="false"><!-- don't fail if null constraint has already been dropped -->
 		<comment>Status Code column from REQ, PO, PREQ tables need to be made to accept nulls.</comment>
 		<dropNotNullConstraint tableName="PUR_REQS_T"
 			columnName="REQS_STAT_CD" columnDataType="VARCHAR(4)" />
@@ -136,10 +124,10 @@
 		</createTable>
 		<createTable tableName="PUR_VNDR_EXCL_MTCH_T">
 			<column name="VNDR_EXCL_ID" type="NUMBER(10,0)">
-				<constraints primaryKey="true" />
+				<constraints primaryKey="true" primaryKeyName="PUR_VNDR_EXCL_MTCH_TP1" />
 			</column>
 			<column name="OBJ_ID" type="VARCHAR2(36)">
-				<constraints nullable="false" unique="true"/>
+				<constraints nullable="false" unique="true" uniqueConstraintName="PUR_VNDR_EXCL_MTCH_TC0"/>
 			</column>
 			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false"/>

@@ -468,6 +468,7 @@ public class PurapConstants {
     public static final String PREQ_DISCOUNT_MULT = "-0.01";
 
     public static final String REQUISITION_DOCUMENT_TYPE = "REQS";
+    public static final String RECEIVING_LINE_ITEM_DOCUMENT_TYPE = "RCVL";
     public static final String RECEIVING_THRESHOLD_DOCUMENT_TYPE = "THLD";
 
     public static class PurchaseOrderDocTypes {

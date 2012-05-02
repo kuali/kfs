@@ -17,7 +17,7 @@ package org.kuali.kfs.module.purap.document.dataaccess.impl;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
@@ -29,6 +29,11 @@ import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
 import org.kuali.kfs.module.purap.document.dataaccess.ReceivingDao;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
+import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
+import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -141,12 +146,51 @@ public class ReceivingDaoOjb extends PlatformAwareDaoBaseOjb implements Receivin
         return returnList;
     }
  
-   public List<String> getReceivingDocumentsForPOAmendment() {
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo("lineItemReceivingStatusCode", PurapConstants.LineItemReceivingStatuses.APPDOC_AWAITING_PO_OPEN_STATUS);
+    public List<String> getReceivingDocumentsForPOAmendment() {
+       List<String> returnList = new ArrayList<String>();
+       
+       Criteria criteria = new Criteria();
         
-        List<String> returnList = getDocumentNumbersOfReceivingLineByCriteria(criteria, false);       
+       ReportQueryByCriteria rqbc = new ReportQueryByCriteria(LineItemReceivingDocument.class, criteria);
+       rqbc.addOrderByDescending(KFSPropertyConstants.DOCUMENT_NUMBER);
+       
+       List<LineItemReceivingDocument> lineItemRecvDocs = (List<LineItemReceivingDocument>) getPersistenceBrokerTemplate().getCollectionByQuery(rqbc);
+
+       for (LineItemReceivingDocument lineItemRecDoc : lineItemRecvDocs) {
+           if (PurapConstants.LineItemReceivingStatuses.APPDOC_AWAITING_PO_OPEN_STATUS.equals(lineItemRecDoc.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus())) {
+               returnList.add(lineItemRecDoc.getDocumentNumber());
+           }
+       }
         
-        return returnList;
+       return returnList;
   }
+    
+    /**
+     * Gets a list of strings of receiving line item document numbers from 
+     * workflow documents where  applicationdocumentstatus = 'Awaiting Purchase Order Open Status'
+     * If there are documents then the document number is added to the list
+     * 
+     * NOTE: simplify using DocSearch lookup with AppDocStatus
+     * 
+     * @return list of documentNumbers to retrieve line item receiving documents.
+     */
+    protected List<String> getDocumentsNumbersAwaitingPurchaseOrderOpenStatus() {
+        List<String> receivingDocumentNumbers = new ArrayList<String>();
+             
+        DocumentSearchCriteria.Builder documentSearchCriteriaDTO = DocumentSearchCriteria.Builder.create();
+        documentSearchCriteriaDTO.setDocumentTypeName(PurapConstants.RECEIVING_LINE_ITEM_DOCUMENT_TYPE);
+        documentSearchCriteriaDTO.setApplicationDocumentStatus(PurapConstants.LineItemReceivingStatuses.APPDOC_AWAITING_PO_OPEN_STATUS);
+        documentSearchCriteriaDTO.setSaveName(null);
+        
+        DocumentSearchResults results = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(null, documentSearchCriteriaDTO.build());
+
+        String documentHeaderId = null;
+
+        for (DocumentSearchResult result : results.getSearchResults()) {
+            receivingDocumentNumbers.add(result.getDocument().getDocumentId());            
+        }
+        
+        return receivingDocumentNumbers;
+    }
+    
 }

@@ -6807,6 +6807,9 @@
             <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
             <reference foreign="CPTLAST_LINE_NBR" local="CPTLAST_LINE_NBR"/>
         </foreign-key>
+        <unique name="FP_CPTL_AST_INFO_DTL_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
     </table>
     <table name="FP_CPTL_AST_INFO_T">
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
@@ -6822,9 +6825,12 @@
         <column name="CPTLAST_MFRMDL_NBR" size="25" type="VARCHAR"/>
         <column default="0" name="CPTLAST_LINE_QTY" size="7" type="DECIMAL"/>
         <column default="0.00" name="CPTLAST_LINE_AMT" scale="2" size="19" type="DECIMAL"/>
-        <column default="C" name="CPTLAST_ACTION_IND" required="true" size="1" type="VARCHAR"/>
-        <column default="N" name="CPTLAST_PROCESSED_IND" required="true" size="1" type="VARCHAR"/>
+        <column default="C" name="CPTLAST_ACTION_IND" size="1" type="VARCHAR"/>
+        <column default="N" name="CPTLAST_PROCESSED_IND" size="1" type="VARCHAR"/>
         <column default="1" name="CPTLAST_DST_AMT_CD" size="1" type="VARCHAR"/>
+        <unique name="FP_CPTL_AST_INFO_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
     </table>
     <table name="FP_CR_CARD_DTL_T">
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
@@ -7124,7 +7130,7 @@
         <column name="DV_BNK_CD" size="4" type="VARCHAR"/>
         <column name="DV_PDP_BNK_CD" size="4" type="VARCHAR"/>
         <column default="N" name="DV_EXCPT_IND" required="true" size="1" type="VARCHAR"/>
-        <column name="IMD_PMT_IND" size="1" type="VARCHAR"/>
+        <column default="N" name="IMD_PMT_IND" size="1" type="VARCHAR"/>
         <foreign-key foreignTable="FP_DV_DOC_LOC_T" name="FP_DV_DOC_TR2">
             <reference foreign="DV_DOC_LOC_CD" local="DV_DOC_LOC_CD"/>
         </foreign-key>
@@ -11939,7 +11945,7 @@
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="PAYEE_TYP_DESC" required="true" size="40" type="VARCHAR"/>
-        <column name="ACH_ELGBL_IND" size="1" type="VARCHAR"/>
+        <column default="N" name="ACH_ELGBL_IND" size="1" type="VARCHAR"/>
         <unique name="PDP_PAYEE_TYP_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>

@@ -23,6 +23,7 @@ import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.sys.DynamicCollectionComparator;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
 
@@ -36,21 +37,20 @@ public class AssetTypeValuesFinder extends KeyValuesBase {
      * 
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List getKeyValues() {
+    public List<KeyValue> getKeyValues() {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
-        Collection codes = boService.findAll(AssetType.class);
-        List labels = new ArrayList();
-        labels.add(new ConcreteKeyValue("", ""));
-        for (Object code : codes) {
-            AssetType at = (AssetType) code;
+        Collection<AssetType> assetTypeCodes = boService.findAll(AssetType.class);
+        List<KeyValue> keyValueList = new ArrayList<KeyValue>();
+        keyValueList.add(new ConcreteKeyValue("", ""));
+        for (AssetType at : assetTypeCodes) {
             if(at.isActive()) {
-                labels.add(new ConcreteKeyValue(at.getCapitalAssetTypeCode(), at.getCapitalAssetTypeDescription()));
+                keyValueList.add(new ConcreteKeyValue(at.getCapitalAssetTypeCode(), at.getCapitalAssetTypeDescription()));
             }
         }
 
         // sort alphabetically by asset type description
-        DynamicCollectionComparator.sort(labels, "label");
+        DynamicCollectionComparator.sort(keyValueList, "value");
 
-        return labels;
+        return keyValueList;
     }
 }

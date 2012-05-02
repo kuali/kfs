@@ -15,12 +15,12 @@
  */
 package org.kuali.kfs.module.purap.dataaccess.impl;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kfs.module.purap.dataaccess.StatusCodeAndDescriptionForPurapDocumentsDao;
 import org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJdbc;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 /**
@@ -30,22 +30,26 @@ public class StatusCodeAndDescriptionForPurapDocumentsDaoJdbc extends PlatformAw
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(StatusCodeAndDescriptionForPurapDocumentsDaoJdbc.class);
     
     /**
-     * @see org.kuali.kfs.module.endow.batch.dataaccess.GLInterfaceBatchProcessDao#findDocumentTypes()
+     * @see org.kuali.kfs.module.purap.dataaccess.StatusCodeAndDescriptionForPurapDocumentsDao#getRequisitionDocumentStatuses()
      */
     public Map<String, String> getRequisitionDocumentStatuses() {
         LOG.debug("getRequisitionDocumentStatuses() started");
         
         Map<String, String> requistionStatuses = new HashMap<String, String>();
         
-        SqlRowSet statusesRowSet = getJdbcTemplate().queryForRowSet("SELECT * FROM PUR_REQS_STAT_T ORDER BY REQS_STAT_CD"); 
+        try {
+            SqlRowSet statusesRowSet = getJdbcTemplate().queryForRowSet("SELECT * FROM PUR_REQS_STAT_T ORDER BY REQS_STAT_CD"); 
 
-        while (statusesRowSet.next()) {
-            requistionStatuses.put(statusesRowSet.getString("REQS_STAT_CD"), statusesRowSet.getString("REQS_STAT_DESC"));
+            while (statusesRowSet.next()) {
+                requistionStatuses.put(statusesRowSet.getString("REQS_STAT_CD"), statusesRowSet.getString("REQS_STAT_DESC"));
+            }
+            
+            LOG.debug("getRequisitionDocumentStatuses() exited");
+            
+            return requistionStatuses;
+        } catch (DataAccessException dae) {
+            return requistionStatuses;
         }
-        
-        LOG.debug("getRequisitionDocumentStatuses() exited");
-        
-        return requistionStatuses;
     }
     
     /**
@@ -55,16 +59,19 @@ public class StatusCodeAndDescriptionForPurapDocumentsDaoJdbc extends PlatformAw
         LOG.debug("getPurchaseOrderDocumentStatuses() started");
         
         Map<String, String> purchaseOrderStatuses = new HashMap<String, String>();
-        
-        SqlRowSet statusesRowSet = getJdbcTemplate().queryForRowSet("SELECT * FROM PUR_PO_STAT_T ORDER BY PO_STAT_CD"); 
-
-        while (statusesRowSet.next()) {
-            purchaseOrderStatuses.put(statusesRowSet.getString("PO_STAT_CD"), statusesRowSet.getString("PO_STAT_DESC"));
+        try {
+            SqlRowSet statusesRowSet = getJdbcTemplate().queryForRowSet("SELECT * FROM PUR_PO_STAT_T ORDER BY PO_STAT_CD"); 
+    
+            while (statusesRowSet.next()) {
+                purchaseOrderStatuses.put(statusesRowSet.getString("PO_STAT_CD"), statusesRowSet.getString("PO_STAT_DESC"));
+            }
+            
+            LOG.debug("getPurchaseOrderDocumentStatuses() exited");
+            
+            return purchaseOrderStatuses;
+        } catch (DataAccessException dae) {
+            return purchaseOrderStatuses;
         }
-        
-        LOG.debug("getPurchaseOrderDocumentStatuses() exited");
-        
-        return purchaseOrderStatuses;
     }
     
     /**
@@ -75,15 +82,19 @@ public class StatusCodeAndDescriptionForPurapDocumentsDaoJdbc extends PlatformAw
         
         Map<String, String> purchaseOrderVendorQuoteStatuses = new HashMap<String, String>();
         
-        SqlRowSet statusesRowSet = getJdbcTemplate().queryForRowSet("SELECT * FROM PUR_PO_QT_STAT_T ORDER BY PO_QT_STAT_CD"); 
-
-        while (statusesRowSet.next()) {
-            purchaseOrderVendorQuoteStatuses.put(statusesRowSet.getString("PO_QT_STAT_CD"), statusesRowSet.getString("PO_QT_STAT_DESC"));
+        try {
+            SqlRowSet statusesRowSet = getJdbcTemplate().queryForRowSet("SELECT * FROM PUR_PO_QT_STAT_T ORDER BY PO_QT_STAT_CD"); 
+    
+            while (statusesRowSet.next()) {
+                purchaseOrderVendorQuoteStatuses.put(statusesRowSet.getString("PO_QT_STAT_CD"), statusesRowSet.getString("PO_QT_STAT_DESC"));
+            }
+            
+            LOG.debug("getPurchaseOrderVendorQuoteDocumentStatuses() exited");
+            
+            return purchaseOrderVendorQuoteStatuses;
+        } catch (DataAccessException dae) {
+            return purchaseOrderVendorQuoteStatuses;
         }
-        
-        LOG.debug("getPurchaseOrderVendorQuoteDocumentStatuses() exited");
-        
-        return purchaseOrderVendorQuoteStatuses;
     }
     
     /**
@@ -94,15 +105,19 @@ public class StatusCodeAndDescriptionForPurapDocumentsDaoJdbc extends PlatformAw
         
         Map<String, String> paymentRequestStatuses = new HashMap<String, String>();
         
-        SqlRowSet statusesRowSet = getJdbcTemplate().queryForRowSet("SELECT * FROM AP_PMT_RQST_STAT_T ORDER BY PMT_RQST_STAT_CD"); 
-
-        while (statusesRowSet.next()) {
-            paymentRequestStatuses.put(statusesRowSet.getString("PMT_RQST_STAT_CD"), statusesRowSet.getString("PMT_RQST_STAT_DESC"));
+        try {
+            SqlRowSet statusesRowSet = getJdbcTemplate().queryForRowSet("SELECT * FROM AP_PMT_RQST_STAT_T ORDER BY PMT_RQST_STAT_CD"); 
+    
+            while (statusesRowSet.next()) {
+                paymentRequestStatuses.put(statusesRowSet.getString("PMT_RQST_STAT_CD"), statusesRowSet.getString("PMT_RQST_STAT_DESC"));
+            }
+            
+            LOG.debug("getPaymentRequestDocumentStatuses() exited");
+            
+            return paymentRequestStatuses;
+        } catch (DataAccessException dae) {
+            return paymentRequestStatuses;
         }
-        
-        LOG.debug("getPaymentRequestDocumentStatuses() exited");
-        
-        return paymentRequestStatuses;
     }
     
     /**
@@ -113,28 +128,41 @@ public class StatusCodeAndDescriptionForPurapDocumentsDaoJdbc extends PlatformAw
         
         Map<String, String> vendorCreditMemoStatuses = new HashMap<String, String>();
         
-        SqlRowSet statusesRowSet = getJdbcTemplate().queryForRowSet("SELECT * FROM AP_CRDT_MEMO_STAT_T ORDER BY CRDT_MEMO_STAT_CD"); 
-
-        while (statusesRowSet.next()) {
-            vendorCreditMemoStatuses.put(statusesRowSet.getString("CRDT_MEMO_STAT_CD"), statusesRowSet.getString("CRDT_MEMO_STAT_DESC"));
+        try {
+            SqlRowSet statusesRowSet = getJdbcTemplate().queryForRowSet("SELECT * FROM AP_CRDT_MEMO_STAT_T ORDER BY CRDT_MEMO_STAT_CD"); 
+    
+            while (statusesRowSet.next()) {
+                vendorCreditMemoStatuses.put(statusesRowSet.getString("CRDT_MEMO_STAT_CD"), statusesRowSet.getString("CRDT_MEMO_STAT_DESC"));
+            }
+            
+            LOG.debug("getVendorCreditMemoDocumentStatuses() exited");
+            
+            return vendorCreditMemoStatuses;
+        } catch (DataAccessException dae) {
+            return vendorCreditMemoStatuses;
         }
-        
-        LOG.debug("getVendorCreditMemoDocumentStatuses() exited");
-        
-        return vendorCreditMemoStatuses;
     }
     
     /**
-     * @see org.kuali.kfs.module.purap.dataaccess.StatusCodeAndDescriptionForPurapDocumentsDao#saveMigratedApplicationDocumentStatuses(org.kuali.rice.kew.api.WorkflowDocument, java.lang.String)
+     * @see org.kuali.kfs.module.purap.dataaccess.StatusCodeAndDescriptionForPurapDocumentsDao#getLineItemReceivingDocumentStatuses()
      */
-    public boolean updateAndSaveMigratedApplicationDocumentStatuses(String documentNumber, String applicationDocumentStatus, Date applicationDocumentStatusModifiedDate) {
-        boolean success = true;
+    public Map<String, String> getLineItemReceivingDocumentStatuses() {
+        LOG.debug("getLineItemReceivingDocumentStatuses() started");
         
-        String sql = "UPDATE KREW_DOC_HDR_T SET APP_DOC_STAT = '" + applicationDocumentStatus + "', APP_DOC_STAT_MDFN_DT = '" + applicationDocumentStatusModifiedDate + "' WHERE DOC_HDR_ID = '" + documentNumber + "'";
+        Map<String, String> lineItemReceivingStatuses = new HashMap<String, String>();
         
-        getJdbcTemplate().execute(sql);
-        
-        return success;
-    }
+        try {
+            SqlRowSet statusesRowSet = getJdbcTemplate().queryForRowSet("SELECT * FROM PUR_RCVNG_LN_STAT_T ORDER BY RCVNG_LN_STAT_CD"); 
     
+            while (statusesRowSet.next()) {
+                lineItemReceivingStatuses.put(statusesRowSet.getString("RCVNG_LN_STAT_CD"), statusesRowSet.getString("RCVNG_LN_STAT_DESC"));
+            }
+            
+            LOG.debug("getLineItemReceivingDocumentStatuses() exited");
+            
+            return lineItemReceivingStatuses;
+        } catch (DataAccessException dae) {
+            return lineItemReceivingStatuses;
+        }
+    }
 }   

@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.purap.dataaccess;
 
-import java.util.Date;
 import java.util.Map;
 
 /**
@@ -59,14 +58,10 @@ public interface StatusCodeAndDescriptionForPurapDocumentsDao {
     public Map<String, String> getPaymentRequestDocumentStatuses();
     
     /**
-     * The workflowdocument is updated with new application document status and
-     * gets set with new application document status modified date.
+     * Retrieves the status code and status description for Line Item Receiving.
      * 
-     * @param documentNumber
-     * @param applicationDocumentStatus
-     * @param applicationDocumentStatusModifiedDate
-     * @return true if successful else return false
+     * @return Map<String, String>
      */
-    public boolean updateAndSaveMigratedApplicationDocumentStatuses(String documentNumber, String applicationDocumentStatus, Date applicationDocumentStatusModifiedDate);
+    public Map<String, String> getLineItemReceivingDocumentStatuses();
     
 }

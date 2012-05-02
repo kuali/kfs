@@ -15,13 +15,16 @@
  */
 package org.kuali.kfs.module.purap.dataaccess.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
 import org.kuali.kfs.module.purap.dataaccess.PurapDocumentsStatusCodeMigrationDao;
+import org.kuali.kfs.module.purap.document.LineItemReceivingDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
@@ -32,12 +35,9 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
  * A class to do the database queries needed to fetch requisitions, po, preq etc., for 
  * migration of status code from purap documents to the document header's workflowdocument.
  */
-public class PurapDocumentsStatusCodeMigrationDaoOjb extends PlatformAwareDaoBaseOjb implements PurapDocumentsStatusCodeMigrationDao {
+public class PurapDocumentsStatusCodeMigrationDaoOjb extends PlatformAwareDaoBaseOjb {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurapDocumentsStatusCodeMigrationDaoOjb.class);
     
-    /**
-     * @see org.kuali.kfs.module.endow.batch.dataaccess.GLInterfaceBatchProcessDao#findDocumentTypes()
-     */
     public List<RequisitionDocument> getRequisitionDocumentsForStatusCodeMigration() {
         LOG.debug("getRequisitionDocumentsForStatusCodeMigration() started");
         
@@ -99,5 +99,16 @@ public class PurapDocumentsStatusCodeMigrationDaoOjb extends PlatformAwareDaoBas
         return (List<VendorCreditMemoDocument>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
     
-    
+    /**
+     * @see org.kuali.kfs.module.purap.dataaccess.PurapDocumentsStatusCodeMigrationDao#getLineItemReceivingDocumentDocumentsForStatusCodeMigration()
+     */
+    public List<LineItemReceivingDocument> getLineItemReceivingDocumentDocumentsForStatusCodeMigration() {
+        LOG.debug("getLineItemReceivingDocumentDocumentsForStatusCodeMigration() started");
+        
+        Criteria criteria = new Criteria();
+        criteria.addNotNull("RCVNG_LN_STAT_CD");
+        
+        QueryByCriteria query = QueryFactory.newQuery(LineItemReceivingDocument.class, criteria);
+        return (List<LineItemReceivingDocument>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
+    }
 }   

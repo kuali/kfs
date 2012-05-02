@@ -15,13 +15,8 @@
  */
 package org.kuali.kfs.module.purap.dataaccess;
 
-import java.util.List;
-
-import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorQuote;
-import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
-import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
-import org.kuali.kfs.module.purap.document.RequisitionDocument;
-import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
+import java.util.Date;
+import java.util.Map;
 
 /**
  * An interface to methods needed to join transaction related tables to create records
@@ -29,39 +24,61 @@ import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 public interface PurapDocumentsStatusCodeMigrationDao {
     
     /**
-     * Retrieves the requisition documents to migrate status code to workflow side
+     * Method to retrieve the existing requisition documents where status code is null and putting 
+     * the document number and status code in a map to be processed.
      * 
-     * @return requisition documents where status code exists.
+     * @return Map<String, String> requistion details
      */
-    public List<RequisitionDocument> getRequisitionDocumentsForStatusCodeMigration();
+    public Map<String, String> getRequisitionDocumentDetails();    
 
     /**
-     * Retrieves the purchase order documents to migrate status code to workflow side
+     * Method to retrieve the existing purchase order vendor quote documents where status code is 
+     * null and putting the document number and status code in a map to be processed.
      * 
-     * @return purchase order documents where status code exists.
+     * @return Map<String, String> PO Vendor Quote details
      */
-    public List<PurchaseOrderDocument> getPurchaseOrderDocumentsForStatusCodeMigration();
+    public Map<String, String> getPurchaseOrderVendorQuoteDocumentDetails();    
+
+    /**
+     * Method to retrieve the existing purchase order documents where status code is null and putting 
+     * the document number and status code in a map to be processed.
+     * 
+     * @return Map<String, String> PO details
+     */
+    public Map<String, String> getPurchaseOrderDocumentDetails();    
     
     /**
-     * Retrieves the purchase order vendor quote documents to migrate status code to workflow side
+     * Method to retrieve the existing payment request documents where status code is 
+     * null and putting the document number and status code in a map to be processed.
      * 
-     * @return purchase order vendor quote documents where status code exists.
+     * @return Map<String, String> Payment Request details
      */
-    public List<PurchaseOrderVendorQuote> getPurchaseOrderVendorQuoteDocumentsForStatusCodeMigration();
+    public Map<String, String> getPaymentRequestDocumentDetails();    
     
     /**
-     * Retrieves the payment request documents to migrate status code to workflow side
+     * Method to retrieve the existing Vendor Credit Memo documents where status code is 
+     * null and putting the document number and status code in a map to be processed.
      * 
-     * @return payment request documents where status code exists.
+     * @return Map<String, String> Vendor Credit Memo details
      */
-    public List<PaymentRequestDocument> getPaymentRequestDocumentsForStatusCodeMigration();
+    public Map<String, String> getVendorCreditMemoDocumentDetails();    
+
+    /**
+     * Method to retrieve the existing Line Item Receiving documents where status code is 
+     * null and putting the document number and status code in a map to be processed.
+     * 
+     * @return Map<String, String> Line Item Receiving details
+     */
+    public Map<String, String> getLineItemReceivingDocumentDetails();    
     
     /**
-     * Retrieves the vendor credit memo documents to migrate status code to workflow side
+     * The workflowdocument is updated with new application document status and
+     * gets set with new application document status modified date.
      * 
-     * @return vendor credit memo documents where status code exists.
+     * @param documentNumber
+     * @param applicationDocumentStatus
+     * @param applicationDocumentStatusModifiedDate
+     * @return true if successful else return false
      */
-    public List<VendorCreditMemoDocument> getVendorCreditMemoDocumentsForStatusCodeMigration();
-    
-    
+    public boolean updateAndSaveMigratedApplicationDocumentStatuses(String documentNumber, String applicationDocumentStatus, Date applicationDocumentStatusModifiedDate);    
 }

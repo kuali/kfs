@@ -556,7 +556,7 @@
 	</bean>
 	
 	<bean id="StatusCodeAndDescriptionForPurapDocumentsDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.module.purap.dataaccess.impl.StatusCodeAndDescriptionForPurapDocumentsDaoJdbc" />
-	<bean id="purapDocumentsStatusCodeMigrationDao" parent="platformAwareDao" class="org.kuali.kfs.module.purap.dataaccess.impl.PurapDocumentsStatusCodeMigrationDaoOjb" />
+	<bean id="purapDocumentsStatusCodeMigrationDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.module.purap.dataaccess.impl.PurapDocumentsStatusCodeMigrationDaoJdbc" />
 	
     <bean id="migratePurapStatusDescriptionToWorkflowDocumentJob" parent="migratePurapStatusDescriptionToWorkflowDocumentJob-parentBean"/>	
 	<bean id="migratePurapStatusDescriptionToWorkflowDocumentJob-parentBean" parent="scheduledJobDescriptor" abstract="true">

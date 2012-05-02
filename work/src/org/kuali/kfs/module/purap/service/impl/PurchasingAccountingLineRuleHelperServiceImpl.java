@@ -59,7 +59,7 @@ public class PurchasingAccountingLineRuleHelperServiceImpl extends PurapAccounti
         ObjectCode objectCodeForValidation = (SpringContext.getBean(ObjectCodeService.class).getByPrimaryId(universityFiscalYear, objectCode.getChartOfAccountsCode(), objectCode.getFinancialObjectCode()));
 
         // check active status
-        if (!objectCodeForValidation.isFinancialObjectActiveCode()) {
+        if (objectCodeForValidation == null || !objectCodeForValidation.isFinancialObjectActiveCode()) {
             GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_INACTIVE, label);
             return false;
         }

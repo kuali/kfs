@@ -267,10 +267,8 @@
 																		readOnly="true" />
 																</td>
 																<td style="text-align: right;">
-																	<kul:htmlControlAttribute
-																		attributeEntry="${customerInvoiceDetailAttributes.balance}"
-																		property="selectedInvoiceDetailApplications[${ctr}].amountOpen"
-																		readOnly="true" />
+																	<c:out value="${selectedInvoiceDetailApplication.amountOpen}"/>
+																		
 																</td>
 																<td style="text-align: right;">
 																	<kul:htmlControlAttribute

@@ -20,6 +20,7 @@ import java.util.Set;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
+
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -39,10 +40,13 @@ public class VendorDocumentPresentationController extends FinancialSystemMainten
         return conditionallyReadOnlySectionIds;
     }
 
+    /**
+     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.krad.maintenance.MaintenanceDocument)
+     */
     @Override
-    public Set<String> getConditionallyReadOnlyPropertyNames(MaintenanceDocument document) {
+    public Set<String> getConditionallyReadOnlyPropertyNames(org.kuali.rice.krad.maintenance.MaintenanceDocument document) {
         Set<String> conditionallyReadonlyPropertyNames = super.getConditionallyReadOnlyPropertyNames(document);
-        VendorDetail vendor = (VendorDetail)document.getNewMaintainableObject().getBusinessObject();
+        VendorDetail vendor = (VendorDetail)document.getNewMaintainableObject().getDataObject();
 
         if (vendor.isVendorParentIndicator()) {
             // Vendor Parent Indicator should be readOnly if the vendor is a parent.
@@ -86,4 +90,5 @@ public class VendorDocumentPresentationController extends FinancialSystemMainten
         
         return conditionallyHiddenPropertyNames;
     }
-}
+
+  }

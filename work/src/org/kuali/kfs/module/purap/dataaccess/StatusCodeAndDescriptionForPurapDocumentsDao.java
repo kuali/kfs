@@ -37,13 +37,6 @@ public interface StatusCodeAndDescriptionForPurapDocumentsDao {
     public Map<String, String> getPurchaseOrderDocumentStatuses();
     
     /**
-     * Retrieves the status code and status description for purchase orders.
-     * 
-     * @return Map<String, String>
-     */
-    public Map<String, String> getPurchaseOrderVendorQuoteDocumentStatuses();
-    
-    /**
      * Retrieves the status code and status description for vendor credit memos.
      * 
      * @return Map<String, String>

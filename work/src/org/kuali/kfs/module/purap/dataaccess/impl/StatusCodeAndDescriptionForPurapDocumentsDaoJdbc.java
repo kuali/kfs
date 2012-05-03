@@ -75,29 +75,6 @@ public class StatusCodeAndDescriptionForPurapDocumentsDaoJdbc extends PlatformAw
     }
     
     /**
-     * @see org.kuali.kfs.module.purap.dataaccess.StatusCodeAndDescriptionForPurapDocumentsDao#getPurchaseOrderVendorQuoteDocumentStatuses()
-     */
-    public Map<String, String> getPurchaseOrderVendorQuoteDocumentStatuses() {
-        LOG.debug("getPurchaseOrderVendorQuoteDocumentStatuses() started");
-        
-        Map<String, String> purchaseOrderVendorQuoteStatuses = new HashMap<String, String>();
-        
-        try {
-            SqlRowSet statusesRowSet = getJdbcTemplate().queryForRowSet("SELECT * FROM PUR_PO_QT_STAT_T ORDER BY PO_QT_STAT_CD"); 
-    
-            while (statusesRowSet.next()) {
-                purchaseOrderVendorQuoteStatuses.put(statusesRowSet.getString("PO_QT_STAT_CD"), statusesRowSet.getString("PO_QT_STAT_DESC"));
-            }
-            
-            LOG.debug("getPurchaseOrderVendorQuoteDocumentStatuses() exited");
-            
-            return purchaseOrderVendorQuoteStatuses;
-        } catch (DataAccessException dae) {
-            return purchaseOrderVendorQuoteStatuses;
-        }
-    }
-    
-    /**
      * @see org.kuali.kfs.module.purap.dataaccess.StatusCodeAndDescriptionForPurapDocumentsDao#getPaymentRequestDocumentStatuses()
      */
     public Map<String, String> getPaymentRequestDocumentStatuses() {

@@ -79,29 +79,6 @@ public class PurapDocumentsStatusCodeMigrationDaoJdbc extends PlatformAwareDaoBa
     }
 
     /**
-     * @see org.kuali.kfs.module.purap.dataaccess.PurapDocumentsStatusCodeMigrationDao#getPurchaseOrderVendorQuoteDocumentDetails()
-     */
-    public Map<String, String> getPurchaseOrderVendorQuoteDocumentDetails() {
-        LOG.debug("getPurchaseOrderVendorQuoteDocumentDetails() started");
-        
-        Map<String, String> pOVendorQuoteDetails = new HashMap<String, String>();
-        
-        try {
-            SqlRowSet statusesRowSet = getJdbcTemplate().queryForRowSet("SELECT * FROM PUR_PO_VNDR_QT_T WHERE PO_QT_STAT_CD IS NOT NULL"); 
-
-            while (statusesRowSet.next()) {
-                pOVendorQuoteDetails.put(statusesRowSet.getString("FDOC_NBR"), statusesRowSet.getString("PO_QT_STAT_CD"));
-            }
-            
-            LOG.debug("getPurchaseOrderVendorQuoteDocumentDetails() exited");
-            
-            return pOVendorQuoteDetails;
-        } catch (DataAccessException dae) {
-            return pOVendorQuoteDetails;
-        }
-    }
-
-    /**
      * @see org.kuali.kfs.module.purap.dataaccess.PurapDocumentsStatusCodeMigrationDao#getPaymentRequestDocumentDetails()
      */
     public Map<String, String> getPaymentRequestDocumentDetails() {

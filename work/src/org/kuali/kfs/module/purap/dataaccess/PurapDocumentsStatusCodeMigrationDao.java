@@ -32,14 +32,6 @@ public interface PurapDocumentsStatusCodeMigrationDao {
     public Map<String, String> getRequisitionDocumentDetails();    
 
     /**
-     * Method to retrieve the existing purchase order vendor quote documents where status code is 
-     * null and putting the document number and status code in a map to be processed.
-     * 
-     * @return Map<String, String> PO Vendor Quote details
-     */
-    public Map<String, String> getPurchaseOrderVendorQuoteDocumentDetails();    
-
-    /**
      * Method to retrieve the existing purchase order documents where status code is null and putting 
      * the document number and status code in a map to be processed.
      * 

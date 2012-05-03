@@ -68,16 +68,13 @@ public class MigratePurapStatCodeToWorkflowDocumentServiceImpl implements Migrat
       //Step 2: Go through PO documents and move the status code to workflow documents
         success &= processPurchaseOrderDocumentsForStatusCodeMigration();
 
-        //Step 3: Go through PO Vendor Quote documents and move the status code to workflow documents
-        success &= processPurchaseOrderVendorQuotesForStatusCodeMigration();
-        
-        //Step 4: Go through PREQ documents and move the status code to workflow documents
+        //Step 3: Go through PREQ documents and move the status code to workflow documents
         success &= processPaymentRequestDocumentsForStatusCodeMigration();
         
-        //Step 5: Go through Vendor Credit Memo documents and move the status code to workflow documents
+        //Step 4: Go through Vendor Credit Memo documents and move the status code to workflow documents
         success &= processVendorCreditMemoDocumentsForStatusCodeMigration();
         
-        //Step 6: Go through Line Item Receiving documents and move the status code to workflow documents
+        //Step 5: Go through Line Item Receiving documents and move the status code to workflow documents
         success &= processLineItemReceivingDocumentsForStatusCodeMigration();
         
         LOG.debug("migratePurapStatCodeToWorkflowDocuments() completed");
@@ -187,52 +184,6 @@ public class MigratePurapStatCodeToWorkflowDocumentServiceImpl implements Migrat
         migratePurapStatCodeReportService.writeFormattedMessageLine("\n********** Migration of Payment Requests StatusCode to Workflow document completed **********\n\n");
         
         LOG.debug("processPaymentRequestDocumentsForStatusCodeMigration() completed");
-        
-        return success;
-    }
-    
-    /**
-     * Processes the purchase orders vendor quote for status code migration.  Creates a list of documents numbers
-     * and current status code where status code needs migration and using that list the workflow documents
-     * will be retrieved.  Each workflow document then will be updated with the corresponding
-     * application document status that is new in KFS 5.0
-     * 
-     * @return true if the po vendor quote status code successfully migrates else return false.
-     */
-    protected boolean processPurchaseOrderVendorQuotesForStatusCodeMigration() {
-        LOG.debug("processPurchaseOrderVendorQuotesForStatusCodeMigration() started");
-        
-        boolean success = true;
-
-        migratePurapStatCodeReportService.writeFormattedMessageLine("********** Migration of Purchase Orders StatusCode to Workflow document started **********\n");
-        
-        final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();
- 
-        //get the status code/descriptions from the table pur_po_qt_stat_t
-        Map<String, String> purchaseOrderVendorQuoteStatusMap = getStatusCodeAndDescriptionForPurapDocumentsDao().getPurchaseOrderVendorQuoteDocumentStatuses();
-        
-        //get the purchase order vendor quote details where PO_QT_STAT_CD is not null....
-        Map<String, String> poVendorQuoteDetails = getPurapDocumentsStatusCodeMigrationDao().getPurchaseOrderVendorQuoteDocumentDetails();
-
-        writeNoRecordsMessage(poVendorQuoteDetails, "Purchase Order Vendor Quote Documents.");
-        
-        for (String poVendorQuoteDocNumber : poVendorQuoteDetails.keySet()) {
-            String statusCode = poVendorQuoteDetails.get(poVendorQuoteDocNumber);
-            
-            String newApplicationDocumentStatus = purchaseOrderVendorQuoteStatusMap.get(statusCode);
-            
-            migratePurapStatCodeReportService.writeFormattedMessageLine("\t\tPO Vendor Quote Doc: " + poVendorQuoteDocNumber + " Status Code: " + statusCode + " Status Description: " + newApplicationDocumentStatus);
-            
-            //find the workflow document and update the app_doc_stat and app_doc_stat_mdfn_dt columns.
-            getPurapDocumentsStatusCodeMigrationDao().updateAndSaveMigratedApplicationDocumentStatuses(poVendorQuoteDocNumber, newApplicationDocumentStatus, getDateTimeService().getCurrentTimestamp());
-
-            //now reindex the requistion for document search...
-            documentAttributeIndexingQueue.indexDocument(poVendorQuoteDocNumber);
-        }
-        
-        migratePurapStatCodeReportService.writeFormattedMessageLine("\n********** Migration of Purchase Orders StatusCode to Workflow document completed **********\n\n");
-        
-        LOG.debug("processPurchaseOrderVendorQuotesForStatusCodeMigration() completed");
         
         return success;
     }

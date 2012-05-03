@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.sys.document;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -219,21 +218,24 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
 
     @Override
     public Boolean canEdit(Person user) {
-        if ( canEditCache == null || user == null ) {
-            return null;
-        }
-        return canEditCache.get(user.getPrincipalId());
+        return null;
+        // 5/3/2012 JHK: Commenting out for user testing - see if causing a editability problem
+//        if ( canEditCache == null || user == null ) {
+//            return null;
+//        }
+//        return canEditCache.get(user.getPrincipalId());
     }
 
     @Override
     public void setCanEdit(Person user,Boolean canEdit) {
-        if ( user == null ) {
-            return;
-        }
-        if ( canEditCache == null ) {
-            canEditCache = new HashMap<String, Boolean>();
-        }
-        canEditCache.put(user.getPrincipalId(), canEdit);
+        // 5/3/2012 JHK: Commenting out for user testing - see if causing a editability problem
+//        if ( user == null ) {
+//            return;
+//        }
+//        if ( canEditCache == null ) {
+//            canEditCache = new HashMap<String, Boolean>();
+//        }
+//        canEditCache.put(user.getPrincipalId(), canEdit);
     }
 
     /**

@@ -56,6 +56,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.document.DocumentStatusCategory;
+import org.kuali.rice.kew.exception.WorkflowServiceErrorException;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
@@ -247,11 +248,19 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         
         PurchaseOrderDocument poDoc = getPurchaseOrderDocument();
         
-        if (poDoc instanceof PurchaseOrderAmendmentDocument){
-            if (!poDoc.isReceivingDocumentRequiredIndicator()){
-                return SpringContext.getBean(PaymentRequestService.class).hasActivePaymentRequestsForPurchaseOrder(poDoc.getPurapDocumentIdentifier());
-            }else{
-                return true;
+        if (poDoc instanceof PurchaseOrderAmendmentDocument) {
+            if (!poDoc.isReceivingDocumentRequiredIndicator()) {
+                if (GlobalVariables.getMessageMap().hasNoErrors()) {
+                    // only check whether the PO has active payment requests if there is currently no error in the MessageMap,
+                    // otherwise
+                    // we're going to get WorkflowServiceErrorException("Document Search Validation Errors") in the
+                    // DocumentSearchService
+                    // when this next line execute
+                    return SpringContext.getBean(PaymentRequestService.class).hasActivePaymentRequestsForPurchaseOrder(poDoc.getPurapDocumentIdentifier());
+                }
+                else {
+                    return true;
+                }
             }
         }
 

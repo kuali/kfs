@@ -186,7 +186,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
 
         // passed all conditions; return true
-        return true;
+        return can;
     }
 
     @Override

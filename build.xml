@@ -1098,6 +1098,7 @@ The workflow files you want to run must exist in the pending subdirectory and wi
 			</sequential>
 		</for>
 
+		<!-- KFS Runtime Jars -->
 		<path id="kfs.runtime.library.jars">
 			<fileset dir="${build.kfs.lib.directory}" includes="${runtime.only.jars}" />
 			<fileset dir="${build.rice.lib.directory}" includes="${runtime.only.jars}" />
@@ -1108,15 +1109,11 @@ The workflow files you want to run must exist in the pending subdirectory and wi
 		</path>		  		
 
 		<!-- Convert paths to unix format for replacement -->
-		<pathconvert property="kfs.runtime.library.jars.safe" targetos="unix">
+		<pathconvert property="kfs.runtime.library.jars.safe" dirsep="/" pathsep=";">
 			<path refid="kfs.runtime.library.jars" />
 		</pathconvert>
-		<path id="unix.kfs.runtime.library.jars">
-		   <pathelement path="${kfs.runtime.library.jars.safe}" />
-		</path>
 
-		<for param="jarname">
-			<path refid="unix.kfs.runtime.library.jars" />
+		<for list="${kfs.runtime.library.jars.safe}" param="jarname" delimiter=";">
 			<sequential>
 				<propertyregex property="file" 
 							 	input="@{jarname}" 

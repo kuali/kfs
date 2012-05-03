@@ -66,7 +66,7 @@
 					title="Rice Server Configuration Viewer"
 					url="${ConfigProperties.ksb.server.url}/ConfigViewer.do" /></li>
 		</c:if>
-	    <li><portal:portalLink displayTitle="true" title="Cache Admin" url="${ConfigProperties.krad.url}/core/admin/cache?viewId=CacheAdmin-view1&methodToCall=start"/></li>
+	    <li><portal:portalLink displayTitle="true" title="Cache Admin" url="${ConfigProperties.application.url}/kr-krad/core/admin/cache?viewId=CacheAdmin-view1&methodToCall=start"/></li>
 	</ul>
 </div>
 <channel:portalChannelBottom />

@@ -329,10 +329,7 @@
         <property name="rice.krms.url" value="${rice.url}/krms"/>
         <property name="rice.ken.url" value="${rice.url}/ken"/>
         <property name="rice.externalizable.images.url" value="${application.url}/kr/static/images/"/>
-		<property name="rice.ksb.message.persistence" value="true"/>
-		<!-- RICE20 : temp comment out until Rice configuration issue fixed  
 		<condition property="rice.ksb.message.persistence" value="false" else="true"><isset property="is.local.build" /></condition>
-		-->
 		<condition property="rice.ksb.use.quartz.database" value="true" else="false">
 			<and>
 				<istrue value="${use.quartz.scheduling}" />

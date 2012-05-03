@@ -61,6 +61,12 @@
 		<li><portal:portalLink displayTitle="true"
 				title="Configuration Viewer"
 				url="${ConfigProperties.ksb.client.url}/ConfigViewer.do" /></li>
+		<c:if test="${ConfigProperties.ksb.mode != 'LOCAL'}">
+			<li><portal:portalLink displayTitle="true"
+					title="Rice Server Configuration Viewer"
+					url="${ConfigProperties.ksb.server.url}/ConfigViewer.do" /></li>
+		</c:if>
+	    <li><portal:portalLink displayTitle="true" title="Cache Admin" url="${ConfigProperties.krad.url}/core/admin/cache?viewId=CacheAdmin-view1&methodToCall=start"/></li>
 	</ul>
 </div>
 <channel:portalChannelBottom />

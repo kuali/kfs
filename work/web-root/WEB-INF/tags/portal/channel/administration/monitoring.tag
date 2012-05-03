@@ -22,6 +22,8 @@
 		<li><portal:portalLink displayTitle="true" title="Message Queue" url="${ConfigProperties.ksb.client.url}/${ConfigProperties.message.queue.url}" /></li>
 		<li><portal:portalLink displayTitle="true" title="Service Registry" url="${ConfigProperties.ksb.server.url}/${ConfigProperties.service.registry.url}" /></li>
 		<li><portal:portalLink displayTitle="true" title="Thread Pool" url="${ConfigProperties.ksb.client.url}/${ConfigProperties.thread.pool.url}" /></li>
+		<li><portal:portalLink displayTitle="true" title="Quartz" url="${ConfigProperties.ksb.client.url}/Quartz.do" /></li>
+		<li><portal:portalLink displayTitle="true" title="Security Management" url="${ConfigProperties.ksb.client.url}/JavaSecurityManagement.do" /></li>
 	</ul>
 	<strong>Workflow</strong></br>
    	<ul class="chan">

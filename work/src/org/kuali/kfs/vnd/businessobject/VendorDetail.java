@@ -761,6 +761,25 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
 
+    public String getVendorAliasesAsString() {
+        StringBuilder sb = new StringBuilder("[");
+
+        boolean first = true;
+        for (VendorAlias vsd : this.getVendorAliases()) {
+            if(vsd.isActive()){
+                if (!first) {
+                    sb.append(", ");
+                } else {
+                    first = false;
+                }            
+                sb.append(vsd.getVendorAliasName());
+            }
+        }
+        sb.append(']');
+        return sb.toString();
+    }
+
+
     /**
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */

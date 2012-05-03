@@ -90,6 +90,7 @@
 				<ref bean="VendorDetail-activeIndicator" />
 				<ref bean="VendorDetail-taxableIndicator" />
 				<ref bean="VendorDetail-vendorParentName" />
+				<ref bean="VendorDetail-vendorAliasesAsString" />
 			</list>
 		</property>
 		<property name="collections">
@@ -606,6 +607,21 @@
 			value="vendorShippingSpecialConditions.vendorShippingSpecialConditionCode" />
 	</bean>
 
+	<bean id="VendorDetail-vendorAliasesAsString"  parent="VendorDetail-vendorAliasesAsString-parentBean" />
+	<bean id="VendorDetail-vendorAliasesAsString-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="vendorAliasesAsString" />
+    	<property name="forceUppercase" value="true" />
+   		<property name="label" value="Search Alias" />
+    	<property name="shortLabel" value="Search Alias" />
+    	<property name="maxLength" value="45" />
+    	<property name="validationPattern" >
+      		<ref bean="AnyCharacterWithWhitespaceValidation" />
+    	</property>
+    	<property name="control" >
+      		<bean parent="TextControlDefinition" p:size="45"/>
+    	</property>
+	</bean>
+	
 	<bean id="VendorDetail-vendorAliases.vendorAliasName" parent="VendorDetail-vendorAliases.vendorAliasName-parentBean" />
 
 	<bean id="VendorDetail-vendorAliases.vendorAliasName-parentBean"
@@ -1312,7 +1328,7 @@
 		<property name="resultFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="vendorName" />
-				<bean parent="FieldDefinition" p:attributeName="vendorAliases" />
+				<bean parent="FieldDefinition" p:attributeName="vendorAliasesAsString" />
 				<bean parent="FieldDefinition" p:attributeName="vendorNumber" />
 				<bean parent="FieldDefinition" p:attributeName="activeIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorTypeCode" />

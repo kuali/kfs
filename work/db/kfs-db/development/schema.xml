@@ -9141,7 +9141,7 @@
     </table>
     <table name="KRNS_MAINT_LOCK_T">
         <column name="MAINT_LOCK_REP_TXT" size="500" type="VARCHAR"/>
-        <column default="SYS_GUID()" name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="DOC_HDR_ID" required="true" size="14" type="VARCHAR"/>
         <column name="MAINT_LOCK_ID" primaryKey="true" size="14" type="VARCHAR"/>
@@ -14189,7 +14189,7 @@
             <reference foreign="VNDR_HDR_GNRTD_ID" local="VNDR_HDR_GNRTD_ID"/>
             <reference foreign="VNDR_DTL_ASND_ID" local="VNDR_DTL_ASND_ID"/>
         </foreign-key>
-        <unique name="SYS_C00426779">
+        <unique name="PUR_VNDR_EXCL_MTCH_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>

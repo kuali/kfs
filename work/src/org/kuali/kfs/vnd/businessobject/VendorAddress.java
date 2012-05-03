@@ -18,7 +18,6 @@ package org.kuali.kfs.vnd.businessobject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -343,17 +342,6 @@ public class VendorAddress extends PersistableBusinessObjectBase implements Vend
             LOG.debug("Exiting isEqualForRouting.");
             return eq;
         }
-    }
-
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-        if (this.vendorAddressGeneratedIdentifier != null) {
-            m.put("vendorAddressGeneratedIdentifier", this.vendorAddressGeneratedIdentifier.toString());
-        }
-        return m;
     }
 
 }

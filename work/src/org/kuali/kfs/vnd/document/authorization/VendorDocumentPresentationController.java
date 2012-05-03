@@ -21,14 +21,14 @@ import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocume
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 
-import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class VendorDocumentPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
 
     @Override
-    public Set<String> getConditionallyReadOnlySectionIds(org.kuali.rice.krad.maintenance.MaintenanceDocument document) {
+    public Set<String> getConditionallyReadOnlySectionIds(MaintenanceDocument document) {
         Set<String> conditionallyReadOnlySectionIds = super.getConditionallyReadOnlySectionIds(document);
         VendorDetail vendor = (VendorDetail)document.getNewMaintainableObject().getDataObject();
 
@@ -44,7 +44,7 @@ public class VendorDocumentPresentationController extends FinancialSystemMainten
      * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.krad.maintenance.MaintenanceDocument)
      */
     @Override
-    public Set<String> getConditionallyReadOnlyPropertyNames(org.kuali.rice.krad.maintenance.MaintenanceDocument document) {
+    public Set<String> getConditionallyReadOnlyPropertyNames(MaintenanceDocument document) {
         Set<String> conditionallyReadonlyPropertyNames = super.getConditionallyReadOnlyPropertyNames(document);
         VendorDetail vendor = (VendorDetail)document.getNewMaintainableObject().getDataObject();
 
@@ -82,7 +82,7 @@ public class VendorDocumentPresentationController extends FinancialSystemMainten
     public Set<String> getConditionallyHiddenPropertyNames(BusinessObject businessObject) {
         Set<String> conditionallyHiddenPropertyNames = super.getConditionallyHiddenPropertyNames(businessObject);
         MaintenanceDocument document = (MaintenanceDocument) businessObject;
-        VendorDetail vendor = (VendorDetail)document.getNewMaintainableObject().getBusinessObject();
+        VendorDetail vendor = (VendorDetail)document.getNewMaintainableObject().getDataObject();
         // If the vendor is a parent then the vendor parent name should be hidden.
         if (vendor.isVendorParentIndicator()) {
             conditionallyHiddenPropertyNames.add(VendorPropertyConstants.VENDOR_PARENT_NAME);

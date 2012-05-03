@@ -207,7 +207,7 @@
             	</th>
             	<td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute 
-                    	attributeEntry="${documentAttributes.vendorCountryCode}" property="document.vendorCountryCode" extraReadOnlyProperty="document.vendorCountry.name" 
+                    	attributeEntry="${documentAttributes.vendorCountryCode}" property="document.vendorCountryCode" extraReadOnlyProperty="document.vendorCountryName" 
                     	readOnly="${(readOnlyForPREQ) or not (fullEntryMode or amendmentEntry) or displayCreditMemoFields or (lockB2BEntry and (displayRequisitionFields or displayPurchaseOrderFields))}" tabindexOverride="${tabindexOverrideBase + 3}"/>
             	</td>
             </tr>

@@ -1308,4 +1308,11 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         this.statusCode = statusCode;
     }
     
+    public String getVendorCountryName() {
+        Country country = SpringContext.getBean(CountryService.class).getCountry(getVendorCountryCode());
+        if (country != null)
+            return country.getName();
+        return null;
+    }
+   
 }

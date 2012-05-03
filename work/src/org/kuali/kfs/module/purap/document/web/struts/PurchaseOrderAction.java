@@ -1444,11 +1444,10 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         }
         Calendar currentCalendar = dateTimeService.getCurrentCalendar();
         Date currentSqlDate = new java.sql.Date(currentCalendar.getTimeInMillis());
-        document.setPurchaseOrderQuoteInitializationDate(currentSqlDate);        
-        document.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurchaseOrderStatuses.APPDOC_QUOTE);
-        
+        document.setPurchaseOrderQuoteInitializationDate(currentSqlDate); 
+        document.updateAndSaveAppDocStatus(PurchaseOrderStatuses.APPDOC_QUOTE);
+
         document.setStatusChange(PurchaseOrderStatuses.APPDOC_QUOTE);
-        document.refreshReferenceObject(PurapPropertyConstants.STATUS);
         
         //TODO this needs to be done better, and probably make it a parameter
         Calendar expCalendar = (Calendar) currentCalendar.clone();

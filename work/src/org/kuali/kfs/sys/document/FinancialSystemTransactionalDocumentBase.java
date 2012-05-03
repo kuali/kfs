@@ -244,7 +244,7 @@ public class FinancialSystemTransactionalDocumentBase extends TransactionalDocum
      * @param applicationDocumentStatus is the app doc status to save
      * @throws WorkflowException
      */
-    protected void updateAndSaveAppDocStatus(String applicationDocumentStatus) throws WorkflowException {
+    public void updateAndSaveAppDocStatus(String applicationDocumentStatus) throws WorkflowException {
         getFinancialSystemDocumentHeader().updateAndSaveAppDocStatus(applicationDocumentStatus);
     }
 

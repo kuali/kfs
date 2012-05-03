@@ -1334,9 +1334,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     @Override
-    public ArrayList<PurchaseOrderQuoteStatus> getPurchaseOrderQuoteStatusCodes() {
-        ArrayList poQuoteStatuses = new ArrayList<PurchaseOrderQuoteStatus>();
-        poQuoteStatuses = (ArrayList) businessObjectService.findAll(PurchaseOrderQuoteStatus.class);
+    public List<PurchaseOrderQuoteStatus> getPurchaseOrderQuoteStatusCodes() {
+        List<PurchaseOrderQuoteStatus> poQuoteStatuses = new ArrayList<PurchaseOrderQuoteStatus>();
+        poQuoteStatuses = (List<PurchaseOrderQuoteStatus>) businessObjectService.findAll(PurchaseOrderQuoteStatus.class);
         return poQuoteStatuses;
     }
 

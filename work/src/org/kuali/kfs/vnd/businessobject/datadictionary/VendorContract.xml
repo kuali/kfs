@@ -49,6 +49,7 @@
 				<ref bean="VendorContract-vendorContractGeneratedIdentifier" />
 				<ref
 					bean="VendorContract-vendorDetail.vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode" />
+				<ref bean="VendorContract-vendorDetail.vendorHeader.vendorSupplierDiversitiesAsString" />
 				<ref bean="VendorContract-vendorHeaderGeneratedIdentifier" />
 				<ref bean="VendorContract-vendorDetailAssignedIdentifier" />
 				<ref bean="VendorContract-vendorNumber" />
@@ -287,6 +288,17 @@
 		<property name="name"
 			value="vendorDetail.vendorHeader.vendorSupplierDiversities.vendorSupplierDiversityCode" />
 	</bean>
+	<bean id="VendorContract-vendorDetail.vendorHeader.vendorSupplierDiversitiesAsString" 
+		parent="VendorContract-vendorDetail.vendorHeader.vendorSupplierDiversitiesAsString-parentBean"/>
+	
+	<bean
+		id="VendorContract-vendorDetail.vendorHeader.vendorSupplierDiversitiesAsString-parentBean"
+		abstract="true" parent="VendorHeader-vendorSupplierDiversitiesAsString">
+		<property name="name"
+			value="vendorDetail.vendorHeader.vendorSupplierDiversitiesAsString" />
+		<property name="label" value="Supplier Diversities" />
+	</bean>
+		
 	<bean id="VendorContract-newCollectionRecord" parent="VendorContract-newCollectionRecord-parentBean" />
 
 	<bean id="VendorContract-newCollectionRecord-parentBean" abstract="true"
@@ -404,8 +416,7 @@
 				<bean parent="FieldDefinition" p:attributeName="vendorContractDescription" />
 				<bean parent="FieldDefinition"
 					p:attributeName="purchaseOrderCostSource.purchaseOrderCostSourceDescription" />
-				<bean parent="FieldDefinition"
-					p:attributeName="vendorDetail.vendorHeader.vendorSupplierDiversities" />
+				<bean parent="FieldDefinition" p:attributeName="vendorDetail.vendorHeader.vendorSupplierDiversitiesAsString" />
 				<bean parent="FieldDefinition" p:attributeName="vendorB2bIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>

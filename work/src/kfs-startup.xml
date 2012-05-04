@@ -1,47 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                            http://www.springframework.org/schema/tx
                            http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"
-                           default-lazy-init="false">
+	default-lazy-init="false">
 
 
-	<!--
-		This Spring File loads all of the Rice Configuration (including transaction
-		managers, datasources and the Rice Configurer)
-		
-		Add any additional Spring Beans you have to this file.  Also feel free to
-		modify and re-arrange these Spring files as you see fit!
-	-->
-<!-- 
-  <import resource="classpath:net/bull/javamelody/monitoring-spring.xml" />
- -->
-  <bean id="properties" class="org.kuali.kfs.sys.context.PropertyLoadingFactoryBean" />
+	<!-- This Spring File loads all of the Rice Configuration (including transaction managers, datasources and the Rice Configurer) -->
+	<!-- <import resource="classpath:net/bull/javamelody/monitoring-spring.xml" /> -->
 
-  <bean id="securityProperties" class="org.kuali.kfs.sys.context.PropertyLoadingFactoryBean"
-    p:secureMode="true" />
+	<!--  Define the properties which will be used in ${} expressions throughout the remainder
+		  of the KFS and Rice spring files.  These properties will be injected into
+		  all Rice Spring contexts as well. -->
+	<bean id="properties" class="org.kuali.kfs.sys.context.PropertyLoadingFactoryBean" />
 
-  <bean id="propertyPlaceholderConfigurer" class="org.kuali.kfs.sys.context.ConfigPropertyPlaceholderConfigurer">
-    <property name="ignoreUnresolvablePlaceholders" value="true" />
-    <property name="propertiesArray">
-      <list>
-        <ref bean="properties" />
-        <ref bean="securityProperties" />
-      </list>
-    </property>
-  </bean>
+	<bean id="securityProperties" class="org.kuali.kfs.sys.context.PropertyLoadingFactoryBean" p:secureMode="true" />
 
-	<import resource="classpath:kfs-RiceJTASpringBeans.xml"/>
-	<import resource="classpath:kfs-RiceDataSourceSpringBeans.xml"/>
-	<import resource="classpath:kfs-RiceSpringBeans.xml"/>
+	<bean id="propertyPlaceholderConfigurer" class="org.kuali.kfs.sys.context.ConfigPropertyPlaceholderConfigurer">
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+		<property name="propertiesArray">
+			<list>
+				<ref bean="properties" />
+				<ref bean="securityProperties" />
+			</list>
+		</property>
+	</bean>
 
+	<!-- Import the base Rice setup beans which contain the datasources
+		 and the Rice modules. -->
+	<import resource="classpath:kfs-RiceJTASpringBeans.xml" />
+	<import resource="classpath:kfs-RiceDataSourceSpringBeans.xml" />
+	<import resource="classpath:kfs-RiceSpringBeans.xml" />
+
+	<!-- Add the KFS module to the system.  This bean is what makes this a KFS instance
+		 instead of a base Rice server. -->
 	<bean name="kfsConfigurer" class="org.kuali.kfs.sys.context.KFSConfigurer" lazy-init="false" />
 
 </beans>

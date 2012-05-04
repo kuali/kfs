@@ -123,14 +123,11 @@
 				<ref bean="cabExtractStep"/>
 			</list>
 		</property>
-		<!-- Not sure about this dependency, so commenting out -->
-		<!-- 
 		<property name="dependencies">
 			<map>
 				<entry key="posterJob" value="hardDependency" />
 			</map>
 		</property>
-		-->
 	</bean>
 
 	<bean id="cabExtractJobTrigger" parent="cronTrigger">

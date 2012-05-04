@@ -32,6 +32,7 @@ import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinitio
 import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 import org.kuali.kfs.module.ec.service.EffortCertificationDetailBuildService;
 import org.kuali.kfs.module.ec.testdata.EffortTestDataPropertyConstants;
+import org.kuali.kfs.module.ld.businessobject.LedgerBalance;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -101,7 +102,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
         laborModuleService = SpringContext.getBean(LaborModuleService.class);
 
         KualiModuleService kualiModuleService = SpringContext.getBean(KualiModuleService.class);
-        ledgerBalanceClass = kualiModuleService.getResponsibleModuleService(LaborLedgerBalance.class).createNewObjectFromExternalizableClass(LaborLedgerBalance.class).getClass();
+        ledgerBalanceClass = LedgerBalance.class;
         ledgerEntryClass = kualiModuleService.getResponsibleModuleService(LaborLedgerEntry.class).createNewObjectFromExternalizableClass(LaborLedgerEntry.class).getClass();
     }
 

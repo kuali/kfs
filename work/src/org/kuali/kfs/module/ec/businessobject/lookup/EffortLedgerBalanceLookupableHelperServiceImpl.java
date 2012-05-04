@@ -21,10 +21,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.integration.ld.LaborLedgerBalance;
-import org.kuali.kfs.integration.ld.LaborLedgerBalanceForEffortCertification;
 import org.kuali.kfs.module.ec.EffortPropertyConstants;
 import org.kuali.kfs.module.ec.businessobject.EffortCertificationReportDefinition;
 import org.kuali.kfs.module.ec.service.EffortCertificationReportDefinitionService;
+import org.kuali.kfs.module.ld.businessobject.LedgerBalanceForEffortCertification;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.OptionsService;
@@ -98,7 +98,7 @@ public class EffortLedgerBalanceLookupableHelperServiceImpl extends KualiLookupa
      */
     @Override
     public Class<? extends LaborLedgerBalance> getBusinessObjectClass() {
-        return kualiModuleService.getResponsibleModuleService(LaborLedgerBalanceForEffortCertification.class).createNewObjectFromExternalizableClass(LaborLedgerBalanceForEffortCertification.class).getClass();
+        return LedgerBalanceForEffortCertification.class;
     }
 
     /**

@@ -15,11 +15,10 @@
  */
 package org.kuali.kfs.integration.purap;
 
-import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 
 /**
  * Purap Item Business Object.
  */
-public interface ExternalPurApItem extends ExternalizableBusinessObject {
+public interface ExternalPurApItem {
 
 }

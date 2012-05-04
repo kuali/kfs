@@ -102,7 +102,7 @@ public class EffortLedgerBalanceInquirableImpl extends AbstractGeneralLedgerInqu
      */
     @Override
     protected Class getInquiryBusinessObjectClass(String attributeName) {
-        return kualiModuleService.getResponsibleModuleService(LaborLedgerBalanceForEffortCertification.class).getExternalizableBusinessObjectImplementation(LaborLedgerBalanceForEffortCertification.class);
+        return LaborLedgerBalanceForEffortCertification.class;
     }
 
     /**

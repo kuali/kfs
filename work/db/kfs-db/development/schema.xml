@@ -14182,10 +14182,10 @@
         <column name="VNDR_EXCL_DESC_TXT" size="1000" type="VARCHAR"/>
         <column name="LST_UPDT_TS" type="DATE"/>
         <column name="LST_UPDT_PRNCPL_NM" size="100" type="VARCHAR"/>
-        <foreign-key foreignTable="PUR_VNDR_HDR_T" name="PUR_VNDR_EXCL_MTCH_TP1">
+        <foreign-key foreignTable="PUR_VNDR_HDR_T" name="PUR_VNDR_EXCL_MTCH_TR1">
             <reference foreign="VNDR_HDR_GNRTD_ID" local="VNDR_HDR_GNRTD_ID"/>
         </foreign-key>
-        <foreign-key foreignTable="PUR_VNDR_DTL_T" name="PUR_VNDR_EXCL_MTCH_TP2">
+        <foreign-key foreignTable="PUR_VNDR_DTL_T" name="PUR_VNDR_EXCL_MTCH_TR2">
             <reference foreign="VNDR_HDR_GNRTD_ID" local="VNDR_HDR_GNRTD_ID"/>
             <reference foreign="VNDR_DTL_ASND_ID" local="VNDR_DTL_ASND_ID"/>
         </foreign-key>

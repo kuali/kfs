@@ -1,4 +1,6 @@
 /*
+            NoteService noteService = KRADServiceLocator.getNoteService();
+            notes = noteService.getByRemoteObjectId(this.getBusinessObject().getObjectId());
  * Copyright 2007 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
@@ -58,14 +60,14 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
     public void setGenerateDefaultValues(String docTypeName) {
         super.setGenerateDefaultValues(docTypeName);
         
-        List<Note> notes = null;
-        
+        List<Note> notes = new ArrayList<Note>();
+
         if (getBusinessObject().getObjectId() != null) {
-                NoteService noteService = KRADServiceLocator.getNoteService();
-                notes = noteService.getByRemoteObjectId(this.getBusinessObject().getObjectId());
-                   
+            NoteService noteService = KRADServiceLocator.getNoteService();
+            notes = noteService.getByRemoteObjectId(this.getBusinessObject().getObjectId());
+                  
             if (notes.isEmpty()) {
-                setVendorCreateAndUpdateNote(VendorConstants.VendorCreateAndUpdateNotePrefixes.ADD);
+                notes.add(getNewBoNoteForAdding(VendorConstants.VendorCreateAndUpdateNotePrefixes.ADD));
             }
         }
     }
@@ -193,6 +195,8 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
         try {
             NoteService noteService = SpringContext.getBean(NoteService.class);
             newBONote = noteService.createNote(newBONote, oldVendorDetail, GlobalVariables.getUserSession().getPrincipalId());
+            newBONote.setNotePostedTimestampToCurrent();
+            
             noteService.save(newBONote);
         }
         catch (Exception e) {
@@ -202,7 +206,6 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
         NoteService noteService = KRADServiceLocator.getNoteService();
         List<Note> notes = noteService.getByRemoteObjectId(oldVendorDetail.getObjectId());
         notes.add(newBONote);
-       
     }
     
     /**
@@ -275,24 +278,28 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#processAfterEdit()
      */
     @Override
-    public void processAfterEdit( MaintenanceDocument document, Map<String,String[]> parameters ) {
-        setVendorCreateAndUpdateNote(VendorConstants.VendorCreateAndUpdateNotePrefixes.CHANGE);
+    public  void processAfterEdit( MaintenanceDocument document, Map<String,String[]> parameters ) {
+
+        List<Note> notes = new ArrayList<Note>();
+        if (document.getOldMaintainableObject().getBusinessObject().getObjectId() != null) {
+            NoteService noteService = KRADServiceLocator.getNoteService();
+            notes = noteService.getByRemoteObjectId(this.getBusinessObject().getObjectId());
+        }
+        
+        setVendorCreateAndUpdateNote(notes, VendorConstants.VendorCreateAndUpdateNotePrefixes.CHANGE);
+        document.setNotes(notes);
+        
         super.processAfterEdit(document, parameters);
     }
 
     /**
      * Checks whether the previous note was an "Add" with the same document number as this one
      * 
+     * @param notes List of exisiting notes.
      * @param prefix String to determine if it is a note "Add" or a note "Change"
      */
-    private void setVendorCreateAndUpdateNote(String prefix) {
+    private void setVendorCreateAndUpdateNote(List<Note> notes, String prefix) {
         boolean shouldAddNote = true;
-        
-        List<Note> notes = null;
-        if (this.getBusinessObject().getObjectId() != null) {
-            NoteService noteService = KRADServiceLocator.getNoteService();
-            notes = noteService.getByRemoteObjectId(this.getBusinessObject().getObjectId());
-        }
         
         if (prefix.equals(VendorConstants.VendorCreateAndUpdateNotePrefixes.CHANGE)) {
             // Check whether the previous note was an "Add" with the same document number as this one
@@ -304,19 +311,30 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
             }
         }
         if (shouldAddNote) {
-            Note newBONote = new Note();
-            newBONote.setNoteText(prefix + " vendor document ID " + getDocumentNumber());
-            try {
-                newBONote = SpringContext.getBean(NoteService.class).createNote(newBONote, this.getBusinessObject(), GlobalVariables.getUserSession().getPrincipalId());
-            }
-            catch (Exception e) {
-                throw new RuntimeException("Caught Exception While Trying To Add Note to Vendor", e);
-            }
-        
-            notes.add(newBONote);
+            notes.add(getNewBoNoteForAdding(prefix));
         }
     }
 
+    /**
+     * creates a new bo note and sets the timestamp.
+     * 
+     * @return a newly created note
+     */
+    protected Note getNewBoNoteForAdding(String prefix) {
+        Note newBoNote = new Note();
+        newBoNote.setNoteText(prefix + " vendor document ID " + getDocumentNumber());
+        newBoNote.setNotePostedTimestampToCurrent();
+       
+        try {
+            newBoNote = SpringContext.getBean(NoteService.class).createNote(newBoNote, this.getBusinessObject(), GlobalVariables.getUserSession().getPrincipalId());
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Caught Exception While Trying To Add Note to Vendor", e);
+        }
+        
+        return newBoNote;
+    }
+    
     /**
      * Concatenates the vendorLastName and a delimiter and the vendorFirstName fields into vendorName field of the vendorDetail
      * object.
@@ -425,10 +443,20 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
     @Override
     public void setupNewFromExisting( MaintenanceDocument document, Map<String,String[]> parameters ) {
         super.setupNewFromExisting(document, parameters);
+        
         ((VendorDetail) super.getBusinessObject()).setVendorParentIndicator(false);
         ((VendorDetail) super.getBusinessObject()).setActiveIndicator(true);
 
-        setVendorCreateAndUpdateNote(VendorConstants.VendorCreateAndUpdateNotePrefixes.ADD);
+        List<Note> notes = new ArrayList<Note>();
+
+        if (getBusinessObject().getObjectId() != null) {
+            NoteService noteService = KRADServiceLocator.getNoteService();
+            notes = noteService.getByRemoteObjectId(this.getBusinessObject().getObjectId());
+        }
+        
+        setVendorCreateAndUpdateNote(notes, VendorConstants.VendorCreateAndUpdateNotePrefixes.ADD);
+
+        document.setNotes(notes);
     }
 
     /**

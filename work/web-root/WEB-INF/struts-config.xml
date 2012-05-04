@@ -522,15 +522,12 @@
 				path="/jsp/gl/AccountBalanceByConsolidationLookup.jsp" />
 		</action>
         
-        <action path="/laborBatchUploadFileSet"
-            name="KualiBatchInputFileSetForm" scope="request"
-            attribute="KualiForm" parameter="methodToCall"
-            type="org.kuali.kfs.sys.web.struts.KualiBatchInputFileSetAction">
-            <set-property property="cancellable" value="true" />
-            <forward name="basic"
-                path="/jsp/sys/KualiBatchInputFileSet.jsp" />
-        </action>        
-
+		<action path="/laborBatchUploadFileSet" name="KualiBatchInputFileSetForm"
+			scope="request" attribute="KualiForm" parameter="methodToCall"
+			type="org.kuali.kfs.sys.web.struts.KualiBatchInputFileSetAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/sys/KualiBatchInputFileSet.jsp" />
+		</action>
  
 		<action path="/labor*" name="Labor{1}Form" input="/jsp/module/ld/{1}.jsp"
 			type="org.kuali.kfs.module.ld.document.web.struts.{1}Action" scope="request"
@@ -552,13 +549,6 @@
 			type="org.kuali.kfs.gl.web.struts.BalanceInquiryAction">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/module/ld/LongRowTableInquiry.jsp" />
-		</action>
-
-		<action path="/laborBatchUploadFileSet" name="KualiBatchInputFileSetForm"
-			scope="request" attribute="KualiForm" parameter="methodToCall"
-			type="org.kuali.kfs.sys.web.struts.KualiBatchInputFileSetAction">
-			<set-property property="cancellable" value="true" />
-			<forward name="basic" path="/jsp/sys/KualiBatchInputFileSet.jsp" />
 		</action>
 
 		<action path="/fringeBenefitInquiry" name="FringeBenefitInquiryForm"
@@ -704,13 +694,6 @@
 			parameter="methodToCall" validate="true" attribute="KualiForm">
 			<set-property property="cancellable" value="true" />
 			<forward name="basic" path="/jsp/module/ec/{1}.jsp" />
-		</action>
-
-		<action path="/cams*" name="{1}Form" input="/jsp/module/cams/{1}.jsp"
-			type="org.kuali.kfs.module.cam.document.web.struts.{1}Action" scope="request"
-			parameter="methodToCall" validate="true" attribute="KualiForm">
-			<set-property property="cancellable" value="true" />
-			<forward name="basic" path="/jsp/module/cams/{1}.jsp" />
 		</action>
 
 		<action path="/batchUpload" name="KualiBatchInputFileForm"

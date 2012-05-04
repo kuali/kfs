@@ -20,16 +20,6 @@
 		<creator id="spring" class="org.kuali.rice.kns.web.servlet.dwr.GlobalResourceDelegatingSpringCreator"/>
 	</init>
 	<allow>
-	    <convert converter="bean" match="org.kuali.kfs.coa.businessobject.AccountingPeriod">
-	   		<param name="include" value="universityFiscalYear,universityFiscalPeriodCode" />
-	   	</convert>
-	    <create creator="spring" javascript="AccountingPeriodService">
-	    	<param name="beanName" value="accountingPeriodService" />
-	    	<include method="getByStringDate" />
-	    </create>
-	    <convert converter="bean" match="org.kuali.kfs.cam.businessobject.AssetRetirementGlobal">
-	   		<param name="include" value="calculatedTotal,salePrice,handlingFeeAmount,preventiveMaintenanceAmount" />
-	   	</convert>
 	    <create creator="spring" javascript="AssetRetirementService">
 	    	<param name="beanName" value="assetRetirementService" />
 	    	<include method="generateCalculatedTotal" />

@@ -104,5 +104,12 @@
       <convert converter="bean" match="org.kuali.kfs.coa.businessobject.A21IndirectCostRecoveryAccount">
           <param name="include" value="chartOfAccountsCode,accountNumber,indirectCostRecoveryFinCoaCode,indirectCostRecoveryAccountNumber,accountLinePercent,active" />
       </convert>       
+	    <convert converter="bean" match="org.kuali.kfs.coa.businessobject.AccountingPeriod">
+	   		<param name="include" value="universityFiscalYear,universityFiscalPeriodCode" />
+	   	</convert>
+	    <create creator="spring" javascript="AccountingPeriodService">
+	    	<param name="beanName" value="accountingPeriodService" />
+	    	<include method="getByStringDate" />
+	    </create>
 	</allow>
 </dwr>

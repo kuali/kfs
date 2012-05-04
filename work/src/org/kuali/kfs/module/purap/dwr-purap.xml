@@ -20,9 +20,6 @@
 		<creator id="spring" class="org.kuali.rice.kns.web.servlet.dwr.GlobalResourceDelegatingSpringCreator"/>
 	</init>
 	<allow>
-	   	<convert converter="bean" match="org.kuali.kfs.sys.businessobject.UnitOfMeasure">
-	   		<param name="include" value="itemUnitOfMeasureCode,itemUnitOfMeasureDescription" />
-	   	</convert>
 	    <create creator="spring" javascript="ItemUnitOfMeasureService">
 	    	<param name="beanName" value="itemUnitOfMeasureService" />
 	    	<include method="getByPrimaryId" />

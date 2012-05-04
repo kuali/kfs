@@ -16,4 +16,13 @@
 <!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 3.0//EN" "http://getahead.org/dwr/dwr30.dtd">
 
 <dwr>
+	<init>
+		<creator id="spring" class="org.kuali.rice.kns.web.servlet.dwr.GlobalResourceDelegatingSpringCreator"/>
+	</init>
+	<allow>		
+		<create creator="spring" javascript="LaborModuleService">
+	    	<param name="beanName" value="laborModuleService" />
+			<include method="calculateFringeBenefit" />
+		</create>
+	</allow>
 </dwr>

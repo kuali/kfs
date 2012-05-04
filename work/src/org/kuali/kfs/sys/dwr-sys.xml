@@ -18,9 +18,11 @@
 <dwr>
 	<init>
 		<creator id="spring" class="org.kuali.rice.kns.web.servlet.dwr.GlobalResourceDelegatingSpringCreator"/>
-		<converter id="kualinumber" class="org.kuali.kfs.dwr.converter.KualiNumberConverter"/>
+		<converter id="kualinumber" class="org.kuali.kfs.sys.KualiNumberConverter"/>
 	</init>
 	<allow>
+	    <convert match="org.kuali.rice.core.api.util.type.KualiDecimal" converter="kualinumber" />
+
 		<convert converter="bean" match="org.kuali.kfs.sys.businessobject.OriginationCode">
 			<param name="include" value="financialSystemOriginationCode,financialSystemDatabaseName,financialSystemDatabaseDesc" />
 		</convert>
@@ -29,13 +31,12 @@
 			<include method="getByPrimaryKey" />
 		</create>
 		<convert converter="bean" match="org.kuali.rice.location.api.postalcode.PostalCode">
-			<param name="include" value="postalCode,stateCode,cityName,buildingCode,buildingRoomNumber" />
+			<param name="include" value="code,stateCode,cityName,countryCode,countyCode" />
 		</convert>
 		<create creator="spring" javascript="PostalCodeService">
 			<param name="beanName" value="postalCodeService" />
-			<include method="getByPrimaryId" />
+			<include method="getPostalCode"  />
 		</create>
-	    <convert match="org.kuali.rice.core.api.util.type.KualiDecimal" converter="kualinumber" />
 	    <convert converter="bean" match="org.kuali.kfs.sys.businessobject.Bank">
 	   		<param name="include" value="bankCode,bankName,bankShortName" />
 	   	</convert>
@@ -43,5 +44,8 @@
 	    	<param name="beanName" value="bankService" />
 	    	<include method="getByPrimaryId" />
 	    </create>
+	   	<convert converter="bean" match="org.kuali.kfs.sys.businessobject.UnitOfMeasure">
+	   		<param name="include" value="itemUnitOfMeasureCode,itemUnitOfMeasureDescription" />
+	   	</convert>
 	</allow>
 </dwr>

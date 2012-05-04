@@ -33,15 +33,7 @@
         <create creator="spring" javascript="AgencyService">
             <param name="beanName" value="agencyService" />
             <include method="getByPrimaryId" />
-        </create>
-        <convert converter="bean" match="org.kuali.kfs.module.cg.businessobject.CFDA">
-            <param name="include" value="cfdaNumber,cfdaProgramTitleName" />
-        </convert>
-        <create creator="spring" javascript="CfdaService">
-            <param name="beanName" value="cfdaService" />
-            <include method="getByPrimaryId" />
-        </create>
-	    
+        </create>	    
     </allow>
 </dwr>
 

@@ -1,27 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2007-2008 The Kuali Foundation
- 
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl2.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:cache="http://www.springframework.org/schema/cache"
-       xmlns:util="http://www.springframework.org/schema/util"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+<!-- Copyright 2007-2008 The Kuali Foundation Licensed under the Educational Community License, Version 2.0 (the "License"); 
+	you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.opensource.org/licenses/ecl2.php 
+	Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS 
+	IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language 
+	governing permissions and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:cache="http://www.springframework.org/schema/cache" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
                            http://www.springframework.org/schema/tx
                            http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
@@ -31,105 +17,39 @@
                            http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
                            http://www.springframework.org/schema/cache 
                            http://www.springframework.org/schema/cache/spring-cache.xsd"
-                           default-lazy-init="false">
+	default-lazy-init="false">
+
+	<!-- Redefine the properties - This is is a different spring context than the prior definitions of these beans. -->
+	<bean id="properties" class="org.kuali.kfs.sys.context.PropertyLoadingFactoryBean" />
+
+	<bean id="securityProperties" class="org.kuali.kfs.sys.context.PropertyLoadingFactoryBean" p:secureMode="true" />
+
+	<bean id="propertyPlaceholderConfigurer" class="org.kuali.kfs.sys.context.ConfigPropertyPlaceholderConfigurer">
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+		<property name="propertiesArray">
+			<list>
+				<ref bean="properties" />
+				<ref bean="securityProperties" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Implement the identity management service for support of existing KFS code which
+		 is still using it. -->
+	<bean id="kimIdentityManagementService" class="org.kuali.rice.kim.service.impl.IdentityManagementServiceImpl" />
+	<alias name="kimIdentityManagementService" alias="identityManagementService" />
 
 
-  <bean id="properties" class="org.kuali.kfs.sys.context.PropertyLoadingFactoryBean" />
-
-  <bean id="securityProperties" class="org.kuali.kfs.sys.context.PropertyLoadingFactoryBean"
-    p:secureMode="true" />
-
-  <bean id="propertyPlaceholderConfigurer" class="org.kuali.kfs.sys.context.ConfigPropertyPlaceholderConfigurer">
-    <property name="ignoreUnresolvablePlaceholders" value="true" />
-    <property name="propertiesArray">
-      <list>
-        <ref bean="properties" />
-        <ref bean="securityProperties" />
-      </list>
-    </property>
-  </bean>
-
-  <bean id="kimIdentityManagementService" class="org.kuali.rice.kim.service.impl.IdentityManagementServiceImpl" />
-  <alias name="kimIdentityManagementService" alias="identityManagementService" />
-
-	
+	<!-- Special bean which prevents KSB errors when the remoting layer loses track
+		 of the current locale. -->
 	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.FixedLocaleResolver" lazy-init="true">
 		<property name="defaultLocale" value="${kfs.locale}" />
 	</bean>
-	
+
+	<!-- The parameter evaluator framework is no longer part of Rice, so we 
+		 need to define it locally. -->
 	<bean id="parameterEvaluatorService" class="org.kuali.rice.core.impl.parameter.ParameterEvaluatorServiceImpl">
 		<property name="parameterService" ref="parameterService" />
 	</bean>
-<!-- 
-  	<cache:annotation-driven />
-  	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager" p:cache-manager-ref="ehcache"/>
-	<bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"  p:config-location="classpath:kfs.ehcache.xml" />
-	
- -->
-<!-- 
-  <bean id="kfs.core.CacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
-    <property name="cacheManager">
-      <bean class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" p:configLocation="classpath:kfs.ehcache.xml"/>
-    </property>
-  </bean>
- 
- 
- -->
 
-	<!-- spring service that should be exposed on the ksb to receive messages 
-		from the distributed cache manager -->
-	<bean id="kfs.core.CacheAdminService" class="org.kuali.rice.core.impl.cache.CacheAdminServiceImpl"
-		p:cacheManager-ref="kfs.core.LocalCacheManager" />
-
-	<bean id="kfs.core.LocalCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
-		<property name="cacheManager">
-			<bean class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"
-				p:configLocation="classpath:kfs.ehcache.xml" />
-		</property>
-	</bean>
-
-	<!-- the distributed cache manager that calls into the CacheAdminService on the ksb -->
-	<bean id="kfs.core.DistributedCacheManager"
-		class="org.kuali.rice.core.impl.cache.DistributedCacheManagerDecorator">
-		<property name="cacheManager" ref="kfs.core.LocalCacheManager" />
-		<property name="serviceName"  value="{KFS}kfsCoreCacheAdminService" />
-	</bean>
-
-	<bean id="kfs.core.cacheManagerRegistry" class="org.kuali.rice.core.impl.cache.CacheManagerRegistryImpl">
-		<property name="cacheManager" ref="kfs.core.DistributedCacheManager" />
-	</bean>
-
-	<bean id="kfs.core.serviceExporter" abstract="true"
-			class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter" p:serviceBus-ref="rice.ksb.serviceBus" />
-
-  	<util:constant id="kfs.core.serviceNamespace" static-field="org.kuali.kfs.sys.KFSConstants.KFS_CORE_SERVICE_NAMESPACE"/>
-
-	<bean id="kfs.core.Service"
-		class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"
-		abstract="true">
-		<!-- <property name="serviceNameSpaceURI" ref="kfs.core.serviceNamespace" /> -->
-		<property name="serviceNameSpaceURI" value="KFS" />
-		<property name="jaxWsService" value="true" />
-		<property name="priority" value="3" />
-		<property name="retryAttempts" value="0" />
-		<property name="busSecurity" value="true" />
-		<property name="serviceVersion" value="${kfs.version}" />
-		<property name="servicePath" value="" />
-	</bean>
-
-
-	<bean id="kfs.core.CacheAdminService.exporter" parent="kfs.core.serviceExporter">
-		<property name="serviceDefinition">
-			<bean parent="kfs.core.Service" p:service-ref="kfs.core.CacheAdminService"
-				p:localServiceName="kfsCoreCacheAdminService" p:queue="false" />
-		</property>
-	</bean>
-
-	<bean id="kfs.import.globalCacheManager" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="globalCacheManager" />
-	</bean>
-	
-	<cache:annotation-driven cache-manager="kfs.import.globalCacheManager" />
-
-	<import resource="classpath:org/kuali/rice/core/CommonSpringBeans.xml"/> 
 </beans>

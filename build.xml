@@ -287,7 +287,7 @@
 		</condition>
 		
 		<!-- see if we need to include the additional batch server configuration -->
-        <condition property="internal.batch.spring.files" value="${batch.spring.files}" else="">
+        <condition property="internal.batch.spring.files" value=",${batch.spring.files}" else="">
     		<istrue value="${use.quartz.scheduling}" />
         </condition>
 		
@@ -297,13 +297,11 @@
 		
 		<!-- set the final properties used by the server (placed into configuration.properties) -->
 		<property name="spring.source.files"
-				  value="${core.spring.source.files}${internal.access.security.core.spring.files}${integration.spring.files}${optional.module.spring.source.files}${institution.spring.source.files}" />
+				  value="${core.spring.source.files}${internal.batch.spring.files}${internal.access.security.core.spring.files}${integration.spring.files}${optional.module.spring.source.files}${institution.spring.source.files}" />
 		<property name="spring.test.files" 
 			      value="${core.spring.test.files}${optional.module.spring.test.files}${institution.spring.test.files}" />	
         <property name="krad.override.spring.files" 
         		  value="${kfs.krad.override.spring.files}${internal.access.security.krad.override.spring.files}" />
-        <property name="kfs.rice.override.spring.files" 
-        		  value="${base.kfs.rice.override.spring.files}${internal.batch.spring.files}" />
 	</target>
 	
 	<target name="init-rice-properties" depends="init-property-files">

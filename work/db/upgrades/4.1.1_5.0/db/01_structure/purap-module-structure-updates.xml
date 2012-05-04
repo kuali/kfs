@@ -72,14 +72,26 @@
 		</modifySql>
 	</changeSet>
 
-	<changeSet author="KFS50" id="KFSMI-7256" failOnError="false"><!-- don't fail if null constraint has already been dropped -->
+	<changeSet author="KFS50" id="KFSMI-7256-1" failOnError="false"><!-- don't fail if null constraint has already been dropped -->
 		<comment>Status Code column from REQ, PO, PREQ tables need to be made to accept nulls.</comment>
 		<dropNotNullConstraint tableName="PUR_REQS_T"
 			columnName="REQS_STAT_CD" columnDataType="VARCHAR(4)" />
+	</changeSet>
+
+	<changeSet author="KFS50" id="KFSMI-7256-2" failOnError="false"><!-- don't fail if null constraint has already been dropped -->
+		<comment>Status Code column from REQ, PO, PREQ tables need to be made to accept nulls.</comment>
 		<dropNotNullConstraint tableName="PUR_PO_T"
 			columnName="PO_STAT_CD" columnDataType="VARCHAR(4)" />
+	</changeSet>
+
+	<changeSet author="KFS50" id="KFSMI-7256-3" failOnError="false"><!-- don't fail if null constraint has already been dropped -->
+		<comment>Status Code column from REQ, PO, PREQ tables need to be made to accept nulls.</comment>
 		<dropNotNullConstraint tableName="AP_PMT_RQST_T"
 			columnName="PMT_RQST_STAT_CD" columnDataType="VARCHAR(4)" />
+	</changeSet>
+
+	<changeSet author="KFS50" id="KFSMI-7256-4" failOnError="false"><!-- don't fail if null constraint has already been dropped -->
+		<comment>Status Code column from REQ, PO, PREQ tables need to be made to accept nulls.</comment>
 		<dropNotNullConstraint tableName="AP_CRDT_MEMO_T"
 			columnName="CRDT_MEMO_STAT_CD" columnDataType="VARCHAR(4)" />
 	</changeSet>

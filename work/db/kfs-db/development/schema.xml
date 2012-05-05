@@ -199,7 +199,7 @@
         <column default="Y" name="USE_TAX_IND" required="true" size="1" type="VARCHAR"/>
         <column name="BNK_CD" size="4" type="VARCHAR"/>
         <column name="VNDR_ATTN_NM" size="45" type="VARCHAR"/>
-        <column default="P" name="ACCT_DISTR_MTD_IND" required="true" size="1" type="VARCHAR"/>
+        <column default="P" name="ACCT_DISTR_MTD_IND" size="1" type="VARCHAR"/>
         <foreign-key foreignTable="FP_BANK_T" name="AP_CRDT_MEMO_TR1">
             <reference foreign="BNK_CD" local="BNK_CD"/>
         </foreign-key>
@@ -693,7 +693,7 @@
         <column name="INC_TAX_EXMPT_CD_OTHR_IND" size="1" type="VARCHAR"/>
         <column name="NQI_CUST_TAX_ID" size="50" type="VARCHAR"/>
         <column name="VNDR_ATTN_NM" size="45" type="VARCHAR"/>
-        <column default="P" name="ACCT_DISTR_MTD_IND" required="true" size="1" type="VARCHAR"/>
+        <column default="P" name="ACCT_DISTR_MTD_IND" size="1" type="VARCHAR"/>
         <foreign-key foreignTable="FP_BANK_T" name="AP_PMT_RQST_TR1">
             <reference foreign="BNK_CD" local="BNK_CD"/>
         </foreign-key>
@@ -899,7 +899,7 @@
     <table name="AR_CUST_BILLING_STMT_T">
         <column name="CUST_NBR" size="9" type="VARCHAR"/>
         <column name="PREV_BILLED_AMT" scale="2" size="19" type="DECIMAL"/>
-        <column name="REPORTED_DT" type="TIMESTAMP"/>
+        <column name="REPORTED_DT" type="DATE"/>
     </table>
     <table name="AR_CUST_PRCS_TYP_T">
         <column name="CUST_SPCL_PRCS_CD" primaryKey="true" size="2" type="VARCHAR"/>
@@ -1056,7 +1056,7 @@
         <column name="SHIP_ADDR_TYPE_CD" size="2" type="VARCHAR"/>
         <column name="NXT_INV_ITEM_NBR" size="7" type="DECIMAL"/>
         <column name="RECURRED_INV_IND" size="1" type="VARCHAR"/>
-        <column name="REPORTED_DT" type="TIMESTAMP"/>
+        <column name="REPORTED_DT" type="DATE"/>
         <foreign-key foreignTable="AR_CUST_PRCS_TYP_T" name="AR_INV_DOC_TR1">
             <reference foreign="CUST_SPCL_PRCS_CD" local="CUST_SPCL_PRCS_CD"/>
         </foreign-key>
@@ -1671,13 +1671,16 @@
         <column default="0" name="CA_A21_ICR_ACCT_GNRTD_ID" primaryKey="true" size="10" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="FIN_COA_CD" required="true" size="2" type="VARCHAR"/>
-        <column name="ACCOUNT_NBR" required="true" size="7" type="VARCHAR"/>
-        <column name="SUB_ACCT_NBR" required="true" size="5" type="VARCHAR"/>
-        <column name="ICR_FIN_COA_CD" required="true" size="2" type="VARCHAR"/>
+        <column name="FIN_COA_CD" size="2" type="VARCHAR"/>
+        <column name="ACCOUNT_NBR" size="7" type="VARCHAR"/>
+        <column name="SUB_ACCT_NBR" size="5" type="VARCHAR"/>
+        <column name="ICR_FIN_COA_CD" size="2" type="VARCHAR"/>
         <column name="ICR_FIN_ACCT_NBR" size="7" type="VARCHAR"/>
         <column name="ACLN_PCT" size="45" type="VARCHAR"/>
-        <column name="DOBJ_MAINT_CD_ACTV_IND" required="true" size="1" type="VARCHAR"/>
+        <column default="Y" name="DOBJ_MAINT_CD_ACTV_IND" size="1" type="VARCHAR"/>
+        <unique name="CA_A21_ICR_ACCT_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
     </table>
     <table name="CA_A21_SUB_ACCT_T">
         <column name="FIN_COA_CD" primaryKey="true" size="2" type="VARCHAR"/>
@@ -2213,12 +2216,15 @@
         <column default="0" name="CA_ICR_ACCT_GNRTD_ID" primaryKey="true" size="10" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="FIN_COA_CD" required="true" size="2" type="VARCHAR"/>
-        <column name="ACCOUNT_NBR" required="true" size="7" type="VARCHAR"/>
+        <column name="FIN_COA_CD" size="2" type="VARCHAR"/>
+        <column name="ACCOUNT_NBR" size="7" type="VARCHAR"/>
         <column name="ICR_FIN_COA_CD" size="2" type="VARCHAR"/>
         <column name="ICR_FIN_ACCT_NBR" size="7" type="VARCHAR"/>
         <column name="ACLN_PCT" size="45" type="VARCHAR"/>
-        <column name="DOBJ_MAINT_CD_ACTV_IND" required="true" size="1" type="VARCHAR"/>
+        <column default="Y" name="DOBJ_MAINT_CD_ACTV_IND" size="1" type="VARCHAR"/>
+        <unique name="CA_ICR_ACCT_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
     </table>
     <table name="CA_ICR_AUTO_ENTR_T">
         <column name="UNIV_FISCAL_YR" primaryKey="true" size="4" type="DECIMAL"/>
@@ -12662,7 +12668,7 @@
         <column name="ACLN_PCT" scale="20" size="35" type="DECIMAL"/>
         <column name="ITM_ACCT_OSTND_ENCUM_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="ACLN_AMT" scale="2" size="19" type="DECIMAL"/>
-        <column name="FDOC_LINE_NBR" required="true" size="7" type="DECIMAL"/>
+        <column name="FDOC_LINE_NBR" size="7" type="DECIMAL"/>
         <foreign-key foreignTable="PUR_PO_ITM_T" name="PUR_PO_ACCT_TR1">
             <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
             <reference foreign="PO_ITM_ID" local="PO_ITM_ID"/>
@@ -13023,7 +13029,7 @@
         <column name="DLVY_BLDG_OTHR_IND" size="1" type="VARCHAR"/>
         <column name="VNDR_ATTN_NM" size="45" type="VARCHAR"/>
         <column name="PO_ASND_ID" size="40" type="VARCHAR"/>
-        <column default="P" name="ACCT_DISTR_MTD_IND" required="true" size="1" type="VARCHAR"/>
+        <column default="P" name="ACCT_DISTR_MTD_IND" size="1" type="VARCHAR"/>
         <column name="VNDR_DEBRD_REAS_TXT" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="CA_ORG_T" name="PUR_PO_TR10">
             <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
@@ -13399,7 +13405,7 @@
         <column name="ORG_REFERENCE_ID" size="8" type="VARCHAR"/>
         <column name="ACLN_PCT" scale="20" size="35" type="DECIMAL"/>
         <column name="ACLN_AMT" scale="2" size="19" type="DECIMAL"/>
-        <column name="FDOC_LINE_NBR" required="true" size="7" type="DECIMAL"/>
+        <column name="FDOC_LINE_NBR" size="7" type="DECIMAL"/>
         <foreign-key foreignTable="PUR_REQS_ITM_T" name="PUR_REQS_ACCT_TR1">
             <reference foreign="REQS_ITM_ID" local="REQS_ITM_ID"/>
         </foreign-key>

@@ -81,8 +81,6 @@
         </property>
         <property name="externalizableBusinessObjectImplementations">
             <map>
-                <entry key="org.kuali.kfs.integration.ld.LaborLedgerBalance" value="org.kuali.kfs.module.ld.businessobject.LedgerBalance" />
-                <entry key="org.kuali.kfs.integration.ld.LaborLedgerBalanceForEffortCertification" value="org.kuali.kfs.module.ld.businessobject.LedgerBalanceForEffortCertification" />
                 <entry key="org.kuali.kfs.integration.ld.LaborLedgerBenefitsCalculation" value="org.kuali.kfs.module.ld.businessobject.BenefitsCalculation" />
                 <entry key="org.kuali.kfs.integration.ld.LaborLedgerBenefitsType" value="org.kuali.kfs.module.ld.businessobject.BenefitsType" />
                 <entry key="org.kuali.kfs.integration.ld.LaborLedgerEntry" value="org.kuali.kfs.module.ld.businessobject.LedgerEntry" />
@@ -92,7 +90,7 @@
                 <entry key="org.kuali.kfs.integration.ld.LaborLedgerExpenseTransferSourceAccountingLine" value="org.kuali.kfs.module.ld.businessobject.ExpenseTransferSourceAccountingLine" />
                 <entry key="org.kuali.kfs.integration.ld.LaborLedgerExpenseTransferTargetAccountingLine" value="org.kuali.kfs.module.ld.businessobject.ExpenseTransferTargetAccountingLine" />
                 <entry key="org.kuali.kfs.integration.ld.LaborBenefitsCalculation" value="org.kuali.kfs.module.ld.businessobject.BenefitsCalculation" />
- 				<entry key="org.kuali.kfs.integration.ld.LaborBenefitRateCategory" value="org.kuali.kfs.module.ld.businessobject.LaborBenefitRateCategory" />
+ 				        <entry key="org.kuali.kfs.integration.ld.LaborBenefitRateCategory" value="org.kuali.kfs.module.ld.businessobject.LaborBenefitRateCategory" />
             </map>
         </property>
         <property name="batchFileDirectories">

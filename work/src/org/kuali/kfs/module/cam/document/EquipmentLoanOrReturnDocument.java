@@ -26,6 +26,7 @@ import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.document.service.EquipmentLoanOrReturnService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -146,10 +147,10 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * @return Returns the borrowerState
      */
     public StateEbo getBorrowerState() {
-        if ( StringUtils.isBlank(borrowerCountryCode) || StringUtils.isBlank(borrowerStateCode) ) {
+        if ( StringUtils.isBlank(KFSConstants.COUNTRY_CODE_UNITED_STATES ) || StringUtils.isBlank(borrowerStateCode) ) {
             borrowerState = null;
         } else {
-            if ( borrowerState == null || !StringUtils.equals( borrowerState.getCountryCode(), borrowerCountryCode) || !StringUtils.equals(borrowerState.getCode(), borrowerStateCode ) ) {
+            if ( borrowerState == null || !StringUtils.equals( borrowerState.getCode(), borrowerStateCode) || !StringUtils.equals(borrowerState.getCountryCode(), KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
                 ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(StateEbo.class);
                 if ( moduleService != null ) {
                     Map<String,Object> keys = new HashMap<String, Object>(2);
@@ -211,7 +212,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * @return Returns the getBorrowerStorageState
      */
     public StateEbo getBorrowerStorageState() {
-        if ( StringUtils.isBlank(borrowerStorageCountryCode) || StringUtils.isBlank(borrowerStorageStateCode) ) {
+        if ( StringUtils.isBlank(KFSConstants.COUNTRY_CODE_UNITED_STATES ) || StringUtils.isBlank(borrowerStorageStateCode) ) {
             borrowerStorageState = null;
         } else {
             if ( borrowerStorageState == null || !StringUtils.equals( borrowerStorageState.getCountryCode(),borrowerStorageCountryCode) || !StringUtils.equals( borrowerStorageState.getCode(), borrowerStorageStateCode)) {
@@ -462,7 +463,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * @return Returns the borrowerPostalZipCode
      */
     public PostalCodeEbo getBorrowerPostalZipCode() {
-        if ( StringUtils.isBlank(borrowerCountryCode) || StringUtils.isBlank(borrowerZipCode) ) {
+        if ( StringUtils.isBlank(KFSConstants.COUNTRY_CODE_UNITED_STATES ) || StringUtils.isBlank(borrowerZipCode) ) {
             borrowerPostalZipCode = null;
         } else {
             if ( borrowerPostalZipCode == null || !StringUtils.equals( borrowerPostalZipCode.getCountryCode(),borrowerCountryCode)|| !StringUtils.equals( borrowerPostalZipCode.getCode(), borrowerZipCode)) {
@@ -495,7 +496,7 @@ public class EquipmentLoanOrReturnDocument extends FinancialSystemTransactionalD
      * @param borrowerStoragePostalZipCode The borrowerStoragePostalZipCode to set.
      */
     public PostalCodeEbo getBorrowerStoragePostalZipCode() {
-        if ( StringUtils.isBlank(borrowerStorageCountryCode) || StringUtils.isBlank(borrowerStorageZipCode) ) {
+        if ( StringUtils.isBlank(KFSConstants.COUNTRY_CODE_UNITED_STATES ) || StringUtils.isBlank(borrowerStorageZipCode) ) {
             borrowerStoragePostalZipCode = null;
         } else {
             if (  borrowerStoragePostalZipCode == null || !StringUtils.equals( borrowerStoragePostalZipCode.getCountryCode(),borrowerStorageCountryCode)|| !StringUtils.equals( borrowerStoragePostalZipCode.getCode(), borrowerStorageZipCode)) {

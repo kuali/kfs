@@ -355,7 +355,8 @@ public class PurapConstants {
         public static final HashMap<String, String> getPurchaseOrderAppDocDisapproveStatuses(){
 
             HashMap<String, String> poAppDocStatusMap = new HashMap<String, String>();
-
+            
+          //  poAppDocStatusMap.put(NODE_CONTRACT_MANAGEMENT,PurchaseOrderStatuses.APPDOC_AWAIT_PURCHASING_REVIEW);
             poAppDocStatusMap.put(NODE_AWAIT_NEW_UNORDERED_ITEM_REVIEW,PurchaseOrderStatuses.APPDOC_DAPRVD_UNORDERED_ITEM);
             poAppDocStatusMap.put(NODE_INTERNAL_PURCHASING_REVIEW, PurchaseOrderStatuses.APPDOC_DAPRVD_PURCHASING);
             poAppDocStatusMap.put(NODE_COMMODITY_CODE_REVIEW,  PurchaseOrderStatuses.APPDOC_DAPRVD_COMMODITY_CODE);

@@ -31,6 +31,7 @@ import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
 import org.kuali.kfs.module.cam.businessobject.AssetGlpeSourceDetail;
 import org.kuali.kfs.module.cam.document.service.AssetTransferService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
@@ -52,13 +53,8 @@ import org.kuali.rice.krad.rules.rule.event.SaveDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.ModuleService;
-import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.location.api.LocationConstants;
-import org.kuali.rice.location.api.campus.CampusService;
-import org.kuali.rice.location.api.country.CountryService;
-import org.kuali.rice.location.api.postalcode.PostalCodeService;
-import org.kuali.rice.location.api.state.StateService;
 import org.kuali.rice.location.framework.campus.CampusEbo;
 import org.kuali.rice.location.framework.country.CountryEbo;
 import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
@@ -293,10 +289,10 @@ public class AssetTransferDocument extends GeneralLedgerPostingDocumentBase impl
      * @return Returns the offCampusState.
      */
     public StateEbo getOffCampusState() {
-        if ( StringUtils.isBlank(offCampusCountryCode) || StringUtils.isBlank(offCampusStateCode) ) {
+        if ( StringUtils.isBlank(KFSConstants.COUNTRY_CODE_UNITED_STATES ) || StringUtils.isBlank(offCampusStateCode) ) {
             offCampusState = null;
         } else {
-            if ( offCampusState == null || !StringUtils.equals( offCampusState.getCountryCode(),offCampusCountryCode)|| !StringUtils.equals( offCampusState.getCode(), offCampusStateCode)) {
+            if ( offCampusState == null || !StringUtils.equals( offCampusState.getCountryCode(), KFSConstants.COUNTRY_CODE_UNITED_STATES)|| !StringUtils.equals( offCampusState.getCode(), offCampusStateCode)) {
                 ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(StateEbo.class);
                 if ( moduleService != null ) {
                     Map<String,Object> keys = new HashMap<String, Object>(2);

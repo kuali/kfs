@@ -26,6 +26,7 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -782,7 +783,8 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
             if ( organizationRemitToState == null || !StringUtils.equals( organizationRemitToState.getCode(),organizationRemitToStateCode) ) {
                 ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(StateEbo.class);
                 if ( moduleService != null ) {
-                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    Map<String,Object> keys = new HashMap<String, Object>(2);
+                    keys.put(LocationConstants.PrimaryKeyConstants.COUNTRY_CODE, KFSConstants.COUNTRY_CODE_UNITED_STATES);/*RICE20_REFACTORME*/
                     keys.put(LocationConstants.PrimaryKeyConstants.CODE, organizationRemitToStateCode);
                     organizationRemitToState = moduleService.getExternalizableBusinessObject(StateEbo.class, keys);
                 } else {
@@ -790,6 +792,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
                 }
             }
         }
+        
         return organizationRemitToState;
     }
 
@@ -952,7 +955,8 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
             if ( orgRemitToZipCode == null || !StringUtils.equals( orgRemitToZipCode.getCode(),organizationRemitToZipCode) ) {
                 ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(PostalCodeEbo.class);
                 if ( moduleService != null ) {
-                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    Map<String,Object> keys = new HashMap<String, Object>(2);
+                    keys.put(LocationConstants.PrimaryKeyConstants.COUNTRY_CODE, KFSConstants.COUNTRY_CODE_UNITED_STATES);/*RICE20_REFACTORME*/
                     keys.put(LocationConstants.PrimaryKeyConstants.CODE, organizationRemitToZipCode);
                     orgRemitToZipCode = moduleService.getExternalizableBusinessObject(PostalCodeEbo.class, keys);
                 } else {
@@ -960,6 +964,7 @@ public class SystemInformation extends PersistableBusinessObjectBase implements 
                 }
             }
         }
+        
         return orgRemitToZipCode;
     }
 

@@ -52,8 +52,6 @@ import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.ModuleService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.location.api.LocationConstants;
-import org.kuali.rice.location.api.postalcode.PostalCodeService;
-import org.kuali.rice.location.framework.campus.CampusEbo;
 import org.kuali.rice.location.framework.country.CountryEbo;
 import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
 import org.kuali.rice.location.framework.state.StateEbo;
@@ -586,7 +584,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
         if ( StringUtils.isBlank(retirementCountryCode) || StringUtils.isBlank(retirementZipCode) ) {
             postalZipCode = null;
         } else {
-            if ( postalZipCode == null || !StringUtils.equals( postalZipCode.getCode(), retirementCountryCode) || !StringUtils.equals(postalZipCode.getCode(), retirementZipCode ) ) {
+            if ( postalZipCode == null || !StringUtils.equals( postalZipCode.getCode(), retirementZipCode) || !StringUtils.equals(postalZipCode.getCountyCode(), KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
                 ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(PostalCodeEbo.class);
                 if ( moduleService != null ) {
                     Map<String,Object> keys = new HashMap<String, Object>(2);
@@ -845,7 +843,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      * 
      * @return Returns the retirementCountry.
      */
-    public CountryEbo getAssetLocationCountry() {
+    public CountryEbo getRetirementCountry() {
         if ( StringUtils.isBlank(retirementCountryCode) ) {
             retirementCountry = null;
         } else {
@@ -879,7 +877,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
      * 
      * @return Returns the retirementState.
      */
-    public StateEbo getAssetLocationState() {
+    public StateEbo getRetirementState() {
         if ( StringUtils.isBlank(retirementStateCode) || StringUtils.isBlank(KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
             retirementState = null;
         } else {

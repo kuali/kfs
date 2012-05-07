@@ -382,7 +382,6 @@ public class CustomerAddress extends PersistableBusinessObjectBase implements Co
         return customerCountry;    
     }
 
-
     /**
      * Sets the customerCountry attribute value.
      * 

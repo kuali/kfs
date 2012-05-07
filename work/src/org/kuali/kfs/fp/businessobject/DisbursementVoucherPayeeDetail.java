@@ -808,7 +808,7 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
         if ( StringUtils.isBlank(disbVchrPayeeCountryCode) ) {
             disbVchrPayeeCountry = null;
         } else {
-            if ( disbVchrPayeeCountry == null || !StringUtils.equals( disbVchrPayeeState.getCode(),disbVchrPayeeCountryCode) ) {
+            if ( disbVchrPayeeCountry == null || !StringUtils.equals( disbVchrPayeeCountry.getCode(),disbVchrPayeeCountryCode) ) {
                 ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CountryEbo.class);
                 if ( moduleService != null ) {
                     Map<String,Object> keys = new HashMap<String, Object>(1);
@@ -837,15 +837,15 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * @return Returns the disbVchrPayeePostalZipCode.
      */
     public PostalCodeEbo getDisbVchrPayeePostalZipCode() {
-        if ( StringUtils.isBlank(disbVchrPayeeCountryCode) || StringUtils.isBlank(KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
+        if ( StringUtils.isBlank(disbVchrPayeeZipCode) || StringUtils.isBlank(KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
             disbVchrPayeePostalZipCode = null;
         } else {
-            if ( disbVchrPayeePostalZipCode == null || !StringUtils.equals( disbVchrPayeePostalZipCode.getCode(), disbVchrPayeeCountryCode) || !StringUtils.equals(disbVchrPayeePostalZipCode.getCountryCode(), KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
+            if ( disbVchrPayeePostalZipCode == null || !StringUtils.equals( disbVchrPayeePostalZipCode.getCode(), disbVchrPayeeZipCode) || !StringUtils.equals(disbVchrPayeePostalZipCode.getCountryCode(), KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
                 ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(PostalCodeEbo.class);
                 if ( moduleService != null ) {
                     Map<String,Object> keys = new HashMap<String, Object>(2);
                     keys.put(LocationConstants.PrimaryKeyConstants.COUNTRY_CODE, KFSConstants.COUNTRY_CODE_UNITED_STATES);/*RICE20_REFACTORME*/
-                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, disbVchrPayeeCountryCode);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, disbVchrPayeeZipCode);
                     disbVchrPayeePostalZipCode = moduleService.getExternalizableBusinessObject(PostalCodeEbo.class, keys);
                 } else {
                     throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );

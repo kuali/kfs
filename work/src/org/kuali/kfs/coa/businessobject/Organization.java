@@ -49,13 +49,6 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
     public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + "Organization";
 
-    /**
-     * Default no-arg constructor.
-     */
-    public Organization() {
-        organizationInFinancialProcessingIndicator = false;
-    }
-
     protected String organizationCode;
     protected String organizationName;
     protected String organizationCityName;
@@ -63,7 +56,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
     protected String organizationZipCode;
     protected Date organizationBeginDate;
     protected Date organizationEndDate;
-    protected boolean organizationInFinancialProcessingIndicator;
+    protected boolean organizationInFinancialProcessingIndicator = false;
     protected String organizationManagerUniversalId;
     protected String responsibilityCenterCode;
     protected String organizationPhysicalCampusCode;
@@ -107,7 +100,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
     protected String editPlantAccountsSectionBlank;
     protected String editPlantAccountsSection;
 
-    protected boolean active;
+    protected boolean active = true;
 
     /**
      * Gets the organizationCode attribute.
@@ -268,6 +261,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
      * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated
      */
+    @Deprecated
     public void setChartOfAccounts(Chart chartOfAccounts) {
         this.chartOfAccounts = chartOfAccounts;
     }
@@ -287,6 +281,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
      * @param organizationDefaultAccount The organizationDefaultAccount to set.
      * @deprecated
      */
+    @Deprecated
     public void setOrganizationDefaultAccount(Account organizationDefaultAccount) {
         this.organizationDefaultAccount = organizationDefaultAccount;
     }
@@ -302,6 +297,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
      * @param organizationManagerUniversal The organizationManagerUniversal to set.
      * @deprecated
      */
+    @Deprecated
     public void setOrganizationManagerUniversal(Person organizationManagerUniversal) {
         this.organizationManagerUniversal = organizationManagerUniversal;
     }
@@ -321,6 +317,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
      * @param responsibilityCenter The responsibilityCenter to set.
      * @deprecated
      */
+    @Deprecated
     public void setResponsibilityCenter(ResponsibilityCenter responsibilityCenter) {
         this.responsibilityCenter = responsibilityCenter;
     }
@@ -354,6 +351,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
      * @param organizationPhysicalCampus The organizationPhysicalCampus to set.
      * @deprecated
      */
+    @Deprecated
     public void setOrganizationPhysicalCampus(CampusEbo organizationPhysicalCampus) {
         this.organizationPhysicalCampus = organizationPhysicalCampus;
     }
@@ -373,6 +371,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
      * @param organizationType The organizationType to set.
      * @deprecated
      */
+    @Deprecated
     public void setOrganizationType(OrganizationType organizationType) {
         this.organizationType = organizationType;
     }
@@ -392,6 +391,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
      * @param reportsToOrganization The reportsToOrganization to set.
      * @deprecated
      */
+    @Deprecated
     public void setReportsToOrganization(Organization reportsToOrganization) {
         this.reportsToOrganization = reportsToOrganization;
     }
@@ -411,6 +411,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
      * @param reportsToChartOfAccounts The reportsToChartOfAccounts to set.
      * @deprecated
      */
+    @Deprecated
     public void setReportsToChartOfAccounts(Chart reportsToChartOfAccounts) {
         this.reportsToChartOfAccounts = reportsToChartOfAccounts;
     }
@@ -430,6 +431,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
      * @param organizationPlantAccount The organizationPlantAccount to set.
      * @deprecated
      */
+    @Deprecated
     public void setOrganizationPlantAccount(Account organizationPlantAccount) {
         this.organizationPlantAccount = organizationPlantAccount;
     }
@@ -449,6 +451,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
      * @param campusPlantAccount The campusPlantAccount to set.
      * @deprecated
      */
+    @Deprecated
     public void setCampusPlantAccount(Account campusPlantAccount) {
         this.campusPlantAccount = campusPlantAccount;
     }
@@ -468,6 +471,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
      * @param organizationPlantChart The organizationPlantChart to set.
      * @deprecated
      */
+    @Deprecated
     public void setOrganizationPlantChart(Chart organizationPlantChart) {
         this.organizationPlantChart = organizationPlantChart;
     }
@@ -487,6 +491,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
      * @param campusPlantChart The campusPlantChart to set.
      * @deprecated
      */
+    @Deprecated
     public void setCampusPlantChart(Chart campusPlantChart) {
         this.campusPlantChart = campusPlantChart;
     }
@@ -520,6 +525,7 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
      * @param organizationCountry The organizationCountry to set.
      * @deprecated
      */
+    @Deprecated
     public void setOrganizationCountry(CountryEbo organizationCountry) {
         this.organizationCountry = organizationCountry;
     }
@@ -920,8 +926,9 @@ public class Organization extends PersistableBusinessObjectBase implements Mutab
 
         if (obj != null) {
 
-            if (this == obj)
+            if (this == obj) {
                 return true;
+            }
 
             if (this.getClass().isAssignableFrom(obj.getClass())) {
 

@@ -97,7 +97,7 @@
         <ref bean="Account-accountDescription.campusCode"/>
         <ref bean="Account-accountDescription.buildingCode"/>
         <ref bean="Account-contractsAndGrantsAccountResponsibilityId"/>
-	<ref bean="Account-laborBenefitRateCategoryCode" />
+		<ref bean="Account-laborBenefitRateCategoryCode" />
       </list>
     </property>
     <property name="accessRestrictedAttributes">
@@ -166,62 +166,64 @@
 						</list>
 					</property>
 				</bean>
-        <bean parent="RelationshipDefinition" p:objectAttributeName="awards" p:targetClass="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation">
+		        <bean parent="RelationshipDefinition" p:objectAttributeName="awards" p:targetClass="org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation">
+							<property name="primitiveAttributes">
+								<list>
+		        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="chartOfAccountsCode" p:targetName="chartOfAccountsCode" />
+		        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountNumber" p:targetName="accountNumber" />
+		        		</list>
+		        	</property>
+		        </bean>
+		        <bean parent="RelationshipDefinition" p:objectAttributeName="postalZipCode">
+		        	<property name="primitiveAttributes">
+		        		<list>
+		        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountCountryCode" p:targetName="countryCode" />
+		        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountZipCode" p:targetName="code" />
+		        		</list>
+		        	</property>
+		        </bean>
+		        <bean parent="RelationshipDefinition" p:objectAttributeName="accountState">
+		        	<property name="primitiveAttributes">
+		        		<list>
+		        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountCountryCode" p:targetName="countryCode" />
+		        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountStateCode" p:targetName="code" />
+		        		</list>
+		        	</property>
+		        </bean>
+		        <bean parent="RelationshipDefinition" p:objectAttributeName="accountPhysicalCampus">
+		        	<property name="primitiveAttributes">
+		        		<list>
+		        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountPhysicalCampusCode" p:targetName="code" />
+		        		</list>
+		        	</property>
+		        </bean>        
+				<bean parent="RelationshipDefinition" p:objectAttributeName="laborBenefitRateCategory">
 					<property name="primitiveAttributes">
 						<list>
-        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="chartOfAccountsCode" p:targetName="chartOfAccountsCode" />
-        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountNumber" p:targetName="accountNumber" />
-        		</list>
-        	</property>
-        </bean>
-        <bean parent="RelationshipDefinition" p:objectAttributeName="postalZipCode">
-        	<property name="primitiveAttributes">
-        		<list>
-        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountZipCode" p:targetName="code" />
-        		</list>
-        	</property>
-        </bean>
-        <bean parent="RelationshipDefinition" p:objectAttributeName="accountState">
-        	<property name="primitiveAttributes">
-        		<list>
-        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountStateCode" p:targetName="code" />
-        		</list>
-        	</property>
-        </bean>
-        <bean parent="RelationshipDefinition" p:objectAttributeName="accountPhysicalCampus">
-        	<property name="primitiveAttributes">
-        		<list>
-        			<bean parent="PrimitiveAttributeDefinition" p:sourceName="accountPhysicalCampusCode" p:targetName="code" />
-        		</list>
-        	</property>
-        </bean>        
-	<bean parent="RelationshipDefinition" p:objectAttributeName="laborBenefitRateCategory">
-		<property name="primitiveAttributes">
-			<list>
-				<bean parent="PrimitiveAttributeDefinition" p:sourceName="laborBenefitRateCategoryCode"
-					p:targetName="laborBenefitRateCategoryCode" />
-			</list>
-		</property>
-	</bean>
-      </list>
-    </property>
-    <property name="inactivationBlockingDefinitions">
-      <list>
-        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="accountType"/>
-        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="acctIndirectCostRcvyType"/>
-        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="budgetRecordingLevel"/>
-        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="financialHigherEdFunction"/>
-        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="accountRestrictedStatus"/>
-        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="subFundGroup"/>
-        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="sufficientFundsCode"/>
-        <!-- RICE20 - removing zip code and state, since they are maintained on the Rice server
-        		and (I don't believe) that they can be blocked.
-        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="postalZipCode"/>
-        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="accountState"/>
-         -->
-      </list>
-    </property>
-  </bean>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="laborBenefitRateCategoryCode"
+								p:targetName="laborBenefitRateCategoryCode" />
+						</list>
+					</property>
+				</bean>
+     	 	</list>
+    	</property>
+    	<property name="inactivationBlockingDefinitions">
+      		<list>
+		        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="accountType"/>
+		        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="acctIndirectCostRcvyType"/>
+		        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="budgetRecordingLevel"/>
+		        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="financialHigherEdFunction"/>
+		        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="accountRestrictedStatus"/>
+		        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="subFundGroup"/>
+		        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="sufficientFundsCode"/>
+		        <!-- RICE20 - removing zip code and state, since they are maintained on the Rice server
+		        		and (I don't believe) that they can be blocked.
+		        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="postalZipCode"/>
+		        <bean parent="InactivationBlockingDefinition" p:blockedReferencePropertyName="accountState"/>
+		         -->
+	    	</list>
+    	</property>
+ 	</bean>
 
 	<!-- Attribute Definitions -->
 

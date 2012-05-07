@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +32,7 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsAccountAwardInformation;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
 import org.kuali.kfs.integration.ld.LaborBenefitRateCategory;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
@@ -64,6 +64,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     protected String accountStateCode;
     protected String accountStreetAddress;
     protected String accountZipCode;
+    protected String accountCountryCode = KFSConstants.COUNTRY_CODE_UNITED_STATES;
     protected Date accountCreateDate;
     protected Date accountEffectiveDate;
     protected Date accountExpirationDate;
@@ -164,22 +165,16 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * This method gathers all SubAccounts related to this account if the account is marked as closed to deactivate
      */
     public List<PersistableBusinessObject> generateDeactivationsToPersist() {
-        BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
-
-        // retreive all the existing sub accounts for this
-        List<SubAccount> bosToDeactivate = new ArrayList();
-        Map<String, Object> fieldValues;
-        Collection existingSubAccounts;
+        // Retrieve all the existing sub accounts for this
+        List<SubAccount> bosToDeactivate = new ArrayList<SubAccount>();
         if (!isActive()) {
-            fieldValues = new HashMap();
-            fieldValues.put("chartOfAccountsCode", this.getChartOfAccountsCode());
-            fieldValues.put("accountNumber", this.getAccountNumber());
-            fieldValues.put("active", true);
-            existingSubAccounts = boService.findMatching(SubAccount.class, fieldValues);
+            Map<String, Object> fieldValues = new HashMap<String,Object>();
+            fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, getChartOfAccountsCode());
+            fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, getAccountNumber());
+            fieldValues.put(KFSPropertyConstants.ACTIVE, true);
+            Collection<SubAccount> existingSubAccounts = SpringContext.getBean(BusinessObjectService.class).findMatching(SubAccount.class, fieldValues);
             bosToDeactivate.addAll(existingSubAccounts);
         }
-
-
         // mark all the sub accounts as inactive
         for (SubAccount subAccount : bosToDeactivate) {
             subAccount.setActive(false);
@@ -419,11 +414,11 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     public boolean isExpired() {
         LOG.debug("entering isExpired()");
         // dont even bother trying to test if the accountExpirationDate is null
-        if (this.accountExpirationDate == null) {
+        if (accountExpirationDate == null) {
             return false;
         }
 
-        return this.isExpired(SpringContext.getBean(DateTimeService.class).getCurrentCalendar());
+        return isExpired(SpringContext.getBean(DateTimeService.class).getCurrentCalendar());
     }
 
     /**
@@ -443,7 +438,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
         }
 
         // dont even bother trying to test if the accountExpirationDate is null
-        if (this.accountExpirationDate == null) {
+        if (accountExpirationDate == null) {
             return false;
         }
 
@@ -457,12 +452,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
         acctDate = DateUtils.truncate(acctDate, Calendar.DAY_OF_MONTH);
 
         // if the Account Expiration Date is before the testDate
-        if (acctDate.before(testDate)) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return acctDate.before(testDate);
     }
 
     /**
@@ -479,7 +469,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     public boolean isExpired(Date testDate) {
 
         // dont even bother trying to test if the accountExpirationDate is null
-        if (this.accountExpirationDate == null) {
+        if (accountExpirationDate == null) {
             return false;
         }
 
@@ -748,7 +738,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     public List<ContractsAndGrantsAccountAwardInformation> getAwards() {
         // TODO this code totally breaks modularization but can't be fixed until data dictionary modularization plans come down the
         // pike
-        awards = (List) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAccountAwardInformation.class).retrieveExternalizableBusinessObjectsList(this, "awards", ContractsAndGrantsAccountAwardInformation.class);
+        awards = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAccountAwardInformation.class).retrieveExternalizableBusinessObjectsList(this, "awards", ContractsAndGrantsAccountAwardInformation.class);
         return awards;
     }
 
@@ -855,6 +845,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated
      */
+    @Deprecated
     @Override
     public void setChartOfAccounts(Chart chartOfAccounts) {
         this.chartOfAccounts = chartOfAccounts;
@@ -876,6 +867,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @param organization The organization to set.
      * @deprecated
      */
+    @Deprecated
     @Override
     public void setOrganization(Organization organization) {
         this.organization = organization;
@@ -897,6 +889,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @param accountType The accountType to set.
      * @deprecated
      */
+    @Deprecated
     @Override
     public void setAccountType(AccountType accountType) {
         this.accountType = accountType;
@@ -932,6 +925,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @param accountPhysicalCampus The accountPhysicalCampus to set.
      * @deprecated
      */
+    @Deprecated
     @Override
     public void setAccountPhysicalCampus(CampusEbo accountPhysicalCampus) {
         this.accountPhysicalCampus = accountPhysicalCampus;
@@ -944,14 +938,14 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      */
     @Override
     public StateEbo getAccountState() {
-        if ( StringUtils.isBlank(accountStateCode) || StringUtils.isBlank(KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
+        if ( StringUtils.isBlank(accountStateCode) || StringUtils.isBlank(accountCountryCode) ) {
             accountState = null;
         } else {
-            if ( accountState == null || !StringUtils.equals( accountState.getCode(),accountStateCode) || !StringUtils.equals(accountState.getCountryCode(), KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
+            if ( accountState == null || !StringUtils.equals( accountState.getCode(),accountStateCode) || !StringUtils.equals(accountState.getCountryCode(), accountCountryCode ) ) {
                 ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(StateEbo.class);
                 if ( moduleService != null ) {
                     Map<String,Object> keys = new HashMap<String, Object>(2);
-                    keys.put(LocationConstants.PrimaryKeyConstants.COUNTRY_CODE, KFSConstants.COUNTRY_CODE_UNITED_STATES);/*RICE20_REFACTORME*/
+                    keys.put(LocationConstants.PrimaryKeyConstants.COUNTRY_CODE, accountCountryCode);
                     keys.put(LocationConstants.PrimaryKeyConstants.CODE, accountStateCode);
                     accountState = moduleService.getExternalizableBusinessObject(StateEbo.class, keys);
                 } else {
@@ -968,6 +962,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @param state
      * @deprecated
      */
+    @Deprecated
     @Override
     public void setAccountState(StateEbo state) {
         this.accountState = state;
@@ -989,6 +984,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @param subFundGroup The subFundGroup to set.
      * @deprecated
      */
+    @Deprecated
     @Override
     public void setSubFundGroup(SubFundGroup subFundGroup) {
         this.subFundGroup = subFundGroup;
@@ -1010,6 +1006,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @param financialHigherEdFunction The financialHigherEdFunction to set.
      * @deprecated
      */
+    @Deprecated
     @Override
     public void setFinancialHigherEdFunction(HigherEducationFunction financialHigherEdFunction) {
         this.financialHigherEdFunction = financialHigherEdFunction;
@@ -1031,6 +1028,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @param accountRestrictedStatus The accountRestrictedStatus to set.
      * @deprecated
      */
+    @Deprecated
     @Override
     public void setAccountRestrictedStatus(RestrictedStatus accountRestrictedStatus) {
         this.accountRestrictedStatus = accountRestrictedStatus;
@@ -1052,6 +1050,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @param reportsToAccount The reportsToAccount to set.
      * @deprecated
      */
+    @Deprecated
     @Override
     public void setReportsToAccount(Account reportsToAccount) {
         this.reportsToAccount = reportsToAccount;
@@ -1073,6 +1072,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @param endowmentIncomeAccount The endowmentIncomeAccount to set.
      * @deprecated
      */
+    @Deprecated
     @Override
     public void setEndowmentIncomeAccount(Account endowmentIncomeAccount) {
         this.endowmentIncomeAccount = endowmentIncomeAccount;
@@ -1094,6 +1094,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @param contractControlAccount The contractControlAccount to set.
      * @deprecated
      */
+    @Deprecated
     @Override
     public void setContractControlAccount(Account contractControlAccount) {
         this.contractControlAccount = contractControlAccount;
@@ -1116,6 +1117,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @param incomeStreamAccount The incomeStreamAccount to set.
      * @deprecated
      */
+    @Deprecated
     @Override
     public void setIncomeStreamAccount(Account incomeStreamAccount) {
         this.incomeStreamAccount = incomeStreamAccount;
@@ -1146,6 +1148,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @param accountFiscalOfficerUser The accountFiscalOfficerUser to set.
      * @deprecated
      */
+    @Deprecated
     @Override
     public void setAccountFiscalOfficerUser(Person accountFiscalOfficerUser) {
         this.accountFiscalOfficerUser = accountFiscalOfficerUser;
@@ -1161,6 +1164,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @param accountManagerUser The accountManagerUser to set.
      * @deprecated
      */
+    @Deprecated
     @Override
     public void setAccountManagerUser(Person accountManagerUser) {
         this.accountManagerUser = accountManagerUser;
@@ -1177,6 +1181,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @param accountSupervisoryUser The accountSupervisoryUser to set.
      * @deprecated
      */
+    @Deprecated
     @Override
     public void setAccountSupervisoryUser(Person accountSupervisoryUser) {
         this.accountSupervisoryUser = accountSupervisoryUser;
@@ -1196,6 +1201,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @param continuationAccount The continuationAccount to set.
      * @deprecated
      */
+    @Deprecated
     @Override
     public void setContinuationAccount(Account continuationAccount) {
         this.continuationAccount = continuationAccount;
@@ -1609,14 +1615,15 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      */
     @Override
     public PostalCodeEbo getPostalZipCode() {
-        if ( StringUtils.isBlank(accountZipCode) || StringUtils.isBlank(KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
+        if ( StringUtils.isBlank(accountZipCode) || StringUtils.isBlank( accountCountryCode ) ) {
             postalZipCode = null;
         } else {
-            if ( postalZipCode == null || !StringUtils.equals( postalZipCode.getCode(),accountZipCode) || !StringUtils.equals(postalZipCode.getCountryCode(), KFSConstants.COUNTRY_CODE_UNITED_STATES ) ) {
+            if ( postalZipCode == null || !StringUtils.equals( postalZipCode.getCode(),accountZipCode)
+                    || !StringUtils.equals(postalZipCode.getCountryCode(), accountCountryCode ) ) {
                 ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(PostalCodeEbo.class);
                 if ( moduleService != null ) {
                     Map<String,Object> keys = new HashMap<String, Object>(2);
-                    keys.put(LocationConstants.PrimaryKeyConstants.COUNTRY_CODE, KFSConstants.COUNTRY_CODE_UNITED_STATES);/*RICE20_REFACTORME*/
+                    keys.put(LocationConstants.PrimaryKeyConstants.COUNTRY_CODE, accountCountryCode);
                     keys.put(LocationConstants.PrimaryKeyConstants.CODE, accountZipCode);
                     postalZipCode = moduleService.getExternalizableBusinessObject(PostalCodeEbo.class, keys);
                 } else {
@@ -1694,19 +1701,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     public void setAcctIndirectCostRcvyType(IndirectCostRecoveryType acctIndirectCostRcvyType) {
         this.acctIndirectCostRcvyType = acctIndirectCostRcvyType;
     }
-
-    /**
-     * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-
-        m.put("chartCode", this.chartOfAccountsCode);
-        m.put("accountNumber", this.accountNumber);
-
-        return m;
-    }
-
 
     /**
      * Implementing equals since I need contains to behave reasonably in a hashed datastructure.
@@ -1992,7 +1986,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * @return Returns the laborBenefitRateCategory.
      */
     public LaborBenefitRateCategory getLaborBenefitRateCategory() {
-        laborBenefitRateCategory = (LaborBenefitRateCategory) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(LaborBenefitRateCategory.class).retrieveExternalizableBusinessObjectIfNecessary(this, laborBenefitRateCategory, "LaborBenefitRateCategory");
+        laborBenefitRateCategory = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(LaborBenefitRateCategory.class).retrieveExternalizableBusinessObjectIfNecessary(this, laborBenefitRateCategory, "LaborBenefitRateCategory");
         return laborBenefitRateCategory;
     }
 
@@ -2088,4 +2082,12 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
        managedLists.add( new ArrayList<PersistableBusinessObject>( getIndirectCostRecoveryAccounts() ));
        return managedLists;
    }
+
+    public String getAccountCountryCode() {
+        return accountCountryCode;
+    }
+
+    public void setAccountCountryCode(String accountCountryCode) {
+        this.accountCountryCode = accountCountryCode;
+    }
 }

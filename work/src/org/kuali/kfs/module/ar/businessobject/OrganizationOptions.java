@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.ar.businessobject;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -24,6 +23,7 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.document.service.SystemInformationService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -31,7 +31,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.ModuleService;
 import org.kuali.rice.location.api.LocationConstants;
-import org.kuali.rice.location.framework.campus.CampusEbo;
+import org.kuali.rice.location.framework.country.CountryEbo;
 import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
 import org.kuali.rice.location.framework.state.StateEbo;
 
@@ -40,42 +40,43 @@ import org.kuali.rice.location.framework.state.StateEbo;
  */
 public class OrganizationOptions extends PersistableBusinessObjectBase {
 
-	private String chartOfAccountsCode;
-	private String organizationCode;
-	private String processingChartOfAccountCode;
-	private String processingOrganizationCode;
-	private String printInvoiceIndicator;
-	private String organizationPaymentTermsText;
-	private String organizationMessageText;
-	private String organizationRemitToAddressName;
-	private String organizationRemitToLine1StreetAddress;
-	private String organizationRemitToLine2StreetAddress;
-	private String organizationRemitToCityName;
-	private String organizationRemitToStateCode;
-	private String organizationRemitToZipCode;
-	private String organizationPhoneNumber;
-	private String organization800PhoneNumber;
-	private String organizationFaxNumber;
-	private String universityName;
-	private String organizationCheckPayableToName;
-    private String organizationPostalZipCode;
-    private String organizationPostalCountryCode;
+	protected String chartOfAccountsCode;
+	protected String organizationCode;
+	protected String processingChartOfAccountCode;
+	protected String processingOrganizationCode;
+	protected String printInvoiceIndicator;
+	protected String organizationPaymentTermsText;
+	protected String organizationMessageText;
+	protected String organizationRemitToAddressName;
+	protected String organizationRemitToLine1StreetAddress;
+	protected String organizationRemitToLine2StreetAddress;
+	protected String organizationRemitToCityName;
+	protected String organizationRemitToStateCode;
+	protected String organizationRemitToZipCode;
+    protected String organizationRemitToCountryCode = KFSConstants.COUNTRY_CODE_UNITED_STATES;
+	protected String organizationPhoneNumber;
+	protected String organization800PhoneNumber;
+	protected String organizationFaxNumber;
+	protected String universityName;
+	protected String organizationCheckPayableToName;
+    protected String organizationPostalZipCode;
+    protected String organizationPostalCountryCode;
 
-    private Organization organization;
-	private Chart chartOfAccounts;
-	private Chart processingChartOfAccount;
-	private Organization processingOrganization;
-    private StateEbo organizationRemitToState;
-    private PrintInvoiceOptions printInvoiceOptions;
-    private PostalCodeEbo orgPostalZipCode;
-    private PostalCodeEbo orgRemitToZipCode;
-    private PostalCodeEbo orgPostalCountryCode;
+    protected Organization organization;
+	protected Chart chartOfAccounts;
+	protected Chart processingChartOfAccount;
+	protected Organization processingOrganization;
+    protected StateEbo organizationRemitToState;
+    protected PrintInvoiceOptions printInvoiceOptions;
+    protected PostalCodeEbo orgPostalZipCode;
+    protected PostalCodeEbo orgRemitToZipCode;
+    protected CountryEbo orgPostalCountryCode;
 
-    private transient SystemInformation systemInformationForAddress;
-    private transient SystemInformation systemInformationForAddressName;
-    protected static volatile ParameterService parameterService;
-    protected static volatile SystemInformationService systemInformationService;
-    protected static volatile UniversityDateService universityDateService;
+    protected transient SystemInformation systemInformationForAddress;
+    protected transient SystemInformation systemInformationForAddressName;
+    protected static transient ParameterService parameterService;
+    protected static transient SystemInformationService systemInformationService;
+    protected static transient UniversityDateService universityDateService;
 
 
     /**
@@ -600,18 +601,9 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
      * @param organizationRemitToState The organizationRemitToState to set.
      * @deprecated
      */
+    @Deprecated
     public void setOrganizationRemitToState(StateEbo organizationRemitToState) {
         this.organizationRemitToState = organizationRemitToState;
-    }
-
-	/**
-	 * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-	    LinkedHashMap m = new LinkedHashMap();
-        m.put("chartOfAccountsCode", this.chartOfAccountsCode);
-        m.put("organizationCode", this.organizationCode);
-	    return m;
     }
 
 
@@ -658,20 +650,22 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
     }
 
     public PostalCodeEbo getOrgPostalZipCode() {
-        if ( StringUtils.isBlank(organizationPostalZipCode) ) {
+        if ( StringUtils.isBlank(organizationPostalZipCode) || StringUtils.isBlank(organizationPostalCountryCode) ) {
             orgPostalZipCode = null;
         } else {
-            if ( orgPostalZipCode == null || !StringUtils.equals( orgPostalZipCode.getCode(),organizationPostalZipCode) ) {
+            if ( orgPostalZipCode == null || !StringUtils.equals( orgPostalZipCode.getCode(),organizationPostalZipCode)
+                    || !StringUtils.equals(orgPostalZipCode.getCountryCode(), organizationPostalCountryCode )) {
                 ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(PostalCodeEbo.class);
                 if ( moduleService != null ) {
-                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    Map<String,Object> keys = new HashMap<String, Object>(2);
+                    keys.put(LocationConstants.PrimaryKeyConstants.COUNTRY_CODE, organizationPostalCountryCode);
                     keys.put(LocationConstants.PrimaryKeyConstants.CODE, organizationPostalZipCode);
                     orgPostalZipCode = moduleService.getExternalizableBusinessObject(PostalCodeEbo.class, keys);
                 } else {
                     throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
                 }
             }
-        }        
+        }
         return orgPostalZipCode;
     }
 
@@ -680,13 +674,15 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
     }
 
     public PostalCodeEbo getOrgRemitToZipCode() {
-        if ( StringUtils.isBlank(organizationRemitToZipCode) ) {
+        if ( StringUtils.isBlank(organizationRemitToZipCode) || StringUtils.isBlank(organizationRemitToCountryCode) ) {
             orgRemitToZipCode = null;
         } else {
-            if ( orgRemitToZipCode == null || !StringUtils.equals( orgRemitToZipCode.getCode(),organizationRemitToZipCode) ) {
-                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CampusEbo.class);
+            if ( orgRemitToZipCode == null || !StringUtils.equals( orgRemitToZipCode.getCode(),organizationRemitToZipCode)
+                    || !StringUtils.equals(orgRemitToZipCode.getCountryCode(), organizationPostalCountryCode )) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(PostalCodeEbo.class);
                 if ( moduleService != null ) {
-                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    Map<String,Object> keys = new HashMap<String, Object>(2);
+                    keys.put(LocationConstants.PrimaryKeyConstants.COUNTRY_CODE, organizationPostalCountryCode);
                     keys.put(LocationConstants.PrimaryKeyConstants.CODE, organizationRemitToZipCode);
                     orgRemitToZipCode = moduleService.getExternalizableBusinessObject(PostalCodeEbo.class, keys);
                 } else {
@@ -701,11 +697,25 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
         this.orgRemitToZipCode = orgRemitToZipCode;
     }
 
-    public PostalCodeEbo getOrgPostalCountryCode() {
+    public CountryEbo getOrgPostalCountryCode() {
+        if ( StringUtils.isBlank(organizationPostalCountryCode) ) {
+            orgPostalCountryCode = null;
+        } else {
+            if ( orgPostalCountryCode == null || !StringUtils.equals( orgPostalCountryCode.getCode(),organizationPostalCountryCode) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CountryEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, organizationPostalCountryCode);
+                    orgPostalCountryCode = moduleService.getExternalizableBusinessObject(CountryEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
         return orgPostalCountryCode;
     }
 
-    public void setOrgPostalCountryCode(PostalCodeEbo orgPostalCountryCode) {
+    public void setOrgPostalCountryCode(CountryEbo orgPostalCountryCode) {
         this.orgPostalCountryCode = orgPostalCountryCode;
     }
 
@@ -781,5 +791,13 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
             universityDateService = SpringContext.getBean(UniversityDateService.class);
         }
         return universityDateService;
+    }
+
+    public String getOrganizationRemitToCountryCode() {
+        return organizationRemitToCountryCode;
+    }
+
+    public void setOrganizationRemitToCountryCode(String organizationRemitToCountryCode) {
+        this.organizationRemitToCountryCode = organizationRemitToCountryCode;
     }
 }

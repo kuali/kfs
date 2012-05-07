@@ -1,12 +1,12 @@
 /*
  * Copyright 2010 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,6 +22,7 @@ import org.kuali.kfs.coa.service.OffsetDefinitionService;
 import org.kuali.kfs.fp.document.YearEndDocument;
 import org.kuali.kfs.fp.document.service.YearEndPendingEntryService;
 import org.kuali.kfs.gl.service.SufficientFundsService;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
@@ -36,9 +37,9 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public class YearEndPendingEntryServiceImpl implements YearEndPendingEntryService {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(YearEndPendingEntryServiceImpl.class);
-    
-    protected static final String FINAL_ACCOUNTING_PERIOD = "13";
-    
+
+    protected static final String FINAL_ACCOUNTING_PERIOD = KFSConstants.MONTH13;
+
     protected UniversityDateService universityDateService;
     protected SufficientFundsService sufficientFundsService;
     protected OffsetDefinitionService offsetDefinitionService;
@@ -46,8 +47,9 @@ public class YearEndPendingEntryServiceImpl implements YearEndPendingEntryServic
     /**
      * @see org.kuali.kfs.fp.document.service.YearEndPendingEntryService#customizeExplicitGeneralLedgerPendingEntry(org.kuali.rice.krad.document.TransactionalDocument, org.kuali.kfs.sys.businessobject.AccountingLine, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)
      */
+    @Override
     public void customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
-        if (!YearEndDocument.class.isAssignableFrom(transactionalDocument.getClass())) {
+        if (!(transactionalDocument instanceof YearEndDocument)) {
             throw new IllegalArgumentException("invalid (not a year end document) for class:" + transactionalDocument.getClass());
         }
         YearEndDocument yearEndDocument = (YearEndDocument) transactionalDocument;
@@ -58,6 +60,7 @@ public class YearEndPendingEntryServiceImpl implements YearEndPendingEntryServic
     /**
      * @see org.kuali.kfs.fp.document.service.YearEndPendingEntryService#customizeOffsetGeneralLedgerPendingEntry(org.kuali.rice.krad.document.TransactionalDocument, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry)
      */
+    @Override
     public boolean customizeOffsetGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument, GeneralLedgerPendingEntrySourceDetail accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
         if (!(transactionalDocument instanceof YearEndDocument)) {
             throw new IllegalArgumentException("invalid (not a year end document) for class:" + transactionalDocument.getClass());
@@ -82,7 +85,7 @@ public class YearEndPendingEntryServiceImpl implements YearEndPendingEntryServic
             }
 
             offsetEntry.setFinancialObjectTypeCode(getOffsetFinancialObjectTypeCode(offsetDefinition));
-            
+
             return true;
         }
         return false;
@@ -91,10 +94,11 @@ public class YearEndPendingEntryServiceImpl implements YearEndPendingEntryServic
     /**
      * @see org.kuali.kfs.fp.document.service.YearEndPendingEntryService#getFinalAccountingPeriod()
      */
+    @Override
     public String getFinalAccountingPeriod() {
         return FINAL_ACCOUNTING_PERIOD;
     }
-    
+
     /**
      * @return the accounting period the year end entry should be populated with
      */
@@ -105,47 +109,37 @@ public class YearEndPendingEntryServiceImpl implements YearEndPendingEntryServic
     /**
      * @see org.kuali.kfs.fp.document.service.YearEndPendingEntryService#getPreviousFiscalYear()
      */
+    @Override
     public Integer getPreviousFiscalYear() {
         return universityDateService.getCurrentFiscalYear() - 1;
     }
-    
+
     /**
      * Helper method that determines the offset entry's financial object code.
-     * 
+     *
      * @param offsetDefinition
      * @return String
      */
     protected String getOffsetFinancialObjectCode(OffsetDefinition offsetDefinition) {
-        LOG.debug("getOffsetFinancialObjectCode(OffsetDefinition) - start");
-
         if (null != offsetDefinition) {
             String returnString = (!StringUtils.isBlank(offsetDefinition.getFinancialObjectCode())) ? offsetDefinition.getFinancialObjectCode() : AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialObjectCode();
-            LOG.debug("getOffsetFinancialObjectCode(OffsetDefinition) - end");
             return returnString;
-        }
-        else {
-            LOG.debug("getOffsetFinancialObjectCode(OffsetDefinition) - end");
+        } else {
             return AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialObjectCode();
         }
-
     }
-    
+
     /**
      * Helper method that determines the offset entry's financial object type code.
-     * 
+     *
      * @param offsetDefinition
      * @return String
      */
     protected String getOffsetFinancialObjectTypeCode(OffsetDefinition offsetDefinition) {
-        LOG.debug("getOffsetFinancialObjectTypeCode(OffsetDefinition) - start");
-
         if (null != offsetDefinition && null != offsetDefinition.getFinancialObject()) {
             String returnString = (!StringUtils.isBlank(offsetDefinition.getFinancialObject().getFinancialObjectTypeCode())) ? offsetDefinition.getFinancialObject().getFinancialObjectTypeCode() : AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialObjectType();
-            LOG.debug("getOffsetFinancialObjectTypeCode(OffsetDefinition) - end");
             return returnString;
-        }
-        else {
-            LOG.debug("getOffsetFinancialObjectTypeCode(OffsetDefinition) - end");
+        } else {
             return AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialObjectType();
         }
 

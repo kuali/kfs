@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.sys.document;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -160,25 +159,6 @@ public class FinancialSystemMaintenanceDocument extends MaintenanceDocumentBase 
         String[] chartOrg = deptCode.split("-");
         return chartOrg;
 
-    }
-
-    @Override
-    public Boolean canEdit(Person user) {
-        if ( canEditCache == null || user == null ) {
-            return null;
-        }
-        return canEditCache.get(user.getPrincipalId());
-    }
-
-    @Override
-    public void setCanEdit(Person user, Boolean canEdit) {
-        if ( user == null ) {
-            return;
-        }
-        if ( canEditCache == null ) {
-            canEditCache = new HashMap<String, Boolean>();
-        }
-        canEditCache.put(user.getPrincipalId(), canEdit);
     }
 
     @Override

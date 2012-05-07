@@ -21,7 +21,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.PermissionTemplate;
-import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase;
 import org.kuali.rice.krad.document.Document;
@@ -90,17 +89,4 @@ public class FinancialSystemTransactionalDocumentAuthorizerBase extends Transact
         return isAuthorizedByTemplate(document, KFSConstants.CoreModuleNamespaces.KFS, PermissionTemplate.EDIT_BANK_CODE.name, user.getPrincipalId());
     }
 
-    @Override
-    public boolean canEdit(Document document, Person user) {
-        if ( document instanceof FinancialSystemTransactionalDocument ) {
-            if ( ((FinancialSystemTransactionalDocument)document).canEdit(user) != null ) {
-                return ((FinancialSystemTransactionalDocument)document).canEdit(user);
-            } else {
-                boolean canEdit = super.canEdit(document, user);
-                ((FinancialSystemTransactionalDocument)document).setCanEdit(user, canEdit);
-                return canEdit;
-            }
-        }
-        return super.canEdit(document, user);
-    }
 }

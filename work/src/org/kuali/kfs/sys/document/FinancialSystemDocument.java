@@ -16,7 +16,6 @@
 package org.kuali.kfs.sys.document;
 
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Document;
 
 public interface FinancialSystemDocument extends Document {
@@ -24,8 +23,4 @@ public interface FinancialSystemDocument extends Document {
     FinancialSystemDocumentHeader getFinancialSystemDocumentHeader();
 
     boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException;
-
-    Boolean canEdit(Person user);
-    void setCanEdit( Person user, Boolean canEdit );
-
 }

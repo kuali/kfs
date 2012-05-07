@@ -66,27 +66,16 @@
 											property="document.invoicePaidApplieds" indexId="ctr">
 											<tr>
 												<td>
-													<kul:htmlControlAttribute
-														attributeEntry="${invoicePaidAppliedAttributes.financialDocumentReferenceInvoiceNumber}"
-														property="document.invoicePaidApplied[${ctr}].financialDocumentReferenceInvoiceNumber"
-														readOnly="true" />
-													<!--<c:out value="${invoicePaidApplied.financialDocumentReferenceInvoiceNumber}" />-->
+													<c:out value="${invoicePaidApplied.financialDocumentReferenceInvoiceNumber}" />
 												</td>
 												<td>
-													<kul:htmlControlAttribute
-														attributeEntry="${invoicePaidAppliedAttributes.invoiceItemNumber}"
-														property="document.invoicePaidApplied[${ctr}].invoiceItemNumber"
-														readOnly="true" />
+													<c:out value="${invoicePaidApplied.invoiceItemNumber}"/>
 												</td>
 												<td>
 													<c:out value="${invoicePaidApplied.invoiceDetail.invoiceItemDescription}" />&nbsp;
 												</td>
 												<td style="text-align: right;">
-													<kul:htmlControlAttribute
-														attributeEntry="${invoicePaidAppliedAttributes.invoiceItemAppliedAmount}"
-														property="document.invoicePaidApplied[${ctr}].invoiceItemAppliedAmount"
-														readOnly="true" />
-													<!--$<c:out value="${invoicePaidApplied.invoiceItemAppliedAmount}" />-->
+													$<c:out value="${invoicePaidApplied.invoiceItemAppliedAmount}" />
 												</td>
 											</tr>
 										</logic:iterate>
@@ -126,7 +115,7 @@
                                     </th>
 								</tr>
 								<tr>
-									<c:if test="${!showCCAndBtbA}">
+								    <c:if test="${!showCCAndBtbA}">
 		                        	    <c:if test="${readOnly ne true}">
 											<td style="text-align: right;">
 												${totalFromControl}
@@ -139,12 +128,8 @@
 										</c:if>
 									</c:if>
 									<c:if test="${showCCAndBtbA}">
-										<td style="text-align: right;">
-											 <kul:htmlControlAttribute
-												attributeEntry="${docHeaderAttributes.financialDocumentTotalAmount}"
-												property="document.documentHeader.financialDocumentTotalAmount"
-												readOnly="true" />
-											 <!--$<c:out value="${KualiForm.document.documentHeader.financialDocumentTotalAmount}" />-->
+										<td style="text-align: right;">											 
+											 ${financialDocumentTotalAmount}
 										</td>
 										<td style="text-align: right;">
 											${unallocatedBalance}									

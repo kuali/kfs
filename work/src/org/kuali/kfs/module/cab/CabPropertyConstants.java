@@ -143,8 +143,7 @@ public class CabPropertyConstants {
         public static final String FINANCIAL_OBJECT_SUB_TYPE_CODE = "objectCode.financialObjectSubTypeCode";
         public static final String ACCOUNT_SUB_FUND_GROUP_CODE = "account.subFundGroupCode";
         public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
-        public static final String PURAP_ITEM_UNIT_PRICE = "purapItem.itemUnitPrice";
-        public static final String PO_STATUS_CODE = "purapItem.purapDocument.statusCode";
+        public static final String PURAP_ITEM_UNIT_PRICE = "purapItem.itemUnitPrice";        
         public static final String PO_INITIAL_OPEN_TIMESTAMP = "purapItem.purapDocument.purchaseOrderInitialOpenTimestamp";
         public static final String PURAP_CAPITAL_ASSET_SYSTEM_STATE_CODE = "purapItem.purapDocument.capitalAssetSystemStateCode";
     }

@@ -16,7 +16,9 @@
 package org.kuali.kfs.module.cab.batch.dataaccess.impl;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
@@ -25,10 +27,15 @@ import org.kuali.kfs.module.cab.CabConstants;
 import org.kuali.kfs.module.cab.CabPropertyConstants;
 import org.kuali.kfs.module.cab.batch.dataaccess.ExtractDao;
 import org.kuali.kfs.module.cab.businessobject.BatchParameters;
+import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoAccountRevision;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestAccountRevision;
 import org.kuali.kfs.module.purap.businessobject.PurchaseOrderAccount;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.document.search.DocumentSearchCriteria;
+import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
+import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
 
 public class ExtractDaoOjb extends PlatformAwareDaoBaseOjb implements ExtractDao {
     /**
@@ -76,7 +83,6 @@ public class ExtractDaoOjb extends PlatformAwareDaoBaseOjb implements ExtractDao
         Criteria criteria = new Criteria();
         Timestamp lastRunTimestamp = new Timestamp(((java.util.Date) batchParameters.getLastRunDate()).getTime());
         criteria.addGreaterThan(CabPropertyConstants.PreTagExtract.PO_INITIAL_OPEN_TIMESTAMP, lastRunTimestamp);
-        criteria.addEqualTo(CabPropertyConstants.PreTagExtract.PO_STATUS_CODE, CabConstants.PO_STATUS_CODE_OPEN);
         criteria.addAndCriteria(statusCodeOrCond);
         criteria.addGreaterOrEqualThan(CabPropertyConstants.PreTagExtract.PURAP_ITEM_UNIT_PRICE, batchParameters.getCapitalizationLimitAmount());
 
@@ -90,10 +96,36 @@ public class ExtractDaoOjb extends PlatformAwareDaoBaseOjb implements ExtractDao
             criteria.addIn(CabPropertyConstants.PreTagExtract.FINANCIAL_OBJECT_SUB_TYPE_CODE, batchParameters.getIncludedFinancialObjectSubTypeCodes());
 
         QueryByCriteria query = new QueryByCriteria(PurchaseOrderAccount.class, criteria);
-        return getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        Collection<PurchaseOrderAccount> purchaseOrderAccounts = getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        
+        List<String> docNumbersAwaitingPurchaseOrderStatus = getDocumentsNumbersAwaitingPurchaseOrderOpenStatus();
+        Collection<PurchaseOrderAccount> purchaseOrderAcctsAwaitingPOOpenStatus = new ArrayList<PurchaseOrderAccount>();
+        for (PurchaseOrderAccount purchaseOrderAccount : purchaseOrderAccounts) {
+            if (docNumbersAwaitingPurchaseOrderStatus.contains(purchaseOrderAccount.getDocumentNumber())) {
+                purchaseOrderAcctsAwaitingPOOpenStatus.add(purchaseOrderAccount);
+            }
+        }
+        return purchaseOrderAcctsAwaitingPOOpenStatus;
     }
 
+    protected List<String> getDocumentsNumbersAwaitingPurchaseOrderOpenStatus() {
+        List<String> receivingDocumentNumbers = new ArrayList<String>();
+             
+        DocumentSearchCriteria.Builder documentSearchCriteriaDTO = DocumentSearchCriteria.Builder.create();
+        documentSearchCriteriaDTO.setDocumentTypeName(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT);
+        documentSearchCriteriaDTO.setApplicationDocumentStatus(CabConstants.PO_STATUS_CODE_OPEN);
+        
+        DocumentSearchResults results = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(null, documentSearchCriteriaDTO.build());
 
+        String documentHeaderId = null;
+
+        for (DocumentSearchResult result : results.getSearchResults()) {
+            receivingDocumentNumbers.add(result.getDocument().getDocumentId());            
+        }
+        
+        return receivingDocumentNumbers;
+    }
+    
     /**
      * @see org.kuali.kfs.module.cab.batch.dataaccess.ExtractDao#findCreditMemoAccountHistory(org.kuali.kfs.module.cab.businessobject.BatchParameters)
      */

@@ -22,13 +22,13 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.framework.role.RoleEbo;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.ModuleService;
-import org.kuali.rice.location.api.LocationConstants;
 
 public class KemidAuthorizations extends PersistableBusinessObjectBase {
 
@@ -178,15 +178,16 @@ public class KemidAuthorizations extends PersistableBusinessObjectBase {
         if ( StringUtils.isBlank(roleId) ) {
             role = null;
         } else {
-            ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(RoleEbo.class);
-            if ( moduleService != null ) {
-                Map<String,Object> keys = new HashMap<String, Object>(1);
-                keys.put(LocationConstants.PrimaryKeyConstants.CODE, roleId);
-                role = moduleService.getExternalizableBusinessObject(RoleEbo.class, keys);
-            } else {
-                throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+            if ( role == null || !StringUtils.equals(role.getId(), roleId) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(RoleEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(KimConstants.PrimaryKeyConstants.ID, roleId);
+                    role = moduleService.getExternalizableBusinessObject(RoleEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
             }
-
         }
         return role;
     }

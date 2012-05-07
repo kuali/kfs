@@ -141,6 +141,9 @@
 		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
+		</property>	
+	    <property name="optionsService">
+			<ref bean="optionsService" />
 		</property>		
     </bean>
 

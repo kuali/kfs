@@ -1191,4 +1191,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         return workflowDocumentService;
     }
 
+    public void setOptionsService(OptionsService optionsService) {
+        this.optionsService = optionsService;
+    }
 }

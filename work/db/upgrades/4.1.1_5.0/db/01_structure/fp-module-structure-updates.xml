@@ -15,7 +15,7 @@
 		<addColumn tableName="FP_CPTL_AST_INFO_T">
 			<column name="CPTLAST_LINE_NBR" type="NUMBER(7,0)" defaultValueNumeric="1" />
 			<column name="CPTLAST_LINE_QTY" type="NUMBER(7,0)" defaultValueNumeric="0" />
-			<column name="CPTLAST_LINE_AMT" type="NUMBER(19,2)" defaultValueNumeric="0.00" />
+			<column name="CPTLAST_LINE_AMT" type="NUMBER(19,2)" defaultValue="0.00" />
 			<column name="CPTLAST_ACTION_IND" type="VARCHAR2(1)" defaultValue="C" />
 			<column name="CPTLAST_PROCESSED_IND" type="VARCHAR2(1)" defaultValue="N" />
 			<column name="CPTLAST_DST_AMT_CD" type="VARCHAR2(1)" defaultValue="1" />
@@ -62,7 +62,7 @@
 			<column name="FIN_COA_CD" type="VARCHAR2(2)" />
 			<column name="ACCOUNT_NBR" type="VARCHAR2(7)" />
 			<column name="FIN_OBJECT_CD" type="VARCHAR2(4)" />
-			<column name="FDOC_LINE_AMT" type="NUMBER(19,2)" defaultValueNumeric="0.00" />
+			<column name="FDOC_LINE_AMT" type="NUMBER(19,2)" defaultValue="0.00" />
 		</createTable>
 
 		<modifySql dbms='mysql'>

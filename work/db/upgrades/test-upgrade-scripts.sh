@@ -126,10 +126,10 @@ if [[ "$RUN_UPGRADE_SCRIPTS" == "true" ]]; then
 EOF
 	) > $TEMP_DIR/liquibase.properties
 	pushd $UPGRADE_SCRIPT_DIR/db
-	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=debug --changeLogFile=rice-client-script.xml update
-	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=debug --changeLogFile=master-structure-script.xml update
-	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=debug --changeLogFile=master-data-script.xml update
-	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=debug --changeLogFile=master-constraint-script.xml update
+	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=rice-client-script.xml update
+	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=master-structure-script.xml update
+	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=master-data-script.xml update
+	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=master-constraint-script.xml update
 	popd
 fi
 
@@ -152,6 +152,8 @@ if [[ "$EXPORT_UPGRADED_PROJECT" == "true" ]]; then
 		export.torque.database=$TORQUE_PLATFORM
 		export.torque.database.driver=$DRIVER
 		export.torque.database.url=$DATASOURCE
+		
+		export.table.name.filter=.*(?!_BKUP)
 	EOF
 	) > $TEMP_DIR/impex-build.properties
 	pushd $PROJECT_DIR/work/db/kfs-db/db-impex/impex

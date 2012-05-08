@@ -109,7 +109,8 @@ public class CashControlElectronicPaymentClaimingHelperImpl implements Electroni
         for (String noteText : electronicPaymentClaimingService.constructNoteTextsForClaims(claims)) {
             try {
                 Note note = documentService.createNoteFromDocument(claimingDoc, noteText);
-                SpringContext.getBean(NoteService.class).save(note);
+                claimingDoc.addNote(note);
+                documentService.saveDocumentNotes(claimingDoc);
             } catch (Exception e) {
                 LOG.error("Exception while attempting to create or add note: ", e);
             }

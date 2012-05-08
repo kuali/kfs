@@ -87,21 +87,37 @@
 			<replace replace='NUMBER' with='DECIMAL' />
 		</modifySql>
 	</changeSet>
-	
-	<changeSet author='KFS50' id='KFS_50_FP_REVOLVFND_DTL_T'>
+
+	<changeSet author="KFS50" id="KFS_50_FP_REVOLVFND_DTL_T">
 		<comment>KFSMI-6971 Remove fdoc_column_typ_cd from remaining tables</comment>
 		
-		<dropTable tableName='FP_REVOLVFND_DTL_T' />
-		
+		<dropTable tableName="FP_REVOLVFND_DTL_T" />
+
+		<!-- This extra drop/recreate foreign key is here because MySQL
+			 seems to link the keys and fails dropping the PK when the
+			 foreign key is still present. -->
+		<dropForeignKeyConstraint baseTableName="FP_ADV_DPST_DTL_T" constraintName="FP_ADV_DPST_DTL_TR1"/>		
 		<dropPrimaryKey tableName="FP_ADV_DPST_DTL_T" />
-		<dropColumn tableName='FP_ADV_DPST_DTL_T' columnName='FDOC_COLUMN_TYP_CD' />
-		<addPrimaryKey tableName='FP_ADV_DPST_DTL_T'
-			constraintName='FP_ADV_DPST_DTL_TP1' columnNames='FDOC_NBR, FDOC_TYP_CD, FDOC_LINE_NBR' />
+		
+		
+		<dropColumn tableName="FP_ADV_DPST_DTL_T" columnName="FDOC_COLUMN_TYP_CD" />
+		<addPrimaryKey tableName="FP_ADV_DPST_DTL_T"
+			constraintName="FP_ADV_DPST_DTL_TP1" columnNames="FDOC_NBR, FDOC_TYP_CD, FDOC_LINE_NBR" />
+
+		<addForeignKeyConstraint constraintName="FP_ADV_DPST_DTL_TR1"
+				baseTableName="FP_ADV_DPST_DTL_T" baseColumnNames="FDOC_NBR"   
+				referencedTableName="FP_CASH_RCPT_DOC_T" referencedColumnNames="FDOC_NBR"/>
+
+		<dropForeignKeyConstraint baseTableName="FP_CR_CARD_DTL_T" constraintName="FP_CR_CARD_DTL_TR3"/>		
 			
 		<dropPrimaryKey tableName="FP_CR_CARD_DTL_T" />
-		<dropColumn tableName='FP_CR_CARD_DTL_T' columnName='FDOC_COLUMN_TYP_CD' />
-		<addPrimaryKey tableName='FP_CR_CARD_DTL_T'
-			constraintName='FP_CR_CARD_DTL_TP1' columnNames='FDOC_NBR, FDOC_TYP_CD, FDOC_LINE_NBR' />
+		<dropColumn tableName="FP_CR_CARD_DTL_T" columnName="FDOC_COLUMN_TYP_CD" />
+		<addPrimaryKey tableName="FP_CR_CARD_DTL_T"
+			constraintName="FP_CR_CARD_DTL_TP1" columnNames="FDOC_NBR, FDOC_TYP_CD, FDOC_LINE_NBR" />
+
+		<addForeignKeyConstraint constraintName="FP_CR_CARD_DTL_TR3"
+				baseTableName="FP_CR_CARD_DTL_T" baseColumnNames="FDOC_NBR"   
+				referencedTableName="FP_CASH_RCPT_DOC_T" referencedColumnNames="FDOC_NBR"/>
 			
 	</changeSet>
 

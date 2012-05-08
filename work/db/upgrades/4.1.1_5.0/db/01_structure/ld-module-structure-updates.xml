@@ -1,44 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9'
-	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
-	<changeSet author='KFS50' id='KFS_50_Create_LD_LBR_BFT_RT_CAT_T'>
-		<comment>KFSMI-KFSMI-6987 Employee Benefit Expense Calculation</comment>
-		<createTable tableName='LD_LBR_BFT_RT_CAT_T'>
-			<column name='LBR_BEN_RT_CAT_CD' type='VARCHAR2(2)'>
-				<constraints primaryKey='true' />
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+
+	<changeSet author="KFS50" id="KFS_50_Create_LD_LBR_BFT_RT_CAT_T">
+		<comment>KFSMI-6987 Employee Benefit Expense Calculation</comment>
+		
+		<createTable tableName="LD_LBR_BFT_RT_CAT_T">
+			<column name="LBR_BEN_RT_CAT_CD" type="VARCHAR2(2)">
+				<constraints primaryKey="true" primaryKeyName="LD_LBR_BFT_RT_CAT_TP1" />
 			</column>
-			<column name='OBJ_ID' type='VARCHAR2(36)'>
-				<constraints nullable='false' />
+			<column name="OBJ_ID" type="VARCHAR2(36)" >
+				<constraints nullable="false" unique="true" uniqueConstraintName="LD_LBR_BFT_RT_CAT_TC0" />				
 			</column>
-			<column name='VER_NBR' type='NUMBER(8,0)' defaultValueNumeric='1'>
-				<constraints nullable='false' />
+			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1">
+				<constraints nullable="false" />
 			</column>
-			<column name='ACTV_IND' type='VARCHAR2(1)' defaultValue="Y"/>
-			<column name='LBR_BEN_RT_CAT_NM' type='VARCHAR2(40)'/>
+			<column name="ACTV_IND" type="VARCHAR2(1)" defaultValue="Y"/>
+			<column name="LBR_BEN_RT_CAT_NM" type="VARCHAR2(40)"/>
 		</createTable>
 
-		<addColumn tableName='CA_ACCOUNT_T'>
-			<column name='LBR_BEN_RT_CAT_CD' type='VARCHAR2(2)'
-				defaultValue='--' />
+		<addColumn tableName="LD_LBR_OBJ_BENE_T">
+			<column name="LBR_BEN_RT_CAT_CD" type="VARCHAR2(2)" />
 		</addColumn>
-		<addColumn tableName='LD_LBR_OBJ_BENE_T'>
-			<column name='LBR_BEN_RT_CAT_CD' type='VARCHAR2(2)' />
-		</addColumn>
-		<addColumn tableName='CA_ACCT_CHG_DOC_T'>
-			<column name='LBR_BEN_RT_CAT_CD' type='VARCHAR2(2)' />
-		</addColumn>
-		<comment> KFSMI-6987 Employee Benefit Exp Calc </comment>
-		<addColumn tableName='LD_BENEFITS_CALC_T'>
-			<column name='LBR_BEN_RT_CAT_CD' type='VARCHAR2(2)'
-				defaultValue='--' />
-			<column name='OFFSET_FIN_OBJECT_CD' type='VARCHAR2(4)'/>
-			<column name='OFFSET_ACCOUNT_NBR' type='VARCHAR2(7)'/>
 
+		<addColumn tableName="LD_BENEFITS_CALC_T">
+			<column name="LBR_BEN_RT_CAT_CD" type="VARCHAR2(2)" defaultValue="--" />
+			<column name="OFFSET_FIN_OBJECT_CD" type="VARCHAR2(4)"/>
+			<column name="OFFSET_ACCOUNT_NBR" type="VARCHAR2(7)"/>
 		</addColumn>
-		<modifySql dbms='mysql'>
-			<replace replace='VARCHAR2' with='VARCHAR' />
-			<replace replace='NUMBER' with='DECIMAL' />
+
+		<modifySql dbms="mysql">
+			<replace replace="VARCHAR2" with="VARCHAR" />
+			<replace replace="NUMBER" with="DECIMAL" />
 		</modifySql>
 	</changeSet>
+
 </databaseChangeLog>

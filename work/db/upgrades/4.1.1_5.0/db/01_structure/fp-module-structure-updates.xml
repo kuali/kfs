@@ -3,8 +3,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 
+<!-- 
+		<comment>KFSMI-7175 We need to add a column to FP_CPTL_AST_INFO_T and CM_AST_PMT_DOC_T tables for enhancement work on KFSMI-7106</comment>
+ -->
+
 	<changeSet author="KFS50" id="KFSMI-7011_tables">
-		<dropForeignKeyConstraint baseTableName="FP_CPTL_AST_INFO_DTL_T" constraintName="FP_CPTL_AST_INFO_DTL_TR1" />	
+		<dropForeignKeyConstraint baseTableName="FP_CPTL_AST_INFO_DTL_T" constraintName="FP_CPTL_AST_INFO_DTL_TR1" />
 		<dropPrimaryKey tableName="FP_CPTL_AST_INFO_T" />	
 		<dropPrimaryKey tableName="FP_CPTL_AST_INFO_DTL_T" />
 
@@ -14,18 +18,19 @@
 			<column name="CPTLAST_LINE_AMT" type="NUMBER(19,2)" defaultValueNumeric="0.00" />
 			<column name="CPTLAST_ACTION_IND" type="VARCHAR2(1)" defaultValue="C" />
 			<column name="CPTLAST_PROCESSED_IND" type="VARCHAR2(1)" defaultValue="N" />
+			<column name="CPTLAST_DST_AMT_CD" type="VARCHAR2(1)" defaultValue="1" />
 		</addColumn>
 		
+		<modifyColumn tableName="FP_CPTL_AST_INFO_T">
+			<column name="CPTLAST_DESC" type="VARCHAR2(4000)" />
+		</modifyColumn>
+
 		<addColumn tableName="FP_CPTL_AST_INFO_DTL_T">
 			<column name="CPTLAST_LINE_NBR" type="NUMBER(7,0)" defaultValueNumeric="1" />
 		</addColumn>
 
 		<modifyColumn tableName="FP_CPTL_AST_INFO_DTL_T">
 			<column name="ITM_LN_NBR" type="NUMBER(7,0)" />
-		</modifyColumn>
-
-		<modifyColumn tableName="FP_CPTL_AST_INFO_T">
-			<column name="CPTLAST_DESC" type="VARCHAR2(4000)" />
 		</modifyColumn>
 
 		<addPrimaryKey tableName="FP_CPTL_AST_INFO_T" constraintName="FP_CPTL_AST_INFO_TP1" 
@@ -282,10 +287,6 @@
 		<dropColumn tableName="FP_COIN_DTL_T" columnName="FDOC_COLUMN_TYP_CD"/>
 		<dropColumn tableName="FP_CHECK_DTL_T" columnName="FDOC_COLUMN_TYP_CD"/>
 
-		<comment>KFSMI-7175 We need to add a column to FP_CPTL_AST_INFO_T and CM_AST_PMT_DOC_T tables for enhancement work on KFSMI-7106</comment>
-		<addColumn tableName='FP_CPTL_AST_INFO_T'>
-			<column name='CPTLAST_DST_AMT_CD' type='VARCHAR2(1)' defaultValue="1" />
-		</addColumn>
 		<modifySql dbms='mysql'>
 			<replace replace='VARCHAR2' with='VARCHAR' />
 			<replace replace='NUMBER' with='DECIMAL' />

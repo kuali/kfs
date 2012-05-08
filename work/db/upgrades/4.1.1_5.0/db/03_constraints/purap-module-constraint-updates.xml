@@ -4,10 +4,10 @@
 
 	<changeSet author="jksmith" id="KFSCNTRB162_DEBARRED_VENDOR_TABLE_CONSTRAINTS">
 		<comment>Alters and creates tables as necessary for the debarred vendor tracking process.</comment>
-		<addForeignKeyConstraint constraintName="PUR_VNDR_EXCL_MTCH_TP1" 
+		<addForeignKeyConstraint constraintName="PUR_VNDR_EXCL_MTCH_TR1" 
 						baseTableName="PUR_VNDR_EXCL_MTCH_T" baseColumnNames="VNDR_HDR_GNRTD_ID" 
 						referencedTableName="PUR_VNDR_HDR_T" referencedColumnNames="VNDR_HDR_GNRTD_ID"/>
-		<addForeignKeyConstraint constraintName="PUR_VNDR_EXCL_MTCH_TP2" 
+		<addForeignKeyConstraint constraintName="PUR_VNDR_EXCL_MTCH_TR2" 
 						baseTableName="PUR_VNDR_EXCL_MTCH_T" baseColumnNames="VNDR_HDR_GNRTD_ID,VNDR_DTL_ASND_ID" 
 						referencedTableName="PUR_VNDR_DTL_T" referencedColumnNames="VNDR_HDR_GNRTD_ID,VNDR_DTL_ASND_ID"/>
 	</changeSet>

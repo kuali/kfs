@@ -116,6 +116,9 @@
 		<property name="postBalance">
 			<ref bean="glPostBalance" />
 		</property>
+		<property name="generalLedgerPendingEntryService">
+			<ref bean="generalLedgerPendingEntryService" />
+		</property>		
 	</bean>
 
 	<bean id="glBalanceLookupable"  parent="glBalanceLookupable-parentBean" scope="prototype"/>
@@ -151,6 +154,9 @@
 		<property name="encumbranceService">
 			<ref bean="glEncumbranceService" />
 		</property>
+		<property name="generalLedgerPendingEntryService">
+			<ref bean="generalLedgerPendingEntryService" />
+		</property>		
 	</bean>
 
 	<bean id="glEncumbranceLookupable"  parent="glEncumbranceLookupable-parentBean" scope="prototype"/>
@@ -186,6 +192,9 @@
 		<property name="postBalance">
 			<ref bean="glPostBalance" />
 		</property>
+		<property name="generalLedgerPendingEntryService">
+			<ref bean="generalLedgerPendingEntryService" />
+		</property>			
 	</bean>
 
 	<bean id="glCashBalanceLookupable"  parent="glCashBalanceLookupable-parentBean" scope="prototype"/>
@@ -228,7 +237,7 @@
 	</bean>
 
 	<bean id="glEntryLookupableHelperService"  parent="glEntryLookupableHelperService-parentBean" scope="prototype"/>
-	<bean id="glEntryLookupableHelperService-parentBean" class="org.kuali.kfs.gl.businessobject.lookup.EntryLookupableHelperServiceImpl" abstract="true">
+	<bean id="glEntryLookupableHelperService-parentBean" class="org.kuali.kfs.gl.businessobject.lookup.EntryLookupableHelperServiceImpl" parent="generalLedgerLookupableHelperService-parentBean" abstract="true">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>

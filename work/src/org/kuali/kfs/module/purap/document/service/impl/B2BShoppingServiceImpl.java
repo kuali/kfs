@@ -205,7 +205,9 @@ public class B2BShoppingServiceImpl implements B2BShoppingService {
             req.setItems(itemsForVendor);
             req.setDocumentFundingSourceCode(parameterService.getParameterValueAsString(RequisitionDocument.class, PurapParameterConstants.DEFAULT_FUNDING_SOURCE));
             req.setRequisitionSourceCode(PurapConstants.RequisitionSources.B2B);
-            req.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurapConstants.RequisitionStatuses.APPDOC_IN_PROCESS);
+
+            req.updateAndSaveAppDocStatus(PurapConstants.RequisitionStatuses.APPDOC_IN_PROCESS);
+            
             req.setPurchaseOrderTransmissionMethodCode(PurapConstants.POTransmissionMethods.ELECTRONIC);
             req.setOrganizationAutomaticPurchaseOrderLimit(purapService.getApoLimit(req.getVendorContractGeneratedIdentifier(), req.getChartOfAccountsCode(), req.getOrganizationCode()));
 

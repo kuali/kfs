@@ -67,7 +67,15 @@ public class FaxBatchDocumentsServiceImpl implements FaxBatchDocumentsService {
          faxService.faxPurchaseOrderPdf(po,false);
        
          if (GlobalVariables.getMessageMap().hasErrors()){
-             po.setApplicationDocumentStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN);
+             try {
+                 po.updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_OPEN);
+             }
+             catch (WorkflowException we) {
+                 String errorMsg = "Workflow Exception caught trying to create and save PO document of type PurchaseOrderSplitDocument using source document with doc id '" + po.getDocumentNumber() + "'";
+                 LOG.error(errorMsg, we);
+                 throw new RuntimeException(errorMsg, we);
+             }
+             
              po.setPurchaseOrderInitialOpenTimestamp(dateTimeService.getCurrentTimestamp());
              po.setPurchaseOrderLastTransmitTimestamp(dateTimeService.getCurrentTimestamp());
              purapService.saveDocumentNoValidation(po);

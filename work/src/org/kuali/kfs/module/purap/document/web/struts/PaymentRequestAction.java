@@ -247,10 +247,9 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
             }
             // If the user replies 'No' to either of the questions, redirect to the PREQ initiate page.
             else if ((PurapConstants.PREQDocumentsStrings.ENCUMBER_NEXT_FISCAL_YEAR_QUESTION.equals(question) || PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {			                    
-                paymentRequestDocument.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurapConstants.PaymentRequestStatuses.APPDOC_INITIATE);
+                paymentRequestDocument.updateAndSaveAppDocStatus(PurapConstants.PaymentRequestStatuses.APPDOC_INITIATE);
                 forward = mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
-
         }
 
         return forward;

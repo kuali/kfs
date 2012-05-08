@@ -325,7 +325,8 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                 }
                 doc = (PaymentRequestDocument) ObjectUtils.deepCopy(doc);
                 //purapService.updateStatus(doc, PaymentRequestStatuses.AUTO_APPROVED);
-                doc.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PaymentRequestStatuses.APPDOC_AUTO_APPROVED);
+                doc.updateAndSaveAppDocStatus(PaymentRequestStatuses.APPDOC_AUTO_APPROVED);
+                
                 documentService.blanketApproveDocument(doc, "auto-approving: Total is below threshold.", null);
             }
             catch (WorkflowException we) {
@@ -1393,17 +1394,15 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     @Override
     public void populateAndSavePaymentRequest(PaymentRequestDocument preq) throws WorkflowException {
         try {
-            preq.setApplicationDocumentStatus(PurapConstants.PaymentRequestStatuses.APPDOC_IN_PROCESS);
-            preq.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurapConstants.PaymentRequestStatuses.APPDOC_IN_PROCESS);
+            preq.updateAndSaveAppDocStatus(PurapConstants.PaymentRequestStatuses.APPDOC_IN_PROCESS);
             documentService.saveDocument(preq, AttributedContinuePurapEvent.class);
         }
         catch (ValidationException ve) {
-            preq.setApplicationDocumentStatus(PurapConstants.PaymentRequestStatuses.APPDOC_INITIATE);
-            preq.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurapConstants.PaymentRequestStatuses.APPDOC_INITIATE);
+            preq.updateAndSaveAppDocStatus(PurapConstants.PaymentRequestStatuses.APPDOC_INITIATE);
         }
         catch (WorkflowException we) {
-            preq.setApplicationDocumentStatus(PurapConstants.PaymentRequestStatuses.APPDOC_INITIATE);
-            preq.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurapConstants.PaymentRequestStatuses.APPDOC_INITIATE);
+            preq.updateAndSaveAppDocStatus(PurapConstants.PaymentRequestStatuses.APPDOC_INITIATE);
+
             String errorMsg = "Error saving document # " + preq.getDocumentHeader().getDocumentNumber() + " " + we.getMessage();
             LOG.error(errorMsg, we);
             throw new RuntimeException(errorMsg, we);
@@ -1489,7 +1488,11 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         }
 
         if (StringUtils.isNotBlank(cancelledStatus)) {
-            preqDoc.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(cancelledStatus);
+            try {
+            preqDoc.updateAndSaveAppDocStatus(cancelledStatus);
+            } catch (WorkflowException we) {
+                throw new RuntimeException("Unable to save the route status data for document: " + preqDoc.getDocumentNumber(), we);
+            }
             purapService.saveDocumentNoValidation(preqDoc);
         }
         else {

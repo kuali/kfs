@@ -692,11 +692,11 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     }
 
     public String getAppDocStatus() {
-        return this.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus();
+        return this.getApplicationDocumentStatus();
     }
 
     public void setAppDocStatus(String appDocStatus) {
-        this.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(appDocStatus);
+        this.setApplicationDocumentStatus(appDocStatus);
     }
 
     /**

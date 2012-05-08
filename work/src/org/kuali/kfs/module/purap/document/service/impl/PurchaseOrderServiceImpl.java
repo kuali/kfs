@@ -328,8 +328,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         PurchaseOrderDocument poDocument = null;
         poDocument = (PurchaseOrderDocument) documentService.getNewDocument(PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT);
         poDocument.populatePurchaseOrderFromRequisition(reqDocument);
-        poDocument.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS);
 
+        poDocument.updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS);
+        
         poDocument.setPurchaseOrderCurrentIndicator(true);
         poDocument.setPendingActionIndicator(false);
 
@@ -624,11 +625,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             PurchaseOrderDocument newDocument = createPurchaseOrderDocumentFromSourceDocument(currentDocument, docType);
 
             if (ObjectUtils.isNotNull(newDocument)) {
-                newDocument.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_CHANGE_IN_PROCESS);
-
+                newDocument.updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_CHANGE_IN_PROCESS);
+                
                 // set status if needed
                 if (StringUtils.isNotBlank(currentDocumentStatusCode)) {
-                    currentDocument.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(currentDocumentStatusCode);
+                    currentDocument.updateAndSaveAppDocStatus(currentDocumentStatusCode);
                 }
                 try {
                     documentService.saveDocument(newDocument, DocumentSystemSaveEvent.class);
@@ -664,11 +665,18 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     @Override
     public PurchaseOrderDocument createAndRoutePotentialChangeDocument(String documentNumber, String docType, String annotation, List adhocRoutingRecipients, String currentDocumentStatusCode) {
         PurchaseOrderDocument currentDocument = getPurchaseOrderByDocumentNumber(documentNumber);
-        currentDocument.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(currentDocumentStatusCode);
+        
+        try {
+            currentDocument.updateAndSaveAppDocStatus(currentDocumentStatusCode);
+        }
+        catch (WorkflowException e) {
+            throw new RuntimeException("Error saving routing data while saving document with id " + currentDocument.getDocumentNumber(), e);
+        }
+        
         try {
             PurchaseOrderDocument newDocument = createPurchaseOrderDocumentFromSourceDocument(currentDocument, docType);
-            newDocument.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_CHANGE_IN_PROCESS);
-
+            newDocument.updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_CHANGE_IN_PROCESS);
+            
             if (ObjectUtils.isNotNull(newDocument)) {
                 try {
                     // set the pending indictor before routing, so that when routing is done in synch mode, the pending indicator won't be set again after route finishes and cause inconsistency
@@ -762,7 +770,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 catch (Exception e) {
                     throw new RuntimeException(e);
                 }
-                newDocument.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS);
+                newDocument.updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS);
 
                 //fix references before saving
                 fixItemReferences(newDocument);
@@ -889,7 +897,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 throw new RuntimeException(e);
             }
 
-            po.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurchaseOrderStatuses.APPDOC_CXML_ERROR);
+            try {
+                po.updateAndSaveAppDocStatus(PurchaseOrderStatuses.APPDOC_CXML_ERROR);
+            }
+            catch (WorkflowException e) {
+                throw new RuntimeException("Error saving routing data while saving document with id " + po.getDocumentNumber(), e);
+            }
+
             return false;
         }
     }
@@ -1086,7 +1100,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("setupDocumentForPendingFirstTransmission() Purchase Order Transmission Type is '" + po.getPurchaseOrderTransmissionMethodCode() + "' setting status to '" + newStatusCode + "'");
             }
-            po.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(newStatusCode);
+            try {
+                po.updateAndSaveAppDocStatus(newStatusCode);
+            }
+            catch (WorkflowException e) {
+                throw new RuntimeException("Error saving routing data while saving document with id " + po.getDocumentNumber(), e);
+            }
         }
     }
 
@@ -1110,8 +1129,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 throw new RuntimeException("Document does not have status code '" + PurchaseOrderStatuses.APPDOC_OPEN + "' on it but value of initial open date is " + po.getPurchaseOrderInitialOpenTimestamp());
             }
             LOG.info("attemptSetupOfInitialOpenOfDocument() Setting po document id " + po.getDocumentNumber() + " status from '" + po.getApplicationDocumentStatus() + "' to '" + PurchaseOrderStatuses.APPDOC_OPEN + "'");
-            po.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurchaseOrderStatuses.APPDOC_OPEN);
-            //no need to save here because calling class should handle the save if needed
+            try {
+                po.updateAndSaveAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN);
+            }
+            catch (WorkflowException we) {
+                throw new RuntimeException("Unable to load a WorkflowDocument object for " + po.getDocumentNumber(), we);
+            }
         }
         else {
             LOG.error("attemptSetupOfInitialOpenOfDocument() Found document already in '" + PurchaseOrderStatuses.APPDOC_OPEN + "' status for PO#" + po.getPurapDocumentIdentifier() + "; will not change or update");
@@ -1255,7 +1278,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             oldPO.setPendingActionIndicator(false);
 
             // set the status and status history of the oldPO to retired version
-            oldPO.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_RETIRED_VERSION);
+            try {
+                oldPO.updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_RETIRED_VERSION);
+            } 
+            catch (WorkflowException e) {
+                throw new RuntimeException("Error saving routing data while saving document with id " + oldPO.getDocumentNumber(), e);
+            }
 
             saveDocumentNoValidationUsingClearMessageMap(oldPO);
         }
@@ -1327,8 +1355,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         PurchaseOrderDocument oldPO = getCurrentPurchaseOrder(newPO.getPurapDocumentIdentifier());
         // Set the Pending indicator for the oldPO to N
         oldPO.setPendingActionIndicator(false);
-        oldPO.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(oldPOStatus);
-        newPO.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(newPOStatus);
+        try {
+            oldPO.updateAndSaveAppDocStatus(oldPOStatus); 
+            newPO.updateAndSaveAppDocStatus(newPOStatus);
+        }
+        catch (WorkflowException e) {
+            throw new RuntimeException("Error saving routing data while saving document", e);
+        }
+
         saveDocumentNoValidationUsingClearMessageMap(oldPO);
         saveDocumentNoValidationUsingClearMessageMap(newPO);
     }
@@ -1461,7 +1495,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                         adHocPerson.getId(),
                         annotation,
                         responsibilityNote);
-            }catch (WorkflowException e) {
+            } catch (WorkflowException e) {
                 throw new RuntimeException("Error routing fyi for document with id " + po.getDocumentNumber(), e);
             }
 
@@ -1695,7 +1729,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
                 if ( PurapConstants.RequisitionStatuses.APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN.equals(req.getApplicationDocumentStatus())) {
                     // only update REQ if code is empty and status is correct
-                    req.setApplicationDocumentStatus(PurapConstants.RequisitionStatuses.APPDOC_CLOSED);
+                    try {
+                        req.updateAndSaveAppDocStatus(PurapConstants.RequisitionStatuses.APPDOC_CLOSED);
+                    }
+                    catch (WorkflowException e) {
+                        throw new RuntimeException("Error saving routing data while saving document with id " + req.getDocumentNumber(), e);
+                    }
+                    
                     purapService.saveDocumentNoValidation(req);
                     createPurchaseOrderDocument(req, KFSConstants.SYSTEM_USER, detail.getContractManagerCode());
                 }
@@ -2148,11 +2188,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         //TODO: This could be kind of expensive for one field
         PurchaseOrderDocument po = getCurrentPurchaseOrder(poId);
         if (ObjectUtils.isNotNull(po)) {
-            po.getDocumentHeader().getWorkflowDocument().getApplicationDocumentStatus();
+            return po.getApplicationDocumentStatus();
         }
 
         return null;
     }
+    
     /**
      * @return Returns the personService.
      */

@@ -438,8 +438,10 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     @Override
     public void populateAndSaveCreditMemo(VendorCreditMemoDocument document) {
         try {
-            document.setApplicationDocumentStatus(PurapConstants.CreditMemoStatuses.APPDOC_IN_PROCESS);
-            document.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurapConstants.CreditMemoStatuses.APPDOC_IN_PROCESS);
+         //   document.setApplicationDocumentStatus(PurapConstants.CreditMemoStatuses.APPDOC_IN_PROCESS);
+         //   document.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurapConstants.CreditMemoStatuses.APPDOC_IN_PROCESS);
+            document.updateAndSaveAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_IN_PROCESS);
+            
             if (document.isSourceDocumentPaymentRequest()) {
                 document.setBankCode(document.getPaymentRequestDocument().getBankCode());
                 document.setBank(document.getPaymentRequestDocument().getBank());
@@ -456,14 +458,23 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             documentService.saveDocument(document, AttributedContinuePurapEvent.class);
         }
         catch (ValidationException ve) {
-            document.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurapConstants.CreditMemoStatuses.APPDOC_INITIATE);
-            document.setApplicationDocumentStatus(PurapConstants.CreditMemoStatuses.APPDOC_INITIATE);
+            // set the status back to initiate
+            try {
+                document.updateAndSaveAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_INITIATE);
+            }
+            catch (WorkflowException workflowException) {
+                
+            }
         }
         catch (WorkflowException we) {
             // set the status back to initiate
-            document.setApplicationDocumentStatus(PurapConstants.CreditMemoStatuses.APPDOC_INITIATE);
-            document.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurapConstants.CreditMemoStatuses.APPDOC_INITIATE);
-            String errorMsg = "Error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + we.getMessage();
+            try {
+                document.updateAndSaveAppDocStatus(PurapConstants.CreditMemoStatuses.APPDOC_INITIATE);
+            }
+            catch (WorkflowException workflowException) {
+                
+            }
+            String errorMsg = "Error saving document # " + document.getDocumentNumber() + " " + we.getMessage();
             LOG.error(errorMsg, we);
             throw new RuntimeException(errorMsg, we);
         }
@@ -565,7 +576,12 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         }
 
         if (StringUtils.isNotBlank(cancelledStatusCode)) {
-            cmDoc.setApplicationDocumentStatus(cancelledStatusCode);
+            try {
+                cmDoc.updateAndSaveAppDocStatus(cancelledStatusCode);
+            }
+            catch (WorkflowException we) {
+                throw new RuntimeException("Unable to save the workflow document with document id: " + cmDoc.getDocumentNumber());
+            }
             purapService.saveDocumentNoValidation(cmDoc);
             return cancelledStatusCode;
         }

@@ -69,8 +69,6 @@ import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
-
-
 /**
  * Implementation of RequisitionService
  */

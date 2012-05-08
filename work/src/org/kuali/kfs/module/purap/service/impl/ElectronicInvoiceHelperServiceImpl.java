@@ -1203,7 +1203,12 @@ public class ElectronicInvoiceHelperServiceImpl extends InitiateDirectoryBase im
         }
 
         preqDoc.getDocumentHeader().setDocumentDescription(generatePREQDocumentDescription(poDoc));
-        preqDoc.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurapConstants.PaymentRequestStatuses.APPDOC_IN_PROCESS);
+        try {
+            preqDoc.updateAndSaveAppDocStatus(PurapConstants.PaymentRequestStatuses.APPDOC_IN_PROCESS);
+        } catch (WorkflowException we) {
+            throw new RuntimeException("Unable to save route status data for document: " + preqDoc.getDocumentNumber(), we);
+        }
+        
         preqDoc.setInvoiceDate(orderHolder.getInvoiceDate());
         preqDoc.setInvoiceNumber(orderHolder.getInvoiceNumber());
         preqDoc.setVendorInvoiceAmount(new KualiDecimal(orderHolder.getInvoiceNetAmount()));

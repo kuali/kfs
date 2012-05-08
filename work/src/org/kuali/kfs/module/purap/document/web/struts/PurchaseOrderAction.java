@@ -1671,7 +1671,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 document.setVendorCountryCode(pova.getVendorCountryCode());
                 document.setVendorFaxNumber(pova.getVendorFaxNumber());
                 
-                document.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS);
+                document.updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS);
                 
                 document.setStatusChange(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS);
                 SpringContext.getBean(PurapService.class).saveDocumentNoValidation(document);
@@ -1729,7 +1729,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 cancelNote.setNoteText(reasonPrefix + reason);
                 document.addNote(cancelNote);
                 
-                document.getDocumentHeader().getWorkflowDocument().setApplicationDocumentStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS);
+                document.updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS);
                 
                 //being required to add notes about changing po status even though i'm not changing status
                 document.setStatusChange(null);
@@ -1899,7 +1899,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      */
     protected void executeManualStatusChange(PurchaseOrderDocument po) {
         try {            
-            po.setApplicationDocumentStatus(po.getStatusChange());
+            po.updateAndSaveAppDocStatus(po.getStatusChange());
             SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);
         }
         catch (Exception e) {

@@ -9176,13 +9176,6 @@
             <index-column name="DOC_HDR_ID"/>
         </index>
     </table>
-    <table name="KRNS_MAINT_LOCK_T_BKUP">
-        <column name="MAINT_LOCK_REP_TXT" size="500" type="VARCHAR"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="DOC_HDR_ID" required="true" size="14" type="VARCHAR"/>
-        <column name="MAINT_LOCK_ID" size="14" type="VARCHAR"/>
-    </table>
     <table name="KRNS_NTE_T">
         <column name="NTE_ID" primaryKey="true" size="14" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>

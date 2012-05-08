@@ -82,7 +82,7 @@ public class A21SubAccountServiceImpl implements A21SubAccountService {
         if (ObjectUtils.isNotNull(account) && ObjectUtils.isNotNull(a21SubAccount) && !StringUtils.equals(a21SubAccount.getSubAccountTypeCode(), KFSConstants.SubAccountType.COST_SHARE)) {
             a21SubAccount.setChartOfAccountsCode(account.getChartOfAccountsCode());
             a21SubAccount.setAccountNumber(account.getAccountNumber());
-            a21SubAccount.setFinancialIcrSeriesIdentifier(account.getFinancialIcrSeriesIdentifier());
+            a21SubAccount.setFinancialIcrSeriesIdentifier(StringUtils.defaultString(account.getFinancialIcrSeriesIdentifier()));
 
             //deactivate old ICR lists
             for (A21IndirectCostRecoveryAccount a21Icr : a21SubAccount.getA21IndirectCostRecoveryAccounts()){

@@ -153,8 +153,8 @@
 		
 		    <gl:generalLedgerPendingEntries />
 			
-			<kul:notes />
-
+			<kul:notes attachmentTypesValuesFinderClass="${documentEntry.attachmentTypesValuesFinderClass}" />
+			
 		    <html:messages id="warnings" property="noteWarning" message="true">
 		            &nbsp;&nbsp;&nbsp;<bean:write name="warnings"/><br><br>
 		    </html:messages>

@@ -71,7 +71,7 @@
     <purap:paymentHistory
             documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
 	     
-	<kul:notes /> 	            
+	<kul:notes attachmentTypesValuesFinderClass="${documentEntry.attachmentTypesValuesFinderClass}"/>         
 
 	<kul:adHocRecipients />
 

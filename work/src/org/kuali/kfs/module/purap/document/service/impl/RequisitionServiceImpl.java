@@ -146,6 +146,7 @@ public class RequisitionServiceImpl implements RequisitionService {
             try {
                 Note apoNote = documentService.createNoteFromDocument(requisition, note);
                 requisition.addNote(apoNote);
+                documentService.saveDocumentNotes(requisition);
               }
             catch (Exception e) {
                 throw new RuntimeException(PurapConstants.REQ_UNABLE_TO_CREATE_NOTE + " " + e);

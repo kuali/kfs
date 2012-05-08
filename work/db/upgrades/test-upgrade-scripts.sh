@@ -160,7 +160,7 @@ if [[ "$EXPORT_UPGRADED_PROJECT" == "true" ]]; then
 	EOF
 	) > $TEMP_DIR/impex-build.properties
 	pushd $PROJECT_DIR/work/db/kfs-db/db-impex/impex
-	ant "-Dimpex.properties.file=$TEMP_DIR/impex-build.properties" -d jdbc-to-xml
+	ant "-Dimpex.properties.file=$TEMP_DIR/impex-build.properties" jdbc-to-xml
 	popd
 fi
 

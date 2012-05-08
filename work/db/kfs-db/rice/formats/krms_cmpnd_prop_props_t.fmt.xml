@@ -1,0 +1,4 @@
+<Record name="krms_cmpnd_prop_props_t" type="delimited">
+  <Field name="cmpnd_prop_id"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="prop_id"                         type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

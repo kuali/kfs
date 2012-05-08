@@ -1,0 +1,21 @@
+prop_id|desc_txt|typ_id|dscrm_typ_cd|cmpnd_op_cd|rule_id|ver_nbr|cmpnd_seq_no|
+T1000|is campus bloomington||S||T1000|1.0||
+T1001|is campus bloomington||S||T1001|1.0||
+T1002|is campus bloomington||S||T1002|1.0||
+T1003|is campus bloomington||S||T1003|1.0||
+T1004|is campus bloomington||S||T1004|1.0||
+T1005|is campus bloomington||S||T1005|1.0||
+T1006|is campus bloomington||S||T1006|1.0||
+T1007|a compound prop||C|&|T1007|1.0||
+T1008|a simple child to a compound prop||S||T1007|1.0||
+T1009|2nd simple child to a compound prop ||S||T1007|1.0|2.0|
+T1010|3nd simple child to a compound prop ||S||T1007|1.0|3.0|
+T1011|is purchase special||C|&|T1008|1.0||
+T1012|is purchase order value large||S||T1008|1.0||
+T1013|is purchased item controlled||C|~!~|T1008|1.0||
+T1014|is it for a special event||C|&|T1008|1.0||
+T1015|is item purchased animal||S||T1008|1.0||
+T1016|is purchased item radioactive||S||T1008|1.0||
+T1017|is it medicinal||S||T1008|1.0|3.0|
+T1018|charged to Kuali||S||T1008|1.0||
+T1019|Party at Travis House||S||T1008|1.0||

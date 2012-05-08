@@ -1,0 +1,2 @@
+dlgn_rule_id|rsp_id|dlgn_rule_base_val_id|dlgn_typ|ver_nbr|obj_id|
+1641|2022|1640|S|1.0|07B43BF1-B39B-CD35-024D-C05AF402D6A6|

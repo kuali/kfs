@@ -1,0 +1,15 @@
+rule_tmpl_id|nm|rule_tmpl_desc|dlgn_rule_tmpl_id|ver_nbr|obj_id|
+1015|WorkflowDocumentDelegationTemplate|WorkflowDocumentDelegationTemplate||2.0|6166CBA1BA86644DE0404F8189D86C09|
+1016|WorkflowDocumentTemplate|Workflow Document Template|1015|4.0|6166CBA1BA87644DE0404F8189D86C09|
+1017|Ack1Template|Acknowledgement 1 Template||4.0|6166CBA1BA88644DE0404F8189D86C09|
+1018|Ack2Template|Acknowledgement 2 Template||4.0|6166CBA1BA89644DE0404F8189D86C09|
+1023|ReviewersRouting|Routes to channel reviewers||2.0|6166CBA1BA8C644DE0404F8189D86C09|
+1025|NotificationRouting|The standard rule template for sending notification messages.||2.0|6166CBA1BA8D644DE0404F8189D86C09|
+1026|TravelRequest-DestinationRouting|Destination Routing|1015|8.0|6166CBA1BA8E644DE0404F8189D86C09|
+1028|TravelRequest-TravelerRouting|Traveler Routing||2.0|6166CBA1BA8F644DE0404F8189D86C09|
+1030|TravelRequest-SupervisorRouting|Supervisor Routing||2.0|6166CBA1BA90644DE0404F8189D86C09|
+1032|TravelRequest-AccountRouting|Travel Account Routing||2.0|6166CBA1BA91644DE0404F8189D86C09|
+1101|eDoc.Example1.Node1|eDocLite Example1 Routing||2.0|6166CBA1BA92644DE0404F8189D86C09|
+1320|RuleRoutingTemplate|RuleRoutingTemplate||2.0|6166CBA1BA96644DE0404F8189D86C09|
+1537|WorkflowDocument2Template|Workflow Document Template 2||2.0|6166CBA1BAE9644DE0404F8189D86C09|
+1538|WorkflowDocument3Template|Workflow Document Template 3||2.0|6166CBA1BAEA644DE0404F8189D86C09|

@@ -1,0 +1,2 @@
+cmpnt_set_id|last_updt_ts|chksm|ver_nbr|
+DD:RICE|20111030164958|YF7O4JRiqftiUrQJzhfwpEPP3Oc=|1.0|

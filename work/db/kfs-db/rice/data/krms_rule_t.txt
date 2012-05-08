@@ -1,0 +1,10 @@
+rule_id|nmspc_cd|nm|typ_id|prop_id|actv|ver_nbr|desc_txt|
+T1000|KR-RULE-TEST|Rule1||T1000|Y|1.0|stub rule lorem ipsum|
+T1001|KR-RULE-TEST|Rule2||T1001|Y|1.0|Frog specimens bogus rule foo|
+T1002|KR-RULE-TEST|Rule3||T1002|Y|1.0|Bloomington campus code rule|
+T1003|KR-RULE-TEST|Rule4||T1003|Y|1.0|check for possible BBQ ingiter hazard|
+T1004|KR-RULE-TEST|Rule5||T1004|Y|1.0|remembered to wear socks|
+T1005|KR-RULE-TEST|Rule6||T1005|Y|1.0|good behavior at carnival|
+T1006|KR-RULE-TEST|Rule7||T1006|Y|1.0|is KRMS in da haus|
+T1007|KR-RULE-TEST|CmpdTestRule||T1007|Y|1.0|For testing compound props|
+T1008|KR-RULE-TEST|Going Away Party for Travis||T1011|Y|1.0|Does PO require my approval|

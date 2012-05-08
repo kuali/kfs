@@ -1,0 +1,12 @@
+<Record name="trv_acct" type="delimited">
+  <Field name="acct_num"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="acct_name"                       type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="acct_type"                       type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="acct_fo_id"                      type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="sub_acct"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="sub_acct_name"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="create_dt"                       type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
+  <Field name="subsidized_pct"                  type="numeric"    nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

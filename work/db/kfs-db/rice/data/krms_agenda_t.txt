@@ -1,0 +1,4 @@
+agenda_id|nm|cntxt_id|init_agenda_itm_id|typ_id|actv|ver_nbr|
+T1000|My Fabulous Agenda|CONTEXT1|T1000||Y|1.0|
+T1001|SimpleAgendaCompoundProp|CONTEXT1|T1007|T1004|Y|1.0|
+T1002|One Big Rule|CONTEXT1|T1008|T1004|Y|1.0|

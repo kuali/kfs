@@ -1,0 +1,3 @@
+cntxt_id|nmspc_cd|nm|typ_id|actv|ver_nbr|desc_txt|
+CONTEXT1|KR-RULE-TEST|Context1|T1003|Y|1.0|null|
+CONTEXT_NO_PERMISSION|KRMS_TEST_VOID|Context with no premissions|T1003|Y|1.0|null|

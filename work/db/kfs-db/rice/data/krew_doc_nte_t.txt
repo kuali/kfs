@@ -1,0 +1,4 @@
+doc_nte_id|doc_hdr_id|auth_prncpl_id|crt_dt|txt|ver_nbr|
+2000|2213|admin|20080916130500|Added this test note.|1.0|
+2002|2219|admin|20080916140236|This is a test note.|3.0|
+2004|2219|user1|20080916142558|Added a note at second node.|2.0|

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Graph name="Export KREW_ACTN_ITM_T" revision="1.0">
+  <Global>
+    <Property fileURL="workspace.prm" id="WorkspaceParameters" />
+    <Connection dbConfig="${DATABASE}" id="TargetDB" type="JDBC" />
+    <Metadata id="OutputFileFormat" fileURL="${FORMAT_DIR}/krew_actn_itm_t.fmt.xml" />
+  </Global>
+   <Phase number="0">
+     <Node id="DATABASE_RUN"
+           type="DB_EXECUTE"
+           dbConnection="TargetDB"
+           sqlQuery="TRUNCATE TABLE KREW_ACTN_ITM_T" />
+   </Phase>
+   <Phase number="1">
+    <Node id="INPUT" type="DATA_READER" skipLeadingBlanks="false" fileURL="${DATA_DIR}/krew_actn_itm_t.txt" skipFirstLine="true" dataPolicy="strict" charset="UTF-8" quotedStrings="false" trim="false" treatMultipleDelimitersAsOne="false" />
+    <Edge fromNode="INPUT:0" toNode="FIX_DELIM:0" id="INPUT_TO_FIX_DELIM" metadata="OutputFileFormat" />
+    <Node id="FIX_DELIM" type="REFORMAT">
+      <attr name="transform"><![CDATA[
+//#TL
+    function transform() {
+        $0.actn_itm_id := replace(nvl($actn_itm_id, ""), "~!~", "|" );
+        $0.prncpl_id := replace(nvl($prncpl_id, ""), "~!~", "|" );
+        $0.asnd_dt := $asnd_dt;
+        $0.rqst_cd := replace(nvl($rqst_cd, ""), "~!~", "|" );
+        $0.actn_rqst_id := replace(nvl($actn_rqst_id, ""), "~!~", "|" );
+        $0.doc_hdr_id := replace(nvl($doc_hdr_id, ""), "~!~", "|" );
+        $0.role_nm := replace(nvl($role_nm, ""), "~!~", "|" );
+        $0.dlgn_prncpl_id := replace(nvl($dlgn_prncpl_id, ""), "~!~", "|" );
+        $0.doc_hdr_ttl := replace(nvl($doc_hdr_ttl, ""), "~!~", "|" );
+        $0.doc_typ_lbl := replace(nvl($doc_typ_lbl, ""), "~!~", "|" );
+        $0.doc_hdlr_url := replace(nvl($doc_hdlr_url, ""), "~!~", "|" );
+        $0.doc_typ_nm := replace(nvl($doc_typ_nm, ""), "~!~", "|" );
+        $0.rsp_id := replace(nvl($rsp_id, ""), "~!~", "|" );
+        $0.dlgn_typ := replace(nvl($dlgn_typ, ""), "~!~", "|" );
+        $0.ver_nbr := $ver_nbr;
+        $0.dtype := replace(nvl($dtype, ""), "~!~", "|" );
+        $0.grp_id := replace(nvl($grp_id, ""), "~!~", "|" );
+        $0.dlgn_grp_id := replace(nvl($dlgn_grp_id, ""), "~!~", "|" );
+        $0.rqst_lbl := replace(nvl($rqst_lbl, ""), "~!~", "|" );
+   }
+      ]]></attr>
+    </Node>
+    <Edge fromNode="FIX_DELIM:0" toNode="DB_OUTPUT:0" id="TO_OUTPUT"  metadata="OutputFileFormat" />
+    <Node id="DB_OUTPUT" type="KUL_DB_OUTPUT_TABLE" metadata="OutputFileFormat" dbConnection="TargetDB" dbTable="krew_actn_itm_t" batchMode="true" errorAction="ROLLBACK" />
+  </Phase>
+</Graph>
+  
+  

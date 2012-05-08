@@ -1,0 +1,4 @@
+acct_fo_id|acct_fo_user_name|obj_id|ver_nbr|
+1.0|fred||0.0|
+2.0|fran||0.0|
+3.0|frank||0.0|

@@ -1,0 +1,4 @@
+rule_ext_val_id|rule_ext_id|val|key_cd|ver_nbr|
+1048|1047|las vegas|destination|1.0|
+1105|1104|IUB|campus|1.0|
+1108|1107|IUPUI|campus|1.0|

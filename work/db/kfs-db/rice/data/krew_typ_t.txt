@@ -1,0 +1,2 @@
+typ_id|nm|nmspc_cd|srvc_nm|actv|ver_nbr|
+1|Sample Type|KR-SAP|sampleAppPeopleFlowTypeService|Y|1.0|

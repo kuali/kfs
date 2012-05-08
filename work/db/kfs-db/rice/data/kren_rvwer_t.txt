@@ -1,0 +1,4 @@
+rvwer_id|chnl_id|typ|prncpl_id|ver_nbr|obj_id|
+1.0|1.0|GROUP|RiceTeam|1.0||
+2.0|5.0|USER|testuser3|1.0||
+3.0|5.0|GROUP|TestGroup1|1.0||

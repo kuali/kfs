@@ -1,0 +1,4 @@
+<Record name="bk_book_author_t" type="delimited">
+  <Field name="book_id"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="author_id"                       type="numeric"    nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

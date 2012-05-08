@@ -1,0 +1,4 @@
+prodcr_id|nm|desc_txt|cntct_info|ver_nbr|obj_id|
+1.0|Notification System|This producer represents messages sent from the general message sending forms.|kuali-ken-testing@cornell.edu|1.0||
+2.0|University Library System|This producer represents messages sent from the University Library system.|kuali-ken-testing@cornell.edu|1.0||
+3.0|University Events Office|This producer represents messages sent from the University Events system.|kuali-ken-testing@cornell.edu|1.0||

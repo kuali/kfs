@@ -1,0 +1,40 @@
+kim_typ_id|obj_id|ver_nbr|nm|srvc_nm|actv_ind|nmspc_cd|
+1|5ADF18B6D4827954E0404F8189D85002|1.0|Default||Y|KUALI|
+10|5ADF18B6D4D77954E0404F8189D85002|1.0|Namespace or Component|namespaceOrComponentPermissionTypeService|Y|KR-NS|
+11|5ADF18B6D4DC7954E0404F8189D85002|1.0|Component Field|componentFieldPermissionTypeService|Y|KR-NS|
+12|5ADF18B6D4E37954E0404F8189D85002|1.0|Namespace or Action|namespaceOrActionPermissionTypeService|Y|KR-NS|
+13|5ADF18B6D4E77954E0404F8189D85002|1.0|Button|buttonPermissionTypeService|Y|KR-NS|
+14|5ADF18B6D4EA7954E0404F8189D85002|1.0|Edit Mode & Document Type|documentTypeAndEditModePermissionTypeService|Y|KR-NS|
+15|5ADF18B6D4ED7954E0404F8189D85002|1.0|Batch Feed or Job|batchFeedOrJobPermissionTypeService|Y|KR-NS|
+16|5ADF18B6D4F27954E0404F8189D85002|1.0|Parameter|parameterPermissionTypeService|Y|KR-NS|
+17|5ADF18B6D4F77954E0404F8189D85002|1.0|Campus|campusRoleService|Y|KR-NS|
+18|5ADF18B6D4F97954E0404F8189D85002|1.0|Role|rolePermissionTypeService|Y|KR-IDM|
+19|5ADF18B6D4FD7954E0404F8189D85002|1.0|Permission|permissionPermissionTypeService|Y|KR-IDM|
+2|5ADF18B6D4837954E0404F8189D85002|1.0|Derived Role: Principal|activePrincipalRoleTypeService|Y|KR-IDM|
+20|5ADF18B6D5017954E0404F8189D85002|1.0|Responsibility|responsibilityPermissionTypeService|Y|KR-IDM|
+21|5ADF18B6D5057954E0404F8189D85002|1.0|Group|groupPermissionTypeService|Y|KR-IDM|
+3|5ADF18B6D4AC7954E0404F8189D85002|1.0|Document Type (Permission)|documentTypePermissionTypeService|Y|KR-SYS|
+4|5ADF18B6D4B57954E0404F8189D85002|1.0|Action Request Type|actionRequestTypePermissionTypeService|Y|KR-WKFLW|
+42|5ADF18B6D53B7954E0404F8189D85002|1.0|Derived Role: Action Request|actionRequestDerivedRoleTypeService|Y|KR-WKFLW|
+43|5ADF18B6D53C7954E0404F8189D85002|1.0|Derived Role: Route Log|routeLogDerivedRoleTypeService|Y|KR-WKFLW|
+45|5B6013B3AD131A9CE0404F8189D87094|1.0|Derived Role: Permission (Edit Document)|documentEditorRoleTypeService|Y|KR-NS|
+5|5ADF18B6D4B87954E0404F8189D85002|1.0|Ad Hoc Review|adhocReviewPermissionTypeService|Y|KR-WKFLW|
+52|5C997D14EAC2FE40E0404F8189D87DC5|1.0|Document Type, Routing Node & Field(s)|documentTypeAndNodeAndFieldsPermissionTypeService|Y|KR-SYS|
+54|60432A73A6A29F65E0404F8189D86AA4|1.0|Document Type (Responsibility)|documentTypeResponsibilityTypeService|Y|KR-KEW|
+56|603B735FA6B9FE21E0404F8189D8083B|1.0|Document Type & Existing Records Only|documentTypeAndExistingRecordsOnlyPermissionTypeService|Y|KR-NS|
+57|603B735FA6BDFE21E0404F8189D8083B|1.0|Component Section|componentSectionPermissionTypeService|Y|KR-NS|
+59|606763510FBB96D3E0404F8189D857A2|1.0|Document Type & Relationship to Note Author|documentTypeAndRelationshipToNoteAuthorPermissionTypeService|Y|KR-NS|
+60|606763510FBC96D3E0404F8189D857A2|1.0|Derived Role: Permission (Open Document)|documentOpenerRoleTypeService|Y|KR-NS|
+66|67F145466E8A9160E0404F8189D86771|1.0|Derived Role: Permission (Initiate Document)|documentInitiatorRoleTypeService|Y|KR-SYS|
+67|67F145466E8F9160E0404F8189D86771|1.0|Namespace|namespacePermissionTypeService|Y|KR-NS|
+68|B7DBFABEFD378CBFE0402E0AA9D757C9|1.0|View|viewPermissionTypeService|Y|KR-KRAD|
+69|B7DBFABEFD388CBFE0402E0AA9D757C9|1.0|View Edit Mode|viewEditModePermissionTypeService|Y|KR-KRAD|
+7|5ADF18B6D4C07954E0404F8189D85002|1.0|Document Type, Routing Node & Action Information|reviewResponsibilityTypeService|Y|KR-WKFLW|
+70|B7DBFABEFD398CBFE0402E0AA9D757C9|1.0|View Field|viewFieldPermissionTypeService|Y|KR-KRAD|
+71|B7DBFABEFD3A8CBFE0402E0AA9D757C9|1.0|View Group|viewGroupPermissionTypeService|Y|KR-KRAD|
+72|B7DBFABEFD3B8CBFE0402E0AA9D757C9|1.0|View Widget|viewWidgetPermissionTypeService|Y|KR-KRAD|
+73|B7DBFABEFD3C8CBFE0402E0AA9D757C9|1.0|View Action|viewActionPermissionTypeService|Y|KR-KRAD|
+74|B7DBFABEFD3D8CBFE0402E0AA9D757C9|1.0|View Line Field|viewLineFieldPermissionTypeService|Y|KR-KRAD|
+75|B7DBFABEFD3E8CBFE0402E0AA9D757C9|1.0|View Line Action|viewLineActionPermissionTypeService|Y|KR-KRAD|
+8|5ADF18B6D4C67954E0404F8189D85002|1.0|Document Type & Routing Node or State|documentTypeAndNodeOrStatePermissionTypeService|Y|KR-SYS|
+9|5ADF18B6D4CD7954E0404F8189D85002|1.0|Document Type & Attachment Type|documentTypeAndAttachmentTypePermissionTypeService|Y|KR-NS|

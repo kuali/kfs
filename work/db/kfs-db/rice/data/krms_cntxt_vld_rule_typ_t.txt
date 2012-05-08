@@ -1,0 +1,2 @@
+cntxt_vld_rule_id|cntxt_id|rule_typ_id|ver_nbr|
+T1000|CONTEXT1|1002|1.0|

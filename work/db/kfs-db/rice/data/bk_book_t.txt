@@ -1,0 +1,3 @@
+book_id|title|author|typ_cd|isbn|publisher|pub_date|obj_id|ver_nbr|price|rating|
+1.0|i See||ROM|9781402894626|Rupa Publishers Ltd.|20020901000000|482b3394-0327-4e93-bd80-c5dc3b2a9e34|1.0|34.43|87.0|
+2.0|Galactico||SCI-FI|9781402894634|Rupa Publishers Ltd.|20020901000000|482b3394-0327-4ee5-bd80-c5dc3b2a9e34|1.0|12.43|90.0|

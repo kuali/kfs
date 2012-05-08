@@ -1,0 +1,10 @@
+term_spec_id|nm|typ|actv|ver_nbr|desc_txt|nmspc_cd|
+T1000|campusSize|java.lang.Integer|Y|1.0|Size in # of students of the campus|KR-RULE-TEST|
+T1001|orgMember|java.lang.Boolean|Y|1.0|is the principal in the organization|KR-RULE-TEST|
+T1002|Campus Code|java.lang.String|Y|1.0|null|KR-RULE-TEST|
+T1003|bogusFundTermSpec|java.lang.String|Y|1.0|null|KR-RULE-TEST|
+T1004|PO Value|java.lang.Integer|Y|1.0|Purchase Order Value|KR-RULE-TEST|
+T1005|PO Item Type|java.lang.String|Y|1.0|Purchased Item Type|KR-RULE-TEST|
+T1006|Account|java.lang.String|Y|1.0|Charged To Account|KR-RULE-TEST|
+T1007|Occasion|java.lang.String|Y|1.0|Special Event|KR-RULE-TEST|
+T1008|campusCode|java.lang.String|Y|1.0|null|KR-RULE-TEST|

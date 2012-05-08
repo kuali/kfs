@@ -1,0 +1,4 @@
+<Record name="krew_doc_hdr_cntnt_t" type="delimited">
+  <Field name="doc_hdr_id"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="doc_cntnt_txt"                   type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

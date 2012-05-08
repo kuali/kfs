@@ -1,0 +1,5 @@
+cntxt_vld_actn_id|cntxt_id|actn_typ_id|ver_nbr|
+T1000|CONTEXT1|T1002|1.0|
+T1001|CONTEXT1|1000|1.0|
+T1002|CONTEXT1|1001|1.0|
+T1003|CONTEXT1|1003|1.0|

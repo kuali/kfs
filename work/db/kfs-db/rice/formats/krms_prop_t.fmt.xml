@@ -1,0 +1,10 @@
+<Record name="krms_prop_t" type="delimited">
+  <Field name="prop_id"                         type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="desc_txt"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="typ_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="dscrm_typ_cd"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cmpnd_op_cd"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="rule_id"                         type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cmpnd_seq_no"                    type="numeric"    nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

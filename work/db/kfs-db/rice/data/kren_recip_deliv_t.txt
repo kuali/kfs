@@ -1,0 +1,7 @@
+recip_deliv_id|recip_id|chnl|nm|ver_nbr|
+1.0|testuser6|KEW|mock|0.0|
+2.0|testuser1|KEW|mock|0.0|
+3.0|testuser2|KEW|mock|0.0|
+4.0|quickstart|KEW|mock|0.0|
+5.0|testuser5|KEW|mock|0.0|
+6.0|testuser4|KEW|mock|0.0|

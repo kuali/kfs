@@ -1,0 +1,6 @@
+<Record name="krms_cntxt_vld_term_spec_t" type="delimited">
+  <Field name="cntxt_term_spec_prereq_id"       type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="cntxt_id"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="term_spec_id"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="prereq"                          type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

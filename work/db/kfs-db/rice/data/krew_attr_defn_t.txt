@@ -1,0 +1,3 @@
+attr_defn_id|nm|nmspc_cd|lbl|actv|cmpnt_nm|ver_nbr|desc_txt|
+1|number|KR-SAP|Travel Number|Y|edu.sampleu.travel.bo.TravelAccount|1.0||
+2|id|KR-SAP||Y|edu.sampleu.travel.bo.FiscalOfficer|1.0||

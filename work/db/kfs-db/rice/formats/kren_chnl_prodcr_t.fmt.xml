@@ -1,0 +1,4 @@
+<Record name="kren_chnl_prodcr_t" type="delimited">
+  <Field name="chnl_id"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="prodcr_id"                       type="numeric"    nullable="true"  trim="false" delimiter="|\r\n" />
+</Record>

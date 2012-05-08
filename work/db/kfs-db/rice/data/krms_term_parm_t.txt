@@ -1,0 +1,2 @@
+term_parm_id|term_id|nm|val|ver_nbr|
+T1000|T1000|Campus Code|BL|1.0|

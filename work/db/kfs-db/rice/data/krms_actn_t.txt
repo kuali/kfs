@@ -1,0 +1,2 @@
+actn_id|nm|desc_txt|typ_id|rule_id|seq_no|ver_nbr|nmspc_cd|
+T1000|testAction|Action Stub for Testing|T1002|T1000|1.0|1.0|KR-RULE-TEST|

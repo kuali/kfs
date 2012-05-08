@@ -1,0 +1,3 @@
+ent_typ_cd|obj_id|ver_nbr|nm|display_sort_cd|actv_ind|
+PERSON|5B97C50B03886110E0404F8189D85213|1.0|Person|01|Y|
+SYSTEM|5B97C50B03896110E0404F8189D85213|1.0|System|02|Y|

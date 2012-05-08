@@ -1,0 +1,71 @@
+perm_id|obj_id|ver_nbr|perm_tmpl_id|nmspc_cd|nm|desc_txt|actv_ind|
+140|5B4F09744944EF33E0404F8189D84F24|1.0|29|KR-WKFLW|Use Document Operation Screen|Allows users to access the Document Operation screen.|Y|
+141|5B4F09744945EF33E0404F8189D84F24|1.0|29|KR-BUS|Use Java Security Management Screen|Allows users to access the Java Security Management screen.|Y|
+142|5B4F09744946EF33E0404F8189D84F24|1.0|29|KR-BUS|Use Message Queue Screen|Allows users to access the Message Queue screen.|Y|
+143|5B4F09744947EF33E0404F8189D84F24|1.0|29|KR-BUS|Use Service Registry Screen|Allows users to access the Service Registry screen.|Y|
+144|5B4F09744948EF33E0404F8189D84F24|1.0|29|KR-BUS|Use Thread Pool Screen|Allows users to access the Thread Pool screen.|Y|
+145|5B4F09744949EF33E0404F8189D84F24|1.0|29|KR-BUS|Use Quartz Queue Screen|Allows users to access the Quartz Queue screen.|Y|
+146|5B4F0974494AEF33E0404F8189D84F24|1.0|9|KR-SYS|Ad Hoc Review RICE Document|Allows a user to receive ad hoc requests for RICE Documents.|Y|
+147|5B4F0974494BEF33E0404F8189D84F24|1.0|3|KR-SYS|Administer Routing RICE Document|Allows users to open RICE Documents via the Super search option in Document Search and take Administrative workflow actions on them (such as approving the document, approving individual requests, or sending the document to a specified route node).|Y|
+148|5B4F0974494CEF33E0404F8189D84F24|1.0|4|KR-SYS|Blanket Approve RICE Document|Allows access to the Blanket Approval button on RICE Documents.|Y|
+149|5B4F0974494DEF33E0404F8189D84F24|1.0|10|KR-SYS|Initiate RICE Document|Authorizes the initiation of RICE Documents.|Y|
+150|5B4F0974494EEF33E0404F8189D84F24|1.0|35|KR-SYS|Assign Role|Authorizes users to modify the information on the Assignees Tab of the Role Document and the Roles section of the Membership Tab on the Person Document for Roles with a Module Code beginning with KR.|Y|
+151|5B4F0974494FEF33E0404F8189D84F24|1.0|36|KR-SYS|Grant Permission|Authorizes users to modify the information on the Permissions tab of the Role Document for roles with a module code beginning with KR.|Y|
+152|5B4F09744950EF33E0404F8189D84F24|1.0|37|KR-SYS|Grant Responsibility|Authorizes users to modify the information on the Responsibility tab of the Role Document for roles with a Module Code that begins with KR.|Y|
+155|5B4F09744953EF33E0404F8189D84F24|1.0|38|KR-SYS|Populate Group|Authorizes users to modify the information on the Assignees Tab of the Group Document and the Group section of the Membership Tab on the Person Document for groups with namespaces beginning with KR.|Y|
+156|5B4F09744954EF33E0404F8189D84F24|1.0|2|KR-SYS|Copy RICE Document|Authorizes users to copy RICE Documents.|Y|
+161|5B4F09744959EF33E0404F8189D84F24|1.0|24|KR-SYS|Inquire Into RICE Records|Allows users to access Kuali RICE inquiries.|Y|
+162|5B4F0974495AEF33E0404F8189D84F24|1.0|23|KR-SYS|Look Up RICE Records|Allow users to access Kuali RICE lookups.|Y|
+163|5B4F0974495BEF33E0404F8189D84F24|1.0|34|KR-SYS|Maintain System Parameter|Authorizes to initiate and edit the Parameter document for parameters with a module code beginning with KR.|Y|
+164|5B4F0974495CEF33E0404F8189D84F24|1.0|32|KR-SYS|Modify Batch Job|Allows users to access and run Batch Jobs associated with KR modules via the Schedule link.|Y|
+165|5B4F0974495DEF33E0404F8189D84F24|1.0|40|KR-SYS|Open RICE Document|Authorizes users to open RICE Documents.|Y|
+166|5B4F0974495EEF33E0404F8189D84F24|1.0|29|KR-SYS|Use all RICE Screen|Allows users to access all RICE screens.|Y|
+167|5B4F0974495FEF33E0404F8189D84F24|1.0|14|KUALI|Cancel Document|Authorizes users to cancel a document prior to it being submitted for routing.|Y|
+168|5B4F09744960EF33E0404F8189D84F24|1.0|5|KUALI|Route Document|Authorizes users to submit a document for routing.|Y|
+170|5B4F09744962EF33E0404F8189D84F24|1.0|8|KUALI|Take Requested Apprive Action|Authorizes users to take the Approve action on documents routed to them.|Y|
+172|5B4F09744964EF33E0404F8189D84F24|1.0|8|KUALI|Take Requested FYI Action|Authorizes users to take the FYI action on documents routed to them.|Y|
+173|5B4F09744965EF33E0404F8189D84F24|1.0|8|KUALI|Take Requested Acknowledge Action|Authorizes users to take the Acknowledge action on documents routed to them.|Y|
+174|5B4F09744966EF33E0404F8189D84F24|1.0|1|KUALI|Log In Kuali Portal|Authorizes users to login to the Kuali portal.|Y|
+180|5B4F0974496CEF33E0404F8189D84F24|1.0|16|KUALI|Edit Kuali ENROUTE Document Node Name PreRoute|Allows users to edit Kuali documents that are in ENROUTE status.|Y|
+181|5B4F0974496DEF33E0404F8189D84F24|1.0|16|KUALI|Edit Kuali ENROUTE Document Route Status Code R|Allows users to edit Kuali documents that are in ENROUTE status.|Y|
+183|5B4F0974496FEF33E0404F8189D84F24|1.0|27|KR-SYS|Full Unmask Tax Identification Number Payee ACH Document|Authorizes users to view the entire Tax Identification Number on the Payee ACH document and Inquiry.|Y|
+259|606763510FC396D3E0404F8189D857A2|1.0|45|KUALI|Add Note / Attachment Kuali Document|Users who can add notes and attachments to any document answering to the Kuali Document parent document type.|Y|
+261|606763510FC696D3E0404F8189D857A2|1.0|46|KUALI|View Note / Attachment Kuali Document|Authorizes users to view notes and attachments on documents answering to the KualiDocument parent document type.|Y|
+264|606763510FCD96D3E0404F8189D857A2|1.0|47|KR-SYS|Delete Note / Attachment Kuali Document|Authorizes users to delete notes and attachments created by any user on documents answering to the RICE Document parent document type.|Y|
+265|606763510FF296D3E0404F8189D857A2|1.0|29|KR-WKFLW|Use Screen XML Ingester Screen|Allows users to access the XML Ingester screen.|Y|
+289|611BE30E404E5818E0404F8189D801C2|1.0|1|KR-NS|Administer Pessimistic Locking|Administer Pessimistic Locking|Y|
+290|5B4F09744961EF33E0404F8189D84F24|1.0|15|KR-SYS|Save RICE Document|Users who can save RICE documents|Y|
+298|641E580969E31B49E0404F8189D86190|1.0|1|KR-WKFLW|View Other Action List|Authorizes users to access other users action lists via the Help Desk Action List Login.|Y|
+299|641E580969E51B49E0404F8189D86190|1.0|1|KR-WKFLW|Unrestricted Document Search|Users who can perform a document search with no criteria or result limits.|Y|
+306|6314CC58CF58B7B5E0404F8189D84439|1.0|27|KR-SYS|Full Unmask Tax Identification Number Person Document|Authorizes users to view the entire Tax Identification Number on the Person document and inquiry.|Y|
+307|638DD46953F9BCD5E0404F8189D86240|1.0|1|KR-IDM|Modify Entity|Users who can modify entity records in Kuali Identity Management.|Y|
+332|662384B381B967A1E0404F8189D868A6|1.0|49|KR-SYS|Send FYI Request Kuali Document|Authorizes users to send FYI ad hoc requests for Kuali Documents|Y|
+333|662384B381BD67A1E0404F8189D868A6|1.0|49|KR-SYS|Send Acknowledge Request Kuali Document|Authorizes users to send Acknowledge ad hoc requests for Kuali Documents|Y|
+334|662384B381C167A1E0404F8189D868A6|1.0|49|KR-SYS|Send Approve Request Kuali Document|Authorizes users to send Approve ad hoc requests for Kuali Documents|Y|
+378|5B4F09744953EF33E0404F8189D84F29|1.0|1|KR-IDM|Override Entity Privacy Preferences|Allows a user to override entity privacy preferences|Y|
+701|04C7706012554535AF8DC48DC6CC331C|1.0|23|KR-WKFLW|Look Up Rule Template|Allow users to access the Rule Template lookup.|Y|
+702|471FF4B19A4648D4B84194530AE22158|1.0|23|KR-WKFLW|Look Up Stylesheet|Allow users to access the Stylesheet lookup.|Y|
+703|E6875070DC5B4FD59193F7445C33E7AB|1.0|23|KR-WKFLW|Look Up eDocLite|Allow users to access the eDocLite lookup.|Y|
+707|28CE0127B8A14AB4BFD39920C5398A69|1.0|23|KR-WKFLW|Look Up Rule Attribute|Allow users to access the Rule Attribute lookup.|Y|
+719|45F0E8E1B9784756A3C0582980912991|1.0|23|KR-NS|Look Up Parameter Component|Allow users to access the Parameter Component lookup.|Y|
+720|FFF2C6639C6041F1B148AA9901C8A1F7|1.0|23|KR-NS|Look Up Namespace|Allow users to access the Namespace lookup.|Y|
+721|B1BD57EE64274E62AC9425C7FF185A44|1.0|23|KR-NS|Look Up Parameter Type|Allow users to access the Parameter Type lookup.|Y|
+801|606763510FD196D3E0404F8189D857A2|1.0|24|KR-WKFLW|Inquire Into Rule Template|Allow users to access the Rule Template inquiry.|Y|
+802|606763510FD496D3E0404F8189D857A2|1.0|24|KR-WKFLW|Inquire Into Stylesheet|Allow users to access the Stylesheet inquiry.|Y|
+803|606763510FD796D3E0404F8189D857A2|1.0|24|KR-WKFLW|Inquire Into eDocLite|Allow users to access the eDocLite inquiry.|Y|
+807|606763510FDA96D3E0404F8189D857A2|1.0|24|KR-WKFLW|Inquire Into Rule Attribute|Allow users to access the Rule Attribute inquiry.|Y|
+814|606763510FE196D3E0404F8189D857A2|1.0|24|KR-NS|Inquire Into Pessimistic|Allow users to access the Pessimistic Lock inquiry.|Y|
+819|606763510FE496D3E0404F8189D857A2|1.0|24|KR-NS|Inquire Into Parameter Component|Allow users to access the Parameter Component inquiry.|Y|
+820|606763510FE796D3E0404F8189D857A2|1.0|24|KR-NS|Inquire Into Namespace|Allow users to access the Namespace inquiry.|Y|
+821|606763510FEA96D3E0404F8189D857A2|1.0|24|KR-NS|Inquire Into Parameter Type|Allow users to access the Parameter Type inquiry.|Y|
+833|5B4F09744953EF33E0404F8189D84F25|1.0|38|KR-SYS|Populate Group KUALI Namespace|Authorizes users to modify the information on the Assignees Tab of the Group Document and the Group section of the Membership Tab on the Person Document for groups with the KUALI namespace.|Y|
+834|5B4F09744953EF33E0404F8189D84F26|1.0|35|KR-SYS|Assign Role KUALI Namespace|Authorizes users to modify the information on the Assignees Tab of the Role Document and the Roles section of the Membership Tab on the Person Document for Roles with the KUALI namespace.|Y|
+835|5B4F09744953EF33E0404F8189D84F27|1.0|36|KR-SYS|Grant Permission KUALI Namespace|Authorizes users to modify the information on the Permissions tab of the Role Document for roles with the KUALI namespace.|Y|
+836|5B4F09744953EF33E0404F8189D84F28|1.0|37|KR-SYS|Grant Responsibility KUALI Namespace|Authorizes users to modify the information on the Responsibility tab of the Role Document for roles with the KUALI namespace.|Y|
+840|97469975-D110-9A65-5EE5-F21FD1BEB5B2|1.0|29|KR-BUS|Use Configuration Viewer Screen|Allows users to access the Configuration Viewer screen|Y|
+841|65677409-89e4-11df-98b1-1300c9ee50c1|1.0|51|KUALI|Add Message to Route Log||Y|
+842|B6FDEDA86F967F26E0402E0AA9D728AF|1.0|29|KR-SYS|Use Cache Adminstration Screen|Allows use of the cache administration screen|Y|
+843|B7DBFABEFD2B8CBFE0402E0AA9D757C9|1.0|52|KR-RULE-TEST|Maintain KRMS Agenda|Allows creation and modification of agendas via the agenda editor|Y|
+844|0dbce939-4f22-4e9b-a4bb-1615c0f411a2|1.0|42|KR-NS|Create Term Maintenance Document|Allows user to create a new Term maintainence document|Y|
+845|cefeed6d-b5e2-40aa-9034-137db317b532|1.0|42|KR-NS|Create Context Maintenance Document|Allows user to create a new Context maintainence document|Y|
+846|02bd9acd-48d9-4fec-acbd-6a441c5ea8c2|1.0|42|KR-NS|Create TermSpecification Maintenance Document|Allows user to create a new TermSpecification maintainence document|Y|

@@ -79,7 +79,7 @@
         <column name="ORG_REFERENCE_ID" size="8" type="VARCHAR"/>
         <column name="ITM_ACCT_TOT_AMT" required="true" scale="2" size="19" type="DECIMAL"/>
         <column name="ACLN_PCT" required="true" scale="20" size="35" type="DECIMAL"/>
-        <column name="FDOC_LINE_NBR" required="true" size="7" type="DECIMAL"/>
+        <column name="FDOC_LINE_NBR" size="7" type="DECIMAL"/>
         <foreign-key foreignTable="AP_CRDT_MEMO_ITM_T" name="AP_CRDT_MEMO_ACCT_TR1">
             <reference foreign="CRDT_MEMO_ITM_ID" local="CRDT_MEMO_ITM_ID"/>
         </foreign-key>
@@ -1668,7 +1668,7 @@
         </unique>
     </table>
     <table name="CA_A21_ICR_ACCT_T">
-        <column default="0" name="CA_A21_ICR_ACCT_GNRTD_ID" primaryKey="true" size="10" type="DECIMAL"/>
+        <column name="CA_A21_ICR_ACCT_GNRTD_ID" primaryKey="true" size="10" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="FIN_COA_CD" size="2" type="VARCHAR"/>
@@ -2940,15 +2940,18 @@
         </index>
     </table>
     <table name="CA_PRIOR_YR_ICR_ACCT_T">
-        <column default="0" name="CA_PRIOR_YR_ICR_ACCT_GNRTD_ID" primaryKey="true" size="10" type="DECIMAL"/>
+        <column name="CA_PRIOR_YR_ICR_ACCT_GNRTD_ID" primaryKey="true" size="10" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="FIN_COA_CD" required="true" size="2" type="VARCHAR"/>
-        <column name="ACCOUNT_NBR" required="true" size="7" type="VARCHAR"/>
+        <column name="FIN_COA_CD" size="2" type="VARCHAR"/>
+        <column name="ACCOUNT_NBR" size="7" type="VARCHAR"/>
         <column name="ICR_FIN_COA_CD" size="2" type="VARCHAR"/>
         <column name="ICR_FIN_ACCT_NBR" size="7" type="VARCHAR"/>
         <column name="ACLN_PCT" size="45" type="VARCHAR"/>
-        <column name="DOBJ_MAINT_CD_ACTV_IND" required="true" size="1" type="VARCHAR"/>
+        <column default="Y" name="DOBJ_MAINT_CD_ACTV_IND" required="true" size="1" type="VARCHAR"/>
+        <unique name="CA_PRIOR_YR_ICR_ACCT_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
     </table>
     <table name="CA_PRIOR_YR_ORG_T">
         <column name="FIN_COA_CD" primaryKey="true" size="2" type="VARCHAR"/>
@@ -3956,7 +3959,7 @@
         <column name="CACMP_WRNTY_TXT" size="40" type="VARCHAR"/>
         <column name="CPTL_AST_GOV_TAG_NBR" size="12" type="VARCHAR"/>
         <column name="CPTL_AST_NTL_STOCK_NBR" size="25" type="VARCHAR"/>
-        <column name="ACTV_IND" size="1" type="VARCHAR"/>
+        <column default="Y" name="ACTV_IND" size="1" type="VARCHAR"/>
         <foreign-key foreignTable="CM_AST_CONDITION_T" name="CM_AST_COMPONENT_TR2">
             <reference foreign="CPTLAST_COND_CD" local="CACMP_COND_CD"/>
         </foreign-key>
@@ -4136,8 +4139,8 @@
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="CPTLAST_PREV_TOT_CST_AMT" scale="2" size="19" type="DECIMAL"/>
-        <column default="0" name="CPTLAST_ALLOC_AMT" required="true" scale="2" size="19" type="DECIMAL"/>
-        <column name="CPTLAST_ALLOC_VAL" required="true" scale="2" size="19" type="DECIMAL"/>
+        <column default="0" name="CPTLAST_ALLOC_AMT" scale="2" size="19" type="DECIMAL"/>
+        <column name="CPTLAST_ALLOC_VAL" scale="2" size="19" type="DECIMAL"/>
         <column name="CPTLAST_ALLOC_VAL_PCT" scale="6" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="CM_AST_PMT_DOC_T" name="CM_AST_PMT_AST_DTL_TR1">
             <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
@@ -4152,8 +4155,11 @@
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="NXT_AST_PMT_LN_NBR" size="7" type="DECIMAL"/>
         <column name="CB_ORIGIN_IND" size="1" type="VARCHAR"/>
-        <column default="2" name="AST_PMT_DST_CD" required="true" size="2" type="VARCHAR"/>
+        <column default="2" name="AST_PMT_DST_CD" size="2" type="VARCHAR"/>
         <column name="AST_PMT_DIST_CD_FROM_FP_IND" size="1" type="VARCHAR"/>
+        <foreign-key foreignTable="CM_AST_PMT_DST_CD_T" name="CM_AST_PMT_DOC_TR1">
+            <reference foreign="AST_PMT_DST_CD" local="AST_PMT_DST_CD"/>
+        </foreign-key>
         <unique name="CM_AST_PMT_DOC_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -4163,7 +4169,7 @@
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column name="DOC_TYP_NM" size="4" type="VARCHAR"/>
-        <column name="ACTV_IND" size="1" type="VARCHAR"/>
+        <column default="Y" name="ACTV_IND" size="1" type="VARCHAR"/>
         <unique name="CM_AST_PMT_DOC_TYP_T_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -4171,11 +4177,14 @@
     <table name="CM_AST_PMT_DST_CD_T">
         <column name="AST_PMT_DST_CD" primaryKey="true" size="1" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="AST_PMT_DST_NM" required="true" size="40" type="VARCHAR"/>
-        <column name="AST_PMT_DST_COL_NM" required="true" size="40" type="VARCHAR"/>
-        <column name="AST_PMT_DST_EDT" required="true" size="1" type="VARCHAR"/>
-        <column name="ROW_ACTV_IND" required="true" size="1" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column default="Y" name="AST_PMT_DST_NM" size="40" type="VARCHAR"/>
+        <column name="AST_PMT_DST_COL_NM" size="40" type="VARCHAR"/>
+        <column name="AST_PMT_DST_EDT" size="1" type="VARCHAR"/>
+        <column name="ROW_ACTV_IND" size="1" type="VARCHAR"/>
+        <unique name="CM_AST_PMT_DST_CD_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
     </table>
     <table name="CM_AST_PMT_DTL_T">
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
@@ -4297,7 +4306,7 @@
         <column name="CPTLAST_RPR_DT" type="DATE"/>
         <column name="CPTLAST_RPR_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="AST_RPR_SOLN_DESC" size="255" type="VARCHAR"/>
-        <column name="ACTV_IND" size="1" type="VARCHAR"/>
+        <column default="Y" name="ACTV_IND" size="1" type="VARCHAR"/>
         <unique name="CM_AST_RPR_HIST_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -4307,7 +4316,7 @@
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="AST_INVN_STAT_NM" size="40" type="VARCHAR"/>
-        <column name="ROW_ACTV_IND" required="true" size="1" type="VARCHAR"/>
+        <column default="Y" name="ROW_ACTV_IND" size="1" type="VARCHAR"/>
         <unique name="CM_AST_STATUS_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -4374,7 +4383,7 @@
         <column name="AST_WRNTY_NBR" size="25" type="VARCHAR"/>
         <column name="AST_WRNTY_PO_NBR" size="9" type="VARCHAR"/>
         <column name="AST_WRNTY_TXT" size="40" type="VARCHAR"/>
-        <column name="ACTV_IND" size="1" type="VARCHAR"/>
+        <column default="Y" name="ACTV_IND" size="1" type="VARCHAR"/>
         <unique name="CM_AST_WRNTY_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -4666,17 +4675,23 @@
     <table name="CM_FSCL_YR_END_DEPR_DTL_T">
         <column name="UNIV_FISCAL_YR" primaryKey="true" size="4" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="CPTLAST_NBR" primaryKey="true" size="12" type="DECIMAL"/>
-        <column name="YEAR_END_DEPR_DTL_ACTV_IND" size="1" type="VARCHAR"/>
-        <column name="YEAR_END_DEPR_DTL_PROC_IND" size="1" type="VARCHAR"/>
+        <column default="Y" name="YEAR_END_DEPR_DTL_ACTV_IND" size="1" type="VARCHAR"/>
+        <column default="N" name="YEAR_END_DEPR_DTL_PROC_IND" size="1" type="VARCHAR"/>
+        <unique name="CM_FSCL_YR_END_DEPR_DTL_T">
+            <unique-column name="OBJ_ID"/>
+        </unique>
     </table>
     <table name="CM_FSCL_YR_END_DEPR_HDR_T">
         <column name="UNIV_FISCAL_YR" primaryKey="true" size="4" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="YEAR_END_DEPR_RUN_DATE" type="DATE"/>
-        <column name="YEAR_END_DEPR_ACTV_IND" size="1" type="VARCHAR"/>
+        <column default="Y" name="YEAR_END_DEPR_ACTV_IND" size="1" type="VARCHAR"/>
+        <unique name="CM_FSCL_YR_END_DEPR_HDR_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
     </table>
     <table name="CM_INVN_ERR_DOC_T">
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
@@ -6782,33 +6797,36 @@
     </table>
     <table name="FP_CPTL_AST_ACCT_GRP_DTL_T">
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
-        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column default="1" name="CPTLAST_LINE_NBR" primaryKey="true" size="7" type="DECIMAL"/>
         <column default="1" name="CPTLAST_ACCTLINE_NBR" primaryKey="true" size="7" type="DECIMAL"/>
         <column default="1" name="FDOC_LINE_NBR" primaryKey="true" size="7" type="DECIMAL"/>
-        <column name="FDOC_LN_TYP_CD" required="true" size="1" type="VARCHAR"/>
-        <column name="FIN_COA_CD" required="true" size="2" type="VARCHAR"/>
-        <column name="ACCOUNT_NBR" required="true" size="7" type="VARCHAR"/>
-        <column name="FIN_OBJECT_CD" required="true" size="4" type="VARCHAR"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="FDOC_LN_TYP_CD" size="1" type="VARCHAR"/>
+        <column name="FIN_COA_CD" size="2" type="VARCHAR"/>
+        <column name="ACCOUNT_NBR" size="7" type="VARCHAR"/>
+        <column name="FIN_OBJECT_CD" size="4" type="VARCHAR"/>
         <column default="0.00" name="FDOC_LINE_AMT" scale="2" size="19" type="DECIMAL"/>
         <foreign-key foreignTable="FP_CPTL_AST_INFO_T" name="FP_CPTL_AST_ACCT_GRP_DTL_TR1">
             <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
             <reference foreign="CPTLAST_LINE_NBR" local="CPTLAST_LINE_NBR"/>
         </foreign-key>
+        <unique name="FP_CPTL_AST_ACCT_GRP_DTL_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
     </table>
     <table name="FP_CPTL_AST_INFO_DTL_T">
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
-        <column name="CPTLAST_LINE_NBR" primaryKey="true" size="7" type="DECIMAL"/>
         <column name="ITM_LN_NBR" primaryKey="true" size="7" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="CAMPUS_CD" size="2" type="VARCHAR"/>
         <column name="BLDG_CD" size="10" type="VARCHAR"/>
         <column name="BLDG_ROOM_NBR" size="8" type="VARCHAR"/>
         <column name="BLDG_SUB_ROOM_NBR" size="2" type="VARCHAR"/>
         <column name="CPTLAST_TAG_NBR" size="8" type="VARCHAR"/>
         <column name="CPTLAST_SERIAL_NBR" size="25" type="VARCHAR"/>
+        <column default="1" name="CPTLAST_LINE_NBR" primaryKey="true" size="7" type="DECIMAL"/>
         <foreign-key foreignTable="FP_CPTL_AST_INFO_T" name="FP_CPTL_AST_INFO_DTL_TR1">
             <reference foreign="FDOC_NBR" local="FDOC_NBR"/>
             <reference foreign="CPTLAST_LINE_NBR" local="CPTLAST_LINE_NBR"/>
@@ -6821,7 +6839,6 @@
         <column name="FDOC_NBR" primaryKey="true" size="14" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column default="1" name="CPTLAST_LINE_NBR" primaryKey="true" size="7" type="DECIMAL"/>
         <column name="VNDR_HDR_GNRTD_ID" size="10" type="DECIMAL"/>
         <column name="VNDR_DTL_ASND_ID" size="10" type="DECIMAL"/>
         <column name="CPTLAST_NBR" size="12" type="DECIMAL"/>
@@ -6829,6 +6846,7 @@
         <column name="CPTLAST_MFR_NM" size="45" type="VARCHAR"/>
         <column name="CPTLAST_DESC" size="4000" type="VARCHAR"/>
         <column name="CPTLAST_MFRMDL_NBR" size="25" type="VARCHAR"/>
+        <column default="1" name="CPTLAST_LINE_NBR" primaryKey="true" size="7" type="DECIMAL"/>
         <column default="0" name="CPTLAST_LINE_QTY" size="7" type="DECIMAL"/>
         <column default="0.00" name="CPTLAST_LINE_AMT" scale="2" size="19" type="DECIMAL"/>
         <column default="C" name="CPTLAST_ACTION_IND" size="1" type="VARCHAR"/>
@@ -9146,7 +9164,7 @@
         </unique>
     </table>
     <table name="KRNS_MAINT_LOCK_T">
-        <column name="MAINT_LOCK_REP_TXT" size="500" type="VARCHAR"/>
+        <column name="MAINT_LOCK_REP_TXT" required="true" size="500" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="DOC_HDR_ID" required="true" size="14" type="VARCHAR"/>
@@ -9157,6 +9175,13 @@
         <index name="KRNS_MAINT_LOCK_TI2">
             <index-column name="DOC_HDR_ID"/>
         </index>
+    </table>
+    <table name="KRNS_MAINT_LOCK_T_BKUP">
+        <column name="MAINT_LOCK_REP_TXT" size="500" type="VARCHAR"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="DOC_HDR_ID" required="true" size="14" type="VARCHAR"/>
+        <column name="MAINT_LOCK_ID" size="14" type="VARCHAR"/>
     </table>
     <table name="KRNS_NTE_T">
         <column name="NTE_ID" primaryKey="true" size="14" type="DECIMAL"/>
@@ -11191,8 +11216,11 @@
         <column name="LBR_BEN_RT_CAT_CD" primaryKey="true" size="2" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="ACTV_IND" required="true" size="1" type="VARCHAR"/>
-        <column name="LBR_BEN_RT_CAT_NM" required="true" size="40" type="VARCHAR"/>
+        <column default="Y" name="ACTV_IND" size="1" type="VARCHAR"/>
+        <column name="LBR_BEN_RT_CAT_NM" size="40" type="VARCHAR"/>
+        <unique name="LD_LBR_BFT_RT_CAT_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
     </table>
     <table name="LD_LBR_GL_ENTRY_T">
         <column name="UNIV_FISCAL_YR" primaryKey="true" size="4" type="DECIMAL"/>
@@ -14171,9 +14199,9 @@
     <table name="PUR_VNDR_EXCL_MTCH_T">
         <column name="VNDR_EXCL_ID" primaryKey="true" size="10" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column name="VER_NBR" required="true" size="8" type="DECIMAL"/>
-        <column name="VNDR_HDR_GNRTD_ID" required="true" size="10" type="DECIMAL"/>
-        <column name="VNDR_DTL_ASND_ID" required="true" size="10" type="DECIMAL"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="VNDR_HDR_GNRTD_ID" size="10" type="DECIMAL"/>
+        <column name="VNDR_DTL_ASND_ID" size="10" type="DECIMAL"/>
         <column name="VNDR_ADDR_GNRTD_ID" size="10" type="DECIMAL"/>
         <column name="VNDR_EXCL_CFRM_STAT_CD" size="10" type="VARCHAR"/>
         <column name="VNDR_EXCL_LOAD_DT" type="DATE"/>

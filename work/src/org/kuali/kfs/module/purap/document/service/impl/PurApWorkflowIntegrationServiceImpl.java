@@ -25,6 +25,7 @@ import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.service.PurApWorkflowIntegrationService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.ActionRequest;
 import org.kuali.rice.kew.api.action.RoutingReportCriteria;
@@ -181,8 +182,9 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
         if ( StringUtils.isBlank(documentNumber) ) {
             // throw exception
         }
+        org.kuali.rice.kew.api.document.WorkflowDocumentService workflowDocService = KewApiServiceLocator.getWorkflowDocumentService();
+        List<ActionRequest> actionRequests = workflowDocService.getActionRequestsForPrincipalAtNode(documentNumber, nodeName, user.getPrincipalId());
         List<ActionRequest> activeRequests = new ArrayList<ActionRequest>();
-        List<ActionRequest> actionRequests = SpringContext.getBean(org.kuali.rice.kew.api.document.WorkflowDocumentService.class).getActionRequestsForPrincipalAtNode(documentNumber, nodeName, user.getPrincipalId());
         for (ActionRequest actionRequest : actionRequests) {
             // identify which requests for the given node name can be satisfied by an action by this user
             if (actionRequest.isActivated()) {

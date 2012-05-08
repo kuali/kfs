@@ -11,13 +11,16 @@ if [[ -z "$WORKSPACE" ]]; then
 	ABSPATH=$(cd ${0%/*} && echo $PWD/${0##*/})
 	WORKSPACE=`dirname $ABSPATH`
 	echo Working Directory: $WORKSPACE
+	PROJECT_DIR=$WORKSPACE/../../..
+	TEMP_DIR=$WORKSPACE/temp
+else
+	PROJECT_DIR=$WORKSPACE/${PROJECT_NAME:-kfs}
+	TEMP_DIR=$PROJECT_DIR/build/temp
 fi
 ORACLE_TEST_DB_URL=${ORACLE_TEST_DB_URL:-jdbc:oracle:thin:@oraclerds.kfs.kuali.org:1521:KFS}
 #MYSQL_TEST_DB_URL=jdbc:mysql://test.db.kfs.kuali.org:3306
 MYSQL_TEST_DB_URL=${MYSQL_TEST_DB_URL:-jdbc:mysql://localhost:3306}
 
-PROJECT_DIR=$WORKSPACE/${PROJECT_NAME:-kfs}
-TEMP_DIR=$PROJECT_DIR/build/temp
 
 # Ensure we are in the right directory
 cd $WORKSPACE
@@ -153,11 +156,11 @@ if [[ "$EXPORT_UPGRADED_PROJECT" == "true" ]]; then
 		export.torque.database.driver=$DRIVER
 		export.torque.database.url=$DATASOURCE
 		
-		export.table.name.filter=.*(?!_BKUP)
+		export.table.name.filter=^(?!.*(_BKUP)).*\$
 	EOF
 	) > $TEMP_DIR/impex-build.properties
 	pushd $PROJECT_DIR/work/db/kfs-db/db-impex/impex
-	ant "-Dimpex.properties.file=$TEMP_DIR/impex-build.properties" jdbc-to-xml
+	ant "-Dimpex.properties.file=$TEMP_DIR/impex-build.properties" -d jdbc-to-xml
 	popd
 fi
 

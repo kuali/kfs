@@ -17,21 +17,22 @@
 package org.kuali.kfs.module.bc.businessobject;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.joda.time.DateTime;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.actiontaken.ActionTakenValue;
-import org.kuali.rice.kew.actiontaken.service.ActionTakenService;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.action.ActionTaken;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
@@ -265,12 +266,12 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
         if (this.financialDocumentInitiatorIdentifier == null) {
             try {
-                ActionTakenService actionTakenService = SpringContext.getBean(ActionTakenService.class);
-                List<ActionTakenValue> actionsTaken = (List<ActionTakenValue>) actionTakenService.findByDocumentIdIgnoreCurrentInd(this.getDocumentNumber());
-                SortedSet<ActionTakenValue> sortedActionsTaken = this.getSortedActionsTaken(actionsTaken);
+                WorkflowDocumentService workflowDocumentService =  KewApiServiceLocator.getWorkflowDocumentService();
+                List<ActionTaken> actionsTaken = (List<ActionTaken>) workflowDocumentService.getAllActionsTaken(this.getDocumentNumber());
+                SortedSet<ActionTaken> sortedActionsTaken = this.getSortedActionsTaken(actionsTaken);
                 if (sortedActionsTaken.size() > 0) {
                     this.financialDocumentInitiatorIdentifier = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).getPerson(sortedActionsTaken.last().getPrincipalId()).getPrincipalName();
-                    this.financialDocumentCreateDate = new Date(sortedActionsTaken.last().getActionDate().getTime());
+                    this.financialDocumentCreateDate = new Date(sortedActionsTaken.last().getActionDate().toDate().getTime());
                 }
                 else {
                     this.financialDocumentInitiatorIdentifier = "NotFound";
@@ -304,12 +305,12 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
 
         if (this.financialDocumentCreateDate == null) {
             try {
-                ActionTakenService actionTakenService = SpringContext.getBean(ActionTakenService.class);
-                List<ActionTakenValue> actionsTaken = (List<ActionTakenValue>) actionTakenService.findByDocumentIdIgnoreCurrentInd(this.getDocumentNumber());
-                SortedSet<ActionTakenValue> sortedActionsTaken = this.getSortedActionsTaken(actionsTaken);
+                WorkflowDocumentService workflowDocumentService =  KewApiServiceLocator.getWorkflowDocumentService();
+                List<ActionTaken> actionsTaken = (List<ActionTaken>) workflowDocumentService.getAllActionsTaken(this.getDocumentNumber());
+                SortedSet<ActionTaken> sortedActionsTaken = this.getSortedActionsTaken(actionsTaken);
                 if (sortedActionsTaken.size() > 0) {
                     this.financialDocumentInitiatorIdentifier = SpringContext.getBean(org.kuali.rice.kim.api.identity.PersonService.class).getPerson(sortedActionsTaken.last().getPrincipalId()).getPrincipalName();
-                    this.financialDocumentCreateDate = new Date(sortedActionsTaken.last().getActionDate().getTime());
+                    this.financialDocumentCreateDate = new Date(sortedActionsTaken.last().getActionDate().toDate().getTime());
                 }
 
             }
@@ -445,18 +446,18 @@ public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBa
     }
     
     /**
-     * Takes a list of ActionTakenValue and returns a sorted set ordered by action date
+     * Takes a list of ActionTaken and returns a sorted set ordered by action date
      *  
      * @param actionsTaken
      * @return
      */
-    protected SortedSet<ActionTakenValue> getSortedActionsTaken(List<ActionTakenValue> actionsTaken){
+    protected SortedSet<ActionTaken> getSortedActionsTaken(List<ActionTaken> actionsTaken){
 
         // we need a sorted set of actions taken by action date
-        SortedSet<ActionTakenValue> sortedActionsTaken = new TreeSet<ActionTakenValue>(new Comparator<ActionTakenValue>(){
-            public int compare(ActionTakenValue aTaken, ActionTakenValue bTaken){
-                Timestamp aActionDate = aTaken.getActionDate();
-                Timestamp bActionDate = bTaken.getActionDate();
+        SortedSet<ActionTaken> sortedActionsTaken = new TreeSet<ActionTaken>(new Comparator<ActionTaken>(){
+            public int compare(ActionTaken aTaken, ActionTaken bTaken){
+                DateTime aActionDate = aTaken.getActionDate();
+                DateTime bActionDate = bTaken.getActionDate();
                 return aActionDate.compareTo(bActionDate);
             }
         });

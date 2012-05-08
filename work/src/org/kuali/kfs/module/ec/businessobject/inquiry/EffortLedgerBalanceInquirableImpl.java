@@ -23,6 +23,7 @@ import java.util.Properties;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kfs.gl.businessobject.inquiry.AbstractGeneralLedgerInquirableImpl;
+import org.kuali.kfs.integration.ld.LaborLedgerBalance;
 import org.kuali.kfs.integration.ld.LaborLedgerBalanceForEffortCertification;
 import org.kuali.kfs.module.ec.EffortConstants;
 import org.kuali.kfs.module.ec.EffortPropertyConstants;
@@ -102,7 +103,7 @@ public class EffortLedgerBalanceInquirableImpl extends AbstractGeneralLedgerInqu
      */
     @Override
     protected Class getInquiryBusinessObjectClass(String attributeName) {
-        return LaborLedgerBalanceForEffortCertification.class;
+        return kualiModuleService.getResponsibleModuleService(LaborLedgerBalanceForEffortCertification.class).createNewObjectFromExternalizableClass(LaborLedgerBalanceForEffortCertification.class).getClass();
     }
 
     /**

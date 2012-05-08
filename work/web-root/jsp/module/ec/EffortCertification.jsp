@@ -17,7 +17,7 @@
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
 <c:choose>
-	<c:when test="${KualiForm.document.documentHeader.workflowDocument.routeHeader.docRouteStatus == KFSConstants.DocumentStatusCodes.INITIATED}">
+	<c:when test="${KualiForm.document.documentHeader.workflowDocument.initiated}">
 		<c:set var="url" value="/effortCertificationRecreate.do" />
 	</c:when>
 	<c:otherwise>

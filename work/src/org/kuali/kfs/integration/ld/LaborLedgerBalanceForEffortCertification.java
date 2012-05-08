@@ -15,7 +15,9 @@
  */
 package org.kuali.kfs.integration.ld;
 
-public interface LaborLedgerBalanceForEffortCertification extends LaborLedgerBalance {
+import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
+
+public interface LaborLedgerBalanceForEffortCertification extends LaborLedgerBalance, ExternalizableBusinessObject {
     
     /**
      * Gets the effortCertificationReportNumber attribute.

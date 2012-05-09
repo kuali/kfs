@@ -120,16 +120,17 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
                     clearAllCaches();
                 }
             }
-        } catch ( CannotGetJdbcConnectionException ex ) {
-            LOG.fatal( "UNABLE TO OBTAIN DATABASE CONNECTION!  THIS AND MANY OTHER TESTS WILL LIKELY FAIL!", ex );
-            DataSource ds = (DataSource) SpringContext.getBean("datasource");
-            if ( ds != null && ds instanceof XAPoolDataSource ) {
-                LOG.fatal( "Datasource Information:" );
-                LOG.fatal( ((XAPoolDataSource)ds).getDataSource().toString() );
+        } catch (Throwable ex) {
+            if ( ex instanceof CannotGetJdbcConnectionException || ex.getMessage().contains( "GenericPool:checkOut" ) || ex.getMessage().contains( "no connection available" ) ) {
+                LOG.fatal( "UNABLE TO OBTAIN DATABASE CONNECTION!  THIS AND MANY OTHER TESTS WILL LIKELY FAIL!", ex );
+                DataSource ds = (DataSource) SpringContext.getBean("datasource");
+                if ( ds != null && ds instanceof XAPoolDataSource ) {
+                    LOG.fatal( "Datasource Information:" );
+                    LOG.fatal( ((XAPoolDataSource)ds).getDataSource().toString() );
+                }
+                fail( "CONFIGURATION ERROR: UNABLE TO OBTAIN DATABASE CONNECTION!" );
             }
-            fail( "CONFIGURATION ERROR: UNABLE TO OBTAIN DATABASE CONNECTION!" );
-        } catch (Throwable t) {
-            throw t;
+            throw ex;
         } finally {
             if (contextConfiguration != null) {
                 endTestTransaction();

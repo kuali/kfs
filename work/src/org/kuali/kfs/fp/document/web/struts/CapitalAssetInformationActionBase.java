@@ -551,10 +551,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
     protected void redistributeIndividualAmounts(List<CapitalAccountingLines> selectedCapitalAccountingLines, CapitalAssetInformation capitalAsset) {
         KualiDecimal capitalAssetAmount = capitalAsset.getCapitalAssetLineAmount();
         
-        KualiDecimal totalCapitalAccountsAmount = KualiDecimal.ZERO;
-        for (CapitalAccountingLines capitalLine : selectedCapitalAccountingLines) {
-            totalCapitalAccountsAmount = totalCapitalAccountsAmount.add(capitalLine.getAmount());
-        }
+        KualiDecimal totalCapitalAccountsAmount = getTotalCapitalAccountsAmounts(selectedCapitalAccountingLines);
         
         CapitalAssetAccountsGroupDetails lastAccountLine = new CapitalAssetAccountsGroupDetails();
         int lastAccountLineIndex = 0;
@@ -863,8 +860,9 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         
-        int addIndex = getSelectedLine(request);        
-        if (capitalAssetInformation.get(addIndex).getCapitalAssetNumber() == null) {
+        int refresIndex = getSelectedLine(request);  
+        
+        if (capitalAssetInformation.get(refresIndex).getCapitalAssetNumber() == null) {
             GlobalVariables.getMessageMap().putError(KFSConstants.EDIT_CAPITAL_ASSET_MODIFY_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_CAPITAL_ASSET_NUMBER_REQUIRED);
         }
         
@@ -873,6 +871,24 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
         
         checkCapitalAccountingLinesSelected(capitalAccountingLinesFormBase);
         calculatePercentsForSelectedCapitalAccountingLines(capitalAccountingLinesFormBase);
+        
+        CapitalAccountingLinesDocumentBase caldb = (CapitalAccountingLinesDocumentBase) capitalAccountingLinesFormBase.getFinancialDocument();
+        String distributionAmountCode = capitalAccountingLinesFormBase.getCapitalAccountingLine().getDistributionCode();
+
+        List<CapitalAccountingLines> capitalAccountingLines = caldb.getCapitalAccountingLines();        
+        
+        List<CapitalAccountingLines> selectedCapitalAccountingLines = new ArrayList<CapitalAccountingLines>();
+
+        for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
+            if (capitalAccountingLine.isSelectLine() && !capitalAccountingLine.isAmountDistributed()) {
+                capitalAccountingLine.setDistributionAmountCode(KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR);
+                selectedCapitalAccountingLines.add(capitalAccountingLine);
+            }
+        }
+
+        //redistribute the capital asset modify amount to the group accounting lines
+        //based on amount.
+        redistributeModifyAssetsByAmounts(selectedCapitalAccountingLines, capitalAssetInformation.get(refresIndex));
         
         //now process the remaining capital asset records
         processRemainingCapitalAssetInfo(form, capitalAssetInformation);
@@ -1100,8 +1116,8 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
         CapitalAccountingLinesDocumentBase caldb = (CapitalAccountingLinesDocumentBase) calfb.getFinancialDocument();
         List<CapitalAccountingLines> capitalAccountingLines = caldb.getCapitalAccountingLines();        
 
-        KualiDecimal totalCapitalLinesSelectedAmount = calculateTotalCapitalLinesSelectedAmount(capitalAccountingLines);
-        if (totalCapitalLinesSelectedAmount.isGreaterThan(KualiDecimal.ZERO)) {
+        KualiDecimal totalCapitalLinesSelectedAmount = (calculateTotalCapitalLinesSelectedAmount(capitalAccountingLines)).abs();
+        if (totalCapitalLinesSelectedAmount.isNonZero()) {
             for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
                 if (capitalAccountingLine.isSelectLine() && !capitalAccountingLine.isAmountDistributed()) {
                     capitalAccountingLine.setAccountLinePercent(capitalAccountingLine.getAmount().divide(totalCapitalLinesSelectedAmount).multiply(new KualiDecimal(100), true));
@@ -1987,4 +2003,52 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
             }
         }
     }
+    
+    /**
+     * when the user user hits refresh button, takes the amount in the amount field and
+     * distributes to the group capital accounting lines for that asset only.
+     * @param capitalAssetInformation
+     * @param selectedCapitalAccountingLines
+     */
+    protected void redistributeModifyAssetsByAmounts(List<CapitalAccountingLines> selectedCapitalAccountingLines, CapitalAssetInformation capitalAsset) {
+        KualiDecimal amountToDistribute = capitalAsset.getCapitalAssetLineAmount();
+        KualiDecimal amountDistributed = KualiDecimal.ZERO;
+        
+        KualiDecimal totalCapitalAccountsAmount = getTotalCapitalAccountsAmounts(selectedCapitalAccountingLines);
+        
+        //to capture the last group accounting line to update its amount with any variance.
+        CapitalAssetAccountsGroupDetails lastGroupAccountLine = new CapitalAssetAccountsGroupDetails();
+        
+        List<CapitalAssetAccountsGroupDetails> groupAccountLines = capitalAsset.getCapitalAssetAccountsGroupDetails();
+        for (CapitalAssetAccountsGroupDetails groupAccountLine : groupAccountLines) {
+            BigDecimal linePercent = getCapitalAccountingLinePercent(selectedCapitalAccountingLines, groupAccountLine, totalCapitalAccountsAmount);
+            //found the accounting line
+            lastGroupAccountLine = groupAccountLine;
+            
+            KualiDecimal groupAccountLineAmount = capitalAsset.getCapitalAssetLineAmount().multiply(new KualiDecimal(linePercent));
+            groupAccountLine.setAmount(groupAccountLineAmount);
+            
+            //keep track of amoutn distributed so far.
+            amountDistributed = amountDistributed.add(groupAccountLineAmount);
+        }
+        
+        //add any variance in the amounts to the last group accounting line.
+        lastGroupAccountLine.setAmount(lastGroupAccountLine.getAmount().add(amountToDistribute.subtract(amountDistributed)));
+    }
+    
+    /**
+     * calculates the total amount of the selected capital accounting lines
+     * 
+     * @param capitalAccountingLines
+     * @return total amount of the selected capital accounting lines.
+     */
+    protected KualiDecimal getTotalCapitalAccountsAmounts(List<CapitalAccountingLines> capitalAccountingLines) {
+        KualiDecimal totalCapitalAccountsAmount = KualiDecimal.ZERO;
+        for (CapitalAccountingLines capitalLine : capitalAccountingLines) {
+            totalCapitalAccountsAmount = totalCapitalAccountsAmount.add(capitalLine.getAmount());
+        }
+        
+        return totalCapitalAccountsAmount;
+    }
+    
 }

@@ -25,10 +25,8 @@ import org.kuali.kfs.gl.batch.dataaccess.impl.LedgerEntryBalanceCachingDaoJdbc;
  */
 public class LaborLedgerEntryBalanceCachingDaoJdbc extends LedgerEntryBalanceCachingDaoJdbc {
 
-    public List compareBalanceHistory(String balanceTable, String historyTable, int pastYears, int fiscalYear) {
+    public List compareBalanceHistory(String balanceTable, String historyTable,int fiscalYear) {
         List<Map<String, Object>> data = null;
-
-        fiscalYear = fiscalYear - pastYears;
 
         StringBuilder queryBuilder = new StringBuilder();
 

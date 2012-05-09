@@ -23,7 +23,7 @@
     <property name="documentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>
     <property name="baseDocumentClass" value="org.kuali.kfs.module.purap.document.PurchaseOrderDocument"/>
     <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>        
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchasingAccountsPayableTransactionalDocumentAuthorizerBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderDocumentAuthorizerBase"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.PurchaseOrderDocumentPresentationController"/>
 	<!-- RICE20 : restore search generator once fixed
 	 <property name="documentSearchGeneratorClass" value="org.kuali.kfs.module.purap.document.workflow.PurchaseOrderWarningSearchGenerator"/> -->

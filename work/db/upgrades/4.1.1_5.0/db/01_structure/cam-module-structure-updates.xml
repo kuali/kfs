@@ -176,14 +176,17 @@
 		</modifySql>
 	</changeSet>
 	
-	<changeSet author="KFS50" id="CM_STRUCTURE_CLEANUP">
+	<changeSet author="KFS50" id="CM_STRUCTURE_CLEANUP_mysql" dbms="mysql">
 		<dropNotNullConstraint tableName="CM_AST_STATUS_T" columnName="ROW_ACTV_IND" columnDataType="VARCHAR2(1)" />
 		<modifyColumn tableName="CM_AST_STATUS_T">
-			<column name="ROW_ACTV_IND" type="VARCHAR2(1)" defaultValue="Y" />
+			<column name="ROW_ACTV_IND" type="VARCHAR(1)" defaultValue="Y" />
 		</modifyColumn>
-		<modifySql dbms='mysql'>
-			<replace replace='VARCHAR2' with='VARCHAR' />
-		</modifySql>
+	</changeSet>
+
+	<changeSet author="KFS50" id="CM_STRUCTURE_CLEANUP_oracle" dbms="oracle">
+		<sql>
+			ALTER TABLE CM_AST_STATUS_T MODIFY ( ROW_ACTV_IND VARCHAR2(1) DEFAULT 'Y' NULL )
+		</sql>
 	</changeSet>
 
 </databaseChangeLog>

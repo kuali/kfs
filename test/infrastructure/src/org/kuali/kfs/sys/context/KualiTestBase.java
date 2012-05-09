@@ -143,7 +143,7 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
                     }
                 }
                 catch (Exception e) {
-                    LOG.info("Unable to delete file: " + filePath, e);
+                    LOG.warn("Unable to delete file: " + filePath, e);
                 }
             }
             generatedFiles.clear();
@@ -215,7 +215,11 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
         }
         else {
             LOG.info("Test transaction not used");
-            transactionStatus = null;
+            LOG.info("Starting transaction which will COMMIT at the end of the test" );
+            DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
+            defaultTransactionDefinition.setTimeout(3600);
+            transactionStatus = getTransactionManager().getTransaction(defaultTransactionDefinition);
+//            transactionStatus = null;
         }
         UserNameFixture sessionUser = contextConfiguration.session();
         if (sessionUser != UserNameFixture.NO_SESSION) {
@@ -225,12 +229,21 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
 
     private void endTestTransaction() {
         if (transactionStatus != null) {
-            LOG.info("rolling back transaction");
-            try {
-                getTransactionManager().rollback(transactionStatus);
-            }
-            catch (Exception ex) {
-                LOG.error( "Error rolling back transaction", ex );
+            if ( transactionStatus.isRollbackOnly() ) {
+                LOG.info("rolling back transaction");
+                try {
+                    getTransactionManager().rollback(transactionStatus);
+                }
+                catch (Exception ex) {
+                    LOG.warn( "Error rolling back transaction", ex );
+                }
+            } else {
+                LOG.info("committing test transaction");
+                try {
+                    getTransactionManager().commit(transactionStatus);
+                } catch (Exception ex) {
+                    LOG.warn( "Error committing transaction", ex );
+                }
             }
         }
     }

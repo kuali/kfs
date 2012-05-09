@@ -296,11 +296,7 @@
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/rice-lib/xapool-1.5.0-patch3.jar"><!-- Runtime Only lib -->
-		<accessrules>
-			<accessrule kind="nonaccessible" pattern="**"/>
-		</accessrules>
-	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="build/rice-lib/xapool-1.5.0-patch3.jar" />
 	<classpathentry exported="true" kind="lib" path="build/rice-lib/xml-resolver-1.2.jar"><!-- Runtime Only lib -->
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>

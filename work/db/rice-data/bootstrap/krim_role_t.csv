@@ -22,7 +22,7 @@ ROLE_ID,OBJ_ID,VER_NBR,ROLE_NM,NMSPC_CD,DESC_TXT,KIM_TYP_ID,ACTV_IND
 18,KFS18,1,Customer Contact,KFS-PDP,Users associated with PDP customers that can use the Payment File Batch Upload screen and have basic PDP inquiry access. ,32,Y
 19,KFS19,1,Manager,KFS-PDP,Users who can cancel or hold payments reset locked format processes and view unmasked bank routing and account numbers in PDP.,1,Y
 20,KFS20,1,Processor,KFS-PDP,Users who can set payments for immediate pay and use the Format Checks/ACH screen in PDP.,17,Y
-98,KFS98,1,Accounts Payable Document Reviewer,KFS-PURAP,Users who receive workflow action requests for Accounts Payable transactional documents.,KFS69,Y
+KFS98,KFS98,1,Accounts Payable Document Reviewer,KFS-PURAP,Users who receive workflow action requests for Accounts Payable transactional documents.,KFS69,Y
 22,KFS22,1,Accounts Payable Processor,KFS-PURAP,Accounts Payable users who can initiate Payment Requests and Credit Memo documents. They also have several permissions related to processing these document types and receive workflow action requests for them. ,1,Y
 79,KFS79,1,Budget Reviewer,KFS-PURAP,Central administration users charged with reviewing Purchase Order documents that exceed an account's sufficient funds balance.,25,Y
 23,KFS23,1,Commodity Reviewer,KFS-PURAP,Users who receive workflow action requests for Purchasing transactional documents that contain a specific commodity code and campus combination.,33,Y

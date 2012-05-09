@@ -706,12 +706,12 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
      */
     @NonTransactional
     public boolean isBudgetableSubAccount(SubAccount subAccount, String subAccountNumber) {
-        if (StringUtils.isNotEmpty(subAccountNumber) || StringUtils.equals(subAccountNumber, KFSConstants.getDashSubAccountNumber())) {
+        if (StringUtils.isNotEmpty(subAccountNumber) && StringUtils.equals(subAccountNumber, KFSConstants.getDashSubAccountNumber())) {
             return true;
         }
 
         // sub account must exist and be active.
-        if (subAccount == null || !subAccount.isActive()) {
+        if (ObjectUtils.isNull(subAccount) || !subAccount.isActive()) {
             return false;
         }
 

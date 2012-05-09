@@ -120,6 +120,15 @@
 				</kul:inquiry>
 	      	</kul:htmlControlAttribute>
 	      </td>
+
+          <c:catch var="sa">
+              <c:set var="badSubAccount"
+                value="${!empty KualiForm.document.subAccount}"
+                scope="page" />
+          </c:catch>
+          <c:if test="${sa!=null}">
+              <c:set var="badSubAccount" value="false" scope="page" />
+          </c:if>
 	      <td align="center" valign="middle">
 	      	<kul:htmlControlAttribute
 	      	    property="document.subAccount.subAccountName"
@@ -127,7 +136,12 @@
 	      	    readOnly="${true}"
 	      	    readOnlyBody="true">
                 <c:if test="${KualiForm.document.subAccountNumber ne '-----'}">
-		          ${KualiForm.document.subAccount.subAccountName}
+                <c:if test="${!badSubAccount}">
+                  ${KualiForm.document.subAccount.subAccountName}
+                </c:if>
+                <c:if test="${badSubAccount}">
+                  Not Found
+                </c:if>
 		        </c:if>&nbsp;
 	      	</kul:htmlControlAttribute>
 	      </td>

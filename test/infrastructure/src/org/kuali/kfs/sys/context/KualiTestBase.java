@@ -35,6 +35,7 @@ import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.service.ConfigurableDateService;
 import org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource;
 import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.cache.annotation.CacheEvict;
@@ -120,6 +121,8 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
                     clearAllCaches();
                 }
             }
+        } catch ( ValidationException ex ) {
+            fail( "Test threw an unexpected ValidationException: " + dumpMessageMapErrors() );
         } catch (Throwable ex) {
             if ( ex instanceof CannotGetJdbcConnectionException || ex.getMessage().contains( "GenericPool:checkOut" ) || ex.getMessage().contains( "no connection available" ) ) {
                 LOG.fatal( "UNABLE TO OBTAIN DATABASE CONNECTION!  THIS AND MANY OTHER TESTS WILL LIKELY FAIL!", ex );

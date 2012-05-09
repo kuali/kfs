@@ -30,7 +30,7 @@
 "62","62","1","Sensitive Document Indicator","potentiallySensitiveDocumentRoleTypeService","Y","KFS-PURAP"
 "64","64","1","Derived Role: Invoice Recurrence","invoiceRecurrenceDerivedRoleTypeService","Y","KFS-AR"
 "65","65","1","Derived Role: Cash Receipt Initiator","cashReceiptInitiatorDerivedRoleTypeService","Y","KFS-FP"
-"68","68","1","Organization Group","organizationGroupTypeService","Y","KFS-COA"
+"KFS68","KFS68","1","Organization Group","organizationGroupTypeService","Y","KFS-COA"
 "KFS69","KFS69","1","Derived Role: Accounts Payable Document Reviewer","accountsPayableDocumentDerivedRoleTypeService","Y","KFS-PURAP"
 "KFSSEC1","KFSSEC1","1","Attribute Name & Document Type","securityAttributeDocTypePermissionTypeService","Y","KFS-SEC"
 "KFSSEC2","KFSSEC2","1","Attribute Name","securityAttributePermissionTypeService","Y","KFS-SEC"

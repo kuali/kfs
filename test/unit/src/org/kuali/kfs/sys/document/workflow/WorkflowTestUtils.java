@@ -15,28 +15,24 @@
  */
 package org.kuali.kfs.sys.document.workflow;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Set;
 
 import junit.framework.Assert;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.monitor.ChangeMonitor;
 import org.kuali.kfs.sys.monitor.DocumentWorkflowNodeMonitor;
 import org.kuali.kfs.sys.monitor.DocumentWorkflowRequestMonitor;
 import org.kuali.kfs.sys.monitor.DocumentWorkflowStatusMonitor;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.ActionRequestType;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 public class WorkflowTestUtils {
@@ -82,16 +78,17 @@ public class WorkflowTestUtils {
     public static void waitForDocumentApproval( String documentNumber ) {
         waitForStatusChange(documentNumber, DocumentStatus.PROCESSED, DocumentStatus.FINAL );
     }
-    
+
     public static void waitForStatusChange( String documentNumber, DocumentStatus... desiredStatuses ) {
         try {
-            LOG.info("Entering: waitForStatusChange(" + MAX_WAIT_SECONDS + "," + documentNumber + "," + desiredStatuses + ")");
+            LOG.info("Entering: waitForStatusChange(" + MAX_WAIT_SECONDS + "," + documentNumber + "," + Arrays.toString(desiredStatuses) + ")");
             DocumentWorkflowStatusMonitor monitor = new DocumentWorkflowStatusMonitor(documentNumber, desiredStatuses);
             if ( !ChangeMonitor.waitUntilChange(monitor, MAX_WAIT_SECONDS, INITIAL_PAUSE_SECONDS) ) {
                 WorkflowDocument document = SpringContext.getBean(WorkflowDocumentService.class).loadWorkflowDocument(documentNumber, UserNameFixture.kfs.getPerson() );
-                Assert.fail( "waitForStatusChange(" + documentNumber + "," + desiredStatuses + ") timed out. Document was in " + document.getStatus() + " state." );
+                Assert.fail( "waitForStatusChange(" + documentNumber + "," + Arrays.toString(desiredStatuses) + ") timed out. Document was in " + document.getStatus() + " state." );
             }
         } catch (Exception ex) {
+            LOG.error("An exception was thrown while checking workflow status on document " + documentNumber + ", unable to continue.", ex );
             Assert.fail( "An exception was thrown while checking workflow status on document " + documentNumber + ", unable to continue." );
         }
     }

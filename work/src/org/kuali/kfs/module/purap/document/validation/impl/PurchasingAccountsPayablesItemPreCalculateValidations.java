@@ -145,6 +145,10 @@ public class PurchasingAccountsPayablesItemPreCalculateValidations extends Gener
     public boolean validateTotalAmount(PurApItem item, boolean writeErrorMessage) {
         boolean valid = true;
         
+        if (item.getSourceAccountingLines().size() == 0) {
+            return valid;
+        }
+        
         if (item.getItemQuantity() == null || item.getItemUnitPrice() == null || item.getTotalAmount().compareTo(KualiDecimal.ZERO) == 0) {
             //extended cost is not available yet so do not run validations....
             return valid;

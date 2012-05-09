@@ -192,7 +192,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         } catch (Exception e) {
             LOG.error("Error occurred");
             LOG.error(CamsConstants.Depreciation.DEPRECIATION_BATCH + "**************************************************************************");
-            LOG.error(CamsConstants.Depreciation.DEPRECIATION_BATCH + "AN ERROR HAS OCCURRED! - ERROR: " + e.getMessage());
+            LOG.error(CamsConstants.Depreciation.DEPRECIATION_BATCH + "AN ERROR HAS OCCURRED! - ERROR: " + e.getMessage(),e);
             LOG.error(CamsConstants.Depreciation.DEPRECIATION_BATCH + "**************************************************************************");
             hasErrors = true;
             errorMsg = "Depreciation process ran unsucessfuly.\nReason:" + e.getMessage();

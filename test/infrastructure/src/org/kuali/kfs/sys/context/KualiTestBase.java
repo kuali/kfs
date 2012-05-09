@@ -25,6 +25,7 @@ import javax.sql.DataSource;
 
 import junit.framework.TestCase;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.OptimisticLockException;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -124,7 +125,7 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
         } catch ( ValidationException ex ) {
             fail( "Test threw an unexpected ValidationException: " + dumpMessageMapErrors() );
         } catch (Throwable ex) {
-            if ( ex instanceof CannotGetJdbcConnectionException || ex.getMessage().contains( "GenericPool:checkOut" ) || ex.getMessage().contains( "no connection available" ) ) {
+            if ( ex instanceof CannotGetJdbcConnectionException || StringUtils.contains(ex.getMessage(), "GenericPool:checkOut" ) || StringUtils.contains( ex.getMessage(), "no connection available" ) ) {
                 LOG.fatal( "UNABLE TO OBTAIN DATABASE CONNECTION!  THIS AND MANY OTHER TESTS WILL LIKELY FAIL!", ex );
                 DataSource ds = (DataSource) SpringContext.getBean("datasource");
                 if ( ds != null && ds instanceof XAPoolDataSource ) {

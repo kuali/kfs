@@ -1388,19 +1388,15 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
      * @return true if accounting line amount equals to capital asset amount, else false.
      */
     protected boolean accountingLinesAmountDistributed(List<CapitalAccountingLines> capitalAccountingLines, CapitalAssetInformation existingCapitalAsset) {
-        boolean distributed = true;
+
         KualiDecimal accountingLineAmount = KualiDecimal.ZERO;
-        
         for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
             accountingLineAmount = accountingLineAmount.add(capitalAccountingLine.getAmount().abs());
         }
-        KualiDecimal capitalAssetsAmount = existingCapitalAsset.getCapitalAssetLineAmount().abs();
         
-        if (accountingLineAmount.isGreaterThan(capitalAssetsAmount)) {
-            distributed = false;
-        }
+        KualiDecimal capitalAssetsAmount = existingCapitalAsset.getCapitalAssetLineAmount();
         
-        return distributed;
+        return accountingLineAmount.equals(capitalAssetsAmount);
     }
     
     /**
@@ -1409,21 +1405,15 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
      * @param capitalAssetsInformation
      * @return true if accounting line amount equals to capital asset amount, else false.
      */
-    protected boolean capitalAccountingLineAmountDistributed(CapitalAccountingLines capitalAccountingLine, List<CapitalAssetInformation> capitalAssetsInformation) {
-        boolean distributed = true;
-        
-        KualiDecimal capitalAccountingLineAmount = capitalAccountingLine.getAmount().abs();
-        KualiDecimal amountDistributed = KualiDecimal.ZERO;
-        
+    protected boolean capitalAccountingLineAmountDistributed(CapitalAccountingLines capitalAccountingLine, List<CapitalAssetInformation> capitalAssetsInformation) {        
+        KualiDecimal amountDistributed = KualiDecimal.ZERO;        
         for (CapitalAssetInformation capitalAsset : capitalAssetsInformation) {
             amountDistributed = amountDistributed.add(getAccountingLineAmount(capitalAsset, capitalAccountingLine));
         }
-        
-        if (capitalAccountingLineAmount.isGreaterThan(amountDistributed)) {
-            distributed = false;
-        }
-        
-        return distributed;
+
+        KualiDecimal capitalAccountingLineAmount = capitalAccountingLine.getAmount();
+
+        return amountDistributed.equals(capitalAccountingLineAmount);
     }
     
     /**

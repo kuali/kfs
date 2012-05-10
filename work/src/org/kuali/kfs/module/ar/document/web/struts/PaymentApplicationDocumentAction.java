@@ -524,14 +524,14 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
 
     protected NonAppliedHolding applyUnapplied(PaymentApplicationDocumentForm payAppForm) throws WorkflowException {
         PaymentApplicationDocument payAppDoc = payAppForm.getPaymentApplicationDocument();
-        String customerNumber = payAppForm.getNonAppliedHoldingCustomerNumber();
+        String customerNumber = payAppForm.getNonAppliedHoldingCustomerNumber().toUpperCase();
         KualiDecimal amount = payAppForm.getNonAppliedHoldingAmount();
 
         // validate the customer number in the unapplied
         if (StringUtils.isNotBlank(customerNumber)) {
 
             Map<String, String> pkMap = new HashMap<String, String>();
-            pkMap.put(ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER, customerNumber.toUpperCase());
+            pkMap.put(ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER, customerNumber);
             int found = businessObjectService.countMatching(Customer.class, pkMap);
             if (found == 0) {
                 addFieldError(KFSConstants.PaymentApplicationTabErrorCodes.UNAPPLIED_TAB, ArPropertyConstants.PaymentApplicationDocumentFields.UNAPPLIED_CUSTOMER_NUMBER, ArKeyConstants.PaymentApplicationDocumentErrors.ENTERED_INVOICE_CUSTOMER_NUMBER_INVALID);
@@ -539,7 +539,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
             }
             
             // force customer number to upper
-            payAppForm.setNonAppliedHoldingCustomerNumber(customerNumber.toUpperCase());
+            payAppForm.setNonAppliedHoldingCustomerNumber(customerNumber);
 
         }
 

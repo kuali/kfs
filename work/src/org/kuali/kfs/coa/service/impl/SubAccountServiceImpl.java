@@ -18,11 +18,9 @@ package org.kuali.kfs.coa.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.service.SubAccountService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.springframework.cache.annotation.Cacheable;
@@ -34,18 +32,18 @@ import org.springframework.cache.annotation.Cacheable;
 
 @NonTransactional
 public class SubAccountServiceImpl implements SubAccountService {
-    private static final Logger LOG = Logger.getLogger(SubAccountServiceImpl.class);
 
+    protected BusinessObjectService businessObjectService;
     /**
      * @see org.kuali.kfs.coa.service.SubAccountService#getByPrimaryId(java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
     public SubAccount getByPrimaryId(String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
-        Map<String, Object> keys = new HashMap<String, Object>();
+        Map<String, Object> keys = new HashMap<String, Object>(3);
         keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
         keys.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
         keys.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, subAccountNumber);
-        return SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SubAccount.class, keys);
+        return businessObjectService.findByPrimaryKey(SubAccount.class, keys);
     }
 
     /**
@@ -54,9 +52,13 @@ public class SubAccountServiceImpl implements SubAccountService {
      * @see org.kuali.kfs.coa.service.impl.SubAccountServiceImpl#getByPrimaryId(String, String, String)
      */
     @Override
-    @Cacheable(value=SubAccount.CACHE_NAME, key="#chartOfAccountsCode='+'-'+#accountNumber+'-'+#subAccountNumber")
+    @Cacheable(value=SubAccount.CACHE_NAME, key="#chartOfAccountsCode+'-'+#accountNumber+'-'+#subAccountNumber")
     public SubAccount getByPrimaryIdWithCaching(String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
         return getByPrimaryId(chartOfAccountsCode, accountNumber, subAccountNumber);
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
 }

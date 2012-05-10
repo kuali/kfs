@@ -120,7 +120,9 @@
 	<bean id="projectCodeService-parentBean" class="org.kuali.kfs.coa.service.impl.ProjectCodeServiceImpl" abstract="true" />
 
 	<bean id="subAccountService"  parent="subAccountService-parentBean"/>
-	<bean id="subAccountService-parentBean" class="org.kuali.kfs.coa.service.impl.SubAccountServiceImpl" abstract="true" />
+	<bean id="subAccountService-parentBean" class="org.kuali.kfs.coa.service.impl.SubAccountServiceImpl" abstract="true">
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
 
 	<bean id="subObjectCodeService"  parent="subObjectCodeService-parentBean"/>
 	<bean id="subObjectCodeService-parentBean" class="org.kuali.kfs.coa.service.impl.SubObjectCodeServiceImpl" abstract="true">

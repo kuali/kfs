@@ -17,14 +17,16 @@ package org.kuali.kfs.module.ar.document.validation.impl;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.coa.service.ObjectTypeService;
+import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.ArKeyConstants;
 import org.kuali.kfs.module.ar.ArPropertyConstants;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceItemCode;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
+import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kim.util.KimConstants;
@@ -32,6 +34,7 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -145,7 +148,11 @@ public class CustomerInvoiceItemCodeRule extends MaintenanceDocumentRuleBase {
     
     /**
     *
-    * This method checks to see if the customer invoice item object code is of type Income
+    * This method checks to see if the customer invoice item object code is not restricted by the two parameters
+    * 
+    * namespace: KFS-AR
+    * component: Customer Invoice 
+    * parameter: OBJECT_CONSOLIDATIONS, OBJECT_LEVELS
     *
     * @return true if it is an income object
     */
@@ -156,12 +163,20 @@ public class CustomerInvoiceItemCodeRule extends MaintenanceDocumentRuleBase {
            ObjectCode defaultInvoiceItemCodeObject = customerInvoiceItemCode.getDefaultInvoiceFinancialObject();
 
            if (ObjectUtils.isNotNull(universityFiscalYear) && ObjectUtils.isNotNull(defaultInvoiceItemCodeObject)) {
-               ObjectTypeService objectTypeService = SpringContext.getBean(ObjectTypeService.class);
-               success = objectTypeService.getBasicIncomeObjectTypes(universityFiscalYear).contains(defaultInvoiceItemCodeObject.getFinancialObjectTypeCode());
+               ParameterService parameterSerivce = SpringContext.getBean(ParameterService.class);
+               
+               List<String> restrictedObjectConsolidations = parameterSerivce.getParameterValues(CustomerInvoiceDocument.class, ArConstants.OBJECT_CONSOLIDATIONS);
+               List<String> restrictedObjectLevels = parameterSerivce.getParameterValues(CustomerInvoiceDocument.class, ArConstants.OBJECT_LEVELS);
 
-               if (!success) {
-                   // RE-USE this OrgAccDef error because it applies here
-                   putFieldError("defaultInvoiceFinancialObjectCode", ArKeyConstants.OrganizationAccountingDefaultErrors.DEFAULT_INVOICE_FINANCIAL_OBJECT_CODE_INVALID, defaultInvoiceItemCodeObject.getCode());                
+               //first check consolidation is not in the restricted   
+               if (restrictedObjectConsolidations.contains(defaultInvoiceItemCodeObject.getFinancialObjectLevel().getFinancialConsolidationObjectCode())){
+                   putFieldError("defaultInvoiceFinancialObjectCode", ArKeyConstants.OrganizationAccountingDefaultErrors.DEFAULT_INVOICE_FINANCIAL_OBJECT_CODE_INVALID_RESTRICTED, 
+                           new String[]{defaultInvoiceItemCodeObject.getCode(), "Object Consolidation", restrictedObjectConsolidations.toString()});
+                   success = false;
+               }else if (restrictedObjectLevels.contains(defaultInvoiceItemCodeObject.getFinancialObjectLevelCode())){
+                   putFieldError("defaultInvoiceFinancialObjectCode", ArKeyConstants.OrganizationAccountingDefaultErrors.DEFAULT_INVOICE_FINANCIAL_OBJECT_CODE_INVALID_RESTRICTED, 
+                           new String[]{defaultInvoiceItemCodeObject.getCode(), "Object Level", restrictedObjectLevels.toString()});
+                   success = false;
                }
            }
        

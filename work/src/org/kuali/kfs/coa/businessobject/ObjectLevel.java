@@ -200,18 +200,6 @@ public class ObjectLevel extends PersistableBusinessObjectBase implements Mutabl
         this.financialConsolidationObjectCode = financialConsolidationObjectCode;
     }
 
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-
-        m.put("chartOfAccountsCode", this.chartOfAccountsCode);
-        m.put("financialObjectLevelCode", this.financialObjectLevelCode);
-
-        return m;
-    }
-
     public void setChartOfAccountsCode(String chart) {
         this.chartOfAccountsCode = chart;
     }

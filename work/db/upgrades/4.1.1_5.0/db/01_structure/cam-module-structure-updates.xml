@@ -177,7 +177,7 @@
 	</changeSet>
 	
 	<changeSet author="KFS50" id="CM_STRUCTURE_CLEANUP_mysql" dbms="mysql">
-		<dropNotNullConstraint tableName="CM_AST_STATUS_T" columnName="ROW_ACTV_IND" columnDataType="VARCHAR2(1)" />
+		<dropNotNullConstraint tableName="CM_AST_STATUS_T" columnName="ROW_ACTV_IND" columnDataType="VARCHAR(1)" />
 		<modifyColumn tableName="CM_AST_STATUS_T">
 			<column name="ROW_ACTV_IND" type="VARCHAR(1)" defaultValue="Y" />
 		</modifyColumn>

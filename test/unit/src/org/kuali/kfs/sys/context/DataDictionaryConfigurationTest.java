@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -54,14 +54,14 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 public class DataDictionaryConfigurationTest extends KualiTestBase {
     private static final Logger LOG = Logger.getLogger(DataDictionaryConfigurationTest.class);
     private DataDictionary dataDictionary;
-    
+
     public final static String KFS_PACKAGE_NAME_PREFIX = "org.kuali.kfs";
     public final static String BUSINESS_OBJECT_PATH_QUALIFIER = "businessobject/datadictionary";
     public final static String DOCUMENT_PATH_QUALIFIER = "document/datadictionary";
     public final static String RICE_PACKAGE_NAME_PREFIX = "org.kuali.rice";
     public final static String INACTIVATEABLE_INTERFACE_CLASS = MutableInactivatable.class.getName();
     public final static String ACTIVE_FIELD_NAME = "active";
-    
+
     public void testAllDataDictionaryDocumentTypesExistInWorkflowDocumentTypeTable() throws Exception {
         HashSet<String> workflowDocumentTypeNames = new HashSet<String>();
         DataSource mySource = SpringContext.getBean(DataSource.class);
@@ -77,7 +77,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
                     workflowDocumentTypeNames.add(docName);
                 }
             }
-            
+
         }
         catch (Exception e) {
             throw (e);
@@ -119,7 +119,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
             }catch (Exception e){
                 throw (e);
             }
-        
+
         System.err.print("superfluousTypesDefinedInWorkflowDatabase: " + workflowDocumentTypeNames);
     }
     assertEquals("documentTypesNotDefinedInWorkflowDatabase: " + ddEntriesWithMissingTypes, 0, ddEntriesWithMissingTypes.size());
@@ -136,14 +136,14 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
     static {
         INACTIVATEABLE_LOOKUP_IGNORE_PACKAGES.add( "org.kuali.kfs.pdp.businessobject" );
         INACTIVATEABLE_LOOKUP_IGNORE_PACKAGES.add( "org.kuali.kfs.module.external.kc.businessobject" );
-        INACTIVATEABLE_LOOKUP_IGNORE_PACKAGES.add( "org.kuali.kfs.module.endow.businessobject" );        
+        INACTIVATEABLE_LOOKUP_IGNORE_PACKAGES.add( "org.kuali.kfs.module.endow.businessobject" );
     }
-    
+
     public void testActiveFieldExistInLookupAndResultSection() throws Exception{
         List<Class<?>> noActiveFieldClassList = new ArrayList<Class<?>>();
         List<Class<?>> notImplementInactivatableList = new ArrayList<Class<?>>();
         List<Class<?>> defaultValueWrongList = new ArrayList<Class<?>>();
-        
+
         for(org.kuali.rice.krad.datadictionary.BusinessObjectEntry kradBusinessObjectEntry:dataDictionary.getBusinessObjectEntries().values()){
             BusinessObjectEntry businessObjectEntry = (BusinessObjectEntry) kradBusinessObjectEntry;
             if ( !businessObjectEntry.getBusinessObjectClass().getName().startsWith(RICE_PACKAGE_NAME_PREFIX)
@@ -212,8 +212,8 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         }
         assertEquals(noObjectLabelClassList.toString(), 0, noObjectLabelClassList.size());
     }
-    
-    public void testAllParentBeansAreAbstract() throws Exception {        
+
+    public void testAllParentBeansAreAbstract() throws Exception {
         Field f = dataDictionary.getClass().getDeclaredField("ddBeans");
         f.setAccessible(true);
         DefaultListableBeanFactory ddBeans = (DefaultListableBeanFactory)f.get(dataDictionary);
@@ -240,7 +240,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
     public void testDocumentEntriesShouldHaveParentBeans() throws Exception {
         somethingShouldHaveParentBeans(DocumentEntry.class, new ArrayList<String>());
     }
-    
+
     protected static final List<String> EXCLUDED_ATTRIBUTE_DEFINITIONS = new ArrayList<String>();
     static {
         EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "Country-" );
@@ -254,12 +254,15 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "DocRoleMember-" );
         EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "Responsibility-" );
         EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "PermissionBo-" );
+        EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "PermissionImpl-" );
+        EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "UberPermission-" );
         EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "ReviewResponsibility-" );
-        EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "GenericPermissionBo-" );
+        EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "ResponsibilityImpl-" );
+        EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "UberPermissionBo-" );
         EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "RuleTemplateAttribute-" );
         EXCLUDED_ATTRIBUTE_DEFINITIONS.add( "-versionNumber" );
     }
-    
+
     public void testAttributeDefinitionsShouldHaveParentBeans() throws Exception {
         somethingShouldHaveParentBeans(AttributeDefinition.class, EXCLUDED_ATTRIBUTE_DEFINITIONS);
     }
@@ -279,16 +282,16 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
     public void testInquiryDefinitionsShouldHaveParentBeans() throws Exception {
         somethingShouldHaveParentBeans(InquiryDefinition.class, new ArrayList<String>() );
     }
-    
+
     protected boolean doesBeanNameMatchList( String beanName, List<String> exclusions ) {
         for ( String excl : exclusions ) {
             if ( beanName.contains(excl) ) {
                 return true;
-            }                
+            }
         }
         return false;
     }
-    
+
     protected void somethingShouldHaveParentBeans( Class<?> baseClass, List<String> exclusions ) throws Exception {
         Field f = dataDictionary.getClass().getDeclaredField("ddBeans");
         f.setAccessible(true);
@@ -304,7 +307,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
             if ( beanClass == null ) {
                 System.err.println( "ERROR: Bean " + beanName + " has a null class." );
             }
-            if ( !beanDef.isAbstract() 
+            if ( !beanDef.isAbstract()
                     && beanClass != null
                     && baseClass.isAssignableFrom(Class.forName(beanClass) ) ) {
                 try {
@@ -316,13 +319,13 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         }
         assertEquals( "The following " + baseClass.getSimpleName() + " beans do not have \"-parentBean\"s:\n" + failingBeanNames, 0, failingBeanNames.size() );
     }
-    
+
     private void reportErrorAttribute(Map<String, Set<String>> reports, AttributeDefinition attributeDefinition, String boClassName) {
-        Set<String> attributeSet = reports.containsKey(boClassName) ? reports.get(boClassName) : new TreeSet<String>(); 
+        Set<String> attributeSet = reports.containsKey(boClassName) ? reports.get(boClassName) : new TreeSet<String>();
         attributeSet.add(attributeDefinition.getName());
         reports.put(boClassName, attributeSet);
     }
-    
+
     private StringBuilder convertReportsAsText(Map<String, Set<String>> reports) {
         StringBuilder reportsAsText = new StringBuilder();
         for(String key : new TreeSet<String>(reports.keySet())) {
@@ -333,15 +336,16 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         }
         return reportsAsText;
     }
-    
+
     private void printReport(Map<String, Set<String>> reports) {
-        StringBuilder reportsAsText = convertReportsAsText(reports);       
+        StringBuilder reportsAsText = convertReportsAsText(reports);
         System.out.println(reportsAsText);
         LOG.info("\n" + reportsAsText);
     }
-    
+
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
         dataDictionary = SpringContext.getBean(DataDictionaryService.class).getDataDictionary();
-    } 
+    }
 }

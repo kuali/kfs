@@ -355,10 +355,10 @@
       </policies>      
       <routePaths>
         <routePath>
-          <start name="AdHoc" nextNode="RequiresContractManagementReview" nextAppDocStatus="Awaiting Fiscal Officer Review" />
-          <split name="RequiresContractManagementReview" nextNode="Commodity" nextAppDocStatus="Awaiting Commodity Code Approval" >
+          <start name="AdHoc" nextNode="RequiresContractManagementReview" nextAppDocStatus="Awaiting Purchasing Approval" />
+          <split name="RequiresContractManagementReview" nextNode="Commodity" >
             <branch name="True">
-              <role name="ContractManagement" nextNode="JoinRequiresContractManagementReview"/>
+              <role name="ContractManagement" nextNode="JoinRequiresContractManagementReview" nextAppDocStatus="Awaiting Commodity Code Approval" />
             </branch>
             <branch name="False">
               <simple name="NoOpRequiresContractManagementReview" nextNode="JoinRequiresContractManagementReview"/>
@@ -366,18 +366,18 @@
             <join name="JoinRequiresContractManagementReview"/>
           </split>
           <role name="Commodity" nextNode="RequiresAwardReview" nextAppDocStatus="Awaiting C and G Approval" />
-          <split name="RequiresAwardReview" nextNode="RequiresBudgetReview" nextAppDocStatus="Awaiting Budget Approval">
+          <split name="RequiresAwardReview" nextNode="RequiresBudgetReview" >
             <branch name="True">
-              <role name="Award" nextNode="JoinRequiresAwardReview"/>
+              <role name="Award" nextNode="JoinRequiresAwardReview"  nextAppDocStatus="Awaiting Budget Approval"/>
             </branch>
             <branch name="False">
               <simple name="NoOpRequiresAwardReview" nextNode="JoinRequiresAwardReview"/>
             </branch>
             <join name="JoinRequiresAwardReview"/>
           </split>
-          <split name="RequiresBudgetReview" nextNode="VendorIsEmployeeOrNonResidentAlien" nextAppDocStatus="Awaiting Tax Approval" >
+          <split name="RequiresBudgetReview" nextNode="VendorIsEmployeeOrNonResidentAlien" >
             <branch name="True">
-              <role name="Budget" nextNode="JoinRequiresBudgetReview"/>
+              <role name="Budget" nextNode="JoinRequiresBudgetReview"  nextAppDocStatus="Awaiting Tax Approval"/>
             </branch>
             <branch name="False">
               <simple name="NoOpBudget" nextNode="JoinRequiresBudgetReview"/>

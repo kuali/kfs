@@ -25,8 +25,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceWriteoffLookupResult;
 import org.kuali.kfs.module.ar.businessobject.lookup.CustomerInvoiceWriteoffLookupUtil;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
+import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -71,15 +74,17 @@ public class CustomerInvoiceWriteoffLookupSummaryForm extends KualiForm {
     }
     @Override
     public void populate(HttpServletRequest request) {
-        Person person = GlobalVariables.getUserSession().getPerson();
-        String lookupResultsSequenceNumber =  (String) GlobalVariables.getUserSession().getObjectMap().get(KRADConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER);
+        UserSession userSession = GlobalVariables.getUserSession();
+        Person person = userSession.getPerson();
+        String lookupResultsSequenceNumber =  (String) userSession.getObjectMap().get(KRADConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER);
+        Map params = request.getParameterMap();
         if (!StringUtils.isEmpty(lookupResultsSequenceNumber)) {
-            Map params = request.getParameterMap();
-            GlobalVariables.getUserSession().removeObject(KRADConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER);
+            userSession.removeObject(KRADConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER);
             Collection<CustomerInvoiceWriteoffLookupResult> customerInvoiceWriteoffLookupResults = CustomerInvoiceWriteoffLookupUtil.getCustomerInvoiceWriteoffResutlsFromLookupResultsSequenceNumber(lookupResultsSequenceNumber,person.getPrincipalId());
             this.setCustomerInvoiceWriteoffLookupResults(customerInvoiceWriteoffLookupResults);
             this.setLookupResultsSequenceNumber(lookupResultsSequenceNumber);
-        }
-        super.populate(request);
+            
+        } 
+        if (! WebUtils.parseMethodToCall(this, request).equals(KFSConstants.MAPPING_CANCEL)) super.populate(request);
      }
 }

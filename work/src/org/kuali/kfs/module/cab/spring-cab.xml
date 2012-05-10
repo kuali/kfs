@@ -52,7 +52,10 @@
 		</property>
 		<property name="triggerNames">
 			<list>
+				<!-- KFSMI-8116: remove the trigger so that cab extract job can start just after poster
 				<value>cabExtractJobTrigger</value>
+				 -->
+				 
 				<value>preAssetTaggingExtractJobTrigger</value>
 			</list>
 		</property>		

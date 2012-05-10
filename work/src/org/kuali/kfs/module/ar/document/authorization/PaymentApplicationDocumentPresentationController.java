@@ -18,6 +18,7 @@ package org.kuali.kfs.module.ar.document.authorization;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.document.Document;
 
 public class PaymentApplicationDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase {
@@ -38,6 +39,14 @@ public class PaymentApplicationDocumentPresentationController extends FinancialS
         else {
             return true;
         }
+    }
+    @Override
+    public boolean canEdit(Document document) {
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        if (workflowDocument.isEnroute()) {
+            return false;        
+        }else 
+        return super.canEdit(document);
     }
 
 }

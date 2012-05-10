@@ -35,7 +35,7 @@ public class RequisitionAccountingLineAuthorizer extends PurapAccountingLineAuth
      */
     @Override
     public boolean renderNewLine(AccountingDocument accountingDocument, String accountingGroupProperty) {
-        if (accountingDocument.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().equals(RequisitionAccountingLineAuthorizer.INITIATOR_NODE) || accountingDocument.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().equals(RequisitionAccountingLineAuthorizer.CONTENT_REVIEW_NODE)) return true;
+        if (accountingDocument.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().contains(RequisitionAccountingLineAuthorizer.INITIATOR_NODE) || accountingDocument.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().contains(RequisitionAccountingLineAuthorizer.CONTENT_REVIEW_NODE)) return true;
         return super.renderNewLine(accountingDocument, accountingGroupProperty);
     }
     

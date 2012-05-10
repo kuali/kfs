@@ -384,7 +384,7 @@ public class SpringContext {
             }
         }
     }
-    
+
     public static void registerSingletonBean(String beanId, Object bean) {
         applicationContext.getBeanFactory().registerSingleton(beanId, bean);
         //Cleaning caches
@@ -397,7 +397,7 @@ public class SpringContext {
         SpringResourceLoader mainKfsSpringResourceLoader = (SpringResourceLoader)GlobalResourceLoader.getResourceLoader( new QName("KFS", "KFS_RICE_SPRING_RESOURCE_LOADER_NAME") );
         SpringContext.applicationContext = mainKfsSpringResourceLoader.getContext();
 
-        if ( LOG.isDebugEnabled() ) {
+        if ( LOG.isTraceEnabled() ) {
             GlobalResourceLoader.logAllContents();
         }
 

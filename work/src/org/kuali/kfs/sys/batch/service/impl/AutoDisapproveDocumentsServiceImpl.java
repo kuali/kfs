@@ -373,20 +373,11 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
         String documentNumber =  document.getDocumentHeader().getDocumentNumber();
         
         DateTime documentCreateDate = document.getDocumentHeader().getWorkflowDocument().getDateCreated();
+        createDate = documentCreateDate.toDate();
         
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(documentCompareDate);
         String strCompareDate = calendar.getTime().toString();
-        
-        try {
-            createDate = getDateTimeService().convertToSqlDate(documentCreateDate.toString());
-        }
-        catch (ParseException pe){
-            LOG.error("Document create date can not be determined.");
-            String message = ("Document create date can not be determined for the document: ").concat(documentNumber).concat(" - Message: ").concat(pe.getMessage());
-            autoDisapproveErrorReportWriterService.writeFormattedMessageLine(message);                         
-            return exceptionToDisapprove;
-        }
         
         calendar.setTime(createDate);
         String strCreateDate = calendar.getTime().toString();
@@ -422,6 +413,8 @@ public class AutoDisapproveDocumentsServiceImpl implements AutoDisapproveDocumen
         approveNote.setNoteText(annotationForAutoDisapprovalDocument);
 
         approveNote.setAuthorUniversalIdentifier(systemUser.getPrincipalId());
+        
+        approveNote.setNotePostedTimestampToCurrent();
         
         noteService.save(approveNote);
         

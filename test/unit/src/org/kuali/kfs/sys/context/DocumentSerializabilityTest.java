@@ -109,7 +109,13 @@ public class DocumentSerializabilityTest extends KualiTestBase {
      * @return true if the field is serializable, false otherwise
      */
     protected boolean isSerializable(Field field) {
-        return java.io.Serializable.class.isAssignableFrom(field.getType()) || java.util.Collection.class.isAssignableFrom(field.getType()) || java.util.Map.class.isAssignableFrom(field.getType()) || Modifier.isTransient(field.getModifiers()) || Modifier.isStatic(field.getModifiers()) || isPrimitive(field.getType());
+        return java.io.Serializable.class.isAssignableFrom(field.getType())
+                || java.util.Collection.class.isAssignableFrom(field.getType())
+                || java.util.Map.class.isAssignableFrom(field.getType())
+                || field.getName().equals("dataObject")
+                || Modifier.isTransient(field.getModifiers())
+                || Modifier.isStatic(field.getModifiers())
+                || isPrimitive(field.getType());
     }
 
     /**

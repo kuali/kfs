@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -63,11 +63,11 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public class AssetRetirementGlobalMaintainableImpl extends LedgerPostingMaintainable {
 
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetRetirementGlobalMaintainableImpl.class);
-    private static final String RETIRED_ASSET_TRANSFERRED_EXTERNALLY = "RetiredAssetTransferredExternally";
-    private static final String RETIRED_ASSET_SOLD_OR_GIFTED = "RetiredAssetSoldOrGifted";
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetRetirementGlobalMaintainableImpl.class);
+    protected static final String RETIRED_ASSET_TRANSFERRED_EXTERNALLY = "RetiredAssetTransferredExternally";
+    protected static final String RETIRED_ASSET_SOLD_OR_GIFTED = "RetiredAssetSoldOrGifted";
 
-     
+
     /**
      * @see org.kuali.kfs.sys.document.FinancialSystemGlobalMaintainable#answerSplitNodeQuestion(java.lang.String)
      */
@@ -86,7 +86,7 @@ public class AssetRetirementGlobalMaintainableImpl extends LedgerPostingMaintain
     /**
      * We are using a substitute mechanism for asset locking which can lock on assets when rule check passed. Return empty list from
      * this method.
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.Maintainable#generateMaintenanceLocks()
      */
     @Override
@@ -114,7 +114,7 @@ public class AssetRetirementGlobalMaintainableImpl extends LedgerPostingMaintain
         if (CamsConstants.AssetRetirementReasonCode.MERGED.equals(assetRetirementGlobal.getRetirementReasonCode())) {
             document.getDocumentHeader().setDocumentDescription(CamsConstants.AssetRetirementGlobal.MERGE_AN_ASSET_DESCRIPTION);
         }
-        
+
         // Fiscal Year End modifications
         String docType = document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
         ParameterEvaluatorService parameterEvaluatorService = SpringContext.getBean(ParameterEvaluatorService.class);
@@ -124,13 +124,13 @@ public class AssetRetirementGlobalMaintainableImpl extends LedgerPostingMaintain
             String closingDate = getClosingDate(closingYear);
             try {
                 if (ObjectUtils.isNotNull(assetRetirementGlobal.getPostingYear()) ) {
-                    assetRetirementGlobal.setAccountingPeriodCompositeString(assetRetirementGlobal.getAccountingPeriod().getUniversityFiscalPeriodCode()+assetRetirementGlobal.getPostingYear()); 
+                    assetRetirementGlobal.setAccountingPeriodCompositeString(assetRetirementGlobal.getAccountingPeriod().getUniversityFiscalPeriodCode()+assetRetirementGlobal.getPostingYear());
                 }
                 updateAssetRetirementGlobalForPeriod13(assetRetirementGlobal, closingYear, closingDate);
-                assetRetirementGlobal.refreshNonUpdateableReferences();                   
+                assetRetirementGlobal.refreshNonUpdateableReferences();
             } catch (Exception e) {
                 LOG.error(e);
-            }  
+            }
         }
 
     }
@@ -270,7 +270,7 @@ public class AssetRetirementGlobalMaintainableImpl extends LedgerPostingMaintain
             fieldValues.put(CamsPropertyConstants.AssetRetirementGlobal.CAPITAL_ASSET_NUMBER, capitalAssetNumber.trim());
 		}
         return super.populateNewCollectionLines(fieldValues, maintenanceDocument, methodToCall);
-     
+
     }
 
     private AssetRetirementService getAssetRetirementService() {
@@ -291,26 +291,26 @@ public class AssetRetirementGlobalMaintainableImpl extends LedgerPostingMaintain
      * @return true if the accountingPeriod in assetRetirementGlobal is 13.
      * TODO Remove hardcoding
      */
-    private boolean isPeriod13(AssetRetirementGlobal assetRetirementGlobal) {        
+    private boolean isPeriod13(AssetRetirementGlobal assetRetirementGlobal) {
         if (ObjectUtils.isNull(assetRetirementGlobal.getAccountingPeriod())) {
             return false;
         }
         return "13".equals(assetRetirementGlobal.getAccountingPeriod().getUniversityFiscalPeriodCode());
     }
-    
+
     /**
-     * Return the closing date as mm/dd/yyyy 
+     * Return the closing date as mm/dd/yyyy
      * @param closingYear
      * @return the closing date as mm/dd/yyyy
 
      */
-    private String getClosingDate(Integer closingYear) {           
+    private String getClosingDate(Integer closingYear) {
         return SpringContext.getBean(AssetGlobalService.class).getFiscalYearEndDayAndMonth() + closingYear.toString();
     }
 
-    
+
     /**
-     * Return the calendar Date for the closing year 
+     * Return the calendar Date for the closing year
      * @param closingYear
      * @return 01/01/[closing year]
      * TODO Remove hardcoding
@@ -320,7 +320,7 @@ public class AssetRetirementGlobalMaintainableImpl extends LedgerPostingMaintain
     }
 
     /**
-     * Convenience method to reduce clutter 
+     * Convenience method to reduce clutter
      * @return {@link DateTimeService}
      */
     private DateTimeService getDateTimeService() {
@@ -328,7 +328,7 @@ public class AssetRetirementGlobalMaintainableImpl extends LedgerPostingMaintain
     }
 
     /**
-     * Perform changes to assetRetirementGlobal on period 13. 
+     * Perform changes to assetRetirementGlobal on period 13.
      * @param assetRetirementGlobal
      */
     private void doPeriod13Changes(AssetRetirementGlobal assetRetirementGlobal) {
@@ -345,7 +345,7 @@ public class AssetRetirementGlobalMaintainableImpl extends LedgerPostingMaintain
 
 
     /**
-     * Update assetRetirementGlobal fields for period 13 
+     * Update assetRetirementGlobal fields for period 13
      * @param assetRetirementGlobal
      * @param closingYear
      * @param closingDate

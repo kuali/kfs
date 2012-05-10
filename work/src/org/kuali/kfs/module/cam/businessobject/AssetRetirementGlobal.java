@@ -1,12 +1,12 @@
 /*
  * Copyright 2008-2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -62,49 +62,49 @@ import org.kuali.rice.location.framework.state.StateEbo;
 
 public class AssetRetirementGlobal extends PersistableBusinessObjectBase implements GlobalBusinessObject {
 
-    private String documentNumber;
-    private Long mergedTargetCapitalAssetNumber;
-    private String mergedTargetCapitalAssetDescription;
-    private String retirementReasonCode;
-    private String retirementChartOfAccountsCode;
-    private String retirementAccountNumber;
-    private String retirementContactName;
-    private String retirementInstitutionName;
-    private String retirementStreetAddress;
-    private String retirementCityName;
-    private String retirementStateCode;
-    private String retirementZipCode;
-    private String retirementCountryCode;
-    private String retirementPhoneNumber;
-    private KualiDecimal estimatedSellingPrice;
-    private KualiDecimal salePrice;
-    private String cashReceiptFinancialDocumentNumber;
-    private KualiDecimal handlingFeeAmount;
-    private KualiDecimal preventiveMaintenanceAmount;
-    private String buyerDescription;
-    private String paidCaseNumber;
+    protected String documentNumber;
+    protected Long mergedTargetCapitalAssetNumber;
+    protected String mergedTargetCapitalAssetDescription;
+    protected String retirementReasonCode;
+    protected String retirementChartOfAccountsCode;
+    protected String retirementAccountNumber;
+    protected String retirementContactName;
+    protected String retirementInstitutionName;
+    protected String retirementStreetAddress;
+    protected String retirementCityName;
+    protected String retirementStateCode;
+    protected String retirementZipCode;
+    protected String retirementCountryCode;
+    protected String retirementPhoneNumber;
+    protected KualiDecimal estimatedSellingPrice;
+    protected KualiDecimal salePrice;
+    protected String cashReceiptFinancialDocumentNumber;
+    protected KualiDecimal handlingFeeAmount;
+    protected KualiDecimal preventiveMaintenanceAmount;
+    protected String buyerDescription;
+    protected String paidCaseNumber;
     // persistent relationship
-    private Date retirementDate;
-    private Asset mergedTargetCapitalAsset;
-    private AssetRetirementReason retirementReason;
-    private FinancialSystemDocumentHeader documentHeader;
-    private List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails;
-    private Account retirementAccount;
-    private Chart retirementChartOfAccounts;
-    private DocumentHeader cashReceiptFinancialDocument;
-    private StateEbo retirementState;
-    private CountryEbo retirementCountry;
-    private PostalCodeEbo postalZipCode;
+    protected Date retirementDate;
+    protected Asset mergedTargetCapitalAsset;
+    protected AssetRetirementReason retirementReason;
+    protected FinancialSystemDocumentHeader documentHeader;
+    protected List<AssetRetirementGlobalDetail> assetRetirementGlobalDetails;
+    protected Account retirementAccount;
+    protected Chart retirementChartOfAccounts;
+    protected DocumentHeader cashReceiptFinancialDocument;
+    protected StateEbo retirementState;
+    protected CountryEbo retirementCountry;
+    protected PostalCodeEbo postalZipCode;
 
-    private List<GeneralLedgerPendingEntry> generalLedgerPendingEntries;
+    protected List<GeneralLedgerPendingEntry> generalLedgerPendingEntries;
 
-    private Integer postingYear;
-    private String postingPeriodCode;
-    private AccountingPeriod accountingPeriod;
+    protected Integer postingYear;
+    protected String postingPeriodCode;
+    protected AccountingPeriod accountingPeriod;
     static protected transient AccountingPeriodService accountingPeriodService;
-    
+
     // Non-persistent
-    private KualiDecimal calculatedTotal;
+    protected KualiDecimal calculatedTotal;
 
     /**
      * Default constructor.
@@ -115,6 +115,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
     }
 
 
+    @Override
     public List<PersistableBusinessObject> generateDeactivationsToPersist() {
         return null;
     }
@@ -122,6 +123,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
     /**
      * @see org.kuali.rice.krad.bo.GlobalBusinessObject#generateGlobalChangesToPersist()
      */
+    @Override
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
         AssetRetirementService retirementService = SpringContext.getBean(AssetRetirementService.class);
 
@@ -147,11 +149,11 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * This method set asset fields for update
-     * 
+     *
      * @param detail
      * @param persistables
      */
-    private void setAssetForPersist(Asset asset, List<PersistableBusinessObject> persistables, AssetRetirementService retirementService) {
+    protected void setAssetForPersist(Asset asset, List<PersistableBusinessObject> persistables, AssetRetirementService retirementService) {
         UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
 
         // load the object by key
@@ -189,11 +191,11 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * This method set off campus location for persist
-     * 
+     *
      * @param AssetGlobalDetail and Asset to populate AssetLocation
      * @return Returns the AssetLocation.
      */
-    private AssetLocation setOffCampusLocationObjectsForPersist(Asset asset) {
+    protected AssetLocation setOffCampusLocationObjectsForPersist(Asset asset) {
         AssetLocation offCampusLocation = new AssetLocation();
         offCampusLocation.setCapitalAssetNumber(asset.getCapitalAssetNumber());
         offCampusLocation.setAssetLocationTypeCode(CamsConstants.AssetLocationTypeCode.RETIREMENT);
@@ -219,10 +221,10 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * This method set target payment and source payment; set target/source asset salvageAmount/totalCostAmount
-     * 
+     *
      * @param persistables
      */
-    private void setMergeObjectsForPersist(List<PersistableBusinessObject> persistables, AssetRetirementService retirementService) {
+    protected void setMergeObjectsForPersist(List<PersistableBusinessObject> persistables, AssetRetirementService retirementService) {
         PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
         AssetPaymentService assetPaymentService = SpringContext.getBean(AssetPaymentService.class);
 
@@ -255,28 +257,32 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
     }
 
 
+    @Override
     public List<? extends GlobalBusinessObjectDetail> getAllDetailObjects() {
         return getAssetRetirementGlobalDetails();
     }
 
+    @Override
     public boolean isPersistable() {
         return true;
     }
 
     /**
      * Gets the documentNumber attribute.
-     * 
+     *
      * @return Returns the documentNumber
      */
+    @Override
     public String getDocumentNumber() {
         return documentNumber;
     }
 
     /**
      * Sets the documentNumber attribute.
-     * 
+     *
      * @param documentNumber The documentNumber to set.
      */
+    @Override
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
     }
@@ -284,7 +290,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the mergedTargetCapitalAssetNumber attribute.
-     * 
+     *
      * @return Returns the mergedTargetCapitalAssetNumber
      */
     public Long getMergedTargetCapitalAssetNumber() {
@@ -293,7 +299,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the mergedTargetCapitalAssetNumber attribute.
-     * 
+     *
      * @param mergedTargetCapitalAssetNumber The mergedTargetCapitalAssetNumber to set.
      */
     public void setMergedTargetCapitalAssetNumber(Long mergedTargetCapitalAssetNumber) {
@@ -303,7 +309,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the retirementReasonCode attribute.
-     * 
+     *
      * @return Returns the retirementReasonCode
      */
     public String getRetirementReasonCode() {
@@ -312,7 +318,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the retirementReasonCode attribute.
-     * 
+     *
      * @param retirementReasonCode The retirementReasonCode to set.
      */
     public void setRetirementReasonCode(String retirementReasonCode) {
@@ -322,7 +328,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the retirementDate attribute.
-     * 
+     *
      * @return Returns the retirementDate
      */
     public Date getRetirementDate() {
@@ -331,7 +337,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the retirementDate attribute.
-     * 
+     *
      * @param retirementDate The retirementDate to set.
      */
     public void setRetirementDate(Date remeretirementDatentDate) {
@@ -340,7 +346,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the mergedTargetCapitalAsset attribute.
-     * 
+     *
      * @return Returns the mergedTargetCapitalAsset.
      */
     public Asset getMergedTargetCapitalAsset() {
@@ -349,7 +355,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the mergedTargetCapitalAsset attribute value.
-     * 
+     *
      * @param mergedTargetCapitalAsset The mergedTargetCapitalAsset to set.
      * @deprecated
      */
@@ -359,7 +365,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the retirementReason attribute.
-     * 
+     *
      * @return Returns the retirementReason.
      */
     public AssetRetirementReason getRetirementReason() {
@@ -368,7 +374,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the retirementReason attribute value.
-     * 
+     *
      * @param retirementReason The retirementReason to set.
      * @deprecated
      */
@@ -425,7 +431,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the retirementChartOfAccountsCode attribute.
-     * 
+     *
      * @return Returns the retirementChartOfAccountsCode
      */
     public String getRetirementChartOfAccountsCode() {
@@ -434,7 +440,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the retirementChartOfAccountsCode attribute.
-     * 
+     *
      * @param retirementChartOfAccountsCode The retirementChartOfAccountsCode to set.
      */
     public void setRetirementChartOfAccountsCode(String retirementChartOfAccountsCode) {
@@ -444,7 +450,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the retirementAccountNumber attribute.
-     * 
+     *
      * @return Returns the retirementAccountNumber
      */
     public String getRetirementAccountNumber() {
@@ -453,7 +459,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the retirementAccountNumber attribute.
-     * 
+     *
      * @param retirementAccountNumber The retirementAccountNumber to set.
      */
     public void setRetirementAccountNumber(String retirementAccountNumber) {
@@ -463,7 +469,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the retirementContactName attribute.
-     * 
+     *
      * @return Returns the retirementContactName
      */
     public String getRetirementContactName() {
@@ -472,7 +478,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the retirementContactName attribute.
-     * 
+     *
      * @param retirementContactName The retirementContactName to set.
      */
     public void setRetirementContactName(String retirementContactName) {
@@ -482,7 +488,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the retirementInstitutionName attribute.
-     * 
+     *
      * @return Returns the retirementInstitutionName
      */
     public String getRetirementInstitutionName() {
@@ -491,7 +497,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the retirementInstitutionName attribute.
-     * 
+     *
      * @param retirementInstitutionName The retirementInstitutionName to set.
      */
     public void setRetirementInstitutionName(String retirementInstitutionName) {
@@ -501,7 +507,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the retirementStreetAddress attribute.
-     * 
+     *
      * @return Returns the retirementStreetAddress
      */
     public String getRetirementStreetAddress() {
@@ -510,7 +516,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the retirementStreetAddress attribute.
-     * 
+     *
      * @param retirementStreetAddress The retirementStreetAddress to set.
      */
     public void setRetirementStreetAddress(String retirementStreetAddress) {
@@ -520,7 +526,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the retirementCityName attribute.
-     * 
+     *
      * @return Returns the retirementCityName
      */
     public String getRetirementCityName() {
@@ -529,7 +535,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the retirementCityName attribute.
-     * 
+     *
      * @param retirementCityName The retirementCityName to set.
      */
     public void setRetirementCityName(String retirementCityName) {
@@ -539,7 +545,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the retirementStateCode attribute.
-     * 
+     *
      * @return Returns the retirementStateCode
      */
     public String getRetirementStateCode() {
@@ -548,7 +554,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the retirementStateCode attribute.
-     * 
+     *
      * @param retirementStateCode The retirementStateCode to set.
      */
     public void setRetirementStateCode(String retirementStateCode) {
@@ -558,7 +564,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the retirementZipCode attribute.
-     * 
+     *
      * @return Returns the retirementZipCode
      */
     public String getRetirementZipCode() {
@@ -567,7 +573,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the retirementZipCode attribute.
-     * 
+     *
      * @param retirementZipCode The retirementZipCode to set.
      */
     public void setRetirementZipCode(String retirementZipCode) {
@@ -577,7 +583,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the postalZipCode attribute.
-     * 
+     *
      * @return Returns the postalZipCode
      */
     public PostalCodeEbo getPostalZipCode() {
@@ -596,13 +602,13 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
                 }
             }
         }
-        
+
         return postalZipCode;
       }
 
     /**
      * Sets the postalZipCode attribute.
-     * 
+     *
      * @param postalZipCode The postalZipCode to set.
      */
     public void setPostalZipCode(PostalCodeEbo postalZipCode) {
@@ -611,7 +617,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the retirementCountryCode attribute.
-     * 
+     *
      * @return Returns the retirementCountryCode
      */
     public String getRetirementCountryCode() {
@@ -620,7 +626,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the retirementCountryCode attribute.
-     * 
+     *
      * @param retirementCountryCode The retirementCountryCode to set.
      */
     public void setRetirementCountryCode(String retirementCountryCode) {
@@ -630,7 +636,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the retirementPhoneNumber attribute.
-     * 
+     *
      * @return Returns the retirementPhoneNumber
      */
     public String getRetirementPhoneNumber() {
@@ -639,7 +645,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the retirementPhoneNumber attribute.
-     * 
+     *
      * @param retirementPhoneNumber The retirementPhoneNumber to set.
      */
     public void setRetirementPhoneNumber(String retirementPhoneNumber) {
@@ -649,7 +655,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the estimatedSellingPrice attribute.
-     * 
+     *
      * @return Returns the estimatedSellingPrice
      */
     public KualiDecimal getEstimatedSellingPrice() {
@@ -658,7 +664,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the estimatedSellingPrice attribute.
-     * 
+     *
      * @param estimatedSellingPrice The estimatedSellingPrice to set.
      */
     public void setEstimatedSellingPrice(KualiDecimal estimatedSellingPrice) {
@@ -668,7 +674,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the salePrice attribute.
-     * 
+     *
      * @return Returns the salePrice
      */
     public KualiDecimal getSalePrice() {
@@ -677,7 +683,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the salePrice attribute.
-     * 
+     *
      * @param salePrice The salePrice to set.
      */
     public void setSalePrice(KualiDecimal salePrice) {
@@ -687,7 +693,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the cashReceiptFinancialDocumentNumber attribute.
-     * 
+     *
      * @return Returns the cashReceiptFinancialDocumentNumber
      */
     public String getCashReceiptFinancialDocumentNumber() {
@@ -696,7 +702,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the cashReceiptFinancialDocumentNumber attribute.
-     * 
+     *
      * @param cashReceiptFinancialDocumentNumber The cashReceiptFinancialDocumentNumber to set.
      */
     public void setCashReceiptFinancialDocumentNumber(String cashReceiptFinancialDocumentNumber) {
@@ -706,7 +712,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the handlingFeeAmount attribute.
-     * 
+     *
      * @return Returns the handlingFeeAmount
      */
     public KualiDecimal getHandlingFeeAmount() {
@@ -715,7 +721,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the handlingFeeAmount attribute.
-     * 
+     *
      * @param handlingFeeAmount The handlingFeeAmount to set.
      */
     public void setHandlingFeeAmount(KualiDecimal handlingFeeAmount) {
@@ -725,7 +731,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the preventiveMaintenanceAmount attribute.
-     * 
+     *
      * @return Returns the preventiveMaintenanceAmount
      */
     public KualiDecimal getPreventiveMaintenanceAmount() {
@@ -734,7 +740,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the preventiveMaintenanceAmount attribute.
-     * 
+     *
      * @param preventiveMaintenanceAmount The preventiveMaintenanceAmount to set.
      */
     public void setPreventiveMaintenanceAmount(KualiDecimal preventiveMaintenanceAmount) {
@@ -744,7 +750,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the buyerDescription attribute.
-     * 
+     *
      * @return Returns the buyerDescription
      */
     public String getBuyerDescription() {
@@ -753,7 +759,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the buyerDescription attribute.
-     * 
+     *
      * @param buyerDescription The buyerDescription to set.
      */
     public void setBuyerDescription(String buyerDescription) {
@@ -763,7 +769,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the paidCaseNumber attribute.
-     * 
+     *
      * @return Returns the paidCaseNumber
      */
     public String getPaidCaseNumber() {
@@ -772,7 +778,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the paidCaseNumber attribute.
-     * 
+     *
      * @param paidCaseNumber The paidCaseNumber to set.
      */
     public void setPaidCaseNumber(String paidCaseNumber) {
@@ -781,7 +787,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the retirementChartOfAccounts attribute.
-     * 
+     *
      * @return Returns the retirementChartOfAccounts
      */
     public Chart getRetirementChartOfAccounts() {
@@ -790,7 +796,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the retirementChartOfAccounts attribute.
-     * 
+     *
      * @param retirementChartOfAccounts The retirementChartOfAccounts to set.
      * @deprecated
      */
@@ -800,7 +806,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the retirementAccount attribute.
-     * 
+     *
      * @return Returns the retirementAccount
      */
     public Account getRetirementAccount() {
@@ -809,7 +815,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the retirementAccount attribute.
-     * 
+     *
      * @param retirementAccount The retirementAccount to set.
      * @deprecated
      */
@@ -820,7 +826,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the cashReceiptFinancialDocument attribute.
-     * 
+     *
      * @return Returns the cashReceiptFinancialDocument.
      */
     public DocumentHeader getCashReceiptFinancialDocument() {
@@ -829,7 +835,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Sets the cashReceiptFinancialDocument attribute value.
-     * 
+     *
      * @param cashReceiptFinancialDocument The cashReceiptFinancialDocument to set.
      * @deprecated
      */
@@ -840,7 +846,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the retirementCountry attribute.
-     * 
+     *
      * @return Returns the retirementCountry.
      */
     public CountryEbo getRetirementCountry() {
@@ -858,13 +864,13 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
                 }
             }
         }
-        
+
         return retirementCountry;
     }
-    
+
     /**
      * Sets the retirementCountry attribute value.
-     * 
+     *
      * @param retirementCountry The retirementCountry to set.
      * @deprecated
      */
@@ -874,7 +880,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the retirementState attribute.
-     * 
+     *
      * @return Returns the retirementState.
      */
     public StateEbo getRetirementState() {
@@ -893,13 +899,13 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
                 }
             }
         }
-        
+
         return retirementState;
     }
-    
+
     /**
      * Sets the retirementState attribute value.
-     * 
+     *
      * @param retirementState The retirementState to set.
      * @deprecated
      */
@@ -910,7 +916,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
 
     /**
      * Gets the calculatedTotal attribute.
-     * 
+     *
      * @return Returns the calculatedTotal.
      */
     public KualiDecimal getCalculatedTotal() {
@@ -926,7 +932,7 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
         }
         return calculatedTotal;
     }
-    
+
     /**
      * Get Posting Year
      * @return postingYear
@@ -953,16 +959,16 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
         }
         return accountingPeriodService;
     }
-    
-    
+
+
     /**
-     * Creates a composite of postingPeriodCode and postingyear. 
+     * Creates a composite of postingPeriodCode and postingyear.
      * @return composite or an empty string if either postingPeriodCode or postingYear is null
      */
     public String getAccountingPeriodCompositeString() {
         if (postingPeriodCode== null || postingYear == null ) {
             return "";
-        }        
+        }
         return postingPeriodCode + postingYear;
     }
 
@@ -996,19 +1002,19 @@ public class AssetRetirementGlobal extends PersistableBusinessObjectBase impleme
     public void setPostingPeriodCode(String postingPeriodCode) {
         this.postingPeriodCode = postingPeriodCode;
     }
-    
+
     /**
-     * Set postingYear and postingPeriodCode 
+     * Set postingYear and postingPeriodCode
      * @param accountingPeriod
      */
     public void setAccountingPeriod(AccountingPeriod accountingPeriod) {
-        this.accountingPeriod = accountingPeriod;        
+        this.accountingPeriod = accountingPeriod;
         if(ObjectUtils.isNotNull(accountingPeriod)) {
             setPostingYear(accountingPeriod.getUniversityFiscalYear());
             setPostingPeriodCode(accountingPeriod.getUniversityFiscalPeriodCode());
         }
     }
-    
+
     /**
      * get the accountingPeriod
      * @return accountingPeriod

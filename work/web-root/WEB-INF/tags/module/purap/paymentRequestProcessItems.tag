@@ -115,13 +115,13 @@
 		    		    	<c:choose>
 		    		    		<c:when test="${isCreditMemo && !(KualiForm.document.creditMemoType eq 'Vendor')}" >
 		                            <kul:htmlControlAttribute
-		                                attributeEntry="${DataDictionary.PaymentRequestDocument.grandTotalExcludingDiscount}"
+		                                attributeEntry="${DataDictionary.PaymentRequestDocument.attributes.grandTotalExcludingDiscount}"
 		                                property="document.grandTotal"
 		                                readOnly="true" />&nbsp; </b>
 								</c:when>
                             	<c:otherwise>
 		                            <kul:htmlControlAttribute
-		                                attributeEntry="${DataDictionary.PaymentRequestDocument.grandTotalExcludingDiscount}"
+		                                attributeEntry="${DataDictionary.PaymentRequestDocument.attributes.grandTotalExcludingDiscount}"
 		                                property="document.grandPreTaxTotalExcludingDiscount"
 		                                readOnly="true" />&nbsp; </b>
 								</c:otherwise>

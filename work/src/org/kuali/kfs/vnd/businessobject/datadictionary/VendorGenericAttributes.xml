@@ -145,6 +145,7 @@
   <bean id="VendorGenericAttributes-zipCode-parentBean" abstract="true" parent="PostalCode-code">
     <property name="name" value="zipCode"/>
     <property name="required" value="false"/>
+    <property name="validationPattern"><null/></property>
   </bean>
 
   <bean id="VendorGenericAttributes-cityName" parent="VendorGenericAttributes-cityName-parentBean"/>

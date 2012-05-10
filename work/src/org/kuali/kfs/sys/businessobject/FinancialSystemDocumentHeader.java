@@ -115,7 +115,9 @@ public class FinancialSystemDocumentHeader extends DocumentHeader {
      * @return Returns the documentFinalDate.
      */
     public Date getDocumentFinalDate() {
-        return  new java.sql.Date(this.getWorkflowDocument().getDateFinalized().getMillis());
+        WorkflowDocument workflowDoc = this.getWorkflowDocument();
+        if (workflowDoc == null || (workflowDoc.getDateFinalized() == null)) return null;
+        return  new java.sql.Date(workflowDoc.getDateFinalized().getMillis());
     }
 
     /**

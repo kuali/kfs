@@ -114,6 +114,7 @@ public class CustomerStatementDetailReportDataHolder {
      */
     public void setDocumentFinalDate(Date documentFinalDate) {
         this.documentFinalDate = documentFinalDate;
+        if (documentFinalDate == null) return;
         this.documentFinalDateString = SpringContext.getBean(DateTimeService.class).toDateString(documentFinalDate);
     }
 

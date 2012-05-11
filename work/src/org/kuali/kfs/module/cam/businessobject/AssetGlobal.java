@@ -917,8 +917,8 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         WorkflowDocument workflowDocument = WorkflowDocumentFactory.loadDocument(userId, getDocumentNumber());
 
         // do not display not approved documents
-        if (ObjectUtils.isNotNull(workflowDocument.getDateCreated())) {
-            return getSqlDate(workflowDocument.getDateCreated().toCalendar(Locale.getDefault()));
+        if (ObjectUtils.isNotNull(workflowDocument.getDateApproved())) {
+            return getSqlDate(workflowDocument.getDateApproved().toCalendar(Locale.getDefault()));
         }
         
         return null;

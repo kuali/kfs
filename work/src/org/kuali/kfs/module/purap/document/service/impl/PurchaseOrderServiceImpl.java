@@ -268,6 +268,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     // create PO and populate with default data
                     PurchaseOrderDocument po = generatePurchaseOrderFromRequisition(doc);
                     po.setDefaultValuesForAPO();
+                    //check for print transmission method.. if print is selected
+                    //the doc status needs to be "Pending To Print"..
+                    checkForPrintTransmission(po);
                     po.setContractManagerCode(PurapConstants.APO_CONTRACT_MANAGER);
                     documentService.routeDocument(po, null, null);
                     final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();
@@ -287,6 +290,18 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
     }
 
+    /**
+     * checks for print option and if chosen then sets the app doc status to
+     * Pending To Print.
+     * 
+     * @param po
+     */
+    protected void checkForPrintTransmission(PurchaseOrderDocument po) throws WorkflowException {
+        if (PurapConstants.POTransmissionMethods.PRINT.equals( po.getPurchaseOrderRetransmissionMethodCode())) {
+            po.updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_PENDING_PRINT);
+        }
+    }
+    
     /**
      * @see org.kuali.kfs.module.purap.document.service.PurchaseOrderService#createPurchaseOrderDocument(org.kuali.kfs.module.purap.document.RequisitionDocument,
      *      java.lang.String, java.lang.Integer)

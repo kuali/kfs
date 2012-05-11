@@ -1898,7 +1898,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      * @param po A PurchaseOrderDocument
      */
     protected void executeManualStatusChange(PurchaseOrderDocument po) {
-        try {            
+        try { 
             po.updateAndSaveAppDocStatus(po.getStatusChange());
             SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);
         }

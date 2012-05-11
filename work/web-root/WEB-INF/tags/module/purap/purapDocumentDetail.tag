@@ -222,9 +222,9 @@
 	            <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.statusChange}" /></div>
 	        </th>
 	        <td align=left valign=middle class="datacell">&nbsp;
-		        <html:radio title="${documentAttributes.statusChange.label} - None" property="statusChange" value="INPR" tabindex="${tabindexOverrideBase + 9}" />&nbsp;None&nbsp;
-				<html:radio title="${documentAttributes.statusChange.label} - Department" property="statusChange" value="WDPT" tabindex="${tabindexOverrideBase + 9}" />&nbsp;Department&nbsp;
-				<html:radio title="${documentAttributes.statusChange.label} - Vendor" property="statusChange" value="WVEN" tabindex="${tabindexOverrideBase + 9}" />&nbsp;Vendor&nbsp;
+		        <html:radio title="${documentAttributes.statusChange.label} - None" property="statusChange" value="${PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS}" tabindex="${tabindexOverrideBase + 9}" />&nbsp;None&nbsp;
+				<html:radio title="${documentAttributes.statusChange.label} - Department" property="statusChange" value="${PurapConstants.PurchaseOrderStatuses.APPDOC_WAITING_FOR_DEPARTMENT}" tabindex="${tabindexOverrideBase + 9}" />&nbsp;Department&nbsp;
+				<html:radio title="${documentAttributes.statusChange.label} - Vendor" property="statusChange" value="${PurapConstants.PurchaseOrderStatuses.APPDOC_APPDOC_WAITING_FOR_VENDOR}" tabindex="${tabindexOverrideBase + 9}" />&nbsp;Vendor&nbsp;
 			</td>
 		</tr>
 	</table>

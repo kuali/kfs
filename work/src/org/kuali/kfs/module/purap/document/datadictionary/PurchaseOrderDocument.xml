@@ -976,7 +976,7 @@
   <bean id="PurchaseOrderDocument-purchaseOrderVendorChoiceCode-parentBean" abstract="true" parent="PurchaseOrderVendorChoice-purchaseOrderVendorChoiceCode">
     <property name="label" value="Vendor Choice"/>
     <property name="shortLabel" value="Vendor Choice"/>
-    <property name="required" value="true"/>
+    <property name="required" value="false"/>
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderVendorChoiceValuesFinder" p:includeKeyInLabel="false"/>
     </property>
@@ -1271,7 +1271,7 @@
     <property name="forceUppercase" value="true"/>
     <property name="label" value="Waiting on Additional Info"/>
     <property name="shortLabel" value="Status Change"/>
-    <property name="maxLength" value="4"/>
+    <property name="maxLength" value="64"/>
     <property name="validationPattern">
       <ref bean="AnyCharacterValidation" />
     </property>

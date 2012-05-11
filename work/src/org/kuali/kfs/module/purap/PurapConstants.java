@@ -356,7 +356,7 @@ public class PurapConstants {
 
             HashMap<String, String> poAppDocStatusMap = new HashMap<String, String>();
             
-          //  poAppDocStatusMap.put(NODE_CONTRACT_MANAGEMENT,PurchaseOrderStatuses.APPDOC_AWAIT_PURCHASING_REVIEW);
+         //   poAppDocStatusMap.put(NODE_CONTRACT_MANAGEMENT,PurchaseOrderStatuses.APPDOC_AWAIT_PURCHASING_REVIEW);
             poAppDocStatusMap.put(NODE_AWAIT_NEW_UNORDERED_ITEM_REVIEW,PurchaseOrderStatuses.APPDOC_DAPRVD_UNORDERED_ITEM);
             poAppDocStatusMap.put(NODE_INTERNAL_PURCHASING_REVIEW, PurchaseOrderStatuses.APPDOC_DAPRVD_PURCHASING);
             poAppDocStatusMap.put(NODE_COMMODITY_CODE_REVIEW,  PurchaseOrderStatuses.APPDOC_DAPRVD_COMMODITY_CODE);
@@ -531,6 +531,9 @@ public class PurapConstants {
         public static final String SINGLE_CONFIRMATION_QUESTION = "singleConfirmationQuestion";
 
         public static final String MANUAL_STATUS_CHANGE_QUESTION = "manualStatusChangeQuestion";
+        public static final String WAITING_FOR_VENDOR = "WVEN";
+        public static final String WAITING_FOR_DEPARTMENT = "WDPT";
+        
         public static final String OPEN_STATUS = "Open";
 
         public static final String POSTAL_CODE = "Postal Code";

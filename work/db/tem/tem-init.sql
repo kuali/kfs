@@ -25,7 +25,7 @@ VALUES (6,'TA','Inactive Question for search testing','N','N','KFS-TEM-SPCM-006'
 /
 INSERT INTO TEM_SPCL_CRCMSNCS_Q_T (ID,DOCUMENT_TYPE,TEXT,TXT_IND,ACTV_IND,OBJ_ID) 
 VALUES (7,'TA','Do you have large pets traveling with you?:','N','Y','KFS-TEM-SPCM-007')
-/ 
+/
 
 -- Update max file upload size to 200M 
 UPDATE KRNS_PARM_T

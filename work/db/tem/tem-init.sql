@@ -23,3 +23,20 @@ values (5,'TA','Question for TA documents - not free form: Carrying Fruit?','N',
 INSERT INTO TEM_SPCL_CRCMSNCS_Q_T (ID,DOCUMENT_TYPE,TEXT,TXT_IND,ACTV_IND,OBJ_ID) 
 VALUES (6,'TA','Inactive Question for search testing','N','N','KFS-TEM-SPCM-006')
 /
+INSERT INTO TEM_SPCL_CRCMSNCS_Q_T (ID,DOCUMENT_TYPE,TEXT,TXT_IND,ACTV_IND,OBJ_ID) 
+VALUES (7,'TA','Do you have large pets traveling with you?:','N','Y','KFS-TEM-SPCM-007')
+/ 
+
+-- Update max file upload size to 200M 
+UPDATE KRNS_PARM_T
+SET TXT = '200M'
+WHERE NMSPC_CD = 'KR-NS'
+AND PARM_NM = 'MAX_FILE_SIZE_DEFAULT_UPLOAD'
+/
+
+-- Set one foreign travel company 
+UPDATE FP_DV_TRVL_CO_NM_T
+SET FRGN_CMPNY = 'Y'
+WHERE DV_EXP_CD = 'A'
+AND DV_EXP_CO_NM = 'DELTA'
+/

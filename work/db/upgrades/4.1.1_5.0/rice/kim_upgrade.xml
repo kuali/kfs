@@ -2,6 +2,68 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 
+	<changeSet author="KFS50" id="UPGRADE_KIM_DATA_RICE_20_mysql" dbms="mysql">
+		<stop />
+	</changeSet>
+
+	<changeSet author="KFS50" id="UPGRADE_KIM_DATA_RICE_20_oracle" dbms="oracle">
+		<comment>Upgrade the permission and responsibility names from previous releases of KFS to have unique names as required by Rice 2.0.</comment>
+		<sql splitStatements="false" stripComments="false">
+			-- fix permissions
+			declare
+               v_perm_nm VARCHAR2(4000);
+			begin
+			    dbms_output.enable(50000);
+			               for perm_dtl in (select krim_perm_t.perm_id, NVL( krim_perm_t.nm, krim_perm_tmpl_t.nm ) as perm_nm, krim_perm_tmpl_t.kim_typ_id, krim_perm_tmpl_t.nm as tmpl_nm from krim_perm_t join krim_perm_tmpl_t on krim_perm_t.perm_tmpl_id = krim_perm_tmpl_t.perm_tmpl_id where krim_perm_t.nmspc_cd like 'KFS%')
+			               loop
+			                              v_perm_nm := perm_dtl.perm_nm;
+			        if (perm_dtl.kim_typ_id <> 1) then
+			                                             if (perm_dtl.tmpl_nm = 'Use Transactional Document') then
+			                                                            for perm_attr_val in (select krim_perm_attr_data_t.attr_val from krim_perm_attr_data_t join krim_typ_attr_t on krim_perm_attr_data_t.kim_attr_defn_id = krim_typ_attr_t.kim_attr_defn_id where krim_typ_attr_t.kim_typ_id = perm_dtl.kim_typ_id and krim_perm_attr_data_t.perm_id = perm_dtl.perm_id order by krim_typ_attr_t.sort_cd desc)
+			                                                            loop
+			                                                                           v_perm_nm := v_perm_nm || ' ' || perm_attr_val.attr_val;
+			                                                            end loop;
+			                                             else
+			                                                            for perm_attr_val in (select krim_perm_attr_data_t.attr_val from krim_perm_attr_data_t join krim_typ_attr_t on krim_perm_attr_data_t.kim_attr_defn_id = krim_typ_attr_t.kim_attr_defn_id where krim_typ_attr_t.kim_typ_id = perm_dtl.kim_typ_id and krim_perm_attr_data_t.perm_id = perm_dtl.perm_id order by krim_typ_attr_t.sort_cd)
+			                                                            loop
+			                                                                           v_perm_nm := v_perm_nm || ' ' || perm_attr_val.attr_val;
+			                                                            end loop;
+			                                             end if;
+			            if (length(v_perm_nm) > 100) then
+			                                             v_perm_nm := substr(v_perm_nm, 1, 96) || '...';
+			                              end if;
+			        end if;
+			                              -- and save the perm
+			                              --dbms_output.put_line('update krim_perm_t set nm = '''||v_perm_nm||''' where perm_id = '''||perm_dtl.perm_id||''' ');
+			                              execute immediate 'update krim_perm_t set nm = '''||v_perm_nm||''' where perm_id = '''||perm_dtl.perm_id||''' ';
+			               end loop;
+			end;
+		</sql>
+		<sql splitStatements="false" stripComments="false">
+			-- fix responsibilities
+			declare
+			               v_rsp_nm VARCHAR2(4000);
+			begin
+			               dbms_output.enable(50000);
+			               for rsp_dtl in (select rsp_id from krim_rsp_t where nmspc_cd like 'KFS%' and NVL( nm, 'Review' ) = 'Review')
+			               loop
+			                              v_rsp_nm := 'Review';
+			                              for rsp_doc_typ in (select attr_val from krim_rsp_attr_data_t where rsp_id = rsp_dtl.rsp_id and kim_attr_defn_id = (select kim_attr_defn_id from krim_attr_defn_t where nm = 'documentTypeName'))
+			                              loop
+			                                             v_rsp_nm := v_rsp_nm || ' ' || rsp_doc_typ.attr_val;
+			                              end loop;
+			                              for rsp_rte_node in (select attr_val from krim_rsp_attr_data_t where rsp_id = rsp_dtl.rsp_id and kim_attr_defn_id = (select kim_attr_defn_id from krim_attr_defn_t where nm = 'routeNodeName'))
+			                              loop
+			                                             v_rsp_nm := v_rsp_nm || ' ' || rsp_rte_node.attr_val;
+			                              end loop;
+			                              -- and save
+			                              --dbms_output.put_line('update krim_rsp_t set nm = '''||v_rsp_nm||''' where rsp_id = '''||rsp_dtl.rsp_id||''' ');
+			                              execute immediate 'update krim_rsp_t set nm = '''||v_rsp_nm||''' where rsp_id = '''||rsp_dtl.rsp_id||''' ';
+			               end loop;
+			end;
+		</sql>
+	</changeSet>
+
 	<changeSet author="KFS50" id="KFSAR-6012">
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="KFSAR6012" />

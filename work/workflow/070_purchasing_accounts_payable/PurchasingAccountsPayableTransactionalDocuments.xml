@@ -1316,18 +1316,18 @@
       <routePaths>
         <routePath>
           <start name="AdHoc" nextNode="RequiresImageAttachment" nextAppDocStatus="Awaiting AP Review"/>
-          <split name="RequiresImageAttachment" nextNode="PurchaseWasReceived" nextAppDocStatus="Awaiting Receiving">
+          <split name="RequiresImageAttachment" nextNode="PurchaseWasReceived">
             <branch name="True">
-              <role name="ImageAttachment" nextNode="JoinRequiresImageAttachment" nextAppDocStatus="Awaiting AP Review"/>
+              <role name="ImageAttachment" nextNode="JoinRequiresImageAttachment" nextAppDocStatus="Awaiting Receiving" />
             </branch>
             <branch name="False">
               <simple name="NoOpRequiresImageAttachment" nextNode="JoinRequiresImageAttachment" nextAppDocStatus="Awaiting AP Review"/>
             </branch>
             <join name="JoinRequiresImageAttachment"/>
           </split>
-          <split name="PurchaseWasReceived" nextNode="SubAccount" nextAppDocStatus="Awaiting Sub-Account Manager Approval">
+          <split name="PurchaseWasReceived" nextNode="SubAccount">
             <branch name="True">
-              <role name="Receiving" nextNode="JoinReceiving"/>
+              <role name="Receiving" nextNode="JoinReceiving" nextAppDocStatus="Awaiting Sub-Account Manager Approval" />
             </branch>
             <branch name="False">
               <simple name="NoOpReceiving" nextNode="JoinReceiving"/>

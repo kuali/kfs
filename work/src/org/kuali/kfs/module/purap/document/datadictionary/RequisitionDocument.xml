@@ -142,6 +142,7 @@
         <ref bean="RequisitionDocument-vendorLine1Address"/>
         <ref bean="RequisitionDocument-vendorCityName"/>
         <ref bean="RequisitionDocument-vendorCountryCode"/>
+        <ref bean="RequisitionDocument-vendorCountryName"/>
         <ref bean="RequisitionDocument-alternate1VendorName"/>
         <ref bean="RequisitionDocument-alternate2VendorName"/>
         <ref bean="RequisitionDocument-alternate3VendorName"/>
@@ -939,6 +940,11 @@
 
   <bean id="RequisitionDocument-vendorCountryCode-parentBean" abstract="true" parent="VendorGenericAttributes-countryCode">
     <property name="name" value="vendorCountryCode"/>
+  </bean>
+  <bean id="RequisitionDocument-vendorCountryName" parent="RequisitionDocument-vendorCountryName-parentBean"/>
+
+  <bean id="RequisitionDocument-vendorCountryName-parentBean" abstract="true" parent="Country-name">
+    <property name="name" value="vendorCountryName"/>
   </bean>
   <bean id="RequisitionDocument-alternate1VendorName" parent="RequisitionDocument-alternate1VendorName-parentBean"/>
 

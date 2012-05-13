@@ -232,6 +232,10 @@
   </bean>
   <bean id="VendorCreditMemoDocument-vendorCountryCode" parent="VendorCreditMemoDocument-vendorCountryCode-parentBean"/>
 
+  <bean id="VendorCreditMemoDocument-vendorCountryCode-parentBean" abstract="true" parent="VendorGenericAttributes-countryCode">
+    <property name="name" value="vendorCountryCode"/>
+    <property name="required" value="true"/>
+  </bean>
   <bean id="VendorCreditMemoDocument-vendorCountryName" parent="VendorCreditMemoDocument-vendorCountryName-parentBean"/>
 
   <bean id="VendorCreditMemoDocument-vendorCountryName-parentBean" abstract="true" parent="Country-name">
@@ -244,10 +248,6 @@
     <property name="name" value="vendorAttentionName"/>
   </bean>
   
-  <bean id="VendorCreditMemoDocument-vendorCountryCode-parentBean" abstract="true" parent="VendorGenericAttributes-countryCode">
-    <property name="name" value="vendorCountryCode"/>
-    <property name="required" value="true"/>
-  </bean>
   <bean id="VendorCreditMemoDocument-accountsPayableApprovalTimestamp" parent="VendorCreditMemoDocument-accountsPayableApprovalTimestamp-parentBean"/>
 
   <bean id="VendorCreditMemoDocument-accountsPayableApprovalTimestamp-parentBean" abstract="true" parent="GenericAttributes-genericDate">

@@ -945,6 +945,7 @@
 
   <bean id="RequisitionDocument-vendorCountryName-parentBean" abstract="true" parent="Country-name">
     <property name="name" value="vendorCountryName"/>
+    <property name="required" value="false"/>
   </bean>
   <bean id="RequisitionDocument-alternate1VendorName" parent="RequisitionDocument-alternate1VendorName-parentBean"/>
 

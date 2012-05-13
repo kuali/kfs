@@ -59,6 +59,7 @@
         <ref bean="VendorCreditMemoDocument-vendorLine1Address"/>
         <ref bean="VendorCreditMemoDocument-vendorCityName"/>
         <ref bean="VendorCreditMemoDocument-vendorCountryCode"/>
+        <ref bean="VendorCreditMemoDocument-vendorCountryName"/>
         <ref bean="VendorCreditMemoDocument-vendorAttentionName"/>
         <ref bean="VendorCreditMemoDocument-accountsPayableApprovalTimestamp"/>
         <ref bean="VendorCreditMemoDocument-holdIndicator"/>
@@ -231,6 +232,12 @@
   </bean>
   <bean id="VendorCreditMemoDocument-vendorCountryCode" parent="VendorCreditMemoDocument-vendorCountryCode-parentBean"/>
 
+  <bean id="VendorCreditMemoDocument-vendorCountryName" parent="VendorCreditMemoDocument-vendorCountryName-parentBean"/>
+
+  <bean id="VendorCreditMemoDocument-vendorCountryName-parentBean" abstract="true" parent="Country-name">
+    <property name="name" value="vendorCountryName"/>
+  </bean>
+  
   <bean id="VendorCreditMemoDocument-vendorAttentionName" parent="VendorCreditMemoDocument-vendorAttentionName-parentBean"/>
 
   <bean id="VendorCreditMemoDocument-vendorAttentionName-parentBean" abstract="true" parent="VendorGenericAttributes-attentionName">

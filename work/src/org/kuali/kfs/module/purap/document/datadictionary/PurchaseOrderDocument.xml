@@ -167,6 +167,7 @@
         <ref bean="PurchaseOrderDocument-vendorLine1Address"/>
         <ref bean="PurchaseOrderDocument-vendorCityName"/>
         <ref bean="PurchaseOrderDocument-vendorCountryCode"/>
+        <ref bean="PurchaseOrderDocument-vendorCountryName"/>
         <ref bean="PurchaseOrderDocument-recurringPaymentFrequencyCode"/>
         <ref bean="PurchaseOrderDocument-requisitionSource"/>
         <ref bean="PurchaseOrderDocument-statusChange"/>
@@ -1248,7 +1249,14 @@
   <bean id="PurchaseOrderDocument-vendorCountryCode-parentBean" abstract="true" parent="VendorGenericAttributes-countryCode">
     <property name="name" value="vendorCountryCode"/>
     <property name="required" value="true"/>
+  </bean>  
+  
+  <bean id="PurchaseOrderDocument-vendorCountryName" parent="PurchaseOrderDocument-vendorCountryName-parentBean"/>
+
+  <bean id="PurchaseOrderDocument-vendorCountryName-parentBean" abstract="true" parent="Country-name">
+    <property name="name" value="vendorCountryName"/>
   </bean>
+    
   <bean id="PurchaseOrderDocument-recurringPaymentFrequencyCode" parent="PurchaseOrderDocument-recurringPaymentFrequencyCode-parentBean"/>
 
   <bean id="PurchaseOrderDocument-recurringPaymentFrequencyCode-parentBean" abstract="true" parent="RecurringPaymentFrequency-recurringPaymentFrequencyCode">

@@ -63,6 +63,7 @@
         <ref bean="PaymentRequestDocument-vendorLine1Address"/>
         <ref bean="PaymentRequestDocument-vendorCityName"/>
         <ref bean="PaymentRequestDocument-vendorCountryCode"/>
+        <ref bean="PaymentRequestDocument-vendorCountryName"/>
         <ref bean="PaymentRequestDocument-vendorAttentionName"/>        
         <ref bean="PaymentRequestDocument-accountsPayableApprovalTimestamp"/>
         <ref bean="PaymentRequestDocument-accountsPayableApprovalDateForSearching"/>
@@ -281,7 +282,13 @@
     <property name="name" value="vendorCountryCode"/>
     <property name="required" value="true"/>
   </bean>
-  
+
+  <bean id="PaymentRequestDocument-vendorCountryName" parent="PaymentRequestDocument-vendorCountryName-parentBean"/>
+
+  <bean id="PaymentRequestDocument-vendorCountryName-parentBean" abstract="true" parent="Country-name">
+    <property name="name" value="vendorCountryName"/>
+  </bean>
+    
   <bean id="PaymentRequestDocument-vendorAttentionName" parent="PaymentRequestDocument-vendorAttentionName-parentBean"/>
 
   <bean id="PaymentRequestDocument-vendorAttentionName-parentBean" abstract="true" parent="VendorGenericAttributes-attentionName">

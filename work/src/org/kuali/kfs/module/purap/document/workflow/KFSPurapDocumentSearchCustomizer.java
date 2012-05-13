@@ -62,10 +62,6 @@ public class KFSPurapDocumentSearchCustomizer extends KFSDocumentSearchCustomize
         for (DocumentSearchResult result : defaultResults) {
             List<DocumentAttribute.AbstractBuilder<?>> custAttrBuilders = new ArrayList<DocumentAttribute.AbstractBuilder<?>>();
             Document document = result.getDocument();
-            //we need to capture the application document application document value from the document to applicationDocumentStatus attribute.
-        //    DocumentAttributeString.Builder appDocStatusBuilder = DocumentAttributeString.Builder.create(KFSPropertyConstants.APPLICATION_DOCUMENT_STATUS);
-        //    appDocStatusBuilder.setValue(document.getApplicationDocumentStatus());
-        //    custAttrBuilders.add(appDocStatusBuilder);
             
             for (DocumentAttribute documentAttribute : result.getDocumentAttributes()) {
                 if (KFSPropertyConstants.PURAP_DOC_ID.equals(documentAttribute.getName())) {

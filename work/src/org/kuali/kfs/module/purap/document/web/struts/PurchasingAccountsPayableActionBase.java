@@ -59,27 +59,11 @@ import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.service.PersistenceService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 /**
  * Struts Action for Purchasing and Accounts Payable documents
  */
 public class PurchasingAccountsPayableActionBase extends KualiAccountingDocumentActionBase {
-
-    /**
-     * @see org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase#copy(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
- //   @Override
-//    public ActionForward copy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        super.copy(mapping, form, request, response);
- //       
-//        PurchasingAccountsPayableFormBase purapForm = (PurchasingAccountsPayableFormBase) form;
- //       PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument) purapForm.getDocument();
- //       document.setAppDocStatus(PurapConstants.RequisitionStatuses.APPDOC_IN_PROCESS);
- //       SpringContext.getBean(WorkflowDocumentService.class).saveRoutingData(document.getDocumentHeader().getWorkflowDocument());
- //       
- //       return mapping.findForward(RiceConstants.MAPPING_BASIC);        
- //   }
 
     /**
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#loadDocument(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)

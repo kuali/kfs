@@ -481,6 +481,7 @@
 	</target>
 	
 	<target name="clean-project" depends="init-properties,clean-help,clean-rice">
+		<delete dir="${build.rice.lib.directory}" />
 		<delete failonerror="false" includeemptydirs="true">
 			<fileset dir="${basedir}">
 				<include name="${source.directory}/${configuration.file}" />

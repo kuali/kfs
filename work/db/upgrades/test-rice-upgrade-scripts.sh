@@ -1,4 +1,4 @@
-set -e
+set -e -x
 # Control Variables for Testing Parts of Scripts
 IMPORT_OLD_PROJECT=${IMPORT_OLD_PROJECT:-true}
 RUN_UPGRADE_SCRIPTS=${RUN_UPGRADE_SCRIPTS:-true}
@@ -35,7 +35,7 @@ UPGRADE_SCRIPT_DIR=$PROJECT_DIR/work/db/upgrades/${UPGRADE_SCRIPT_DIR:-4.1.1_5.0
 SVNREPO=${SVNREPO:-https://svn.kuali.org/repos}
 BASE_SVN_DATA_PATH=$SVNREPO/kfs/legacy/cfg-dbs
 PRIOR_SVN_DATA_PATH=$BASE_SVN_DATA_PATH/$OLD_BRANCH_PATH
-PRIOR_SVN_RICE_DATA_PATH=$SVNREPO/kfs/$OLD_BRANCH_PATH/work/db/rice-data
+PRIOR_SVN_KFS_PATH=$SVNREPO/kfs/$OLD_BRANCH_PATH
 
 DB_TYPE=${DB_TYPE:-MYSQL}
 DB_USER=${DB_USER:-dbtest}
@@ -70,32 +70,32 @@ cat <<-EOF
 	username=$DB_USER
 	password=$DB_PASSWORD		
 EOF
-) > $TEMP_DIR/liquibase.properties
+) > $WORKSPACE/liquibase.properties
 
 if [[ "$IMPORT_OLD_PROJECT" == "true" ]]; then
 	
 	echo Obtaining OLD Data Project from $PRIOR_SVN_DATA_PATH
 	# Check out the old data project
-	if [[ -d $TEMP_DIR/old_data ]]; then
-		svn -q revert -R $TEMP_DIR/old_data
-		svn -q switch $PRIOR_SVN_DATA_PATH $TEMP_DIR/old_data
-		svn -q update --non-interactive $TEMP_DIR/old_data
+	if [[ -d $WORKSPACE/old_data ]]; then
+		svn -q revert -R $WORKSPACE/old_data
+		svn -q switch $PRIOR_SVN_DATA_PATH $WORKSPACE/old_data
+		svn -q update --non-interactive $WORKSPACE/old_data
 	else
-		svn -q co $PRIOR_SVN_DATA_PATH $TEMP_DIR/old_data
+		svn -q co $PRIOR_SVN_DATA_PATH $WORKSPACE/old_data
 	fi
 	
-	if [[ -d $TEMP_DIR/old_rice_data ]]; then
-		svn -q revert -R $TEMP_DIR/old_rice_data
-		svn -q switch $PRIOR_SVN_RICE_DATA_PATH $TEMP_DIR/old_rice_data
-		svn -q update --non-interactive $TEMP_DIR/old_rice_data
+	if [[ -d $WORKSPACE/old_kfs ]]; then
+		#svn -q revert -R $WORKSPACE/old_kfs
+		#svn -q switch $PRIOR_SVN_KFS_PATH $WORKSPACE/old_kfs
+		#svn -q update --non-interactive $WORKSPACE/old_kfs
 	else
-		svn -q co $PRIOR_SVN_RICE_DATA_PATH $TEMP_DIR/old_rice_data
+		svn -q co $PRIOR_SVN_KFS_PATH $WORKSPACE/old_kfs
 	fi
 
 	# Prepare a tomcat directory that can be written to
-	rm -rf $TEMP_DIR/tomcat
-	mkdir -p $TEMP_DIR/tomcat/common/lib
-	mkdir -p $TEMP_DIR/tomcat/common/classes
+	rm -rf $WORKSPACE/tomcat
+	mkdir -p $WORKSPACE/tomcat/common/lib
+	mkdir -p $WORKSPACE/tomcat/common/classes
 	
 	# Lower-case the table names in case we are running against MySQL on Amazon RDS
 	perl -pi -e 's/dbTable="([^"]*)"/dbTable="\U\1"/g' $TEMP_DIR/old_data/development/graphs/*.xml
@@ -107,7 +107,7 @@ if [[ "$IMPORT_OLD_PROJECT" == "true" ]]; then
 		import.torque.database.password=$DB_PASSWORD
 
 		torque.project=kfs
-		torque.schema.dir=$TEMP_DIR/old_data/rice
+		torque.schema.dir=$WORKSPACE/old_data/rice
 		torque.sql.dir=\${torque.schema.dir}/sql
 		torque.output.dir=\${torque.schema.dir}/sql
 
@@ -120,28 +120,43 @@ if [[ "$IMPORT_OLD_PROJECT" == "true" ]]; then
 		import.admin.url=$ADMIN_DATASOURCE
 
 		oracle.usermaint.user=kulusermaint
+		
+		post.import.liquibase.project=kfs
+		post.import.liquibase.xml.directory=$WORKSPACE/old_kfs/work/db/rice-data
+		post.import.liquibase.contexts=bootstrap,demo
+		
+		post.import.workflow.project=kfs
+		post.import.workflow.xml.directory=$WORKSPACE/old_kfs/work/workflow
+		post.import.workflow.ingester.launcher.ant.script=$WORKSPACE/old_kfs/build.xml
+		post.import.workflow.ingester.launcher.ant.target=import-workflow-xml
+		post.import.workflow.ingester.launcher.ant.xml.directory.property=workflow.dir
+		
+		post.import.workflow.ingester.jdbc.url.property=datasource.url
+		post.import.workflow.ingester.username.property=datasource.username
+		post.import.workflow.ingester.password.property=datasource.password
+		post.import.workflow.ingester.additional.command.line=-Ddatasource.ojb.platform=$OJB_PLATFORM \
+		-Dbase.directory=\${torque.output.dir} \
+		-Dis.local.build= \
+		-Ddev.mode= \
+		-Drice.dev.mode=true \
+		-Drice.ksb.batch.mode=true \
+		-Ddont.filter.project.rice= \
+		-Ddont.filter.project.spring.ide=
+		
 	EOF
-	) > $TEMP_DIR/impex-build.properties
+	) > $WORKSPACE/impex-build.properties
 
 	if [[ "$DB_TYPE" == "MYSQL" ]]; then
-		perl -pi -e 's/dbTable="([^"]*)"/dbTable="\U\1"/g' $TEMP_DIR/old_data/rice/graphs/*.xml
-		perl -pi -e 's/viewdefinition="([^"]*)"/viewdefinition="\U\1"/g' $TEMP_DIR/old_data/rice/schema.xml
-		perl -pi -e 's/&#[^;]*;/ /gi' $TEMP_DIR/old_data/rice/schema.xml
+		perl -pi -e 's/dbTable="([^"]*)"/dbTable="\U\1"/g' $WORKSPACE/old_data/rice/graphs/*.xml
+		perl -pi -e 's/viewdefinition="([^"]*)"/viewdefinition="\U\1"/g' $WORKSPACE/old_data/rice/schema.xml
+		perl -pi -e 's/&#[^;]*;/ /gi' $WORKSPACE/old_data/rice/schema.xml
 	fi
 	
-	pushd $PROJECT_DIR/work/db/kfs-db/db-impex/impex
-	ant "-Dimpex.properties.file=$TEMP_DIR/impex-build.properties" drop-schema create-schema create-ddl apply-ddl import-data apply-constraint-ddl
+	pushd $WORKSPACE/old_kfs/work/db/kfs-db/db-impex/impex
+	ant "-Dimpex.properties.file=$WORKSPACE/impex-build.properties" drop-schema create-schema import
 	popd
-	cp $TEMP_DIR/old_data/rice/schema.xml $WORKSPACE/old_schema.xml
+	cp $WORKSPACE/old_data/rice/schema.xml $WORKSPACE/old_schema.xml
 	
-	pushd $TEMP_DIR/old_rice_data
-	java -jar liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --contexts=demo --changeLogFile=01_bootstrap_krns_data.xml update
-	java -jar liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --contexts=demo --changeLogFile=02_bootstrap_krim_entity_data.xml update
-	java -jar liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --contexts=demo --changeLogFile=03_bootstrap_krim_role_perm_data.xml update
-	java -jar liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --contexts=demo --changeLogFile=04_demo_krns_data.xml update
-	java -jar liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --contexts=demo --changeLogFile=05_demo_krim_entity_data.xml update
-	java -jar liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --contexts=demo --changeLogFile=06_demo_krim_role_perm_data.xml update
-	popd
 fi
 
 set $PROJECT_DIR/build/drivers/*.jar
@@ -151,15 +166,15 @@ cd $WORKSPACE
 if [[ "$RUN_UPGRADE_SCRIPTS" == "true" ]]; then
 	pushd $UPGRADE_SCRIPT_DIR/rice_server
 
-	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=kew_upgrade.xml updateSQL > $WORKSPACE/upgrade.sql
-	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=kim_upgrade.xml updateSQL >> $WORKSPACE/upgrade.sql
-	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=rice-server-script.xml updateSQL >> $WORKSPACE/upgrade.sql
-	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=parameter_updates.xml updateSQL >> $WORKSPACE/upgrade.sql
+	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=finest --changeLogFile=kew_upgrade.xml updateSQL > $WORKSPACE/upgrade.sql
+	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=finest --changeLogFile=kim_upgrade.xml updateSQL >> $WORKSPACE/upgrade.sql
+	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=finest --changeLogFile=rice-server-script.xml updateSQL >> $WORKSPACE/upgrade.sql
+	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=finest --changeLogFile=parameter_updates.xml updateSQL >> $WORKSPACE/upgrade.sql
 
-	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=kew_upgrade.xml update
-	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=kim_upgrade.xml update
-	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=rice-server-script.xml update
-	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=parameter_updates.xml update
+	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=finest --changeLogFile=kew_upgrade.xml update
+	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=finest --changeLogFile=kim_upgrade.xml update
+	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=finest --changeLogFile=rice-server-script.xml update
+	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=finest --changeLogFile=parameter_updates.xml update
 	popd
 fi
 

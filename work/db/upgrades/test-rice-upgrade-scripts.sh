@@ -42,26 +42,6 @@ DB_ADMIN_USER=${DB_ADMIN_USER:-root}
 DB_PASSWORD=${DB_PASSWORD:-$DB_USER}
 DB_ADMIN_PASSWORD=${DB_ADMIN_PASSWORD:-}
 
-echo Obtaining OLD Data Project from $PRIOR_SVN_DATA_PATH
-# Check out the old data project
-if [[ -d $TEMP_DIR/old_data ]]; then
-	svn -q revert -R $TEMP_DIR/old_data
-	svn -q switch $PRIOR_SVN_DATA_PATH $TEMP_DIR/old_data
-	svn -q update --non-interactive $TEMP_DIR/old_data
-else
-	svn -q co $PRIOR_SVN_DATA_PATH $TEMP_DIR/old_data
-fi
-
-# Prepare a tomcat directory that can be written to
-rm -rf $TEMP_DIR/tomcat
-mkdir -p $TEMP_DIR/tomcat/common/lib
-mkdir -p $TEMP_DIR/tomcat/common/classes
-
-# Lower-case the table names in case we are running against MySQL on Amazon RDS
-perl -pi -e 's/dbTable="([^"]*)"/dbTable="\U\1"/g' $TEMP_DIR/old_data/development/graphs/*.xml
-
-# TODO: may need to lower case in the upgrade scripts as well
-
 # Set some properties based on the database type
 if [[ "$DB_TYPE" == "MYSQL" ]]; then
   DATASOURCE=$MYSQL_TEST_DB_URL/$DB_SCHEMA
@@ -80,6 +60,25 @@ fi
 cd $WORKSPACE
 
 if [[ "$IMPORT_OLD_PROJECT" == "true" ]]; then
+	
+	echo Obtaining OLD Data Project from $PRIOR_SVN_DATA_PATH
+	# Check out the old data project
+	if [[ -d $TEMP_DIR/old_data ]]; then
+		svn -q revert -R $TEMP_DIR/old_data
+		svn -q switch $PRIOR_SVN_DATA_PATH $TEMP_DIR/old_data
+		svn -q update --non-interactive $TEMP_DIR/old_data
+	else
+		svn -q co $PRIOR_SVN_DATA_PATH $TEMP_DIR/old_data
+	fi
+
+	# Prepare a tomcat directory that can be written to
+	rm -rf $TEMP_DIR/tomcat
+	mkdir -p $TEMP_DIR/tomcat/common/lib
+	mkdir -p $TEMP_DIR/tomcat/common/classes
+	
+	# Lower-case the table names in case we are running against MySQL on Amazon RDS
+	perl -pi -e 's/dbTable="([^"]*)"/dbTable="\U\1"/g' $TEMP_DIR/old_data/development/graphs/*.xml
+
 	(
 	cat <<-EOF
 		import.torque.database.user=$DB_USER
@@ -106,12 +105,13 @@ if [[ "$IMPORT_OLD_PROJECT" == "true" ]]; then
 	if [[ "$DB_TYPE" == "MYSQL" ]]; then
 		perl -pi -e 's/dbTable="([^"]*)"/dbTable="\U\1"/g' $TEMP_DIR/old_data/rice/graphs/*.xml
 		perl -pi -e 's/viewdefinition="([^"]*)"/viewdefinition="\U\1"/g' $TEMP_DIR/old_data/rice/schema.xml
-		perl -pi -e 's/&#[^;]*;/ /gi' $TEMP_DIR/old_data/rice/schema.xml	
+		perl -pi -e 's/&#[^;]*;/ /gi' $TEMP_DIR/old_data/rice/schema.xml
 	fi
 	
 	pushd $PROJECT_DIR/work/db/kfs-db/db-impex/impex
 	ant "-Dimpex.properties.file=$TEMP_DIR/impex-build.properties" drop-schema create-schema create-ddl apply-ddl import-data apply-constraint-ddl
 	popd
+	cp $TEMP_DIR/old_data/rice/schema.xml $WORKSPACE/old_schema.xml
 fi
 
 set $PROJECT_DIR/build/drivers/*.jar
@@ -169,6 +169,7 @@ if [[ "$EXPORT_UPGRADED_PROJECT" == "true" ]]; then
 	pushd $PROJECT_DIR/work/db/kfs-db/db-impex/impex
 	ant "-Dimpex.properties.file=$TEMP_DIR/impex-build.properties" jdbc-to-xml
 	popd
+	cp $TEMP_DIR/upgraded_data/schema.xml $WORKSPACE/upgraded_schema.xml
 fi
 
 # Compare the schema.xml files
@@ -176,9 +177,7 @@ fi
 if [[ "$PERFORM_COMPARISON" == "true" ]]; then
 	cd $WORKSPACE
 	pushd $TEMP_DIR
-	cp old_data/development/schema.xml $WORKSPACE/old_schema.xml
-	cp upgraded_data/schema.xml $WORKSPACE/upgraded_schema.xml
-	cp $PROJECT_DIR/work/db/kfs-db/development/schema.xml $WORKSPACE/new_schema.xml
+	cp $PROJECT_DIR/work/db/kfs-db/rice/schema.xml $WORKSPACE/new_schema.xml
 	popd
 	# Sanitize the sequence next values
 	perl -pi -e 's/nextval="[^"]*"/nextval="0"/g' upgraded_schema.xml

@@ -577,7 +577,7 @@ COMMIT;
 			<column name="LAST_UPDT_DT" value="SYSDATE"/>
 		</insert>
 		<insert tableName="KRIM_ROLE_MBR_T">
-			<column name="KRIM_ROLE_MBR_ID" value="KFSMI4553-3"/>
+			<column name="ROLE_MBR_ID" value="KFSMI4553-3"/>
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1"/>
 			<column name="ROLE_ID" value="KFSMI4553-2"/>
@@ -770,7 +770,7 @@ COMMIT;
 			<column name="LAST_UPDT_DT" value="SYSDATE" />
 		</insert>
 		<insert tableName="KRIM_ROLE_MBR_T">
-			<column name="KRIM_ROLE_MBR_ID" value="KFSMI6886-ROLE-P2" />
+			<column name="ROLE_MBR_ID" value="KFSMI6886-ROLE-P2" />
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1" />
 			<column name="ROLE_ID" value="KFSMI6886-ROLE" />

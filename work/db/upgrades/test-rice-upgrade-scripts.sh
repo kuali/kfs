@@ -4,6 +4,7 @@ IMPORT_OLD_PROJECT=${IMPORT_OLD_PROJECT:-true}
 RUN_UPGRADE_SCRIPTS=${RUN_UPGRADE_SCRIPTS:-true}
 EXPORT_UPGRADED_PROJECT=${EXPORT_UPGRADED_PROJECT:-true}
 PERFORM_COMPARISON=${PERFORM_COMPARISON:-true}
+REBUILD_SCHEMA=${REBUILD_SCHEMA:-true}
 
 # Check for WORKSPACE (a Jenkins variable) and set if necessary so this script 
 # can run outside of Hudson
@@ -107,8 +108,8 @@ if [[ "$IMPORT_OLD_PROJECT" == "true" ]]; then
 		post.import.workflow.ingester.password.property=datasource.password
 		post.import.workflow.ingester.additional.command.line=-v -Ddatasource.ojb.platform=$OJB_PLATFORM \
 -Dbase.directory=$WORKSPACE \
--Dappserver.home=$WORKSPACE/tomcat
--Dexternal.config.directory=$WORKSPACE/opt		
+-Dappserver.home=$WORKSPACE/tomcat \
+-Dexternal.config.directory=$WORKSPACE/opt \		
 -Dis.local.build= \
 -Ddev.mode= \
 -Drice.dev.mode=true \
@@ -126,6 +127,10 @@ if [[ "$IMPORT_OLD_PROJECT" == "true" ]]; then
 	
 	pushd $WORKSPACE/kfs/work/db/kfs-db/db-impex/impex
 	#ant "-Dimpex.properties.file=$WORKSPACE/impex-build.properties" drop-schema create-schema import
+	if [[ "$REBUILD_SCHEMA" == "true" ]]; then
+		ant "-Dimpex.properties.file=$WORKSPACE/impex-build.properties" drop-schema create-schema create-ddl apply-ddl import-data apply-constraint-ddl
+	fi
+	ant "-Dimpex.properties.file=$WORKSPACE/impex-build.properties" run-liquibase-post-import
 	ant "-Dimpex.properties.file=$WORKSPACE/impex-build.properties" import-workflow
 	popd
 	cp $WORKSPACE/old_data/rice/schema.xml $WORKSPACE/old_schema.xml

@@ -46,6 +46,8 @@ else
   TORQUE_PLATFORM=oracle
 fi
 
+set $WORKSPACE/kfs/build/drivers/*.jar
+DRIVER_CLASSPATH=$(IFS=:; echo "$*")
 cd $WORKSPACE
 
 # create the needed liquibase.properties file
@@ -103,7 +105,7 @@ if [[ "$IMPORT_OLD_PROJECT" == "true" ]]; then
 		post.import.workflow.ingester.jdbc.url.property=datasource.url
 		post.import.workflow.ingester.username.property=datasource.username
 		post.import.workflow.ingester.password.property=datasource.password
-		post.import.workflow.ingester.additional.command.line=-Ddatasource.ojb.platform=$OJB_PLATFORM \
+		post.import.workflow.ingester.additional.command.line=-v -Ddatasource.ojb.platform=$OJB_PLATFORM \
 -Dbase.directory=$WORKSPACE \
 -Dappserver.home=$WORKSPACE/tomcat
 -Dexternal.config.directory=$WORKSPACE/opt		
@@ -123,15 +125,12 @@ if [[ "$IMPORT_OLD_PROJECT" == "true" ]]; then
 	fi
 	
 	pushd $WORKSPACE/kfs/work/db/kfs-db/db-impex/impex
-	ant "-Dimpex.properties.file=$WORKSPACE/impex-build.properties" drop-schema create-schema import
+	#ant "-Dimpex.properties.file=$WORKSPACE/impex-build.properties" drop-schema create-schema import
+	ant "-Dimpex.properties.file=$WORKSPACE/impex-build.properties" import-workflow
 	popd
 	cp $WORKSPACE/old_data/rice/schema.xml $WORKSPACE/old_schema.xml
 	
 fi
-
-set $WORKSPACE/kfs/build/drivers/*.jar
-DRIVER_CLASSPATH=$(IFS=:; echo "$*")
-cd $WORKSPACE
 
 if [[ "$RUN_UPGRADE_SCRIPTS" == "true" ]]; then
 	pushd $UPGRADE_SCRIPT_DIR/rice_server

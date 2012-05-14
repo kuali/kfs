@@ -128,16 +128,16 @@ if [[ "$RUN_UPGRADE_SCRIPTS" == "true" ]]; then
 		password=$DB_PASSWORD		
 EOF
 	) > $TEMP_DIR/liquibase.properties
-	pushd $UPGRADE_SCRIPT_DIR/db/rice
+	pushd $UPGRADE_SCRIPT_DIR/db/rice_server
 
 	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=kew_upgrade.xml updateSQL > $WORKSPACE/upgrade.sql
 	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=kim_upgrade.xml updateSQL >> $WORKSPACE/upgrade.sql
-	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=kns_upgrade.xml updateSQL >> $WORKSPACE/upgrade.sql
+	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=rice-server-script.xml updateSQL >> $WORKSPACE/upgrade.sql
 	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=parameter_updates.xml updateSQL >> $WORKSPACE/upgrade.sql
 
 	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=kew_upgrade.xml update
 	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=kim_upgrade.xml update
-	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=kns_upgrade.xml update
+	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=rice-server-script.xml update
 	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=parameter_updates.xml update
 	popd
 fi
@@ -202,3 +202,4 @@ if [[ "$PERFORM_COMPARISON" == "true" ]]; then
 
 	diff -b -i -B -U 3 upgraded_schema.xml new_schema.xml > compare-results.txt
 fi
+exit 0

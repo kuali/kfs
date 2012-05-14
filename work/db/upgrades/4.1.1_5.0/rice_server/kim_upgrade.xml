@@ -265,7 +265,7 @@ COMMIT
 			<column name="sort_cd" value="e" />
 			<where>kim_typ_attr_id='78' and sort_cd='d'</where>
 		</update>
-		<sql>
+		<sql><![CDATA[
 			insert into krim_typ_attr_t (kim_typ_attr_id, obj_id, ver_nbr,
 			sort_cd,
 			kim_typ_id, kim_attr_defn_id, actv_ind)
@@ -279,7 +279,7 @@ COMMIT
 			and
 			nm = 'organizationCode'),
 			'Y');
-		</sql>
+		]]></sql>
 	</changeSet>
 
 		<!-- KFSMI 6842 remove bad data from sub account review role -->

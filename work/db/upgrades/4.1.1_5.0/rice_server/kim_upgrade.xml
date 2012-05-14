@@ -174,57 +174,44 @@ END
 
 	<changeSet author="KFS50" id="FIX_ORG_GROUP_KIM_TYPE">
 		<comment>The new 2.0 rice data contains an overlapping KIM type id.  We need to existing data to reference the updated "KFS68" KIM_TYP_ID.</comment>
-		<sql endDelimiter="/" splitStatements="true">
+		<sql>
 INSERT INTO KRIM_TYP_T(KIM_TYP_ID, OBJ_ID, VER_NBR, NM, SRVC_NM, ACTV_IND, NMSPC_CD) 
     (SELECT 'KFS68', 'KFS68_2', VER_NBR, NM, SRVC_NM, ACTV_IND, NMSPC_CD 
         FROM KRIM_TYP_T
-        WHERE KIM_TYP_ID = '68')
-/
+        WHERE KIM_TYP_ID = '68');
 INSERT INTO KRIM_TYP_ATTR_T(KIM_TYP_ATTR_ID, OBJ_ID, VER_NBR, SORT_CD, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ACTV_IND) 
 	(SELECT CONCAT('KFS68_',KIM_ATTR_DEFN_ID), CONCAT('KFS68_',KIM_ATTR_DEFN_ID), VER_NBR, SORT_CD, 'KFS68', KIM_ATTR_DEFN_ID, ACTV_IND 
         FROM KRIM_TYP_ATTR_T
-        WHERE KIM_TYP_ID = '68')
-/
+        WHERE KIM_TYP_ID = '68');
 UPDATE KRIM_GRP_T
     SET KIM_TYP_ID = 'KFS68'
-    WHERE KIM_TYP_ID = '68'
-/
+    WHERE KIM_TYP_ID = '68';
 UPDATE KRIM_GRP_ATTR_DATA_T
     SET KIM_TYP_ID = 'KFS68'
-    WHERE KIM_TYP_ID = '68'
-/
-DELETE FROM KRIM_TYP_ATTR_T WHERE KIM_TYP_ID = '68'
-/
-DELETE FROM KRIM_TYP_T WHERE KIM_TYP_ID = '68'
-/
-COMMIT
-/
+    WHERE KIM_TYP_ID = '68';
+DELETE FROM KRIM_TYP_ATTR_T WHERE KIM_TYP_ID = '68';
+DELETE FROM KRIM_TYP_T WHERE KIM_TYP_ID = '68';
+COMMIT;
 		</sql>
 	</changeSet>
 
 	<changeSet author="KFS50" id="FIX_ROLE_KIM_TYPE">
 		<comment>The new 2.0 rice data contains an overlapping KIM type id.  We need to existing data to reference the updated "KFS69" KIM_TYP_ID.</comment>
-		<sql endDelimiter="/" splitStatements="true">
-UPDATE KRIM_ROLE_T SET KIM_TYP_ID = '1' WHERE role_id = '98'
-/
+		<sql>
+UPDATE KRIM_ROLE_T SET KIM_TYP_ID = '1' WHERE role_id = '98';
 UPDATE KRIM_TYP_T
     SET KIM_TYP_ID = 'KFS69' 
-    WHERE KIM_TYP_ID = '69'
-/
-UPDATE KRIM_ROLE_T SET KIM_TYP_ID = 'KFS69' WHERE role_id = '98'
-/
-COMMIT
-/
+    WHERE KIM_TYP_ID = '69';
+UPDATE KRIM_ROLE_T SET KIM_TYP_ID = 'KFS69' WHERE role_id = '98';
+COMMIT;
 		</sql>
 	</changeSet>
 
 	<changeSet author="KFS50" id="FIX_ROLE_ID">
 		<comment>The new 2.0 rice data contains an overlapping KIM Role id.</comment>
-		<sql endDelimiter="/" splitStatements="true">
-UPDATE KRIM_ROLE_T SET role_id = 'KFS98' WHERE role_id = '98'
-/
-COMMIT
-/
+		<sql>
+UPDATE KRIM_ROLE_T SET role_id = 'KFS98' WHERE role_id = '98';
+COMMIT;
 		</sql>
 	</changeSet>
 

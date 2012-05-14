@@ -1,4 +1,4 @@
-set -e
+set -e -u
 # Control Variables for Testing Parts of Scripts
 IMPORT_OLD_PROJECT=${IMPORT_OLD_PROJECT:-true}
 RUN_UPGRADE_SCRIPTS=${RUN_UPGRADE_SCRIPTS:-true}
@@ -35,7 +35,7 @@ UPGRADE_SCRIPT_DIR=$PROJECT_DIR/work/db/upgrades/${UPGRADE_SCRIPT_DIR:-4.1.1_5.0
 SVNREPO=${SVNREPO:-https://svn.kuali.org/repos}
 BASE_SVN_DATA_PATH=$SVNREPO/kfs/legacy/cfg-dbs
 PRIOR_SVN_DATA_PATH=$BASE_SVN_DATA_PATH/$OLD_BRANCH_PATH
-PRIOR_SVN_RICE_DATA_PATH=$SVN_REPO/kfs/${OLD_PATH_BRANCH}/work/db/rice-data
+PRIOR_SVN_RICE_DATA_PATH=$SVNREPO/kfs/${OLD_PATH_BRANCH}/work/db/rice-data
 
 DB_TYPE=${DB_TYPE:-MYSQL}
 DB_USER=${DB_USER:-dbtest}

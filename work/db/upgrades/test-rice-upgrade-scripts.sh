@@ -135,12 +135,12 @@ if [[ "$IMPORT_OLD_PROJECT" == "true" ]]; then
 	cp $TEMP_DIR/old_data/rice/schema.xml $WORKSPACE/old_schema.xml
 	
 	pushd $TEMP_DIR/old_rice_data
-	java -jar liquibase*.jar --logLevel=finest --contexts=demo --changeLogFile=01_bootstrap_krns_data.xml
-	java -jar liquibase*.jar --logLevel=finest --contexts=demo --changeLogFile=02_bootstrap_krim_entity_data.xml
-	java -jar liquibase*.jar --logLevel=finest --contexts=demo --changeLogFile=03_bootstrap_krim_role_perm_data.xml
-	java -jar liquibase*.jar --logLevel=finest --contexts=demo --changeLogFile=04_demo_krns_data.xml
-	java -jar liquibase*.jar --logLevel=finest --contexts=demo --changeLogFile=05_demo_krim_entity_data.xml
-	java -jar liquibase*.jar --logLevel=finest --contexts=demo --changeLogFile=06_demo_krim_role_perm_data.xml
+	java -jar liquibase*.jar --logLevel=finest --contexts=demo --changeLogFile=01_bootstrap_krns_data.xml update
+	java -jar liquibase*.jar --logLevel=finest --contexts=demo --changeLogFile=02_bootstrap_krim_entity_data.xml update
+	java -jar liquibase*.jar --logLevel=finest --contexts=demo --changeLogFile=03_bootstrap_krim_role_perm_data.xml update
+	java -jar liquibase*.jar --logLevel=finest --contexts=demo --changeLogFile=04_demo_krns_data.xml update
+	java -jar liquibase*.jar --logLevel=finest --contexts=demo --changeLogFile=05_demo_krim_entity_data.xml update
+	java -jar liquibase*.jar --logLevel=finest --contexts=demo --changeLogFile=06_demo_krim_role_perm_data.xml update
 	popd
 fi
 

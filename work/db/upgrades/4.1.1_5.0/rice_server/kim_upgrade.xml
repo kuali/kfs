@@ -614,7 +614,7 @@ COMMIT;
 	    </modifySql>
 	</changeSet>
 	
-	<changeSet author="jksmith" id="KFSMI6732_PREROUTE_EDIT_DOCUMENT_PERMISSION_FOR_PAYMENT_APPLICATION">
+	<changeSet author="jksmith" id="KFSMI6732_PREROUTE_EDIT_DOC_PERM_FOR_PAYMENT_APPLICATION">
 		<comment>Creates a permission to allow KR-WKFLW Initiator and KFS-SYS Accounts Receivable Lockbox Manager to edit a Payment Application document pre-route.</comment>
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="KFSAR6732"/>

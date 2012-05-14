@@ -128,7 +128,7 @@ if [[ "$RUN_UPGRADE_SCRIPTS" == "true" ]]; then
 		password=$DB_PASSWORD		
 EOF
 	) > $TEMP_DIR/liquibase.properties
-	pushd $UPGRADE_SCRIPT_DIR/db/rice_server
+	pushd $UPGRADE_SCRIPT_DIR/rice_server
 
 	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=kew_upgrade.xml updateSQL > $WORKSPACE/upgrade.sql
 	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=kim_upgrade.xml updateSQL >> $WORKSPACE/upgrade.sql

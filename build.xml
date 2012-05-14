@@ -51,7 +51,7 @@
 		</if>
 	</target>
 	
-	<target name="dist-local" if="is.local.build" depends="check-rice-lib,clean,filter-project,filter-local,dist-local-rice,overlay-additional-web-content,overlay-additional-schema,filter-project-schema" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
+	<target name="dist-local" if="is.local.build" depends="clean,check-rice-lib,filter-project,filter-local,dist-local-rice,overlay-additional-web-content,overlay-additional-schema,filter-project-schema" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
 		<copy file="${metainf.directory}/${context.file}" tofile="${appserver.localhost.dir}/kfs-${build.environment}.xml" overwrite="true" />
 	</target>
 	
@@ -67,7 +67,7 @@
 
 	<target name="test-local" depends="dist-local,make-tests,test" description="Run all unit tests and format results"/>
 	
-	<target name="filter-libraries" depends="init-properties" description="Copies over institutional lib libraries to the application's library directory">
+	<target name="filter-libraries" depends="init-properties,check-rice-lib" description="Copies over institutional lib libraries to the application's library directory">
 		<mkdir dir="${lib.directory}" />
 				
 		<copy todir="${lib.directory}" verbose="true">

@@ -4,7 +4,7 @@
 
 	<changeSet author="KFS50" id="UPGRADE_KIM_DATA_RICE_20_mysql" dbms="mysql">
 		<sql>DROP PROCEDURE IF EXISTS kim_upgrade</sql>
-		<sql splitStatements="false" stripComments="false">
+		<sql splitStatements="false" stripComments="false"><![CDATA[
 CREATE PROCEDURE kim_upgrade()
 BEGIN
     DECLARE new_perm_nm, new_resp_nm VARCHAR(4000);
@@ -109,14 +109,14 @@ BEGIN
     CLOSE cur_resp;
     COMMIT;
 END
-</sql>
+]]></sql>
 		<sql>call kim_upgrade()</sql>
 		<sql>DROP PROCEDURE kim_upgrade</sql>
 	</changeSet>
 
 	<changeSet author="KFS50" id="UPGRADE_KIM_DATA_RICE_20_oracle" dbms="oracle">
 		<comment>Upgrade the permission and responsibility names from previous releases of KFS to have unique names as required by Rice 2.0.</comment>
-		<sql splitStatements="false" stripComments="false">
+		<sql splitStatements="false" stripComments="false"><![CDATA[
 			-- fix permissions
 			declare
                v_perm_nm VARCHAR2(4000);
@@ -146,8 +146,8 @@ END
 			                              execute immediate 'update krim_perm_t set nm = '''||v_perm_nm||''' where perm_id = '''||perm_dtl.perm_id||''' ';
 			               end loop;
 			end;
-		</sql>
-		<sql splitStatements="false" stripComments="false">
+		]]></sql>
+		<sql splitStatements="false" stripComments="false"><![CDATA[
 			-- fix responsibilities
 			declare
 			               v_rsp_nm VARCHAR2(4000);
@@ -169,7 +169,7 @@ END
 			                              execute immediate 'update krim_rsp_t set nm = '''||v_rsp_nm||''' where rsp_id = '''||rsp_dtl.rsp_id||''' ';
 			               end loop;
 			end;
-		</sql>
+		]]></sql>
 	</changeSet>
 
 	<changeSet author="KFS50" id="FIX_ORG_GROUP_KIM_TYPE">

@@ -7,9 +7,10 @@
 		<sql splitStatements="false" stripComments="false">
 CREATE PROCEDURE kim_upgrade()
 BEGIN
-    DECLARE new_perm_nm VARCHAR(4000);
-    DECLARE done BOOLEAN;
-    DECLARE v_perm_id, v_perm_nm, v_kim_typ_id, v_tmpl_nm VARCHAR(100);
+    DECLARE new_perm_nm, new_resp_nm VARCHAR(4000);
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE v_perm_id, v_perm_nm, v_kim_typ_id, v_tmpl_nm, v_attr_val, v_rsp_id, v_doc_type, v_route_node VARCHAR(100);
+
     DECLARE cur_perm CURSOR FOR 
         select KRIM_PERM_T.perm_id, 
                 IFNULL( KRIM_PERM_T.nm, KRIM_PERM_TMPL_T.nm ) as perm_nm, 
@@ -17,7 +18,17 @@ BEGIN
                 KRIM_PERM_TMPL_T.nm as tmpl_nm 
             from KRIM_PERM_T 
                 join KRIM_PERM_TMPL_T on KRIM_PERM_T.perm_tmpl_id = KRIM_PERM_TMPL_T.perm_tmpl_id 
-            where KRIM_PERM_T.nmspc_cd like 'KFS%';
+            where KRIM_PERM_T.nmspc_cd like 'KFS%'
+              AND KRIM_PERM_TMPL_T.kim_typ_id != '1';
+
+    DECLARE cur_resp CURSOR FOR
+        SELECT KRIM_RSP_T.rsp_id, KRIM_RSP_ATTR_DATA_T.attr_val AS doc_type
+            FROM KRIM_RSP_T, KRIM_RSP_ATTR_DATA_T
+            WHERE KRIM_RSP_T.nmspc_cd like 'KFS%' 
+              AND (KRIM_RSP_T.nm = 'Review' OR KRIM_RSP_T.nm IS NULL)
+              AND KRIM_RSP_ATTR_DATA_T.rsp_id = KRIM_RSP_T.rsp_id
+              AND KRIM_RSP_ATTR_DATA_T.kim_attr_defn_id = (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nm = 'documentTypeName');
+
     DECLARE cur_attrib_desc CURSOR FOR
         SELECT KRIM_PERM_ATTR_DATA_T.attr_val 
             FROM KRIM_PERM_ATTR_DATA_T 
@@ -25,6 +36,7 @@ BEGIN
                 where KRIM_TYP_ATTR_T.kim_typ_id = v_kim_typ_id 
                   and KRIM_PERM_ATTR_DATA_T.perm_id = v_perm_id 
              order by KRIM_TYP_ATTR_T.sort_cd desc;
+
     DECLARE cur_attrib_asc CURSOR FOR
         SELECT KRIM_PERM_ATTR_DATA_T.attr_val 
             FROM KRIM_PERM_ATTR_DATA_T 
@@ -33,37 +45,73 @@ BEGIN
                   and KRIM_PERM_ATTR_DATA_T.perm_id = v_perm_id 
              order by KRIM_TYP_ATTR_T.sort_cd;
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE; 
+
     OPEN cur_perm;
-    FETCH cur_perm INTO v_perm_id, v_perm_nm, v_kim_typ_id, v_tmpl_nm;
-    REPEAT
-        SELECT v_perm_id, v_perm_nm, v_kim_typ_id, v_tmpl_nm;
+    perm_loop: LOOP
+        SET done = FALSE;
+        FETCH cur_perm INTO v_perm_id, v_perm_nm, v_kim_typ_id, v_tmpl_nm;
+        IF done THEN
+            LEAVE perm_loop;
+        END IF;
+        //SELECT v_perm_id, v_perm_nm, v_kim_typ_id, v_tmpl_nm;
+        SET new_perm_nm = v_perm_nm;
         if v_kim_typ_id != 1 then
             if v_tmpl_nm = 'Use Transactional Document' then
                 SET done = FALSE;
-//                for perm_attr_val in ()
-//                loop
-//                    //new_perm_nm := new_perm_nm || ' ' || perm_attr_val.attr_val;
-//                end loop;
+                OPEN cur_attrib_desc;
+                t_attr_loop: LOOP
+                    FETCH cur_attrib_desc INTO v_attr_val;
+                    IF done THEN
+                        LEAVE t_attr_loop;
+                    END IF;
+                    SET new_perm_nm = CONCAT( new_perm_nm, ' ', v_attr_val );
+                END LOOP;
+                CLOSE cur_attrib_desc;
             else
                 SET done = FALSE;
-//                for perm_attr_val in (select krim_perm_attr_data_t.attr_val from krim_perm_attr_data_t join krim_typ_attr_t on krim_perm_attr_data_t.kim_attr_defn_id = krim_typ_attr_t.kim_attr_defn_id where krim_typ_attr_t.kim_typ_id = perm_dtl.kim_typ_id and krim_perm_attr_data_t.perm_id = perm_dtl.perm_id order by krim_typ_attr_t.sort_cd)
-//                loop
-//                    new_perm_nm := new_perm_nm || ' ' || v_attr_val;
-//                end loop;
+                OPEN cur_attrib_asc;
+                attr_loop: LOOP
+                    FETCH cur_attrib_asc INTO v_attr_val;
+                    IF done THEN
+                        LEAVE attr_loop;
+                    END IF;
+                    SET new_perm_nm = CONCAT( new_perm_nm, ' ', v_attr_val );
+                END LOOP;
+                CLOSE cur_attrib_asc;
             end if;
-//            if length(v_perm_nm) > 100 then
-//                //new_perm_nm := substr(v_perm_nm, 1, 96) || '...';
-//            end if;
+            IF LENGTH( new_perm_nm ) > 100 THEN
+                SET new_perm_nm = CONCAT( LEFT( new_perm_nm, 97 ), '...' );
+            END IF;
         end if;
-        SELECT new_perm_nm;
-        //execute immediate 'update krim_perm_t set nm = '''||v_perm_nm||''' where perm_id = '''||perm_dtl.perm_id||''' ';
-        FETCH cur_perm INTO v_perm_id, v_perm_nm, v_kim_typ_id, v_tmpl_nm;
-        UNTIL done
-    END REPEAT;
+        //SELECT new_perm_nm;
+        UPDATE KRIM_PERM_T SET nm = new_perm_nm WHERE perm_id = v_perm_id;
+    END LOOP;
     CLOSE cur_perm;
+    COMMIT;
+
+    OPEN cur_resp;
+    resp_loop: LOOP
+        SET done = FALSE;
+        FETCH cur_resp INTO v_rsp_id, v_doc_type;
+        IF done THEN
+            LEAVE resp_loop;
+        END IF;
+        //SELECT v_rsp_id, v_doc_type;
+        SELECT attr_val
+            INTO v_route_node
+            FROM KRIM_RSP_ATTR_DATA_T
+            WHERE rsp_id = v_rsp_id
+              AND kim_attr_defn_id = (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nm = 'routeNodeName');
+        SET new_resp_nm = CONCAT( 'Review ', v_doc_type, ' ', v_route_node );
+        //SELECT new_resp_nm;
+        UPDATE KRIM_RSP_T SET nm = new_resp_nm WHERE rsp_id = v_rsp_id;
+    END LOOP;
+    CLOSE cur_resp;
+    COMMIT;
 END
 </sql>
 		<sql>call kim_upgrade()</sql>
+		<sql>DROP PROCEDURE kim_upgrade</sql>
 	</changeSet>
 
 	<changeSet author="KFS50" id="UPGRADE_KIM_DATA_RICE_20_oracle" dbms="oracle">

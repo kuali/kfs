@@ -144,7 +144,7 @@ if [[ "$IMPORT_OLD_PROJECT" == "true" ]]; then
 		perl -pi -e 's/&#[^;]*;/ /gi' $WORKSPACE/old_data/rice/schema.xml
 	fi
 	
-	pushd $WORKSPACE/old_kfs/work/db/kfs-db/db-impex/impex
+	pushd $WORKSPACE/kfs/work/db/kfs-db/db-impex/impex
 	ant "-Dimpex.properties.file=$WORKSPACE/impex-build.properties" drop-schema create-schema import
 	popd
 	cp $WORKSPACE/old_data/rice/schema.xml $WORKSPACE/old_schema.xml

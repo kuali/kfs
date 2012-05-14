@@ -74,24 +74,16 @@ EOF
 
 if [[ "$IMPORT_OLD_PROJECT" == "true" ]]; then
 	
-	echo Obtaining OLD Data Project from $PRIOR_SVN_DATA_PATH
+#	echo Obtaining OLD Data Project from $PRIOR_SVN_DATA_PATH
 	# Check out the old data project
-	if [[ -d $WORKSPACE/old_data ]]; then
-		svn -q revert -R $WORKSPACE/old_data
-		svn -q switch $PRIOR_SVN_DATA_PATH $WORKSPACE/old_data
-		svn -q update --non-interactive $WORKSPACE/old_data
-	else
-		svn -q co $PRIOR_SVN_DATA_PATH $WORKSPACE/old_data
-	fi
+#	if [[ -d $WORKSPACE/old_data ]]; then
+#		svn -q revert -R $WORKSPACE/old_data
+#		svn -q switch $PRIOR_SVN_DATA_PATH $WORKSPACE/old_data
+#		svn -q update --non-interactive $WORKSPACE/old_data
+#	else
+#		svn -q co $PRIOR_SVN_DATA_PATH $WORKSPACE/old_data
+#	fi
 	
-	if [[ -d $WORKSPACE/old_kfs ]]; then
-		#svn -q revert -R $WORKSPACE/old_kfs
-		#svn -q switch $PRIOR_SVN_KFS_PATH $WORKSPACE/old_kfs
-		#svn -q update --non-interactive $WORKSPACE/old_kfs
-	else
-		svn -q co $PRIOR_SVN_KFS_PATH $WORKSPACE/old_kfs
-	fi
-
 	# Prepare a tomcat directory that can be written to
 	rm -rf $WORKSPACE/tomcat
 	mkdir -p $WORKSPACE/tomcat/common/lib

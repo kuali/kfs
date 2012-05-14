@@ -26,7 +26,7 @@
 	<changeSet author="jksmith" id="KFSCNTRB56_UPDATE_CFDM_PARENT_DOC_TYPE">
 		<comment>Changes the parent document type of the CFDA maintenance document, CFDM, so that it's parent is COSM, the Chart of Accounts simple maintenance document type.</comment>
 		<update tableName="KREW_DOC_TYP_T">
-			<column name="PARNT_ID" valueNumeric="(select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'COSM' and cur_ind = 1 and actv_ind = 1) " type="BIGINT"/>
+			<column name="PARNT_ID" valueNumeric=" (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'COSM' and cur_ind = 1 and actv_ind = 1) " />
 			<where>doc_typ_nm = 'CFDM' and cur_ind = 1 and actv_ind = 1</where>
 		</update>
 	</changeSet>
@@ -34,7 +34,7 @@
 	<changeSet author="kfs50" id="KFSMI_7568_FIX_DOC_OPENING_IN_EMBEDDED_RICE_MODE">
 		<comment>Updates all the KFS document types to use the new "kfs.url" instead of "application.url".</comment>
 		<update tableName="KREW_DOC_TYP_T">
-			<column name="doc_hdlr_url" valueNumeric="REPLACE( DOC_HDLR_URL, 'application.url', 'kfs.url' )" />
+			<column name="doc_hdlr_url" valueNumeric=" REPLACE( DOC_HDLR_URL, 'application.url', 'kfs.url' ) " />
 			<where>doc_typ_nm IN ( 'KFS','GLCP','AD','CMD','CR','CCR','JV','SB','AV','BA','DI','GEC','ICA','ND','PE','PCDO','TF','IB','DV','YEBA','YEDI','YEGE','YETF','CLOS','ECD','ST','LLJV','BT','LLCP','YEBT','YEST','ACM','REQS','PO','POA','POC','POPH','PORH','POR','PORT','POSP','POV','EIRT','CM','PREQ','RCVB','RCVC','RCVL','ECA','EUSA','EHVA','ELD','ELI','EST','GLET','ECR','EGLT','EHA','EAD','EAI','ECDD','ECI','ECT','FSDT','CTRL','APP','INVW','CRM','INV','BC','MPAY','AT','ELR','BCIE' )</where>
 		</update>
 	</changeSet>

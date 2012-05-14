@@ -218,6 +218,16 @@ COMMIT
 		</sql>
 	</changeSet>
 
+	<changeSet author="KFS50" id="FIX_ROLE_ID">
+		<comment>The new 2.0 rice data contains an overlapping KIM Role id.</comment>
+		<sql endDelimiter="/" splitStatements="true">
+UPDATE KRIM_ROLE_T SET role_id = 'KFS98' WHERE role_id = '98'
+/
+COMMIT
+/
+		</sql>
+	</changeSet>
+
 	<changeSet author="KFS50" id="KFSAR-6012">
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="KFSAR6012" />

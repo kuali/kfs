@@ -171,7 +171,7 @@
 		</columnHeader>
 		<detail>
 			<band height="22"  isSplitAllowed="false" >
-				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						style="dataCell"
 						mode="Transparent"
@@ -291,7 +291,7 @@
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="363"
+						x="361"
 						y="63"
 						width="104"
 						height="16"

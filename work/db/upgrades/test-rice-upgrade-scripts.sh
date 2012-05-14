@@ -22,6 +22,7 @@ ORACLE_TEST_DB_URL=${ORACLE_TEST_DB_URL:-jdbc:oracle:thin:@oraclerds.kfs.kuali.o
 #MYSQL_TEST_DB_URL=jdbc:mysql://test.db.kfs.kuali.org:3306
 MYSQL_TEST_DB_URL=${MYSQL_TEST_DB_URL:-jdbc:mysql://localhost:3306}
 
+mkdir $TEMP_DIR
 
 # Ensure we are in the right directory
 cd $WORKSPACE

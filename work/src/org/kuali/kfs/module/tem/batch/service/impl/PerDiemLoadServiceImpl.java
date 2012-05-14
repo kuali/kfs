@@ -109,7 +109,8 @@ public class PerDiemLoadServiceImpl implements PerDiemLoadService {
 
         try {
             FileInputStream fileContents = new FileInputStream(dataFileName);
-
+            LOG.info("Process Per Diem file [" + dataFileName + "]");
+            
             byte[] fileByteContent = IOUtils.toByteArray(fileContents);
             List<PerDiemForLoad> perDiemList = (List<PerDiemForLoad>) batchInputFileService.parse(inputFileType, fileByteContent);
             IOUtils.closeQuietly(fileContents);

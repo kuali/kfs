@@ -48,7 +48,6 @@
 <%-- FIXME: remove when JS lookup use is fixed --%>
 <html:hidden property="${fundingLineName}.universityFiscalYear" />
 <html:hidden property="${fundingLineName}.emplid" />
-<html:hidden property="${fundingLineName}.chartOfAccountsCode" />
 
 <table border="0" cellpadding="0" cellspacing="0" style="width: ${tableWidth}; text-align: left; margin-left: auto; margin-right: auto;">    
 	<tr>
@@ -74,6 +73,7 @@
 		    fieldAlign="center" disabled="true"
 		    anchor="salaryexistingLineLineAnchor${lineIndex}" />
 		 <c:if test="${!accountsCanCrossCharts}">
+            <html:hidden property="${fundingLineName}.chartOfAccountsCode" />
 		 	<bc:pbglLineDataCell dataCellCssClass="datacell"
 			    accountingLine="${fundingLineName}" attributes="${pbcafAttributes}"
 			    field="chartOfAccountsCode"

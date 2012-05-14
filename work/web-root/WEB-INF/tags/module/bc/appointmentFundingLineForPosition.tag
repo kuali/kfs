@@ -47,7 +47,6 @@
 
 <%-- FIXME: remove when JS lookup use is fixed --%>
 <html:hidden property="${fundingLineName}.universityFiscalYear" />
-<html:hidden property="${fundingLineName}.chartOfAccountsCode" />
 <html:hidden property="${fundingLineName}.positionNumber" />
 
 <%-- FIXME: was removed due to conflicts in JS newline subobject lookup and using disabled setting --%>
@@ -79,6 +78,7 @@
 		    anchor="salaryexistingLineLineAnchor${lineIndex}" disabled="true"/>
 		    
 		 <c:if test="${!accountsCanCrossCharts}">
+             <html:hidden property="${fundingLineName}.chartOfAccountsCode" />
 			 <bc:pbglLineDataCell dataCellCssClass="datacell"
 			    accountingLine="${fundingLineName}"
 			    field="chartOfAccountsCode"

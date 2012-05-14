@@ -35,6 +35,7 @@ UPGRADE_SCRIPT_DIR=$PROJECT_DIR/work/db/upgrades/${UPGRADE_SCRIPT_DIR:-4.1.1_5.0
 SVNREPO=${SVNREPO:-https://svn.kuali.org/repos}
 BASE_SVN_DATA_PATH=$SVNREPO/kfs/legacy/cfg-dbs
 PRIOR_SVN_DATA_PATH=$BASE_SVN_DATA_PATH/$OLD_BRANCH_PATH
+PRIOR_SVN_RICE_DATA_PATH=$SVN_REPO/kfs/work/db-rice-data
 
 DB_TYPE=${DB_TYPE:-MYSQL}
 DB_USER=${DB_USER:-dbtest}
@@ -60,6 +61,17 @@ fi
 
 cd $WORKSPACE
 
+# create the needed liquibase.properties file
+(
+cat <<-EOF
+	classpath=$DRIVER_CLASSPATH
+	driver=$DRIVER
+	url=$DATASOURCE
+	username=$DB_USER
+	password=$DB_PASSWORD		
+EOF
+) > $TEMP_DIR/liquibase.properties
+
 if [[ "$IMPORT_OLD_PROJECT" == "true" ]]; then
 	
 	echo Obtaining OLD Data Project from $PRIOR_SVN_DATA_PATH
@@ -70,6 +82,14 @@ if [[ "$IMPORT_OLD_PROJECT" == "true" ]]; then
 		svn -q update --non-interactive $TEMP_DIR/old_data
 	else
 		svn -q co $PRIOR_SVN_DATA_PATH $TEMP_DIR/old_data
+	fi
+	
+	if [[ -d $TEMP_DIR/old_rice_data ]]; then
+		svn -q revert -R $TEMP_DIR/old_rice_data
+		svn -q switch $PRIOR_SVN_RICE_DATA_PATH $TEMP_DIR/old_rice_data
+		svn -q update --non-interactive $TEMP_DIR/old_rice_data
+	else
+		svn -q co $PRIOR_SVN_RICE_DATA_PATH $TEMP_DIR/old_rice_data
 	fi
 
 	# Prepare a tomcat directory that can be written to
@@ -113,6 +133,15 @@ if [[ "$IMPORT_OLD_PROJECT" == "true" ]]; then
 	ant "-Dimpex.properties.file=$TEMP_DIR/impex-build.properties" drop-schema create-schema create-ddl apply-ddl import-data apply-constraint-ddl
 	popd
 	cp $TEMP_DIR/old_data/rice/schema.xml $WORKSPACE/old_schema.xml
+	
+	pushd $TEMP_DIR/old_rice_data
+	java -jar liquibase*.jar --logLevel=finest --contexts=demo --changeLogFile=01_bootstrap_krns_data.xml
+	java -jar liquibase*.jar --logLevel=finest --contexts=demo --changeLogFile=02_bootstrap_krim_entity_data.xml
+	java -jar liquibase*.jar --logLevel=finest --contexts=demo --changeLogFile=03_bootstrap_krim_role_perm_data.xml
+	java -jar liquibase*.jar --logLevel=finest --contexts=demo --changeLogFile=04_demo_krns_data.xml
+	java -jar liquibase*.jar --logLevel=finest --contexts=demo --changeLogFile=05_demo_krim_entity_data.xml
+	java -jar liquibase*.jar --logLevel=finest --contexts=demo --changeLogFile=06_demo_krim_role_perm_data.xml
+	popd
 fi
 
 set $PROJECT_DIR/build/drivers/*.jar
@@ -120,16 +149,6 @@ DRIVER_CLASSPATH=$(IFS=:; echo "$*")
 cd $WORKSPACE
 
 if [[ "$RUN_UPGRADE_SCRIPTS" == "true" ]]; then
-	# create the needed liquibase.properties file
-	(
-	cat <<-EOF
-		classpath=$DRIVER_CLASSPATH
-		driver=$DRIVER
-		url=$DATASOURCE
-		username=$DB_USER
-		password=$DB_PASSWORD		
-EOF
-	) > $TEMP_DIR/liquibase.properties
 	pushd $UPGRADE_SCRIPT_DIR/rice_server
 
 	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=finest --changeLogFile=kew_upgrade.xml updateSQL > $WORKSPACE/upgrade.sql
@@ -201,6 +220,6 @@ if [[ "$PERFORM_COMPARISON" == "true" ]]; then
 		perl -pi -e 's/<view .+?\/>//g' new_schema.xml
 	fi
 
-	diff -b -i -B -U 3 upgraded_schema.xml new_schema.xml > compare-results.txt
+	diff -b -i -B -U 3 upgraded_schema.xml new_schema.xml > compare-results.txt || true
 fi
 exit 0

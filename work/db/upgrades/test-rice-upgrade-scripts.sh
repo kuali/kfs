@@ -1,4 +1,4 @@
-set -e -u
+set -e
 # Control Variables for Testing Parts of Scripts
 IMPORT_OLD_PROJECT=${IMPORT_OLD_PROJECT:-true}
 RUN_UPGRADE_SCRIPTS=${RUN_UPGRADE_SCRIPTS:-true}

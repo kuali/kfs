@@ -1277,7 +1277,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         }
 
-        if (refreshCaller != null && refreshCaller.equalsIgnoreCase(KFSConstants.KUALI_LOOKUPABLE_IMPL)) {
+        if (refreshCaller != null && refreshCaller.endsWith(KFSConstants.LOOKUPABLE_SUFFIX)) {
 
             this.checkAndFixReturnedLookupValues(budgetConstructionForm.getNewRevenueLine(), budgetConstructionForm.getBudgetConstructionDocument());
             this.checkAndFixReturnedLookupValues(budgetConstructionForm.getNewExpenditureLine(), budgetConstructionForm.getBudgetConstructionDocument());

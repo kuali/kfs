@@ -185,7 +185,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
         if (!(KualiDecimal.ZERO.equals(document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent()))) {
             String federalTaxChart = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.FEDERAL_TAX_PARM_PREFIX + DisbursementVoucherConstants.TAX_PARM_CHART_SUFFIX);
             String federalTaxAccount = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.FEDERAL_TAX_PARM_PREFIX + DisbursementVoucherConstants.TAX_PARM_ACCOUNT_SUFFIX);
-            String federalTaxObjectCode = parameterService.getParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.FEDERAL_TAX_PARM_PREFIX + DisbursementVoucherConstants.TAX_PARM_OBJECT_BY_INCOME_CLASS_SUFFIX, document.getDvNonResidentAlienTax().getIncomeClassCode());
+            String federalTaxObjectCode = parameterService.getSubParameterValueAsString(DisbursementVoucherDocument.class, DisbursementVoucherConstants.FEDERAL_TAX_PARM_PREFIX + DisbursementVoucherConstants.TAX_PARM_OBJECT_BY_INCOME_CLASS_SUFFIX, document.getDvNonResidentAlienTax().getIncomeClassCode());
             if (StringUtils.isBlank(federalTaxChart) || StringUtils.isBlank(federalTaxAccount) || StringUtils.isBlank(federalTaxObjectCode)) {
                 LOG.error("Unable to retrieve federal tax parameters.");
                 throw new RuntimeException("Unable to retrieve federal tax parameters.");
@@ -442,7 +442,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
             return false;
         }
 
-        if (!GlobalVariables.getMessageMap().hasErrors()) {
+        if (GlobalVariables.getMessageMap().hasErrors()) {
             return false;
         }
 

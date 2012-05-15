@@ -31,6 +31,7 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.PersistenceStructureService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.pdf.AcroFields;
@@ -143,8 +144,12 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
     /**
      * @see org.kuali.kfs.fp.document.service.DisbursementVoucherCoverSheetService#isCoverSheetPrintable(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
      */
-    public boolean isCoverSheetPrintable(DisbursementVoucherDocument document) {
+    public boolean isCoverSheetPrintable(DisbursementVoucherDocument document) {        
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        
+        if(ObjectUtils.isNull(workflowDocument)){
+            return false;
+        }        
 
         return !(workflowDocument.isCanceled() || workflowDocument.isInitiated() || workflowDocument.isDisapproved() || workflowDocument.isException() || workflowDocument.isDisapproved() || workflowDocument.isSaved());
     }

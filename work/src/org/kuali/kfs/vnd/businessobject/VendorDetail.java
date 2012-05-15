@@ -538,7 +538,23 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     public List<VendorCommodityCode> getVendorCommodities() {
         return vendorCommodities;
     }
+    
+    public String getVendorCommoditiesAsString() {
+        StringBuilder sb = new StringBuilder("[");
 
+        boolean first = true;
+        for (VendorCommodityCode vcc : this.getVendorCommodities()) {
+            if (!first) {
+                sb.append(", ");
+            } else {
+                first = false;
+            }            
+            sb.append(vcc.getCommodityCode());
+        }
+        sb.append(']');
+        return sb.toString();
+    }
+    
     public void setVendorCommodities(List<VendorCommodityCode> vendorCommodities) {
         this.vendorCommodities = vendorCommodities;
     }

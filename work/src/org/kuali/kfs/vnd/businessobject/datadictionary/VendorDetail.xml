@@ -91,6 +91,7 @@
 				<ref bean="VendorDetail-taxableIndicator" />
 				<ref bean="VendorDetail-vendorParentName" />
 				<ref bean="VendorDetail-vendorAliasesAsString" />
+				<ref bean="VendorDetail-vendorCommoditiesAsString" />
 			</list>
 		</property>
 		<property name="collections">
@@ -683,6 +684,21 @@
 		abstract="true" parent="VendorCommodityCode-purchasingCommodityCode">
 		<property name="name" value="vendorCommodities.purchasingCommodityCode" />
 	</bean>
+	<bean id="VendorDetail-vendorCommoditiesAsString"  parent="VendorDetail-vendorCommoditiesAsString-parentBean" />
+	<bean id="VendorDetail-vendorCommoditiesAsString-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="vendorCommoditiesAsString" />
+    	<property name="forceUppercase" value="true" />
+   		<property name="label" value="Commodity Codes" />
+    	<property name="shortLabel" value="Commodity Codes" />
+    	<property name="maxLength" value="45" />
+    	<property name="validationPattern" >
+      		<ref bean="AnyCharacterWithWhitespaceValidation" />
+    	</property>
+    	<property name="control" >
+      		<bean parent="TextControlDefinition" p:size="45"/>
+    	</property>
+	</bean>
+
 	<bean id="VendorDetail-activeIndicator" parent="VendorDetail-activeIndicator-parentBean" />
 
 	<bean id="VendorDetail-activeIndicator-parentBean" abstract="true"
@@ -1333,7 +1349,7 @@
 				<bean parent="FieldDefinition" p:attributeName="activeIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorTypeCode" />
 				<bean parent="FieldDefinition" p:attributeName="vendorStateForLookup" />
-				<bean parent="FieldDefinition" p:attributeName="vendorCommodities" />
+				<bean parent="FieldDefinition" p:attributeName="vendorCommoditiesAsString" />
 				<bean parent="FieldDefinition" p:attributeName="vendorHeader.vendorSupplierDiversitiesAsString" />
 			</list>
 		</property>

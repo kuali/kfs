@@ -4,10 +4,10 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 
 	<changeSet author="RICE20" id="RICE_SERVER_UPDATES_oracle" dbms="oracle">
-		<sqlFile path="update_final_oracle.sql" endDelimiter="/" splitStatements="true" stripComments="true" />
+		<sqlFile path="update_final_oracle.sql" endDelimiter="\n/\s*\n|\n/\s*$" splitStatements="true" />
 	</changeSet>
 	<changeSet author="RICE20" id="RICE_SERVER_UPDATES_mysql" dbms="mysql">
-		<sqlFile path="update_final_mysql.sql" endDelimiter=";" splitStatements="true" stripComments="true" />
+		<sqlFile path="update_final_mysql.sql" endDelimiter=";" splitStatements="true" />
 	</changeSet>
 
 </databaseChangeLog>

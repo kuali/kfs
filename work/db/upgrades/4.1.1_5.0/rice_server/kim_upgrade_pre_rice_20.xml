@@ -4,7 +4,7 @@
 
 	<changeSet author="KFS50" id="FIX_DUPLICATE_PERM_DATA">
 		<comment>Fix duplicate permissions which had been added to KFS 4.x</comment>
-		<update tableName="ROLE_PERM_T">
+		<update tableName="KRIM_ROLE_PERM_T">
 			<column name="PERM_ID" value="3" />
 			<where>perm_id = '1102'</where>
 		</update>
@@ -15,7 +15,7 @@
 			<where>perm_id = '1102'</where>
 		</delete>
 		
-		<update tableName="ROLE_PERM_T">
+		<update tableName="KRIM_ROLE_PERM_T">
 			<column name="PERM_ID" value="354" />
 			<where>perm_id = '359'</where>
 		</update>
@@ -26,7 +26,7 @@
 			<where>perm_id = '359'</where>
 		</delete>
 
-		<update tableName="ROLE_PERM_T">
+		<update tableName="KRIM_ROLE_PERM_T">
 			<column name="PERM_ID" value="369" />
 			<where>perm_id = '370'</where>
 		</update>

@@ -83,7 +83,7 @@
     	
         <gl:generalLedgerPendingEntries />
 
-		<kul:notes />
+<		<kul:notes attachmentTypesValuesFinderClass="${DataDictionary.PaymentRequestDocument.attachmentTypesValuesFinderClass}" />
         
 	    <kul:adHocRecipients />
 	    

@@ -886,7 +886,7 @@
 	<changeSet author="KFS50" id="UPDATE_NO_PAYMENT_FILE_TO_EMAIL_ADDRESSES">
 		<comment>PDP Parameter NO_PAYMENT_FILE_TO_EMAIL_ADDRESSES evaluated incorrectly causing NPE</comment>
 		<delete tableName="KRCR_PARM_T">
-			<where>NMSPC_CD='KFS-PDP' AND CMPNT_CD = 'All' AND PARM_NM='SEND_ACH_EMAIL_NOTIFICATION_IND' AND APPL_ID = 'KFS'</where>
+			<where>NMSPC_CD='KFS-PDP' AND CMPNT_CD = 'All' AND PARM_NM='NO_PAYMENT_FILE_TO_EMAIL_ADDRESSES'</where>
 		</delete>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-PDP" />

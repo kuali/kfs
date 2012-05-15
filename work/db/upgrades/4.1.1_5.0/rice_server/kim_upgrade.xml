@@ -35,38 +35,26 @@
 	</changeSet>
 	<changeSet author="KFS50" id="KFSMI-6808">
 		<!-- KFSMI 6808 Allow Sub-Account routing by Chart/Org/Sub-account -->
-		<update tableName="krim_typ_attr_t">
+		<update tableName="KRIM_TYP_ATTR_T">
 			<column name="sort_cd" value="e" />
 			<where>kim_typ_attr_id='78' and sort_cd='d'</where>
 		</update>
 		<sql><![CDATA[
-			insert into krim_typ_attr_t (kim_typ_attr_id, obj_id, ver_nbr,
+			insert into KRIM_TYP_ATTR_T (kim_typ_attr_id, obj_id, ver_nbr,
 			sort_cd,
 			kim_typ_id, kim_attr_defn_id, actv_ind)
 			values ('KFSSEC1010',
 			'KFSSEC1010', 1, 'd',
-			(select kim_typ_id from krim_typ_t where
+			(select kim_typ_id from KRIM_TYP_T where
 			nmspc_cd = 'KFS-COA' and nm =
 			'Sub-Account & Document Type'),
 			(select
-			kim_attr_defn_id from krim_attr_defn_t where nmspc_cd = 'KFS-COA'
+			kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KFS-COA'
 			and
 			nm = 'organizationCode'),
 			'Y');
 		]]></sql>
 	</changeSet>
-
-		<!-- KFSMI 6842 remove bad data from sub account review role -->
-		<!-- JHK: these should not be here - they are only applicable to the demo dataset
-		<delete tableName="KRIM_ROLE_MBR_T">
-			<where>ROLE_ID="68" and MBR_TYP_CD="P" and MBR_ID="5390502344"
-			</where>
-		</delete>
-		<delete tableName="KRIM_ROLE_MBR_T">
-			<where>ROLE_ID="68" and MBR_TYP_CD="P" and MBR_ID="2615708929"
-			</where>
-		</delete>
-		 -->
 
 	<changeSet author="KFS50" id="KFSPURAP-6940">
 		<!--KFSMI-KFSMI-6940 Establish permission for fully Unmask Field for purapDocumentIdentifier 
@@ -297,7 +285,7 @@
 			<column name="PERM_ID" value="KFSSYS6007"/>
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1"/>
-			<column name="PERM_TMPL_ID" valueNumeric=" (select perm_tmpl_id from krim_perm_tmpl_t where nmspc_cd = 'KR-NS' and nm = 'Use Transactional Document') "/>
+			<column name="PERM_TMPL_ID" valueNumeric=" (select perm_tmpl_id from KRIM_PERM_TMPL_T where nmspc_cd = 'KR-NS' and nm = 'Use Transactional Document') "/>
 			<column name="NMSPC_CD" value="KFS-FP"/>
 			<column name="NM" value="Allow DV Immediate Disbursement"/>
 			<column name="DESC_TXT" value="Allow Disbursement Voucher to be marked for immediate disbursement by the Pre-Disbursement Processor."/>
@@ -308,8 +296,8 @@
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1"/>
 			<column name="PERM_ID" value="KFSSYS6007"/>
-			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from krim_perm_tmpl_t where nmspc_cd = 'KR-NS' and nm = 'Use Transactional Document') "/>
-			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from krim_attr_defn_t where nm = 'documentTypeName') "/>
+			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_PERM_TMPL_T where nmspc_cd = 'KR-NS' and nm = 'Use Transactional Document') "/>
+			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nm = 'documentTypeName') "/>
 			<column name="ATTR_VAL" value="DV"/>
 		</insert>
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
@@ -317,15 +305,15 @@
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1"/>
 			<column name="PERM_ID" value="KFSSYS6007"/>
-			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from krim_perm_tmpl_t where nmspc_cd = 'KR-NS' and nm = 'Use Transactional Document') "/>
-			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from krim_attr_defn_t where nm = 'editMode') "/>
+			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_PERM_TMPL_T where nmspc_cd = 'KR-NS' and nm = 'Use Transactional Document') "/>
+			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nm = 'editMode') "/>
 			<column name="ATTR_VAL" value="immediateDisbursementEntryMode"/>
 		</insert>
 		<insert tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_PERM_ID" value="KFSSYS6007-1"/>
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1"/>
-			<column name="ROLE_ID" valueNumeric=" (select role_id from krim_role_t where nmspc_cd = 'KFS-FP' and role_nm = 'Disbursement Manager') "/>
+			<column name="ROLE_ID" valueNumeric=" (select role_id from KRIM_ROLE_T where nmspc_cd = 'KFS-FP' and role_nm = 'Disbursement Manager') "/>
 			<column name="PERM_ID" value="KFSSYS6007"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
@@ -333,7 +321,7 @@
 			<column name="ROLE_PERM_ID" value="KFSSYS6007-2"/>
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1"/>
-			<column name="ROLE_ID" valueNumeric=" (select role_id from krim_role_t where nmspc_cd = 'KFS-SYS' and role_nm = 'Operations') "/>
+			<column name="ROLE_ID" valueNumeric=" (select role_id from KRIM_ROLE_T where nmspc_cd = 'KFS-SYS' and role_nm = 'Operations') "/>
 			<column name="PERM_ID" value="KFSSYS6007"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
@@ -368,22 +356,22 @@
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1"/>
 			<column name="ROLE_ID" value="KFSMI4553-2"/>
-			<column name="MBR_ID" valueNumeric=" (select role_id from krim_role_t where nmspc_cd = 'KFS-VND' and role_nm = 'Reviewer') "/>
+			<column name="MBR_ID" valueNumeric=" (select role_id from KRIM_ROLE_T where nmspc_cd = 'KFS-VND' and role_nm = 'Reviewer') "/>
 			<column name="MBR_TYP_CD" value="R"/>
 			<column name="LAST_UPDT_DT" value="SYSDATE"/>
 		</insert>
 		<delete tableName="KRIM_ROLE_RSP_ACTN_T">
-			<where>role_rsp_id in (select role_rsp_id from krim_role_rsp_t where role_id = (select role_id from krim_role_t where nmspc_cd = 'KFS-VND' and role_nm = 'Reviewer') and rsp_id = (select krim_rsp_t.rsp_id from krim_rsp_t join ((select rsp_id from krim_rsp_attr_data_t where kim_attr_defn_id = (select kim_attr_defn_id from krim_attr_defn_t where nmspc_cd = 'KR-WKFLW' and nm = 'documentTypeName') and attr_val = 'PVEN') r_a_d1 join (select rsp_id from krim_rsp_attr_data_t where kim_attr_defn_id = (select kim_attr_defn_id from krim_attr_defn_t where nmspc_cd = 'KR-WKFLW' and nm = 'routeNodeName') and attr_val = 'Management') r_a_d2 on r_a_d1.rsp_id = r_a_d2.rsp_id) on krim_rsp_t.rsp_id = r_a_d1.rsp_id where krim_rsp_t.nmspc_cd = 'KFS-VND'))</where>
+			<where>role_rsp_id in (select role_rsp_id from KRIM_ROLE_RSP_T where role_id = (select role_id from KRIM_ROLE_T where nmspc_cd = 'KFS-VND' and role_nm = 'Reviewer') and rsp_id = (select KRIM_RSP_T.rsp_id from KRIM_RSP_T join ((select rsp_id from KRIM_RSP_ATTR_DATA_T where kim_attr_defn_id = (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-WKFLW' and nm = 'documentTypeName') and attr_val = 'PVEN') r_a_d1 join (select rsp_id from KRIM_RSP_ATTR_DATA_T where kim_attr_defn_id = (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-WKFLW' and nm = 'routeNodeName') and attr_val = 'Management') r_a_d2 on r_a_d1.rsp_id = r_a_d2.rsp_id) on KRIM_RSP_T.rsp_id = r_a_d1.rsp_id where KRIM_RSP_T.nmspc_cd = 'KFS-VND'))</where>
 		</delete>
 		<delete tableName="KRIM_ROLE_RSP_T">
-			<where>role_id = (select role_id from krim_role_t where nmspc_cd = 'KFS-VND' and role_nm = 'Reviewer') and rsp_id = (select krim_rsp_t.rsp_id from krim_rsp_t join ((select rsp_id from krim_rsp_attr_data_t where kim_attr_defn_id = (select kim_attr_defn_id from krim_attr_defn_t where nmspc_cd = 'KR-WKFLW' and nm = 'documentTypeName') and attr_val = 'PVEN') r_a_d1 join (select rsp_id from krim_rsp_attr_data_t where kim_attr_defn_id = (select kim_attr_defn_id from krim_attr_defn_t where nmspc_cd = 'KR-WKFLW' and nm = 'routeNodeName') and attr_val = 'Management') r_a_d2 on r_a_d1.rsp_id = r_a_d2.rsp_id) on krim_rsp_t.rsp_id = r_a_d1.rsp_id where krim_rsp_t.nmspc_cd = 'KFS-VND')</where>
+			<where>role_id = (select role_id from KRIM_ROLE_T where nmspc_cd = 'KFS-VND' and role_nm = 'Reviewer') and rsp_id = (select KRIM_RSP_T.rsp_id from KRIM_RSP_T join ((select rsp_id from KRIM_RSP_ATTR_DATA_T where kim_attr_defn_id = (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-WKFLW' and nm = 'documentTypeName') and attr_val = 'PVEN') r_a_d1 join (select rsp_id from KRIM_RSP_ATTR_DATA_T where kim_attr_defn_id = (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-WKFLW' and nm = 'routeNodeName') and attr_val = 'Management') r_a_d2 on r_a_d1.rsp_id = r_a_d2.rsp_id) on KRIM_RSP_T.rsp_id = r_a_d1.rsp_id where KRIM_RSP_T.nmspc_cd = 'KFS-VND')</where>
 		</delete>
 		<insert tableName="KRIM_ROLE_RSP_T">
 			<column name="ROLE_RSP_ID" value="KFSMI4553-4"/>
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1"/>
 			<column name="ROLE_ID" value="KFSMI4553-2"/>
-			<column name="RSP_ID" valueNumeric=" (select krim_rsp_t.rsp_id from krim_rsp_t join ((select rsp_id from krim_rsp_attr_data_t where kim_attr_defn_id = (select kim_attr_defn_id from krim_attr_defn_t where nmspc_cd = 'KR-WKFLW' and nm = 'documentTypeName') and attr_val = 'PVEN') r_a_d1 join (select rsp_id from krim_rsp_attr_data_t where kim_attr_defn_id = (select kim_attr_defn_id from krim_attr_defn_t where nmspc_cd = 'KR-WKFLW' and nm = 'routeNodeName') and attr_val = 'Management') r_a_d2 on r_a_d1.rsp_id = r_a_d2.rsp_id) on krim_rsp_t.rsp_id = r_a_d1.rsp_id where krim_rsp_t.nmspc_cd = 'KFS-VND') "/>
+			<column name="RSP_ID" valueNumeric=" (select KRIM_RSP_T.rsp_id from KRIM_RSP_T join ((select rsp_id from KRIM_RSP_ATTR_DATA_T where kim_attr_defn_id = (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-WKFLW' and nm = 'documentTypeName') and attr_val = 'PVEN') r_a_d1 join (select rsp_id from KRIM_RSP_ATTR_DATA_T where kim_attr_defn_id = (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-WKFLW' and nm = 'routeNodeName') and attr_val = 'Management') r_a_d2 on r_a_d1.rsp_id = r_a_d2.rsp_id) on KRIM_RSP_T.rsp_id = r_a_d1.rsp_id where KRIM_RSP_T.nmspc_cd = 'KFS-VND') "/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="KRIM_ROLE_RSP_ACTN_T">
@@ -407,7 +395,7 @@
 			<column name="PERM_ID" value="KFSAR6732"/>
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1"/>
-			<column name="PERM_TMPL_ID" valueNumeric=" (select perm_tmpl_id from krim_perm_tmpl_t where nmspc_cd = 'KR-NS' and nm = 'Edit Document') "/>
+			<column name="PERM_TMPL_ID" valueNumeric=" (select perm_tmpl_id from KRIM_PERM_TMPL_T where nmspc_cd = 'KR-NS' and nm = 'Edit Document') "/>
 			<column name="NMSPC_CD" value="KFS-AR"/>
 			<column name="NM" value="Edit APP Document-PreRoute"/>
 			<column name="DESC_TXT" value="Edit permission for the Payment Application document prior to the document being submitted."/>
@@ -418,8 +406,8 @@
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1"/>
 			<column name="PERM_ID" value="KFSAR6732"/>
-			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from krim_perm_tmpl_t where nmspc_cd = 'KR-NS' and nm = 'Edit Document') "/>
-			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from krim_attr_defn_t where nmspc_cd = 'KR-WKFLW' and nm = 'documentTypeName') "/>
+			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_PERM_TMPL_T where nmspc_cd = 'KR-NS' and nm = 'Edit Document') "/>
+			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-WKFLW' and nm = 'documentTypeName') "/>
 			<column name="ATTR_VAL" value="APP"/>
 		</insert>
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
@@ -427,15 +415,15 @@
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1"/>
 			<column name="PERM_ID" value="KFSAR6732"/>
-			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from krim_perm_tmpl_t where nmspc_cd = 'KR-NS' and nm = 'Edit Document') "/>
-			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from krim_attr_defn_t where nmspc_cd = 'KR-WKFLW' and nm = 'routeNodeName') "/>
+			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_PERM_TMPL_T where nmspc_cd = 'KR-NS' and nm = 'Edit Document') "/>
+			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-WKFLW' and nm = 'routeNodeName') "/>
 			<column name="ATTR_VAL" value="PreRoute"/>
 		</insert>
 		<insert tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_PERM_ID" value="KFSAR6732-1"/>
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1"/>
-			<column name="ROLE_ID" valueNumeric=" (select role_id from krim_role_t where nmspc_cd = 'KFS-SYS' and role_nm = 'Accounts Receivable Lockbox Manager') "/>
+			<column name="ROLE_ID" valueNumeric=" (select role_id from KRIM_ROLE_T where nmspc_cd = 'KFS-SYS' and role_nm = 'Accounts Receivable Lockbox Manager') "/>
 			<column name="PERM_ID" value="KFSAR6732"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
@@ -443,7 +431,7 @@
 			<column name="ROLE_PERM_ID" value="KFSAR6732-2"/>
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1"/>
-			<column name="ROLE_ID" valueNumeric=" (select role_id from krim_role_t where nmspc_cd = 'KR-WKFLW' and role_nm = 'Initiator') "/>
+			<column name="ROLE_ID" valueNumeric=" (select role_id from KRIM_ROLE_T where nmspc_cd = 'KR-WKFLW' and role_nm = 'Initiator') "/>
 			<column name="PERM_ID" value="KFSAR6732"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
@@ -460,7 +448,7 @@
 			<column name="VER_NBR" value="1"/>
 			<column name="NMSPC_CD" value="KFS-AR"/>
 			<column name="ROLE_NM" value="Multi Organization Invoicer"/>
-			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from krim_typ_t where nm = 'Default' and nmspc_cd = 'KUALI' and actv_ind = 'Y') "/>
+			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_TYP_T where nm = 'Default' and nmspc_cd = 'KUALI' and actv_ind = 'Y') "/>
 			<column name="ACTV_IND" value="Y"/>
 			<column name="LAST_UPDT_DT" value="SYSDATE"/>
 		</insert>
@@ -468,7 +456,7 @@
 			<column name="PERM_ID" value="KFSAR5340P"/>
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1"/>
-			<column name="PERM_TMPL_ID" valueNumeric=" (select perm_tmpl_id from krim_perm_tmpl_t where nmspc_cd = 'KR-NS' and nm = 'Use Transactional Document') "/>
+			<column name="PERM_TMPL_ID" valueNumeric=" (select perm_tmpl_id from KRIM_PERM_TMPL_T where nmspc_cd = 'KR-NS' and nm = 'Use Transactional Document') "/>
 			<column name="NMSPC_CD" value="KFS-AR"/>
 			<column name="NM" value="Edit Invoice Processing Organization"/>
 			<column name="DESC_TXT" value="Users who can edit the Processing Chart Code and the processing organization fields on the Customer Invoice Document."/>
@@ -479,8 +467,8 @@
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1"/>
 			<column name="PERM_ID" value="KFSAR5340P"/>
-			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from krim_perm_tmpl_t where nmspc_cd = 'KR-NS' and nm = 'Use Transactional Document') "/>
-			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from krim_attr_defn_t where nmspc_cd = 'KR-WKFLW' and nm = 'documentTypeName') "/>
+			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_PERM_TMPL_T where nmspc_cd = 'KR-NS' and nm = 'Use Transactional Document') "/>
+			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-WKFLW' and nm = 'documentTypeName') "/>
 			<column name="ATTR_VAL" value="INV"/>
 		</insert>
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
@@ -488,8 +476,8 @@
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1"/>
 			<column name="PERM_ID" value="KFSAR5340P"/>
-			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from krim_perm_tmpl_t where nmspc_cd = 'KR-NS' and nm = 'Use Transactional Document') "/>
-			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from krim_attr_defn_t where nmspc_cd = 'KR-NS' and nm = 'editMode') "/>
+			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_PERM_TMPL_T where nmspc_cd = 'KR-NS' and nm = 'Use Transactional Document') "/>
+			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-NS' and nm = 'editMode') "/>
 			<column name="ATTR_VAL" value="processingOrganizationMode"/>
 		</insert>
 		<insert tableName="KRIM_ROLE_PERM_T">
@@ -545,41 +533,11 @@
 			<column name="ACTV_IND" value="Y" />
 			<column name="LAST_UPDT_DT" value="SYSDATE" />
 		</insert>
-		<!-- DEMO DATA - SHOULD NOT BE IN UPGRADE SCRIPTS -->
-		<!-- 
-		<insert tableName="KRIM_ROLE_MBR_T">
-			<column name="ROLE_MBR_ID" value="KFSMI6886-ROLE-P1" />
-			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
-			<column name="VER_NBR" value="1" />
-			<column name="MBR_ID" valueNumeric=" (select prncpl_id from krim_prncpl_t where prncpl_nm = 'ahrens') " />
-			<column name="MBR_TYP_CD" value="P" />
-			<column name="ROLE_ID" value="KFSMI6886-ROLE" />
-			<column name="LAST_UPDT_DT" value="SYSDATE" />
-		</insert>
-		<insert tableName="KRIM_ROLE_MBR_T">
-			<column name="ROLE_MBR_ID" value="KFSMI6886-ROLE-P2" />
-			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
-			<column name="VER_NBR" value="1" />
-			<column name="ROLE_ID" value="KFSMI6886-ROLE" />
-			<column name="MBR_ID" valueNumeric=" (select prncpl_id from krim_prncpl_t where prncpl_nm = 'dcote') " />
-			<column name="MBR_TYP_CD" value="P" />
-			<column name="LAST_UPDT_DT" value="SYSDATE" />
-		</insert>
-		<insert tableName="KRIM_ROLE_MBR_ATTR_DATA_T">
-			<column name="ATTR_DATA_ID" value="KFSMI6886-AD1" />
-			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
-			<column name="VER_NBR" value="1" />
-			<column name="ROLE_MBR_ID" value="KFSMI6886-ROLE-P2" />
-			<column name="KIM_TYP_ID" value="KFSMI6886-TYP" />
-			<column name="KIM_ATTR_DEFN_ID" value="KFSMI6886-ATTRDEF" />
-			<column name="ATTR_VAL" value="E" />
-		</insert>
-		-->
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="KFSMI6886-PRM1" />
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1" />
-			<column name="PERM_TMPL_ID" valueNumeric=" (select perm_tmpl_id from krim_perm_tmpl_t where nm = 'Create / Maintain Record(s)' and nmspc_cd = 'KR-NS') " />
+			<column name="PERM_TMPL_ID" valueNumeric=" (select perm_tmpl_id from KRIM_PERM_TMPL_T where nm = 'Create / Maintain Record(s)' and nmspc_cd = 'KR-NS') " />
 			<column name="NMSPC_CD" value="KFS-PDP" />
 			<column name="NM" value="Maintain ACH Accounts" />
 			<column name="DESC_TXT" value="Allows to view and update Payee ACH Accounts of a certain transaction type." />
@@ -590,8 +548,8 @@
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1" />
 			<column name="PERM_ID" value="KFSMI6886-PRM1" />
-			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from krim_perm_tmpl_t where nm = 'Create / Maintain Record(s)' and nmspc_cd = 'KR-NS') " />
-			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from krim_attr_defn_t where nmspc_cd = 'KR-WKFLW' and nm = 'documentTypeName') " />
+			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_PERM_TMPL_T where nm = 'Create / Maintain Record(s)' and nmspc_cd = 'KR-NS') " />
+			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-WKFLW' and nm = 'documentTypeName') " />
 			<column name="ATTR_VAL" value="PAAT" />
 		</insert>
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
@@ -599,8 +557,8 @@
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1" />
 			<column name="PERM_ID" value="KFSMI6886-PRM1" />
-			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from krim_perm_tmpl_t where nm = 'Create / Maintain Record(s)' and nmspc_cd = 'KR-NS') " />
-			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from krim_attr_defn_t where nmspc_cd = 'KR-NS' and nm = 'existingRecordsOnly') " />
+			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_PERM_TMPL_T where nm = 'Create / Maintain Record(s)' and nmspc_cd = 'KR-NS') " />
+			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-NS' and nm = 'existingRecordsOnly') " />
 			<column name="ATTR_VAL" value="false" />
 		</insert>
 		<insert tableName="KRIM_ROLE_PERM_T">
@@ -615,7 +573,7 @@
 			<column name="PERM_ID" value="KFSMI6886-PRM2" />
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1" />
-			<column name="PERM_TMPL_ID" valueNumeric=" (select perm_tmpl_id from krim_perm_tmpl_t where nm = 'Look Up Records' and nmspc_cd = 'KR-NS') " />
+			<column name="PERM_TMPL_ID" valueNumeric=" (select perm_tmpl_id from KRIM_PERM_TMPL_T where nm = 'Look Up Records' and nmspc_cd = 'KR-NS') " />
 			<column name="NMSPC_CD" value="KFS-PDP" />
 			<column name="NM" value="Lookup ACH Accounts" />
 			<column name="DESC_TXT" value="Allows the lookup of Payee ACH Account records of certain transaction type(s)." />
@@ -626,8 +584,8 @@
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1" />
 			<column name="PERM_ID" value="KFSMI6886-PRM2" />
-			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from krim_perm_tmpl_t where nm = 'Look Up Records' and nmspc_cd = 'KR-NS') " />
-			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from krim_attr_defn_t where nmspc_cd = 'KR-NS' and nm = 'componentName') " />
+			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_PERM_TMPL_T where nm = 'Look Up Records' and nmspc_cd = 'KR-NS') " />
+			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-NS' and nm = 'componentName') " />
 			<column name="ATTR_VAL" value="PayeeACHAccount" />
 		</insert>
 		<insert tableName="KRIM_PERM_ATTR_DATA_T">
@@ -635,8 +593,8 @@
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1" />
 			<column name="PERM_ID" value="KFSMI6886-PRM2" />
-			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from krim_perm_tmpl_t where nm = 'Look Up Records' and nmspc_cd = 'KR-NS') " />
-			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from krim_attr_defn_t where nmspc_cd = 'KR-NS' and nm = 'namespaceCode') " />
+			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_PERM_TMPL_T where nm = 'Look Up Records' and nmspc_cd = 'KR-NS') " />
+			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-NS' and nm = 'namespaceCode') " />
 			<column name="ATTR_VAL" value="KFS-PDP" />
 		</insert>
 		<insert tableName="KRIM_ROLE_PERM_T">
@@ -651,7 +609,7 @@
 			<column name="PERM_ID" value="KFSMI6886-PRM3" />
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1" />
-			<column name="PERM_TMPL_ID" valueNumeric=" (select perm_tmpl_id from krim_perm_tmpl_t where nm = 'Initiate Document' and nmspc_cd = 'KR-SYS') " />
+			<column name="PERM_TMPL_ID" valueNumeric=" (select perm_tmpl_id from KRIM_PERM_TMPL_T where nm = 'Initiate Document' and nmspc_cd = 'KR-SYS') " />
 			<column name="NMSPC_CD" value="KFS-PDP" />
 			<column name="NM" value="Initiate ACH Account Document" />
 			<column name="DESC_TXT" value="Allows initiation the PDP Payee ACH Account maintenance document." />
@@ -662,15 +620,15 @@
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1" />
 			<column name="PERM_ID" value="KFSMI6886-PRM3" />
-			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from krim_perm_tmpl_t where nm = 'Initiate Document' and nmspc_cd = 'KR-SYS') " />
-			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from krim_attr_defn_t where nmspc_cd = 'KR-WKFLW' and nm = 'documentTypeName') " />
+			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_PERM_TMPL_T where nm = 'Initiate Document' and nmspc_cd = 'KR-SYS') " />
+			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-WKFLW' and nm = 'documentTypeName') " />
 			<column name="ATTR_VAL" value="PAAT" /> <!-- It's PAAT! -->
 		</insert>
 		<insert tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_PERM_ID" value="KFSMI6886-RLPRM3" />
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1" />
-			<column name="ROLE_ID" valueNumeric=" (select role_id from krim_role_t where nmspc_cd = 'KFS-PDP' and role_nm = 'Payee ACH Accounts Administrator') " />
+			<column name="ROLE_ID" valueNumeric=" (select role_id from KRIM_ROLE_T where nmspc_cd = 'KFS-PDP' and role_nm = 'Payee ACH Accounts Administrator') " />
 			<column name="PERM_ID" value="KFSMI6886-PRM3" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
@@ -678,7 +636,7 @@
 			<column name="ROLE_PERM_ID" value="KFSMI6886-RLPRM4" />
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1" />
-			<column name="ROLE_ID" valueNumeric=" (select role_id from krim_role_t where nmspc_cd = 'KFS-SYS' and role_nm = 'Operations') " />
+			<column name="ROLE_ID" valueNumeric=" (select role_id from KRIM_ROLE_T where nmspc_cd = 'KFS-SYS' and role_nm = 'Operations') " />
 			<column name="PERM_ID" value="KFSMI6886-PRM3" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
@@ -693,7 +651,7 @@
 			<column name="PERM_ID" value="KFSMI7041-PRM" />
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1" />
-			<column name="PERM_TMPL_ID" valueNumeric=" (select perm_tmpl_id from krim_perm_tmpl_t where nmspc_cd = 'KR-NS' and nm = 'Use Screen') " />
+			<column name="PERM_TMPL_ID" valueNumeric=" (select perm_tmpl_id from KRIM_PERM_TMPL_T where nmspc_cd = 'KR-NS' and nm = 'Use Screen') " />
 			<column name="NMSPC_CD" value="KFS-LD" />
 			<column name="NM" value="View Fringe Benefit Inquiry" />
 			<column name="DESC_TXT" value="Permits access to screens controlled by org.kuali.kfs.module.ld.document.web.struts.FringeBenefitInquiryAction" />
@@ -704,15 +662,15 @@
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1" />
 			<column name="PERM_ID" value="KFSMI7041-PRM" />
-			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from krim_perm_tmpl_t where nmspc_cd = 'KR-NS' and nm = 'Use Screen') " />
-			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from krim_attr_defn_t where nmspc_cd = 'KR-SYS' and nm = 'actionClass') " />
+			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_PERM_TMPL_T where nmspc_cd = 'KR-NS' and nm = 'Use Screen') " />
+			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-SYS' and nm = 'actionClass') " />
 			<column name="ATTR_VAL" value="org.kuali.kfs.module.ld.document.web.struts.FringeBenefitInquiryAction" />
 		</insert>
 		<insert tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_PERM_ID" value="KFSMI7041-RLPRM1" />
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1" />
-			<column name="ROLE_ID" valueNumeric=" (select role_id from krim_role_t where nmspc_cd = 'KFS-SYS' and role_nm = 'User') " />
+			<column name="ROLE_ID" valueNumeric=" (select role_id from KRIM_ROLE_T where nmspc_cd = 'KFS-SYS' and role_nm = 'User') " />
 			<column name="PERM_ID" value="KFSMI7041-PRM" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
@@ -727,7 +685,7 @@
 			<column name="PERM_ID" value="KFSCNTRB162-PRM" />
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1" />
-			<column name="PERM_TMPL_ID" valueNumeric=" (select perm_tmpl_id from krim_perm_tmpl_t where nmspc_cd = 'KR-NS' and nm = 'Upload Batch Input File(s)') " />
+			<column name="PERM_TMPL_ID" valueNumeric=" (select perm_tmpl_id from KRIM_PERM_TMPL_T where nmspc_cd = 'KR-NS' and nm = 'Upload Batch Input File(s)') " />
 			<column name="NMSPC_CD" value="KFS-VND" />
 			<column name="NM" value="Use Vendor Exclude File Upload Screen" />
 			<column name="DESC_TXT" value="Authorizes users to access the Vendor Exclude File Upload page." />
@@ -738,15 +696,15 @@
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1" />
 			<column name="PERM_ID" value="KFSCNTRB162-PRM" />
-			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from krim_perm_tmpl_t where nmspc_cd = 'KR-NS' and nm = 'Upload Batch Input File(s)') " />
-			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from krim_attr_defn_t where nm = 'beanName') " />
+			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_PERM_TMPL_T where nmspc_cd = 'KR-NS' and nm = 'Upload Batch Input File(s)') " />
+			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nm = 'beanName') " />
 			<column name="ATTR_VAL" value="vendorExcludeInputFileType" />
 		</insert>
 		<insert tableName="KRIM_ROLE_PERM_T">
 			<column name="ROLE_PERM_ID" value="KFSCNTRB162-RLPRM1" />
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1" />
-			<column name="ROLE_ID" valueNumeric=" (select role_id from krim_role_t where nmspc_cd = 'KFS-VND' and role_nm = 'Reviewer') " />
+			<column name="ROLE_ID" valueNumeric=" (select role_id from KRIM_ROLE_T where nmspc_cd = 'KFS-VND' and role_nm = 'Reviewer') " />
 			<column name="PERM_ID" value="KFSCNTRB162-PRM" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>

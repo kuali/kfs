@@ -1,0 +1,218 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+
+	<changeSet author="KFS50" id="UPGRADE_KIM_DATA_RICE_20_mysql" dbms="mysql">
+		<sql>DROP PROCEDURE IF EXISTS kim_upgrade</sql>
+		<sql splitStatements="false" stripComments="false"><![CDATA[
+CREATE PROCEDURE kim_upgrade()
+BEGIN
+    DECLARE new_perm_nm, new_resp_nm VARCHAR(4000);
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE v_perm_id, v_perm_nm, v_kim_typ_id, v_tmpl_nm, v_attr_val, v_rsp_id, v_doc_type, v_route_node VARCHAR(100);
+
+    DECLARE cur_perm CURSOR FOR 
+        select KRIM_PERM_T.perm_id, 
+                IFNULL( KRIM_PERM_T.nm, KRIM_PERM_TMPL_T.nm ) as perm_nm, 
+                KRIM_PERM_TMPL_T.kim_typ_id, 
+                KRIM_PERM_TMPL_T.nm as tmpl_nm 
+            from KRIM_PERM_T 
+                join KRIM_PERM_TMPL_T on KRIM_PERM_T.perm_tmpl_id = KRIM_PERM_TMPL_T.perm_tmpl_id 
+            where KRIM_PERM_T.nmspc_cd like 'KFS%'
+              AND KRIM_PERM_TMPL_T.kim_typ_id != '1';
+
+    DECLARE cur_resp CURSOR FOR
+        SELECT KRIM_RSP_T.rsp_id, KRIM_RSP_ATTR_DATA_T.attr_val AS doc_type
+            FROM KRIM_RSP_T, KRIM_RSP_ATTR_DATA_T
+            WHERE KRIM_RSP_T.nmspc_cd like 'KFS%' 
+              AND (KRIM_RSP_T.nm = 'Review' OR KRIM_RSP_T.nm IS NULL)
+              AND KRIM_RSP_ATTR_DATA_T.rsp_id = KRIM_RSP_T.rsp_id
+              AND KRIM_RSP_ATTR_DATA_T.kim_attr_defn_id = (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nm = 'documentTypeName');
+
+    DECLARE cur_attrib_desc CURSOR FOR
+        SELECT KRIM_PERM_ATTR_DATA_T.attr_val 
+            FROM KRIM_PERM_ATTR_DATA_T 
+                join KRIM_TYP_ATTR_T on KRIM_PERM_ATTR_DATA_T.kim_attr_defn_id = KRIM_TYP_ATTR_T.kim_attr_defn_id 
+                where KRIM_TYP_ATTR_T.kim_typ_id = v_kim_typ_id 
+                  and KRIM_PERM_ATTR_DATA_T.perm_id = v_perm_id 
+             order by KRIM_TYP_ATTR_T.sort_cd desc;
+
+    DECLARE cur_attrib_asc CURSOR FOR
+        SELECT KRIM_PERM_ATTR_DATA_T.attr_val 
+            FROM KRIM_PERM_ATTR_DATA_T 
+                join KRIM_TYP_ATTR_T on KRIM_PERM_ATTR_DATA_T.kim_attr_defn_id = KRIM_TYP_ATTR_T.kim_attr_defn_id 
+                where KRIM_TYP_ATTR_T.kim_typ_id = v_kim_typ_id 
+                  and KRIM_PERM_ATTR_DATA_T.perm_id = v_perm_id 
+             order by KRIM_TYP_ATTR_T.sort_cd;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE; 
+
+    OPEN cur_perm;
+    perm_loop: LOOP
+        SET done = FALSE;
+        FETCH cur_perm INTO v_perm_id, v_perm_nm, v_kim_typ_id, v_tmpl_nm;
+        IF done THEN
+            LEAVE perm_loop;
+        END IF;
+        //SELECT v_perm_id, v_perm_nm, v_kim_typ_id, v_tmpl_nm;
+        SET new_perm_nm = v_perm_nm;
+        if v_kim_typ_id != 1 then
+            if v_tmpl_nm = 'Use Transactional Document' then
+                SET done = FALSE;
+                OPEN cur_attrib_desc;
+                t_attr_loop: LOOP
+                    FETCH cur_attrib_desc INTO v_attr_val;
+                    IF done THEN
+                        LEAVE t_attr_loop;
+                    END IF;
+                    SET new_perm_nm = CONCAT( new_perm_nm, ' ', v_attr_val );
+                END LOOP;
+                CLOSE cur_attrib_desc;
+            else
+                SET done = FALSE;
+                OPEN cur_attrib_asc;
+                attr_loop: LOOP
+                    FETCH cur_attrib_asc INTO v_attr_val;
+                    IF done THEN
+                        LEAVE attr_loop;
+                    END IF;
+                    SET new_perm_nm = CONCAT( new_perm_nm, ' ', v_attr_val );
+                END LOOP;
+                CLOSE cur_attrib_asc;
+            end if;
+            IF LENGTH( new_perm_nm ) > 100 THEN
+                SET new_perm_nm = CONCAT( LEFT( new_perm_nm, 97 ), '...' );
+            END IF;
+        end if;
+        //SELECT new_perm_nm;
+        UPDATE KRIM_PERM_T SET nm = new_perm_nm WHERE perm_id = v_perm_id;
+    END LOOP;
+    CLOSE cur_perm;
+    COMMIT;
+
+    OPEN cur_resp;
+    resp_loop: LOOP
+        SET done = FALSE;
+        FETCH cur_resp INTO v_rsp_id, v_doc_type;
+        IF done THEN
+            LEAVE resp_loop;
+        END IF;
+        //SELECT v_rsp_id, v_doc_type;
+        SELECT attr_val
+            INTO v_route_node
+            FROM KRIM_RSP_ATTR_DATA_T
+            WHERE rsp_id = v_rsp_id
+              AND kim_attr_defn_id = (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nm = 'routeNodeName');
+        SET new_resp_nm = CONCAT( 'Review ', v_doc_type, ' ', v_route_node );
+        //SELECT new_resp_nm;
+        UPDATE KRIM_RSP_T SET nm = new_resp_nm WHERE rsp_id = v_rsp_id;
+    END LOOP;
+    CLOSE cur_resp;
+    COMMIT;
+END
+]]></sql>
+		<sql>call kim_upgrade()</sql>
+		<sql>DROP PROCEDURE kim_upgrade</sql>
+	</changeSet>
+
+	<changeSet author="KFS50" id="UPGRADE_KIM_DATA_RICE_20_oracle" dbms="oracle">
+		<comment>Upgrade the permission and responsibility names from previous releases of KFS to have unique names as required by Rice 2.0.</comment>
+		<sql splitStatements="false" stripComments="false"><![CDATA[
+			-- fix permissions
+			declare
+               v_perm_nm VARCHAR2(4000);
+			begin
+			    dbms_output.enable(50000);
+			               for perm_dtl in (select krim_perm_t.perm_id, NVL( krim_perm_t.nm, krim_perm_tmpl_t.nm ) as perm_nm, krim_perm_tmpl_t.kim_typ_id, krim_perm_tmpl_t.nm as tmpl_nm from krim_perm_t join krim_perm_tmpl_t on krim_perm_t.perm_tmpl_id = krim_perm_tmpl_t.perm_tmpl_id where krim_perm_t.nmspc_cd like 'KFS%')
+			               loop
+			                              v_perm_nm := perm_dtl.perm_nm;
+			        if (perm_dtl.kim_typ_id <> 1) then
+			                                             if (perm_dtl.tmpl_nm = 'Use Transactional Document') then
+			                                                            for perm_attr_val in (select krim_perm_attr_data_t.attr_val from krim_perm_attr_data_t join krim_typ_attr_t on krim_perm_attr_data_t.kim_attr_defn_id = krim_typ_attr_t.kim_attr_defn_id where krim_typ_attr_t.kim_typ_id = perm_dtl.kim_typ_id and krim_perm_attr_data_t.perm_id = perm_dtl.perm_id order by krim_typ_attr_t.sort_cd desc)
+			                                                            loop
+			                                                                           v_perm_nm := v_perm_nm || ' ' || perm_attr_val.attr_val;
+			                                                            end loop;
+			                                             else
+			                                                            for perm_attr_val in (select krim_perm_attr_data_t.attr_val from krim_perm_attr_data_t join krim_typ_attr_t on krim_perm_attr_data_t.kim_attr_defn_id = krim_typ_attr_t.kim_attr_defn_id where krim_typ_attr_t.kim_typ_id = perm_dtl.kim_typ_id and krim_perm_attr_data_t.perm_id = perm_dtl.perm_id order by krim_typ_attr_t.sort_cd)
+			                                                            loop
+			                                                                           v_perm_nm := v_perm_nm || ' ' || perm_attr_val.attr_val;
+			                                                            end loop;
+			                                             end if;
+			            if (length(v_perm_nm) > 100) then
+			                                             v_perm_nm := substr(v_perm_nm, 1, 96) || '...';
+			                              end if;
+			        end if;
+			                              -- and save the perm
+			                              --dbms_output.put_line('update krim_perm_t set nm = '''||v_perm_nm||''' where perm_id = '''||perm_dtl.perm_id||''' ');
+			                              execute immediate 'update krim_perm_t set nm = '''||v_perm_nm||''' where perm_id = '''||perm_dtl.perm_id||''' ';
+			               end loop;
+			end;
+		]]></sql>
+		<sql splitStatements="false" stripComments="false"><![CDATA[
+			-- fix responsibilities
+			declare
+			               v_rsp_nm VARCHAR2(4000);
+			begin
+			               dbms_output.enable(50000);
+			               for rsp_dtl in (select rsp_id from krim_rsp_t where nmspc_cd like 'KFS%' and NVL( nm, 'Review' ) = 'Review')
+			               loop
+			                              v_rsp_nm := 'Review';
+			                              for rsp_doc_typ in (select attr_val from krim_rsp_attr_data_t where rsp_id = rsp_dtl.rsp_id and kim_attr_defn_id = (select kim_attr_defn_id from krim_attr_defn_t where nm = 'documentTypeName'))
+			                              loop
+			                                             v_rsp_nm := v_rsp_nm || ' ' || rsp_doc_typ.attr_val;
+			                              end loop;
+			                              for rsp_rte_node in (select attr_val from krim_rsp_attr_data_t where rsp_id = rsp_dtl.rsp_id and kim_attr_defn_id = (select kim_attr_defn_id from krim_attr_defn_t where nm = 'routeNodeName'))
+			                              loop
+			                                             v_rsp_nm := v_rsp_nm || ' ' || rsp_rte_node.attr_val;
+			                              end loop;
+			                              -- and save
+			                              --dbms_output.put_line('update krim_rsp_t set nm = '''||v_rsp_nm||''' where rsp_id = '''||rsp_dtl.rsp_id||''' ');
+			                              execute immediate 'update krim_rsp_t set nm = '''||v_rsp_nm||''' where rsp_id = '''||rsp_dtl.rsp_id||''' ';
+			               end loop;
+			end;
+		]]></sql>
+	</changeSet>
+
+	<changeSet author="KFS50" id="FIX_ORG_GROUP_KIM_TYPE">
+		<comment>The new 2.0 rice data contains an overlapping KIM type id.  We need to existing data to reference the updated "KFS68" KIM_TYP_ID.</comment>
+		<sql>
+INSERT INTO KRIM_TYP_T(KIM_TYP_ID, OBJ_ID, VER_NBR, NM, SRVC_NM, ACTV_IND, NMSPC_CD) 
+    (SELECT 'KFS68', 'KFS68_2', VER_NBR, NM, SRVC_NM, ACTV_IND, NMSPC_CD 
+        FROM KRIM_TYP_T
+        WHERE KIM_TYP_ID = '68');
+INSERT INTO KRIM_TYP_ATTR_T(KIM_TYP_ATTR_ID, OBJ_ID, VER_NBR, SORT_CD, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ACTV_IND) 
+	(SELECT CONCAT('KFS68_',KIM_ATTR_DEFN_ID), CONCAT('KFS68_',KIM_ATTR_DEFN_ID), VER_NBR, SORT_CD, 'KFS68', KIM_ATTR_DEFN_ID, ACTV_IND 
+        FROM KRIM_TYP_ATTR_T
+        WHERE KIM_TYP_ID = '68');
+UPDATE KRIM_GRP_T
+    SET KIM_TYP_ID = 'KFS68'
+    WHERE KIM_TYP_ID = '68';
+UPDATE KRIM_GRP_ATTR_DATA_T
+    SET KIM_TYP_ID = 'KFS68'
+    WHERE KIM_TYP_ID = '68';
+DELETE FROM KRIM_TYP_ATTR_T WHERE KIM_TYP_ID = '68';
+DELETE FROM KRIM_TYP_T WHERE KIM_TYP_ID = '68';
+COMMIT;
+		</sql>
+	</changeSet>
+
+	<changeSet author="KFS50" id="FIX_ROLE_KIM_TYPE">
+		<comment>The new 2.0 rice data contains an overlapping KIM type id.  We need to existing data to reference the updated "KFS69" KIM_TYP_ID.</comment>
+		<sql>
+UPDATE KRIM_ROLE_T SET KIM_TYP_ID = '1' WHERE role_id = '98';
+UPDATE KRIM_TYP_T
+    SET KIM_TYP_ID = 'KFS69' 
+    WHERE KIM_TYP_ID = '69';
+UPDATE KRIM_ROLE_T SET KIM_TYP_ID = 'KFS69' WHERE role_id = '98';
+COMMIT;
+		</sql>
+	</changeSet>
+
+	<changeSet author="KFS50" id="FIX_ROLE_ID">
+		<comment>The new 2.0 rice data contains an overlapping KIM Role id.</comment>
+		<sql>
+UPDATE KRIM_ROLE_T SET role_id = 'KFS98' WHERE role_id = '98';
+COMMIT;
+		</sql>
+	</changeSet>
+	
+</databaseChangeLog>

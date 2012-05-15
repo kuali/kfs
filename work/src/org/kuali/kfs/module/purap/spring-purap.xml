@@ -66,7 +66,6 @@
 				<value>electronicInvoiceExtractJob</value>
 				<value>faxPendingDocumentJob</value>
 				<value>approveLineItemReceivingJob</value>
-				<value>migratePurapStatusDescriptionToWorkflowDocumentJob</value>
 			</list>
 		</property>
 		<property name="triggerNames">
@@ -554,47 +553,6 @@
 			</list>
 		</property>
 	</bean>
-	
-	<bean id="StatusCodeAndDescriptionForPurapDocumentsDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.module.purap.dataaccess.impl.StatusCodeAndDescriptionForPurapDocumentsDaoJdbc" />
-	<bean id="purapDocumentsStatusCodeMigrationDao" parent="platformAwareDaoJdbc" class="org.kuali.kfs.module.purap.dataaccess.impl.PurapDocumentsStatusCodeMigrationDaoJdbc" />
-	
-    <bean id="migratePurapStatusDescriptionToWorkflowDocumentJob" parent="migratePurapStatusDescriptionToWorkflowDocumentJob-parentBean"/>	
-	<bean id="migratePurapStatusDescriptionToWorkflowDocumentJob-parentBean" parent="scheduledJobDescriptor" abstract="true">
-		<property name="steps">
-			<list>
-				<ref bean="MigratePurapStatCodeToWorkflowDocumentStep" />
-			</list>
-		</property>
-	</bean>
-
-    <bean id="MigratePurapStatCodeToWorkflowDocumentStep" parent="MigratePurapStatCodeToWorkflowDocumentStep-parentBean"/>	
-	<bean id="MigratePurapStatCodeToWorkflowDocumentStep-parentBean" class="org.kuali.kfs.module.purap.batch.MigratePurapStatCodeToWorkflowDocumentStep" parent="wrappedStep" abstract="true">
-		<property name="wrappingBatchServices">
-			<list>
-				<ref bean="migratePurapStatCodeReportService" />
-			</list>
-		</property>
-		<property name="migratePurapStatCodeToWorkflowDocumentService">
-			<ref bean="migratePurapStatCodeToWorkflowDocumentService" />
-		</property>
-		<property name="batchFileDirectoryName" value="${reports.directory}/purap"/>		
-	</bean>
-    <bean id="migratePurapStatCodeToWorkflowDocumentService" parent="migratePurapStatCodeToWorkflowDocumentService-parentBean"/>
-	
-	<bean id="migratePurapStatCodeToWorkflowDocumentService-parentBean" class="org.kuali.kfs.module.purap.batch.service.impl.MigratePurapStatCodeToWorkflowDocumentServiceImpl" abstract="true">
-		<property name="migratePurapStatCodeReportService">
-			<ref bean="migratePurapStatCodeReportService" />
-		</property>
-	</bean>
-    <bean id="migratePurapStatCodeReportService" parent="migratePurapStatCodeReportService-parentBean"/>
-	
-	<bean id="migratePurapStatCodeReportService-parentBean" abstract="true" parent="reportWriterService">
-		<property name="filePath" value="${reports.directory}/purap"/>
-		<property name="fileNamePrefix" value="migratePurapStatusCodeErrors"/>
-        <property name="title" value="MIGRATE PURAP STATUSCODES TO WORKFLOW DOCUMENT APPLICATION CODE STATUS JOB REPORT"/>
-        <property name="aggregationModeOn" value="false"/>
-        <!-- the report does not print out BO's, therefore classToBusinessObjectReportHelperBeanNames not needed-->
-    </bean>
 	
 	<bean id="purchasingPreDisbursementImmediatesExtractJobTrigger" parent="cronTrigger">
 		<property name="jobName" value="purchasingPreDisbursementImmediatesExtractJob" />

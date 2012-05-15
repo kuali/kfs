@@ -452,6 +452,9 @@
 			<column name="PARM_DESC_TXT" value="Indicates whether a warning message shall be given when a user clicks &quot;add unordered item&quot; button. When set to Y the user will receive a warning." />
 			<column name="EVAL_OPRTR_CD" value="A" />
 		</insert>
+	    <modifySql dbms="mysql">
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
 	</changeSet>
 	
 	<changeSet author="jksmith" id="KFSMI6315_SEMAPHORE_PROCESSING_INTERVAL_INSERTION">
@@ -468,6 +471,9 @@
 			<column name="PARM_DESC_TXT" value="Controls the frequency (in milliseconds) with which the batch container (BatchContainerStep) will check for semaphore step files to process. The semaphore files are created by the brte scripts via BatchStepTrigger." />
 			<column name="EVAL_OPRTR_CD" value="A" />
 		</insert>
+	    <modifySql dbms="mysql">
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
 	</changeSet>
 	
 	<changeSet author="jksmith" id="KFSMI5346_ACH_CC_PARAMETER">
@@ -484,6 +490,9 @@
 			<column name="PARM_DESC_TXT" value="The pdpSendAchAdviceNotificationsJob generates ACH payment summary email notifications for payees and copies of these emails are sent to the email address(es) specified in this parameter." />
 			<column name="EVAL_OPRTR_CD" value="A" />
 		</insert>
+	    <modifySql dbms="mysql">
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
 	</changeSet>
 	
 	<changeSet author="jksmith" id="KFSMI6653_UPDATE_BANK_CODE_DOCUMENT_TYPES_PARAMETER">
@@ -520,6 +529,9 @@
 			<column name="PARM_DESC_TXT" value="Email addresses which receive notification that a disbursement voucher was prepared for immediate extraction." />
 			<column name="EVAL_OPRTR_CD" value="A" />
 		</insert>
+	    <modifySql dbms="mysql">
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
 	</changeSet>
 	
 	<changeSet author="jksmith" id="KFSMI5918_COLLECTOR_FAILURE_SUBJECT_PARAM">
@@ -536,6 +548,9 @@
 			<column name="PARM_DESC_TXT" value="This is the subject line used when the collector sends out email relating to a file that failed validation." />
 			<column name="EVAL_OPRTR_CD" value="A" />
 		</insert>
+	    <modifySql dbms="mysql">
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
 	</changeSet>
 	
 	<changeSet author="jksmith" id="KFSMI6285_PROCUREMENT_CARD_DEFAULT_PARAMETERS">
@@ -564,6 +579,9 @@
 			<column name="PARM_DESC_TXT" value="If yes, cardholder information is displayed / required on the Procurement Card Document Default maintenance document and cardholder information on the Procurement Card document is populated from Procurement Card Document Default table, if present.  If No, the cardholder information on the Procurement Card document is generated from the bank file." />
 			<column name="EVAL_OPRTR_CD" value="A" />
 		</insert>
+	    <modifySql dbms="mysql">
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
 	</changeSet>
 	
 	<changeSet author="jksmith" id="KFSMI6809_DEPRECIATION_BLANK_OUT_PARAMS">
@@ -616,6 +634,9 @@
 			<column name="PARM_DESC_TXT" value="The run date (in format mm/dd/yyyy) to run the asset depreciation batch job during the blank out period." />
 			<column name="EVAL_OPRTR_CD" value="A" />
 		</insert>
+	    <modifySql dbms="mysql">
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
 	</changeSet>
 	
 	<changeSet author="jksmith" id="KFSMI6809_RUN_DATE_NOTIFICATION_PARAM">
@@ -632,6 +653,9 @@
 			<column name="PARM_DESC_TXT" value="This email list to send a notification when blank out period run date is not set or not in blank out period range." />
 			<column name="EVAL_OPRTR_CD" value="A" />
 		</insert>
+	    <modifySql dbms="mysql">
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
 	</changeSet>
 	
 	<changeSet author="jksmith" id="KFSMI6890_PARAMETER_UPDATE_FOR_ACH_BANKS">
@@ -652,6 +676,9 @@
 			<column name="CMPNT_CD" value="Batch"/>
 			<where>nmspc_cd = 'KFS-PDP' and CMPNT_CD = 'All' and parm_nm = 'ACH_BANK_INPUT_FILE' and APPL_ID = 'KFS'</where>
 		</update>
+	    <modifySql dbms="mysql">
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
 	</changeSet>
 	
 	<changeSet author="jksmith" id="KFSMI4452_BATCH_LOCKOUT_MESSAGE">
@@ -668,6 +695,9 @@
 			<column name="PARM_DESC_TXT" value="This parameter is to set the default message for the various documents during the lockout time." />
 			<column name="EVAL_OPRTR_CD" value="A" />
 		</insert>
+	    <modifySql dbms="mysql">
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
 	</changeSet>
 	
 	<changeSet author="jksmith" id="KFSMI6820_FROM_ADDRESSES_FOR_BATCH_JOBS">
@@ -720,6 +750,9 @@
 			<column name="PARM_DESC_TXT" value="From email address used for messages sent by the system." />
 			<column name="EVAL_OPRTR_CD" value="A" />
 		</insert>
+	    <modifySql dbms="mysql">
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
 	</changeSet>
 	
 	<changeSet author="jksmith" id="KFSMI6944_SCHEDULE_PRIOR_YEAR_JOB">
@@ -736,6 +769,9 @@
 			<column name="PARM_DESC_TXT" value="The run date (in format MM/DD/YYYY ) to run the update prior year data job." />
 			<column name="EVAL_OPRTR_CD" value="A" />
 		</insert>
+	    <modifySql dbms="mysql">
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
 	</changeSet>
 	
 	<changeSet author="jksmith" id="KFSMI7014_PARAM_TO_INACTIVE_AMOUNT_TOTAL_DURING_POST_PROCESS">
@@ -752,9 +788,11 @@
 			<column name="PARM_DESC_TXT" value="Determines whether functionality to update a financial document's total amount during routing post-processing should be carried out." />
 			<column name="EVAL_OPRTR_CD" value="A" />
 		</insert>
+	    <modifySql dbms="mysql">
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
 	</changeSet>
 	
-<!-- JHK: Up to here in inclusion in master data scripts -->
 	<changeSet author="jksmith" id="KFSMI6319_EINVOICE_OVERRIDE_CAMPUS">
 		<comment>Adds parameter for KFSMI-6319 to potentially override the campus used by the e-invoicing process. Megha did the original sql here.</comment>
 		<insert tableName="KRCR_PARM_T">
@@ -769,6 +807,9 @@
 			<column name="PARM_DESC_TXT" value="This parameter is to determine the campus for electronic invoice payments. If parameter value is populated, set the processing campus on the eInvoice generated PREQ to the parameter value. If parameter value is empty, use the Requisition initiator''s campus code." />
 			<column name="EVAL_OPRTR_CD" value="A" />
 		</insert>
+	    <modifySql dbms="mysql">
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
 	</changeSet>
 	
 	<changeSet author="jksmith" id="KFSMI6929_LABOR_LEDGER_ORIGIN_CODES_PARAMETER">
@@ -785,6 +826,9 @@
 			<column name="PARM_DESC_TXT" value="The list of origin codes which will cause a general ledger Entry’s document number on a lookup to form a link to the list of labor ledger entries which created that general ledger entry." />
 			<column name="EVAL_OPRTR_CD" value="A" />
 		</insert>
+	    <modifySql dbms="mysql">
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
 	</changeSet>
 	
 	<changeSet author="jksmith" id="KFSMI7006_CUTOFF_TIME_PARAMETER">
@@ -801,6 +845,9 @@
 			<column name="PARM_DESC_TXT" value="Time, in 24 hour time format (hh:mm:ss), after which it is considered to be the next day for the purposes of evaluating RUN_DATE parameters. For example: Today is 9/27/2011, RUN_DATE=9/27/2011, RUN_DATE_CUTOFF_TIME=2:00:00. Due to a slow running schedule a job triggered by RUN_DATE does not have its turn until 1:00 9/28/2011. The job will still run because the cutoff time is 2 hours after midnight. In this case, anything running after 2:00 is considered the next day." />
 			<column name="EVAL_OPRTR_CD" value="A" />
 		</insert>
+	    <modifySql dbms="mysql">
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
 	</changeSet>
 
 	<changeSet author="jksmith" id="KFSCNTRB162_DEBARRED_VENDOR_TRACKING_PARMS">
@@ -841,6 +888,9 @@
 			<column name="PARM_DESC_TXT" value="This indicates whether a warning or an error should be displayed when a debarred vendor is selected in a purchase order. If Y then a warning is displayed. If N an error is displayed." />
 			<column name="EVAL_OPRTR_CD" value="A" />
 		</insert>
+	    <modifySql dbms="mysql">
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
 	</changeSet>
 
 	<changeSet author="jksmith" id="KFSCNTRB672_BATCH_MAX_FILE_SIZE_PARAMETER">
@@ -857,6 +907,9 @@
 			<column name="PARM_DESC_TXT" value="The size limitation for batch file uploads in megabytes." />
 			<column name="EVAL_OPRTR_CD" value="A" />
 		</insert>
+	    <modifySql dbms="mysql">
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
 	</changeSet>
 	
 	<changeSet author="jksmith" id="KFSCNTRB155_DEFAULT_ASSET_MANUFACTURER_PARAMETER">
@@ -873,6 +926,9 @@
 			<column name="PARM_DESC_TXT" value="Default manufacturer name to be used during Asset Fabrication." />
 			<column name="EVAL_OPRTR_CD" value="A" />
 		</insert>
+	    <modifySql dbms="mysql">
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
 	</changeSet>
 	
 	<changeSet author="KFS50" id="UPDATE_CFDA_PARAM_NAMESPACE">

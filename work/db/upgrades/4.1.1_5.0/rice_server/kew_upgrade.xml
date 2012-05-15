@@ -26,7 +26,7 @@
 	<changeSet author="jksmith" id="KFSCNTRB56_UPDATE_CFDM_PARENT_DOC_TYPE">
 		<comment>Changes the parent document type of the CFDA maintenance document, CFDM, so that it's parent is COSM, the Chart of Accounts simple maintenance document type.</comment>
 		<update tableName="KREW_DOC_TYP_T">
-			<column name="PARNT_ID" valueNumeric=" (select doc_typ_id from krew_doc_typ_t where doc_typ_nm = 'COSM' and cur_ind = 1 and actv_ind = 1) " />
+			<column name="PARNT_ID" valueNumeric=" (select doc_typ_id from KREW_DOC_TYP_T where doc_typ_nm = 'COSM' and cur_ind = 1 and actv_ind = 1) " />
 			<where>doc_typ_nm = 'CFDM' and cur_ind = 1 and actv_ind = 1</where>
 		</update>
 	</changeSet>

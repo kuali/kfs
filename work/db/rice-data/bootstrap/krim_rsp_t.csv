@@ -1,62 +1,62 @@
-RSP_ID,OBJ_ID,VER_NBR,RSP_TMPL_ID,NMSPC_CD,NM,DESC_TXT,ACTV_IND
-1,KFS1,1,1,KFS-SYS,Review 1,,Y
-10,KFS10,1,1,KFS-AR,Review 10,,Y
-100,KFS100,1,1,KFS-AR,Review 100,,Y
-101,KFS101,1,1,KFS-AR,Review 101,,Y
-107,KFS107,1,1,KFS-PURAP,Review 107,,Y
-108,KFS108,1,1,KFS-PURAP,Review 108,,Y
-109,KFS109,1,1,KFS-PURAP,Review 109,,Y
-11,KFS11,1,1,KFS-AR,Review 11,,Y
-111,KFS111,1,1,KFS-CG,Review 111,,Y
-112,KFS112,1,1,KFS-CG,Review 112,,Y
-113,KFS113,1,1,KFS-PURAP,Review 113,,Y
-114,KFS114,1,1,KFS-AR,Review 114,,Y
-115,KFS115,1,1,KFS-CAM,Review 115,,Y
-116,KFS116,1,1,KFS-AR,Review 116,,Y
-117,KFS117,1,1,KFS-SYS,Review 117,,Y
-118,KFS118,1,1,KFS-AR,Review 118,,Y
-119,KFS119,1,1,KFS-AR,Review 119,,Y
-12,KFS12,1,1,KFS-SYS,Review 12,,Y
-120,KFS120,1,1,KFS-FP,Review 120,,Y
-123,KFS123,1,1,KFS-SYS,Review 123,,Y
-124,KFS124,1,1,KFS-COA,Review 124,,Y
-16,KFS16,1,1,KFS-CAM,Review 16,,Y
-17,KFS17,1,1,KFS-CAM,Review 17,,Y
-18,KFS18,1,1,KFS-CAM,Review 18,,Y
-19,KFS19,1,1,KFS-CAM,Review 19,,Y
-22,KFS22,1,1,KFS-CAM,Review 22,,Y
-24,KFS24,1,1,KFS-CG,Review 24,,Y
-26,KFS26,1,1,KFS-SYS,Review 26,,Y
-29,KFS29,1,1,KFS-SYS,Review 29,,Y
-3,KFS3,1,1,KFS-PURAP,Review 3,,Y
-31,KFS31,1,1,KFS-SYS,Review 31,,Y
-4,KFS4,1,1,KFS-SYS,Review 4,,Y
-41,KFS41,1,1,KFS-EC,Review 41,,Y
-44,KFS44,1,1,KFS-FP,Review 44,,Y
-46,KFS46,1,1,KFS-FP,Review 46,,Y
-48,KFS48,1,1,KFS-FP,Review 48,,Y
-49,KFS49,1,1,KFS-FP,Review 49,,Y
-5,KFS5,1,1,KFS-CG,Review 5,,Y
-50,KFS50,1,1,KFS-FP,Review 50,,Y
-51,KFS51,1,1,KFS-FP,Review 51,,Y
-6,KFS6,1,1,KFS-PURAP,Review 6,,Y
-7,KFS7,1,1,KFS-SYS,Review 7,,Y
-71,KFS71,1,1,KFS-PURAP,Review 71,,Y
-73,KFS73,1,1,KFS-PURAP,Review 73,,Y
-74,KFS74,1,1,KFS-PURAP,Review 74,,Y
-75,KFS75,1,1,KFS-PURAP,Review 75,,Y
-76,KFS76,1,1,KFS-PURAP,Review 76,,Y
-78,KFS78,1,1,KFS-PURAP,Review 78,,Y
-80,KFS80,1,1,KFS-PURAP,Review 80,,Y
-81,KFS81,1,1,KFS-PURAP,Review 81,,Y
-83,KFS83,1,1,KFS-PURAP,Review 83,,Y
-85,KFS85,1,1,KFS-PURAP,Review 85,,Y
-87,KFS87,1,2,KFS-SYS,Resolve Exception 87,,Y
-91,KFS91,1,1,KFS-VND,Review 91,,Y
-92,KFS92,1,1,KFS-VND,Review 92,,Y
-94,KFS94,1,1,KFS-PURAP,Review 94,,Y
-95,KFS95,1,1,KFS-EC,Review 95,,Y
-97,KFS97,1,1,KFS-AR,Review 97,,Y
-99,KFS99,1,1,KFS-FP,Review 99,,Y
-125,KFS125,1,1,KFS-ENDOW,Review 125,,Y
-126,KFSFP7037,1,1,KFS-FP,DV Separation of Duties,,Y
+"RSP_ID","OBJ_ID","VER_NBR","RSP_TMPL_ID","NMSPC_CD","NM","DESC_TXT","ACTV_IND"
+"1","KFS1","1","1","KFS-SYS","Review KFS OrganizationHierarchy","","Y"
+"10","KFS10","1","1","KFS-AR","Review CTRL ElectronicPayment","","Y"
+"100","KFS100","1","1","KFS-AR","Review ARM Management","","Y"
+"101","KFS101","1","1","KFS-AR","Review AR Management","","Y"
+"107","KFS107","1","1","KFS-PURAP","Review POA Account","","Y"
+"108","KFS108","1","1","KFS-PURAP","Review CM Account","","Y"
+"109","KFS109","1","1","KFS-PURAP","Review EIRT Management","","Y"
+"11","KFS11","1","1","KFS-AR","Review CTRL Lockbox","","Y"
+"111","KFS111","1","1","KFS-CG","Review CLOS Unprocessed","","Y"
+"112","KFS112","1","1","KFS-CG","Review CLOS Management","","Y"
+"113","KFS113","1","1","KFS-PURAP","Review REQS Initiator","","Y"
+"114","KFS114","1","1","KFS-AR","Review INVR RecurrenceCreator","","Y"
+"115","KFS115","1","1","KFS-CAM","Review BCIE Initiator","","Y"
+"116","KFS116","1","1","KFS-AR","Review APP Lockbox","","Y"
+"117","KFS117","1","1","KFS-SYS","Review IdentityManagementDocument GroupType","","Y"
+"118","KFS118","1","1","KFS-AR","Review INV Initiator","","Y"
+"119","KFS119","1","1","KFS-AR","Review INVR Recurrence","","Y"
+"12","KFS12","1","1","KFS-SYS","Review KFS Account","","Y"
+"120","KFS120","1","1","KFS-FP","Review PCDO Account","","Y"
+"123","KFS123","1","1","KFS-SYS","Review IdentityManagementDocument RoleType","","Y"
+"124","KFS124","1","1","KFS-COA","Review GDLG Account","","Y"
+"16","KFS16","1","1","KFS-CAM","Review FR Management","","Y"
+"17","KFS17","1","1","KFS-CAM","Review ARG Purchasing","","Y"
+"18","KFS18","1","1","KFS-CAM","Review MPAY PlantFund","","Y"
+"19","KFS19","1","1","KFS-CAM","Review ARG ExternalTransfer","","Y"
+"22","KFS22","1","1","KFS-CAM","Review ELR Borrower","","Y"
+"24","KFS24","1","1","KFS-CG","Review RA ProjectManagement","","Y"
+"26","KFS26","1","1","KFS-SYS","Review KFS Chart","","Y"
+"29","KFS29","1","1","KFS-SYS","Review ACCT Account","","Y"
+"3","KFS3","1","1","KFS-PURAP","Review REQS Organization","","Y"
+"31","KFS31","1","1","KFS-SYS","Review KFS Award","","Y"
+"4","KFS4","1","1","KFS-SYS","Review KFST AccountingOrganizationHierarchy","","Y"
+"41","KFS41","1","1","KFS-EC","Review ECD ProjectManagement","","Y"
+"44","KFS44","1","1","KFS-FP","Review CR CashManagement","","Y"
+"46","KFS46","1","1","KFS-FP","Review DV Campus","","Y"
+"48","KFS48","1","1","KFS-FP","Review DV Purchasing","","Y"
+"49","KFS49","1","1","KFS-FP","Review DV Tax","","Y"
+"5","KFS5","1","1","KFS-CG","Review KFS ResearchRisk","","Y"
+"50","KFS50","1","1","KFS-FP","Review DV Travel","","Y"
+"51","KFS51","1","1","KFS-FP","Review DV PaymentMethod","","Y"
+"6","KFS6","1","1","KFS-PURAP","Review PUR Commodity","","Y"
+"7","KFS7","1","1","KFS-SYS","Review KFS SubFund","","Y"
+"71","KFS71","1","1","KFS-PURAP","Review AP ImageAttachment","","Y"
+"73","KFS73","1","1","KFS-PURAP","Review PREQ Receiving","","Y"
+"74","KFS74","1","1","KFS-PURAP","Review PREQ Tax","","Y"
+"75","KFS75","1","1","KFS-PURAP","Review POA NewUnorderedItems","","Y"
+"76","KFS76","1","1","KFS-PURAP","Review PO Budget","","Y"
+"78","KFS78","1","1","KFS-PURAP","Review PO ContractManagement","","Y"
+"80","KFS80","1","1","KFS-PURAP","Review PO Tax","","Y"
+"81","KFS81","1","1","KFS-PURAP","Review PORH AccountsPayable","","Y"
+"83","KFS83","1","1","KFS-PURAP","Review KFST SubAccount","","Y"
+"85","KFS85","1","1","KFS-PURAP","Review REQS SeparationOfDuties","","Y"
+"87","KFS87","1","2","KFS-SYS","Resolve Exception","","Y"
+"91","KFS91","1","1","KFS-VND","Review PVEN Initiator","","Y"
+"92","KFS92","1","1","KFS-VND","Review PVEN Management","","Y"
+"94","KFS94","1","1","KFS-PURAP","Review RCVL OutstandingTransactions","","Y"
+"95","KFS95","1","1","KFS-EC","Review ECD Management","","Y"
+"97","KFS97","1","1","KFS-AR","Review INV Recurrence","","Y"
+"99","KFS99","1","1","KFS-FP","Review PCDO AccountFullEdit","","Y"
+"125","KFS125","1","1","KFS-ENDOW","Review ETB EndowmentApprovers","","Y"
+"126","KFSFP7037","1","1","KFS-FP","Review DV SeparationOfDuties","","Y"

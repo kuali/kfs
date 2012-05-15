@@ -21,7 +21,7 @@
 			<column name="CMPNT_CD" value="ASSET" />
 			<column name="PARM_NM"
 				value="MANUFACTURER_REQUIRED_FOR_NON_MOVEABLE_ASSET_IND" />
-			<column name="OBJ_ID" value="KFSCAM102" />
+			<column name="OBJ_ID" value="KFSCAM105" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="PARM_DESC_TXT"

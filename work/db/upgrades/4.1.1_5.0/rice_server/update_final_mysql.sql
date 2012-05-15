@@ -2604,7 +2604,7 @@ create index KRIM_ROLE_MBR_TI3 on KRIM_ROLE_MBR_T (mbr_id, mbr_typ_cd);
 -- KRMS Sample (and production) Data
 --
 
----- If you should want to clean out your KRMS tables:
+-- If you should want to clean out your KRMS tables:
 delete from  KRMS_CNTXT_VLD_RULE_TYP_T ;
 delete from  KRMS_CNTXT_VLD_FUNC_T ;
 delete from  KRMS_TERM_SPEC_CTGRY_T ;
@@ -2643,7 +2643,7 @@ delete from  KRMS_TYP_T;
 delete from  KRMS_CNTXT_T ;
 delete from KRCR_NMSPC_T where obj_id = '5a83c912-94b9-4b4d-ac3f-88c53380a4a3';
 
----- KRMS test namespace
+-- KRMS test namespace
 
 insert into KRCR_NMSPC_T (nmspc_cd, obj_id, nm, appl_id) 
 values ('KR-RULE-TEST', '5a83c912-94b9-4b4d-ac3f-88c53380a4a3', 'Kuali Rules Test', 'RICE');
@@ -3290,7 +3290,7 @@ values ('T1014', 'is it for a special event', null, 'C','T1008', '&', 1);
 insert into KRMS_CMPND_PROP_PROPS_T(cmpnd_prop_id, prop_id)
 values ('T1011', 'T1014');
 
----- controlled 3rd level props -----
+-- controlled 3rd level props
 
 insert into KRMS_PROP_T(prop_id, desc_txt, typ_id, dscrm_typ_cd, rule_id, ver_nbr)
 values ('T1015', 'is item purchased animal', null, 'S','T1008', 1);

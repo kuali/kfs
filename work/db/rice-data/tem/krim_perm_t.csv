@@ -1,0 +1,52 @@
+PERM_ID,OBJ_ID,VER_NBR,PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,ACTV_IND
+TEM-10041,KFS-TEM-PERM-001,1,27,KFS-TEM,Full Unmask Field,Allows users to unmask the contact relation field in the Emergency Contacts tab in a Travel Authorization document.,Y
+TEM-10042,KFS-TEM-PERM-002,1,27,KFS-TEM,Full Unmask Field,Allows users to unmask the contact name field in the Emergency Contacts tab in a Travel Authorization document.,Y
+TEM-10043,KFS-TEM-PERM-003,1,27,KFS-TEM,Full Unmask Field,Allows users to unmask the contact phone number field in the Emergency Contacts tab in a Travel Authorization document.,Y
+TEM-10044,KFS-TEM-PERM-004,1,27,KFS-TEM,Full Unmask Field,Allows users to unmask the contact email address field in the Emergency Contacts tab in a Travel Authorization document.,Y
+TEM-10045,KFS-TEM-PERM-005,1,4,KFS-TEM,Blanket Approve Document,Allows access to the Blanket Approval button on Taxable Ramification Documents.,Y
+TEM-10046,KFS-TEM-PERM-006,1,10,KFS-TEM,Initiate Document,Authorizes the initiation of Taxable Ramification Documents.,Y
+TEM-10047,KFS-TEM-PERM-007,1,10,KFS-TEM,Initiate Document,Authorizes the initiation of Travel Audit Report,Y
+TEM-10048,KFS-TEM-PERM-008,1,41,KFS-TEM,Modify Accounting Lines,Allows access to Modify the Accounting Lines on a TAA doc,Y
+TEM-10049,KFS-TEM-PERM-009,1,41,KFS-TEM,Modify Accounting Lines,Allows access to Modify the Accounting Lines on a ENT doc,Y
+TEM-10050,KFS-TEM-PERM-010,1,41,KFS-TEM,Modify Accounting Lines,Allows access to Modify the Accounting Lines on a RELO doc,Y
+TEM-10000,KFS-TEM-PERM-011,1,1,KFS-TEM,Amend TA,Allows access to Amend the TA doc,Y
+TEM-10001,KFS-TEM-PERM-012,1,1,KFS-TEM,Hold TA,Allows access to Hold the TA doc,Y
+TEM-10002,KFS-TEM-PERM-013,1,1,KFS-TEM,Remove Hold TA,Allows access to Remove the Hold the TA doc,Y
+TEM-10003,KFS-TEM-PERM-014,1,1,KFS-TEM,Cancel TA,Allows access to Cancel the TA doc,Y
+TEM-10004,KFS-TEM-PERM-015,1,1,KFS-TEM,Close TA,Allows access to Close the TA doc,Y
+TEM-10005,KFS-TEM-PERM-016,1,1,KFS-TEM,Return to Fiscal Officer,Allows access to return an enroute travel document to the Fiscal Officer for changes.,Y
+TEM-10006,KFS-TEM-PERM-017,1,41,KFS-TEM,Modify Accounting Lines,Allows access to Modify the Accounting Lines on a TA doc,Y
+TEM-10007,KFS-TEM-PERM-018,1,27,KFS-TEM,Full Unmask Field,Allows users to unmask the citizenship country field in the Emergency Contacts tab in a Travel document.,Y
+TEM-10008,KFS-TEM-PERM-019,1,27,KFS-TEM,Full Unmask Field,Allows users to unmask the cell phone number field in the Emergency Contacts tab in a Travel Authorization document.,Y
+TEM-10009,KFS-TEM-PERM-020,1,27,KFS-TEM,Full Unmask Field,Allows users to unmask the contact relation field in the Emergency Contacts tab in a Travel Authorization document.,Y
+TEM-10010,KFS-TEM-PERM-021,1,27,KFS-TEM,Full Unmask Field,Allows users to unmask the contact name field in the Emergency Contacts tab in a Travel Authorization document.,Y
+TEM-10011,KFS-TEM-PERM-022,1,27,KFS-TEM,Full Unmask Field,Allows users to unmask the contact phone number field in the Emergency Contacts tab in a Travel Authorization document.,Y
+TEM-10012,KFS-TEM-PERM-023,1,27,KFS-TEM,Full Unmask Field,Allows users to unmask the contact email address field in the Emergency Contacts tab in a Travel Authorization document.,Y
+TEM-10013,KFS-TEM-PERM-024,1,27,KFS-TEM,Full Unmask Field,Allows users to unmask the contact relation field in the Emergency Contacts tab in a Travel Authorization document.,Y
+TEM-10014,KFS-TEM-PERM-025,1,27,KFS-TEM,Full Unmask Field,Allows users to unmask the contact name field in the Emergency Contacts tab in a Travel Authorization document.,Y
+TEM-10015,KFS-TEM-PERM-026,1,27,KFS-TEM,Full Unmask Field,Allows users to unmask the contact phone number field in the Emergency Contacts tab in a Travel Authorization document.,Y
+TEM-10016,KFS-TEM-PERM-027,1,27,KFS-TEM,Full Unmask Field,Allows users to unmask the contact email address field in the Emergency Contacts tab in a Travel Authorization document.,Y
+TEM-10017,KFS-TEM-PERM-028,1,1,KFS-TEM,Calculate TA,Allows TA doc calculation,Y
+TEM-10018,KFS-TEM-PERM-029,1,1,KFS-TEM,Create TEM Profile,Authorizes users to create TEM Profile Document.,Y
+TEM-10019,KFS-TEM-PERM-030,1,10,KFS-TEM,Initiate Own TEM Profile,Authorizes users to create their own TEM Profile Document.,Y
+TEM-10020,KFS-TEM-PERM-031,1,1,KFS-TEM,Inactivate TEM Profile,Authorizes users to inactivate a TEM Profile.,Y
+TEM-10021,KFS-TEM-PERM-032,1,1,KFS-TEM,Edit TEM Profile,Authorizes users to edit TEM Profile Documents.,Y
+TEM-10022,KFS-TEM-PERM-033,1,1,KFS-TEM,Administration Only Tab,Allows users access to the Administration Only Tab.,Y
+TEM-10023,KFS-TEM-PERM-034,1,1,KFS-TEM,Initiate TA or TR,Authorizes users to initiate a TA or TR from a TEM Profile.,Y
+TEM-10024,KFS-TEM-PERM-035,1,1,KFS-TEM,Approve TA or TR,Authorizes users to approve a TA or TR from a TEM Profile.,Y
+TEM-10025,KFS-TEM-PERM-036,1,27,KFS-TEM,Full Unmask Field,Allows users to unmask the birth date in the TEM Profile maintenance document.,Y
+TEM-10026,KFS-TEM-PERM-037,1,27,KFS-TEM,Full Unmask Field,Allows users to unmask the gender in the TEM Profile maintenance document.,Y
+TEM-10027,KFS-TEM-PERM-038,1,27,KFS-TEM,Full Unmask Field,Allows users to unmask the drivers license number in the TEM Profile maintenance document.,Y
+TEM-10028,KFS-TEM-PERM-039,1,27,KFS-TEM,Full Unmask Field,Allows users to unmask the drivers license exp date in the TEM Profile maintenance document.,Y
+TEM-10029,KFS-TEM-PERM-040,1,27,KFS-TEM,Full Unmask Field,Allows users to unmask the drivers license state in the TEM Profile maintenance document.,Y
+TEM-10030,KFS-TEM-PERM-041,1,27,KFS-TEM,Full Unmask Field,Allows users to partially unmask the account number in the TEM Profile maintenance document.,Y
+TEM-10031,KFS-TEM-PERM-042,1,33,KFS-TEM,Upload Batch Input File(s),Authorizes user to access the Per Diem TXT Batch Upload page.,Y
+TEM-10032,KFS-TEM-PERM-043,1,33,KFS-TEM,Upload Batch Input File(s),Authorizes user to access the Per Diem XML Batch Upload page.,Y
+TEM-10033,KFS-TEM-PERM-044,1,1,KFS-TEM,Edit Taxable Indicator,Authorizes users to edit Taxable indicator for other expenses.,Y
+TEM-10034,KFS-TEM-PERM-045,1,33,KFS-TEM,Upload Batch Input File(s),Authorizes user to access the Travel Agency Data Upload page.,Y
+TEM-10035,KFS-TEM-PERM-046,1,33,KFS-TEM,Upload Batch Input File(s),Authorizes user to access the Credit Card Data Upload page.,Y
+TEM-10036,KFS-TEM-PERM-047,1,41,KFS-TEM,Modify Accounting Lines,Allows access to Modify the Accounting Lines on a TR doc,Y
+TEM-10037,KFS-TEM-PERM-048,1,41,KFS-TEM,Modify Accounting Lines,Allows access to Modify the Accounting Lines on a TR doc,Y
+TEM-10038,KFS-TEM-PERM-049,1,41,KFS-TEM,Modify Accounting Lines,Allows access to Modify the Accounting Lines on a TR doc,Y
+TEM-10039,KFS-TEM-PERM-050,1,27,KFS-TEM,Full Unmask Field,Allows users to unmask the citizenship country field in the Emergency Contacts tab in a Travel document.,Y
+TEM-10040,KFS-TEM-PERM-051,1,27,KFS-TEM,Full Unmask Field,Allows users to unmask the cell phone number field in the Emergency Contacts tab in a Travel Authorization document.,Y

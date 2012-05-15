@@ -1990,14 +1990,9 @@ alter table KRIM_PND_ADDR_MT add column NOTE_MSG VARCHAR(1024);
 alter table KREW_PPL_FLW_T CHANGE TYP_ID TYP_ID varchar(40) NULL;
 
 alter table KREW_PPL_FLW_MBR_T DROP FOREIGN KEY krew_ppl_flw_mbr_fk2;
-alter table KREW_PPL_FLW_MBR_T DROP KEY krew_ppl_flw_mbr_fk2;
 alter table KREW_PPL_FLW_MBR_T DROP COLUMN dlgt_frm_id;
 
 drop INDEX KREW_PPL_FLW_MBR_TC1 ON KREW_PPL_FLW_MBR_T;
-
--- drop INDEX krew_ppl_flw_mbr_fk2 ON KREW_PPL_FLW_MBR_T;
-
--- alter table KREW_PPL_FLW_MBR_T drop foreign key krew_ppl_flw_mbr_fk2;
 
 -- -----------------------------------------------------
 -- Table KREW_PPL_FLW_DLGT_T

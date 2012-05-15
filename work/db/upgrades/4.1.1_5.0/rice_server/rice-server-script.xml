@@ -6440,7 +6440,7 @@
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
 		
-		CREATE INDEX krew_ppl_flw_fk1 ON krew_ppl_flw_t (typ_id)
+		CREATE INDEX krew_ppl_flw_ti1 ON krew_ppl_flw_t (typ_id)
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
 		

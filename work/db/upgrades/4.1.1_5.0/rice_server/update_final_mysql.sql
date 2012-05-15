@@ -202,7 +202,7 @@ CREATE  TABLE IF NOT EXISTS `KRMS_PROP_T` (
   `rule_id` VARCHAR(40) NOT NULL ,
   `ver_nbr` DECIMAL NOT NULL DEFAULT 0 ,
   PRIMARY KEY (`prop_id`) ,
-  INDEX `KRMS_PROP_Ti1` (`rule_id` ASC) ,
+  INDEX `KRMS_PROP_TI1` (`rule_id` ASC) ,
   INDEX `krms_prop_fk2` (`typ_id` ASC) ,
   CONSTRAINT `krms_prop_fk1`
     FOREIGN KEY (`rule_id` )
@@ -231,7 +231,7 @@ CREATE  TABLE IF NOT EXISTS `KRMS_RULE_T` (
   `ver_nbr` DECIMAL NOT NULL DEFAULT 0 ,
   `descr_txt` VARCHAR(4000) NULL ,
   PRIMARY KEY (`rule_id`) ,
-  INDEX `KRMS_RULE_Ti1` (`prop_id` ASC) ,
+  INDEX `KRMS_RULE_TI1` (`prop_id` ASC) ,
   CONSTRAINT `krms_rule_fk1`
     FOREIGN KEY (`prop_id` )
     REFERENCES `KRMS_PROP_T` (`prop_id` )
@@ -271,7 +271,7 @@ CREATE  TABLE IF NOT EXISTS `KRMS_AGENDA_T` (
   `actv` VARCHAR(1) NOT NULL DEFAULT 'Y' ,
   `ver_nbr` DECIMAL NOT NULL DEFAULT 0 ,
   PRIMARY KEY (`agenda_id`) ,
-  INDEX `KRMS_AGENDA_Ti1` (`cntxt_id` ASC) ,
+  INDEX `KRMS_AGENDA_TI1` (`cntxt_id` ASC) ,
   CONSTRAINT `krms_agenda_fk1`
     FOREIGN KEY (`cntxt_id` )
     REFERENCES `KRMS_CNTXT_T` (`cntxt_id` )
@@ -310,9 +310,9 @@ CREATE  TABLE IF NOT EXISTS `KRMS_TYP_ATTR_T` (
   `actv` VARCHAR(1) NOT NULL DEFAULT 'Y' ,
   `ver_nbr` DECIMAL NOT NULL DEFAULT 0 ,
   PRIMARY KEY (`typ_attr_id`) ,
-  INDEX `KRMS_TYP_ATTR_Ti1` (`attr_defn_id` ASC) ,
-  INDEX `KRMS_TYP_ATTR_Ti2` (`typ_id` ASC) ,
-  UNIQUE INDEX `KRMS_TYP_ATTR_Tc1` (`typ_id` ASC, `attr_defn_id` ASC) ,
+  INDEX `KRMS_TYP_ATTR_TI1` (`attr_defn_id` ASC) ,
+  INDEX `KRMS_TYP_ATTR_TI2` (`typ_id` ASC) ,
+  UNIQUE INDEX `KRMS_TYP_ATTR_TC1` (`typ_id` ASC, `attr_defn_id` ASC) ,
   CONSTRAINT `KRMS_Typ_attr_fk1`
     FOREIGN KEY (`attr_defn_id` )
     REFERENCES `KRMS_ATTR_DEFN_T` (`attr_defn_id` )
@@ -340,10 +340,10 @@ CREATE  TABLE IF NOT EXISTS `KRMS_ACTN_T` (
   `seq_no` TINYINT NULL ,
   `ver_nbr` DECIMAL NOT NULL DEFAULT 0 ,
   PRIMARY KEY (`actn_id`) ,
-  index `KRMS_ACTN_Ti2` (`rule_id` asc) ,
-  index `KRMS_ACTN_Ti1` (`typ_id` asc) ,
+  index `KRMS_ACTN_TI2` (`rule_id` asc) ,
+  index `KRMS_ACTN_TI1` (`typ_id` asc) ,
   unique index `KRMS_ACTN_Tc2` (`actn_id` asc, `rule_id` asc, `seq_no` asc) ,
-  index `KRMS_ACTN_Ti3` (`rule_id` asc, `seq_no` asc) ,
+  index `KRMS_ACTN_TI3` (`rule_id` asc, `seq_no` asc) ,
   constraint `krms_actn_fk1`
     FOREIGN KEY (`rule_id` )
     REFERENCES `KRMS_RULE_T` (`rule_id` )
@@ -364,8 +364,8 @@ CREATE  TABLE IF NOT EXISTS `KRMS_ACTN_ATTR_T` (
   `attr_val` VARCHAR(400) NULL ,
   `ver_nbr` DECIMAL NOT NULL DEFAULT 0 ,
   PRIMARY KEY (`actn_attr_data_id`) ,
-  INDEX `KRMS_ACTN_ATTR_Ti1` (`actn_id` ASC) ,
-  INDEX `KRMS_ACTN_ATTR_Ti2` (`attr_defn_id` ASC) ,
+  INDEX `KRMS_ACTN_ATTR_TI1` (`actn_id` ASC) ,
+  INDEX `KRMS_ACTN_ATTR_TI2` (`attr_defn_id` ASC) ,
   CONSTRAINT `krms_actn_attr_fk1`
     FOREIGN KEY (`actn_id` )
     REFERENCES `KRMS_ACTN_T` (`actn_id` )
@@ -394,12 +394,12 @@ CREATE  TABLE IF NOT EXISTS `KRMS_AGENDA_ITM_T` (
   `when_false` VARCHAR(40) NULL ,
   `always` VARCHAR(40) NULL ,
   PRIMARY KEY (`agenda_itm_id`) ,
-  INDEX `KRMS_AGENDA_ITM_Ti1` (`rule_id` ASC) ,
-  INDEX `KRMS_AGENDA_ITM_Ti2` (`agenda_id` ASC) ,
-  INDEX `KRMS_AGENDA_ITM_Ti3` (`sub_agenda_id` ASC) ,
-  INDEX `KRMS_AGENDA_ITM_Ti4` (`when_true` ASC) ,
-  INDEX `KRMS_AGENDA_ITM_Ti5` (`when_false` ASC) ,
-  INDEX `KRMS_AGENDA_ITM_Ti6` (`always` ASC) ,
+  INDEX `KRMS_AGENDA_ITM_TI1` (`rule_id` ASC) ,
+  INDEX `KRMS_AGENDA_ITM_TI2` (`agenda_id` ASC) ,
+  INDEX `KRMS_AGENDA_ITM_TI3` (`sub_agenda_id` ASC) ,
+  INDEX `KRMS_AGENDA_ITM_TI4` (`when_true` ASC) ,
+  INDEX `KRMS_AGENDA_ITM_TI5` (`when_false` ASC) ,
+  INDEX `KRMS_AGENDA_ITM_TI6` (`always` ASC) ,
   CONSTRAINT `krms_agenda_itm_fk1`
     FOREIGN KEY (`rule_id` )
     REFERENCES `KRMS_RULE_T` (`rule_id` )
@@ -445,8 +445,8 @@ CREATE  TABLE IF NOT EXISTS `KRMS_RULE_ATTR_T` (
   `attr_val` VARCHAR(400) NULL ,
   `ver_nbr` DECIMAL NOT NULL DEFAULT 0 ,
   PRIMARY KEY (`rule_attr_id`) ,
-  INDEX `KRMS_RULE_ATTR_Ti1` (`rule_id` ASC) ,
-  INDEX `KRMS_RULE_ATTR_Ti2` (`attr_defn_id` ASC) ,
+  INDEX `KRMS_RULE_ATTR_TI1` (`rule_id` ASC) ,
+  INDEX `KRMS_RULE_ATTR_TI2` (`attr_defn_id` ASC) ,
   CONSTRAINT `krms_rule_attr_fk1`
     FOREIGN KEY (`rule_id` )
     REFERENCES `KRMS_RULE_T` (`rule_id` )
@@ -472,8 +472,8 @@ CREATE  TABLE IF NOT EXISTS `KRMS_CNTXT_ATTR_T` (
   `attr_defn_id` VARCHAR(40) NULL ,
   `ver_nbr` DECIMAL NOT NULL DEFAULT 0 ,
   PRIMARY KEY (`cntxt_attr_id`) ,
-  INDEX `KRMS_CNTXT_ATTR_Ti1` (`cntxt_id` ASC) ,
-  INDEX `KRMS_CNTXT_ATTR_Ti2` (`attr_defn_id` ASC) ,
+  INDEX `KRMS_CNTXT_ATTR_TI1` (`cntxt_id` ASC) ,
+  INDEX `KRMS_CNTXT_ATTR_TI2` (`attr_defn_id` ASC) ,
   CONSTRAINT `krms_cntxt_attr_fk1`
     FOREIGN KEY (`cntxt_id` )
     REFERENCES `KRMS_CNTXT_T` (`cntxt_id` )
@@ -498,7 +498,7 @@ CREATE  TABLE IF NOT EXISTS `KRMS_CNTXT_VLD_ACTN_T` (
   `actn_typ_id` VARCHAR(40) NOT NULL ,
   `ver_nbr` DECIMAL NOT NULL DEFAULT 0 ,
   PRIMARY KEY (`cntxt_vld_actn_id`) ,
-  INDEX `KRMS_CNTXT_VLD_ACTN_Ti1` (`cntxt_id` ASC) ,
+  INDEX `KRMS_CNTXT_VLD_ACTN_TI1` (`cntxt_id` ASC) ,
   CONSTRAINT `krms_cntxt_vld_actn_fk1`
     FOREIGN KEY (`cntxt_id` )
     REFERENCES `KRMS_CNTXT_T` (`cntxt_id` )
@@ -519,7 +519,7 @@ CREATE  TABLE IF NOT EXISTS `KRMS_AGENDA_ATTR_T` (
   `attr_defn_id` VARCHAR(40) NOT NULL ,
   `ver_nbr` DECIMAL NOT NULL DEFAULT 0 ,
   PRIMARY KEY (`agenda_attr_id`) ,
-  INDEX `KRMS_AGENDA_ATTR_Ti1` (`agenda_id` ASC) ,
+  INDEX `KRMS_AGENDA_ATTR_TI1` (`agenda_id` ASC) ,
   INDEX `KRMS_AGENDA_ATTR_T12` (`attr_defn_id` ASC) ,
   CONSTRAINT `krms_agenda_attr_fk1`
     FOREIGN KEY (`agenda_id` )
@@ -544,7 +544,7 @@ CREATE  TABLE IF NOT EXISTS `KRMS_CMPND_PROP_PROPS_T` (
   `prop_id` VARCHAR(40) NOT NULL ,
   `seq_no` TINYINT NOT NULL ,
   PRIMARY KEY (`cmpnd_prop_id`, `prop_id`) ,
-  INDEX `KRMS_CMPND_PROP_PROPS_Ti1` (`prop_id` ASC) ,
+  INDEX `KRMS_CMPND_PROP_PROPS_TI1` (`prop_id` ASC) ,
   INDEX `krms_cmpnd_prop_props_fk2` (`cmpnd_prop_id` ASC) ,
   CONSTRAINT `krms_cmpnd_prop_props_fk1`
     FOREIGN KEY (`prop_id` )
@@ -572,7 +572,7 @@ CREATE  TABLE IF NOT EXISTS `KRMS_PROP_PARM_T` (
   `seq_no` TINYINT NOT NULL ,
   `ver_nbr` DECIMAL NOT NULL DEFAULT 0 ,
   PRIMARY KEY (`prop_parm_id`) ,
-  INDEX `KRMS_PROP_PARM_Ti1` (`prop_id` ASC) ,
+  INDEX `KRMS_PROP_PARM_TI1` (`prop_id` ASC) ,
   CONSTRAINT `krms_prop_parm_fk1`
     FOREIGN KEY (`prop_id` )
     REFERENCES `KRMS_PROP_T` (`prop_id` )
@@ -594,8 +594,8 @@ CREATE  TABLE IF NOT EXISTS `KRMS_TERM_SPEC_T` (
   `actv` VARCHAR(1) NOT NULL DEFAULT 'Y' ,
   `ver_nbr` DECIMAL NOT NULL ,
   PRIMARY KEY (`term_spec_id`) ,
-  UNIQUE INDEX `KRMS_ASSET_Tc1` (`nm` ASC, `cntxt_id` ASC) ,
-  INDEX `KRMS_ASSET_Ti1` (`cntxt_id` ASC) ,
+  UNIQUE INDEX `KRMS_ASSET_TC1` (`nm` ASC, `cntxt_id` ASC) ,
+  INDEX `KRMS_ASSET_TI1` (`cntxt_id` ASC) ,
   CONSTRAINT `krms_asset_fk1`
     FOREIGN KEY (`cntxt_id` )
     REFERENCES `KRMS_CNTXT_T` (`cntxt_id` )
@@ -619,9 +619,9 @@ CREATE  TABLE IF NOT EXISTS `KRMS_TERM_RSLVR_T` (
   `actv` VARCHAR(1) NOT NULL DEFAULT 'Y' ,
   `ver_nbr` DECIMAL NOT NULL DEFAULT 0 ,
   PRIMARY KEY (`term_rslvr_id`) ,
-  INDEX `KRMS_TERM_RSLVR_Ti1` (`cntxt_id` ASC) ,
-  INDEX `KRMS_TERM_RSLVR_Ti2` (`typ_id` ASC) ,
-  UNIQUE INDEX `KRMS_TERM_RSLVR_Tc1` (`nmspc_cd` ASC, `nm` ASC, `cntxt_id` ASC) ,
+  INDEX `KRMS_TERM_RSLVR_TI1` (`cntxt_id` ASC) ,
+  INDEX `KRMS_TERM_RSLVR_TI2` (`typ_id` ASC) ,
+  UNIQUE INDEX `KRMS_TERM_RSLVR_TC1` (`nmspc_cd` ASC, `nm` ASC, `cntxt_id` ASC) ,
   CONSTRAINT `KRMS_Term_rslvr_fk1`
     FOREIGN KEY (`output_term_spec_id` )
     REFERENCES `KRMS_TERM_SPEC_T` (`term_spec_id` )
@@ -652,8 +652,8 @@ CREATE  TABLE IF NOT EXISTS `KRMS_TERM_RSLVR_ATTR_T` (
   `attr_val` VARCHAR(400) NULL ,
   `ver_nbr` DECIMAL NOT NULL DEFAULT 0 ,
   PRIMARY KEY (`term_rslvr_attr_id`) ,
-  INDEX `KRMS_ASSET_RSLVR_ATTR_Ti1` (`term_rslvr_id` ASC) ,
-  INDEX `KRMS_ASSET_RSLVR_ATTR_Ti2` (`attr_defn_id` ASC) ,
+  INDEX `KRMS_ASSET_RSLVR_ATTR_TI1` (`term_rslvr_id` ASC) ,
+  INDEX `KRMS_ASSET_RSLVR_ATTR_TI2` (`attr_defn_id` ASC) ,
   CONSTRAINT `krms_asset_rslvr_attr_fk1`
     FOREIGN KEY (`term_rslvr_id` )
     REFERENCES `KRMS_TERM_RSLVR_T` (`term_rslvr_id` )
@@ -675,8 +675,8 @@ ENGINE = InnoDB;
 CREATE  TABLE IF NOT EXISTS `KRMS_TERM_RSLVR_INPUT_SPEC_T` (
   `term_spec_id` VARCHAR(40) NOT NULL ,
   `term_rslvr_id` VARCHAR(40) NOT NULL ,
-  INDEX `KRMS_INPUT_ASSET_Ti1` (`term_spec_id` ASC) ,
-  INDEX `KRMS_INPUT_ASSET_Ti2` (`term_rslvr_id` ASC) ,
+  INDEX `KRMS_INPUT_ASSET_TI1` (`term_spec_id` ASC) ,
+  INDEX `KRMS_INPUT_ASSET_TI2` (`term_rslvr_id` ASC) ,
   PRIMARY KEY (`term_spec_id`, `term_rslvr_id`) ,
   CONSTRAINT `krms_input_asset_fk2`
     FOREIGN KEY (`term_spec_id` )
@@ -701,8 +701,8 @@ CREATE  TABLE IF NOT EXISTS `KRMS_CNTXT_TERM_SPEC_PREREQ_T` (
   `cntxt_id` VARCHAR(40) NOT NULL ,
   `term_spec_id` VARCHAR(40) NOT NULL ,
   PRIMARY KEY (`cntxt_term_spec_prereq_id`) ,
-  INDEX `KRMS_CNTXT_ASSET_PREREQ_Ti1` (`cntxt_id` ASC) ,
-  INDEX `KRMS_CNTXT_ASSET_PREREQ_Ti2` (`term_spec_id` ASC) ,
+  INDEX `KRMS_CNTXT_ASSET_PREREQ_TI1` (`cntxt_id` ASC) ,
+  INDEX `KRMS_CNTXT_ASSET_PREREQ_TI2` (`term_spec_id` ASC) ,
   CONSTRAINT `krms_cntxt_asset_prereq_fk1`
     FOREIGN KEY (`cntxt_id` )
     REFERENCES `KRMS_CNTXT_T` (`cntxt_id` )
@@ -726,7 +726,7 @@ CREATE  TABLE IF NOT EXISTS `KRMS_TERM_T` (
   `term_spec_id` VARCHAR(40) NOT NULL ,
   `ver_nbr` DECIMAL NOT NULL ,
   PRIMARY KEY (`term_id`) ,
-  INDEX `KRMS_TERM_Ti1` (`term_spec_id` ASC) ,
+  INDEX `KRMS_TERM_TI1` (`term_spec_id` ASC) ,
   CONSTRAINT `KRMS_TERM_T__fk1`
     FOREIGN KEY (`term_spec_id` )
     REFERENCES `KRMS_TERM_SPEC_T` (`term_spec_id` )
@@ -767,7 +767,7 @@ CREATE  TABLE IF NOT EXISTS `KRMS_TERM_PARM_T` (
   `val` VARCHAR(255) NULL ,
   `ver_nbr` DECIMAL NOT NULL ,
   PRIMARY KEY (`term_parm_id`) ,
-  INDEX `KRMS_TERM_PARM_Ti1` (`term_id` ASC) ,
+  INDEX `KRMS_TERM_PARM_TI1` (`term_id` ASC) ,
   CONSTRAINT `KRMS_Term_parm_fk1`
     FOREIGN KEY (`term_id` )
     REFERENCES `KRMS_TERM_T` (`term_id` )
@@ -791,7 +791,7 @@ CREATE  TABLE IF NOT EXISTS `KRMS_FUNC_T` (
   `actv` VARCHAR(1) NOT NULL DEFAULT 'Y' ,
   `ver_nbr` DECIMAL NOT NULL DEFAULT 0 ,
   PRIMARY KEY (`func_id`) ,
-  INDEX `KRMS_FUNC_Ti1` (`typ_id` ASC) ,
+  INDEX `KRMS_FUNC_TI1` (`typ_id` ASC) ,
   CONSTRAINT `krms_func_fk1`
     FOREIGN KEY (`typ_id` )
     REFERENCES `KRMS_TYP_T` (`typ_id` )
@@ -813,7 +813,7 @@ CREATE  TABLE IF NOT EXISTS `KRMS_FUNC_PARM_T` (
   `func_id` VARCHAR(40) NOT NULL ,
   `seq_no` TINYINT NOT NULL ,
   PRIMARY KEY (`func_parm_id`) ,
-  INDEX `KRMS_FUNC_PARM_Ti1` (`func_id` ASC) ,
+  INDEX `KRMS_FUNC_PARM_TI1` (`func_id` ASC) ,
   CONSTRAINT `krms_func_parm_fk1`
     FOREIGN KEY (`func_id` )
     REFERENCES `KRMS_FUNC_T` (`func_id` )
@@ -833,7 +833,7 @@ CREATE  TABLE IF NOT EXISTS `KRMS_CNTXT_VLD_FUNC_T` (
   `func_id` VARCHAR(40) NOT NULL ,
   `ver_nbr` DECIMAL NOT NULL DEFAULT 0 ,
   PRIMARY KEY (`cntxt_vld_func_id`) ,
-  INDEX `KRMS_CNTXT_VLD_FUNC_Ti1` (`cntxt_id` ASC) ,
+  INDEX `KRMS_CNTXT_VLD_FUNC_TI1` (`cntxt_id` ASC) ,
   CONSTRAINT `krms_cntxt_vld_func_fk1`
     FOREIGN KEY (`cntxt_id` )
     REFERENCES `KRMS_CNTXT_T` (`cntxt_id` )
@@ -853,7 +853,7 @@ CREATE  TABLE IF NOT EXISTS `KRMS_CNTXT_VLD_RULE_T` (
   `rule_id` VARCHAR(40) NOT NULL ,
   `ver_nbr` DECIMAL NOT NULL DEFAULT 0 ,
   PRIMARY KEY (`cntxt_vld_rule_id`) ,
-  INDEX `KRMS_CNTXT_VLD_RULE_Ti1` (`cntxt_id` ASC) ,
+  INDEX `KRMS_CNTXT_VLD_RULE_TI1` (`cntxt_id` ASC) ,
   CONSTRAINT `krms_cntxt_vld_rule_fk1`
     FOREIGN KEY (`cntxt_id` )
     REFERENCES `KRMS_CNTXT_T` (`cntxt_id` )
@@ -873,7 +873,7 @@ CREATE  TABLE IF NOT EXISTS `KRMS_CNTXT_VLD_EVENT_T` (
   `event_nm` VARCHAR(255) NOT NULL ,
   `ver_nbr` DECIMAL NOT NULL DEFAULT 0 ,
   PRIMARY KEY (`cntxt_vld_event_id`) ,
-  INDEX `KRMS_CNTXT_VLD_EVENT_Ti1` (`cntxt_id` ASC) ,
+  INDEX `KRMS_CNTXT_VLD_EVENT_TI1` (`cntxt_id` ASC) ,
   CONSTRAINT `krms_cntxt_vld_event_fk1`
     FOREIGN KEY (`cntxt_id` )
     REFERENCES `KRMS_CNTXT_T` (`cntxt_id` )
@@ -1137,9 +1137,9 @@ CREATE TABLE KRSB_SVC_DEF_T (
   CHKSM varchar(30) NOT NULL,
   VER_NBR decimal(8,0) DEFAULT '0',
   PRIMARY KEY (SVC_DEF_ID),
-  index KRSB_SVC_DEF_Ti1 (instn_id),
-  index KRSB_SVC_DEF_Ti2 (svc_nm, stat_cd),
-  index KRSB_SVC_DEF_Ti3 (stat_cd),
+  index KRSB_SVC_DEF_TI1 (instn_id),
+  index KRSB_SVC_DEF_TI2 (svc_nm, stat_cd),
+  index KRSB_SVC_DEF_TI3 (stat_cd),
   foreign key KRSB_Svc_def_fk1 (svc_dscrptr_id) references KRSB_SVC_DSCRPTR_T(svc_dscrptr_id) on delete cascade
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin
 ;
@@ -1254,11 +1254,11 @@ ALTER TABLE KREW_DOC_TYP_PROC_T CHANGE DOC_TYP_ID DOC_TYP_ID VARCHAR(40);
 
 alter table KRIM_PERM_TMPL_T change column NMSPC_CD NMSPC_CD varchar(40) not null;
 alter table KRIM_PERM_TMPL_T change column NM NM varchar(100) not null;
-alter table KRIM_PERM_TMPL_T add constraint KRIM_PERM_TMPL_Tc1 unique (NM, NMSPC_CD);
+alter table KRIM_PERM_TMPL_T add constraint KRIM_PERM_TMPL_TC1 unique (NM, NMSPC_CD);
 
 alter table KRIM_RSP_TMPL_T change column NMSPC_CD NMSPC_CD varchar(40) not null;
 alter table KRIM_RSP_TMPL_T change column NM NM varchar(100) not null;
-alter table KRIM_RSP_TMPL_T add constraint KRIM_RSP_TMPL_Tc1 unique (NM, NMSPC_CD);
+alter table KRIM_RSP_TMPL_T add constraint KRIM_RSP_TMPL_TC1 unique (NM, NMSPC_CD);
 
 
 -- 
@@ -1281,7 +1281,7 @@ CREATE TABLE KRMS_CTGRY_T
       , NMSPC_CD VARCHAR(40) NOT NULL
       , VER_NBR DECIMAL(8) DEFAULT 0
     , PRIMARY KEY (CTGRY_ID)
-    , UNIQUE INDEX KRMS_CTGRY_Tc0 (NM, NMSPC_CD)
+    , UNIQUE INDEX KRMS_CTGRY_TC0 (NM, NMSPC_CD)
 )ENGINE = InnoDB;
 
 CREATE TABLE KRMS_TERM_SPEC_CTGRY_T
@@ -1376,11 +1376,11 @@ update KRIM_PERM_T t set NM='Add Message to Route Log'	where PERM_ID = '841';
 
 alter table KRIM_PERM_T change column NMSPC_CD NMSPC_CD varchar(40) not null;
 alter table KRIM_PERM_T change column NM NM varchar(100) not null;
-alter table KRIM_PERM_T add constraint KRIM_PERM_T_Tc1 unique (NM, NMSPC_CD);
+alter table KRIM_PERM_T add constraint KRIM_PERM_T_TC1 unique (NM, NMSPC_CD);
 
 alter table KRIM_RSP_T change column NMSPC_CD NMSPC_CD varchar(40) not null;
 alter table KRIM_RSP_T change column NM NM varchar(100) not null;
-alter table KRIM_RSP_T add constraint KRIM_RSP_T_Tc1 unique (NM, NMSPC_CD);
+alter table KRIM_RSP_T add constraint KRIM_RSP_T_TC1 unique (NM, NMSPC_CD);
 
 
 -- 
@@ -1422,7 +1422,7 @@ ALTER TABLE KREW_RULE_T DROP KEY KREW_RULE_TR1;
 
 ALTER TABLE KREW_RULE_T CHANGE RULE_EXPR_ID RULE_EXPR_ID VARCHAR(40);
 -- add the key back, we'll re-add the foreign key after the target id column is converted
-ALTER TABLE KREW_RULE_T ADD KEY KREW_RULE_Ti1 (RULE_EXPR_ID);
+ALTER TABLE KREW_RULE_T ADD KEY KREW_RULE_TI1 (RULE_EXPR_ID);
 
 ALTER TABLE KREW_RULE_T CHANGE PREV_RULE_VER_NBR PREV_RULE_VER_NBR VARCHAR(40);
 
@@ -1480,8 +1480,8 @@ ALTER TABLE KREW_OUT_BOX_ITM_T CHANGE RSP_ID RSP_ID VARCHAR(40);
 
 ALTER TABLE KREW_RTE_NODE_CFG_PARM_T CHANGE RTE_NODE_ID RTE_NODE_ID VARCHAR(40);
 -- add the key back, re-add the foreign key
-ALTER TABLE KREW_RTE_NODE_CFG_PARM_T ADD KEY KREW_RTE_NODE_CFG_PARM_Ti1 (RTE_NODE_ID);
-ALTER TABLE KREW_RTE_NODE_CFG_PARM_T ADD CONSTRAINT KREW_RTE_NODE_CFG_PARM_Tr1 FOREIGN KEY KREW_RTE_NODE_CFG_PARM_Ti1 (RTE_NODE_ID) REFERENCES KREW_RTE_NODE_T (RTE_NODE_ID);
+ALTER TABLE KREW_RTE_NODE_CFG_PARM_T ADD KEY KREW_RTE_NODE_CFG_PARM_TI1 (RTE_NODE_ID);
+ALTER TABLE KREW_RTE_NODE_CFG_PARM_T ADD CONSTRAINT KREW_RTE_NODE_CFG_PARM_Tr1 FOREIGN KEY KREW_RTE_NODE_CFG_PARM_TI1 (RTE_NODE_ID) REFERENCES KREW_RTE_NODE_T (RTE_NODE_ID);
 
 ALTER TABLE KREW_RTE_NODE_CFG_PARM_T CHANGE RTE_NODE_CFG_PARM_ID RTE_NODE_CFG_PARM_ID VARCHAR(40);
 
@@ -1499,7 +1499,7 @@ ALTER TABLE KREW_RULE_EXT_VAL_T CHANGE RULE_EXT_VAL_ID RULE_EXT_VAL_ID VARCHAR(4
 ALTER TABLE KREW_RULE_EXT_VAL_T CHANGE RULE_EXT_ID RULE_EXT_ID VARCHAR(40);
 
 ALTER TABLE KREW_RULE_EXPR_T CHANGE RULE_EXPR_ID RULE_EXPR_ID VARCHAR(40);
-ALTER TABLE KREW_RULE_T ADD CONSTRAINT krew_rule_fk1 FOREIGN KEY KREW_RULE_Ti1 (RULE_EXPR_ID) REFERENCES KREW_RULE_EXPR_T (RULE_EXPR_ID);
+ALTER TABLE KREW_RULE_T ADD CONSTRAINT krew_rule_fk1 FOREIGN KEY KREW_RULE_TI1 (RULE_EXPR_ID) REFERENCES KREW_RULE_EXPR_T (RULE_EXPR_ID);
 
 
 
@@ -1611,17 +1611,17 @@ update KRIM_PERM_T t set NM='Take Requested Approve Action' where PERM_ID = '170
 --
 
 -- remove cntxt_id from KRMS_TERM_RSLVR_T, fix unique constraint
-alter table KRMS_TERM_RSLVR_T drop index KRMS_TERM_RSLVR_Tc1;
-alter table KRMS_TERM_RSLVR_T add constraint KRMS_TERM_RSLVR_Tc1 unique (nm, nmspc_cd);
+alter table KRMS_TERM_RSLVR_T drop index KRMS_TERM_RSLVR_TC1;
+alter table KRMS_TERM_RSLVR_T add constraint KRMS_TERM_RSLVR_TC1 unique (nm, nmspc_cd);
 alter table KRMS_TERM_RSLVR_T drop foreign key KRMS_Term_rslvr_fk2;
 alter table KRMS_TERM_RSLVR_T drop column cntxt_id;
 
 -- remove fk from KRMS_TERM_SPEC_T to KRMS_CNTXT_T
 alter table KRMS_TERM_SPEC_T add column nmspc_cd varchar(40) not null;
 alter table KRMS_TERM_SPEC_T DROP FOREIGN KEY krms_asset_fk1;
-alter table KRMS_TERM_SPEC_T drop key KRMS_ASSET_Ti1;
-alter table KRMS_TERM_SPEC_T drop index KRMS_ASSET_Tc1;
-alter table KRMS_TERM_SPEC_T add constraint KRMS_TERM_SPEC_Tc1 unique (nm, nmspc_cd);
+alter table KRMS_TERM_SPEC_T drop key KRMS_ASSET_TI1;
+alter table KRMS_TERM_SPEC_T drop index KRMS_ASSET_TC1;
+alter table KRMS_TERM_SPEC_T add constraint KRMS_TERM_SPEC_TC1 unique (nm, nmspc_cd);
 alter table KRMS_TERM_SPEC_T drop column cntxt_id;
 
 --
@@ -1630,28 +1630,28 @@ alter table KRMS_TERM_SPEC_T drop column cntxt_id;
 -- rename KRMS_CNTXT_TERM_SPEC_PREREQ_T to KRMS_CNTXT_VLD_TERM_SPEC_T
 -- and add prereq column
 alter table KRMS_CNTXT_TERM_SPEC_PREREQ_T DROP FOREIGN KEY krms_cntxt_asset_prereq_fk1;
-alter table KRMS_CNTXT_TERM_SPEC_PREREQ_T drop index KRMS_CNTXT_ASSET_PREREQ_Ti1;
+alter table KRMS_CNTXT_TERM_SPEC_PREREQ_T drop index KRMS_CNTXT_ASSET_PREREQ_TI1;
 alter table KRMS_CNTXT_TERM_SPEC_PREREQ_T DROP FOREIGN KEY krms_cntxt_asset_prereq_fk2;
-alter table KRMS_CNTXT_TERM_SPEC_PREREQ_T drop index KRMS_CNTXT_ASSET_PREREQ_Ti2;
+alter table KRMS_CNTXT_TERM_SPEC_PREREQ_T drop index KRMS_CNTXT_ASSET_PREREQ_TI2;
 rename table KRMS_CNTXT_TERM_SPEC_PREREQ_T to KRMS_CNTXT_VLD_TERM_SPEC_T;
 alter table KRMS_CNTXT_VLD_TERM_SPEC_T add column prereq varchar(1) default 'n';
-alter table KRMS_CNTXT_VLD_TERM_SPEC_T add constraint KRMS_CNTXT_VLD_TERM_SPEC_Ti1 foreign key (cntxt_id) references KRMS_CNTXT_T(cntxt_id);
-alter table KRMS_CNTXT_VLD_TERM_SPEC_T add constraint KRMS_CNTXT_VLD_TERM_SPEC_Ti2 foreign key (term_spec_id) references KRMS_TERM_SPEC_T(term_spec_id);
+alter table KRMS_CNTXT_VLD_TERM_SPEC_T add constraint KRMS_CNTXT_VLD_TERM_SPEC_TI1 foreign key (cntxt_id) references KRMS_CNTXT_T(cntxt_id);
+alter table KRMS_CNTXT_VLD_TERM_SPEC_T add constraint KRMS_CNTXT_VLD_TERM_SPEC_TI2 foreign key (term_spec_id) references KRMS_TERM_SPEC_T(term_spec_id);
 
 --
 -- set up some missing unique constraints
 --
 -- wow, Oracle and MySQL support the same syntax here
-alter table KRMS_CNTXT_T add constraint KRMS_CNTXT_Tc1 unique (nm, nmspc_cd);
-alter table KRMS_FUNC_T add constraint KRMS_FUNC_Tc1 unique (nm, nmspc_cd);
+alter table KRMS_CNTXT_T add constraint KRMS_CNTXT_TC1 unique (nm, nmspc_cd);
+alter table KRMS_FUNC_T add constraint KRMS_FUNC_TC1 unique (nm, nmspc_cd);
 
 -- drop namespace code from KRMS_AGENDA_T
 alter table KRMS_AGENDA_T drop column nmspc_cd;
-alter table KRMS_AGENDA_T add constraint KRMS_AGENDA_Tc1 unique (nm, cntxt_id);
+alter table KRMS_AGENDA_T add constraint KRMS_AGENDA_TC1 unique (nm, cntxt_id);
 
-alter table KRMS_TYP_T add constraint KRMS_TYP_Tc1 unique (nm, nmspc_cd);
-alter table KRMS_ATTR_DEFN_T add constraint KRMS_ATTR_DEFN_Tc1 unique (nm, nmspc_cd);
-alter table KRMS_RULE_T add constraint KRMS_RULE_Tc1 unique (nm, nmspc_cd);
+alter table KRMS_TYP_T add constraint KRMS_TYP_TC1 unique (nm, nmspc_cd);
+alter table KRMS_ATTR_DEFN_T add constraint KRMS_ATTR_DEFN_TC1 unique (nm, nmspc_cd);
+alter table KRMS_RULE_T add constraint KRMS_RULE_TC1 unique (nm, nmspc_cd);
 
 --
 -- clean up some crufty index and constraint names
@@ -1659,10 +1659,10 @@ alter table KRMS_RULE_T add constraint KRMS_RULE_Tc1 unique (nm, nmspc_cd);
 
 alter table KRMS_TERM_RSLVR_ATTR_T drop foreign key krms_asset_rslvr_attr_fk1;
 alter table KRMS_TERM_RSLVR_ATTR_T drop foreign key krms_asset_rslvr_attr_fk2;
-alter table KRMS_TERM_RSLVR_ATTR_T drop index KRMS_ASSET_RSLVR_ATTR_Ti1;
-create index KRMS_ASSET_RSLVR_ATTR_Ti1 on KRMS_TERM_RSLVR_ATTR_T (term_rslvr_id);
-alter table KRMS_TERM_RSLVR_ATTR_T drop index KRMS_ASSET_RSLVR_ATTR_Ti2;
-create index KRMS_TERM_RSLVR_ATTR_Ti2 on KRMS_TERM_RSLVR_ATTR_T (attr_defn_id);
+alter table KRMS_TERM_RSLVR_ATTR_T drop index KRMS_ASSET_RSLVR_ATTR_TI1;
+create index KRMS_ASSET_RSLVR_ATTR_TI1 on KRMS_TERM_RSLVR_ATTR_T (term_rslvr_id);
+alter table KRMS_TERM_RSLVR_ATTR_T drop index KRMS_ASSET_RSLVR_ATTR_TI2;
+create index KRMS_TERM_RSLVR_ATTR_TI2 on KRMS_TERM_RSLVR_ATTR_T (attr_defn_id);
 alter table KRMS_TERM_RSLVR_ATTR_T add constraint KRMS_Term_rslvr_attr_fk1 foreign key (term_rslvr_id) references KRMS_TERM_RSLVR_T (term_rslvr_id);
 alter table KRMS_TERM_RSLVR_ATTR_T add constraint KRMS_Term_rslvr_attr_fk2 foreign key (attr_defn_id) references KRMS_ATTR_DEFN_T (attr_defn_id);
 
@@ -1701,7 +1701,7 @@ CREATE  TABLE KREW_TYP_T (
   PRIMARY KEY (typ_id) )
 ENGINE = InnoDB;
 
-CREATE UNIQUE INDEX KREW_TYP_Tc1 ON KREW_TYP_T (nm, nmspc_cd) ;
+CREATE UNIQUE INDEX KREW_TYP_TC1 ON KREW_TYP_T (nm, nmspc_cd) ;
 
 
 -- -----------------------------------------------------
@@ -1722,9 +1722,9 @@ CREATE  TABLE KREW_PPL_FLW_T (
     REFERENCES KREW_TYP_T (typ_id ))
 ENGINE = InnoDB;
 
-CREATE UNIQUE INDEX KREW_PPL_FLW_Tc1 ON KREW_PPL_FLW_T (nm, nmspc_cd) ;
+CREATE UNIQUE INDEX KREW_PPL_FLW_TC1 ON KREW_PPL_FLW_T (nm, nmspc_cd) ;
 
-CREATE INDEX krew_ppl_flw_fk1 ON KREW_PPL_FLW_T (typ_id) ;
+CREATE INDEX krew_ppl_flw_i1 ON KREW_PPL_FLW_T (typ_id) ;
 
 
 -- -----------------------------------------------------
@@ -1743,7 +1743,7 @@ CREATE  TABLE KREW_ATTR_DEFN_T (
   PRIMARY KEY (attr_defn_id) )
 ENGINE = InnoDB;
 
-CREATE UNIQUE INDEX KREW_ATTR_DEFN_Tc1 ON KREW_ATTR_DEFN_T (nm, nmspc_cd) ;
+CREATE UNIQUE INDEX KREW_ATTR_DEFN_TC1 ON KREW_ATTR_DEFN_T (nm, nmspc_cd) ;
 
 
 -- -----------------------------------------------------
@@ -1766,11 +1766,11 @@ CREATE  TABLE KREW_TYP_ATTR_T (
     REFERENCES KREW_TYP_T (typ_id ))
 ENGINE = InnoDB;
 
-CREATE INDEX KREW_TYP_ATTR_Ti1 ON KREW_TYP_ATTR_T (attr_defn_id) ;
+CREATE INDEX KREW_TYP_ATTR_TI1 ON KREW_TYP_ATTR_T (attr_defn_id) ;
 
-CREATE INDEX KREW_TYP_ATTR_Ti2 ON KREW_TYP_ATTR_T (typ_id) ;
+CREATE INDEX KREW_TYP_ATTR_TI2 ON KREW_TYP_ATTR_T (typ_id) ;
 
-CREATE UNIQUE INDEX KREW_TYP_ATTR_Tc1 ON KREW_TYP_ATTR_T (typ_id, attr_defn_id) ;
+CREATE UNIQUE INDEX KREW_TYP_ATTR_TC1 ON KREW_TYP_ATTR_T (typ_id, attr_defn_id) ;
 
 
 -- -----------------------------------------------------
@@ -1794,11 +1794,11 @@ CREATE  TABLE KREW_PPL_FLW_MBR_T (
     REFERENCES KREW_PPL_FLW_MBR_T (ppl_flw_mbr_id ))
 ENGINE = InnoDB;
 
-CREATE INDEX KREW_PPL_FLW_MBR_Ti1 ON KREW_PPL_FLW_MBR_T (ppl_flw_id) ;
+CREATE INDEX KREW_PPL_FLW_MBR_TI1 ON KREW_PPL_FLW_MBR_T (ppl_flw_id) ;
 
-CREATE INDEX KREW_PPL_FLW_MBR_Ti2 ON KREW_PPL_FLW_MBR_T (ppl_flw_id, prio) ;
+CREATE INDEX KREW_PPL_FLW_MBR_TI2 ON KREW_PPL_FLW_MBR_T (ppl_flw_id, prio) ;
 
-CREATE UNIQUE INDEX KREW_PPL_FLW_MBR_Tc1 ON KREW_PPL_FLW_MBR_T (ppl_flw_id, mbr_typ_cd, mbr_id, dlgt_frm_id) ;
+CREATE UNIQUE INDEX KREW_PPL_FLW_MBR_TC1 ON KREW_PPL_FLW_MBR_T (ppl_flw_id, mbr_typ_cd, mbr_id, dlgt_frm_id) ;
 
 CREATE INDEX krew_ppl_flw_mbr_fk2 ON KREW_PPL_FLW_MBR_T (dlgt_frm_id) ;
 
@@ -1822,9 +1822,9 @@ CREATE  TABLE KREW_PPL_FLW_ATTR_T (
     REFERENCES KREW_ATTR_DEFN_T (attr_defn_id ))
 ENGINE = InnoDB;
 
-CREATE INDEX KREW_PPL_FLW_ATTR_Ti1 ON KREW_PPL_FLW_ATTR_T (ppl_flw_id) ;
+CREATE INDEX KREW_PPL_FLW_ATTR_TI1 ON KREW_PPL_FLW_ATTR_T (ppl_flw_id) ;
 
-CREATE INDEX KREW_PPL_FLW_ATTR_Ti2 ON KREW_PPL_FLW_ATTR_T (attr_defn_id) ;
+CREATE INDEX KREW_PPL_FLW_ATTR_TI2 ON KREW_PPL_FLW_ATTR_T (attr_defn_id) ;
 
 
 -- -----------------------------------------------------
@@ -1993,7 +1993,7 @@ alter table KREW_PPL_FLW_MBR_T DROP FOREIGN KEY krew_ppl_flw_mbr_fk2;
 alter table KREW_PPL_FLW_MBR_T DROP KEY krew_ppl_flw_mbr_fk2;
 alter table KREW_PPL_FLW_MBR_T DROP COLUMN dlgt_frm_id;
 
-drop INDEX KREW_PPL_FLW_MBR_Tc1 ON KREW_PPL_FLW_MBR_T;
+drop INDEX KREW_PPL_FLW_MBR_TC1 ON KREW_PPL_FLW_MBR_T;
 
 -- drop INDEX krew_ppl_flw_mbr_fk2 ON KREW_PPL_FLW_MBR_T;
 
@@ -2016,7 +2016,7 @@ CREATE  TABLE KREW_PPL_FLW_DLGT_T (
     REFERENCES KREW_PPL_FLW_MBR_T (ppl_flw_mbr_id ))
 ENGINE = InnoDB;
 
-CREATE INDEX KREW_PPL_FLW_DLGT_Ti1 ON KREW_PPL_FLW_DLGT_T (ppl_flw_mbr_id) ;
+CREATE INDEX KREW_PPL_FLW_DLGT_TI1 ON KREW_PPL_FLW_DLGT_T (ppl_flw_mbr_id) ;
 
 -- -----------------------------------------------------
 -- Table KREW_PPL_FLW_DLGT_S
@@ -2154,7 +2154,7 @@ CREATE  TABLE IF NOT EXISTS `KRMS_CNTXT_VLD_AGENDA_T` (
   `agenda_typ_id` VARCHAR(40) NOT NULL ,
   `ver_nbr` DECIMAL NOT NULL DEFAULT 0 ,
   PRIMARY KEY (`cntxt_vld_agenda_id`) ,
-  INDEX `KRMS_CNTXT_VLD_AGENDA_Ti1` (`cntxt_id` ASC) ,
+  INDEX `KRMS_CNTXT_VLD_AGENDA_TI1` (`cntxt_id` ASC) ,
   CONSTRAINT `krms_cntxt_vld_agenda_fk1`
     FOREIGN KEY (`cntxt_id` )
     REFERENCES `KRMS_CNTXT_T` (`cntxt_id` )
@@ -2521,26 +2521,26 @@ update KRMS_TERM_SPEC_T set TYP = 'java.lang.Integer' where TYP = 'T6';
 
 
 alter table KRMS_CNTXT_VLD_ACTN_T drop foreign key krms_cntxt_vld_actn_fk1;
-drop index KRMS_CNTXT_VLD_ACTN_Ti1 on KRMS_CNTXT_VLD_ACTN_T;
+drop index KRMS_CNTXT_VLD_ACTN_TI1 on KRMS_CNTXT_VLD_ACTN_T;
 rename table KRMS_CNTXT_VLD_ACTN_S to KRMS_CNTXT_VLD_ACTN_TYP_S;
 rename table KRMS_CNTXT_VLD_ACTN_T to KRMS_CNTXT_VLD_ACTN_TYP_T;
-create index KRMS_CNTXT_VLD_ACTN_TYP_Ti1 on KRMS_CNTXT_VLD_ACTN_TYP_T (cntxt_id);
+create index KRMS_CNTXT_VLD_ACTN_TYP_TI1 on KRMS_CNTXT_VLD_ACTN_TYP_T (cntxt_id);
 alter table KRMS_CNTXT_VLD_ACTN_TYP_T add constraint KRMS_CNTXT_VLD_ACTN_Typ_fk1
   foreign key (cntxt_id) references KRMS_CNTXT_T (cntxt_id);
 
 alter table KRMS_CNTXT_VLD_AGENDA_T drop foreign key krms_cntxt_vld_agenda_fk1;
-drop index KRMS_CNTXT_VLD_AGENDA_Ti1 on KRMS_CNTXT_VLD_AGENDA_T;
+drop index KRMS_CNTXT_VLD_AGENDA_TI1 on KRMS_CNTXT_VLD_AGENDA_T;
 rename table KRMS_CNTXT_VLD_AGENDA_S to KRMS_CNTXT_VLD_AGENDA_TYP_S;
 rename table KRMS_CNTXT_VLD_AGENDA_T to KRMS_CNTXT_VLD_AGENDA_TYP_T;
-create index KRMS_CNTXT_VLD_AGENDA_TYP_Ti1 on KRMS_CNTXT_VLD_AGENDA_TYP_T (cntxt_id);
+create index KRMS_CNTXT_VLD_AGENDA_TYP_TI1 on KRMS_CNTXT_VLD_AGENDA_TYP_T (cntxt_id);
 alter table KRMS_CNTXT_VLD_AGENDA_TYP_T add constraint KRMS_CNTXT_VLD_AGENDA_Typ_fk1
   foreign key (cntxt_id) references KRMS_CNTXT_T (cntxt_id);
 
 alter table KRMS_CNTXT_VLD_RULE_T drop foreign key krms_cntxt_vld_rule_fk1;
-drop index KRMS_CNTXT_VLD_RULE_Ti1 on KRMS_CNTXT_VLD_RULE_T;
+drop index KRMS_CNTXT_VLD_RULE_TI1 on KRMS_CNTXT_VLD_RULE_T;
 rename table KRMS_CNTXT_VLD_RULE_S to KRMS_CNTXT_VLD_RULE_TYP_S;
 rename table KRMS_CNTXT_VLD_RULE_T to KRMS_CNTXT_VLD_RULE_TYP_T;
-create index KRMS_CNTXT_VLD_RULE_TYP_Ti1 on KRMS_CNTXT_VLD_RULE_TYP_T (cntxt_id);
+create index KRMS_CNTXT_VLD_RULE_TYP_TI1 on KRMS_CNTXT_VLD_RULE_TYP_T (cntxt_id);
 alter table KRMS_CNTXT_VLD_RULE_TYP_T add constraint KRMS_CNTXT_VLD_RULE_Typ_fk1
   foreign key (cntxt_id) references KRMS_CNTXT_T (cntxt_id);
 
@@ -2557,7 +2557,7 @@ delete from KRMS_CNTXT_VLD_RULE_TYP_T;
 
 
 -- KULRICE-6299: New DB index to improve action list performance
-create index KREW_ACTN_ITM_Ti6 on KREW_ACTN_ITM_T (DLGN_TYP, DLGN_PRNCPL_ID, DLGN_GRP_ID);
+create index KREW_ACTN_ITM_TI6 on KREW_ACTN_ITM_T (DLGN_TYP, DLGN_PRNCPL_ID, DLGN_GRP_ID);
 
 
 -- 
@@ -2597,12 +2597,12 @@ ALTER TABLE KRNS_DOC_HDR_T MODIFY FDOC_DESC varchar(255);
 -- KULRICE-6463: New DB Indexes for KIM Permission checks
 --
 
-create index KRIM_ROLE_PERM_Ti2 on KRIM_ROLE_PERM_T (perm_id, actv_ind);
-create index KRIM_PERM_Ti1 on KRIM_PERM_T (perm_tmpl_id);
-create index KRIM_PERM_Ti2 on KRIM_PERM_T (perm_tmpl_id, actv_ind);
-create index KRIM_PERM_TMPL_Ti1 on KRIM_PERM_TMPL_T (nmspc_cd, nm);
-create index KRIM_ROLE_MBR_Ti2 on KRIM_ROLE_MBR_T (role_id, mbr_id, mbr_typ_cd);
-create index KRIM_ROLE_MBR_Ti3 on KRIM_ROLE_MBR_T (mbr_id, mbr_typ_cd);
+create index KRIM_ROLE_PERM_TI2 on KRIM_ROLE_PERM_T (perm_id, actv_ind);
+create index KRIM_PERM_TI1 on KRIM_PERM_T (perm_tmpl_id);
+create index KRIM_PERM_TI2 on KRIM_PERM_T (perm_tmpl_id, actv_ind);
+create index KRIM_PERM_TMPL_TI1 on KRIM_PERM_TMPL_T (nmspc_cd, nm);
+create index KRIM_ROLE_MBR_TI2 on KRIM_ROLE_MBR_T (role_id, mbr_id, mbr_typ_cd);
+create index KRIM_ROLE_MBR_TI3 on KRIM_ROLE_MBR_T (mbr_id, mbr_typ_cd);
 
 
 --

@@ -1800,7 +1800,7 @@ CREATE INDEX KREW_PPL_FLW_MBR_TI2 ON KREW_PPL_FLW_MBR_T (ppl_flw_id, prio) ;
 
 CREATE UNIQUE INDEX KREW_PPL_FLW_MBR_TC1 ON KREW_PPL_FLW_MBR_T (ppl_flw_id, mbr_typ_cd, mbr_id, dlgt_frm_id) ;
 
-CREATE INDEX krew_ppl_flw_mbr_fk2 ON KREW_PPL_FLW_MBR_T (dlgt_frm_id) ;
+CREATE INDEX krew_ppl_flw_mbr_ti3 ON KREW_PPL_FLW_MBR_T (dlgt_frm_id) ;
 
 
 -- -----------------------------------------------------

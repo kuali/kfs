@@ -138,34 +138,36 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         try {
             Set<Person> priorApprovers = this.getAllPriorApprovers();
 
-            // The initiator cannot be the approver
-            String initiatorPrincipalId = getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
-            Person initiator = SpringContext.getBean(PersonService.class).getPerson(initiatorPrincipalId);
-            // If there is only one approver, and that approver is also the initiator, then Separation of Duties is required.
-            boolean priorApproverIsInitiator = priorApprovers.contains(initiator);
-            boolean onlyOneApprover = (priorApprovers.size() == 1);
-            if ( priorApproverIsInitiator && onlyOneApprover) {
-                return true;
-            }
-
+            boolean noPriorApprover = (priorApprovers.size() == 0);
+            
             // if there are more than 0 prior approvers which means there had been at least another approver than the current approver
             // then no need for separation of duties
             if (priorApprovers.size() > 0) {
                 return false;
             }
-        }catch (WorkflowException we) {
+
+            //If there was no prior approver, then we have to check the amounts to determine whether to route to separation of duties,
+            //as mentioned below. 
+            if (noPriorApprover) {
+                ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+                KualiDecimal maxAllowedAmount = new KualiDecimal(parameterService.getParameterValueAsString(RequisitionDocument.class, PurapParameterConstants.SEPARATION_OF_DUTIES_DOLLAR_AMOUNT));
+                // if app param amount is greater than or equal to documentTotalAmount... no need for separation of duties
+                KualiDecimal totalAmount = getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount();
+                if (ObjectUtils.isNotNull(maxAllowedAmount) && ObjectUtils.isNotNull(totalAmount) && (maxAllowedAmount.compareTo(totalAmount) >= 0)) {
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }        
+
+        }
+        catch (WorkflowException we) {
             LOG.error("Exception while attempting to retrieve all prior approvers from workflow: " + we);
         }
-        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        KualiDecimal maxAllowedAmount = new KualiDecimal(parameterService.getParameterValueAsString(RequisitionDocument.class, PurapParameterConstants.SEPARATION_OF_DUTIES_DOLLAR_AMOUNT));
-        // if app param amount is greater than or equal to documentTotalAmount... no need for separation of duties
-        KualiDecimal totalAmount = getFinancialSystemDocumentHeader().getFinancialDocumentTotalAmount();
-        if (ObjectUtils.isNotNull(maxAllowedAmount) && ObjectUtils.isNotNull(totalAmount) && (maxAllowedAmount.compareTo(totalAmount) >= 0)) {
-            return false;
-        }
-        else {
-            return true;
-        }
+        
+        return false;
+
     }
 
     public Set<Person> getAllPriorApprovers() throws WorkflowException {
@@ -175,7 +177,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         Set<Person> persons = new HashSet<Person>();
 
         for (ActionTaken actionTaken : actionsTaken) {
-            if (KewApiConstants.ACTION_TAKEN_APPROVED_CD.equals(actionTaken.getActionTaken())) {
+            if (KewApiConstants.ACTION_TAKEN_APPROVED_CD.equals(actionTaken.getActionTaken().getCode())) {
                 String principalId = actionTaken.getPrincipalId();
                 if (!principalIds.contains(principalId)) {
                     principalIds.add(principalId);

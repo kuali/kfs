@@ -631,17 +631,18 @@
 	</bean>
      <bean id="achPayeeLookupableHelperService" parent="achPayeeLookupableHelperService-parentBean" scope="prototype" />
  
-	<bean id="achPayeeLookupableHelperService-parentBean" class="org.kuali.kfs.pdp.businessobject.lookup.ACHPayeeLookupableHelperServiceImpl" scope="prototype" parent="disbursementPayeeLookupableHelperService" abstract="true">
-	</bean>	
-    <bean id="customerRoleTypeService" parent="customerRoleTypeService-parentBean"/>
+	<bean id="achPayeeLookupableHelperService-parentBean" class="org.kuali.kfs.pdp.businessobject.lookup.ACHPayeeLookupableHelperServiceImpl" scope="prototype" parent="disbursementPayeeLookupableHelperService" abstract="true" />
 
+    <bean id="customerRoleTypeService" parent="customerRoleTypeService-parentBean"/>
     <bean id="customerRoleTypeService-parentBean" class="org.kuali.kfs.pdp.identity.CustomerRoleTypeServiceImpl" abstract="true" />
 		
     <bean id="pdpAuthorizationService" parent="pdpAuthorizationService-parentBean" />
     <bean id="pdpAuthorizationService-parentBean" class="org.kuali.kfs.pdp.service.impl.PdpAuthorizationServiceImpl" abstract="true" />
 
     <bean id="pdpExtractGlTransactionsReportWriterService" parent="pdpExtractGlTransactionsReportWriterService-parentBean"/>
-    <bean id="payeeACHAccountRoleTypeService" class="org.kuali.kfs.pdp.identity.PayeeACHAccountRoleTypeServiceImpl"/>
+    
+    <bean id="payeeACHAccountRoleTypeService" parent="payeeACHAccountRoleTypeService-parentBean"/>
+    <bean id="payeeACHAccountRoleTypeService-parentBean" class="org.kuali.kfs.pdp.identity.PayeeACHAccountRoleTypeServiceImpl" abstract="true" />
 
 	<bean id="pdpExtractGlTransactionsReportWriterService-parentBean" parent="reportWriterService" abstract="true">
 		<property name="filePath" value="${reports.directory}/pdp"/>

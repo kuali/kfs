@@ -112,11 +112,11 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-        PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
+        PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument) kualiDocumentFormBase.getDocument();
         
         //clear any error messages but there should not be any currently.
         GlobalVariables.getMessageMap().clearErrorMessages();
-        SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);        
+        SpringContext.getBean(PurapService.class).saveDocumentNoValidation(purapDocument);        
         
         KNSGlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_SAVED);
         kualiDocumentFormBase.setAnnotation("");

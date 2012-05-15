@@ -940,7 +940,7 @@ COMMIT;
 			<column name="PERM_ID" value="KFSCNTRB162-PRM" />
 			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
 			<column name="VER_NBR" value="1" />
-			<column name="PERM_TMPL_ID" value="select perm_tmpl_id from krim_perm_tmpl_t where nmspc_cd = 'KR-NS' and nm = 'Upload Batch Input File(s)'" />
+			<column name="PERM_TMPL_ID" valueNumeric=" (select perm_tmpl_id from krim_perm_tmpl_t where nmspc_cd = 'KR-NS' and nm = 'Upload Batch Input File(s)') " />
 			<column name="NMSPC_CD" value="KFS-VND" />
 			<column name="NM" value="Use Vendor Exclude File Upload Screen" />
 			<column name="DESC_TXT" value="Authorizes users to access the Vendor Exclude File Upload page." />

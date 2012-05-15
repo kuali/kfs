@@ -349,7 +349,6 @@
 			<column name="ROLE_NM" value="Exclude Single Actor Reviewer"/>
 			<column name="KIM_TYP_ID" value="KFSMI4553-1"/>
 			<column name="ACTV_IND" value="Y"/>
-			<column name="LAST_UPDT_DT" value="SYSDATE"/>
 		</insert>
 		<insert tableName="KRIM_ROLE_MBR_T">
 			<column name="ROLE_MBR_ID" value="KFSMI4553-3"/>
@@ -358,7 +357,6 @@
 			<column name="ROLE_ID" value="KFSMI4553-2"/>
 			<column name="MBR_ID" valueNumeric=" (select role_id from KRIM_ROLE_T where nmspc_cd = 'KFS-VND' and role_nm = 'Reviewer') "/>
 			<column name="MBR_TYP_CD" value="R"/>
-			<column name="LAST_UPDT_DT" value="SYSDATE"/>
 		</insert>
 		<delete tableName="KRIM_ROLE_RSP_ACTN_T">
 			<where>role_rsp_id in (select role_rsp_id from KRIM_ROLE_RSP_T where role_id = (select role_id from KRIM_ROLE_T where nmspc_cd = 'KFS-VND' and role_nm = 'Reviewer') and rsp_id = (select KRIM_RSP_T.rsp_id from KRIM_RSP_T join ((select rsp_id from KRIM_RSP_ATTR_DATA_T where kim_attr_defn_id = (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-WKFLW' and nm = 'documentTypeName') and attr_val = 'PVEN') r_a_d1 join (select rsp_id from KRIM_RSP_ATTR_DATA_T where kim_attr_defn_id = (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-WKFLW' and nm = 'routeNodeName') and attr_val = 'Management') r_a_d2 on r_a_d1.rsp_id = r_a_d2.rsp_id) on KRIM_RSP_T.rsp_id = r_a_d1.rsp_id where KRIM_RSP_T.nmspc_cd = 'KFS-VND'))</where>
@@ -450,7 +448,6 @@
 			<column name="ROLE_NM" value="Multi Organization Invoicer"/>
 			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_TYP_T where nm = 'Default' and nmspc_cd = 'KUALI' and actv_ind = 'Y') "/>
 			<column name="ACTV_IND" value="Y"/>
-			<column name="LAST_UPDT_DT" value="SYSDATE"/>
 		</insert>
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="KFSAR5340P"/>
@@ -531,7 +528,6 @@
 			<column name="DESC_TXT" value="Administration staff who can view and update Payee ACH Account records and the legacy history of a certain ACH Transaction Type." />
 			<column name="KIM_TYP_ID" value="KFSMI6886-TYP" />
 			<column name="ACTV_IND" value="Y" />
-			<column name="LAST_UPDT_DT" value="SYSDATE" />
 		</insert>
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="KFSMI6886-PRM1" />

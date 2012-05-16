@@ -29,6 +29,7 @@
     <property name="importedLineParserClass" value="org.kuali.kfs.module.purap.businessobject.PurApAccountingLineParser" />    
     <property name="sessionDocument" value="true"/>
     <property name="potentiallySensitive" value="true"/>
+    <property name="allowsNoteAttachments" value="true" />
     <property name="workflowAttributes">
     	<ref bean="VendorCreditMemoDocument-workflowAttributes"/>
     </property>

@@ -27,7 +27,6 @@
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.BulkReceivingDocumentPresentationController"/>
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.module.purap.document.validation.impl.BulkReceivingDocumentPreRules"/>
     <property name="potentiallySensitive" value="true"/>
-    <property name="allowsNoteFYI" value="true"/>
     <property name="workflowAttributes">
     	<ref bean="ReceivingDocumentForSearching-workflowAttributes"/>
     </property>  

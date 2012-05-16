@@ -16,19 +16,30 @@
 package org.kuali.kfs.coa.service.impl;
 
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.coa.batch.AddPriorYearAccountsStep;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.IndirectCostRecoveryAccount;
 import org.kuali.kfs.coa.businessobject.PriorYearAccount;
 import org.kuali.kfs.coa.businessobject.PriorYearIndirectCostRecoveryAccount;
 import org.kuali.kfs.coa.dataaccess.PriorYearAccountDao;
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.PriorYearAccountService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.KFSConstants.ChartApcParms;
+import org.kuali.kfs.sys.service.ReportWriterService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.PersistenceStructureService;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -39,9 +50,12 @@ public class PriorYearAccountServiceImpl implements PriorYearAccountService {
     private static final Logger LOG = Logger.getLogger(PriorYearAccountServiceImpl.class);
 
     protected PriorYearAccountDao priorYearAccountDao;
+    protected AccountService accountService;
+    protected ReportWriterService reportWriterService;
     protected PersistenceStructureService persistenceStructureService;
     protected BusinessObjectService businessObjectService;
-
+    protected ParameterService parameterService;
+    
     /**
      * @see org.kuali.kfs.coa.service.PriorYearAccountService#getByPrimaryKey(java.lang.String, java.lang.String)
      */
@@ -85,13 +99,101 @@ public class PriorYearAccountServiceImpl implements PriorYearAccountService {
 
     }
 
+    /**
+     * @see org.kuali.kfs.coa.service.PriorYearAccountService#addPriorYearAccountsFromParameter()
+     */
+    public void addPriorYearAccountsFromParameter() {
+        /*
+        Collection<String> accountsColl = new ArrayList<String>();
+        accountsColl.add("0000000");
+        accountsColl.add("BL-0000000");
+        accountsColl.add("UA-2131401");      
+        accountsColl.add("BA-6044909");
+        accountsColl.add("BA-6044901");
+        accountsColl.add("UA-7014960");
+        */
+        String param = ChartApcParms.PRIOR_YEAR_ACCOUNTS_TO_BE_ADDED;
+        Collection<String> accountsColl = parameterService.getParameterValuesAsString(AddPriorYearAccountsStep.class, param);
+        Iterator<String> accountsIter = accountsColl.iterator();
+        List<PriorYearAccount> priorAccounts = new ArrayList<PriorYearAccount>();
+        int countError = 0;
+        String errmsg = "";
+        String failmsg = "Failed to add account ";
+        
+        LOG.info("Adding Accounts to Prior Year Account table from parameter " + param);
+        reportWriterService.writeSubTitle("Accounts failed to be added to Prior Year Account table from parameter " + param);
+
+        while (accountsIter.hasNext()) {
+            // retrieve chart code and account number from parameter
+            String accountStr = accountsIter.next();
+            String chartCode = StringUtils.substringBefore(accountStr, "-");
+            String accountNumber = StringUtils.substringAfter(accountStr, "-");       
+            
+            // if account format is invalid, report error      
+            if (StringUtils.isEmpty(chartCode) || StringUtils.isEmpty(accountNumber)) {
+                countError++;                
+                errmsg = accountStr + " : invalid format. Correct account format: coaCode-accountNumber."; 
+                reportWriterService.writeFormattedMessageLine("%s", errmsg);
+                LOG.error(failmsg + errmsg);
+                continue;
+            }
+
+            // check whether account exists, report error if not      
+            Account account = accountService.getByPrimaryId(chartCode, accountNumber);
+            if (ObjectUtils.isNull(account)) {
+                countError++;
+                errmsg = accountStr + " : doesn't exist in Account table."; 
+                reportWriterService.writeFormattedMessageLine("%s", errmsg);
+                LOG.error(failmsg + errmsg);
+            }            
+            // check whether account already exists in prior year, report error if yes 
+            else if (ObjectUtils.isNotNull(getByPrimaryKey(chartCode, accountNumber))) {
+                countError++;
+                errmsg = accountStr + " : already exists in Prior Year Account table."; 
+                reportWriterService.writeFormattedMessageLine("%s", errmsg);
+                LOG.error(failmsg + errmsg);
+            }
+            // otherwise, add account to prior year table 
+            else {
+                PriorYearAccount priorAccount = new PriorYearAccount(account);
+                businessObjectService.save(priorAccount);                
+                priorAccounts.add(priorAccount);
+                LOG.info("Successfully added account " + accountStr);
+            }
+        }
+        
+        String totalSuccessMsg = "Total number of accounts successfully added to prior year: " + priorAccounts.size();
+        String totalFailureMsg = "Total number of accounts failed to be added to prior year: " + countError;
+        reportWriterService.writeSubTitle("Accounts successfully added to Prior Year Account table:");
+        reportWriterService.writeTable(priorAccounts, true, false);
+        reportWriterService.writeStatisticLine("%s", totalSuccessMsg);
+        reportWriterService.writeStatisticLine("%s", totalFailureMsg);
+        LOG.info(totalSuccessMsg);
+        LOG.info(totalFailureMsg);
+    }
+    
     public void setPriorYearAccountDao(PriorYearAccountDao priorYearAccountDao) {
         this.priorYearAccountDao = priorYearAccountDao;
     }
+    
+    public void setAccountService(AccountService accountService) {
+        this.accountService = accountService;
+    }
+
+    public void setReportWriterService(ReportWriterService reportWriterService) {
+        this.reportWriterService = reportWriterService;
+    }
+
     public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
         this.persistenceStructureService = persistenceStructureService;
     }
+    
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
+    
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+    
 }

@@ -353,5 +353,6 @@
 				<bean parent="FieldDefinition" p:attributeName="transactionDate" />
 			</list>
 		</property>
+		<property name="resultSetLimit" value="-1"/>
 	</bean>
 </beans>

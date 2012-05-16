@@ -263,6 +263,7 @@
     <field-descriptor name="billingPostalCode" column="BILL_PSTL_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="billingCountryCode" column="BILL_CNTRY_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="billingPhoneNumber" column="BILL_PHN_NBR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="billingEmailAddress" column="BILL_EMAIL_ADDR" jdbc-type="VARCHAR"/>
     <field-descriptor name="externalOrganizationB2bSupplierIdentifier" column="EXT_ORG_B2B_SUPP_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="organizationAutomaticPurchaseOrderLimit" column="ORG_AUTO_PO_LMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
     <field-descriptor name="purchaseOrderAutomaticIndicator" column="PO_AUTO_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
@@ -486,6 +487,7 @@
     <field-descriptor name="billingPostalCode" column="BILL_PSTL_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="billingCountryCode" column="BILL_CNTRY_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="billingPhoneNumber" column="BILL_PHN_NBR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="billingEmailAddress" column="BILL_EMAIL_ADDR" jdbc-type="VARCHAR"/>
     <field-descriptor name="initialPaymentAmount" column="INIT_PMT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
     <field-descriptor name="initialPaymentDate" column="INIT_PMT_DT" jdbc-type="DATE"/>
     <field-descriptor name="finalPaymentAmount" column="FNL_PMT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
@@ -2727,6 +2729,7 @@
     <field-descriptor name="billingPostalCode" column="BILL_PSTL_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="billingCountryCode" column="BILL_CNTRY_CD" jdbc-type="VARCHAR"/>
     <field-descriptor name="billingPhoneNumber" column="BILL_PHN_NBR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="billingEmailAddress" column="BILL_EMAIL_ADDR" jdbc-type="VARCHAR"/>
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 </class-descriptor>
 

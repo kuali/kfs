@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2005-2008 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+    <bean id="sampleTestFlatFileInputFileType" parent="FlatFileParser">
+		<property name="flatFileSpecification">
+			<bean parent="FixedWidthFlatFileSpecification">
+				<property name="objectSpecifications">
+					<list>
+						<bean parent="FlatFilePrefixObjectSpecification" p:linePrefix="BATCH-AR LOCKBOX"
+							p:businessObjectClass="org.kuali.kfs.sys.businessobject.HeaderLine">
+							<property name="parseProperties">
+								<list>
+									<bean parent="FixedWidthFlatFilePropertySpecification"
+										p:propertyName="lockboxNumber" p:start="17" p:end="27" />
+									<bean parent="FixedWidthFlatFilePropertySpecification"
+										p:propertyName="scannedInvoiceDate" p:start="28" p:end="38"
+										p:formatterClass="org.kuali.kfs.sys.businessobject.format.BatchDateFormatter" p:dateFormat="yyyyMMdd" />
+								</list>
+							</property>
+						</bean>
+						<bean parent="FlatFilePrefixObjectSpecification" 
+						    p:businessObjectClass="org.kuali.kfs.sys.businessobject.DetailLine"
+						    p:parentBusinessObjectClass="org.kuali.kfs.sys.businessobject.HeaderLine"
+						    p:parentTargetProperty="detailLine">
+							<property name="parseProperties">
+								<list>
+									<bean parent="FixedWidthFlatFilePropertySpecification"
+										p:propertyName="customerNumber" p:start="6" p:end="15"/>
+									<bean parent="FixedWidthFlatFilePropertySpecification"
+										p:propertyName="financialDocumentReferenceInvoiceNumber"
+										p:start="17" p:end="26" />
+									<bean parent="FixedWidthFlatFilePropertySpecification"
+										p:propertyName="billingDate" p:start="26" p:end="36"
+										p:formatterClass="org.kuali.kfs.sys.businessobject.format.BatchDateFormatter" />
+								</list>
+							</property>
+						</bean>
+					</list>
+				</property>
+				<property name="defaultBusinessObjectClass"
+					value="org.kuali.kfs.sys.businessobject.DetailLine" />
+			</bean>
+		</property>
+		<property name="directoryPath">
+			<value>${staging.directory}/ar/lockbox</value>
+		</property>
+		<property name="fileExtension">
+			<value>txt</value>
+		</property>
+		<property name="fileNamePrefix" value="arlockbox" />
+		<property name="fileTypeIdentifier" value="sampleTestFlatFileInputFileType" />
+		<property name="titleKey" value="message.batchUpload.title.lockboxLoad" />
+	</bean>
+	    
+</beans>

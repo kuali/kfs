@@ -26,6 +26,7 @@
 
     <bean id="coaModuleConfiguration" parent="coaModuleConfiguration-parentBean" />
 	
+	
 	<bean id="coaModuleConfiguration-parentBean" class="org.kuali.kfs.sys.FinancialSystemModuleConfiguration"
 		abstract="true">
     	<property name="namespaceCode" value="KFS-COA" />
@@ -164,8 +165,11 @@
 	<bean id="priorYearAccountService"  parent="priorYearAccountService-parentBean"/>
 	<bean id="priorYearAccountService-parentBean" class="org.kuali.kfs.coa.service.impl.PriorYearAccountServiceImpl" abstract="true">
 		<property name="priorYearAccountDao" ref="priorYearAccountDao" />
+		<property name="accountService" ref="accountService" />
+		<property name="reportWriterService" ref="addPriorYearAccountsReportWriterService" />
 		<property name="persistenceStructureService" ref="persistenceStructureService" />
         <property name="businessObjectService" ref="businessObjectService" />
+        <property name="parameterService" ref="parameterService" />
 	</bean>
 
 	<bean id="priorYearOrganizationService"  parent="priorYearOrganizationService-parentBean"/>
@@ -331,6 +335,47 @@
 		</property>
 	</bean>
 
+	<bean id="addPriorYearAccountsJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="addPriorYearAccountsStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="addPriorYearAccountsStep" class="org.kuali.kfs.coa.batch.AddPriorYearAccountsStep" parent="wrappedStep">
+		<property name="wrappingBatchServices">
+			<list>
+				<ref bean="addPriorYearAccountsReportWriterService" />
+			</list>
+		</property>    	
+		<property name="priorYearAccountService">
+			<ref bean="priorYearAccountService" />
+		</property>
+	</bean>
+
+	<bean id="addPriorYearAccountsReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/coa"/>
+		<property name="fileNamePrefix" value="add_prior_year_accounts_"/>
+        <property name="title" value="Accounts Added (and not Added) For Prior Year"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.kfs.coa.businessobject.PriorYearAccount" value="addPriorYearAccountsReportHelper" />
+        	</map>
+        </property>
+	</bean>	
+	
+	<bean id="addPriorYearAccountsReportHelper" parent="businessObjectReportHelper">
+		<property name="dataDictionaryBusinessObjectClass" value="org.kuali.kfs.coa.businessobject.PriorYearAccount" />
+		<property name="orderedPropertyNameToHeaderLabelMap">
+			<map>
+				<entry key="chartOfAccountsCode" value="Chart Of Accounts Code" />
+				<entry key="accountNumber" value="Account Number" />
+			</map>
+		</property>
+		<property name="columnCount" value="2" />
+	</bean>			
+	
 	<bean name="subAccountTrickleDownInactivationService" parent="subAccountTrickleDownInactivationService-parentBean" />
 	<bean name="subAccountTrickleDownInactivationService-parentBean" abstract="true" 
 		class="org.kuali.kfs.coa.service.impl.SubAccountTrickleDownInactivationServiceImpl">

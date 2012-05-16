@@ -940,15 +940,25 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
         setCurrentAndPendingIndicatorsForApprovedPODocuments(poa);
 
-        if (SpringContext.getBean(PaymentRequestService.class).hasActivePaymentRequestsForPurchaseOrder(poa.getPurapDocumentIdentifier())) {
-            poa.setPaymentRequestPositiveApprovalIndicator(true);
-            poa.setReceivingDocumentRequiredIndicator(false);
-        }
         // check thresholds to see if receiving is required for purchase order amendment
-        else if (!poa.isReceivingDocumentRequiredIndicator()) {
+        if (!poa.isReceivingDocumentRequiredIndicator() && 
+                !SpringContext.getBean(PaymentRequestService.class).hasActivePaymentRequestsForPurchaseOrder(poa.getPurapDocumentIdentifier())) {
             setReceivingRequiredIndicatorForPurchaseOrder(poa);
         }
-
+        /*
+        if (!poa.isReceivingDocumentRequiredIndicator()) {
+            setReceivingRequiredIndicatorForPurchaseOrder(poa);
+            if (!poa.isReceivingDocumentRequiredIndicator()) {
+                if (!SpringContext.getBean(PaymentRequestService.class).hasActivePaymentRequestsForPurchaseOrder(poa.getPurapDocumentIdentifier())) {
+                    poa.setReceivingDocumentRequiredIndicator(true);                    
+                }
+                else {
+                    poa.setPaymentRequestPositiveApprovalIndicator(true);
+                }
+            }
+        }
+        */
+        
         // if unordered items have been added to the PO then send an FYI to all fiscal officers
         if (hasNewUnorderedItem(poa)) {
             sendFyiForNewUnorderedItems(poa);

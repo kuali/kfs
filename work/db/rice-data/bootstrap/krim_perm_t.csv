@@ -296,3 +296,5 @@ KFSMI6886-PRM2,KFSMI6886-PRM2,1,23,KFS-PDP,Lookup ACH Accounts,Allows the lookup
 KFSMI6886-PRM3,KFSMI6886-PRM3,1,10,KFS-PDP,Initiate ACH Account Document,Allows initiation the PDP Payee ACH Account maintenance document.,Y
 KFSMI7041-PRM,KFSMI7041-PRM,1,29,KFS-LD,View Fringe Benefit Inquiry,Permits access to screens controlled by org.kuali.kfs.module.ld.document.web.struts.FringeBenefitInquiryAction,Y
 KFSCNTRB162-PRM,KFSCNTRB162-PRM,1,33,KFS-VND,Use Vendor Exclude File Upload Screen,Authorizes users to access the Vendor Exclude File Upload page.,Y
+KFSCNTRB199-P1,KFSCNTRB199-P1,"1","33","KFS-SYS","Upload semaphoreInputFileTypeError","Authorizes users to access the Batch Semaphore File Upload page.","Y"
+KFSCNTRB199-P2,KFSCNTRB199-P2,"1","50","KFS-SYS","Administer Batch File KFS-SYS batchContainer","Authorizes users to view the batch files using the Batch File lookup screen","Y"

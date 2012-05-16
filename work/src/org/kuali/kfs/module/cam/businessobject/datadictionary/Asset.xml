@@ -1956,5 +1956,6 @@
         <bean parent="FieldDefinition" p:attributeName="capitalAssetInServiceDate"/>
       </list>
     </property>
+    <property name="multipleValuesResultSetLimit" value="-1"/>
   </bean>
 </beans>

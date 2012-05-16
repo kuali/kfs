@@ -124,5 +124,9 @@
 	    </table>
 		</div>
 	</kul:tabTop>
-	<kul:panelFooter />
+	
+	<kul:panelFooter />	
+	<div id="globalbuttons" class="globalbuttons">
+	    <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_reload.gif" styleClass="globalbuttons" property="methodToCall.reload" title="reload" alt="reload"/>
+    </div>	
 </kul:page>

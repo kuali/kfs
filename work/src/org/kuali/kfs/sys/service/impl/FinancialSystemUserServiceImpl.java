@@ -93,14 +93,14 @@ public class FinancialSystemUserServiceImpl implements FinancialSystemUserServic
      * @see org.kuali.kfs.sys.service.FinancialSystemUserService#isActiveFinancialSystemUser(org.kuali.rice.kim.api.identity.Person)
      */
     public boolean isActiveFinancialSystemUser(Person p) {
-        return getRoleService().principalHasRole(p.getPrincipalId(), getUserRoleIdAsList(), null);
+        return getRoleService().principalHasRole(p.getPrincipalId(), getUserRoleIdAsList(), new HashMap<String, String>());
     }
 
     /**
      * @see org.kuali.kfs.sys.service.FinancialSystemUserService#isActiveFinancialSystemUser(java.lang.String)
      */
     public boolean isActiveFinancialSystemUser(String principalId) {
-        return getRoleService().principalHasRole(principalId, getUserRoleIdAsList(), null);
+        return getRoleService().principalHasRole(principalId, getUserRoleIdAsList(), new HashMap<String, String>());
     }
 
     /**

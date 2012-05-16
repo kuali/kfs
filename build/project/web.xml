@@ -160,7 +160,7 @@
     <servlet-class>org.kuali.rice.kns.web.struts.action.KualiActionServlet</servlet-class>
     <init-param>
       <param-name>config</param-name>
-      <param-value>/WEB-INF/struts-config.xml</param-value>
+      <param-value>${struts.config.files}</param-value>
     </init-param>
     <init-param>
       <param-name>config/core</param-name>

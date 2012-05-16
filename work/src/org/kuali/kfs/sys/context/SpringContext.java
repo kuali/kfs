@@ -202,7 +202,9 @@ public class SpringContext {
                         }
                     }
                 }
-                throw new RuntimeException("No bean of this type and name exist in the application context or from the GRL: " + type.getName() + ", " + name);
+                if (bean == null) {
+                    throw new RuntimeException("No bean of this type and name exist in the application context or from the GRL: " + type.getName() + ", " + name);
+                }
             }
         }
         return bean;

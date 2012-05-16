@@ -366,5 +366,6 @@
 				<bean parent="FieldDefinition" p:attributeName="referenceFinancialDocumentNumber" />
 			</list>
 		</property>
+		<property name="resultSetLimit" value="-1"/>
 	</bean>
 </beans>

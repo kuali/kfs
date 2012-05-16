@@ -242,7 +242,7 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
             }
 
             @Override
-            public void returnToPreviousNode(String annotation, ReturnPoint returnPoint) {
+            public void returnToPreviousNode(String nodeName, ReturnPoint returnPoint) {
                 // TODO Auto-generated method stub
                 
             }
@@ -335,7 +335,7 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
             }
 
             @Override
-            public void returnToPreviousNode(String annotation, ReturnPoint returnPoint) {
+            public void returnToPreviousNode(String nodeName, ReturnPoint returnPoint) {
                 // TODO Auto-generated method stub
                 
             }

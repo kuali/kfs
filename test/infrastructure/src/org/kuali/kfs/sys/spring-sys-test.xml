@@ -72,5 +72,13 @@
 			<ref bean="mockReportWriterService" />
 		</property>
 	</bean>
-    
+
+    <!-- Fake dependency added for SchedulerServiceImplTest.testDropDependenciesNotScheduled -->    
+    <bean id="purgeReportsAndStagingJob" parent="purgeReportsAndStagingJob-parentBean">	
+		<property name="dependencies">
+			<map>
+				<entry key="dailyEmailJob" value="hardDependency"/>
+			</map>
+		</property>
+	</bean>
 </beans>

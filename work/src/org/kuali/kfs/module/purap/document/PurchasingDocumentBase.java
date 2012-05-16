@@ -28,6 +28,7 @@ import org.kuali.kfs.integration.purap.CapitalAssetLocation;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.integration.purap.ItemCapitalAsset;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.businessobject.BillingAddress;
 import org.kuali.kfs.module.purap.businessobject.CapitalAssetSystemState;
@@ -49,6 +50,7 @@ import org.kuali.kfs.module.purap.document.service.ReceivingAddressService;
 import org.kuali.kfs.module.purap.util.ItemParser;
 import org.kuali.kfs.module.purap.util.ItemParserBase;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.CampusParameter;
 import org.kuali.kfs.vnd.businessobject.CommodityCode;
@@ -59,6 +61,7 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.rules.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
@@ -124,6 +127,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     protected String billingPostalCode;
     protected String billingCountryCode;
     protected String billingPhoneNumber;
+    protected String billingEmailAddress;
     protected String receivingName;
     protected String receivingLine1Address;
     protected String receivingLine2Address;
@@ -233,6 +237,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
             this.setBillingPostalCode(billingAddress.getBillingPostalCode());
             this.setBillingCountryCode(billingAddress.getBillingCountryCode());
             this.setBillingPhoneNumber(billingAddress.getBillingPhoneNumber());
+            this.setBillingEmailAddress(billingAddress.getBillingEmailAddress());
         }
     }
 
@@ -338,6 +343,20 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         return new ItemParserBase();
     }
     
+    /**
+     * Decides whether receivingDocumentRequiredIndicator functionality shall be enabled according to the controlling parameter.
+     */
+    public boolean getEnableReceivingDocumentRequiredIndicator() {
+        return true; //TODO 772 SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.RECEIVING_DOCUMENT_REQUIRED_IND);
+    }
+    
+    /**
+     * Decides whether paymentRequestPositiveApprovalIndicator functionality shall be enabled according to the controlling parameter.
+     */
+    public boolean getEnablePaymentRequestPositiveApprovalIndicator() {
+        return true; //TODO 771 SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.PAYMENT_REQUEST_POSITIVE_APPROVAL_IND);
+    }
+    
     public String getBillingCityName() {
         return billingCityName;
     }
@@ -393,6 +412,14 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
 
     public void setBillingPhoneNumber(String billingPhoneNumber) {
         this.billingPhoneNumber = billingPhoneNumber;
+    }
+
+    public String getBillingEmailAddress() {
+        return billingEmailAddress;
+    }
+
+    public void setBillingEmailAddress(String billingEmailAddress) {
+        this.billingEmailAddress = billingEmailAddress;
     }
 
     public String getBillingPostalCode() {
@@ -1058,7 +1085,13 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
      * @param receivingDocumentRequiredIndicator The receivingDocumentRequiredIndicator to set.
      */
     public void setReceivingDocumentRequiredIndicator(boolean receivingDocumentRequiredIndicator) {
-        this.receivingDocumentRequiredIndicator = receivingDocumentRequiredIndicator;
+        // if receivingDocumentRequiredIndicator functionality is disabled, always set it to false, overriding the passed-in value
+        if (!getEnableReceivingDocumentRequiredIndicator()) {
+            receivingDocumentRequiredIndicator = false;
+        }
+        else {
+            this.receivingDocumentRequiredIndicator = receivingDocumentRequiredIndicator;
+        }
     }
 
     public boolean isPaymentRequestPositiveApprovalIndicator() {
@@ -1066,7 +1099,13 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
 
     public void setPaymentRequestPositiveApprovalIndicator(boolean paymentRequestPositiveApprovalIndicator) {
-        this.paymentRequestPositiveApprovalIndicator = paymentRequestPositiveApprovalIndicator;
+        // if paymentRequestPositiveApprovalIndicator functionality is disabled, always set it to false, overriding the passed-in value
+        if (!getEnablePaymentRequestPositiveApprovalIndicator()) {
+            paymentRequestPositiveApprovalIndicator = false;
+        }
+        else {
+            this.paymentRequestPositiveApprovalIndicator = paymentRequestPositiveApprovalIndicator;
+        }
     }
 
     public List<CommodityCode> getCommodityCodesForRouting() {

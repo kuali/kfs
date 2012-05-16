@@ -95,6 +95,10 @@ public class PurapParameterConstants {
     
     public static final String SHOW_DEBARRED_VENDOR_WARNING_IND = "SHOW_DEBARRED_VENDOR_WARNING_IND";
     
+    public static final String RECEIVING_DOCUMENT_REQUIRED_IND = "RECEIVING_DOCUMENT_REQUIRED_IND";
+    public static final String PAYMENT_REQUEST_POSITIVE_APPROVAL_IND = "PAYMENT_REQUEST_POSITIVE_APPROVAL_IND";
+    
+    
     public static class CapitalAsset {
         // used in CAB module service
         public static final String PURCHASING_OBJECT_SUB_TYPES = "PURCHASING_OBJECT_SUB_TYPES";

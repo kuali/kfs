@@ -29,7 +29,6 @@
     <property name="importedLineParserClass" value="org.kuali.kfs.module.purap.businessobject.PurApAccountingLineParser" />    
     <property name="sessionDocument" value="true"/>
     <property name="potentiallySensitive" value="true"/>
-    <property name="allowsNoteFYI" value="true"/>
     <property name="workflowAttributes">
     	<ref bean="VendorCreditMemoDocument-workflowAttributes"/>
     </property>
@@ -153,7 +152,7 @@
     <property name="label" value="Vendor Credit Memo Doc Status" />
     <property name="shortLabel" value="Vendor Credit Memo Doc Status"/>
   </bean>
-  
+
   <bean id="VendorCreditMemoDocument-versionNumber" parent="VendorCreditMemoDocument-versionNumber-parentBean"/>
 
   <bean id="VendorCreditMemoDocument-versionNumber-parentBean" abstract="true" parent="GenericAttributes-versionNumber">

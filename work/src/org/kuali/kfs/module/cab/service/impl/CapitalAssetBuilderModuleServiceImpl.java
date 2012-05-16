@@ -1010,7 +1010,50 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         }
         return valid;
     }
+    
+    /** TODO retest this after merge
+     * This method validates purapItem giving a transaction type.
+     * 
+     * @param recurringPaymentType
+     * @param item
+     * @param warn
+     * @return
+     *
+    protected boolean validatePurapItemCapitalAsset(PurApItem item, AssetTransactionType capitalAssetTransactionType) {
+        boolean valid = true;
+        String itemIdentifier = item.getItemIdentifierString();
+        boolean quantityBased = item.getItemType().isQuantityBasedGeneralLedgerIndicator();
+        BigDecimal itemUnitPrice = item.getItemUnitPrice();
+        HashSet<String> capitalOrExpenseSet = new HashSet<String>(); // For the first validation on every accounting line.
+        
+        boolean performObjectCodeVersusTransactionTypeValidation = true;
+        if (item instanceof AccountsPayableItem) {
+            performObjectCodeVersusTransactionTypeValidation = false;
+        }
 
+        // Do the checks that depend on Accounting Line information.
+        for (PurApAccountingLine accountingLine : item.getSourceAccountingLines()) {
+            // Because of ObjectCodeCurrent, we had to refresh this.
+            accountingLine.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
+            ObjectCode objectCode = accountingLine.getObjectCode();
+
+            if (ObjectUtils.isNotNull(objectCode)) {
+                String capitalOrExpense = objectCodeCapitalOrExpense(objectCode);
+                capitalOrExpenseSet.add(capitalOrExpense); // HashSets accumulate distinct values (and nulls) only.
+                valid &= validateAccountingLinesNotCapitalAndExpense(capitalOrExpenseSet, itemIdentifier, objectCode);
+
+                if (performObjectCodeVersusTransactionTypeValidation) {
+                    // Do the checks involving capital asset transaction type.
+                    if (capitalAssetTransactionType != null) {
+                        valid &= validateObjectCodeVersusTransactionType(objectCode, capitalAssetTransactionType, itemIdentifier, quantityBased);
+                    }
+                }
+            }
+        }
+        return valid;    
+    }    
+    */
+    
     /**
      * Capital Asset validation: An item cannot have among its associated accounting lines both object codes that indicate it is a
      * Capital Asset, and object codes that indicate that the item is not a Capital Asset. Whether an object code indicates that the

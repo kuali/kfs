@@ -71,7 +71,16 @@
           <role name="Account" nextNode="AccountingOrganizationHierarchy"/>
           <role name="AccountingOrganizationHierarchy" nextNode="SubFund"/>
           <role name="SubFund" nextNode="Award"/>
-          <role name="Award"/>
+          <requests name="Award" nextNode="RequiresWorkstudyReview"/> 
+		  <split name="RequiresWorkstudyReview"> 
+  			<branch name="True"> 
+    			<requests name="Workstudy" nextNode="JoinRequiresWorkstudyReview"/> 
+  			</branch> 
+  			<branch name="False"> 
+    			<simple name="RequiresWorkstudyNoOp" nextNode="JoinRequiresWorkstudyReview"/> 
+  			</branch> 
+  			<join name="JoinRequiresWorkstudyReview"/> 
+		  </split>
         </routePath>
       </routePaths>
       <routeNodes>
@@ -95,6 +104,17 @@
           <qualifierResolverClass>
             org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+        </role>
+        <split name="RequiresWorkstudyReview">
+          <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
+        </split>
+        <simple name="RequiresWorkstudyNoOp">
+          <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+        </simple>
+        <join name="JoinRequiresWorkstudyReview"/>
+        <role name="Workstudy">
+          <qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+          <activationType>P</activationType>
         </role>
       </routeNodes>
     </documentType>

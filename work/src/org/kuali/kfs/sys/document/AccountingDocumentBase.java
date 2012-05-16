@@ -751,20 +751,21 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
 
     /**
      *
-     * @see org.kuali.kfs.sys.document.AccountingDocument#getAccountExpirationDocumentDate()
+     * @see org.kuali.kfs.sys.document.AccountingDocument#isDocumentFinalOrProcessed()
      */
     @Override
-    public Date getAccountExpirationDocumentDate() {
+    public boolean isDocumentFinalOrProcessed() {
+        boolean isDocumentFinalOrProcessed = false;
         if(ObjectUtils.isNotNull(getDocumentHeader().getDocumentNumber())) {
-           if(getDocumentHeader().hasWorkflowDocument() && getDocumentHeader().getWorkflowDocument().getDateFinalized() != null) {
-               return new java.sql.Date(getDocumentHeader().getWorkflowDocument().getDateFinalized().toDate().getTime());
+           if(getDocumentHeader().hasWorkflowDocument()) {
+               if(getDocumentHeader().getWorkflowDocument().isFinal() || getDocumentHeader().getWorkflowDocument().isProcessed()) {
+                   isDocumentFinalOrProcessed = true;
+               }
            }
-           else {
-               return SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
-           }
+           
         }
 
-        return SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
+        return isDocumentFinalOrProcessed;
 
     }
 }

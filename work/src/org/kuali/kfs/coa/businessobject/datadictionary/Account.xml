@@ -1091,5 +1091,6 @@
 				<bean parent="FieldDefinition" p:attributeName="accountExpirationDate" />
 			</list>
 		</property>
+		<property name="multipleValuesResultSetLimit" value="-1"/>
 	</bean>
 </beans>

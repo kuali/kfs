@@ -100,7 +100,7 @@
 		<delete dir="work/web-root/META-INF" />
 		<delete dir="test/classes" />
 		<delete dir="build/tomcat/work/Catalina" />
-		<delete>
+		<delete quiet="true">
 			<fileset dir="work/web-root/WEB-INF/classes" includes="**/*" />
 		</delete>
 		<delete>
@@ -327,6 +327,7 @@
         <property name="rice.krms.url" value="${rice.url}/krms"/>
         <property name="rice.ken.url" value="${rice.url}/ken"/>
         <property name="rice.externalizable.images.url" value="${application.url}/kr/static/images/"/>
+		<property name="rice.ksb.registry.url" value="${rice.url}"/>
 		<condition property="rice.ksb.message.persistence" value="false" else="true"><isset property="is.local.build" /></condition>
 		<condition property="rice.ksb.use.quartz.database" value="true" else="false">
 			<and>
@@ -419,13 +420,27 @@
 	</target>
 
 	<target name="init-make-references" depends="init-properties,check-rice-lib,filter-libraries">
-		<path id="compile.source.classpath">
+		<path id="preliminary.compile.source.classpath">
 			<fileset dir="${build.kfs.lib.directory}" includes="*.jar" />
 			<fileset dir="${build.rice.lib.directory}" includes="*.jar" />
 			<fileset dir="${build.server.lib.directory}" includes="*-api.jar" />
 			<fileset dir="${build.appserver.directory}" includes="*.jar" /> <!-- should not be needed but commons logging is here -->
 			<fileset dir="${build.directory}" includes="log4j*.jar" />
 		</path>
+		<if>
+			<isset property="institution.lib.directory" />
+			<then>
+				<path id="compile.source.classpath">
+					<path refid="preliminary.compile.source.classpath"/>
+					<fileset dir="${institution.lib.directory}" includes="*.jar" />
+				</path>
+			</then>
+			<else>
+				<path id="compile.source.classpath">
+					<path refid="preliminary.compile.source.classpath"/>
+				</path>
+			</else>
+		</if>
 		<path id="run.server.classpath">
 			<path refid="compile.source.classpath" />
 			<fileset dir="${drivers.directory}" includes="*.jar" />
@@ -570,7 +585,7 @@
 			</then>
 		</if>
 		-->
-		<unzip dest="${webroot.directory}" src="${build.appserver.directory}/${rice.server.war.file.name}" >
+		<unzip dest="${webroot.directory}" src="${rice.server.war.directory}/${rice.server.war.file.name}" >
 			<patternset>
 				<exclude name="META-INF/**"/>
 				<exclude name="WEB-INF/web.xml"/>

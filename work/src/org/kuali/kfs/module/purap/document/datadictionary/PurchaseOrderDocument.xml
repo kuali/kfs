@@ -31,7 +31,6 @@
     <property name="attachmentTypesValuesFinderClass" value="org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderAttachmentTypeValuesFinder"/>
     <property name="importedLineParserClass" value="org.kuali.kfs.module.purap.businessobject.PurApAccountingLineParser" />
     <property name="allowsCopy" value="true"/>
-    <property name="allowsNoteFYI" value="true"/>
     <property name="allowsNoteAttachments" value="true" />
     <property name="potentiallySensitive" value="true"/>
 
@@ -52,7 +51,7 @@
     	</map>
     </property>
     <property name="attributes">
-      	<list>
+      <list>
         <ref bean="PurchaseOrderDocument-applicationDocumentStatus"/>
         <ref bean="PurchaseOrderDocument-contractManagerName"/>
         <ref bean="PurchaseOrderDocument-versionNumber"/>

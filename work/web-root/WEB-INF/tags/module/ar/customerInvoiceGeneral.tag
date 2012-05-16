@@ -48,8 +48,14 @@
 				            <c:set var="onblurForCustomer" value=""/>
 				        </c:otherwise>
 				    </c:choose>
-				
+				    
+				    <c:if test="${readOnly}">
+					 <a href="arCustomerOpenItemReportLookup.do?methodToCall=search&businessObjectClassName=org.kuali.kfs.module.ar.businessobject.CustomerOpenItemReportDetail&lookupableImplementaionServiceName=arCustomerOpenItemReportLookupable&docFormKey=88888888&returnLocation=&hideReturnLink=true&reportName=${KFSConstants.CustomerOpenItemReport.HISTORY_REPORT_NAME}&customerNumber=${KualiForm.customerInvoiceDocument.accountsReceivableDocumentHeader.customerNumber}&customerName=${KualiForm.customerInvoiceDocument.customerName}"
+						target="new">
+					</c:if>
+					
 				    <kul:htmlControlAttribute attributeEntry="${arDocHeaderAttributes.customerNumber}" property="document.accountsReceivableDocumentHeader.customerNumber" readOnly="${readOnly}" onblur="${onblurForCustomer}" onchange="${onblurForCustomer}" forceRequired="true"/></a>
+                    
                     <c:if test="${not readOnly}">
 	                    &nbsp;
 	                    <kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.Customer" fieldConversions="customerNumber:document.accountsReceivableDocumentHeader.customerNumber" lookupParameters="document.accountsReceivableDocumentHeader.customerNumber:customerNumber" />

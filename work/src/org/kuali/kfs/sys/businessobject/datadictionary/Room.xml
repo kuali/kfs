@@ -205,5 +205,6 @@
         <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
+    <property name="multipleValuesResultSetLimit" value="-1"/>
   </bean>
 </beans>

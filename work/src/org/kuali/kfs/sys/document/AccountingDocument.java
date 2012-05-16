@@ -171,10 +171,8 @@ public interface AccountingDocument extends GeneralLedgerPostingDocument, Genera
     public Class<? extends AccountingDocument> getDocumentClassForAccountingLineValueAllowedValidation();
 
     /**
-     *
-     * This method return document date to use for determineNeededOverrides validation.
-     * It return final date if document is finalized, otherwise current date
-     * @return
+     *This method check the document status to determine whether the document is final/processed or not.
+     *@return true if documentFinalOrProcessed otherwise false
      */
-    public Date getAccountExpirationDocumentDate();
+    public boolean isDocumentFinalOrProcessed();
 }

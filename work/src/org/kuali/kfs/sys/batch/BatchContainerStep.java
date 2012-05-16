@@ -179,7 +179,12 @@ public class BatchContainerStep extends AbstractStep implements ContainerStepLis
 	      LOG.debug("Converting step named in .run file into a Step class...");
 	  }
 
-      Step step = BatchSpringContext.getStep(batchStepFile.getStepName());
+	  Step step = null;
+	  try {
+	      step = BatchSpringContext.getStep(batchStepFile.getStepName());
+	  } catch (RuntimeException runtimeException) {
+	      LOG.error("Failed to getStep from spring context: ", runtimeException);
+	  }
       if (step == null) {
       	LOG.error("Unable to find bean for step: "+ batchStepFile.getStepName());
       	return null;

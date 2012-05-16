@@ -34,6 +34,7 @@ public class BillingAddress extends PersistableBusinessObjectBase implements Mut
     protected String billingPostalCode;
     protected String billingCountryCode;
     protected String billingPhoneNumber;
+    protected String billingEmailAddress;
     protected boolean active;
 
     protected CampusParameter billingCampus;
@@ -115,6 +116,14 @@ public class BillingAddress extends PersistableBusinessObjectBase implements Mut
 
     public void setBillingPhoneNumber(String billingPhoneNumber) {
         this.billingPhoneNumber = billingPhoneNumber;
+    }
+    
+    public String getBillingEmailAddress() {
+        return billingEmailAddress;
+    }
+
+    public void setBillingEmailAddress(String billingEmailAddress) {
+        this.billingEmailAddress = billingEmailAddress;
     }
 
     public CampusParameter getBillingCampus() {

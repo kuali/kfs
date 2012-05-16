@@ -465,6 +465,7 @@ public class GlLineServiceImpl implements GlLineService {
         detail.setAccountNumber(replaceFiller(entry.getAccountNumber()));
         detail.setSubAccountNumber(replaceFiller(entry.getSubAccountNumber()));
         detail.setFinancialObjectCode(replaceFiller(entry.getFinancialObjectCode()));
+        detail.setFinancialSubObjectCode(replaceFiller(entry.getFinancialSubObjectCode())); 
         detail.setProjectCode(replaceFiller(entry.getProjectCode()));
         detail.setOrganizationReferenceId(replaceFiller(entry.getOrganizationReferenceId()));
         KualiDecimal capitalAssetAmount = getCapitalAssetAmount(entry, capitalAssetLineNumber);

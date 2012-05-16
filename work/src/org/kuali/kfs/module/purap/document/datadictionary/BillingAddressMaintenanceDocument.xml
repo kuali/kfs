@@ -58,7 +58,8 @@
         <bean parent="MaintainableFieldDefinition" p:name="billingStateCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="billingPostalCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="billingCountryCode" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="billingPhoneNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="billingPhoneNumber" p:required="false"/>
+        <bean parent="MaintainableFieldDefinition" p:name="billingEmailAddress" p:required="false"/>        
         <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
       </list>
     </property>

@@ -15,9 +15,11 @@
  */
 package org.kuali.kfs.sys.batch.service;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.ConfigureContext;
@@ -246,5 +248,21 @@ public class SchedulerServiceImplTest extends KualiTestBase {
         }
         assertEquals("job status not correct", SchedulerService.RUNNING_JOB_STATUS_CODE, job.getStatus());
 
+    }
+    
+    /**
+     * Verify that dropDependenciesNotScheduled drops unscheduled dependencies. It's worthwhile to note that spring-sys-test-xml was altered to include a fake
+     * dependency of purgeReportsAndStagingJob on dailyEmailJob. This fake dependency was added to have a scheduled job dependend on an unscheduled one so that
+     * we have something to test for.
+     * @throws Exception
+     */
+    public void testDropDependenciesNotScheduled() throws Exception {
+        SchedulerService schedulerService = SpringContext.getBean(SchedulerService.class);
+        
+        BatchJobStatus purgeReportsAndStagingJob = schedulerService.getJob(SchedulerService.SCHEDULED_GROUP, "purgeReportsAndStagingJob");
+        for (Entry<String, String> dependency : purgeReportsAndStagingJob.getDependencies().entrySet()) {
+            String dependencyJobName = dependency.getKey();
+            assertFalse("Job was expected to be unscheduled so dropDependenciesNotScheduled should have removed this dependency.", "dailyEmailJob".equals(dependencyJobName));
+        }
     }
 }

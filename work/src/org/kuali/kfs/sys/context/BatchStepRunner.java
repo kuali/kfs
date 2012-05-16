@@ -54,7 +54,7 @@ public class BatchStepRunner {
             }
             ParameterService parameterService = SpringContext.getBean(ParameterService.class);
             DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-
+            
             String jobName = args.length >= 2 ? args[1] : KFSConstants.BATCH_STEP_RUNNER_JOB_NAME;
             Date jobRunDate = dateTimeService.getCurrentDate();
             LOG.info("Executing job: " + jobName + " steps: " + Arrays.toString(stepNames));
@@ -62,7 +62,7 @@ public class BatchStepRunner {
                 Step step = BatchSpringContext.getStep(stepNames[i]);
                 if ( step != null ) {
                     Step unProxiedStep = (Step) ProxyUtils.getTargetIfProxied(step);
-                    Class stepClass = unProxiedStep.getClass();
+                    Class<?> stepClass = unProxiedStep.getClass();
 
                     ModuleService module = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService( stepClass );
                     Appender ndcAppender = null;
@@ -70,7 +70,7 @@ public class BatchStepRunner {
                             StringUtils.substringAfter( module.getModuleConfiguration().getNamespaceCode(), "-").toLowerCase()
                             + File.separator + step.getName()
                             + "-" + dateTimeService.toDateTimeStringForFilename(dateTimeService.getCurrentDate());
-                    boolean ndcSet = false;;
+                    boolean ndcSet = false;
                     try {
                         ndcAppender = new FileAppender(Logger.getRootLogger().getAppender("LogFile").getLayout(), getLogFileName(nestedDiagnosticContext));
                         ndcAppender.addFilter(new NDCFilter(nestedDiagnosticContext));
@@ -88,7 +88,9 @@ public class BatchStepRunner {
                         throw ex;
                     } finally {
                         if ( ndcSet ) {
-                            ndcAppender.close();
+                            if (ndcAppender != null) {
+                                ndcAppender.close();
+                            }
                             Logger.getRootLogger().removeAppender(ndcAppender);
                             NDC.pop();
                         }

@@ -196,7 +196,7 @@
 	                    readOnly="true" />
 	            </td>                   
 			</c:if>
-	        <c:if test="${not purchaseOrder}">
+	        <c:if test="${not purchaseOrder and not KualiForm.document.suppressPaymentRequestPositiveApprovalIndicator}">		
 			    <th align=right valign=middle class="bord-l-b">
 			        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.paymentRequestPositiveApprovalIndicator}" /></div>
 			    </th>

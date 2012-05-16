@@ -917,6 +917,7 @@
 	</bean>
 	
 	<bean id="stopBatchContainerStep" class="org.kuali.kfs.sys.batch.StopBatchContainerStep" parent="step"/>
+
 	
 	<bean id="semaphoreInputFileTypeError" class="org.kuali.kfs.sys.batch.SemaphoreInputFileType">
     	<property name="directoryPath" value="${staging.directory.sys.batchContainer}"/>

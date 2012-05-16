@@ -26,11 +26,15 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
 
+
+
 /**
  * Allows some information about persisted {@link Cfda} instances to be looked up.
  */
 public class CatalogOfFederalDomesticAssistanceMaintenanceTypeIdFinder extends KeyValuesBase {
 
+    public static final String CFDA_MAINTENANCE_MANUAL_TYPE_ID = "MANUAL";
+    public static final String CFDA_MAINTENANCE_AUTOMATIC_TYPE_ID = "AUTOMATIC";
     /**
      * Retrieves the list of possible CFDA Maintenance Type IDs and generates a collection with all the possible values.
      *
@@ -44,35 +48,12 @@ public class CatalogOfFederalDomesticAssistanceMaintenanceTypeIdFinder extends K
 
         List<KeyValue> labels = new ArrayList<KeyValue>();
         labels.add(new ConcreteKeyValue("", ""));
+        labels.add(new ConcreteKeyValue(CFDA_MAINTENANCE_MANUAL_TYPE_ID, CFDA_MAINTENANCE_MANUAL_TYPE_ID));
+        labels.add(new ConcreteKeyValue(CFDA_MAINTENANCE_AUTOMATIC_TYPE_ID, CFDA_MAINTENANCE_AUTOMATIC_TYPE_ID));
 
-        for ( CFDA cfdaReference : codes ) {
-
-            if (!isDuplicateValue(labels, cfdaReference.getCfdaMaintenanceTypeId())) {
-                labels.add(new ConcreteKeyValue(cfdaReference.getCfdaMaintenanceTypeId(), cfdaReference.getCfdaMaintenanceTypeId()));
-            }
-        }
 
         return labels;
     }
 
-    /**
-     * This method determines if a value already exists in the collection.
-     *
-     * @param collection The collection to be examined.
-     * @param value The value to be added to the collection if it does not already exist within it.
-     * @return True if the value passed in already exists in the collection, false otherwise.
-     */
-    private boolean isDuplicateValue(List<KeyValue> collection, String value) {
-        boolean duplicate = false;
-
-        for (KeyValue klp : collection) {
-            String klpLabel = klp.getValue();
-            if (klpLabel != null) {
-                duplicate |= klpLabel.trim().equalsIgnoreCase(value.trim());
-            }
-        }
-
-        return duplicate;
-    }
-
+    
 }

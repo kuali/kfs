@@ -26,14 +26,16 @@
 
     <bean id="MaintenanceDocumentEntry" class="org.kuali.kfs.sys.document.datadictionary.FinancialSystemMaintenanceDocumentEntry" abstract="true">
         <property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase" />
-        <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.KfsMaintenanceDocumentRuleBase"/>  
+        <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.KfsMaintenanceDocumentRuleBase"/>
+        <property name="allowsNoteFYI" value="true"/>  
     </bean>
           	
     <bean id="TransactionalDocumentEntry" class="org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry" abstract="true">
         <property name="webScriptFiles" >
 			<ref bean="commonWebScriptFiles"/>
     	</property> 
-    	<property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase" />        	
+    	<property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase" />
+    	<property name="allowsNoteFYI" value="true"/>        	
     </bean>
     
     <bean id="AccountingDocumentEntry" class="org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry" abstract="true">
@@ -41,7 +43,8 @@
 			<ref bean="commonWebScriptFiles"/>
     	</property> 
     	<property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase" />
-    	<property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentPresentationControllerBase" />    
+    	<property name="documentPresentationControllerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentPresentationControllerBase" />
+    	<property name="allowsNoteFYI" value="true"/>    
     </bean>
     
     <bean id="AccountingLineView" abstract="true" class="org.kuali.kfs.sys.document.datadictionary.AccountingLineViewDefinition" />

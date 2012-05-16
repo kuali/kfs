@@ -552,6 +552,9 @@ public class PurchaseOrderPdf extends PurapPdf {
         if (po.getBillingPhoneNumber() != null) {
             billToInfo.append("     " + po.getBillingPhoneNumber());
         }
+        if (po.getBillingEmailAddress() != null) {
+            billToInfo.append("\n     " + po.getBillingEmailAddress());
+        }
         p = new Paragraph();
         p.add(new Chunk("  Billing Address", ver_5_normal));
         p.add(new Chunk("     " + billToInfo.toString(), cour_7_normal));

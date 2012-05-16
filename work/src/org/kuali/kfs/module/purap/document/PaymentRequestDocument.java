@@ -28,11 +28,11 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
-import org.kuali.kfs.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.PurapPropertyConstants;
 import org.kuali.kfs.module.purap.PurapWorkflowConstants;
+import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
+import org.kuali.kfs.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItemUseTax;
@@ -191,6 +191,20 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         super.populateDocumentForRouting();
     }
 
+    /**
+     * Decides whether receivingDocumentRequiredIndicator functionality shall be enabled according to the controlling parameter.
+     */
+    public boolean getEnableReceivingDocumentRequiredIndicator() {
+        return true; //TODO 772 SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.RECEIVING_DOCUMENT_REQUIRED_IND);
+    }
+    
+    /**
+     * Decides whether paymentRequestPositiveApprovalIndicator functionality shall be enabled according to the controlling parameter.
+     */
+    public boolean getEnablePaymentRequestPositiveApprovalIndicator() {
+        return true; //TODO 771 SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.PAYMENT_REQUEST_POSITIVE_APPROVAL_IND);
+    }
+        
     public Date getInvoiceDate() {
         return invoiceDate;
     }
@@ -415,7 +429,13 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      * @param paymentRequestPositiveApprovalIndicator The paymentRequestPositiveApprovalIndicator to set.
      */
     public void setPaymentRequestPositiveApprovalIndicator(boolean paymentRequestPositiveApprovalIndicator) {
-        this.paymentRequestPositiveApprovalIndicator = paymentRequestPositiveApprovalIndicator;
+        // if paymentRequestPositiveApprovalIndicator functionality is disabled, always set it to false, overriding the passed-in value
+        if (!getEnablePaymentRequestPositiveApprovalIndicator()) {
+            paymentRequestPositiveApprovalIndicator = false;
+        }
+        else {
+            this.paymentRequestPositiveApprovalIndicator = paymentRequestPositiveApprovalIndicator;
+        }
     }
 
     /**
@@ -433,7 +453,13 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      * @param receivingDocumentRequiredIndicator The receivingDocumentRequiredIndicator to set.
      */
     public void setReceivingDocumentRequiredIndicator(boolean receivingDocumentRequiredIndicator) {
-        this.receivingDocumentRequiredIndicator = receivingDocumentRequiredIndicator;
+        // if receivingDocumentRequiredIndicator functionality is disabled, always set it to false, overriding the passed-in value
+        if (!getEnableReceivingDocumentRequiredIndicator()) {
+            receivingDocumentRequiredIndicator = false;
+        }
+        else {
+            this.receivingDocumentRequiredIndicator = receivingDocumentRequiredIndicator;
+        }
     }
 
     /**

@@ -36,6 +36,7 @@
         <ref bean="BillingAddress-billingLine2Address"/>
         <ref bean="BillingAddress-billingName"/>
         <ref bean="BillingAddress-billingPhoneNumber"/>
+        <ref bean="BillingAddress-billingEmailAddress"/>
         <ref bean="BillingAddress-billingPostalCode"/>
         <ref bean="BillingAddress-billingStateCode"/>
         <ref bean="BillingAddress-active"/>
@@ -108,6 +109,12 @@
     <property name="name" value="billingPhoneNumber"/>
     <property name="label" value="Billing Phone Number"/>
   </bean>
+  <bean id="BillingAddress-billingEmailAddress" parent="BillingAddress-billingEmailAddress-parentBean"/>
+
+  <bean id="BillingAddress-billingEmailAddress-parentBean" abstract="true" parent="GenericAttributes-emailAddress">
+    <property name="name" value="billingEmailAddress"/>
+    <property name="label" value="Billing Email Address"/>
+  </bean>
   <bean id="BillingAddress-billingPostalCode" parent="BillingAddress-billingPostalCode-parentBean"/>
 
   <bean id="BillingAddress-billingPostalCode-parentBean" abstract="true" parent="VendorGenericAttributes-zipCode">
@@ -155,6 +162,7 @@
         <bean parent="FieldDefinition" p:attributeName="billingPostalCode"/>
         <bean parent="FieldDefinition" p:attributeName="billingCountryCode"/>
         <bean parent="FieldDefinition" p:attributeName="billingPhoneNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="billingEmailAddress"/>
         <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
@@ -183,6 +191,7 @@
         <bean parent="FieldDefinition" p:attributeName="billingPostalCode"/>
         <bean parent="FieldDefinition" p:attributeName="billingCountryCode"/>
         <bean parent="FieldDefinition" p:attributeName="billingPhoneNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="billingEmailAddress"/>
         <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
@@ -197,6 +206,7 @@
         <bean parent="FieldDefinition" p:attributeName="billingPostalCode"/>
         <bean parent="FieldDefinition" p:attributeName="billingCountryCode"/>
         <bean parent="FieldDefinition" p:attributeName="billingPhoneNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="billingEmailAddress"/>
         <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>

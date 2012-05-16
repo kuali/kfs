@@ -122,7 +122,6 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
     protected String accountDescriptionSectionBlank;
     protected String accountDescriptionSection;
 
-
     protected AccountGuideline accountGuideline;
     protected AccountDescription accountDescription;
 
@@ -138,6 +137,60 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
         indirectCostRecoveryAccounts = new ArrayList<PriorYearIndirectCostRecoveryAccount>();
     }
 
+    /**
+     * Constructs a PriorYearAccount by populating fields from an Account object.
+     */
+    public PriorYearAccount(Account account) {
+        chartOfAccountsCode = account.getChartOfAccountsCode();
+        accountNumber = account.getAccountNumber();
+        accountName = account.getAccountName();
+        accountsFringesBnftIndicator = account.isAccountsFringesBnftIndicator();
+        accountRestrictedStatusDate = account.getAccountRestrictedStatusDate();
+        accountCityName = account.getAccountCityName();
+        accountStateCode = account.getAccountStateCode();
+        accountStreetAddress = account.getAccountStreetAddress();
+        accountZipCode = account.getAccountZipCode();
+        accountCreateDate = account.getAccountCreateDate();
+        accountEffectiveDate = account.getAccountEffectiveDate();
+        accountExpirationDate = account.getAccountExpirationDate();
+        acctIndirectCostRcvyTypeCd = account.getAcctIndirectCostRcvyTypeCd();
+        acctCustomIndCstRcvyExclCd = account.getAcctCustomIndCstRcvyExclCd();
+        financialIcrSeriesIdentifier = account.getFinancialIcrSeriesIdentifier();
+        accountInFinancialProcessingIndicator = account.getAccountInFinancialProcessingIndicator();
+        budgetRecordingLevelCode = account.getBudgetRecordingLevelCode();
+        accountSufficientFundsCode = account.getAccountSufficientFundsCode();
+        pendingAcctSufficientFundsIndicator = account.isPendingAcctSufficientFundsIndicator();
+        extrnlFinEncumSufficntFndIndicator = account.isExtrnlFinEncumSufficntFndIndicator();
+        intrnlFinEncumSufficntFndIndicator = account.isIntrnlFinEncumSufficntFndIndicator();
+        finPreencumSufficientFundIndicator = account.isFinPreencumSufficientFundIndicator();
+        financialObjectivePrsctrlIndicator = account.isFinancialObjectivePrsctrlIndicator();
+        accountCfdaNumber = account.getAccountCfdaNumber();
+        accountOffCampusIndicator = account.isAccountOffCampusIndicator();
+        active = account.isActive();
+
+        accountFiscalOfficerSystemIdentifier = account.getAccountFiscalOfficerSystemIdentifier();
+        accountsSupervisorySystemsIdentifier = account.getAccountsSupervisorySystemsIdentifier();
+        accountManagerSystemIdentifier = account.getAccountManagerSystemIdentifier();
+        organizationCode = account.getOrganizationCode();
+        accountTypeCode = account.getAccountTypeCode();
+        accountPhysicalCampusCode = account.getAccountPhysicalCampusCode();
+        subFundGroupCode = account.getSubFundGroupCode();
+        financialHigherEdFunctionCd = account.getFinancialHigherEdFunctionCd();
+        accountRestrictedStatusCode = account.getAccountRestrictedStatusCode();
+        reportsToChartOfAccountsCode = account.getReportsToChartOfAccountsCode();
+        reportsToAccountNumber = account.getReportsToAccountNumber();
+        continuationFinChrtOfAcctCd = account.getContinuationFinChrtOfAcctCd();
+        continuationAccountNumber = account.getContinuationAccountNumber();
+        endowmentIncomeAcctFinCoaCd = account.getEndowmentIncomeAcctFinCoaCd();
+        endowmentIncomeAccountNumber = account.getEndowmentIncomeAccountNumber();
+        contractControlFinCoaCode = account.getContractControlFinCoaCode();
+        contractControlAccountNumber = account.getContractControlAccountNumber();
+        incomeStreamFinancialCoaCode = account.getIncomeStreamFinancialCoaCode();
+        incomeStreamAccountNumber = account.getIncomeStreamAccountNumber();
+        
+        refresh();
+    }
+    
     /**
      * Gets the accountNumber attribute.
      *

@@ -49,7 +49,6 @@
 	<html-el:hidden name="KualiForm" property="lookupAnchor" />
 	<html-el:hidden name="KualiForm" property="readOnlyFields" />
 	<html-el:hidden name="KualiForm" property="referencesToRefresh" />
-	<html-el:hidden name="KualiForm" property="universityFiscalYear" />
 	<html-el:hidden name="KualiForm" property="reportMode" />
 	<html-el:hidden name="KualiForm" property="currentPointOfViewKeyCode" />
 	<html-el:hidden name="KualiForm" property="buildControlList" />
@@ -61,6 +60,11 @@
 	<html-el:hidden name="KualiForm" property="showSalaryByIncumbentAction" />
 	<html-el:hidden name="KualiForm" property="budgetByAccountMode" />
 	<html-el:hidden name="KualiForm" property="mainWindow" />
+
+    <%-- only need hidden fiscal year when used inside BC --%>
+    <c:if test="${KualiForm.tempListLookupMode != BCConstants.TempListLookupMode.DEFAULT_LOOKUP_MODE}">
+      <html-el:hidden name="KualiForm" property="universityFiscalYear" />
+    </c:if>
 
 	<c:forEach items="${KualiForm.extraButtons}" varStatus="status">
 		<html-el:hidden name="KualiForm" property="extraButtons[${status.index}].extraButtonSource" />

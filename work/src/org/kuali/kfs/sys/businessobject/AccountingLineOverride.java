@@ -298,14 +298,14 @@ public class AccountingLineOverride {
      * @return what overrides the given line needs.
      */
     public static AccountingLineOverride determineNeededOverrides(AccountingDocument document ,AccountingLine line) {
-       Date date = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
+        boolean isDocumentFinalOrProcessed = false;
        if(ObjectUtils.isNotNull(document)) {
            AccountingDocument accountingDocument = (AccountingDocument) document;
-          date = accountingDocument.getAccountExpirationDocumentDate();
+           isDocumentFinalOrProcessed = accountingDocument.isDocumentFinalOrProcessed();
        }
 
         Set neededOverrideComponents = new HashSet();
-        if (needsExpiredAccountOverride(line.getAccount(), date)) {
+        if (needsExpiredAccountOverride(line, isDocumentFinalOrProcessed)) {
             neededOverrideComponents.add(COMPONENT.EXPIRED_ACCOUNT);
         }
         if (needsObjectBudgetOverride(line.getAccount(), line.getObjectCode())) {
@@ -324,14 +324,8 @@ public class AccountingLineOverride {
      * @param account
      * @return whether the given account needs an expired account override.
      */
-    public static boolean needsExpiredAccountOverride(Account account, Date date) {
-
-        if(ObjectUtils.isNotNull(account) && account.isActive()) {
-            if(account.getAccountExpirationDate() != null ) {
-                return  account.isExpired(date);
-            }
-        }
-        return false;
+    public static boolean needsExpiredAccountOverride(Account account) {
+        return !ObjectUtils.isNull(account) && account.isActive() && account.isExpired();
     }
 
     /**
@@ -340,8 +334,13 @@ public class AccountingLineOverride {
      * @param account
      * @return whether the given account needs an expired account override.
      */
-    public static boolean needsExpiredAccountOverride(Account account) {
-        return !ObjectUtils.isNull(account) && account.isActive() && account.isExpired();
+    public static boolean needsExpiredAccountOverride(AccountingLine line, boolean isDocumentFinalOrProcessed ) {
+        if(isDocumentFinalOrProcessed && CODE.EXPIRED_ACCOUNT.equals(line.getOverrideCode()) ) {
+            return true;
+        }
+        else {
+            return !ObjectUtils.isNull(line.getAccount()) && line.getAccount().isActive() && line.getAccount().isExpired();
+        }
     }
 
     /**

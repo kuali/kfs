@@ -486,6 +486,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         this.setBillingPostalCode(requisitionDocument.getBillingPostalCode());
         this.setBillingCountryCode(requisitionDocument.getBillingCountryCode());
         this.setBillingPhoneNumber(requisitionDocument.getBillingPhoneNumber());
+        this.setBillingEmailAddress(requisitionDocument.getBillingEmailAddress());
 
         this.setReceivingName(requisitionDocument.getReceivingName());
         this.setReceivingCityName(requisitionDocument.getReceivingCityName());

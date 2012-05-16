@@ -35,4 +35,12 @@ public interface PriorYearAccountService {
      * This method populates the prior year account table in the database with all the values from the current year account table.
      */
     public void populatePriorYearAccountsFromCurrent();
+    
+    /**
+     * This method adds to the prior year account table the list of accounts defined in a parameter with all newly created accounts to be used for prior year,
+     * and creates a report on the accounts that are added successfully, as well as those failed to be added.
+     */
+    public void addPriorYearAccountsFromParameter();
+    
 }
+

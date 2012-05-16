@@ -27,7 +27,6 @@
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.purap.document.authorization.LineItemReceivingDocumentPresentationController"/>
     <property name="sessionDocument" value="true"/>
     <property name="potentiallySensitive" value="true"/>
-    <property name="allowsNoteFYI" value="true"/>
     <property name="workflowAttributes">
     	<ref bean="ReceivingDocumentForSearching-workflowAttributes"/>
     </property>
@@ -122,6 +121,7 @@
     <property name="label" value="Line Item Receiving Doc Status" />
     <property name="shortLabel" value="Line Item Receiving Doc Status"/>
   </bean>
+  
   <bean id="LineItemReceivingDocument-purchaseOrderIdentifier" parent="LineItemReceivingDocument-purchaseOrderIdentifier-parentBean"/>
 
   <bean id="LineItemReceivingDocument-purchaseOrderIdentifier-parentBean" abstract="true" parent="AttributeDefinition">

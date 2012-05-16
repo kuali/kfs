@@ -77,3 +77,4 @@ KFSSYS1,KFSSYS7145,1,YearEnd,KR-WKFLW,,1,Y
 KFSMI4553-2,KFSMI4553-2,1,Exclude Single Actor Reviewer,KFS-VND,,KFSMI4553-1,Y
 KFSAR5340R,KFSAR5340R,1,Multi Organization Invoicer,KFS-AR,,1,Y
 KFSMI6886-ROLE,KFSMI6886-ROLE,1,Payee ACH Accounts Administrator,KFS-PDP,Administration staff who can view and update Payee ACH Account records and the legacy history of a certain ACH Transaction Type.,KFSMI6886-TYP,Y
+KFSCNTRB789-ROLE1,KFSCNTRB789-ROLE1,1,Workstudy Reviewer,KFS-SYS,Workstudy Reviewer Role,1,Y

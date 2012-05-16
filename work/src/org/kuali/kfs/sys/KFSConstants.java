@@ -688,6 +688,9 @@ public class KFSConstants {
 
         public static final String ACCOUNT_FUND_GROUP_DENOTES_CG = "FUND_GROUP_DENOTES_CG_IND";
         public static final String ACCOUNT_CG_DENOTING_VALUE = "CG_DENOTING_VALUE";
+        
+        // newly created prior year accounts to be added
+        public static final String PRIOR_YEAR_ACCOUNTS_TO_BE_ADDED = "PRIOR_YEAR_ACCOUNTS_TO_BE_ADDED";
     }
 
     public static class FinancialApcParms {

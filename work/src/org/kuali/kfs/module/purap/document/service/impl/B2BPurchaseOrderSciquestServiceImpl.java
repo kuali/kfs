@@ -210,7 +210,14 @@ public class B2BPurchaseOrderSciquestServiceImpl implements B2BPurchaseOrderServ
         cxml.append("          <Contact label=\"FirstName\" linenumber=\"1\"><![CDATA[Accounts]]></Contact>\n");
         cxml.append("          <Contact label=\"LastName\" linenumber=\"2\"><![CDATA[Payable]]></Contact>\n");
         cxml.append("          <Contact label=\"Company\" linenumber=\"3\"><![CDATA[").append(purchaseOrder.getBillingName().trim()).append("]]></Contact>\n");
-        cxml.append("          <Contact label=\"Phone\" linenumber=\"4\"><![CDATA[").append(purchaseOrder.getBillingPhoneNumber().trim()).append("]]></Contact>\n");
+        // since email address is not required, we need to check whether its empty; if yes, don't add it
+        if (!StringUtils.isEmpty(purchaseOrder.getBillingEmailAddress())) {
+            cxml.append("          <Contact label=\"Email\" linenumber=\"4\"><![CDATA[").append(purchaseOrder.getBillingEmailAddress().trim()).append("]]></Contact>\n");
+        }
+        // since phone number is not required, we need to check whether its empty; if yes, don't add it
+        if (!StringUtils.isEmpty(purchaseOrder.getBillingPhoneNumber())) {
+            cxml.append("          <Contact label=\"Phone\" linenumber=\"5\"><![CDATA[").append(purchaseOrder.getBillingPhoneNumber().trim()).append("]]></Contact>\n");
+        }
         // There must be 1-5 AddressLine elements. The label attribute is optional.
         cxml.append("          <AddressLine label=\"Street1\" linenumber=\"1\"><![CDATA[").append(purchaseOrder.getBillingLine1Address()).append("]]></AddressLine>\n");
         cxml.append("          <AddressLine label=\"Street2\" linenumber=\"2\"><![CDATA[").append(purchaseOrder.getBillingLine2Address()).append("]]></AddressLine>\n");

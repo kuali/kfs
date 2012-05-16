@@ -155,7 +155,7 @@ public class Job implements StatefulJob, InterruptableJob {
         if (!skipStep(parameterService, step, jobRunDate)) {
 
             Step unProxiedStep = (Step) ProxyUtils.getTargetIfProxied(step);
-            Class stepClass = unProxiedStep.getClass();
+            Class<?> stepClass = unProxiedStep.getClass();
             GlobalVariables.clear();
 
             String stepUserName = KFSConstants.SYSTEM_USER;
@@ -200,48 +200,112 @@ public class Job implements StatefulJob, InterruptableJob {
      */
     protected static boolean skipStep(ParameterService parameterService, Step step, Date jobRunDate) {
         Step unProxiedStep = (Step) ProxyUtils.getTargetIfProxied(step);
-        Class stepClass = unProxiedStep.getClass();
-
-        DateTimeService dTService = SpringContext.getBean(DateTimeService.class);
-        String dateFormat = parameterService.getParameterValueAsString(KRADConstants.KNS_NAMESPACE, KRADConstants.DetailTypes.ALL_DETAIL_TYPE, CoreConstants.DATE_TO_STRING_FORMAT_FOR_USER_INTERFACE);
+        Class<?> stepClass = unProxiedStep.getClass();
 
         //RUN_IND takes priority: when RUN_IND exists and RUN_IND=Y always run the Step
         //RUN_DATE: when RUN_DATE exists, but the value is empty run the Step
 
-        boolean runIndExists = parameterService.parameterExists(stepClass, STEP_RUN_PARM_NM);
-        boolean runInd = (runIndExists ? parameterService.getParameterValueAsBoolean(stepClass, STEP_RUN_PARM_NM) : true);
+        final boolean runIndExists = parameterService.parameterExists(stepClass, STEP_RUN_PARM_NM);
+        if (runIndExists) {
+            final boolean runInd = parameterService.getParameterValueAsBoolean(stepClass, STEP_RUN_PARM_NM);
+            if (!runInd) {
+                if (LOG.isInfoEnabled()) {
+                    LOG.info("Skipping step due to system parameter: " + STEP_RUN_PARM_NM +" for "+ stepClass.getName());
+                }
+                return true; // RUN_IND is false - let's skip
+            }
+        }
 
-        boolean runDateExists = parameterService.parameterExists(stepClass, STEP_RUN_ON_DATE_PARM_NM);
-        boolean runDateIsEmpty = (runDateExists ? StringUtils.isEmpty(parameterService.getParameterValueAsString(stepClass, STEP_RUN_ON_DATE_PARM_NM)) : true);
-        Collection<String> runDates = null;
+        final boolean runDateExists = parameterService.parameterExists(stepClass, STEP_RUN_ON_DATE_PARM_NM);
         if (runDateExists) {
-            runDates = parameterService.getParameterValuesAsString(stepClass, STEP_RUN_ON_DATE_PARM_NM);
+            final boolean runDateIsEmpty = StringUtils.isEmpty(parameterService.getParameterValueAsString(stepClass, STEP_RUN_ON_DATE_PARM_NM));
+            if (runDateIsEmpty) {
+                return false; // run date param is empty, so run the step
+            }
+        
+            final DateTimeService dTService = SpringContext.getBean(DateTimeService.class);
+    
+            final Collection<String> runDates = parameterService.getParameterValuesAsString(stepClass, STEP_RUN_ON_DATE_PARM_NM);
+            boolean matchedRunDate = false;
+            final String[] cutOffTime = parameterService.parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_BATCH.class, RUN_DATE_CUTOFF_PARM_NM) ?
+                    StringUtils.split(parameterService.getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_BATCH.class, RUN_DATE_CUTOFF_PARM_NM), ':') :
+                    new String[] { "00", "00", "00"}; // no cutoff time param?  Then default to midnight of tomorrow
+            for (String runDate: runDates) {
+                try {
+                    if (withinCutoffWindowForDate(jobRunDate, dTService.convertToDate(runDate), dTService, cutOffTime)) {
+                        matchedRunDate = true;
+                    }
+                }
+                catch (ParseException pe) {
+                    LOG.error("ParseException occured parsing " + runDate, pe);
+                }
+            }
+            // did we fail to match a run date?  then skip this step
+            if (!matchedRunDate) {
+                if (LOG.isInfoEnabled()) {
+                    LOG.info("Skipping step due to system parameters: " + STEP_RUN_PARM_NM + ", " + STEP_RUN_ON_DATE_PARM_NM + " and " + RUN_DATE_CUTOFF_PARM_NM + " for "+ stepClass.getName());
+                }
+                return true;
+            }
         }
-        boolean runDateContainsTodaysDate = (runDateExists ? runDates.contains(dTService.toString(jobRunDate, dateFormat)) : true);
 
-        if (!runInd && !runDateExists) {
-            if (LOG.isInfoEnabled()) {
-                LOG.info("Skipping step due to system parameter: " + STEP_RUN_PARM_NM +" for "+ stepClass.getName());
-            }
-            return true;
-        }
-        else if (!runInd && !runDateIsEmpty && !runDateContainsTodaysDate && isPastCutoffWindow(jobRunDate, runDates)) {
-            if (LOG.isInfoEnabled()) {
-                LOG.info("Skipping step due to system parameters: " + STEP_RUN_PARM_NM + ", " + STEP_RUN_ON_DATE_PARM_NM + " and " + RUN_DATE_CUTOFF_PARM_NM + " for "+ stepClass.getName());
-            }
-            return true;
-        }
-        else if (!runIndExists && !runDateIsEmpty && !runDateContainsTodaysDate && isPastCutoffWindow(jobRunDate, runDates)) {
-            if (LOG.isInfoEnabled()) {
-                LOG.info("Skipping step due to system parameters: " + STEP_RUN_PARM_NM + ", " + STEP_RUN_ON_DATE_PARM_NM + " and " + RUN_DATE_CUTOFF_PARM_NM + " for "+ stepClass.getName());
-            }
-            return true;
-        }
-        else { //run step
-            return false;
-        }
+        //run step
+        return false;
+    }
+    
+    /**
+     * Checks if the current jobRunDate is within the cutoff window for the given run date from the RUN_DATE parameter.
+     * The window is defined as midnight of the date specified in the parameter to the RUN_DATE_CUTOFF_TIME of the next day.
+     * 
+     * @param jobRunDate the time the job is attempting to start
+     * @param runDateToCheck the current member of the appropriate RUN_DATE to check
+     * @param dateTimeService an instance of the DateTimeService
+     * @return true if jobRunDate is within the current runDateToCheck window, false otherwise
+     */
+    protected static boolean withinCutoffWindowForDate(Date jobRunDate, Date runDateToCheck, DateTimeService dateTimeService, String[] cutOffWindow) {
+        final Calendar jobRunCalendar = dateTimeService.getCalendar(jobRunDate);
+        final Calendar beginWindow = getCutoffWindowBeginning(runDateToCheck, dateTimeService);
+        final Calendar endWindow = getCutoffWindowEnding(runDateToCheck, dateTimeService, cutOffWindow);
+        return jobRunCalendar.after(beginWindow) && jobRunCalendar.before(endWindow);
+    }
+    
+    /**
+     * Defines the beginning of the cut off window
+     * 
+     * @param runDateToCheck the run date which defines the cut off window
+     * @param dateTimeService an implementation of the DateTimeService
+     * @return the begin date Calendar of the cutoff window
+     */
+    protected static Calendar getCutoffWindowBeginning(Date runDateToCheck, DateTimeService dateTimeService) {
+        Calendar beginWindow = dateTimeService.getCalendar(runDateToCheck);
+        beginWindow.set(Calendar.HOUR_OF_DAY, 0);
+        beginWindow.set(Calendar.MINUTE, 0);
+        beginWindow.set(Calendar.SECOND, 0);
+        beginWindow.set(Calendar.MILLISECOND, 0);
+        return beginWindow;
+    }
+    
+    /**
+     * Defines the end of the cut off window
+     * 
+     * @param runDateToCheck the run date which defines the cut off window
+     * @param dateTimeService an implementation of the DateTimeService
+     * @param cutOffTime an Array in the form of [hour, minute, second] when the cutoff window ends
+     * @return the end date Calendar of the cutoff window
+     */
+    protected static Calendar getCutoffWindowEnding(Date runDateToCheck, DateTimeService dateTimeService, String[] cutOffTime) {
+        Calendar endWindow = dateTimeService.getCalendar(runDateToCheck);
+        endWindow.add(Calendar.DAY_OF_YEAR, 1);
+        endWindow.set(Calendar.HOUR_OF_DAY, Integer.parseInt(cutOffTime[0]));
+        endWindow.set(Calendar.MINUTE, Integer.parseInt(cutOffTime[1]));
+        endWindow.set(Calendar.SECOND, Integer.parseInt(cutOffTime[2]));
+        return endWindow;
     }
 
+    /* This code is likely no longer reference, but was not removed, due to the fact that institutions may be calling */
+    /**
+     * @deprecated "Implementing institutions likely want to call Job#withinCutoffWindowForDate"
+     */
     public static boolean isPastCutoffWindow(Date date, Collection<String> runDates) {
         DateTimeService dTService = SpringContext.getBean(DateTimeService.class);
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);

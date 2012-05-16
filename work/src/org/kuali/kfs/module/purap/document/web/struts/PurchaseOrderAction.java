@@ -1727,6 +1727,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 cancelNote.setAuthorUniversalIdentifier(GlobalVariables.getUserSession().getPerson().getPrincipalId());
                 String reasonPrefix = SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PurapKeyConstants.PURCHASE_ORDER_CANCEL_QUOTE_NOTE_TEXT);
                 cancelNote.setNoteText(reasonPrefix + reason);
+                cancelNote.setNotePostedTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
                 document.addNote(cancelNote);
                 
                 document.updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS);

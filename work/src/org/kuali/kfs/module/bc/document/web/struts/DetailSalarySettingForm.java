@@ -45,6 +45,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.MessageMap;
 
@@ -456,7 +457,7 @@ public abstract class DetailSalarySettingForm extends SalarySettingBaseForm {
             account.setChartOfAccountsCode(this.getChartOfAccountsCode());
             account = (Account) businessObjectService.retrieve(account);
 
-            RoleService roleService = SpringContext.getBean(RoleService.class);
+            RoleService roleService = KimApiServiceLocator.getRoleService();
             Map<String,String> qualification = new HashMap<String,String>();
             qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, getChartOfAccountsCode());
             qualification.put(KfsKimAttributes.ACCOUNT_NUMBER, getAccountNumber());

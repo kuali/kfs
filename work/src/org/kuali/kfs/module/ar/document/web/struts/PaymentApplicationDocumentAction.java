@@ -527,7 +527,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         KualiDecimal amount = payAppForm.getNonAppliedHoldingAmount();
 
         // validate the customer number in the unapplied
-        if (StringUtils.isNotBlank(payAppForm.getNonAppliedHoldingCustomerNumber().toUpperCase())) {
+        if (StringUtils.isNotBlank(payAppForm.getNonAppliedHoldingCustomerNumber())) {
 
             Map<String, String> pkMap = new HashMap<String, String>();
             pkMap.put(ArPropertyConstants.CustomerFields.CUSTOMER_NUMBER, payAppForm.getNonAppliedHoldingCustomerNumber().toUpperCase());
@@ -549,7 +549,7 @@ public class PaymentApplicationDocumentAction extends FinancialSystemTransaction
         }
 
         // if we dont have enough information to make an UnApplied, then do nothing
-        if (StringUtils.isBlank(payAppForm.getNonAppliedHoldingCustomerNumber().toUpperCase()) || amount == null || amount.isZero()) {
+        if (StringUtils.isBlank(payAppForm.getNonAppliedHoldingCustomerNumber()) || amount == null || amount.isZero()) {
             payAppDoc.setNonAppliedHolding(null);
             return null;
         }

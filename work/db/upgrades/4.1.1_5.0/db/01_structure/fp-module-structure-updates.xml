@@ -420,9 +420,6 @@
       <column name='FIN_SUB_OBJ_CD' type='VARCHAR2(3)'>
         <constraints primaryKey='true' />
       </column>
-      <column name='VER_NBR' type='NUMBER(8,0)'>
-      	<constraints nullable="false" />
-      </column>
       <column name='CURR_BDLN_BAL_AMT' type='NUMBER(19,2)'/>
       <column name='ACLN_ACTLS_BAL_AMT' type='NUMBER(19,2)'/>
       <column name='ACLN_ENCUM_BAL_AMT' type='NUMBER(19,2)'/>
@@ -453,9 +450,6 @@
       </column>
       <column name='FIN_SUB_OBJ_CD' type='VARCHAR2(3)'>
         <constraints primaryKey='true' />
-      </column>
-      <column name='VER_NBR' type='NUMBER(8,0)'>
-      	<constraints nullable="false" />
       </column>
       <column name='CURR_BDLN_BAL_AMT' type='NUMBER(19,2)' />
       <column name='ACLN_ACTLS_BAL_AMT' type='NUMBER(19,2)' />

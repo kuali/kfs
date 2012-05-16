@@ -1,4 +1,0 @@
-<Record name="trav_doc_2_accounts" type="delimited">
-  <Field name="fdoc_nbr"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="acct_num"                        type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
-</Record>

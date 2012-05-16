@@ -1,8 +1,0 @@
-acct_num|acct_type|obj_id|ver_nbr|
-a1|IAT||0.0|
-a14|CAT||0.0|
-a2|EAT||0.0|
-a3|IAT||0.0|
-a6|CAT||0.0|
-a8|EAT||0.0|
-a9|CAT||0.0|

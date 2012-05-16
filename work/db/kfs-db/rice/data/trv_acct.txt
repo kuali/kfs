@@ -1,8 +1,0 @@
-acct_num|acct_name|acct_type|acct_fo_id|obj_id|ver_nbr|sub_acct|sub_acct_name|create_dt|subsidized_pct|
-a1|a1||1.0||0.0|a1-sub|Sub Account for a1|20110502221418|53.96580957500958|
-a14|a14||2.0||0.0|a14-sub|Sub Account for a14|20110502221418|94.93448660765965|
-a2|a2||2.0||0.0|a2-sub|Sub Account for a2|20110502221418|41.732301369134504|
-a3|a3||3.0||0.0|a3-sub|Sub Account for a3|20110502221418|78.62494445102016|
-a6|a6||2.0||0.0|a6-sub|Sub Account for a6|20110502221418|96.00766765172688|
-a8|a8||2.0||0.0|a8-sub|Sub Account for a8|20110502221418|75.60531576593304|
-a9|a9||2.0||0.0|a9-sub|Sub Account for a9|20110502221418|88.82993113461632|

@@ -1,4 +1,0 @@
-acct_type|acct_type_name|obj_id|ver_nbr|
-CAT|Clearing Account Type||0.0|
-EAT|Expense Account Type||0.0|
-IAT| Income Account Type||0.0|

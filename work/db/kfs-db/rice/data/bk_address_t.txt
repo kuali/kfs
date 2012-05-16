@@ -1,3 +1,0 @@
-address_id|author_id|addr_typ|street1|street2|city|provience|country|actv_ind|obj_id|ver_nbr|
-1.0|1.0|Residence|Strt1R|Strt2R|CityR|ProvinceR|CountryR|Y|b8190679-7cfe-49c9-bd99-6b264f700f0d|1.0|
-2.0|1.0|Office|Strt1O|Strt2O|CityO|ProvinceO|CountryO|Y|b8190679-7cfe-49c9-bd99-6b264f700f03|1.0|

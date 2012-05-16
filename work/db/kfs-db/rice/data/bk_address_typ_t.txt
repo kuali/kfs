@@ -1,3 +1,0 @@
-addr_typ|desc_txt|actv_ind|obj_id|ver_nbr|
-Office|Official Address|Y|a03ad608-84fa-4c89-8410-0a91ed56cb66|1.0|
-Residence|Residential Address|Y|b8190679-7cfe-49c9-bd99-6b264f700f0d|1.0|

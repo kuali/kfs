@@ -1,6 +1,0 @@
-<Record name="trv_acct_type" type="delimited">
-  <Field name="acct_type"                       type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="acct_type_name"                  type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|\r\n" />
-</Record>

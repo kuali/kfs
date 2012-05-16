@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,15 +15,15 @@
  */
 package org.kuali.kfs.coa.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.OrganizationReversion;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionCategory;
-import org.kuali.kfs.coa.dataaccess.OrganizationReversionDao;
 import org.kuali.kfs.coa.service.OrganizationReversionService;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.gl.batch.service.OrganizationReversionCategoryLogic;
@@ -35,130 +35,113 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
- * 
+ *
  * This service implementation is the default implementation of the OrganizationReversion service that is delivered with Kuali.
  */
 
 @NonTransactional
 public class OrganizationReversionServiceImpl implements OrganizationReversionService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionServiceImpl.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionServiceImpl.class);
 
-    private OrganizationReversionDao organizationReversionDao;
-    private BusinessObjectService businessObjectService;
-    private ParameterService parameterService;
+    protected BusinessObjectService businessObjectService;
+    protected ParameterService parameterService;
+
     /**
      * @see org.kuali.kfs.coa.service.OrganizationReversionService#getByPrimaryId(java.lang.Integer, java.lang.String,
      *      java.lang.String)
      */
+    @Override
     public OrganizationReversion getByPrimaryId(Integer fiscalYear, String chartCode, String orgCode) {
-        LOG.debug("getByPrimaryId() started");
-        Map<String, Object> keys = new HashMap<String, Object>();
+        Map<String, Object> keys = new HashMap<String, Object>(3);
         keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
         keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartCode);
         keys.put(KFSPropertyConstants.ORGANIZATION_CODE, orgCode);
-        return (OrganizationReversion)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationReversion.class, keys);
+        return SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationReversion.class, keys);
     }
 
     /**
      * @see org.kuali.kfs.coa.service.OrganizationReversionService#getCategories()
      */
+    @Override
     public Map<String, OrganizationReversionCategoryLogic> getCategories() {
-        LOG.debug("getCategories() started");
+        List<OrganizationReversionCategory> cats = getCategoryList();
+        Map<String, OrganizationReversionCategoryLogic> orgReversionCategoryLogicMap = SpringContext.getBeansOfType(OrganizationReversionCategoryLogic.class);
+        Map<String, OrganizationReversionCategoryLogic> categories = new HashMap<String, OrganizationReversionCategoryLogic>(cats.size());
 
-        Map<String, OrganizationReversionCategoryLogic> categories = new HashMap<String, OrganizationReversionCategoryLogic>();
-
-        Collection cats = organizationReversionDao.getCategories();
-
-        for (Iterator iter = cats.iterator(); iter.hasNext();) {
-            OrganizationReversionCategory orc = (OrganizationReversionCategory) iter.next();
-
+        for ( OrganizationReversionCategory orc : cats ) {
             String categoryCode = orc.getOrganizationReversionCategoryCode();
-
-            Map<String, OrganizationReversionCategoryLogic> beanMap = SpringContext.getBeansOfType(OrganizationReversionCategoryLogic.class);
-            if (beanMap.containsKey("gl" + categoryCode + "OrganizationReversionCategory")) {
-                LOG.info("Found Organization Reversion Category Logic for gl" + categoryCode + "OrganizationReversionCategory");
-                categories.put(categoryCode, beanMap.get("gl" + categoryCode + "OrganizationReversionCategory"));
+            OrganizationReversionCategoryLogic cat = null;
+            String key = "gl" + categoryCode + "OrganizationReversionCategory";
+            if (orgReversionCategoryLogicMap.containsKey(key)) {
+                if ( LOG.isDebugEnabled() ) {
+                    LOG.debug("Found Organization Reversion Category Logic for " + key);
+                }
+                cat = orgReversionCategoryLogicMap.get(key);
+            } else {
+                if ( LOG.isInfoEnabled() ) {
+                    LOG.info("No Organization Reversion Category Logic for " + key + "; using generic");
+                }
+                // This is a prototype bean - a new instance is pulled every time this is called
+                cat = SpringContext.getBean(GenericOrganizationReversionCategory.class);
+                ((GenericOrganizationReversionCategory) cat).setCategoryCode(categoryCode);
+                ((GenericOrganizationReversionCategory) cat).setCategoryName(orc.getOrganizationReversionCategoryName());
             }
-            else {
-                LOG.info("No Organization Reversion Category Logic for gl" + categoryCode + "OrganizationReversionCategory; using generic");
-                GenericOrganizationReversionCategory cat = SpringContext.getBean(GenericOrganizationReversionCategory.class);
-                cat.setCategoryCode(categoryCode);
-                cat.setCategoryName(orc.getOrganizationReversionCategoryName());
-                categories.put(categoryCode, (OrganizationReversionCategoryLogic) cat);
-            }
+            categories.put(categoryCode, cat);
         }
         return categories;
     }
 
     /**
-     * 
+     *
      * @see org.kuali.kfs.coa.service.OrganizationReversionService#getCategoryList()
      */
+    @Override
     public List<OrganizationReversionCategory> getCategoryList() {
-        LOG.debug("getCategoryList() started");
-
-        return organizationReversionDao.getCategories();
+        return new ArrayList<OrganizationReversionCategory>(
+                businessObjectService.findMatchingOrderBy(OrganizationReversionCategory.class, Collections.singletonMap(KFSPropertyConstants.ACTIVE, true), "organizationReversionSortCode", true)
+                );
     }
 
-    
+
     /**
      * @see org.kuali.kfs.coa.service.OrganizationReversionService#getOrganizationReversionDetaiFromSystemParameters()
      */
-    public String  getOrganizationReversionDetaiFromSystemParameters() {
+    @Override
+    public String getOrganizationReversionDetaiFromSystemParameters() {
         return parameterService.getParameterValueAsString(OrganizationReversion.class, GeneralLedgerConstants.OrganizationReversionProcess.UNALLOC_OBJECT_CODE_PARM);
     }
-    
+
 
     /**
      * @see org.kuali.kfs.coa.service.OrganizationReversionService#isCategoryActive(java.lang.String)
      */
+    @Override
     public boolean isCategoryActive(String categoryCode) {
-        Map<String, Object> pkMap = new HashMap<String, Object>();
-        pkMap.put("organizationReversionCategoryCode", categoryCode);
-        final OrganizationReversionCategory category = (OrganizationReversionCategory)businessObjectService.findByPrimaryKey(OrganizationReversionCategory.class, pkMap);
-        if (category == null) return false;
+        OrganizationReversionCategory category = businessObjectService.findBySinglePrimaryKey(OrganizationReversionCategory.class, categoryCode);
+        if (category == null) {
+            return false;
+        }
         return category.isActive();
     }
 
     /**
      * @see org.kuali.kfs.coa.service.OrganizationReversionService#isCategoryActiveByName(java.lang.String)
      */
+    @Override
     public boolean isCategoryActiveByName(String categoryName) {
-        Map<String, Object> fieldMap = new HashMap<String, Object>();
-        fieldMap.put("organizationReversionCategoryName", categoryName);
-        final Collection categories = businessObjectService.findMatching(OrganizationReversionCategory.class, fieldMap);
-        final Iterator categoriesIterator = categories.iterator();
-        OrganizationReversionCategory category = null;
-        while (categoriesIterator.hasNext()) {
-            category = (OrganizationReversionCategory)categoriesIterator.next();
+        Collection<OrganizationReversionCategory> categories = businessObjectService.findMatching(OrganizationReversionCategory.class, Collections.singletonMap("organizationReversionCategoryName", categoryName));
+        for ( OrganizationReversionCategory category : categories ) {
+            if ( category.isActive() ) {
+                return true;
+            }
         }
-        if (category == null) return false;
-        return category.isActive();
+        return false;
     }
 
-    /**
-     * 
-     * This method injects the ParameterService
-     * @param parameterService
-     */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
 
- 
-    /**
-     * 
-     * This method injects the OrganizationReversionDao
-     * @param orgDao
-     */
-    public void setOrganizationReversionDao(OrganizationReversionDao orgDao) {
-        organizationReversionDao = orgDao;
-    }
-    
-    /**
-     * Sets an implementation of the business object service
-     * @param boService the implementation of the BusinessObjectService to set
-     */
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.businessObjectService = boService;
     }

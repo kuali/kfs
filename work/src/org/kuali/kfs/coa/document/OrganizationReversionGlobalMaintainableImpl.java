@@ -49,7 +49,9 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * processGlobalsAfterRetrieve - provides special handling for the details (which aren't a true collection)
  */
 public class OrganizationReversionGlobalMaintainableImpl extends FinancialSystemGlobalMaintainable {
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionGlobalMaintainableImpl.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionGlobalMaintainableImpl.class);
+
+    private static transient OrganizationReversionService organizationReversionService;
 
     /**
      * This class is an inner class for comparing two {@link OrganizationReversionCategory}s
@@ -82,18 +84,18 @@ public class OrganizationReversionGlobalMaintainableImpl extends FinancialSystem
                 MaintenanceLock maintenanceLock = new MaintenanceLock();
                 maintenanceLock.setDocumentNumber(globalOrgRev.getDocumentNumber());
 
-                StringBuffer lockRep = new StringBuffer();
+                StringBuilder lockRep = new StringBuilder();
                 lockRep.append(OrganizationReversion.class.getName());
                 lockRep.append(KFSConstants.Maintenance.AFTER_CLASS_DELIM);
-                lockRep.append("chartOfAccountsCode");
+                lockRep.append(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
                 lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
                 lockRep.append(orgRevOrg.getChartOfAccountsCode());
                 lockRep.append(KFSConstants.Maintenance.AFTER_VALUE_DELIM);
-                lockRep.append("universityFiscalYear");
+                lockRep.append(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
                 lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
                 lockRep.append(globalOrgRev.getUniversityFiscalYear().toString());
                 lockRep.append(KFSConstants.Maintenance.AFTER_VALUE_DELIM);
-                lockRep.append("organizationCode");
+                lockRep.append(KFSPropertyConstants.ORGANIZATION_CODE);
                 lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
                 lockRep.append(orgRevOrg.getOrganizationCode());
                 lockRep.append(KFSConstants.Maintenance.AFTER_VALUE_DELIM);
@@ -113,10 +115,9 @@ public class OrganizationReversionGlobalMaintainableImpl extends FinancialSystem
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#setBusinessObject(org.kuali.rice.krad.bo.PersistableBusinessObject)
      */
     @Override
-    public void setBusinessObject(PersistableBusinessObject businessObject) {
-        super.setBusinessObject(businessObject);
-        OrganizationReversionService organizationReversionService = SpringContext.getBean(OrganizationReversionService.class);
-        OrganizationReversionGlobal globalOrgRev = (OrganizationReversionGlobal) businessObject;
+    public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
+        super.processAfterNew(document, requestParameters);
+        OrganizationReversionGlobal globalOrgRev = (OrganizationReversionGlobal) getBusinessObject();
         List<OrganizationReversionGlobalDetail> details = globalOrgRev.getOrganizationReversionGlobalDetails();
         if (LOG.isDebugEnabled()) {
             LOG.debug("Details size before adding categories = " + details.size());
@@ -129,7 +130,7 @@ public class OrganizationReversionGlobalMaintainableImpl extends FinancialSystem
 
         if (details.size() == 0) {
 
-            Collection<OrganizationReversionCategory> categories = organizationReversionService.getCategoryList();
+            Collection<OrganizationReversionCategory> categories = getOrganizationReversionService().getCategoryList();
             for (OrganizationReversionCategory category : categories) {
                 if (category.isActive()) {
                     OrganizationReversionGlobalDetail detail = new OrganizationReversionGlobalDetail();
@@ -144,7 +145,6 @@ public class OrganizationReversionGlobalMaintainableImpl extends FinancialSystem
             }
             Collections.sort(details, new CategoryComparator());
         }
-        super.setBusinessObject(businessObject);
     }
 
     /**
@@ -221,5 +221,12 @@ public class OrganizationReversionGlobalMaintainableImpl extends FinancialSystem
     @Override
     public Class<? extends PersistableBusinessObject> getPrimaryEditedBusinessObjectClass() {
         return OrganizationReversion.class;
+    }
+
+    protected OrganizationReversionService getOrganizationReversionService() {
+        if ( organizationReversionService == null ) {
+            organizationReversionService = SpringContext.getBean(OrganizationReversionService.class);
+        }
+        return organizationReversionService;
     }
 }

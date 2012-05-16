@@ -231,12 +231,8 @@
 	</bean>
 
 	<bean id="organizationReversionService" parent="organizationReversionService-parentBean"/>
-	<bean id="organizationReversionService-parentBean"
-		class="org.kuali.kfs.coa.service.impl.OrganizationReversionServiceImpl" abstract="true">
+	<bean id="organizationReversionService-parentBean" class="org.kuali.kfs.coa.service.impl.OrganizationReversionServiceImpl" abstract="true">
 		<property name="parameterService" ref="parameterService" />
-		<property name="organizationReversionDao">
-			<ref bean="organizationReversionDao" />
-		</property>
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 
@@ -251,9 +247,6 @@
 
 	<bean id="objectCodeDao" parent="platformAwareDao"
 		class="org.kuali.kfs.coa.dataaccess.impl.ObjectCodeDaoOjb" />
-
-	<bean id="organizationReversionDao" parent="platformAwareDao"
-		class="org.kuali.kfs.coa.dataaccess.impl.OrganizationReversionDaoOjb" />
 
 	<bean id="balanceTypeDao" parent="platformAwareDao"
 		class="org.kuali.kfs.coa.dataaccess.impl.BalanceTypeDaoOjb" />

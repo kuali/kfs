@@ -553,11 +553,7 @@
 
 	<bean id="glCashOrganizationReversionCategoryLogic" class="org.kuali.kfs.gl.batch.service.impl.CashOrganizationReversionCategoryLogic" />
 	
-	<bean id="genericOrganizationReversionCategory" class="org.kuali.kfs.gl.batch.service.impl.GenericOrganizationReversionCategory" scope="prototype"> 
-    	<property name="parameterService"> 
-        	<ref bean="parameterService" /> 
-		</property> 
-	</bean>
+	<bean id="genericOrganizationReversionCategory" class="org.kuali.kfs.gl.batch.service.impl.GenericOrganizationReversionCategory" scope="prototype" /> 
 
 	<bean id="glYearEndService" parent="glYearEndService-parentBean"/>
 	<bean id="glYearEndService-parentBean" abstract="true"  class="org.kuali.kfs.gl.batch.service.impl.YearEndServiceImpl">

@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.OrganizationReversion;
 import org.kuali.kfs.coa.businessobject.OrganizationReversionCategory;
@@ -33,7 +34,6 @@ import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -44,13 +44,15 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * accidentally
  */
 public class OrganizationReversionMaintainableImpl extends FinancialSystemMaintainable {
-    private transient OrganizationReversionService organizationReversionService;
+    private static transient OrganizationReversionService organizationReversionService;
+    private static transient OrganizationReversionDetailTrickleDownInactivationService trickleDownInactivationService;
 
     /**
      * This comparator is used internally for sorting the list of categories
      */
-    private class categoryComparator implements Comparator<OrganizationReversionDetail> {
+    protected static class CategoryComparator implements Comparator<OrganizationReversionDetail> {
 
+        @Override
         public int compare(OrganizationReversionDetail detail0, OrganizationReversionDetail detail1) {
 
             OrganizationReversionCategory category0 = detail0.getOrganizationReversionCategory();
@@ -64,15 +66,11 @@ public class OrganizationReversionMaintainableImpl extends FinancialSystemMainta
 
     }
 
-    /**
-     * pre-populate the static list of details with each category
-     * 
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#setBusinessObject(org.kuali.rice.krad.bo.BusinessObject)
-     */
-    public void setBusinessObject(PersistableBusinessObject businessObject) {
+    @Override
+    public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
+        super.processAfterNew(document, requestParameters);
 
-        OrganizationReversionService organizationReversionService = SpringContext.getBean(OrganizationReversionService.class);
-        OrganizationReversion organizationReversion = (OrganizationReversion) businessObject;
+        OrganizationReversion organizationReversion = (OrganizationReversion) getBusinessObject();
         List<OrganizationReversionDetail> details = organizationReversion.getOrganizationReversionDetail();
 
         if (details == null) {
@@ -82,7 +80,7 @@ public class OrganizationReversionMaintainableImpl extends FinancialSystemMainta
 
         if (details.size() == 0) {
 
-            Collection<OrganizationReversionCategory> categories = organizationReversionService.getCategoryList();
+            Collection<OrganizationReversionCategory> categories = getOrganizationReversionService().getCategoryList();
 
             for (OrganizationReversionCategory category : categories) {
                 if (category.isActive()) {
@@ -93,29 +91,25 @@ public class OrganizationReversionMaintainableImpl extends FinancialSystemMainta
                 }
             }
 
-            Collections.sort(details, new categoryComparator());
-
+            Collections.sort(details, new CategoryComparator());
         }
-
-        super.setBusinessObject(businessObject);
     }
 
     /**
      * A method that prevents lookups from refreshing the Organization Reversion Detail list (because, if it is refreshed before a
      * save...it ends up destroying the list).
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#isRelationshipRefreshable(java.lang.Class, java.lang.String)
      */
     @Override
     protected boolean isRelationshipRefreshable(Class boClass, String relationshipName) {
         if (relationshipName.equals("organizationReversionDetail")) {
             return false;
-        }
-        else {
+        } else {
             return super.isRelationshipRefreshable(boClass, relationshipName);
         }
     }
-    
+
     /**
      * Determines if this maint doc is inactivating an organization reversion
      * @return true if the document is inactivating an active organization reversion, false otherwise
@@ -133,7 +127,7 @@ public class OrganizationReversionMaintainableImpl extends FinancialSystemMainta
         }
         return false;
     }
-    
+
     /**
      * Determines if this maint doc is activating an organization reversion
      * @return true if the document is activating an inactive organization reversion, false otherwise
@@ -151,14 +145,14 @@ public class OrganizationReversionMaintainableImpl extends FinancialSystemMainta
         }
         return false;
     }
-    
+
     /**
      * Grabs the old version of this org reversion from the database
      * @return the old version of this organization reversion
      */
     protected OrganizationReversion retrieveExistingOrganizationReversion() {
-        final OrganizationReversion orgRev = (OrganizationReversion)getBusinessObject();
-        final OrganizationReversion oldOrgRev = SpringContext.getBean(OrganizationReversionService.class).getByPrimaryId(orgRev.getUniversityFiscalYear(), orgRev.getChartOfAccountsCode(), orgRev.getOrganizationCode());
+        OrganizationReversion orgRev = (OrganizationReversion)getBusinessObject();
+        OrganizationReversion oldOrgRev = getOrganizationReversionService().getByPrimaryId(orgRev.getUniversityFiscalYear(), orgRev.getChartOfAccountsCode(), orgRev.getOrganizationCode());
         return oldOrgRev;
     }
 
@@ -168,30 +162,24 @@ public class OrganizationReversionMaintainableImpl extends FinancialSystemMainta
      */
     @Override
     public void saveBusinessObject() {
-        final boolean isActivatingOrgReversion = isActivatingOrganizationReversion();
-        final boolean isInactivatingOrgReversion = isInactivatingOrganizationReversion();
-        
         super.saveBusinessObject();
-        
-        if (isActivatingOrgReversion) {
-            SpringContext.getBean(OrganizationReversionDetailTrickleDownInactivationService.class).trickleDownActiveOrganizationReversionDetails((OrganizationReversion)getBusinessObject(), getDocumentNumber());
-        } else if (isInactivatingOrgReversion) {
-            SpringContext.getBean(OrganizationReversionDetailTrickleDownInactivationService.class).trickleDownInactiveOrganizationReversionDetails((OrganizationReversion)getBusinessObject(), getDocumentNumber());
+
+        if (isActivatingOrganizationReversion()) {
+            getTrickleDownInactivationService().trickleDownActiveOrganizationReversionDetails((OrganizationReversion)getBusinessObject(), getDocumentNumber());
+        } else if (isInactivatingOrganizationReversion()) {
+            getTrickleDownInactivationService().trickleDownInactiveOrganizationReversionDetails((OrganizationReversion)getBusinessObject(), getDocumentNumber());
         }
     }
 
     /**
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getSections(org.kuali.rice.kns.document.MaintenanceDocument, org.kuali.rice.kns.maintenance.Maintainable)
-     * 
+     *
      * KRAD Conversion: Inquirable performs conditional display/hiding of the fields/sections on the inquiry
      * But all field/section definitions are in data dictionary for bo Organization.
      */
     @Override
     public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
         List<Section> sections = super.getSections(document, oldMaintainable);
-        if (organizationReversionService == null) {
-            organizationReversionService = SpringContext.getBean(OrganizationReversionService.class);
-        }
         for (Section section : sections) {
             for (Row row : section.getRows()) {
                 List<Field> updatedFields = new ArrayList<Field>();
@@ -205,12 +193,12 @@ public class OrganizationReversionMaintainableImpl extends FinancialSystemMainta
         }
         return sections;
     }
-    
+
     /**
      * Determines if the given field should be included in the updated row, once we take out inactive categories
      * @param field the field to check
      * @return true if the field should be included (ie, it doesn't describe an organization reversion with an inactive category); false otherwise
-     * 
+     *
      * KRAD Conversion: Determines if fields should be included in the section.
      * But all field/section definitions are in data dictionary.
      */
@@ -221,11 +209,25 @@ public class OrganizationReversionMaintainableImpl extends FinancialSystemMainta
                 for (Field containedField : containerRow.getFields()) {
                     if (containedField.getPropertyName().matches("organizationReversionDetail\\[\\d+\\]\\.organizationReversionCategory\\.organizationReversionCategoryName")) {
                         final String categoryValue = containedField.getPropertyValue();
-                        includeField = organizationReversionService.isCategoryActiveByName(categoryValue);
+                        includeField = getOrganizationReversionService().isCategoryActiveByName(categoryValue);
                     }
                 }
             }
         }
         return includeField;
+    }
+
+    protected OrganizationReversionService getOrganizationReversionService() {
+        if ( organizationReversionService == null ) {
+            organizationReversionService = SpringContext.getBean(OrganizationReversionService.class);
+        }
+        return organizationReversionService;
+    }
+
+    protected static OrganizationReversionDetailTrickleDownInactivationService getTrickleDownInactivationService() {
+        if ( trickleDownInactivationService == null ) {
+            trickleDownInactivationService = SpringContext.getBean(OrganizationReversionDetailTrickleDownInactivationService.class);
+        }
+        return trickleDownInactivationService;
     }
 }

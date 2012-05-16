@@ -91,7 +91,7 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
                 Asset asset = validateTagNumberAndRetrieveActiveAsset(barcodeInventoryErrorDetail.getAssetTagNumber());
                 valid &= ObjectUtils.isNotNull(asset);
                 valid &= this.validateCampusCode(barcodeInventoryErrorDetail.getCampusCode(), barcodeInventoryErrorDetail);
-                valid &= this.validateBuildingCodeAndRoomNumber(barcodeInventoryErrorDetail, asset);
+                if (ObjectUtils.isNotNull(asset)) valid &= this.validateBuildingCodeAndRoomNumber(barcodeInventoryErrorDetail, asset);
                 //valid &= this.validateBuildingCode(barcodeInventoryErrorDetail.getBuildingCode(), barcodeInventoryErrorDetail, asset);
                 //valid &= this.validateBuildingRoomNumber(barcodeInventoryErrorDetail.getBuildingRoomNumber(), barcodeInventoryErrorDetail, asset);
                 valid &= this.validateConditionCode(barcodeInventoryErrorDetail.getAssetConditionCode(), barcodeInventoryErrorDetail);
@@ -337,7 +337,8 @@ public class BarcodeInventoryErrorDocumentRule extends TransactionalDocumentRule
         String buildingCode = detail.getBuildingCode();
         String roomNumber = detail.getBuildingRoomNumber();
         String labelBuilding = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(BarcodeInventoryErrorDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.BarcodeInventory.BUILDING_CODE).getLabel();
-        String labelRoom = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(BarcodeInventoryErrorDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.BarcodeInventory.BUILDING_ROOM_NUMBER).getLabel();                
+        String labelRoom = SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getBusinessObjectEntry(BarcodeInventoryErrorDetail.class.getName()).getAttributeDefinition(CamsPropertyConstants.BarcodeInventory.BUILDING_ROOM_NUMBER).getLabel();      
+        
         String assetTypeCode = asset.getCapitalAssetTypeCode();
         AssetType assetType = asset.getCapitalAssetType();
 

@@ -280,7 +280,9 @@
 							</bean>							
 						</list>
 					</property>
+					<property name="quitOnFail" value="true" />
 				</bean>
+				
 				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
 					<property name="parameterProperties">
 						<bean parent="validationFieldConversion">
@@ -289,6 +291,7 @@
 						</bean>
 					</property>
 				</bean>
+ 				
 			</list>
   		</property>
 	</bean>

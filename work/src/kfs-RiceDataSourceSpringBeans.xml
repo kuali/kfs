@@ -39,19 +39,19 @@
 
 	<bean id="kfsDataSourceXAPool" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource">
 		<property name="transactionManager" ref="transactionManagerXAPool" />
-		<property name="driverClassName" value="${datasource.driver.name}" />
-		<property name="url" value="${datasource.url}" />
-		<property name="maxSize" value="${datasource.pool.maxSize}" />
-		<property name="minSize" value="${datasource.pool.minSize}" />
-		<property name="maxWait" value="${datasource.pool.maxWait}" />
+		<property name="driverClassName" value="${kfs.datasource.driver.name}" />
+		<property name="url" value="${kfs.datasource.url}" />
+		<property name="maxSize" value="${kfs.datasource.pool.maxSize}" />
+		<property name="minSize" value="${kfs.datasource.pool.minSize}" />
+		<property name="maxWait" value="${kfs.datasource.pool.maxWait}" />
         <property name="validationQuery" value="${kfs.datasource.validating.query}"/>
-		<property name="username" value="${datasource.username}" />
-		<property name="password" value="${datasource.password}" />
+		<property name="username" value="${kfs.datasource.username}" />
+		<property name="password" value="${kfs.datasource.password}" />
 	</bean>
 
 	<bean id="riceDataSourceXAPool" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource">
 		<property name="transactionManager" ref="transactionManagerXAPool" />
-		<property name="driverClassName" value="${datasource.driver.name}" />
+		<property name="driverClassName" value="${rice.datasource.driver.name}" />
 		<property name="url" value="${rice.datasource.url}" />
 		<property name="maxSize" value="${rice.datasource.pool.maxSize}" />
 		<property name="minSize" value="${rice.datasource.pool.minSize}" />

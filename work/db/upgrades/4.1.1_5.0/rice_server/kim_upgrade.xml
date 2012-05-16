@@ -2,6 +2,13 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 
+	<changeSet author="KFS50" id="FIX_ADMIN_BATCH_PERM_TEMPLATE_NAMESPACE">
+		<update tableName="KRIM_PERM_TMPL_T">
+			<column name="NMSPC_CD" value="KFS-SYS" />
+			<where>nmspc_cd = 'KR-NS' AND nm = 'Administer Batch File'</where>
+		</update>
+	</changeSet>
+
 	<changeSet author="KFS50" id="KFSAR-6012">
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="KFSAR6012" />

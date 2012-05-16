@@ -167,5 +167,22 @@
 		</modifySql>
 
 	</changeSet>
+	
+	<changeSet author="jksmith" id="KFSCNTRB162_BILL_EMAIL_ADDR">
+		<comment>Add BILL_EMAIL_ADDR</comment>
+		<addColumn tableName="PUR_REQS_T">
+			<column name="BILL_EMAIL_ADDR" type="VARCHAR2(100)"/>
+		</addColumn>
+		<addColumn tableName="PUR_PO_T">
+			<column name="BILL_EMAIL_ADDR" type="VARCHAR2(100)"/>
+		</addColumn>
+		<addColumn tableName="PUR_BILL_ADDR_T">
+			<column name="BILL_EMAIL_ADDR" type="VARCHAR2(100)"/>
+		</addColumn>
+		<modifySql dbms='mysql'>
+			<replace replace='VARCHAR2' with='VARCHAR' />
+			<replace replace='NUMBER' with='DECIMAL' />
+		</modifySql>
+	</changeSet>
 
 </databaseChangeLog>

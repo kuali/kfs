@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,43 +33,37 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
- * Validates that an accounting line does not have a capital object object code 
+ * Validates that an accounting line does not have a capital object object code
  */
 public class ProcurementCardAccountAccessibilityValidation extends GenericValidation {
-    private ProcurementCardDocument accountingDocumentForValidation;
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardAccountAccessibilityValidation.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardAccountAccessibilityValidation.class);
+
+    protected ProcurementCardDocument accountingDocumentForValidation;
 
     /**
      * Validates that an accounting line does not have a capital object object code
      * <strong>Expects an accounting line as the first a parameter</strong>
      * @see org.kuali.kfs.sys.document.validation.Validation#validate(java.lang.Object[])
      */
+    @Override
     public boolean validate(AttributedDocumentEvent event) {
         boolean isValid = false;
-        ProcurementCardDocument pcDocument = (ProcurementCardDocument) getAccountingDocumentForValidation();
+        ProcurementCardDocument pcDocument = getAccountingDocumentForValidation();
 
         WorkflowDocument workflowDocument = pcDocument.getDocumentHeader().getWorkflowDocument();
-       
+
         Set<String> activeNodes = workflowDocument.getCurrentNodeNames();
         if (workflowDocument.isEnroute() && activeNodes.contains(KFSConstants.RouteLevelNames.ACCOUNT_REVIEW_FULL_EDIT)) {
             isValid = true;
         }
-        /*
-        List<String> activeNodes = null;
-        String[] names = workflowDocument.getCurrentRouteNodeNames().split(DocumentRouteHeaderValue.CURRENT_ROUTE_NODE_NAME_DELIMITER);
-        activeNodes = Arrays.asList(names);
-        if (workflowDocument.isEnroute() && activeNodes.contains(KFSConstants.RouteLevelNames.ACCOUNT_REVIEW_FULL_EDIT)) {
-            isValid = true;
-        }
-        */
         return isValid;
     }
 
     /**
-     * This method validates the balance of the transaction given.  A procurement card transaction is in balance if 
+     * This method validates the balance of the transaction given.  A procurement card transaction is in balance if
      * the total amount of the transaction equals the total of the target accounting lines corresponding to the transaction.
-     * 
-     * @param pcTransaction The transaction detail used to retrieve the procurement card transaction and target accounting 
+     *
+     * @param pcTransaction The transaction detail used to retrieve the procurement card transaction and target accounting
      *                      lines used to check for in balance.
      * @return True if the amounts are equal and the transaction is in balance, false otherwise.
      */
@@ -95,21 +89,11 @@ public class ProcurementCardAccountAccessibilityValidation extends GenericValida
         return inBalance;
     }
 
-    /**
-     * Gets the accountingDocumentForValidation attribute. 
-     * @return Returns the accountingDocumentForValidation.
-     */
     public ProcurementCardDocument getAccountingDocumentForValidation() {
         return accountingDocumentForValidation;
     }
 
-    /**
-     * Sets the accountingDocumentForValidation attribute value.
-     * @param accountingDocumentForValidation The accountingDocumentForValidation to set.
-     */
     public void setAccountingDocumentForValidation(ProcurementCardDocument accountingDocumentForValidation) {
         this.accountingDocumentForValidation = accountingDocumentForValidation;
     }
-
-    
 }

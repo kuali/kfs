@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,15 +15,11 @@
  */
 package org.kuali.kfs.fp.document.authorization;
 
-import java.util.List;
-
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentPresentationControllerBase;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.engine.CompatUtils;
-import org.kuali.rice.kew.engine.node.RouteNode;
-import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.krad.document.Document;
 
 public class ProcurementCardDocumentPresentationController extends AccountingDocumentPresentationControllerBase {
@@ -60,16 +56,19 @@ public class ProcurementCardDocumentPresentationController extends AccountingDoc
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         //DocumentType
         boolean canRouteReviewFullEdit = false;
-        List<RouteNode> activeNodes = CompatUtils.getRouteLevelCompatibleNodeList(KEWServiceLocator.getRouteHeaderService().getRouteHeader(document.getDocumentNumber()).getDocumentType());
-        for (RouteNode routeNode : activeNodes) {
-            if (routeNode.getName().equalsIgnoreCase(KFSConstants.RouteLevelNames.ACCOUNT_REVIEW_FULL_EDIT)) {
-                canRouteReviewFullEdit = true;  break;            
+        for (String routeNode : workflowDocument.getCurrentNodeNames() ) {
+            if ( StringUtils.equalsIgnoreCase(routeNode, KFSConstants.RouteLevelNames.ACCOUNT_REVIEW_FULL_EDIT ) ) {
+                canRouteReviewFullEdit = true;
+                break;
             }
         }
-   
+
         // FULL_ENTRY only if: a) person has an approval request, b) we are at the correct level, c) it's not a correction document,
         // d) it is not an ADHOC request (important so that ADHOC don't get full entry).
-        if (workflowDocument.isApprovalRequested() && canRouteReviewFullEdit && (((FinancialSystemDocumentHeader) document.getDocumentHeader()).getFinancialDocumentInErrorNumber() == null) && !workflowDocument.isAcknowledgeRequested()) {
+        if (canRouteReviewFullEdit
+                && (((FinancialSystemDocumentHeader) document.getDocumentHeader()).getFinancialDocumentInErrorNumber() == null)
+                && workflowDocument.isApprovalRequested()
+                && !workflowDocument.isAcknowledgeRequested()) {
             return true;
         }
 

@@ -31,10 +31,13 @@ import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsAgency;
+import org.kuali.kfs.module.cam.CamsKeyConstants;
+import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.validation.impl.KfsMaintenanceDocumentRuleBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -693,6 +696,14 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     public boolean isPersistable() {
+        // This is needed because otherwise we could get DB Constraint violation error if user tries 
+        // to save Asset Global document with a non existing, inactive or expired account.
+        this.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCOUNT);
+        Account organizationOwnerAccount = this.getOrganizationOwnerAccount();
+        if (ObjectUtils.isNull(organizationOwnerAccount) || !organizationOwnerAccount.isActive() || organizationOwnerAccount.isExpired()) {
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KfsMaintenanceDocumentRuleBase.MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.ORGANIZATION_OWNER_ACCOUNT_INVALID);
+            return false;
+        }
         return true;
     }
 

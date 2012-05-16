@@ -112,6 +112,12 @@
 
   <bean id="AssetGlobal-organizationOwnerChartOfAccountsCode" parent="AssetGlobal-organizationOwnerChartOfAccountsCode-parentBean"/>
   <bean id="AssetGlobal-organizationOwnerChartOfAccountsCode-parentBean" abstract="true" parent="Asset-organizationOwnerChartOfAccountsCode">
+  
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kfs.coa.businessobject.options.ChartValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
     <property name="attributeSecurity">
         <bean parent="AttributeSecurity">
             <property name="readOnly" value="false"/>

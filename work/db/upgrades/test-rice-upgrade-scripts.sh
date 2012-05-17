@@ -3,6 +3,7 @@ set -e -x
 IMPORT_OLD_PROJECT=${IMPORT_OLD_PROJECT:-true}
 IMPORT_NEW_PROJECT=${IMPORT_NEW_PROJECT:-true}
 RUN_UPGRADE_SCRIPTS=${RUN_UPGRADE_SCRIPTS:-true}
+RUN_UPGRADE_WORKFLOW=${RUN_UPGRADE_WORKFLOW-true}
 EXPORT_UPGRADED_PROJECT=${EXPORT_UPGRADED_PROJECT:-true}
 PERFORM_COMPARISON=${PERFORM_COMPARISON:-true}
 REBUILD_SCHEMA=${REBUILD_SCHEMA:-true}
@@ -63,6 +64,45 @@ cat <<-EOF
 EOF
 ) > $WORKSPACE/liquibase.properties
 
+(
+cat <<-EOF
+	import.torque.database.user=$DB_USER
+	import.torque.database.schema=$DB_SCHEMA
+	import.torque.database.password=$DB_PASSWORD
+
+	torque.project=kfs
+	torque.schema.dir=$WORKSPACE/old_data/rice
+	torque.sql.dir=\${torque.schema.dir}/sql
+	torque.output.dir=\${torque.schema.dir}/sql
+
+	import.torque.database=$TORQUE_PLATFORM
+	import.torque.database.driver=$DRIVER
+	import.torque.database.url=$DATASOURCE
+
+	import.admin.user=$DB_ADMIN_USER
+	import.admin.password=$DB_ADMIN_PASSWORD
+	import.admin.url=$ADMIN_DATASOURCE
+
+	oracle.usermaint.user=kulusermaint
+	
+	post.import.liquibase.project=kfs
+	post.import.liquibase.xml.directory=$WORKSPACE/old_kfs/work/db/rice-data
+	post.import.liquibase.contexts=bootstrap,demo
+	
+	post.import.workflow.project=kfs
+	post.import.workflow.xml.directory=$WORKSPACE/old_kfs/work/workflow
+	post.import.workflow.ingester.launcher.ant.script=$WORKSPACE/old_kfs/build.xml
+	post.import.workflow.ingester.launcher.ant.target=import-workflow-xml
+	post.import.workflow.ingester.launcher.ant.xml.directory.property=workflow.dir
+	
+	post.import.workflow.ingester.jdbc.url.property=datasource.url
+	post.import.workflow.ingester.username.property=datasource.username
+	post.import.workflow.ingester.password.property=datasource.password
+	post.import.workflow.ingester.additional.command.line=-Ddatasource.ojb.platform=$OJB_PLATFORM -Dbase.directory=$WORKSPACE -Dappserver.home=$WORKSPACE/tomcat -Dexternal.config.directory=$WORKSPACE/opt -Dis.local.build= -Ddev.mode= -Drice.dev.mode=true -Drice.ksb.batch.mode=true -Ddont.filter.project.rice= -Ddont.filter.project.spring.ide=
+
+EOF
+) > $WORKSPACE/impex-build.properties
+
 if [[ "$IMPORT_OLD_PROJECT" == "true" ]]; then
 	
 	# Prepare a tomcat directory that can be written to
@@ -72,45 +112,6 @@ if [[ "$IMPORT_OLD_PROJECT" == "true" ]]; then
 	
 	# Lower-case the table names in case we are running against MySQL on Amazon RDS
 	perl -pi -e 's/dbTable="([^"]*)"/dbTable="\U\1"/g' $WORKSPACE/old_data/development/graphs/*.xml
-
-	(
-	cat <<-EOF
-		import.torque.database.user=$DB_USER
-		import.torque.database.schema=$DB_SCHEMA
-		import.torque.database.password=$DB_PASSWORD
-
-		torque.project=kfs
-		torque.schema.dir=$WORKSPACE/old_data/rice
-		torque.sql.dir=\${torque.schema.dir}/sql
-		torque.output.dir=\${torque.schema.dir}/sql
-
-		import.torque.database=$TORQUE_PLATFORM
-		import.torque.database.driver=$DRIVER
-		import.torque.database.url=$DATASOURCE
-
-		import.admin.user=$DB_ADMIN_USER
-		import.admin.password=$DB_ADMIN_PASSWORD
-		import.admin.url=$ADMIN_DATASOURCE
-
-		oracle.usermaint.user=kulusermaint
-		
-		post.import.liquibase.project=kfs
-		post.import.liquibase.xml.directory=$WORKSPACE/old_kfs/work/db/rice-data
-		post.import.liquibase.contexts=bootstrap,demo
-		
-		post.import.workflow.project=kfs
-		post.import.workflow.xml.directory=$WORKSPACE/old_kfs/work/workflow
-		post.import.workflow.ingester.launcher.ant.script=$WORKSPACE/old_kfs/build.xml
-		post.import.workflow.ingester.launcher.ant.target=import-workflow-xml
-		post.import.workflow.ingester.launcher.ant.xml.directory.property=workflow.dir
-		
-		post.import.workflow.ingester.jdbc.url.property=datasource.url
-		post.import.workflow.ingester.username.property=datasource.username
-		post.import.workflow.ingester.password.property=datasource.password
-		post.import.workflow.ingester.additional.command.line=-Ddatasource.ojb.platform=$OJB_PLATFORM -Dbase.directory=$WORKSPACE -Dappserver.home=$WORKSPACE/tomcat -Dexternal.config.directory=$WORKSPACE/opt -Dis.local.build= -Ddev.mode= -Drice.dev.mode=true -Drice.ksb.batch.mode=true -Ddont.filter.project.rice= -Ddont.filter.project.spring.ide=
-
-EOF
-	) > $WORKSPACE/impex-build.properties
 
 	if [[ "$DB_TYPE" == "MYSQL" ]]; then
 		perl -pi -e 's/dbTable="([^"]*)"/dbTable="\U\1"/g' $WORKSPACE/old_data/rice/graphs/*.xml
@@ -149,7 +150,29 @@ if [[ "$RUN_UPGRADE_SCRIPTS" == "true" ]]; then
 	popd
 fi
 
-
+if [[ "$RUN_UPGRADE_WORKFLOW" == "true" ]]; then
+	pushd $WORKSPACE/kfs
+	(
+	cat <<-EOF
+		datasource.url=$DATASOURCE
+		datasource.username=$DB_USER
+		datasource.password=$DB_PASSWORD
+		datasource.ojb.platform=$OJB_PLATFORM
+		base.directory=$WORKSPACE
+		appserver.home=$WORKSPACE/tomcat
+		external.config.directory=$WORKSPACE/opt
+		is.local.build=
+		dev.mode=
+		rice.dev.mode=true
+		rice.ksb.batch.mode=true
+		dont.filter.project.rice=
+		dont.filter.project.spring.ide=	
+	EOF
+	) > $WORKSPACE/kfs-build.properties
+	ant import-workflow-xml -Dworkflow.dir=$UPGRADE_SCRIPT_DIR/workflow/rice-provided -Duser.home=$WORKSPACE
+	ant import-workflow-xml -Dworkflow.dir=$UPGRADE_SCRIPT_DIR/workflow -Duser.home=$WORKSPACE
+	popd
+fi
 
 # run the export target
 if [[ "$EXPORT_UPGRADED_PROJECT" == "true" ]]; then
@@ -178,7 +201,7 @@ if [[ "$EXPORT_UPGRADED_PROJECT" == "true" ]]; then
 	cp $WORKSPACE/upgraded_data/schema.xml $WORKSPACE/upgraded_schema.xml
 	
 	pushd $WORKSPACE/kfs/work/db/upgrades
-	ant dump-kew-data "-Ddb.url=$DATASOURCE" "-Ddb.user=$DB_USER" "-Ddb.password=$DB_PASSWORD" "-Ddb.driver=$DRIVER" -Doutput.file=$WORKSPACE/old_kew_data.txt -lib $DRIVER_CLASSPATH
+	ant dump-kew-data "-Ddb.url=$DATASOURCE" "-Ddb.user=$DB_USER" "-Ddb.password=$DB_PASSWORD" "-Ddb.driver=$DRIVER" -Doutput.file=$WORKSPACE/upgraded_kew_data.txt -lib $DRIVER_CLASSPATH
 	popd
 fi
 
@@ -275,7 +298,7 @@ EOF
 		pushd $WORKSPACE/kfs/work/db/upgrades
 		ant dump-kew-data "-Ddb.url=$DATASOURCE" "-Ddb.user=$DB_USER" "-Ddb.password=$DB_PASSWORD" "-Ddb.driver=$DRIVER" -Doutput.file=$WORKSPACE/new_kew_data.txt -lib $DRIVER_CLASSPATH
 		popd 
-		diff -b -i -B -U 3 old_kew_data.txt new_kew_data.txt > kew-data-compare-results.txt || true
+		diff -b -i -B -U 3 upgraded_kew_data.txt new_kew_data.txt > kew-data-compare-results.txt || true
 	fi
 fi
 

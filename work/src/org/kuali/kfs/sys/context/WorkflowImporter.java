@@ -24,6 +24,8 @@ import java.nio.channels.FileChannel;
 import java.util.Arrays;
 import java.util.Properties;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.impl.config.property.JAXBConfigImpl;
@@ -48,20 +50,9 @@ public class WorkflowImporter {
 
         context = new ClassPathXmlApplicationContext(bootstrapSpringBeans);
 
-//        try {
-//            context.refresh();
-//        } catch (RuntimeException e) {
-//            LOG.error("problem during context.refresh()", e);
-//
-//            throw e;
-//        }
-
         context.start();
         long endInit = System.currentTimeMillis();
         LOG.info("...Kuali Rice Application successfully initialized, startup took " + (endInit - startInit) + " ms.");
-// JHK: we don't need the lines below because all the remaining code to be run is Rice code and does not use SpringContext
-//        SpringResourceLoader mainKfsSpringResourceLoader = (SpringResourceLoader)GlobalResourceLoader.getResourceLoader( new QName("KFS", "CORE_RICE_SPRING_RESOURCE_LOADER_NAME") );
-//        SpringContext.applicationContext = mainKfsSpringResourceLoader.getContext();
     }
 
     public static void main(String[] args) {
@@ -70,6 +61,8 @@ public class WorkflowImporter {
             System.exit(-1);
         }
         Log4jConfigurer.configureLogging(true);
+        Logger.getRootLogger().setLevel(Level.WARN);
+        Logger.getLogger("org.kuali.rice.kew.doctype.service.impl.DocumentTypeServiceImpl").setLevel(Level.INFO);
         try {
             LOG.info( "Initializing Web Context" );
             LOG.info( "Calling KualiInitializeListener.contextInitialized" );
@@ -81,18 +74,37 @@ public class WorkflowImporter {
             XmlPollerServiceImpl parser = new XmlPollerServiceImpl();
 
             File baseDir = new File( args[0] );
-            File[] dirs = baseDir.listFiles( new FileFilter() {
+            File[] dirs = new File[] { baseDir };
+
+            File[] files = baseDir.listFiles( new FileFilter() {
                 @Override
                 public boolean accept(File pathname) {
-                    return pathname.isDirectory() && !pathname.getName().startsWith(".");
+                    return pathname.isFile()
+                            && !pathname.getName().startsWith(".")
+                            && pathname.getName().endsWith(".xml");
                 }
             });
-            if ( dirs == null ) {
-                LOG.error( "Unable to find any subdirectories under " + baseDir.getAbsolutePath() + " - Assuming single directory to run." );
-
-                dirs = new File[] { baseDir };
+            if ( files != null && files.length > 0 ) {
+                LOG.info( "XML files exist in given directory, running those." );
+            } else {
+                LOG.info( "No XML files exist in given directory, Running in subdirectory mode." );
+                dirs = baseDir.listFiles( new FileFilter() {
+                    @Override
+                    public boolean accept(File pathname) {
+                        return pathname.isDirectory()
+                                && !pathname.getName().startsWith(".")
+                                && !pathname.getName().equals("pending")
+                                && !pathname.getName().equals("completed")
+                                && !pathname.getName().equals("problem");
+                    }
+                });
+                if ( dirs == null ) {
+                    LOG.error( "Unable to find any subdirectories under " + baseDir.getAbsolutePath() + " - ABORTING." );
+                    System.exit(-1);
+                    return;
+                }
+                Arrays.sort(dirs);
             }
-            Arrays.sort(dirs);
 
             for ( File dir : dirs ) {
                 LOG.info( "Processing Directory: " + dir.getAbsolutePath() );

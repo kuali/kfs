@@ -20,7 +20,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <bean id="glOrganizationReversionMockService" class="org.kuali.kfs.gl.batch.service.impl.OrganizationReversionMockServiceImpl" />
+    <bean id="glOrganizationReversionMockService" class="org.kuali.kfs.gl.batch.service.impl.OrganizationReversionMockServiceImpl" parent="organizationReversionService" />
     
     <bean id="glOrganizationReversionTestProcess" class="org.kuali.kfs.gl.batch.service.impl.OrganizationReversionTestProcess" scope="prototype">
 		<property name="organizationReversionService" ref="glOrganizationReversionMockService" />

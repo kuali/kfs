@@ -9,6 +9,15 @@
 		</update>
 	</changeSet>
 
+	<changeSet author="KFS50" id="ADD_NAMESPACE_TO_TYPE_SERVICES">
+		<comment>In Rice 2.0, the KIM type services need to be qualified by their namespace to work with a Rice standalone Server.</comment>
+		<sql>
+			UPDATE KRIM_TYP_T 
+			    SET SRVC_NM = CONCAT('{KFS}',SRVC_NM)
+			WHERE nmspc_cd LIKE 'KFS%'
+		</sql>
+	</changeSet>
+
 	<changeSet author="KFS50" id="KFSAR-6012">
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="KFSAR6012" />

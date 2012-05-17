@@ -1,6 +1,7 @@
 set -e -x
 # Control Variables for Testing Parts of Scripts
 IMPORT_OLD_PROJECT=${IMPORT_OLD_PROJECT:-true}
+IMPORT_NEW_PROJECT=${IMPORT_NEW_PROJECT:-true}
 RUN_UPGRADE_SCRIPTS=${RUN_UPGRADE_SCRIPTS:-true}
 EXPORT_UPGRADED_PROJECT=${EXPORT_UPGRADED_PROJECT:-true}
 PERFORM_COMPARISON=${PERFORM_COMPARISON:-true}
@@ -175,6 +176,10 @@ if [[ "$EXPORT_UPGRADED_PROJECT" == "true" ]]; then
 	ant "-Dimpex.properties.file=$WORKSPACE/impex-build.properties" jdbc-to-xml
 	popd
 	cp $WORKSPACE/upgraded_data/schema.xml $WORKSPACE/upgraded_schema.xml
+	
+	pushd $WORKSPACE/kfs/work/upgrades
+	ant dump-kew-data "-Ddb.url=$DATASOURCE" "-Ddb.user=$DB_USER" "-Ddb.password=$DB_PASSWORD" "-Ddb.driver=$DRIVER" -Doutput.file=$WORKSPACE/old_kew_data.txt -lib $DRIVER_CLASSPATH
+	popd
 fi
 
 # Compare the schema.xml files
@@ -205,4 +210,73 @@ if [[ "$PERFORM_COMPARISON" == "true" ]]; then
 
 	diff -b -i -B -U 3 upgraded_schema.xml new_schema.xml > compare-results.txt || true
 fi
+
+if [[ "$IMPORT_NEW_PROJECT" == "true" ]]; then
+	
+	# Upper-case the table names in case we are running against MySQL on Amazon RDS
+	perl -pi -e 's/dbTable="([^"]*)"/dbTable="\U\1"/g' $WORKSPACE/kfs/work/db/kfs-db/rice/graphs/*.xml
+
+	(
+	cat <<-EOF
+		import.torque.database.user=$DB_USER
+		import.torque.database.schema=$DB_SCHEMA
+		import.torque.database.password=$DB_PASSWORD
+
+		torque.project=kfs
+		torque.schema.dir=$WORKSPACE/kfs/work/db/kfs-db/rice
+		torque.sql.dir=\${torque.schema.dir}/sql
+		torque.output.dir=\${torque.schema.dir}/sql
+
+		import.torque.database=$TORQUE_PLATFORM
+		import.torque.database.driver=$DRIVER
+		import.torque.database.url=$DATASOURCE
+
+		import.admin.user=$DB_ADMIN_USER
+		import.admin.password=$DB_ADMIN_PASSWORD
+		import.admin.url=$ADMIN_DATASOURCE
+
+		oracle.usermaint.user=kulusermaint
+		
+		post.import.liquibase.project=kfs
+		post.import.liquibase.xml.directory=$WORKSPACE/kfs/work/db/rice-data
+		post.import.liquibase.contexts=bootstrap,demo
+		
+		post.import.workflow.project=kfs
+		post.import.workflow.xml.directory=$WORKSPACE/kfs/work/workflow
+		post.import.workflow.ingester.launcher.ant.script=$WORKSPACE/kfs/build.xml
+		post.import.workflow.ingester.launcher.ant.target=import-workflow-xml
+		post.import.workflow.ingester.launcher.ant.xml.directory.property=workflow.dir
+		
+		post.import.workflow.ingester.jdbc.url.property=datasource.url
+		post.import.workflow.ingester.username.property=datasource.username
+		post.import.workflow.ingester.password.property=datasource.password
+		post.import.workflow.ingester.additional.command.line=-Ddatasource.ojb.platform=$OJB_PLATFORM -Dbase.directory=$WORKSPACE -Dappserver.home=$WORKSPACE/tomcat -Dexternal.config.directory=$WORKSPACE/opt -Dis.local.build= -Ddev.mode= -Drice.dev.mode=true -Drice.ksb.batch.mode=true -Ddont.filter.project.rice= -Ddont.filter.project.spring.ide=
+
+EOF
+	) > $WORKSPACE/impex-build.properties
+
+	if [[ "$DB_TYPE" == "MYSQL" ]]; then
+		perl -pi -e 's/dbTable="([^"]*)"/dbTable="\U\1"/g' $WORKSPACE/kfs/work/db/kfs-db/rice/graphs/*.xml
+		perl -pi -e 's/viewdefinition="([^"]*)"/viewdefinition="\U\1"/g' $WORKSPACE/kfs/work/db/kfs-db/rice/schema.xml
+		perl -pi -e 's/&#[^;]*;/ /gi' $WORKSPACE/old_data/rice/schema.xml
+	fi
+	
+	pushd $WORKSPACE/kfs/work/db/kfs-db/db-impex/impex
+	#ant "-Dimpex.properties.file=$WORKSPACE/impex-build.properties" drop-schema create-schema import
+	if [[ "$REBUILD_SCHEMA" == "true" ]]; then
+		ant "-Dimpex.properties.file=$WORKSPACE/impex-build.properties" drop-schema create-schema create-ddl apply-ddl import-data apply-constraint-ddl
+	fi
+	ant "-Dimpex.properties.file=$WORKSPACE/impex-build.properties" run-liquibase-post-import
+	ant "-Dimpex.properties.file=$WORKSPACE/impex-build.properties" import-workflow
+	popd
+
+
+	if [[ "$PERFORM_COMPARISON" == "true" ]]; then
+		pushd $WORKSPACE/kfs/work/upgrades
+		ant dump-kew-data "-Ddb.url=$DATASOURCE" "-Ddb.user=$DB_USER" "-Ddb.password=$DB_PASSWORD" "-Ddb.driver=$DRIVER" -Doutput.file=$WORKSPACE/new_kew_data.txt -lib $DRIVER_CLASSPATH
+		popd 
+		diff -b -i -B -U 3 old_kew_data.txt new_kew_data.txt > kew-data-compare-results.txt || true
+	fi
+fi
+
 exit 0

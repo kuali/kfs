@@ -88,6 +88,7 @@ public class RequisitionAction extends PurchasingActionBase {
 
         // super.refresh() must occur before this line to get the correct APO limit
         document.setOrganizationAutomaticPurchaseOrderLimit(SpringContext.getBean(PurapService.class).getApoLimit(document.getVendorContractGeneratedIdentifier(), document.getChartOfAccountsCode(), document.getOrganizationCode()));
+        if (StringUtils.isNotEmpty(document.getVendorCountryCode())) document.getVendorCountryName();
 
         return forward;
     }

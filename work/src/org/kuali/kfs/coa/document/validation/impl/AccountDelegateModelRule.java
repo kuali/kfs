@@ -255,7 +255,7 @@ public class AccountDelegateModelRule extends KfsMaintenanceDocumentRuleBase {
         }
 
         // user must exist
-        if (delegateModel.getAccountDelegate() == null) {
+        if ((delegateModel.getAccountDelegate() == null) || (delegateModel.getAccountDelegate().getPrincipalId() == null)){
             GlobalVariables.getMessageMap().putError("accountDelegate.principalName", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_DOESNT_EXIST, new String[0]);
             success = false;
         }

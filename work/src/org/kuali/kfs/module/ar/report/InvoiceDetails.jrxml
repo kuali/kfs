@@ -360,7 +360,7 @@
 				<textField isStretchWithOverflow="false" pattern="#,##0.00 %" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="363"
+						x="353"
 						y="45"
 						width="104"
 						height="15"
@@ -375,7 +375,7 @@
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="363"
+						x="353"
 						y="27"
 						width="104"
 						height="15"
@@ -390,7 +390,7 @@
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="361"
+						x="353"
 						y="63"
 						width="104"
 						height="16"

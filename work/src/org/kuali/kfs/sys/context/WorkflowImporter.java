@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,11 +24,8 @@ import java.nio.channels.FileChannel;
 import java.util.Arrays;
 import java.util.Properties;
 
-import javax.xml.namespace.QName;
-
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.framework.resourceloader.SpringResourceLoader;
 import org.kuali.rice.core.impl.config.property.JAXBConfigImpl;
 import org.kuali.rice.kew.batch.XmlPollerServiceImpl;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -48,7 +45,7 @@ public class WorkflowImporter {
         baseProps.putAll(System.getProperties());
         JAXBConfigImpl config = new JAXBConfigImpl(baseProps);
         ConfigContext.init(config);
-        
+
         context = new ClassPathXmlApplicationContext(bootstrapSpringBeans);
 
 //        try {
@@ -62,11 +59,11 @@ public class WorkflowImporter {
         context.start();
         long endInit = System.currentTimeMillis();
         LOG.info("...Kuali Rice Application successfully initialized, startup took " + (endInit - startInit) + " ms.");
-// JHK: we don't need the lines below because all the remaining code to be run is Rice code and does not use SpringContext         
-//        SpringResourceLoader mainKfsSpringResourceLoader = (SpringResourceLoader)GlobalResourceLoader.getResourceLoader( new QName("KFS", "CORE_RICE_SPRING_RESOURCE_LOADER_NAME") ); 
+// JHK: we don't need the lines below because all the remaining code to be run is Rice code and does not use SpringContext
+//        SpringResourceLoader mainKfsSpringResourceLoader = (SpringResourceLoader)GlobalResourceLoader.getResourceLoader( new QName("KFS", "CORE_RICE_SPRING_RESOURCE_LOADER_NAME") );
 //        SpringContext.applicationContext = mainKfsSpringResourceLoader.getContext();
     }
-    
+
     public static void main(String[] args) {
         if (args.length < 1) {
             System.err.println("ERROR: You must pass the base directory on the command line.");
@@ -78,27 +75,29 @@ public class WorkflowImporter {
             LOG.info( "Calling KualiInitializeListener.contextInitialized" );
             initializeKfs();
             LOG.info( "Completed KualiInitializeListener.contextInitialized" );
-            
+
             GlobalResourceLoader.logAllContents();
 
             XmlPollerServiceImpl parser = new XmlPollerServiceImpl();
-            
+
             File baseDir = new File( args[0] );
             File[] dirs = baseDir.listFiles( new FileFilter() {
+                @Override
                 public boolean accept(File pathname) {
                     return pathname.isDirectory() && !pathname.getName().startsWith(".");
                 }
-            });     
+            });
             if ( dirs == null ) {
-                LOG.error( "Unable to find any subdirectories under " + baseDir.getAbsolutePath() + " - ABORTING!" );
-                System.err.println( "Unable to find any subdirectories under " + baseDir.getAbsolutePath() + " - ABORTING!" );
-                System.exit(-1);
+                LOG.error( "Unable to find any subdirectories under " + baseDir.getAbsolutePath() + " - Assuming single directory to run." );
+
+                dirs = new File[] { baseDir };
             }
             Arrays.sort(dirs);
-            
+
             for ( File dir : dirs ) {
                 LOG.info( "Processing Directory: " + dir.getAbsolutePath() );
                 File[] xmlFiles = dir.listFiles( new FileFilter() {
+                    @Override
                     public boolean accept(File pathname) {
                         return pathname.isFile() && pathname.getName().endsWith( ".xml" );
                     }
@@ -119,15 +118,15 @@ public class WorkflowImporter {
                 if ( !failedDir.exists() ) {
                     failedDir.mkdir();
                 }
-                
-                
+
+
                 Arrays.sort( xmlFiles );
 
                 for ( File xmlFile : xmlFiles ) {
                     LOG.info("Copying to pending: " + xmlFile.getName());
                     copyFile( xmlFile, new File( pendingDir, xmlFile.getName() ) );
                 }
-                
+
                 parser.setXmlPendingLocation( pendingDir.getAbsolutePath() );
                 parser.setXmlCompletedLocation( completedDir.getAbsolutePath() );
                 parser.setXmlProblemLocation( failedDir.getAbsolutePath() );
@@ -137,8 +136,8 @@ public class WorkflowImporter {
                 LOG.info( "Failed files will go to    : " + failedDir.getAbsolutePath() );
 
                 parser.run();
-            }            
-            
+            }
+
 //            SpringContext.close();
             System.exit(0);
         }

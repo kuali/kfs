@@ -177,7 +177,7 @@ if [[ "$EXPORT_UPGRADED_PROJECT" == "true" ]]; then
 	popd
 	cp $WORKSPACE/upgraded_data/schema.xml $WORKSPACE/upgraded_schema.xml
 	
-	pushd $WORKSPACE/kfs/work/upgrades
+	pushd $WORKSPACE/kfs/work/db/upgrades
 	ant dump-kew-data "-Ddb.url=$DATASOURCE" "-Ddb.user=$DB_USER" "-Ddb.password=$DB_PASSWORD" "-Ddb.driver=$DRIVER" -Doutput.file=$WORKSPACE/old_kew_data.txt -lib $DRIVER_CLASSPATH
 	popd
 fi
@@ -272,7 +272,7 @@ EOF
 
 
 	if [[ "$PERFORM_COMPARISON" == "true" ]]; then
-		pushd $WORKSPACE/kfs/work/upgrades
+		pushd $WORKSPACE/kfs/work/db/upgrades
 		ant dump-kew-data "-Ddb.url=$DATASOURCE" "-Ddb.user=$DB_USER" "-Ddb.password=$DB_PASSWORD" "-Ddb.driver=$DRIVER" -Doutput.file=$WORKSPACE/new_kew_data.txt -lib $DRIVER_CLASSPATH
 		popd 
 		diff -b -i -B -U 3 old_kew_data.txt new_kew_data.txt > kew-data-compare-results.txt || true

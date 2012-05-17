@@ -18,7 +18,7 @@
     </ruleAttribute>
     <ruleAttribute>
       <name>NoFyiActionListAttribute</name>
-      <className>PurchaseOrderActionListAttribute</className>
+      <className>org.kuali.kfs.module.purap.document.workflow.PurchaseOrderActionListAttribute</className>
       <label>No FYI</label>
       <description>No FYI Action List Attribute</description>
       <type>ActionListAttribute</type>
@@ -377,7 +377,7 @@
           </split>
           <split name="RequiresBudgetReview" nextNode="VendorIsEmployeeOrNonResidentAlien" >
             <branch name="True">
-              <role name="Budget" nextNode="JoinRequiresBudgetReview" nextAppDocStatus="Awaiting Tax Approval"/>
+              <role name="Budget" nextNode="JoinRequiresBudgetReview"  nextAppDocStatus="Awaiting Tax Approval"/>
             </branch>
             <branch name="False">
               <simple name="NoOpBudget" nextNode="JoinRequiresBudgetReview" nextAppDocStatus="Awaiting Tax Approval"/>

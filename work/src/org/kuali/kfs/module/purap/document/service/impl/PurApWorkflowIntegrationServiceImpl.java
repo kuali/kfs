@@ -129,10 +129,10 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
                     }
                     else {
                         for (ActionRequest actionRequestDTO : activeActionRequests) {
-                            containsFyiRequest |= (KewApiConstants.ACTION_REQUEST_FYI_REQ.equals(actionRequestDTO.getActionRequested()));
-                            containsAckRequest |= (KewApiConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ.equals(actionRequestDTO.getActionRequested()));
-                            containsApproveRequest |= (KewApiConstants.ACTION_REQUEST_APPROVE_REQ.equals(actionRequestDTO.getActionRequested()));
-                            containsCompleteRequest |= (KewApiConstants.ACTION_REQUEST_COMPLETE_REQ.equals(actionRequestDTO.getActionRequested()));
+                            containsFyiRequest |= (KewApiConstants.ACTION_REQUEST_FYI_REQ.equals(actionRequestDTO.getActionRequested().getCode()));
+                            containsAckRequest |= (KewApiConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ.equals(actionRequestDTO.getActionRequested().getCode()));
+                            containsApproveRequest |= (KewApiConstants.ACTION_REQUEST_APPROVE_REQ.equals(actionRequestDTO.getActionRequested().getCode()));
+                            containsCompleteRequest |= (KewApiConstants.ACTION_REQUEST_COMPLETE_REQ.equals(actionRequestDTO.getActionRequested().getCode()));
                         }
                     }
                     if (containsCompleteRequest || containsApproveRequest) {

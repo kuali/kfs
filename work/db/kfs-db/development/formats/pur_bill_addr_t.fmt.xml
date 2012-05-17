@@ -10,5 +10,6 @@
   <Field name="bill_pstl_cd"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="bill_cntry_cd"                   type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="bill_phn_nbr"                    type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="dobj_maint_cd_actv_ind"          type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
+  <Field name="dobj_maint_cd_actv_ind"          type="string"     nullable="true"  trim="false" delimiter="|"  />
+  <Field name="bill_email_addr"                 type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
 </Record>

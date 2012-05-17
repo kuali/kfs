@@ -7580,7 +7580,6 @@
         <column name="SUB_ACCT_NBR" primaryKey="true" size="5" type="VARCHAR"/>
         <column name="FIN_OBJECT_CD" primaryKey="true" size="4" type="VARCHAR"/>
         <column name="FIN_SUB_OBJ_CD" primaryKey="true" size="3" type="VARCHAR"/>
-        <column name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="CURR_BDLN_BAL_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="ACLN_ACTLS_BAL_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="ACLN_ENCUM_BAL_AMT" scale="2" size="19" type="DECIMAL"/>
@@ -7597,7 +7596,6 @@
         <column name="SUB_ACCT_NBR" primaryKey="true" size="5" type="VARCHAR"/>
         <column name="FIN_OBJECT_CD" primaryKey="true" size="4" type="VARCHAR"/>
         <column name="FIN_SUB_OBJ_CD" primaryKey="true" size="3" type="VARCHAR"/>
-        <column name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="CURR_BDLN_BAL_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="ACLN_ACTLS_BAL_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="ACLN_ENCUM_BAL_AMT" scale="2" size="19" type="DECIMAL"/>
@@ -12431,6 +12429,7 @@
         <column name="BILL_CNTRY_CD" required="true" size="2" type="VARCHAR"/>
         <column name="BILL_PHN_NBR" required="true" size="45" type="VARCHAR"/>
         <column name="DOBJ_MAINT_CD_ACTV_IND" required="true" size="1" type="VARCHAR"/>
+        <column name="BILL_EMAIL_ADDR" size="100" type="VARCHAR"/>
         <unique name="PUR_BILL_ADDR_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -13052,6 +13051,7 @@
         <column name="PO_ASND_ID" size="40" type="VARCHAR"/>
         <column default="P" name="ACCT_DISTR_MTD_IND" size="1" type="VARCHAR"/>
         <column name="VNDR_DEBRD_REAS_TXT" size="255" type="VARCHAR"/>
+        <column name="BILL_EMAIL_ADDR" size="100" type="VARCHAR"/>
         <foreign-key foreignTable="CA_ORG_T" name="PUR_PO_TR10">
             <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
             <reference foreign="ORG_CD" local="ORG_CD"/>
@@ -13697,6 +13697,7 @@
         <column name="VNDR_ATTN_NM" size="45" type="VARCHAR"/>
         <column default="P" name="ACCT_DISTR_MTD_IND" size="1" type="VARCHAR"/>
         <column name="VNDR_DEBRD_REAS_TXT" size="255" type="VARCHAR"/>
+        <column name="BILL_EMAIL_ADDR" size="100" type="VARCHAR"/>
         <foreign-key foreignTable="CA_ORG_T" name="PUR_REQS_TR10">
             <reference foreign="FIN_COA_CD" local="FIN_COA_CD"/>
             <reference foreign="ORG_CD" local="ORG_CD"/>

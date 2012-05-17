@@ -30,6 +30,7 @@
         $0.bill_cntry_cd := replace(nvl($bill_cntry_cd, ""), "~!~", "|" );
         $0.bill_phn_nbr := replace(nvl($bill_phn_nbr, ""), "~!~", "|" );
         $0.dobj_maint_cd_actv_ind := replace(nvl($dobj_maint_cd_actv_ind, ""), "~!~", "|" );
+        $0.bill_email_addr := replace(nvl($bill_email_addr, ""), "~!~", "|" );
    }
       ]]></attr>
     </Node>

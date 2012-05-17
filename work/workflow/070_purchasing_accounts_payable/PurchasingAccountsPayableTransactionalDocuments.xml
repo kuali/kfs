@@ -377,10 +377,10 @@
           </split>
           <split name="RequiresBudgetReview" nextNode="VendorIsEmployeeOrNonResidentAlien" >
             <branch name="True">
-              <role name="Budget" nextNode="JoinRequiresBudgetReview"  nextAppDocStatus="Awaiting Tax Approval"/>
+              <role name="Budget" nextNode="JoinRequiresBudgetReview" nextAppDocStatus="Awaiting Tax Approval"/>
             </branch>
             <branch name="False">
-              <simple name="NoOpBudget" nextNode="JoinRequiresBudgetReview"/>
+              <simple name="NoOpBudget" nextNode="JoinRequiresBudgetReview" nextAppDocStatus="Awaiting Tax Approval"/>
             </branch>
             <join name="JoinRequiresBudgetReview"/>
           </split>

@@ -107,6 +107,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     protected String recurringPaymentTypeCode;
     protected boolean receivingDocumentRequiredIndicator;
     protected boolean paymentRequestPositiveApprovalIndicator;
+    protected boolean suppressPaymentRequestPositiveApprovalIndicator;
 
     // TAX EDIT AREA FIELDS
     protected String taxClassificationCode;
@@ -1369,5 +1370,24 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
             }
         }
         return true;
+    }
+    
+    /**
+     * Gets the suppressPaymentRequestPositiveApprovalIndicator attribute.
+     * 
+     * @return Returns the suppressPaymentRequestPositiveApprovalIndicator
+     */
+    
+    public boolean isSuppressPaymentRequestPositiveApprovalIndicator() {
+        return suppressPaymentRequestPositiveApprovalIndicator;
+    }
+
+    /** 
+     * Sets the suppressPaymentRequestPositiveApprovalIndicator attribute.
+     * 
+     * @param suppressPaymentRequestPositiveApprovalIndicator The suppressPaymentRequestPositiveApprovalIndicator to set.
+     */
+    public void setSuppressPaymentRequestPositiveApprovalIndicator(boolean suppressPaymentRequestPositiveApprovalIndicator) {
+        this.suppressPaymentRequestPositiveApprovalIndicator = suppressPaymentRequestPositiveApprovalIndicator;
     }
 }

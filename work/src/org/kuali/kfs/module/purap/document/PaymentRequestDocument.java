@@ -54,6 +54,7 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.PaymentTermType;
@@ -107,7 +108,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     protected String recurringPaymentTypeCode;
     protected boolean receivingDocumentRequiredIndicator;
     protected boolean paymentRequestPositiveApprovalIndicator;
-    protected boolean suppressPaymentRequestPositiveApprovalIndicator;
 
     // TAX EDIT AREA FIELDS
     protected String taxClassificationCode;
@@ -195,15 +195,15 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     /**
      * Decides whether receivingDocumentRequiredIndicator functionality shall be enabled according to the controlling parameter.
      */
-    public boolean getEnableReceivingDocumentRequiredIndicator() {
-        return true; //TODO 772 SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.RECEIVING_DOCUMENT_REQUIRED_IND);
+    public boolean isEnableReceivingDocumentRequiredIndicator() {
+        return true; //TODO SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.RECEIVING_DOCUMENT_REQUIRED_IND);
     }
     
     /**
      * Decides whether paymentRequestPositiveApprovalIndicator functionality shall be enabled according to the controlling parameter.
      */
-    public boolean getEnablePaymentRequestPositiveApprovalIndicator() {
-        return true; //TODO 771 SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.PAYMENT_REQUEST_POSITIVE_APPROVAL_IND);
+    public boolean isEnablePaymentRequestPositiveApprovalIndicator() {
+        return true; //TODO SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.PAYMENT_REQUEST_POSITIVE_APPROVAL_IND);
     }
         
     public Date getInvoiceDate() {
@@ -431,7 +431,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      */
     public void setPaymentRequestPositiveApprovalIndicator(boolean paymentRequestPositiveApprovalIndicator) {
         // if paymentRequestPositiveApprovalIndicator functionality is disabled, always set it to false, overriding the passed-in value
-        if (!getEnablePaymentRequestPositiveApprovalIndicator()) {
+        if (!isEnablePaymentRequestPositiveApprovalIndicator()) {
             paymentRequestPositiveApprovalIndicator = false;
         }
         else {
@@ -455,7 +455,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      */
     public void setReceivingDocumentRequiredIndicator(boolean receivingDocumentRequiredIndicator) {
         // if receivingDocumentRequiredIndicator functionality is disabled, always set it to false, overriding the passed-in value
-        if (!getEnableReceivingDocumentRequiredIndicator()) {
+        if (!isEnableReceivingDocumentRequiredIndicator()) {
             receivingDocumentRequiredIndicator = false;
         }
         else {
@@ -1372,22 +1372,4 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         return true;
     }
     
-    /**
-     * Gets the suppressPaymentRequestPositiveApprovalIndicator attribute.
-     * 
-     * @return Returns the suppressPaymentRequestPositiveApprovalIndicator
-     */
-    
-    public boolean isSuppressPaymentRequestPositiveApprovalIndicator() {
-        return suppressPaymentRequestPositiveApprovalIndicator;
-    }
-
-    /** 
-     * Sets the suppressPaymentRequestPositiveApprovalIndicator attribute.
-     * 
-     * @param suppressPaymentRequestPositiveApprovalIndicator The suppressPaymentRequestPositiveApprovalIndicator to set.
-     */
-    public void setSuppressPaymentRequestPositiveApprovalIndicator(boolean suppressPaymentRequestPositiveApprovalIndicator) {
-        this.suppressPaymentRequestPositiveApprovalIndicator = suppressPaymentRequestPositiveApprovalIndicator;
-    }
 }

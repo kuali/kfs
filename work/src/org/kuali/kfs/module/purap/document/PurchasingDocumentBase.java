@@ -346,15 +346,15 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     /**
      * Decides whether receivingDocumentRequiredIndicator functionality shall be enabled according to the controlling parameter.
      */
-    public boolean getEnableReceivingDocumentRequiredIndicator() {
-        return true; //TODO 772 SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.RECEIVING_DOCUMENT_REQUIRED_IND);
+    public boolean isEnableReceivingDocumentRequiredIndicator() {
+        return true; //TODO SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.RECEIVING_DOCUMENT_REQUIRED_IND);
     }
     
     /**
      * Decides whether paymentRequestPositiveApprovalIndicator functionality shall be enabled according to the controlling parameter.
      */
-    public boolean getEnablePaymentRequestPositiveApprovalIndicator() {
-        return true; //TODO 771 SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.PAYMENT_REQUEST_POSITIVE_APPROVAL_IND);
+    public boolean isEnablePaymentRequestPositiveApprovalIndicator() {
+        return true; //TODO SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.PAYMENT_REQUEST_POSITIVE_APPROVAL_IND);
     }
     
     public String getBillingCityName() {
@@ -1086,7 +1086,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
      */
     public void setReceivingDocumentRequiredIndicator(boolean receivingDocumentRequiredIndicator) {
         // if receivingDocumentRequiredIndicator functionality is disabled, always set it to false, overriding the passed-in value
-        if (!getEnableReceivingDocumentRequiredIndicator()) {
+        if (!isEnableReceivingDocumentRequiredIndicator()) {
             receivingDocumentRequiredIndicator = false;
         }
         else {
@@ -1100,7 +1100,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
 
     public void setPaymentRequestPositiveApprovalIndicator(boolean paymentRequestPositiveApprovalIndicator) {
         // if paymentRequestPositiveApprovalIndicator functionality is disabled, always set it to false, overriding the passed-in value
-        if (!getEnablePaymentRequestPositiveApprovalIndicator()) {
+        if (!isEnablePaymentRequestPositiveApprovalIndicator()) {
             paymentRequestPositiveApprovalIndicator = false;
         }
         else {

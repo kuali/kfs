@@ -85,7 +85,8 @@
     </c:if>
 	
 	<tr>
-        <th align=right valign=middle class="bord-l-b">
+	  <c:if test="${KualiForm.document.enableReceivingDocumentRequiredIndicator}">			
+        <th align=right valign=middle class="bord-l-b">         
             <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.receivingDocumentRequiredIndicator}" /></div>
         </th>
         <td align=left valign=middle class="datacell">
@@ -98,6 +99,11 @@
                 not (contentReadOnly or internalPurchasingReadOnly)}"
                 tabindexOverride="${tabindexOverrideBase + 0}"/>
         </td>
+      </c:if>
+	  <c:if test="${not KualiForm.document.enableReceivingDocumentRequiredIndicator}">	
+	    <th align=right valign=middle class="bord-l-b">&nbsp;</th>
+	    <td align=left valign=middle class="datacell">&nbsp;</td>
+	  </c:if>
         <th align=right valign=middle class="bord-l-b">
             <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.accountDistributionMethod}" /></div>
         </th>
@@ -196,7 +202,8 @@
 	                    readOnly="true" />
 	            </td>                   
 			</c:if>
-	        <c:if test="${not purchaseOrder and not KualiForm.document.suppressPaymentRequestPositiveApprovalIndicator}">		
+	        <c:if test="${not purchaseOrder}">		
+	          <c:if test="${KualiForm.document.enablePaymentRequestPositiveApprovalIndicator}">				        
 			    <th align=right valign=middle class="bord-l-b">
 			        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.paymentRequestPositiveApprovalIndicator}" /></div>
 			    </th>
@@ -207,6 +214,11 @@
 			            readOnly="${paymentRequest or not(fullEntryMode or amendmentEntry) and not (contentReadOnly or internalPurchasingReadOnly)}"
 			            tabindexOverride="${tabindexOverrideBase + 5}"/>
 			    </td>
+			  </c:if>
+	          <c:if test="${not KualiForm.document.enablePaymentRequestPositiveApprovalIndicator}">
+	            <th align=right valign=middle class="bord-l-b">&nbsp;</th>
+	            <td align=left valign=middle class="datacell">&nbsp;</td>	          				        
+			  </c:if>			  
 	        </c:if>
 	    </tr>  
      </c:if>

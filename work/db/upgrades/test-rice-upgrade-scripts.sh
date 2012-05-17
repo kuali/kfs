@@ -1,4 +1,4 @@
-set -e -x
+set -e
 # Control Variables for Testing Parts of Scripts
 IMPORT_OLD_PROJECT=${IMPORT_OLD_PROJECT:-true}
 IMPORT_NEW_PROJECT=${IMPORT_NEW_PROJECT:-true}
@@ -104,7 +104,9 @@ EOF
 ) > $WORKSPACE/impex-build.properties
 
 if [[ "$IMPORT_OLD_PROJECT" == "true" ]]; then
-	
+	echo *********************************************************
+	echo OLD DATABASE - IMPORTING
+	echo *********************************************************
 	# Prepare a tomcat directory that can be written to
 	rm -rf $WORKSPACE/tomcat
 	mkdir -p $WORKSPACE/tomcat/common/lib
@@ -124,7 +126,13 @@ if [[ "$IMPORT_OLD_PROJECT" == "true" ]]; then
 	if [[ "$REBUILD_SCHEMA" == "true" ]]; then
 		ant "-Dimpex.properties.file=$WORKSPACE/impex-build.properties" drop-schema create-schema create-ddl apply-ddl import-data apply-constraint-ddl
 	fi
+	echo *********************************************************
+	echo OLD DATABASE - POST-IMPORT LIQUIBASE
+	echo *********************************************************
 	ant "-Dimpex.properties.file=$WORKSPACE/impex-build.properties" run-liquibase-post-import
+	echo *********************************************************
+	echo OLD DATABASE - WORKFLOW
+	echo *********************************************************
 	ant "-Dimpex.properties.file=$WORKSPACE/impex-build.properties" import-workflow
 	popd
 	cp $WORKSPACE/old_data/rice/schema.xml $WORKSPACE/old_schema.xml
@@ -132,6 +140,9 @@ if [[ "$IMPORT_OLD_PROJECT" == "true" ]]; then
 fi
 
 if [[ "$RUN_UPGRADE_SCRIPTS" == "true" ]]; then
+	echo *********************************************************
+	echo OLD DATABASE - RUNNING UPGRADE LIQUIBASE
+	echo *********************************************************
 	pushd $UPGRADE_SCRIPT_DIR/rice_server
 
 	rm -f $WORKSPACE/upgrade.sql
@@ -151,6 +162,9 @@ if [[ "$RUN_UPGRADE_SCRIPTS" == "true" ]]; then
 fi
 
 if [[ "$RUN_UPGRADE_WORKFLOW" == "true" ]]; then
+	echo *********************************************************
+	echo OLD DATABASE - RUNNING UPGRADE WORKFLOW XML
+	echo *********************************************************
 	pushd $WORKSPACE/kfs
 	(
 	cat <<-EOF
@@ -176,6 +190,9 @@ fi
 
 # run the export target
 if [[ "$EXPORT_UPGRADED_PROJECT" == "true" ]]; then
+	echo *********************************************************
+	echo OLD DATABASE - EXPORTING STRUCTURE
+	echo *********************************************************
 	mkdir -p $WORKSPACE/upgraded_data
 	(
 	cat <<-EOF
@@ -199,6 +216,10 @@ if [[ "$EXPORT_UPGRADED_PROJECT" == "true" ]]; then
 	ant "-Dimpex.properties.file=$WORKSPACE/impex-build.properties" jdbc-to-xml
 	popd
 	cp $WORKSPACE/upgraded_data/schema.xml $WORKSPACE/upgraded_schema.xml
+
+	echo *********************************************************
+	echo OLD DATABASE - EXPORTING KEW DATA
+	echo *********************************************************
 	
 	pushd $WORKSPACE/kfs/work/db/upgrades
 	ant dump-kew-data "-Ddb.url=$DATASOURCE" "-Ddb.user=$DB_USER" "-Ddb.password=$DB_PASSWORD" "-Ddb.driver=$DRIVER" -Doutput.file=$WORKSPACE/upgraded_kew_data.txt -lib $DRIVER_CLASSPATH
@@ -208,6 +229,10 @@ fi
 # Compare the schema.xml files
 
 if [[ "$PERFORM_COMPARISON" == "true" ]]; then
+	echo *********************************************************
+	echo OLD DATABASE - COMPARING RICE SCHEMA STRUCTURE
+	echo *********************************************************
+
 	cd $WORKSPACE
 	cp $WORKSPACE/kfs/work/db/kfs-db/rice/schema.xml $WORKSPACE/new_schema.xml
 	# Sanitize the sequence next values
@@ -235,7 +260,10 @@ if [[ "$PERFORM_COMPARISON" == "true" ]]; then
 fi
 
 if [[ "$IMPORT_NEW_PROJECT" == "true" ]]; then
-	
+	echo *********************************************************
+	echo NEW DATABASE - IMPORTING
+	echo *********************************************************
+
 	# Upper-case the table names in case we are running against MySQL on Amazon RDS
 	perl -pi -e 's/dbTable="([^"]*)"/dbTable="\U\1"/g' $WORKSPACE/kfs/work/db/kfs-db/rice/graphs/*.xml
 
@@ -289,12 +317,21 @@ EOF
 	if [[ "$REBUILD_SCHEMA" == "true" ]]; then
 		ant "-Dimpex.properties.file=$WORKSPACE/impex-build.properties" drop-schema create-schema create-ddl apply-ddl import-data apply-constraint-ddl
 	fi
+	echo *********************************************************
+	echo NEW DATABASE - POST-IMPORT LIQUIBASE
+	echo *********************************************************
 	ant "-Dimpex.properties.file=$WORKSPACE/impex-build.properties" run-liquibase-post-import
+	echo *********************************************************
+	echo NEW DATABASE - WORKFLOW
+	echo *********************************************************
 	ant "-Dimpex.properties.file=$WORKSPACE/impex-build.properties" import-workflow
 	popd
 
 
 	if [[ "$PERFORM_COMPARISON" == "true" ]]; then
+		echo *********************************************************
+		echo NEW DATABASE - EXPORTING KEW DATA
+		echo *********************************************************
 		pushd $WORKSPACE/kfs/work/db/upgrades
 		ant dump-kew-data "-Ddb.url=$DATASOURCE" "-Ddb.user=$DB_USER" "-Ddb.password=$DB_PASSWORD" "-Ddb.driver=$DRIVER" -Doutput.file=$WORKSPACE/new_kew_data.txt -lib $DRIVER_CLASSPATH
 		popd 

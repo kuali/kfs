@@ -261,7 +261,7 @@ public class ExpenseImportServiceBase {
      * @return
      */
     protected GeneralLedgerPendingEntry setupGeneralLedgerPendingEntry(AgencyStagingData agencyData, TripAccountingInformation info, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        DateFormat dateFormat = new SimpleDateFormat("MMddyyhhmmss");
+        DateFormat dateFormat = new SimpleDateFormat("MMddyyyy");
 
         GeneralLedgerPendingEntry glpe = new GeneralLedgerPendingEntry();
         glpe.setVersionNumber(new Long(1));
@@ -271,8 +271,8 @@ public class ExpenseImportServiceBase {
         glpe.setFinancialDocumentTypeCode(TemConstants.IMPORTED_EXPENSE_DOCUMENT);
         glpe.setFinancialSystemOriginationCode("TM");
         glpe.setTransactionLedgerEntryDescription(TemConstants.TEM_IMPORTED_GLPE_DESC);
-        // set doc number "MMddyyhhmmss"
-        glpe.setDocumentNumber("AG"+dateFormat.format(getDateTimeService().getCurrentSqlDate()));
+        // set doc number "MMddyyyy"
+        glpe.setDocumentNumber("AG" + dateFormat.format(getDateTimeService().getCurrentSqlDate()));
         glpe.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
         sequenceHelper.increment();
         glpe.setTransactionDate(agencyData.getTransactionPostingDate());

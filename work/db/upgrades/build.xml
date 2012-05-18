@@ -40,6 +40,7 @@ DOCUMENT ROUTE NODES
         	        LEFT OUTER JOIN KREW_RTE_NODE_LNK_T nl ON nl.FROM_RTE_NODE_ID = n.RTE_NODE_ID
         	        LEFT OUTER JOIN KREW_RTE_NODE_T nn ON nn.RTE_NODE_ID = nl.TO_RTE_NODE_ID
         	    WHERE t.ACTV_IND = 1 AND t.CUR_IND = 1
+		  		  ${additional.exclusions}
         	    ORDER BY t.doc_typ_nm, n.rte_node_id, nn.NM
         </sql>
     	<echo file="${output.file}" append="true">********************************************************************************
@@ -51,6 +52,7 @@ DOCUMENT APPLICATION DOCUMENT STATUSES
         		FROM KREW_DOC_TYP_T t
         	        INNER JOIN KREW_DOC_TYP_APP_DOC_STAT_T ads ON ads.doc_typ_id = t.doc_typ_id
         	    WHERE t.ACTV_IND = 1 AND t.CUR_IND = 1
+		  		  ${additional.exclusions}
         	    ORDER BY doc_typ_nm, doc_stat_nm
         </sql>
     	<echo file="${output.file}" append="true">********************************************************************************
@@ -63,6 +65,7 @@ DOCUMENT RULE ATTRIBUTES
         	        INNER JOIN KREW_DOC_TYP_ATTR_T a ON a.doc_typ_id = t.doc_typ_id
         	        INNER JOIN KREW_RULE_ATTR_T ad ON ad.RULE_ATTR_ID = a.RULE_ATTR_ID
         	    WHERE t.ACTV_IND = 1 AND t.CUR_IND = 1
+		  		  ${additional.exclusions}
         	    ORDER BY doc_typ_nm, DOC_TYP_ATTRIB_ID
         </sql>
     </target>

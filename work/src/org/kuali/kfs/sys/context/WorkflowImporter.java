@@ -62,6 +62,8 @@ public class WorkflowImporter {
         Log4jConfigurer.configureLogging(true);
         Logger.getRootLogger().setLevel(Level.WARN);
         Logger.getLogger("org.kuali.rice.kew.doctype.service.impl.DocumentTypeServiceImpl").setLevel(Level.INFO);
+        Logger.getLogger(XmlPollerServiceImpl.class).setLevel(Level.INFO);
+        Logger.getLogger(WorkflowImporter.class).setLevel(Level.INFO);
         try {
             LOG.info( "Initializing Web Context" );
             LOG.info( "Calling KualiInitializeListener.contextInitialized" );

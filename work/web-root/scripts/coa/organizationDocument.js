@@ -21,17 +21,17 @@ function updateLocationByPostalCode( postalCodeField, callbackFunction ) {
 		var dwrReply = {
 			callback:callbackFunction,
 			errorHandler:function( errorMessage ) { 
-				setRecipientValue( "document.newMaintainableObject.organizationCityName", wrapError( "postal code not found" ), true );
+				setRecipientValue( "document.newMaintainableObject.organizationCityName", wrapError( "postal code not found"), true );
 				clearRecipients( "document.newMaintainableObject.organizationStateCode" );
 			}
 		};
-		PostalCodeService.getByPrimaryId(postalCountryCode, postalCode, dwrReply );
+		PostalCodeService.getPostalCode(postalCountryCode, postalCode, dwrReply );
 	}	
 }
 
 function updateLocationByPostalCode_Callback( data ) {
-	setRecipientValue( "document.newMaintainableObject.organizationCityName", data.postalCityName );
-	setRecipientValue( "document.newMaintainableObject.organizationStateCode", data.postalStateCode );
+	setRecipientValue( "document.newMaintainableObject.organizationCityName", data.cityName );
+	setRecipientValue( "document.newMaintainableObject.organizationStateCode", data.stateCode );
 }
 
 function updateLocationByCountryCode( countryCodeField, callbackFunction ) {
@@ -42,15 +42,15 @@ function updateLocationByCountryCode( countryCodeField, callbackFunction ) {
 		var dwrReply = {
 			callback:callbackFunction,
 			errorHandler:function( errorMessage ) { 
-				setRecipientValue( "document.newMaintainableObject.organizationCityName", wrapError( "postal code not found" ), true );
+				setRecipientValue( "document.newMaintainableObject.organizationCityName", wrapError( "postal code not found"), true );
 				clearRecipients( "document.newMaintainableObject.organizationStateCode" );
 			}
 		};
-		PostalCodeService.getByPrimaryId(postalCountryCode, postalCode, dwrReply );
+		PostalCodeService.getPostalCode(postalCountryCode, postalCode, dwrReply );
 	}	
 }
 
 function updateLocationByCountryCode_Callback( data ) {
-	setRecipientValue( "document.newMaintainableObject.organizationCityName", data.postalCityName );
-	setRecipientValue( "document.newMaintainableObject.organizationStateCode", data.postalStateCode );
+	setRecipientValue( "document.newMaintainableObject.organizationCityName", data.cityName );
+	setRecipientValue( "document.newMaintainableObject.organizationStateCode", data.stateCode );
 }

@@ -206,8 +206,4 @@
 				width="20"></td>
 		</tr>
 	</table>
-	<div id="globalbuttons" class="globalbuttons">
-	    <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" styleClass="globalbuttons" 
-	    	onclick="window.close();return false;" title="close the window" alt="close the window"/>
-    </div>
 </kul:page>

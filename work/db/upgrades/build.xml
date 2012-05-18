@@ -16,11 +16,9 @@
           target: default              
          ================================= -->
     <target name="dump-kew-data" description="">
-    	<echo file="${output.file}">
-********************************************************************************
+    	<echo file="${output.file}">********************************************************************************
 DOCUMENT TYPES
-********************************************************************************
-    	</echo>    	
+********************************************************************************</echo>    	
         <sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}"
         	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
         	SELECT  doc_typ_nm, lbl, doc_hdlr_url, post_prcsr, appl_id, doc_search_help_url, DOC_TYP_DESC
@@ -29,11 +27,9 @@ DOCUMENT TYPES
         		  ${additional.exclusions}
         	    ORDER BY doc_typ_nm        
         </sql>
-    	<echo file="${output.file}" append="true">
-********************************************************************************
+    	<echo file="${output.file}" append="true">********************************************************************************
 DOCUMENT ROUTE NODES
-********************************************************************************
-    	</echo>    	
+********************************************************************************</echo>    	
         <sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}"
         	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
         	SELECT t.doc_typ_nm, n.nm, 
@@ -46,11 +42,9 @@ DOCUMENT ROUTE NODES
         	    WHERE t.ACTV_IND = 1 AND t.CUR_IND = 1
         	    ORDER BY t.doc_typ_nm, n.rte_node_id, nn.NM
         </sql>
-    	<echo file="${output.file}" append="true">
-********************************************************************************
+    	<echo file="${output.file}" append="true">********************************************************************************
 DOCUMENT APPLICATION DOCUMENT STATUSES
-********************************************************************************
-    	</echo>    	
+********************************************************************************</echo>    	
         <sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}"
         	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
         	SELECT t.doc_typ_nm, DOC_STAT_NM
@@ -59,11 +53,9 @@ DOCUMENT APPLICATION DOCUMENT STATUSES
         	    WHERE t.ACTV_IND = 1 AND t.CUR_IND = 1
         	    ORDER BY doc_typ_nm, doc_stat_nm
         </sql>
-    	<echo file="${output.file}" append="true">
-********************************************************************************
+    	<echo file="${output.file}" append="true">********************************************************************************
 DOCUMENT RULE ATTRIBUTES
-********************************************************************************
-    	</echo>    	
+********************************************************************************</echo>    	
         <sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}"
         	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
         	SELECT t.doc_typ_nm, ad.nm, ad.lbl, ad.RULE_ATTR_TYP_CD, ad.CLS_NM, ad.APPL_ID

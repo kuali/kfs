@@ -183,7 +183,7 @@ if [[ "$RUN_UPGRADE_WORKFLOW" == "true" ]]; then
 		dont.filter.project.spring.ide=	
 	EOF
 	) > $WORKSPACE/kfs-build.properties
-	ant import-workflow-xml -Dworkflow.dir=$UPGRADE_SCRIPT_DIR/workflow/rice-provided -Duser.home=$WORKSPACE
+	ant import-workflow-xml -Dworkflow.dir=$UPGRADE_SCRIPT_DIR/workflow/rice_provided -Duser.home=$WORKSPACE
 	ant import-workflow-xml -Dworkflow.dir=$UPGRADE_SCRIPT_DIR/workflow -Duser.home=$WORKSPACE
 	popd
 fi

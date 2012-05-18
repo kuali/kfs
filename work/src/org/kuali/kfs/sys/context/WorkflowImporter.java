@@ -27,7 +27,6 @@ import java.util.Properties;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.impl.config.property.JAXBConfigImpl;
 import org.kuali.rice.kew.batch.XmlPollerServiceImpl;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -68,8 +67,6 @@ public class WorkflowImporter {
             LOG.info( "Calling KualiInitializeListener.contextInitialized" );
             initializeKfs();
             LOG.info( "Completed KualiInitializeListener.contextInitialized" );
-
-            GlobalResourceLoader.logAllContents();
 
             XmlPollerServiceImpl parser = new XmlPollerServiceImpl();
 

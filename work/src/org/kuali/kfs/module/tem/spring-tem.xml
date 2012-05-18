@@ -1225,7 +1225,7 @@
 	
 	<bean id="perDiemLoadTrigger" parent="simpleTrigger"> 
 		<property name="jobName" value="perDiemLoadJob" /> 
-		<property name="startDelay" value="3000" /> 
+		<property name="startDelay" value="60000" /> 
 		<property name="repeatCount" value="0" /> 
 	</bean>
 	<!-- Spring beans for TMCP document/action -->

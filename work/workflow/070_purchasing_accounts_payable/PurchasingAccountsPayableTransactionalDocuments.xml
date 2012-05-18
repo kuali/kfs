@@ -11,7 +11,7 @@
     <ruleAttribute>
       <name>PurapFinancialSystemSearchableAttribute</name>
       <className>{KFS}PurapFinancialSystemSearchableAttribute</className>
-      <label>Financial System Searchable Attribute</label>
+      <label>Purchasing Searchable Attribute</label>
       <description>Purchasing Searchable Attribute</description>
       <type>SearchableAttribute</type>
       <applicationId>KFS</applicationId>

@@ -153,6 +153,7 @@ public class TravelReimbursementAction extends TravelActionBase {
             document.setExpenseLimit(authorization.getExpenseLimit());
             document.setPerDiemAdjustment(authorization.getPerDiemAdjustment());
             document.setTravelAdvances(authorization.getTravelAdvances());
+            document.getDocumentHeader().setOrganizationDocumentNumber(authorization.getDocumentHeader().getOrganizationDocumentNumber());
             
             if (document.getPrimaryDestinationId() != null && document.getPrimaryDestinationId().intValue() == TemConstants.CUSTOM_PRIMARY_DESTINATION_ID){
                 document.getPrimaryDestination().setPrimaryDestinationName(document.getPrimaryDestinationName());

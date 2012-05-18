@@ -36,7 +36,7 @@
 
 <!--  this parameter is ignored now, as of KULAR-755 -->
 <%@ attribute name="editPaymentAppDoc" required="true"%>
-
+<c:set var="tabindexOverrideBase" value="20" />
 
 <tr>
 	<kul:htmlAttributeHeaderCell literalLabel="${rowHeading}:" scope="row"
@@ -66,12 +66,15 @@
 		<kul:htmlControlAttribute
 			attributeEntry="${cashControlDetailAttributes.status}"
 			property="${propertyName}.referenceFinancialDocument.documentHeader.workflowDocument.document.status"
+			tabindexOverride="${tabindexOverrideBase}"
 			readOnly="true" />
 	</td>
 	<td align=left class="${cssClass}">
 		<kul:htmlControlAttribute
 			attributeEntry="${cashControlDetailAttributes.customerNumber}"
-			property="${propertyName}.customerNumber" readOnly="${readOnly}" />
+			property="${propertyName}.customerNumber" 
+			tabindexOverride="${tabindexOverrideBase} + 5"
+			readOnly="${readOnly}" />
 		<c:if test="${not readOnly}">
 			&nbsp;
 			<kul:lookup boClassName="org.kuali.kfs.module.ar.businessobject.Customer"
@@ -82,6 +85,7 @@
 		<kul:htmlControlAttribute
 			attributeEntry="${cashControlDetailAttributes.customerPaymentMediumIdentifier}"
 			property="${propertyName}.customerPaymentMediumIdentifier"
+			tabindexOverride="${tabindexOverrideBase} + 10"
 			readOnly="${readOnly}" />
 	</td>
 	<td align=left class="${cssClass}">
@@ -90,12 +94,15 @@
 				<kul:htmlControlAttribute
 					attributeEntry="${cashControlDetailAttributes.customerPaymentDate}"
 					property="${propertyName}.customerPaymentDate"
+					tabindexOverride="${tabindexOverrideBase} + 15"
 					readOnly="${readOnly}" />
 			</c:when>
 			<c:otherwise>
-				<kul:dateInput
-					attributeEntry="${cashControlDetailAttributes.customerPaymentDate}"
-					property="${propertyName}.customerPaymentDate" />
+			 <kul:htmlControlAttribute
+			 	attributeEntry="${cashControlDetailAttributes.customerPaymentDate}" datePicker="true"
+			 	property="${propertyName}.customerPaymentDate" 
+			 	tabindexOverride="${tabindexOverrideBase} + 20"
+			 	readOnly="${readOnly}" />
 			</c:otherwise>
 		</c:choose>
 	</td>
@@ -103,6 +110,7 @@
 		<kul:htmlControlAttribute
 			attributeEntry="${cashControlDetailAttributes.financialDocumentLineAmount }"
 			property="${propertyName}.financialDocumentLineAmount"
+			tabindexOverride="${tabindexOverrideBase} + 25"
 			styleClass="right" readOnly="${not addLine and readOnly}" />
 	</td>
 
@@ -111,6 +119,7 @@
 			<div align="center">
 				<html:image property="methodToCall.${actionMethod}"
 					src="${actionImage}" alt="${actionAlt}" title="${actionAlt}"
+					tabindex="${tabindexOverrideBase + 30}"
 					styleClass="tinybutton" />
 			</div>
 		</td>
@@ -123,6 +132,7 @@
 		<kul:htmlControlAttribute
 			attributeEntry="${cashControlDetailAttributes.customerPaymentDescription}"
 			property="${propertyName}.customerPaymentDescription"
+			tabindexOverride="${tabindexOverrideBase} + 35"
 			readOnly="${readOnly}" />
 	</td>
 </tr>

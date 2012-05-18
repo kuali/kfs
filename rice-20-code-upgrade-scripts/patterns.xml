@@ -1,50 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rules>
 	<rule name="new_rule_testing_1" alsoRenameClass="true">
-
-	<!-- 
-		<pattern>
-			<match>org.kuali.rice.kns.lookup.keyvalues.NamespaceValuesFinder</match>
-			<replacement>org.kuali.rice.coreservice.web.namespace.NamespaceValuesFinder</replacement>
-		</pattern>
-		<pattern>
-			<match>org\.kuali\.rice\.kns\.document\.authorization\.PermissionDerivedRoleTypeServiceImpl</match>
-			<replacement>org.kuali.rice.krad.kim.PermissionDerivedRoleTypeServiceImpl</replacement>
-		</pattern>
-		<pattern>
-			<match>org\.kuali\.rice\.ksb\.messaging\.KSBExporter</match>
-			<replacement>org.kuali.rice.ksb.api.bus.support.ServiceBusExporter</replacement>
-		</pattern>
-
-		<pattern>
-			<match>org\.kuali\.rice\.ksb\.messaging\.JavaServiceDefinition</match>
-			<replacement>org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition</replacement>
-		</pattern>
-		<pattern>
-			<match>org\.kuali\.rice\.ksb\.messaging\.SOAPServiceDefinition</match>
-			<replacement>org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition</replacement>
-		</pattern>
-		<pattern>
-			<match>org\.kuali\.rice\.ksb\.messaging\.RESTServiceDefinition</match>
-			<replacement>org.kuali.rice.ksb.api.bus.support.RestServiceDefinition</replacement>
-		</pattern>
-		<pattern>
-			<match><![CDATA[<property name="kualiConfigurationService"]]></match>
-			<replacement><![CDATA[<property name="configurationService"]]></replacement>
-		</pattern>
-		<pattern>
-			<match>org\.kuali\.rice\.kew\.dto\.DocumentRouteStatusChangeDTO</match>
-			<replacement>org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange</replacement>
-		</pattern>
-		<pattern>
-			<match>org\.kuali\.rice\.kew\.dto\.DocumentSearchCriteriaDTO</match>
-			<replacement>org.kuali.rice.kew.api.document.search.DocumentSearchCriteria</replacement>
-		</pattern>
-		<pattern>
-			<match>org\.kuali\.rice\.kew\.dto\.DocumentSearchResultDTO</match>
-			<replacement>org.kuali.rice.kew.api.document.search.DocumentSearchResult</replacement>
-		</pattern>
- -->
 	
 <!-- 		
 		<pattern>
@@ -305,7 +261,7 @@ import org.kuali.rice.kim.service.UiDocumentService">SpringContext.getBean(UiDoc
 			<replacement addImport="org.kuali.kfs.sys.context.SpringContext:org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.api.type.KimTypeInfoService">SpringContext.getBean(KimTypeInfoService.class)</replacement>
 		</pattern>
-
+<!-- 
 		<pattern fileType="java">
 			<match>SpringContext\.getBean\(CountryService\.class\).getByPrimaryIdIfNecessary\(([^,]*),([^)]*)\);</match>
 			<replacement addImport="org.kuali.rice.shareddata.api.country.CountryService:org.kuali.rice.shareddata.api.country.CountryService;
@@ -342,7 +298,7 @@ import org.apache.commons.lang.StringUtils">(StringUtils.isBlank($1))?null:($2 =
 import org.kuali.rice.shareddata.api.campus.CampusService;
 import org.apache.commons.lang.StringUtils"><![CDATA[StringUtils.isBlank($1Code)?null:(($2!=null && $2.getCode().equals($1Code))?$2:SpringContext.getBean(CampusService.class).getCampus($1Code))]]></replacement>
 		</pattern>
-
+ -->
 		<pattern>
 			<match>(SpringContext\.getBean\(CountryService\.class\)|countryService)\.getByPrimaryId</match>
 			<replacement>$1.getCountry</replacement>
@@ -355,13 +311,14 @@ import org.apache.commons.lang.StringUtils"><![CDATA[StringUtils.isBlank($1Code)
 			<match>(SpringContext\.getBean\(PostalCodeService\.class\)|postalZipCodeService|postalCodeService)\.getByPrimaryId</match>
 			<replacement>$1.getPostalCode</replacement>
 		</pattern>
+<!-- 
 		<pattern>
 			<match><![CDATA[\(Campus\).*\.getResponsibleModuleService\(Campus\.class\)\.getExternalizableBusinessObject\(Campus\.class,([^)]+)\)]]></match>
 			<replacement addImport="org.kuali.rice.shareddata.api.campus.Campus:org.kuali.rice.shareddata.api.campus.Campus;
 import org.kuali.rice.shareddata.api.campus.CampusService;
 import org.apache.commons.lang.StringUtils"><![CDATA[SpringContext.getBean(CampusService.class).getCampus(campusCode/*RICE_20_REFACTORME $1 */)]]></replacement>
 		</pattern>
-		
+-->	
 		
 		<pattern>
 			<match>getByPostalCodeInDefaultCountry\((.*)\);</match>

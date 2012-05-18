@@ -745,19 +745,11 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService">getBean(
 			<match>this\.documentNumber</match>
 			<replacement>getDocumentNumber()</replacement>
 		</pattern>
-		<pattern fileType="MaintenableImpl.java">
-			<match>this\.documentNumber</match>
-			<replacement>getDocumentNumber()</replacement>
-		</pattern>
 		<pattern fileType="MaintainableImpl.java">
 			<match>documentNumber</match>
 			<replacement>getDocumentNumber()</replacement>
 		</pattern>
 		<pattern fileType="Maintainable.java">
-			<match>documentNumber</match>
-			<replacement>getDocumentNumber()</replacement>
-		</pattern>
-		<pattern fileType="MaintenableImpl.java">
 			<match>documentNumber</match>
 			<replacement>getDocumentNumber()</replacement>
 		</pattern>

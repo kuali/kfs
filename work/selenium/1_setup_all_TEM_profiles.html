@@ -1,0 +1,973 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://localhost:8080/kfs-dev/" />
+<title>setup_all_profiles</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">setup_all_profiles</td></tr>
+</thead><tbody>
+<!--KHUNTLEY Profile-->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Main Menu</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>backdoorId</td>
+	<td>khuntley</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>imageField</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=TEM Profile</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectFrame</td>
+	<td>iframeportlet</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//form[@id='kualiForm']/div[2]/div/a[2]/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//img[@id='document.newMaintainableObject.dateOfBirth_datepicker']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//tr[1]/td[4]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.newMaintainableObject.dateOfBirth']</td>
+	<td>11/01/1960</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//input[@id='document.newMaintainableObject.genderFemale']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//select[@id='document.newMaintainableObject.add.emergencyContacts.contactRelationTypeCode']</td>
+	<td>label=Parent</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.newMaintainableObject.add.emergencyContacts.contactName']</td>
+	<td>Mother Susie</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.newMaintainableObject.add.emergencyContacts.phoneNumber']</td>
+	<td>812-855-5555</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.newMaintainableObject.add.emergencyContacts.emailAddress']</td>
+	<td>mother@test.edu</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.addLine.emergencyContacts.(!!org.kuali.kfs.module.tem.businessobject.TemProfileEmergencyContact!!)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeText</td>
+	<td>id=document.newMaintainableObject.principalId.div</td>
+	<td>KIM_PRIN_ID</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.blanketApprove</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.processAnswer.button0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td></td>
+	<td>Document was successfully submitted.</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Main Menu</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=TEM Profile</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=principalId</td>
+	<td>${KIM_PRIN_ID}</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=td.infoline &gt; input[name=&quot;methodToCall.search&quot;]</td>
+	<td></td>
+</tr>
+<!--Profile found-->
+<tr>
+	<td>assertTable</td>
+	<td>id=row.1.2</td>
+	<td>${KIM_PRIN_ID}</td>
+</tr>
+<!---->
+<!--DHEAGLE Profile-->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Main Menu</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=TEM Profile</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectFrame</td>
+	<td>iframeportlet</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//form[@id='kualiForm']/div[2]/div/a[2]/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>principalName</td>
+	<td>dheagle</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.search</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=create new profile</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//img[@alt='Date selector']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//tr[1]/td[5]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='document.newMaintainableObject.dateOfBirth']</td>
+	<td>11/02/1970</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//input[@id='document.newMaintainableObject.genderMale']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeText</td>
+	<td>id=document.newMaintainableObject.principalId.div</td>
+	<td>KIM_PRIN_ID</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.blanketApprove</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>methodToCall.processAnswer.button0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td></td>
+	<td>Document was successfully submitted.</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Main Menu</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=TEM Profile</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=principalId</td>
+	<td>${KIM_PRIN_ID}</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=td.infoline &gt; input[name=&quot;methodToCall.search&quot;]</td>
+	<td></td>
+</tr>
+<!--Profile found-->
+<tr>
+	<td>assertTable</td>
+	<td>id=row.1.2</td>
+	<td>${KIM_PRIN_ID}</td>
+</tr>
+<!---->
+<!--BSKILES Self Profile-->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Main Menu</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=backdoorId</td>
+	<td>bskiles</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>name=imageField</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=TEM Profile</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectFrame</td>
+	<td>iframeportlet</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=img[alt=&quot;refresh&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=document.newMaintainableObject.dateOfBirth</td>
+	<td>04/01/1970</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=document.newMaintainableObject.genderMale</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=document.newMaintainableObject.add.emergencyContacts.contactRelationTypeCode</td>
+	<td>label=Relative</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=document.newMaintainableObject.add.emergencyContacts.contactName</td>
+	<td>nancy sue</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=document.newMaintainableObject.add.emergencyContacts.phoneNumber</td>
+	<td>812-855-5555</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=document.newMaintainableObject.add.emergencyContacts.emailAddress</td>
+	<td>nan@test.edu</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=methodToCall.addLine.emergencyContacts.(!!org.kuali.kfs.module.tem.businessobject.TemProfileEmergencyContact!!)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeText</td>
+	<td>id=document.newMaintainableObject.principalId.div</td>
+	<td>KIM_PRIN_ID</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>name=methodToCall.route</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>name=methodToCall.processAnswer.button0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td></td>
+	<td>Document was successfully submitted.</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>name=methodToCall.close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Main Menu</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=TEM Profile</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=principalId</td>
+	<td>${KIM_PRIN_ID}</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=td.infoline &gt; input[name=&quot;methodToCall.search&quot;]</td>
+	<td></td>
+</tr>
+<!--Profile found-->
+<tr>
+	<td>assertTable</td>
+	<td>id=row.1.2</td>
+	<td>${KIM_PRIN_ID}</td>
+</tr>
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+<!--AGETZ Profile-->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Main Menu</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=backdoorId</td>
+	<td>khuntley</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>name=imageField</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=TEM Profile</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectFrame</td>
+	<td>iframeportlet</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//form[@id='kualiForm']/div[2]/div/a[2]/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=principalName</td>
+	<td>agetz</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=td.infoline &gt; input[name=&quot;methodToCall.search&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=create new profile</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=document.newMaintainableObject.dateOfBirth</td>
+	<td>05/01/1960</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=document.newMaintainableObject.genderFemale</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeText</td>
+	<td>id=document.newMaintainableObject.principalId.div</td>
+	<td>KIM_PRIN_ID</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>name=methodToCall.route</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>name=methodToCall.processAnswer.button0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td></td>
+	<td>Document was successfully submitted.</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>name=methodToCall.close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Main Menu</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=TEM Profile</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=principalId</td>
+	<td>${KIM_PRIN_ID}</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=td.infoline &gt; input[name=&quot;methodToCall.search&quot;]</td>
+	<td></td>
+</tr>
+<!--Profile found-->
+<tr>
+	<td>assertTable</td>
+	<td>id=row.1.2</td>
+	<td>${KIM_PRIN_ID}</td>
+</tr>
+<!---->
+<!--ABARGE Profile-->
+<tr>
+	<td>selectFrame</td>
+	<td>relative=up</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Main Menu</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=TEM Profile</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectFrame</td>
+	<td>iframeportlet</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//form[@id='kualiForm']/div[2]/div/a[2]/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=principalName</td>
+	<td>abarge</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=td.infoline &gt; input[name=&quot;methodToCall.search&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=create new profile</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=document.newMaintainableObject.dateOfBirth</td>
+	<td>12/12/1912</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=document.newMaintainableObject.genderMale</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeText</td>
+	<td>id=document.newMaintainableObject.principalId.div</td>
+	<td>KIM_PRIN_ID</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>name=methodToCall.route</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>name=methodToCall.processAnswer.button0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td></td>
+	<td>Document was successfully submitted.</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>name=methodToCall.close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Main Menu</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=TEM Profile</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=principalId</td>
+	<td>${KIM_PRIN_ID}</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=td.infoline &gt; input[name=&quot;methodToCall.search&quot;]</td>
+	<td></td>
+</tr>
+<!--Profile found-->
+<tr>
+	<td>assertTable</td>
+	<td>id=row.1.2</td>
+	<td>${KIM_PRIN_ID}</td>
+</tr>
+<!---->
+<!--ABEAL Profile-->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Main Menu</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=TEM Profile</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectFrame</td>
+	<td>iframeportlet</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//form[@id='kualiForm']/div[2]/div/a[2]/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=principalName</td>
+	<td>abeal</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=td.infoline &gt; input[name=&quot;methodToCall.search&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=create new profile</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=document.newMaintainableObject.dateOfBirth</td>
+	<td>02/02/1980</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=document.newMaintainableObject.genderFemale</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeText</td>
+	<td>id=document.newMaintainableObject.principalId.div</td>
+	<td>KIM_PRIN_ID</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>name=methodToCall.route</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>name=methodToCall.processAnswer.button0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td></td>
+	<td>Document was successfully submitted.</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>name=methodToCall.close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Main Menu</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=TEM Profile</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=principalId</td>
+	<td>${KIM_PRIN_ID}</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=td.infoline &gt; input[name=&quot;methodToCall.search&quot;]</td>
+	<td></td>
+</tr>
+<!--Profile found-->
+<tr>
+	<td>assertTable</td>
+	<td>id=row.1.2</td>
+	<td>${KIM_PRIN_ID}</td>
+</tr>
+<!---->
+<!--AATWOOD Profile-->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Main Menu</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=TEM Profile</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectFrame</td>
+	<td>iframeportlet</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//form[@id='kualiForm']/div[2]/div/a[2]/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=principalName</td>
+	<td>aatwood</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=td.infoline &gt; input[name=&quot;methodToCall.search&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=create new profile</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=document.newMaintainableObject.dateOfBirth</td>
+	<td>02/02/1980</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=document.newMaintainableObject.genderFemale</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeText</td>
+	<td>id=document.newMaintainableObject.principalId.div</td>
+	<td>KIM_PRIN_ID</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>name=methodToCall.route</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>name=methodToCall.processAnswer.button0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td></td>
+	<td>Document was successfully submitted.</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>name=methodToCall.close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Main Menu</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=TEM Profile</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=principalId</td>
+	<td>${KIM_PRIN_ID}</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=td.infoline &gt; input[name=&quot;methodToCall.search&quot;]</td>
+	<td></td>
+</tr>
+<!--Profile found-->
+<tr>
+	<td>assertTable</td>
+	<td>id=row.1.2</td>
+	<td>${KIM_PRIN_ID}</td>
+</tr>
+<!---->
+<!--ABOLDING Profile-->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Main Menu</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=TEM Profile</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectFrame</td>
+	<td>iframeportlet</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//form[@id='kualiForm']/div[2]/div/a[2]/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=principalName</td>
+	<td>abolding</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=td.infoline &gt; input[name=&quot;methodToCall.search&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=create new profile</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=document.newMaintainableObject.dateOfBirth</td>
+	<td>02/02/1980</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=document.newMaintainableObject.genderFemale</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeText</td>
+	<td>id=document.newMaintainableObject.principalId.div</td>
+	<td>KIM_PRIN_ID</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>name=methodToCall.route</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>name=methodToCall.processAnswer.button0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td></td>
+	<td>Document was successfully submitted.</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>name=methodToCall.close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Main Menu</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=TEM Profile</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=principalId</td>
+	<td>${KIM_PRIN_ID}</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=td.infoline &gt; input[name=&quot;methodToCall.search&quot;]</td>
+	<td></td>
+</tr>
+<!--Profile found-->
+<tr>
+	<td>assertTable</td>
+	<td>id=row.1.2</td>
+	<td>${KIM_PRIN_ID}</td>
+</tr>
+<!---->
+<!--BRED Profile-->
+<tr>
+	<td>selectFrame</td>
+	<td>relative=up</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Main Menu</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=TEM Profile</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectFrame</td>
+	<td>iframeportlet</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//form[@id='kualiForm']/div[2]/div/a[2]/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=principalName</td>
+	<td>bred</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=td.infoline &gt; input[name=&quot;methodToCall.search&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=create new profile</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=document.newMaintainableObject.dateOfBirth</td>
+	<td>02/02/1980</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=document.newMaintainableObject.genderFemale</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeText</td>
+	<td>id=document.newMaintainableObject.principalId.div</td>
+	<td>KIM_PRIN_ID</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>name=methodToCall.route</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>name=methodToCall.processAnswer.button0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td></td>
+	<td>Document was successfully submitted.</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>name=methodToCall.close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Main Menu</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=TEM Profile</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=principalId</td>
+	<td>${KIM_PRIN_ID}</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=td.infoline &gt; input[name=&quot;methodToCall.search&quot;]</td>
+	<td></td>
+</tr>
+<!--Profile found-->
+<tr>
+	<td>assertTable</td>
+	<td>id=row.1.2</td>
+	<td>${KIM_PRIN_ID}</td>
+</tr>
+<!---->
+<!--ALL PROFILE COMPLETED-->
+</tbody></table>
+</body>
+</html>

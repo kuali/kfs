@@ -196,14 +196,14 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      * Decides whether receivingDocumentRequiredIndicator functionality shall be enabled according to the controlling parameter.
      */
     public boolean isEnableReceivingDocumentRequiredIndicator() {
-        return true; //TODO SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.RECEIVING_DOCUMENT_REQUIRED_IND);
+        return SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.RECEIVING_DOCUMENT_REQUIRED_IND);
     }
     
     /**
      * Decides whether paymentRequestPositiveApprovalIndicator functionality shall be enabled according to the controlling parameter.
      */
     public boolean isEnablePaymentRequestPositiveApprovalIndicator() {
-        return true; //TODO SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.PAYMENT_REQUEST_POSITIVE_APPROVAL_IND);
+        return SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.PAYMENT_REQUEST_POSITIVE_APPROVAL_IND);
     }
         
     public Date getInvoiceDate() {

@@ -72,6 +72,7 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -89,6 +90,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     protected ParameterService parameterService;
     protected BusinessObjectService businessObjectService;
     protected DocumentService documentService;
+    protected WorkflowDocumentService workflowDocumentService;
     protected DataDictionaryService dataDictionaryService;
     protected DateTimeService dateTimeService;
     protected AccountingLineRuleHelperService accountingLineRuleUtil;
@@ -159,8 +161,12 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
                 }
                 documentService.prepareWorkflowDocument(pcardDocument);
 
-                // calling workflow service to bypass business rule checks
-                documentService.routeDocument( pcardDocument, "", null);
+                //** NOTE
+                //
+                //     Calling workflow service to BYPASS business rule checks
+                //
+                //** NOTE
+                workflowDocumentService.route( pcardDocument.getDocumentHeader().getWorkflowDocument(), "", null);
              }
             catch (WorkflowException e) {
                 LOG.error("Error routing document # " + pcardDocumentId + " " + e.getMessage());
@@ -776,6 +782,13 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         this.documentService = documentService;
     }
 
+    public WorkflowDocumentService getWorkflowDocumentService() {
+        return workflowDocumentService;
+    }
+
+    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
+        this.workflowDocumentService = workflowDocumentService;
+    }
 
     /**
      * Gets the dataDictionaryService attribute.

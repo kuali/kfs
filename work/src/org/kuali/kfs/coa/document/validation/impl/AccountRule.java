@@ -421,7 +421,8 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
         }
         
         //KFSMI-5961
-        if (ObjectUtils.isNotNull(newAccount.getContinuationFinChrtOfAcctCd())){
+        if (ObjectUtils.isNotNull(newAccount.getContinuationFinChrtOfAcctCd()) &&
+                ObjectUtils.isNotNull(newAccount.getAccountNumber())){
             if (isAccountAndContinuationAccountAreSame(newAccount)){
                 success &= false;
                 putFieldError("continuationAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CONT_ACCOUNT_CANNOT_BE_SAME);

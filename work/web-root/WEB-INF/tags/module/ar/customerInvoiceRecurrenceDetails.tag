@@ -24,6 +24,7 @@
 <%@ attribute name="readOnly" required="true" description="If document is in read only mode"%>
 
 <c:set var="customerInvoiceRecurrenceAttributes" value="${DataDictionary.CustomerInvoiceRecurrenceDetails.attributes}" />
+<c:set var="tabindexOverrideBase" value="20" />
 
 <kul:tab tabTitle="Recurrence Details" defaultOpen="true" tabErrorKey="${KFSConstants.CUSTOMER_INVOICE_DOCUMENT_RECURRENCE_DETAILS_ERRORS}">
     <div class="tab-container" align=center>	
@@ -38,6 +39,7 @@
                 <td align=left valign=middle class="datacell" style="width: 25%;">
                     <kul:htmlControlAttribute attributeEntry="${customerInvoiceRecurrenceAttributes.documentRecurrenceIntervalCode}" 
                        property="document.customerInvoiceRecurrenceDetails.documentRecurrenceIntervalCode" 
+                       tabindexOverride="${tabindexOverrideBase}"
                        readOnly="${readOnly}" />
                 </td>          
 				<th align=right valign=middle class="bord-l-b" style="width: 25%;">
@@ -47,6 +49,7 @@
                     <kul:htmlControlAttribute 
                        attributeEntry="${customerInvoiceRecurrenceAttributes.documentTotalRecurrenceNumber}" 
                        property="document.customerInvoiceRecurrenceDetails.documentTotalRecurrenceNumber" 
+                       tabindexOverride="${tabindexOverrideBase} + 5"
                        readOnly="${readOnly}" />
                 </td>			
             </tr>
@@ -58,11 +61,17 @@
      		       	<c:choose>
 			            <c:when test="${readOnly}">
 			                <kul:htmlControlAttribute attributeEntry="${customerInvoiceRecurrenceAttributes.documentRecurrenceBeginDate}" 
-			                	property="document.customerInvoiceRecurrenceDetails.documentRecurrenceBeginDate" readOnly="${readOnly}" />
+			                	property="document.customerInvoiceRecurrenceDetails.documentRecurrenceBeginDate"
+			                	tabindexOverride="${tabindexOverrideBase} + 10"
+			                 	readOnly="${readOnly}" />
 			            </c:when>
                         <c:otherwise>
-		                    <kul:dateInput attributeEntry="${customerInvoiceRecurrenceAttributes.documentRecurrenceBeginDate}"
-                       			property="document.customerInvoiceRecurrenceDetails.documentRecurrenceBeginDate" />
+			 				<kul:htmlControlAttribute
+			 					attributeEntry="${customerInvoiceRecurrenceAttributes.documentRecurrenceBeginDate}" 
+			 					datePicker="true"
+			 					property="document.customerInvoiceRecurrenceDetails.documentRecurrenceBeginDate"
+			 					tabindexOverride="${tabindexOverrideBase} + 15"
+			 					readOnly="${readOnly}" />
 			            </c:otherwise>
 					</c:choose>
                 </td>			          
@@ -75,11 +84,17 @@
      		       	<c:choose>
 			            <c:when test="${readOnly}">
 			                <kul:htmlControlAttribute attributeEntry="${customerInvoiceRecurrenceAttributes.documentRecurrenceEndDate}" 
-			                	property="document.customerInvoiceRecurrenceDetails.documentRecurrenceEndDate" readOnly="${readOnly}" />
+			                	property="document.customerInvoiceRecurrenceDetails.documentRecurrenceEndDate" 
+			                	tabindexOverride="${tabindexOverrideBase} + 20"
+			                	readOnly="${readOnly}" />
 			            </c:when>
                         <c:otherwise>
-		                    <kul:dateInput attributeEntry="${customerInvoiceRecurrenceAttributes.documentRecurrenceEndDate}"
-                       			property="document.customerInvoiceRecurrenceDetails.documentRecurrenceEndDate" />
+			 				<kul:htmlControlAttribute
+			 					attributeEntry="${customerInvoiceRecurrenceAttributes.documentRecurrenceEndDate}"
+			 					datePicker="true"
+			 					property="document.customerInvoiceRecurrenceDetails.documentRecurrenceEndDate"
+			 					tabindexOverride="${tabindexOverrideBase} + 25"
+			 					readOnly="${readOnly}" />
 			            </c:otherwise>
 					</c:choose>
                 </td>			
@@ -89,6 +104,7 @@
 				<kul:user userIdFieldName="document.customerInvoiceRecurrenceDetails.documentInitiatorUser.principalName" universalIdFieldName="document.customerInvoiceRecurrenceDetails.documentInitiatorUserIdentifier" userNameFieldName="document.customerInvoiceRecurrenceDetails.documentInitiatorUser.name" label="User" 
 				lookupParameters="document.customerInvoiceRecurrenceDetails.documentInitiatorUser.principalName:principalName,document.customerInvoiceRecurrenceDetails.documentInitiatorUserIdentifier:principalId,document.customerInvoiceRecurrenceDetails.documentInitiatorUser.name:name" 
 				fieldConversions="principalName:document.customerInvoiceRecurrenceDetails.documentInitiatorUser.principalName,principalId:document.customerInvoiceRecurrenceDetails.documentInitiatorUserIdentifier,name:document.customerInvoiceRecurrenceDetails.documentInitiatorUser.name" 
+				tabIndex="${tabindexOverrideBase} + 30"
 				userId="${KualiForm.document.customerInvoiceRecurrenceDetails.documentInitiatorUser.principalName}" universalId="${KualiForm.document.customerInvoiceRecurrenceDetails.documentInitiatorUserIdentifier}" userName="${KualiForm.document.customerInvoiceRecurrenceDetails.documentInitiatorUser.name}" hasErrors="${hasErrors}" readOnly="${readOnly}" />
 				</td>
             </tr>    
@@ -98,6 +114,7 @@
                 <td align=left valign=middle class="datacell" style="width: 25%;">
                     <kul:htmlControlAttribute attributeEntry="${customerInvoiceRecurrenceAttributes.active}" 
                        property="document.customerInvoiceRecurrenceDetails.active"
+                       tabindexOverride="${tabindexOverrideBase} + 30"
                        readOnly="${readOnly}"/>
                 </td>
 				<th align=right valign=middle class="bord-l-b">

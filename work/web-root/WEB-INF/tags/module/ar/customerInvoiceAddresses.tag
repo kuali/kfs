@@ -19,6 +19,7 @@
               description="The DataDictionary entry containing attributes for this row's fields." %>
               
 <c:set var="customerAddressAttributes" value="${DataDictionary.CustomerAddress.attributes}" />              
+<c:set var="tabindexOverrideBase" value="200" />
 
 <%@ attribute name="readOnly" required="true" description="used to decide editability of overview fields" %>
 
@@ -39,6 +40,7 @@
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.customerBillToAddressIdentifier}"
 						property="document.customerBillToAddressIdentifier"
+						tabindexOverride="${tabindexOverrideBase}"
 						readOnly="${readOnly}" />
 					<c:if test="${not readOnly}">
 					    &nbsp;
@@ -48,6 +50,7 @@
 							&nbsp;
 						<html:image property="methodToCall.refreshBillToAddress"
 							src="${ConfigProperties.externalizable.images.url}tinybutton-refresh.gif"
+							tabindex="-1"
 							title="Refresh Bill to Address" alt="Refresh Bill To Address"
 							styleClass="tinybutton" />
 					</c:if>			
@@ -62,6 +65,7 @@
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.billingCityName}"
 						property="document.billingCityName"
+						tabindexOverride="${tabindexOverrideBase} + 5"
 						readOnly="true" />
 					</div>
 				</td>
@@ -78,6 +82,7 @@
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.billingAddressTypeCode}"
 						property="document.billingAddressTypeCode"
+						tabindexOverride="${tabindexOverrideBase} + 10"
 						readOnly="true" />
 					</div>
 				</td>
@@ -91,6 +96,7 @@
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.billingStateCode}"
 						property="document.billingStateCode"
+						tabindexOverride="${tabindexOverrideBase} + 15"
 						readOnly="true" />
 					</div>
 				</td>
@@ -107,6 +113,7 @@
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.billingAddressName}"
 						property="document.billingAddressName"
+						tabindexOverride="${tabindexOverrideBase} + 20"
 						readOnly="true" />
 					</div>
 				</td>
@@ -120,6 +127,7 @@
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.billingZipCode}"
 						property="document.billingZipCode"
+						tabindexOverride="${tabindexOverrideBase} + 25"
 						readOnly="true" />
 					</div>
 				</td>
@@ -136,6 +144,7 @@
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.billingLine1StreetAddress}"
 						property="document.billingLine1StreetAddress"
+						tabindexOverride="${tabindexOverrideBase} + 30"
 						readOnly="true" />
 					</div>
 				</td>
@@ -149,6 +158,7 @@
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.billingAddressInternationalProvinceName}"
 						property="document.billingAddressInternationalProvinceName"
+						tabindexOverride="${tabindexOverrideBase} + 35"
 						readOnly="true" />
 					</div>
 				</td>
@@ -165,6 +175,7 @@
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.billingLine2StreetAddress}"
 						property="document.billingLine2StreetAddress"
+						tabindexOverride="${tabindexOverrideBase} + 40"
 						readOnly="true" />
 					</div>
 				</td>
@@ -178,6 +189,7 @@
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.billingInternationalMailCode}"
 						property="document.billingInternationalMailCode"
+						tabindexOverride="${tabindexOverrideBase} + 45"
 						readOnly="true" />
 					</div>
 				</td>
@@ -194,6 +206,7 @@
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.billingEmailAddress}"
 						property="document.billingEmailAddress"
+						tabindexOverride="${tabindexOverrideBase} + 50"
 						readOnly="true" />
 					</div>
 				</td>
@@ -207,6 +220,7 @@
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.billingCountryCode}"
 						property="document.billingCountryCode"
+						tabindexOverride="${tabindexOverrideBase} + 55"
 						readOnly="true" />
 					</div>
 				</td>
@@ -226,6 +240,7 @@
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.customerShipToAddressIdentifier}"
 						property="document.customerShipToAddressIdentifier"
+						tabindexOverride="${tabindexOverrideBase} + 60"
 						readOnly="${readOnly}" />
 					<c:if test="${not readOnly}">
 					    &nbsp;
@@ -236,6 +251,7 @@
 						<html:image property="methodToCall.refreshShipToAddress"
 							src="${ConfigProperties.externalizable.images.url}tinybutton-refresh.gif"
 							title="Refresh Bill to Address" alt="Refresh Bill To Address"
+							tabindex="-1"
 							styleClass="tinybutton" />
 					</c:if>			
 				</td>
@@ -249,6 +265,7 @@
 					<kul:htmlControlAttribute
 						attributeEntry="${customerAddressAttributes.customerCityName}"
 						property="document.shippingCityName"
+						tabindexOverride="${tabindexOverrideBase} + 65"
 						readOnly="true" />
                      </div>
 				</td>
@@ -265,6 +282,7 @@
 					<kul:htmlControlAttribute
 						attributeEntry="${customerAddressAttributes.customerAddressTypeCode}"
 						property="document.shippingAddressTypeCode"
+						tabindexOverride="${tabindexOverrideBase} + 70"
 						readOnly="true" />
                      </div>
 				</td>
@@ -278,6 +296,7 @@
 					<kul:htmlControlAttribute
 						attributeEntry="${customerAddressAttributes.customerStateCode}"
 						property="document.shippingStateCode"
+						tabindexOverride="${tabindexOverrideBase} + 75"
 						readOnly="true" />
                      </div>   
 				</td>
@@ -294,6 +313,7 @@
 					<kul:htmlControlAttribute
 						attributeEntry="${customerAddressAttributes.customerAddressName}"
 						property="document.shippingAddressName"
+						tabindexOverride="${tabindexOverrideBase} + 80"
 						readOnly="true" />
                      </div>
 				</td>
@@ -307,6 +327,7 @@
 					<kul:htmlControlAttribute
 						attributeEntry="${customerAddressAttributes.customerZipCode}"
 						property="document.shippingZipCode"
+						tabindexOverride="${tabindexOverrideBase} + 85"
 						readOnly="true" />
                      </div>
 				</td>
@@ -323,6 +344,7 @@
 					<kul:htmlControlAttribute
 						attributeEntry="${customerAddressAttributes.customerLine1StreetAddress}"
 						property="document.shippingLine1StreetAddress"
+						tabindexOverride="${tabindexOverrideBase} + 90"
 						readOnly="true" />
                      </div>
 				</td>
@@ -336,6 +358,7 @@
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.shippingAddressInternationalProvinceName}"
 						property="document.shippingAddressInternationalProvinceName"
+						tabindexOverride="${tabindexOverrideBase} + 95"
 						readOnly="true" />
                      </div>
 				</td>
@@ -352,6 +375,7 @@
 					<kul:htmlControlAttribute
 						attributeEntry="${customerAddressAttributes.customerLine2StreetAddress}"
 						property="document.shippingLine2StreetAddress"
+						tabindexOverride="${tabindexOverrideBase} + 100"
 						readOnly="true" />
                      </div>
 				</td>
@@ -365,6 +389,7 @@
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.shippingInternationalMailCode}"
 						property="document.shippingInternationalMailCode"
+						tabindexOverride="${tabindexOverrideBase} + 105"
 						readOnly="true" />
                      </div>
 				</td>
@@ -381,6 +406,7 @@
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.shippingEmailAddress}"
 						property="document.shippingEmailAddress"
+						tabindexOverride="${tabindexOverrideBase} + 110"
 						readOnly="true" />
                      </div>
 				</td>
@@ -394,6 +420,7 @@
 					<kul:htmlControlAttribute
 						attributeEntry="${documentAttributes.shippingCountryCode}"
 						property="document.shippingCountryCode"
+						tabindexOverride="${tabindexOverrideBase} + 115"
 						readOnly="true" />
                      </div>
 				</td>

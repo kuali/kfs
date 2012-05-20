@@ -86,23 +86,22 @@ public class PurchaseOrderView extends AbstractRelatedView {
      */
     @Override
     public List<Note> getNotes() {
-        //TODO: this should be uncommented when rice issue is fixed in dao class issue.
-     //   if (this.isPurchaseOrderCurrentIndicator()) {
-     //       if (notes == null) {
-     //           notes = new ArrayList<Note>();
-     //           List<Note> tmpNotes = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderNotes(this.getPurapDocumentIdentifier());
-     //           //FIXME if NoteService returns notes in descending order (newer ones first) then remove the following
-    //            // reverse the order of notes retrieved so that newest note is in the front
-    //            for (int i = tmpNotes.size()-1; i>=0; i--) {
-    //                Note note = tmpNotes.get(i);
-    //                notes.add(note);
-    //            }
-    //        }
-    //    }
-    //    else {
-     //       notes = null;
-    //    }
-        
+        if (this.isPurchaseOrderCurrentIndicator()) {
+            if (notes == null) {
+                notes = new ArrayList<Note>();
+                List<Note> tmpNotes = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderNotes(this.getPurapDocumentIdentifier());
+                //FIXME if NoteService returns notes in descending order (newer ones first) then remove the following
+                // reverse the order of notes retrieved so that newest note is in the front
+                for (int i = tmpNotes.size()-1; i>=0; i--) {
+                    Note note = tmpNotes.get(i);
+                    notes.add(note);
+                }
+            }
+        }
+        else {
+            notes = null;
+        }
+
         return notes;
     }
 

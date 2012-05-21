@@ -154,7 +154,7 @@ ROLE MEMBERS (ROLES ONLY)
 </echo>    	
         <sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}"
         	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
-        	SELECT r.NMSPC_CD AS role_namespace, r.ROLE_NM AS role_name, CONCAT( r2.NMSPC_CD, ' / ', r2.ROLE_NM ) AS member_role_name, a.NM AS qualifier_name, rma.ATTR_VAL AS qualifier_value
+        	SELECT r.NMSPC_CD AS role_namespace, r.ROLE_NM AS role_name, CONCAT( CONCAT( r2.NMSPC_CD, ' / ' ), r2.ROLE_NM ) AS member_role_name, a.NM AS qualifier_name, rma.ATTR_VAL AS qualifier_value
         		FROM krim_role_mbr_t rm
         	        INNER JOIN krim_role_t r ON r.ROLE_ID = rm.ROLE_ID
         	        LEFT OUTER JOIN krim_role_t r2 ON r2.ROLE_ID = rm.MBR_ID
@@ -171,7 +171,7 @@ ROLE DELEGATIONS
 </echo>    	
         <sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}"
         	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
-        	SELECT r.NMSPC_CD AS role_namespace, r.ROLE_NM AS role_name, d.DLGN_TYP_CD, CONCAT( r2.NMSPC_CD, ' / ', r2.ROLE_NM ) AS member_role_name, t.NM AS delegation_type
+        	SELECT r.NMSPC_CD AS role_namespace, r.ROLE_NM AS role_name, d.DLGN_TYP_CD, CONCAT( CONCAT( r2.NMSPC_CD, ' / ' ), r2.ROLE_NM ) AS member_role_name, t.NM AS delegation_type
         		FROM krim_dlgn_t d
         	        INNER JOIN krim_role_t r ON r.role_id = d.role_id
         	        INNER JOIN krim_typ_t t ON t.KIM_TYP_ID = d.KIM_TYP_ID

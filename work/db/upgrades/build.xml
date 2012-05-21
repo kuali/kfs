@@ -39,14 +39,15 @@ DOCUMENT ROUTE NODES
         	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
         	SELECT t.doc_typ_nm, n.nm, 
         	    SUBSTR( n.typ, -(INSTR( REVERSE( n.typ ), '.' ) - 1) ) AS node_type,
-        	    n.actvn_typ, n.next_doc_stat, nn.nm AS NEXT_NODE_NM
+        	    n.actvn_typ, n.next_doc_stat, b.BRCH_NM AS branch_name, nn.nm AS NEXT_NODE_NM
         	    FROM  KREW_DOC_TYP_T t
         	        INNER JOIN KREW_RTE_NODE_T n ON n.doc_typ_id = t.doc_typ_id
         	        LEFT OUTER JOIN KREW_RTE_NODE_LNK_T nl ON nl.FROM_RTE_NODE_ID = n.RTE_NODE_ID
         	        LEFT OUTER JOIN KREW_RTE_NODE_T nn ON nn.RTE_NODE_ID = nl.TO_RTE_NODE_ID
+                    LEFT OUTER JOIN krew_rte_brch_proto_t b ON b.RTE_BRCH_PROTO_ID = nn.BRCH_PROTO_ID
         	    WHERE t.ACTV_IND = 1 AND t.CUR_IND = 1
 		  		  ${additional.exclusions}
-        	    ORDER BY t.doc_typ_nm, n.rte_node_id, nn.NM
+        	    ORDER BY t.doc_typ_nm, n.rte_node_id, branch_name, nn.NM
         </sql>
     	<echo file="${output.file}" append="true">
 ********************************************************************************

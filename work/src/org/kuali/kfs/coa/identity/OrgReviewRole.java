@@ -59,6 +59,9 @@ import org.kuali.rice.location.framework.country.CountryEbo;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
 public class OrgReviewRole extends PersistableBusinessObjectBase implements MutableInactivatable {
+
+    public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + "OrgReviewRole";
+    
     protected static final String ORR_INQUIRY_TITLE_PROPERTY = "message.inquiry.org.review.role.title";
     protected static String INQUIRY_TITLE_VALUE = null;
 
@@ -1008,7 +1011,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
      */
     public RoleEbo getRole() {
         if ( role == null || !StringUtils.equals(role.getId(), roleId)) {
-            ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CountryEbo.class);
+            ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(RoleEbo.class);
             if ( moduleService != null ) {
                 Map<String,Object> keys = new HashMap<String, Object>(1);
                 keys.put(KimConstants.PrimaryKeyConstants.ID, roleId);

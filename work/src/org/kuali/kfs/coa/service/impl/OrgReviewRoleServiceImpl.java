@@ -61,7 +61,6 @@ import org.springframework.cache.annotation.Cacheable;
 public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrgReviewRoleServiceImpl.class);
 
-    protected static final String CACHE_NAME = "OrgReviewRole";
     // note: this assumes that all use the KFS-SYS namespace
     protected static final Map<String,Role> ROLE_CACHE = new HashMap<String, Role>();
     protected static final Map<String,Map<String,KimAttribute>> ATTRIBUTE_CACHE = new HashMap<String, Map<String,KimAttribute>>();
@@ -166,7 +165,7 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
     }
 
     @Override
-    @Cacheable(value=CACHE_NAME,key="'{ValidDocumentTypeForOrgReview}'+#documentTypeName")
+    @Cacheable(value=OrgReviewRole.CACHE_NAME,key="'{ValidDocumentTypeForOrgReview}'+#documentTypeName")
     public boolean isValidDocumentTypeForOrgReview(String documentTypeName){
         if(StringUtils.isEmpty(documentTypeName)){
             return false;
@@ -185,7 +184,7 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
     }
 
     @Override
-    @Cacheable(value=CACHE_NAME,key="'{hasOrganizationHierarchy}'+#documentTypeName")
+    @Cacheable(value=OrgReviewRole.CACHE_NAME,key="'{hasOrganizationHierarchy}'+#documentTypeName")
     public boolean hasOrganizationHierarchy(final String documentTypeName) {
         if(StringUtils.isBlank(documentTypeName)) {
             return false;
@@ -194,7 +193,7 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
     }
 
     @Override
-    @Cacheable(value=CACHE_NAME,key="'{hasAccountingOrganizationHierarchy}'+#documentTypeName")
+    @Cacheable(value=OrgReviewRole.CACHE_NAME,key="'{hasAccountingOrganizationHierarchy}'+#documentTypeName")
     public boolean hasAccountingOrganizationHierarchy(final String documentTypeName) {
         if(StringUtils.isBlank(documentTypeName)) {
             return false;
@@ -203,7 +202,7 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
     }
 
     @Override
-    @Cacheable(value=CACHE_NAME,key="'{ClosestOrgReviewRoleParentDocumentTypeName}'+#documentTypeName")
+    @Cacheable(value=OrgReviewRole.CACHE_NAME,key="'{ClosestOrgReviewRoleParentDocumentTypeName}'+#documentTypeName")
     public String getClosestOrgReviewRoleParentDocumentTypeName(final String documentTypeName){
         if(StringUtils.isBlank(documentTypeName)) {
             return null;
@@ -229,7 +228,7 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
      * @return
      */
     @Override
-    @Cacheable(value=CACHE_NAME,key="#documentTypeName")
+    @Cacheable(value=OrgReviewRole.CACHE_NAME,key="#documentTypeName")
     public List<String> getRolesToConsider(String documentTypeName) throws ValidationException {
         List<String> rolesToConsider = getRolesToConsiderInternal(documentTypeName);
         if ( rolesToConsider.isEmpty() ) {

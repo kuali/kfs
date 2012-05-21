@@ -35,13 +35,14 @@
 			memoryStoreEvictionPolicy="LRU" 
 			statistics="false" />
  -->
-	<!-- Cache with copyOnRead (replacement for @Cached) -->
-	<cache name="KFS/Account" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />
-	<cache name="KFS/AccountingPeriod" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />
-	<cache name="KFS/Organization" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />
-	<cache name="KFS/SubAccount" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />
+    <!-- Cache with copyOnRead (replacement for @Cached) -->
+    <cache name="KFS/Account" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />
+    <cache name="KFS/AccountingPeriod" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />
+    <cache name="KFS/Organization" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />
+    <cache name="KFS/SubAccount" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />
   	<cache name="KFS/ProjectCode" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />
   	<cache name="KFS/CustomerInvoiceDetail" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />  	
+    <cache name="KFS/OrgReviewRole" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true" />
 
   	<!-- Cache (replacement for @CacheNoCopy)-->
   	<cache name="KFS/Chart" maxEntriesLocalHeap="10000" /> 

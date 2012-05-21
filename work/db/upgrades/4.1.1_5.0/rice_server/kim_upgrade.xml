@@ -120,7 +120,7 @@
 			<column name='VER_NBR' valueNumeric='1' />
 			<column name='RSP_TMPL_ID' value='1' />
 			<column name='NMSPC_CD' value='KFS-FP' />
-			<column name='NM' value='DV Separation of Duties' />
+			<column name='NM' value='Review DV Separation of Duties' />
 			<column name='DESC_TXT' value='' />
 			<column name='ACTV_IND' value='Y' />
 		</insert>
@@ -354,7 +354,7 @@
 			<column name="VER_NBR" value="1"/>
 			<column name="NMSPC_CD" value="KFS-SYS"/>
 			<column name="NM" value="Exclude Single Actor Separation Of Duties"/>
-			<column name="SRVC_NM" value="excludeSingleActorSeparationOfDutiesRoleTypeService"/>
+			<column name="SRVC_NM" value="{KFS}excludeSingleActorSeparationOfDutiesRoleTypeService"/>
 			<column name="ACTV_IND" value="Y"/>
 		</insert>
 		<insert tableName="KRIM_ROLE_T">
@@ -397,10 +397,51 @@
 			<column name="ROLE_MBR_ID" value="*"/>
 			<column name="ROLE_RSP_ID" value="KFSMI4553-4"/>
 			<column name="FRC_ACTN" value="Y"/>
+			<column name="PRIORITY_NBR" value="1"/>
 		</insert>
 	    <modifySql dbms="mysql">
 	      <replace replace="sys_guid()" with="uuid()" />
 	    </modifySql>
+	</changeSet>
+	
+	<changeSet author="KFS50" id="ADD_FILEPATH_ROLE_TYPE">
+		<insert tableName="KRIM_ATTR_DEFN_T">
+			<column name="KIM_ATTR_DEFN_ID" value="KFSCNTRB199-ATTRDEF1" />
+			<column name="OBJ_ID" value="KFSCNTRB199-ATTRDEF1"/>
+			<column name="VER_NBR" value="1" />
+			<column name="NMSPC_CD" value="KFS-SYS" />
+			<column name="NM" value="filePath" />
+			<column name="CMPNT_NM" value="org.kuali.kfs.sys.identity.KfsKimAttributes" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_TYP_T">
+			<column name="KIM_TYP_ID" value="KFSCNTRB199-TYP1"/>
+			<column name="OBJ_ID" value="KFSCNTRB199-TYP1"/>
+			<column name="VER_NBR" value="1" />
+			<column name="NMSPC_CD" value="KFS-SYS" />
+			<column name="NM" value="Namespace or File Path" />
+			<column name="SRVC_NM" value="{KFS}namespaceOrFilePathPermissionTypeService" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_TYP_ATTR_T">
+			<column name="KIM_TYP_ATTR_ID" value="KFSCNTRB199-TYPATTR1" />
+			<column name="OBJ_ID" value="KFSCNTRB199-TYPATTR1"/>
+			<column name="VER_NBR" value="1" />
+			<column name="SORT_CD" value="a" />
+			<column name="KIM_TYP_ID" value="KFSCNTRB199-TYP1" />
+			<column name="KIM_ATTR_DEFN_ID" value="4" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_TYP_ATTR_T">
+			<column name="KIM_TYP_ATTR_ID" value="KFSCNTRB199-TYPATTR1" />
+			<column name="OBJ_ID" value="KFSCNTRB199-TYPATTR1"/>
+			<column name="VER_NBR" value="1" />
+			<column name="SORT_CD" value="b" />
+			<column name="KIM_TYP_ID" value="KFSCNTRB199-TYP1" />
+			<column name="KIM_ATTR_DEFN_ID" value="KFSCNTRB199-ATTRDEF1" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		
 	</changeSet>
 	
 	<changeSet author="jksmith" id="KFSMI6732_PREROUTE_EDIT_DOC_PERM_FOR_PAYMENT_APPLICATION">
@@ -514,7 +555,7 @@
 			<column name="VER_NBR" value="1" />
 			<column name="NMSPC_CD" value="KFS-PDP" />
 			<column name="NM" value="Payee ACH Account" />
-			<column name="SRVC_NM" value="payeeACHAccountRoleTypeService" />
+			<column name="SRVC_NM" value="{KFS}payeeACHAccountRoleTypeService" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_ATTR_DEFN_T">
@@ -723,6 +764,74 @@
 	    <modifySql dbms='mysql'>
 	      <replace replace="sys_guid()" with="uuid()" />
 	    </modifySql>
+	</changeSet>
+
+	<changeSet author="KFS50" id="KFSCNTRB199_PERMS">
+		<insert tableName="KRIM_PERM_T">
+			<column name="PERM_ID" value="KFSCNTRB199-P1" />
+			<column name="OBJ_ID" value="KFSCNTRB199-P1"/>
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_TMPL_ID" value="33" />
+			<column name="NMSPC_CD" value="KFS-SYS" />
+			<column name="NM" value="Upload semaphoreInputFileTypeError" />
+			<column name="DESC_TXT" value="Authorizes users to access the Batch Semaphore File Upload page." />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB199-PATD" />
+			<column name="OBJ_ID" value="KFSCNTRB199-PATD" />
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_ID" value="KFSCNTRB199-P1" />
+			<column name="KIM_TYP_ID" value="15" />
+			<column name="KIM_ATTR_DEFN_ID" value="1" />
+			<column name="ATTR_VAL" value="semaphoreInputFileTypeError" />
+		</insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFSCNTRB199-RP1" />
+			<column name="OBJ_ID" value="KFSCNTRB199-RP1"/>
+			<column name="VER_NBR" value="1" />
+			<column name="ROLE_ID" value="51" />
+			<column name="PERM_ID" value="KFSCNTRB199-P1" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+		<insert tableName="KRIM_PERM_T">
+			<column name="PERM_ID" value="KFSCNTRB199-P2" />
+			<column name="OBJ_ID" value="KFSCNTRB199-P2"/>
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_TMPL_ID" value="50" />
+			<column name="NMSPC_CD" value="KFS-SYS" />
+			<column name="NM" value="Administer Batch File KFS-SYS batchContainer" />
+			<column name="DESC_TXT" value="Authorizes users to view the batch files using the Batch File lookup screen" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB199-PAD2" />
+			<column name="OBJ_ID" value="KFSCNTRB199-PAD2" />
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_ID" value="KFSCNTRB199-P2" />
+			<column name="KIM_TYP_ID" value="KFSCNTRB199-TYP1" />
+			<column name="KIM_ATTR_DEFN_ID" value="4" />
+			<column name="ATTR_VAL" value="KFS-SYS" />
+		</insert>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB199-PAD3" />
+			<column name="OBJ_ID" value="KFSCNTRB199-PAD3" />
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_ID" value="KFSCNTRB199-P2" />
+			<column name="KIM_TYP_ID" value="KFSCNTRB199-TYP1" />
+			<column name="KIM_ATTR_DEFN_ID" value="KFSCNTRB199-ATTRDEF1" />
+			<column name="ATTR_VAL" value="staging/sys/batchContainer/*" />
+		</insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFSCNTRB199-RP2" />
+			<column name="OBJ_ID" value="KFSCNTRB199-RP2"/>
+			<column name="VER_NBR" value="1" />
+			<column name="ROLE_ID" value="51" />
+			<column name="PERM_ID" value="KFSCNTRB199-P2" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
 	</changeSet>
 	
 </databaseChangeLog>

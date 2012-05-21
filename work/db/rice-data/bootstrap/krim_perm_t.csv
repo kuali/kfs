@@ -285,7 +285,7 @@
 KFSLD6987,KFSLD6987h,1,33,KFS-LD,Upload Labor Enterprise Feed Batch Files,"Allows access to the Labor Enterprise Feed Upload Batch Upload page.",Y
 "KFSSYS7145a","KFSSYS7145a","1","1","KFS-SYS","View Accounting Period","Users who can view the accounting period field when enabled for year end processing.","Y"
 "KFSSYS7145b","KFSSYS7145b","1","1","KFS-SYS","Edit Accounting Period","Users who can edit the accounting period field when enabled for year end processing.","Y"
-KFSSYS6007,KFSSYS6007,1,31,KFS-SYS,Allow DV Immediate Disbursement,Allow Disbursement Voucher to be marked for immediate disbursement by the Pre-Disbursement Processor.,Y
+KFSSYS6007,KFSSYS6007,1,31,KFS-FP,Allow DV Immediate Disbursement,Allow Disbursement Voucher to be marked for immediate disbursement by the Pre-Disbursement Processor.,Y
 KFSAR6732,KFSAR6732,1,16,KFS-AR,Edit APP Document-PreRoute,Edit permission for the Payment Application document prior to the document being submitted.,Y
 KFSAR5340P,KFSAR5340P,1,31,KFS-AR,Edit Invoice Processing Organization,Users who can edit the Processing Chart Code and the processing organization fields on the Customer Invoice Document.,Y
 KFSMI6886-PRM1,KFSMI6886-PRM1,1,42,KFS-PDP,Maintain ACH Accounts,Allows to view and update Payee ACH Accounts of a certain transaction type.,Y

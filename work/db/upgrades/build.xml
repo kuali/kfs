@@ -121,6 +121,7 @@ PERMISSIONS
         	        INNER JOIN krim_perm_tmpl_t pt ON pt.PERM_TMPL_ID = p.PERM_TMPL_ID
         	        LEFT OUTER JOIN krim_perm_attr_data_t pa ON pa.PERM_ID = p.PERM_ID
         	        LEFT OUTER JOIN krim_attr_defn_t a ON a.KIM_ATTR_DEFN_ID = pa.KIM_ATTR_DEFN_ID
+        		WHERE p.nmspc_cd NOT LIKE '%TEST%'
         	    ORDER BY perm_namespace, perm_name, attribute_name
         </sql>
     	<echo file="${output.file}" append="true">
@@ -135,6 +136,7 @@ RESPONSIBILITIES
         	        INNER JOIN krim_rsp_tmpl_t pt ON pt.RSP_TMPL_ID = p.RSP_TMPL_ID
         	        LEFT OUTER JOIN krim_rsp_attr_data_t pa ON pa.RSP_ID = p.RSP_ID
         	        LEFT OUTER JOIN krim_attr_defn_t a ON a.KIM_ATTR_DEFN_ID = pa.KIM_ATTR_DEFN_ID
+	    		WHERE p.nmspc_cd NOT LIKE '%TEST%'
         	    ORDER BY resp_namespace, resp_name, attribute_name
         </sql>
     	<echo file="${output.file}" append="true">
@@ -192,6 +194,7 @@ ROLE PERMISSIONS
         		FROM krim_role_t r
         	      LEFT OUTER JOIN krim_role_perm_t rp ON rp.ROLE_ID = r.ROLE_ID
         	      LEFT OUTER JOIN krim_perm_t p ON p.PERM_ID = rp.perm_id
+	    		WHERE p.nmspc_cd NOT LIKE '%TEST%'
         	    ORDER BY role_namespace, role_name, perm_namespace, perm_name
         </sql>
     	<echo file="${output.file}" append="true">
@@ -207,6 +210,7 @@ ROLE RESPONSIBILITIES
         	      LEFT OUTER JOIN krim_rsp_t p ON p.RSP_ID = rp.RSP_id
         	      LEFT OUTER JOIN krim_role_rsp_actn_t rra ON rra.ROLE_RSP_ID = rp.ROLE_RSP_ID
         	    WHERE p.NM IS NOT NULL
+	    		  AND p.nmspc_cd NOT LIKE '%TEST%'
         	    ORDER BY resp_namespace, resp_name, role_namespace, role_name
         </sql>
 

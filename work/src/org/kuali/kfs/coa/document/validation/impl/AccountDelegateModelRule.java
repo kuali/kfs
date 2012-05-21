@@ -15,9 +15,13 @@
  */
 package org.kuali.kfs.coa.document.validation.impl;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.AccountDelegateModel;
 import org.kuali.kfs.coa.businessobject.AccountDelegateModelDetail;
+import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -127,10 +131,11 @@ public class AccountDelegateModelRule extends KfsMaintenanceDocumentRuleBase {
             GlobalVariables.getMessageMap().addToErrorPath(MAINTAINABLE_ERROR_PATH + ".accountDelegateModelDetails[" + line + "].");
             line++;
         }
+        
         return success;
     }
 
-    /**
+     /**
      * This method checks a series of basic rules for a single org routing model.
      * 
      * @return true if model passes all the checks, false if otherwise
@@ -139,6 +144,7 @@ public class AccountDelegateModelRule extends KfsMaintenanceDocumentRuleBase {
         boolean success = true;
 
         if (delegateModel.isActive()) {
+            success &= checkStartDate(delegateModel);
             success &= checkDelegateFromAmountPositive(delegateModel);
             success &= checkDelegateToAmountGreaterThanFromAmount(delegateModel);
             success &= checkDelegateUserRules(document, delegateModel);
@@ -148,6 +154,15 @@ public class AccountDelegateModelRule extends KfsMaintenanceDocumentRuleBase {
 
         return success;
     }
+
+    private boolean checkStartDate(AccountDelegateModelDetail delegateModel) {
+        boolean success = true;
+        Timestamp ts = new Timestamp(new java.util.Date().getTime());
+        if (delegateModel.getAccountDelegateStartDate().before(ts)) success = false;
+        GlobalVariables.getMessageMap().putError("accountDelegateStartDate", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_STARTDATE_IN_PAST, new String[0]);
+        return success;
+    }
+
 
     /**
      * This method makes certain that the collection of account delegates in the "mo itdel" has at least one account delegate

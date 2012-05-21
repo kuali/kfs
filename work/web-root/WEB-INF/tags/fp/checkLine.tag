@@ -26,6 +26,7 @@
 <%@ attribute name="displayHidden" required="true" %>
 
 <c:set var="checkBaseAttributes" value="${DataDictionary.CheckBase.attributes}" />
+<c:set var="tabindexOverrideBase" value="200" />
 
 <tr>
     <kul:htmlAttributeHeaderCell literalLabel="${rowHeading}:" scope="row">
@@ -48,7 +49,9 @@
     </kul:htmlAttributeHeaderCell>
     <td class="${cssClass}" nowrap>
     	<c:if test="${!readOnly}" >
-        	<kul:htmlControlAttribute property="${propertyName}.checkNumber" attributeEntry="${checkBaseAttributes.checkNumber}" />
+        	<kul:htmlControlAttribute property="${propertyName}.checkNumber"
+        	tabindexOverride="${tabindexOverrideBase}"
+        	 attributeEntry="${checkBaseAttributes.checkNumber}" />
         </c:if>
         <c:if test="${readOnly}">
 			<bean:write  name="KualiForm" property="${propertyName}.checkNumber" />
@@ -61,7 +64,10 @@
     </td>
     <td class="${cssClass}" nowrap>
     	<c:if test="${!readOnly}" >
-	    	<kul:dateInput property="${propertyName}.checkDate" attributeEntry="${checkBaseAttributes.checkDate}" />
+	    	<kul:htmlControlAttribute property="${propertyName}.checkDate" 
+	    	attributeEntry="${checkBaseAttributes.checkDate}"  
+	    	tabindexOverride="${tabindexOverrideBase} + 5"
+	    	datePicker="true"/>
         </c:if>
         <c:if test="${readOnly}">
 			<bean:write  name="KualiForm" property="${propertyName}.checkDate" />
@@ -74,7 +80,9 @@
     </td>
     <td class="${cssClass}" nowrap>
     	<c:if test="${!readOnly}" >
-        	<kul:htmlControlAttribute property="${propertyName}.description" attributeEntry="${checkBaseAttributes.description}" />
+        	<kul:htmlControlAttribute property="${propertyName}.description" 
+        	tabindexOverride="${tabindexOverrideBase} + 10"
+        	attributeEntry="${checkBaseAttributes.description}" />
         </c:if>
         <c:if test="${readOnly}">
 			<bean:write  name="KualiForm" property="${propertyName}.description" />
@@ -88,7 +96,9 @@
     </td>
     <td class="${cssClass}" nowrap>
     	<c:if test="${!readOnly}" >
-	    	<kul:htmlControlAttribute property="${propertyName}.amount" attributeEntry="${checkBaseAttributes.amount}" styleClass="amount" />
+	    	<kul:htmlControlAttribute property="${propertyName}.amount" 
+	    	tabindexOverride="${tabindexOverrideBase} + 15"
+	    	attributeEntry="${checkBaseAttributes.amount}" styleClass="amount" />
         </c:if>
         <c:if test="${readOnly}">
 			<bean:write  name="KualiForm" property="${propertyName}.amount" />
@@ -103,7 +113,7 @@
     <c:if test="${!readOnly}">
         <td class="${cssClass}" nowrap>
             <div align="center">
-                <html:image property="methodToCall.${actionMethod}" styleClass="tinybutton" src="${actionImage}" title="${actionAlt}" alt="${actionAlt}"/>
+                <html:image property="methodToCall.${actionMethod}" tabindex="${tabindexOverrideBase} + 20" styleClass="tinybutton" src="${actionImage}" title="${actionAlt}" alt="${actionAlt}"/>
             </div>
         </td>
     </c:if>

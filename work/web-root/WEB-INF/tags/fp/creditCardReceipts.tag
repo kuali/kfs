@@ -20,6 +20,8 @@
 
 <kul:tab tabTitle="Credit Card Receipts" defaultOpen="true" tabErrorKey="${KFSConstants.CREDIT_CARD_RECEIPTS_LINE_ERRORS}">
 <c:set var="ccrAttributes" value="${DataDictionary.CreditCardDetail.attributes}" />
+<c:set var="tabindexOverrideBase" value="20" />
+
  <div class="tab-container" align=center>
 	<h3>Credit Card Receipts</h3>
 	<table cellpadding=0 class="datatable" summary="Credit Card Receipts section">
@@ -38,27 +40,38 @@
             <tr>
                 <kul:htmlAttributeHeaderCell literalLabel="add:" scope="row"/>
                 <td class="infoline">
-                	<kul:htmlControlAttribute attributeEntry="${ccrAttributes.financialDocumentCreditCardTypeCode}" property="newCreditCardReceipt.financialDocumentCreditCardTypeCode" />
+                	<kul:htmlControlAttribute attributeEntry="${ccrAttributes.financialDocumentCreditCardTypeCode}" 
+                	tabindexOverride="${tabindexOverrideBase}"
+                	property="newCreditCardReceipt.financialDocumentCreditCardTypeCode" />
                 	&nbsp;
                 	<kul:lookup boClassName="org.kuali.kfs.fp.businessobject.CreditCardType" fieldConversions="financialDocumentCreditCardTypeCode:newCreditCardReceipt.financialDocumentCreditCardTypeCode" />
                 </td>
                 <td class="infoline">
-                	<kul:htmlControlAttribute attributeEntry="${ccrAttributes.financialDocumentCreditCardVendorNumber}" property="newCreditCardReceipt.financialDocumentCreditCardVendorNumber" />
+                	<kul:htmlControlAttribute attributeEntry="${ccrAttributes.financialDocumentCreditCardVendorNumber}" 
+                	tabindexOverride="${tabindexOverrideBase} + 5"
+                	property="newCreditCardReceipt.financialDocumentCreditCardVendorNumber" />
                 	&nbsp;
                 	<kul:lookup boClassName="org.kuali.kfs.fp.businessobject.CreditCardVendor" fieldConversions="financialDocumentCreditCardTypeCode:newCreditCardReceipt.financialDocumentCreditCardTypeCode,financialDocumentCreditCardVendorNumber:newCreditCardReceipt.financialDocumentCreditCardVendorNumber" lookupParameters="newCreditCardReceipt.financialDocumentCreditCardTypeCode:financialDocumentCreditCardTypeCode" />
                 </td>
                 <td class="infoline">
-                	<kul:dateInput attributeEntry="${ccrAttributes.creditCardDepositDate}" property="newCreditCardReceipt.creditCardDepositDate" />
+                	<kul:htmlControlAttribute attributeEntry="${ccrAttributes.creditCardDepositDate}" datePicker="true"
+                	tabindexOverride="${tabindexOverrideBase} + 10"
+                	property="newCreditCardReceipt.creditCardDepositDate" />
                 </td>
                 <td class="infoline">
-                	<kul:htmlControlAttribute attributeEntry="${ccrAttributes.creditCardDepositReferenceNumber}" property="newCreditCardReceipt.creditCardDepositReferenceNumber" />
+                	<kul:htmlControlAttribute attributeEntry="${ccrAttributes.creditCardDepositReferenceNumber}"
+                	tabindexOverride="${tabindexOverrideBase} + 15"
+                	property="newCreditCardReceipt.creditCardDepositReferenceNumber" />
                 </td>
                 <td class="infoline">
-                	<kul:htmlControlAttribute attributeEntry="${ccrAttributes.creditCardAdvanceDepositAmount}" property="newCreditCardReceipt.creditCardAdvanceDepositAmount" styleClass="amount" />
+                	<kul:htmlControlAttribute attributeEntry="${ccrAttributes.creditCardAdvanceDepositAmount}"
+                	tabindexOverride="${tabindexOverrideBase} + 20"
+                	property="newCreditCardReceipt.creditCardAdvanceDepositAmount" styleClass="amount" />
                 </td>
                 <td class="infoline">
                 	<div align="center">
-                		<html:image property="methodToCall.addCreditCardReceipt" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add a Credit Card Receipt" alt="Add a Credit Card Receipt" styleClass="tinybutton"/>
+                		<html:image property="methodToCall.addCreditCardReceipt" tabindex="${tabindexOverrideBase} + 25"
+                		src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add a Credit Card Receipt" alt="Add a Credit Card Receipt" styleClass="tinybutton"/>
                 	</div>
                 </td>
             </tr>

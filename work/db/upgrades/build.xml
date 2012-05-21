@@ -23,11 +23,12 @@ DOCUMENT TYPES
 </echo>    	
         <sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}"
         	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
-        	SELECT  doc_typ_nm, lbl, doc_hdlr_url, post_prcsr, appl_id, doc_search_help_url, DOC_TYP_DESC
+        	SELECT  t.doc_typ_nm, t.lbl, p.DOC_TYP_NM AS parent_doc_type, t.doc_hdlr_url, t.post_prcsr, t.appl_id, t.doc_search_help_url, t.DOC_TYP_DESC
         	    FROM KREW_DOC_TYP_T t
-        	    WHERE ACTV_IND = 1 AND CUR_IND = 1
+                    LEFT OUTER JOIN KREW_DOC_TYP_T p ON p.DOC_TYP_ID = t.PARNT_ID
+        	    WHERE t.ACTV_IND = 1 AND t.CUR_IND = 1
         		  ${additional.exclusions}
-        	    ORDER BY doc_typ_nm        
+        	    ORDER BY t.doc_typ_nm
         </sql>
     	<echo file="${output.file}" append="true">
 ********************************************************************************

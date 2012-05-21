@@ -845,6 +845,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         parameters.put("financialSubObjectCode", pbglLine.getFinancialSubObjectCode());
         parameters.put("financialBalanceTypeCode", pbglLine.getFinancialBalanceTypeCode());
         parameters.put("financialObjectTypeCode", pbglLine.getFinancialObjectTypeCode());
+        parameters.put("revenue", (isRevenue ? "true" : "false"));
         parameters.put(BCPropertyConstants.MAIN_WINDOW, (budgetConstructionForm.isMainWindow() ? "true" : "false"));
 
         // anchor, if it exists
@@ -1258,7 +1259,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                         Long dbVersionNumber = dbSalarySettingRow.getVersionNumber();
                         Long preReqVersionNumber = budgetConstructionForm.getPreSalarySettingRows().get(dbSalarySettingRow.getFinancialObjectCode() + dbSalarySettingRow.getFinancialSubObjectCode()).getVersionNumber();
                         if ((dbVersionNumber.compareTo(preReqVersionNumber) != 0) || (dbReqAmount.compareTo(preReqAmount) != 0)) {
-                            budgetDocumentService.addOrUpdatePBGLRow(currentBCDoc, dbSalarySettingRow);
+                            budgetDocumentService.addOrUpdatePBGLRow(currentBCDoc, dbSalarySettingRow, Boolean.FALSE);
 
                             // only flag for existing line diff when the request amount changes
                             // changes in versionNumber implies offsetting updates of some sort
@@ -1271,7 +1272,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
                         // update the req amount and version or add the new row to the current doc as needed
                         // insert the new DB row to the set in memory
-                        budgetDocumentService.addOrUpdatePBGLRow(currentBCDoc, dbSalarySettingRow);
+                        budgetDocumentService.addOrUpdatePBGLRow(currentBCDoc, dbSalarySettingRow, Boolean.FALSE);
                         diffFound = true;
                     }
                 }

@@ -39,6 +39,8 @@ public class MonthlyBudgetForm extends BudgetExpansionForm {
     private String financialSubObjectCode;
     private String financialBalanceTypeCode;
     private String financialObjectTypeCode;
+    
+    private boolean revenue = false;
 
     public MonthlyBudgetForm() {
         super();
@@ -295,6 +297,25 @@ public class MonthlyBudgetForm extends BudgetExpansionForm {
      */
     public void setHideDetails(boolean hideDetails) {
         this.hideDetails = hideDetails;
+    }
+
+    /**
+     * Gets the revenue attribute.
+     * 
+     * @return Returns the revenue
+     */
+    
+    public boolean isRevenue() {
+        return revenue;
+    }
+
+    /**	
+     * Sets the revenue attribute.
+     * 
+     * @param revenue The revenue to set.
+     */
+    public void setRevenue(boolean revenue) {
+        this.revenue = revenue;
     }
 
 }

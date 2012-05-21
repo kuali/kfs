@@ -198,9 +198,13 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
             sourceRow.setAccountLineAnnualBalanceAmount(monthTotalAmount);
             businessObjectService.save(sourceRow);
 
-            this.addOrUpdatePBGLRow(bcDoc, sourceRow);
-            bcDoc.setExpenditureAccountLineAnnualBalanceAmountTotal(bcDoc.getExpenditureAccountLineAnnualBalanceAmountTotal().add(changeAmount));
-
+            this.addOrUpdatePBGLRow(bcDoc, sourceRow, monthlyBudgetForm.isRevenue());
+            if (monthlyBudgetForm.isRevenue()){
+                bcDoc.setRevenueAccountLineAnnualBalanceAmountTotal(bcDoc.getRevenueAccountLineAnnualBalanceAmountTotal().add(changeAmount));
+            } else {
+                bcDoc.setExpenditureAccountLineAnnualBalanceAmountTotal(bcDoc.getExpenditureAccountLineAnnualBalanceAmountTotal().add(changeAmount));
+                
+            }
         }
 
         businessObjectService.save(budgetConstructionMonthly);
@@ -414,27 +418,32 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
      *      org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionGeneralLedger)
      */
     @NonTransactional
-    public BudgetConstructionDocument addOrUpdatePBGLRow(BudgetConstructionDocument bcDoc, PendingBudgetConstructionGeneralLedger sourceRow) {
+    public BudgetConstructionDocument addOrUpdatePBGLRow(BudgetConstructionDocument bcDoc, PendingBudgetConstructionGeneralLedger sourceRow, boolean isRevenue) {
 
-        List<PendingBudgetConstructionGeneralLedger> expenditureRows = bcDoc.getPendingBudgetConstructionGeneralLedgerExpenditureLines();
+        List<PendingBudgetConstructionGeneralLedger> pbglRows;
+        if (isRevenue){
+            pbglRows = bcDoc.getPendingBudgetConstructionGeneralLedgerRevenueLines();
+        } else {
+            pbglRows = bcDoc.getPendingBudgetConstructionGeneralLedgerExpenditureLines();
+        }
 
         // add or update salary setting row to set in memory - this assumes at least one row in the set
         // we can't even do salary setting without at least one salary detail row
         int index = 0;
         boolean insertNeeded = true;
-        for (PendingBudgetConstructionGeneralLedger expRow : expenditureRows) {
-            String expRowKey = expRow.getFinancialObjectCode() + expRow.getFinancialSubObjectCode();
+        for (PendingBudgetConstructionGeneralLedger pbglRow : pbglRows) {
+            String pbglRowKey = pbglRow.getFinancialObjectCode() + pbglRow.getFinancialSubObjectCode();
             String sourceRowKey = sourceRow.getFinancialObjectCode() + sourceRow.getFinancialSubObjectCode();
-            if (expRowKey.compareToIgnoreCase(sourceRowKey) == 0) {
+            if (pbglRowKey.compareToIgnoreCase(sourceRowKey) == 0) {
                 // update
                 insertNeeded = false;
-                expRow.setAccountLineAnnualBalanceAmount(sourceRow.getAccountLineAnnualBalanceAmount());
-                expRow.setPersistedAccountLineAnnualBalanceAmount(sourceRow.getAccountLineAnnualBalanceAmount());
-                expRow.setVersionNumber(sourceRow.getVersionNumber());
+                pbglRow.setAccountLineAnnualBalanceAmount(sourceRow.getAccountLineAnnualBalanceAmount());
+                pbglRow.setPersistedAccountLineAnnualBalanceAmount(sourceRow.getAccountLineAnnualBalanceAmount());
+                pbglRow.setVersionNumber(sourceRow.getVersionNumber());
                 break;
             }
             else {
-                if (expRowKey.compareToIgnoreCase(sourceRowKey) > 0) {
+                if (pbglRowKey.compareToIgnoreCase(sourceRowKey) > 0) {
                     // insert here - drop out
                     break;
                 }
@@ -444,7 +453,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         if (insertNeeded) {
             // insert the row
             sourceRow.setPersistedAccountLineAnnualBalanceAmount(sourceRow.getAccountLineAnnualBalanceAmount());
-            expenditureRows.add(index, sourceRow);
+            pbglRows.add(index, sourceRow);
         }
 
         return bcDoc;

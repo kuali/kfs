@@ -272,9 +272,10 @@ public interface BudgetDocumentService {
      * 
      * @param bcDoc
      * @param sourceRow
+     * @param isRevenue
      * @return
      */
-    public BudgetConstructionDocument addOrUpdatePBGLRow(BudgetConstructionDocument bcDoc, PendingBudgetConstructionGeneralLedger sourceRow);
+    public BudgetConstructionDocument addOrUpdatePBGLRow(BudgetConstructionDocument bcDoc, PendingBudgetConstructionGeneralLedger sourceRow, boolean isRevenue);
 
     /**
      * Adds or updates the 2PLG row in a BudgetConstructionDocument adding the updateAmount into any existing request amount

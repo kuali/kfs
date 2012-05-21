@@ -211,6 +211,7 @@ ROLE RESPONSIBILITIES
         	      LEFT OUTER JOIN krim_role_rsp_actn_t rra ON rra.ROLE_RSP_ID = rp.ROLE_RSP_ID
         	    WHERE p.NM IS NOT NULL
 	    		  AND p.nmspc_cd NOT LIKE '%TEST%'
+                  AND rra.ROLE_MBR_ID = '*'
         	    ORDER BY resp_namespace, resp_name, role_namespace, role_name
         </sql>
 

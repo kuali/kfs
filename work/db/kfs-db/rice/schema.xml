@@ -3615,7 +3615,6 @@
     <sequence name="KRMS_CMPND_PROP_PROPS_S" nextval="10000"/>
     <sequence name="KRMS_CNTXT_ATTR_S" nextval="10000"/>
     <sequence name="KRMS_CNTXT_S" nextval="10000"/>
-    <sequence name="KRMS_CNTXT_TERM_SPEC_PREREQ_S" nextval="10000"/>
     <sequence name="KRMS_CNTXT_VLD_ACTN_TYP_S" nextval="10000"/>
     <sequence name="KRMS_CNTXT_VLD_AGENDA_TYP_S" nextval="10000"/>
     <sequence name="KRMS_CNTXT_VLD_FUNC_S" nextval="10000"/>

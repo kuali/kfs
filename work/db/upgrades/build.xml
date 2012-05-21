@@ -78,4 +78,136 @@ DOCUMENT RULE ATTRIBUTES
         </sql>
     </target>
 
+	
+	
+	
+	
+    <target name="dump-kim-data" description="">
+    	<echo file="${output.file}">
+********************************************************************************
+ATTRIIBUTE DEFINITIONS
+********************************************************************************
+</echo>    	
+        <sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}"
+        	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
+        	SELECT NMSPC_CD, NM, CMPNT_NM 
+        		FROM krim_attr_defn_t
+        	    ORDER BY nm
+        </sql>
+    	<echo file="${output.file}" append="true">
+********************************************************************************
+KIM TYPES
+********************************************************************************
+</echo>    	
+        <sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}"
+        	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
+        	SELECT t.NMSPC_CD AS type_namespace, t.NM AS type_name, t.SRVC_NM, ad.NM AS attribute_name, a.SORT_CD
+        		FROM krim_typ_t t
+        	        LEFT OUTER JOIN krim_typ_attr_t a ON a.KIM_TYP_ID = t.KIM_TYP_ID
+        	        LEFT OUTER JOIN krim_attr_defn_t ad ON ad.KIM_ATTR_DEFN_ID = a.KIM_ATTR_DEFN_ID
+        	    ORDER BY type_namespace, type_name, attribute_name
+        </sql>
+    	<echo file="${output.file}" append="true">
+********************************************************************************
+PERMISSIONS
+********************************************************************************
+</echo>    	
+        <sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}"
+        	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
+        	SELECT p.NMSPC_CD AS perm_namespace, p.NM AS perm_name, pt.NMSPC_CD AS template_namespace, pt.NM AS template_name, a.NM AS attribute_name, pa.ATTR_VAL AS attribute_value
+        	    FROM krim_perm_t p
+        	        INNER JOIN krim_perm_tmpl_t pt ON pt.PERM_TMPL_ID = p.PERM_TMPL_ID
+        	        LEFT OUTER JOIN krim_perm_attr_data_t pa ON pa.PERM_ID = p.PERM_ID
+        	        LEFT OUTER JOIN krim_attr_defn_t a ON a.KIM_ATTR_DEFN_ID = pa.KIM_ATTR_DEFN_ID
+        	    ORDER BY perm_namespace, perm_name, attribute_name
+        </sql>
+    	<echo file="${output.file}" append="true">
+********************************************************************************
+RESPONSIBILITIES
+********************************************************************************
+</echo>    	
+        <sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}"
+        	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
+        	SELECT p.NMSPC_CD AS resp_namespace, p.NM AS resp_name, pt.NM AS template_name, a.NM AS attribute_name, pa.ATTR_VAL AS attribute_value
+        	    FROM krim_rsp_t p
+        	        INNER JOIN krim_rsp_tmpl_t pt ON pt.RSP_TMPL_ID = p.RSP_TMPL_ID
+        	        LEFT OUTER JOIN krim_rsp_attr_data_t pa ON pa.RSP_ID = p.RSP_ID
+        	        LEFT OUTER JOIN krim_attr_defn_t a ON a.KIM_ATTR_DEFN_ID = pa.KIM_ATTR_DEFN_ID
+        	    ORDER BY resp_namespace, resp_name, attribute_name
+        </sql>
+    	<echo file="${output.file}" append="true">
+********************************************************************************
+ROLES
+********************************************************************************
+</echo>    	
+        <sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}"
+        	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
+        	SELECT r.NMSPC_CD AS role_namespace, r.ROLE_NM AS role_name, t.NM AS kim_type_name, r.DESC_TXT AS role_description
+        		FROM krim_role_t r
+        	      LEFT OUTER JOIN krim_typ_t t ON t.KIM_TYP_ID = r.KIM_TYP_ID
+        	    ORDER BY role_namespace, role_name
+        </sql>
+    	<echo file="${output.file}" append="true">
+********************************************************************************
+ROLE MEMBERS (ROLES ONLY)
+********************************************************************************
+</echo>    	
+        <sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}"
+        	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
+        	SELECT r.NMSPC_CD AS role_namespace, r.ROLE_NM AS role_name, CONCAT( r2.NMSPC_CD, ' / ', r2.ROLE_NM ) AS member_role_name, a.NM AS qualifier_name, rma.ATTR_VAL AS qualifier_value
+        		FROM krim_role_mbr_t rm
+        	        INNER JOIN krim_role_t r ON r.ROLE_ID = rm.ROLE_ID
+        	        LEFT OUTER JOIN krim_role_t r2 ON r2.ROLE_ID = rm.MBR_ID
+        	        LEFT OUTER JOIN krim_role_mbr_attr_data_t rma ON rma.ROLE_MBR_ID = rm.ROLE_MBR_ID
+        	        LEFT OUTER JOIN krim_attr_defn_t a ON a.KIM_ATTR_DEFN_ID = rma.KIM_ATTR_DEFN_ID
+        	    WHERE r.NMSPC_CD LIKE 'KFS%'
+        	      AND rm.MBR_TYP_CD = 'R'
+        	    ORDER BY r.nmspc_cd, r.role_nm, member_role_name, qualifier_name
+        </sql>
+    	<echo file="${output.file}" append="true">
+********************************************************************************
+ROLE DELEGATIONS
+********************************************************************************
+</echo>    	
+        <sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}"
+        	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
+        	SELECT r.NMSPC_CD AS role_namespace, r.ROLE_NM AS role_name, d.DLGN_TYP_CD, CONCAT( r2.NMSPC_CD, ' / ', r2.ROLE_NM ) AS member_role_name, t.NM AS delegation_type
+        		FROM krim_dlgn_t d
+        	        INNER JOIN krim_role_t r ON r.role_id = d.role_id
+        	        INNER JOIN krim_typ_t t ON t.KIM_TYP_ID = d.KIM_TYP_ID
+        	        INNER JOIN krim_dlgn_mbr_t dm ON dm.DLGN_ID = d.DLGN_ID AND MBR_TYP_CD = 'R'
+        	        LEFT OUTER JOIN krim_role_t r2 ON r2.ROLE_ID = dm.MBR_ID
+        	    ORDER BY r.nmspc_cd, r.role_nm, DLGN_TYP_CD, member_role_name    
+        </sql>
+    	<echo file="${output.file}" append="true">
+********************************************************************************
+ROLE PERMISSIONS
+********************************************************************************
+</echo>    	
+        <sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}"
+        	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
+        	SELECT r.NMSPC_CD AS role_namespace, r.ROLE_NM AS role_name, p.NMSPC_CD AS perm_namespace, p.NM AS perm_name
+        		FROM krim_role_t r
+        	      LEFT OUTER JOIN krim_role_perm_t rp ON rp.ROLE_ID = r.ROLE_ID
+        	      LEFT OUTER JOIN krim_perm_t p ON p.PERM_ID = rp.perm_id
+        	    ORDER BY role_namespace, role_name, perm_namespace, perm_name
+        </sql>
+    	<echo file="${output.file}" append="true">
+********************************************************************************
+ROLE RESPONSIBILITIES
+********************************************************************************
+</echo>    	
+        <sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}"
+        	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
+        	SELECT p.NMSPC_CD AS resp_namespace, p.NM AS resp_name, r.NMSPC_CD AS role_namespace, r.ROLE_NM AS role_name, rra.ACTN_TYP_CD, rra.PRIORITY_NBR, rra.ACTN_PLCY_CD, rra.FRC_ACTN
+        		FROM krim_role_t r
+        	      LEFT OUTER JOIN krim_role_rsp_t rp ON rp.ROLE_ID = r.ROLE_ID
+        	      LEFT OUTER JOIN krim_rsp_t p ON p.RSP_ID = rp.RSP_id
+        	      LEFT OUTER JOIN krim_role_rsp_actn_t rra ON rra.ROLE_RSP_ID = rp.ROLE_RSP_ID
+        	    WHERE p.NM IS NOT NULL
+        	    ORDER BY resp_namespace, resp_name, role_namespace, role_name
+        </sql>
+
+    </target>
+	
 </project>

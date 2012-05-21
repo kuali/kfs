@@ -18,8 +18,10 @@ package org.kuali.kfs.module.purap.document;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.ArrayUtils;
@@ -53,15 +55,14 @@ import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.rules.rule.event.ApproveDocumentEvent;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.rules.rule.event.RouteDocumentEvent;
-import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
-import org.kuali.rice.location.api.country.Country;
-import org.kuali.rice.location.api.country.CountryService;
+import org.kuali.rice.location.api.LocationConstants;
+import org.kuali.rice.location.framework.country.CountryEbo;
 
 /**
  * Base class for Purchasing-Accounts Payable Documents.
@@ -89,7 +90,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     protected String accountDistributionMethod;  //code for account distribution method
 
     protected String statusCode;
-    
+
     // NOT PERSISTED IN DB
     protected String vendorNumber;
     protected Integer vendorAddressGeneratedIdentifier;
@@ -103,7 +104,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
     // REFERENCE OBJECTS
     protected VendorDetail vendorDetail;
-    protected Country vendorCountry;
+    protected CountryEbo vendorCountry;
 
     // STATIC
     public transient String[] belowTheLineTypes;
@@ -987,8 +988,21 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     @Override
-    public Country getVendorCountry() {
-        vendorCountry = (vendorCountryCode == null)?null:( vendorCountry == null || !StringUtils.equals( vendorCountry.getCode(),vendorCountryCode))?SpringContext.getBean(CountryService.class).getCountry(vendorCountryCode): vendorCountry;
+    public CountryEbo getVendorCountry() {
+        if ( StringUtils.isBlank(vendorCountryCode) ) {
+            vendorCountry = null;
+        } else {
+            if ( vendorCountry == null || !StringUtils.equals( vendorCountry.getCode(),vendorCountryCode) ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CountryEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(1);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, vendorCountryCode);
+                    vendorCountry = moduleService.getExternalizableBusinessObject(CountryEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
         return vendorCountry;
     }
 
@@ -998,7 +1012,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * @deprecated
      */
     @Deprecated
-    public void setVendorCountry(Country vendorCountry) {
+    public void setVendorCountry(CountryEbo vendorCountry) {
         this.vendorCountry = vendorCountry;
     }
 
@@ -1291,21 +1305,21 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
     /**
      * Gets the statusCode attribute.
-     * 
+     *
      * @return Returns the statusCode
      */
-    
+
     public String getStatusCode() {
         return statusCode;
     }
 
-    /** 
+    /**
      * Sets the statusCode attribute.
-     * 
+     *
      * @param statusCode The statusCode to set.
      */
     public void setStatusCode(String statusCode) {
         this.statusCode = statusCode;
     }
-       
+
 }

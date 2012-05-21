@@ -82,7 +82,7 @@ import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
  * Document class for the Requisition.
  */
 public class RequisitionDocument extends PurchasingDocumentBase implements Copyable {
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RequisitionDocument.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RequisitionDocument.class);
 
     protected String requisitionOrganizationReference1Text;
     protected String requisitionOrganizationReference2Text;
@@ -118,9 +118,13 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
      */
     @Override
     public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        if (nodeName.equals(PurapWorkflowConstants.HAS_ACCOUNTING_LINES)) return !isMissingAccountingLines();
-        if (nodeName.equals(PurapWorkflowConstants.AMOUNT_REQUIRES_SEPARATION_OF_DUTIES_REVIEW_SPLIT)) return isSeparationOfDutiesReviewRequired();
-        throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
+        if (nodeName.equals(PurapWorkflowConstants.HAS_ACCOUNTING_LINES)) {
+            return !isMissingAccountingLines();
+        }
+        if (nodeName.equals(PurapWorkflowConstants.AMOUNT_REQUIRES_SEPARATION_OF_DUTIES_REVIEW_SPLIT)) {
+            return isSeparationOfDutiesReviewRequired();
+        }
+        return super.answerSplitNodeQuestion(nodeName);
     }
 
     protected boolean isMissingAccountingLines() {
@@ -139,7 +143,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             Set<Person> priorApprovers = this.getAllPriorApprovers();
 
             boolean noPriorApprover = (priorApprovers.size() == 0);
-            
+
             // if there are more than 0 prior approvers which means there had been at least another approver than the current approver
             // then no need for separation of duties
             if (priorApprovers.size() > 0) {
@@ -147,7 +151,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             }
 
             //If there was no prior approver, then we have to check the amounts to determine whether to route to separation of duties,
-            //as mentioned below. 
+            //as mentioned below.
             if (noPriorApprover) {
                 ParameterService parameterService = SpringContext.getBean(ParameterService.class);
                 KualiDecimal maxAllowedAmount = new KualiDecimal(parameterService.getParameterValueAsString(RequisitionDocument.class, PurapParameterConstants.SEPARATION_OF_DUTIES_DOLLAR_AMOUNT));
@@ -159,13 +163,13 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
                 else {
                     return true;
                 }
-            }        
+            }
 
         }
         catch (WorkflowException we) {
-            LOG.error("Exception while attempting to retrieve all prior approvers from workflow: " + we);
+            LOG.error("Exception while attempting to retrieve all prior approvers from workflow: ", we);
         }
-        
+
         return false;
 
     }
@@ -221,8 +225,8 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         Person currentUser = GlobalVariables.getUserSession().getPerson();
         ChartOrgHolder purapChartOrg = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(currentUser, PurapConstants.PURAP_NAMESPACE);
         if (ObjectUtils.isNotNull(purapChartOrg)) {
-        this.setChartOfAccountsCode(purapChartOrg.getChartOfAccountsCode());
-        this.setOrganizationCode(purapChartOrg.getOrganizationCode());
+            this.setChartOfAccountsCode(purapChartOrg.getChartOfAccountsCode());
+            this.setOrganizationCode(purapChartOrg.getOrganizationCode());
         }
         this.setDeliveryCampusCode(currentUser.getCampusCode());
         this.setDeliveryToName(currentUser.getName());
@@ -234,7 +238,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 
         DefaultPrincipalAddress defaultPrincipalAddress = new DefaultPrincipalAddress(currentUser.getPrincipalId());
         Map addressKeys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(defaultPrincipalAddress);
-        defaultPrincipalAddress = (DefaultPrincipalAddress) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(DefaultPrincipalAddress.class, addressKeys);
+        defaultPrincipalAddress = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(DefaultPrincipalAddress.class, addressKeys);
         if (ObjectUtils.isNotNull(defaultPrincipalAddress) && ObjectUtils.isNotNull(defaultPrincipalAddress.getBuilding())) {
             if (defaultPrincipalAddress.getBuilding().isActive()) {
                 this.setDeliveryCampusCode(defaultPrincipalAddress.getCampusCode());
@@ -251,10 +255,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.setOrganizationAutomaticPurchaseOrderLimit(SpringContext.getBean(PurapService.class).getApoLimit(this.getVendorContractGeneratedIdentifier(), this.getChartOfAccountsCode(), this.getOrganizationCode()));
 
         // populate billing address
-        BillingAddress billingAddress = new BillingAddress();
-        billingAddress.setBillingCampusCode(this.getDeliveryCampusCode());
-        Map keys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(billingAddress);
-        billingAddress = (BillingAddress) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BillingAddress.class, keys);
+        BillingAddress billingAddress = SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(BillingAddress.class, getDeliveryCampusCode());
         this.templateBillingAddress(billingAddress);
 
         // populate receiving address with the default one for the chart/org
@@ -353,7 +354,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         VendorContract vendorContract = new VendorContract();
         vendorContract.setVendorContractGeneratedIdentifier(this.getVendorContractGeneratedIdentifier());
         Map keys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(vendorContract);
-        vendorContract = (VendorContract) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(VendorContract.class, keys);
+        vendorContract = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(VendorContract.class, keys);
         if (!(vendorContract != null && today.after(vendorContract.getVendorContractBeginningDate()) && today.before(vendorContract.getVendorContractEndDate()))) {
             activeContract = false;
         }

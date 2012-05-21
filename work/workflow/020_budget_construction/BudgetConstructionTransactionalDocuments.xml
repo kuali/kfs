@@ -1,32 +1,13 @@
-<data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<documentTypes xmlns="ns:workflow/DocumentType"
-		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+<data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
-			<name>
-				BC
-</name>
-			<helpDefinitionURL>
-				default.htm?turl=WordDocuments%2Fbudgetdonstructionselection.htm
-			</helpDefinitionURL>
-			<parent>
-				BCT
-</parent>
-			<label>
-				Budget Construction Document
-</label>
-			<docHandler>
-				${kfs.url}/budgetBudgetConstruction.do?methodToCall=docHandler
-			</docHandler>
-			<postProcessorName>
-				none
-</postProcessorName>
-			<active>
-				true
-</active>
-			<routingVersion>
-				2
-</routingVersion>
+			<name>BC</name>
+			<helpDefinitionURL>default.htm?turl=WordDocuments%2Fbudgetdonstructionselection.htm</helpDefinitionURL>
+			<parent>BCT</parent>
+			<label>Budget Construction Document</label>
+			<docHandler>${kfs.url}/budgetBudgetConstruction.do?methodToCall=docHandler</docHandler>
+			<active>true</active>
+			<routingVersion>2</routingVersion>
 			<routePaths>
 				<routePath>
 					<start name="AdHoc" nextNode="Initiator" />
@@ -36,12 +17,8 @@
 			<routeNodes>
 				<start name="AdHoc" />
 				<role name="Initiator">
-					<qualifierResolverClass>
-						org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
-					</qualifierResolverClass>
-					<activationType>
-						P
-          </activationType>
+					<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+					<activationType>P</activationType>
 				</role>
 			</routeNodes>
 		</documentType>

@@ -31,6 +31,38 @@
 		</update>
 	</changeSet>
 
+	<changeSet author="KFS50" id="UPDATE_DOC_TYPE_HELP_URLS">
+		<comment>Updates the help URLs for multiple document types.</comment>
+		<update tableName="KREW_DOC_TYP_T">
+			<column name="HELP_DEF_URL" value="default.htm?turl=WordDocuments%2Fpaymentapplications.htm" />
+			<where>DOC_TYP_NM = 'APP' and CUR_IND = 1 AND ACTV_IND = 1</where>
+		</update>
+		<update tableName="KREW_DOC_TYP_T">
+			<column name="HELP_DEF_URL" value="default.htm?turl=WordDocuments%2Fassetmaintenancecustomdocumentsearch.htm" />
+			<where>DOC_TYP_NM = 'CAMM' and CUR_IND = 1 AND ACTV_IND = 1</where>
+		</update>
+		<update tableName="KREW_DOC_TYP_T">
+			<column name="HELP_DEF_URL" value="default.htm?turl=WordDocuments%2Fcashcontrols.htm" />
+			<where>DOC_TYP_NM = 'CTRL' and CUR_IND = 1 AND ACTV_IND = 1</where>
+		</update>
+		<update tableName="KREW_DOC_TYP_T">
+			<column name="HELP_DEF_URL" value="default.htm?turl=WordDocuments%2Felectronicinvoicerejects.htm" />
+			<where>DOC_TYP_NM = 'EIRT' and CUR_IND = 1 AND ACTV_IND = 1</where>
+		</update>
+		<update tableName="KREW_DOC_TYP_T">
+			<column name="HELP_DEF_URL" value="default.htm?turl=WordDocuments%2Fcustomerinvoices.htm" />
+			<where>DOC_TYP_NM = 'INV' and CUR_IND = 1 AND ACTV_IND = 1</where>
+		</update>
+		<update tableName="KREW_DOC_TYP_T">
+			<column name="HELP_DEF_URL" value="default.htm?turl=WordDocuments%2Fcustomerinvoicewriteoffscustomdocumentsearch.htm" />
+			<where>DOC_TYP_NM = 'INVW' and CUR_IND = 1 AND ACTV_IND = 1</where>
+		</update>
+		<update tableName="KREW_DOC_TYP_T">
+			<column name="HELP_DEF_URL" value="default.htm?turl=WordDocuments%2Ffinancialtransactions.htm" />
+			<where>DOC_TYP_NM = 'KFST' and CUR_IND = 1 AND ACTV_IND = 1</where>
+		</update>
+	</changeSet>
+
 	<changeSet author="jksmith" id="KFSCNTRB56_UPDATE_CFDM_PARENT_DOC_TYPE_mysql" dbms="mysql">
 		<comment>Changes the parent document type of the CFDA maintenance document, CFDM, so that it's parent is COSM, the Chart of Accounts simple maintenance document type.</comment>
 		<sql splitStatements="false">DROP PROCEDURE IF EXISTS temp</sql>

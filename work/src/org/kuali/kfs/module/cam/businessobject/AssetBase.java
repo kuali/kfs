@@ -18,6 +18,7 @@ package org.kuali.kfs.module.cam.businessobject;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,16 +33,19 @@ import org.kuali.kfs.integration.cg.ContractsAndGrantsAgency;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
-import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.businessobject.Room;
+import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.ModuleService;
@@ -198,8 +202,9 @@ public class AssetBase extends PersistableBusinessObjectBase {
 
         UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
 
-        this.setFinancialDocumentPostingYear(universityDateService.getCurrentUniversityDate().getUniversityFiscalYear());
-        this.setFinancialDocumentPostingPeriodCode(universityDateService.getCurrentUniversityDate().getUniversityFiscalAccountingPeriod());
+        UniversityDate date = universityDateService.getCurrentUniversityDate();
+        this.setFinancialDocumentPostingYear(date.getUniversityFiscalYear());
+        this.setFinancialDocumentPostingPeriodCode(date.getUniversityFiscalAccountingPeriod());
         this.setLastInventoryDate(new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate().getTime()));
 
         this.setPrimaryDepreciationMethodCode(CamsConstants.Asset.DEPRECIATION_METHOD_STRAIGHT_LINE_CODE);
@@ -270,9 +275,8 @@ public class AssetBase extends PersistableBusinessObjectBase {
         // The value can be null due to it being used as a non-singleton on the AssetRetirementGlobal
         // page (a list of retired assets). If it were a singleton, each value would get overridden
         // by the next use on the same page
-        if (this.accumulatedDepreciation == null) {
-            PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
-            paymentSummaryService.calculateAndSetPaymentSummary((Asset)this);
+        if (accumulatedDepreciation == null) {
+            SpringContext.getBean(PaymentSummaryService.class).calculateAndSetPaymentSummary((Asset)this);
         }
 
         return accumulatedDepreciation;
@@ -295,9 +299,8 @@ public class AssetBase extends PersistableBusinessObjectBase {
         // The value can be null due to it being used as a non-singleton on the AssetRetirementGlobal
         // page (a list of retired assets). If it were a singleton, each value would get overridden
         // by the next use on the same page
-        if (this.bookValue == null) {
-            PaymentSummaryService paymentSummaryService = SpringContext.getBean(PaymentSummaryService.class);
-            paymentSummaryService.calculateAndSetPaymentSummary((Asset)this);
+        if (bookValue == null) {
+            SpringContext.getBean(PaymentSummaryService.class).calculateAndSetPaymentSummary((Asset)this);
         }
 
         return bookValue;
@@ -691,7 +694,9 @@ public class AssetBase extends PersistableBusinessObjectBase {
      * @return Returns the salvageAmount
      */
     public KualiDecimal getSalvageAmount() {
-        if (salvageAmount == null)salvageAmount=KualiDecimal.ZERO;
+        if (salvageAmount == null) {
+            salvageAmount=KualiDecimal.ZERO;
+        }
         return salvageAmount;
     }
 
@@ -1335,6 +1340,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
      * @param capitalAssetType The capitalAssetType to set.
      * @deprecated
      */
+    @Deprecated
     public void setCapitalAssetType(AssetType capitalAssetType) {
         this.capitalAssetType = capitalAssetType;
     }
@@ -1354,6 +1360,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
      * @param organizationOwnerAccount The organizationOwnerAccount to set.
      * @deprecated
      */
+    @Deprecated
     public void setOrganizationOwnerAccount(Account organizationOwnerAccount) {
         this.organizationOwnerAccount = organizationOwnerAccount;
     }
@@ -1373,6 +1380,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
      * @param organizationOwnerChartOfAccounts The organizationOwnerChartOfAccounts to set.
      * @deprecated
      */
+    @Deprecated
     public void setOrganizationOwnerChartOfAccounts(Chart organizationOwnerChartOfAccounts) {
         this.organizationOwnerChartOfAccounts = organizationOwnerChartOfAccounts;
     }
@@ -1399,13 +1407,14 @@ public class AssetBase extends PersistableBusinessObjectBase {
         }
         return campus;
     }
-    
+
     /**
      * Sets the campus attribute.
      *
      * @param campus The campus to set.
      * @deprecated
      */
+    @Deprecated
     public void setCampus(CampusEbo campus) {
         this.campus = campus;
     }
@@ -1425,6 +1434,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
      * @param buildingRoom The buildingRoom to set.
      * @deprecated
      */
+    @Deprecated
     public void setBuildingRoom(Room buildingRoom) {
         this.buildingRoom = buildingRoom;
     }
@@ -1444,6 +1454,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
      * @param retirementAccount The retirementAccount to set.
      * @deprecated
      */
+    @Deprecated
     public void setRetirementAccount(Account retirementAccount) {
         this.retirementAccount = retirementAccount;
     }
@@ -1463,6 +1474,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
      * @param retirementChartOfAccounts The retirementChartOfAccounts to set.
      * @deprecated
      */
+    @Deprecated
     public void setRetirementChartOfAccounts(Chart retirementChartOfAccounts) {
         this.retirementChartOfAccounts = retirementChartOfAccounts;
     }
@@ -1482,6 +1494,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
      * @param building The building to set.
      * @deprecated
      */
+    @Deprecated
     public void setBuilding(Building building) {
         this.building = building;
     }
@@ -1501,6 +1514,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
      * @param cashReceiptFinancialDocument The cashReceiptFinancialDocument to set.
      * @deprecated
      */
+    @Deprecated
     public void setCashReceiptFinancialDocument(DocumentHeader cashReceiptFinancialDocument) {
         this.cashReceiptFinancialDocument = cashReceiptFinancialDocument;
     }
@@ -1520,6 +1534,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
      * @param retirementPeriod The retirementPeriod to set.
      * @deprecated
      */
+    @Deprecated
     public void setRetirementPeriod(AccountingPeriod retirementPeriod) {
         this.retirementPeriod = retirementPeriod;
     }
@@ -1539,6 +1554,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
      * @param retirementReason The retirementReason to set.
      * @deprecated
      */
+    @Deprecated
     public void setRetirementReason(AssetRetirementReason retirementReason) {
         this.retirementReason = retirementReason;
     }
@@ -1558,6 +1574,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
      * @param transferOfFundsFinancialDocument The transferOfFundsFinancialDocument to set.
      * @deprecated
      */
+    @Deprecated
     public void setTransferOfFundsFinancialDocument(DocumentHeader transferOfFundsFinancialDocument) {
         this.transferOfFundsFinancialDocument = transferOfFundsFinancialDocument;
     }
@@ -1577,6 +1594,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
      * @param financialDocumentPostingPeriod The financialDocumentPostingPeriod to set.
      * @deprecated
      */
+    @Deprecated
     public void setFinancialDocumentPostingPeriod(AccountingPeriod financialDocumentPostingPeriod) {
         this.financialDocumentPostingPeriod = financialDocumentPostingPeriod;
     }
@@ -1596,6 +1614,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
      * @param condition The condition to set.
      * @deprecated
      */
+    @Deprecated
     public void setCondition(AssetCondition condition) {
         this.condition = condition;
     }
@@ -1660,6 +1679,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
      * @deprecated
      * @param assetRepresentative The assetRepresentative to set.
      */
+    @Deprecated
     public void setAssetRepresentative(Person assetRepresentative) {
         this.assetRepresentative = assetRepresentative;
     }
@@ -1898,6 +1918,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
      * @param financialObjectSubType The financialObjectSubType to set.
      * @deprecated
      */
+    @Deprecated
     public void setFinancialObjectSubType(ObjectSubType financialObjectSubType) {
         this.financialObjectSubType = financialObjectSubType;
     }
@@ -1910,6 +1931,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
      * @param depreciationDateCopy
      * @deprecated
      */
+    @Deprecated
     public void setDepreciationDateCopy(Date depreciationDateCopy) {
         this.depreciationDateCopy = depreciationDateCopy;
     }
@@ -1923,7 +1945,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
     }
 
     public ContractsAndGrantsAgency getAgency() {
-        return agency = (ContractsAndGrantsAgency) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAgency.class).retrieveExternalizableBusinessObjectIfNecessary(this, agency, "agency");
+        return agency = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsAgency.class).retrieveExternalizableBusinessObjectIfNecessary(this, agency, "agency");
     }
 
     /**
@@ -1934,6 +1956,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
      *
      * @deprecated
      */
+    @Deprecated
     public void setAgency(ContractsAndGrantsAgency agency) {
         this.agency = agency;
     }
@@ -1993,35 +2016,30 @@ public class AssetBase extends PersistableBusinessObjectBase {
      * @return
      */
     public String getLookup() {
-        if (this.getCapitalAssetNumber() == null)
+        if (getCapitalAssetNumber() == null) {
             return "";
+        }
 
         Properties params = new Properties();
-        params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
-        params.put(KFSConstants.DOC_FORM_KEY, "88888888");
-        params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
-        params.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, this.getCapitalAssetNumber().toString());
-        params.put(KFSConstants.RETURN_LOCATION_PARAMETER, "portal.do");
-        params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, AssetPayment.class.getName());
+        params.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.SEARCH_METHOD);
+        params.put(KRADConstants.DOC_FORM_KEY, "88888888");
+        params.put(KRADConstants.HIDE_LOOKUP_RETURN_LINK, "true");
+        params.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, getCapitalAssetNumber().toString());
+        params.put(KRADConstants.RETURN_LOCATION_PARAMETER, "portal.do");
+        params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, AssetPayment.class.getName());
 
         return UrlFactory.parameterizeUrl(KRADConstants.LOOKUP_ACTION, params);
     }
 
-    /**
-     * Build the properties collection for document lookup link. This link will be used for related document lookup.
-     *
-     * @return
-     */
-    protected Properties buildDocumentLookupLinkProperties() {
+    protected String getUrlForAssetDocumentLookup( String documentTypeName ) {
+        if ( getCapitalAssetNumber() == null ) {
+            return "";
+        }
         Properties params = new Properties();
-        params.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.SEARCH_METHOD);
-        params.put(KFSConstants.DOC_FORM_KEY, "88888888");
-        params.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
-        params.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, this.getCapitalAssetNumber().toString());
-        params.put(KFSConstants.RETURN_LOCATION_PARAMETER, "portal.do");
-        //RICE20 DocSearchCriteria is revamped, not sure if its necessary to pass it as a properties
-        //params.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DocSearchCriteriaDTO.class.getName());
-        return params;
+        params.setProperty(KFSPropertyConstants.DOCUMENT_TYPE_NAME, documentTypeName);
+        params.put(KewApiConstants.DOCUMENT_ATTRIBUTE_FIELD_PREFIX + CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, getCapitalAssetNumber().toString());
+        params.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.SEARCH_METHOD);
+        return UrlFactory.parameterizeUrl(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString("workflow.documentsearch.base.url"), params);
     }
 
     /**
@@ -2030,13 +2048,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
      * @return
      */
     public String getAssetTransferDocumentLookup() {
-        if (this.getCapitalAssetNumber() == null)
-            return "";
-
-        Properties params = buildDocumentLookupLinkProperties();
-        params.put(KewApiConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_TRANSFER);
-
-        return UrlFactory.parameterizeUrl(KRADConstants.LOOKUP_ACTION, params);
+        return getUrlForAssetDocumentLookup( CamsConstants.DocumentTypeName.ASSET_TRANSFER );
     }
 
     /**
@@ -2045,13 +2057,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
      * @return
      */
     public String getAssetMaintenanceDocumentLookup() {
-        if (this.getCapitalAssetNumber() == null)
-            return "";
-
-        Properties params = buildDocumentLookupLinkProperties();
-        params.put(KewApiConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_EDIT);
-
-        return UrlFactory.parameterizeUrl(KRADConstants.LOOKUP_ACTION, params);
+        return getUrlForAssetDocumentLookup( CamsConstants.DocumentTypeName.ASSET_EDIT );
     }
 
     /**
@@ -2060,13 +2066,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
      * @return
      */
     public String getAssetFabricationDocumentLookup() {
-        if (this.getCapitalAssetNumber() == null)
-            return "";
-
-        Properties params = buildDocumentLookupLinkProperties();
-        params.put(KewApiConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_FABRICATION);
-
-        return UrlFactory.parameterizeUrl(KRADConstants.LOOKUP_ACTION, params);
+        return getUrlForAssetDocumentLookup( CamsConstants.DocumentTypeName.ASSET_FABRICATION );
     }
 
     /**
@@ -2075,13 +2075,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
      * @return
      */
     public String getAssetCreateOrSeparateDocumentLookup() {
-        if (this.getCapitalAssetNumber() == null)
-            return "";
-
-        Properties params = buildDocumentLookupLinkProperties();
-        params.put(KewApiConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_ADD_GLOBAL);
-
-        return UrlFactory.parameterizeUrl(KRADConstants.LOOKUP_ACTION, params);
+        return getUrlForAssetDocumentLookup( CamsConstants.DocumentTypeName.ASSET_ADD_GLOBAL );
     }
 
     /**
@@ -2090,13 +2084,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
      * @return
      */
     public String getAssetPaymentDocumentLookup() {
-        if (this.getCapitalAssetNumber() == null)
-            return "";
-
-        Properties params = buildDocumentLookupLinkProperties();
-        params.put(KewApiConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_PAYMENT);
-
-        return UrlFactory.parameterizeUrl(KRADConstants.LOOKUP_ACTION, params);
+        return getUrlForAssetDocumentLookup( CamsConstants.DocumentTypeName.ASSET_PAYMENT );
     }
 
     /**
@@ -2105,13 +2093,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
      * @return
      */
     public String getAssetEquipmentLoanOrReturnDocumentLookup() {
-        if (this.getCapitalAssetNumber() == null)
-            return "";
-
-        Properties params = buildDocumentLookupLinkProperties();
-        params.put(KewApiConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_EQUIPMENT_LOAN_OR_RETURN);
-
-        return UrlFactory.parameterizeUrl(KRADConstants.LOOKUP_ACTION, params);
+        return getUrlForAssetDocumentLookup( CamsConstants.DocumentTypeName.ASSET_EQUIPMENT_LOAN_OR_RETURN );
     }
 
     /**
@@ -2120,13 +2102,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
      * @return
      */
     public String getAssetLocationDocumentLookup() {
-        if (this.getCapitalAssetNumber() == null)
-            return "";
-
-        Properties params = buildDocumentLookupLinkProperties();
-        params.put(KewApiConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_LOCATION_GLOBAL);
-
-        return UrlFactory.parameterizeUrl(KRADConstants.LOOKUP_ACTION, params);
+        return getUrlForAssetDocumentLookup( CamsConstants.DocumentTypeName.ASSET_LOCATION_GLOBAL );
     }
 
     /**
@@ -2135,13 +2111,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
      * @return
      */
     public String getAssetMergeOrRetirementDocumentLookup() {
-        if (this.getCapitalAssetNumber() == null)
-            return "";
-
-        Properties params = buildDocumentLookupLinkProperties();
-        params.put(KewApiConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.ASSET_RETIREMENT_GLOBAL);
-
-        return UrlFactory.parameterizeUrl(KRADConstants.LOOKUP_ACTION, params);
+        return getUrlForAssetDocumentLookup( CamsConstants.DocumentTypeName.ASSET_RETIREMENT_GLOBAL );
     }
 
 
@@ -2151,13 +2121,7 @@ public class AssetBase extends PersistableBusinessObjectBase {
      * @return Returns the camsComplexMaintenanceDocumentLookup.
      */
     public String getCamsComplexMaintenanceDocumentLookup() {
-        if (this.getCapitalAssetNumber() == null)
-            return "";
-
-        Properties params = buildDocumentLookupLinkProperties();
-        params.put(KewApiConstants.Sorting.SORT_DOC_TYPE_FULL_NAME, CamsConstants.DocumentTypeName.COMPLEX_MAINTENANCE_DOC_BASE);
-
-        return UrlFactory.parameterizeUrl(KRADConstants.LOOKUP_ACTION, params);
+        return getUrlForAssetDocumentLookup( CamsConstants.DocumentTypeName.COMPLEX_MAINTENANCE_DOC_BASE );
     }
 
 
@@ -2167,9 +2131,9 @@ public class AssetBase extends PersistableBusinessObjectBase {
      * @see org.kuali.rice.krad.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
     @Override
-    public List buildListOfDeletionAwareLists() {
-        List<List> managedLists = new ArrayList<List>();
-        managedLists.add(getAssetLocations());
+    public List<Collection<PersistableBusinessObject>> buildListOfDeletionAwareLists() {
+        List<Collection<PersistableBusinessObject>> managedLists = new ArrayList<Collection<PersistableBusinessObject>>();
+        managedLists.add( new ArrayList<PersistableBusinessObject>( getAssetLocations() ) );
         return managedLists;
     }
 

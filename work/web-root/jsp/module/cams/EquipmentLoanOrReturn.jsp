@@ -40,7 +40,7 @@
 				<th class="grid" width="25%" align="right"><kul:htmlAttributeLabel attributeEntry="${equipAttributes.borrowerUniversalIdentifier}" /></th>
 				<c:choose>
 					<c:when test="${!empty KualiForm.document.borrowerPerson.principalName and !displayNewLoanTab}">
-						<td class="grid" width="25%"><c:out value="${document.borrowerPerson.principalName}"/>
+						<td class="grid" width="25%"><c:out value="${KualiForm.document.borrowerPerson.principalName}"/>
 			        </c:when>
 			        <c:otherwise>
 					   	<td class="grid" width="25%">

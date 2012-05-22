@@ -61,6 +61,35 @@
 			<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Ffinancialtransactions.htm" />
 			<where>DOC_TYP_NM = 'KFST' and CUR_IND = 1 AND ACTV_IND = 1</where>
 		</update>
+		<update tableName="KREW_DOC_TYP_T">
+			<column name="HELP_DEF_URL" value="default.htm?turl=WordDocuments%2Fvendorpven.htm" />
+			<where>DOC_TYP_NM = 'PVEN' and CUR_IND = 1 AND ACTV_IND = 1</where>
+		</update>
+		<update tableName="KREW_DOC_TYP_T">
+			<column name="HELP_DEF_URL" value="default.htm?turl=WordDocuments%2Fgrantdescriptionmaintenancedocument.htm" />
+			<where>DOC_TYP_NM = 'GDES' and CUR_IND = 1 AND ACTV_IND = 1</where>
+		</update>
+		<update tableName="KREW_DOC_TYP_T">
+			<column name="HELP_DEF_URL" value="default.htm?turl=WordDocuments%2Flaborobjectcodebenefitsmaintenancedocument.htm" />
+			<where>DOC_TYP_NM = 'LOBN' and CUR_IND = 1 AND ACTV_IND = 1</where>
+		</update>
+		<update tableName="KREW_DOC_TYP_T">
+			<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fperformingcustomdocumentsearches.htm" />
+			<where>DOC_TYP_NM = 'PRPL' and CUR_IND = 1 AND ACTV_IND = 1</where>
+		</update>
+		<update tableName="KREW_DOC_TYP_T">
+			<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Freceiving.htm" />
+			<where>DOC_TYP_NM = 'RCV' and CUR_IND = 1 AND ACTV_IND = 1</where>
+		</update>
+		<update tableName="KREW_DOC_TYP_T">
+			<column name="HELP_DEF_URL" value="default.htm?turl=WordDocuments%2Fyearendedocs.htm" />
+			<where>DOC_TYP_NM IN ( 'YEST', 'YEBT' ) and CUR_IND = 1 AND ACTV_IND = 1</where>
+		</update>
+		<update tableName="KREW_DOC_TYP_T">
+			<column name="HELP_DEF_URL" value="default.htm?turl=WordDocuments%2Fyearendedocs1.htm" />
+			<where>DOC_TYP_NM IN ( 'YEGE', 'YETF' ) and CUR_IND = 1 AND ACTV_IND = 1</where>
+		</update>
+		
 	</changeSet>
 
 	<changeSet author="jksmith" id="KFSCNTRB56_UPDATE_CFDM_PARENT_DOC_TYPE_mysql" dbms="mysql">

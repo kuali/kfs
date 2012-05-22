@@ -15,7 +15,7 @@
  limitations under the License.
 -->
 
-  <bean id="Cfda" parent="CFDA-parentBean"/>
+  <bean id="CFDA" parent="CFDA-parentBean"/>
 
   <bean id="CFDA-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.CFDA"/>

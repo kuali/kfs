@@ -17,13 +17,14 @@ package org.kuali.kfs.module.cam.businessobject;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.GlobalBusinessObjectDetailBase;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 
-public class AssetYearEndDepreciationDetail extends GlobalBusinessObjectDetailBase {
+public class AssetYearEndDepreciationDetail extends GlobalBusinessObjectDetailBase implements MutableInactivatable {
     private Integer universityFiscalYear;
     private Long capitalAssetNumber;
     private boolean active;

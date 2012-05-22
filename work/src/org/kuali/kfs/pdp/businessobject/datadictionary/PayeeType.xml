@@ -65,8 +65,10 @@
       <ref bean="StandardNameTextControl" />
     </property>
   </bean>
+
+  <bean id="PayeeType-achEligible" parent="PayeeType-achEligible-parentBean"/>
   
-  <bean id="PayeeType-achEligible" parent="GenericAttributes-genericBoolean-parentBean">
+  <bean id="PayeeType-achEligible-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
   	<property name="name" value="achEligible"/>
   	<property name="label" value="ACH Eligible"/>
   	<property name="shortLabel" value="ACHEligible"/>

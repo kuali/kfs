@@ -55,6 +55,7 @@
 		<property name="jobNames">
 			<list>
 				<value>populatePriorYearDataJob</value>
+				<value>addPriorYearAccountsJob</value>
 				<value>cfdaJob</value>
 			</list>
 		</property>

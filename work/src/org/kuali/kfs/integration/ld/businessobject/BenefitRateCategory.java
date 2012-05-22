@@ -4,13 +4,14 @@ package org.kuali.kfs.integration.ld.businessobject;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.integration.ld.LaborBenefitRateCategory;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
 /**
  * BO for the Labor Benefit Rate Category Fringe Benefit
  * 
  * @author Allan Sonkin
  */
-public class BenefitRateCategory implements LaborBenefitRateCategory {
+public class BenefitRateCategory implements LaborBenefitRateCategory, MutableInactivatable {
 
     private String laborBenefitRateCategoryCode;//the BO code
     

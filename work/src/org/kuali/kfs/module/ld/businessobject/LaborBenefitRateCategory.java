@@ -3,7 +3,7 @@ package org.kuali.kfs.module.ld.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
@@ -11,15 +11,15 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  * 
  * @author Allan Sonkin
  */
-public class LaborBenefitRateCategory extends PersistableBusinessObjectBase implements org.kuali.kfs.integration.ld.LaborBenefitRateCategory, Inactivatable {
+public class LaborBenefitRateCategory extends PersistableBusinessObjectBase implements org.kuali.kfs.integration.ld.LaborBenefitRateCategory, MutableInactivatable {
 
     private String laborBenefitRateCategoryCode;//the BO code
     
-    private Boolean activeIndicator = false;     //indicates active status of this BO
+    private Boolean active = false;     //indicates active status of this BO
     
     private String codeDesc;                    //description for the BO
     
-    
+   
     /**
      * Getter method to get the laborBenefitRateCategoryCode
      * @return laborBenefitRateCategoryCode
@@ -37,24 +37,6 @@ public class LaborBenefitRateCategory extends PersistableBusinessObjectBase impl
 		this.laborBenefitRateCategoryCode = laborBenefitRateCategoryCode;
 	}
 
-
-    /**
-     * 
-     * Getter method for the active indicator
-     * @return activeIndicator
-     */
-    public Boolean getActiveIndicator() {
-        return activeIndicator;
-    }
-
-    /**
-     * 
-     * Sets the activeIndicator
-     * @param activeIndicator
-     */
-    public void setActiveIndicator(Boolean activeIndicator) {
-        this.activeIndicator = activeIndicator;
-    }
 
     /**
      * 
@@ -84,10 +66,10 @@ public class LaborBenefitRateCategory extends PersistableBusinessObjectBase impl
 
     public boolean isActive() {
         // TODO Auto-generated method stub
-        return activeIndicator;
+        return active;
     }
 
     public void setActive(boolean active) {
-        this.activeIndicator = active;
+        this.active = active;
     }
 }

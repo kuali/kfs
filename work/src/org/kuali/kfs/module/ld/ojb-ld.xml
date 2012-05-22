@@ -141,7 +141,7 @@
 			jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR"
 			jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="activeIndicator" column="actv_ind"
+		<field-descriptor name="active" column="actv_ind"
 			jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="codeDesc" column=" LBR_BEN_RT_CAT_NM"
 			jdbc-type="VARCHAR" />

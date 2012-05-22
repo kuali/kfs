@@ -15,7 +15,7 @@
 		<property name="attributes">
 			<list>
 				<ref bean="LaborBenefitRateCategory-code" />
-				<ref bean="LaborBenefitRateCategory-activeIndicator" />
+				<ref bean="LaborBenefitRateCategory-active" />
 				<ref bean="LaborBenefitRateCategory-codeDesc" />
 				<ref bean="LaborBenefitRateCategory-versionNumber" />
 			</list>
@@ -37,11 +37,9 @@
 			<bean parent="TextControlDefinition" p:size="2" />
 		</property>
 	</bean>
-	<bean id="LaborBenefitRateCategory-activeIndicator" parent="LaborBenefitRateCategory-activeIndicator-parentBean" />
-	<bean id="LaborBenefitRateCategory-activeIndicator-parentBean"  abstract="true" parent="GenericAttributes-genericBoolean">
-		<property name="name" value="activeIndicator" />
-		<property name="label" value="Active Indicator" />
-		<property name="shortLabel" value="Active Indicator" />
+	<bean id="LaborBenefitRateCategory-active" parent="LaborBenefitRateCategory-active-parentBean" />
+	<bean id="LaborBenefitRateCategory-active-parentBean"  abstract="true" parent="GenericAttributes-activeIndicator">
+		<property name="name" value="active" />
 	</bean>
 	<bean id="LaborBenefitRateCategory-codeDesc" parent="LaborBenefitRateCategory-codeDesc-parentBean" />
 	<bean id="LaborBenefitRateCategory-codeDesc-parentBean"  abstract="true" parent="AttributeDefinition">
@@ -82,7 +80,7 @@
 						<list>
 							<bean parent="FieldDefinition" p:attributeName="laborBenefitRateCategoryCode" />
 							<bean parent="FieldDefinition" p:attributeName="codeDesc" />
-							<bean parent="FieldDefinition" p:attributeName="activeIndicator" />
+							<bean parent="FieldDefinition" p:attributeName="active" />
 						</list>
 					</property>
 				</bean>
@@ -108,14 +106,14 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="laborBenefitRateCategoryCode" />
 				<bean parent="FieldDefinition" p:attributeName="codeDesc" />
-				<bean parent="FieldDefinition" p:attributeName="activeIndicator" p:defaultValue="Y"/>
+				<bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
 			</list>
 		</property>
 		<property name="resultFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="laborBenefitRateCategoryCode" />
 				<bean parent="FieldDefinition" p:attributeName="codeDesc" />
-				<bean parent="FieldDefinition" p:attributeName="activeIndicator" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
 	</bean>

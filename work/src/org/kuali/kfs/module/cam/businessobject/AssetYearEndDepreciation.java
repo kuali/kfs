@@ -22,13 +22,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.GlobalBusinessObjectDetail;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 
-public class AssetYearEndDepreciation extends PersistableBusinessObjectBase implements Inactivatable {
+public class AssetYearEndDepreciation extends PersistableBusinessObjectBase implements MutableInactivatable {
     private String documentNumber;
     private Integer universityFiscalYear;
     private Date runDate;
@@ -205,7 +205,7 @@ public class AssetYearEndDepreciation extends PersistableBusinessObjectBase impl
     }
 
     /**
-     * @see org.kuali.rice.kns.bo.Inactivateable#setActive(boolean)
+     * @see org.kuali.rice.core.api.mo.common.active.MutableInactivateable#setActive(boolean)
      */
     public void setActive(boolean active) {
         this.active = active;

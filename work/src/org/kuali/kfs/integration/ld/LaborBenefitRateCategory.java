@@ -24,35 +24,18 @@ public interface LaborBenefitRateCategory extends  ExternalizableBusinessObject 
      */
     public void setLaborBenefitRateCategoryCode(String laborBenefitRateCategoryCode);
 
-
-    /**
-     * 
-     * Getter method for the active indicator
-     * @return activeIndicator
-     */
-    public Boolean getActiveIndicator();
-
-    /**
-     * 
-     * Sets the activeIndicator
-     * @param activeIndicator
-     */
-    public void setActiveIndicator(Boolean activeIndicator);
     /**
      * 
      * Getter method for the code's description
      * @return codeDesc
      */
     public String getCodeDesc();
-	/**
+
+    /**
 	 * 
 	 * Sets the codeDesc
 	 * @param codeDesc
 	 */
     public void setCodeDesc(String codeDesc);
     
-
-    public boolean isActive();
-    
-    public void setActive(boolean active);
 }

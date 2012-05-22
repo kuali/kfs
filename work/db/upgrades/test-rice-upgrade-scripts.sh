@@ -193,6 +193,11 @@ if [[ "$EXPORT_UPGRADED_PROJECT" == "true" ]]; then
 	echo '*********************************************************'
 	echo OLD DATABASE - EXPORTING STRUCTURE
 	echo '*********************************************************'
+
+	pushd $WORKSPACE/kfs/work/db/upgrades
+	ant drop-tables-before-export "-Ddb.url=$DATASOURCE" "-Ddb.user=$DB_USER" "-Ddb.password=$DB_PASSWORD" "-Ddb.driver=$DRIVER" -Doutput.file=$WORKSPACE/upgraded_kim_data.txt -lib $DRIVER_CLASSPATH
+	popd
+
 	mkdir -p $WORKSPACE/upgraded_data
 	(
 	cat <<-EOF

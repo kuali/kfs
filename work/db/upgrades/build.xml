@@ -214,7 +214,28 @@ ROLE RESPONSIBILITIES
                   AND rra.ROLE_MBR_ID = '*'
         	    ORDER BY resp_namespace, resp_name, role_namespace, role_name
         </sql>
-
     </target>
+	
+	<target name="drop-tables-before-export">
+		<sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}" onerror="continue" print="true">
+			DROP TABLE ACCT_DD_ATTR_DOC;			
+		</sql>
+		<sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}" onerror="continue" print="true">
+			DROP TABLE KR_KIM_TEST_BO;			
+		</sql>
+		<sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}" onerror="continue" print="true">
+			DROP TABLE TRAV_DOC_2_ACCOUNTS;			
+		</sql>
+		<sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}" onerror="continue" print="true">
+			DROP TABLE TST_SEARCH_ATTR_INDX_TST_DOC_T;			
+		</sql>
+		<sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}" onerror="continue" print="true">
+			DROP TABLE DATABASECHANGELOGLOCK;			
+		</sql>
+		<sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}" onerror="continue" print="true">
+			DROP TABLE DATABASECHANGELOG;			
+		</sql>
+	</target>
+	
 	
 </project>

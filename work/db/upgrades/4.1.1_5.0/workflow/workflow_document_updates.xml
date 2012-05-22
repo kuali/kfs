@@ -47,99 +47,6 @@
 			</role>
 		</routeNodes>
 	</documentType>
-	<!-- KFSMI-4606 -->
-	<documentType overwriteMode="true">
-		<name>ECD</name>
-		<routePaths>
-			<routePath>
-				<start name="AdHoc" nextNode="ProjectManagement" />
-				<requests name="ProjectManagement" nextNode="Account" />
-				<requests name="Account" nextNode="AccountingOrganizationHierarchy" />
-				<requests name="AccountingOrganizationHierarchy" nextNode="DoAwardSplit" />
-
-				<!-- FSKD-632 iu-custom: added routeNode -->
-				<split name="DoAwardSplit" nextNode="RequiresWorkstudyReview">
-					<branch name="True">
-						<role name="Award" nextNode="AwardJoin" />
-					</branch>
-					<branch name="False">
-						<simple name="AwardDoNothing" nextNode="AwardJoin" />
-					</branch>
-					<join name="AwardJoin" />
-				</split>
-				<split name="RequiresWorkstudyReview" nextNode="DoRecreateSplit">
-					<branch name="True">
-						<requests name="Workstudy" nextNode="JoinRequiresWorkstudyReview" />
-					</branch>
-					<branch name="False">
-						<simple name="RequiresWorkstudyNoOp" nextNode="JoinRequiresWorkstudyReview" />
-					</branch>
-					<join name="JoinRequiresWorkstudyReview" />
-				</split>
-
-				<split name="DoRecreateSplit">
-					<branch name="True">
-						<requests name="Management" nextNode="RecreateJoin" />
-					</branch>
-					<branch name="False">
-						<simple name="RecreateDoNothing" nextNode="RecreateJoin" />
-					</branch>
-					<join name="RecreateJoin" />
-				</split>
-			</routePath>
-		</routePaths>
-		<routeNodes>
-			<start name="AdHoc" />
-			<role name="ProjectManagement">
-				<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-				<activationType>P</activationType>
-			</role>
-			<role name="Account">
-				<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-				<activationType>P</activationType>
-			</role>
-			<role name="AccountingOrganizationHierarchy">
-				<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-				<activationType>P</activationType>
-			</role>
-			<role name="Award">
-				<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-				<activationType>P</activationType>
-			</role>
-			<role name="Management">
-				<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-				<activationType>P</activationType>
-			</role>
-			<split name="DoAwardSplit">
-				<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
-			</split>
-			<split name="DoRecreateSplit">
-				<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
-			</split>
-			<simple name="AwardDoNothing">
-				<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-			</simple>
-			<simple name="RecreateDoNothing">
-				<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-			</simple>
-
-			<!-- FSKD-632 iu-custom: added routeNode -->
-			<split name="RequiresWorkstudyReview">
-				<type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>
-			</split>
-			<simple name="RequiresWorkstudyNoOp">
-				<type>org.kuali.rice.kew.engine.node.NoOpNode</type>
-			</simple>
-			<join name="JoinRequiresWorkstudyReview" />
-			<role name="Workstudy">
-				<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-				<activationType>P</activationType>
-			</role>
-
-			<join name="AwardJoin" />
-			<join name="RecreateJoin" />
-		</routeNodes>
-	</documentType>
 	<documentType>
 		<name>PCDM</name>
 		<parent>FPSM</parent>
@@ -205,14 +112,15 @@
     </documentType>    
 		
 		
+	<!-- KFSMI-4606 -->
 		<documentType>
 			<name>ECD</name>
 			<parent>EC</parent>
 			<label>Effort Certification</label>
 			<docHandler>${kfs.url}/effortEffortCertification.do?methodToCall=docHandler
 			</docHandler>
-			<docSearchHelpURL>default.htm?turl=WordDocuments%2Feffortcertificationsearch.htm
-			</docSearchHelpURL>
+			<docSearchHelpURL>default.htm?turl=WordDocuments%2Feffortcertificationsearch.htm</docSearchHelpURL>
+			<helpDefinitionURL></helpDefinitionURL>
 			<active>true</active>
 			<routingVersion>2</routingVersion>
 			<routePaths>

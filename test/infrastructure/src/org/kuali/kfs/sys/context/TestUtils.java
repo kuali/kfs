@@ -33,7 +33,6 @@ import org.kuali.kfs.sys.suite.AnnotationTestSuite;
 import org.kuali.kfs.sys.suite.PreCommitSuite;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.coreservice.impl.parameter.ParameterBo;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.springframework.aop.framework.ProxyFactory;
@@ -98,15 +97,11 @@ public class TestUtils {
         if ( willCommit == null || willCommit ) {
             throw new RuntimeException( "Attempt to set system parameter in unit test set to commit database changes.");
         }
-        // JHK: this is not ideal - but the parameter service seems to be having some transactional issues, so using the BO to bypass it
-        final Map<String, Object> map = new HashMap<String, Object>();
-        map.put("name", parameterName);
-        map.put("applicationId", "KFS");
-        map.put("namespaceCode", KRADServiceLocatorWeb.getKualiModuleService().getNamespaceCode(componentClass));
-        map.put("componentCode", KRADServiceLocatorWeb.getKualiModuleService().getComponentCode(componentClass));
-        ParameterBo parameter =  KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(ParameterBo.class, Collections.unmodifiableMap(map));
-        parameter.setValue(parameterText);
-        KRADServiceLocator.getBusinessObjectService().save(parameter);
+
+        Parameter parameter = getParameterService().getParameter(componentClass, parameterName);
+        Parameter.Builder newParm = Parameter.Builder.create(parameter);
+        newParm.setValue(parameterText);
+        getParameterService().updateParameter(newParm.build());
     }
     
     /**

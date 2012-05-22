@@ -195,7 +195,8 @@ ROLE PERMISSIONS
 </echo>    	
         <sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}"
         	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
-        	SELECT r.NMSPC_CD AS role_namespace, r.ROLE_NM AS role_name, p.NMSPC_CD AS perm_namespace, p.NM AS perm_name
+        	<!-- REPLACE on the name is to compensate for bad Rice 1.0.3.1 data --> 
+        	SELECT r.NMSPC_CD AS role_namespace, r.ROLE_NM AS role_name, p.NMSPC_CD AS perm_namespace, REPLACE( p.NM, 'Note  Attachment', 'Note / Attachment' ) AS perm_name
         		FROM krim_role_t r
         	      LEFT OUTER JOIN krim_role_perm_t rp ON rp.ROLE_ID = r.ROLE_ID
         	      LEFT OUTER JOIN krim_perm_t p ON p.PERM_ID = rp.perm_id

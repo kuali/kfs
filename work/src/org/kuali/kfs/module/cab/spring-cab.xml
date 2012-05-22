@@ -52,10 +52,6 @@
 		</property>
 		<property name="triggerNames">
 			<list>
-				<!-- KFSMI-8116: remove the trigger so that cab extract job can start just after poster
-				<value>cabExtractJobTrigger</value>
-				 -->
-				 
 				<value>preAssetTaggingExtractJobTrigger</value>
 			</list>
 		</property>		
@@ -131,12 +127,6 @@
 				<entry key="posterJob" value="hardDependency" />
 			</map>
 		</property>
-	</bean>
-
-	<bean id="cabExtractJobTrigger" parent="cronTrigger">
-		<property name="jobName" value="cabExtractJob" />
-		<!--  it will run every day at 23:55 AM -->
-		<property name="cronExpression" value="0 55 23 ? * *" />
 	</bean>
 	<!-- End - CAB Batch Beans -->
 	

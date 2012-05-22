@@ -269,6 +269,10 @@ if [[ "$PERFORM_COMPARISON" == "true" ]]; then
 		perl -pi -e 's/<view .+?\/>//g' upgraded_schema.xml
 		perl -pi -e 's/<view .+?\/>//g' new_schema.xml
 	fi
+	
+	# Strip trailing spaces from view definitions
+	perl -pi -e 's/(<view .+?)[ ]*"\/>/\1"\/>/g' upgraded_schema.xml
+	perl -pi -e 's/(<view .+?)[ ]*"\/>/\1"\/>/g' new_schema.xml
 
 	diff -b -i -B -U 3 upgraded_schema.xml new_schema.xml > rice-schema-compare-results.txt || true
 fi

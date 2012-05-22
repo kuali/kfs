@@ -9,7 +9,7 @@
      ====================================================================== -->
 <project name="KFS Data Upgrade Testing" default="dump-kew-data">
 
-	<property name="additional.exclusions" value="AND t.doc_typ_nm NOT IN ( 'TravelAccountMaintenanceDocument' )"/>
+	<property name="additional.exclusions" value="AND t.doc_typ_nm NOT IN ( 'TravelAccountMaintenanceDocument', 'RuleMaintenanceDocument' )"/>
 
 	
     <!-- ================================= 

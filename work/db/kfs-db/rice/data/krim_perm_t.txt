@@ -22,7 +22,7 @@ perm_id|obj_id|ver_nbr|perm_tmpl_id|nmspc_cd|nm|desc_txt|actv_ind|
 166|5B4F0974495EEF33E0404F8189D84F24|1.0|29|KR-SYS|Use all RICE Screen|Allows users to access all RICE screens.|Y|
 167|5B4F0974495FEF33E0404F8189D84F24|1.0|14|KUALI|Cancel Document|Authorizes users to cancel a document prior to it being submitted for routing.|Y|
 168|5B4F09744960EF33E0404F8189D84F24|1.0|5|KUALI|Route Document|Authorizes users to submit a document for routing.|Y|
-170|5B4F09744962EF33E0404F8189D84F24|1.0|8|KUALI|Take Requested Apprive Action|Authorizes users to take the Approve action on documents routed to them.|Y|
+170|5B4F09744962EF33E0404F8189D84F24|1.0|8|KUALI|Take Requested Approve Action|Authorizes users to take the Approve action on documents routed to them.|Y|
 172|5B4F09744964EF33E0404F8189D84F24|1.0|8|KUALI|Take Requested FYI Action|Authorizes users to take the FYI action on documents routed to them.|Y|
 173|5B4F09744965EF33E0404F8189D84F24|1.0|8|KUALI|Take Requested Acknowledge Action|Authorizes users to take the Acknowledge action on documents routed to them.|Y|
 174|5B4F09744966EF33E0404F8189D84F24|1.0|1|KUALI|Log In Kuali Portal|Authorizes users to login to the Kuali portal.|Y|

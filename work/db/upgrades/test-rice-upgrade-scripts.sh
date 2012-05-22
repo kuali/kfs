@@ -356,6 +356,8 @@ fi
 rm -f mismatch.txt
 if [[ -s rice-schema-compare-results.txt || -s kew-data-compare-results.txt || -s kim-data-compare-results.txt ]]; then
 	echo 'MISMATCH' > mismatch.txt
+else
+	echo 'SUCCESS' > mismatch.txt
 fi
 
 exit 0

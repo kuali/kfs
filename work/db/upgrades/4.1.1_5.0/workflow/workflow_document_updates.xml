@@ -113,7 +113,7 @@
 		
 		
 	<!-- KFSMI-4606 -->
-		<documentType>
+		<documentType overwriteMode="true">
 			<name>ECD</name>
 			<parent>EC</parent>
 			<label>Effort Certification</label>

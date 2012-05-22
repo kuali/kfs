@@ -112,14 +112,10 @@ if [[ "$IMPORT_OLD_PROJECT" == "true" ]]; then
 	mkdir -p $WORKSPACE/tomcat/common/lib
 	mkdir -p $WORKSPACE/tomcat/common/classes
 	
-	# Lower-case the table names in case we are running against MySQL on Amazon RDS
 	perl -pi -e 's/dbTable="([^"]*)"/dbTable="\U\1"/g' $WORKSPACE/old_data/development/graphs/*.xml
-
-	if [[ "$DB_TYPE" == "MYSQL" ]]; then
-		perl -pi -e 's/dbTable="([^"]*)"/dbTable="\U\1"/g' $WORKSPACE/old_data/rice/graphs/*.xml
-		perl -pi -e 's/viewdefinition="([^"]*)"/viewdefinition="\U\1"/g' $WORKSPACE/old_data/rice/schema.xml
-		perl -pi -e 's/&#[^;]*;/ /gi' $WORKSPACE/old_data/rice/schema.xml
-	fi
+	perl -pi -e 's/dbTable="([^"]*)"/dbTable="\U\1"/g' $WORKSPACE/old_data/rice/graphs/*.xml
+	perl -pi -e 's/viewdefinition="([^"]*?)[ ]*"/viewdefinition="\U\1"/g' $WORKSPACE/old_data/rice/schema.xml
+	perl -pi -e 's/&#[^;]*;/ /gi' $WORKSPACE/old_data/rice/schema.xml
 	
 	pushd $WORKSPACE/kfs/work/db/kfs-db/db-impex/impex
 	#ant "-Dimpex.properties.file=$WORKSPACE/impex-build.properties" drop-schema create-schema import
@@ -220,6 +216,12 @@ if [[ "$EXPORT_UPGRADED_PROJECT" == "true" ]]; then
 	pushd $WORKSPACE/kfs/work/db/kfs-db/db-impex/impex
 	ant "-Dimpex.properties.file=$WORKSPACE/impex-build.properties" jdbc-to-xml
 	popd
+
+	perl -pi -e 's/dbTable="([^"]*)"/dbTable="\U\1"/g' $WORKSPACE/old_data/rice/graphs/*.xml
+	perl -pi -e 's/viewdefinition="([^"]*?)[ ]*"/viewdefinition="\U\1"/g' $WORKSPACE/old_data/rice/schema.xml
+	perl -pi -e 's/&#[^;]*;/ /gi' $WORKSPACE/old_data/rice/schema.xml
+
+
 	cp $WORKSPACE/upgraded_data/schema.xml $WORKSPACE/upgraded_schema.xml
 
 	echo '*********************************************************'
@@ -246,14 +248,20 @@ if [[ "$PERFORM_COMPARISON" == "true" ]]; then
 	perl -pi -e 's/nextval="[^"]*"/nextval="0"/g' new_schema.xml
 
 	# Remove some extra control characters from the view
-	perl -pi -e 's/&#xa;//g' upgraded_schema.xml
-	perl -pi -e 's/&#xa;//g' new_schema.xml
+	perl -pi -e 's/dbTable="([^"]*)"/dbTable="\U\1"/g' upgraded_schema.xml
+	perl -pi -e 's/viewdefinition="([^"]*?)[ ]*"/viewdefinition="\U\1"/g' upgraded_schema.xml
+	perl -pi -e 's/&#[^;]*;/ /gi' upgraded_schema.xml
+
+	perl -pi -e 's/dbTable="([^"]*)"/dbTable="\U\1"/g' new_schema.xml
+	perl -pi -e 's/viewdefinition="([^"]*?)[ ]*"/viewdefinition="\U\1"/g' new_schema.xml
+	perl -pi -e 's/&#[^;]*;/ /gi' new_schema.xml
+	
 
 	if [[ "$DB_TYPE" == "MYSQL" ]]; then
 		# MySQL exports timestamps as timestamps, and Oracle does them as dates
 		perl -pi -e 's/type="TIMESTAMP"/type="DATE"/g' new_schema.xml
 
-		# remove columm defaults, they are handled differently
+		# remove column defaults, they are handled differently
 		perl -pi -e 's/ default=".+?"//g' upgraded_schema.xml
 		perl -pi -e 's/ default=".+?"//g' new_schema.xml
 
@@ -312,12 +320,6 @@ if [[ "$IMPORT_NEW_PROJECT" == "true" ]]; then
 EOF
 	) > $WORKSPACE/impex-build.properties
 
-	if [[ "$DB_TYPE" == "MYSQL" ]]; then
-		perl -pi -e 's/dbTable="([^"]*)"/dbTable="\U\1"/g' $WORKSPACE/kfs/work/db/kfs-db/rice/graphs/*.xml
-		perl -pi -e 's/viewdefinition="([^"]*)"/viewdefinition="\U\1"/g' $WORKSPACE/kfs/work/db/kfs-db/rice/schema.xml
-		perl -pi -e 's/&#[^;]*;/ /gi' $WORKSPACE/old_data/rice/schema.xml
-	fi
-	
 	pushd $WORKSPACE/kfs/work/db/kfs-db/db-impex/impex
 	#ant "-Dimpex.properties.file=$WORKSPACE/impex-build.properties" drop-schema create-schema import
 	if [[ "$REBUILD_SCHEMA" == "true" ]]; then

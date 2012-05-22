@@ -433,8 +433,8 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="KRIM_TYP_ATTR_T">
-			<column name="KIM_TYP_ATTR_ID" value="KFSCNTRB199-TYPATTR1" />
-			<column name="OBJ_ID" value="KFSCNTRB199-TYPATTR1"/>
+			<column name="KIM_TYP_ATTR_ID" value="KFSCNTRB199-TYPATTR2" />
+			<column name="OBJ_ID" value="KFSCNTRB199-TYPATTR2"/>
 			<column name="VER_NBR" value="1" />
 			<column name="SORT_CD" value="b" />
 			<column name="KIM_TYP_ID" value="KFSCNTRB199-TYP1" />

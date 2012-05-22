@@ -87,7 +87,7 @@ DOCUMENT RULE ATTRIBUTES
     <target name="dump-kim-data" description="">
     	<echo file="${output.file}">
 ********************************************************************************
-ATTRIIBUTE DEFINITIONS
+ATTRIBUTE DEFINITIONS
 ********************************************************************************
 </echo>    	
         <sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}"
@@ -125,6 +125,8 @@ PERMISSIONS
         	        LEFT OUTER JOIN krim_perm_attr_data_t pa ON pa.PERM_ID = p.PERM_ID
         	        LEFT OUTER JOIN krim_attr_defn_t a ON a.KIM_ATTR_DEFN_ID = pa.KIM_ATTR_DEFN_ID
         		WHERE p.nmspc_cd NOT LIKE '%TEST%'
+        		  AND p.nm NOT LIKE 'Create Context%'
+        		  AND p.nm NOT LIKE 'Create Term%'
         	    ORDER BY perm_namespace, perm_name, attribute_name
         </sql>
     	<echo file="${output.file}" append="true">

@@ -239,7 +239,7 @@
 			<column name='OBJ_ID' value='KFSSYS7145' />
 			<column name='VER_NBR' valueNumeric='1' />
 			<column name='ROLE_NM' value='YearEnd' />
-			<column name='NMSPC_CD' value='KR-WKFLW' />
+			<column name='NMSPC_CD' value='KFS-SYS' />
 			<column name='DESC_TXT' value='Year End' />
 			<column name='KIM_TYP_ID' value='1' />
 			<column name='ACTV_IND' value='Y' />
@@ -831,7 +831,155 @@
 			<column name="PERM_ID" value="KFSCNTRB199-P2" />
 			<column name="ACTV_IND" value="Y" />
 		</insert>
+	</changeSet>
+	
+	<changeSet author="KFS50" id="WORKSTUDY_WORKFLOW_UPDATES">
+		<comment>Responsibilities and Role for Workstudy routing within labor module.</comment>
+		<insert tableName="KRIM_RSP_T">
+			<column name="RSP_ID" value="KFSCNTRB789-RSP1" />
+			<column name="OBJ_ID" value="KFSCNTRB789-RSP1" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_TMPL_ID" value="1" />
+			<column name="NMSPC_CD" value="KFS-LD" />
+			<column name="NM" value="Review ST Workstudy" />
+			<column name="DESC_TXT" value="" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB789-RAD1" />
+			<column name="OBJ_ID" value="KFSCNTRB789-RAD1" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB789-RSP1" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="13" />
+			<column name="ATTR_VAL" value="ST" />
+		</insert>
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB789-RAD2" />
+			<column name="OBJ_ID" value="KFSCNTRB789-RAD2" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB789-RSP1" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="16" />
+			<column name="ATTR_VAL" value="Workstudy" />
+		</insert>
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB789-RAD3" />
+			<column name="OBJ_ID" value="KFSCNTRB789-RAD3" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB789-RSP1" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="40" />
+			<column name="ATTR_VAL" value="false" />
+		</insert>
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB789-RAD4" />
+			<column name="OBJ_ID" value="KFSCNTRB789-RAD4" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB789-RSP1" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="41" />
+			<column name="ATTR_VAL" value="false" />
+		</insert>
 
+		<insert tableName="KRIM_RSP_T">
+			<column name="RSP_ID" value="KFSCNTRB789-RSP2" />
+			<column name="OBJ_ID" value="KFSCNTRB789-RSP2" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_TMPL_ID" value="1" />
+			<column name="NMSPC_CD" value="KFS-EC" />
+			<column name="NM" value="Review ECD Workstudy" />
+			<column name="DESC_TXT" value="" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB789-RAD5" />
+			<column name="OBJ_ID" value="KFSCNTRB789-RAD5" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB789-RSP2" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="13" />
+			<column name="ATTR_VAL" value="ECD" />
+		</insert>
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB789-RAD6" />
+			<column name="OBJ_ID" value="KFSCNTRB789-RAD6" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB789-RSP2" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="16" />
+			<column name="ATTR_VAL" value="Workstudy" />
+		</insert>
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB789-RAD7" />
+			<column name="OBJ_ID" value="KFSCNTRB789-RAD7" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB789-RSP2" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="40" />
+			<column name="ATTR_VAL" value="false" />
+		</insert>
+		<insert tableName="KRIM_RSP_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSCNTRB789-RAD8" />
+			<column name="OBJ_ID" value="KFSCNTRB789-RAD8" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="RSP_ID" value="KFSCNTRB789-RSP2" />
+			<column name="KIM_TYP_ID" value="7" />
+			<column name="KIM_ATTR_DEFN_ID" value="41" />
+			<column name="ATTR_VAL" value="false" />
+		</insert>
+	
+	
+		<insert tableName="KRIM_ROLE_T">
+			<column name="ROLE_ID" value="KFSCNTRB789-ROLE1" />
+			<column name="OBJ_ID" value="KFSCNTRB789-ROLE1" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_NM" value="Workstudy Reviewer" />
+			<column name="NMSPC_CD" value="KFS-SYS" />
+			<column name="DESC_TXT" value="Workstudy Reviewer Role" />
+			<column name="KIM_TYP_ID" value="1" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+
+		<insert tableName="KRIM_ROLE_RSP_T">
+			<column name="ROLE_RSP_ID" value="KFSCNTRB789-RR1" />
+			<column name="OBJ_ID" value="KFSCNTRB789-RR1" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" value="KFSCNTRB789-ROLE1" />
+			<column name="RSP_ID" value="KFSCNTRB789-RSP1" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_ROLE_RSP_T">
+			<column name="ROLE_RSP_ID" value="KFSCNTRB789-RR2" />
+			<column name="OBJ_ID" value="KFSCNTRB789-RR2" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" value="KFSCNTRB789-ROLE1" />
+			<column name="RSP_ID" value="KFSCNTRB789-RSP2" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_ROLE_RSP_ACTN_T">
+			<column name="ROLE_RSP_ACTN_ID" value="KFSCNTRB789-RRA1" />
+			<column name="OBJ_ID" value="KFSCNTRB789-RRA1" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ACTN_TYP_CD" value="A" />
+			<column name="PRIORITY_NBR" valueNumeric="1" />
+			<column name="ACTN_PLCY_CD" value="F" />
+			<column name="ROLE_MBR_ID" value="*" />
+			<column name="ROLE_RSP_ID" value="KFSCNTRB789-RR1" />
+			<column name="FRC_ACTN" value="N" />
+		</insert>
+		<insert tableName="KRIM_ROLE_RSP_ACTN_T">
+			<column name="ROLE_RSP_ACTN_ID" value="KFSCNTRB789-RRA2" />
+			<column name="OBJ_ID" value="KFSCNTRB789-RRA2" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ACTN_TYP_CD" value="A" />
+			<column name="PRIORITY_NBR" valueNumeric="1" />
+			<column name="ACTN_PLCY_CD" value="F" />
+			<column name="ROLE_MBR_ID" value="*" />
+			<column name="ROLE_RSP_ID" value="KFSCNTRB789-RR2" />
+			<column name="FRC_ACTN" value="N" />
+		</insert>
+	
 	</changeSet>
 	
 </databaseChangeLog>

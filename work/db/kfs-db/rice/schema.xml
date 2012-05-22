@@ -370,7 +370,7 @@
         <column name="GRP_ID" size="40" type="VARCHAR"/>
         <column name="DLGN_GRP_ID" size="40" type="VARCHAR"/>
         <column name="RQST_LBL" size="255" type="VARCHAR"/>
-        <index name="KREW_ACTN_ITM_T1">
+        <index name="KREW_ACTN_ITM_TI1">
             <index-column name="PRNCPL_ID"/>
         </index>
         <index name="KREW_ACTN_ITM_TI2">

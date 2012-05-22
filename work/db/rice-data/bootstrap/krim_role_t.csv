@@ -73,7 +73,7 @@ KFS98,KFS98,1,Accounts Payable Document Reviewer,KFS-PURAP,Users who receive wor
 55,KFS55,1,Workflow Administrator,KFS-SYS,Users capable of taking superuser action on KFS documents and blanket approving some document types not available to the KFS-SYS Manager role.,1,Y
 56,KFS56,1,Reviewer,KFS-VND,This role receives workflow action requests for the Vendor document.,37,Y
 KFSENDOW1,KFSENDOW1,1,KEMApprovers,KFS-ENDOW,Review and approve endowment documents,1,Y
-KFSSYS1,KFSSYS7145,1,YearEnd,KR-WKFLW,Year End,1,Y
+KFSSYS1,KFSSYS7145,1,YearEnd,KFS-SYS,Year End,1,Y
 KFSMI4553-2,KFSMI4553-2,1,Exclude Single Actor Reviewer,KFS-VND,,KFSMI4553-1,Y
 KFSAR5340R,KFSAR5340R,1,Multi Organization Invoicer,KFS-AR,,1,Y
 KFSMI6886-ROLE,KFSMI6886-ROLE,1,Payee ACH Accounts Administrator,KFS-PDP,Administration staff who can view and update Payee ACH Account records and the legacy history of a certain ACH Transaction Type.,KFSMI6886-TYP,Y

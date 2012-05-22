@@ -89,7 +89,10 @@
 			<column name="HELP_DEF_URL" value="default.htm?turl=WordDocuments%2Fyearendedocs1.htm" />
 			<where>DOC_TYP_NM IN ( 'YEGE', 'YETF' ) and CUR_IND = 1 AND ACTV_IND = 1</where>
 		</update>
-		
+		<update tableName="KREW_DOC_TYP_T">
+			<column name="HELP_DEF_URL" valueNumeric="NULL" />
+			<where>DOC_TYP_NM = 'ECD' and CUR_IND = 1 AND ACTV_IND = 1</where>
+		</update>
 	</changeSet>
 
 	<changeSet author="jksmith" id="KFSCNTRB56_UPDATE_CFDM_PARENT_DOC_TYPE_mysql" dbms="mysql">

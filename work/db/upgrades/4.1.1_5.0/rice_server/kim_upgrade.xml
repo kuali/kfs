@@ -120,7 +120,7 @@
 			<column name='VER_NBR' valueNumeric='1' />
 			<column name='RSP_TMPL_ID' value='1' />
 			<column name='NMSPC_CD' value='KFS-FP' />
-			<column name='NM' value='Review DV Separation of Duties' />
+			<column name='NM' value='Review DV SeparationOfDuties' />
 			<column name='DESC_TXT' value='' />
 			<column name='ACTV_IND' value='Y' />
 		</insert>

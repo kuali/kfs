@@ -94,6 +94,7 @@ ATTRIIBUTE DEFINITIONS
         	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
         	SELECT NMSPC_CD, NM, CMPNT_NM 
         		FROM krim_attr_defn_t
+        		WHERE nmspc_cd != 'KR-KRAD' 
         	    ORDER BY nm
         </sql>
     	<echo file="${output.file}" append="true">
@@ -107,6 +108,7 @@ KIM TYPES
         		FROM krim_typ_t t
         	        LEFT OUTER JOIN krim_typ_attr_t a ON a.KIM_TYP_ID = t.KIM_TYP_ID
         	        LEFT OUTER JOIN krim_attr_defn_t ad ON ad.KIM_ATTR_DEFN_ID = a.KIM_ATTR_DEFN_ID
+	    		WHERE t.nmspc_cd != 'KR-KRAD' 
         	    ORDER BY type_namespace, type_name, attribute_name
         </sql>
     	<echo file="${output.file}" append="true">
@@ -116,7 +118,8 @@ PERMISSIONS
 </echo>    	
         <sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}"
         	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
-        	SELECT p.NMSPC_CD AS perm_namespace, p.NM AS perm_name, pt.NMSPC_CD AS template_namespace, pt.NM AS template_name, a.NM AS attribute_name, pa.ATTR_VAL AS attribute_value
+        	<!-- REPLACE on the name is to compensate for bad Rice 1.0.3.1 data --> 
+        	SELECT p.NMSPC_CD AS perm_namespace, REPLACE( p.NM, 'Note  Attachment', 'Note / Attachment' ) AS perm_name, pt.NMSPC_CD AS template_namespace, pt.NM AS template_name, a.NM AS attribute_name, pa.ATTR_VAL AS attribute_value
         	    FROM krim_perm_t p
         	        INNER JOIN krim_perm_tmpl_t pt ON pt.PERM_TMPL_ID = p.PERM_TMPL_ID
         	        LEFT OUTER JOIN krim_perm_attr_data_t pa ON pa.PERM_ID = p.PERM_ID
@@ -194,7 +197,7 @@ ROLE PERMISSIONS
         		FROM krim_role_t r
         	      LEFT OUTER JOIN krim_role_perm_t rp ON rp.ROLE_ID = r.ROLE_ID
         	      LEFT OUTER JOIN krim_perm_t p ON p.PERM_ID = rp.perm_id
-	    		WHERE p.nmspc_cd NOT LIKE '%TEST%'
+	    		WHERE p.nmspc_cd NOT LIKE '%TEST%' AND r.nmspc_cd != 'KR-RULE'
         	    ORDER BY role_namespace, role_name, perm_namespace, perm_name
         </sql>
     	<echo file="${output.file}" append="true">

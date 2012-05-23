@@ -151,7 +151,7 @@ ROLES
 </echo>    	
         <sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}"
         	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
-        	SELECT r.NMSPC_CD AS role_namespace, r.ROLE_NM AS role_name, t.NM AS kim_type_name, r.DESC_TXT AS role_description
+        	SELECT r.NMSPC_CD AS role_namespace, r.ROLE_NM AS role_name, t.NM AS kim_type_name, CASE WHEN r.DESC_TXT = '' THEN 'null' ELSE r.desc_txt END AS role_description
         		FROM krim_role_t r
         	      LEFT OUTER JOIN krim_typ_t t ON t.KIM_TYP_ID = r.KIM_TYP_ID
         	    ORDER BY role_namespace, role_name
@@ -171,7 +171,7 @@ ROLE MEMBERS (ROLES ONLY)
         	        LEFT OUTER JOIN krim_attr_defn_t a ON a.KIM_ATTR_DEFN_ID = rma.KIM_ATTR_DEFN_ID
         	    WHERE r.NMSPC_CD LIKE 'KFS%'
         	      AND rm.MBR_TYP_CD = 'R'
-        	    ORDER BY r.nmspc_cd, r.role_nm, member_role_name, qualifier_name
+        	    ORDER BY r.nmspc_cd, r.role_nm, member_role_name, qualifier_name, qualifier_value
         </sql>
     	<echo file="${output.file}" append="true">
 ********************************************************************************

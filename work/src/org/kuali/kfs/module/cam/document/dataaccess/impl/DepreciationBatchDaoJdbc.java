@@ -554,7 +554,7 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
         } else {
             sql = sql + "AND A3.FIN_OBJ_SUB_TYP_CD NOT IN (" + buildINValues(federallyOwnedObjectSubTypes) + ")";
         }
-        sql = sql + " AND EXISTS (SELECT 1 FROM CSUF_YEAR_END_DEPR_DTL FYT WHERE A0.CPTLAST_NBR = FYT.CPTLAST_NBR AND ";
+        sql = sql + " AND EXISTS (SELECT 1 FROM CM_FSCL_YR_END_DEPR_DTL_T FYT WHERE A0.CPTLAST_NBR = FYT.CPTLAST_NBR AND ";
         sql = sql + " FYT.UNIV_FISCAL_YR = " + fiscalYear + " AND FYT.YEAR_END_DEPR_DTL_ACTV_IND IN ('Y')  AND YEAR_END_DEPR_DTL_PROC_IND IN ('N',''))";
 
         if (!includePending) {

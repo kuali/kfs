@@ -23,13 +23,14 @@ DOCUMENT TYPES
 </echo>    	
         <sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}"
         	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
-        	SELECT  t.doc_typ_nm, t.lbl, COALESCE( p.DOC_TYP_NM, ' ' ) AS parent_doc_type, 
-        			COALESCE( t.doc_hdlr_url, ' ' ) AS document_handler_url, 
-        			COALESCE( t.post_prcsr, ' ' ) AS post_processor, 
-        			COALESCE( t.appl_id, ' ' ) AS appl_id, 
-		        	COALESCE( t.help_def_url, ' ' ) AS help_def_url, 
-		        	COALESCE( t.doc_search_help_url, ' ' ) AS doc_search_help_url, 
-		        	COALESCE( t.ADV_DOC_SRCH_URL, ' ' ) AS ADV_DOC_SRCH_URL 
+        	SELECT  t.doc_typ_nm, t.lbl, 
+        			TRIM( COALESCE( p.DOC_TYP_NM, ' ' ) ) AS parent_doc_type, 
+		        	TRIM( COALESCE( t.doc_hdlr_url, ' ' ) ) AS document_handler_url, 
+		        	TRIM( COALESCE( t.post_prcsr, ' ' ) ) AS post_processor, 
+		        	TRIM( COALESCE( t.appl_id, ' ' ) ) AS appl_id, 
+		        	TRIM( COALESCE( t.help_def_url, ' ' ) ) AS help_def_url, 
+		        	TRIM( COALESCE( t.doc_search_help_url, ' ' ) ) AS doc_search_help_url, 
+		        	TRIM( COALESCE( t.ADV_DOC_SRCH_URL, ' ' ) ) AS ADV_DOC_SRCH_URL 
         	    FROM KREW_DOC_TYP_T t
                     LEFT OUTER JOIN KREW_DOC_TYP_T p ON p.DOC_TYP_ID = t.PARNT_ID
         	    WHERE t.ACTV_IND = 1 AND t.CUR_IND = 1

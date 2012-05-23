@@ -69,7 +69,7 @@ public class ProcurementCardLoadStep extends AbstractStep {
             }
         }
 
-        removeDoneFiles(processedFiles);
+        removeDoneFiles(fileNamesToLoad);
 
         return processSuccess;
     }

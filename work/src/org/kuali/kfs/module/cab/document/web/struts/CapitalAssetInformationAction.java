@@ -136,12 +136,23 @@ public class CapitalAssetInformationAction extends CabActionBase {
         return super.showAllTabs(mapping, form, request, response);
     }
 
+    /**
+     * reloads the capital asset information screen
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CapitalAssetInformationForm capitalAssetForm = (CapitalAssetInformationForm) form;
         GeneralLedgerEntry entry = findGeneralLedgerEntry(capitalAssetForm.getPrimaryGlAccountId(), false);
         if (entry != null) {
             prepareRecordsForDisplay(capitalAssetForm, entry);
         }
+        
         return mapping.findForward(RiceConstants.MAPPING_BASIC);
     }
 

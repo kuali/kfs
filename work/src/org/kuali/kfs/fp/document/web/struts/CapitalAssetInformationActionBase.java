@@ -620,7 +620,9 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
                             (KFSConstants.CapitalAssets.DISTRIBUTE_COST_EQUALLY_CODE.equalsIgnoreCase(capitalAsset.getDistributionAmountCode()))) {
                         if (capitalAssetExists(selectedCapitalAccountingLines, capitalAsset, KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR)) {
                             redistributeEqualAmounts(selectedCapitalAccountingLines, capitalAsset, equalCreateAssetAmount, totalQuantity);                        
-                            lastAssetIndex = lastAssetIndex + capitalAsset.getCapitalAssetQuantity();
+                            if (ObjectUtils.isNotNull(capitalAsset.getCapitalAssetQuantity())) {
+                                lastAssetIndex = lastAssetIndex + capitalAsset.getCapitalAssetQuantity();
+                            }
                             //get a reference to the last capital create asset to fix any variances...
                             lastCapitalAsset = capitalAsset;
                         }

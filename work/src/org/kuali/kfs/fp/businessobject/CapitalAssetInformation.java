@@ -119,6 +119,7 @@ public class CapitalAssetInformation extends PersistableBusinessObjectBase {
         if (ObjectUtils.isNotNull(capitalAssetInformationDetails) && !capitalAssetInformationDetails.isEmpty()) {
             return capitalAssetInformationDetails.size();
         }
+        
         return null;
     }
 

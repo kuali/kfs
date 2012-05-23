@@ -231,6 +231,7 @@ if [[ "$EXPORT_UPGRADED_PROJECT" == "true" ]]; then
 	pushd $WORKSPACE/kfs/work/db/upgrades
 	ant dump-kew-data "-Ddb.url=$DATASOURCE" "-Ddb.user=$DB_USER" "-Ddb.password=$DB_PASSWORD" "-Ddb.driver=$DRIVER" -Doutput.file=$WORKSPACE/upgraded_kew_data.txt -lib $DRIVER_CLASSPATH
 	ant dump-kim-data "-Ddb.url=$DATASOURCE" "-Ddb.user=$DB_USER" "-Ddb.password=$DB_PASSWORD" "-Ddb.driver=$DRIVER" -Doutput.file=$WORKSPACE/upgraded_kim_data.txt -lib $DRIVER_CLASSPATH
+	ant dump-parameter-data "-Ddb.url=$DATASOURCE" "-Ddb.user=$DB_USER" "-Ddb.password=$DB_PASSWORD" "-Ddb.driver=$DRIVER" -Doutput.file=$WORKSPACE/upgraded_parameter_data.txt -lib $DRIVER_CLASSPATH
 	popd
 fi
 
@@ -347,14 +348,16 @@ EOF
 		pushd $WORKSPACE/kfs/work/db/upgrades
 		ant dump-kew-data "-Ddb.url=$DATASOURCE" "-Ddb.user=$DB_USER" "-Ddb.password=$DB_PASSWORD" "-Ddb.driver=$DRIVER" -Doutput.file=$WORKSPACE/new_kew_data.txt -lib $DRIVER_CLASSPATH
 		ant dump-kim-data "-Ddb.url=$DATASOURCE" "-Ddb.user=$DB_USER" "-Ddb.password=$DB_PASSWORD" "-Ddb.driver=$DRIVER" -Doutput.file=$WORKSPACE/new_kim_data.txt -lib $DRIVER_CLASSPATH
+		ant dump-parameter-data "-Ddb.url=$DATASOURCE" "-Ddb.user=$DB_USER" "-Ddb.password=$DB_PASSWORD" "-Ddb.driver=$DRIVER" -Doutput.file=$WORKSPACE/new_parameter_data.txt -lib $DRIVER_CLASSPATH
 		popd 
 		diff -b -i -B -U 3 upgraded_kew_data.txt new_kew_data.txt > kew-data-compare-results.txt || true
 		diff -b -i -B -U 3 upgraded_kim_data.txt new_kim_data.txt > kim-data-compare-results.txt || true
+		diff -b -i -B -U 3 upgraded_parameter_data.txt new_parameter_data.txt > parameter-data-compare-results.txt || true
 	fi
 fi
 
 rm -f mismatch.txt
-if [[ -s rice-schema-compare-results.txt || -s kew-data-compare-results.txt || -s kim-data-compare-results.txt ]]; then
+if [[ -s rice-schema-compare-results.txt || -s kew-data-compare-results.txt || -s kim-data-compare-results.txt || -s parameter-data-compare-results.txt ]]; then
 	echo 'MISMATCH' > mismatch.txt
 else
 	echo 'SUCCESS' > mismatch.txt

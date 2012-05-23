@@ -253,7 +253,7 @@ ROLE RESPONSIBILITIES
 	<target name="dump-parameter-data">
 		<sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}"
         	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
-			SELECT APPL_ID, NMSPC_CD, CMPNT_CD, PARM_NM, PARM_TYP_CD, EVAL_OPRTR_CD, COALESCE( VAL, ' ' ) AS val, COALESCE( PARM_DESC_TXT, ' ' ) AS PARM_DESC_TXT 
+			SELECT APPL_ID, NMSPC_CD, CMPNT_CD, PARM_NM, PARM_TYP_CD, EVAL_OPRTR_CD, TRIM( COALESCE( VAL, ' ' ) ) AS val, COALESCE( TRIM( PARM_DESC_TXT ), ' ' ) AS PARM_DESC_TXT 
 				FROM krcr_parm_t
 			    ORDER BY APPL_ID, NMSPC_CD, CMPNT_CD, PARM_NM 
 		</sql>

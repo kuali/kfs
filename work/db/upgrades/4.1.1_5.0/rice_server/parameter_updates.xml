@@ -6,7 +6,7 @@
 		<comment>KFSMI-6741 Create new system parameters for KFS-CAM</comment>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-CAM" />
-			<column name="CMPNT_CD" value="ASSET" />
+			<column name="CMPNT_CD" value="Asset" />
 			<column name="PARM_NM" value="VENDOR_REQUIRED_FOR_NON_MOVEABLE_ASSET_IND" />
 			<column name="VAL" value="N" />
 			<column name="OBJ_ID" value="KFSCAM102" />
@@ -19,7 +19,7 @@
 		</insert>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-CAM" />
-			<column name="CMPNT_CD" value="ASSET" />
+			<column name="CMPNT_CD" value="Asset" />
 			<column name="PARM_NM"
 				value="MANUFACTURER_REQUIRED_FOR_NON_MOVEABLE_ASSET_IND" />
 			<column name="VAL" value="N" />
@@ -36,7 +36,7 @@
 		<comment>KFSMI-7158 Create CAM parameter NEW_IN_SERVICE_ASSET_DEPRECIATION_START_DATE</comment>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-CAM" />
-			<column name="CMPNT_CD" value="Asset Global" />
+			<column name="CMPNT_CD" value="AssetGlobal" />
 			<column name="PARM_NM"
 				value="NEW_IN_SERVICE_ASSET_DEPRECIATION_START_DATE" />
 			<column name="OBJ_ID" value="KFS684" />
@@ -101,7 +101,7 @@
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-AR" />
 			<column name="CMPNT_CD" value="CustomerBillingStatement" />
-			<column name="PARM_NM" value="'DUE_DATE_DAYS" />
+			<column name="PARM_NM" value="DUE_DATE_DAYS" />
 			<column name="OBJ_ID" value="KFSAR18" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
@@ -336,7 +336,7 @@
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-SYS" />
 			<column name="CMPNT_CD" value="Document" />
-			<column name="PARM_NM" value="DECIMAL_OF_POSTBACK_PERIODS" />
+			<column name="PARM_NM" value="NUMBER_OF_POSTBACK_PERIODS" />
 			<column name="OBJ_ID" value="KFSSYS7145-02" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
@@ -956,6 +956,43 @@
 			<column name="PARM_DESC_TXT" value="If set to Y PDP will send ACH email notifications to payees. If set to N PDP will not send these notifications." />
 			<column name="EVAL_OPRTR_CD" value="A" />
 		</insert>
+	</changeSet>
+
+	<changeSet author="KFS50" id="FIX_DV_PAYEE_TYPE_PAYMENT_REASON_RULE">
+		<update tableName="KRCR_PARM_T">
+			<column name="VAL" valueNumeric=" REPLACE( val, 'C=V,S,E', 'C=V,E,VSP' ) " />
+			<where>PARM_NM = 'VALID_PAYEE_TYPES_BY_PAYMENT_REASON' AND NMSPC_CD='KFS-FP' AND CMPNT_CD = 'DisbursementVoucher' AND APPL_ID = 'KFS'</where>
+		</update>
+	</changeSet>
+	
+	<changeSet author="KFS50" id="CAMS_ADD_ACQ_CODE_T_TO_PARAM">
+		<update tableName="KRCR_PARM_T">
+			<column name="VAL" valueNumeric=" CASE WHEN val IS NULL THEN 'T' ELSE CONCAT( val, ';T' ) END " />
+			<where>PARM_NM = 'CAPITAL_OBJECT_ACQUISITION_CODES' AND NMSPC_CD='KFS-CAM' AND CMPNT_CD = 'AssetGlobal' AND APPL_ID = 'KFS'</where>
+		</update>
+	</changeSet>
+	
+	<changeSet author="KFS50" id="FIX_DATE_FORMATS">
+		<comment>Update date formats in the parameter table.  But, only if they are unchanged from the released dataset.</comment>
+		<update tableName="KRCR_PARM_T">
+			<column name="VAL" value="4/1/2008" />
+			<where>VAL = '2008-04-01' AND PARM_NM = 'DEPRECIATION_RUN_DATE' AND NMSPC_CD='KFS-CAM' AND CMPNT_CD = 'Batch' AND APPL_ID = 'KFS'</where>
+		</update>
+	</changeSet>
+	
+	<changeSet author="KFS50" id="ENSURE_NO_IU_EMAILS">
+		<comment>Ensure all non knoreceipt emails are converted.</comment>
+		<update tableName="KRCR_PARM_T">
+			<column name="VAL" value="knoreceipt-l@indiana.edu" />
+			<where>VAL = 'kbatch-l@indiana.edu' AND APPL_ID = 'KFS'</where>
+		</update>		
+	</changeSet>
+
+	<changeSet author="KFS50" id="FIX_PARAM_DESC">
+		<update tableName="KRCR_PARM_T">
+			<column name="PARM_DESC_TXT" value="Defines the default benefit rate category code on the account maintenance document for all accounts. This default code is used when the  DEFAULT_BENEFIT_RATE_CATEGORY_CODE_BY_ACCOUNT_TYPE does not apply to an account. -- (two dashes) implies the category code is not applicable. The default cannot be null." />
+			<where>PARM_NM = 'DEFAULT_BENEFIT_RATE_CATEGORY_CODE' AND NMSPC_CD='KFS-COA' AND CMPNT_CD = 'Account' AND APPL_ID = 'KFS'</where>
+		</update>		
 	</changeSet>
 
 </databaseChangeLog>

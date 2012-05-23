@@ -103,6 +103,9 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
             }
             
             if (rawValues == null || rawValues.size() == 0) {
+                //redistribute capital asset amount to its group accounting lines on refresh
+                DistributeCapitalAssetAmountToGroupAccountingLines((KualiAccountingDocumentFormBase) form);
+                
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
             
@@ -144,6 +147,9 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
                 redistributeModifyCapitalAssetAmount(mapping, form, request, response);                
             }
         }
+        
+        //redistribute capital asset amount to its group accounting lines on refresh
+        DistributeCapitalAssetAmountToGroupAccountingLines((KualiAccountingDocumentFormBase) form);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
         
@@ -413,7 +419,9 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
     }
     
     /**
-     * 
+     * Gets the amount on the capital assets line for the selected capital accounting line by 
+     * finding the group accounting line.  When group accounting line is found in the selected
+     * capital accounting lines, the amount from that capital accounting line is returned.
      * @param selectedCapitalAccountingLines
      * @param groupAccountLine
      * @return lineAmount
@@ -796,6 +804,34 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
         else {
             this.addCapitalAssetInfoDetailLines(capitalAssetInformation.get(addIndex));
         }
+
+        /*
+        DistributeCapitalAssetAmountToGroupAccountingLines(kualiAccountingDocumentFormBase);
+        CapitalAccountingLinesFormBase capitalAccountingLinesFormBase = (CapitalAccountingLinesFormBase) kualiAccountingDocumentFormBase;
+        checkSelectForCapitalAccountingLines(capitalAccountingLinesFormBase);        
+        
+        checkCapitalAccountingLinesSelected(capitalAccountingLinesFormBase);
+        calculatePercentsForSelectedCapitalAccountingLines(capitalAccountingLinesFormBase);
+        
+        CapitalAccountingLinesDocumentBase caldb = (CapitalAccountingLinesDocumentBase) capitalAccountingLinesFormBase.getFinancialDocument();
+        String distributionAmountCode = capitalAccountingLinesFormBase.getCapitalAccountingLine().getDistributionCode();
+
+        List<CapitalAccountingLines> capitalAccountingLines = caldb.getCapitalAccountingLines();        
+        
+        List<CapitalAccountingLines> selectedCapitalAccountingLines = new ArrayList<CapitalAccountingLines>();
+
+        for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
+            if (capitalAccountingLine.isSelectLine() && !capitalAccountingLine.isAmountDistributed()) {
+                capitalAccountingLine.setDistributionAmountCode(KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR);
+                selectedCapitalAccountingLines.add(capitalAccountingLine);
+            }
+        }
+
+        //redistribute the capital asset modify amount to the group accounting lines
+        //based on amount.
+        redistributeToGroupAccountingLinesFromAssetsByAmounts(selectedCapitalAccountingLines, capitalAssetInformation.get(addIndex));
+        
+        */
         
         //now process the remaining capital asset records
         processRemainingCapitalAssetInfo(form, capitalAssetInformation);
@@ -835,6 +871,9 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
             this.addCapitalAssetInfoDetailLines(capitalAssetInformation.get(addIndex));
         }
         
+        //now process the remaining capital asset records
+        processRemainingCapitalAssetInfo(form, capitalAssetInformation);
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
@@ -860,12 +899,15 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         
-        int refresIndex = getSelectedLine(request);  
+        int refreshIndex = getSelectedLine(request);  
         
-        if (capitalAssetInformation.get(refresIndex).getCapitalAssetNumber() == null) {
+        if (capitalAssetInformation.get(refreshIndex).getCapitalAssetNumber() == null) {
             GlobalVariables.getMessageMap().putError(KFSConstants.EDIT_CAPITAL_ASSET_MODIFY_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_CAPITAL_ASSET_NUMBER_REQUIRED);
         }
-        
+
+        /*
+        DistributeCapitalAssetAmountToGroupAccountingLines(kualiAccountingDocumentFormBase);
+
         CapitalAccountingLinesFormBase capitalAccountingLinesFormBase = (CapitalAccountingLinesFormBase) kualiAccountingDocumentFormBase;
         checkSelectForCapitalAccountingLines(capitalAccountingLinesFormBase);        
         
@@ -888,7 +930,8 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
 
         //redistribute the capital asset modify amount to the group accounting lines
         //based on amount.
-        redistributeModifyAssetsByAmounts(selectedCapitalAccountingLines, capitalAssetInformation.get(refresIndex));
+        redistributeToGroupAccountingLinesFromAssetsByAmounts(selectedCapitalAccountingLines, capitalAssetInformation.get(refreshIndex));
+    */
         
         //now process the remaining capital asset records
         processRemainingCapitalAssetInfo(form, capitalAssetInformation);
@@ -969,6 +1012,10 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
         //set the amountDistributed property to true if the total amount of all the capital assets 
         //for a given capital accounting line is greater or equal to the line amount.
         checkCapitalAccountingLinesSelected(calfb);
+        
+        //redistribute each capital asset amount to its group accounting lines...
+        KualiAccountingDocumentFormBase kualiAccountingDocumentFormBase = (KualiAccountingDocumentFormBase) form;
+        DistributeCapitalAssetAmountToGroupAccountingLines(kualiAccountingDocumentFormBase);
         
         setTabStatesForCapitalAssets(form);
     }
@@ -2000,7 +2047,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
      * @param capitalAssetInformation
      * @param selectedCapitalAccountingLines
      */
-    protected void redistributeModifyAssetsByAmounts(List<CapitalAccountingLines> selectedCapitalAccountingLines, CapitalAssetInformation capitalAsset) {
+    protected void redistributeToGroupAccountingLinesFromAssetsByAmounts(List<CapitalAccountingLines> selectedCapitalAccountingLines, CapitalAssetInformation capitalAsset) {
         KualiDecimal amountToDistribute = capitalAsset.getCapitalAssetLineAmount();
         KualiDecimal amountDistributed = KualiDecimal.ZERO;
         
@@ -2039,6 +2086,43 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
         }
         
         return totalCapitalAccountsAmount;
+    }
+    
+    /**
+     * This method redistributes the capital asset amount to its group accounting lines
+     * based on the accounting line's percent.  Takes each capital assets amount and
+     * distributes to the capital asset group accounting lines.
+     * 
+     * @param kualiAccountingDocumentFormBase
+     */
+    protected void DistributeCapitalAssetAmountToGroupAccountingLines(KualiAccountingDocumentFormBase kualiAccountingDocumentFormBase) {
+        CapitalAccountingLinesFormBase capitalAccountingLinesFormBase = (CapitalAccountingLinesFormBase) kualiAccountingDocumentFormBase;
+        checkSelectForCapitalAccountingLines(capitalAccountingLinesFormBase);        
+        
+        checkCapitalAccountingLinesSelected(capitalAccountingLinesFormBase);
+        calculatePercentsForSelectedCapitalAccountingLines(capitalAccountingLinesFormBase);
+        
+        CapitalAccountingLinesDocumentBase caldb = (CapitalAccountingLinesDocumentBase) capitalAccountingLinesFormBase.getFinancialDocument();
+        String distributionAmountCode = capitalAccountingLinesFormBase.getCapitalAccountingLine().getDistributionCode();
+
+        List<CapitalAccountingLines> capitalAccountingLines = caldb.getCapitalAccountingLines();        
+        
+        List<CapitalAccountingLines> selectedCapitalAccountingLines = new ArrayList<CapitalAccountingLines>();
+
+        for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
+            if (capitalAccountingLine.isSelectLine() && !capitalAccountingLine.isAmountDistributed()) {
+                capitalAccountingLine.setDistributionAmountCode(KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR);
+                selectedCapitalAccountingLines.add(capitalAccountingLine);
+            }
+        }
+
+        List<CapitalAssetInformation> capitalAssetInformation = this.getCurrentCapitalAssetInformationObject(kualiAccountingDocumentFormBase);
+        
+        for (CapitalAssetInformation capitalAsset : capitalAssetInformation) {
+        //redistribute the capital asset modify amount to the group accounting lines
+        //based on amount.
+            redistributeToGroupAccountingLinesFromAssetsByAmounts(selectedCapitalAccountingLines, capitalAsset);
+        }
     }
     
 }

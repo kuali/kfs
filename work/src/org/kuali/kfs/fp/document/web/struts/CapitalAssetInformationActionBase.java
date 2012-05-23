@@ -1797,6 +1797,9 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
         
         checkCapitalAccountingLinesSelected(calfb);
         
+        //redistribute capital asset amount to its group accounting lines on refresh
+        DistributeCapitalAssetAmountToGroupAccountingLines((KualiAccountingDocumentFormBase) form);
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     

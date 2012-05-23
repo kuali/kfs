@@ -716,7 +716,7 @@
     <table name="KREW_DOC_TYP_PROC_T">
         <column name="DOC_TYP_PROC_ID" primaryKey="true" size="40" type="VARCHAR"/>
         <column name="DOC_TYP_ID" required="true" size="40" type="VARCHAR"/>
-        <column name="INIT_RTE_NODE_ID" size="22" type="DECIMAL"/>
+        <column name="INIT_RTE_NODE_ID" size="40" type="VARCHAR"/>
         <column name="NM" required="true" size="255" type="VARCHAR"/>
         <column default="0" name="INIT_IND" required="true" size="1" type="DECIMAL"/>
         <column default="0" name="VER_NBR" size="8" type="DECIMAL"/>
@@ -739,6 +739,7 @@
         <column name="CUR_IND" size="1" type="DECIMAL"/>
         <column name="LBL" size="128" type="VARCHAR"/>
         <column name="PREV_DOC_TYP_VER_NBR" size="40" type="VARCHAR"/>
+        <column name="DOC_HDR_ID" size="40" type="VARCHAR"/>
         <column name="DOC_TYP_DESC" size="4000" type="VARCHAR"/>
         <column name="DOC_HDLR_URL" size="255" type="VARCHAR"/>
         <column name="POST_PRCSR" size="255" type="VARCHAR"/>
@@ -757,7 +758,6 @@
         <column name="HELP_DEF_URL" size="4000" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column name="DOC_SEARCH_HELP_URL" size="4000" type="VARCHAR"/>
-        <column name="DOC_HDR_ID" size="40" type="VARCHAR"/>
         <unique name="KREW_DOC_TYP_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -1064,7 +1064,7 @@
     </table>
     <table name="KREW_RTE_NODE_T">
         <column name="RTE_NODE_ID" primaryKey="true" size="40" type="VARCHAR"/>
-        <column name="DOC_TYP_ID" size="19" type="DECIMAL"/>
+        <column name="DOC_TYP_ID" size="40" type="VARCHAR"/>
         <column name="NM" required="true" size="255" type="VARCHAR"/>
         <column name="TYP" required="true" size="255" type="VARCHAR"/>
         <column name="RTE_MTHD_NM" size="255" type="VARCHAR"/>

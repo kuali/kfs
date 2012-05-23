@@ -1,6 +1,6 @@
 "NMSPC_CD","CMPNT_CD","PARM_NM","OBJ_ID","VER_NBR","PARM_TYP_CD","VAL","PARM_DESC_TXT","EVAL_OPRTR_CD","APPL_ID"
 "KFS-AR","CustomerAgingReportDetail","CUSTOMER_INVOICE_AGE","KFS1","1","CONFG","120","Determines the last two buckets of the Customer Aging Report. The Customer Aging Report lists the customers which have open invoices for 0-30, 31-60, 61-90, 90-parameter, parameter+ days.","A","KFS"
-"KFS-AR","CustomerBillingStatement","DEFAULT_FORMAT","KFSAR19","1","CONFG","SUMMARY","Set this value to ""SUMMARY"" if you generate the summary statement as default. Set this value to ""DETAIL"" if you generate the detailed statement as default.","A","KFS"
+"KFS-AR","CustomerBillingStatement","DEFAULT_FORMAT","KFSAR19","1","CONFG","SUMMARY","Set this value to ""SUMMARY"" if you generate the summary statement as default. Set this value to ""DETAIL"" if you generate the detailed statement as default","A","KFS"
 "KFS-AR","CustomerBillingStatement","DUE_DATE_DAYS","KFSAR18","1","CONFG","30","Set the number of days that will be added to the system date to calculate the due date.","A","KFS"
 "KFS-AR","CustomerInvoice","GLPE_RECEIVABLE_OFFSET_GENERATION_METHOD","KFS2","1","CONFG","1","This parameter controls how the entries for the accounts receivable offset are determined. The options include:  
 1: Record the receivable in the same account that receives the income on an invoice and designate a receivable object code by chart.  
@@ -39,7 +39,7 @@
 "KFS-CAB","Batch","CHARTS","KFS33","1","CONFG","","Set of chart codes excluded from CAB.","D","KFS"
 "KFS-CAB","Batch","DOCUMENT_TYPES","KFS34","1","CONFG","ACLO;TF;YETF;AA;SACH","Set of document type codes that are excluded from CAB.","D","KFS"
 "KFS-CAB","Batch","FISCAL_PERIODS","KFS35","1","CONFG","CB;BB","Fiscal periods that are excluded from CAB.","D","KFS"
-"KFS-CAB","Batch","LAST_EXTRACT_TIME","KFS36","1","CONFG","06/1/2008 00:00:00","Last CAB extract time stamp which is modified every time batch runs successfully.","A","KFS"
+"KFS-CAB","Batch","LAST_EXTRACT_TIME","KFS36","1","CONFG","06/01/2008 00:00:00","Last CAB extract time stamp which is modified every time batch runs successfully.","A","KFS"
 "KFS-CAB","Batch","OBJECT_SUB_TYPES","KFS37","1","CONFG","AM;BY;BR;BX;CF;C1;C2;CM;CO;CP;ES;UC;UF;UO","Object Sub-Type codes allowed for transactions processed in CAB.","A","KFS"
 "KFS-CAB","Batch","SUB_FUND_GROUPS","KFS38","1","CONFG","EXTAGY","Set of sub fund group codes excluded from CAB.","D","KFS"
 "KFS-CAB","Document","CHARTS_REQUIRING_ASSET_NUMBER_ON_PURCHASE_ORDER","KFS39","1","CONFG","","Requires the capital asset asset number for the given Chart(s) when capital asset data is allowed on the Purchase Order.","A","KFS"
@@ -76,7 +76,7 @@
 "KFS-CAM","Asset","CAPITAL_ASSET_STATUS_CODES","KFS70","1","CONFG","A;C;R;S;U","Set of Status Codes to determine if an asset should be considered a Capital Asset","A","KFS"
 "KFS-CAM","Asset","DEFAULT_FABRICATION_ASSET_MANUFACTURER","KFSCNTRB155","1","CONFG","UNIVERSITY CONSTRUCTED","Default manufacturer name to be used during Asset Fabrication.","A","KFS"
 "KFS-CAM","Asset","DEFAULT_FABRICATION_ASSET_TYPE","KFS71","1","CONFG","40000","Default asset type value to be used during Asset Fabrication","A","KFS"
-"KFS-CAM","Asset","EDITABLE_FIELDS_WHEN_TAGGED_PRIOR_FISCAL_YEAR","KFS72","1","CONFG","capitalAssetTypeCode;capitalAssetDescription;campusTagNumber","Set of fields which are editable by KFS-SYS Asset Manger and KFS-CAM Manager when the asset is tagged in a prior fiscal year.","A","KFS"
+"KFS-CAM","Asset","EDITABLE_FIELDS_WHEN_TAGGED_PRIOR_FISCAL_YEAR","KFS72","1","CONFG","capitalAssetTypeCode;capitalAssetDescription;campusTagNumber","Set of fields which are editable by KFS-SYS Asset Manger, KFS-CAM Manager when the asset is tagged in a prior fiscal year.","A","KFS"
 "KFS-CAM","Asset","FABRICATED_ACQUISITION_CODE","KFS617","1","CONFG","C","The Asset Acquisition Type code that will populate the ""Acquisition Type Code"" field when the Asset Fabrication document is initiated.","A","KFS"
 "KFS-CAM","Asset","FEDERAL_CONTRIBUTIONS_OBJECT_SUB_TYPES","KFS73","1","CONFG","BF;CF;CO;LF;UF;UO","Set of Object SubType codes which require federal contribution for this asset","A","KFS"
 "KFS-CAM","Asset","FEDERAL_OWNED_OBJECT_SUB_TYPES","KFS74","1","CONFG","CO;UO","Set of Object SubType codes owned by federal contributors. ","A","KFS"

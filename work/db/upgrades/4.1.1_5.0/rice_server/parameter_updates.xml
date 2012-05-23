@@ -8,26 +8,23 @@
 			<column name="NMSPC_CD" value="KFS-CAM" />
 			<column name="CMPNT_CD" value="Asset" />
 			<column name="PARM_NM" value="VENDOR_REQUIRED_FOR_NON_MOVEABLE_ASSET_IND" />
-			<column name="VAL" value="N" />
+			<column name="VAL" value="Y" />
 			<column name="OBJ_ID" value="KFSCAM102" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
-			<column name="PARM_DESC_TXT"
-				value="INDICATES WHETHER OR NOT THE VENDOR IS REQUIRED FOR A NON-MOVEABLE ASSET" />
+			<column name="PARM_DESC_TXT" value="Indicates whether or not the vendor is required for a non-moveable asset." />
 			<column name="EVAL_OPRTR_CD" value="A" />
 			<column name="APPL_ID" value="KFS" />
 		</insert>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-CAM" />
 			<column name="CMPNT_CD" value="Asset" />
-			<column name="PARM_NM"
-				value="MANUFACTURER_REQUIRED_FOR_NON_MOVEABLE_ASSET_IND" />
-			<column name="VAL" value="N" />
+			<column name="PARM_NM" value="MANUFACTURER_REQUIRED_FOR_NON_MOVEABLE_ASSET_IND" />
+			<column name="VAL" value="Y" />
 			<column name="OBJ_ID" value="KFSCAM105" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
-			<column name="PARM_DESC_TXT"
-				value="INDICATES WHETHER OR NOT THE MANUFACTURER IS REQUIRED FOR A NON-MOVEABLE ASSET" />
+			<column name="PARM_DESC_TXT" value="Indicates whether or not the Manufacturer is required for a non-moveable asset." />
 			<column name="EVAL_OPRTR_CD" value="A" />
 			<column name="APPL_ID" value="KFS" />
 		</insert>
@@ -42,7 +39,7 @@
 			<column name="OBJ_ID" value="KFS684" />
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
-			<column name="VAL" value="7/01" />
+			<column name="VAL" value="07/01" />
 			<column name="PARM_DESC_TXT"
 				value="New in service asset depreciation start date (mm/dd) used for calculating the half year depreciation convention. The half year convention will calculate the depreciation date exactly six months from this parameter date." />
 			<column name="EVAL_OPRTR_CD" value="A" />
@@ -822,7 +819,7 @@
 			<column name="OBJ_ID" valueNumeric="sys_guid() " />
 			<column name="VER_NBR" value="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
-			<column name="VAL" value="" />
+			<column name="VAL" value="LD;PL" />
 			<column name="PARM_DESC_TXT" value="The list of origin codes which will cause a general ledger Entry’s document number on a lookup to form a link to the list of labor ledger entries which created that general ledger entry." />
 			<column name="EVAL_OPRTR_CD" value="A" />
 		</insert>
@@ -961,6 +958,10 @@
 	<changeSet author="KFS50" id="FIX_DV_PAYEE_TYPE_PAYMENT_REASON_RULE">
 		<update tableName="KRCR_PARM_T">
 			<column name="VAL" valueNumeric=" REPLACE( val, 'C=V,S,E', 'C=V,E,VSP' ) " />
+			<where>PARM_NM = 'VALID_PAYEE_TYPES_BY_PAYMENT_REASON' AND NMSPC_CD='KFS-FP' AND CMPNT_CD = 'DisbursementVoucher' AND APPL_ID = 'KFS'</where>
+		</update>
+		<update tableName="KRCR_PARM_T">
+			<column name="VAL" valueNumeric=" REPLACE( val, 'K=V,F', 'K=V,VRF' ) " />
 			<where>PARM_NM = 'VALID_PAYEE_TYPES_BY_PAYMENT_REASON' AND NMSPC_CD='KFS-FP' AND CMPNT_CD = 'DisbursementVoucher' AND APPL_ID = 'KFS'</where>
 		</update>
 	</changeSet>

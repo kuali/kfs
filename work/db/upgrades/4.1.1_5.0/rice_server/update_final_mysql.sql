@@ -203,7 +203,7 @@ CREATE  TABLE IF NOT EXISTS `KRMS_PROP_T` (
   `ver_nbr` DECIMAL NOT NULL DEFAULT 0 ,
   PRIMARY KEY (`prop_id`) ,
   INDEX `KRMS_PROP_TI1` (`rule_id` ASC) ,
-  INDEX `krms_prop_fk2` (`typ_id` ASC) ,
+  INDEX `krms_prop_ti2` (`typ_id` ASC) ,
   CONSTRAINT `krms_prop_fk1`
     FOREIGN KEY (`rule_id` )
     REFERENCES `KRMS_RULE_T` (`rule_id` )
@@ -545,7 +545,7 @@ CREATE  TABLE IF NOT EXISTS `KRMS_CMPND_PROP_PROPS_T` (
   `seq_no` TINYINT NOT NULL ,
   PRIMARY KEY (`cmpnd_prop_id`, `prop_id`) ,
   INDEX `KRMS_CMPND_PROP_PROPS_TI1` (`prop_id` ASC) ,
-  INDEX `krms_cmpnd_prop_props_fk2` (`cmpnd_prop_id` ASC) ,
+  INDEX `krms_cmpnd_prop_props_ti2` (`cmpnd_prop_id` ASC) ,
   CONSTRAINT `krms_cmpnd_prop_props_fk1`
     FOREIGN KEY (`prop_id` )
     REFERENCES `KRMS_PROP_T` (`prop_id` )
@@ -746,7 +746,7 @@ CREATE  TABLE IF NOT EXISTS `KRMS_TERM_RSLVR_PARM_SPEC_T` (
   `nm` VARCHAR(45) NOT NULL ,
   `ver_nbr` DECIMAL NOT NULL ,
   PRIMARY KEY (`term_rslvr_parm_spec_id`) ,
-  INDEX `KRMS_Term_reslv_parm_fk1` (`term_rslvr_id` ASC) ,
+  INDEX `KRMS_Term_reslv_parm_ti1` (`term_rslvr_id` ASC) ,
   CONSTRAINT `KRMS_Term_reslv_parm_fk1`
     FOREIGN KEY (`term_rslvr_id` )
     REFERENCES `KRMS_TERM_RSLVR_T` (`term_rslvr_id` )

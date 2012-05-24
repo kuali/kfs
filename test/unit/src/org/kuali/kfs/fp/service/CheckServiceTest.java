@@ -1,12 +1,12 @@
 /*
  * Copyright 2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.businessobject.Check;
 import org.kuali.kfs.fp.businessobject.CheckBase;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
@@ -31,6 +33,9 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kim.impl.permission.PermissionServiceImpl;
+import org.kuali.rice.kim.impl.role.RoleServiceImpl;
+import org.kuali.rice.kim.service.impl.IdentityManagementServiceImpl;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
@@ -47,6 +52,10 @@ public class CheckServiceTest extends KualiTestBase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        Logger.getLogger(PermissionServiceImpl.class).setLevel(Level.DEBUG);
+        Logger.getLogger(RoleServiceImpl.class).setLevel(Level.DEBUG);
+        Logger.getLogger(IdentityManagementServiceImpl.class).setLevel(Level.DEBUG);
+
         documentNumber = createDocument();
         // setup check
         check = new CheckBase();

@@ -203,7 +203,7 @@
     	<property name="attributeName" value="campusCode" />
     </bean>
     <bean id="RoutingAttribute-campusCode" class="org.kuali.rice.krad.datadictionary.RoutingAttribute" >
-    	<property name="qualificationAttributeName" value="campusCode" />
+    	<property name="qualificationAttributeName" value="code" />
    	</bean>
    	<bean id="DocumentValuePathGroup-AccountingDocument-financialDocumentTotalAmount" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup" abstract="true">
     	<property name="documentValues">

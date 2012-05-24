@@ -996,4 +996,61 @@
 		</update>		
 	</changeSet>
 
+	<changeSet author="KFS50" id="PARM_ACCOUNTS_TO_COPY_TO_PRIOR_YEAR_TABLES">
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-COA" />
+			<column name="CMPNT_CD" value="AddPriorYearAccountsStep" />
+			<column name="PARM_NM" value="PRIOR_YEAR_ACCOUNTS_TO_BE_ADDED" />
+			<column name="VAL" value="" />
+			<column name="OBJ_ID" value="COA_PRIOR_YEAR_ACCTS" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="The list of accounts created after the start of a new fiscal year, but need to be used for the prior year and should be added to the Prior Year Account table by the batch job addPriorYearAccountsJob. If no such account exist, this parameter shall be left empty; otherwise, the value shall be in the format of &quot;coaCode1-accountNumber1;coaCode2-accountNumber2;coaCode3-accountNumber3&quot; and so on; for example, the value &quot;BL-0142900;BA-1111111;UA-1000000&quot; defines 3 accounts to be added. The value of this parameter shall be updated after each year end, before running addPriorYearAccountsJob." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+	</changeSet>
+
+	<changeSet author="KFS50" id="PARM_EXPENSE_BASIC_ACCOUNTING_CAT">
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-GL" />
+			<column name="CMPNT_CD" value="AccountBalanceByConsolidation" />
+			<column name="PARM_NM" value="BASIC_ACCOUNTING_CATEGORY_REPRESENTING_EXPENSES" />
+			<column name="VAL" value="EX" />
+			<column name="OBJ_ID" value="GL_EXP_ACT_CAT" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="The basic accounting category type which will represent expenses in Account Balance by Consolidation lookups." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+	</changeSet>
+
+	<changeSet author="KFS50" id="PARM_PURAP_REQUIRED_INDICATORS">
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-PURAP" />
+			<column name="CMPNT_CD" value="Document" />
+			<column name="PARM_NM" value="PAYMENT_REQUEST_POSITIVE_APPROVAL_IND" />
+			<column name="VAL" value="Y" />
+			<column name="OBJ_ID" value="PURAP_PREQ_POS_APPR" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="Display the functionality on a Requisition and Purchase Order document to trigger Positive Approval indicator. If this parameter is set to &quot;N&quot;, the indicator will not be displayed on any document, and any functionality connected to the indicator will be turned off." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+		<insert tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD" value="KFS-PURAP" />
+			<column name="CMPNT_CD" value="Document" />
+			<column name="PARM_NM" value="RECEIVING_DOCUMENT_REQUIRED_IND" />
+			<column name="VAL" value="Y" />
+			<column name="OBJ_ID" value="PURAP_RCV_DOC_REQ" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PARM_TYP_CD" value="CONFG" />
+			<column name="PARM_DESC_TXT" value="Display the functionality on a Requisition and Purchase Order document to trigger Receiving Required Indicator. If this parameter is set to &quot;N&quot;, the indicator will not be displayed on any document, and any functionality connected to the indicator will be turned off." />
+			<column name="EVAL_OPRTR_CD" value="A" />
+			<column name="APPL_ID" value="KFS" />
+		</insert>
+	</changeSet>
+
 </databaseChangeLog>

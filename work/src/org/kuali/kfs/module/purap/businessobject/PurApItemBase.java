@@ -349,7 +349,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
 
         purApAccountingLine.setItemIdentifier(this.itemIdentifier);
         purApAccountingLine.setPurapItem(this);
-
+        purApAccountingLine.setSequenceNumber(0);
         setNewSourceLine(purApAccountingLine);
     }
 

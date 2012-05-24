@@ -372,7 +372,7 @@
 		</insert>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-CAM" />
-			<column name="CMPNT_CD" value="Document" />
+			<column name="CMPNT_CD" value="All" />
 			<column name="PARM_NM" value="FISCAL_YEAR_END_MONTH_AND_DAY" />
 			<column name="OBJ_ID" value="KFSSYS7145-05" />
 			<column name="VER_NBR" valueNumeric="1" />

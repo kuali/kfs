@@ -303,7 +303,7 @@ ENGINE = InnoDB;
 
 CREATE  TABLE IF NOT EXISTS `KRMS_TYP_ATTR_T` (
   `typ_attr_id` VARCHAR(40) NOT NULL ,
-  `seq_no` TINYINT NOT NULL ,
+  `seq_no` DECIMAL(5) NOT NULL ,
   `typ_id` VARCHAR(40) NOT NULL ,
   `attr_defn_id` VARCHAR(255) NOT NULL ,
   `actv` VARCHAR(1) NOT NULL DEFAULT 'Y' ,

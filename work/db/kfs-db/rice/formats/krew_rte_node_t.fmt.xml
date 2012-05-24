@@ -1,6 +1,6 @@
 <Record name="krew_rte_node_t" type="delimited">
   <Field name="rte_node_id"                     type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="doc_typ_id"                      type="numeric"    nullable="true"  trim="false" delimiter="|"  />
+  <Field name="doc_typ_id"                      type="string"    nullable="true"  trim="false" delimiter="|"  />
   <Field name="nm"                              type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="typ"                             type="string"     nullable="true"  trim="false" delimiter="|"  />
   <Field name="rte_mthd_nm"                     type="string"     nullable="true"  trim="false" delimiter="|"  />

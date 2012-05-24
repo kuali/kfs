@@ -2744,7 +2744,7 @@
 		(
 		      DOC_TYP_PROC_ID NUMBER(19)
 		        , DOC_TYP_ID VARCHAR2(40) NOT NULL
-		        , INIT_RTE_NODE_ID NUMBER(22)
+		        , INIT_RTE_NODE_ID VARCHAR2(40)
 		        , NM VARCHAR2(255) NOT NULL
 		        , INIT_IND NUMBER(1) default 0 NOT NULL
 		        , VER_NBR NUMBER(8) default 0

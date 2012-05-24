@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
-<html:html locale="true">
+<html:html>
 <head>
 <script>var jsContextPath = "${pageContext.request.contextPath}";</script>
 

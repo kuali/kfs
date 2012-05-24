@@ -50,6 +50,12 @@ public class SpringConfigurationConsistencyCheckTest extends KualiTestBase {
         Map<String,KualiLookupableImpl> beans2 = SpringContext.getBeansOfType(KualiLookupableImpl.class);
 
         for ( String beanName : beans.keySet() ) {
+            BeanDefinition beanDef = SpringContext.applicationContext.getBeanFactory().getBeanDefinition(beanName);
+            // skip entries in the rice import files or in testing files
+            if ( StringUtils.contains( beanDef.getResourceDescription(), "spring-kfs-imported-rice-beans.xml" )
+                    || StringUtils.contains( beanDef.getResourceDescription(), "-test.xml" ) ) {
+                continue;
+            }
             if ( ProxyUtils.getTargetIfProxied( beans.get(beanName) ).equals(ProxyUtils.getTargetIfProxied( beans2.get(beanName) )) ) {
                 failingBeans.add( "\n *** " + beanName + " is a singleton and should not be." );
             }
@@ -64,8 +70,14 @@ public class SpringConfigurationConsistencyCheckTest extends KualiTestBase {
         Map<String,LookupableHelperService> beans2 = SpringContext.getBeansOfType(LookupableHelperService.class);
 
         for ( String beanName : beans.keySet() ) {
+            BeanDefinition beanDef = SpringContext.applicationContext.getBeanFactory().getBeanDefinition(beanName);
+            // skip entries in the rice import files or in testing files
+            if ( StringUtils.contains( beanDef.getResourceDescription(), "spring-kfs-imported-rice-beans.xml" )
+                    || StringUtils.contains( beanDef.getResourceDescription(), "-test.xml" ) ) {
+                continue;
+            }
             if ( ProxyUtils.getTargetIfProxied( beans.get(beanName) ).equals(ProxyUtils.getTargetIfProxied( beans2.get(beanName) )) ) {
-                failingBeans.add( "\n *** " + beanName + " is a singleton and should not be." );
+                failingBeans.add( "\n *** " + beanName + " is a singleton and should not be. (" + beanDef.getResourceDescription() + ")" );
             }
         }
         assertEquals( "Beans Failing Non-Singleton check: " + failingBeans, 0, failingBeans.size() );
@@ -152,6 +164,11 @@ public class SpringConfigurationConsistencyCheckTest extends KualiTestBase {
         List<String> failingBeanNames = new ArrayList<String>();
         for ( String beanName : SpringContext.applicationContext.getBeanDefinitionNames() ) {
             BeanDefinition beanDef = SpringContext.applicationContext.getBeanFactory().getBeanDefinition(beanName);
+            // skip entries in the rice import files or in testing files
+            if ( StringUtils.contains( beanDef.getResourceDescription(), "spring-kfs-imported-rice-beans.xml" )
+                    || StringUtils.contains( beanDef.getResourceDescription(), "-test.xml" ) ) {
+                continue;
+            }
             if ( beanName.endsWith("-parentBean") && !beanDef.isAbstract() ) {
                 failingBeanNames.add(beanName + " : " + beanDef.getResourceDescription()+"\n");
             }
@@ -167,6 +184,11 @@ public class SpringConfigurationConsistencyCheckTest extends KualiTestBase {
                 continue;
             }
             BeanDefinition beanDef = SpringContext.applicationContext.getBeanFactory().getBeanDefinition(beanName);
+            // skip entries in the rice import files or in testing files
+            if ( StringUtils.contains( beanDef.getResourceDescription(), "spring-kfs-imported-rice-beans.xml" )
+                    || StringUtils.contains( beanDef.getResourceDescription(), "-test.xml" ) ) {
+                continue;
+            }
             if ( beanName.endsWith("Service") && !beanDef.isAbstract() ) {
                 String serviceClass = beanDef.getBeanClassName();
                 // skip Rice classes
@@ -193,6 +215,11 @@ public class SpringConfigurationConsistencyCheckTest extends KualiTestBase {
         List<String> failingBeanNames = new ArrayList<String>();
         for ( String beanName : SpringContext.applicationContext.getBeanDefinitionNames() ) {
             BeanDefinition beanDef = SpringContext.applicationContext.getBeanFactory().getBeanDefinition(beanName);
+            // skip entries in the rice import files or in testing files
+            if ( StringUtils.contains( beanDef.getResourceDescription(), "spring-kfs-imported-rice-beans.xml" )
+                    || StringUtils.contains( beanDef.getResourceDescription(), "-test.xml" ) ) {
+                continue;
+            }
             if ( !beanDef.isAbstract() ) {
                 Object service = TestUtils.getUnproxiedService(beanName);
                 if ( beanName.endsWith("Dao")

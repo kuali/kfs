@@ -757,7 +757,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
                     Set<String> customerNumberKeys = customerNumbers.keySet();
                     for (String customerNumber : customerNumberKeys) {
                         List<CustomerStatementDetailReportDataHolder> transactions =  customerNumbers.get(customerNumber);
-                        Collections.sort(transactions, new SortTransaction());
+                        if (ObjectUtils.isNotNull(transactions))  Collections.sort(transactions, new SortTransaction());
                     }
                 }
             }

@@ -27,6 +27,7 @@ import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.businessobject.Check;
 import org.kuali.kfs.fp.businessobject.CheckBase;
 import org.kuali.kfs.fp.document.CashReceiptDocument;
+import org.kuali.kfs.fp.identity.CashReceiptInitiatorDerivedRoleTypeServiceImpl;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.DocumentTestUtils;
 import org.kuali.kfs.sys.context.KualiTestBase;
@@ -55,6 +56,7 @@ public class CheckServiceTest extends KualiTestBase {
         Logger.getLogger(PermissionServiceImpl.class).setLevel(Level.DEBUG);
         Logger.getLogger(RoleServiceImpl.class).setLevel(Level.DEBUG);
         Logger.getLogger(IdentityManagementServiceImpl.class).setLevel(Level.DEBUG);
+        Logger.getLogger(CashReceiptInitiatorDerivedRoleTypeServiceImpl.class).setLevel(Level.DEBUG);
 
         documentNumber = createDocument();
         // setup check

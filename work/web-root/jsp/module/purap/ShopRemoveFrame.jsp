@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 
-<html:html locale="true">
+<html:html>
 <head>
 <title>KFS</title>
 <script language="Javascript">

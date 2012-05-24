@@ -820,7 +820,7 @@
 			<column name="VER_NBR" value="1" />
 			<column name="PARM_TYP_CD" value="CONFG" />
 			<column name="VAL" value="LD;PL" />
-			<column name="PARM_DESC_TXT" value="The list of origin codes which will cause a general ledger Entry’s document number on a lookup to form a link to the list of labor ledger entries which created that general ledger entry." />
+			<column name="PARM_DESC_TXT" value="The list of origin codes which will cause a general ledger Entry's document number on a lookup to form a link to the list of labor ledger entries which created that general ledger entry." />
 			<column name="EVAL_OPRTR_CD" value="A" />
 		</insert>
 	    <modifySql dbms="mysql">

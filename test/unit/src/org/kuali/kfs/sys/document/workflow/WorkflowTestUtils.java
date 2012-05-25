@@ -61,7 +61,7 @@ public class WorkflowTestUtils {
         boolean success = ChangeMonitor.waitUntilChange(monitor, MAX_WAIT_SECONDS, INITIAL_PAUSE_SECONDS);
         if ( !success ) {
             WorkflowDocument document = SpringContext.getBean(WorkflowDocumentService.class).loadWorkflowDocument(documentNumber, UserNameFixture.kfs.getPerson() );
-            Assert.fail( "waitForNodeChange(" + documentNumber + "," + desiredNodeName + ") timed out. Document was at the " + document.getCurrentNodeNames() + " node." );
+            Assert.fail( "waitForNodeChange(" + documentNumber + "," + desiredNodeName + ") timed out. Document was at the " + document.getCurrentNodeNames() + " node.\n" + document.getRequestedActions() );
         }
     }
 
@@ -71,7 +71,7 @@ public class WorkflowTestUtils {
         boolean success = ChangeMonitor.waitUntilChange(monitor, MAX_WAIT_SECONDS, INITIAL_PAUSE_SECONDS);
         if ( !success ) {
             document = SpringContext.getBean(WorkflowDocumentService.class).loadWorkflowDocument(document.getDocumentId(), UserNameFixture.kfs.getPerson() );
-            Assert.fail( "waitForNodeChange(" + document.getDocumentId() + "," + desiredNodeName + ") timed out. Document was at the " + document.getCurrentNodeNames() + " node." );
+            Assert.fail( "waitForNodeChange(" + document.getDocumentId() + "," + desiredNodeName + ") timed out. Document was at the " + document.getCurrentNodeNames() + " node.\n" + document.getRequestedActions() );
         }
     }
 
@@ -89,7 +89,7 @@ public class WorkflowTestUtils {
             }
         } catch (Exception ex) {
             LOG.error("An exception was thrown while checking workflow status on document " + documentNumber + ", unable to continue.", ex );
-            Assert.fail( "An exception was thrown while checking workflow status on document " + documentNumber + ", unable to continue." );
+            Assert.fail( "An exception was thrown while checking workflow status on document " + documentNumber + ", unable to continue." + ex.getClass() + " : " + ex.getMessage() );
         }
     }
 
@@ -99,7 +99,7 @@ public class WorkflowTestUtils {
         boolean success = ChangeMonitor.waitUntilChange(monitor, MAX_WAIT_SECONDS, INITIAL_PAUSE_SECONDS);
         if ( !success ) {
             WorkflowDocument document = SpringContext.getBean(WorkflowDocumentService.class).loadWorkflowDocument(documentNumber, UserNameFixture.kfs.getPerson() );
-            Assert.fail( "waitForApproveRequest(" + documentNumber + "," + user.getPrincipalName() + ") timed out. Document was in " + document.getStatus() + " state." );
+            Assert.fail( "waitForApproveRequest(" + documentNumber + "," + user.getPrincipalName() + ") timed out. Document was in " + document.getStatus() + " state.\n" + document.getCurrentNodeNames() + "\n" + document.getRequestedActions() );
         }
     }
 

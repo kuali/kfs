@@ -39,6 +39,7 @@
   <bean id="SalesTax-chartOfAccountsCode" parent="SalesTax-chartOfAccountsCode-parentBean"/>
 
   <bean id="SalesTax-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="required" value="false"/>
     <property name="control">
       <ref bean="ChartSimpleSelectControl" />
     </property>
@@ -46,6 +47,7 @@
   <bean id="SalesTax-accountNumber" parent="SalesTax-accountNumber-parentBean"/>
 
   <bean id="SalesTax-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+    <property name="required" value="false"/>
   </bean>
   <bean id="SalesTax-financialDocumentLineTypeCode" parent="SalesTax-financialDocumentLineTypeCode-parentBean"/>
 
@@ -58,7 +60,7 @@
     <property name="validationPattern">
       <ref bean="AnyCharacterValidation" />
     </property>
-    <property name="required" value="true"/>
+    <property name="required" value="false"/>
     <property name="control">
       <ref bean="TwoCharacterTextControl" />
     </property>
@@ -67,13 +69,13 @@
 
   <bean id="SalesTax-financialDocumentGrossSalesAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="financialDocumentGrossSalesAmount"/>
-    <property name="required" value="true"/>
+    <property name="required" value="false"/>
   </bean>
   <bean id="SalesTax-financialDocumentTaxableSalesAmount" parent="SalesTax-financialDocumentTaxableSalesAmount-parentBean"/>
 
   <bean id="SalesTax-financialDocumentTaxableSalesAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="financialDocumentTaxableSalesAmount"/>
-    <property name="required" value="true"/>
+    <property name="required" value="false"/>
   </bean>
   <bean id="SalesTax-financialDocumentSaleDate" parent="SalesTax-financialDocumentSaleDate-parentBean"/>
 
@@ -81,6 +83,6 @@
     <property name="name" value="financialDocumentSaleDate"/>
     <property name="label" value="Financial Document Sale Date"/>
     <property name="shortLabel" value="Sale Date"/>
-    <property name="required" value="true"/>
+    <property name="required" value="false"/>
   </bean>
 </beans>

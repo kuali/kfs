@@ -1887,6 +1887,19 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
+    <table name="CA_ACCT_AUTODEF_ICR_T">
+        <column name="CA_ICR_ACCT_GNRTD_ID" primaryKey="true" size="10" type="DECIMAL"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <column name="ACCT_DFLT_ID" size="10" type="DECIMAL"/>
+        <column name="ICR_FIN_COA_CD" size="2" type="VARCHAR"/>
+        <column name="ICR_FIN_ACCT_NBR" size="7" type="VARCHAR"/>
+        <column name="ACLN_PCT" size="45" type="VARCHAR"/>
+        <column default="Y" name="DOBJ_MAINT_CD_ACTV_IND" size="1" type="VARCHAR"/>
+        <unique name="CA_ACCT_AUTODEF_ICR_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+    </table>
     <table name="CA_ACCT_AUTO_CREATE_DFLT_T">
         <column name="KC_UNIT" size="8" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
@@ -14725,6 +14738,7 @@
     <sequence name="AP_PUR_DOC_LNK_ID" nextval="21"/>
     <sequence name="AP_SUM_ACCT_T_SEQ" nextval="1"/>
     <sequence name="CA_A21_ICR_ACCT_SEQ" nextval="10020"/>
+    <sequence name="CA_ACCT_AUTODEF_ICR_SEQ" nextval="10000"/>
     <sequence name="CA_ACCT_AUTO_CREATE_DFLT_SEQ" nextval="1"/>
     <sequence name="CA_ICR_ACCT_SEQ" nextval="12280"/>
     <sequence name="CB_ACTN_ID_SEQ" nextval="2000"/>

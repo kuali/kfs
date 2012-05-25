@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.sys.batch.service;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +31,7 @@ import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -142,6 +142,9 @@ public class SchedulerServiceImplTest extends KualiTestBase {
         Scheduler scheduler = (Scheduler) SpringContext.getService("scheduler");
         try {
             JobDetail jobDetail = scheduler.getJobDetail(jobName, groupName);
+            if ( jobDetail.getJobDataMap() == null ) {
+                jobDetail.setJobDataMap( new JobDataMap() );
+            }
             jobDetail.getJobDataMap().put(SchedulerService.JOB_STATUS_PARAMETER, SchedulerService.SCHEDULED_JOB_STATUS_CODE);
             scheduler.addJob(jobDetail, true);
 
@@ -249,7 +252,7 @@ public class SchedulerServiceImplTest extends KualiTestBase {
         assertEquals("job status not correct", SchedulerService.RUNNING_JOB_STATUS_CODE, job.getStatus());
 
     }
-    
+
     /**
      * Verify that dropDependenciesNotScheduled drops unscheduled dependencies. It's worthwhile to note that spring-sys-test-xml was altered to include a fake
      * dependency of purgeReportsAndStagingJob on dailyEmailJob. This fake dependency was added to have a scheduled job dependend on an unscheduled one so that
@@ -258,7 +261,7 @@ public class SchedulerServiceImplTest extends KualiTestBase {
      */
     public void testDropDependenciesNotScheduled() throws Exception {
         SchedulerService schedulerService = SpringContext.getBean(SchedulerService.class);
-        
+
         BatchJobStatus purgeReportsAndStagingJob = schedulerService.getJob(SchedulerService.SCHEDULED_GROUP, "purgeReportsAndStagingJob");
         for (Entry<String, String> dependency : purgeReportsAndStagingJob.getDependencies().entrySet()) {
             String dependencyJobName = dependency.getKey();

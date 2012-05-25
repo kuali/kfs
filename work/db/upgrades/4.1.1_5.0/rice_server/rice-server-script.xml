@@ -7273,7 +7273,7 @@
 		-- 
 		
 		
-		UPDATE KRCR_NMSPC_T SET APPL_ID = 'RICE' WHERE NMSPC_CD = 'KUALI'
+		UPDATE KRCR_NMSPC_T SET APPL_ID = NULL WHERE NMSPC_CD = 'KUALI'
 		]]></sql>
 		<!-- 
 		<sql splitStatements="false"><![CDATA[

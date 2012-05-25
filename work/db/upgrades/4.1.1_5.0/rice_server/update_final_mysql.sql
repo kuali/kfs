@@ -2373,7 +2373,7 @@ alter table KRMS_CMPND_PROP_PROPS_T drop seq_no;
 -- 
 
 
-update KRCR_NMSPC_T set APPL_ID = 'RICE' where nmspc_cd = 'KUALI';
+update KRCR_NMSPC_T set APPL_ID = NULL where nmspc_cd = 'KUALI';
 
 
 -- 

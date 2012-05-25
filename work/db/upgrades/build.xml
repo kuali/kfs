@@ -254,6 +254,37 @@ ROLE RESPONSIBILITIES
 	<target name="dump-parameter-data">
 		<sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}"
         	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
+			SELECT TRIM( COALESCE( APPL_ID, ' ' ) ) AS APPL_ID, NMSPC_CD, NM, ACTV_IND
+				FROM krcr_nmspc_t
+			    ORDER BY NMSPC_CD
+		</sql>
+		<sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}"
+        	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
+			SELECT PARM_TYP_CD, NM, ACTV_IND 
+				FROM krcr_parm_typ_t
+			    ORDER BY PARM_TYP_CD
+		</sql>
+		<sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}"
+        	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
+			SELECT NMSPC_CD, CMPNT_CD, NM, ACTV_IND 
+				FROM krcr_cmpnt_t
+			    ORDER BY NMSPC_CD, CMPNT_CD
+		</sql>
+		<sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}"
+        	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
+			SELECT CMPNT_SET_ID
+				FROM krcr_cmpnt_set_t
+			    ORDER BY CMPNT_SET_ID
+		</sql>
+		<sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}"
+        	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
+			SELECT CMPNT_SET_ID, NMSPC_CD, CMPNT_CD, NM
+				FROM krcr_drvd_cmpnt_t
+			    WHERE NMSPC_CD != 'krms'
+			    ORDER BY CMPNT_SET_ID, NMSPC_CD, CMPNT_CD
+		</sql>
+		<sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}"
+        	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
 			SELECT APPL_ID, NMSPC_CD, CMPNT_CD, PARM_NM, PARM_TYP_CD, EVAL_OPRTR_CD, TRIM( COALESCE( VAL, ' ' ) ) AS val, COALESCE( TRIM( PARM_DESC_TXT ), ' ' ) AS PARM_DESC_TXT 
 				FROM krcr_parm_t
 			    ORDER BY APPL_ID, NMSPC_CD, CMPNT_CD, PARM_NM 

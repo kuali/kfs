@@ -85,7 +85,7 @@ public class WorkflowTestUtils {
             DocumentWorkflowStatusMonitor monitor = new DocumentWorkflowStatusMonitor(documentNumber, desiredStatuses);
             if ( !ChangeMonitor.waitUntilChange(monitor, MAX_WAIT_SECONDS, INITIAL_PAUSE_SECONDS) ) {
                 WorkflowDocument document = SpringContext.getBean(WorkflowDocumentService.class).loadWorkflowDocument(documentNumber, UserNameFixture.kfs.getPerson() );
-                Assert.fail( "waitForStatusChange(" + documentNumber + "," + Arrays.toString(desiredStatuses) + ") timed out. Document was in " + document.getStatus() + " state." );
+                Assert.fail( "waitForStatusChange(" + documentNumber + "," + Arrays.toString(desiredStatuses) + ") timed out. Document was in " + document.getStatus() + " state.\n" + document.getCurrentNodeNames() + "\n" + document.getRequestedActions() );
             }
         } catch (Exception ex) {
             LOG.error("An exception was thrown while checking workflow status on document " + documentNumber + ", unable to continue.", ex );

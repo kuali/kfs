@@ -374,7 +374,6 @@ public final class AccountingDocumentTestUtils {
 
     public static void approveDocument(AccountingDocument document, DocumentService documentService) throws Exception {
         Long initialVersion = document.getVersionNumber();
-        Long nextVersion = new Long(initialVersion.longValue() + 1);
         documentService.approveDocument(document, "approving test doc", null);
 
         DocumentVersionMonitor vm = new DocumentVersionMonitor(documentService, document.getDocumentNumber(), initialVersion);

@@ -1575,11 +1575,10 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         if (SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().compareTo(Integer.valueOf(documentFiscalYearString)) >= 0) {
             // get list of sufficientfundItems
             List<SufficientFundsItem> fundsItems = SpringContext.getBean(SufficientFundsService.class).checkSufficientFunds(getPendingLedgerEntriesForSufficientFundsChecking());
-                for (SufficientFundsItem fundsItem : fundsItems) {
-                    if (this.getChartOfAccountsCode().equalsIgnoreCase(fundsItem.getAccount().getChartOfAccountsCode())) {
-                    LOG.debug("Chart code of rule extension matches chart code of at least one Sufficient Funds Item");
-                    return true;
-                }
+            
+            //kfsmi-7289
+            if (fundsItems != null && fundsItems.size() > 0) {
+                return true;
             }
         }
 

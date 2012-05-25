@@ -191,7 +191,7 @@ public class DisbursementVoucherTaxServiceTest extends KualiTestBase {
 
         SpringContext.getBean(DisbursementVoucherTaxService.class).processNonResidentAlienTax(dvDocument);
         List newTaxNumbers = SpringContext.getBean(DisbursementVoucherTaxService.class).getNRATaxLineNumbers(dvDocument.getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText());
-        assertTrue(newTaxNumbers.size() == 3);
+        assertEquals( "Number of new tax lines is incorrect.", 3, newTaxNumbers.size() );
         assertEquals("Check total does not match original amount", checkAmount, dvDocument.getDisbVchrCheckTotalAmount());
         assertEquals("Source total does not match original amount", checkAmount, dvDocument.getSourceTotal());
         SpringContext.getBean(DisbursementVoucherTaxService.class).clearNRATaxLines(dvDocument);

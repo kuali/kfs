@@ -14,4 +14,150 @@
 			<replace replace="VARCHAR2" with="VARCHAR" />
 		</modifySql>
 	</changeSet>
+	
+ <changeSet author='KFS50' id='CreateTable_ca_icr_acct_t'>
+    <comment>KFSMI-KFSMI-6921 Create Account and A21SubAccount ICR collection tables</comment>
+    <createTable tableName='CA_ICR_ACCT_T'>
+      <column name='CA_ICR_ACCT_GNRTD_ID' type='NUMBER(10,0)' defaultValueNumeric='0'>
+        <constraints primaryKey='true' primaryKeyName="CA_ICR_ACCT_TP1"/>
+      </column>
+      <column name='OBJ_ID' type='VARCHAR2(36)'>
+      	<constraints nullable='false' unique="true" uniqueConstraintName="CA_ICR_ACCT_TC0" />
+      </column>
+      <column name='VER_NBR' type='NUMBER(8,0)' defaultValueNumeric='1'>
+      	<constraints nullable='false' />
+      </column>
+      <column name='FIN_COA_CD' type='VARCHAR2(2)' />
+      <column name='ACCOUNT_NBR' type='VARCHAR2(7)' />
+      <column name='ICR_FIN_COA_CD' type='VARCHAR2(2)' />
+      <column name='ICR_FIN_ACCT_NBR' type='VARCHAR2(7)' />
+      <column name='ACLN_PCT' type='VARCHAR2(45)' />
+      <column name='DOBJ_MAINT_CD_ACTV_IND' type='VARCHAR2(1)' defaultValue="Y" />
+    </createTable>
+    
+    <modifySql dbms='mysql'>
+      <replace replace='VARCHAR2' with='VARCHAR' />
+      <replace replace='NUMBER' with='DECIMAL' />
+    </modifySql>
+  </changeSet>
+
+	<changeSet author="KFS50" id="ca_icr_acct_seq_oracle" dbms="oracle">
+    	<createSequence sequenceName="CA_ICR_ACCT_SEQ" startValue="10000"/>
+  	</changeSet>
+   
+	<changeSet author="KFS50" id="ca_icr_acct_seq_mysql" dbms="mysql">
+	  	<createTable tableName="CA_ICR_ACCT_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true" >
+	  			<constraints primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<modifySql>
+	  		<append value=" ENGINE = MyISAM AUTO_INCREMENT = 10000 "/>
+	  	</modifySql>
+  	</changeSet>
+
+	<changeSet author='KFS50' id='CreateTable_ca_a21_icr_acct_t'>
+		<comment>KFSMI-6921 Create Account and A21SubAccount ICR collection tables</comment>
+		<createTable tableName='CA_A21_ICR_ACCT_T'>
+			<column name='CA_A21_ICR_ACCT_GNRTD_ID' type='NUMBER(10,0)'>
+				<constraints primaryKey='true' primaryKeyName="CA_A21_ICR_ACCT_TP1" />
+			</column>
+			<column name='OBJ_ID' type='VARCHAR2(36)'>
+				<constraints nullable='false' unique="true" uniqueConstraintName="CA_A21_ICR_ACCT_TC0" />
+			</column>
+			<column name='VER_NBR' type='NUMBER(8,0)' defaultValueNumeric='1'>
+				<constraints nullable='false' />
+			</column>
+			<column name='FIN_COA_CD' type='VARCHAR2(2)' />
+			<column name='ACCOUNT_NBR' type='VARCHAR2(7)' />
+			<column name='SUB_ACCT_NBR' type='VARCHAR2(5)' />
+			<column name='ICR_FIN_COA_CD' type='VARCHAR2(2)' />
+			<column name='ICR_FIN_ACCT_NBR' type='VARCHAR2(7)' />
+			<column name='ACLN_PCT' type='VARCHAR2(45)' />
+			<column name='DOBJ_MAINT_CD_ACTV_IND' type='VARCHAR2(1)' defaultValue="Y" />
+		</createTable>
+		<modifySql dbms='mysql'>
+			<replace replace='VARCHAR2' with='VARCHAR' />
+			<replace replace='NUMBER' with='DECIMAL' />
+		</modifySql>
+	</changeSet>
+
+  	<changeSet author="KFS50" id="ca_a21_icr_acct_seq_oracle" dbms="oracle">
+    	<createSequence sequenceName="CA_A21_ICR_ACCT_SEQ" startValue="10000"/>
+  	</changeSet>
+   
+	<changeSet author="KFS50" id="ca_a21_icr_acct_seq_mysql" dbms="mysql">
+	  	<createTable tableName="CA_A21_ICR_ACCT_SEQ">
+	  		<column name="ID" type="BIGINT(19)" autoIncrement="true" >
+	  			<constraints primaryKey="true"/>
+	  		</column>
+	  	</createTable>
+	  	<modifySql>
+	  		<append value=" ENGINE = MyISAM AUTO_INCREMENT = 10000 "/>
+	  	</modifySql>
+  	</changeSet>
+
+	<changeSet author='KFS50' id='CreateTable_CA_PRIOR_YR_ICR_ACCT_T'>
+		<comment>KFSMI-6963 Data conversion script for ICR accounts and modification on the ICR tables</comment>
+		<createTable tableName='CA_PRIOR_YR_ICR_ACCT_T'>
+			<column name='CA_PRIOR_YR_ICR_ACCT_GNRTD_ID' type='NUMBER(10,0)'>
+				<constraints primaryKey="true" primaryKeyName="CA_PRIOR_YR_ICR_ACCT_TP1" />
+			</column>
+			<column name='OBJ_ID' type='VARCHAR2(36)'>
+				<constraints nullable='false' unique="true" uniqueConstraintName="CA_PRIOR_YR_ICR_ACCT_TC0" />
+			</column>
+			<column name='VER_NBR' type='NUMBER(8,0)' defaultValueNumeric='1'>
+				<constraints nullable='false' />
+			</column>
+			<column name='FIN_COA_CD' type='VARCHAR2(2)' />
+			<column name='ACCOUNT_NBR' type='VARCHAR2(7)' />
+			<column name='ICR_FIN_COA_CD' type='VARCHAR2(2)' />
+			<column name='ICR_FIN_ACCT_NBR' type='VARCHAR2(7)' />
+			<column name='ACLN_PCT' type='VARCHAR2(45)' />
+			<column name='DOBJ_MAINT_CD_ACTV_IND' type='VARCHAR2(1)' defaultValue="Y" />
+		</createTable>
+		<modifySql dbms='mysql'>
+			<replace replace='VARCHAR2' with='VARCHAR' />
+			<replace replace='NUMBER' with='DECIMAL' />
+		</modifySql>
+	</changeSet>
+  	
+	<changeSet author="KFS50" id="CreateTable_CA_ACCT_AUTODEF_ICR_T">
+		<comment>KFSMI-KFSMI-6921 Create Account and A21SubAccount ICR collection tables</comment>
+		<createTable tableName="CA_ACCT_AUTODEF_ICR_T">
+			<column name="CA_ICR_ACCT_GNRTD_ID" type="NUMBER(10,0)">
+				<constraints primaryKey="true" primaryKeyName="CA_ACCT_AUTODEF_ICR_TP1" />
+			</column>
+			<column name="OBJ_ID" type="VARCHAR2(36)">
+				<constraints nullable="false" unique="true" uniqueConstraintName="CA_ACCT_AUTODEF_ICR_TC0" />
+			</column>
+			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1">
+				<constraints nullable="false" />
+			</column>
+			<column name="ACCT_DFLT_ID" type="NUMBER(10,0)" />
+			<column name="ICR_FIN_COA_CD" type="VARCHAR2(2)" />
+			<column name="ICR_FIN_ACCT_NBR" type="VARCHAR2(7)" />
+			<column name="ACLN_PCT" type="VARCHAR2(45)" />
+			<column name="DOBJ_MAINT_CD_ACTV_IND" type="VARCHAR2(1)" defaultValue="Y" />
+		</createTable>
+		<modifySql dbms="mysql">
+			<replace replace="VARCHAR2" with="VARCHAR" />
+			<replace replace="NUMBER" with="DECIMAL" />
+		</modifySql>
+	</changeSet>
+
+	<changeSet author="KFS50" id="CA_ACCT_AUTODEF_ICR_SEQ_oracle" dbms="oracle">
+		<createSequence sequenceName="CA_ACCT_AUTODEF_ICR_SEQ"
+			startValue="10000" />
+	</changeSet>
+
+	<changeSet author="KFS50" id="CA_ACCT_AUTODEF_ICR_SEQ_mysql" dbms="mysql">
+		<createTable tableName="CA_ACCT_AUTODEF_ICR_SEQ">
+			<column name="ID" type="BIGINT(19)" autoIncrement="true">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+		</createTable>
+		<sql>ALTER TABLE CA_ACCT_AUTODEF_ICR_SEQ AUTO_INCREMENT=10000</sql>
+	</changeSet>
+  	
 </databaseChangeLog>

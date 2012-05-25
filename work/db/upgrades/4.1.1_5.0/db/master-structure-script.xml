@@ -8,7 +8,6 @@
 	<include file="01_structure/coa-module-structure-updates.xml"/>
 	<include file="01_structure/fp-module-structure-updates.xml"/>
 	<include file="01_structure/gl-module-structure-updates.xml"/>
-	<include file="01_structure/kc-module-structure-updates.xml"/>
 	<include file="01_structure/ld-module-structure-updates.xml"/>
 	<include file="01_structure/pdp-module-structure-updates.xml"/>
 	<include file="01_structure/purap-module-structure-updates.xml"/>

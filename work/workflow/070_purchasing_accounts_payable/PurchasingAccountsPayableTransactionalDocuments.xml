@@ -368,10 +368,10 @@
           <role name="Commodity" nextNode="RequiresAwardReview" nextAppDocStatus="Awaiting C and G Approval" />
           <split name="RequiresAwardReview" nextNode="RequiresBudgetReview" >
             <branch name="True">
-              <role name="Award" nextNode="JoinRequiresAwardReview"  nextAppDocStatus="Awaiting Budget Approval"/>
+              <role name="Award" nextNode="JoinRequiresAwardReview" nextAppDocStatus="Awaiting Budget Approval"/>
             </branch>
             <branch name="False">
-              <simple name="NoOpRequiresAwardReview" nextNode="JoinRequiresAwardReview"/>
+              <simple name="NoOpRequiresAwardReview" nextNode="JoinRequiresAwardReview" nextAppDocStatus="Awaiting Budget Approval"/>
             </branch>
             <join name="JoinRequiresAwardReview"/>
           </split>

@@ -315,7 +315,7 @@
 							<role name="Award" nextNode="JoinRequiresAwardReview" nextAppDocStatus="Awaiting Budget Approval" />
 						</branch>
 						<branch name="False">
-							<simple name="NoOpRequiresAwardReview" nextNode="JoinRequiresAwardReview" />
+							<simple name="NoOpRequiresAwardReview" nextNode="JoinRequiresAwardReview" nextAppDocStatus="Awaiting Budget Approval" />
 						</branch>
 						<join name="JoinRequiresAwardReview" />
 					</split>

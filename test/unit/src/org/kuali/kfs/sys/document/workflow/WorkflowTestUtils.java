@@ -38,7 +38,7 @@ import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 public class WorkflowTestUtils {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(WorkflowTestUtils.class);
     protected static final int INITIAL_PAUSE_SECONDS = 5;
-    protected static final int MAX_WAIT_SECONDS = 30;
+    protected static final int MAX_WAIT_SECONDS = 60;
 
     public static boolean isAtNode(Document document, String nodeName) throws WorkflowException {
         return isAtNode(document.getDocumentHeader().getWorkflowDocument(), nodeName);

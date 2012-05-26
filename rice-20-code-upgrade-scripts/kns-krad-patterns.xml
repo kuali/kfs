@@ -441,7 +441,7 @@
 
 		<pattern>
 			<match>org.kuali.rice.kns.bo.Inactivateable</match>
-			<replacement>org.kuali.rice.core.api.mo.common.active.Inactivatable</replacement>			
+			<replacement>org.kuali.rice.core.api.mo.common.active.MutableInactivatable</replacement>			
 		</pattern>			
 		<!-- 
 		<pattern>

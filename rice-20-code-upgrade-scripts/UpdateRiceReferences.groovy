@@ -1,9 +1,21 @@
-testRules = true;
+if ( args.length < 1 ) {
+    println "This script will convert source code using Rice 1.x packages and APIs into Rice 2.x versions."
+    println ""
+    println "It is not 100% and *WILL* result in code that does not compile.  "
+    println "Furthermore, a number of the conversions are based on conventions used"
+    println "by the KFS developers.  YMMV"
+    println "But, due to the package changes, without this script, virtually all "
+    println "of the code which references Rice will fail to compile." 
+    return 0
+}
+testRules = false;
 
-conversionRootDir = "."
+conversionRootDir = args[0]
 def mappingDir = "."
 def groovy.util.Node root
 patternFileSuffix = "patterns.xml"
+
+updateLog = new File(conversionRootDir, "updates.log")
 
 excludeDirs = [ "classes", "tomcat", "lib", ".settings", "performance", "jaxb" ]
 excludeFiles = [ patternFileSuffix ];
@@ -24,14 +36,9 @@ roots = []
 replacementList = []
 referencesToLog = []
 
-updateLog = new File(conversionRootDir, "updates.log")
-//referencesLog = new File(conversionRootDir, "references.log")  
-
-def cls
-
 def loadMappings( dir ) {
 	println "Looking for pattern files in: " + new File(dir).getAbsolutePath() 
-def files = new File(dir).list()
+    def files = new File(dir).list()
 	files.each {
 		String fileName ->
 		File file = new File(dir, fileName)
@@ -115,7 +122,6 @@ def convertDir( dir ) {
                     && !fileName.endsWith( patternFileSuffix )
                     && !excludeFiles.contains( fileName ) ) {
             	convertFile(file, replacementList)
-//				logCalls(file, referencesToLog)
             }
         }
     }
@@ -146,28 +152,6 @@ def convertFile( file, replacements ) {
 		file << convertedFileText;
 	}
 }
-
-//def logCalls(file, references) {
-//	String fileText = file.text;
-//	for (e in references) {
-//		if(fileText.contains(e)) {
-//			//println file.getAbsolutePath() + " references " + e
-//			referencesLog.append(file.getAbsolutePath() + " references " + e  + "\n")
-//		}
-//	}
-//}
-//
-//def verifyClasses(replacements) {
-//	def cl = ClassLoader.systemClassLoader
-//	
-//	for ( e in replacements ) {
-//		try{
-//			cl.loadClass e.value
-//		} catch(ClassNotFoundException ex){
-//			println "Invalid ClassName: " + ex.message
-//		}
-//	}
-//}
 
 loadMappings(mappingDir)
 
@@ -201,12 +185,11 @@ if ( testRules ) {
 	loadRules('KFS_spring_context_updates')
 	loadRules('KFS_kim_attribute_updates')
 }
-//loadRules('log_removed_methods_and_classes')
-//loadRules('log_utilities_pushed_to_tools')
+
 for ( e in replacementList ) {
     println e;
     def matcher = ( "" =~ e.regex ) // This will test each expression as it is displayed (for troubleshooting purposes)
 } 
-//verifyClasses(replacementsMap)
+
 println "Starting Conversion"
 convertDir(conversionRootDir)

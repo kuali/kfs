@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="Cfda" parent="CFDA-parentBean"/>
+  <bean id="Cfda" parent="Cfda-parentBean"/>
 
-  <bean id="CFDA-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kfs.module.external.kc.businessobject.Cfda"/>
+  <bean id="Cfda-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.CFDA"/>
     <property name="inquiryDefinition">
-      <ref bean="CFDA-inquiryDefinition"/>
+      <ref bean="Cfda-inquiryDefinition"/>
     </property>
     <property name="lookupDefinition">
-      <ref bean="CFDA-lookupDefinition"/>
+      <ref bean="Cfda-lookupDefinition"/>
     </property>
     <property name="objectLabel" value="CFDA Reference"/>
     <property name="attributes">
       <list>
-        <ref bean="CFDA-cfdaMaintenanceTypeId"/>
-        <ref bean="CFDA-cfdaNumber"/>
-        <ref bean="CFDA-cfdaProgramTitleName"/>
+        <ref bean="Cfda-cfdaMaintenanceTypeId"/>
+        <ref bean="Cfda-cfdaNumber"/>
+        <ref bean="Cfda-cfdaProgramTitleName"/>
+        <ref bean="Cfda-active"/>
       </list>
     </property>
     <property name="primaryKeys">
@@ -28,9 +29,9 @@
 <!-- Attribute Definitions -->
 
 
-  <bean id="CFDA-cfdaMaintenanceTypeId" parent="CFDA-cfdaMaintenanceTypeId-parentBean"/>
+  <bean id="Cfda-cfdaMaintenanceTypeId" parent="Cfda-cfdaMaintenanceTypeId-parentBean"/>
 
-  <bean id="CFDA-cfdaMaintenanceTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Cfda-cfdaMaintenanceTypeId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="cfdaMaintenanceTypeId"/>
     <property name="label" value="CFDA Maintenance Type Id"/>
     <property name="shortLabel" value="Id"/>
@@ -42,44 +43,23 @@
       <bean parent="TextControlDefinition" p:size="8"/>
     </property>
   </bean>
-  <bean id="CFDA-cfdaNumber" parent="CFDA-cfdaNumber-parentBean"/>
+  <bean id="Cfda-cfdaNumber" parent="Cfda-cfdaNumber-parentBean"/>
 
-  <bean id="CFDA-cfdaNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="cfdaNumber"/>
-     <property name="label" value="CFDA Number"/>
-    <property name="shortLabel" value="Number"/>
-    <property name="maxLength" value="6"/>
-     <property name="attributeSecurity">
-        <bean parent="AttributeSecurity">
-           <property name="readOnly" value="true"/>
-       </bean>
-    </property>
-       <property name="control">
-      <bean parent="TextControlDefinition" p:size="8"/>
-    </property>
-  </bean>
-  <bean id="CFDA-cfdaProgramTitleName" parent="CFDA-cfdaProgramTitleName-parentBean"/>
-
-  <bean id="CFDA-cfdaProgramTitleName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="cfdaProgramTitleName"/>
-    <property name="label" value="CFDA Program Title Name"/>
-    <property name="shortLabel" value="Name"/>
-    <property name="maxLength" value="300"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterWithWhitespaceValidation" />
-    </property>
-    <property name="control">
-      <bean parent="TextareaControlDefinition" p:rows="5" p:cols="80"/>
-    </property>
-  </bean>
+  <bean id="Cfda-cfdaNumber-parentBean" abstract="true" parent="CFDA-cfdaNumber"/>
   
+  <bean id="Cfda-cfdaProgramTitleName" parent="Cfda-cfdaProgramTitleName-parentBean"/>
+
+  <bean id="Cfda-cfdaProgramTitleName-parentBean" abstract="true" parent="CFDA-cfdaProgramTitleName-parentBean"/>  
+  
+  <bean id="Cfda-active" parent="Cfda-active-parentBean"/>
+  <bean id="Cfda-active-parentBean" abstract="true" parent="CFDA-active-parentBean"/>
 
 <!-- Business Object Inquiry Definition -->
 
 
-  <bean id="CFDA-inquiryDefinition" parent="CFDA-inquiryDefinition-parentBean"/>
+  <bean id="Cfda-inquiryDefinition" parent="Cfda-inquiryDefinition-parentBean"/>
 
-  <bean id="CFDA-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+  <bean id="Cfda-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="CFDA Reference Inquiry"/>
     <property name="inquirySections">
       <list>
@@ -90,7 +70,8 @@
             <list>
               <bean parent="FieldDefinition" p:attributeName="cfdaMaintenanceTypeId"/>
               <bean parent="FieldDefinition" p:attributeName="cfdaNumber"/>
-              <bean parent="FieldDefinition" p:attributeName="cfdaProgramTitleName"/>              
+              <bean parent="FieldDefinition" p:attributeName="cfdaProgramTitleName"/>    
+              <bean parent="FieldDefinition" p:attributeName="active"/>          
             </list>
           </property>
         </bean>
@@ -101,9 +82,9 @@
 <!-- Business Object Lookup Definition -->
 
 
-  <bean id="CFDA-lookupDefinition" parent="CFDA-lookupDefinition-parentBean"/>
+  <bean id="Cfda-lookupDefinition" parent="Cfda-lookupDefinition-parentBean"/>
 
-  <bean id="CFDA-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+  <bean id="Cfda-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="CFDA Reference Lookup"/>
     <property name="lookupableID" value="kualiLookupable"/>
     
@@ -112,6 +93,7 @@
         <bean parent="FieldDefinition" p:attributeName="cfdaMaintenanceTypeId"/>
         <bean parent="FieldDefinition" p:attributeName="cfdaNumber"/>
         <bean parent="FieldDefinition" p:attributeName="cfdaProgramTitleName"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
     <property name="resultFields">
@@ -119,6 +101,7 @@
         <bean parent="FieldDefinition" p:attributeName="cfdaMaintenanceTypeId"/>
         <bean parent="FieldDefinition" p:attributeName="cfdaNumber"/>
         <bean parent="FieldDefinition" p:attributeName="cfdaProgramTitleName"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
       </list>
     </property>
   </bean>

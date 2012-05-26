@@ -17,7 +17,6 @@ package org.kuali.kfs.module.external.kc.service;
 
 import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 
-import org.kuali.kfs.integration.cg.service.BudgetAdjustmentService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.KualiTestBase;
 import org.kuali.kfs.sys.context.SpringContext;

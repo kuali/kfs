@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd"> 
+                           
+	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
+		p:callbackService-ref="accountCreationService" p:localServiceName="accountCreationServiceSOAP" 
+		p:serviceInterface="org.kuali.kfs.module.external.kc.service.AccountCreationService" />
+
+	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
+		p:callbackService-ref="budgetAdjustmentService" p:localServiceName="budgetAdjustmentServiceSOAP" 
+		p:serviceInterface="org.kuali.kfs.module.external.kc.service.BudgetAdjustmentService" />
+
+	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
+		p:callbackService-ref="kcObjectCodeService" p:localServiceName="kcObjectCodeServiceSOAP" 
+		p:serviceInterface="org.kuali.kfs.module.external.kc.service.KcObjectCodeService" />
+
+<!--
+ 	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
+		p:callbackService-ref="kcRiceApplicationConfigurationService" p:localServiceName="kcRiceApplicationConfigurationServiceSOAP" 
+		p:serviceInterface="org.kuali.kfs.module.external.kc.service.KcRiceApplicationConfigurationService" />
+   -->
+ </beans>

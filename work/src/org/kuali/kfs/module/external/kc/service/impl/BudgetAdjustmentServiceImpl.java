@@ -26,12 +26,12 @@ import org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine;
 import org.kuali.kfs.fp.businessobject.BudgetAdjustmentSourceAccountingLine;
 import org.kuali.kfs.fp.businessobject.BudgetAdjustmentTargetAccountingLine;
 import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
 import org.kuali.kfs.integration.cg.dto.BudgetAdjustmentCreationStatusDTO;
 import org.kuali.kfs.integration.cg.dto.BudgetAdjustmentParametersDTO;
 import org.kuali.kfs.integration.cg.dto.BudgetAdjustmentParametersDTO.Details;
-import org.kuali.kfs.integration.cg.service.AccountCreationService;
-import org.kuali.kfs.integration.cg.service.BudgetAdjustmentService;
+import org.kuali.kfs.module.external.kc.KcConstants;
+import org.kuali.kfs.module.external.kc.service.AccountCreationService;
+import org.kuali.kfs.module.external.kc.service.BudgetAdjustmentService;
 import org.kuali.kfs.module.external.kc.util.GlobalVariablesExtractHelper;
 import org.kuali.kfs.module.external.kc.util.KcUtils;
 import org.kuali.kfs.sys.KFSConstants;
@@ -79,13 +79,13 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
 
         BudgetAdjustmentCreationStatusDTO budgetAdjustmentCreationStatus = new BudgetAdjustmentCreationStatusDTO();
         budgetAdjustmentCreationStatus.setErrorMessages(new ArrayList<String>());
-        budgetAdjustmentCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_SUCCESS);
+        budgetAdjustmentCreationStatus.setStatus(KcConstants.KcWebService.STATUS_KC_SUCCESS);
 
         // check to see if the user has the permission to create account
         String principalId = budgetAdjustmentParameters.getPrincipalId();
         if (!isValidUser(principalId)) {
-            budgetAdjustmentCreationStatus.getErrorMessages().add(KcUtils.getErrorMessage(ContractsAndGrantsConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_INVALID_USER, new String[]{principalId}));
-            budgetAdjustmentCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_FAILURE);
+            budgetAdjustmentCreationStatus.getErrorMessages().add(KcUtils.getErrorMessage(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_INVALID_USER, new String[]{principalId}));
+            budgetAdjustmentCreationStatus.setStatus(KcConstants.KcWebService.STATUS_KC_FAILURE);
             return budgetAdjustmentCreationStatus;
         }
         try {
@@ -106,12 +106,12 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
 
         }
         catch (Exception ex) {
-            this.setFailStatus(budgetAdjustmentCreationStatus, ContractsAndGrantsConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_ACCOUNT_GENERATION_PROBLEM);
+            this.setFailStatus(budgetAdjustmentCreationStatus, KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_ACCOUNT_GENERATION_PROBLEM);
             return budgetAdjustmentCreationStatus;
         }
         // set required values to AccountCreationStatus
 
-        if (budgetAdjustmentCreationStatus.getStatus().equals(ContractsAndGrantsConstants.KcWebService.STATUS_KC_SUCCESS) && getDocumentService().documentExists(budgetAdjustmentDoc.getDocumentHeader().getDocumentNumber())) {
+        if (budgetAdjustmentCreationStatus.getStatus().equals(KcConstants.KcWebService.STATUS_KC_SUCCESS) && getDocumentService().documentExists(budgetAdjustmentDoc.getDocumentHeader().getDocumentNumber())) {
             budgetAdjustmentCreationStatus.setDocumentNumber(budgetAdjustmentDoc.getDocumentNumber());
         }
         else {
@@ -125,9 +125,9 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
                 budgetAdjustmentCreationStatus.setDocumentNumber(budgetAdjustmentDoc.getDocumentNumber());
             }
             catch (Exception ex) {
-                LOG.error( KcUtils.getErrorMessage(ContractsAndGrantsConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_NOT_SAVED, null) + ": " + ex.getMessage());
+                LOG.error( KcUtils.getErrorMessage(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_NOT_SAVED, null) + ": " + ex.getMessage());
                 budgetAdjustmentCreationStatus.setErrorMessages(GlobalVariablesExtractHelper.extractGlobalVariableErrors());
-                budgetAdjustmentCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_FAILURE);
+                budgetAdjustmentCreationStatus.setStatus(KcConstants.KcWebService.STATUS_KC_FAILURE);
 
             }
 
@@ -139,7 +139,7 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
         if ((value == null) || value.isEmpty()) {
             if (lineNumber != 0)
                 value = "Detail " + lineNumber + " " + value;
-            String message = GlobalVariablesExtractHelper.replaceTokens(ContractsAndGrantsConstants.BudgetAdjustmentService.AUTOMATCICG_ACCOUNT_MAINTENANCE_CHART_REQUIRED_FIELD, fieldName);
+            String message = GlobalVariablesExtractHelper.replaceTokens(KcConstants.BudgetAdjustmentService.AUTOMATCICG_ACCOUNT_MAINTENANCE_CHART_REQUIRED_FIELD, fieldName);
             this.setFailStatus(budgetAdjustmentCreationStatusDTO, message);
             return false;
         }
@@ -149,7 +149,7 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
 
     protected void setFailStatus(BudgetAdjustmentCreationStatusDTO budgetAdjustmentCreationStatusDTO, String message) {
         budgetAdjustmentCreationStatusDTO.getErrorMessages().add(message);
-        budgetAdjustmentCreationStatusDTO.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_FAILURE);
+        budgetAdjustmentCreationStatusDTO.setStatus(KcConstants.KcWebService.STATUS_KC_FAILURE);
     }
 
     protected boolean isValidParameters(Integer postingFiscalYear, BudgetAdjustmentCreationStatusDTO budgetAdjustmentCreationStatusDTO, BudgetAdjustmentParametersDTO budgetAdjustmentParameters) {
@@ -168,7 +168,7 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
             isValid &= checkforEmptyField(budgetAdjustmentCreationStatusDTO, "Amount", detail.getCurrentAmount(), lineNumber);
             if (!KualiDecimal.isNumeric(detail.getCurrentAmount())) {
                 isValid = false;
-                String message = GlobalVariablesExtractHelper.replaceTokens(ContractsAndGrantsConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_AMT_IS_NONUMERIC, detail.getObjectCode(), detail.getCurrentAmount());
+                String message = GlobalVariablesExtractHelper.replaceTokens(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_AMT_IS_NONUMERIC, detail.getObjectCode(), detail.getCurrentAmount());
                 this.setFailStatus(budgetAdjustmentCreationStatusDTO, message);
             }
             else {
@@ -176,14 +176,14 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
                 KualiDecimal amt = new KualiDecimal(detail.getCurrentAmount());
                 if (amt.isZero()) {
                     isValid = false;
-                    String message = GlobalVariablesExtractHelper.replaceTokens(ContractsAndGrantsConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_AMT_IS_NONUMERIC, detail.getObjectCode(), detail.getCurrentAmount());
+                    String message = GlobalVariablesExtractHelper.replaceTokens(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_AMT_IS_NONUMERIC, detail.getObjectCode(), detail.getCurrentAmount());
                     this.setFailStatus(budgetAdjustmentCreationStatusDTO, message);
                 }
             }
             if (isValidAcct && (!accountCreationService.isValidChartAccount(detail.getChart(), detail.getAccount()))) {
                 isValid = false;
                 isValidAcct = false;
-                String message = GlobalVariablesExtractHelper.replaceTokens(ContractsAndGrantsConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_INVALID_ACCT, detail.getChart(), detail.getAccount());
+                String message = GlobalVariablesExtractHelper.replaceTokens(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_INVALID_ACCT, detail.getChart(), detail.getAccount());
                 this.setFailStatus(budgetAdjustmentCreationStatusDTO, message);
             }
             else {
@@ -191,11 +191,11 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
                 ObjectCode objCode = objectCodeService.getByPrimaryId(postingFiscalYear, detail.getChart(), detail.getObjectCode());
                 if (objCode == null) {
                     isValid = false;
-                    String message = GlobalVariablesExtractHelper.replaceTokens(ContractsAndGrantsConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_INVALID_OBJECTCODE, detail.getChart(), detail.getObjectCode());
+                    String message = GlobalVariablesExtractHelper.replaceTokens(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_INVALID_OBJECTCODE, detail.getChart(), detail.getObjectCode());
                     this.setFailStatus(budgetAdjustmentCreationStatusDTO, message);
                 } else if (!objCode.isFinancialObjectActiveCode()) {
                     isValid = false;
-                    String message = GlobalVariablesExtractHelper.replaceTokens(ContractsAndGrantsConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_INACTIVE_OBJECTCODE, detail.getChart(), detail.getObjectCode(), postingFiscalYear.toString());
+                    String message = GlobalVariablesExtractHelper.replaceTokens(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_INACTIVE_OBJECTCODE, detail.getChart(), detail.getObjectCode(), postingFiscalYear.toString());
                     this.setFailStatus(budgetAdjustmentCreationStatusDTO, message);
                 }
             }
@@ -242,8 +242,8 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
             if (runningtotal.isNonZero()) {
                 boolean success = this.generateIncomeAccountingLine(fiscalYear, parameters.getSponsorType(), budgetAdjustmentDocument, runningtotal);
                 if (!success) {
-                    budgetAdjustmentCreationStatus.getErrorMessages().add(ContractsAndGrantsConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_SYSTEM_PARAMETER_INCORRECT_VALUE + ContractsAndGrantsConstants.BudgetAdjustmentService.PARAMETER_INCOME_OBJECT_CODES_BY_SPONSOR_TYPE);
-                    budgetAdjustmentCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_FAILURE);
+                    budgetAdjustmentCreationStatus.getErrorMessages().add(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_SYSTEM_PARAMETER_INCORRECT_VALUE + KcConstants.BudgetAdjustmentService.PARAMETER_INCOME_OBJECT_CODES_BY_SPONSOR_TYPE);
+                    budgetAdjustmentCreationStatus.setStatus(KcConstants.KcWebService.STATUS_KC_FAILURE);
                     methodSuccessful = false;
                 }
             }
@@ -283,7 +283,7 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
 
     protected boolean generateIncomeAccountingLine(Integer postingYear, String sponsorType, BudgetAdjustmentDocument baDoc, KualiDecimal amount) {
         BudgetAdjustmentParametersDTO.Details incomeDetail = new BudgetAdjustmentParametersDTO.Details();
-        String sponsorCodeMapValue = parameterService.getSubParameterValueAsString(BudgetAdjustmentDocument.class, ContractsAndGrantsConstants.BudgetAdjustmentService.PARAMETER_INCOME_OBJECT_CODES_BY_SPONSOR_TYPE, sponsorType);
+        String sponsorCodeMapValue = parameterService.getSubParameterValueAsString(BudgetAdjustmentDocument.class, KcConstants.BudgetAdjustmentService.PARAMETER_INCOME_OBJECT_CODES_BY_SPONSOR_TYPE, sponsorType);
         if ( StringUtils.isBlank(sponsorCodeMapValue) ) {
             return false;
         }
@@ -317,7 +317,7 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
         }
         catch (Exception e) {
             budgetAdjustmentCreationStatusDTO.setErrorMessages(GlobalVariablesExtractHelper.extractGlobalVariableErrors());
-            budgetAdjustmentCreationStatusDTO.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_FAILURE);
+            budgetAdjustmentCreationStatusDTO.setStatus(KcConstants.KcWebService.STATUS_KC_FAILURE);
             return null;
 
 
@@ -339,13 +339,13 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
             // KcConstants.BudgetAdjustmentService.PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE,
             // KFSConstants.WORKFLOW_DOCUMENT_ROUTE);
 
-            String BudgetAdjustAutoRouteValue = getParameterService().getParameterValueAsString(BudgetAdjustmentDocument.class, ContractsAndGrantsConstants.BudgetAdjustmentService.PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE);
+            String BudgetAdjustAutoRouteValue = getParameterService().getParameterValueAsString(BudgetAdjustmentDocument.class, KcConstants.BudgetAdjustmentService.PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE);
             // String BudgetAdjustAutoRouteValue = getParameterService().getParameterValueAsString(Account.class,
             // KcConstants.BudgetAdjustmentService.PARAMETER_KC_BA_DOCUMENT_ROUTE);
             // if the accountAutoCreateRouteValue is not save or submit or blanketApprove then put an error message and quit.
             if (!BudgetAdjustAutoRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_SAVE) && !BudgetAdjustAutoRouteValue.equalsIgnoreCase("submit") && !BudgetAdjustAutoRouteValue.equalsIgnoreCase(KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE)) {
-                budgetAdjustmentCreationStatus.getErrorMessages().add(ContractsAndGrantsConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_SYSTEM_PARAMETER_INCORRECT_DOCUMENT_ACTION_VALUE);
-                budgetAdjustmentCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_FAILURE);
+                budgetAdjustmentCreationStatus.getErrorMessages().add(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_SYSTEM_PARAMETER_INCORRECT_DOCUMENT_ACTION_VALUE);
+                budgetAdjustmentCreationStatus.setStatus(KcConstants.KcWebService.STATUS_KC_FAILURE);
                 return false;
             }
 
@@ -363,8 +363,8 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
                         getDocumentService().saveDocument(budgetAdjustmentDocument);
                     }catch(ValidationException ve){}
 
-                    budgetAdjustmentCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_SUCCESS);
-                    LOG.error( KcUtils.getErrorMessage(ContractsAndGrantsConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_BA_RULES_EXCEPTION, new String[]{budgetAdjustmentDocument.getDocumentNumber()}));
+                    budgetAdjustmentCreationStatus.setStatus(KcConstants.KcWebService.STATUS_KC_SUCCESS);
+                    LOG.error( KcUtils.getErrorMessage(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_BA_RULES_EXCEPTION, new String[]{budgetAdjustmentDocument.getDocumentNumber()}));
 
                     return false;
                 }
@@ -385,8 +385,8 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
                         getDocumentService().saveDocument(budgetAdjustmentDocument);
                     }catch(ValidationException ve){}
 
-                    budgetAdjustmentCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_SUCCESS);
-                    LOG.error( KcUtils.getErrorMessage(ContractsAndGrantsConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_BA_RULES_EXCEPTION, new String[]{budgetAdjustmentDocument.getDocumentNumber()}));
+                    budgetAdjustmentCreationStatus.setStatus(KcConstants.KcWebService.STATUS_KC_SUCCESS);
+                    LOG.error( KcUtils.getErrorMessage(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_BA_RULES_EXCEPTION, new String[]{budgetAdjustmentDocument.getDocumentNumber()}));
 
                     return false;
                 }
@@ -407,8 +407,8 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
                         getDocumentService().saveDocument(budgetAdjustmentDocument);
                     }catch(ValidationException ve){}
 
-                    budgetAdjustmentCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_SUCCESS);
-                    LOG.error( KcUtils.getErrorMessage(ContractsAndGrantsConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_BA_RULES_EXCEPTION, new String[]{budgetAdjustmentDocument.getDocumentNumber()}));
+                    budgetAdjustmentCreationStatus.setStatus(KcConstants.KcWebService.STATUS_KC_SUCCESS);
+                    LOG.error( KcUtils.getErrorMessage(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_BA_RULES_EXCEPTION, new String[]{budgetAdjustmentDocument.getDocumentNumber()}));
 
                     return false;
                 }
@@ -418,10 +418,10 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
 
         }
         catch (Exception ex) {
-            LOG.error(KcUtils.getErrorMessage(ContractsAndGrantsConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS,null) + ": " + ex.getMessage());
+            LOG.error(KcUtils.getErrorMessage(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS,null) + ": " + ex.getMessage());
             budgetAdjustmentCreationStatus.setErrorMessages(GlobalVariablesExtractHelper.extractGlobalVariableErrors());
-            budgetAdjustmentCreationStatus.getErrorMessages().add( KcUtils.getErrorMessage(ContractsAndGrantsConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS, null) + ": " + ex.getMessage());
-            budgetAdjustmentCreationStatus.setStatus(ContractsAndGrantsConstants.KcWebService.STATUS_KC_FAILURE);
+            budgetAdjustmentCreationStatus.getErrorMessages().add( KcUtils.getErrorMessage(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_WORKFLOW_EXCEPTION_DOCUMENT_ACTIONS, null) + ": " + ex.getMessage());
+            budgetAdjustmentCreationStatus.setStatus(KcConstants.KcWebService.STATUS_KC_FAILURE);
             return false;
         }
     }
@@ -451,7 +451,7 @@ public class BudgetAdjustmentServiceImpl implements BudgetAdjustmentService {
         }
         catch (Exception ex) {
 
-            LOG.error( KcUtils.getErrorMessage(ContractsAndGrantsConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_INVALID_USER, new String[]{principalId}));
+            LOG.error( KcUtils.getErrorMessage(KcConstants.BudgetAdjustmentService.ERROR_KC_DOCUMENT_INVALID_USER, new String[]{principalId}));
             return false;
         }
     }

@@ -24,7 +24,7 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.impl.ObjectCodeServiceImpl;
 import org.kuali.kfs.integration.cg.dto.HashMapElement;
 import org.kuali.kfs.integration.cg.dto.KcObjectCode;
-import org.kuali.kfs.integration.cg.service.KcObjectCodeService;
+import org.kuali.kfs.module.external.kc.service.KcObjectCodeService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.DataDictionaryService;
@@ -46,7 +46,7 @@ public class KcObjectCodeServiceImpl implements KcObjectCodeService {
     /**
      * @see org.kuali.kfs.module.external.kc.service.BudgetAdjustmentService#lookupObjectCodes(java.util.HashMap)
      */
-
+    @Override
     public List<KcObjectCode> lookupObjectCodes(java.util.List<HashMapElement> searchCriteria) {
         HashMap <String, String> hashMap = new HashMap();
         List <ObjectCode> objCodeList = new ArrayList<ObjectCode>();       

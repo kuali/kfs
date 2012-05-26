@@ -404,7 +404,7 @@ public class AccountAutoCreateDefaultsRule extends org.kuali.kfs.coa.document.va
             ContractsAndGrantsUnit unitDTO = newAccountAutoCreateDefaults.getUnitDTO();
             unitDTO = (ContractsAndGrantsUnit) SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(ContractsAndGrantsUnit.class).retrieveExternalizableBusinessObjectIfNecessary(newAccountAutoCreateDefaults, unitDTO, "unitDTO");
             if (unitDTO == null) {
-                putFieldError(KcConstants.AccountCreationDefaults.KcUnit, ContractsAndGrantsConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND, newAccountAutoCreateDefaults.getKcUnit());
+                putFieldError(KcConstants.AccountCreationDefaults.KcUnit, KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND, newAccountAutoCreateDefaults.getKcUnit());
                 result &= false;
             }
             // in the case of new accounts check if KcUnit exists already in accountAutoCreateDefaults table - if so reject
@@ -417,7 +417,7 @@ public class AccountAutoCreateDefaultsRule extends org.kuali.kfs.coa.document.va
                     map.put(KcConstants.AccountCreationDefaults.KcUnit, kcUnit);
                     Collection<AccountAutoCreateDefaults> accountAutoCreateDefaultList = boService.findMatching(AccountAutoCreateDefaults.class, map);
                     if (accountAutoCreateDefaultList == null || (!accountAutoCreateDefaultList.isEmpty())) {
-                        putFieldError(KcConstants.AccountCreationDefaults.KcUnit, ContractsAndGrantsConstants.AccountCreationService.ERROR_KC_ACCOUNT_ALREADY_DEFINED, newAccountAutoCreateDefaults.getKcUnit());
+                        putFieldError(KcConstants.AccountCreationDefaults.KcUnit, KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_ALREADY_DEFINED, newAccountAutoCreateDefaults.getKcUnit());
                         result &= false;
                     }
                 }
@@ -425,7 +425,7 @@ public class AccountAutoCreateDefaultsRule extends org.kuali.kfs.coa.document.va
             return result;
         }
         catch (Exception ex) {
-            putFieldError(KcConstants.AccountCreationDefaults.KcUnit, ContractsAndGrantsConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND, newAccountAutoCreateDefaults.getKcUnit());
+            putFieldError(KcConstants.AccountCreationDefaults.KcUnit, KcConstants.AccountCreationService.ERROR_KC_ACCOUNT_PARAMS_UNIT_NOTFOUND, newAccountAutoCreateDefaults.getKcUnit());
             return false;
         }
     }

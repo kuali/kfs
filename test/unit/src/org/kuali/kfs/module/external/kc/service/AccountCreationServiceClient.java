@@ -25,7 +25,6 @@ import junit.framework.TestCase;
 
 import org.kuali.kfs.integration.cg.dto.AccountCreationStatusDTO;
 import org.kuali.kfs.integration.cg.dto.AccountParametersDTO;
-import org.kuali.kfs.integration.cg.service.AccountCreationService;
 import org.kuali.kfs.module.external.kc.service.impl.AccountCreationServiceImpl;
 
 public class AccountCreationServiceClient extends TestCase

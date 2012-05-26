@@ -202,7 +202,9 @@
 		<property name="shortLabel" value="Award Number" />
 	</bean>
 
-	<bean id="AwardAccount-newCollectionRecord" parent="GenericAttributes-newCollectionRecord" />
+	<bean id="AwardAccount-newCollectionRecord" parent="AwardAccount-newCollectionRecord-parentBean" />
+	
+	<bean id="AwardAccount-newCollectionRecord-parentBean" abstract="true" parent="GenericAttributes-newCollectionRecord" />
 
 	<bean id="AwardAccount-active" parent="AwardAccount-active-parentBean" />
 	<bean id="AwardAccount-active-parentBean" abstract="true"
@@ -233,7 +235,7 @@
 	<bean id="AwardAccount-award.cfdaNumber" parent="AwardAccount-award.cfdaNumber-parentBean" />
 
 	<bean id="AwardAccount-award.cfdaNumber-parentBean" abstract="true"
-		parent="Award-cfdaNumber">
+		parent="Cfda-cfdaNumber">
 		<property name="name" value="award.cfdaNumber" />
 		<property name="label" value="CFDA Number" />
 		<property name="shortLabel" value="CFDA Num" />

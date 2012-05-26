@@ -17,7 +17,9 @@ package org.kuali.kfs.module.external.kc.businessobject;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
@@ -28,16 +30,19 @@ import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.businessobject.SufficientFundsCode;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsUnit;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KualiModuleService;
-import org.kuali.rice.location.api.campus.Campus;
-import org.kuali.rice.location.api.postalcode.PostalCode;
+import org.kuali.rice.krad.service.ModuleService;
+import org.kuali.rice.location.api.LocationConstants;
 import org.kuali.rice.location.api.postalcode.PostalCodeService;
-import org.kuali.rice.location.api.state.State;
+import org.kuali.rice.location.framework.campus.CampusEbo;
+import org.kuali.rice.location.framework.postalcode.PostalCodeEbo;
+import org.kuali.rice.location.framework.state.StateEbo;
 
 /**
  *
@@ -54,15 +59,12 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
     protected Organization organization;
     protected String organizationCode;
     protected String accountZipCode;
-    protected PostalCode postalZipCode;
     protected String accountCityName;
     protected String accountStateCode;
-    protected State accountState;
     protected String accountStreetAddress;
     protected AccountType accountType;
     protected String accountTypeCode;
     protected String accountPhysicalCampusCode;
-    protected Campus accountPhysicalCampus;
     protected SubFundGroup subFundGroup;
     protected String subFundGroupCode;
     protected boolean accountsFringesBnftIndicator;
@@ -226,19 +228,26 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
      * Gets the postalZipCode attribute.
      * @return Returns the postalZipCode.
      */
-    public PostalCode getPostalZipCode() {
-        postalZipCode = (accountZipCode == null)?null:( postalZipCode == null || !StringUtils.equals( postalZipCode.getCode(),accountZipCode))?SpringContext.getBean(PostalCodeService.class).getPostalCode("US"/*RICE20_REFACTORME*/,accountZipCode): postalZipCode;
-        return postalZipCode;
+    public PostalCodeEbo getPostalZipCode() {
+        PostalCodeEbo postalZipCode = null;
+        if ( StringUtils.isBlank(accountZipCode) ) {
+            postalZipCode = null;
+        } else {
+            ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(PostalCodeEbo.class);
+            if ( moduleService != null ) {
+                Map<String,Object> keys = new HashMap<String, Object>(2);
+                keys.put(LocationConstants.PrimaryKeyConstants.COUNTRY_CODE, KFSConstants.COUNTRY_CODE_UNITED_STATES);
+                keys.put(LocationConstants.PrimaryKeyConstants.CODE, accountZipCode);
+                postalZipCode = moduleService.getExternalizableBusinessObject(PostalCodeEbo.class, keys);
+            } else {
+                throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+            }
+        }
+
+        return postalZipCode;        
     }
 
-    /**
-     * Sets the postalZipCode attribute value.
-     * @param postalZipCode The postalZipCode to set.
-     */
-    public void setPostalZipCode(PostalCode postalZipCode) {
-        this.postalZipCode = postalZipCode;
-    }
-
+  
     /**
      * Gets the accountCityName attribute.
      * @return Returns the accountCityName.
@@ -275,17 +284,27 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
      * Gets the accountState attribute.
      * @return Returns the accountState.
      */
-    public State getAccountState() {
-        return accountState;
+    public StateEbo getAccountState() {
+        StateEbo state = null;
+        
+        if ( StringUtils.isBlank(accountStateCode)) {
+            state = null;
+        } else {
+            if ( accountStateCode == null  ) {
+                ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(StateEbo.class);
+                if ( moduleService != null ) {
+                    Map<String,Object> keys = new HashMap<String, Object>(2);
+                    keys.put(LocationConstants.PrimaryKeyConstants.COUNTRY_CODE, KFSConstants.COUNTRY_CODE_UNITED_STATES);
+                    keys.put(LocationConstants.PrimaryKeyConstants.CODE, accountStateCode);
+                    state = moduleService.getExternalizableBusinessObject(StateEbo.class, keys);
+                } else {
+                    throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+                }
+            }
+        }
+        return state;
     }
 
-    /**
-     * Sets the accountState attribute value.
-     * @param accountState The accountState to set.
-     */
-    public void setAccountState(State accountState) {
-        this.accountState = accountState;
-    }
 
     /**
      * Gets the accountStreetAddress attribute.
@@ -355,16 +374,23 @@ public class AccountAutoCreateDefaults extends PersistableBusinessObjectBase imp
      * Gets the accountPhysicalCampus attribute.
      * @return Returns the accountPhysicalCampus.
      */
-    public Campus getAccountPhysicalCampus() {
-        return accountPhysicalCampus;
-    }
+    public CampusEbo getAccountPhysicalCampus() {
+        CampusEbo defaultProcessingCampus = null;
+        if ( StringUtils.isBlank(accountPhysicalCampusCode) ) {
+            defaultProcessingCampus = null;
+        } else {
+            ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(CampusEbo.class);
+            if ( moduleService != null ) {
+                Map<String,Object> keys = new HashMap<String, Object>(1);
+                keys.put(LocationConstants.PrimaryKeyConstants.CODE, accountPhysicalCampusCode);
+                defaultProcessingCampus = moduleService.getExternalizableBusinessObject(CampusEbo.class, keys);
+            } else {
+                throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+            }
 
-    /**
-     * Sets the accountPhysicalCampus attribute value.
-     * @param accountPhysicalCampus The accountPhysicalCampus to set.
-     */
-    public void setAccountPhysicalCampus(Campus accountPhysicalCampus) {
-        this.accountPhysicalCampus = accountPhysicalCampus;
+        }
+        return defaultProcessingCampus;
+
     }
 
     /**

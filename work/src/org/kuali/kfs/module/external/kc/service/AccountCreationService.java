@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.integration.cg.service;
+package org.kuali.kfs.module.external.kc.service;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -22,8 +22,9 @@ import javax.jws.soap.SOAPBinding;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
 import org.kuali.kfs.integration.cg.dto.AccountCreationStatusDTO;
 import org.kuali.kfs.integration.cg.dto.AccountParametersDTO;
+import org.kuali.kfs.module.external.kc.KcConstants;
 
-@WebService(name = ContractsAndGrantsConstants.AccountCreationService.WEB_SERVICE_NAME, 
+@WebService(name = KcConstants.AccountCreationService.WEB_SERVICE_NAME, 
             targetNamespace = ContractsAndGrantsConstants.MODULE_TARGET_NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, 
              parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)

@@ -92,71 +92,7 @@
 	<property name="businessObjectService" ref="businessObjectService" />
 	</bean>
 	
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-        <property name="serviceDefinition">
-            <bean parent="kfsService" p:service-ref="accountCreationService" p:localServiceName="accountCreationService" />
-        </property>
-    </bean>
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-        <property name="serviceDefinition">
-            <bean parent="kfsService" p:service-ref="budgetAdjustmentService" p:localServiceName="budgetAdjustmentService" />
-        </property>
-    </bean>
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-        <property name="serviceDefinition">
-            <bean parent="kfsService" p:service-ref="kcObjectCodeService" p:localServiceName="kcObjectCodeService" />
-        </property>
-    </bean>
-    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-        <property name="serviceDefinition">
-            <bean parent="kfsService" p:service-ref="kcRiceApplicationConfigurationService" p:localServiceName="kcRiceApplicationConfigurationService" />
-        </property>
-    </bean>    
-    <bean class="org.kuali.rice.ksb.messaging.PropertyConditionalServiceBusExporter">
-        <property name="remotedServiceRegistry" ref="enServiceInvoker"/>
-        <property name="serviceDefinition">
-            <bean parent="kfsJaxWsSoapService" p:service-ref="accountCreationService" p:localServiceName="accountCreationServiceSOAP" />
-        </property>
-        <property name="exportIf">
-            <list>
-                <value>accountCreationServiceSOAP.expose</value>
-            </list>
-        </property>
-    </bean>
-    <bean class="org.kuali.rice.ksb.messaging.PropertyConditionalServiceBusExporter">
-        <property name="remotedServiceRegistry" ref="enServiceInvoker"/>
-        <property name="serviceDefinition">
-            <bean parent="kfsJaxWsSoapService" p:service-ref="kcRiceApplicationConfigurationService" p:localServiceName="kcRiceApplicationConfigurationServiceSOAP" />
-        </property>
-        <property name="exportIf">
-            <list>
-                <value>kcRiceApplicationConfigurationServiceSOAP.expose</value>
-            </list>
-        </property>
-    </bean>
-    <bean class="org.kuali.rice.ksb.messaging.PropertyConditionalServiceBusExporter">
-        <property name="remotedServiceRegistry" ref="enServiceInvoker"/>
-        <property name="serviceDefinition">
-            <bean parent="kfsJaxWsSoapService" p:service-ref="budgetAdjustmentService" p:localServiceName="budgetAdjustmentServiceSOAP" />
-        </property>
-        <property name="exportIf">
-            <list>
-                <value>budgetAdjustmentServiceSOAP.expose</value>
-            </list>
-        </property>
-    </bean>
-    <bean class="org.kuali.rice.ksb.messaging.PropertyConditionalServiceBusExporter">
-        <property name="remotedServiceRegistry" ref="enServiceInvoker"/>
-        <property name="serviceDefinition">
-            <bean parent="kfsJaxWsSoapService" p:service-ref="kcObjectCodeService" p:localServiceName="kcObjectCodeServiceSOAP" />
-        </property>
-        <property name="exportIf">
-            <list>
-                <value>kcObjectCodeServiceSOAP.expose</value>
-            </list>
-        </property>
-    </bean>
-                       
+                        
     <bean id="accountCreationService" class="org.kuali.kfs.module.external.kc.service.impl.AccountCreationServiceImpl">
         <property name="documentService" ref="documentService" />
         <property name="parameterService" ref="parameterService" />
@@ -171,6 +107,7 @@
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
+    <!--
     <bean id="kcRiceApplicationConfigurationService" class="org.kuali.kfs.module.external.kc.service.impl.KcRiceApplicationConfigurationServiceImpl">
  	     <property name="packagePrefixes">
             <list>
@@ -178,13 +115,15 @@
             </list>
         </property>
     </bean>
- 
+   -->
+   
 	<bean id="kcObjectCodeService" class = "org.kuali.kfs.module.external.kc.service.impl.KcObjectCodeServiceImpl"/>
 	
 	<bean id="budgetCategoryService" class="org.kuali.kfs.module.external.kc.service.impl.BudgetCategoryServiceImpl"/>
 	
 	<bean id="institutionalUnitService" class="org.kuali.kfs.module.external.kc.service.impl.UnitServiceImpl"/>
 		 	  	  	
-  	<bean id="awardAccountService" class="org.kuali.kfs.module.external.kc.service.impl.AwardAccountServiceImpl"/>  	
-  	
+  	<bean id="awardAccountService" class="org.kuali.kfs.module.external.kc.service.impl.AwardAccountServiceImpl"/>  
+  	  		
+  	<import resource="spring-kc-bus-exports.xml"/>
 </beans>

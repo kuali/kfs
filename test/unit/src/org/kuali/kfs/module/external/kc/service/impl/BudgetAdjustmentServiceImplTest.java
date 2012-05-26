@@ -23,12 +23,12 @@ import java.util.List;
 import org.kuali.kfs.fp.businessobject.FiscalYearFunctionControl;
 import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
 import org.kuali.kfs.fp.service.FiscalYearFunctionControlService;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
 import org.kuali.kfs.integration.cg.dto.BudgetAdjustmentCreationStatusDTO;
 import org.kuali.kfs.integration.cg.dto.BudgetAdjustmentParametersDTO;
-import org.kuali.kfs.integration.cg.service.BudgetAdjustmentService;
+import org.kuali.kfs.module.external.kc.KcConstants;
 import org.kuali.kfs.module.external.kc.fixture.BudgetAdjustmentParameterDTOFixture;
 import org.kuali.kfs.module.external.kc.fixture.BudgetAdjustmentParameterDTOLineFixture;
+import org.kuali.kfs.module.external.kc.service.BudgetAdjustmentService;
 import org.kuali.kfs.module.external.kc.service.BudgetAdjustmentServiceTest;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
@@ -89,7 +89,7 @@ public class BudgetAdjustmentServiceImplTest extends BudgetAdjustmentServiceTest
         budgetAdjustmentParametersDTO2.getDetails().add(BudgetAdjustmentParameterDTOLineFixture.DETAIL_T_LINE2.createBudgetAdjustmentParameterDTO());
         list.add(budgetAdjustmentParametersDTO2);
         */
-        TestUtils.setSystemParameter(BudgetAdjustmentDocument.class, ContractsAndGrantsConstants.BudgetAdjustmentService.PARAMETER_INCOME_OBJECT_CODES_BY_SPONSOR_TYPE, BudgetAdjustmentParameterDTOFixture.CONTROL_3.getSystemParameterResearchSponsorType());
+        TestUtils.setSystemParameter(BudgetAdjustmentDocument.class, KcConstants.BudgetAdjustmentService.PARAMETER_INCOME_OBJECT_CODES_BY_SPONSOR_TYPE, BudgetAdjustmentParameterDTOFixture.CONTROL_3.getSystemParameterResearchSponsorType());
 
         BudgetAdjustmentParametersDTO budgetAdjustmentParametersDTO = BudgetAdjustmentParameterDTOFixture.CONTROL_3.createBudgetAdjustmentParameters();
         budgetAdjustmentParametersDTO.getDetails().add(BudgetAdjustmentParameterDTOLineFixture.DETAIL_LINE1.createBudgetAdjustmentParameterDTO());
@@ -124,7 +124,7 @@ public class BudgetAdjustmentServiceImplTest extends BudgetAdjustmentServiceTest
     public void testBudgetAdjustmentServiceSave() {
         List<BudgetAdjustmentParametersDTO> budgetAdjustmentParametersDTOs = getBudgetAdjustmentParameters();
         // set the ACCOUNT_AUTO_CREATE_ROUTE as "save"
-        TestUtils.setSystemParameter(BudgetAdjustmentDocument.class, ContractsAndGrantsConstants.BudgetAdjustmentService.PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE, KFSConstants.WORKFLOW_DOCUMENT_SAVE);
+        TestUtils.setSystemParameter(BudgetAdjustmentDocument.class, KcConstants.BudgetAdjustmentService.PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE, KFSConstants.WORKFLOW_DOCUMENT_SAVE);
         //
         for (BudgetAdjustmentParametersDTO budgetAdjustmentParametersDTO : budgetAdjustmentParametersDTOs) {
             BudgetAdjustmentCreationStatusDTO status = budgetAdjustmentService.createBudgetAdjustment(budgetAdjustmentParametersDTO);
@@ -137,7 +137,7 @@ public class BudgetAdjustmentServiceImplTest extends BudgetAdjustmentServiceTest
         List<BudgetAdjustmentParametersDTO> budgetAdjustmentParametersDTOs = getBudgetAdjustmentParameters();
 
         // //set the ACCOUNT_AUTO_CREATE_ROUTE as "route"
-        TestUtils.setSystemParameter(BudgetAdjustmentDocument.class, ContractsAndGrantsConstants.BudgetAdjustmentService.PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE, KFSConstants.WORKFLOW_DOCUMENT_ROUTE);
+        TestUtils.setSystemParameter(BudgetAdjustmentDocument.class, KcConstants.BudgetAdjustmentService.PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE, KFSConstants.WORKFLOW_DOCUMENT_ROUTE);
         // the document should be submitted....
         for (BudgetAdjustmentParametersDTO budgetAdjustmentParametersDTO : budgetAdjustmentParametersDTOs) {
             BudgetAdjustmentCreationStatusDTO status = budgetAdjustmentService.createBudgetAdjustment(budgetAdjustmentParametersDTO);
@@ -148,7 +148,7 @@ public class BudgetAdjustmentServiceImplTest extends BudgetAdjustmentServiceTest
     @ConfigureContext(session = khuntley, shouldCommitTransactions = false)
     public void testBudgetAdjustmentServiceBlanket() {
         List<BudgetAdjustmentParametersDTO> budgetAdjustmentParametersDTOs = getBudgetAdjustmentParameters();
-        TestUtils.setSystemParameter(BudgetAdjustmentDocument.class, ContractsAndGrantsConstants.BudgetAdjustmentService.PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE, KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE);
+        TestUtils.setSystemParameter(BudgetAdjustmentDocument.class, KcConstants.BudgetAdjustmentService.PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE, KFSConstants.WORKFLOW_DOCUMENT_BLANKET_APPROVE);
         // // the document should be blanket approved.....
         for (BudgetAdjustmentParametersDTO budgetAdjustmentParametersDTO : budgetAdjustmentParametersDTOs) {
             BudgetAdjustmentCreationStatusDTO status = budgetAdjustmentService.createBudgetAdjustment(budgetAdjustmentParametersDTO);
@@ -165,7 +165,7 @@ public class BudgetAdjustmentServiceImplTest extends BudgetAdjustmentServiceTest
         // org.kuali.rice.krad.UserSession(budgetAdjustmentParametersDTO.getPrincipalId()));
 
         //
-        TestUtils.setSystemParameter(BudgetAdjustmentDocument.class, ContractsAndGrantsConstants.BudgetAdjustmentService.PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE, "I");
+        TestUtils.setSystemParameter(BudgetAdjustmentDocument.class, KcConstants.BudgetAdjustmentService.PARAMETER_KC_ADMIN_AUTO_BA_DOCUMENT_WORKFLOW_ROUTE, "I");
         // // // the document should be submitted....
         for (BudgetAdjustmentParametersDTO budgetAdjustmentParametersDTO : budgetAdjustmentParametersDTOs) {
             BudgetAdjustmentCreationStatusDTO status = budgetAdjustmentService.createBudgetAdjustment(budgetAdjustmentParametersDTO);

@@ -18,9 +18,10 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
+import org.kuali.kfs.module.external.kc.KcConstants;
 
 
-@WebService(name = ContractsAndGrantsConstants.RiceApplicationConfigurationService.WEB_SERVICE_NAME, 
+@WebService(name = KcConstants.RiceApplicationConfigurationService.WEB_SERVICE_NAME, 
             targetNamespace = ContractsAndGrantsConstants.MODULE_TARGET_NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, 
              parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)

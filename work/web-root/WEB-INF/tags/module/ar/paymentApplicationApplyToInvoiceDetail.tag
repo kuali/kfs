@@ -58,7 +58,7 @@
 					<kul:checkErrors keyMatch="${KFSConstants.PaymentApplicationTabErrorCodes.APPLY_TO_INVOICE_DETAIL_TAB}"/>
 					<c:choose>						
 						<c:when test="${empty KualiForm.enteredInvoiceDocumentNumber || hasErrors }">
-							<kul:htmlControlAttribute
+								<kul:htmlControlAttribute
 								readOnly="${readOnly}"
 								attributeEntry="${invoiceAttributes.organizationInvoiceNumber}"
 								property="enteredInvoiceDocumentNumber" />
@@ -149,10 +149,19 @@
 													labelFor="selectedInvoiceDocumentNumber"
 													literalLabel="Invoice Number/Billing Date"
 													horizontal="true" />
+												<c:choose>
+												<c:when test="${selectedInvoiceApplication}">
 												<kul:htmlAttributeHeaderCell
 													labelFor="selectedInvoiceApplication.accountsReceivableDocumentHeader.customer.customerName"
 													literalLabel="Invoice Header/Customer Name"
 													horizontal="true" />
+												</c:when>
+												<c:otherwise>
+												<kul:htmlAttributeHeaderCell
+													literalLabel="Invoice Header/Customer Name"
+													horizontal="true" />
+												</c:otherwise>
+												</c:choose>
 												<kul:htmlAttributeHeaderCell
 													labelFor="selectedInvoiceBalance"
 													literalLabel="Open Amount/Total" horizontal="true" />
@@ -162,14 +171,30 @@
 											</tr>
 											<tr>
 												<td>
+												<c:choose>
+												<c:when test="${KualiForm.enteredInvoiceDocumentNumber}">
 													<a href="${ConfigProperties.workflow.url}/DocHandler.do?docId=${KualiForm.enteredInvoiceDocumentNumber}&command=displayDocSearchView" target="blank">
 														<kul:htmlControlAttribute
 															attributeEntry="${invoiceAttributes.organizationInvoiceNumber}"
 															property="selectedInvoiceDocumentNumber" readOnly="true" />
 													</a>
+												</c:when>
+												<c:otherwise>												
+														<kul:htmlControlAttribute
+															attributeEntry="${invoiceAttributes.organizationInvoiceNumber}"
+															property="selectedInvoiceDocumentNumber" readOnly="true" />
+												</c:otherwise>
+												</c:choose>
 												</td>
 												<td>
+													<c:choose>
+													<c:when test="${selectedInvoiceApplication}">
 													<c:out value="${selectedInvoiceApplication.invoice.invoiceHeaderText}" />
+													</c:when>
+													<c:otherwise>
+													&nbsp;
+													</c:otherwise>
+													</c:choose>
 												</td>
 												<td style="text-align: right;">
 													<kul:htmlControlAttribute
@@ -184,10 +209,24 @@
 											</tr>
 											<tr>
 												<td>
+													<c:choose>
+													<c:when test="${selectedInvoiceApplication}">
 													<c:out value="${selectedInvoiceApplication.invoice.billingDate}"/>
+													</c:when>
+													<c:otherwise>
+													&nbsp;
+													</c:otherwise>
+													</c:choose>
 												</td>
 												<td>
+													<c:choose>
+													<c:when test="${selectedInvoiceApplication}">
 													<c:out value="${selectedInvoiceApplication.invoice.accountsReceivableDocumentHeader.customer.customerName}" />
+													</c:when>
+													<c:otherwise>
+													&nbsp;
+													</c:otherwise>
+													</c:choose>
 												</td>
 												<td style="text-align: right;">
 													<kul:htmlControlAttribute

@@ -231,11 +231,10 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
      */
     private void updateDefaultVendorAddress(VendorDetail vendor) {
         VendorAddress defaultAddress = vendorService.getVendorDefaultAddress(vendor.getVendorAddresses(), vendor.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
-        if (defaultAddress != null ) {
-            if (defaultAddress.getVendorState() != null) {
+        if (ObjectUtils.isNotNull(defaultAddress)) {
+            if (ObjectUtils.isNotNull(defaultAddress.getVendorState())) {
                 vendor.setVendorStateForLookup(defaultAddress.getVendorState().getName());
-                //vendor.setVendorStateForLookup(defaultAddress.getVendorState().getPostalStateName());
-            }
+             }
             vendor.setDefaultAddressLine1(defaultAddress.getVendorLine1Address());
             vendor.setDefaultAddressLine2(defaultAddress.getVendorLine2Address());
             vendor.setDefaultAddressCity(defaultAddress.getVendorCityName());

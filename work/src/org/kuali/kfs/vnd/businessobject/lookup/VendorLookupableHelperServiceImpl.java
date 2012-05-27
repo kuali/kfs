@@ -184,7 +184,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
                 relatedVendors = (List) getLookupService().findCollectionBySearchHelper(getBusinessObjectClass(), tmpValues, unbounded);
 
                 for (VendorDetail tmpVendor : relatedVendors) {
-                    if (tmpVendor != null && !processedSearchResults.contains(tmpVendor)) {
+                    if (ObjectUtils.isNotNull(tmpVendor) && !processedSearchResults.contains(tmpVendor)) {
                         // populate state from default address
                         updateDefaultVendorAddress(tmpVendor);
                         processedSearchResults.add(tmpVendor);

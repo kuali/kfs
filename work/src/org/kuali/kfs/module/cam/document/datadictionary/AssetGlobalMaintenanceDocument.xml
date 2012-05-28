@@ -255,7 +255,7 @@
            <bean parent="MaintainableFieldDefinition" p:name="requisitionNumber" p:readOnlyAfterAdd="true"/>
               <!-- CSU 6702 BEGIN -->
               <bean parent="MaintainableFieldDefinition" p:name="expenditureFinancialDocumentPostedDate" p:required="false" p:readOnlyAfterAdd="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="postingYear" p:readOnlyAfterAdd="true" p:unconditionallyReadOnly="false"/>
+              <bean parent="MaintainableFieldDefinition" p:name="postingYear" p:readOnlyAfterAdd="true" p:unconditionallyReadOnly="true"/>
               <!-- bean parent="MaintainableFieldDefinition" p:name="expenditureFinancialDocumentPostedDate" p:required="false" p:webUILeaveFieldFunction="onblur_postingYearAndPeriodCode" p:webUILeaveFieldCallbackFunction="postingYearAndPeriodCode_Callback" p:readOnlyAfterAdd="true"/ -->
               <!-- bean parent="MaintainableFieldDefinition" p:name="postingYear" p:unconditionallyReadOnly="true"/ -->
               <!-- CSU 6702 END -->

@@ -22,7 +22,7 @@
     <property name="documentTypeName" value="YEBT"/>
     <property name="documentClass" value="org.kuali.kfs.module.ld.document.YearEndBenefitExpenseTransferDocument"/>
     <property name="baseDocumentClass" value="org.kuali.kfs.module.ld.document.YearEndBenefitExpenseTransferDocument"/>
-    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.module.ld.document.validation.impl.LaborDocumentRuleEngineRuleBase"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.module.ld.document.authorization.LaborExpenseDocumentAuthorizerBase"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.module.ld.document.authorization.LaborExpensesDocumentPresentationController"/>    
     <property name="sessionDocument" value="true"/>    

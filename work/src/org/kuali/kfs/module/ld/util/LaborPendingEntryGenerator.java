@@ -75,6 +75,11 @@ public class LaborPendingEntryGenerator {
             expensePendingEntries.add(expenseA21ReversalPendingEntry);
         }
 
+        //refresh nonupdateable references for financial object...
+        for (LaborLedgerPendingEntry lpe : expensePendingEntries) {
+            lpe.refreshReferenceObject("financialObject");
+        }
+        
         return expensePendingEntries;
     }
 

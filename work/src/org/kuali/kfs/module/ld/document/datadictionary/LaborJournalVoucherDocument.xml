@@ -23,7 +23,7 @@
     <property name="documentTypeName" value="LLJV"/>
     <property name="documentClass" value="org.kuali.kfs.module.ld.document.LaborJournalVoucherDocument"/>
     <property name="baseDocumentClass" value="org.kuali.kfs.module.ld.document.LaborJournalVoucherDocument"/>
-    <property name="businessRulesClass" value="org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
+    <property name="businessRulesClass" value="org.kuali.kfs.module.ld.document.validation.impl.LaborDocumentRuleEngineRuleBase"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase"/>
     
     <property name="sessionDocument" value="true"/>    

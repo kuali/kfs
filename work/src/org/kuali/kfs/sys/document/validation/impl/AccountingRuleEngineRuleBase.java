@@ -17,6 +17,7 @@ package org.kuali.kfs.sys.document.validation.impl;
 
 import java.util.Map;
 
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.GeneralLedgerPostingDocumentBase;
@@ -177,7 +178,7 @@ public class AccountingRuleEngineRuleBase extends DocumentRuleBase implements Ac
         if (document instanceof GeneralLedgerPostingDocumentBase) {
             GeneralLedgerPostingDocumentBase glpeDocument = (GeneralLedgerPostingDocumentBase) document;
             for (GeneralLedgerPendingEntry glpe : glpeDocument.getGeneralLedgerPendingEntries()) {
-                glpe.refreshReferenceObject("financialObject");
+                glpe.refreshReferenceObject(KFSPropertyConstants.FINANCIAL_OBJECT);
             }
         }
         

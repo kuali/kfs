@@ -29,6 +29,7 @@ import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase;
+import org.kuali.kfs.module.purap.document.PurchasingDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -235,6 +236,12 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
         @SuppressWarnings("rawtypes")
         Class clazz = getPurapDocumentClass(accountingDocument);
         if (clazz == null){
+            return true;
+        }
+        
+        //if not calculated yet then the line is editable
+        PurchasingDocument purDoc = (PurchasingDocument) accountingDocument;
+        if (!purDoc.isCalculated()) {
             return true;
         }
         

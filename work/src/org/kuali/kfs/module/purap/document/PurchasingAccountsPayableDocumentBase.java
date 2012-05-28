@@ -97,7 +97,9 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     protected Boolean overrideWorkflowButtons = null;
     protected transient PurApRelatedViews relatedViews;
     protected boolean sensitive;
-
+    
+    protected boolean calculated;
+    
     // COLLECTIONS
     protected List<PurApItem> items;
     protected List<SourceAccountingLine> accountsForRouting; // don't use me for anything else!!
@@ -1320,6 +1322,25 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      */
     public void setStatusCode(String statusCode) {
         this.statusCode = statusCode;
+    }
+    
+    /**
+     * Gets the calculated attribute.
+     * 
+     * @return Returns the calculated
+     */
+    
+    public boolean isCalculated() {
+        return calculated;
+    }
+
+    /** 
+     * Sets the calculated attribute.
+     * 
+     * @param calculated The calculated to set.
+     */
+    public void setCalculated(boolean calculated) {
+        this.calculated = calculated;
     }
 
 }

@@ -328,4 +328,7 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument, P
     public boolean isInquiryRendered();
 
     public boolean shouldGiveErrorForEmptyAccountsProration();
+    
+    public boolean isCalculated();
+    public void setCalculated(boolean calculated);
 }

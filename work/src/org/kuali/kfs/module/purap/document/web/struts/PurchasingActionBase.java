@@ -120,7 +120,12 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         
         KNSGlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_SAVED);
         kualiDocumentFormBase.setAnnotation("");
-
+        
+        //we need to make "calculated" to false so that the "below lines"
+        //can be edited until calculated button is clicked.
+        PurchasingFormBase baseForm = (PurchasingFormBase) form;
+        baseForm.setCalculated(false);
+        purapDocument.setCalculated(false);
         return mapping.findForward(RiceConstants.MAPPING_BASIC);
     }
     
@@ -1302,6 +1307,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         PurchasingFormBase formBase = (PurchasingFormBase) form;
         formBase.setInitialZipCode(purDoc.getDeliveryPostalCode());
         formBase.setCalculated(true);
+        purDoc.setCalculated(true);
         
         KNSGlobalVariables.getMessageList().clear();
 

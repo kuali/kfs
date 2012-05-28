@@ -1303,6 +1303,8 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         formBase.setInitialZipCode(purDoc.getDeliveryPostalCode());
         formBase.setCalculated(true);
         
+        KNSGlobalVariables.getMessageList().clear();
+
         return super.calculate(mapping, form, request, response);
     }
 

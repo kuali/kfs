@@ -443,6 +443,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     public void fixAccountReferences() {
         if (ObjectUtils.isNull(this.getItemIdentifier())) {
             for (PurApAccountingLine account : this.getSourceAccountingLines()) {
+                account.setSequenceNumber(0);
                 account.setPurapItem(this);
             }
         }

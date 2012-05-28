@@ -47,6 +47,7 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
      */
     public PurApAccountingLineBase() {
         super();
+        this.setSequenceNumber(0);
         setAmount(null);
     }
     

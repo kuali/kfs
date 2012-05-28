@@ -17,6 +17,7 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
@@ -32,11 +33,17 @@ public class PurchasingAccountsPayableHasAccountsValidation extends GenericValid
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;                
         
+        
         if (itemForValidation.getSourceAccountingLines().isEmpty()) {
             valid = false;
             GlobalVariables.getMessageMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_ACCOUNTING_INCOMPLETE, itemForValidation.getItemIdentifierString());
         }
 
+      //refresh the accounts if they do exist...
+        for (PurApAccountingLine account : itemForValidation.getSourceAccountingLines()) {
+            account.refreshNonUpdateableReferences();
+        }
+        
         return valid;
     }
 

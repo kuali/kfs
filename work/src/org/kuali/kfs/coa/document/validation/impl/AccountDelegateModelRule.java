@@ -17,8 +17,10 @@ package org.kuali.kfs.coa.document.validation.impl;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Calendar;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.coa.businessobject.AccountDelegateModel;
 import org.kuali.kfs.coa.businessobject.AccountDelegateModelDetail;
 import org.kuali.kfs.coa.businessobject.AccountingPeriod;
@@ -157,11 +159,16 @@ public class AccountDelegateModelRule extends KfsMaintenanceDocumentRuleBase {
 
     private boolean checkStartDate(AccountDelegateModelDetail delegateModel) {
         boolean success = true;
-        Timestamp ts = new Timestamp(new java.util.Date().getTime());
-        if (delegateModel.getAccountDelegateStartDate().before(ts)) success = false;
-        GlobalVariables.getMessageMap().putError("accountDelegateStartDate", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_STARTDATE_IN_PAST, new String[0]);
+        if (ObjectUtils.isNotNull(delegateModel.getAccountDelegateStartDate())) {
+            Timestamp today = getDateTimeService().getCurrentTimestamp();
+            today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime());
+            if (delegateModel.getAccountDelegateStartDate().before(today)) {
+                success = false;
+                GlobalVariables.getMessageMap().putError("accountDelegateStartDate", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_STARTDATE_IN_PAST, new String[0]);
+            }
+        }
         return success;
-    }
+   }
 
 
     /**

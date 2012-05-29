@@ -25,6 +25,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.LaborPropertyConstants;
 import org.kuali.kfs.module.ld.businessobject.BenefitsCalculation;
@@ -76,9 +77,7 @@ public class LaborPendingEntryGenerator {
         }
 
         //refresh nonupdateable references for financial object...
-        for (LaborLedgerPendingEntry lpe : expensePendingEntries) {
-            lpe.refreshReferenceObject("financialObject");
-        }
+        refreshObjectCodeNonUpdateableReferences(expensePendingEntries);
         
         return expensePendingEntries;
     }
@@ -186,6 +185,9 @@ public class LaborPendingEntryGenerator {
             benefitPendingEntries.add(benefitA21ReversalPendingEntry);
         }
 
+        //refresh nonupdateable references for financial object...
+        refreshObjectCodeNonUpdateableReferences(benefitPendingEntries);   
+        
         return benefitPendingEntries;
     }
 
@@ -240,6 +242,9 @@ public class LaborPendingEntryGenerator {
             }
         }
 
+        //refresh nonupdateable references for financial object...
+        refreshObjectCodeNonUpdateableReferences(benefitClearingPendingEntries);   
+        
         return benefitClearingPendingEntries;
     }
 
@@ -299,5 +304,23 @@ public class LaborPendingEntryGenerator {
         }
 
         return true;
+    }
+    
+    /**
+     * refreshes labor ledger pending entry's object codes.
+     * 
+     * @param llpes
+     */
+    protected static void refreshObjectCodeNonUpdateableReferences(List<LaborLedgerPendingEntry> llpes) {
+        BusinessObjectService bos = SpringContext.getBean(BusinessObjectService.class);
+
+        //refresh nonupdateable references for financial object...
+        Map<String, String> primaryKeys = new HashMap<String,String>();
+        
+        for (LaborLedgerPendingEntry llpe : llpes) {
+            primaryKeys.put("financialObjectCode", llpe.getFinancialObjectCode());
+            ObjectCode objectCode = bos.findByPrimaryKey(ObjectCode.class, primaryKeys);
+            llpe.setFinancialObject(objectCode);
+        }
     }
 }

@@ -261,6 +261,11 @@ import org.kuali.rice.kim.service.UiDocumentService">SpringContext.getBean(UiDoc
 			<replacement addImport="org.kuali.kfs.sys.context.SpringContext:org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.api.type.KimTypeInfoService">SpringContext.getBean(KimTypeInfoService.class)</replacement>
 		</pattern>
+		<pattern>
+			<match>KIMServiceLocator\.getPermissionService\(\)</match>
+			<replacement addImport="org.kuali.kfs.sys.context.SpringContext:org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kim.api.permission.PermissionService">SpringContext.getBean(PermissionService.class)</replacement>
+		</pattern>
 <!-- 
 		<pattern fileType="java">
 			<match>SpringContext\.getBean\(CountryService\.class\).getByPrimaryIdIfNecessary\(([^,]*),([^)]*)\);</match>

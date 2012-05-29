@@ -143,6 +143,10 @@
 			<replacement>getInitiatorPrincipalId</replacement>			
 		</pattern>			
 		<pattern>
+			<match>getRouteHeaderId</match>
+			<replacement>getDocumentNumber</replacement>			
+		</pattern>			
+		<pattern>
 			<match>getWorkflowDocument\(\)\.getRouteHeader\(\)</match>
 			<replacement>getWorkflowDocument()</replacement>
 		</pattern>

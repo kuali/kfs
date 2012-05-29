@@ -1072,8 +1072,15 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
     @Override
     public void refreshNonUpdateableReferences() {
-
         super.refreshNonUpdateableReferences();
+        
+        for (PurApItem item : (List<PurApItem>)this.getItems()) {
+            //refresh the accounts if they do exist...
+            for (PurApAccountingLine account : item.getSourceAccountingLines()) {
+                account.refreshNonUpdateableReferences();
+            }
+        }
+        
         fixItemReferences();
     }
 

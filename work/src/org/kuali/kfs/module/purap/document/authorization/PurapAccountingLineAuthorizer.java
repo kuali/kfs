@@ -240,8 +240,8 @@ public class PurapAccountingLineAuthorizer extends AccountingLineAuthorizerBase 
         }
         
         //if not calculated yet then the line is editable
-        PurchasingDocument purDoc = (PurchasingDocument) accountingDocument;
-        if (!purDoc.isCalculated()) {
+        PurchasingAccountsPayableDocumentBase purapDoc = (PurchasingAccountsPayableDocumentBase) accountingDocument;
+        if (!purapDoc.isCalculated()) {
             return true;
         }
         

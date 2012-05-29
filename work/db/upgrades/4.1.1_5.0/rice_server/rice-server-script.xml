@@ -9005,5 +9005,162 @@
 		<sqlFile path="update_final_mysql.sql" />
 	</changeSet>
 
+
+<changeSet author="RICE21" id="2012-02-27_oracle" dbms="oracle">
+	<sql><![CDATA[
+ALTER TABLE
+  KRIM_GRP_MBR_T
+MODIFY
+   (
+    MBR_ID VARCHAR2(40) NOT NULL,
+    GRP_ID VARCHAR2(40) NOT NULL,
+    MBR_TYP_CD CHAR(1) NOT NULL
+   );
+
+ALTER TABLE
+   KRIM_ROLE_MBR_T
+MODIFY
+   (
+    MBR_ID VARCHAR2(40) NOT NULL,
+    ROLE_ID VARCHAR2(40) NOT NULL,
+    MBR_TYP_CD CHAR(1) NOT NULL
+   );
+	]]></sql>
+</changeSet>
+<changeSet author="RICE21" id="2012-03-05_oracle" dbms="oracle">
+	<sql><![CDATA[
+UPDATE KREW_DOC_TYP_T SET LBL = 'Undefined' WHERE LBL is null;
+ALTER TABLE KREW_DOC_TYP_T MODIFY (LBL NOT NULL);
+	]]></sql>
+</changeSet>
+<changeSet author="RICE21" id="2012-03-13_oracle" dbms="oracle">
+	<sql><![CDATA[
+		ALTER TABLE krim_entity_cache_t MODIFY (PRSN_NM VARCHAR2(255))		
+	]]></sql>
+</changeSet>
+<changeSet author="RICE21" id="2012-03-20_oracle" dbms="oracle">
+	<sql><![CDATA[
+		ALTER TABLE krew_doc_typ_plcy_reln_t MODIFY (PLCY_VAL VARCHAR2(1024))
+	]]></sql>
+</changeSet>
+<!-- 
+<changeSet author="RICE21" id="2012-03-28_oracle" dbms="oracle">
+	<sql><![CDATA[
+INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select (max(to_number(KIM_ATTR_DEFN_ID)) + 1) from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and to_number(KIM_ATTR_DEFN_ID) < 10000), sys_guid(), 1, 'appDocStatus', null, 'Y', 'KR-WKFLW', 'org.kuali.rice.kim.bo.impl.KimAttributes')
+;
+
+-- assign it to 'Document Type & Routing Node or State' type
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'a', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-SYS' and NM='Document Type & Routing Node or State'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-WKFLW' and NM='appDocStatus'), 'Y')
+;
+
+-- create Recall permission template
+INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and to_number(perm_tmpl_id) < 10000), sys_guid(), 1, 'KR-WKFLW', 'Recall Document', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-SYS' and NM='Document Type & Routing Node or State'), 'Y')
+	]]></sql>
+</changeSet>
+ -->
+<changeSet author="RICE21" id="2012-04-04_oracle" dbms="oracle">
+	<sql><![CDATA[
+	alter table KREW_RULE_ATTR_T add constraint KREW_RULE_ATTR_TC1 unique(NM)
+	]]></sql>
+</changeSet>
+<!-- 
+<changeSet author="RICE21" id="2012-04-11_oracle" dbms="oracle">
+	<sql><![CDATA[
+INSERT INTO KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM) values ((select (max(to_number(PERM_ID)) + 1) from KRIM_PERM_T where PERM_ID is not NULL and to_number(PERM_ID) < 10000), sys_guid(), 1, (select PERM_TMPL_ID from KRIM_PERM_TMPL_T where NMSPC_CD = 'KR-WKFLW' and NM = 'Recall Document'), 'KR-WKFLW', 'Recall Document');
+-- define document type wildcard for permission
+INSERT INTO KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL) values ((select (max(to_number(ATTR_DATA_ID)) + 1) from KRIM_PERM_ATTR_DATA_T where ATTR_DATA_ID is not NULL and to_number(ATTR_DATA_ID) < 10000), sys_guid(), 1, (select PERM_ID from KRIM_PERM_T where NMSPC_CD = 'KR-WKFLW' and NM='Recall Document'), (select KIM_TYP_ID from KRIM_PERM_TMPL_T where NMSPC_CD = 'KR-WKFLW' and NM = 'Recall Document'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD = 'KR-WKFLW' and NM = 'documentTypeName'), '*');
+-- associate Recall permission with initiator derived role
+INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND) values ((select (max(to_number(ROLE_PERM_ID)) + 1) from KRIM_ROLE_PERM_T where ROLE_PERM_ID is not NULL and to_number(ROLE_PERM_ID) < 10000), sys_guid(), 1, (select ROLE_ID from KRIM_ROLE_T where ROLE_NM = 'Initiator' and NMSPC_CD = 'KR-WKFLW'), (select PERM_ID from KRIM_PERM_T where NMSPC_CD = 'KR-WKFLW' and NM='Recall Document'), 'Y');
+	]]></sql>
+</changeSet>
+ -->
+<!--
+<changeSet author="RICE21" id="2012-04-12_oracle" dbms="oracle">
+	<sql><![CDATA[
+-- create a Kim Type wired to the documentRouterRoleTypeService permission-derived role service	
+INSERT INTO KRIM_TYP_T (KIM_TYP_ID, OBJ_ID, VER_NBR, NM, SRVC_NM, ACTV_IND, NMSPC_CD) values ((select (max(to_number(KIM_TYP_ID)) + 1) from KRIM_TYP_T where KIM_TYP_ID is not NULL and to_number(KIM_TYP_ID) < 10000), sys_guid(), 1, 'Derived Role: Permission (Route Document)', 'documentRouterRoleTypeService', 'Y', 'KR-WKFLW');
+-- define the Route Document derived role
+INSERT INTO KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND) values ((select (max(to_number(ROLE_ID)) + 1) from KRIM_ROLE_T where ROLE_ID is not NULL and to_number(ROLE_ID) < 10000), sys_guid(), 1, 'Document Router', 'KR-WKFLW', 'This role derives its members from users with the Route Document permission for a given document type.', (select KIM_TYP_ID from KRIM_TYP_T where NM = 'Derived Role: Permission (Route Document)' and NMSPC_CD = 'KR-WKFLW'), 'Y');
+	]]></sql>
+</changeSet>
+ -->
+ <!-- 
+<changeSet author="RICE21" id="2012-04-16_oracle" dbms="oracle">
+-- KULRICE-7128 wire kim type attribute 'qualifierResolverProvidedIdentifier' to Responsibility type
+	<sql><![CDATA[
+Insert into krim_typ_attr_t
+(KIM_TYP_ATTR_ID,
+OBJ_ID,
+VER_NBR,
+SORT_CD,
+KIM_TYP_ID,
+KIM_ATTR_DEFN_ID,
+ACTV_IND)
+VALUES
+  ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from  krim_typ_attr_t where KIM_TYP_ATTR_ID is not NULL and to_number(KIM_TYP_ATTR_ID) < 10000),
+  '69FA55ACC2EE2598E0404F8189D86880',
+  1,
+  'e',
+  7,
+  46,
+  'Y')
+	]]></sql>
+</changeSet>
+ -->
+<changeSet author="RICE21" id="2012-04-19_oracle" dbms="oracle">
+	<sql><![CDATA[
+CREATE TABLE KRNS_MAINT_DOC_ATT_LST_T  (
+    ATT_ID      VARCHAR2(40) NOT NULL,
+	DOC_HDR_ID	VARCHAR2(14) NOT NULL,
+	ATT_CNTNT 	blob NOT NULL,
+	FILE_NM   	VARCHAR2(150) NULL,
+	CNTNT_TYP 	VARCHAR2(255) NULL,
+	OBJ_ID    	VARCHAR2(36) NOT NULL,
+	VER_NBR   	NUMBER(8) DEFAULT 0 NOT NULL,
+	PRIMARY KEY(ATT_ID),
+	CONSTRAINT KRNS_MAINT_DOC_ATT_LST_FK1 foreign key (DOC_HDR_ID) references KRNS_MAINT_DOC_T (DOC_HDR_ID)
+)
+;
+ALTER TABLE KRNS_MAINT_DOC_ATT_LST_T
+	ADD CONSTRAINT KRNS_MAINT_DOC_ATT_LST_TC0
+	UNIQUE (OBJ_ID)
+;
+CREATE INDEX KRNS_MAINT_DOC_ATT_LST_TI1 on KRNS_MAINT_DOC_ATT_LST_T (DOC_HDR_ID)
+;
+CREATE SEQUENCE KRNS_MAINT_DOC_ATT_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER;
+	]]></sql>
+</changeSet>
+<changeSet author="RICE21" id="2012-04-25_oracle" dbms="oracle">
+	<sql><![CDATA[
+update krms_attr_defn_t set nm='actionTypeCode' where attr_defn_id='1004'
+;
+update krms_attr_defn_t set nm='actionMessage' where attr_defn_id='1005'
+;
+update krms_attr_defn_t set nm='ruleTypeCode' where attr_defn_id='1001'
+;
+
+delete from krms_typ_attr_t where ATTR_DEFN_ID = '1002'
+;
+delete from krms_typ_attr_t where ATTR_DEFN_ID = '1003'
+;
+delete from krms_attr_defn_t where ATTR_DEFN_ID = '1002'
+;
+delete from krms_attr_defn_t where ATTR_DEFN_ID = '1003'
+;
+	]]></sql>
+</changeSet>
+<!-- 
+<changeSet author="RICE21" id="2012-05-11_oracle" dbms="oracle">
+	<sql><![CDATA[
+	]]></sql>
+</changeSet>
+ -->
+<changeSet author="RICE21" id="2012-05-21_oracle" dbms="oracle">
+	<sql><![CDATA[
+	update krim_perm_attr_data_t set ATTR_VAL='org.kuali.rice.core.web.impex.IngesterAction' where ATTR_VAL='org.kuali.rice.kew.batch.web.IngesterAction'	
+	]]></sql>
+</changeSet>
+
+
 </databaseChangeLog>
 	

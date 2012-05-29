@@ -26,11 +26,11 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.principal.Principal;
-import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -134,13 +134,16 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
         }
         // for Entity, retrieve from Entity table by entity ID
         else if (StringUtils.equalsIgnoreCase(payeeIdentifierTypeCode, PayeeIdTypeCodes.ENTITY)) {
-            EntityDefault entity = SpringContext.getBean(IdentityManagementService.class).getEntityDefaultInfo(payeeIdNumber);
-            if (ObjectUtils.isNotNull(entity)) {
-                return entity.getName().getCompositeName();
+            if(ObjectUtils.isNotNull(payeeIdNumber)) {
+                EntityDefault entity = SpringContext.getBean(IdentityService.class).getEntityDefault(payeeIdNumber);
+                if (ObjectUtils.isNotNull(entity)) {
+                    return entity.getName().getCompositeName();
+                }
+                else {
+                    return null;
+                }
             }
-            else {
-                return null;
-            }
+            return payeeName;
         }
         // for Vendor, retrieves from Vendor table by vendor number
         else if (StringUtils.equalsIgnoreCase(payeeIdentifierTypeCode, PayeeIdTypeCodes.VENDOR_ID)) {
@@ -185,14 +188,19 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
         }
         // for Entity, retrieve from Entity table by entity ID then from Person table
         else if (StringUtils.equalsIgnoreCase(payeeIdentifierTypeCode, PayeeIdTypeCodes.ENTITY)) {
-            EntityDefault entity = SpringContext.getBean(IdentityManagementService.class).getEntityDefaultInfo(payeeIdNumber);
-            if (ObjectUtils.isNotNull(entity)) {
-                List<Principal> principals = entity.getPrincipals();
-                if (principals.size() > 0 && ObjectUtils.isNotNull(principals.get(0))) {
-                    String principalId = principals.get(0).getPrincipalId();
-                    Person person = SpringContext.getBean(PersonService.class).getPerson(principalId);
-                    if (ObjectUtils.isNotNull(person)) {
-                        return person.getEmailAddress();
+            if(ObjectUtils.isNotNull(payeeIdNumber)) {
+                EntityDefault entity = SpringContext.getBean(IdentityService.class).getEntityDefault(payeeIdNumber);
+                if (ObjectUtils.isNotNull(entity)) {
+                    List<Principal> principals = entity.getPrincipals();
+                    if (principals.size() > 0 && ObjectUtils.isNotNull(principals.get(0))) {
+                        String principalId = principals.get(0).getPrincipalId();
+                        Person person = SpringContext.getBean(PersonService.class).getPerson(principalId);
+                        if (ObjectUtils.isNotNull(person)) {
+                            return person.getEmailAddress();
+                        }
+                        else {
+                            return null;
+                        }
                     }
                     else {
                         return null;
@@ -202,9 +210,7 @@ public class PayeeACHAccount extends PersistableBusinessObjectBase implements Mu
                     return null;
                 }
             }
-            else {
-                return null;
-            }
+            return payeeEmailAddress;
         }
 
         // otherwise returns the field value

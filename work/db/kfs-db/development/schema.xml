@@ -9151,6 +9151,24 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
+    <table name="KRNS_MAINT_DOC_ATT_LST_T">
+        <column name="ATT_ID" primaryKey="true" size="40" type="VARCHAR"/>
+        <column name="DOC_HDR_ID" required="true" size="14" type="VARCHAR"/>
+        <column name="ATT_CNTNT" required="true" type="BLOB"/>
+        <column name="FILE_NM" size="150" type="VARCHAR"/>
+        <column name="CNTNT_TYP" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="0" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <foreign-key foreignTable="KRNS_MAINT_DOC_T" name="KRNS_MAINT_DOC_ATT_LST_FK1">
+            <reference foreign="DOC_HDR_ID" local="DOC_HDR_ID"/>
+        </foreign-key>
+        <unique name="KRNS_MAINT_DOC_ATT_LST_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+        <index name="KRNS_MAINT_DOC_ATT_LST_TI1">
+            <index-column name="DOC_HDR_ID"/>
+        </index>
+    </table>
     <table name="KRNS_MAINT_DOC_ATT_T">
         <column name="DOC_HDR_ID" primaryKey="true" size="14" type="VARCHAR"/>
         <column name="ATT_CNTNT" required="true" type="BLOB"/>
@@ -14773,6 +14791,7 @@
     <sequence name="KRNS_DOC_TYP_ATTR_S" nextval="1580"/>
     <sequence name="KRNS_LOCK_S" nextval="2000"/>
     <sequence name="KRNS_LOOKUP_RSLT_S" nextval="2040"/>
+    <sequence name="KRNS_MAINT_DOC_ATT_S" nextval="10000"/>
     <sequence name="KRNS_MAINT_LOCK_S" nextval="2000"/>
     <sequence name="KRNS_NTE_S" nextval="2060"/>
     <sequence name="KRSB_BAM_PARM_S" nextval="30000"/>

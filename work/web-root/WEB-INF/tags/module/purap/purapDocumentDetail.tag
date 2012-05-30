@@ -58,6 +58,7 @@
 
 
 <table cellpadding="0" cellspacing="0" class="datatable" summary="Detail Section">
+    <%-- only display on REQ and PO --%>
     <c:if test="${not paymentRequest}">
 	    <tr>
 	        <th align=right valign=middle class="bord-l-b">
@@ -84,38 +85,48 @@
 	    </tr>
     </c:if>
 	
-	<tr>
-	  <c:if test="${KualiForm.document.enableReceivingDocumentRequiredIndicator}">			
-        <th align=right valign=middle class="bord-l-b">         
-            <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.receivingDocumentRequiredIndicator}" /></div>
-        </th>
-        <td align=left valign=middle class="datacell">
-            <kul:htmlControlAttribute
-                property="document.receivingDocumentRequiredIndicator"
-                attributeEntry="${documentAttributes.receivingDocumentRequiredIndicator}"
-                readOnly="${paymentRequest or 
-                readOnlyReceivingRequired or 
-                not(fullEntryMode or amendmentEntry) and 
-                not (contentReadOnly or internalPurchasingReadOnly)}"
-                tabindexOverride="${tabindexOverrideBase + 0}"/>
-        </td>
-      </c:if>
-	  <c:if test="${not KualiForm.document.enableReceivingDocumentRequiredIndicator}">	
-	    <th align=right valign=middle class="bord-l-b">&nbsp;</th>
-	    <td align=left valign=middle class="datacell">&nbsp;</td>
-	  </c:if>
-        <th align=right valign=middle class="bord-l-b">
-            <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.accountDistributionMethod}" /></div>
-        </th>
-        <td align=left valign=middle class="datacell">
-            <kul:htmlControlAttribute
-                property="document.accountDistributionMethod"
-                attributeEntry="${documentAttributes.accountDistributionMethod}"
-                readOnly="${editableAccountDistributionMethod or not(fullEntryMode or amendmentEntry)}"
-                tabindexOverride="${tabindexOverrideBase + 0}"/>
-        </td>
-	</tr>  
+	<%-- no need to display this row if both fields are hidden; when available, fields display on all doc types (REQ, PO, PREQ) --%>
+	<c:if test="${KualiForm.document.enableReceivingDocumentRequiredIndicator or KualiForm.document.enablePaymentRequestPositiveApprovalIndicator}">
+		<tr>
+		  <c:if test="${KualiForm.document.enableReceivingDocumentRequiredIndicator}">			
+	        <th align=right valign=middle class="bord-l-b">         
+	            <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.receivingDocumentRequiredIndicator}" /></div>
+	        </th>
+	        <td align=left valign=middle class="datacell">
+	            <kul:htmlControlAttribute
+	                property="document.receivingDocumentRequiredIndicator"
+	                attributeEntry="${documentAttributes.receivingDocumentRequiredIndicator}"
+	                readOnly="${paymentRequest or 
+	                readOnlyReceivingRequired or 
+	                not(fullEntryMode or amendmentEntry) and 
+	                not (contentReadOnly or internalPurchasingReadOnly)}"
+	                tabindexOverride="${tabindexOverrideBase + 0}"/>
+	        </td>
+	      </c:if>
+		  <c:if test="${not KualiForm.document.enableReceivingDocumentRequiredIndicator}">	
+		    <th align=right valign=middle class="bord-l-b">&nbsp;</th>
+		    <td align=left valign=middle class="datacell">&nbsp;</td>
+		  </c:if>
+		  <c:if test="${KualiForm.document.enablePaymentRequestPositiveApprovalIndicator}">				        
+			<th align=right valign=middle class="bord-l-b">
+			  <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.paymentRequestPositiveApprovalIndicator}" /></div>
+			</th>
+			<td align=left valign=middle class="datacell">
+			  <kul:htmlControlAttribute
+			      property="document.paymentRequestPositiveApprovalIndicator"
+				  attributeEntry="${documentAttributes.paymentRequestPositiveApprovalIndicator}"
+				  readOnly="${paymentRequest or not(fullEntryMode or amendmentEntry) and not (contentReadOnly or internalPurchasingReadOnly)}"
+			  	  tabindexOverride="${tabindexOverrideBase + 5}"/>
+			</td>
+		  </c:if>
+		  <c:if test="${not KualiForm.document.enablePaymentRequestPositiveApprovalIndicator}">
+		    <th align=right valign=middle class="bord-l-b">&nbsp;</th>
+		    <td align=left valign=middle class="datacell">&nbsp;</td>	          				        
+	      </c:if>			  
+		</tr>  
+	</c:if>
 
+	<%-- the following rows only need to be displayed for the PO --%>
 	<c:if test="${purchaseOrder}">
 		<tr>
             <th align=right valign=middle class="bord-l-b">
@@ -170,7 +181,7 @@
 		</tr>		
 	</c:if>
 
-    
+    <%-- row only needs to be displayed if tax is enabled or if the doc is a PO --%>
     <c:if test="${purapTaxEnabled or purchaseOrder}">
 	    <tr>
 	        <c:if test="${purapTaxEnabled}">
@@ -202,26 +213,29 @@
 	                    readOnly="true" />
 	            </td>                   
 			</c:if>
-	        <c:if test="${not purchaseOrder}">		
-	          <c:if test="${KualiForm.document.enablePaymentRequestPositiveApprovalIndicator}">				        
-			    <th align=right valign=middle class="bord-l-b">
-			        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.paymentRequestPositiveApprovalIndicator}" /></div>
-			    </th>
-			    <td align=left valign=middle class="datacell">
-			        <kul:htmlControlAttribute
-			            property="document.paymentRequestPositiveApprovalIndicator"
-			            attributeEntry="${documentAttributes.paymentRequestPositiveApprovalIndicator}"
-			            readOnly="${paymentRequest or not(fullEntryMode or amendmentEntry) and not (contentReadOnly or internalPurchasingReadOnly)}"
-			            tabindexOverride="${tabindexOverrideBase + 5}"/>
-			    </td>
-			  </c:if>
-	          <c:if test="${not KualiForm.document.enablePaymentRequestPositiveApprovalIndicator}">
+	        <c:if test="${not purchaseOrder}">
 	            <th align=right valign=middle class="bord-l-b">&nbsp;</th>
-	            <td align=left valign=middle class="datacell">&nbsp;</td>	          				        
-			  </c:if>			  
+	            <td align=left valign=middle class="datacell">&nbsp;</td>
 	        </c:if>
-	    </tr>  
-     </c:if>
+	    </tr>
+	  </c:if>
+
+      <%-- always display this row --%>
+	  <tr>
+	      <th align=right valign=middle class="bord-l-b">
+	          <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.accountDistributionMethod}" /></div>
+	      </th>
+	      <td align=left valign=middle class="datacell">
+	          <kul:htmlControlAttribute
+	              property="document.accountDistributionMethod"
+	              attributeEntry="${documentAttributes.accountDistributionMethod}"
+	              readOnly="${editableAccountDistributionMethod or not(fullEntryMode or amendmentEntry)}"
+	              tabindexOverride="${tabindexOverrideBase + 0}"/>
+	      </td>
+          <th align=right valign=middle class="bord-l-b">&nbsp;</th>
+          <td align=left valign=middle class="datacell">&nbsp;</td>
+	  </tr>  
+
 
 </table>
 	

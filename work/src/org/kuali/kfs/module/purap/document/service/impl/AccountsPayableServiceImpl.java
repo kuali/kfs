@@ -539,7 +539,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
                     GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
 
                     WorkflowDocumentService workflowDocumentService =  SpringContext.getBean(WorkflowDocumentService.class);
-                    WorkflowDocument newWorkflowDocument = workflowDocumentService.loadWorkflowDocument(document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName(), GlobalVariables.getUserSession().getPerson());
+                    WorkflowDocument newWorkflowDocument = workflowDocumentService.loadWorkflowDocument(document.getDocumentNumber(), GlobalVariables.getUserSession().getPerson());
                     document.getDocumentHeader().setWorkflowDocument(newWorkflowDocument);
 
                     String annotation = "Document Cancelled by user " + originalUserSession.getPerson().getName() + " (" + originalUserSession.getPerson().getPrincipalName() + ")";

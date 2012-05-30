@@ -14819,7 +14819,7 @@
     <sequence name="PMT_RQST_ITM_ID" nextval="1020"/>
     <sequence name="PMT_RQST_STAT_HIST_ID" nextval="1002"/>
     <sequence name="PO_ACCT_ID" nextval="1007"/>
-    <sequence name="PO_CONTR_LANG_ID" nextval="1002"/>
+    <sequence name="PO_CONTR_LANG_ID" nextval="1007"/>
     <sequence name="PO_ID" nextval="1007"/>
     <sequence name="PO_ITM_CPTL_AST_ID" nextval="1002"/>
     <sequence name="PO_ITM_ID" nextval="1009"/>

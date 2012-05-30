@@ -189,4 +189,10 @@
 		</sql>
 	</changeSet>
 
+	<changeSet author="KFS50" id="CM_CPTLAST_DTL_T_CHG_AST_OFFCMPT_CITY_NM">
+	<comment>need to change the field length in CM_CPTLAST_DTL_T"."AST_OFFCMP_CITY_NM to 45.</comment>
+	<modifyColumn tableName="CM_CPTLAST_DTL_T">
+		<column name="AST_OFFCMP_CITY_NM" type="VARCHAR(45)" />
+	</modifyColumn>
+	</changeSet>
 </databaseChangeLog>

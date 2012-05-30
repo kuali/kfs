@@ -398,7 +398,7 @@
 						key="staticText-2"/>
 					<box></box>
 					<textElement verticalAlignment="Middle">
-						<font isBold="true"/>
+						<font/>
 					</textElement>
 				<text><![CDATA[PAY THIS AMOUNT:]]></text>
 				</staticText>

@@ -1003,5 +1003,16 @@
 		</insert>
 	
 	</changeSet>
-	
+		
+	<changeSet author="KFS50" id="GRANT_LOOKUP_TO_PAYEE_ACH_ACCTS_ADMIN">
+		<comment>Payee ACH Account document require permission to Lookup on the Payee Number field</comment>
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFSPDP8271-01" />
+			<column name="OBJ_ID" value="KFSPDP8271-01" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" value="KFSMI6886-ROLE" />
+			<column name="PERM_ID" value="89" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+	</changeSet>
 </databaseChangeLog>

@@ -414,17 +414,17 @@ public class PaymentDetailAction extends KualiAction {
         int paymentsInDisbursement = paymentDetail.getNbrOfPaymentsInDisbursement() - 1;
 
         ConfigurationService kualiConfiguration = SpringContext.getBean(ConfigurationService.class);
-        confirmationText = kualiConfiguration.getPropertyValueAsString(confirmationText);
+        String confirmationTextValue = kualiConfiguration.getPropertyValueAsString(confirmationText);
 
         if (confirmationText.equals(PdpKeyConstants.PaymentDetail.Confirmation.CANCEL_PAYMENT_MESSAGE)) {
-            confirmationText = MessageFormat.format(confirmationText, paymentsInGroup, paymentGroup.getId().toString());
+            confirmationText = MessageFormat.format(confirmationTextValue, paymentsInGroup, paymentGroup.getId().toString());
             if (paymentsInGroup == 0) {
                 int start = confirmationText.indexOf(".") + 2;
                 confirmationText = confirmationText.substring(start);
             }
         }
         else if (confirmationText.equals(PdpKeyConstants.PaymentDetail.Confirmation.CANCEL_DISBURSEMENT_MESSAGE)) {
-            confirmationText = MessageFormat.format(confirmationText, paymentsInDisbursement, paymentGroup.getDisbursementNbr().toString());
+            confirmationText = MessageFormat.format(confirmationTextValue, paymentsInDisbursement, paymentGroup.getDisbursementNbr().toString());
             if (paymentsInDisbursement == 0) {
                 int start = confirmationText.indexOf(".") + 2;
                 confirmationText = confirmationText.substring(start);
@@ -432,7 +432,7 @@ public class PaymentDetailAction extends KualiAction {
 
         }
         else {
-            confirmationText = MessageFormat.format(confirmationText, paymentDetailId);
+            confirmationText = MessageFormat.format(confirmationTextValue, paymentDetailId);
         }
 
         if (question == null) {

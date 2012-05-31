@@ -144,19 +144,6 @@ INSERT INTO KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, 
 
 
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
--- mysql-2012-04-16b.sql
--- 
-
-
-
--- KULRICE-6964: Update Rice default From email address
-
-update KRCR_PARM_T set val='rice.test@kuali.org'
-where nmspc_cd='KR-WKFLW' and cmpnt_cd='Mailer' and parm_nm='FROM_ADDRESS' and appl_id='KUALI'
-;
-
-
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 -- mysql-2012-04-16.sql
 -- 
 
@@ -182,32 +169,6 @@ VALUES
   'Y')
 ;
 
-
-
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
--- mysql-2012-04-19b.sql
--- 
-
-
-create table TRV_ATT_SAMPLE (attachment_id varchar(30),
-                              description varchar(4000),
-                              attachment_filename varchar(300),
-                              attachment_file_content_type varchar(255),
-                              attachment_file longblob,
-                              obj_id varchar(36) not null,
-                              ver_nbr decimal(8) default 0 not null,
-                              primary key (attachment_id));
-
-create table TRV_MULTI_ATT_SAMPLE (gen_id decimal(14,0) not null,
-                              attachment_id varchar(30),
-                              description varchar(4000),
-                              attachment_filename varchar(300),
-                              attachment_file_content_type varchar(255),
-                              attachment_file longblob,
-                              obj_id varchar(36) not null,
-                              ver_nbr decimal(8) default 0 not null,
-                              primary key (gen_id),
-                              foreign key (attachment_id) references TRV_ATT_SAMPLE(attachment_id));
 
 
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -239,29 +200,6 @@ create table KRNS_MAINT_DOC_ATT_S (
   primary key (id)
 ) ENGINE MyISAM;
 alter table KRNS_MAINT_DOC_ATT_S auto_increment = 10000;
-
-
-
-
-
-
-
-
-
-
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
--- mysql-2012-04-24.sql
--- 
-
-
-drop table if exists KRIM_ROLE_PERM_ID_S;
-
-create table KRIM_ROLE_PERM_ID_S (
-  id bigint(19) not null auto_increment,
-  primary key (id)
-) ENGINE MyISAM;
-
-alter table KRIM_ROLE_PERM_ID_S auto_increment = 10000;
 
 
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

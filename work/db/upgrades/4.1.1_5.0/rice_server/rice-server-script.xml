@@ -7747,18 +7747,6 @@
 		insert into krms_attr_defn_t (attr_defn_id, nm, nmspc_cd, lbl, actv, cmpnt_nm, ver_nbr, desc_txt) values ('1002', 'Valid Rule', 'KR-RULE', 'Valid Rule', 'Y', null, 1, 'If false, execute the action')
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		-- General context rule type mapping
-		insert into krms_cntxt_vld_rule_typ_t (cntxt_vld_rule_id, cntxt_id, rule_typ_id, ver_nbr) values ('T1000', 'CONTEXT1', '1002', 1)
-		]]></sql>
-		<sql splitStatements="false"><![CDATA[
-		-- The General rule subtypes attributes
-		-- use same sequence number to prove that falling back to natural order when sequences are the same works.
-		insert into krms_typ_attr_t (typ_attr_id, seq_no, typ_id, attr_defn_id, actv, ver_nbr) values ('1002', 1, '1002', '1001', 'Y', 1)
-		]]></sql>
-		<sql splitStatements="false"><![CDATA[
-		insert into krms_typ_attr_t (typ_attr_id, seq_no, typ_id, attr_defn_id, actv, ver_nbr) values ('1003', 1, '1002', '1002', 'Y', 1)
-		]]></sql>
-		<sql splitStatements="false"><![CDATA[
 		-- warning action
 		insert into krms_attr_defn_t (attr_defn_id, nm, nmspc_cd, lbl, actv, cmpnt_nm, ver_nbr, desc_txt) values ('1003', 'Warning Action', 'KR-RULE', 'Warning Action', 'Y', null, 1, 'Warning')
 		]]></sql>

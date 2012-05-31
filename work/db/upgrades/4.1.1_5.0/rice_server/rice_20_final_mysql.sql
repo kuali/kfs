@@ -2681,14 +2681,6 @@ insert into KRMS_ATTR_DEFN_T (attr_defn_id, nm, nmspc_cd, lbl, actv, cmpnt_nm, v
 -- Valid rule
 insert into KRMS_ATTR_DEFN_T (attr_defn_id, nm, nmspc_cd, lbl, actv, cmpnt_nm, ver_nbr, desc_txt) values ('1002', 'Valid Rule', 'KR-RULE', 'Valid Rule', 'Y', null, 1, 'If false, execute the action');
 
--- General context rule type mapping
-insert into KRMS_CNTXT_VLD_RULE_TYP_T (cntxt_vld_rule_id, cntxt_id, rule_typ_id, ver_nbr) values ('T1000', 'CONTEXT1', '1002', 1);
-
--- The General rule subtypes attributes
--- use same sequence number to prove that falling back to natural order when sequences are the same works.
-insert into KRMS_TYP_ATTR_T (typ_attr_id, seq_no, typ_id, attr_defn_id, actv, ver_nbr) values ('1002', 1, '1002', '1001', 'Y', 1);
-insert into KRMS_TYP_ATTR_T (typ_attr_id, seq_no, typ_id, attr_defn_id, actv, ver_nbr) values ('1003', 1, '1002', '1002', 'Y', 1);
-
 -- warning action
 insert into KRMS_ATTR_DEFN_T (attr_defn_id, nm, nmspc_cd, lbl, actv, cmpnt_nm, ver_nbr, desc_txt) values ('1003', 'Warning Action', 'KR-RULE', 'Warning Action', 'Y', null, 1, 'Warning');
 

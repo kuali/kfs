@@ -2690,9 +2690,6 @@ insert into KRMS_ATTR_DEFN_T (attr_defn_id, nm, nmspc_cd, lbl, actv, cmpnt_nm, v
 -- action message
 insert into KRMS_ATTR_DEFN_T (attr_defn_id, nm, nmspc_cd, lbl, actv, cmpnt_nm, ver_nbr, desc_txt) values ('1005', 'Action Message', 'KR-RULE', 'Action Message', 'Y', null, 1, 'Message validation action returns');
 
--- Context general validation acton type mapping
-insert into KRMS_CNTXT_VLD_ACTN_TYP_T (cntxt_vld_actn_id, cntxt_id, actn_typ_id, ver_nbr) values ('T1003', 'CONTEXT1', '1003', 1);
-
 -- The General action type attribute
 insert into KRMS_TYP_ATTR_T (typ_attr_id, seq_no, typ_id, attr_defn_id, actv, ver_nbr) values ('1004', 1, '1003', '1003', 'Y', 1);
 insert into KRMS_TYP_ATTR_T (typ_attr_id, seq_no, typ_id, attr_defn_id, actv, ver_nbr) values ('1005', 2, '1003', '1004', 'Y', 1);

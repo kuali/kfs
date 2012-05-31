@@ -25,7 +25,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * An association between a <code>Campus</code> and a <code>VendorAddress</code> to indicate that the Address is the default one
  * for this Campus among the various Addresses available for this Vendor.
  *
- * @see org.kuali.rice.krad.bo.Campus
+ * @see org.kuali.rice.location.framework.campus.CampusEbo
  * @see org.kuali.kfs.vnd.businessobject.VendorAddress
  */
 public class VendorDefaultAddress extends PersistableBusinessObjectBase implements VendorRoutingComparable, MutableInactivatable {

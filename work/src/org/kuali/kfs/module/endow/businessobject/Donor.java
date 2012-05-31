@@ -39,7 +39,7 @@ public class Donor extends PersistableBusinessObjectBase implements MutableInact
     private String city;
     private String state;
     private String postalCode;
-    private String country; // should reference org.kuali.rice.krad.bo.Country later
+    private String country; // should reference org.kuali.rice.location.framework.country.CountryEbo later
 
     private String phoneNumber;
 

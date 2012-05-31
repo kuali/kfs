@@ -84,13 +84,6 @@
 					<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.AccountingPeriod" keyValues="universityFiscalYear=${laborLedgerPendingEntry.universityFiscalYear}&universityFiscalPeriodCode=${laborLedgerPendingEntry.universityFiscalPeriodCode}" render="true">
 						<html:hidden property="document.laborLedgerPendingEntry[${ctr}].universityFiscalPeriodCode" write="true"/>
 					</kul:inquiry>
-					
-
-<%--
-					<kul:inquiry boClassName="org.kuali.rice.krad.bo.DocumentType" keyValues="documentTypeCode=${laborLedgerPendingEntry.financialDocumentTypeCode}" render="true">
-						<html:hidden property="document.laborLedgerPendingEntry[${ctr}].financialDocumentTypeCode" write="true"/>
-					</kul:inquiry>
---%>
 				</td>
 				<td class="datacell center">
 					<kul:inquiry boClassName="org.kuali.kfs.coa.businessobject.BalanceType" keyValues="code=${laborLedgerPendingEntry.financialBalanceTypeCode}" render="true">

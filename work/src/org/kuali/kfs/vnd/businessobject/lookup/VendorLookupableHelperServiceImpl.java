@@ -234,8 +234,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
         if (ObjectUtils.isNotNull(defaultAddress)) {
             
             if (ObjectUtils.isNotNull(defaultAddress.getVendorState())) {
-                defaultAddress.getVendorState().refresh();
-                vendor.setVendorStateForLookup(defaultAddress.getVendorState().getName());
+                  vendor.setVendorStateForLookup(defaultAddress.getVendorState().getName());
              }
             vendor.setDefaultAddressLine1(defaultAddress.getVendorLine1Address());
             vendor.setDefaultAddressLine2(defaultAddress.getVendorLine2Address());

@@ -8086,8 +8086,8 @@ INSERT INTO KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, 
 </changeSet>
 
 <changeSet author="RICE21" id="2012-04-16_oracle" dbms="oracle">
--- KULRICE-7128 wire kim type attribute 'qualifierResolverProvidedIdentifier' to Responsibility type
 	<sql><![CDATA[
+-- KULRICE-7128 wire kim type attribute 'qualifierResolverProvidedIdentifier' to Responsibility type
 Insert into krim_typ_attr_t
 (KIM_TYP_ATTR_ID,
 OBJ_ID,

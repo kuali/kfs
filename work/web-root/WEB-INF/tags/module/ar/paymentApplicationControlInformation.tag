@@ -68,10 +68,11 @@
                         		    </td>
 	                        	    <c:if test="${readOnly ne true}">
 	                    	   		    <td style="text-align: right;">
-											<kul:htmlControlAttribute
+											<!-- kul:htmlControlAttribute
 												attributeEntry="${nonAppliedHoldingAttributes.availableUnappliedAmount}"
-												property="nonAppliedControlHoldings[${idx}].availableUnappliedAmount" readOnly="true" />
+												property="nonAppliedControlHoldings[${idx}].availableUnappliedAmount" readOnly="true" / -->
 	                	           		    <!--<bean:write name="nonApplied" property="availableUnappliedAmount" />-->
+	                	           		     <c:out value="${KualiForm.nonAppliedControlHoldings[nonAppliedHolding.availableUnappliedAmount]}" />&nbsp;
 	            	           		    </td>
 	                        	    </c:if>
                     	   		    <td style="text-align: right;">

@@ -2849,7 +2849,7 @@ values ((select role_perm_id from
 insert into KRIM_PERM_T
 (perm_id, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind, ver_nbr, obj_id)
 values ((select perm_id from
-          (select (max(cast(perm_id as decimal)) + 1) as perm_id from KRIM_PERM_T where perm_id is not NULL and role_perm_id REGEXP '^[1-9][0-9]*$' and cast(perm_id as decimal) < 10000)
+          (select (max(cast(perm_id as decimal)) + 1) as perm_id from KRIM_PERM_T where perm_id is not NULL and perm_id REGEXP '^[1-9][0-9]*$' and cast(perm_id as decimal) < 10000)
          as tmptable),
         (select perm_tmpl_id from KRIM_PERM_TMPL_T where nm = 'Create / Maintain Record(s)' and nmspc_cd = 'KR-NS'),
         'KR-NS','Create Context Maintenance Document','Allows user to create a new Context maintainence document','Y',1,

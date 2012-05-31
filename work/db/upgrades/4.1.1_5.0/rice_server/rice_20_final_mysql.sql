@@ -2035,7 +2035,7 @@ values ('KR-RULE','Kuali Rules','Y','RICE',1,uuid())
 insert into KRIM_PERM_TMPL_T
 (perm_tmpl_id, nm, nmspc_cd, desc_txt, kim_typ_id, actv_ind, ver_nbr, obj_id)
 values ((select perm_tmpl_id from
-        (select (max(cast(perm_tmpl_id as decimal)) + 1) as perm_tmpl_id from KRIM_PERM_TMPL_T where perm_tmpl_id is not NULL and cast(perm_tmpl_id as decimal) < 10000)
+        (select (max(cast(perm_tmpl_id as decimal)) + 1) as perm_tmpl_id from KRIM_PERM_TMPL_T where perm_tmpl_id is not NULL and perm_tmpl_id REGEXP '^[1-9][0-9]*$' and cast(perm_tmpl_id as decimal) < 10000)
         as tmptable),
         'KRMS Agenda Permission','KR-RULE','View/Maintain Agenda',
         (select kim_typ_id from KRIM_TYP_T where nm = 'Namespace' and nmspc_cd = 'KR-NS'),
@@ -2045,7 +2045,7 @@ values ((select perm_tmpl_id from
 insert into KRIM_PERM_T
 (perm_id, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind, ver_nbr, obj_id)
 values ((select perm_id from
-        (select (max(cast(perm_id as decimal)) + 1) as perm_id from KRIM_PERM_T where perm_id is not NULL and cast(perm_id as decimal) < 10000)
+        (select (max(cast(perm_id as decimal)) + 1) as perm_id from KRIM_PERM_T where perm_id is not NULL and perm_id REGEXP '^[1-9][0-9]*$' and cast(perm_id as decimal) < 10000)
         as tmptable),
         (select perm_tmpl_id from KRIM_PERM_TMPL_T where nm = 'KRMS Agenda Permission' and nmspc_cd = 'KR-RULE'),
         'KR-RULE','Maintain KRMS Agenda','Allows creation and modification of agendas via the agenda editor','Y',1,uuid())
@@ -2054,7 +2054,7 @@ values ((select perm_id from
 insert into KRIM_PERM_ATTR_DATA_T
 (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, ver_nbr, obj_id)
 values ((select attr_data_id from
-        (select (max(cast(attr_data_id as decimal)) + 1) as attr_data_id from KRIM_PERM_ATTR_DATA_T where attr_data_id is not NULL and cast(attr_data_id as decimal) < 10000)
+        (select (max(cast(attr_data_id as decimal)) + 1) as attr_data_id from KRIM_PERM_ATTR_DATA_T where attr_data_id is not NULL and attr_data_id REGEXP '^[1-9][0-9]*$' and cast(attr_data_id as decimal) < 10000)
         as tmptable),
         (select perm_id from KRIM_PERM_T where nm = 'Maintain KRMS Agenda' and nmspc_cd = 'KR-RULE'),
         (select kim_typ_id from KRIM_TYP_T where nm = 'Namespace' and nmspc_cd = 'KR-NS'),
@@ -2066,7 +2066,7 @@ values ((select attr_data_id from
 insert into KRIM_ROLE_T
 (role_id, role_nm, nmspc_cd, desc_txt, kim_typ_id, actv_ind, last_updt_dt, obj_id)
 values ((select role_id from
-        (select (max(cast(role_id as decimal)) + 1) as role_id from KRIM_ROLE_T where role_id is not NULL and cast(role_id as decimal) < 10000)
+        (select (max(cast(role_id as decimal)) + 1) as role_id from KRIM_ROLE_T where role_id is not NULL and role_id REGEXP '^[1-9][0-9]*$' and cast(role_id as decimal) < 10000)
         as tmptable),
         'Kuali Rules Management System Administrator',
         'KR-RULE',
@@ -2078,7 +2078,7 @@ values ((select role_id from
 insert into KRIM_ROLE_MBR_T
 (role_mbr_id, role_id, mbr_id, mbr_typ_cd, last_updt_dt, ver_nbr, obj_id)
 values ((select role_mbr_id from
-        (select (max(cast(role_mbr_id as decimal)) + 1) as role_mbr_id from KRIM_ROLE_MBR_T where role_mbr_id is not NULL and cast(role_mbr_id as decimal) < 10000)
+        (select (max(cast(role_mbr_id as decimal)) + 1) as role_mbr_id from KRIM_ROLE_MBR_T where role_mbr_id is not NULL and role_mbr_id REGEXP '^[1-9][0-9]*$' and cast(role_mbr_id as decimal) < 10000)
         as tmptable),
         (select role_id from KRIM_ROLE_T where role_nm = 'Kuali Rules Management System Administrator' and nmspc_cd = 'KR-RULE'),
         (select prncpl_id from KRIM_PRNCPL_T where prncpl_nm = 'admin'),
@@ -2088,7 +2088,7 @@ values ((select role_mbr_id from
 insert into KRIM_ROLE_PERM_T
 (role_perm_id, role_id, perm_id, actv_ind, ver_nbr, obj_id)
 values ((select role_perm_id from
-        (select (max(cast(role_perm_id as decimal)) + 1) as role_perm_id from KRIM_ROLE_PERM_T where role_perm_id is not NULL and cast(role_perm_id as decimal) < 10000)
+        (select (max(cast(role_perm_id as decimal)) + 1) as role_perm_id from KRIM_ROLE_PERM_T where role_perm_id is not NULL and role_perm_id REGEXP '^[1-9][0-9]*$' and cast(role_perm_id as decimal) < 10000)
         as tmptable),
         (select role_id from KRIM_ROLE_T where role_nm = 'Kuali Rules Management System Administrator' and nmspc_cd = 'KR-RULE'),
         (select perm_id from KRIM_PERM_T where nm = 'Maintain KRMS Agenda' and nmspc_cd = 'KR-RULE'),
@@ -2256,7 +2256,7 @@ update KRCR_CMPNT_T set cmpnt_cd='EDocLite' where cmpnt_cd like 'EDocLite%';
 insert into KRIM_PERM_T
 (perm_id, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind, ver_nbr, obj_id)
 values ((select perm_id from
-          (select (max(cast(perm_id as decimal)) + 1) as perm_id from KRIM_PERM_T where perm_id is not NULL and cast(perm_id as decimal) < 10000)
+          (select (max(cast(perm_id as decimal)) + 1) as perm_id from KRIM_PERM_T where perm_id is not NULL and perm_id REGEXP '^[1-9][0-9]*$'  and cast(perm_id as decimal) < 10000)
          as tmptable),
         (select perm_tmpl_id from KRIM_PERM_TMPL_T where nm = 'Use Screen' and nmspc_cd = 'KR-NS'),
         'KR-SYS','Use Cache Adminstration Screen','Allows use of the cache administration screen','Y',1,uuid());
@@ -2264,7 +2264,7 @@ values ((select perm_id from
 insert into KRIM_PERM_ATTR_DATA_T
 (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, ver_nbr, obj_id)
 values ((select attr_data_id from
-          (select (max(cast(attr_data_id as decimal)) + 1) as attr_data_id from KRIM_PERM_ATTR_DATA_T where attr_data_id is not NULL and cast(attr_data_id as decimal) < 10000)
+          (select (max(cast(attr_data_id as decimal)) + 1) as attr_data_id from KRIM_PERM_ATTR_DATA_T where attr_data_id is not NULL and attr_data_id REGEXP '^[1-9][0-9]*$'  and cast(attr_data_id as decimal) < 10000)
          as tmptable),
         (select perm_id from KRIM_PERM_T where nm = 'Use Cache Adminstration Screen' and nmspc_cd = 'KR-SYS'),
         (select kim_typ_id from KRIM_TYP_T where nm = 'Namespace or Action' and nmspc_cd = 'KR-NS'),
@@ -2274,7 +2274,7 @@ values ((select attr_data_id from
 insert into KRIM_ROLE_PERM_T
 (role_perm_id, role_id, perm_id, actv_ind, ver_nbr, obj_id)
 values ((select role_perm_id from
-          (select (max(cast(role_perm_id as decimal)) + 1) as role_perm_id from KRIM_ROLE_PERM_T where role_perm_id is not NULL and cast(role_perm_id as decimal) < 10000)
+          (select (max(cast(role_perm_id as decimal)) + 1) as role_perm_id from KRIM_ROLE_PERM_T where role_perm_id is not NULL and role_perm_id REGEXP '^[1-9][0-9]*$' and cast(role_perm_id as decimal) < 10000)
          as tmptable),
         (select role_id from KRIM_ROLE_T where role_nm = 'Technical Administrator' and nmspc_cd = 'KR-SYS'),
         (select perm_id from KRIM_PERM_T where nm = 'Use Cache Adminstration Screen' and nmspc_cd = 'KR-SYS'),
@@ -2383,113 +2383,113 @@ update KRCR_NMSPC_T set APPL_ID = NULL where nmspc_cd = 'KUALI';
 
 INSERT INTO KRCR_NMSPC_T VALUES ('KR-KRAD', uuid(), 1, 'Kuali Rapid Application Development', 'Y', 'RICE');
 
-INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select KIM_ATTR_DEFN_ID from (select (max(cast(KIM_ATTR_DEFN_ID as decimal)) + 1) as KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and cast(KIM_ATTR_DEFN_ID as decimal) < 10000) as tmptable), uuid(), 1, 'viewId', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes');
+INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select KIM_ATTR_DEFN_ID from (select (max(cast(KIM_ATTR_DEFN_ID as decimal)) + 1) as KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and KIM_ATTR_DEFN_ID REGEXP '^[1-9][0-9]*$'  and cast(KIM_ATTR_DEFN_ID as decimal) < 10000) as tmptable), uuid(), 1, 'viewId', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes');
 
-INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select KIM_ATTR_DEFN_ID from (select (max(cast(KIM_ATTR_DEFN_ID as decimal)) + 1) as KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and cast(KIM_ATTR_DEFN_ID as decimal) < 10000) as tmptable), uuid(), 1, 'actionEvent', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes');
+INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select KIM_ATTR_DEFN_ID from (select (max(cast(KIM_ATTR_DEFN_ID as decimal)) + 1) as KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and KIM_ATTR_DEFN_ID REGEXP '^[1-9][0-9]*$' and cast(KIM_ATTR_DEFN_ID as decimal) < 10000) as tmptable), uuid(), 1, 'actionEvent', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes');
 
-INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select KIM_ATTR_DEFN_ID from (select (max(cast(KIM_ATTR_DEFN_ID as decimal)) + 1) as KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and cast(KIM_ATTR_DEFN_ID as decimal) < 10000) as tmptable), uuid(), 1, 'collectionPropertyName', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes');
+INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select KIM_ATTR_DEFN_ID from (select (max(cast(KIM_ATTR_DEFN_ID as decimal)) + 1) as KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and KIM_ATTR_DEFN_ID REGEXP '^[1-9][0-9]*$' and cast(KIM_ATTR_DEFN_ID as decimal) < 10000) as tmptable), uuid(), 1, 'collectionPropertyName', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes');
 
-INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select KIM_ATTR_DEFN_ID from (select (max(cast(KIM_ATTR_DEFN_ID as decimal)) + 1) as KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and cast(KIM_ATTR_DEFN_ID as decimal) < 10000) as tmptable), uuid(), 1, 'fieldId', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes');
+INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select KIM_ATTR_DEFN_ID from (select (max(cast(KIM_ATTR_DEFN_ID as decimal)) + 1) as KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and KIM_ATTR_DEFN_ID REGEXP '^[1-9][0-9]*$' and cast(KIM_ATTR_DEFN_ID as decimal) < 10000) as tmptable), uuid(), 1, 'fieldId', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes');
 
-INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select KIM_ATTR_DEFN_ID from (select (max(cast(KIM_ATTR_DEFN_ID as decimal)) + 1) as KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and cast(KIM_ATTR_DEFN_ID as decimal) < 10000) as tmptable), uuid(), 1, 'groupId', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes');
+INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select KIM_ATTR_DEFN_ID from (select (max(cast(KIM_ATTR_DEFN_ID as decimal)) + 1) as KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and KIM_ATTR_DEFN_ID REGEXP '^[1-9][0-9]*$' and cast(KIM_ATTR_DEFN_ID as decimal) < 10000) as tmptable), uuid(), 1, 'groupId', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes');
 
-INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select KIM_ATTR_DEFN_ID from (select (max(cast(KIM_ATTR_DEFN_ID as decimal)) + 1) as KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and cast(KIM_ATTR_DEFN_ID as decimal) < 10000) as tmptable), uuid(), 1, 'widgetId', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes');
+INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select KIM_ATTR_DEFN_ID from (select (max(cast(KIM_ATTR_DEFN_ID as decimal)) + 1) as KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and KIM_ATTR_DEFN_ID REGEXP '^[1-9][0-9]*$' and cast(KIM_ATTR_DEFN_ID as decimal) < 10000) as tmptable), uuid(), 1, 'widgetId', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes');
 
-INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select KIM_ATTR_DEFN_ID from (select (max(cast(KIM_ATTR_DEFN_ID as decimal)) + 1) as KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and cast(KIM_ATTR_DEFN_ID as decimal) < 10000) as tmptable), uuid(), 1, 'actionId', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes');
+INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select KIM_ATTR_DEFN_ID from (select (max(cast(KIM_ATTR_DEFN_ID as decimal)) + 1) as KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and KIM_ATTR_DEFN_ID REGEXP '^[1-9][0-9]*$' and cast(KIM_ATTR_DEFN_ID as decimal) < 10000) as tmptable), uuid(), 1, 'actionId', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes');
 
-INSERT INTO KRIM_TYP_T VALUES ((select KIM_TYP_ID from (select (max(cast(KIM_TYP_ID as decimal)) + 1) as KIM_TYP_ID from KRIM_TYP_T where cast(KIM_TYP_ID as decimal) < 10000) as tmptable), uuid(), 1, 'View', 'viewPermissionTypeService', 'Y', 'KR-KRAD');
+INSERT INTO KRIM_TYP_T VALUES ((select KIM_TYP_ID from (select (max(cast(KIM_TYP_ID as decimal)) + 1) as KIM_TYP_ID from KRIM_TYP_T where KIM_TYP_ID REGEXP '^[1-9][0-9]*$' AND cast(KIM_TYP_ID as decimal) < 10000) as tmptable), uuid(), 1, 'View', 'viewPermissionTypeService', 'Y', 'KR-KRAD');
 
-INSERT INTO KRIM_TYP_T VALUES ((select KIM_TYP_ID from (select (max(cast(KIM_TYP_ID as decimal)) + 1) as KIM_TYP_ID from KRIM_TYP_T where cast(KIM_TYP_ID as decimal) < 10000) as tmptable), uuid(), 1, 'View Edit Mode', 'viewEditModePermissionTypeService', 'Y', 'KR-KRAD');
+INSERT INTO KRIM_TYP_T VALUES ((select KIM_TYP_ID from (select (max(cast(KIM_TYP_ID as decimal)) + 1) as KIM_TYP_ID from KRIM_TYP_T where KIM_TYP_ID REGEXP '^[1-9][0-9]*$' AND cast(KIM_TYP_ID as decimal) < 10000) as tmptable), uuid(), 1, 'View Edit Mode', 'viewEditModePermissionTypeService', 'Y', 'KR-KRAD');
 
-INSERT INTO KRIM_TYP_T VALUES ((select KIM_TYP_ID from (select (max(cast(KIM_TYP_ID as decimal)) + 1) as KIM_TYP_ID from KRIM_TYP_T where cast(KIM_TYP_ID as decimal) < 10000) as tmptable), uuid(), 1, 'View Field', 'viewFieldPermissionTypeService', 'Y', 'KR-KRAD');
+INSERT INTO KRIM_TYP_T VALUES ((select KIM_TYP_ID from (select (max(cast(KIM_TYP_ID as decimal)) + 1) as KIM_TYP_ID from KRIM_TYP_T where KIM_TYP_ID REGEXP '^[1-9][0-9]*$' AND cast(KIM_TYP_ID as decimal) < 10000) as tmptable), uuid(), 1, 'View Field', 'viewFieldPermissionTypeService', 'Y', 'KR-KRAD');
 
-INSERT INTO KRIM_TYP_T VALUES ((select KIM_TYP_ID from (select (max(cast(KIM_TYP_ID as decimal)) + 1) as KIM_TYP_ID from KRIM_TYP_T where cast(KIM_TYP_ID as decimal) < 10000) as tmptable), uuid(), 1, 'View Group', 'viewGroupPermissionTypeService', 'Y', 'KR-KRAD');
+INSERT INTO KRIM_TYP_T VALUES ((select KIM_TYP_ID from (select (max(cast(KIM_TYP_ID as decimal)) + 1) as KIM_TYP_ID from KRIM_TYP_T where KIM_TYP_ID REGEXP '^[1-9][0-9]*$' AND cast(KIM_TYP_ID as decimal) < 10000) as tmptable), uuid(), 1, 'View Group', 'viewGroupPermissionTypeService', 'Y', 'KR-KRAD');
 
-INSERT INTO KRIM_TYP_T VALUES ((select KIM_TYP_ID from (select (max(cast(KIM_TYP_ID as decimal)) + 1) as KIM_TYP_ID from KRIM_TYP_T where cast(KIM_TYP_ID as decimal) < 10000) as tmptable), uuid(), 1, 'View Widget', 'viewWidgetPermissionTypeService', 'Y', 'KR-KRAD');
+INSERT INTO KRIM_TYP_T VALUES ((select KIM_TYP_ID from (select (max(cast(KIM_TYP_ID as decimal)) + 1) as KIM_TYP_ID from KRIM_TYP_T where KIM_TYP_ID REGEXP '^[1-9][0-9]*$' AND cast(KIM_TYP_ID as decimal) < 10000) as tmptable), uuid(), 1, 'View Widget', 'viewWidgetPermissionTypeService', 'Y', 'KR-KRAD');
 
-INSERT INTO KRIM_TYP_T VALUES ((select KIM_TYP_ID from (select (max(cast(KIM_TYP_ID as decimal)) + 1) as KIM_TYP_ID from KRIM_TYP_T where cast(KIM_TYP_ID as decimal) < 10000) as tmptable), uuid(), 1, 'View Action', 'viewActionPermissionTypeService', 'Y', 'KR-KRAD');
+INSERT INTO KRIM_TYP_T VALUES ((select KIM_TYP_ID from (select (max(cast(KIM_TYP_ID as decimal)) + 1) as KIM_TYP_ID from KRIM_TYP_T where KIM_TYP_ID REGEXP '^[1-9][0-9]*$' AND cast(KIM_TYP_ID as decimal) < 10000) as tmptable), uuid(), 1, 'View Action', 'viewActionPermissionTypeService', 'Y', 'KR-KRAD');
 
-INSERT INTO KRIM_TYP_T VALUES ((select KIM_TYP_ID from (select (max(cast(KIM_TYP_ID as decimal)) + 1) as KIM_TYP_ID from KRIM_TYP_T where cast(KIM_TYP_ID as decimal) < 10000) as tmptable), uuid(), 1, 'View Line Field', 'viewLineFieldPermissionTypeService', 'Y', 'KR-KRAD');
+INSERT INTO KRIM_TYP_T VALUES ((select KIM_TYP_ID from (select (max(cast(KIM_TYP_ID as decimal)) + 1) as KIM_TYP_ID from KRIM_TYP_T where KIM_TYP_ID REGEXP '^[1-9][0-9]*$' AND cast(KIM_TYP_ID as decimal) < 10000) as tmptable), uuid(), 1, 'View Line Field', 'viewLineFieldPermissionTypeService', 'Y', 'KR-KRAD');
 
-INSERT INTO KRIM_TYP_T VALUES ((select KIM_TYP_ID from (select (max(cast(KIM_TYP_ID as decimal)) + 1) as KIM_TYP_ID from KRIM_TYP_T where cast(KIM_TYP_ID as decimal) < 10000) as tmptable), uuid(), 1, 'View Line Action', 'viewLineActionPermissionTypeService', 'Y', 'KR-KRAD');
+INSERT INTO KRIM_TYP_T VALUES ((select KIM_TYP_ID from (select (max(cast(KIM_TYP_ID as decimal)) + 1) as KIM_TYP_ID from KRIM_TYP_T where KIM_TYP_ID REGEXP '^[1-9][0-9]*$' AND cast(KIM_TYP_ID as decimal) < 10000) as tmptable), uuid(), 1, 'View Line Action', 'viewLineActionPermissionTypeService', 'Y', 'KR-KRAD');
 
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'a', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and KIM_TYP_ATTR_ID REGEXP '^[1-9][0-9]*$' AND cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'a', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
 
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'a', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Edit Mode'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and KIM_TYP_ATTR_ID REGEXP '^[1-9][0-9]*$' and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'a', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Edit Mode'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
 
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'b', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Edit Mode'), '10', 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and KIM_TYP_ATTR_ID REGEXP '^[1-9][0-9]*$' and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'b', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Edit Mode'), '10', 'Y');
 
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'a', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Field'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and KIM_TYP_ATTR_ID REGEXP '^[1-9][0-9]*$' and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'a', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Field'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
 
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'b', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Field'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='fieldId'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and KIM_TYP_ATTR_ID REGEXP '^[1-9][0-9]*$' and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'b', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Field'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='fieldId'), 'Y');
 
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'c', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Field'), '6', 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and KIM_TYP_ATTR_ID REGEXP '^[1-9][0-9]*$' and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'c', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Field'), '6', 'Y');
 
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'a', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Group'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and KIM_TYP_ATTR_ID REGEXP '^[1-9][0-9]*$' and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'a', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Group'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
 
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'b', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Group'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='groupId'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and KIM_TYP_ATTR_ID REGEXP '^[1-9][0-9]*$' and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'b', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Group'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='groupId'), 'Y');
 
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'c', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Group'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='fieldId'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and KIM_TYP_ATTR_ID REGEXP '^[1-9][0-9]*$' and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'c', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Group'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='fieldId'), 'Y');
 
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'a', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Widget'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and KIM_TYP_ATTR_ID REGEXP '^[1-9][0-9]*$' and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'a', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Widget'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
 
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'b', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Widget'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='widgetId'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and KIM_TYP_ATTR_ID REGEXP '^[1-9][0-9]*$' and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'b', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Widget'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='widgetId'), 'Y');
 
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'a', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and KIM_TYP_ATTR_ID REGEXP '^[1-9][0-9]*$' and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'a', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
 
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'b', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='actionId'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and KIM_TYP_ATTR_ID REGEXP '^[1-9][0-9]*$' and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'b', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='actionId'), 'Y');
 
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'c', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='actionEvent'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and KIM_TYP_ATTR_ID REGEXP '^[1-9][0-9]*$' and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'c', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='actionEvent'), 'Y');
 
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'a', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Line Field'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and KIM_TYP_ATTR_ID REGEXP '^[1-9][0-9]*$' and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'a', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Line Field'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
 
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'b', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Line Field'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='groupId'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and KIM_TYP_ATTR_ID REGEXP '^[1-9][0-9]*$' and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'b', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Line Field'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='groupId'), 'Y');
 
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'c', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Line Field'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='collectionPropertyName'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and KIM_TYP_ATTR_ID REGEXP '^[1-9][0-9]*$' and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'c', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Line Field'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='collectionPropertyName'), 'Y');
 
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'd', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Line Field'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='fieldId'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and KIM_TYP_ATTR_ID REGEXP '^[1-9][0-9]*$' and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'd', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Line Field'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='fieldId'), 'Y');
 
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'e', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Line Field'), '6', 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and KIM_TYP_ATTR_ID REGEXP '^[1-9][0-9]*$' and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'e', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Line Field'), '6', 'Y');
 
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'a', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Line Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and KIM_TYP_ATTR_ID REGEXP '^[1-9][0-9]*$' and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'a', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Line Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
 
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'b', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Line Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='groupId'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and KIM_TYP_ATTR_ID REGEXP '^[1-9][0-9]*$' and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'b', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Line Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='groupId'), 'Y');
 
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'c', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Line Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='collectionPropertyName'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and KIM_TYP_ATTR_ID REGEXP '^[1-9][0-9]*$' and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'c', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Line Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='collectionPropertyName'), 'Y');
 
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'd', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Line Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='actionId'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and KIM_TYP_ATTR_ID REGEXP '^[1-9][0-9]*$' and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'd', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Line Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='actionId'), 'Y');
 
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'e', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Line Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='actionEvent'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and KIM_TYP_ATTR_ID REGEXP '^[1-9][0-9]*$' and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'e', (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Line Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='actionEvent'), 'Y');
 
-INSERT INTO KRIM_PERM_TMPL_T VALUES ((select perm_tmpl_id from (select (max(cast(perm_tmpl_id as decimal)) + 1) as perm_tmpl_id from KRIM_PERM_TMPL_T where perm_tmpl_id is not NULL and cast(perm_tmpl_id as decimal) < 10000) as tmptable), uuid(), 1, 'KR-KRAD', 'Open View', null, (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View'), 'Y');
+INSERT INTO KRIM_PERM_TMPL_T VALUES ((select perm_tmpl_id from (select (max(cast(perm_tmpl_id as decimal)) + 1) as perm_tmpl_id from KRIM_PERM_TMPL_T where perm_tmpl_id is not NULL and perm_tmpl_id REGEXP '^[1-9][0-9]*$' and cast(perm_tmpl_id as decimal) < 10000) as tmptable), uuid(), 1, 'KR-KRAD', 'Open View', null, (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View'), 'Y');
 
-INSERT INTO KRIM_PERM_TMPL_T VALUES ((select perm_tmpl_id from (select (max(cast(perm_tmpl_id as decimal)) + 1) as perm_tmpl_id from KRIM_PERM_TMPL_T where perm_tmpl_id is not NULL and cast(perm_tmpl_id as decimal) < 10000) as tmptable), uuid(), 1, 'KR-KRAD', 'Edit View', null, (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View'), 'Y');
+INSERT INTO KRIM_PERM_TMPL_T VALUES ((select perm_tmpl_id from (select (max(cast(perm_tmpl_id as decimal)) + 1) as perm_tmpl_id from KRIM_PERM_TMPL_T where perm_tmpl_id is not NULL and perm_tmpl_id REGEXP '^[1-9][0-9]*$' and cast(perm_tmpl_id as decimal) < 10000) as tmptable), uuid(), 1, 'KR-KRAD', 'Edit View', null, (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View'), 'Y');
 
-INSERT INTO KRIM_PERM_TMPL_T VALUES ((select perm_tmpl_id from (select (max(cast(perm_tmpl_id as decimal)) + 1) as perm_tmpl_id from KRIM_PERM_TMPL_T where perm_tmpl_id is not NULL and cast(perm_tmpl_id as decimal) < 10000) as tmptable), uuid(), 1, 'KR-KRAD', 'Use View', null, (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Edit Mode'), 'Y');
+INSERT INTO KRIM_PERM_TMPL_T VALUES ((select perm_tmpl_id from (select (max(cast(perm_tmpl_id as decimal)) + 1) as perm_tmpl_id from KRIM_PERM_TMPL_T where perm_tmpl_id is not NULL and perm_tmpl_id REGEXP '^[1-9][0-9]*$' and cast(perm_tmpl_id as decimal) < 10000) as tmptable), uuid(), 1, 'KR-KRAD', 'Use View', null, (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Edit Mode'), 'Y');
 
-INSERT INTO KRIM_PERM_TMPL_T VALUES ((select perm_tmpl_id from (select (max(cast(perm_tmpl_id as decimal)) + 1) as perm_tmpl_id from KRIM_PERM_TMPL_T where perm_tmpl_id is not NULL and cast(perm_tmpl_id as decimal) < 10000) as tmptable), uuid(), 1, 'KR-KRAD', 'View Field', null, (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Field'), 'Y');
+INSERT INTO KRIM_PERM_TMPL_T VALUES ((select perm_tmpl_id from (select (max(cast(perm_tmpl_id as decimal)) + 1) as perm_tmpl_id from KRIM_PERM_TMPL_T where perm_tmpl_id is not NULL and perm_tmpl_id REGEXP '^[1-9][0-9]*$' and cast(perm_tmpl_id as decimal) < 10000) as tmptable), uuid(), 1, 'KR-KRAD', 'View Field', null, (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Field'), 'Y');
 
-INSERT INTO KRIM_PERM_TMPL_T VALUES ((select perm_tmpl_id from (select (max(cast(perm_tmpl_id as decimal)) + 1) as perm_tmpl_id from KRIM_PERM_TMPL_T where perm_tmpl_id is not NULL and cast(perm_tmpl_id as decimal) < 10000) as tmptable), uuid(), 1, 'KR-KRAD', 'Edit Field', null, (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Field'), 'Y');
+INSERT INTO KRIM_PERM_TMPL_T VALUES ((select perm_tmpl_id from (select (max(cast(perm_tmpl_id as decimal)) + 1) as perm_tmpl_id from KRIM_PERM_TMPL_T where perm_tmpl_id is not NULL and perm_tmpl_id REGEXP '^[1-9][0-9]*$' and cast(perm_tmpl_id as decimal) < 10000) as tmptable), uuid(), 1, 'KR-KRAD', 'Edit Field', null, (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Field'), 'Y');
 
-INSERT INTO KRIM_PERM_TMPL_T VALUES ((select perm_tmpl_id from (select (max(cast(perm_tmpl_id as decimal)) + 1) as perm_tmpl_id from KRIM_PERM_TMPL_T where perm_tmpl_id is not NULL and cast(perm_tmpl_id as decimal) < 10000) as tmptable), uuid(), 1, 'KR-KRAD', 'View Group', null, (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Group'), 'Y');
+INSERT INTO KRIM_PERM_TMPL_T VALUES ((select perm_tmpl_id from (select (max(cast(perm_tmpl_id as decimal)) + 1) as perm_tmpl_id from KRIM_PERM_TMPL_T where perm_tmpl_id is not NULL and perm_tmpl_id REGEXP '^[1-9][0-9]*$' and cast(perm_tmpl_id as decimal) < 10000) as tmptable), uuid(), 1, 'KR-KRAD', 'View Group', null, (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Group'), 'Y');
 
-INSERT INTO KRIM_PERM_TMPL_T VALUES ((select perm_tmpl_id from (select (max(cast(perm_tmpl_id as decimal)) + 1) as perm_tmpl_id from KRIM_PERM_TMPL_T where perm_tmpl_id is not NULL and cast(perm_tmpl_id as decimal) < 10000) as tmptable), uuid(), 1, 'KR-KRAD', 'Edit Group', null, (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Group'), 'Y');
+INSERT INTO KRIM_PERM_TMPL_T VALUES ((select perm_tmpl_id from (select (max(cast(perm_tmpl_id as decimal)) + 1) as perm_tmpl_id from KRIM_PERM_TMPL_T where perm_tmpl_id is not NULL and perm_tmpl_id REGEXP '^[1-9][0-9]*$' and cast(perm_tmpl_id as decimal) < 10000) as tmptable), uuid(), 1, 'KR-KRAD', 'Edit Group', null, (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Group'), 'Y');
 
-INSERT INTO KRIM_PERM_TMPL_T VALUES ((select perm_tmpl_id from (select (max(cast(perm_tmpl_id as decimal)) + 1) as perm_tmpl_id from KRIM_PERM_TMPL_T where perm_tmpl_id is not NULL and cast(perm_tmpl_id as decimal) < 10000) as tmptable), uuid(), 1, 'KR-KRAD', 'View Widget', null, (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Widget'), 'Y');
+INSERT INTO KRIM_PERM_TMPL_T VALUES ((select perm_tmpl_id from (select (max(cast(perm_tmpl_id as decimal)) + 1) as perm_tmpl_id from KRIM_PERM_TMPL_T where perm_tmpl_id is not NULL and perm_tmpl_id REGEXP '^[1-9][0-9]*$' and cast(perm_tmpl_id as decimal) < 10000) as tmptable), uuid(), 1, 'KR-KRAD', 'View Widget', null, (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Widget'), 'Y');
 
-INSERT INTO KRIM_PERM_TMPL_T VALUES ((select perm_tmpl_id from (select (max(cast(perm_tmpl_id as decimal)) + 1) as perm_tmpl_id from KRIM_PERM_TMPL_T where perm_tmpl_id is not NULL and cast(perm_tmpl_id as decimal) < 10000) as tmptable), uuid(), 1, 'KR-KRAD', 'Edit Widget', null, (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Widget'), 'Y');
+INSERT INTO KRIM_PERM_TMPL_T VALUES ((select perm_tmpl_id from (select (max(cast(perm_tmpl_id as decimal)) + 1) as perm_tmpl_id from KRIM_PERM_TMPL_T where perm_tmpl_id is not NULL and perm_tmpl_id REGEXP '^[1-9][0-9]*$' and cast(perm_tmpl_id as decimal) < 10000) as tmptable), uuid(), 1, 'KR-KRAD', 'Edit Widget', null, (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Widget'), 'Y');
 
-INSERT INTO KRIM_PERM_TMPL_T VALUES ((select perm_tmpl_id from (select (max(cast(perm_tmpl_id as decimal)) + 1) as perm_tmpl_id from KRIM_PERM_TMPL_T where perm_tmpl_id is not NULL and cast(perm_tmpl_id as decimal) < 10000) as tmptable), uuid(), 1, 'KR-KRAD', 'Perform Action', null, (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Action'), 'Y');
+INSERT INTO KRIM_PERM_TMPL_T VALUES ((select perm_tmpl_id from (select (max(cast(perm_tmpl_id as decimal)) + 1) as perm_tmpl_id from KRIM_PERM_TMPL_T where perm_tmpl_id is not NULL and perm_tmpl_id REGEXP '^[1-9][0-9]*$' and cast(perm_tmpl_id as decimal) < 10000) as tmptable), uuid(), 1, 'KR-KRAD', 'Perform Action', null, (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Action'), 'Y');
 
-INSERT INTO KRIM_PERM_TMPL_T VALUES ((select perm_tmpl_id from (select (max(cast(perm_tmpl_id as decimal)) + 1) as perm_tmpl_id from KRIM_PERM_TMPL_T where perm_tmpl_id is not NULL and cast(perm_tmpl_id as decimal) < 10000) as tmptable), uuid(), 1, 'KR-KRAD', 'View Line', null, (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Group'), 'Y');
+INSERT INTO KRIM_PERM_TMPL_T VALUES ((select perm_tmpl_id from (select (max(cast(perm_tmpl_id as decimal)) + 1) as perm_tmpl_id from KRIM_PERM_TMPL_T where perm_tmpl_id is not NULL and perm_tmpl_id REGEXP '^[1-9][0-9]*$' and cast(perm_tmpl_id as decimal) < 10000) as tmptable), uuid(), 1, 'KR-KRAD', 'View Line', null, (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Group'), 'Y');
 
-INSERT INTO KRIM_PERM_TMPL_T VALUES ((select perm_tmpl_id from (select (max(cast(perm_tmpl_id as decimal)) + 1) as perm_tmpl_id from KRIM_PERM_TMPL_T where perm_tmpl_id is not NULL and cast(perm_tmpl_id as decimal) < 10000) as tmptable), uuid(), 1, 'KR-KRAD', 'Edit Line', null, (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Group'), 'Y');
+INSERT INTO KRIM_PERM_TMPL_T VALUES ((select perm_tmpl_id from (select (max(cast(perm_tmpl_id as decimal)) + 1) as perm_tmpl_id from KRIM_PERM_TMPL_T where perm_tmpl_id is not NULL and perm_tmpl_id REGEXP '^[1-9][0-9]*$' and cast(perm_tmpl_id as decimal) < 10000) as tmptable), uuid(), 1, 'KR-KRAD', 'Edit Line', null, (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Group'), 'Y');
 
-INSERT INTO KRIM_PERM_TMPL_T VALUES ((select perm_tmpl_id from (select (max(cast(perm_tmpl_id as decimal)) + 1) as perm_tmpl_id from KRIM_PERM_TMPL_T where perm_tmpl_id is not NULL and cast(perm_tmpl_id as decimal) < 10000) as tmptable), uuid(), 1, 'KR-KRAD', 'View Line Field', null, (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Line Field'), 'Y');
+INSERT INTO KRIM_PERM_TMPL_T VALUES ((select perm_tmpl_id from (select (max(cast(perm_tmpl_id as decimal)) + 1) as perm_tmpl_id from KRIM_PERM_TMPL_T where perm_tmpl_id is not NULL and perm_tmpl_id REGEXP '^[1-9][0-9]*$' and cast(perm_tmpl_id as decimal) < 10000) as tmptable), uuid(), 1, 'KR-KRAD', 'View Line Field', null, (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Line Field'), 'Y');
 
-INSERT INTO KRIM_PERM_TMPL_T VALUES ((select perm_tmpl_id from (select (max(cast(perm_tmpl_id as decimal)) + 1) as perm_tmpl_id from KRIM_PERM_TMPL_T where perm_tmpl_id is not NULL and cast(perm_tmpl_id as decimal) < 10000) as tmptable), uuid(), 1, 'KR-KRAD', 'Edit Line Field', null, (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Line Field'), 'Y');
+INSERT INTO KRIM_PERM_TMPL_T VALUES ((select perm_tmpl_id from (select (max(cast(perm_tmpl_id as decimal)) + 1) as perm_tmpl_id from KRIM_PERM_TMPL_T where perm_tmpl_id is not NULL and perm_tmpl_id REGEXP '^[1-9][0-9]*$' and cast(perm_tmpl_id as decimal) < 10000) as tmptable), uuid(), 1, 'KR-KRAD', 'Edit Line Field', null, (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Line Field'), 'Y');
 
-INSERT INTO KRIM_PERM_TMPL_T VALUES ((select perm_tmpl_id from (select (max(cast(perm_tmpl_id as decimal)) + 1) as perm_tmpl_id from KRIM_PERM_TMPL_T where perm_tmpl_id is not NULL and cast(perm_tmpl_id as decimal) < 10000) as tmptable), uuid(), 1, 'KR-KRAD', 'Perform Line Action', null, (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Line Action'), 'Y');
+INSERT INTO KRIM_PERM_TMPL_T VALUES ((select perm_tmpl_id from (select (max(cast(perm_tmpl_id as decimal)) + 1) as perm_tmpl_id from KRIM_PERM_TMPL_T where perm_tmpl_id is not NULL and perm_tmpl_id REGEXP '^[1-9][0-9]*$' and cast(perm_tmpl_id as decimal) < 10000) as tmptable), uuid(), 1, 'KR-KRAD', 'Perform Line Action', null, (select kim_typ_id from KRIM_TYP_T where NMSPC_CD='KR-KRAD' and NM='View Line Action'), 'Y');
 
 
 
@@ -3611,7 +3611,7 @@ insert into KREW_TYP_ATTR_T values ('2', 2, '1', '2', 'Y', 1);
 insert into KRIM_PERM_T
 (perm_id, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind, ver_nbr, obj_id)
 values ((select perm_id from
-          (select (max(cast(perm_id as decimal)) + 1) as perm_id from KRIM_PERM_T where perm_id is not NULL and cast(perm_id as decimal) < 10000)
+          (select (max(cast(perm_id as decimal)) + 1) as perm_id from KRIM_PERM_T where perm_id is not NULL and perm_id REGEXP '^[1-9][0-9]*$' and cast(perm_id as decimal) < 10000)
          as tmptable),
         (select perm_tmpl_id from KRIM_PERM_TMPL_T where nm = 'Create / Maintain Record(s)' and nmspc_cd = 'KR-NS'),
         'KR-NS','Create Term Maintenance Document','Allows user to create a new Term maintainence document','Y',1,
@@ -3620,7 +3620,7 @@ values ((select perm_id from
 insert into KRIM_PERM_ATTR_DATA_T
 (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, ver_nbr, obj_id)
 values ((select attr_data_id from
-          (select (max(cast(attr_data_id as decimal)) + 1) as attr_data_id from KRIM_PERM_ATTR_DATA_T where attr_data_id is not NULL and cast(attr_data_id as decimal) < 10000)
+          (select (max(cast(attr_data_id as decimal)) + 1) as attr_data_id from KRIM_PERM_ATTR_DATA_T where attr_data_id is not NULL and attr_data_id REGEXP '^[1-9][0-9]*$' and cast(attr_data_id as decimal) < 10000)
          as tmptable),
         (select perm_id from KRIM_PERM_T where nm = 'Create Term Maintenance Document' and nmspc_cd = 'KR-NS'),
         (select kim_typ_id from KRIM_TYP_T where nm = 'Document Type & Existing Records Only' and nmspc_cd = 'KR-NS'),
@@ -3630,7 +3630,7 @@ values ((select attr_data_id from
 insert into KRIM_ROLE_PERM_T
 (role_perm_id, role_id, perm_id, actv_ind, ver_nbr, obj_id)
 values ((select role_perm_id from
-          (select (max(cast(role_perm_id as decimal)) + 1) as role_perm_id from KRIM_ROLE_PERM_T where role_perm_id is not NULL and cast(role_perm_id as decimal) < 10000)
+          (select (max(cast(role_perm_id as decimal)) + 1) as role_perm_id from KRIM_ROLE_PERM_T where role_perm_id is not NULL and role_perm_id REGEXP '^[1-9][0-9]*$' and cast(role_perm_id as decimal) < 10000)
          as tmptable),
         (select role_id from KRIM_ROLE_T where role_nm = 'Kuali Rules Management System Administrator' and nmspc_cd = 'KR-RULE'),
         (select perm_id from KRIM_PERM_T where nm = 'Create Term Maintenance Document' and nmspc_cd = 'KR-NS'),
@@ -3640,7 +3640,7 @@ values ((select role_perm_id from
 insert into KRIM_PERM_T
 (perm_id, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind, ver_nbr, obj_id)
 values ((select perm_id from
-          (select (max(cast(perm_id as decimal)) + 1) as perm_id from KRIM_PERM_T where perm_id is not NULL and cast(perm_id as decimal) < 10000)
+          (select (max(cast(perm_id as decimal)) + 1) as perm_id from KRIM_PERM_T where perm_id is not NULL and role_perm_id REGEXP '^[1-9][0-9]*$' and cast(perm_id as decimal) < 10000)
          as tmptable),
         (select perm_tmpl_id from KRIM_PERM_TMPL_T where nm = 'Create / Maintain Record(s)' and nmspc_cd = 'KR-NS'),
         'KR-NS','Create Context Maintenance Document','Allows user to create a new Context maintainence document','Y',1,
@@ -3649,7 +3649,7 @@ values ((select perm_id from
 insert into KRIM_PERM_ATTR_DATA_T
 (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, ver_nbr, obj_id)
 values ((select attr_data_id from
-          (select (max(cast(attr_data_id as decimal)) + 1) as attr_data_id from KRIM_PERM_ATTR_DATA_T where attr_data_id is not NULL and cast(attr_data_id as decimal) < 10000)
+          (select (max(cast(attr_data_id as decimal)) + 1) as attr_data_id from KRIM_PERM_ATTR_DATA_T where attr_data_id is not NULL and attr_data_id REGEXP '^[1-9][0-9]*$' and cast(attr_data_id as decimal) < 10000)
          as tmptable),
         (select perm_id from KRIM_PERM_T where nm = 'Create Context Maintenance Document' and nmspc_cd = 'KR-NS'),
         (select kim_typ_id from KRIM_TYP_T where nm = 'Document Type & Existing Records Only' and nmspc_cd = 'KR-NS'),
@@ -3659,7 +3659,7 @@ values ((select attr_data_id from
 insert into KRIM_ROLE_PERM_T
 (role_perm_id, role_id, perm_id, actv_ind, ver_nbr, obj_id)
 values ((select role_perm_id from
-          (select (max(cast(role_perm_id as decimal)) + 1) as role_perm_id from KRIM_ROLE_PERM_T where role_perm_id is not NULL and cast(role_perm_id as decimal) < 10000)
+          (select (max(cast(role_perm_id as decimal)) + 1) as role_perm_id from KRIM_ROLE_PERM_T where role_perm_id is not NULL and role_perm_id REGEXP '^[1-9][0-9]*$' and cast(role_perm_id as decimal) < 10000)
          as tmptable),
         (select role_id from KRIM_ROLE_T where role_nm = 'Kuali Rules Management System Administrator' and nmspc_cd = 'KR-RULE'),
         (select perm_id from KRIM_PERM_T where nm = 'Create Context Maintenance Document' and nmspc_cd = 'KR-NS'),
@@ -3668,7 +3668,7 @@ values ((select role_perm_id from
 insert into KRIM_PERM_T
 (perm_id, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind, ver_nbr, obj_id)
 values ((select perm_id from
-          (select (max(cast(perm_id as decimal)) + 1) as perm_id from KRIM_PERM_T where perm_id is not NULL and cast(perm_id as decimal) < 10000)
+          (select (max(cast(perm_id as decimal)) + 1) as perm_id from KRIM_PERM_T where perm_id is not NULL and perm_id REGEXP '^[1-9][0-9]*$'  and cast(perm_id as decimal) < 10000)
          as tmptable),
         (select perm_tmpl_id from KRIM_PERM_TMPL_T where nm = 'Create / Maintain Record(s)' and nmspc_cd = 'KR-NS'),
         'KR-NS','Create TermSpecification Maintenance Document','Allows user to create a new TermSpecification maintainence document','Y',1,
@@ -3677,7 +3677,7 @@ values ((select perm_id from
 insert into KRIM_PERM_ATTR_DATA_T
 (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, ver_nbr, obj_id)
 values ((select attr_data_id from
-          (select (max(cast(attr_data_id as decimal)) + 1) as attr_data_id from KRIM_PERM_ATTR_DATA_T where attr_data_id is not NULL and cast(attr_data_id as decimal) < 10000)
+          (select (max(cast(attr_data_id as decimal)) + 1) as attr_data_id from KRIM_PERM_ATTR_DATA_T where attr_data_id is not NULL and attr_data_id REGEXP '^[1-9][0-9]*$' and cast(attr_data_id as decimal) < 10000)
          as tmptable),
         (select perm_id from KRIM_PERM_T where nm = 'Create TermSpecification Maintenance Document' and nmspc_cd = 'KR-NS'),
         (select kim_typ_id from KRIM_TYP_T where nm = 'Document Type & Existing Records Only' and nmspc_cd = 'KR-NS'),
@@ -3687,7 +3687,7 @@ values ((select attr_data_id from
 insert into KRIM_ROLE_PERM_T
 (role_perm_id, role_id, perm_id, actv_ind, ver_nbr, obj_id)
 values ((select role_perm_id from
-          (select (max(cast(role_perm_id as decimal)) + 1) as role_perm_id from KRIM_ROLE_PERM_T where role_perm_id is not NULL and cast(role_perm_id as decimal) < 10000)
+          (select (max(cast(role_perm_id as decimal)) + 1) as role_perm_id from KRIM_ROLE_PERM_T where role_perm_id is not NULL and role_perm_id REGEXP '^[1-9][0-9]*$' and cast(role_perm_id as decimal) < 10000)
          as tmptable),
         (select role_id from KRIM_ROLE_T where role_nm = 'Kuali Rules Management System Administrator' and nmspc_cd = 'KR-RULE'),
         (select perm_id from KRIM_PERM_T where nm = 'Create TermSpecification Maintenance Document' and nmspc_cd = 'KR-NS'),

@@ -4468,7 +4468,7 @@
         <column name="ORG_CPTLAST_TYP_ID" size="20" type="VARCHAR"/>
         <column name="AST_OFFCMP_NM" size="123" type="VARCHAR"/>
         <column name="AST_OFFCMP_ADDR" size="45" type="VARCHAR"/>
-        <column name="AST_OFFCMP_CITY_NM" size="25" type="VARCHAR"/>
+        <column name="AST_OFFCMP_CITY_NM" size="45" type="VARCHAR"/>
         <column name="AST_OFFCMP_ST_CD" size="2" type="VARCHAR"/>
         <column name="AST_OFFCMP_ZIP_CD" size="20" type="VARCHAR"/>
         <column name="AST_OFFCMP_CNTRY_CD" size="2" type="VARCHAR"/>

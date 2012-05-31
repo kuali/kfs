@@ -178,12 +178,17 @@ public class Award extends PersistableBusinessObjectBase implements MutableInact
 
             // copy proposal subcontractors to award subcontractors
             getAwardSubcontractors().clear();
+            int awardSubcontractAmendment = 1;
             for (ProposalSubcontractor pSubcontractor : proposal.getProposalSubcontractors()) {
                 AwardSubcontractor awardSubcontractor = new AwardSubcontractor();
                 // newCollectionRecord is set to true to allow deletion of this record after being populated from proposal
                 awardSubcontractor.setNewCollectionRecord(true);
                 awardSubcontractor.setProposalNumber(pSubcontractor.getProposalNumber());
                 awardSubcontractor.setAwardSubcontractorNumber(pSubcontractor.getProposalSubcontractorNumber());
+                
+                // Since we might possibly pulled multiples of same subcontractor from the proposal, we cannot set them all to 1s.
+                // Increment the amendment number for every subcontractor from the proposal 
+                awardSubcontractor.setAwardSubcontractorAmendmentNumber(String.valueOf(awardSubcontractAmendment++));
                 awardSubcontractor.setSubcontractorAmount(pSubcontractor.getProposalSubcontractorAmount());
                 awardSubcontractor.setAwardSubcontractorDescription(pSubcontractor.getProposalSubcontractorDescription());
                 awardSubcontractor.setSubcontractorNumber(pSubcontractor.getSubcontractorNumber());

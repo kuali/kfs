@@ -4,11 +4,73 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 
 	<changeSet author="RICE20" id="RICE_CLIENT_UPDATES_oracle" dbms="oracle">
-		<sqlFile path="update_client_final_oracle.sql" />
+		<sqlFile path="rice_20_client_final_oracle.sql" />
 	</changeSet>
 	<changeSet author="RICE20" id="RICE_CLIENT_UPDATES_mysql" dbms="mysql">
-		<sqlFile path="update_client_final_mysql.sql" />
+		<sqlFile path="rice_20_client_final_mysql.sql" />
+	</changeSet>
+
+	<changeSet author="RICE21" id="RICE_CLIENT_UPDATES_mysql" dbms="mysql">
+		<sql><![CDATA[
+CREATE TABLE KRNS_MAINT_DOC_ATT_LST_T  (
+    ATT_ID      varchar(40) NOT NULL,
+	DOC_HDR_ID	varchar(14) NOT NULL,
+	ATT_CNTNT 	longblob NOT NULL,
+	FILE_NM   	varchar(150) NULL,
+	CNTNT_TYP 	varchar(255) NULL,
+	OBJ_ID    	varchar(36) NOT NULL,
+	VER_NBR   	decimal(8,0) NOT NULL DEFAULT 0,
+	PRIMARY KEY(ATT_ID),
+	CONSTRAINT KRNS_MAINT_DOC_ATT_LST_FK1 foreign key (DOC_HDR_ID) references KRNS_MAINT_DOC_T (DOC_HDR_ID)
+);
+
+ALTER TABLE KRNS_MAINT_DOC_ATT_LST_T
+	ADD CONSTRAINT KRNS_MAINT_DOC_ATT_LST_TC0
+	UNIQUE (OBJ_ID);
+
+create index KRNS_MAINT_DOC_ATT__LST_TI1 on KRNS_MAINT_DOC_ATT_LST_T (DOC_HDR_ID);
+
+create table KRNS_MAINT_DOC_ATT_S (
+  id bigint(19) not null auto_increment,
+  primary key (id)
+) ENGINE MyISAM;
+alter table KRNS_MAINT_DOC_ATT_S auto_increment = 10000;
+
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-- mysql-2012-05-17.sql
+-- 
+
+-- KULRICE-7237: KRNS_NTE_T is selected by a field with no indexes - full table scan every time
+create index KRNS_NTE_TI1 on KRNS_NTE_T (RMT_OBJ_ID);		
+		
+		]]></sql>
+	</changeSet>
+
+	<changeSet author="RICE21" id="RICE_CLIENT_UPDATES_oracle" dbms="oracle">
+		<sql><![CDATA[
+CREATE TABLE KRNS_MAINT_DOC_ATT_LST_T  (
+    ATT_ID      VARCHAR2(40) NOT NULL,
+	DOC_HDR_ID	VARCHAR2(14) NOT NULL,
+	ATT_CNTNT 	blob NOT NULL,
+	FILE_NM   	VARCHAR2(150) NULL,
+	CNTNT_TYP 	VARCHAR2(255) NULL,
+	OBJ_ID    	VARCHAR2(36) NOT NULL,
+	VER_NBR   	NUMBER(8) DEFAULT 0 NOT NULL,
+	PRIMARY KEY(ATT_ID),
+	CONSTRAINT KRNS_MAINT_DOC_ATT_LST_FK1 foreign key (DOC_HDR_ID) references KRNS_MAINT_DOC_T (DOC_HDR_ID)
+);
+
+ALTER TABLE KRNS_MAINT_DOC_ATT_LST_T
+	ADD CONSTRAINT KRNS_MAINT_DOC_ATT_LST_TC0
+	UNIQUE (OBJ_ID);
+
+CREATE INDEX KRNS_MAINT_DOC_ATT_LST_TI1 on KRNS_MAINT_DOC_ATT_LST_T (DOC_HDR_ID);
+
+CREATE SEQUENCE KRNS_MAINT_DOC_ATT_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER;
+
+-- KULRICE-7237: KRNS_NTE_T is selected by a field with no indexes - full table scan every time
+create index KRNS_NTE_TI1 on KRNS_NTE_T (RMT_OBJ_ID);		
+		]]></sql>
 	</changeSet>
 
 </databaseChangeLog>
-	

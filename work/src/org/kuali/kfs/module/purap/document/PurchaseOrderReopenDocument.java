@@ -32,6 +32,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
@@ -66,9 +67,11 @@ public class PurchaseOrderReopenDocument extends PurchaseOrderDocument {
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
 
+        WorkflowDocument workflowDoc = this.getWorkflowDocument();
+        
         try {
             // DOCUMENT PROCESSED
-            if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
+            if (workflowDoc.isProcessed()) {
                 // generate GL entries
                 SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesReopenPurchaseOrder(this);
 
@@ -79,7 +82,7 @@ public class PurchaseOrderReopenDocument extends PurchaseOrderDocument {
                 updateAndSaveAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN);
             }
             // DOCUMENT DISAPPROVED
-            else if (getDocumentHeader().getWorkflowDocument().isDisapproved()) {
+            else if (workflowDoc.isDisapproved()) {
                 SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForDisapprovedReopenPODocuments(this);
                 
                 // for app doc status
@@ -92,7 +95,7 @@ public class PurchaseOrderReopenDocument extends PurchaseOrderDocument {
                 }
             }
             // DOCUMENT CANCELED
-            else if (getDocumentHeader().getWorkflowDocument().isCanceled()) {
+            else if (workflowDoc.isCanceled()) {
                 SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForCancelledReopenPODocuments(this);
                 // for app doc status
                 updateAndSaveAppDocStatus(PurchaseOrderStatuses.APPDOC_CANCELLED);                

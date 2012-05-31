@@ -69,9 +69,11 @@ public class PurchaseOrderVoidDocument extends PurchaseOrderDocument {
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
 
+        WorkflowDocument workflowDoc = this.getWorkflowDocument();
+        
         try {
             // DOCUMENT PROCESSED
-            if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
+            if (workflowDoc.isProcessed()) {
                 // generate GL entries
                 SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesVoidPurchaseOrder(this);
                
@@ -82,7 +84,7 @@ public class PurchaseOrderVoidDocument extends PurchaseOrderDocument {
                 updateAndSaveAppDocStatus(PurchaseOrderStatuses.APPDOC_VOID);
             }
             // DOCUMENT DISAPPROVED
-            else if (getDocumentHeader().getWorkflowDocument().isDisapproved()) {
+            else if (workflowDoc.isDisapproved()) {
                 SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForDisapprovedChangePODocuments(this);
                 // for app doc status
                 try {
@@ -94,7 +96,7 @@ public class PurchaseOrderVoidDocument extends PurchaseOrderDocument {
                 }
             }
             // DOCUMENT CANCELED
-            else if (getDocumentHeader().getWorkflowDocument().isCanceled()) {
+            else if (workflowDoc.isCanceled()) {
                 SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForCancelledChangePODocuments(this);
                 // for app doc status
                 updateAndSaveAppDocStatus(PurchaseOrderStatuses.APPDOC_CANCELLED);                

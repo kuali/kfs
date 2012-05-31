@@ -20,6 +20,7 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
@@ -50,16 +51,18 @@ public class PurchaseOrderRemoveHoldDocument extends PurchaseOrderDocument {
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
 
+        WorkflowDocument workflowDoc = this.getWorkflowDocument();
+        
         try {
             // DOCUMENT PROCESSED
-            if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
+            if (workflowDoc.isProcessed()) {
                 SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
 
                 // for app doc status
                 updateAndSaveAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN); 
             }
             // DOCUMENT DISAPPROVED
-            else if (getDocumentHeader().getWorkflowDocument().isDisapproved()) {
+            else if (workflowDoc.isDisapproved()) {
                 SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForDisapprovedRemoveHoldPODocuments(this);
                 
                 // for app doc status
@@ -72,7 +75,7 @@ public class PurchaseOrderRemoveHoldDocument extends PurchaseOrderDocument {
                 }
             }
             // DOCUMENT CANCELED
-            else if (getDocumentHeader().getWorkflowDocument().isCanceled()) {
+            else if (workflowDoc.isCanceled()) {
                 SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForCancelledRemoveHoldPODocuments(this);
                 // for app doc status
                 updateAndSaveAppDocStatus(PurchaseOrderStatuses.APPDOC_CANCELLED);                

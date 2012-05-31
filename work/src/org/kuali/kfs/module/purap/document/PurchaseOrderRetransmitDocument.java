@@ -26,6 +26,7 @@ import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
@@ -113,15 +114,17 @@ public class PurchaseOrderRetransmitDocument extends PurchaseOrderDocument {
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
 
+        WorkflowDocument workflowDoc = this.getWorkflowDocument();
+        
         try {
             // DOCUMENT PROCESSED
-            if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
+            if (workflowDoc.isProcessed()) {
                 SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
                 setPurchaseOrderLastTransmitTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
                 updateAndSaveAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN);                
             }
             // DOCUMENT DISAPPROVED
-            else if (getDocumentHeader().getWorkflowDocument().isDisapproved()) {
+            else if (workflowDoc.isDisapproved()) {
                 SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForDisapprovedChangePODocuments(this);
              
                 // for app doc status
@@ -134,7 +137,7 @@ public class PurchaseOrderRetransmitDocument extends PurchaseOrderDocument {
                 }
             }
             // DOCUMENT CANCELED
-            else if (getDocumentHeader().getWorkflowDocument().isCanceled()) {
+            else if (workflowDoc.isCanceled()) {
                 SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForCancelledChangePODocuments(this);
                 // for app doc status
                 updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_CANCELLED);                

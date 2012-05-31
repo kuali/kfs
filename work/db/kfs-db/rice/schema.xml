@@ -370,7 +370,7 @@
         <column name="GRP_ID" size="40" type="VARCHAR"/>
         <column name="DLGN_GRP_ID" size="40" type="VARCHAR"/>
         <column name="RQST_LBL" size="255" type="VARCHAR"/>
-        <index name="KREW_ACTN_ITM_TI1">
+        <index name="KREW_ACTN_ITM_T1">
             <index-column name="PRNCPL_ID"/>
         </index>
         <index name="KREW_ACTN_ITM_TI2">
@@ -708,7 +708,7 @@
         <column name="PLCY_NM" required="true" size="1" type="DECIMAL"/>
         <column default="0" name="VER_NBR" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column name="PLCY_VAL" size="64" type="VARCHAR"/>
+        <column name="PLCY_VAL" size="1024" type="VARCHAR"/>
         <unique name="KREW_DOC_TYP_PLCY_RELN_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -737,9 +737,8 @@
         <column default="0" name="DOC_TYP_VER_NBR" size="10" type="DECIMAL"/>
         <column name="ACTV_IND" size="1" type="DECIMAL"/>
         <column name="CUR_IND" size="1" type="DECIMAL"/>
-        <column name="LBL" size="128" type="VARCHAR"/>
+        <column name="LBL" required="true" size="128" type="VARCHAR"/>
         <column name="PREV_DOC_TYP_VER_NBR" size="40" type="VARCHAR"/>
-        <column name="DOC_HDR_ID" size="40" type="VARCHAR"/>
         <column name="DOC_TYP_DESC" size="4000" type="VARCHAR"/>
         <column name="DOC_HDLR_URL" size="255" type="VARCHAR"/>
         <column name="POST_PRCSR" size="255" type="VARCHAR"/>
@@ -758,6 +757,7 @@
         <column name="HELP_DEF_URL" size="4000" type="VARCHAR"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column name="DOC_SEARCH_HELP_URL" size="4000" type="VARCHAR"/>
+        <column name="DOC_HDR_ID" size="40" type="VARCHAR"/>
         <unique name="KREW_DOC_TYP_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -826,6 +826,16 @@
         <column name="FLD_NM" required="true" size="255" type="VARCHAR"/>
         <column name="FLD_VAL" size="4000" type="VARCHAR"/>
         <column default="0" name="VER_NBR" size="8" type="DECIMAL"/>
+    </table>
+    <table name="KREW_HLP_T">
+        <column name="HLP_ID" primaryKey="true" size="40" type="VARCHAR"/>
+        <column name="NM" required="true" size="500" type="VARCHAR"/>
+        <column name="KEY_CD" required="true" size="500" type="VARCHAR"/>
+        <column name="HLP_TXT" required="true" size="4000" type="VARCHAR"/>
+        <column default="0" name="VER_NBR" size="8" type="DECIMAL"/>
+        <index name="KREW_HLP_TI1">
+            <index-column name="KEY_CD"/>
+        </index>
     </table>
     <table name="KREW_INIT_RTE_NODE_INSTN_T">
         <column name="DOC_HDR_ID" primaryKey="true" size="40" type="VARCHAR"/>
@@ -992,9 +1002,6 @@
         <column name="RTE_NODE_ID" required="true" size="40" type="VARCHAR"/>
         <column name="KEY_CD" required="true" size="255" type="VARCHAR"/>
         <column name="VAL" size="4000" type="VARCHAR"/>
-        <foreign-key foreignTable="KREW_RTE_NODE_T" name="EN_RTE_NODE_CFG_PARM_TR1">
-            <reference foreign="RTE_NODE_ID" local="RTE_NODE_ID"/>
-        </foreign-key>
         <index name="KREW_RTE_NODE_CFG_PARM_TI1">
             <index-column name="RTE_NODE_ID"/>
         </index>
@@ -1071,7 +1078,7 @@
         <column name="RTE_MTHD_CD" size="2" type="VARCHAR"/>
         <column name="FNL_APRVR_IND" size="1" type="DECIMAL"/>
         <column name="MNDTRY_RTE_IND" size="1" type="DECIMAL"/>
-        <column name="ACTVN_TYP" size="1" type="VARCHAR"/>
+        <column name="ACTVN_TYP" size="250" type="VARCHAR"/>
         <column name="BRCH_PROTO_ID" size="40" type="VARCHAR"/>
         <column default="0" name="VER_NBR" size="8" type="DECIMAL"/>
         <column name="CONTENT_FRAGMENT" size="4000" type="VARCHAR"/>
@@ -1105,6 +1112,9 @@
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <unique name="KREW_RULE_ATTR_TC0">
             <unique-column name="OBJ_ID"/>
+        </unique>
+        <unique name="KREW_RULE_ATTR_TC1">
+            <unique-column name="NM"/>
         </unique>
     </table>
     <table name="KREW_RULE_EXPR_T">
@@ -1519,7 +1529,7 @@
         <column name="FIRST_NM" size="40" type="VARCHAR"/>
         <column name="MIDDLE_NM" size="40" type="VARCHAR"/>
         <column name="LAST_NM" size="40" type="VARCHAR"/>
-        <column name="PRSN_NM" size="40" type="VARCHAR"/>
+        <column name="PRSN_NM" size="255" type="VARCHAR"/>
         <column name="CAMPUS_CD" size="40" type="VARCHAR"/>
         <column name="PRMRY_DEPT_CD" size="40" type="VARCHAR"/>
         <column name="EMP_ID" size="40" type="VARCHAR"/>
@@ -1855,9 +1865,9 @@
         <column name="GRP_MBR_ID" primaryKey="true" size="40" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column name="GRP_ID" size="40" type="VARCHAR"/>
-        <column name="MBR_ID" size="40" type="VARCHAR"/>
-        <column default="P" name="MBR_TYP_CD" size="1" type="CHAR"/>
+        <column name="GRP_ID" required="true" size="40" type="VARCHAR"/>
+        <column name="MBR_ID" required="true" size="40" type="VARCHAR"/>
+        <column default="P" name="MBR_TYP_CD" required="true" size="1" type="CHAR"/>
         <column name="ACTV_FRM_DT" type="DATE"/>
         <column name="ACTV_TO_DT" type="DATE"/>
         <column default="SYSDATE" name="LAST_UPDT_DT" type="DATE"/>
@@ -2312,9 +2322,9 @@
         <column name="ROLE_MBR_ID" primaryKey="true" size="40" type="VARCHAR"/>
         <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
-        <column name="ROLE_ID" size="40" type="VARCHAR"/>
-        <column name="MBR_ID" size="40" type="VARCHAR"/>
-        <column default="P" name="MBR_TYP_CD" size="1" type="CHAR"/>
+        <column name="ROLE_ID" required="true" size="40" type="VARCHAR"/>
+        <column name="MBR_ID" required="true" size="40" type="VARCHAR"/>
+        <column default="P" name="MBR_TYP_CD" required="true" size="1" type="CHAR"/>
         <column name="ACTV_FRM_DT" type="DATE"/>
         <column name="ACTV_TO_DT" type="DATE"/>
         <column default="SYSDATE" name="LAST_UPDT_DT" type="DATE"/>
@@ -3186,6 +3196,24 @@
             <unique-column name="OBJ_ID"/>
         </unique>
     </table>
+    <table name="KRNS_MAINT_DOC_ATT_LST_T">
+        <column name="ATT_ID" primaryKey="true" size="40" type="VARCHAR"/>
+        <column name="DOC_HDR_ID" required="true" size="14" type="VARCHAR"/>
+        <column name="ATT_CNTNT" required="true" type="BLOB"/>
+        <column name="FILE_NM" size="150" type="VARCHAR"/>
+        <column name="CNTNT_TYP" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="0" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
+        <foreign-key foreignTable="KRNS_MAINT_DOC_T" name="KRNS_MAINT_DOC_ATT_LST_FK1">
+            <reference foreign="DOC_HDR_ID" local="DOC_HDR_ID"/>
+        </foreign-key>
+        <unique name="KRNS_MAINT_DOC_ATT_LST_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
+        <index name="KRNS_MAINT_DOC_ATT_LST_TI1">
+            <index-column name="DOC_HDR_ID"/>
+        </index>
+    </table>
     <table name="KRNS_MAINT_DOC_ATT_T">
         <column name="DOC_HDR_ID" primaryKey="true" size="14" type="VARCHAR"/>
         <column name="ATT_CNTNT" required="true" type="BLOB"/>
@@ -3239,6 +3267,9 @@
         <unique name="KRNS_NTE_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
+        <index name="KRNS_NTE_TI1">
+            <index-column name="RMT_OBJ_ID"/>
+        </index>
     </table>
     <table name="KRNS_NTE_TYP_T">
         <column name="NTE_TYP_CD" primaryKey="true" size="4" type="VARCHAR"/>
@@ -3598,7 +3629,7 @@
     <sequence name="KRIM_PRNCPL_ID_S" nextval="10000"/>
     <sequence name="KRIM_ROLE_ID_S" nextval="10003"/>
     <sequence name="KRIM_ROLE_MBR_ID_S" nextval="10003"/>
-    <sequence name="KRIM_ROLE_PERM_ID_S" nextval="1003"/>
+    <sequence name="KRIM_ROLE_PERM_ID_S" nextval="10000"/>
     <sequence name="KRIM_ROLE_RSP_ACTN_ID_S" nextval="10000"/>
     <sequence name="KRIM_ROLE_RSP_ID_S" nextval="10000"/>
     <sequence name="KRIM_RSP_ID_S" nextval="10000"/>
@@ -3615,6 +3646,7 @@
     <sequence name="KRMS_CMPND_PROP_PROPS_S" nextval="10000"/>
     <sequence name="KRMS_CNTXT_ATTR_S" nextval="10000"/>
     <sequence name="KRMS_CNTXT_S" nextval="10000"/>
+    <sequence name="KRMS_CNTXT_TERM_SPEC_PREREQ_S" nextval="10000"/>
     <sequence name="KRMS_CNTXT_VLD_ACTN_TYP_S" nextval="10000"/>
     <sequence name="KRMS_CNTXT_VLD_AGENDA_TYP_S" nextval="10000"/>
     <sequence name="KRMS_CNTXT_VLD_FUNC_S" nextval="10000"/>
@@ -3639,6 +3671,7 @@
     <sequence name="KRNS_DOC_TYP_ATTR_S" nextval="1000"/>
     <sequence name="KRNS_LOCK_S" nextval="2000"/>
     <sequence name="KRNS_LOOKUP_RSLT_S" nextval="2000"/>
+    <sequence name="KRNS_MAINT_DOC_ATT_S" nextval="10000"/>
     <sequence name="KRNS_MAINT_LOCK_S" nextval="2020"/>
     <sequence name="KRNS_NTE_S" nextval="2020"/>
     <sequence name="KRSB_BAM_PARM_S" nextval="2000"/>

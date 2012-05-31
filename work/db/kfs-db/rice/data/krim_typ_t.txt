@@ -36,5 +36,6 @@ kim_typ_id|obj_id|ver_nbr|nm|srvc_nm|actv_ind|nmspc_cd|
 73|B7DBFABEFD3C8CBFE0402E0AA9D757C9|1.0|View Action|viewActionPermissionTypeService|Y|KR-KRAD|
 74|B7DBFABEFD3D8CBFE0402E0AA9D757C9|1.0|View Line Field|viewLineFieldPermissionTypeService|Y|KR-KRAD|
 75|B7DBFABEFD3E8CBFE0402E0AA9D757C9|1.0|View Line Action|viewLineActionPermissionTypeService|Y|KR-KRAD|
+76|BD82F716EFEEF706E0402E0AA9D70A27|1.0|Derived Role: Permission (Route Document)|documentRouterRoleTypeService|Y|KR-WKFLW|
 8|5ADF18B6D4C67954E0404F8189D85002|1.0|Document Type & Routing Node or State|documentTypeAndNodeOrStatePermissionTypeService|Y|KR-SYS|
 9|5ADF18B6D4CD7954E0404F8189D85002|1.0|Document Type & Attachment Type|documentTypeAndAttachmentTypePermissionTypeService|Y|KR-NS|

@@ -20,7 +20,7 @@
     function transform() {
         $0.doc_typ_proc_id := replace(nvl($doc_typ_proc_id, ""), "~!~", "|" );
         $0.doc_typ_id := replace(nvl($doc_typ_id, ""), "~!~", "|" );
-        $0.init_rte_node_id := $init_rte_node_id;
+        $0.init_rte_node_id := replace(nvl($init_rte_node_id, ""), "~!~", "|" );
         $0.nm := replace(nvl($nm, ""), "~!~", "|" );
         $0.init_ind := $init_ind;
         $0.ver_nbr := $ver_nbr;

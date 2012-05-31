@@ -1,10 +1,8 @@
 attr_defn_id|nm|nmspc_cd|lbl|actv|cmpnt_nm|ver_nbr|desc_txt|
 1000|peopleFlowId|KR-RULE|PeopleFlow|Y||0.0|An identifier for a PeopleFlow|
-1001|Invalid Rule|KR-RULE|Invalid Rule|Y||1.0|If true, execute the action|
-1002|Valid Rule|KR-RULE|Valid Rule|Y||1.0|If false, execute the action|
-1003|Warning Action|KR-RULE|Warning Action|Y||1.0|Warning|
-1004|Error Action|KR-RULE|Error Action|Y||1.0|Error|
-1005|Action Message|KR-RULE|Action Message|Y||1.0|Message validation action returns|
+1001|ruleTypeCode|KR-RULE|Invalid Rule|Y||1.0|If true, execute the action|
+1004|actionTypeCode|KR-RULE|Error Action|Y||1.0|Error|
+1005|actionMessage|KR-RULE|Action Message|Y||1.0|Message validation action returns|
 1006|peopleFlowName|KR_RULE|PeopleFlow Name|Y||1.0|PeopleFlow Name|
 T1000|Context1Qualifier|KR-RULE-TEST|Context 1 Qualifier|Y||1.0|null|
 T1001|Event|KR-RULE-TEST|Event Name|Y||1.0|null|

@@ -80,7 +80,7 @@ attr_data_id|obj_id|ver_nbr|perm_id|kim_typ_id|kim_attr_defn_id|attr_val|
 869|606763510FE896D3E0404F8189D857A2|1.0|820|10|4|KR-NS|
 870|606763510FEB96D3E0404F8189D857A2|1.0|821|10|4|KR-NS|
 873|606763510FF396D3E0404F8189D857A2|1.0|265|12|4|KR-WKFLW|
-874|606763510FF496D3E0404F8189D857A2|1.0|265|12|2|org.kuali.rice.kew.batch.web.IngesterAction|
+874|606763510FF496D3E0404F8189D857A2|1.0|265|12|2|org.kuali.rice.core.web.impex.IngesterAction|
 880|ECCB8A6C-A0DA-5311-6A57-40F743EA334C|1.0|840|12|2|org.kuali.rice.ksb.messaging.web.ConfigViewerAction|
 881|717e2c18-89e4-11df-98b1-1300c9ee50c1|1.0|841|3|13|KualiDocument|
 882|B6FDEDA86F977F26E0402E0AA9D728AF|1.0|842|12|2|org.kuali.rice.core.web.cache.CacheAdminController|
@@ -88,3 +88,6 @@ attr_data_id|obj_id|ver_nbr|perm_id|kim_typ_id|kim_attr_defn_id|attr_val|
 884|aa1d1400-6155-4819-8bad-e5dd81f9871b|1.0|844|56|13|TermMaintenanceDocument|
 885|c43bc7f5-949e-4a85-b173-6a53d81f2762|1.0|845|56|13|ContextMaintenanceDocument|
 886|d3e373ca-296b-4834-bd66-ba159ebe733a|1.0|846|56|13|TermSpecificationMaintenanceDocument|
+887|BD74D7B702AC02CEE0402E0AA9D75B2D|1.0|847|8|13|*|
+888|BFCADCB34018249AE0402E0AA9D7065D|1.0|848|5|13|KualiDocument|
+889|BFCADCB34019249AE0402E0AA9D7065D|1.0|848|5|14|C|

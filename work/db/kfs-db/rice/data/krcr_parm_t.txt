@@ -43,7 +43,7 @@ KR-WKFLW|DocumentSearch|RESULT_CAP|E324D85082184EB6967537B3EE1F655B|1.0|CONFG||M
 KR-WKFLW|EDocLite|DEBUG_TRANSFORM_IND|68B2EA08E13A4FF3B9EDBD5415818C93|1.0|CONFG|N|Defines whether the debug transform is enabled for eDcoLite.|A|KUALI|
 KR-WKFLW|EDocLite|USE_XSLTC_IND|FCAEE745A7E64AF5982937C47EBC2698|1.0|CONFG|N|Defines whether XSLTC is used for eDocLite.|A|KUALI|
 KR-WKFLW|Feature|IS_LAST_APPROVER_ACTIVATE_FIRST_IND|BEBDBCFA74A5458EADE2CF075FFF206E|1.0|CONFG||A flag to specify whether the WorkflowInfo.isLastApproverAtNode(...) API method attempts to active requests first, prior to execution.|A|KUALI|
-KR-WKFLW|Mailer|FROM_ADDRESS|700AB6A6E23740D0B3E00E02A8FB6347|1.0|CONFG|quickstart@localhost|Default from email address for notifications.|A|KUALI|
+KR-WKFLW|Mailer|FROM_ADDRESS|700AB6A6E23740D0B3E00E02A8FB6347|1.0|CONFG|rice.test@kuali.org|Default from email address for notifications.|A|KUALI|
 KR-WKFLW|Notification|NOTIFY_GROUPS|08280F2575904F3586CF48BB97907506|1.0|CONFG||Defines a group name (in the format "namespace:name") which contains members who should never receive "notifications" action requests from KEW.|D|KUALI|
 KR-WKFLW|QuickLinks|RESTRICT_DOCUMENT_TYPES|5292CFD9A0EA48BEB22A2EB3B3BD3CDA|1.0|CONFG||Comma seperated list of Document Types to exclude from the Rule Quicklinks.|A|KUALI|
 KR-WKFLW|Rule|CUSTOM_DOCUMENT_TYPES|BDE964269F2743338C00A4326B676195|1.0|CONFG||Defines custom Document Type processes to use for certain types of routing rules.|A|KUALI|

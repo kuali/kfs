@@ -27,6 +27,7 @@ kim_attr_defn_id|obj_id|ver_nbr|nm|lbl|actv_ind|nmspc_cd|cmpnt_nm|
 51|B7DBFABEFD348CBFE0402E0AA9D757C9|1.0|groupId||Y|KR-KRAD|org.kuali.rice.kim.bo.impl.KimAttributes|
 52|B7DBFABEFD358CBFE0402E0AA9D757C9|1.0|widgetId||Y|KR-KRAD|org.kuali.rice.kim.bo.impl.KimAttributes|
 53|B7DBFABEFD368CBFE0402E0AA9D757C9|1.0|actionId||Y|KR-KRAD|org.kuali.rice.kim.bo.impl.KimAttributes|
+54|BC5444677C22328CE0402E0AA9D77D80|1.0|appDocStatus||Y|KR-WKFLW|org.kuali.rice.kim.bo.impl.KimAttributes|
 6|5ADF18B6D48D7954E0404F8189D85002|1.0|propertyName||Y|KR-NS|org.kuali.rice.kim.bo.impl.KimAttributes|
 7|603B735FA6BAFE21E0404F8189D8083B|1.0|existingRecordsOnly||Y|KR-NS|org.kuali.rice.kim.bo.impl.KimAttributes|
 8|5ADF18B6D48F7954E0404F8189D85002|1.0|createdBySelfOnly||Y|KR-NS|org.kuali.rice.kim.bo.impl.KimAttributes|

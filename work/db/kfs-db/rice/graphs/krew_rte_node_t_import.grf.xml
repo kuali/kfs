@@ -19,7 +19,7 @@
 //#TL
     function transform() {
         $0.rte_node_id := replace(nvl($rte_node_id, ""), "~!~", "|" );
-        $0.doc_typ_id := $doc_typ_id;
+        $0.doc_typ_id := replace(nvl($doc_typ_id, ""), "~!~", "|" );
         $0.nm := replace(nvl($nm, ""), "~!~", "|" );
         $0.typ := replace(nvl($typ, ""), "~!~", "|" );
         $0.rte_mthd_nm := replace(nvl($rte_mthd_nm, ""), "~!~", "|" );

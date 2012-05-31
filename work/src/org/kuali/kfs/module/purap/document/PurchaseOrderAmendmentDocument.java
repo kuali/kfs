@@ -35,6 +35,7 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
@@ -58,9 +59,11 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
 	public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
 
+        WorkflowDocument workflowDoc = this.getWorkflowDocument();
+        
         try {
             // DOCUMENT PROCESSED
-            if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
+            if (workflowDoc.isProcessed()) {
                 // generate GL entries
                 SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesApproveAmendPurchaseOrder(this);
             
@@ -79,7 +82,7 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
                 updateAndSaveAppDocStatus(PurchaseOrderStatuses.APPDOC_OPEN);
             }
             // DOCUMENT DISAPPROVED
-            else if (getDocumentHeader().getWorkflowDocument().isDisapproved()) {
+            else if (workflowDoc.isDisapproved()) {
                 SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForDisapprovedChangePODocuments(this);
                 SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
                 
@@ -93,7 +96,7 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
                 }
             }
             // DOCUMENT CANCELED
-            else if (getDocumentHeader().getWorkflowDocument().isCanceled()) {
+            else if (workflowDoc.isCanceled()) {
                 SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForCancelledChangePODocuments(this);
 
                 // for app doc status
@@ -161,5 +164,4 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
         if (nodeName.equals(PurapWorkflowConstants.HAS_NEW_UNORDERED_ITEMS)) return isNewUnorderedItem();
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \""+nodeName+"\"");
     } 
-
 }

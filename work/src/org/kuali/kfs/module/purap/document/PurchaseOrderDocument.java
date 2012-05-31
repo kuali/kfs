@@ -1672,4 +1672,11 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     public void setGlOnlySourceAccountingLines(List<SourceAccountingLine> glOnlySourceAccountingLines) {
         this.glOnlySourceAccountingLines = glOnlySourceAccountingLines;
     }
+    
+    /*
+     * retrieves the workflow document from the financial system Document
+     */
+    public WorkflowDocument getWorkflowDocument() {
+        return this.getFinancialSystemDocumentHeader().getWorkflowDocument();
+    }
 }

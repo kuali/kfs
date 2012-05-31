@@ -26,7 +26,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.document.Document;
 
-
 public class PurchaseOrderAmendmentDocumentPresentationController extends PurchaseOrderDocumentPresentationController {
     
     @Override
@@ -48,7 +47,7 @@ public class PurchaseOrderAmendmentDocumentPresentationController extends Purcha
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
 
         if (PurchaseOrderStatuses.APPDOC_CHANGE_IN_PROCESS.equals(poDocument.getApplicationDocumentStatus())) {
-            WorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
+            WorkflowDocument workflowDoc = poDocument.getWorkflowDocument();
             //  amendment doc needs to lock its field for initiator while enroute
             if (workflowDoc.isInitiated() || workflowDoc.isSaved()) {
                 editModes.add(PurchaseOrderEditMode.AMENDMENT_ENTRY);
@@ -68,8 +67,8 @@ public class PurchaseOrderAmendmentDocumentPresentationController extends Purcha
     @Override
     public boolean canReload(Document document) {
         //  show the reload button if the doc is anything but processed or final
-        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;                
+        WorkflowDocument workflowDocument = poDocument.getDocumentHeader().getWorkflowDocument();
         return (workflowDocument.isSaved() || workflowDocument.isEnroute()) ;
     }
-
 }

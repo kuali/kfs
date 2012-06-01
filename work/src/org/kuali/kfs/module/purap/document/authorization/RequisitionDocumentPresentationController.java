@@ -43,10 +43,10 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
     @Override
     public boolean canEdit(Document document) {
         RequisitionDocument reqDocument = (RequisitionDocument)document;
-        if (!RequisitionStatuses.APPDOC_IN_PROCESS.equals(reqDocument. getApplicationDocumentStatus()) &&
-                !RequisitionStatuses.APPDOC_AWAIT_CONTENT_REVIEW.equals(reqDocument. getApplicationDocumentStatus()) &&
-                !RequisitionStatuses.APPDOC_AWAIT_HAS_ACCOUNTING_LINES.equals(reqDocument. getApplicationDocumentStatus()) &&
-                !RequisitionStatuses.APPDOC_AWAIT_FISCAL_REVIEW.equals(reqDocument. getApplicationDocumentStatus())) {
+        if (!RequisitionStatuses.APPDOC_IN_PROCESS.equals(reqDocument.getApplicationDocumentStatus()) &&
+                !RequisitionStatuses.APPDOC_AWAIT_CONTENT_REVIEW.equals(reqDocument.getApplicationDocumentStatus()) &&
+                !RequisitionStatuses.APPDOC_AWAIT_HAS_ACCOUNTING_LINES.equals(reqDocument.getApplicationDocumentStatus()) &&
+                !RequisitionStatuses.APPDOC_AWAIT_FISCAL_REVIEW.equals(reqDocument.getApplicationDocumentStatus())) {
             //unless the Requisition is in process, awaiting content, awaiting accounting lines or awaiting fiscal, editing is not allowed
             return false;
         }

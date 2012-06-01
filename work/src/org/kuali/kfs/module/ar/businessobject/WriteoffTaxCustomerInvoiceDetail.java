@@ -38,7 +38,7 @@ public class WriteoffTaxCustomerInvoiceDetail extends CustomerInvoiceDetail {
         String writeoffTaxGenerationOption = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceWriteoffDocument.class, ArConstants.ALLOW_SALES_TAX_LIABILITY_ADJUSTMENT_IND);
         isUsingTaxLiabilityAdjustmentIndNo = ArConstants.ALLOW_SALES_TAX_LIABILITY_ADJUSTMENT_IND_NO.equals( writeoffTaxGenerationOption );
 
-        if( isUsingTaxLiabilityAdjustmentIndNo ){
+        if( ! isUsingTaxLiabilityAdjustmentIndNo ){
             //if is using org account default, I already set the writeoff FAU on
             //the document, so that is needed to do is refresh the FAU objects
             this.poster.refreshReferenceObject("account");

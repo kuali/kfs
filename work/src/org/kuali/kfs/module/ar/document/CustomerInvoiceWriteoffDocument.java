@@ -352,7 +352,7 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
         boolean hasWriteoffClaimOnCashOffset = ArConstants.GLPE_WRITEOFF_GENERATION_METHOD_ORG_ACCT_DEFAULT.equals(writeoffOffsetOption);
 
         String writeoffTaxGenerationOption = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceWriteoffDocument.class, ArConstants.ALLOW_SALES_TAX_LIABILITY_ADJUSTMENT_IND);
-        boolean hasWriteoffTaxClaimOnCashOffset = ArConstants.ALLOW_SALES_TAX_LIABILITY_ADJUSTMENT_IND_NO.equals(writeoffTaxGenerationOption);
+        boolean hasWriteoffTaxClaimOnCashOffset = ! ArConstants.ALLOW_SALES_TAX_LIABILITY_ADJUSTMENT_IND_NO.equals(writeoffTaxGenerationOption);
 
         boolean hasClaimOnCashOffset = hasReceivableClaimOnCashOffset || hasWriteoffClaimOnCashOffset;
 

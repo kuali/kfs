@@ -162,7 +162,7 @@ public class CustomerInvoiceWriteoffDocumentServiceImpl implements CustomerInvoi
 
         String writeoffTaxGenerationOption = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceWriteoffDocument.class, ArConstants.ALLOW_SALES_TAX_LIABILITY_ADJUSTMENT_IND);
         boolean isUsingTaxGenerationMethodDisallow = ArConstants.ALLOW_SALES_TAX_LIABILITY_ADJUSTMENT_IND_NO.equals( writeoffTaxGenerationOption );
-        if (isUsingOrgAcctDefaultWriteoffFAU || isUsingTaxGenerationMethodDisallow) {
+        if (isUsingOrgAcctDefaultWriteoffFAU || ! isUsingTaxGenerationMethodDisallow) {
 
             Integer currentUniversityFiscalYear = universityDateService.getCurrentFiscalYear();
             ChartOrgHolder currentUser = financialSystemUserService.getPrimaryOrganization(GlobalVariables.getUserSession().getPerson(), ArConstants.AR_NAMESPACE_CODE);

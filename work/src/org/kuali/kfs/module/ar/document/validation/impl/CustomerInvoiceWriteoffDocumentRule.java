@@ -107,7 +107,7 @@ public class CustomerInvoiceWriteoffDocumentRule extends TransactionalDocumentRu
         }
 
         String writeoffTaxGenerationOption = SpringContext.getBean(ParameterService.class).getParameterValueAsString(CustomerInvoiceWriteoffDocument.class, ArConstants.ALLOW_SALES_TAX_LIABILITY_ADJUSTMENT_IND);
-        if (ArConstants.ALLOW_SALES_TAX_LIABILITY_ADJUSTMENT_IND_NO.equals(writeoffTaxGenerationOption)) {
+        if (! ArConstants.ALLOW_SALES_TAX_LIABILITY_ADJUSTMENT_IND_NO.equals(writeoffTaxGenerationOption)) {
             success &= doesOrganizationAccountingDefaultHaveWriteoffInformation(customerInvoiceWriteoffDocument);
         }
 

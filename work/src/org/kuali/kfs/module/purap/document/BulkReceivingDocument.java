@@ -143,7 +143,7 @@ public class BulkReceivingDocument extends ReceivingDocumentBase{
         
         RequisitionDocument reqDoc = SpringContext.getBean(RequisitionService.class).getRequisitionById(po.getRequisitionIdentifier());
         if (reqDoc != null){ // reqDoc is null when called from unit test
-            String requisitionPreparer = reqDoc.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
+            String requisitionPreparer = reqDoc.getFinancialSystemDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
             /**
              * This is to get the user name for display
              */

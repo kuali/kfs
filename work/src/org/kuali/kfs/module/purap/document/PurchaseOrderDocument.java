@@ -240,7 +240,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         String deliveryCampus = getDeliveryCampus() != null ? getDeliveryCampus().getCampus().getShortName() : "";
         String documentTitle = "";
 
-        Set<String> nodeNames = getDocumentHeader().getWorkflowDocument().getCurrentNodeNames();
+        Set<String> nodeNames = this.getFinancialSystemDocumentHeader().getWorkflowDocument().getCurrentNodeNames();
 
         String routeLevel = "";
         if (nodeNames.size() >= 1) {
@@ -439,9 +439,8 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
-        WorkflowDocument workFlowDocument = getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workFlowDocument = this.getFinancialSystemDocumentHeader().getWorkflowDocument();
         String documentType = workFlowDocument.getDocumentTypeName();
-
 
         if ((documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT)) ||
             (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT))) {
@@ -600,7 +599,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     public List<String> getWorkflowEngineDocumentIdsToLock() {
         List<String> docIdStrings = new ArrayList<String>();
         docIdStrings.add(getDocumentNumber());
-        String currentDocumentTypeName = this.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
+        String currentDocumentTypeName = this.getFinancialSystemDocumentHeader().getWorkflowDocument().getDocumentTypeName();
 
         List<PurchaseOrderView> relatedPoViews = getRelatedViews().getRelatedPurchaseOrderViews();
         for (PurchaseOrderView poView : relatedPoViews) {
@@ -623,17 +622,18 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         LOG.debug("doRouteStatusChange() started");
         super.doRouteStatusChange(statusChangeEvent);
-        String currentDocumentTypeName = this.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
+        
+        String currentDocumentTypeName = this.getFinancialSystemDocumentHeader().getWorkflowDocument().getDocumentTypeName();
         // child classes need to call super, but we don't want to inherit the post-processing done by this PO class other than to the Split
         if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT.equals(currentDocumentTypeName) || PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_SPLIT_DOCUMENT.equals(currentDocumentTypeName)) {
             try {
                 // DOCUMENT PROCESSED
-                if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
+                if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isProcessed()) {
                     SpringContext.getBean(PurchaseOrderService.class).completePurchaseOrder(this);
                     SpringContext.getBean(WorkflowDocumentService.class).saveRoutingData(getDocumentHeader().getWorkflowDocument());
                 }
                 // DOCUMENT DISAPPROVED
-                else if (getDocumentHeader().getWorkflowDocument().isDisapproved()) {
+                else if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isDisapproved()) {
                     String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
                     String disapprovalStatus = PurapConstants.PurchaseOrderStatuses.getPurchaseOrderAppDocDisapproveStatuses().get(nodeName);
                     
@@ -642,13 +642,13 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
                         updateAndSaveAppDocStatus(disapprovalStatus);
                         
                         RequisitionDocument req = getPurApSourceDocumentIfPossible();
-                        appSpecificRouteDocumentToUser(getDocumentHeader().getWorkflowDocument(), req.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId(), "Notification of Order Disapproval for Requisition " + req.getPurapDocumentIdentifier() + "(document id " + req.getDocumentNumber() + ")", "Requisition Routed By User");
+                        appSpecificRouteDocumentToUser(getDocumentHeader().getWorkflowDocument(), req.getFinancialSystemDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId(), "Notification of Order Disapproval for Requisition " + req.getPurapDocumentIdentifier() + "(document id " + req.getDocumentNumber() + ")", "Requisition Routed By User");
                         return;
                     }
                     logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");
                 }
                 // DOCUMENT CANCELED
-                else if (getDocumentHeader().getWorkflowDocument().isCanceled()) {
+                else if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isCanceled()) {
                     updateAndSaveAppDocStatus(PurchaseOrderStatuses.APPDOC_CANCELLED);
                 }
             }
@@ -1654,7 +1654,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     }
 
     public String getDocumentTitleForResult() throws WorkflowException{
-        return KewApiServiceLocator.getDocumentTypeService().getDocumentTypeByName(this.getDocumentHeader().getWorkflowDocument().getDocumentTypeName()).getLabel();
+        return KewApiServiceLocator.getDocumentTypeService().getDocumentTypeByName(this.getFinancialSystemDocumentHeader().getWorkflowDocument().getDocumentTypeName()).getLabel();
     }
 
     /**
@@ -1671,12 +1671,5 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
 
     public void setGlOnlySourceAccountingLines(List<SourceAccountingLine> glOnlySourceAccountingLines) {
         this.glOnlySourceAccountingLines = glOnlySourceAccountingLines;
-    }
-    
-    /*
-     * retrieves the workflow document from the financial system Document
-     */
-    public WorkflowDocument getWorkflowDocument() {
-        return this.getFinancialSystemDocumentHeader().getWorkflowDocument();
     }
 }

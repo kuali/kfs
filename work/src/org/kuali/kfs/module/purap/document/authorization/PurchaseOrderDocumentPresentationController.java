@@ -21,11 +21,11 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
-import org.kuali.kfs.module.purap.PurapAuthorizationConstants.PurchaseOrderEditMode;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapAuthorizationConstants.PurchaseOrderEditMode;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
-import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -128,8 +128,10 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
     @Override
     public Set<String> getEditModes(Document document) {
         Set<String> editModes = super.getEditModes(document);
-        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
+        
+        WorkflowDocument workflowDocument = poDocument.getFinancialSystemDocumentHeader().getWorkflowDocument();
+        
         String statusCode = poDocument.getApplicationDocumentStatus();
 
         editModes.add(PurchaseOrderEditMode.ASSIGN_SENSITIVE_DATA);
@@ -238,7 +240,7 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
         boolean can = PurchaseOrderStatuses.APPDOC_PENDING_PRINT.equals(poDocument.getApplicationDocumentStatus());
         if (!can) {
             can = PurchaseOrderStatuses.APPDOC_OPEN.equals(poDocument.getApplicationDocumentStatus());
-            can = can && poDocument.getDocumentHeader().getWorkflowDocument().isFinal();
+            can = can && poDocument.getFinancialSystemDocumentHeader().getWorkflowDocument().isFinal();
             can = can && poDocument.getPurchaseOrderLastTransmitTimestamp() == null;
             can = can && PurapConstants.POTransmissionMethods.PRINT.equals(poDocument.getPurchaseOrderTransmissionMethodCode());
         }
@@ -255,7 +257,7 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
      */
     protected boolean canPreviewPrintPo(PurchaseOrderDocument poDocument) {
         // PO is saved or enroute
-        boolean can = poDocument.getDocumentHeader().getWorkflowDocument().isSaved() || poDocument.getDocumentHeader().getWorkflowDocument().isEnroute();
+        boolean can = poDocument.getFinancialSystemDocumentHeader().getWorkflowDocument().isSaved() || poDocument.getFinancialSystemDocumentHeader().getWorkflowDocument().isEnroute();
 
         // transmission method must be one of those specified by the parameter
         if (can) {
@@ -280,5 +282,4 @@ public class PurchaseOrderDocumentPresentationController extends PurchasingAccou
 
         return can;
     }
-
 }

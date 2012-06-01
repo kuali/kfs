@@ -33,8 +33,9 @@ public class PurchaseOrderAmendmentDocumentPresentationController extends Purcha
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
         // po amend docs in CGIP status are only editable when in Initiated or Saved status
         if (PurchaseOrderStatuses.APPDOC_CHANGE_IN_PROCESS.equals(poDocument.getApplicationDocumentStatus())) {
-            WorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
-            if (!workflowDoc.isInitiated() && !workflowDoc.isSaved()) {
+            WorkflowDocument workflowDocument = poDocument.getFinancialSystemDocumentHeader().getWorkflowDocument();
+            
+            if (!workflowDocument.isInitiated() && !workflowDocument.isSaved()) {
                 return false;
             }
         }    
@@ -47,9 +48,9 @@ public class PurchaseOrderAmendmentDocumentPresentationController extends Purcha
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;
 
         if (PurchaseOrderStatuses.APPDOC_CHANGE_IN_PROCESS.equals(poDocument.getApplicationDocumentStatus())) {
-            WorkflowDocument workflowDoc = poDocument.getWorkflowDocument();
+            WorkflowDocument workflowDocument = poDocument.getFinancialSystemDocumentHeader().getWorkflowDocument();
             //  amendment doc needs to lock its field for initiator while enroute
-            if (workflowDoc.isInitiated() || workflowDoc.isSaved()) {
+            if (workflowDocument.isInitiated() || workflowDocument.isSaved()) {
                 editModes.add(PurchaseOrderEditMode.AMENDMENT_ENTRY);
             }
         }
@@ -68,7 +69,7 @@ public class PurchaseOrderAmendmentDocumentPresentationController extends Purcha
     public boolean canReload(Document document) {
         //  show the reload button if the doc is anything but processed or final
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument)document;                
-        WorkflowDocument workflowDocument = poDocument.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDocument = poDocument.getFinancialSystemDocumentHeader().getWorkflowDocument();
         return (workflowDocument.isSaved() || workflowDocument.isEnroute()) ;
     }
 }

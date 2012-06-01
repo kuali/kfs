@@ -18,16 +18,14 @@ package org.kuali.kfs.module.purap.document.authorization;
 import java.util.Set;
 
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
-import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.rice.krad.document.Document;
-
 
 public class LineItemReceivingDocumentPresentationController extends PurchasingAccountsPayableDocumentPresentationController {
     
     @Override
     public boolean canSave(Document document) {
-        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        if (workflowDocument.isInitiated()) {
+        if (((PurchasingAccountsPayableDocument) document).getFinancialSystemDocumentHeader().getWorkflowDocument().isInitiated()) {
             return false;
         }
         return super.canSave(document);
@@ -35,8 +33,7 @@ public class LineItemReceivingDocumentPresentationController extends PurchasingA
 
     @Override
     public boolean canCancel(Document document) {
-        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        if (workflowDocument.isInitiated()) {
+        if (((PurchasingAccountsPayableDocument) document).getFinancialSystemDocumentHeader().getWorkflowDocument().isInitiated()) {
             return false;
         }
         return super.canCancel(document);
@@ -44,8 +41,7 @@ public class LineItemReceivingDocumentPresentationController extends PurchasingA
 
     @Override
     public boolean canClose(Document document) {
-        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        if (workflowDocument.isInitiated()) {
+        if (((PurchasingAccountsPayableDocument) document).getFinancialSystemDocumentHeader().getWorkflowDocument().isInitiated()) {
             return false;
         }
         return super.canClose(document);
@@ -54,13 +50,11 @@ public class LineItemReceivingDocumentPresentationController extends PurchasingA
     @Override
     public Set<String> getEditModes(Document document) {
         Set<String> editModes = super.getEditModes(document);
-        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
-        if (workflowDocument.isInitiated()) {
+        if (((PurchasingAccountsPayableDocument) document).getFinancialSystemDocumentHeader().getWorkflowDocument().isInitiated()) {
             editModes.add(PurapAuthorizationConstants.LineItemReceivingEditMode.DISPLAY_INIT_TAB);
         }
         
         return editModes;
     }
-    
 }

@@ -16,25 +16,24 @@
 package org.kuali.kfs.module.purap.document.authorization;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
-import org.kuali.kfs.module.purap.PurapAuthorizationConstants.RequisitionEditMode;
 import org.kuali.kfs.module.purap.PurapConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapAuthorizationConstants.RequisitionEditMode;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionStatuses;
-import org.kuali.kfs.module.purap.PurapParameterConstants;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -143,8 +142,9 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
     @Override
     public boolean canCopy(Document document) {
         //  disallow copying until the doc is saved
-        WorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
-        if (workflowDoc.isInitiated() && !workflowDoc.isSaved()) {
+        WorkflowDocument workflowDocument = ((PurchasingAccountsPayableDocument) document).getFinancialSystemDocumentHeader().getWorkflowDocument();
+
+        if (workflowDocument.isInitiated() && !workflowDocument.isSaved()) {
             return false;
         }
         return super.canCopy(document);
@@ -155,8 +155,9 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
         RequisitionDocument reqDocument = (RequisitionDocument) document;
         
         //  this is a global rule, if the doc is in your queue for ACK, then you lose the reload button
-        WorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
-        if (workflowDoc.isAcknowledgeRequested()) {
+        WorkflowDocument workflowDocument = ((PurchasingAccountsPayableDocument) document).getFinancialSystemDocumentHeader().getWorkflowDocument();
+
+        if (workflowDocument.isAcknowledgeRequested()) {
             return false;
         }
         if (reqDocument.isDocumentStoppedInRouteNode(RequisitionStatuses.NODE_SUBACCOUNT)) {
@@ -192,6 +193,7 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
     @Override
     public boolean canSave(Document document) {
         RequisitionDocument reqDocument = (RequisitionDocument) document;
+
         if (reqDocument.isDocumentStoppedInRouteNode(RequisitionStatuses.NODE_ORG_REVIEW)) {
             return false;
         }
@@ -206,12 +208,13 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
      */
     protected boolean isDocInRouteNodeNotForCurrentUser(Document document, String nodeName) {
         List<String> currentRouteLevels = new ArrayList<String>();
-        WorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
+
+        WorkflowDocument workflowDocument = ((PurchasingAccountsPayableDocument) document).getFinancialSystemDocumentHeader().getWorkflowDocument();
+        Set<String> names = workflowDocument.getCurrentNodeNames();
         
-        Set<String> names = document.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames();
         currentRouteLevels = new ArrayList<String>(names);
         
-        if (currentRouteLevels.contains(nodeName) && !workflowDoc.isApprovalRequested()) {
+        if (currentRouteLevels.contains(nodeName) && !workflowDocument.isApprovalRequested()) {
             return true;
         }
         return false;

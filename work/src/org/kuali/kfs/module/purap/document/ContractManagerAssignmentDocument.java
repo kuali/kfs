@@ -109,7 +109,7 @@ public class ContractManagerAssignmentDocument extends FinancialSystemTransactio
 
         super.doRouteStatusChange(statusChangeEvent);
 
-        if (this.getDocumentHeader().getWorkflowDocument().isProcessed()) {
+        if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isProcessed()) {
             boolean isSuccess = true;
             StringBuffer failedReqs = new StringBuffer();
             SpringContext.getBean(PurchaseOrderService.class).processACMReq(this);

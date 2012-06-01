@@ -647,10 +647,10 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         String preqAmount = getGrandTotal().toString();
 
         String documentTitle = "";
-        Set<String> nodeNames = getDocumentHeader().getWorkflowDocument().getCurrentNodeNames();
+        Set<String> nodeNames = this.getFinancialSystemDocumentHeader().getWorkflowDocument().getCurrentNodeNames();
 
         // if this doc is final or will be final
-        if (nodeNames.size() == 0 || getDocumentHeader().getWorkflowDocument().isFinal()) {
+        if (nodeNames.size() == 0 || this.getFinancialSystemDocumentHeader().getWorkflowDocument().isFinal()) {
             documentTitle = (new StringBuffer("PO: ")).append(poNumber).append(" Vendor: ").append(vendorName).append(" Amount: ").append(preqAmount).toString();
         }
         else {
@@ -722,14 +722,14 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         super.doRouteStatusChange(statusChangeEvent);
         try{
             // DOCUMENT PROCESSED
-            if (this.getDocumentHeader().getWorkflowDocument().isProcessed()) {
+            if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isProcessed()) {
                 if (!PaymentRequestStatuses.APPDOC_AUTO_APPROVED.equals(getApplicationDocumentStatus())) {                    
                     populateDocumentForRouting();
                     updateAndSaveAppDocStatus(PurapConstants.PaymentRequestStatuses.APPDOC_DEPARTMENT_APPROVED);
                 }
             }
             // DOCUMENT DISAPPROVED
-            else if (this.getDocumentHeader().getWorkflowDocument().isDisapproved()) {
+            else if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isDisapproved()) {
                 String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
                 String disapprovalStatus = PurapConstants.PaymentRequestStatuses.getPaymentRequestAppDocDisapproveStatuses().get(nodeName);
                         
@@ -746,7 +746,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
                 }
             }
             // DOCUMENT CANCELED
-            else if (this.getDocumentHeader().getWorkflowDocument().isCanceled()) {
+            else if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isCanceled()) {
                 String currentNodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(this.getDocumentHeader().getWorkflowDocument());
                 String cancelledStatus = PurapConstants.PaymentRequestStatuses.getPaymentRequestAppDocDisapproveStatuses().get(currentNodeName); 
                 
@@ -1056,7 +1056,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         WorkflowDocument workflowDocument = this.getDocumentHeader().getWorkflowDocument();
         String workflowDocumentTitle = this.buildDocumentTitle(workflowDocument.getTitle());
 
-        this.getDocumentHeader().getWorkflowDocument().setTitle(workflowDocumentTitle);
+        this.getFinancialSystemDocumentHeader().getWorkflowDocument().setTitle(workflowDocumentTitle);
 
         // first populate, then call super
         if (event instanceof AttributedContinuePurapEvent) {

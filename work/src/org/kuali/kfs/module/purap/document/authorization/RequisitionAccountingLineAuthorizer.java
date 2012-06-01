@@ -17,9 +17,11 @@ package org.kuali.kfs.module.purap.document.authorization;
 
 import java.util.Set;
 
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
 
 /**
@@ -35,7 +37,9 @@ public class RequisitionAccountingLineAuthorizer extends PurapAccountingLineAuth
      */
     @Override
     public boolean renderNewLine(AccountingDocument accountingDocument, String accountingGroupProperty) {
-        if (accountingDocument.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().contains(RequisitionAccountingLineAuthorizer.INITIATOR_NODE) || accountingDocument.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().contains(RequisitionAccountingLineAuthorizer.CONTENT_REVIEW_NODE)) return true;
+        WorkflowDocument workflowDocument = ((PurchasingAccountsPayableDocument)accountingDocument).getFinancialSystemDocumentHeader().getWorkflowDocument();
+        
+        if (workflowDocument.getCurrentNodeNames().contains(RequisitionAccountingLineAuthorizer.INITIATOR_NODE) || workflowDocument.getCurrentNodeNames().contains(RequisitionAccountingLineAuthorizer.CONTENT_REVIEW_NODE)) return true;
         return super.renderNewLine(accountingDocument, accountingGroupProperty);
     }
     

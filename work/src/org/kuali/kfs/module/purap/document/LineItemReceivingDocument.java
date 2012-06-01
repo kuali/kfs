@@ -154,7 +154,7 @@ public class LineItemReceivingDocument extends ReceivingDocumentBase {
         // DOCUMENT CANCELED
         // If the document is canceled then set the line item receiving 
         // status code to CANC.
-        if (this.getDocumentHeader().getWorkflowDocument().isCanceled()) {                      
+        if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isCanceled()) {                      
             setAppDocStatus(PurapConstants.LineItemReceivingStatuses.APPDOC_CANCELLED);
             SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
         }

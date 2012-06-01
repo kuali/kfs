@@ -63,6 +63,7 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.ActionTaken;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteLevelChange;
@@ -176,7 +177,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 
     public Set<Person> getAllPriorApprovers() throws WorkflowException {
         PersonService personService = KimApiServiceLocator.getPersonService();
-         List<ActionTaken> actionsTaken = getDocumentHeader().getWorkflowDocument().getActionsTaken();
+         List<ActionTaken> actionsTaken = this.getFinancialSystemDocumentHeader().getWorkflowDocument().getActionsTaken();
         Set<String> principalIds = new HashSet<String>();
         Set<Person> persons = new HashSet<Person>();
 
@@ -307,7 +308,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             Calendar c = Calendar.getInstance();
 
             // The allowed copy date is the document creation date plus a set number of days.
-            DateTime createDate = getDocumentHeader().getWorkflowDocument().getDateCreated();
+            DateTime createDate = this.getFinancialSystemDocumentHeader().getWorkflowDocument().getDateCreated();
             c.setTime(createDate.toDate());
             String allowedCopyDays = SpringContext.getBean(ParameterService.class).getParameterValueAsString(RequisitionDocument.class, PurapParameterConstants.B2B_ALLOW_COPY_DAYS);
             c.add(Calendar.DATE, Integer.parseInt(allowedCopyDays));
@@ -415,7 +416,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         docIdStrings.add(getDocumentNumber());
 
         //  PROCESSED
-        if (getDocumentHeader().getWorkflowDocument().isProcessed()) {
+        if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isProcessed()) {
             // creates a new PO but no way to know what the docID will be ahead of time
         }
 
@@ -429,9 +430,10 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         LOG.debug("doRouteStatusChange() started");
         super.doRouteStatusChange(statusChangeEvent);
+        
         try {
             // DOCUMENT PROCESSED
-            if (this.getDocumentHeader().getWorkflowDocument().isProcessed()) {
+            if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isProcessed()) {
                 String newRequisitionStatus = PurapConstants.RequisitionStatuses.APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN;
                 if (SpringContext.getBean(RequisitionService.class).isAutomaticPurchaseOrderAllowed(this)) {
                     newRequisitionStatus = PurapConstants.RequisitionStatuses.APPDOC_CLOSED;
@@ -442,8 +444,8 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
                 updateAndSaveAppDocStatus(reqStatus);
             }
             // DOCUMENT DISAPPROVED
-            else if (this.getDocumentHeader().getWorkflowDocument().isDisapproved()) {
-                String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
+            else if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isDisapproved()) {
+                String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(this.getFinancialSystemDocumentHeader().getWorkflowDocument());
                 String disapprovalStatus = RequisitionStatuses.getRequistionAppDocStatuses().get(nodeName);
 
                 if (StringUtils.isNotBlank(disapprovalStatus)) {
@@ -453,7 +455,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
                 }
             }
             // DOCUMENT CANCELED
-            else if (this.getDocumentHeader().getWorkflowDocument().isCanceled()) {
+            else if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isCanceled()) {
                 String reqStatus = RequisitionStatuses.getRequistionAppDocStatuses().get(RequisitionStatuses.APPDOC_CANCELLED);
                 updateAndSaveAppDocStatus(reqStatus);
             }
@@ -655,7 +657,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     public Date getCreateDate() {
-        return this.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate();
+        return this.getFinancialSystemDocumentHeader().getWorkflowDocument().getDateCreated().toDate();
     }
 
     public String getUrl() {
@@ -694,7 +696,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     public Date getCreateDateForResult() {
-        return this.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate();
+        return this.getFinancialSystemDocumentHeader().getWorkflowDocument().getDateCreated().toDate();
     }
 
     /**

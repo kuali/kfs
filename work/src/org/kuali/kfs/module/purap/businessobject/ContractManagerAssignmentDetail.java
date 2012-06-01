@@ -165,7 +165,7 @@ public class ContractManagerAssignmentDetail extends PersistableBusinessObjectBa
     public String getCreateDate() throws WorkflowException{
         if (createDate == null) {
             Formatter formatter = new DateViewDateObjectFormatter();
-            createDate = (String)formatter.format(getRequisition().getDocumentHeader().getWorkflowDocument().getDateCreated().toDate());
+            createDate = (String)formatter.format(getRequisition().getFinancialSystemDocumentHeader().getWorkflowDocument().getDateCreated().toDate());
         }
         return createDate;
     }

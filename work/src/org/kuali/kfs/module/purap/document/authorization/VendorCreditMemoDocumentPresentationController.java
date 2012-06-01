@@ -100,9 +100,10 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
     @Override
     public Set<String> getEditModes(Document document) {
         Set<String> editModes = super.getEditModes(document);
-        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        
         VendorCreditMemoDocument vendorCreditMemoDocument = (VendorCreditMemoDocument)document;
-
+        WorkflowDocument workflowDocument = vendorCreditMemoDocument.getFinancialSystemDocumentHeader().getWorkflowDocument();
+        
         if (canCancel(vendorCreditMemoDocument)) {
             editModes.add(CreditMemoEditMode.ACCOUNTS_PAYABLE_PROCESSOR_CANCEL);
         }
@@ -196,7 +197,7 @@ public class VendorCreditMemoDocumentPresentationController extends PurchasingAc
 
     protected boolean canEditPreExtraction(VendorCreditMemoDocument vendorCreditMemoDocument) {
         return (!vendorCreditMemoDocument.isExtracted() && 
-                !SpringContext.getBean(FinancialSystemWorkflowHelperService.class).isAdhocApprovalRequestedForPrincipal(vendorCreditMemoDocument.getDocumentHeader().getWorkflowDocument(), GlobalVariables.getUserSession().getPrincipalId()) &&
+                !SpringContext.getBean(FinancialSystemWorkflowHelperService.class).isAdhocApprovalRequestedForPrincipal(vendorCreditMemoDocument.getFinancialSystemDocumentHeader().getWorkflowDocument(), GlobalVariables.getUserSession().getPrincipalId()) &&
                 !PurapConstants.CreditMemoStatuses.CANCELLED_STATUSES.contains(vendorCreditMemoDocument.getApplicationDocumentStatus()));
     }
 

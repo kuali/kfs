@@ -32,7 +32,6 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
@@ -52,8 +51,7 @@ public class PurchaseOrderVoidDocument extends PurchaseOrderDocument {
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
-       WorkflowDocument workFlowDocument = getDocumentHeader().getWorkflowDocument();
-       if (workFlowDocument.isCanceled()) {
+       if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isCanceled()) {
            setSourceAccountingLines(new ArrayList());
            setGeneralLedgerPendingEntries(new ArrayList());        
        }
@@ -68,12 +66,10 @@ public class PurchaseOrderVoidDocument extends PurchaseOrderDocument {
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
-
-        WorkflowDocument workflowDoc = this.getWorkflowDocument();
         
         try {
             // DOCUMENT PROCESSED
-            if (workflowDoc.isProcessed()) {
+            if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isProcessed()) {
                 // generate GL entries
                 SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesVoidPurchaseOrder(this);
                
@@ -84,11 +80,11 @@ public class PurchaseOrderVoidDocument extends PurchaseOrderDocument {
                 updateAndSaveAppDocStatus(PurchaseOrderStatuses.APPDOC_VOID);
             }
             // DOCUMENT DISAPPROVED
-            else if (workflowDoc.isDisapproved()) {
+            else if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isDisapproved()) {
                 SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForDisapprovedChangePODocuments(this);
                 // for app doc status
                 try {
-                    String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
+                    String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(this.getFinancialSystemDocumentHeader().getWorkflowDocument());
                     String reqStatus = PurapConstants.PurchaseOrderStatuses.getPurchaseOrderAppDocDisapproveStatuses().get(nodeName);
                     updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.getPurchaseOrderAppDocDisapproveStatuses().get(reqStatus));
                 } catch (WorkflowException e) {
@@ -96,7 +92,7 @@ public class PurchaseOrderVoidDocument extends PurchaseOrderDocument {
                 }
             }
             // DOCUMENT CANCELED
-            else if (workflowDoc.isCanceled()) {
+            else if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isCanceled()) {
                 SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForCancelledChangePODocuments(this);
                 // for app doc status
                 updateAndSaveAppDocStatus(PurchaseOrderStatuses.APPDOC_CANCELLED);                

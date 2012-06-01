@@ -19,7 +19,7 @@ import java.util.Set;
 
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.document.BulkReceivingDocument;
-import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -28,8 +28,7 @@ public class BulkReceivingDocumentPresentationController extends PurchasingAccou
     
     @Override
     public boolean canSave(Document document) {
-        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        if (workflowDocument.isInitiated()) {
+        if (((PurchasingAccountsPayableDocument) document).getFinancialSystemDocumentHeader().getWorkflowDocument().isInitiated()) {
             return false;
         }
         return super.canSave(document);
@@ -37,8 +36,7 @@ public class BulkReceivingDocumentPresentationController extends PurchasingAccou
 
     @Override
     public boolean canCancel(Document document) {
-        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        if (workflowDocument.isInitiated()) {
+        if (((PurchasingAccountsPayableDocument) document).getFinancialSystemDocumentHeader().getWorkflowDocument().isInitiated()) {
             return false;
         }
         return super.canCancel(document);
@@ -46,8 +44,7 @@ public class BulkReceivingDocumentPresentationController extends PurchasingAccou
 
     @Override
     public boolean canClose(Document document) {
-        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        if (workflowDocument.isInitiated()) {
+        if (((PurchasingAccountsPayableDocument) document).getFinancialSystemDocumentHeader().getWorkflowDocument().isInitiated()) {
             return false;
         }
         return super.canClose(document);
@@ -56,7 +53,6 @@ public class BulkReceivingDocumentPresentationController extends PurchasingAccou
     @Override
     public Set<String> getEditModes(Document document) {
         Set<String> editModes = super.getEditModes(document);
-        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         BulkReceivingDocument bulkReceivingDocument = (BulkReceivingDocument)document;
 
         // if vendor has been selected from DB, certain vendor fields are not allowed to be edited
@@ -64,11 +60,10 @@ public class BulkReceivingDocumentPresentationController extends PurchasingAccou
             editModes.add(PurapAuthorizationConstants.BulkReceivingEditMode.LOCK_VENDOR_ENTRY);
         }
 
-        if (workflowDocument.isInitiated()) {
+        if (((PurchasingAccountsPayableDocument) document).getFinancialSystemDocumentHeader().getWorkflowDocument().isInitiated()) {
             editModes.add(PurapAuthorizationConstants.BulkReceivingEditMode.DISPLAY_INIT_TAB);
         }
         
         return editModes;
     }
-    
 }

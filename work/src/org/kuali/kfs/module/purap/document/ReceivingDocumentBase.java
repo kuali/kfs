@@ -585,7 +585,7 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
         if(!(this instanceof BulkReceivingDocument)){
-            if(this.getDocumentHeader().getWorkflowDocument().isProcessed()) {
+            if(this.getFinancialSystemDocumentHeader().getWorkflowDocument().isProcessed()) {
                 //delete unentered items and update po totals and save po
                 SpringContext.getBean(ReceivingService.class).completeReceivingDocument(this);
             }
@@ -749,11 +749,11 @@ public abstract class ReceivingDocumentBase extends FinancialSystemTransactional
     }
 
     public java.util.Date getCreateDateForResult() {
-        return new java.util.Date(getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
+        return new java.util.Date(this.getFinancialSystemDocumentHeader().getWorkflowDocument().getDateCreated().getMillis());
     }
 
     public String getDocumentTitleForResult() throws WorkflowException{
-       return KewApiServiceLocator.getDocumentTypeService().getDocumentTypeByName(this.getDocumentHeader().getWorkflowDocument().getDocumentTypeName()).getLabel();
+       return KewApiServiceLocator.getDocumentTypeService().getDocumentTypeByName(this.getFinancialSystemDocumentHeader().getWorkflowDocument().getDocumentTypeName()).getLabel();
     }
 
     /**

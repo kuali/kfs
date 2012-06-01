@@ -21,10 +21,10 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.purap.PurapAuthorizationConstants.PaymentRequestEditMode;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapAuthorizationConstants.PaymentRequestEditMode;
+import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
@@ -34,7 +34,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.FinancialSystemWorkflowHelperService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -103,7 +102,6 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
     public boolean canEdit(Document document) {
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
         boolean fullDocEntryCompleted = SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(paymentRequestDocument);
-        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
         // if the hold or cancel indicator is true, don't allow editing
         if (paymentRequestDocument.isHoldIndicator() || paymentRequestDocument.isPaymentRequestedCancelIndicator()) {
@@ -128,7 +126,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
     @Override
     public Set<String> getEditModes(Document document) {
         Set<String> editModes = super.getEditModes(document);
-        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument)document;
         
         if (canProcessorCancel(paymentRequestDocument)) {
@@ -328,7 +326,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
     protected boolean canHold(PaymentRequestDocument paymentRequestDocument) {
         boolean can = !paymentRequestDocument.isHoldIndicator() && !paymentRequestDocument.isPaymentRequestedCancelIndicator() && !paymentRequestDocument.isExtracted();
         if (can) {
-            can = SpringContext.getBean(FinancialSystemWorkflowHelperService.class).isAdhocApprovalRequestedForPrincipal(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), GlobalVariables.getUserSession().getPrincipalId());            
+            can = SpringContext.getBean(FinancialSystemWorkflowHelperService.class).isAdhocApprovalRequestedForPrincipal(paymentRequestDocument.getFinancialSystemDocumentHeader().getWorkflowDocument(), GlobalVariables.getUserSession().getPrincipalId());            
             can = can || !PaymentRequestStatuses.STATUSES_DISALLOWING_HOLD.contains(paymentRequestDocument.getApplicationDocumentStatus());
         }
         
@@ -347,7 +345,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
     protected boolean canRequestCancel(PaymentRequestDocument paymentRequestDocument) {
         boolean can = !paymentRequestDocument.isPaymentRequestedCancelIndicator() && !paymentRequestDocument.isHoldIndicator() && !paymentRequestDocument.isExtracted();
         if (can) {
-            can = SpringContext.getBean(FinancialSystemWorkflowHelperService.class).isAdhocApprovalRequestedForPrincipal(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), GlobalVariables.getUserSession().getPrincipalId());
+            can = SpringContext.getBean(FinancialSystemWorkflowHelperService.class).isAdhocApprovalRequestedForPrincipal(paymentRequestDocument.getFinancialSystemDocumentHeader().getWorkflowDocument(), GlobalVariables.getUserSession().getPrincipalId());
             can = can || !PaymentRequestStatuses.STATUSES_DISALLOWING_REQUEST_CANCEL.contains(paymentRequestDocument.getApplicationDocumentStatus());
         }
 
@@ -384,7 +382,7 @@ public class PaymentRequestDocumentPresentationController extends PurchasingAcco
 
     protected boolean canEditPreExtraction(PaymentRequestDocument paymentRequestDocument) {
         return (!paymentRequestDocument.isExtracted() &&
-                !SpringContext.getBean(FinancialSystemWorkflowHelperService.class).isAdhocApprovalRequestedForPrincipal(paymentRequestDocument.getDocumentHeader().getWorkflowDocument(), GlobalVariables.getUserSession().getPrincipalId()) &&
+                !SpringContext.getBean(FinancialSystemWorkflowHelperService.class).isAdhocApprovalRequestedForPrincipal(paymentRequestDocument.getFinancialSystemDocumentHeader().getWorkflowDocument(), GlobalVariables.getUserSession().getPrincipalId()) &&
                 !PurapConstants.PaymentRequestStatuses.CANCELLED_STATUSES.contains(paymentRequestDocument.getApplicationDocumentStatus()));
     }
 

@@ -2062,7 +2062,7 @@ public class ElectronicInvoiceRejectDocument extends FinancialSystemTransactiona
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         LOG.debug("doRouteStatusChange() started");
         super.doRouteStatusChange(statusChangeEvent);
-        if (this.getDocumentHeader().getWorkflowDocument().isApproved()){ 
+        if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isApproved()){ 
             //Set the current date as approval timestamp
             this.setAccountsPayableApprovalTimestamp(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
            } 

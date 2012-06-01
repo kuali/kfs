@@ -16,6 +16,7 @@
 package org.kuali.kfs.sys.document.web.struts;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,14 +28,16 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.core.api.config.property.Config;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.rice.kns.web.ui.ExtraButton;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 /**
@@ -44,6 +47,42 @@ public class FinancialSystemTransactionalDocumentActionBase extends KualiTransac
     public static final String MODULE_LOCKED_MESSAGE = "moduleLockedMessage";
     public static final String MODULE_LOCKED_URL_SUFFIX = "/moduleLocked.do";
 
+    /**
+     * Method that will take the current document and call its copy method if Copyable.
+     */
+    @Override
+    public ActionForward copy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward actionForward = super.copy(mapping, form, request, response);
+        
+        KualiAccountingDocumentFormBase kadfb = (KualiAccountingDocumentFormBase) form;
+        String templateNumber = kadfb.getDocument().getDocumentHeader().getDocumentTemplateNumber();
+        
+        createNoteForCopy(templateNumber, kadfb.getDocument().getNotes());
+        
+        return mapping.findForward(RiceConstants.MAPPING_BASIC);
+    }
+    
+    /**
+     * removes existing notes copied during copy operation and creates a new using
+     * the document number of the copied document.
+     * 
+     * @param documentNumber
+     * @param notes
+     */
+    public void createNoteForCopy(String documentNumber, List<Note> notes) {
+        String noteText = "Copied from document: " + documentNumber;
+        String authorUniversalIdentifier = GlobalVariables.getUserSession().getPrincipalId();
+        Note copyNote = new Note();
+     
+        notes.clear();
+        
+        copyNote.setNoteText(noteText);
+        copyNote.setNotePostedTimestampToCurrent();
+        copyNote.setAuthorUniversalIdentifier(authorUniversalIdentifier);
+        
+        notes.add(copyNote);
+    }
+    
     /**
      * This action method triggers a correct of the transactional document.
      *

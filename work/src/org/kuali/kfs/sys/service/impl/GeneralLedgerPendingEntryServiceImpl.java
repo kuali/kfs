@@ -35,8 +35,10 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.BalanceTypeService;
 import org.kuali.kfs.coa.service.ChartService;
+import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ObjectTypeService;
 import org.kuali.kfs.coa.service.OffsetDefinitionService;
 import org.kuali.kfs.fp.businessobject.OffsetAccount;
@@ -259,7 +261,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
 
         // doc specific pending entries generation
         success &= glpeSource.generateDocumentGeneralLedgerPendingEntries(sequenceHelper);
-            
+
         return success;
     }
 
@@ -285,29 +287,34 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         explicitEntry.setTransactionEntryProcessedTs(transactionTimestamp);
         explicitEntry.setAccountNumber(glpeSourceDetail.getAccountNumber());
 
-        if (ObjectUtils.isNull(glpeSourceDetail.getAccount()) && getPersistenceStructureService().hasReference(glpeSourceDetail.getClass(), KFSPropertyConstants.ACCOUNT)) {
-            glpeSourceDetail.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
-        }
+        Account account = SpringContext.getBean(AccountService.class).getByPrimaryIdWithCaching(glpeSourceDetail.getChartOfAccountsCode(), glpeSourceDetail.getAccountNumber());
+        ObjectCode objectCode = SpringContext.getBean(ObjectCodeService.class).getByPrimaryIdWithCaching( glpeSource.getPostingYear(), glpeSourceDetail.getChartOfAccountsCode(), glpeSourceDetail.getFinancialObjectCode());
 
-        if ((ObjectUtils.isNull(glpeSourceDetail.getObjectCode()) || StringUtils.isBlank(glpeSourceDetail.getObjectCode().getFinancialObjectTypeCode())) && getPersistenceStructureService().hasReference(glpeSourceDetail.getClass(), KFSPropertyConstants.OBJECT_CODE)) {
-            glpeSourceDetail.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
-        }
-
-        if (ObjectUtils.isNotNull(glpeSourceDetail.getAccount())) {
-            if (StringUtils.isBlank(glpeSourceDetail.getAccount().getAccountSufficientFundsCode())) {
-                glpeSourceDetail.getAccount().setAccountSufficientFundsCode(KFSConstants.SF_TYPE_NO_CHECKING);
+        if ( account != null ) {
+            if ( LOG.isDebugEnabled() ) {
+                LOG.debug("GLPE: Testing to see what should be used for SF Object Code: " + glpeSourceDetail );
+            }
+            String sufficientFundsCode = account.getAccountSufficientFundsCode();
+            if (StringUtils.isBlank(sufficientFundsCode)) {
+                sufficientFundsCode = KFSConstants.SF_TYPE_NO_CHECKING;
+                if ( LOG.isDebugEnabled() ) {
+                    LOG.debug("Code was blank on the account - using 'N'");
+                }
             }
 
-            String sufficientFundsCode = glpeSourceDetail.getAccount().getAccountSufficientFundsCode();
-            ObjectCode objectCode = glpeSourceDetail.getObjectCode();
-            if (ObjectUtils.isNotNull(objectCode)) {
+            if (objectCode != null) {
+                if ( LOG.isDebugEnabled() ) {
+                    LOG.debug("SF Code / Object: " + sufficientFundsCode + " / " + objectCode);
+                }
                 String sifficientFundsObjectCode = SpringContext.getBean(SufficientFundsService.class).getSufficientFundsObjectCode(objectCode, sufficientFundsCode);
                 explicitEntry.setAcctSufficientFundsFinObjCd(sifficientFundsObjectCode);
+            } else {
+                LOG.debug( "Object code object was null, skipping setting of SF object field." );
             }
         }
 
-        if (!ObjectUtils.isNull(glpeSourceDetail.getObjectCode())) {
-            explicitEntry.setFinancialObjectTypeCode(glpeSourceDetail.getObjectCode().getFinancialObjectTypeCode());
+        if ( objectCode != null ) {
+            explicitEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
         }
 
         explicitEntry.setFinancialDocumentApprovedCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.NO);
@@ -462,7 +469,8 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
                 throw new RuntimeException("offset object code " + offsetEntry.getUniversityFiscalYear() + "-" + offsetEntry.getChartOfAccountsCode() + "-" + offsetEntry.getFinancialObjectCode());
             }
             // FIXME! - inject the sufficient funds service
-            offsetEntry.setAcctSufficientFundsFinObjCd(SpringContext.getBean(SufficientFundsService.class).getSufficientFundsObjectCode(financialObject, offsetEntry.getAccount().getAccountSufficientFundsCode()));
+            Account account = SpringContext.getBean(AccountService.class).getByPrimaryIdWithCaching(offsetEntry.getChartOfAccountsCode(), offsetEntry.getAccountNumber());
+            offsetEntry.setAcctSufficientFundsFinObjCd(SpringContext.getBean(SufficientFundsService.class).getSufficientFundsObjectCode(financialObject, account.getAccountSufficientFundsCode()));
         }
 
         offsetEntry.setFinancialObjectTypeCode(getOffsetFinancialObjectTypeCode(offsetDefinition));

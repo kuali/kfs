@@ -35,15 +35,15 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.gl.service.SufficientFundsService;
 import org.kuali.kfs.integration.purap.CapitalAssetSystem;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapKeyConstants;
-import org.kuali.kfs.module.purap.PurapParameterConstants;
-import org.kuali.kfs.module.purap.PurapPropertyConstants;
-import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.PurapConstants.CreditMemoStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.kfs.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.kfs.module.purap.PurapConstants.QuoteTypeDescriptions;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionSources;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapPropertyConstants;
+import org.kuali.kfs.module.purap.PurapWorkflowConstants;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoView;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
@@ -77,6 +77,7 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.SufficientFundsItem;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.MultiselectableDocSearchConversion;
+import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.businessobject.ContractManager;
@@ -197,12 +198,12 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     @Override
     public boolean isInquiryRendered() {
         String applicationDocumentStatus = getApplicationDocumentStatus();
-        
-        if ( isPostingYearPrior() && 
-             ( PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED.equals(applicationDocumentStatus) || 
+
+        if ( isPostingYearPrior() &&
+             ( PurapConstants.PurchaseOrderStatuses.APPDOC_CLOSED.equals(applicationDocumentStatus) ||
                PurapConstants.PurchaseOrderStatuses.APPDOC_CANCELLED.equals(applicationDocumentStatus) ||
                PurapConstants.PurchaseOrderStatuses.APPDOC_VOID.equals(applicationDocumentStatus) ) )  {
-               return false;            
+               return false;
         }
         else {
             return true;
@@ -562,7 +563,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
         this.setReceivingDocumentRequiredIndicator(requisitionDocument.isReceivingDocumentRequiredIndicator());
         this.setPaymentRequestPositiveApprovalIndicator(requisitionDocument.isPaymentRequestPositiveApprovalIndicator());
 
-        setApplicationDocumentStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS);        
+        setApplicationDocumentStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS);
         this.setAccountDistributionMethod(requisitionDocument.getAccountDistributionMethod());
         // Copy items from requisition (which will copy the item's accounts and capital assets)
         List<PurchaseOrderItem> items = new ArrayList();
@@ -636,11 +637,11 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
                 else if (this.getFinancialSystemDocumentHeader().getWorkflowDocument().isDisapproved()) {
                     String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
                     String disapprovalStatus = PurapConstants.PurchaseOrderStatuses.getPurchaseOrderAppDocDisapproveStatuses().get(nodeName);
-                    
-                    if (ObjectUtils.isNotNull(disapprovalStatus)) { 
+
+                    if (ObjectUtils.isNotNull(disapprovalStatus)) {
                         //update the appDocStatus and save the workflow data
                         updateAndSaveAppDocStatus(disapprovalStatus);
-                        
+
                         RequisitionDocument req = getPurApSourceDocumentIfPossible();
                         appSpecificRouteDocumentToUser(this.getFinancialSystemDocumentHeader().getWorkflowDocument(), req.getFinancialSystemDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId(), "Notification of Order Disapproval for Requisition " + req.getPurapDocumentIdentifier() + "(document id " + req.getDocumentNumber() + ")", "Requisition Routed By User");
                         return;
@@ -657,7 +658,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
             }
         }
     }
-    
+
     /**
      * Returns the name of the current route node.
      *
@@ -711,7 +712,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
                 String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(getDocumentHeader().getWorkflowDocument());
                 String disapprovalStatus = PurapConstants.PurchaseOrderStatuses.getPurchaseOrderAppDocDisapproveStatuses().get(nodeName);
 
-                //NodeDetails newNodeDetails = NodeDetailEnum.getNodeDetailEnumByName(newNodeName);                
+                //NodeDetails newNodeDetails = NodeDetailEnum.getNodeDetailEnumByName(newNodeName);
                 if (ObjectUtils.isNotNull(newNodeDetails)) {
                     String newStatusCode = newNodeDetails.getAwaitingStatusCode();
                     if (StringUtils.isNotBlank(newStatusCode)) {
@@ -719,7 +720,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
                             // if an approve or complete request will be created then we need to set the status as awaiting for
                             // the new node
                             SpringContext.getBean(PurapService.class).updateStatus(this, newStatusCode);
-                            setApplicationDocumentStatus(PurapConstants.PurchaseOrderStatuses.getPurchaseOrderAppDocDisapproveStatuses().get(newStatusCode));                                                       
+                            setApplicationDocumentStatus(PurapConstants.PurchaseOrderStatuses.getPurchaseOrderAppDocDisapproveStatuses().get(newStatusCode));
                             SpringContext.getBean(PurapService.class).saveDocumentNoValidation(this);
                         }
                     }
@@ -1566,16 +1567,23 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
     }
 
     protected boolean isBudgetReviewRequired() {
-        boolean alwaysRoutes = true;
-        String documentHeaderId = null;
-        String currentXpathExpression = null;
-        String documentFiscalYearString = this.getPostingYear().toString();
-
         // if document's fiscal year is less than or equal to the current fiscal year
-        if (SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().compareTo(Integer.valueOf(documentFiscalYearString)) >= 0) {
+        if (SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().compareTo(getPostingYear()) >= 0) {
+            // delete and recreate the GL entries for this document so they do not get included in the SF check
+            // This is *NOT* ideal.  The SF service needs to be updated to allow it to provide the current
+            // document number so that it can be exlcuded from pending entry checks.
+            List<GeneralLedgerPendingEntry> pendingEntries = getPendingLedgerEntriesForSufficientFundsChecking();
+            // dumb loop to just force OJB to load the objects.  Otherwise, the proxy object above
+            // only gets resolved *after* the delete below and no SF check happens.
+            for ( GeneralLedgerPendingEntry glpe : pendingEntries ) {
+                glpe.getChartOfAccountsCode();
+            }
+            SpringContext.getBean(GeneralLedgerPendingEntryService.class).delete(getDocumentNumber());
             // get list of sufficientfundItems
             List<SufficientFundsItem> fundsItems = SpringContext.getBean(SufficientFundsService.class).checkSufficientFunds(getPendingLedgerEntriesForSufficientFundsChecking());
-            
+            SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(this);
+            SpringContext.getBean(BusinessObjectService.class).save( getGeneralLedgerPendingEntries() );
+
             //kfsmi-7289
             if (fundsItems != null && fundsItems.size() > 0) {
                 return true;

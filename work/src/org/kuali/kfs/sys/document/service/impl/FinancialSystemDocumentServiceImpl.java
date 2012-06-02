@@ -23,6 +23,10 @@ import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentDao;
 import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
+import org.kuali.kfs.sys.document.validation.event.DocumentSystemSaveEvent;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.document.attribute.DocumentAttributeIndexingQueue;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentAdHocService;
@@ -39,6 +43,39 @@ public class FinancialSystemDocumentServiceImpl implements FinancialSystemDocume
     private DocumentService documentService;
     protected DocumentAdHocService documentAdHocService;
 
+    /**
+     * @see org.kuali.kfs.sys.document.service.FinancialSystemDocumentService#saveDocumentNoValidation(org.kuali.rice.krad.document.Document)
+     */
+    public void saveDocumentNoValidation(Document document) {
+        try {
+            // FIXME The following code of refreshing document header is a temporary fix for the issue that
+            // in some cases (seem random) the doc header fields are null; and if doc header is refreshed, the workflow doc becomes null.
+            // The root cause of this is that when some docs are retrieved manually using OJB criteria, ref objs such as doc header or workflow doc
+            // aren't retrieved; the solution would be to add these refreshing when documents are retrieved in those OJB methods.
+            if (document.getDocumentHeader() != null && document.getDocumentHeader().getDocumentNumber() == null) {
+                WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+                document.refreshReferenceObject("documentHeader");               
+                document.getDocumentHeader().setWorkflowDocument(workflowDocument);
+            }
+            documentService.saveDocument(document, DocumentSystemSaveEvent.class);
+            
+            // At this point, the work-flow status will not change for the current document, but the document status will.
+            // This causes the search indices for the document to become out of synch, and will show a different status type
+            // in the RICE lookup results screen.
+            final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();                            
+            
+            documentAttributeIndexingQueue.indexDocument(document.getDocumentNumber());
+        }
+        catch (WorkflowException we) {
+            String errorMsg = "Workflow error saving document # " + document.getDocumentHeader().getDocumentNumber() + " " + we.getMessage();
+            throw new RuntimeException(errorMsg, we);
+        }
+        catch (NumberFormatException ne) {
+            String errorMsg = "Invalid document number format for document # " + document.getDocumentHeader().getDocumentNumber() + " " + ne.getMessage();
+            throw new RuntimeException(errorMsg, ne);
+        }
+    }
+    
     /**
      * @see org.kuali.kfs.sys.document.service.FinancialSystemDocumentService#findByDocumentHeaderStatusCode(java.lang.Class,
      *      java.lang.String)

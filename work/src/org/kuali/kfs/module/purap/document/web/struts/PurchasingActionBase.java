@@ -110,16 +110,11 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
      */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+        //call the super save to save the document without validations...
+        ActionForward actionForward = super.save(mapping, form, request, response);
+        
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument) kualiDocumentFormBase.getDocument();
-        
-        //clear any error messages but there should not be any currently.
-        GlobalVariables.getMessageMap().clearErrorMessages();
-        SpringContext.getBean(PurapService.class).saveDocumentNoValidation(purapDocument);        
-        
-        KNSGlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_SAVED);
-        kualiDocumentFormBase.setAnnotation("");
         
         //we need to make "calculated" to false so that the "below lines"
         //can be edited until calculated button is clicked.

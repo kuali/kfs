@@ -100,8 +100,6 @@ import org.kuali.rice.kew.framework.postprocessor.DocumentRouteLevelChange;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.kim.api.identity.principal.Principal;
-import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -685,13 +683,12 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
      * @param responsibility the responsibility specified in the request.
      * @throws WorkflowException
      */
-    public void appSpecificRouteDocumentToUser(WorkflowDocument workflowDocument, String userNetworkId, String annotation, String responsibility) throws WorkflowException {
+    public void appSpecificRouteDocumentToUser(WorkflowDocument workflowDocument, String routePrincipalId, String annotation, String responsibility) throws WorkflowException {
         if (ObjectUtils.isNotNull(workflowDocument)) {
             String annotationNote = (ObjectUtils.isNull(annotation)) ? "" : annotation;
             String responsibilityNote = (ObjectUtils.isNull(responsibility)) ? "" : responsibility;
             String currentNodeName = getCurrentRouteNodeName(workflowDocument);
-            Principal principal = SpringContext.getBean(IdentityManagementService.class).getPrincipal(userNetworkId);
-            workflowDocument.adHocToPrincipal( ActionRequestType.FYI, currentNodeName, annotationNote, principal.getPrincipalId(), responsibilityNote, true);
+            workflowDocument.adHocToPrincipal( ActionRequestType.FYI, currentNodeName, annotationNote, routePrincipalId, responsibilityNote, true);
         }
     }
 

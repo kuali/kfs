@@ -642,7 +642,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
                         updateAndSaveAppDocStatus(disapprovalStatus);
                         
                         RequisitionDocument req = getPurApSourceDocumentIfPossible();
-                        appSpecificRouteDocumentToUser(getDocumentHeader().getWorkflowDocument(), req.getFinancialSystemDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId(), "Notification of Order Disapproval for Requisition " + req.getPurapDocumentIdentifier() + "(document id " + req.getDocumentNumber() + ")", "Requisition Routed By User");
+                        appSpecificRouteDocumentToUser(this.getFinancialSystemDocumentHeader().getWorkflowDocument(), req.getFinancialSystemDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId(), "Notification of Order Disapproval for Requisition " + req.getPurapDocumentIdentifier() + "(document id " + req.getDocumentNumber() + ")", "Requisition Routed By User");
                         return;
                     }
                     logAndThrowRuntimeException("No status found to set for document being disapproved in node '" + nodeName + "'");
@@ -689,7 +689,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Mul
             String annotationNote = (ObjectUtils.isNull(annotation)) ? "" : annotation;
             String responsibilityNote = (ObjectUtils.isNull(responsibility)) ? "" : responsibility;
             String currentNodeName = getCurrentRouteNodeName(workflowDocument);
-            Principal principal = SpringContext.getBean(IdentityManagementService.class).getPrincipalByPrincipalName(userNetworkId);
+            Principal principal = SpringContext.getBean(IdentityManagementService.class).getPrincipal(userNetworkId);
             workflowDocument.adHocToPrincipal( ActionRequestType.FYI, currentNodeName, annotationNote, principal.getPrincipalId(), responsibilityNote, true);
         }
     }

@@ -142,8 +142,10 @@ public class RequisitionDocumentPresentationController extends PurchasingAccount
     @Override
     public boolean canCopy(Document document) {
         //  disallow copying until the doc is saved
-        WorkflowDocument workflowDocument = ((PurchasingAccountsPayableDocument) document).getFinancialSystemDocumentHeader().getWorkflowDocument();
+     //   WorkflowDocument workflowDocument = ((PurchasingAccountsPayableDocument) document).getFinancialSystemDocumentHeader().getWorkflowDocument();
 
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        
         if (workflowDocument.isInitiated() && !workflowDocument.isSaved()) {
             return false;
         }

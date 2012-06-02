@@ -432,20 +432,25 @@ public class CustomerInvoiceWriteoffDocument extends GeneralLedgerPostingDocumen
             receivableCustomerInvoiceDetail = new ReceivableCustomerInvoiceDetail(salesTaxCustomerInvoiceDetail, getCustomerInvoiceDocument());
             writeoffTaxCustomerInvoiceDetail = new WriteoffTaxCustomerInvoiceDetail(salesTaxCustomerInvoiceDetail, this);
 
+            CustomerInvoiceDetail customerInvDetail = (hasWriteoffTaxClaimOnCashOffset) ? writeoffTaxCustomerInvoiceDetail : salesTaxCustomerInvoiceDetail;
             List<WriteOffGlpes> newGlpes = findGeneralLedgerPendingEntryForDetail(invGlpes, receivableCustomerInvoiceDetail, salesTaxCustomerInvoiceDetail);
+
             for (WriteOffGlpes writeOffGlpe : newGlpes) {
                 sequenceHelper.increment();
                 if (writeOffGlpe.isWriteOffDetail) {
-                    service.createAndAddGenericInvoiceRelatedGLPEs(this, writeoffTaxCustomerInvoiceDetail, sequenceHelper, isDebit, hasWriteoffTaxClaimOnCashOffset, writeOffGlpe.glpe.getTransactionLedgerEntryAmount());
+                    service.createAndAddGenericInvoiceRelatedGLPEs(this, customerInvDetail, sequenceHelper, isDebit, hasWriteoffTaxClaimOnCashOffset, writeOffGlpe.glpe.getTransactionLedgerEntryAmount());
                 }
                 else {
                     service.createAndAddGenericInvoiceRelatedGLPEs(this, receivableCustomerInvoiceDetail, sequenceHelper, !isDebit, hasWriteoffTaxClaimOnCashOffset, writeOffGlpe.glpe.getTransactionLedgerEntryAmount());
                 }
                 invGlpes.remove(writeOffGlpe.glpe);
             }
+
         }
     }
 
+
+ 
 
     /** find all glpes that match this sales tax entry
      * 

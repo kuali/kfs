@@ -30,6 +30,7 @@
         <ref bean="CreditCardDetail-creditCardDepositDate"/>
         <ref bean="CreditCardDetail-creditCardDepositReferenceNumber"/>
         <ref bean="CreditCardDetail-creditCardAdvanceDepositAmount"/>
+        <ref bean="CreditCardDetail-financialDocumentBankCode"/>
       </list>
     </property>
   </bean>
@@ -98,4 +99,12 @@
     <property name="shortLabel" value="Amount"/>
     <property name="required" value="true"/>
   </bean>
+  <bean id="CreditCardDetail-financialDocumentBankCode" parent="CreditCardDetail-financialDocumentBankCode-parentBean"/>
+
+  <bean id="CreditCardDetail-financialDocumentBankCode-parentBean" abstract="true" parent="Bank-bankCode">
+    <property name="name" value="financialDocumentBankCode"/>
+    <property name="label" value="Bank"/>
+    <property name="shortLabel" value="Bank"/>
+  </bean>
+  
 </beans>

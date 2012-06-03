@@ -47,6 +47,8 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * structure only.
  */
 public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements Copyable, AmountTotaling {
+    public static final String CREDIT_CARD_RECEIPT_DOCUMENT_TYPE_CODE = "CCR";
+
     // holds details about each credit card receipt
     protected List<CreditCardDetail> creditCardReceipts = new ArrayList<CreditCardDetail>();
 

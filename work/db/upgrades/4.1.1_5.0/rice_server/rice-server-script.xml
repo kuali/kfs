@@ -7979,8 +7979,8 @@
 		]]></sql>
 
 	</changeSet>
-	<changeSet author="RICE21" id="RICE_SERVER_UPDATES_mysql" dbms="mysql">
-		<sqlFile path="rice_21_final_mysql.sql" />
+	<changeSet author="RICE20" id="RICE_SERVER_UPDATES_mysql" dbms="mysql">
+		<sqlFile path="rice_20_final_mysql.sql" />
 	</changeSet>
 
 
@@ -8191,6 +8191,9 @@ values ((select (max(to_number(role_perm_id)) + 1) from krim_role_perm_t where r
 	update krim_perm_attr_data_t set ATTR_VAL='org.kuali.rice.core.web.impex.IngesterAction' where ATTR_VAL='org.kuali.rice.kew.batch.web.IngesterAction'	
 	]]></sql>
 </changeSet>
+	<changeSet author="RICE21" id="RICE_SERVER_UPDATES_mysql" dbms="mysql">
+		<sqlFile path="rice_21_final_mysql.sql" />
+	</changeSet>
 
 
 </databaseChangeLog>

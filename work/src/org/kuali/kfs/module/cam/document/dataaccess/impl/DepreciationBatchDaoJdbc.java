@@ -284,7 +284,8 @@ public class DepreciationBatchDaoJdbc extends PlatformAwareDaoBaseJdbc implement
         sql = sql + "CM_ASSET_TYPE_T A2 ON A1.CPTLAST_TYP_CD=A2.CPTLAST_TYP_CD INNER JOIN CA_OBJECT_CODE_T A3 ON " + fiscalYear + "=A3.UNIV_FISCAL_YR ";
         sql = sql + "AND A0.FIN_COA_CD=A3.FIN_COA_CD AND A0.FIN_OBJECT_CD=A3.FIN_OBJECT_CD INNER JOIN CA_ACCOUNT_T A4 ON A0.FIN_COA_CD=A4.FIN_COA_CD ";
         sql = sql + "AND A0.ACCOUNT_NBR=A4.ACCOUNT_NBR INNER JOIN CA_ORG_T A5 ON A4.FIN_COA_CD=A5.FIN_COA_CD AND A4.ORG_CD=A5.ORG_CD ";
-        sql = sql + "WHERE (A0.AST_DEPR1_BASE_AMT IS NOT NULL  AND  A0.AST_DEPR1_BASE_AMT <> 0) AND  (A0.AST_TRNFR_PMT_CD ";
+        //sql = sql + "WHERE (A0.AST_DEPR1_BASE_AMT IS NOT NULL  AND  A0.AST_DEPR1_BASE_AMT <> 0) AND  (A0.AST_TRNFR_PMT_CD ";
+        sql = sql + "WHERE  (A0.AST_TRNFR_PMT_CD ";
         sql = sql + "IN ('N','') OR  A0.AST_TRNFR_PMT_CD IS NULL ) AND ( A1.AST_DEPR_MTHD1_CD IS NULL OR A1.AST_DEPR_MTHD1_CD IN (" + buildINValues(depreciationMethodList) + ") ) ";
         sql = sql + "AND (A1.CPTL_AST_DEPR_DT IS NOT NULL AND A1.CPTL_AST_DEPR_DT <= ? AND A1.CPTL_AST_DEPR_DT <> ?) AND  ";
         sql = sql + "(A1.AST_RETIR_FSCL_YR IS NULL OR A1.AST_RETIR_PRD_CD IS NULL OR A1.AST_RETIR_FSCL_YR > " + fiscalYear + " OR (A1.AST_RETIR_FSCL_YR = " + fiscalYear + " AND A1.AST_RETIR_PRD_CD > " + fiscalMonth + ")) ";

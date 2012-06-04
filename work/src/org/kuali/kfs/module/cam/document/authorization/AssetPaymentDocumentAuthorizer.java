@@ -25,21 +25,5 @@ import org.kuali.rice.krad.util.KRADConstants;
 
 
 public class AssetPaymentDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
-    
-    /**
-     * remove accountingperiodviewaction and accountingperiodeditaction actions for
-     * asset payment document.
-     * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase#getDocumentActions(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person, java.util.Set)
-     */
-    @Override
-    public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActionsFromPresentationController) {
-        Set<String> documentActionsToReturn = super.getDocumentActions(document, user, documentActionsFromPresentationController);
-
-        documentActionsToReturn.remove(KFSConstants.YEAR_END_ACCOUNTING_PERIOD_VIEW_DOCUMENT_ACTION);        
-        documentActionsToReturn.remove(KFSConstants.YEAR_END_ACCOUNTING_PERIOD_EDIT_DOCUMENT_ACTION);
-        
-        return documentActionsToReturn;
-    }
-    
 }
 

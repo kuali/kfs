@@ -1068,7 +1068,7 @@
         <column name="RTE_MTHD_CD" size="2" type="VARCHAR"/>
         <column name="FNL_APRVR_IND" size="1" type="DECIMAL"/>
         <column name="MNDTRY_RTE_IND" size="1" type="DECIMAL"/>
-        <column name="ACTVN_TYP" size="250" type="VARCHAR"/>
+        <column name="ACTVN_TYP" size="1" type="VARCHAR"/>
         <column name="BRCH_PROTO_ID" size="40" type="VARCHAR"/>
         <column default="0" name="VER_NBR" size="8" type="DECIMAL"/>
         <column name="CONTENT_FRAGMENT" size="4000" type="VARCHAR"/>
@@ -3636,7 +3636,6 @@
     <sequence name="KRMS_CMPND_PROP_PROPS_S" nextval="10000"/>
     <sequence name="KRMS_CNTXT_ATTR_S" nextval="10000"/>
     <sequence name="KRMS_CNTXT_S" nextval="10000"/>
-    <sequence name="KRMS_CNTXT_TERM_SPEC_PREREQ_S" nextval="10000"/>
     <sequence name="KRMS_CNTXT_VLD_ACTN_TYP_S" nextval="10000"/>
     <sequence name="KRMS_CNTXT_VLD_AGENDA_TYP_S" nextval="10000"/>
     <sequence name="KRMS_CNTXT_VLD_FUNC_S" nextval="10000"/>

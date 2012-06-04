@@ -827,16 +827,6 @@
         <column name="FLD_VAL" size="4000" type="VARCHAR"/>
         <column default="0" name="VER_NBR" size="8" type="DECIMAL"/>
     </table>
-    <table name="KREW_HLP_T">
-        <column name="HLP_ID" primaryKey="true" size="40" type="VARCHAR"/>
-        <column name="NM" required="true" size="500" type="VARCHAR"/>
-        <column name="KEY_CD" required="true" size="500" type="VARCHAR"/>
-        <column name="HLP_TXT" required="true" size="4000" type="VARCHAR"/>
-        <column default="0" name="VER_NBR" size="8" type="DECIMAL"/>
-        <index name="KREW_HLP_TI1">
-            <index-column name="KEY_CD"/>
-        </index>
-    </table>
     <table name="KREW_INIT_RTE_NODE_INSTN_T">
         <column name="DOC_HDR_ID" primaryKey="true" size="40" type="VARCHAR"/>
         <column name="RTE_NODE_INSTN_ID" primaryKey="true" size="40" type="VARCHAR"/>

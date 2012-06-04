@@ -28,7 +28,7 @@ ALTER TABLE KRNS_MAINT_DOC_ATT_LST_T
 	ADD CONSTRAINT KRNS_MAINT_DOC_ATT_LST_TC0
 	UNIQUE (OBJ_ID);
 
-create index KRNS_MAINT_DOC_ATT__LST_TI1 on KRNS_MAINT_DOC_ATT_LST_T (DOC_HDR_ID);
+create index KRNS_MAINT_DOC_ATT_LST_TI1 on KRNS_MAINT_DOC_ATT_LST_T (DOC_HDR_ID);
 
 create table KRNS_MAINT_DOC_ATT_S (
   id bigint(19) not null auto_increment,
@@ -41,7 +41,8 @@ alter table KRNS_MAINT_DOC_ATT_S auto_increment = 10000;
 -- 
 
 -- KULRICE-7237: KRNS_NTE_T is selected by a field with no indexes - full table scan every time
-create index KRNS_NTE_TI1 on KRNS_NTE_T (RMT_OBJ_ID);		
+-- JHK: commenting out - not present in master datasource
+--create index KRNS_NTE_TI1 on KRNS_NTE_T (RMT_OBJ_ID);		
 		
 		]]></sql>
 	</changeSet>
@@ -69,6 +70,7 @@ CREATE INDEX KRNS_MAINT_DOC_ATT_LST_TI1 on KRNS_MAINT_DOC_ATT_LST_T (DOC_HDR_ID)
 CREATE SEQUENCE KRNS_MAINT_DOC_ATT_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER;
 
 -- KULRICE-7237: KRNS_NTE_T is selected by a field with no indexes - full table scan every time
+-- JHK: commenting out - not present in master datasource
 create index KRNS_NTE_TI1 on KRNS_NTE_T (RMT_OBJ_ID);		
 		]]></sql>
 	</changeSet>

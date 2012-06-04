@@ -60,6 +60,13 @@ DROP SEQUENCE KREW_HLP_S
 /
 UPDATE krim_perm_t SET nm = REPLACE( nm, 'Apprive', 'Approve' ) WHERE nm LIKE '%Apprive%'
 /
+DELETE FROM krcr_nmspc_t WHERE nm IN ( 'KR-RULE-TEST', 'KR-SAP' )
+/
+DELETE FROM krcr_cmpnt_set_t
+/
+DELETE FROM krcr_drvd_cmpnt_t
+/
+DELETE FROM krew_attr_defn_t WHERE nmspc_cd = 'KR-SAP'
 COMMIT
 /
 

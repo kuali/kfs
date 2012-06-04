@@ -3284,7 +3284,7 @@
 		PRIMARY KEY (ACTN_ITM_ID)
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		CREATE INDEX KREW_ACTN_ITM_TI1
+		CREATE INDEX KREW_ACTN_ITM_T1
 		  ON KREW_ACTN_ITM_T 
 		  (PRNCPL_ID)
 		]]></sql>
@@ -7979,8 +7979,8 @@
 		]]></sql>
 
 	</changeSet>
-	<changeSet author="RICE20" id="RICE_SERVER_UPDATES_mysql" dbms="mysql">
-		<sqlFile path="rice_20_final_mysql.sql" />
+	<changeSet author="RICE21" id="RICE_SERVER_UPDATES_mysql" dbms="mysql">
+		<sqlFile path="rice_21_final_mysql.sql" />
 	</changeSet>
 
 

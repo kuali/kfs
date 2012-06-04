@@ -149,19 +149,10 @@
 													labelFor="selectedInvoiceDocumentNumber"
 													literalLabel="Invoice Number/Billing Date"
 													horizontal="true" />
-												<c:choose>
-												<c:when test="${selectedInvoiceApplication}">
 												<kul:htmlAttributeHeaderCell
 													labelFor="selectedInvoiceApplication.accountsReceivableDocumentHeader.customer.customerName"
 													literalLabel="Invoice Header/Customer Name"
 													horizontal="true" />
-												</c:when>
-												<c:otherwise>
-												<kul:htmlAttributeHeaderCell
-													literalLabel="Invoice Header/Customer Name"
-													horizontal="true" />
-												</c:otherwise>
-												</c:choose>
 												<kul:htmlAttributeHeaderCell
 													labelFor="selectedInvoiceBalance"
 													literalLabel="Open Amount/Total" horizontal="true" />
@@ -179,7 +170,7 @@
 															property="selectedInvoiceDocumentNumber" readOnly="true" />
 													</a>
 												</c:when>
-												<c:otherwise>												
+												<c:otherwise>								
 														<kul:htmlControlAttribute
 															attributeEntry="${invoiceAttributes.organizationInvoiceNumber}"
 															property="selectedInvoiceDocumentNumber" readOnly="true" />
@@ -187,14 +178,8 @@
 												</c:choose>
 												</td>
 												<td>
-													<c:choose>
-													<c:when test="${selectedInvoiceApplication}">
-													<c:out value="${selectedInvoiceApplication.invoice.invoiceHeaderText}" />
-													</c:when>
-													<c:otherwise>
+													<c:out value="${KualiForm.selectedInvoiceApplication.invoice.invoiceHeaderText}" />
 													&nbsp;
-													</c:otherwise>
-													</c:choose>
 												</td>
 												<td style="text-align: right;">
 													<kul:htmlControlAttribute
@@ -209,24 +194,10 @@
 											</tr>
 											<tr>
 												<td>
-													<c:choose>
-													<c:when test="${selectedInvoiceApplication}">
-													<c:out value="${selectedInvoiceApplication.invoice.billingDate}"/>
-													</c:when>
-													<c:otherwise>
-													&nbsp;
-													</c:otherwise>
-													</c:choose>
+													<c:out value="${KualiForm.selectedInvoiceApplication.invoice.billingDate}"/>
 												</td>
 												<td>
-													<c:choose>
-													<c:when test="${selectedInvoiceApplication}">
-													<c:out value="${selectedInvoiceApplication.invoice.accountsReceivableDocumentHeader.customer.customerName}" />
-													</c:when>
-													<c:otherwise>
-													&nbsp;
-													</c:otherwise>
-													</c:choose>
+													<c:out value="${KualiForm.selectedInvoiceApplication.invoice.accountsReceivableDocumentHeader.customer.customerName}" />
 												</td>
 												<td style="text-align: right;">
 													<kul:htmlControlAttribute
@@ -306,8 +277,10 @@
 																		readOnly="true" />
 																</td>
 																<td style="text-align: right;">
-																	<c:out value="${selectedInvoiceDetailApplication.amountOpen}"/>
-																		
+																	<kul:htmlControlAttribute
+																		attributeEntry="${customerInvoiceDetailAttributes.amountOpen}"
+																		property="selectedInvoiceDetailApplications[${ctr}].amountOpen"
+																		readOnly="true" />
 																</td>
 																<td style="text-align: right;">
 																	<kul:htmlControlAttribute

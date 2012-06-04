@@ -2911,7 +2911,3 @@ values ((select role_perm_id from
 
 UPDATE KRCR_STYLE_T set XML=replace(XML,'org.kuali.rice.kew.edl.WorkflowFunctions','org.kuali.rice.edl.framework.util.EDLFunctions');
 
--- Fix names of indexes and constraints to match master datasource
-
-ALTER TABLE KREW_ACTN_ITM_T DROP INDEX KREW_ACTN_ITM_T1;
-CREATE INDEX KREW_ACTN_ITM_TI1 ON KREW_ACTN_ITM_T(PRNCPL_ID);

@@ -102,7 +102,6 @@ ATTRIBUTE DEFINITIONS
         	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
         	SELECT NMSPC_CD, NM, CMPNT_NM 
         		FROM krim_attr_defn_t
-        		--WHERE nmspc_cd != 'KR-KRAD' 
         	    ORDER BY nm
         </sql>
     	<echo file="${output.file}" append="true">
@@ -116,7 +115,6 @@ KIM TYPES
         		FROM krim_typ_t t
         	        LEFT OUTER JOIN krim_typ_attr_t a ON a.KIM_TYP_ID = t.KIM_TYP_ID
         	        LEFT OUTER JOIN krim_attr_defn_t ad ON ad.KIM_ATTR_DEFN_ID = a.KIM_ATTR_DEFN_ID
-	    		--WHERE t.nmspc_cd != 'KR-KRAD' 
         	    ORDER BY type_namespace, type_name, attribute_name
         </sql>
     	<echo file="${output.file}" append="true">
@@ -256,7 +254,6 @@ ROLE RESPONSIBILITIES
         	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
 			SELECT TRIM( COALESCE( APPL_ID, ' ' ) ) AS APPL_ID, NMSPC_CD, NM, ACTV_IND
 				FROM krcr_nmspc_t
-				--WHERE nmspc_cd NOT IN ( 'KR-SAP' )
 			    ORDER BY NMSPC_CD
 		</sql>
 		<sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}"
@@ -269,7 +266,6 @@ ROLE RESPONSIBILITIES
         	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
 			SELECT NMSPC_CD, CMPNT_CD, NM, ACTV_IND 
 				FROM krcr_cmpnt_t
-				--WHERE nmspc_cd NOT IN ( 'KR-SAP' )
 			    ORDER BY NMSPC_CD, CMPNT_CD
 		</sql>
 		<sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}"
@@ -283,7 +279,7 @@ ROLE RESPONSIBILITIES
         	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
 			SELECT CMPNT_SET_ID, NMSPC_CD, CMPNT_CD, NM
 				FROM krcr_drvd_cmpnt_t
-			    WHERE NMSPC_CD NOT IN ( 'krms' ) --, 'KR-SAP' )
+			    WHERE NMSPC_CD NOT IN ( 'krms' )
 				  AND CMPNT_SET_ID != 'DD:RICE'
 			    ORDER BY CMPNT_SET_ID, NMSPC_CD, CMPNT_CD
 		</sql>
@@ -291,7 +287,6 @@ ROLE RESPONSIBILITIES
         	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
 			SELECT APPL_ID, NMSPC_CD, CMPNT_CD, PARM_NM, PARM_TYP_CD, EVAL_OPRTR_CD, TRIM( COALESCE( VAL, ' ' ) ) AS val, COALESCE( TRIM( PARM_DESC_TXT ), ' ' ) AS PARM_DESC_TXT 
 				FROM krcr_parm_t
-				--WHERE nmspc_cd NOT IN ( 'KR-SAP' )
 			    ORDER BY APPL_ID, NMSPC_CD, CMPNT_CD, PARM_NM 
 		</sql>
 	</target>

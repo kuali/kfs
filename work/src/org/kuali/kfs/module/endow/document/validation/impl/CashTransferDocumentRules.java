@@ -50,20 +50,21 @@ public class CashTransferDocumentRules extends CashDocumentBaseRules {
             if (!transactionLineSizeGreaterThanZero(cashTransferDocument, false))
                 return false;
 
-            // Checks if Security field is not empty, security code must be valid.
-            if (!isSecurityCodeEmpty(cashTransferDocument, true)) {
-                if (!validateSecurityCode(cashTransferDocument, true))
-                    return false;
-            }
+            boolean isSourceDocument = true;
+            //KFSMI-7505
+            //validations of security and registration attributes are moved to CashDocumentBaseRules class.
+            isValid &= validateSecurityAndRegistrationRules(document, isSourceDocument);
 
-            for (int i = 0; i < cashTransferDocument.getSourceTransactionLines().size(); i++) {
-                EndowmentTransactionLine sourceTransactionLine = cashTransferDocument.getSourceTransactionLines().get(i);
-                isValid &= validateCashTransactionLine(cashTransferDocument, sourceTransactionLine, i);
-            }
-
-            for (int i = 0; i < cashTransferDocument.getTargetTransactionLines().size(); i++) {
-                EndowmentTransactionLine targetTransactionLine = cashTransferDocument.getTargetTransactionLines().get(i);
-                isValid &= validateCashTransactionLine(cashTransferDocument, targetTransactionLine, i);
+            if (isValid){
+                for (int i = 0; i < cashTransferDocument.getSourceTransactionLines().size(); i++) {
+                    EndowmentTransactionLine sourceTransactionLine = cashTransferDocument.getSourceTransactionLines().get(i);
+                    isValid &= validateCashTransactionLine(cashTransferDocument, sourceTransactionLine, i);
+                }
+    
+                for (int i = 0; i < cashTransferDocument.getTargetTransactionLines().size(); i++) {
+                    EndowmentTransactionLine targetTransactionLine = cashTransferDocument.getTargetTransactionLines().get(i);
+                    isValid &= validateCashTransactionLine(cashTransferDocument, targetTransactionLine, i);
+                }
             }
 
         }

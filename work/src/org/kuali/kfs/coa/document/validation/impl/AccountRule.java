@@ -1,12 +1,12 @@
 /*
  * Copyright 2005 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -70,9 +70,9 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
     protected static final String RESTRICTED_CD_TEMPORARILY_RESTRICTED = "T";
 
     protected static SubFundGroupService subFundGroupService;
-    protected static ParameterService parameterService;    
+    protected static ParameterService parameterService;
     protected EncumbranceService encumbranceService;
-    
+
     protected GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
     protected BalanceService balanceService;
     protected AccountService accountService;
@@ -101,6 +101,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
      * old objects contained in the maintenance document. It also calls the BusinessObjectBase.refresh(), which will attempt to load
      * all sub-objects from the DB by their primary keys, if available.
      */
+    @Override
     public void setupConvenienceObjects() {
 
         // setup oldAccount convenience objects, make sure all possible sub-objects are populated
@@ -109,15 +110,15 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
         // setup newAccount convenience objects, make sure all possible sub-objects are populated
         newAccount = (Account) super.getNewBo();
         refreshSubObjects(newAccount);
-        
+
         setActiveIndirectCostRecoveryAccountList(newAccount.getActiveIndirectCostRecoveryAccounts());
         setBoFieldPath(KFSPropertyConstants.INDIRECT_COST_RECOVERY_ACCOUNTS);
     }
-    
+
 
     /**
      * Refreshes the references of account
-     * 
+     *
      * @param account Account
      */
     protected void refreshSubObjects(Account account) {
@@ -133,9 +134,10 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
 
     /**
      * This method calls the route rules but does not fail if any of them fail (this only happens on routing)
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
+    @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
 
         LOG.info("processCustomSaveDocumentBusinessRules called");
@@ -150,9 +152,10 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
      * This method calls the following rules: checkAccountGuidelinesValidation checkEmptyValues checkGeneralRules checkCloseAccount
      * checkContractsAndGrants checkExpirationDate checkFundGroup checkSubFundGroup checkFiscalOfficerIsValidKualiUser this rule
      * will fail on routing
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
+    @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 
         LOG.info("processCustomRouteDocumentBusinessRules called");
@@ -174,10 +177,10 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
         success &= checkIncomeStreamAccountRule();
         success &= checkUniqueAccountNumber(document);
         success &= checkOpenEncumbrances();
-        
+
         // process for IndirectCostRecovery Account
         success &= super.processCustomRouteDocumentBusinessRules(document);
-        
+
         return success;
     }
 
@@ -186,7 +189,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
      * required for this Business Object it checks to make sure that it is filled out It also checks for partially filled out
      * reference keys on the following: continuationAccount incomeStreamAccount endowmentIncomeAccount reportsToAccount
      * contractControlAccount
-     * 
+     *
      * @param maintenanceDocument
      * @return false if any of these are empty
      */
@@ -220,7 +223,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
 
     /**
      * This method validates that the account guidelines object is valid
-     * 
+     *
      * @param accountGuideline
      * @return true if account guideline is valid
      */
@@ -235,7 +238,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
 
     /**
      * This method determines whether the guidelines are required, based on business rules.
-     * 
+     *
      * @param account - the populated Account bo to be evaluated
      * @return true if guidelines are required, false otherwise
      */
@@ -256,7 +259,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
     /**
      * This method tests whether the accountNumber passed in is prefixed with an allowed prefix, or an illegal one. The illegal
      * prefixes are passed in as an array of strings.
-     * 
+     *
      * @param accountNumber - The Account Number to be tested.
      * @param illegalValues - An Array of Strings of the unallowable prefixes.
      * @return false if the accountNumber starts with any of the illegalPrefixes, true otherwise
@@ -275,7 +278,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
     /**
      * This method tests whether an account is being ReOpened by anyone except a system supervisor. Only system supervisors may
      * reopen closed accounts.
-     * 
+     *
      * @param document - populated document containing the old and new accounts
      * @param user - the user who is trying to possibly reopen the account
      * @return true if: document is an edit document, old was closed and new is open, and the user is not one of the System
@@ -295,7 +298,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
     /**
      * This method tests whether a given account has the T - Temporary value for Restricted Status Code, but does not have a
      * Restricted Status Date, which is required when the code is T.
-     * 
+     *
      * @param account
      * @return true if the account is temporarily restricted but the status date is empty
      */
@@ -315,7 +318,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
 
     /**
      * Checks whether the account restricted status code is the default from the sub fund group.
-     * 
+     *
      * @param account
      * @return true if the restricted status code is the same as the sub fund group's
      */
@@ -335,7 +338,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
      * hasTemporaryRestrictedStatusCodeButNoRestrictedStatusDate checkFringeBenefitAccountRule checkUserStatusAndType (on fiscal
      * officer, supervisor and manager) ensures that the fiscal officer, supervisor and manager are not the same
      * isContinuationAccountExpired
-     * 
+     *
      * @param maintenanceDocument
      * @return false on rules violation
      */
@@ -355,7 +358,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
             // test the number
             success &= accountNumberStartsWithAllowedPrefix(newAccount.getAccountNumber(), getParameterService().getParameterValuesAsString(Account.class, ACCT_PREFIX_RESTRICTION));
         }
-        
+
         //make sure the system parameter exists
         if (SpringContext.getBean(ParameterService.class).parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND")) {
             //check the system param to see if the labor benefit rate category should be filled in
@@ -370,7 +373,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
                 }
             }
         }
-        
+
         //make sure the system parameter exists
         if (SpringContext.getBean(ParameterService.class).parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND")) {
             //check the system param to see if the labor benefit rate category should be filled in
@@ -393,7 +396,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
             success &= false;
             putFieldError("closed", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ONLY_SUPERVISORS_CAN_EDIT);
         }
-        
+
         // check FringeBenefit account rules
         success &= checkFringeBenefitAccountRule(newAccount);
 
@@ -419,7 +422,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
             success &= false;
             putFieldError("accountManagerSystemIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_SUPER_CANNOT_BE_ACCT_MGR);
         }
-        
+
         //KFSMI-5961
         if (ObjectUtils.isNotNull(newAccount.getContinuationFinChrtOfAcctCd()) &&
                 ObjectUtils.isNotNull(newAccount.getAccountNumber())){
@@ -436,22 +439,22 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
         }
         return success;
     }
-    
+
     /**
      * This method tests whether the account and continuation account are same.
-     * 
+     *
      * @param newAccount
      * @return true if the account and continuation account are same
      */
     protected boolean isAccountAndContinuationAccountAreSame(Account newAccount) {
-        
-        return (newAccount.getChartOfAccountsCode().equals(newAccount.getContinuationFinChrtOfAcctCd())) 
+
+        return (newAccount.getChartOfAccountsCode().equals(newAccount.getContinuationFinChrtOfAcctCd()))
                 && (newAccount.getAccountNumber().equals(newAccount.getContinuationAccountNumber()));
     }
 
     /**
      * This method tests whether the continuation account entered (if any) has expired or not.
-     * 
+     *
      * @param newAccount
      * @return true if continuation account has expired
      */
@@ -486,7 +489,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
     /**
      * the fringe benefit account (otherwise known as the reportsToAccount) is required if the fringe benefit code is set to N. The
      * fringe benefit code of the account designated to accept the fringes must be Y.
-     * 
+     *
      * @param newAccount
      * @return
      */
@@ -546,7 +549,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
     /**
      * This method is a helper method for checking if the supervisor user is the same as the fiscal officer Calls
      * {@link AccountRule#areTwoUsersTheSame(Person, Person)}
-     * 
+     *
      * @param accountGlobals
      * @return true if the two users are the same
      */
@@ -557,7 +560,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
     /**
      * This method is a helper method for checking if the supervisor user is the same as the manager Calls
      * {@link AccountRule#areTwoUsersTheSame(Person, Person)}
-     * 
+     *
      * @param accountGlobals
      * @return true if the two users are the same
      */
@@ -567,7 +570,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
 
     /**
      * This method checks to see if two users are the same Person using their identifiers
-     * 
+     *
      * @param user1
      * @param user2
      * @return true if these two users are the same
@@ -585,7 +588,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
     /**
      * This method checks to see if the user is trying to close the account and if so if any rules are being violated Calls the
      * additional rule checkAccountExpirationDateValidTodayOrEarlier
-     * 
+     *
      * @param maintenanceDocument
      * @return false on rules violation
      */
@@ -651,7 +654,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
 
     /**
      * This method checks to see if the account expiration date is today's date or earlier
-     * 
+     *
      * @param newAccount
      * @return fails if the expiration date is null or after today's date
      */
@@ -661,7 +664,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
         Date todaysDate = new Date(getDateTimeService().getCurrentDate().getTime());
         todaysDate.setTime(DateUtils.truncate(todaysDate, Calendar.DAY_OF_MONTH).getTime());
         // TODO: convert this to using Wes' Kuali KfsDateUtils once we're using Date's instead of Timestamp
-        
+
         // get the expiration date, if any
         Date expirationDate = newAccount.getAccountExpirationDate();
         if (ObjectUtils.isNull(expirationDate)) {
@@ -682,7 +685,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
     /**
      * This method checks to see if any Contracts and Grants business rules were violated Calls the following sub-rules:
      * checkCgRequiredFields checkCgIncomeStreamRequired
-     * 
+     *
      * @param maintenanceDocument
      * @return false on rules violation
      */
@@ -698,7 +701,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
         // Income Stream account is required if this account is CG fund group,
         // or GF (general fund) fund group (with some exceptions)
         success &= checkIncomeStreamValid(newAccount);
-        
+
         // check if the new account has a valid responsibility id
         if (!ObjectUtils.isNull(newAccount)) {
             final boolean hasValidAccountResponsibility = contractsAndGrantsModuleService.hasValidAccountReponsiblityIdIfNotNull(newAccount);
@@ -713,7 +716,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
 
     /**
      * This method checks to see if the income stream account is required
-     * 
+     *
      * @param newAccount
      * @return fails if it is required and not entered, or not valid
      */
@@ -722,9 +725,9 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
         if (ObjectUtils.isNull(newAccount.getSubFundGroup())) {
             return true;
         }
-        
-        boolean valid = true;   
-        
+
+        boolean valid = true;
+
         //if subfundgroupcode and fundgroup code are blanks
         if (StringUtils.isNotBlank(newAccount.getSubFundGroupCode()) && StringUtils.isNotBlank(newAccount.getSubFundGroup().getFundGroupCode())) {
             String subFundGroupCode = newAccount.getSubFundGroupCode().trim();
@@ -735,30 +738,31 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
                     if (StringUtils.isBlank(newAccount.getIncomeStreamFinancialCoaCode())) {
                         putFieldError(KFSPropertyConstants.INCOME_STREAM_CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_COA_CANNOT_BE_EMPTY, new String[] { getDdService().getAttributeLabel(FundGroup.class, KFSConstants.FUND_GROUP_CODE_PROPERTY_NAME), fundGroupCode, getDdService().getAttributeLabel(SubFundGroup.class, KFSConstants.SUB_FUND_GROUP_CODE_PROPERTY_NAME), subFundGroupCode });
                         valid = false;
-                    } 
+                    }
                     if (StringUtils.isBlank(newAccount.getIncomeStreamAccountNumber())) {
                         putFieldError(KFSPropertyConstants.INCOME_STREAM_ACCOUNT_NUMBER, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_NBR_CANNOT_BE_EMPTY, new String[] { getDdService().getAttributeLabel(FundGroup.class, KFSConstants.FUND_GROUP_CODE_PROPERTY_NAME), fundGroupCode, getDdService().getAttributeLabel(SubFundGroup.class, KFSConstants.SUB_FUND_GROUP_CODE_PROPERTY_NAME), subFundGroupCode});
                         valid = false;
                     }
                 }
             }
-            
+
             if (valid && (StringUtils.isNotBlank(newAccount.getIncomeStreamFinancialCoaCode()) || StringUtils.isNotBlank(newAccount.getIncomeStreamAccountNumber()))) {
-                if(!(newAccount.getIncomeStreamAccountNumber().equals(newAccount.getAccountNumber()) && newAccount.getIncomeStreamFinancialCoaCode().equals(newAccount.getChartOfAccountsCode()))) {
+                if(!(StringUtils.equals( newAccount.getIncomeStreamAccountNumber(), newAccount.getAccountNumber())
+                        && StringUtils.equals( newAccount.getIncomeStreamFinancialCoaCode(), newAccount.getChartOfAccountsCode()))) {
                     if (!super.getDictionaryValidationService().validateReferenceExists(newAccount, KFSPropertyConstants.INCOME_STREAM_ACCOUNT)) {
                         putFieldError(KFSPropertyConstants.INCOME_STREAM_ACCOUNT_NUMBER, KFSKeyConstants.ERROR_EXISTENCE, new StringBuffer(getDdService().getAttributeLabel(SubFundGroup.class, KFSPropertyConstants.INCOME_STREAM_ACCOUNT_NUMBER)).append(": ").append(newAccount.getIncomeStreamFinancialCoaCode()).append("-").append(newAccount.getIncomeStreamAccountNumber()).toString());
                         valid = false;
                     }
-                }   
+                }
             }
         }
-        
+
         return valid;
     }
 
     /**
      * This method checks to make sure that if the contracts and grants fields are required they are entered correctly
-     * 
+     *
      * @param newAccount
      * @return
      */
@@ -776,12 +780,12 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
                 if (checkEmptyBOField(KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER, newAccount.getFinancialIcrSeriesIdentifier(), replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_SERIES_IDENTIFIER_CANNOT_BE_EMPTY))) {
                     String fiscalYear = StringUtils.EMPTY + SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
                     String icrSeriesId = newAccount.getFinancialIcrSeriesIdentifier();
-                    
+
                     Map<String, String> pkMap = new HashMap<String, String>();
                     pkMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
                     pkMap.put(KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER, icrSeriesId);
                     Collection<IndirectCostRecoveryRateDetail> icrRateDetails = getBoService().findMatching(IndirectCostRecoveryRateDetail.class, pkMap);
-                    
+
                     if (ObjectUtils.isNull(icrRateDetails) || icrRateDetails.isEmpty()) {
                         String label = SpringContext.getBean(DataDictionaryService.class).getAttributeLabel(Account.class, KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER);
                         putFieldError(KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER, KFSKeyConstants.ERROR_EXISTENCE, label + " (" + icrSeriesId + ")");
@@ -789,7 +793,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
                     }
                     else {
                         for(IndirectCostRecoveryRateDetail icrRateDetail : icrRateDetails) {
-                            if(ObjectUtils.isNull(icrRateDetail.getIndirectCostRecoveryRate())){                                
+                            if(ObjectUtils.isNull(icrRateDetail.getIndirectCostRecoveryRate())){
                                 putFieldError(KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_RATE_NOT_FOUND, new String[]{fiscalYear, icrSeriesId});
                                 result &= false;
                                 break;
@@ -799,10 +803,10 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
                 }
 
               //check the ICR collection exists
-                result &= checkICRCollectionExistWithErrorMessage(true, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_CHART_CODE_CANNOT_BE_EMPTY, 
+                result &= checkICRCollectionExistWithErrorMessage(true, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_CHART_CODE_CANNOT_BE_EMPTY,
                         replaceTokens(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_CHART_CODE_CANNOT_BE_EMPTY));
                 result &= checkContractControlAccountNumberRequired(newAccount);
-                
+
             }
             else {
                 // this is not a C&G fund group. So users should not fill in any fields in the C&G tab.
@@ -811,7 +815,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
 
               //check the ICR collection NOT exists
                 result &= checkICRCollectionExistWithErrorMessage(false, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_ICR_FIELDS_FILLED_FOR_NON_CG_ACCOUNT, newAccount.getSubFundGroupCode());
-                
+
             }
         }
         return result;
@@ -819,7 +823,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
 
     /**
      * This method is a helper method that replaces error tokens with values for contracts and grants labels
-     * 
+     *
      * @param errorConstant
      * @return error string that has had tokens "{0}" and "{1}" replaced
      */
@@ -835,7 +839,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
     /**
      * This method checks to make sure that if the contract control account exists it is the same as the Account that we are working
      * on
-     * 
+     *
      * @param newAccount
      * @return false if the contract control account is entered and is not the same as the account we are maintaining
      */
@@ -868,7 +872,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
 
     /**
      * This method checks to see if any expiration date field rules were violated
-     * 
+     *
      * @param maintenanceDocument
      * @return false on rules violation
      */
@@ -928,7 +932,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
 
     /**
      * This method checks to see if the new expiration date is different from the old expiration and if it has if it is invalid
-     * 
+     *
      * @param maintDoc
      * @return true if expiration date has changed and is invalid
      */
@@ -974,14 +978,15 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
         if (newExpDate.equals(today) || newExpDate.after(today)) {
             return false;
         }
-        else
+        else {
             return true;
+        }
     }
 
     /**
      * This method checks to see if any Fund Group rules were violated Specifically: if we are dealing with a "GF" (General Fund) we
      * cannot have an account with a budget recording level of "M" (Mixed)
-     * 
+     *
      * @param maintenanceDocument
      * @return false on rules violation
      */
@@ -1012,7 +1017,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
      * This method checks to see if any SubFund Group rules were violated Specifically: if SubFundGroup is empty or not "PFCMR" we
      * cannot have a campus code or building code if SubFundGroup is "PFCMR" then campus code and building code "must" be entered
      * and be valid codes
-     * 
+     *
      * @param maintenanceDocument
      * @return false on rules violation
      */
@@ -1095,7 +1100,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
                         pkMap.put("campusCode", campusCode);
                         pkMap.put("buildingCode", buildingCode);
 
-                        Building building = (Building) getBoService().findByPrimaryKey(Building.class, pkMap);
+                        Building building = getBoService().findByPrimaryKey(Building.class, pkMap);
                         if (building == null) {
                             putFieldError("accountDescription.campusCode", KFSKeyConstants.ERROR_EXISTENCE, campusCode);
                             putFieldError("accountDescription.buildingCode", KFSKeyConstants.ERROR_EXISTENCE, buildingCode);
@@ -1126,7 +1131,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
 
     /**
      * the income stream account is required if account's sub fund group code's fund group code is either GF or CG.
-     * 
+     *
      * @param newAccount
      * @return true if fund group code (obtained through sub fund group) is in the system parameter INCOME_STREAM_ACCOUNT_REQUIRING_FUND_GROUPS (values GF;CG)
      * else return false.
@@ -1144,10 +1149,10 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
         }
         return true;
     }
-    
+
     /**
      * This method checks to see if the contracts and grants fields are filled in or not
-     * 
+     *
      * @param account
      * @param propertyName - property to attach error to
      * @return false if the contracts and grants fields are blank
@@ -1164,31 +1169,31 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
     }
 
     /**
-     * This method checks to see if account is allowed to cross chart; 
-     * and if not makes sure that the account number is unique in the whole system. 
-     * This checking is only needed when adding a new account, 
+     * This method checks to see if account is allowed to cross chart;
+     * and if not makes sure that the account number is unique in the whole system.
+     * This checking is only needed when adding a new account,
      * since users are not allowed to change account numbers on editing.
-     * 
+     *
      * @param maintenanceDocument
      * @return false on account-cross-chart rule violation
      */
     protected boolean checkUniqueAccountNumber(MaintenanceDocument maintenanceDocument) {
         boolean success = true;
         String accountNumber = newAccount.getAccountNumber();
-        
+
         if (maintenanceDocument.isNew() && // if adding a new account
-                // while account is not allowed to cross chart 
+                // while account is not allowed to cross chart
                 !accountService.accountsCanCrossCharts() &&
                 // and with an account number that already exists
                 !accountService.getAccountsForAccountNumber(accountNumber).isEmpty()) {
             // report error
             success = false;
-            putFieldError("accountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_NMBR_NOT_UNIQUE, accountNumber);            
+            putFieldError("accountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_NMBR_NOT_UNIQUE, accountNumber);
         }
-        
+
         return success;
     }
-    
+
     protected boolean checkOpenEncumbrances() {
         boolean success = true;
         if(!oldAccount.isClosed() && newAccount.isClosed()){
@@ -1203,10 +1208,10 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
         }
         return success;
     }
-    
+
     /**
      * This method sets the generalLedgerPendingEntryService
-     * 
+     *
      * @param generalLedgerPendingEntryService
      */
     public void setGeneralLedgerPendingEntryService(GeneralLedgerPendingEntryService generalLedgerPendingEntryService) {
@@ -1215,7 +1220,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
 
     /**
      * This method sets the balanceService
-     * 
+     *
      * @param balanceService
      */
     public void setBalanceService(BalanceService balanceService) {
@@ -1224,7 +1229,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
 
     /**
      * Sets the accountService attribute value.
-     * 
+     *
      * @param accountService The accountService to set.
      */
     public final void setAccountService(AccountService accountService) {
@@ -1258,6 +1263,6 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
             encumbranceService = SpringContext.getBean(EncumbranceService.class);
         }
         return encumbranceService;
-    }       
+    }
 }
 

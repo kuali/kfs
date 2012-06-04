@@ -67,6 +67,7 @@ DELETE FROM krcr_cmpnt_set_t
 DELETE FROM krcr_drvd_cmpnt_t
 /
 DELETE FROM krew_attr_defn_t WHERE nmspc_cd = 'KR-SAP'
+/
 COMMIT
 /
 

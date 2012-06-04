@@ -270,21 +270,6 @@ ROLE RESPONSIBILITIES
 		</sql>
 		<sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}"
         	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
-			SELECT CMPNT_SET_ID
-				FROM krcr_cmpnt_set_t
-				WHERE CMPNT_SET_ID != 'DD:RICE'
-			    ORDER BY CMPNT_SET_ID
-		</sql>
-		<sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}"
-        	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
-			SELECT CMPNT_SET_ID, NMSPC_CD, CMPNT_CD, NM
-				FROM krcr_drvd_cmpnt_t
-			    WHERE NMSPC_CD NOT IN ( 'krms' )
-				  AND CMPNT_SET_ID != 'DD:RICE'
-			    ORDER BY CMPNT_SET_ID, NMSPC_CD, CMPNT_CD
-		</sql>
-		<sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}"
-        	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
 			SELECT APPL_ID, NMSPC_CD, CMPNT_CD, PARM_NM, PARM_TYP_CD, EVAL_OPRTR_CD, TRIM( COALESCE( CASE WHEN val LIKE '%@%' THEN '' ELSE val END, ' ' ) ) AS val, COALESCE( TRIM( PARM_DESC_TXT ), ' ' ) AS PARM_DESC_TXT 
 				FROM krcr_parm_t
 			    ORDER BY APPL_ID, NMSPC_CD, CMPNT_CD, PARM_NM 

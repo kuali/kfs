@@ -39,7 +39,6 @@ public class AdvanceDepositDetail extends PersistableBusinessObjectBase {
     private String financialDocumentAdvanceDepositDescription;
     private KualiDecimal financialDocumentAdvanceDepositAmount;
     private String financialDocumentBankCode;
-    private String financialDocumentBankName;
     
     /* NOTE
      * The following reference to AdvanceDepositDocument is removed, as it won't get properly populated when the document is loaded from DB,
@@ -217,24 +216,6 @@ public class AdvanceDepositDetail extends PersistableBusinessObjectBase {
         this.financialDocumentBankCode = financialDocumentBankCode;
     }
 
-    /**
-     * Gets the financialDocumentBankName attribute.
-     * 
-     * @return Returns the financialDocumentBankName
-     */
-    public String getFinancialDocumentBankName() {
-        return financialDocumentBankName;
-    }
-
-    /**
-     * Sets the financialDocumentBankName attribute.
-     * 
-     * @param financialDocumentBankName The financialDocumentBankName to set.
-     */
-    public void setFinancialDocumentBankName(String financialDocumentBankName) {
-        this.financialDocumentBankName = financialDocumentBankName;
-    }
-    
     /* NOTE
      * The following reference to AdvanceDepositDocument is removed, as it won't get properly populated when the document is loaded from DB,
      * and that causes NPE when copying the document, as well as in any other circumstance when the reference is used.

@@ -41,7 +41,7 @@ public class CreditCardReceiptForm extends CapitalAccountingLinesFormBase implem
         super();
         
         setNewCreditCardReceipt(new CreditCardDetail());
-        newCreditCardReceipt.setDefautBankCode();
+        newCreditCardReceipt.setDefaultBankCode();
         
         capitalAssetInformation = new ArrayList<CapitalAssetInformation>();
         this.capitalAccountingLine.setCanCreateAsset(false); //This document can only edit asset information

@@ -102,5 +102,4 @@
     <property name="label" value="Bank"/>
     <property name="shortLabel" value="Bank"/>
   </bean>
-
 </beans>

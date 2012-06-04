@@ -110,7 +110,7 @@ public class AdvanceDepositAction extends CapitalAccountingLinesActionBase {
 
             // clear the used advanceDeposit
             AdvanceDepositDetail advanceDepositDetail = new AdvanceDepositDetail();
-            advanceDepositDetail.setDefautBankCode();
+            advanceDepositDetail.setDefaultBankCode();
             adForm.setNewAdvanceDeposit(advanceDepositDetail);
         }
 

@@ -41,7 +41,7 @@ public class AdvanceDepositForm extends CapitalAccountingLinesFormBase implement
         super();
 
         AdvanceDepositDetail advanceDepositDetail = new AdvanceDepositDetail();
-        advanceDepositDetail.setDefautBankCode();
+        advanceDepositDetail.setDefaultBankCode();
         setNewAdvanceDeposit(advanceDepositDetail);
 
         capitalAssetInformation = new ArrayList<CapitalAssetInformation>();

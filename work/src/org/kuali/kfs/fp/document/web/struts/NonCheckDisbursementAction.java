@@ -36,7 +36,7 @@ public class NonCheckDisbursementAction extends KualiAccountingDocumentActionBas
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.createDocument(kualiDocumentFormBase);
         
-        ((NonCheckDisbursementDocument) kualiDocumentFormBase.getDocument()).setDefautBankCode();
+        ((NonCheckDisbursementDocument) kualiDocumentFormBase.getDocument()).setDefaultBankCode();
     }
     
 }

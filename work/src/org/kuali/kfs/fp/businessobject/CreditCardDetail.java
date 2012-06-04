@@ -252,7 +252,7 @@ public class CreditCardDetail extends PersistableBusinessObjectBase {
     /**
      * Sets the bank code for a new AdvanceDepositDetail to the setup default for the Advance Deposit document.
      */
-    public void setDefautBankCode() {
+    public void setDefaultBankCode() {
         Bank defaultBank = SpringContext.getBean(BankService.class).getDefaultBankByDocType(CreditCardReceiptDocument.CREDIT_CARD_RECEIPT_DOCUMENT_TYPE_CODE);
         if (defaultBank != null) {
             this.financialDocumentBankCode = defaultBank.getBankCode();

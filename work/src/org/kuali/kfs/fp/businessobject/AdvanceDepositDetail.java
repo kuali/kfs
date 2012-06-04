@@ -39,7 +39,8 @@ public class AdvanceDepositDetail extends PersistableBusinessObjectBase {
     private String financialDocumentAdvanceDepositDescription;
     private KualiDecimal financialDocumentAdvanceDepositAmount;
     private String financialDocumentBankCode;
-
+    private String financialDocumentBankName;
+    
     /* NOTE
      * The following reference to AdvanceDepositDocument is removed, as it won't get properly populated when the document is loaded from DB,
      * and that causes NPE when copying the document, as well as in any other circumstance when the reference is used.
@@ -61,7 +62,7 @@ public class AdvanceDepositDetail extends PersistableBusinessObjectBase {
     /**
      * Sets the bank code for a new AdvanceDepositDetail to the setup default for the Advance Deposit document.
      */
-    public void setDefautBankCode() {
+    public void setDefaultBankCode() {
         Bank defaultBank = SpringContext.getBean(BankService.class).getDefaultBankByDocType(AdvanceDepositDocument.ADVANCE_DEPOSIT_DOCUMENT_TYPE_CODE);
         if (defaultBank != null) {
             this.financialDocumentBankCode = defaultBank.getBankCode();
@@ -198,7 +199,6 @@ public class AdvanceDepositDetail extends PersistableBusinessObjectBase {
         this.financialDocumentAdvanceDepositAmount = financialDocumentAdvanceDepositAmount;
     }
 
-
     /**
      * Gets the financialDocumentBankCode attribute.
      * 
@@ -217,6 +217,24 @@ public class AdvanceDepositDetail extends PersistableBusinessObjectBase {
         this.financialDocumentBankCode = financialDocumentBankCode;
     }
 
+    /**
+     * Gets the financialDocumentBankName attribute.
+     * 
+     * @return Returns the financialDocumentBankName
+     */
+    public String getFinancialDocumentBankName() {
+        return financialDocumentBankName;
+    }
+
+    /**
+     * Sets the financialDocumentBankName attribute.
+     * 
+     * @param financialDocumentBankName The financialDocumentBankName to set.
+     */
+    public void setFinancialDocumentBankName(String financialDocumentBankName) {
+        this.financialDocumentBankName = financialDocumentBankName;
+    }
+    
     /* NOTE
      * The following reference to AdvanceDepositDocument is removed, as it won't get properly populated when the document is loaded from DB,
      * and that causes NPE when copying the document, as well as in any other circumstance when the reference is used.

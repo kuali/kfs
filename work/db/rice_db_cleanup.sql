@@ -70,6 +70,8 @@ DELETE FROM krew_typ_attr_t
 /
 DELETE FROM krew_typ_t
 /
+DELETE FROM krew_attr_defn_t
+/
 COMMIT
 /
 

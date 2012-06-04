@@ -106,7 +106,7 @@ public class CfdaServiceImpl implements CfdaService {
             }
 
             LOG.info("Successfully connected and logged in");
-
+            ftp.enterLocalPassiveMode();
             inputStream = ftp.retrieveFileStream(fileName);
             if (inputStream != null) {
                 LOG.info("reading input stream");

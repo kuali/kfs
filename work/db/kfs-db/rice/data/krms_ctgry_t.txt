@@ -1,2 +1,0 @@
-ctgry_id|nm|nmspc_cd|ver_nbr|
-T1000|misc|KR-RULE-TEST|0.0|

@@ -1,9 +1,0 @@
-<Record name="krew_edl_assctn_t" type="delimited">
-  <Field name="edoclt_assoc_id"                 type="numeric"    nullable="true"  trim="false" delimiter="|"  />
-  <Field name="doc_typ_nm"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="edl_def_nm"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="style_nm"                        type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="actv_ind"                        type="numeric"    nullable="true"  trim="false" delimiter="|"  />
-  <Field name="ver_nbr"                         type="numeric"    nullable="true"  trim="false" delimiter="|"  />
-  <Field name="obj_id"                          type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
-</Record>

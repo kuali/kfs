@@ -1,3 +1,0 @@
-chnl_subscrp_id|chnl_id|prncpl_id|obj_id|ver_nbr|
-1.0|1.0|testuser4|||
-1000.0|1.0|admin|||

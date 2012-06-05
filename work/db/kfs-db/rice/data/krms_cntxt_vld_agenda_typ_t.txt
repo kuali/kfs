@@ -1,2 +1,0 @@
-cntxt_vld_agenda_id|cntxt_id|agenda_typ_id|ver_nbr|
-T1000|CONTEXT1|T1005|1.0|

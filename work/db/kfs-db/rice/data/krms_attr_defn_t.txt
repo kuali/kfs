@@ -4,7 +4,3 @@ attr_defn_id|nm|nmspc_cd|lbl|actv|cmpnt_nm|ver_nbr|desc_txt|
 1004|actionTypeCode|KR-RULE|Error Action|Y||1.0|Error|
 1005|actionMessage|KR-RULE|Action Message|Y||1.0|Message validation action returns|
 1006|peopleFlowName|KR_RULE|PeopleFlow Name|Y||1.0|PeopleFlow Name|
-T1000|Context1Qualifier|KR-RULE-TEST|Context 1 Qualifier|Y||1.0|null|
-T1001|Event|KR-RULE-TEST|Event Name|Y||1.0|null|
-T1002|Optional Test Attribute|KR-RULE-TEST|label|Y||0.0|this is an optional attribute for testing|
-T1003|Campus|KR-RULE-TEST|campus label|Y||0.0|the campus which this agenda is valid for|

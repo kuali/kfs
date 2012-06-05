@@ -1,4 +1,0 @@
-term_rslvr_parm_spec_id|term_rslvr_id|nm|ver_nbr|
-T1000|T1000|Campus Code|1.0|
-T1001|T1001|Org Code|1.0|
-T1002|T1001|Principal ID|1.0|

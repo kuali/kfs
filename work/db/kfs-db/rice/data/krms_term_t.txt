@@ -1,8 +1,0 @@
-term_id|term_spec_id|ver_nbr|desc_txt|
-T1000|T1000|1.0|Bloomington Campus Size|
-T1002|T1002|1.0|null|
-T1003|T1003|1.0|Fund Name|
-T1004|T1004|1.0|PO Value|
-T1005|T1005|1.0|PO Item Type|
-T1006|T1006|1.0|Account|
-T1007|T1007|1.0|Occasion|

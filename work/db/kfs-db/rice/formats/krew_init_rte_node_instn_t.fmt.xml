@@ -1,4 +1,0 @@
-<Record name="krew_init_rte_node_instn_t" type="delimited">
-  <Field name="doc_hdr_id"                      type="string"     nullable="true"  trim="false" delimiter="|"  />
-  <Field name="rte_node_instn_id"               type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
-</Record>

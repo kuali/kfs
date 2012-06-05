@@ -68,38 +68,6 @@ rule_attr_id|nm|lbl|rule_attr_typ_cd|desc_txt|cls_nm|xml|ver_nbr|appl_id|obj_id|
               </fieldDef>
            </searchingConfig>|1.0||6166CBA1B958644DE0404F8189D86C09|
 1010|ChannelReviewerRoleAttribute|Channel Reviewer Role Attribute|RuleAttribute|Channel Reviewer Role Attribute|org.kuali.rice.ken.kew.ChannelReviewerRoleAttribute||1.0||6166CBA1B959644DE0404F8189D86C09|
-1011|DestinationAttribute|Department of Prudence Routing|RuleAttribute|Department of Prudence Routing|edu.sampleu.travel.workflow.DestinationRuleAttribute||1.0|TRAVEL|6166CBA1B95A644DE0404F8189D86C09|
-1012|EmployeeAttribute|Employee Routing|RuleAttribute|Employee Routing|edu.sampleu.travel.workflow.EmployeeAttribute||1.0|TRAVEL|6166CBA1B95B644DE0404F8189D86C09|
-1013|AccountAttribute|AccountAttribute|RuleAttribute|AccountAttribute|edu.sampleu.travel.workflow.AccountAttribute||2.0||6166CBA1B95C644DE0404F8189D86C09|
-1014|TravelAccountDocumentAccountNumberAttribute|Account Number Attribute|SearchableXmlAttribute|The search attribute used to find documents by account number.|org.kuali.rice.krad.workflow.attribute.KualiXmlSearchableAttributeImpl|<searchingConfig>
-                <fieldDef name="accountNumber" title="kuali_dd_label(TravelAccount)">
-                    <display>
-                        <type>text</type>
-                    </display>
-                    <validation required="false"/>
-                    <fieldEvaluation>
-                        <xpathexpression>wf:xstreamsafe('//newMaintainableObject/businessObject/number')</xpathexpression>
-                    </fieldEvaluation>
-                </fieldDef>
-            </searchingConfig>|1.0||6166CBA1B95D644DE0404F8189D86C09|
-1100|EDL.Campus.Example|EDL Campus Routing|RuleXmlAttribute|EDL School Routing|org.kuali.rice.kew.rule.xmlrouting.StandardGenericXMLRuleAttribute|<routingConfig>
-        <fieldDef name="campus" title="Campus" workflowType="ALL">
-          <display>
-            <type>select</type>
-            <values title="IUB">IUB</values>
-            <values title="IUPUI">IUPUI</values>
-          </display>
-          <validation required="false"/>
-          <fieldEvaluation>
-            <xpathexpression>//campus = wf:ruledata('campus')</xpathexpression>
-          </fieldEvaluation>
-        </fieldDef>
-        <xmlDocumentContent>
-          <campus>%campus%</campus>
-        </xmlDocumentContent>
-      </routingConfig>|2.0||6166CBA1B95F644DE0404F8189D86C09|
-1133|FiscalOfficer|foo|RuleAttribute|foo|edu.sampleu.travel.workflow.AccountAttribute||2.0||6166CBA1B96D644DE0404F8189D86C09|
-1232|LoadTestActionListAttribute|LoadTestActionListAttribute|ActionListAttribute|LoadTestActionListAttribute|components.LoadTestActionListAttibute||1.0||6166CBA1B9C4644DE0404F8189D86C09|
 1233|XMLSearchableAttribute|XML Searchable attribute|SearchableXmlAttribute|XML Searchable attribute|org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute|<searchingConfig>
         <fieldDef name="givenname" title="First name">
           <display>
@@ -115,63 +83,3 @@ rule_attr_id|nm|lbl|rule_attr_typ_cd|desc_txt|cls_nm|xml|ver_nbr|appl_id|obj_id|
           </fieldEvaluation>
         </fieldDef>
       </searchingConfig>|1.0||6166CBA1B9C5644DE0404F8189D86C09|
-1234|XMLSearchableAttribute_CaseInsensitive|XML Searchable attribute|SearchableXmlAttribute|XML Searchable attribute|org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute|<searchingConfig>
-        <fieldDef name="givenname_nocase" title="First name">
-          <display>
-            <type>text</type>
-          </display>
-          <searchDefinition autoWildcardLocation="prefixonly" caseSensitive="false"/>
-          <validation required="true">
-            <regex>^[a-zA-Z ]+$</regex>
-            <message>Invalid first name</message>
-          </validation>
-          <fieldEvaluation>
-            <xpathexpression>//givenname/value</xpathexpression>
-          </fieldEvaluation>
-        </fieldDef>
-      </searchingConfig>|1.0||6166CBA1B9C6644DE0404F8189D86C09|
-1235|XMLSearchableAttributeStdLong|XML Searchable attribute|SearchableXmlAttribute|XML Searchable attribute|org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute|<searchingConfig>
-        <fieldDef name="testLongKey" title="Certain Long Value">
-          <display>
-            <type>text</type>
-          </display>
-          <searchDefinition allowWildcards="true" autoWildcardLocation="suffixOnly" dataType="long"/>
-          <fieldEvaluation>
-            <xpathexpression>//testLongKey/value</xpathexpression>
-          </fieldEvaluation>
-        </fieldDef>
-      </searchingConfig>|1.0||6166CBA1B9C7644DE0404F8189D86C09|
-1236|XMLSearchableAttributeStdFloat|XML Searchable attribute|SearchableXmlAttribute|XML Searchable attribute|org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute|<searchingConfig>
-        <fieldDef name="testFloatKey" title="Float in the Water">
-          <display>
-            <type>text</type>
-          </display>
-          <searchDefinition dataType="float"/>
-          <fieldEvaluation>
-            <xpathexpression>//testFloatKey/value</xpathexpression>
-          </fieldEvaluation>
-        </fieldDef>
-      </searchingConfig>|1.0||6166CBA1B9C8644DE0404F8189D86C09|
-1237|XMLSearchableAttributeStdCurrency|XML Searchable attribute|SearchableXmlAttribute|XML Searchable attribute|org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute|<searchingConfig>
-        <fieldDef name="testCurrencyKey" title="Dollars Here">
-          <display>
-            <type>text</type>
-            <parameters name="displayFormatPattern">#.00</parameters>
-          </display>
-          <searchDefinition dataType="float"/>
-          <fieldEvaluation>
-            <xpathexpression>//testCurrencyKey/value</xpathexpression>
-          </fieldEvaluation>
-        </fieldDef>
-      </searchingConfig>|1.0||6166CBA1B9C9644DE0404F8189D86C09|
-1238|XMLSearchableAttributeStdDateTime|XML Searchable attribute|SearchableXmlAttribute|XML Searchable attribute|org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute|<searchingConfig>
-        <fieldDef name="testDateTimeKey" title="Searchable Date Field">
-          <display>
-            <type>text</type>
-          </display>
-          <searchDefinition dataType="datetime" datePicker="false"/>
-          <fieldEvaluation>
-            <xpathexpression>//putWhateverWordsIwantInsideThisTag/testDateTimeKey/value</xpathexpression>
-          </fieldEvaluation>
-        </fieldDef>
-      </searchingConfig>|1.0||6166CBA1B9CA644DE0404F8189D86C09|

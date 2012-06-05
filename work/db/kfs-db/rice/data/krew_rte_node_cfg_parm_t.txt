@@ -19,14 +19,6 @@ rte_node_cfg_parm_id|rte_node_id|key_cd|val|
 2129|2043|contentFragment|<requests name="RequestsNode"><ruleTemplate>NotificationRouting</ruleTemplate></requests>|
 2130|2043|ruleTemplate|NotificationRouting|
 2131|2043|ruleSelector|Template|
-2162|2057|contentFragment|<start name="Initiated"><activationType>P</activationType><mandatoryRoute>false</mandatoryRoute><finalApproval>false</finalApproval></start>|
-2163|2057|activationType|P|
-2164|2057|mandatoryRoute|false|
-2165|2057|finalApproval|false|
-2166|2057|ruleSelector|Template|
-2167|2059|contentFragment|<start name="Initiated"><activationType>P</activationType></start>|
-2168|2059|activationType|P|
-2169|2059|ruleSelector|Template|
 2170|2061|contentFragment|<start name="Initiated"><activationType>P</activationType><mandatoryRoute>false</mandatoryRoute><finalApproval>false</finalApproval></start>|
 2171|2061|activationType|P|
 2172|2061|mandatoryRoute|false|
@@ -47,58 +39,11 @@ rte_node_cfg_parm_id|rte_node_id|key_cd|val|
 2187|2067|mandatoryRoute|false|
 2188|2067|finalApproval|false|
 2189|2067|ruleSelector|Template|
-2243|2344|contentFragment|<start name="AdHoc"><activationType>P</activationType></start>|
-2244|2344|activationType|P|
-2245|2344|ruleSelector|Template|
-2360|2580|contentFragment|<start name="Initiated"><activationType>P</activationType><mandatoryRoute>false</mandatoryRoute><finalApproval>false</finalApproval></start>|
-2361|2580|activationType|P|
-2362|2580|mandatoryRoute|false|
-2363|2580|finalApproval|false|
-2364|2580|ruleSelector|Template|
-2365|2581|contentFragment|<requests name="eDoc.Example1.Node1"><activationType>P</activationType><ruleTemplate>eDoc.Example1.Node1</ruleTemplate><mandatoryRoute>false</mandatoryRoute><finalApproval>false</finalApproval></requests>|
-2366|2581|activationType|P|
-2367|2581|ruleTemplate|eDoc.Example1.Node1|
-2368|2581|mandatoryRoute|false|
-2369|2581|finalApproval|false|
-2370|2581|ruleSelector|Template|
 2380|2840|contentFragment|<start name="PreRoute"><activationType>S</activationType><mandatoryRoute>false</mandatoryRoute><finalApproval>false</finalApproval></start>|
 2381|2840|activationType|S|
 2382|2840|mandatoryRoute|false|
 2383|2840|finalApproval|false|
 2384|2840|ruleSelector|Template|
-2397|2846|contentFragment|<start name="PreRoute"><activationType>P</activationType></start>|
-2398|2846|activationType|P|
-2399|2846|ruleSelector|Template|
-2400|2847|contentFragment|<requests name="DestinationApproval"><ruleTemplate>TravelRequest-DestinationRouting</ruleTemplate></requests>|
-2401|2847|ruleTemplate|TravelRequest-DestinationRouting|
-2402|2847|ruleSelector|Template|
-2403|2848|contentFragment|<requests name="TravelerApproval"><ruleTemplate>TravelRequest-TravelerRouting</ruleTemplate></requests>|
-2404|2848|ruleTemplate|TravelRequest-TravelerRouting|
-2405|2848|ruleSelector|Template|
-2406|2849|contentFragment|<requests name="SupervisorApproval"><ruleTemplate>TravelRequest-SupervisorRouting</ruleTemplate></requests>|
-2407|2849|ruleTemplate|TravelRequest-SupervisorRouting|
-2408|2849|ruleSelector|Template|
-2409|2850|contentFragment|<requests name="AccountApproval"><ruleTemplate>TravelRequest-AccountRouting</ruleTemplate></requests>|
-2410|2850|ruleTemplate|TravelRequest-AccountRouting|
-2411|2850|ruleSelector|Template|
-2412|2892|contentFragment|<start name="Adhoc Routing"><activationType>P</activationType><mandatoryRoute>false</mandatoryRoute><finalApproval>false</finalApproval></start>|
-2413|2892|activationType|P|
-2414|2892|mandatoryRoute|false|
-2415|2892|finalApproval|false|
-2416|2892|ruleSelector|Template|
-2417|2893|contentFragment|<requests name="Recipe Masters Group Approval"><activationType>S</activationType><ruleSelector>Named</ruleSelector><ruleName>RecipeMastersGroupApproval</ruleName></requests>|
-2418|2893|activationType|S|
-2419|2893|ruleSelector|Named|
-2420|2893|ruleName|RecipeMastersGroupApproval|
-2421|2895|contentFragment|<start name="Adhoc Routing"><activationType>P</activationType><mandatoryRoute>false</mandatoryRoute><finalApproval>false</finalApproval></start>|
-2422|2895|activationType|P|
-2423|2895|mandatoryRoute|false|
-2424|2895|finalApproval|false|
-2425|2895|ruleSelector|Template|
-2426|2896|contentFragment|<requests name="Chicken Recipe Masters Group Approval"><activationType>S</activationType><ruleSelector>Named</ruleSelector><ruleName>ChickenRecipeMastersGroupApproval</ruleName></requests>|
-2427|2896|activationType|S|
-2428|2896|ruleSelector|Named|
-2429|2896|ruleName|ChickenRecipeMastersGroupApproval|
 2430|2898|contentFragment|<start name="AdHoc"/>|
 2431|2898|ruleSelector|Template|
 2432|2899|contentFragment|<role name="RoleType"><qualifierResolverClass>org.kuali.rice.kim.workflow.attribute.KimTypeQualifierResolver</qualifierResolverClass><activationType>P</activationType></role>|
@@ -125,24 +70,6 @@ rte_node_cfg_parm_id|rte_node_id|key_cd|val|
 2453|2908|ruleSelector|Template|
 2454|2910|contentFragment|<start name="AdHoc"/>|
 2455|2910|ruleSelector|Template|
-2461|2914|contentFragment|<start name="Initiated">
-<activationType>P</activationType>
-<mandatoryRoute>false</mandatoryRoute>
-<finalApproval>false</finalApproval>
-</start>
-|
-2462|2914|activationType|P|
-2463|2914|mandatoryRoute|false|
-2464|2914|finalApproval|false|
-2465|2914|ruleSelector|Template|
-2466|2915|contentFragment|<requests name="PeopleFlows">
-<activationType>R</activationType>
-<rulesEngine executorClass="edu.sampleu.travel.workflow.TravelAccountRulesEngineExecutor"/>
-</requests>
-|
-2467|2915|activationType|R|
-2468|2915|rulesEngine||
-2469|2915|ruleSelector|Template|
 2470|2917|contentFragment|<start name="Initiated">
 <activationType>P</activationType>
 <mandatoryRoute>false</mandatoryRoute>

@@ -3,9 +3,3 @@ typ_id|nm|nmspc_cd|srvc_nm|actv|ver_nbr|
 1001|Route to PeopleFlow|KR-RULE|approvalPeopleFlowActionTypeService|Y|1.0|
 1002|Validation Rule|KR-RULE|validationRuleTypeService|Y|1.0|
 1003|Validation Action|KR-RULE|validationActionTypeService|Y|1.0|
-T1000|TermResolver|KR-RULE-TEST||Y|1.0|
-T1001|CAMPUS|KR-RULE-TEST|myCampusService|Y|1.0|
-T1002|KrmsActionResolverType|KR-RULE-TEST|testActionTypeService|Y|1.0|
-T1003|CONTEXT|KR-RULE-TEST||Y|1.0|
-T1004|AGENDA|KR-RULE-TEST||Y|1.0|
-T1005|Campus Agenda|KR-RULE-TEST|campusAgendaTypeService|Y|1.0|

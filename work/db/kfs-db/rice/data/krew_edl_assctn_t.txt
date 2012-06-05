@@ -1,2 +1,0 @@
-edoclt_assoc_id|doc_typ_nm|edl_def_nm|style_nm|actv_ind|ver_nbr|obj_id|
-2010.0|eDoc.Example1Doctype|eDoc.Example1.Form|eDoc.Example1.Style|1.0|1.0|6166CBA1BC0E644DE0404F8189D86C09|

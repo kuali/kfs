@@ -1,3 +1,0 @@
-term_rslvr_id|nmspc_cd|nm|typ_id|output_term_spec_id|actv|ver_nbr|
-T1000|KR-RULE-TEST|campusSizeResolver|T1000|T1000|Y|1.0|
-T1001|KR-RULE-TEST|orgMemberResolver|T1000|T1001|Y|1.0|

@@ -469,8 +469,10 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
                 throw new RuntimeException("offset object code " + offsetEntry.getUniversityFiscalYear() + "-" + offsetEntry.getChartOfAccountsCode() + "-" + offsetEntry.getFinancialObjectCode());
             }
             // FIXME! - inject the sufficient funds service
-            Account account = SpringContext.getBean(AccountService.class).getByPrimaryIdWithCaching(offsetEntry.getChartOfAccountsCode(), offsetEntry.getAccountNumber());
-            offsetEntry.setAcctSufficientFundsFinObjCd(SpringContext.getBean(SufficientFundsService.class).getSufficientFundsObjectCode(financialObject, account.getAccountSufficientFundsCode()));
+            Account account = SpringContext.getBean(AccountService.class).getByPrimaryId(offsetEntry.getChartOfAccountsCode(), offsetEntry.getAccountNumber());
+            if ( account != null ) {
+                offsetEntry.setAcctSufficientFundsFinObjCd(SpringContext.getBean(SufficientFundsService.class).getSufficientFundsObjectCode(financialObject, account.getAccountSufficientFundsCode()));
+            }
         }
 
         offsetEntry.setFinancialObjectTypeCode(getOffsetFinancialObjectTypeCode(offsetDefinition));

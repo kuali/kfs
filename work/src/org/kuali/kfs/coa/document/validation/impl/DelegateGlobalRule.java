@@ -15,11 +15,15 @@
  */
 package org.kuali.kfs.coa.document.validation.impl;
 
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.coa.businessobject.AccountDelegateGlobal;
 import org.kuali.kfs.coa.businessobject.AccountDelegateGlobalDetail;
+import org.kuali.kfs.coa.businessobject.AccountDelegateModelDetail;
 import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -346,6 +350,21 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
         return true;
     }
 
+    
+    private boolean checkStartDate(AccountDelegateGlobalDetail delegateGlobalDetail, int lineNum) {
+        boolean success = true;
+        if (ObjectUtils.isNotNull(delegateGlobalDetail.getAccountDelegateStartDate())) {
+            Timestamp today = getDateTimeService().getCurrentTimestamp();
+            today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime());
+            if (delegateGlobalDetail.getAccountDelegateStartDate().before(today)) {
+                success = false;
+                String errorPath = DELEGATE_GLOBALS_PREFIX + "[" + lineNum + "]." + "accountDelegateStartDate";
+                putFieldError(errorPath, KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_STARTDATE_IN_PAST,new String[0]);
+            }
+        }
+        return success;
+   }
+
     /**
      * This method validates the rule that says there can be only one PrimaryRoute delegate for each given docType. It checks the
      * delegateGlobalToTest against the list, to determine whether adding this new delegateGlobalToTest would violate any
@@ -507,6 +526,9 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
             KualiDecimal fromAmount = detail.getApprovalFromThisAmount();
             KualiDecimal toAmount = detail.getApprovalToThisAmount();
 
+            // check the start date
+            success &= checkStartDate(detail, 0);
+            
             // FROM amount must be >= 0 (may not be negative)
             success &= checkDelegateFromAmtGreaterThanEqualZero(fromAmount, 0, true);
 

@@ -1068,7 +1068,7 @@
         <column name="RTE_MTHD_CD" size="2" type="VARCHAR"/>
         <column name="FNL_APRVR_IND" size="1" type="DECIMAL"/>
         <column name="MNDTRY_RTE_IND" size="1" type="DECIMAL"/>
-        <column name="ACTVN_TYP" size="250" type="VARCHAR"/>
+        <column name="ACTVN_TYP" size="1" type="VARCHAR"/>
         <column name="BRCH_PROTO_ID" size="40" type="VARCHAR"/>
         <column default="0" name="VER_NBR" size="8" type="DECIMAL"/>
         <column name="CONTENT_FRAGMENT" size="4000" type="VARCHAR"/>

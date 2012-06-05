@@ -12,6 +12,7 @@
         <ref bean="DisbursementVoucherPreConferenceRegistrant-dvPreConferenceRequestNumber"/>
         <ref bean="DisbursementVoucherPreConferenceRegistrant-disbVchrExpenseAmount"/>
         <ref bean="DisbursementVoucherPreConferenceRegistrant-documentNumber"/>
+        <ref bean="DisbursementVoucherPreConferenceRegistrant-financialDocumentLineNumber"/>
       </list>
     </property>
   </bean>
@@ -59,21 +60,25 @@
   </bean>
   <bean id="DisbursementVoucherPreConferenceRegistrant-disbVchrExpenseAmount" parent="DisbursementVoucherPreConferenceRegistrant-disbVchrExpenseAmount-parentBean"/>
 
-  <bean id="DisbursementVoucherPreConferenceRegistrant-disbVchrExpenseAmount-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="DisbursementVoucherPreConferenceRegistrant-disbVchrExpenseAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
     <property name="name" value="disbVchrExpenseAmount"/>
-    <property name="forceUppercase" value="false"/>
     <property name="label" value="Amount"/>
     <property name="shortLabel" value="Amt"/>
-    <property name="maxLength" value="22"/>
     <property name="required" value="true"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="9"/>
-    </property>
-  </bean>
+   </bean>
   <bean id="DisbursementVoucherPreConferenceRegistrant-documentNumber" parent="DisbursementVoucherPreConferenceRegistrant-documentNumber-parentBean"/>
 
   <bean id="DisbursementVoucherPreConferenceRegistrant-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
     <property name="name" value="documentNumber"/>
     <property name="forceUppercase" value="true"/>
   </bean>
+ 
+  <bean id="DisbursementVoucherPreConferenceRegistrant-financialDocumentLineNumber" parent="DisbursementVoucherPreConferenceRegistrant-financialDocumentLineNumber-parentBean"/>
+
+  <bean id="DisbursementVoucherPreConferenceRegistrant-financialDocumentLineNumber-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="financialDocumentLineNumber"/>
+    <property name="required" value="false"/>
+    <property name="forceUppercase" value="true"/>
+  </bean>
+
 </beans>

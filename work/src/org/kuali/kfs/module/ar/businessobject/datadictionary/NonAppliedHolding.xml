@@ -32,6 +32,7 @@
 				<ref bean="NonAppliedHolding-customerNumber" />
 				<ref bean="NonAppliedHolding-financialDocumentLineAmount" />
 				<ref bean="NonAppliedHolding-referenceFinancialDocumentNumber" />
+				<ref bean="NonAppliedHolding-availableUnappliedAmount" />
 			</list>
 		</property>
 	</bean>
@@ -72,6 +73,7 @@
 			<bean parent="TextControlDefinition" p:size="21" />
 		</property>
 	</bean>
+	
 	<bean id="NonAppliedHolding-referenceFinancialDocumentNumber"
 		parent="NonAppliedHolding-referenceFinancialDocumentNumber-parentBean" />
 
@@ -81,6 +83,25 @@
 		<property name="forceUppercase" value="true" />
 		<property name="label" value="Reference Financial Document Number" />
 		<property name="shortLabel" value="Number" />
+		<property name="maxLength" value="14" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterValidation" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="16" />
+		</property>
+	</bean>
+	
+
+	<bean id="NonAppliedHolding-availableUnappliedAmount"
+		parent="NonAppliedHolding-availableUnappliedAmount-parentBean" />
+
+	<bean id="NonAppliedHolding-availableUnappliedAmount-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="availableUnappliedAmount" />
+		<property name="forceUppercase" value="true" />
+		<property name="label" value="Available Unapplied Amount" />
+		<property name="shortLabel" value="Unapplied Amount" />
 		<property name="maxLength" value="14" />
 		<property name="validationPattern">
 			<ref bean="AnyCharacterValidation" />

@@ -363,7 +363,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         SpringContext.getBean(DictionaryValidationService.class).validateBusinessObject(newRegistrantLine);
         GlobalVariables.getMessageMap().removeFromErrorPath(KFSPropertyConstants.NEW_PRECONF_REGISTRANT_LINE);
 
-        if (GlobalVariables.getMessageMap().hasErrors()) {
+        if (! GlobalVariables.getMessageMap().hasErrors()) {
             dvDocument.addDvPrePaidRegistrantLine(newRegistrantLine);
             dvForm.setNewPreConferenceRegistrantLine(new DisbursementVoucherPreConferenceRegistrant());
         }

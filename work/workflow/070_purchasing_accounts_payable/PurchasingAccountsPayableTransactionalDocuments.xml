@@ -386,7 +386,7 @@
           </split>
           <split name="VendorIsEmployeeOrNonResidentAlien">
             <branch name="True">
-              <role name="Tax" nextNode="JoinVendorIsEmployeeOrNonResidentAlien"/>
+              <role name="Tax" nextNode="JoinVendorIsEmployeeOrNonResidentAlien" nextAppDocStatus="Awaiting Tax Approval"/>
             </branch>
             <branch name="False">
               <simple name="NoOpVendorIsEmployeeOrNonResidentAlien" nextNode="JoinVendorIsEmployeeOrNonResidentAlien"/>

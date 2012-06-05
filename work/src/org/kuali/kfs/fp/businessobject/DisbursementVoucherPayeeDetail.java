@@ -603,7 +603,7 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * @return Returns the dvPayeeSubjectPayment
      */
     public boolean isDvPayeeSubjectPaymentCode() {
-        if (ObjectUtils.isNull(dvPayeeSubjectPaymentCode)) {
+        if (ObjectUtils.isNull(dvPayeeSubjectPaymentCode) && (getDisbVchrVendorHeaderIdNumberAsInteger() != null)) {
             dvPayeeSubjectPaymentCode = SpringContext.getBean(VendorService.class).isSubjectPaymentVendor(getDisbVchrVendorHeaderIdNumberAsInteger());
         }
         return dvPayeeSubjectPaymentCode;

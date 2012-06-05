@@ -43,6 +43,8 @@ public class KFSKeyConstants {
     public static final String AUTHORIZATION_ERROR_MODULE = "error.authorization.module";
 
     // Document-specific errors
+    public static final String ERROR_DOCUMENT_DESCRIPTION_REQUIRED = "error.document.documentDescription.required";
+    
     public static final String ERROR_DOCUMENT_ACCOUNT_CLOSED = "error.document.accountClosed";
     public static final String ERROR_DOCUMENT_ACCOUNT_EXPIRED = "error.document.accountExpired";
     public static final String ERROR_DOCUMENT_ACCOUNT_EXPIRED_NO_CONTINUATION = "error.document.accountExpiredNoContinuation";

@@ -19,13 +19,14 @@ import java.util.Set;
 
 import org.kuali.kfs.module.purap.PurapAuthorizationConstants;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.kfs.module.purap.document.ReceivingDocumentBase;
 import org.kuali.rice.krad.document.Document;
 
 public class LineItemReceivingDocumentPresentationController extends PurchasingAccountsPayableDocumentPresentationController {
     
     @Override
     public boolean canSave(Document document) {
-        if (((PurchasingAccountsPayableDocument) document).getFinancialSystemDocumentHeader().getWorkflowDocument().isInitiated()) {
+        if (((ReceivingDocumentBase) document).getFinancialSystemDocumentHeader().getWorkflowDocument().isInitiated()) {
             return false;
         }
         return super.canSave(document);
@@ -33,7 +34,7 @@ public class LineItemReceivingDocumentPresentationController extends PurchasingA
 
     @Override
     public boolean canCancel(Document document) {
-        if (((PurchasingAccountsPayableDocument) document).getFinancialSystemDocumentHeader().getWorkflowDocument().isInitiated()) {
+        if (((ReceivingDocumentBase) document).getFinancialSystemDocumentHeader().getWorkflowDocument().isInitiated()) {
             return false;
         }
         return super.canCancel(document);
@@ -41,7 +42,7 @@ public class LineItemReceivingDocumentPresentationController extends PurchasingA
 
     @Override
     public boolean canClose(Document document) {
-        if (((PurchasingAccountsPayableDocument) document).getFinancialSystemDocumentHeader().getWorkflowDocument().isInitiated()) {
+        if (((ReceivingDocumentBase) document).getFinancialSystemDocumentHeader().getWorkflowDocument().isInitiated()) {
             return false;
         }
         return super.canClose(document);
@@ -51,7 +52,7 @@ public class LineItemReceivingDocumentPresentationController extends PurchasingA
     public Set<String> getEditModes(Document document) {
         Set<String> editModes = super.getEditModes(document);
 
-        if (((PurchasingAccountsPayableDocument) document).getFinancialSystemDocumentHeader().getWorkflowDocument().isInitiated()) {
+        if (((ReceivingDocumentBase) document).getFinancialSystemDocumentHeader().getWorkflowDocument().isInitiated()) {
             editModes.add(PurapAuthorizationConstants.LineItemReceivingEditMode.DISPLAY_INIT_TAB);
         }
         

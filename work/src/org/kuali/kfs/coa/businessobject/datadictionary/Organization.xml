@@ -164,6 +164,7 @@
 		<property name="maxLength" value="4" />
 		<property name="validationPattern" ref="AnyCharacterValidation" />
 		<property name="control" ref="FourCharacterTextControl" />
+		<property name="required" value="true" />
 	</bean>
 
 	<bean id="Organization-organizationName" parent="Organization-organizationName-parentBean" />

@@ -33,13 +33,12 @@ import org.kuali.kfs.fp.businessobject.DisbursementVoucherNonEmployeeTravel;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherPreConferenceRegistrant;
 import org.kuali.kfs.fp.businessobject.WireCharge;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
-import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants.TabByReasonCode;
+import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherCoverSheetService;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherPayeeService;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherTaxService;
 import org.kuali.kfs.fp.document.service.DisbursementVoucherTravelService;
-import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
@@ -49,8 +48,6 @@ import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.core.api.util.RiceConstants;
-import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
@@ -58,7 +55,6 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -74,29 +70,6 @@ import org.kuali.rice.krad.util.UrlFactory;
 public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherAction.class);
 
-    /**
-     * save the document without any validations.....
-     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        //call the super save to save the document without validations...
-        
-        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-        DisbursementVoucherDocument dv = (DisbursementVoucherDocument) kualiDocumentFormBase.getDocument();
-        
-        if (checkDocumentDescriptionEntered(dv.getFinancialSystemDocumentHeader())) {
-            //clear any error messages but there should not be any currently.
-            GlobalVariables.getMessageMap().clearErrorMessages();
-            SpringContext.getBean(PurapService.class).saveDocumentNoValidation(dv);        
-            
-            KNSGlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_SAVED);
-            kualiDocumentFormBase.setAnnotation("");
-        }
-        
-        return mapping.findForward(RiceConstants.MAPPING_BASIC);        
-    }
-    
     /**
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)

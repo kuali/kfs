@@ -59,7 +59,7 @@ public class DisbursementVoucherPrePaidTravelValidation extends GenericValidatio
         errors.addToErrorPath(KFSPropertyConstants.DV_PRE_CONFERENCE_DETAIL);
         
         SpringContext.getBean(DictionaryValidationService.class).validateBusinessObjectsRecursively(preConferenceDetail, 1);
-        if (!errors.hasErrors()) {
+        if (errors.hasErrors()) {
             errors.removeFromErrorPath(KFSPropertyConstants.DV_PRE_CONFERENCE_DETAIL);
             errors.addToErrorPath(KFSPropertyConstants.DOCUMENT);
             return false;

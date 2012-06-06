@@ -145,7 +145,7 @@ if [[ "$RUN_UPGRADE_SCRIPTS" == "true" ]]; then
 	touch $WORKSPACE/upgrade.sql
 	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=finest --changeLogFile=kim_upgrade_pre_rice_20.xml updateSQL >> $WORKSPACE/upgrade.sql
 	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=finest --changeLogFile=rice-server-script.xml updateSQL >> $WORKSPACE/upgrade.sql
-	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=finest --changeLogFile=kew_upgrade.xml updateSQL > $WORKSPACE/upgrade.sql
+	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=finest --changeLogFile=kew_upgrade.xml updateSQL >> $WORKSPACE/upgrade.sql
 	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=finest --changeLogFile=kim_upgrade.xml updateSQL >> $WORKSPACE/upgrade.sql
 	java -jar ../liquibase*.jar --defaultsFile=$WORKSPACE/liquibase.properties --logLevel=finest --changeLogFile=parameter_updates.xml updateSQL >> $WORKSPACE/upgrade.sql
 

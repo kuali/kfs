@@ -247,6 +247,17 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
                 
             }
 
+            @Override
+            public boolean isRecalled() {
+                return false;
+            }
+
+            @Override
+            public void recall(String arg0, boolean arg1) {
+                // TODO Auto-generated method stub
+                
+            }
+
 
         };
 
@@ -336,6 +347,17 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
 
             @Override
             public void returnToPreviousNode(String nodeName, ReturnPoint returnPoint) {
+                // TODO Auto-generated method stub
+                
+            }
+
+            @Override
+            public boolean isRecalled() {
+                return false;
+            }
+
+            @Override
+            public void recall(String arg0, boolean arg1) {
                 // TODO Auto-generated method stub
                 
             }

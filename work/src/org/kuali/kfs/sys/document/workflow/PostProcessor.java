@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.api.action.ActionType;
 import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
 import org.kuali.rice.kew.framework.postprocessor.AfterProcessEvent;
 import org.kuali.rice.kew.framework.postprocessor.BeforeProcessEvent;
@@ -79,5 +80,10 @@ public class PostProcessor implements org.kuali.rice.kew.framework.postprocessor
 
     public ProcessDocReport beforeProcess(BeforeProcessEvent arg0) throws Exception {
         return new ProcessDocReport(true);
+    }
+
+    @Override
+    public ProcessDocReport afterActionTaken(ActionType performed, ActionTakenEvent event) throws Exception {
+        return SpringContext.getBean(PostProcessorService.class).afterActionTaken(performed, event);
     }
 }

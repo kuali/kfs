@@ -282,4 +282,9 @@ public class SecTransactionalDocumentAuthorizer implements TransactionalDocument
         return documentAuthorizer.canTakeRequestedAction(document, actionRequestCode, user);
     }
 
+    @Override
+    public boolean canRecall(Document document, Person user) {
+        return documentAuthorizer.canRecall(document, user);
+    }
+
 }

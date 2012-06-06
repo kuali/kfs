@@ -25,6 +25,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.module.cam.CamsConstants;
 import org.kuali.kfs.module.cam.CamsPropertyConstants;
 import org.kuali.kfs.module.cam.businessobject.Asset;
@@ -35,8 +37,8 @@ import org.kuali.kfs.module.cam.businessobject.AssetPayment;
 import org.kuali.kfs.module.cam.businessobject.AssetType;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.PaymentSummaryService;
-import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.KFSConstants.DocumentStatusCodes;
 import org.kuali.kfs.sys.businessobject.UniversityDate;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -198,10 +200,37 @@ public class AssetServiceImpl implements AssetService {
     }
 
     /**
-     * @see org.kuali.kfs.module.cam.document.service.AssetService#isMovableFinancialObjectSubtypeCode(java.lang.String)
+     * @see org.kuali.kfs.module.cam.document.service.AssetService#isAssetMovableCheckByPayment(java.lang.String)
      */
     public boolean isAssetMovableCheckByPayment(String financialObjectSubTypeCode) {
         if (parameterService.getParameterValuesAsString(Asset.class, CamsConstants.Parameters.MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES).contains(financialObjectSubTypeCode)) {
+            return true;
+        }
+        else if (parameterService.getParameterValuesAsString(Asset.class, CamsConstants.Parameters.NON_MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES).contains(financialObjectSubTypeCode)) {
+            return false;
+        }
+        else {
+            throw new ValidationException("Cound not determine movable or non-movable for this object sub-type code " + financialObjectSubTypeCode);
+        }
+    }
+
+    /**
+     * @see org.kuali.kfs.module.cam.document.service.AssetService#isAssetMovableCheckByPayment(Asset)
+     */
+    public boolean isAssetMovableCheckByPayment(Asset asset) {
+        String financialObjectSubTypeCode = asset.getFinancialObjectSubTypeCode();
+        if (ObjectUtils.isNotNull(asset.getAssetPayments()) && !asset.getAssetPayments().isEmpty()) {
+            AssetPayment firstAssetPayment = asset.getAssetPayments().get(0);
+            firstAssetPayment.refreshReferenceObject(CamsPropertyConstants.AssetPayment.FINANCIAL_OBJECT);
+            ObjectCodeService objectCodeService = (ObjectCodeService) SpringContext.getBean(ObjectCodeService.class);
+            ObjectCode objectCode = objectCodeService.getByPrimaryIdForCurrentYear(firstAssetPayment.getChartOfAccountsCode(),firstAssetPayment.getFinancialObjectCode());
+            financialObjectSubTypeCode = objectCode.getFinancialObjectSubTypeCode();
+        }
+
+        if (ObjectUtils.isNull(financialObjectSubTypeCode)) {
+            return true;
+        }
+        else if (parameterService.getParameterValuesAsString(Asset.class, CamsConstants.Parameters.MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES).contains(financialObjectSubTypeCode)) {
             return true;
         }
         else if (parameterService.getParameterValuesAsString(Asset.class, CamsConstants.Parameters.NON_MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES).contains(financialObjectSubTypeCode)) {

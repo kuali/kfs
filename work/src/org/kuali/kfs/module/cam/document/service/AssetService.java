@@ -148,6 +148,17 @@ public interface AssetService {
     public boolean isAssetMovableCheckByPayment(String financialObjectSubTypeCode);
 
     /**
+     * This will check whether the asset is movable based on the financial object sub type code of the asset or its first payment, and the values defined in system parameters
+     * <li>return TRUE if found in MOVABLE_EQUIPMENT_OBJECT_SUB_TYPE_CODES</li>
+     * <li>return FALSE if found in NON_MOVABLE_EQUIPMENT_OBJECT_SUB_TYPE_CODES</li>
+     * <li>throw ValidationException if not defined in neither one of them</li>
+     * 
+     * @param financialObjectSubType
+     * @return boolean
+     */
+    public boolean isAssetMovableCheckByPayment(Asset asset);
+    
+    /**
      * This will check if the list of financial object sub type code are compatible with each other.
      * <li> return TRUE if all Object sub type code are compatible with each other.
      * <li> return FALSE if any non copatible object sub type code are found.

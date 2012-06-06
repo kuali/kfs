@@ -383,8 +383,9 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
      */
     protected boolean validateOwnerAccount(AssetTransferDocument assetTransferDocument) {
         boolean valid = true;
-
+        
         Asset asset = assetTransferDocument.getAsset();
+        /*
         String finObjectSubTypeCode = asset.getFinancialObjectSubTypeCode();
         if (ObjectUtils.isNotNull(asset.getAssetPayments()) && !asset.getAssetPayments().isEmpty()) {
             AssetPayment firstAssetPayment = asset.getAssetPayments().get(0);
@@ -395,7 +396,9 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
             finObjectSubTypeCode = objectCode.getFinancialObjectSubTypeCode();
         }
         boolean assetMovable = getAssetService().isAssetMovableCheckByPayment(finObjectSubTypeCode);
-
+        */
+        boolean assetMovable = getAssetService().isAssetMovableCheckByPayment(asset);
+        
         FinancialSystemTransactionalDocumentAuthorizerBase documentAuthorizer = (FinancialSystemTransactionalDocumentAuthorizerBase) SpringContext.getBean(DocumentDictionaryService.class).getDocumentAuthorizer(assetTransferDocument);
         boolean isAuthorizedTransferMovable = documentAuthorizer.isAuthorized(assetTransferDocument, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.TRANSFER_NON_MOVABLE_ASSETS, GlobalVariables.getUserSession().getPerson().getPrincipalId());
         

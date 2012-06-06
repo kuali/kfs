@@ -33,13 +33,12 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
+import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentAuthorizerBase;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
@@ -213,15 +212,27 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
     }
 
     protected HtmlData getTransferUrl(Asset asset) {
-        Properties parameters = new Properties();
-        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.DOC_HANDLER_METHOD);
-        parameters.put(CamsPropertyConstants.AssetTransferDocument.CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
-        parameters.put(KFSConstants.PARAMETER_COMMAND, "initiate");
-        parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, CamsConstants.DocumentTypeName.ASSET_TRANSFER);
+        boolean assetMovable = getAssetService().isAssetMovableCheckByPayment(asset);        
+        boolean isAuthorized = true;
+        if (!assetMovable) {
+            FinancialSystemTransactionalDocumentAuthorizerBase documentAuthorizer = (FinancialSystemTransactionalDocumentAuthorizerBase)SpringContext.getBean(DocumentDictionaryService.class).getDocumentAuthorizer(CamsConstants.DocumentTypeName.ASSET_TRANSFER);
+            isAuthorized = documentAuthorizer.isAuthorized(asset, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.SEPARATE, GlobalVariables.getUserSession().getPerson().getPrincipalId());
+        }
+        
+        if (isAuthorized) {
+            Properties parameters = new Properties();
+            parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.DOC_HANDLER_METHOD);
+            parameters.put(CamsPropertyConstants.AssetTransferDocument.CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
+            parameters.put(KFSConstants.PARAMETER_COMMAND, "initiate");
+            parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, CamsConstants.DocumentTypeName.ASSET_TRANSFER);
 
-        String href = UrlFactory.parameterizeUrl(CamsConstants.StrutsActions.ONE_UP + CamsConstants.StrutsActions.TRANSFER, parameters);
+            String href = UrlFactory.parameterizeUrl(CamsConstants.StrutsActions.ONE_UP + CamsConstants.StrutsActions.TRANSFER, parameters);
 
-        return new AnchorHtmlData(href, KRADConstants.DOC_HANDLER_METHOD, CamsConstants.AssetActions.TRANSFER);
+            return new AnchorHtmlData(href, KRADConstants.DOC_HANDLER_METHOD, CamsConstants.AssetActions.TRANSFER);
+        }
+        else {
+            return new AnchorHtmlData("", "", "");
+        }
     }
 
     public AssetService getAssetService() {

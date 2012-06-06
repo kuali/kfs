@@ -27,10 +27,13 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.businessobject.DefaultPrincipalAddress;
 import org.kuali.kfs.module.purap.businessobject.RequisitionItem;
+import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.RiceConstants;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
@@ -45,6 +48,36 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class RequisitionAction extends PurchasingActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RequisitionAction.class);
 
+    /**
+     * save the document without any validations.....
+     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        //call the super save to save the document without validations...
+        
+        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument) kualiDocumentFormBase.getDocument();
+        
+        if (checkDocumentDescriptionEntered(purapDocument.getFinancialSystemDocumentHeader())) {
+            //clear any error messages but there should not be any currently.
+            GlobalVariables.getMessageMap().clearErrorMessages();
+            SpringContext.getBean(PurapService.class).saveDocumentNoValidation(purapDocument);        
+            
+            KNSGlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_SAVED);
+            kualiDocumentFormBase.setAnnotation("");
+        }
+        
+        //we need to make "calculated" to false so that the "below lines"
+        //can be edited until calculated button is clicked.
+        PurchasingFormBase baseForm = (PurchasingFormBase) form;
+        baseForm.setCalculated(false);
+        purapDocument.setCalculated(false);
+        
+        return mapping.findForward(RiceConstants.MAPPING_BASIC);
+    }
+    
+    
     /**
      * Does initialization for a new requisition.
      * 

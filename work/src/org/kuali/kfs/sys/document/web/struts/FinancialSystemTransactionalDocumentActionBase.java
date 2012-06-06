@@ -29,16 +29,11 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.Correctable;
-import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
-import org.kuali.kfs.sys.document.service.FinancialSystemDocumentService;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.core.api.util.RiceConstants;
-import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.krad.bo.DocumentHeader;
@@ -60,23 +55,23 @@ public class FinancialSystemTransactionalDocumentActionBase extends KualiTransac
      * save the document without any validations.....as long as description is filled in
      * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    @Override
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-        FinancialSystemTransactionalDocument financialSystemTransactionalDocument = (FinancialSystemTransactionalDocument) kualiDocumentFormBase.getDocument();
-        
-        if (checkDocumentDescriptionEntered(financialSystemTransactionalDocument.getDocumentHeader())) {
-            //clear any error messages but there should not be any currently.
-            GlobalVariables.getMessageMap().clearErrorMessages();
-            SpringContext.getBean(FinancialSystemDocumentService.class).saveDocumentNoValidation(financialSystemTransactionalDocument);        
-            
-            KNSGlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_SAVED);
-            kualiDocumentFormBase.setAnnotation("");
-        }
-        
-        return mapping.findForward(RiceConstants.MAPPING_BASIC);
-    }
+  //  @Override
+  //  public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+//
+  //      KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+  //      FinancialSystemTransactionalDocument financialSystemTransactionalDocument = (FinancialSystemTransactionalDocument) kualiDocumentFormBase.getDocument();
+  //      
+   //     if (checkDocumentDescriptionEntered(financialSystemTransactionalDocument.getDocumentHeader())) {
+   //         //clear any error messages but there should not be any currently.
+   //         GlobalVariables.getMessageMap().clearErrorMessages();
+   //         SpringContext.getBean(FinancialSystemDocumentService.class).saveDocumentNoValidation(financialSystemTransactionalDocument);        
+   //         
+   //         KNSGlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_SAVED);
+   //         kualiDocumentFormBase.setAnnotation("");
+   //     }
+   //     
+   //     return mapping.findForward(RiceConstants.MAPPING_BASIC);
+   // }
     
     /**
      * Method that will take the current document and call its copy method if Copyable.
@@ -141,7 +136,6 @@ public class FinancialSystemTransactionalDocumentActionBase extends KualiTransac
      * KFSMI-4452
      */
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
 
         ActionForward returnForward =  super.execute(mapping, form, request, response);
         if( isDocumentLocked(mapping, form, request)) {

@@ -665,6 +665,7 @@
     <bean id="financialSystemDocumentTypeService-parentBean" class="org.kuali.kfs.sys.document.service.impl.FinancialSystemDocumentTypeServiceImpl" abstract="true">
   	  <property name="dataDictionaryService" ref="dataDictionaryService" />
   	  <property name="maintenanceDocumentDictionaryService" ref="maintenanceDocumentDictionaryService" />
+  	  <property name="documentTypeService" ref="rice.kew.documentTypeService" />
     </bean>
 	<bean id="electronicPaymentClaimingService" parent="electronicPaymentClaimingService-parentBean"/>
     

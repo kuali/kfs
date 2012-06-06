@@ -19,26 +19,4 @@
     </modifySql>
   </changeSet>
   
-  <changeSet author="KFS50" id="PO_CONTR_LANG_ID_SEQ_CHG_oracle" dbms="oracle">
-  	<comment>KFSMI-8009 change the starting sequence number</comment>
-  		<dropSequence sequenceName="PO_CONTR_LANG_ID"/>
-  		<createSequence sequenceName="PO_CONTR_LANG_ID" startValue="1007" incrementBy="1" />
-  </changeSet>
-  
-  	
-  	<changeSet author="KFS50" id="PO_CONTR_LANG_ID_SEQ_DROP_mysql" dbms="mysql">
-  		<comment>KFSMI-8009 change the starting sequence number</comment>
-  		<dropTable  tableName="PO_CONTR_LANG_ID" />
-	</changeSet>  
- 	<changeSet author="KFS50" id="PO_CONTR_LANG_ID_SEQ_CHG_mysql" dbms="mysql">
-  		<comment>KFSMI-8009 change the starting sequence number</comment>
-	  	<createTable tableName="PO_CONTR_LANG_ID">
-	  		<column name="ID" type="BIGINT(19)"  autoIncrement="true">
-	  			<constraints primaryKey="true"/>
-	  		</column>
-	  	</createTable>
-	  	<modifySql>
-	  		<append value=" ENGINE = MyISAM AUTO_INCREMENT = 1007"/>
-	  	</modifySql>
-	</changeSet>
 </databaseChangeLog>

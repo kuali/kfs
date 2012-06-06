@@ -16,6 +16,7 @@
 package org.kuali.kfs.sys.document.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.gl.service.impl.StringHelper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.LedgerPostingDocument;
@@ -27,6 +28,7 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Default implementation of the FinancialSystemDocumentTypeService
@@ -34,6 +36,7 @@ import org.kuali.rice.krad.document.Document;
 public class FinancialSystemDocumentTypeServiceImpl implements FinancialSystemDocumentTypeService {
     private DataDictionaryService dataDictionaryService;
     private MaintenanceDocumentDictionaryService maintenanceDocumentDictionaryService;
+    protected DocumentTypeService documentTypeService;
 
     /**
      * Makes sure the doc type represented by the code either is or is a child of the
@@ -41,7 +44,12 @@ public class FinancialSystemDocumentTypeServiceImpl implements FinancialSystemDo
      * @see org.kuali.kfs.coa.service.AccountDelegateService#isFinancialSystemDocumentType(java.lang.String)
      */
     public boolean isFinancialSystemDocumentType(String documentTypeCode) {
-        return isActiveCurrentChildDocumentType(documentTypeCode, KFSConstants.ROOT_DOCUMENT_TYPE);
+        final DocumentType documentType = documentTypeService.getDocumentTypeByName(documentTypeCode);
+        final DocumentType rootDocumentType = documentTypeService.getDocumentTypeByName(KFSConstants.ROOT_DOCUMENT_TYPE);
+        if(ObjectUtils.isNull(documentType)) {
+            return false;
+        }
+        return isActiveCurrentChildDocumentType(documentType.getId(), rootDocumentType.getId());
     }
     
     /**
@@ -51,18 +59,15 @@ public class FinancialSystemDocumentTypeServiceImpl implements FinancialSystemDo
      * @param parentDocumentTypeCode the parent document type code that the documentTypeCode should either represent or be an active, current child of
      * @return true if the doc type is a child or represents the parent document type, false otherwise
      */
-    protected boolean isActiveCurrentChildDocumentType(String documentTypeCode, String parentDocumentTypeCode) {
-        if (StringUtils.isBlank(documentTypeCode)) return false;
-        if (documentTypeCode.equals(parentDocumentTypeCode)) return true;
-        
-        DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);        
+    protected boolean isActiveCurrentChildDocumentType(String documentTypeId, String parentDocumentTypeId) {
+        if (StringHelper.isNullOrEmpty(documentTypeId)) return false;
+        if (documentTypeId.equals(parentDocumentTypeId)) return true;
 
-        if (!documentTypeService.isActiveByName(documentTypeCode)) return false;
-        final DocumentType documentType = documentTypeService.getDocumentTypeByName(documentTypeCode);
+        if (!documentTypeService.isActiveById(documentTypeId)) return false;
+        final DocumentType documentType = documentTypeService.getDocumentTypeById(documentTypeId);
         String parentId = documentType.getParentId();
-        String parentName = documentTypeService.getNameById(parentId);
-        if (StringUtils.isBlank(parentName)) return false;
-        return isActiveCurrentChildDocumentType(parentName, parentDocumentTypeCode);
+        if (StringHelper.isNullOrEmpty(parentId)) return false;
+        return isActiveCurrentChildDocumentType(parentId, parentDocumentTypeId);
     }
 
     /**
@@ -103,7 +108,13 @@ public class FinancialSystemDocumentTypeServiceImpl implements FinancialSystemDo
      * @return true if the documentTypeCode is a current active child of the Financial System Ledger Only document type, false otherwise
      */
     protected boolean isFinancialSystemLedgerOnlyDocumentType(String documentTypeCode) {
-        return isActiveCurrentChildDocumentType(documentTypeCode, KFSConstants.FINANCIAL_SYSTEM_LEDGER_ONLY_ROOT_DOCUMENT_TYPE);
+        final DocumentType documentType = documentTypeService.getDocumentTypeByName(documentTypeCode);
+        final DocumentType rootDocumentType = documentTypeService.getDocumentTypeByName(KFSConstants.FINANCIAL_SYSTEM_LEDGER_ONLY_ROOT_DOCUMENT_TYPE);
+        
+        if (ObjectUtils.isNull(documentType)) {
+            return false;
+        }
+        return isActiveCurrentChildDocumentType(documentType.getId(), rootDocumentType.getId());
     }
 
     /**
@@ -137,4 +148,10 @@ public class FinancialSystemDocumentTypeServiceImpl implements FinancialSystemDo
     public void setMaintenanceDocumentDictionaryService(MaintenanceDocumentDictionaryService maintenanceDocumentDictionaryService) {
         this.maintenanceDocumentDictionaryService = maintenanceDocumentDictionaryService;
     }
+
+    public void setDocumentTypeService(DocumentTypeService documentTypeService) {
+        this.documentTypeService = documentTypeService;
+    }
+    
+    
 }

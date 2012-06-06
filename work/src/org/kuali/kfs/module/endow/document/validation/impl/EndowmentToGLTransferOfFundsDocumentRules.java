@@ -110,7 +110,21 @@ public class EndowmentToGLTransferOfFundsDocumentRules extends EndowmentAccounti
             return false;
         }
 
+        //validations of security and registration attributes
+        isValid &= validateSecurityAndRegistrationRules(document);
+        
         return isValid;
     }
+    
+    /**
+     * EndowmentToGLTransferOfFunds use source
+     * 
+     * @see org.kuali.kfs.module.endow.document.validation.impl.OptionalSecurityBaseRules#isSourceDocument()
+     */
+    @Override
+    boolean isSourceDocument() {
+        return true;
+    }
+
 
 }

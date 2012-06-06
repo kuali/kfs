@@ -29,52 +29,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class CashDocumentBaseRules extends EndowmentTransactionLinesDocumentBaseRules {
-
-    /**
-     * checks the security and registration fields for valid values for both cash documents.
-     * 
-     * @param document cash document (both increase and decrease documents)
-     * @param isSource indicates whether the document is a source or target document
-     * @return true if both secuity id and registrion code values are valid else return false
-     */
-    protected boolean validateSecurityAndRegistrationRules(Document cashDocument, boolean isSource) {
-        boolean valid = true;
-        
-        // Checks if Security field is not empty, security code must be valid.
-        if (isSecurityCodeEmpty((EndowmentTransactionalDocument)cashDocument, isSource)) {
-            return false;
-        } else {
-            if (!validateSecurityCode((EndowmentSecurityDetailsDocument)cashDocument, isSource))
-                return false;
-        }
-
-        //check for registration code validity..
-        if (isRegistrationCodeEmpty((EndowmentTransactionalDocument)cashDocument, isSource)) {
-            return false;
-        }
-        if (!validateRegistrationCode((EndowmentSecurityDetailsDocument)cashDocument, isSource)) {
-            return false;
-        }
-        // Checks if registration code is active
-        if (!isRegistrationCodeActive((EndowmentSecurityDetailsDocument)cashDocument, isSource)) {
-            return false;
-        }
-        
-        return valid;
-    }
+abstract class CashDocumentBaseRules extends OptionalSecurityBaseRules {
     
-    protected boolean isSecurityCodeEmpty(EndowmentTransactionalDocument document, boolean isSource) {
-        EndowmentTransactionSecurity tranSecurity = getEndowmentTransactionSecurity(document, isSource);
-
-        if (StringUtils.isEmpty(tranSecurity.getSecurityID())) {
-            putFieldError(getEndowmentTransactionSecurityPrefix(document, isSource) + EndowPropertyConstants.TRANSACTION_SECURITY_ID, EndowKeyConstants.EndowmentTransactionDocumentConstants.ERROR_TRANSACTION_SECURITY_REQUIRED);
-            return true;
-        }
-        else
-            return false;
-    }
-
     /**
      * @see org.kuali.kfs.module.endow.document.validation.impl.EndowmentTransactionLinesDocumentBaseRules#processAddTransactionLineRules(org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument,
      *      org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine)
@@ -163,4 +119,5 @@ public class CashDocumentBaseRules extends EndowmentTransactionLinesDocumentBase
         else
             return super.validateEndowmentTransactionTypeCode(endowmentTransactionLinesDocument, line, prefix);
     }
+     
 }

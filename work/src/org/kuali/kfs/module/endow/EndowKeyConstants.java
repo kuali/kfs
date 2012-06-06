@@ -190,6 +190,7 @@ public class EndowKeyConstants {
         public static final String ERROR_ENDOWMENT_TRANSACTION_TYPE_CODE_VALIDITY_INCOME_EXPENSE_ASSET = "error.document.transactionLine.etran.typecode.validityIncomeExpenseOrAsset";
         public static final String ERROR_TRANSACTION_SECURITY_REQUIRED = "error.document.transaction.security.required";
         public static final String ERROR_TRANSACTION_REGISTRATION_CODE_REQUIRED = "error.document.transaction.registrationCode.required";
+        public static final String ERROR_TRANSACTION_REGISTRATION_CODE_ENTERED_WITHOUT_SECURITY = "error.document.transaction.registrationCode.entered.without.security";
         public static final String ERROR_TRANSACTION_SECURITY_INVALID = "error.document.transaction.security.invalid";
         public static final String ERROR_TRANSACTION_SECURITY_INACTIVE = "error.document.transaction.security.inactive";
         public static final String ERROR_TRANSACTION_SECURITY_CLASS_CODE_MISMATCH = "error.document.transaction.security.classCode.mismatch";

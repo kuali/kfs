@@ -40,7 +40,7 @@
          headingTitle="Cash Decrease Details"
          summaryTitle="Cash Decrease Details" />
  
-    <endow:endowmentSecurityDetailsSection showSource="true" showTarget="false" showRegistrationCode="false" openTabByDefault="false" showLabels="false"/>          
+    <endow:endowmentSecurityDetailsSection showSource="true" showTarget="false" showRegistrationCode="false" openTabByDefault="false" showLabels="false" securityRequired="false"/>          
          
     <endow:endowmentTransactionLinesSection hasSource="true" hasTarget="false" hasUnits="false" isTransAmntReadOnly="false"/>                 
    

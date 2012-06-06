@@ -40,7 +40,7 @@
          headingTitle="GL To Endowment Transfer Of Funds Details"
          summaryTitle="GL To Endowment Transfer Of Funds Details" />      
          
-    <endow:endowmentSecurityDetailsSection showTarget="true" showSource="false" showRegistrationCode="true" openTabByDefault="false" showLabels="false"/> 
+    <endow:endowmentSecurityDetailsSection showTarget="true" showSource="false" showRegistrationCode="true" openTabByDefault="false" showLabels="false" securityRequired="false"/> 
     
     <endow:endowmentAccountingLinesSection hasSource="true" hasTarget="false"/>     
          

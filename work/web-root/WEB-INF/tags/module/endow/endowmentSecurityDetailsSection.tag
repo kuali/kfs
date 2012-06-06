@@ -21,6 +21,17 @@
 <%@ attribute name="showRegistrationCode" required="true" %>
 <%@ attribute name="openTabByDefault" required="true" %>
 <%@ attribute name="showLabels" required="true" %>
+<%@ attribute name="securityRequired" required="false" %>
+
+<!-- set default to true if its not provided from the tag attribute -->
+<c:choose>
+<c:when test="${not empty securityRequired}" >
+  <c:set var="showRequired" value="${securityRequired}" />
+</c:when>
+<c:otherwise>
+  <c:set var="showRequired" value="true" />
+</c:otherwise>
+</c:choose>
 
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
@@ -29,10 +40,10 @@
  <div class="tab-container" align=center>
 	<h3>Security Details</h3>
 	<c:if test="${showSource}" >
-		<endow:endowmentSecurityTransactionDetails showTarget="false" showSource="true" showRegistrationCode="true" showLabels="${showLabels}"/>
+		<endow:endowmentSecurityTransactionDetails showTarget="false" showSource="true" showRegistrationCode="true" showLabels="${showLabels}" showRequired="${showRequired}"/>
 	</c:if>
 	<c:if test="${showTarget}" >
-		<endow:endowmentSecurityTransactionDetails showTarget="true" showSource="false" showRegistrationCode="true" showLabels="${showLabels}"/>
+		<endow:endowmentSecurityTransactionDetails showTarget="true" showSource="false" showRegistrationCode="true" showLabels="${showLabels}" showRequired="${showRequired}"/>
 	</c:if>
        
 </div>

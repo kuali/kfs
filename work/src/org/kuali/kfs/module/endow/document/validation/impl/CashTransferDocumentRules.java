@@ -50,10 +50,9 @@ public class CashTransferDocumentRules extends CashDocumentBaseRules {
             if (!transactionLineSizeGreaterThanZero(cashTransferDocument, false))
                 return false;
 
-            boolean isSourceDocument = true;
             //KFSMI-7505
-            //validations of security and registration attributes are moved to CashDocumentBaseRules class.
-            isValid &= validateSecurityAndRegistrationRules(document, isSourceDocument);
+            //validations of security and registration attributes
+            isValid &= validateSecurityAndRegistrationRules(document);
 
             if (isValid){
                 for (int i = 0; i < cashTransferDocument.getSourceTransactionLines().size(); i++) {
@@ -96,5 +95,15 @@ public class CashTransferDocumentRules extends CashDocumentBaseRules {
 
     }
 
+
+    /**
+     * CashTranserDocument will use the source
+     * 
+     * @see org.kuali.kfs.module.endow.document.validation.impl.CashDocumentBaseRules#isSourceDocument()
+     */
+    @Override
+    boolean isSourceDocument() {
+        return true;
+    }
 
 }

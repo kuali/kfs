@@ -30,10 +30,9 @@ public class CashIncreaseDocumentRules extends CashDocumentBaseRules {
     @Override
     public boolean processCustomRouteDocumentBusinessRules(Document document) {
         CashIncreaseDocument cashIncreaseDocument = (CashIncreaseDocument) document;
-        boolean isSourceDocument = false;
         
         // Validate at least one Tx was entered.
-        if (!transactionLineSizeGreaterThanZero(cashIncreaseDocument, isSourceDocument))
+        if (!transactionLineSizeGreaterThanZero(cashIncreaseDocument, isSourceDocument()))
             return false;
 
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
@@ -41,8 +40,8 @@ public class CashIncreaseDocumentRules extends CashDocumentBaseRules {
 
         if (isValid) {
             //KFSMI-7505
-            //validations of security and registration attributes are moved to CashDocumentBaseRules class.
-            isValid &= validateSecurityAndRegistrationRules(document, isSourceDocument);
+            //validations of security and registration attributes
+            isValid &= validateSecurityAndRegistrationRules(document);
             if (isValid) {
                 for (int i = 0; i < cashIncreaseDocument.getTargetTransactionLines().size(); i++) {
                     EndowmentTransactionLine txLine = cashIncreaseDocument.getTargetTransactionLines().get(i);
@@ -62,5 +61,15 @@ public class CashIncreaseDocumentRules extends CashDocumentBaseRules {
     protected boolean validateEndowmentTransactionTypeCode(EndowmentTransactionLinesDocument endowmentTransactionLinesDocument, EndowmentTransactionLine line, String prefix) {
 
         return validateEtranTypeBasedOnDocSource(endowmentTransactionLinesDocument, line, prefix);
+    }
+
+    /**
+     * CashIncreseDocument will use the target
+     * 
+     * @see org.kuali.kfs.module.endow.document.validation.impl.CashDocumentBaseRules#isSourceDocument()
+     */
+    @Override
+    boolean isSourceDocument() {
+        return false;
     }
 }

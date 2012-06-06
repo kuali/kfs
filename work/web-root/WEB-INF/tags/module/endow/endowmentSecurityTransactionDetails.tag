@@ -25,6 +25,7 @@
 <%@ attribute name="showTarget" required="true" %>
 <%@ attribute name="showRegistrationCode" required="true" %>
 <%@ attribute name="showLabels" required="true" %>
+<%@ attribute name="showRequired" required="true" %>
 
 <c:set var="readOnly" value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT]}" />
 
@@ -57,7 +58,7 @@
 		<tr>
          	<kul:htmlAttributeHeaderCell
 				attributeEntry="${securityTransactionAttributes.securityID}"
-				forceRequired="true"
+				forceRequired="${showRequired}"
 				useShortLabel="false"
 				/>
 
@@ -76,7 +77,7 @@
 			<c:if test="${showRegistrationCode}">
 	          	<kul:htmlAttributeHeaderCell
 					attributeEntry="${securityTransactionAttributes.registrationCode}"
-                    forceRequired="true"
+                    forceRequired="${showRequired}"
 					useShortLabel="false"
 				/>            
 			</c:if>					

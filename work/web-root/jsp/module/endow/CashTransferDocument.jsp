@@ -40,7 +40,7 @@
          headingTitle="Cash Transfer Details"
          summaryTitle="Cash Transfer Details" />
  
-    <endow:endowmentSecurityDetailsSection showSource="true" showTarget="false" showRegistrationCode="false" openTabByDefault="false" showLabels="false"/>          
+    <endow:endowmentSecurityDetailsSection showSource="true" showTarget="false" showRegistrationCode="false" openTabByDefault="false" showLabels="false" securityRequired="false"/>          
          
     <endow:endowmentTransactionLinesSourceSection hasSource="true" hasTarget="false" hasUnits="false" isTransAmntReadOnly="false"/>                 
    

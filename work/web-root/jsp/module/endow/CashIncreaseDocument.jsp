@@ -39,7 +39,7 @@
          headingTitle="Cash Increase Details"
          summaryTitle="Cash Increase Details" />
 
-    <endow:endowmentSecurityDetailsSection showSource="false" showTarget="true" showRegistrationCode="false" openTabByDefault="false" showLabels="false"/>          
+    <endow:endowmentSecurityDetailsSection showSource="false" showTarget="true" showRegistrationCode="false" openTabByDefault="false" showLabels="false" securityRequired="false"/>          
          
     <endow:endowmentTransactionLinesSection hasSource="false" hasTarget="true" hasUnits="false" isTransAmntReadOnly="false"/>                 
         

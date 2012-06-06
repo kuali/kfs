@@ -47,7 +47,7 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public class EndowmentAccountingLinesDocumentBaseRules extends EndowmentTransactionLinesDocumentBaseRules implements AddEndowmentAccountingLineRule<EndowmentAccountingLinesDocument, EndowmentAccountingLine>, DeleteEndowmentAccountingLineRule<EndowmentAccountingLinesDocument, EndowmentAccountingLine> {
+abstract class EndowmentAccountingLinesDocumentBaseRules extends OptionalSecurityBaseRules implements AddEndowmentAccountingLineRule<EndowmentAccountingLinesDocument, EndowmentAccountingLine>, DeleteEndowmentAccountingLineRule<EndowmentAccountingLinesDocument, EndowmentAccountingLine> {
 
     /**
      * @see org.kuali.kfs.module.endow.document.validation.AddEndowmentAccountingLineRule#processAddEndowmentAccountingLineRules(org.kuali.kfs.module.endow.document.EndowmentAccountingLinesDocument,

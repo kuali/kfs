@@ -3126,6 +3126,7 @@
 		SELECT CAST(DOC_NTE_ID as VARCHAR2(40)), DOC_HDR_ID, AUTH_PRNCPL_ID, CRT_DT, TXT, VER_NBR
 		FROM TEMP_KREW_DOC_NTE_T
 		]]></sql>
+		<!-- 
 		<sql splitStatements="false"><![CDATA[
 		DECLARE temp NUMBER;
 		BEGIN
@@ -3133,6 +3134,7 @@
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_DOC_NTE_T CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
 		]]></sql>
+		 -->
 		<sql splitStatements="false"><![CDATA[
 		-----------------------------------------------------------------------------
 		-- KREW_ATT_T
@@ -3185,6 +3187,7 @@
 		SELECT CAST(ATTACHMENT_ID as VARCHAR2(40)), CAST(NTE_ID as VARCHAR2(40)), FILE_NM, FILE_LOC, MIME_TYP, VER_NBR
 		FROM TEMP_KREW_ATT_T
 		]]></sql>
+		<!-- 
 		<sql splitStatements="false"><![CDATA[
 		DECLARE temp NUMBER;
 		BEGIN
@@ -3192,6 +3195,7 @@
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_ATT_T CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
 		]]></sql>
+		 -->
 		<sql splitStatements="false"><![CDATA[
 		-----------------------------------------------------------------------------
 		-- KREW_ACTN_ITM_T
@@ -3318,6 +3322,7 @@
 		 GRP_ID, DLGN_GRP_ID, RQST_LBL
 		FROM TEMP_KREW_ACTN_ITM_T
 		]]></sql>
+		<!-- 
 		<sql splitStatements="false"><![CDATA[
 		DECLARE temp NUMBER;
 		BEGIN
@@ -3325,6 +3330,7 @@
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_ACTN_ITM_T CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
 		]]></sql>
+		 -->
 		<sql splitStatements="false"><![CDATA[
 		-----------------------------------------------------------------------------
 		-- KREW_ACTN_TKN_T
@@ -3457,13 +3463,13 @@
 		CUR_IND, VER_NBR, DLGTR_GRP_ID
 		FROM TEMP_KREW_ACTN_TKN_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DECLARE temp NUMBER;
 		BEGIN
 			SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_ACTN_TKN_T';
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_ACTN_TKN_T CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		-----------------------------------------------------------------------------
 		-- KREW_ACTN_RQST_T
@@ -3670,13 +3676,13 @@
 		FRC_ACTN, ACTN_RQST_ANNOTN_TXT, DLGN_TYP, APPR_PLCY, CUR_IND, VER_NBR, GRP_ID, RQST_LBL
 		FROM TEMP_KREW_ACTN_RQST_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DECLARE temp NUMBER;
 		BEGIN
 			SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_ACTN_RQST_T';
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_ACTN_RQST_T CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		-----------------------------------------------------------------------------
 		-- KREW_RULE_TMPL_T
@@ -3718,13 +3724,13 @@
 		VER_NBR, OBJ_ID
 		FROM TEMP_KREW_RULE_TMPL_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DECLARE temp NUMBER;
 		BEGIN
 			SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RULE_TMPL_T';
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RULE_TMPL_T CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		-----------------------------------------------------------------------------
 		-- KREW_RULE_TMPL_ATTR_T
@@ -3808,13 +3814,13 @@
 		CAST(RULE_ATTR_ID as VARCHAR2(40)), REQ_IND, ACTV_IND, DSPL_ORD, DFLT_VAL, VER_NBR, OBJ_ID
 		FROM TEMP_KREW_RULE_TMPL_ATTR_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DECLARE temp NUMBER;
 		BEGIN
 			SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RULE_TMPL_ATTR_T';
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RULE_TMPL_ATTR_T CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		-----------------------------------------------------------------------------
 		-- KREW_RULE_T
@@ -3873,13 +3879,13 @@
 		DLGN_IND, CAST(PREV_RULE_VER_NBR as VARCHAR2(40)), ACTVN_DT, VER_NBR, OBJ_ID
 		FROM TEMP_KREW_RULE_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DECLARE temp NUMBER;
 		BEGIN
 			SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RULE_T';
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RULE_T CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		-----------------------------------------------------------------------------
 		-- KREW_DLGN_RSP_T
@@ -3917,13 +3923,13 @@
 		DLGN_TYP, VER_NBR, OBJ_ID
 		FROM TEMP_KREW_DLGN_RSP_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DECLARE temp NUMBER;
 		BEGIN
 			SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_DLGN_RSP_T';
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_DLGN_RSP_T CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		-----------------------------------------------------------------------------
 		-- KREW_RULE_RSP_T
@@ -3999,13 +4005,13 @@
 		PRIO, ACTN_RQST_CD, NM, TYP, APPR_PLCY, VER_NBR, OBJ_ID
 		FROM TEMP_KREW_RULE_RSP_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DECLARE temp NUMBER;
 		BEGIN
 			SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RULE_RSP_T';
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RULE_RSP_T CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		-----------------------------------------------------------------------------
 		-- KREW_RULE_EXT_T
@@ -4062,13 +4068,13 @@
 		CAST(RULE_ID as VARCHAR2(40)), VER_NBR 
 		FROM TEMP_KREW_RULE_EXT_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DECLARE temp NUMBER;
 		BEGIN
 			SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RULE_EXT_T';
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RULE_EXT_T CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		-----------------------------------------------------------------------------
 		-- KREW_RTE_NODE_T
@@ -4187,13 +4193,13 @@
 		MNDTRY_RTE_IND, ACTVN_TYP, CAST(BRCH_PROTO_ID as VARCHAR2(40)), VER_NBR, CONTENT_FRAGMENT, GRP_ID, NEXT_DOC_STAT
 		FROM TEMP_KREW_RTE_NODE_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DECLARE temp NUMBER;
 		BEGIN
 			SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RTE_NODE_T';
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RTE_NODE_T CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		-----------------------------------------------------------------------------
 		-- KREW_RTE_NODE_INSTN_T
@@ -4309,13 +4315,13 @@
 		ACTV_IND, CMPLT_IND, INIT_IND, VER_NBR
 		FROM TEMP_KREW_RTE_NODE_INSTN_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DECLARE temp NUMBER;
 		BEGIN
 			SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RTE_NODE_INSTN_T';
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RTE_NODE_INSTN_T CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		-----------------------------------------------------------------------------
 		-- KREW_RTE_NODE_INSTN_LNK_T
@@ -4386,13 +4392,13 @@
 		SELECT CAST(FROM_RTE_NODE_INSTN_ID as VARCHAR2(40)),CAST(TO_RTE_NODE_INSTN_ID as VARCHAR2(40))
 		FROM TEMP_KREW_RTE_NODE_INSTN_LNK_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DECLARE temp NUMBER;
 		BEGIN
 			SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RTE_NODE_INSTN_LNK_T';
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RTE_NODE_INSTN_LNK_T CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		-----------------------------------------------------------------------------
 		-- KREW_RTE_BRCH_T
@@ -4522,13 +4528,13 @@
 		CAST(JOIN_RTE_NODE_INSTN_ID as VARCHAR2(40)), VER_NBR
 		FROM TEMP_KREW_RTE_BRCH_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DECLARE temp NUMBER;
 		BEGIN
 			SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RTE_BRCH_T';
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RTE_BRCH_T CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		-----------------------------------------------------------------------------
 		-- KREW_RTE_BRCH_ST_T
@@ -4620,13 +4626,13 @@
 		CAST(RTE_BRCH_ST_ID as VARCHAR2(40)), CAST(RTE_BRCH_ID as VARCHAR2(40)), KEY_CD, VAL, VER_NBR
 		FROM TEMP_KREW_RTE_BRCH_ST_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DECLARE temp NUMBER;
 		BEGIN
 			SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RTE_BRCH_ST_T';
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RTE_BRCH_ST_T CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		-----------------------------------------------------------------------------
 		-- KREW_RTE_NODE_INSTN_ST_T
@@ -4718,13 +4724,13 @@
 		CAST(RTE_NODE_INSTN_ST_ID as VARCHAR2(40)), CAST(RTE_NODE_INSTN_ID as VARCHAR2(40)), KEY_CD, VAL, VER_NBR
 		FROM TEMP_KREW_RTE_NODE_INSTN_ST_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DECLARE temp NUMBER;
 		BEGIN
 			SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RTE_NODE_INSTN_ST_T';
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RTE_NODE_INSTN_ST_T CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		-----------------------------------------------------------------------------
 		-- KREW_DOC_TYP_ATTR_T
@@ -4782,13 +4788,13 @@
 		CAST(RULE_ATTR_ID as VARCHAR2(40)), ORD_INDX
 		FROM TEMP_KREW_DOC_TYP_ATTR_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DECLARE temp NUMBER;
 		BEGIN
 			SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_DOC_TYP_ATTR_T';
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_DOC_TYP_ATTR_T CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		-----------------------------------------------------------------------------
 		-- KREW_RULE_ATTR_T
@@ -4829,13 +4835,13 @@
 		CAST(RULE_ATTR_ID as VARCHAR2(40)), NM, LBL, RULE_ATTR_TYP_CD, DESC_TXT, CLS_NM, XML, VER_NBR, APPL_ID, OBJ_ID
 		FROM TEMP_KREW_RULE_ATTR_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DECLARE temp NUMBER;
 		BEGIN
 			SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RULE_ATTR_T';
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RULE_ATTR_T CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		-----------------------------------------------------------------------------
 		-- KREW_RULE_TMPL_OPTN_T
@@ -4867,13 +4873,13 @@
 		CAST(RULE_TMPL_OPTN_ID as VARCHAR2(40)), CAST(RULE_TMPL_ID as VARCHAR2(40)), KEY_CD, VAL, VER_NBR
 		FROM TEMP_KREW_RULE_TMPL_OPTN_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DECLARE temp NUMBER;
 		BEGIN
 			SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RULE_TMPL_OPTN_T';
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RULE_TMPL_OPTN_T CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		-----------------------------------------------------------------------------
 		-- KREW_OUT_BOX_ITM_T
@@ -4984,13 +4990,13 @@
 		DLGN_TYP, VER_NBR, GRP_ID, DLGN_GRP_ID, RQST_LBL
 		FROM TEMP_KREW_OUT_BOX_ITM_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DECLARE temp NUMBER;
 		BEGIN
 			SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_OUT_BOX_ITM_T';
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_OUT_BOX_ITM_T CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		-----------------------------------------------------------------------------
 		-- KREW_RTE_NODE_CFG_PARM_T
@@ -5047,13 +5053,13 @@
 		CAST(RTE_NODE_CFG_PARM_ID as VARCHAR2(40)), CAST(RTE_NODE_ID as VARCHAR2(40)), KEY_CD, VAL
 		FROM TEMP_KREW_RTE_NODE_CFG_PARM_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DECLARE temp NUMBER;
 		BEGIN
 			SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RTE_NODE_CFG_PARM_T';
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RTE_NODE_CFG_PARM_T CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		-----------------------------------------------------------------------------
 		-- KREW_DOC_TYP_PROC_T
@@ -5147,13 +5153,13 @@
 		NM, INIT_IND, VER_NBR
 		FROM TEMP_KREW_DOC_TYP_PROC_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DECLARE temp NUMBER;
 		BEGIN
 			SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_DOC_TYP_PROC_T';
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_DOC_TYP_PROC_T CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		-----------------------------------------------------------------------------
 		-- KREW_DOC_LNK_T
@@ -5209,13 +5215,13 @@
 		CAST(DOC_LNK_ID as VARCHAR2(40)), ORGN_DOC_ID, DEST_DOC_ID
 		FROM TEMP_KREW_DOC_LNK_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DECLARE temp NUMBER;
 		BEGIN
 			SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_DOC_LNK_T';
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_DOC_LNK_T CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		-----------------------------------------------------------------------------
 		-- KREW_RTE_BRCH_PROTO_T
@@ -5271,13 +5277,13 @@
 		CAST(RTE_BRCH_PROTO_ID as VARCHAR2(40)), BRCH_NM, VER_NBR
 		FROM TEMP_KREW_RTE_BRCH_PROTO_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DECLARE temp NUMBER;
 		BEGIN
 			SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RTE_BRCH_PROTO_T';
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RTE_BRCH_PROTO_T CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		-----------------------------------------------------------------------------
 		-- KREW_HLP_T
@@ -5335,13 +5341,13 @@
 		CAST(HLP_ID as VARCHAR2(40)), NM, KEY_CD, HLP_TXT, VER_NBR
 		FROM TEMP_KREW_HLP_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DECLARE temp NUMBER;
 		BEGIN
 			SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_HLP_T';
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_HLP_T CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		-----------------------------------------------------------------------------
 		-- KREW_RULE_EXT_VAL_T
@@ -5416,13 +5422,13 @@
 		CAST(RULE_EXT_VAL_ID as VARCHAR2(40)), CAST(RULE_EXT_ID as VARCHAR2(40)), VAL, KEY_CD, VER_NBR
 		FROM TEMP_KREW_RULE_EXT_VAL_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DECLARE temp NUMBER;
 		BEGIN
 			SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RULE_EXT_VAL_T';
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RULE_EXT_VAL_T CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		-----------------------------------------------------------------------------
 		-- KREW_RULE_EXPR_T
@@ -5458,13 +5464,13 @@
 		CAST(RULE_EXPR_ID as VARCHAR2(40)), TYP, RULE_EXPR, OBJ_ID, VER_NBR
 		FROM TEMP_KREW_RULE_EXPR_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DECLARE temp NUMBER;
 		BEGIN
 			SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RULE_EXPR_T';
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RULE_EXPR_T CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		-----------------------------------------------------------------------------
 		-- KREW_APP_DOC_STAT_TRAN_T
@@ -5571,13 +5577,13 @@
 		CAST(APP_DOC_STAT_TRAN_ID as VARCHAR2(40)), DOC_HDR_ID, APP_DOC_STAT_FROM, APP_DOC_STAT_TO, STAT_TRANS_DATE, VER_NBR, OBJ_ID
 		FROM TEMP_KREW_APP_DOC_STAT_TRAN_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DECLARE temp NUMBER;
 		BEGIN
 			SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_APP_DOC_STAT_TRAN_T';
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_APP_DOC_STAT_TRAN_T CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		-----------------------------------------------------------------------------
 		-- KREW_DOC_HDR_EXT_DT_T
@@ -5668,13 +5674,13 @@
 		CAST(DOC_HDR_EXT_DT_ID as VARCHAR2(40)), DOC_HDR_ID, KEY_CD, VAL
 		FROM TEMP_KREW_DOC_HDR_EXT_DT_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DECLARE temp NUMBER;
 		BEGIN
 			SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_DOC_HDR_EXT_DT_T';
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_DOC_HDR_EXT_DT_T CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		-----------------------------------------------------------------------------
 		-- KREW_DOC_HDR_EXT_LONG_T
@@ -5765,13 +5771,13 @@
 		CAST(DOC_HDR_EXT_LONG_ID as VARCHAR2(40)), DOC_HDR_ID, KEY_CD, VAL
 		FROM TEMP_KREW_DOC_HDR_EXT_LONG_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DECLARE temp NUMBER;
 		BEGIN
 			SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_DOC_HDR_EXT_LONG_T';
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_DOC_HDR_EXT_LONG_T CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		-----------------------------------------------------------------------------
 		-- KREW_DOC_HDR_EXT_FLT_T
@@ -5862,13 +5868,13 @@
 		CAST(DOC_HDR_EXT_FLT_ID as VARCHAR2(40)), DOC_HDR_ID, KEY_CD, VAL
 		FROM TEMP_KREW_DOC_HDR_EXT_FLT_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DECLARE temp NUMBER;
 		BEGIN
 			SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_DOC_HDR_EXT_FLT_T';
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_DOC_HDR_EXT_FLT_T CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		-----------------------------------------------------------------------------
 		-- KREW_DOC_HDR_EXT_T
@@ -5959,13 +5965,13 @@
 		CAST(DOC_HDR_EXT_ID as VARCHAR2(40)), DOC_HDR_ID, KEY_CD, VAL
 		FROM TEMP_KREW_DOC_HDR_EXT_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DECLARE temp NUMBER;
 		BEGIN
 			SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_DOC_HDR_EXT_T';
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_DOC_HDR_EXT_T CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		
 		-----------------------------------------------------------------------------
@@ -6039,13 +6045,13 @@
 		SELECT CAST(FROM_RTE_NODE_ID as VARCHAR2(40)), CAST(TO_RTE_NODE_ID as VARCHAR2(40))
 		FROM TEMP_KREW_RTE_NODE_LNK_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DECLARE temp NUMBER;
 		BEGIN
 			SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RTE_NODE_LNK_T';
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RTE_NODE_LNK_T CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		
 		
@@ -6199,13 +6205,13 @@
 		SELECT DOC_HDR_ID, CAST(RTE_NODE_INSTN_ID as VARCHAR2(40))
 		FROM TEMP_KREW_INIT_RTE_NODE
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DECLARE temp NUMBER;
 		BEGIN
 			SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_INIT_RTE_NODE';
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_INIT_RTE_NODE CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		
 		
@@ -7838,7 +7844,7 @@
 		INSERT INTO KRCR_STYLE_T SELECT STYLE_ID, NM, XML, ACTV_IND, VER_NBR, OBJ_ID FROM KREW_STYLE_T
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		DROP TABLE KREW_STYLE_T
+		ALTER TABLE KREW_STYLE_T RENAME TO OLD_KREW_STYLE_T 
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
 		ALTER TABLE KRCR_STYLE_T

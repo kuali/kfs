@@ -210,7 +210,7 @@ if [[ "$EXPORT_UPGRADED_PROJECT" == "true" ]]; then
 		export.torque.database.driver=$DRIVER
 		export.torque.database.url=$DATASOURCE
 		
-		export.table.name.filter=^(?!(.*_BKUP|TRV_.*|BK_.*|OLD_.*|O_.*)).*\$
+		export.table.name.filter=^(?!(.*_BKUP|TRV_.*|BK_.*|OLD_.*|O_.*|TEMP_.*)).*\$
 	EOF
 	) > $WORKSPACE/impex-build.properties
 	pushd $WORKSPACE/kfs/work/db/kfs-db/db-impex/impex

@@ -397,8 +397,12 @@ public class AssetTransferDocumentRule extends GeneralLedgerPostingDocumentRuleB
         }
         boolean assetMovable = getAssetService().isAssetMovableCheckByPayment(finObjectSubTypeCode);
         */
-        boolean assetMovable = getAssetService().isAssetMovableCheckByPayment(asset);
         
+        /*
+         * Note: The following authorization checking on non-movable asset is already done when Transfer link is generated upon asset lookup.
+         * It is redundant here. Consider removing it. 
+         */        
+        boolean assetMovable = getAssetService().isAssetMovableCheckByPayment(asset);        
         FinancialSystemTransactionalDocumentAuthorizerBase documentAuthorizer = (FinancialSystemTransactionalDocumentAuthorizerBase) SpringContext.getBean(DocumentDictionaryService.class).getDocumentAuthorizer(assetTransferDocument);
         boolean isAuthorizedTransferMovable = documentAuthorizer.isAuthorized(assetTransferDocument, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.TRANSFER_NON_MOVABLE_ASSETS, GlobalVariables.getUserSession().getPerson().getPrincipalId());
         

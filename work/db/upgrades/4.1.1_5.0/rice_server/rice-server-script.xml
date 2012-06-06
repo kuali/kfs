@@ -156,9 +156,11 @@
 		<sql splitStatements="false"><![CDATA[
 		INSERT INTO KREW_ACTN_ITM_T SELECT * FROM OLD_KREW_ACTN_ITM_T
 		]]></sql>
+		<!-- 
 		<sql splitStatements="false"><![CDATA[
 		DROP TABLE OLD_KREW_ACTN_ITM_T
 		]]></sql>
+		 -->
 		<sql splitStatements="false"><![CDATA[
 		ALTER TABLE KREW_ACTN_ITM_T ADD CONSTRAINT KREW_ACTN_ITM_TP1 PRIMARY KEY (ACTN_ITM_ID)
 		]]></sql>
@@ -218,9 +220,11 @@
 		<sql splitStatements="false"><![CDATA[
 		INSERT INTO KREW_ACTN_RQST_T SELECT * FROM OLD_KREW_ACTN_RQST_T
 		]]></sql>
+		<!-- 
 		<sql splitStatements="false"><![CDATA[
 		DROP TABLE OLD_KREW_ACTN_RQST_T
 		]]></sql>
+		 -->
 		<sql splitStatements="false"><![CDATA[
 		ALTER TABLE KREW_ACTN_RQST_T ADD CONSTRAINT KREW_ACTN_RQST_TP1 PRIMARY KEY (ACTN_RQST_ID)
 		]]></sql>
@@ -275,9 +279,9 @@
 		<sql splitStatements="false"><![CDATA[
 		INSERT INTO KREW_ACTN_TKN_T SELECT * FROM OLD_KREW_ACTN_TKN_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DROP TABLE OLD_KREW_ACTN_TKN_T
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		ALTER TABLE KREW_ACTN_TKN_T ADD CONSTRAINT KREW_ACTN_TKN_TP1 PRIMARY KEY (ACTN_TKN_ID)
 		]]></sql>
@@ -319,9 +323,9 @@
 		<sql splitStatements="false"><![CDATA[
 		INSERT INTO KREW_APP_DOC_STAT_TRAN_T SELECT * FROM OLD_KREW_APP_DOC_STAT_TRAN_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DROP TABLE OLD_KREW_APP_DOC_STAT_TRAN_T
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		ALTER TABLE KREW_APP_DOC_STAT_TRAN_T ADD CONSTRAINT KREW_APP_DOC_STAT_TRAN_TP1 PRIMARY KEY(APP_DOC_STAT_TRAN_ID)
 		]]></sql>
@@ -355,9 +359,9 @@
 		<sql splitStatements="false"><![CDATA[
 		INSERT INTO KREW_DOC_HDR_CNTNT_T SELECT * FROM OLD_KREW_DOC_HDR_CNTNT_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DROP TABLE OLD_KREW_DOC_HDR_CNTNT_T
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		ALTER TABLE KREW_DOC_HDR_CNTNT_T ADD CONSTRAINT KREW_DOC_HDR_CNTNT_TP1 PRIMARY KEY (DOC_HDR_ID)
 		]]></sql>
@@ -380,9 +384,9 @@
 		<sql splitStatements="false"><![CDATA[
 		INSERT INTO KREW_DOC_HDR_EXT_DT_T SELECT * FROM OLD_KREW_DOC_HDR_EXT_DT_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DROP TABLE OLD_KREW_DOC_HDR_EXT_DT_T
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		ALTER TABLE KREW_DOC_HDR_EXT_DT_T ADD CONSTRAINT KREW_DOC_HDR_EXT_DT_TP1 PRIMARY KEY (DOC_HDR_EXT_DT_ID)
 		]]></sql>
@@ -414,9 +418,9 @@
 		<sql splitStatements="false"><![CDATA[
 		INSERT INTO KREW_DOC_HDR_EXT_LONG_T SELECT * FROM OLD_KREW_DOC_HDR_EXT_LONG_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DROP TABLE OLD_KREW_DOC_HDR_EXT_LONG_T
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		ALTER TABLE KREW_DOC_HDR_EXT_LONG_T ADD CONSTRAINT KREW_DOC_HDR_EXT_LONG_TP1 PRIMARY KEY (DOC_HDR_EXT_LONG_ID)
 		]]></sql>
@@ -448,9 +452,9 @@
 		<sql splitStatements="false"><![CDATA[
 		INSERT INTO KREW_DOC_HDR_EXT_FLT_T SELECT * FROM OLD_KREW_DOC_HDR_EXT_FLT_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DROP TABLE OLD_KREW_DOC_HDR_EXT_FLT_T
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		ALTER TABLE KREW_DOC_HDR_EXT_FLT_T ADD CONSTRAINT KREW_DOC_HDR_EXT_FLT_TP1 PRIMARY KEY (DOC_HDR_EXT_FLT_ID)
 		]]></sql>
@@ -482,9 +486,9 @@
 		<sql splitStatements="false"><![CDATA[
 		INSERT INTO KREW_DOC_HDR_EXT_T SELECT * FROM OLD_KREW_DOC_HDR_EXT_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DROP TABLE OLD_KREW_DOC_HDR_EXT_T
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		ALTER TABLE KREW_DOC_HDR_EXT_T ADD CONSTRAINT KREW_DOC_HDR_EXT_TP1 PRIMARY KEY (DOC_HDR_EXT_ID)
 		]]></sql>
@@ -549,9 +553,9 @@
 		<sql splitStatements="false"><![CDATA[
 		INSERT INTO KREW_DOC_NTE_T SELECT * FROM OLD_KREW_DOC_NTE_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DROP TABLE OLD_KREW_DOC_NTE_T
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		ALTER TABLE KREW_DOC_NTE_T ADD CONSTRAINT KREW_DOC_NTE_TP1 PRIMARY KEY (DOC_NTE_ID)
 		]]></sql>
@@ -601,9 +605,9 @@
 		<sql splitStatements="false"><![CDATA[
 		INSERT INTO KREW_EDL_DMP_T SELECT * FROM OLD_KREW_EDL_DMP_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DROP TABLE OLD_KREW_EDL_DMP_T
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		ALTER TABLE KREW_EDL_DMP_T ADD CONSTRAINT KREW_EDL_DMP_TP1 PRIMARY KEY (DOC_HDR_ID)
 		]]></sql>
@@ -630,9 +634,9 @@
 		<sql splitStatements="false"><![CDATA[
 		INSERT INTO KREW_EDL_FLD_DMP_T SELECT * FROM OLD_KREW_EDL_FLD_DMP_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DROP TABLE OLD_KREW_EDL_FLD_DMP_T
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		ALTER TABLE KREW_EDL_FLD_DMP_T ADD CONSTRAINT KREW_EDL_FLD_DMP_TP1 PRIMARY KEY (EDL_FIELD_DMP_ID)
 		]]></sql>
@@ -653,9 +657,9 @@
 		<sql splitStatements="false"><![CDATA[
 		INSERT INTO KREW_INIT_RTE_NODE_INSTN_T SELECT * FROM OLD_INIT_RTE_NODE_INSTN_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DROP TABLE OLD_INIT_RTE_NODE_INSTN_T
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		ALTER TABLE KREW_INIT_RTE_NODE_INSTN_T ADD CONSTRAINT KREW_INIT_RTE_NODE_INSTN_TP1 PRIMARY KEY (DOC_HDR_ID, RTE_NODE_INSTN_ID)
 		]]></sql>
@@ -698,9 +702,9 @@
 		<sql splitStatements="false"><![CDATA[
 		INSERT INTO KREW_OUT_BOX_ITM_T SELECT * FROM OLD_KREW_OUT_BOX_ITM_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DROP TABLE OLD_KREW_OUT_BOX_ITM_T
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		ALTER TABLE KREW_OUT_BOX_ITM_T ADD CONSTRAINT KREW_OUT_BOX_ITM_TP1 PRIMARY KEY (ACTN_ITM_ID)
 		]]></sql>
@@ -733,9 +737,9 @@
 		<sql splitStatements="false"><![CDATA[
 		INSERT INTO KREW_RMV_RPLC_DOC_T SELECT * FROM OLD_KREW_RMV_RPLC_DOC_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DROP TABLE OLD_KREW_RMV_RPLC_DOC_T
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		ALTER TABLE KREW_RMV_RPLC_DOC_T ADD CONSTRAINT KREW_RMV_RPLC_DOC_TP1 PRIMARY KEY (DOC_HDR_ID)
 		]]></sql>
@@ -756,9 +760,9 @@
 		<sql splitStatements="false"><![CDATA[
 		INSERT INTO KREW_RMV_RPLC_GRP_T SELECT * FROM OLD_KREW_RMV_RPLC_GRP_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DROP TABLE OLD_KREW_RMV_RPLC_GRP_T
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		ALTER TABLE KREW_RMV_RPLC_GRP_T ADD CONSTRAINT KREW_RMV_RPLC_GRP_TP1 PRIMARY KEY (DOC_HDR_ID, GRP_ID)
 		]]></sql>
@@ -779,9 +783,9 @@
 		<sql splitStatements="false"><![CDATA[
 		INSERT INTO KREW_RMV_RPLC_RULE_T SELECT * FROM OLD_KREW_RMV_RPLC_RULE_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DROP TABLE OLD_KREW_RMV_RPLC_RULE_T
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		ALTER TABLE KREW_RMV_RPLC_RULE_T ADD CONSTRAINT KREW_RMV_RPLC_RULE_TP1 PRIMARY KEY (DOC_HDR_ID, RULE_ID)
 		]]></sql>
@@ -809,9 +813,9 @@
 		<sql splitStatements="false"><![CDATA[
 		INSERT INTO KREW_RTE_NODE_INSTN_T SELECT * FROM OLD_KREW_RTE_NODE_INSTN_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DROP TABLE OLD_KREW_RTE_NODE_INSTN_T
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		ALTER TABLE KREW_RTE_NODE_INSTN_T ADD CONSTRAINT KREW_RTE_NODE_INSTN_TP1 PRIMARY KEY (RTE_NODE_INSTN_ID)
 		]]></sql>
@@ -862,9 +866,9 @@
 		<sql splitStatements="false"><![CDATA[
 		INSERT INTO KREW_RULE_T SELECT * FROM OLD_KREW_RULE_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DROP TABLE OLD_KREW_RULE_T
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		ALTER TABLE KREW_RULE_T ADD CONSTRAINT KREW_RULE_TP1 PRIMARY KEY (RULE_ID)
 		]]></sql>
@@ -893,9 +897,9 @@
 		<sql splitStatements="false"><![CDATA[
 		INSERT INTO KREW_DOC_LNK_T SELECT * FROM OLD_KREW_DOC_LNK_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		DROP TABLE OLD_KREW_DOC_LNK_T
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		ALTER TABLE KREW_DOC_LNK_T ADD CONSTRAINT KREW_DOC_LNK_TP1 PRIMARY KEY (DOC_LNK_ID)
 		]]></sql>
@@ -2228,10 +2232,10 @@
 		        , DOC_HDR_ID
 		FROM OLD_KREW_DOC_TYP_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		
 		DROP TABLE OLD_KREW_DOC_TYP_T CASCADE CONSTRAINTS PURGE
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		
 		
@@ -2470,10 +2474,10 @@
 		        , PLCY_VAL
 		FROM OLD_KREW_DOC_TYP_PLCY_RELN_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		
 		DROP TABLE OLD_KREW_DOC_TYP_PLCY_RELN_T CASCADE CONSTRAINTS PURGE
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		
 		ALTER TABLE KREW_DOC_TYP_PLCY_RELN_T
@@ -2537,10 +2541,10 @@
 		        , OBJ_ID
 		FROM O_KREW_DOC_TYP_APP_DOC_STAT_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		
 		DROP TABLE O_KREW_DOC_TYP_APP_DOC_STAT_T CASCADE CONSTRAINTS PURGE
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		
 		ALTER TABLE KREW_DOC_TYP_APP_DOC_STAT_T
@@ -2584,10 +2588,10 @@
 		        , ORD_INDX
 		FROM OLD_KREW_DOC_TYP_ATTR_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		
 		DROP TABLE OLD_KREW_DOC_TYP_ATTR_T CASCADE CONSTRAINTS PURGE
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		
 		ALTER TABLE KREW_DOC_TYP_ATTR_T
@@ -2662,10 +2666,10 @@
 		        , NEXT_DOC_STAT
 		FROM OLD_KREW_RTE_NODE_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		
 		DROP TABLE OLD_KREW_RTE_NODE_T CASCADE CONSTRAINTS PURGE
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		
 		ALTER TABLE KREW_RTE_NODE_T
@@ -2731,10 +2735,10 @@
 		        , VER_NBR
 		FROM OLD_KREW_DOC_TYP_PROC_T
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
+		<!-- <sql splitStatements="false"><![CDATA[
 		
 		DROP TABLE OLD_KREW_DOC_TYP_PROC_T CASCADE CONSTRAINTS PURGE
-		]]></sql>
+		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		
 		ALTER TABLE KREW_DOC_TYP_PROC_T

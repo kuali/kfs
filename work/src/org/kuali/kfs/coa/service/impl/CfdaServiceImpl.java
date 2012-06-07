@@ -22,7 +22,6 @@ import java.io.InputStreamReader;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -36,7 +35,6 @@ import org.kuali.kfs.coa.businessobject.CFDA;
 import org.kuali.kfs.coa.businessobject.CfdaUpdateResults;
 import org.kuali.kfs.coa.service.CfdaService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -45,9 +43,9 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import au.com.bytecode.opencsv.CSVReader;
 
 public class CfdaServiceImpl implements CfdaService {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CfdaServiceImpl.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CfdaServiceImpl.class);
 
-    private BusinessObjectService businessObjectService;
+    protected BusinessObjectService businessObjectService;
     protected static Comparator cfdaComparator;
 
     static {
@@ -222,7 +220,7 @@ public class CfdaServiceImpl implements CfdaService {
         // What's left in govMap now is just the codes that don't exist in KFS
         for (String key : govMap.keySet()) {
             CFDA cfdaGov = govMap.get(key);
-            cfdaGov.setCfdaMaintenanceTypeId("Automatic");
+            cfdaGov.setCfdaMaintenanceTypeId("AUTOMATIC");
             cfdaGov.setActive(true);
             businessObjectService.save(cfdaGov);
             results.setNumberOfRecordsNewlyAddedFromWebSite(results.getNumberOfRecordsNewlyAddedFromWebSite() + 1);
@@ -240,13 +238,7 @@ public class CfdaServiceImpl implements CfdaService {
         if (StringUtils.isBlank(cfdaNumber)) {
             return null;
         }
-        return businessObjectService.findByPrimaryKey(CFDA.class, mapPrimaryKeys(cfdaNumber));
-    }
-
-    protected Map<String, Object> mapPrimaryKeys(String cfdaNumber) {
-        Map<String, Object> primaryKeys = new HashMap();
-        primaryKeys.put(KFSPropertyConstants.CFDA_NUMBER, cfdaNumber.trim());
-        return primaryKeys;
+        return businessObjectService.findBySinglePrimaryKey(CFDA.class, cfdaNumber.trim());
     }
 
 }

@@ -37,12 +37,12 @@ import org.kuali.rice.krad.service.MailService;
  */
 public class CfdaBatchStep extends AbstractStep {
 
-    private static Logger LOG = org.apache.log4j.Logger.getLogger(CfdaBatchStep.class);
+    private static final Logger LOG = org.apache.log4j.Logger.getLogger(CfdaBatchStep.class);
 
-    private CfdaService cfdaService;
-    private MailService mailService;
-    private ParameterService parameterService;
-    private ConfigurationService configurationService;
+    protected CfdaService cfdaService;
+    protected MailService mailService;
+    protected ParameterService parameterService;
+    protected ConfigurationService configurationService;
     /**
      * See the class description.
      *
@@ -54,21 +54,6 @@ public class CfdaBatchStep extends AbstractStep {
 
         try {
             CfdaUpdateResults results = cfdaService.update();
-
-            Collection<String> listservAddresses = parameterService.getParameterValuesAsString(CfdaBatchStep.class, KFSConstants.RESULT_SUMMARY_TO_EMAIL_ADDRESSES);
-            if (listservAddresses == null || listservAddresses.size() == 0) {
-                LOG.fatal("Couldn't find address to send notification to.");
-                return true;
-            }
-
-            for (String listserv : listservAddresses) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Mailing to: "+listserv);
-                }
-                message.addToAddress(listserv);
-            }
-
-            message.setFromAddress(listservAddresses.iterator().next() );
 
             // TODO this message should come from some config file.
             StringBuilder builder = new StringBuilder();
@@ -99,6 +84,24 @@ public class CfdaBatchStep extends AbstractStep {
             builder.append(" records were not updated for historical reasons.\n");
             builder.append(" - Message\n");
             builder.append(null != results.getMessage() ? results.getMessage() : "");
+
+            LOG.info(message.toString());
+
+            Collection<String> listservAddresses = parameterService.getParameterValuesAsString(CfdaBatchStep.class, KFSConstants.RESULT_SUMMARY_TO_EMAIL_ADDRESSES);
+            if (listservAddresses.isEmpty()) {
+                LOG.fatal("No addresses for notification to in " + KFSConstants.RESULT_SUMMARY_TO_EMAIL_ADDRESSES + " parameter.  Aborting Email.");
+                return true;
+            }
+
+            for (String listserv : listservAddresses) {
+                if (LOG.isInfoEnabled()) {
+                    LOG.info("Mailing to: "+listserv);
+                }
+                message.addToAddress(listserv);
+            }
+
+            message.setFromAddress(listservAddresses.iterator().next() );
+
 
             message.setSubject(getConfigurationService().getPropertyValueAsString(KFSKeyConstants.CFDA_UPDATE_EMAIL_SUBJECT_LINE));
             message.setMessage(builder.toString());

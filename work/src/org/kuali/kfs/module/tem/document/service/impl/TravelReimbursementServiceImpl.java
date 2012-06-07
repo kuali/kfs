@@ -16,6 +16,7 @@
 package org.kuali.kfs.module.tem.document.service.impl;
 
 import static org.kuali.kfs.module.tem.TemConstants.DATE_CHANGED_MESSAGE;
+import static org.kuali.kfs.module.tem.TemConstants.DISBURSEMENT_VOUCHER_DOCTYPE;
 import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.DOCUMENT_DTL_TYPE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.TRAVEL_COVERSHEET_INSTRUCTIONS;
@@ -44,7 +45,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.gl.service.EncumbranceService;
@@ -61,7 +62,6 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
-import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
@@ -72,16 +72,13 @@ import org.kuali.kfs.module.tem.businessobject.TripType;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
-import org.kuali.kfs.module.tem.document.authorization.TravelDocumentPresentationController;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
 import org.kuali.kfs.module.tem.pdf.Coversheet;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.AccountingLineBase;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
@@ -100,13 +97,11 @@ import org.kuali.rice.kns.dao.DocumentDao;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
@@ -411,7 +406,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
             boolean valid = false;
             while (!valid) {
                 try {
-                    if ("DV".equals(header.getWorkflowDocument().getDocumentType())
+                    if (DISBURSEMENT_VOUCHER_DOCTYPE.equals(header.getWorkflowDocument().getDocumentType())
                             && header.getWorkflowDocument().stateIsSaved()) {
                         retval.add((DisbursementVoucherDocument) getDocumentService().getByDocumentHeaderId(header.getDocumentNumber()));
                     }
@@ -424,7 +419,6 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         }
         return retval;
     }
-
 
     /**
      * Creates a {@link CashControlDetail} instance for a {@link CashControlDocument}. It's necessary to do this because it will

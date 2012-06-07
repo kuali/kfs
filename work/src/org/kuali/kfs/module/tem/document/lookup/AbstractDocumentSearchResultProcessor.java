@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.tem.document.lookup;
 
+import static org.kuali.kfs.module.tem.TemConstants.DISBURSEMENT_VOUCHER_DOCTYPE;
 import static org.kuali.kfs.module.tem.TemKeyConstants.AGENCY_SITES_URL;
 
 import java.util.HashMap;
@@ -87,10 +88,10 @@ public abstract class AbstractDocumentSearchResultProcessor {
     }
 
     public String createDisbursementVoucherLink(DocSearchDTO docCriteriaDTO, String title) {
-        final DocumentType docType = getDocumentTypeService().findByName("DV");
+        final DocumentType docType = getDocumentTypeService().findByName(DISBURSEMENT_VOUCHER_DOCTYPE);
 
         if (docType == null) {
-            throw new RuntimeException(String.format("DocType with name %s does not exist!", "DV"));
+            throw new RuntimeException(String.format("DocType with name %s does not exist!", DISBURSEMENT_VOUCHER_DOCTYPE));
         }
         String linkPopup = "target=\"_blank\"";
         

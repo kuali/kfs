@@ -15,7 +15,8 @@
  */
 package org.kuali.kfs.module.tem.document;
 
-import java.util.Iterator;
+import static org.kuali.kfs.module.tem.TemConstants.DISBURSEMENT_VOUCHER_DOCTYPE;
+
 import java.util.List;
 import java.util.Map;
 
@@ -24,10 +25,7 @@ import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.util.PurApRelatedViews;
-import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.businessobject.TEMExpense;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
-import org.kuali.kfs.module.tem.service.TEMExpenseService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
@@ -55,7 +53,7 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase {
         KualiDecimal totalPaidAmountToVendor = KualiDecimal.ZERO;
         try {
             Map<String, List<Document>> relateddocs = SpringContext.getBean(TravelDocumentService.class).getDocumentsRelatedTo(this);
-            List<Document> relatedDVs = relateddocs.get("DV");
+            List<Document> relatedDVs = relateddocs.get(DISBURSEMENT_VOUCHER_DOCTYPE);
             if (relatedDVs != null && relatedDVs.size() > 0) {
                 for (Document document : relatedDVs) {
                     if (document instanceof DisbursementVoucherDocument) {

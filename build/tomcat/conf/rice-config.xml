@@ -1,17 +1,18 @@
 <config>
     <param name="environment">dev2</param>
+	<param name="app.context.name">kr-${environment}</param>
     <param name="application.http.scheme">http</param>
     <param name="application.host">localhost</param>
 	<param name="http.port">8080</param>
 
 	<param name="appserver.url">http://localhost:8080</param>
-	<param name="serviceServletUrl">http://localhost:8080/kr-dev2/remoting</param>
+	<param name="application.url">${appserver.url}/${app.context.name}</param>
+	<param name="serviceServletUrl">${application.url}/remoting</param>
 
-        <param name="application.url">http://localhost:8080/kr-dev2</param>
-        <param name="kfs.url">http://localhost:8080/kfs-dev2</param>
+    <param name="kfs.url">${appserver.url}/kfs-dev2</param>
 
 	<param name="host.ip">127.0.0.1</param>
-	<param name="encryption.key">7IC64w6ksLU</param>
+	<param name="encryption.key">7IC64w6kAAAA</param>
 	
 	<param name="datasource.ojb.platform">MySQL</param>
 	<param name="datasource.url">jdbc:mysql://localhost:3306/rice</param>

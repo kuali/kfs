@@ -262,7 +262,7 @@ public class ExpenseImportServiceBase {
      */
     protected GeneralLedgerPendingEntry setupGeneralLedgerPendingEntry(AgencyStagingData agencyData, TripAccountingInformation info, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         //DateFormat dateFormat = new SimpleDateFormat("MMddyyyy");
-        DateFormat dateFormat = new SimpleDateFormat("MMddyyyyhhmmss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
 
 
         GeneralLedgerPendingEntry glpe = new GeneralLedgerPendingEntry();

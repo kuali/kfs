@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.fp.businessobject.Check;
@@ -69,9 +70,8 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
     private static final String CURRENCY_FIELD = "Currency";
     private static final String COIN_FIELD = "Coin";
     private static final String CREDIT_CARD_FIELD = "CreditCard";
-    private static final String ADV_DEPOSIT_FIELD = "AdvancedDeposit";
     private static final String CHANGE_OUT_FIELD = "ChangeOut";
-    private static final String REVIV_FUND_OUT_FIELD = "RevivFundOut";
+    private static final String TOTAL_RECONCILIATION_FIELD = "ReconciliationTotal";
 
     private static final int FRONT_PAGE = 1;
     private static final int CHECK_PAGE_NORMAL = 2;
@@ -158,7 +158,13 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
 
         try {
             // populate form with document values
-            PdfStamper stamper = new PdfStamper(new PdfReader(searchPath + File.separator + templateName), returnStream);
+            
+            //KFSMI-7303
+            //The PDF template is retrieve through web static URL rather than file path, so the File separator is unnecessary
+            final boolean isWebResourcePath = StringUtils.containsIgnoreCase(searchPath, "HTTP");
+            
+            //skip the File.separator if reference by web resource
+            PdfStamper stamper = new PdfStamper(new PdfReader(searchPath + (isWebResourcePath? "" : File.separator) + templateName), returnStream);
             AcroFields populatedCoverSheet = stamper.getAcroFields();
             
             populatedCoverSheet.setField(DOCUMENT_NUMBER_FIELD, document.getDocumentNumber());
@@ -184,13 +190,9 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
             populatedCoverSheet.setField(CHECKS_FIELD, document.getTotalCheckAmount().toString());
             populatedCoverSheet.setField(CURRENCY_FIELD, document.getTotalCashAmount().toString());
             populatedCoverSheet.setField(COIN_FIELD, document.getTotalCoinAmount().toString());
-            /*
-             * Fields currently not used. Pulling them out. These are advanced features of the CR which will come during the
-             * post-3/31 timeframe populatedCoverSheet.setField( CREDIT_CARD_FIELD, document.getDocumentNumber() );
-             * populatedCoverSheet.setField( ADV_DEPOSIT_FIELD, document.getDocumentNumber() ); populatedCoverSheet.setField(
-             * CHANGE_OUT_FIELD, document.getDocumentNumber() ); populatedCoverSheet.setField( REVIV_FUND_OUT_FIELD,
-             * document.getDocumentNumber() );
-             */
+            populatedCoverSheet.setField(CHANGE_OUT_FIELD, document.getTotalChangeAmount().toString());
+            
+            populatedCoverSheet.setField(TOTAL_RECONCILIATION_FIELD, document.getTotalDollarAmount().toString());
 
             stamper.setFormFlattening(true);
             stamper.close();

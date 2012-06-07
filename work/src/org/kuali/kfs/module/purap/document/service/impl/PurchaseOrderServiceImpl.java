@@ -1027,6 +1027,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         try {
 
             newBONote = noteService.createNote(newBONote, maintainable.getBusinessObject(), GlobalVariables.getUserSession().getPrincipalId());
+            newBONote.setNotePostedTimestampToCurrent();
         }
         catch (Exception e) {
             throw new RuntimeException("Caught Exception While Trying To Add Note to Vendor", e);

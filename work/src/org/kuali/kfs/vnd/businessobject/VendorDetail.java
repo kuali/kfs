@@ -549,7 +549,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
             } else {
                 first = false;
             }            
-            sb.append(vcc.getCommodityCode());
+            sb.append(vcc.getCommodityCode().getPurchasingCommodityCode());
         }
         sb.append(']');
         return sb.toString();

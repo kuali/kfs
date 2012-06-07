@@ -94,7 +94,7 @@ public interface AccountsReceivableModuleService {
      * @param customerInvoiceDocumentNumber the given customer invoice document number
      * @return the open customer invoice document with the given document number
      */
-    public AccountReceivableCustomerInvoice getOpenCustomerInvoice(String customerInvoiceDocumentNumber);
+    public AccountsReceivableCustomerInvoice getOpenCustomerInvoice(String customerInvoiceDocumentNumber);
     
     /**
      * get the open amount of the customer invoice document with the given search criteria
@@ -116,7 +116,7 @@ public interface AccountsReceivableModuleService {
      * 
      * @return a set of the open customer invoices
      */
-    public Collection<? extends AccountReceivableCustomerInvoice> getOpenCustomerInvoices(List<String> customerTypeCodes, Integer customerInvoiceAge, Date invoiceBillingDateFrom);
+    public Collection<? extends AccountsReceivableCustomerInvoice> getOpenCustomerInvoices(List<String> customerTypeCodes, Integer customerInvoiceAge, Date invoiceBillingDateFrom);
     
     /**
      * Create new Customer object
@@ -159,9 +159,9 @@ public interface AccountsReceivableModuleService {
 
     public AccountsReceivableOrganizationOptions getOrganizationOptionsByPrimaryKey(Map<String, String> criteria);
 
-    public void saveCustomerInvoiceDocument(AccountReceivableCustomerInvoice customerInvoiceDocument) throws WorkflowException;
+    public void saveCustomerInvoiceDocument(AccountsReceivableCustomerInvoice customerInvoiceDocument) throws WorkflowException;
 
-    public Document blanketApproveCustomerInvoiceDocument(AccountReceivableCustomerInvoice customerInvoiceDocument) throws WorkflowException;
+    public Document blanketApproveCustomerInvoiceDocument(AccountsReceivableCustomerInvoice customerInvoiceDocument) throws WorkflowException;
 
     public AccountsRecievableCustomerInvoiceRecurrenceDetails createCustomerInvoiceRecurrenceDetails();
 
@@ -173,19 +173,19 @@ public interface AccountsReceivableModuleService {
 
     public boolean isUsingReceivableFAU();
     
-    public void setReceivableAccountingLineForCustomerInvoiceDocument(AccountReceivableCustomerInvoice document);
+    public void setReceivableAccountingLineForCustomerInvoiceDocument(AccountsReceivableCustomerInvoice document);
 
     public AccountsReceivableCustomerInvoiceDetail getCustomerInvoiceDetailFromCustomerInvoiceItemCode(String invoiceItemCode, String processingChartCode, String processingOrgCode);
 
     public String getAccountsReceivableObjectCodeBasedOnReceivableParameter(AccountsReceivableCustomerInvoiceDetail customerInvoiceDetail);
 
-    public void recalculateCustomerInvoiceDetail(AccountReceivableCustomerInvoice customerInvoiceDocument, AccountsReceivableCustomerInvoiceDetail detail);
+    public void recalculateCustomerInvoiceDetail(AccountsReceivableCustomerInvoice customerInvoiceDocument, AccountsReceivableCustomerInvoiceDetail detail);
 
-    public void prepareCustomerInvoiceDetailForAdd(AccountsReceivableCustomerInvoiceDetail detail, AccountReceivableCustomerInvoice customerInvoiceDocument);
+    public void prepareCustomerInvoiceDetailForAdd(AccountsReceivableCustomerInvoiceDetail detail, AccountsReceivableCustomerInvoice customerInvoiceDocument);
 
-    public KualiDecimal getOpenAmountForCustomerInvoiceDocument(AccountReceivableCustomerInvoice invoice);
+    public KualiDecimal getOpenAmountForCustomerInvoiceDocument(AccountsReceivableCustomerInvoice invoice);
 
-    public Collection<AccountReceivableCustomerInvoice> getOpenInvoiceDocumentsByCustomerNumber(String customerNumber);
+    public Collection<AccountsReceivableCustomerInvoice> getOpenInvoiceDocumentsByCustomerNumber(String customerNumber);
 
     public AccountsReceivableNonInvoiced createNonInvoiced();
 
@@ -201,5 +201,5 @@ public interface AccountsReceivableModuleService {
     
     public Document blanketApprovePaymentApplicationDocument(AccountsReceivablePaymentApplicationDocument paymentApplicationDocument, String travelDocumentIdentifier) throws WorkflowException;
     
-    public AccountReceivableCustomerInvoice createCustomerInvoiceDocument();
+    public AccountsReceivableCustomerInvoice createCustomerInvoiceDocument();
 }

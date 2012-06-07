@@ -61,7 +61,7 @@ import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.gl.businessobject.Encumbrance;
 import org.kuali.kfs.gl.service.EncumbranceService;
-import org.kuali.kfs.integration.ar.AccountReceivableCustomerInvoice;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
@@ -158,7 +158,9 @@ import org.springframework.transaction.annotation.Transactional;
  * Travel Service Implementation
  */
 public class TravelDocumentServiceImpl implements TravelDocumentService {
+    
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TravelDocumentServiceImpl.class);
+    
     protected DataDictionaryService dataDictionaryService;
     protected DocumentService documentService;
     protected BusinessObjectService businessObjectService;
@@ -1698,7 +1700,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     @Override
     public KualiDecimal getAmountDueFromInvoice(String documentNumber, KualiDecimal requestedAmount) {
         try {
-            AccountReceivableCustomerInvoice doc = (AccountReceivableCustomerInvoice) documentService.getByDocumentHeaderId(documentNumber);
+            AccountsReceivableCustomerInvoice doc = (AccountsReceivableCustomerInvoice) documentService.getByDocumentHeaderId(documentNumber);
             return doc.getOpenAmount();
         }
         catch (Exception ex) {

@@ -89,7 +89,7 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
     /**
      * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getOpenCustomerInvoice(java.lang.String)
      */
-    public AccountReceivableCustomerInvoice getOpenCustomerInvoice(String customerInvoiceDocumentNumber) {   
+    public AccountsReceivableCustomerInvoice getOpenCustomerInvoice(String customerInvoiceDocumentNumber) {   
         LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
 
         return SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(CustomerInvoiceDocument.class, customerInvoiceDocumentNumber);
@@ -104,12 +104,12 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
 
         Map<String, KualiDecimal> customerInvoiceOpenAmountMap = new HashMap<String, KualiDecimal>();       
         
-        Collection<? extends AccountReceivableCustomerInvoice> customerInvoiceDocuments = this.getOpenCustomerInvoices(customerTypeCodes, customerInvoiceAge, invoiceBillingDateFrom);
+        Collection<? extends AccountsReceivableCustomerInvoice> customerInvoiceDocuments = this.getOpenCustomerInvoices(customerTypeCodes, customerInvoiceAge, invoiceBillingDateFrom);
         if(ObjectUtils.isNull(customerInvoiceDocuments)){
             return customerInvoiceOpenAmountMap;
         }
         
-        for(AccountReceivableCustomerInvoice invoiceDocument : customerInvoiceDocuments){
+        for(AccountsReceivableCustomerInvoice invoiceDocument : customerInvoiceDocuments){
             KualiDecimal openAmount = invoiceDocument.getOpenAmount();
             
             if(ObjectUtils.isNotNull(openAmount) && openAmount.isPositive()){
@@ -124,7 +124,7 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
      * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getOpenCustomerInvoices(java.util.List, java.lang.Integer, java.sql.Date)
      */
     @Override
-    public Collection<? extends AccountReceivableCustomerInvoice> getOpenCustomerInvoices(List<String> customerTypeCodes, Integer customerInvoiceAge, Date invoiceBillingDateFrom) {
+    public Collection<? extends AccountsReceivableCustomerInvoice> getOpenCustomerInvoices(List<String> customerTypeCodes, Integer customerInvoiceAge, Date invoiceBillingDateFrom) {
         LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
 
         CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
@@ -175,13 +175,13 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
     }
 
     @Override
-    public void saveCustomerInvoiceDocument(AccountReceivableCustomerInvoice customerInvoiceDocument) throws WorkflowException {
+    public void saveCustomerInvoiceDocument(AccountsReceivableCustomerInvoice customerInvoiceDocument) throws WorkflowException {
         // TODO Auto-generated method stub
         
     }
 
     @Override
-    public Document blanketApproveCustomerInvoiceDocument(AccountReceivableCustomerInvoice customerInvoiceDocument) throws WorkflowException {
+    public Document blanketApproveCustomerInvoiceDocument(AccountsReceivableCustomerInvoice customerInvoiceDocument) throws WorkflowException {
         // TODO Auto-generated method stub
         return null;
     }
@@ -217,7 +217,7 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
     }
 
     @Override
-    public void setReceivableAccountingLineForCustomerInvoiceDocument(AccountReceivableCustomerInvoice document) {
+    public void setReceivableAccountingLineForCustomerInvoiceDocument(AccountsReceivableCustomerInvoice document) {
         // TODO Auto-generated method stub
         
     }
@@ -235,25 +235,25 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
     }
 
     @Override
-    public void recalculateCustomerInvoiceDetail(AccountReceivableCustomerInvoice customerInvoiceDocument, AccountsReceivableCustomerInvoiceDetail detail) {
+    public void recalculateCustomerInvoiceDetail(AccountsReceivableCustomerInvoice customerInvoiceDocument, AccountsReceivableCustomerInvoiceDetail detail) {
         // TODO Auto-generated method stub
         
     }
 
     @Override
-    public void prepareCustomerInvoiceDetailForAdd(AccountsReceivableCustomerInvoiceDetail detail, AccountReceivableCustomerInvoice customerInvoiceDocument) {
+    public void prepareCustomerInvoiceDetailForAdd(AccountsReceivableCustomerInvoiceDetail detail, AccountsReceivableCustomerInvoice customerInvoiceDocument) {
         // TODO Auto-generated method stub
         
     }
 
     @Override
-    public KualiDecimal getOpenAmountForCustomerInvoiceDocument(AccountReceivableCustomerInvoice invoice) {
+    public KualiDecimal getOpenAmountForCustomerInvoiceDocument(AccountsReceivableCustomerInvoice invoice) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Collection<AccountReceivableCustomerInvoice> getOpenInvoiceDocumentsByCustomerNumber(String customerNumber) {
+    public Collection<AccountsReceivableCustomerInvoice> getOpenInvoiceDocumentsByCustomerNumber(String customerNumber) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -299,10 +299,10 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
         // TODO Auto-generated method stub
         return null;
     }
-
+    
     @Override
-    public AccountReceivableCustomerInvoice createCustomerInvoiceDocument() {
+    public AccountsReceivableCustomerInvoice createCustomerInvoiceDocument() {
         // TODO Auto-generated method stub
         return null;
-    }   
+    }
 }

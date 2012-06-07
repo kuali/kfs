@@ -44,7 +44,7 @@ import org.kuali.kfs.fp.businessobject.TravelExpenseTypeCode;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.gl.service.EncumbranceService;
-import org.kuali.kfs.integration.ar.AccountReceivableCustomerInvoice;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceDetail;
@@ -172,7 +172,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
 
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 
-        AccountReceivableCustomerInvoice customerInvoiceDocument = getAccountsReceivableModuleService().createCustomerInvoiceDocument();
+        AccountsReceivableCustomerInvoice customerInvoiceDocument = getAccountsReceivableModuleService().createCustomerInvoiceDocument();
         info("Created customer invoice document ", customerInvoiceDocument.getDocumentNumber());
         
         setupDefaultValuesForNewCustomerInvoiceDocument(customerInvoiceDocument, processingChartCode, processingOrgCode);
@@ -335,7 +335,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
         return false;
     }
 
-    protected void setupDefaultValuesForNewCustomerInvoiceDocument(AccountReceivableCustomerInvoice document, String chartOfAccountsCode, String organizationCode) {
+    protected void setupDefaultValuesForNewCustomerInvoiceDocument(AccountsReceivableCustomerInvoice document, String chartOfAccountsCode, String organizationCode) {
 
         // setupBasicDefaultValuesForCustomerInvoiceDocument(document);
         document.setBillByChartOfAccountCode(chartOfAccountsCode);
@@ -408,7 +408,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
      * @param detail
      * @param customerInvoiceDocument
      */
-    protected void addInvoiceDetailToDocument(AccountsReceivableCustomerInvoiceDetail detail, AccountReceivableCustomerInvoice customerInvoiceDocument) {
+    protected void addInvoiceDetailToDocument(AccountsReceivableCustomerInvoiceDetail detail, AccountsReceivableCustomerInvoice customerInvoiceDocument) {
         getAccountsReceivableModuleService().recalculateCustomerInvoiceDetail(customerInvoiceDocument, detail);
         
         // run rules

@@ -23,11 +23,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.kfs.integration.ar.AccountReceivableCustomerInvoice;
 import org.kuali.kfs.integration.ar.AccountsReceivableCashControlDetail;
 import org.kuali.kfs.integration.ar.AccountsReceivableCashControlDocument;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceDetail;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerType;
 import org.kuali.kfs.integration.ar.AccountsReceivableInvoicePaidApplied;
@@ -135,7 +135,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
      * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#searchForCustomerAddresses(java.util.Map)
      */
     public Collection<AccountsReceivableCustomerAddress> searchForCustomerAddresses(Map<String, String> fieldValues) {
-    	return SpringContext.getBean(BusinessObjectService.class).findMatching(CustomerAddress.class, fieldValues);
+    	return getBusinessObjectService().findMatching(CustomerAddress.class, fieldValues);
     }
 
     /**
@@ -146,7 +146,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
         addressKey.put(KFSPropertyConstants.CUSTOMER_NUMBER, customerNumber);
         addressKey.put(KFSPropertyConstants.CUSTOMER_ADDRESS_IDENTIFIER, customerAddressIdentifer);
 
-        return (AccountsReceivableCustomerAddress) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(CustomerAddress.class, addressKey);
+        return (AccountsReceivableCustomerAddress) getBusinessObjectService().findByPrimaryKey(CustomerAddress.class, addressKey);
     }
 
     public void setCustomerLookupable(Lookupable customerLookupable) {
@@ -156,28 +156,23 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     /**
      * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getOpenCustomerInvoice(java.lang.String)
      */
-    public AccountReceivableCustomerInvoice getOpenCustomerInvoice(String customerInvoiceDocumentNumber) {
-        return SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(CustomerInvoiceDocument.class, customerInvoiceDocumentNumber);
+    public AccountsReceivableCustomerInvoice getOpenCustomerInvoice(String customerInvoiceDocumentNumber) {
+        return getBusinessObjectService().findBySinglePrimaryKey(CustomerInvoiceDocument.class, customerInvoiceDocumentNumber);
     }
 
     /**
-<<<<<<< .working
-     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getCustomerInvoiceOpenAmount(java.util.List,
-     *      java.lang.Integer)
-=======
      * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getCustomerInvoiceOpenAmount(java.util.List, java.lang.Integer, java.sql.Date)
->>>>>>> .merge-right.r33267
      */
     @Override
     public Map<String, KualiDecimal> getCustomerInvoiceOpenAmount(List<String> customerTypeCodes, Integer customerInvoiceAge, Date invoiceBillingDateFrom) {
         Map<String, KualiDecimal> customerInvoiceOpenAmountMap = new HashMap<String, KualiDecimal>();
 
-        Collection<? extends AccountReceivableCustomerInvoice> customerInvoiceDocuments = this.getOpenCustomerInvoices(customerTypeCodes, customerInvoiceAge, invoiceBillingDateFrom);
+        Collection<? extends AccountsReceivableCustomerInvoice> customerInvoiceDocuments = this.getOpenCustomerInvoices(customerTypeCodes, customerInvoiceAge, invoiceBillingDateFrom);
         if (ObjectUtils.isNull(customerInvoiceDocuments)) {
             return customerInvoiceOpenAmountMap;
         }
 
-        for (AccountReceivableCustomerInvoice invoiceDocument : customerInvoiceDocuments) {
+        for (AccountsReceivableCustomerInvoice invoiceDocument : customerInvoiceDocuments) {
             KualiDecimal openAmount = invoiceDocument.getOpenAmount();
 
             if (ObjectUtils.isNotNull(openAmount) && openAmount.isPositive()) {
@@ -192,7 +187,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
      * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getOpenCustomerInvoices(java.util.List, java.lang.Integer, java.sql.Date)
      */
     @Override
-    public Collection<? extends AccountReceivableCustomerInvoice> getOpenCustomerInvoices(List<String> customerTypeCodes, Integer customerInvoiceAge, Date invoiceBillingDateFrom) {
+    public Collection<? extends AccountsReceivableCustomerInvoice> getOpenCustomerInvoices(List<String> customerTypeCodes, Integer customerInvoiceAge, Date invoiceBillingDateFrom) {
         CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
 
         return customerInvoiceDocumentService.getAllAgingInvoiceDocumentsByCustomerTypes(customerTypeCodes, customerInvoiceAge, invoiceBillingDateFrom);
@@ -215,14 +210,14 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
 
     @Override
     public void saveCustomer(AccountsReceivableCustomer customer) {
-        SpringContext.getBean(BusinessObjectService.class).save((Customer) customer);
+        getBusinessObjectService().save((Customer) customer);
     }
 
     @Override
     public List<AccountsReceivableCustomerType> findByCustomerTypeDescription(String customerTypeDescription) {
         Map<String, String> fieldMap = new HashMap<String, String>();
         fieldMap.put(CustomerTypeFields.CUSTOMER_TYPE_DESC, customerTypeDescription);
-        List<AccountsReceivableCustomerType> customerTypes = (List<AccountsReceivableCustomerType>) SpringContext.getBean(BusinessObjectService.class).findMatching(CustomerType.class, fieldMap);
+        List<AccountsReceivableCustomerType> customerTypes = (List<AccountsReceivableCustomerType>) getBusinessObjectService().findMatching(CustomerType.class, fieldMap);
 
         return customerTypes;
     }
@@ -232,22 +227,22 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("chartOfAccountsCode", chartOfAccountsCode);
         criteria.put("organizationCode", organizationCode);
-        return (AccountsReceivableOrganizationOptions) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
+        return (AccountsReceivableOrganizationOptions) getBusinessObjectService().findByPrimaryKey(OrganizationOptions.class, criteria);
     }
 
     @Override
     public AccountsReceivableOrganizationOptions getOrganizationOptionsByPrimaryKey(Map<String, String> criteria) {
-        return (AccountsReceivableOrganizationOptions) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(OrganizationOptions.class, criteria);
+        return (AccountsReceivableOrganizationOptions) getBusinessObjectService().findByPrimaryKey(OrganizationOptions.class, criteria);
     }
 
     @Override
-    public void saveCustomerInvoiceDocument(AccountReceivableCustomerInvoice customerInvoiceDocument) throws WorkflowException {
-        SpringContext.getBean(DocumentService.class).saveDocument((CustomerInvoiceDocument) customerInvoiceDocument);
+    public void saveCustomerInvoiceDocument(AccountsReceivableCustomerInvoice customerInvoiceDocument) throws WorkflowException {
+        getDocumentService().saveDocument((CustomerInvoiceDocument) customerInvoiceDocument);
     }
 
     @Override
-    public Document blanketApproveCustomerInvoiceDocument(AccountReceivableCustomerInvoice customerInvoiceDocument) throws WorkflowException {
-        return SpringContext.getBean(DocumentService.class).blanketApproveDocument((CustomerInvoiceDocument) customerInvoiceDocument, null, null);
+    public Document blanketApproveCustomerInvoiceDocument(AccountsReceivableCustomerInvoice customerInvoiceDocument) throws WorkflowException {
+        return getDocumentService().blanketApproveDocument((CustomerInvoiceDocument) customerInvoiceDocument, null, null);
     }
 
     @Override
@@ -277,7 +272,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     }
 
     @Override
-    public void setReceivableAccountingLineForCustomerInvoiceDocument(AccountReceivableCustomerInvoice document) {
+    public void setReceivableAccountingLineForCustomerInvoiceDocument(AccountsReceivableCustomerInvoice document) {
         SpringContext.getBean(ReceivableAccountingLineService.class).setReceivableAccountingLineForCustomerInvoiceDocument((CustomerInvoiceDocument) document);
     }
 
@@ -292,23 +287,23 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     }
 
     @Override
-    public void recalculateCustomerInvoiceDetail(AccountReceivableCustomerInvoice customerInvoiceDocument, AccountsReceivableCustomerInvoiceDetail detail) {
+    public void recalculateCustomerInvoiceDetail(AccountsReceivableCustomerInvoice customerInvoiceDocument, AccountsReceivableCustomerInvoiceDetail detail) {
         SpringContext.getBean(CustomerInvoiceDetailService.class).recalculateCustomerInvoiceDetail((CustomerInvoiceDocument) customerInvoiceDocument, (CustomerInvoiceDetail) detail);
     }
 
     @Override
-    public void prepareCustomerInvoiceDetailForAdd(AccountsReceivableCustomerInvoiceDetail detail, AccountReceivableCustomerInvoice customerInvoiceDocument) {
+    public void prepareCustomerInvoiceDetailForAdd(AccountsReceivableCustomerInvoiceDetail detail, AccountsReceivableCustomerInvoice customerInvoiceDocument) {
         SpringContext.getBean(CustomerInvoiceDetailService.class).prepareCustomerInvoiceDetailForAdd((CustomerInvoiceDetail) detail, (CustomerInvoiceDocument) customerInvoiceDocument);   
     }
 
     @Override
-    public KualiDecimal getOpenAmountForCustomerInvoiceDocument(AccountReceivableCustomerInvoice invoice) {
+    public KualiDecimal getOpenAmountForCustomerInvoiceDocument(AccountsReceivableCustomerInvoice invoice) {
         return SpringContext.getBean(CustomerInvoiceDocumentService.class).getOpenAmountForCustomerInvoiceDocument((CustomerInvoiceDocument) invoice);     
     }
 
     @Override
-    public Collection<AccountReceivableCustomerInvoice> getOpenInvoiceDocumentsByCustomerNumber(String customerNumber) {
-        Collection<AccountReceivableCustomerInvoice> invoices = new ArrayList<AccountReceivableCustomerInvoice>();
+    public Collection<AccountsReceivableCustomerInvoice> getOpenInvoiceDocumentsByCustomerNumber(String customerNumber) {
+        Collection<AccountsReceivableCustomerInvoice> invoices = new ArrayList<AccountsReceivableCustomerInvoice>();
         
         Collection<CustomerInvoiceDocument> result = SpringContext.getBean(CustomerInvoiceDocumentService.class).getOpenInvoiceDocumentsByCustomerNumber(customerNumber);
         
@@ -337,7 +332,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     @Override
     public AccountsReceivablePaymentApplicationDocument createPaymentApplicationDocument() {
         try {
-            return (PaymentApplicationDocument) SpringContext.getBean(DocumentService.class).getNewDocument(PaymentApplicationDocument.class);
+            return (PaymentApplicationDocument) getDocumentService().getNewDocument(PaymentApplicationDocument.class);
         }
         catch (WorkflowException ex) {
             ex.printStackTrace();
@@ -345,7 +340,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
         
         return new PaymentApplicationDocument();
     }
-
+    
     @Override
     public AccountsReceivableCashControlDetail createCashControlDetail() {
         return new CashControlDetail();
@@ -354,7 +349,7 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
     @Override
     public AccountsReceivableCashControlDocument createCashControlDocument() {
         try {
-            return (CashControlDocument) SpringContext.getBean(DocumentService.class).getNewDocument(CashControlDocument.class);
+            return (CashControlDocument) getDocumentService().getNewDocument(CashControlDocument.class);
         }
         catch (WorkflowException ex) {
             ex.printStackTrace();
@@ -365,17 +360,25 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
 
     @Override
     public Document blanketApprovePaymentApplicationDocument(AccountsReceivablePaymentApplicationDocument paymentApplicationDocument, String travelDocumentIdentifier) throws WorkflowException {
-        return SpringContext.getBean(DocumentService.class).blanketApproveDocument((PaymentApplicationDocument) paymentApplicationDocument, "Blanket Approving APP with travelDocumentIdentifier " + travelDocumentIdentifier, null);
+        return getDocumentService().blanketApproveDocument((PaymentApplicationDocument) paymentApplicationDocument, "Blanket Approving APP with travelDocumentIdentifier " + travelDocumentIdentifier, null);
     }
     
     public KualiModuleService getKualiModuleService() {
         return SpringContext.getBean(KualiModuleService.class);
     }
     
+    public BusinessObjectService getBusinessObjectService() {
+        return SpringContext.getBean(BusinessObjectService.class);
+    }
+    
+    public DocumentService getDocumentService() {
+        return SpringContext.getBean(DocumentService.class);
+    }
+    
     @Override
-    public AccountReceivableCustomerInvoice createCustomerInvoiceDocument() {
+    public AccountsReceivableCustomerInvoice createCustomerInvoiceDocument() {
         try {
-            return (CustomerInvoiceDocument) SpringContext.getBean(DocumentService.class).getNewDocument(CustomerInvoiceDocument.class);
+            return (CustomerInvoiceDocument) getDocumentService().getNewDocument(CustomerInvoiceDocument.class);
         }
         catch (WorkflowException ex) {
             ex.printStackTrace();

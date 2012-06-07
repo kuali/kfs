@@ -45,13 +45,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.gl.service.EncumbranceService;
-import org.kuali.kfs.integration.ar.AccountReceivableCustomerInvoice;
 import org.kuali.kfs.integration.ar.AccountsReceivableCashControlDetail;
 import org.kuali.kfs.integration.ar.AccountsReceivableCashControlDocument;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
 import org.kuali.kfs.integration.ar.AccountsReceivableInvoicePaidApplied;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.integration.ar.AccountsReceivableNonInvoiced;
@@ -546,9 +545,9 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
 
         Integer sequence = 1;
 
-        final Collection<AccountReceivableCustomerInvoice> invoices = getAccountsReceivableModuleService().getOpenInvoiceDocumentsByCustomerNumber(customerNumber);
+        final Collection<AccountsReceivableCustomerInvoice> invoices = getAccountsReceivableModuleService().getOpenInvoiceDocumentsByCustomerNumber(customerNumber);
         debug("There are ", invoices.size(), " invoices");
-        for (final AccountReceivableCustomerInvoice invoice : invoices) {
+        for (final AccountsReceivableCustomerInvoice invoice : invoices) {
             debug("Remaining cash control total is ", remaining);
             if (remaining.isGreaterThan(KualiDecimal.ZERO)) {
                 KualiDecimal applyAmount = invoice.getOpenAmount();
@@ -616,9 +615,9 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
      */
     protected KualiDecimal getInvoicesTotalFor(final String customerNumber) {
         KualiDecimal retval = KualiDecimal.ZERO;
-        final Collection<AccountReceivableCustomerInvoice> invoices = getAccountsReceivableModuleService().getOpenInvoiceDocumentsByCustomerNumber(customerNumber);
+        final Collection<AccountsReceivableCustomerInvoice> invoices = getAccountsReceivableModuleService().getOpenInvoiceDocumentsByCustomerNumber(customerNumber);
         debug("Invoices for customer ", customerNumber, " ", invoices);
-        for (final AccountReceivableCustomerInvoice invoice : invoices) {           
+        for (final AccountsReceivableCustomerInvoice invoice : invoices) {           
             KualiDecimal openAmountForCustomerInvoiceDocument = getAccountsReceivableModuleService().getOpenAmountForCustomerInvoiceDocument(invoice);
             debug("Accumulating ", openAmountForCustomerInvoiceDocument);
             retval = retval.add(openAmountForCustomerInvoiceDocument);

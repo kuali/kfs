@@ -25,7 +25,7 @@ import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 
-public interface AccountReceivableCustomerInvoice extends ExternalizableBusinessObject {
+public interface AccountsReceivableCustomerInvoice extends ExternalizableBusinessObject {
 
     /**
      * This method calculates the outstanding balance on an invoice.

@@ -25,7 +25,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.kfs.integration.ar.AccountReceivableCustomerInvoice;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
@@ -201,7 +201,7 @@ public class TaxableRamificationDocumentServiceImpl implements TaxableRamificati
         taxRamificationDocument.setTravelerDetailId(travelerDetail.getId());
         taxRamificationDocument.setTravelerDetail(travelerDetail);
 
-        AccountReceivableCustomerInvoice customerInvoice = this.getOpenCustomerInvoice(travelAdvance);
+        AccountsReceivableCustomerInvoice customerInvoice = this.getOpenCustomerInvoice(travelAdvance);
         taxRamificationDocument.setOpenAmount(customerInvoice.getOpenAmount());
         taxRamificationDocument.setInvoiceAmount(customerInvoice.getTotalDollarAmount());
         taxRamificationDocument.setDueDate(customerInvoice.getInvoiceDueDate());
@@ -256,7 +256,7 @@ public class TaxableRamificationDocumentServiceImpl implements TaxableRamificati
     /**
      * get the open customer invoice amount associated with the given travel advance
      */
-    protected AccountReceivableCustomerInvoice getOpenCustomerInvoice(TravelAdvance travelAdvance) {
+    protected AccountsReceivableCustomerInvoice getOpenCustomerInvoice(TravelAdvance travelAdvance) {
         String customerInvoiceDocumentNumber = travelAdvance.getArInvoiceDocNumber();
 
         return this.getAccountsReceivableModuleService().getOpenCustomerInvoice(customerInvoiceDocumentNumber);

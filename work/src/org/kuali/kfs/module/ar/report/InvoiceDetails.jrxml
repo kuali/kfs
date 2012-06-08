@@ -392,10 +392,12 @@
 						mode="Opaque"
 						x="353"
 						y="63"
-						width="104"
+						width="124"
 						height="16"
 						backcolor="#DDDDDD"
-						key="staticText-2"/>
+						key="staticText-2">
+						 <property name="net.sf.jasperreports.print.keep.full.text" value="true"/>
+					</reportElement>
 					<box></box>
 					<textElement verticalAlignment="Middle">
 						<font/>
@@ -454,11 +456,11 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{invoice}.get("invoiceTermsText")]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="6"
 						y="63"
-						width="295"
+						width="400"
 						height="16"
 						key="textField-21"/>
 					<box></box>

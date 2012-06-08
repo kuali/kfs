@@ -203,6 +203,10 @@ public class AssetServiceImpl implements AssetService {
      * @see org.kuali.kfs.module.cam.document.service.AssetService#isAssetMovableCheckByPayment(java.lang.String)
      */
     public boolean isAssetMovableCheckByPayment(String financialObjectSubTypeCode) {
+        if (ObjectUtils.isNull(financialObjectSubTypeCode)) {
+            return true;
+        }
+
         if (parameterService.getParameterValuesAsString(Asset.class, CamsConstants.Parameters.MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES).contains(financialObjectSubTypeCode)) {
             return true;
         }
@@ -210,10 +214,9 @@ public class AssetServiceImpl implements AssetService {
             return false;
         }
         else {
-            throw new ValidationException("Cound not determine movable or non-movable for this object sub-type code " + financialObjectSubTypeCode);
+            throw new ValidationException("Could not determine movable or non-movable for this object sub-type code " + financialObjectSubTypeCode);
         }
     }
-
     /**
      * @see org.kuali.kfs.module.cam.document.service.AssetService#isAssetMovableCheckByPayment(Asset)
      */
@@ -226,19 +229,7 @@ public class AssetServiceImpl implements AssetService {
             ObjectCode objectCode = objectCodeService.getByPrimaryIdForCurrentYear(firstAssetPayment.getChartOfAccountsCode(),firstAssetPayment.getFinancialObjectCode());
             financialObjectSubTypeCode = objectCode.getFinancialObjectSubTypeCode();
         }
-
-        if (ObjectUtils.isNull(financialObjectSubTypeCode)) {
-            return true;
-        }
-        else if (parameterService.getParameterValuesAsString(Asset.class, CamsConstants.Parameters.MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES).contains(financialObjectSubTypeCode)) {
-            return true;
-        }
-        else if (parameterService.getParameterValuesAsString(Asset.class, CamsConstants.Parameters.NON_MOVABLE_EQUIPMENT_OBJECT_SUB_TYPES).contains(financialObjectSubTypeCode)) {
-            return false;
-        }
-        else {
-            throw new ValidationException("Cound not determine movable or non-movable for this object sub-type code " + financialObjectSubTypeCode);
-        }
+        return this.isAssetMovableCheckByPayment(financialObjectSubTypeCode);
     }
 
     public List<Asset> findActiveAssetsMatchingTagNumber(String campusTagNumber) {

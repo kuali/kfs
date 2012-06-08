@@ -240,6 +240,117 @@
 		CREATE INDEX KREW_ACTN_ITM_TI5 ON KREW_ACTN_ITM_T(PRNCPL_ID, DLGN_TYP, DOC_HDR_ID)
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
+		-----------------------------------------------------------------------------
+		-- KREW_ACTN_RQST_T
+		-----------------------------------------------------------------------------
+		DECLARE
+		c NUMBER;
+		BEGIN
+		select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_ACTN_RQST_TP1' ;
+		IF c>0 THEN
+		EXECUTE IMMEDIATE 'ALTER TABLE KREW_ACTN_RQST_T DROP CONSTRAINT KREW_ACTN_RQST_TP1';
+		ELSE
+		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_RQST_TP1 does not exist, so not running statement to change/drop it.');
+		END IF;
+		END;
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+		DECLARE
+		c NUMBER;
+		BEGIN
+		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_RQST_T11' ;
+		IF c>0 THEN
+		EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_RQST_T11';
+		ELSE
+		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_RQST_T11 does not exist, so not running statement to change/drop it.');
+		END IF;
+		END;
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+		DECLARE
+		c NUMBER;
+		BEGIN
+		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_RQST_T12' ;
+		IF c>0 THEN
+		EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_RQST_T12';
+		ELSE
+		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_RQST_T12 does not exist, so not running statement to change/drop it.');
+		END IF;
+		END;
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+		DECLARE
+		c NUMBER;
+		BEGIN
+		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_RQST_T13' ;
+		IF c>0 THEN
+		EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_RQST_T13';
+		ELSE
+		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_RQST_T13 does not exist, so not running statement to change/drop it.');
+		END IF;
+		END;
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+		DECLARE
+		c NUMBER;
+		BEGIN
+		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_RQST_T14' ;
+		IF c>0 THEN
+		EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_RQST_T14';
+		ELSE
+		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_RQST_T14 does not exist, so not running statement to change/drop it.');
+		END IF;
+		END;
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+		DECLARE
+		c NUMBER;
+		BEGIN
+		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_RQST_T15' ;
+		IF c>0 THEN
+		EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_RQST_T15';
+		ELSE
+		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_RQST_T15 does not exist, so not running statement to change/drop it.');
+		END IF;
+		END;
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+		DECLARE
+		c NUMBER;
+		BEGIN
+		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_RQST_T16' ;
+		IF c>0 THEN
+		EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_RQST_T16';
+		ELSE
+		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_RQST_T16 does not exist, so not running statement to change/drop it.');
+		END IF;
+		END;
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+		DECLARE
+		c NUMBER;
+		BEGIN
+		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_RQST_T17' ;
+		IF c>0 THEN
+		EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_RQST_T17';
+		ELSE
+		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_RQST_T17 does not exist, so not running statement to change/drop it.');
+		END IF;
+		END;
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+		DECLARE
+		c NUMBER;
+		BEGIN
+		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_RQST_T19' ;
+		IF c>0 THEN
+		EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_RQST_T19';
+		ELSE
+		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_RQST_T19 does not exist, so not running statement to change/drop it.');
+		END IF;
+		END;
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
 		
 		--
 		-- KREW_ACTN_RQST_T 
@@ -314,6 +425,81 @@
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
 		CREATE INDEX KREW_ACTN_RQST_T19 ON KREW_ACTN_RQST_T(STAT_CD, DOC_HDR_ID)
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+		-----------------------------------------------------------------------------
+		-- KREW_ACTN_TKN_T
+		-----------------------------------------------------------------------------
+		DECLARE
+		c NUMBER;
+		BEGIN
+		select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_ACTN_TKN_TP1' ;
+		IF c>0 THEN
+		EXECUTE IMMEDIATE 'ALTER TABLE KREW_ACTN_TKN_T DROP CONSTRAINT KREW_ACTN_TKN_TP1';
+		ELSE
+		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_TKN_TP1 does not exist, so not running statement to change/drop it.');
+		END IF;
+		END;
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+		DECLARE
+		c NUMBER;
+		BEGIN
+		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_TKN_TI1' ;
+		IF c>0 THEN
+		EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_TKN_TI1';
+		ELSE
+		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_TKN_TI1 does not exist, so not running statement to change/drop it.');
+		END IF;
+		END;
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+		DECLARE
+		c NUMBER;
+		BEGIN
+		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_TKN_TI2' ;
+		IF c>0 THEN
+		EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_TKN_TI2';
+		ELSE
+		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_TKN_TI2 does not exist, so not running statement to change/drop it.');
+		END IF;
+		END;
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+		DECLARE
+		c NUMBER;
+		BEGIN
+		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_TKN_TI3' ;
+		IF c>0 THEN
+		EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_TKN_TI3';
+		ELSE
+		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_TKN_TI3 does not exist, so not running statement to change/drop it.');
+		END IF;
+		END;
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+		DECLARE
+		c NUMBER;
+		BEGIN
+		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_TKN_TI4' ;
+		IF c>0 THEN
+		EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_TKN_TI4';
+		ELSE
+		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_TKN_TI4 does not exist, so not running statement to change/drop it.');
+		END IF;
+		END;
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+		DECLARE
+		c NUMBER;
+		BEGIN
+		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_TKN_TI5' ;
+		IF c>0 THEN
+		EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_TKN_TI5';
+		ELSE
+		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_TKN_TI5 does not exist, so not running statement to change/drop it.');
+		END IF;
+		END;
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
 		

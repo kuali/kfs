@@ -27,7 +27,6 @@
 	<table cellpadding=0 class="datatable" summary="Credit Card Receipts section">
 		<tr>
             <kul:htmlAttributeHeaderCell literalLabel="&nbsp;"/>
-            <sys:bankLabel align="center"/>
             <kul:htmlAttributeHeaderCell attributeEntry="${ccrAttributes.financialDocumentCreditCardTypeCode}"/>
             <kul:htmlAttributeHeaderCell attributeEntry="${ccrAttributes.financialDocumentCreditCardVendorNumber}"/>
             <kul:htmlAttributeHeaderCell attributeEntry="${ccrAttributes.creditCardDepositDate}"/>
@@ -40,7 +39,6 @@
         <c:if test="${not readOnly}">
             <tr>
                 <kul:htmlAttributeHeaderCell literalLabel="add:" scope="row"/>
-                <sys:bankControl property="newCreditCardReceipt.financialDocumentBankCode" objectProperty="newCreditCardReceipt.bank" depositOnly="true" readOnly="${readOnly}" style="infoline"/>
                 
                 <td class="infoline">
                 	<kul:htmlControlAttribute attributeEntry="${ccrAttributes.financialDocumentCreditCardTypeCode}" 
@@ -86,7 +84,6 @@
 				</th>
                 <kul:htmlAttributeHeaderCell literalLabel="${ctr+1}:" scope="row">
                 </kul:htmlAttributeHeaderCell>
-                <sys:bankControl property="document.creditCardReceipts[${ctr}].financialDocumentBankCode" objectProperty="document.creditCardReceipts[${ctr}].bank" depositOnly="true" readOnly="${readOnly}"/>
 				
                 <td class="datacell">
                 	<kul:htmlControlAttribute attributeEntry="${ccrAttributes.financialDocumentCreditCardTypeCode}" property="document.creditCardReceipt[${ctr}].financialDocumentCreditCardTypeCode" readOnly="${readOnly}" />

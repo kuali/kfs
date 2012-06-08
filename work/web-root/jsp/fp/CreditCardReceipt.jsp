@@ -25,7 +25,12 @@
 	documentTypeName="CreditCardReceiptDocument"
 	renderMultipart="true" showTabButtons="true">
 	<sys:hiddenDocumentFields />
-	<sys:documentOverview editingMode="${KualiForm.editingMode}"/>
+	
+	<sys:documentOverview editingMode="${KualiForm.editingMode}" includeBankCode="true"
+	  bankProperty="document.creditCardReceiptBankCode" 
+	  bankObjectProperty="document.bank"
+	  disbursementOnly="true" />
+	
 	<SCRIPT type="text/javascript">
 	    <!--
 	        function submitForm() {

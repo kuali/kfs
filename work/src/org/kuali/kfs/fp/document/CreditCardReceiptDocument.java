@@ -65,9 +65,22 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
      */
     public CreditCardReceiptDocument() {
         super();
+        
+        bank = new Bank();
     }
 
 
+    /**
+     * Sets the bank code for a new document to the setup default for the Non Check Disbursement document.
+     */
+    public void setDefaultBankCode() {
+        Bank defaultBank = SpringContext.getBean(BankService.class).getDefaultBankByDocType(this.getClass());
+        if (defaultBank != null) {
+            this.creditCardReceiptBankCode = defaultBank.getBankCode();
+            this.bank = defaultBank;
+        }
+    }
+    
     @Override
     public boolean documentPerformsSufficientFundsCheck() {
         return false;

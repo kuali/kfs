@@ -19,11 +19,7 @@ package org.kuali.kfs.fp.businessobject;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.fp.document.CreditCardReceiptDocument;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.Bank;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.BankService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
@@ -40,19 +36,15 @@ public class CreditCardDetail extends PersistableBusinessObjectBase {
     private Date creditCardDepositDate;
     private String creditCardDepositReferenceNumber;
     private KualiDecimal creditCardAdvanceDepositAmount;
-    private String financialDocumentBankCode;
 
     private CreditCardType financialDocumentCreditCardType;
     private CreditCardVendor financialDocumentCreditCardVendor;
-
-    protected Bank bank;
 
     /**
      * Default constructor.
      */
     public CreditCardDetail() {
         super();
-        bank = new Bank();
         
         this.financialDocumentLineNumber = new Integer(1);
         this.creditCardAdvanceDepositAmount = KualiDecimal.ZERO;
@@ -247,48 +239,5 @@ public class CreditCardDetail extends PersistableBusinessObjectBase {
             m.put("financialDocumentLineNumber", this.financialDocumentLineNumber.toString());
         }
         return m;
-    }
-    
-    /**
-     * Sets the bank code for a new AdvanceDepositDetail to the setup default for the Advance Deposit document.
-     */
-    public void setDefaultBankCode() {
-        Bank defaultBank = SpringContext.getBean(BankService.class).getDefaultBankByDocType(CreditCardReceiptDocument.CREDIT_CARD_RECEIPT_DOCUMENT_TYPE_CODE);
-        if (defaultBank != null) {
-            this.financialDocumentBankCode = defaultBank.getBankCode();
-            this.bank = defaultBank;
-        }
-    }
-    
-    /**
-     * Gets the financialDocumentBankCode attribute.
-     * 
-     * @return Returns the financialDocumentBankCode
-     */
-    public String getFinancialDocumentBankCode() {
-        return financialDocumentBankCode;
-    }
-
-    /**
-     * Sets the financialDocumentBankCode attribute.
-     * 
-     * @param financialDocumentBankCode The financialDocumentBankCode to set.
-     */
-    public void setFinancialDocumentBankCode(String financialDocumentBankCode) {
-        this.financialDocumentBankCode = financialDocumentBankCode;
-    }
-    
-    /**
-     * @return Bank
-     */
-    public Bank getBank() {
-        return bank;
-    }
-
-    /**
-     * @param bank
-     */
-    public void setBank(Bank bank) {
-        this.bank = bank;
     }
 }

@@ -106,6 +106,69 @@
 		where POST_PRCSR='org.kuali.rice.kew.edl.EDLDatabasePostProcessor'
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
+		-----------------------------------------------------------------------------
+		-- KREW_ACTN_ITM_T
+		-----------------------------------------------------------------------------
+		DECLARE
+		c NUMBER;
+		BEGIN
+		select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_ACTN_ITM_TP1' ;
+		IF c>0 THEN
+		EXECUTE IMMEDIATE 'ALTER TABLE KREW_ACTN_ITM_T DROP CONSTRAINT KREW_ACTN_ITM_TP1';
+		ELSE
+		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_ITM_TP1 does not exist, so not running statement to change/drop it.');
+		END IF;
+		END;
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+		DECLARE
+		c NUMBER;
+		BEGIN
+		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_ITM_TI1' ;
+		IF c>0 THEN
+		EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_ITM_TI1';
+		ELSE
+		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_ITM_TI1 does not exist, so not running statement to change/drop it.');
+		END IF;
+		END;
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+		DECLARE
+		c NUMBER;
+		BEGIN
+		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_ITM_TI2' ;
+		IF c>0 THEN
+		EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_ITM_TI2';
+		ELSE
+		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_ITM_TI2 does not exist, so not running statement to change/drop it.');
+		END IF;
+		END;
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+		DECLARE
+		c NUMBER;
+		BEGIN
+		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_ITM_TI3' ;
+		IF c>0 THEN
+		EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_ITM_TI3';
+		ELSE
+		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_ITM_TI3 does not exist, so not running statement to change/drop it.');
+		END IF;
+		END;
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+		DECLARE
+		c NUMBER;
+		BEGIN
+		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_ITM_TI5' ;
+		IF c>0 THEN
+		EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_ITM_TI5';
+		ELSE
+		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_ITM_TI5 does not exist, so not running statement to change/drop it.');
+		END IF;
+		END;
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
 		
 		
 		

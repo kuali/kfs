@@ -255,7 +255,7 @@
 	<bean id="PaymentRequest-addAccountingLine-accountingLineAccessibleBranchingValidation-useDefaultAccountingLineAccessibleBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
 		<property name="validations">
 			<list>
-				<bean parent="PurchasingAccountsPayable-accountingLineAccessibleValidation" scope="prototype">
+				<bean parent="PaymentRequest-accountingLineAccessibleValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
 							<bean parent="accountingDocumentFieldConversion" />
@@ -315,7 +315,7 @@
 	<bean id="PaymentRequest-updateAccountingLine-accountingLineAccessible-useDefaultAccountingLineAccessibleBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
 		<property name="validations">
 			<list>
-				<bean parent="PurchasingAccountsPayable-accountingLineAccessibleValidation" scope="prototype">
+				<bean parent="PaymentRequest-accountingLineAccessibleValidation" scope="prototype">
 					<property name="parameterProperties">
 						<list>
 							<bean parent="accountingDocumentFieldConversion" />

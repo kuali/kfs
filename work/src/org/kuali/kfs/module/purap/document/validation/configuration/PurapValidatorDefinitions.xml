@@ -53,6 +53,10 @@
     <bean id="PurchasingAccountsPayable-accountingLineAccessibleValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableAccountingLineAccessibleValidation" abstract="true">
         <property name="dataDictionaryService" ref="dataDictionaryService" />
     </bean>
+    
+    <bean id="PaymentRequest-accountingLineAccessibleValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PaymentRequestAccountingLineAccessibleValidation" abstract="true">
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+    </bean>
 
     <bean id="PurchasingAccountsPayable-extendedPriceNonZeroBranchingValidation" class="org.kuali.kfs.module.purap.document.validation.impl.PurchasingAccountsPayableExtendedPriceNonZeroBranchingValidation" abstract="true"/>
 

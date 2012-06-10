@@ -183,7 +183,7 @@
                         <c:set var="commodityDescriptionField"  value="newPurchasingItemLine.commodityCode.commodityDescription" />
                         <kul:htmlControlAttribute attributeEntry="${itemAttributes.purchasingCommodityCode}" 
                             property="${commodityCodeField}" 
-                            onblur="loadCommodityCodeInfo( '${commodityCodeField}', '${commodityDescriptionField}' );${onblur}" readOnly="${readOnly}" tabindexOverride="${tabindexOverrideBase + 0}"/>
+                            onblur="loadCommodityCodeDescription( '${commodityCodeField}', '${commodityDescriptionField}' );${onblur}" readOnly="${readOnly}" tabindexOverride="${tabindexOverrideBase + 0}"/>
                         <kul:lookup boClassName="org.kuali.kfs.vnd.businessobject.CommodityCode" 
                             fieldConversions="purchasingCommodityCode:newPurchasingItemLine.purchasingCommodityCode"
                             lookupParameters="'Y':active"/>     
@@ -414,7 +414,7 @@
                             <kul:htmlControlAttribute 
                                 attributeEntry="${itemAttributes.purchasingCommodityCode}" 
                                 property="document.item[${ctr}].purchasingCommodityCode"
-                                onblur="loadCommodityCodeInfo( 'document.item[${ctr}].purchasingCommodityCode', 'document.item[${ctr}].commodityCode.commodityDescription' );${onblur}"
+                                onblur="loadCommodityCodeDescription( 'document.item[${ctr}].purchasingCommodityCode', 'document.item[${ctr}].commodityCode.commodityDescription' );${onblur}"
                                 readOnly="${not ( (fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment))))}"
                                 tabindexOverride="${tabindexOverrideBase + 0}"/>
                             <c:if test="${(fullEntryMode and !amendmentEntry) or (amendmentEntry and itemLine.itemActiveIndicator and (not (amendmentEntryWithUnpaidPreqOrCM and itemLine.itemInvoicedTotalAmount != null and !itemLine.newItemForAmendment)))}">   

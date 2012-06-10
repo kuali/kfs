@@ -43,7 +43,6 @@
         <ref bean="RequisitionItem-externalOrganizationB2bProductTypeName"/>
         <ref bean="RequisitionItem-itemQuantity"/>
         <ref bean="RequisitionItem-purchasingCommodityCode"/>
-        <ref bean="RequisitionItem-commodityCode.commodityDescription"/>
         <ref bean="RequisitionItem-itemRestrictedIndicator"/>
         <ref bean="RequisitionItem-itemTaxAmount"/>
         <ref bean="RequisitionItem-totalAmount"/>
@@ -243,11 +242,6 @@
     <property name="control">
       <ref bean="TenCharacterTextControl" />
     </property>
-  </bean>
-  
-  <bean id="RequisitionItem-commodityCode.commodityDescription" parent="RequisitionItem-commodityCode.commodityDescription-parentBean"/>
-  <bean id="RequisitionItem-commodityCode.commodityDescription-parentBean" abstract="true" parent="CommodityCode-commodityDescription">
-  	<property name="name" value="commodityCode.commodityDescription"/>
   </bean>
   
   <bean id="RequisitionItem-itemRestrictedIndicator" parent="RequisitionItem-itemRestrictedIndicator-parentBean"/>

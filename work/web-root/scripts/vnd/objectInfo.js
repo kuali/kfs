@@ -18,17 +18,17 @@ function loadCommodityCodeInfo( purCommodityCode, commodityCodeFieldName ) {
     var containerDiv = document.getElementById(commodityCodeFieldName + divSuffix);
 
     if (purchasingCommodityCode == "") {
-        dwr.util.setValue( containerDiv.id, "&nbsp;" );
+        dwr.util.setValue( containerDiv.id, " " );
     } else {
         var dwrReply = {
             callback:function(data) {
             if ( data != null && typeof data == 'object' ) {
                 dwr.util.setValue(containerDiv.id, data.commodityDescription, {escapeHtml:true} );
             } else {
-                dwr.util.setValue(containerDiv.id, wrapError( "commodity code not found" ));
+            	setRecipientValue(containerDiv.id, wrapError("Commodity Code not found"), true);            	
             } },
             errorHandler:function( errorMessage ) { 
-                dwr.util.setValue(containerDiv.id, wrapError( "commodity code not found" ));
+            	setRecipientValue(containerDiv.id, wrapError("Commodity Code not found"), true);
             }
         };
         CommodityCodeService.getByPrimaryId( purchasingCommodityCode, dwrReply );
@@ -39,6 +39,8 @@ function loadVendorDetailInfo( vendorNumber, vendorNameFieldName ) {
     var vendorNumber = dwr.util.getValue( vendorNumber );
     var vendorNameDiv = document.getElementById(vendorNameFieldName + divSuffix);
 
+    alert(vendorNameDiv);
+    
     if (vendorNumber == "") {
         dwr.util.setValue( vendorNameDiv.id, "&nbsp;" );
     } else {

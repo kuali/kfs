@@ -24,5 +24,12 @@
 	    	<param name="beanName" value="itemUnitOfMeasureService" />
 	    	<include method="getByPrimaryId" />
 	    </create>
+	   	<convert converter="bean" match="org.kuali.kfs.vnd.businessobject.CommodityCode">
+	   		<param name="include" value="purchasingCommodityCode,commodityDescription" />
+	   	</convert>
+	    <create creator="spring" javascript="CommodityCodeService">
+	    	<param name="beanName" value="commodityCodeService" />
+	    	<include method="getByPrimaryId" />
+	    </create>
 	</allow>	
 </dwr>

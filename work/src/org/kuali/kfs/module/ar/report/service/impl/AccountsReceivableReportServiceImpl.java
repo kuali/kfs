@@ -69,7 +69,9 @@ import org.kuali.kfs.module.ar.report.util.CustomerStatementReportDataHolder;
 import org.kuali.kfs.module.ar.report.util.CustomerStatementResultHolder;
 import org.kuali.kfs.module.ar.report.util.SortTransaction;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -79,6 +81,7 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -310,7 +313,8 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
             invoiceMap.put("taxAmount", currencyFormatter.format(invoice.getInvoiceItemTaxAmountTotal()).toString());
             invoiceMap.put("taxPercentage", ""); // suppressing this as its useless ... see KULAR-415
         }
-        invoiceMap.put("invoiceAmountDue", currencyFormatter.format(invoice.getSourceTotal()).toString());
+        KualiDecimal invoiceAmtDue = invoice.getSourceTotal().subtract(creditMemoTotalForInvoice(invoice));
+        invoiceMap.put("invoiceAmountDue", currencyFormatter.format(invoiceAmtDue).toString());
         invoiceMap.put("invoiceTermsText", invoice.getInvoiceTermsText());
 
         OCRLineService ocrService = SpringContext.getBean(OCRLineService.class);
@@ -642,7 +646,24 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         return generateStatementReports(SpringContext.getBean(CustomerInvoiceDocumentService.class).getCustomerInvoiceDocumentsByCustomerNumber(customerNumber), statementFormat, incldueZeroBalanceCustomers);
     }
     
-    /**
+    
+    protected KualiDecimal creditMemoTotalForInvoice(CustomerInvoiceDocument invoice) {
+        
+        KualiDecimal totalCredit = KualiDecimal.ZERO;
+        CustomerCreditMemoDocumentService creditMemoService = SpringContext.getBean(CustomerCreditMemoDocumentService.class);
+        Collection<CustomerCreditMemoDocument> creditMemos = creditMemoService.getCustomerCreditMemoDocumentByInvoiceDocument(invoice.getDocumentNumber());
+        for (CustomerCreditMemoDocument doc : creditMemos) {
+            try {
+                doc.populateCustomerCreditMemoDetailsAfterLoad();
+                totalCredit = totalCredit.add(doc.getTotalDollarAmount());
+            } catch(Exception ex) {
+                LOG.error(ex);
+            }
+        }
+        return totalCredit;
+    }
+
+     /**
      * This method groups invoices according to processingOrg, billedByOrg, customerNumber
      * 
      * @param invoiceList
@@ -694,29 +715,31 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
                                 doc.populateCustomerCreditMemoDetailsAfterLoad();
                                 CustomerCreditMemoDocument creditMemoDoc = (CustomerCreditMemoDocument)documentService.getByDocumentHeaderId(doc.getDocumentNumber());
                                 CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(creditMemoDoc.getFinancialSystemDocumentHeader(),
-                                            //creditMemoDoc.getInvoice().getAccountsReceivableDocumentHeader().getProcessingOrganization(),
-                                            invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(),
-                                            ArConstants.CREDIT_MEMO_DOC_TYPE, doc.getTotalDollarAmount());                            
+                                        //creditMemoDoc.getInvoice().getAccountsReceivableDocumentHeader().getProcessingOrganization(),
+                                        invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(),
+                                        ArConstants.CREDIT_MEMO_DOC_TYPE, doc.getTotalDollarAmount());                            
                                 statementDetailsByCustomer.add(detail);
-                             } catch(Exception ex) {
-                                 LOG.error(ex);
-                             }
+                            } catch(Exception ex) {
+                                LOG.error(ex);
+                            }
                         }
-                        
+
                         // add payment
                         InvoicePaidAppliedService<AppliedPayment> paymentService = SpringContext.getBean(InvoicePaidAppliedService.class);
                         Collection<InvoicePaidApplied> payments = paymentService.getInvoicePaidAppliedsForInvoice(invoice);
                         for (InvoicePaidApplied doc : payments) {
                             try {
-                                //doc.populateCustomerCreditMemoDetailsAfterLoad();
-                                PaymentApplicationDocument paymentApplicationDoc = (PaymentApplicationDocument)documentService.getByDocumentHeaderId(doc.getDocumentNumber());
-                                CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(paymentApplicationDoc.getFinancialSystemDocumentHeader(),
-                                        invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(),
-                                        ArConstants.PAYMENT_DOC_TYPE, doc.getInvoiceItemAppliedAmount());                            
-                                statementDetailsByCustomer.add(detail);
-                             } catch(Exception ex) {
-                                 LOG.error(ex);
-                             }
+                                Document payAppDoc = documentService.getByDocumentHeaderId(doc.getDocumentNumber());
+                                if (payAppDoc instanceof PaymentApplicationDocument ){              
+                                    PaymentApplicationDocument paymentApplicationDoc = (PaymentApplicationDocument)payAppDoc;
+                                    CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(paymentApplicationDoc.getFinancialSystemDocumentHeader(),
+                                            invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(),
+                                            ArConstants.PAYMENT_DOC_TYPE, doc.getInvoiceItemAppliedAmount());                            
+                                    statementDetailsByCustomer.add(detail);
+                                }
+                            } catch(Exception ex) {
+                                LOG.error(ex);
+                            }
                         }                     
                         // add writeoff
                         CustomerInvoiceWriteoffDocumentService writeoffService = SpringContext.getBean(CustomerInvoiceWriteoffDocumentService.class);

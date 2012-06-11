@@ -18,6 +18,7 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 import java.util.List;
 import java.util.Set;
 
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.sys.document.validation.impl.AccountingLineAccessibleValidation;
 import org.kuali.rice.kew.api.WorkflowDocument;
 
@@ -46,6 +47,21 @@ public class PurchasingAccountsPayableAccountingLineAccessibleValidation extends
     protected String getAccountingLineCollectionProperty() {
         return "items.sourceAccountingLines"; 
     }
-
+    
+    /**
+     * @return true if a dummy account identifier should be set on the accounting line, false otherwise
+     */
+    protected boolean needsDummyAccountIdentifier() {
+        if (((PurApAccountingLine)getAccountingLineForValidation()).getAccountIdentifier() != null) {
+            return false;
+        }
+        
+        final WorkflowDocument workflowDocument = getAccountingDocumentForValidation().getDocumentHeader().getWorkflowDocument();
+        if (workflowDocument.isInitiated() || workflowDocument.isSaved()) {
+            return false;
+        }
+        
+        return true;
+    }
 }
 

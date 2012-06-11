@@ -18,6 +18,7 @@ package org.kuali.kfs.module.purap.document.validation.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.RequisitionStatuses;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;
 
@@ -43,8 +44,21 @@ public class RequisitionAccountingLineAccessibleValidation extends PurchasingAcc
             return true;
         }
         else {
-
-            return super.validate(event);
+            boolean result = false;
+            boolean setDummyAccountIdentifier = false;
+            
+            if (needsDummyAccountIdentifier()) {
+                ((PurApAccountingLine)getAccountingLineForValidation()).setAccountIdentifier(Integer.MAX_VALUE);  // avoid conflicts with any accouting identifier on any other accounting lines in the doc because, you know, you never know...
+                setDummyAccountIdentifier = true;
+            }
+            
+            result = super.validate(event);
+            
+            if (setDummyAccountIdentifier) {
+                ((PurApAccountingLine)getAccountingLineForValidation()).setAccountIdentifier(null);
+            }
+            
+            return result;
         }
     }
     

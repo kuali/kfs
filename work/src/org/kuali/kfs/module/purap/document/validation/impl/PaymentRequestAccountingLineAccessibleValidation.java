@@ -47,20 +47,4 @@ public class PaymentRequestAccountingLineAccessibleValidation extends Purchasing
         
         return result;
     }
-
-    /**
-     * @return true if a dummy account identifier should be set on the accounting line, false otherwise
-     */
-    protected boolean needsDummyAccountIdentifier() {
-        if (((PurApAccountingLine)getAccountingLineForValidation()).getAccountIdentifier() != null) {
-            return false;
-        }
-        
-        final WorkflowDocument workflowDocument = getAccountingDocumentForValidation().getDocumentHeader().getWorkflowDocument();
-        if (workflowDocument.isInitiated() || workflowDocument.isSaved()) {
-            return false;
-        }
-        
-        return true;
-    }
 }

@@ -48,9 +48,10 @@ function setTargetValue(kualiForm, targetBase, value, isError) {
 
     if (containerDiv) {
         if (value == '') {
-			dwr.util.setValue( containerDiv.id, "&nbsp;" );
+			dwr.util.setValue( containerDiv.id, " " );
         } else {
-			dwr.util.setValue( containerDiv.id, value, isError?null:{escapeHtml:true} );
+        	setRecipientValue(containerDiv.id, value, isError?null:{escapeHtml:true});            	
+		//	dwr.util.setValue( containerDiv.id, value, isError?null:{escapeHtml:true} );
         }
     }
     if (containerHidden) {
@@ -70,12 +71,12 @@ function loadBankInfo(kualiForm, bankCodeFieldName, bankNameFieldName ) {
 				if ( data != null && typeof data == 'object' ) {
 					setTargetValue( kualiForm, bankNameFieldName, data.bankName );
 				} else {
-					setTargetValue( kualiForm, bankNameFieldName, wrapError( "bank not found" ), true );			
+					setTargetValue( kualiForm, bankNameFieldName, wrapError( "bank name not found" ), true );			
 				}
 			},
 			errorHandler:function( errorMessage ) { 
 				window.status = errorMessage;
-				setTargetValue( kualiForm, bankNameFieldName, wrapError( "bank not found" ), true );
+				setTargetValue( kualiForm, bankNameFieldName, wrapError( "bank name not found" ), true );
 			}
 		};
 		BankService.getByPrimaryId( bankCode, dwrReply );

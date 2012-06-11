@@ -127,7 +127,7 @@
    <bean id="AccountAutoCreateDefaultsMaintenanceDocument-IndirectCostRecoveryAccounts" parent="AccountAutoCreateDefaultsMaintenanceDocument-IndirectCostRecoveryAccounts-parentBean"/>
   
   <bean id="AccountAutoCreateDefaultsMaintenanceDocument-IndirectCostRecoveryAccounts-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="ICRAccounts"/>
+    <property name="id" value="indirectCostRecoveryAccounts"/>
     <property name="title" value="Indirect Cost Recovery Accounts"/>
     <property name="maintainableItems">
       <list>

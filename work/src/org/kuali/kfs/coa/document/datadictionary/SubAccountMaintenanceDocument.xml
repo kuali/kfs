@@ -46,7 +46,7 @@
     </property>
     <property name="documentTypeName" value="SACC"/>
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.SubAccountRule"/>
-    <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.kfs.coa.document.authorization.SubAccountDocumentAuthorizer"/>
     <property name="documentPresentationControllerClass" value="org.kuali.kfs.coa.document.authorization.SubAccountMaintenanceDocumentPresentationController"/>
     <property name="promptBeforeValidationClass" value="org.kuali.kfs.coa.document.validation.impl.SubAccountPreRules"/>
     <property name="webScriptFiles">
@@ -126,7 +126,7 @@
   <bean id="SubAccountMaintenanceDocument-IndirectCostRecoveryAccounts" parent="SubAccountMaintenanceDocument-IndirectCostRecoveryAccounts-parentBean"/>
   
   <bean id="SubAccountMaintenanceDocument-IndirectCostRecoveryAccounts-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="ICRAccounts"/>
+    <property name="id" value="indirectCostRecoveryAccounts"/>
     <property name="title" value="Indirect Cost Recovery Accounts"/>
     <property name="maintainableItems">
       <list>

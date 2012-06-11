@@ -57,7 +57,7 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     <bean id="AccountMaintenanceDocument-IndirectCostRecoveryAccounts" parent="AccountMaintenanceDocument-IndirectCostRecoveryAccounts-parentBean"/>
   
   <bean id="AccountMaintenanceDocument-IndirectCostRecoveryAccounts-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="ICRAccounts"/>
+    <property name="id" value="indirectCostRecoveryAccounts"/>
     <property name="title" value="Indirect Cost Recovery Accounts"/>
     <property name="maintainableItems">
       <list>

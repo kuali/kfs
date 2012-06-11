@@ -907,34 +907,6 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
             GlobalVariables.getMessageMap().putError(KFSConstants.EDIT_CAPITAL_ASSET_MODIFY_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_CAPITAL_ASSET_NUMBER_REQUIRED);
         }
 
-        /*
-        DistributeCapitalAssetAmountToGroupAccountingLines(kualiAccountingDocumentFormBase);
-
-        CapitalAccountingLinesFormBase capitalAccountingLinesFormBase = (CapitalAccountingLinesFormBase) kualiAccountingDocumentFormBase;
-        checkSelectForCapitalAccountingLines(capitalAccountingLinesFormBase);        
-        
-        checkCapitalAccountingLinesSelected(capitalAccountingLinesFormBase);
-        calculatePercentsForSelectedCapitalAccountingLines(capitalAccountingLinesFormBase);
-        
-        CapitalAccountingLinesDocumentBase caldb = (CapitalAccountingLinesDocumentBase) capitalAccountingLinesFormBase.getFinancialDocument();
-        String distributionAmountCode = capitalAccountingLinesFormBase.getCapitalAccountingLine().getDistributionCode();
-
-        List<CapitalAccountingLines> capitalAccountingLines = caldb.getCapitalAccountingLines();        
-        
-        List<CapitalAccountingLines> selectedCapitalAccountingLines = new ArrayList<CapitalAccountingLines>();
-
-        for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
-            if (capitalAccountingLine.isSelectLine() && !capitalAccountingLine.isAmountDistributed()) {
-                capitalAccountingLine.setDistributionAmountCode(KFSConstants.CapitalAssets.CAPITAL_ASSET_MODIFY_ACTION_INDICATOR);
-                selectedCapitalAccountingLines.add(capitalAccountingLine);
-            }
-        }
-
-        //redistribute the capital asset modify amount to the group accounting lines
-        //based on amount.
-        redistributeToGroupAccountingLinesFromAssetsByAmounts(selectedCapitalAccountingLines, capitalAssetInformation.get(refreshIndex));
-    */
-        
         //now process the remaining capital asset records
         processRemainingCapitalAssetInfo(form, capitalAssetInformation);
         
@@ -1795,10 +1767,12 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
         //adjust any variance from capital accounting lines to the distributed accounting lines amounts....
         adjustCapitalAssetsAccountingLinesAmounts(selectedCapitalAccountingLines, capitalAssetInformation);
         
-        checkCapitalAccountingLinesSelected(calfb);
+        processRemainingCapitalAssetInfo(form, capitalAssetInformation);
         
         //redistribute capital asset amount to its group accounting lines on refresh
         DistributeCapitalAssetAmountToGroupAccountingLines((KualiAccountingDocumentFormBase) form);
+        
+        checkCapitalAccountingLinesSelected(calfb);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

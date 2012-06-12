@@ -53,7 +53,7 @@ function loadCommodityCodeDescription( purCommodityCode, commodityCodeFieldName 
             	setRecipientValue(containerDiv.id, wrapError("Commodity Code not found"), true);
             }
         };
-        CommodityCodeService.getByPrimaryId( purchasingCommodityCode, dwrReply );
+        PurapCommodityCodeService.getByPrimaryId( purchasingCommodityCode, dwrReply );
     }
 }
 

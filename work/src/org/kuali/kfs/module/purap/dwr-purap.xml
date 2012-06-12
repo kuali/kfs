@@ -27,7 +27,7 @@
 	   	<convert converter="bean" match="org.kuali.kfs.vnd.businessobject.CommodityCode">
 	   		<param name="include" value="purchasingCommodityCode,commodityDescription" />
 	   	</convert>
-	    <create creator="spring" javascript="CommodityCodeService">
+	    <create creator="spring" javascript="PurapCommodityCodeService">
 	    	<param name="beanName" value="commodityCodeService" />
 	    	<include method="getByPrimaryId" />
 	    </create>

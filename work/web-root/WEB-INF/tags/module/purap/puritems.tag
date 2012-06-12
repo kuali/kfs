@@ -22,7 +22,7 @@
               description="A comma seperated list of names to be added to the list of normally hidden fields
               for the existing misc items." %>
 
-<script language="JavaScript" type="text/javascript" src="dwr/interface/CommodityCodeService.js"></script>
+<script language="JavaScript" type="text/javascript" src="dwr/interface/PurapCommodityCodeService.js"></script>
 <script language="JavaScript" type="text/javascript" src="scripts/vnd/objectInfo.js"></script>
 <script language="JavaScript" type="text/javascript" src="dwr/interface/ItemUnitOfMeasureService.js"></script>
 <script language="JavaScript" type="text/javascript" src="scripts/module/purap/objectInfo.js"></script>

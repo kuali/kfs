@@ -420,19 +420,22 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         Organization billingOrg = SpringContext.getBean(OrganizationService.class).getByPrimaryId(billingChartCode, billingOrgCode);
         invoiceMap.put("billingOrgName", billingOrg.getOrganizationName());
 
+        KualiDecimal amountDue = KualiDecimal.ZERO;
         KualiDecimal previousBalance = KualiDecimal.ZERO;
         String lastReportedDate = "";
-        if (statementFormat.equals(ArConstants.STATEMENT_FORMAT_DETAIL)) {
-            CustomerBillingStatement customerBillingStatement = getCustomerBillingStatement(customerNumber);
-            if (ObjectUtils.isNotNull(customerBillingStatement)) {
-                previousBalance = customerBillingStatement.getPreviouslyBilledAmount();
+        CustomerBillingStatement customerBillingStatement = getCustomerBillingStatement(customerNumber);
+        if (ObjectUtils.isNotNull(customerBillingStatement)) {    
+            previousBalance = customerBillingStatement.getPreviouslyBilledAmount();
+            if (statementFormat.equals(ArConstants.STATEMENT_FORMAT_DETAIL)) {
+                amountDue = previousBalance;
                 lastReportedDate = dateTimeService.toDateString(customerBillingStatement.getReportedDate());
-            } 
-        }
+            }
+        } 
+
         invoiceMap.put("previousBalance", currencyFormatter.format(previousBalance).toString());  
         invoiceMap.put("lastReportedDate", lastReportedDate);
 
-        KualiDecimal amountDue = previousBalance;
+
         for (CustomerStatementDetailReportDataHolder data : details) {            
             if (data.getFinancialDocumentTotalAmountCharge() != null) {
                 amountDue = amountDue.add(data.getFinancialDocumentTotalAmountCharge());
@@ -655,7 +658,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         for (CustomerCreditMemoDocument doc : creditMemos) {
             try {
                 doc.populateCustomerCreditMemoDetailsAfterLoad();
-                totalCredit = totalCredit.add(doc.getTotalDollarAmount());
+                if (doc.getDocumentHeader().getWorkflowDocument().isFinal()) totalCredit = totalCredit.add(doc.getTotalDollarAmount());
             } catch(Exception ex) {
                 LOG.error(ex);
             }
@@ -713,12 +716,14 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
                         for (CustomerCreditMemoDocument doc : creditMemos) {
                             try {
                                 doc.populateCustomerCreditMemoDetailsAfterLoad();
-                                CustomerCreditMemoDocument creditMemoDoc = (CustomerCreditMemoDocument)documentService.getByDocumentHeaderId(doc.getDocumentNumber());
-                                CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(creditMemoDoc.getFinancialSystemDocumentHeader(),
-                                        //creditMemoDoc.getInvoice().getAccountsReceivableDocumentHeader().getProcessingOrganization(),
-                                        invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(),
-                                        ArConstants.CREDIT_MEMO_DOC_TYPE, doc.getTotalDollarAmount());                            
-                                statementDetailsByCustomer.add(detail);
+                                if (doc.getDocumentHeader().getWorkflowDocument().isFinal()) {
+                                    CustomerCreditMemoDocument creditMemoDoc = (CustomerCreditMemoDocument)documentService.getByDocumentHeaderId(doc.getDocumentNumber());
+                                    CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(creditMemoDoc.getFinancialSystemDocumentHeader(),
+                                            //creditMemoDoc.getInvoice().getAccountsReceivableDocumentHeader().getProcessingOrganization(),
+                                            invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(),
+                                            ArConstants.CREDIT_MEMO_DOC_TYPE, doc.getTotalDollarAmount());                            
+                                    statementDetailsByCustomer.add(detail);
+                                }
                             } catch(Exception ex) {
                                 LOG.error(ex);
                             }
@@ -730,12 +735,14 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
                         for (InvoicePaidApplied doc : payments) {
                             try {
                                 Document payAppDoc = documentService.getByDocumentHeaderId(doc.getDocumentNumber());
-                                if (payAppDoc instanceof PaymentApplicationDocument ){              
-                                    PaymentApplicationDocument paymentApplicationDoc = (PaymentApplicationDocument)payAppDoc;
-                                    CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(paymentApplicationDoc.getFinancialSystemDocumentHeader(),
-                                            invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(),
-                                            ArConstants.PAYMENT_DOC_TYPE, doc.getInvoiceItemAppliedAmount());                            
-                                    statementDetailsByCustomer.add(detail);
+                                if (payAppDoc instanceof PaymentApplicationDocument ){    
+                                    if (doc.getDocumentHeader().getWorkflowDocument().isFinal()) {
+                                        PaymentApplicationDocument paymentApplicationDoc = (PaymentApplicationDocument)payAppDoc;
+                                        CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(paymentApplicationDoc.getFinancialSystemDocumentHeader(),
+                                                invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(),
+                                                ArConstants.PAYMENT_DOC_TYPE, doc.getInvoiceItemAppliedAmount());                            
+                                        statementDetailsByCustomer.add(detail);
+                                    }
                                 }
                             } catch(Exception ex) {
                                 LOG.error(ex);
@@ -746,16 +753,18 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
                         Collection<CustomerInvoiceWriteoffDocument> writeoffs = writeoffService.getCustomerCreditMemoDocumentByInvoiceDocument(invoice.getDocumentNumber());
                         for (CustomerInvoiceWriteoffDocument doc : writeoffs) {
                             try {
-                                CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(doc.getFinancialSystemDocumentHeader(),
-                                        invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(),
-                                        ArConstants.WRITEOFF_DOC_TYPE, doc.getTotalDollarAmount());                            
-                                statementDetailsByCustomer.add(detail);
+                                if (doc.getDocumentHeader().getWorkflowDocument().isFinal()) {
+                                    CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(doc.getFinancialSystemDocumentHeader(),
+                                            invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(),
+                                            ArConstants.WRITEOFF_DOC_TYPE, doc.getTotalDollarAmount());                            
+                                    statementDetailsByCustomer.add(detail);                                  
+                                }
                             } catch(Exception ex) {
                                 LOG.error(ex);
                             }
                         }
                     }
-                     
+
                     // add invoice
                     CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(invoice.getFinancialSystemDocumentHeader(), invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(), ArConstants.INVOICE_DOC_TYPE, invoice.getTotalDollarAmount());
                     if (detail != null) {

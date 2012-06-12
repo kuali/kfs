@@ -20,5 +20,6 @@ public class LaborAuthorizationConstants {
 
     public static class ExpenseTransferEditMode {
         public static final String LEDGER_BALANCE_IMPORTING = "ledgerBalanceImporting";
+        public static final String ACCOUNTS_CAN_CROSS_CHART = "AccountsCanCrossChart";
     }
 }

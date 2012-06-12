@@ -21,6 +21,10 @@
 
 <c:set var="readOnly"
 	value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] || !KualiForm.editingMode['ledgerBalanceImporting']}"/>	
+<c:set var="accountsChartsReadOnly" value="${readOnly}"/>
+<c:if test="${not readOnly}">
+<c:set var="accountsChartsReadOnly" value="${not KualiForm.editingMode['AccountsCanCrossChart']}"/>
+</c:if>								    
 
 <c:set var="documentTypeName" value="BenefitExpenseTransferDocument"/>
 <c:set var="htmlFormAction" value="laborBenefitExpenseTransfer"/>
@@ -68,16 +72,16 @@
 					attributeEntry="${balanceInquiryAttributes.chartOfAccountsCode}"
 					horizontal="true" labelFor="chartOfAccountsCode" forceRequired="true" />
 
-				<td class="datacell-nowrap"><kul:htmlControlAttribute
+				<td class="datacell-nowrap">
+				<kul:htmlControlAttribute
 					attributeEntry="${balanceInquiryAttributes.chartOfAccountsCode}"
-					property="chartOfAccountsCode" forceRequired="true" readOnly="${readOnly}" />
-					<c:if test="${!readOnly}">
-						<!-- KULLAB-704 Force the field conversions. -->
-						<kul:lookup	boClassName="org.kuali.kfs.coa.businessobject.Chart"
+						property="chartOfAccountsCode" forceRequired="true" readOnly="${accountsChartsReadOnly}" />
+					<c:if test="${!accountsChartsReadOnly}">
+					<!-- KULLAB-704 Force the field conversions. -->
+					<kul:lookup	boClassName="org.kuali.kfs.coa.businessobject.Chart"
 						lookupParameters="chartOfAccountsCode:chartOfAccountsCode"							
 						fieldConversions="chartOfAccountsCode:chartOfAccountsCode"
 						fieldLabel="${balanceInquiryAttributes.chartOfAccountsCode.label}" />
-						
 					</c:if>
 				</td>
 					

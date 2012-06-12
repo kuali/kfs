@@ -19,7 +19,9 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.module.ld.LaborAuthorizationConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -60,7 +62,10 @@ public class LaborExpensesDocumentPresentationController extends FinancialSystem
         if(workflowDocument.isInitiated() || workflowDocument.isSaved()) {
             editModes.add(LaborAuthorizationConstants.ExpenseTransferEditMode.LEDGER_BALANCE_IMPORTING);
         }
-        
+        AccountService accountService = SpringContext.getBean(AccountService.class);
+        if (accountService.accountsCanCrossCharts()) {
+            editModes.add(LaborAuthorizationConstants.ExpenseTransferEditMode.ACCOUNTS_CAN_CROSS_CHART);
+        }
         return editModes;
     }    
 }

@@ -35,6 +35,9 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.location.api.postalcode.PostalCode;
+import org.kuali.rice.location.api.postalcode.PostalCodeService;
 
 public class CustomerProfileRule extends MaintenanceDocumentRuleBase {
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(CustomerProfileRule.class);
@@ -97,6 +100,11 @@ public class CustomerProfileRule extends MaintenanceDocumentRuleBase {
         
         CustomerProfile customerProfile = (CustomerProfile) document.getNewMaintainableObject().getBusinessObject();
         
+        if (customerProfile != null) {
+            customerProfile.refreshNonUpdateableReferences();
+            setStateFromZip(customerProfile);
+        }
+        
         boolean checkBankPresent = false;
         boolean ACHBankPresent = false;
         
@@ -156,6 +164,24 @@ public class CustomerProfileRule extends MaintenanceDocumentRuleBase {
         
         return isValid;
     } 
+    
+    //KFSMI-8330
+    /**
+     * sets city name and state code on the form
+     * 
+     * @param customerProfile
+     */
+    protected void setStateFromZip(CustomerProfile customerProfile) {
+        if (!StringUtils.isBlank(customerProfile.getZipCode())) {
+            PostalCode zip = SpringContext.getBean(PostalCodeService.class).getPostalCode( "US"/*RICE_20_REFACTORME*/, customerProfile.getZipCode() );
+
+            // If user enters a valid zip code, override city name and state code entered by user
+            if (ObjectUtils.isNotNull(zip)) { // override old user inputs
+                customerProfile.setCity(zip.getCityName());
+                customerProfile.setStateCode(zip.getStateCode());
+            }
+        }
+    }
     
     /**
      * Verifies that the chart/unit/sub-unit combination on this customer profile is unique

@@ -323,8 +323,11 @@
   </bean>
   
   <bean id="CustomerProfile-stateCode" parent="CustomerProfile-stateCode-parentBean"/>
-  <bean id="CustomerProfile-stateCode-parentBean" abstract="true" parent="VendorGenericAttributes-stateCode">
+  <bean id="CustomerProfile-stateCode-parentBean" abstract="true" parent="State-code">
     <property name="name" value="stateCode"/>
+    <property name="label" value="State"/>
+    <property name="shortLabel" value="State"/>
+    <property name="required" value="false"/>
   </bean>
   
   <bean id="CustomerProfile-zipCode" parent="CustomerProfile-zipCode-parentBean"/>
@@ -336,7 +339,15 @@
   </bean>
   
   <bean id="CustomerProfile-countryCode" parent="CustomerProfile-countryCode-parentBean"/>
-  <bean id="CustomerProfile-countryCode-parentBean" abstract="true" parent="VendorGenericAttributes-countryCode" />
+  <bean id="CustomerProfile-countryCode-parentBean" abstract="true" parent="Country-code" >
+    <property name="name" value="countryCode"/>
+    <property name="label" value="Country"/>
+    <property name="shortLabel" value="Country"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryNotRestrictedValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+  </bean>  
   
   <bean id="CustomerProfile-fileThresholdAmount" parent="CustomerProfile-fileThresholdAmount-parentBean"/>
   <bean id="CustomerProfile-fileThresholdAmount-parentBean" abstract="true" parent="AttributeDefinition">

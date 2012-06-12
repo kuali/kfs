@@ -164,6 +164,16 @@ public interface AccountService {
     public String getDefaultLaborBenefitRateCategoryCodeForAccountType(String accountTypeCode);
 
     /**
+     * Retrieve the from the parameter if ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND
+     * is enabled 
+     * 
+     * Default to Boolean.FALSE if it cannot be evaluated or parameter is not defined
+     * 
+     * @return
+     */
+    public Boolean isFridgeBenefitCalculationEnable();
+    
+    /**
      * Returns the unique account associated with a given account number. This method only applies when parameter
      * ACCOUNTS_CAN_CROSS_CHARTS_IND is set to "N".
      * 

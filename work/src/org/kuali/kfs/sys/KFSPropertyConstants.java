@@ -783,6 +783,7 @@ public class KFSPropertyConstants {
     public static final String KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER = "principalId";
     public static final String KUALI_USER_PERSON_USER_IDENTIFIER = "principalName";
     public static final String LABOR_OBJECT = "laborObject";
+    public static final String LABOR_BENEFIT_RATE_CATEGORY_CODE = "laborBenefitRateCategoryCode";
     public static final String LAST_UPDATE = "lastUpdate";
     public static final String LAST_UPDATE_TIMESTAMP = "lastUpdateTimestamp";
     public static final String LEVEL_FINANCIAL_REPORT_SORT_CODE = "levelFinancialReportSortCode";

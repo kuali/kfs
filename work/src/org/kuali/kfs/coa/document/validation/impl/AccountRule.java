@@ -44,7 +44,6 @@ import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.parameter.ParameterEvaluator;
 import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -359,18 +358,13 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
             success &= accountNumberStartsWithAllowedPrefix(newAccount.getAccountNumber(), getParameterService().getParameterValuesAsString(Account.class, ACCT_PREFIX_RESTRICTION));
         }
 
-        //make sure the system parameter exists
-        if (SpringContext.getBean(ParameterService.class).parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND")) {
-            //check the system param to see if the labor benefit rate category should be filled in
-            String sysParam = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND");
-            LOG.debug("sysParam: " + sysParam);
-            //if sysParam == Y then Labor Benefit Rate Category Code must be filled in
-            if (sysParam.equalsIgnoreCase("Y")) {
-                //check to see if the labor benefit category code is empty
-                if (ObjectUtils.isNull(newAccount.getLaborBenefitRateCategoryCode())) {
-                    putFieldError("laborBenefitRateCategoryCode", KFSKeyConstants.ERROR_EMPTY_LABOR_BENEFIT_CATEGORY_CODE);
-                    success &= false;
-                }
+        Boolean isFridgeBenefitCalculationEnable = accountService.isFridgeBenefitCalculationEnable();
+        //if parameter evaluated to true, then Labor Benefit Rate Category Code must be filled in
+        if (isFridgeBenefitCalculationEnable){
+            //check to see if the labor benefit category code is empty
+            if (ObjectUtils.isNull(newAccount.getLaborBenefitRateCategoryCode())) {
+                putFieldError(KFSPropertyConstants.LABOR_BENEFIT_RATE_CATEGORY_CODE, KFSKeyConstants.ERROR_EMPTY_LABOR_BENEFIT_CATEGORY_CODE);
+                success &= false;
             }
         }
 

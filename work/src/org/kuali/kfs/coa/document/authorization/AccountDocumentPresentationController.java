@@ -17,10 +17,10 @@ package org.kuali.kfs.coa.document.authorization;
 
 import java.util.Set;
 
+import org.kuali.kfs.coa.service.AccountService;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
-import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
 public class AccountDocumentPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
@@ -34,8 +34,6 @@ public class AccountDocumentPresentationController extends FinancialSystemMainte
         return readOnlyPropertyNames;
     }
 
-    
-    
 //    /**
 //     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyHiddenPropertyNames(org.kuali.rice.kns.bo.BusinessObject)
 //     */
@@ -46,8 +44,15 @@ public class AccountDocumentPresentationController extends FinancialSystemMainte
 //        return hiddenPropertyNames;
 //    }
 
-
-
+    /**
+     * 
+     * @return
+     */
+    protected Boolean getFridgeBenefitCalculationEnableIndicator(){
+        AccountService service = SpringContext.getBean(AccountService.class);
+        return service.isFridgeBenefitCalculationEnable();
+    }
+    
     /**
      * 
      * Sets the Labor Benefit Rate Category Code, otherwise leave
@@ -56,21 +61,11 @@ public class AccountDocumentPresentationController extends FinancialSystemMainte
      * @param readOnlyPropetyNames
      */
     protected void setLaborBenefitRateCategoryCodeEditable(Set<String> readOnlyPropertyNames){
-        ParameterService service = SpringContext.getBean(ParameterService.class);
+        Boolean isFridgeBenefitCalcEnable = getFridgeBenefitCalculationEnableIndicator();
         
-        //make sure the parameter exists
-        if(service.parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND")){
-          //check the system param to see if the labor benefit rate category should be editable
-            String sysParam = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND");
-            LOG.debug("sysParam: " + sysParam);
-            //if sysParam != Y then Labor Benefit Rate Category Code is not editable
-            if (!sysParam.equalsIgnoreCase("Y")) {
-                readOnlyPropertyNames.add("laborBenefitRateCategoryCode");
-                
-            }
-        }else{
-            LOG.debug("System paramter doesn't exist.  Making the Labor Benefit Rate Category Code not editable.");
-            readOnlyPropertyNames.add("laborBenefitRateCategoryCode");
+        //default null to false, if FridgeBenefitCalculation is NOT enable - makes code not editable 
+        if ( ! isFridgeBenefitCalcEnable ){
+            readOnlyPropertyNames.add(KFSPropertyConstants.LABOR_BENEFIT_RATE_CATEGORY_CODE);
         }
     }
     
@@ -81,21 +76,11 @@ public class AccountDocumentPresentationController extends FinancialSystemMainte
      * @param hiddenPropetyNames
      */
     protected void setLaborBenefitRateCategoryCodeHidden(Set<String> hiddenPropertyNames){
-        ParameterService service = SpringContext.getBean(ParameterService.class);
+        Boolean isFridgeBenefitCalcEnable = getFridgeBenefitCalculationEnableIndicator();
         
-        //make sure the parameter exists
-        if(service.parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND")){
-          //check the system param to see if the labor benefit rate category should be hidden
-            String sysParam = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND");
-            LOG.debug("sysParam: " + sysParam);
-            //if sysParam != Y then Labor Benefit Rate Category Code is hidden
-            if (!sysParam.equalsIgnoreCase("Y")) {
-                hiddenPropertyNames.add("laborBenefitRateCategoryCode");
-                
-            }
-        }else{
-            LOG.debug("System paramter doesn't exist.  Making the Labor Benefit Rate Category Code not editable.");
-            hiddenPropertyNames.add("laborBenefitRateCategoryCode");
+        //default null to false, if FridgeBenefitCalculation is NOT enable - makes code not editable 
+        if ( ! isFridgeBenefitCalcEnable ){
+            hiddenPropertyNames.add(KFSPropertyConstants.LABOR_BENEFIT_RATE_CATEGORY_CODE);
         }
     }
     

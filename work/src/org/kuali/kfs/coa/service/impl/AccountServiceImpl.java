@@ -36,6 +36,7 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -306,6 +307,23 @@ public class AccountServiceImpl implements AccountService {
         return StringUtils.trimToEmpty(benefitRateCategory);
     }
 
+    /**
+     * @see org.kuali.kfs.coa.service.AccountService#isFridgeBenefitCalculationEnable()
+     */
+    @Override
+    public Boolean isFridgeBenefitCalculationEnable(){
+        Boolean isFringeBeneCalcEnable = null;
+        
+        //make sure the parameter exists
+        if(parameterService.parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND")){
+          //check the system param to see if the labor benefit rate category should be editable
+            isFringeBeneCalcEnable = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND");
+            LOG.debug("System Parameter retrieved: " + isFringeBeneCalcEnable);
+        }
+        
+        return (Boolean)org.apache.commons.lang.ObjectUtils.defaultIfNull(isFringeBeneCalcEnable, false);
+    }
+    
 
     /**
      * @see org.kuali.kfs.coa.service.AccountService#getUniqueAccountForAccountNumber(java.lang.String)

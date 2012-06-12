@@ -15,19 +15,11 @@
  */
 package org.kuali.kfs.module.ld.document.validation.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.kuali.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kfs.module.ld.businessobject.LaborLedgerPendingEntry;
-import org.kuali.kfs.module.ld.document.LaborLedgerPostingDocumentBase;
 import org.kuali.kfs.module.ld.service.LaborLedgerPendingEntryService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.AccountingRuleEngineRule;
 import org.kuali.kfs.sys.document.validation.impl.AccountingRuleEngineRuleBase;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.exception.ValidationException;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * A rule that uses the accounting rule engine to perform rule validations.
@@ -47,12 +39,9 @@ public class LaborDocumentRuleEngineRuleBase extends AccountingRuleEngineRuleBas
      */
     @Override
     public boolean isDocumentAttributesValid(Document document, boolean validateRequired) {
-        
-        LaborLedgerPostingDocumentBase llpDocument = (LaborLedgerPostingDocumentBase) document;
-
         //remove the llpe's before validation.  prepareForSave() method will recreate them before saving the document..
         LaborLedgerPendingEntryService laborLedgerPendingEntryService = SpringContext.getBean(LaborLedgerPendingEntryService.class);
-        laborLedgerPendingEntryService.delete(llpDocument.getDocumentNumber());
+        laborLedgerPendingEntryService.delete(document.getDocumentNumber());
         
         return super.isDocumentAttributesValid(document, validateRequired);
     }

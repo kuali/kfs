@@ -44,6 +44,7 @@ public class FinancialSystemDocumentTypeServiceImpl implements FinancialSystemDo
      * @see org.kuali.kfs.coa.service.AccountDelegateService#isFinancialSystemDocumentType(java.lang.String)
      */
     public boolean isFinancialSystemDocumentType(String documentTypeCode) {
+        if (StringUtils.isEmpty(documentTypeCode))  return false;
         final DocumentType documentType = documentTypeService.getDocumentTypeByName(documentTypeCode);
         final DocumentType rootDocumentType = documentTypeService.getDocumentTypeByName(KFSConstants.ROOT_DOCUMENT_TYPE);
         if(ObjectUtils.isNull(documentType)) {

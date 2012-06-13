@@ -347,12 +347,16 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
             budgetConstructionHeader = (BudgetConstructionHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BudgetConstructionHeader.class, primaryKey);
             
-            // now fill in the form parms normally passed from BC selection or Account selection screens
-            budgetConstructionForm.setChartOfAccountsCode(budgetConstructionHeader.getChartOfAccountsCode());
-            budgetConstructionForm.setAccountNumber(budgetConstructionHeader.getAccountNumber());
-            budgetConstructionForm.setSubAccountNumber(budgetConstructionHeader.getSubAccountNumber());
-            budgetConstructionForm.setUniversityFiscalYear(budgetConstructionHeader.getUniversityFiscalYear());
-            budgetConstructionForm.setPickListMode(Boolean.TRUE);
+            // getting called from doc search?
+            if (budgetConstructionForm.getMethodToCall().equalsIgnoreCase(KFSConstants.DOC_HANDLER_METHOD)){
+
+                // now fill in the form parms normally passed from BC selection or Account selection screens
+                budgetConstructionForm.setChartOfAccountsCode(budgetConstructionHeader.getChartOfAccountsCode());
+                budgetConstructionForm.setAccountNumber(budgetConstructionHeader.getAccountNumber());
+                budgetConstructionForm.setSubAccountNumber(budgetConstructionHeader.getSubAccountNumber());
+                budgetConstructionForm.setUniversityFiscalYear(budgetConstructionHeader.getUniversityFiscalYear());
+                budgetConstructionForm.setPickListMode(Boolean.TRUE);
+            }
 
         }
         else {

@@ -119,7 +119,7 @@ public class GlLineServiceImpl implements GlLineService {
         if (ObjectUtils.isNotNull(capitalAssetInformation)) {
             List<CapitalAssetAccountsGroupDetails> groupAccountingLines = capitalAssetInformation.getCapitalAssetAccountsGroupDetails();
             for (CapitalAssetAccountsGroupDetails accountingLine : groupAccountingLines) {
-                Collection<GeneralLedgerEntry> matchingGLEntries = findMatchingGeneralLedgerEntry(accountingLine.getDocumentNumber(), accountingLine.getChartOfAccountsCode(), accountingLine.getAccountNumber(), accountingLine.getFinancialObjectCode(), accountingLine.getSequenceNumber());
+                Collection<GeneralLedgerEntry> matchingGLEntries = findMatchingGeneralLedgerEntry(accountingLine.getDocumentNumber(), accountingLine.getChartOfAccountsCode(), accountingLine.getAccountNumber(), accountingLine.getFinancialObjectCode(), accountingLine.getCapitalAssetAccountLineNumber());
                 for(GeneralLedgerEntry matchingGLEntry : matchingGLEntries) {
                     //if no more capital assets to be processed...
                     createGeneralLedgerEntryAsset(matchingGLEntry, document, capitalAssetLineNumber);

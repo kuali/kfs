@@ -124,7 +124,7 @@ public class PurApRelatedViews {
             poIDstr = view.getPurapDocumentIdentifier().toString();
         }
 
-        if (document != null) {
+        if ((document != null) && (document.getDocumentHeader().getWorkflowDocument() != null)) {
             if (!document.getDocumentHeader().getWorkflowDocument().getStatus().equals(DocumentStatus.FINAL)) {
                 String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
                 String namespaceCode = KFSConstants.ParameterNamespaces.KNS;

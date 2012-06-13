@@ -362,7 +362,7 @@ public final class AccountingDocumentTestUtils {
     }
 
     // helper methods
-    public static void blanketApproveDocument(FinancialSystemTransactionalDocument document, String annotation, List<AdHocRouteRecipient> adHocRoutingRecipients, DocumentService documentService) throws WorkflowException {
+    public static void blanketApproveDocument(Document document, String annotation, List<AdHocRouteRecipient> adHocRoutingRecipients, DocumentService documentService) throws WorkflowException {
         try {
             documentService.blanketApproveDocument(document, annotation, adHocRoutingRecipients);
         }

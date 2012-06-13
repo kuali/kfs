@@ -1,12 +1,12 @@
 /*
  * Copyright 2005-2006 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,6 +22,8 @@ import static org.kuali.kfs.sys.fixture.UserNameFixture.khuntley;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.service.AccountingPeriodService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.DocumentTestUtils;
@@ -33,6 +35,8 @@ import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.AccountingDocumentTestUtils;
 import org.kuali.kfs.sys.fixture.AccountingLineFixture;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.kfs.sys.monitor.ChangeMonitor;
+import org.kuali.rice.kew.actions.BlanketApproveAction;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.TransactionalDocumentDictionaryService;
 import org.kuali.rice.krad.document.Document;
@@ -48,6 +52,13 @@ public class TransferOfFundsDocumentTest extends KualiTestBase {
     // The set of Route Nodes that the test document will progress through
     private static final String ACCOUNT_REVIEW = "Account Review";
     private static final String ORG_REVIEW = "Org Review";
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        Logger.getLogger(ChangeMonitor.class).setLevel(Level.DEBUG);
+        Logger.getLogger(BlanketApproveAction.class).setLevel(Level.DEBUG);
+    }
 
 
     private Document getDocumentParameterFixture() throws Exception {

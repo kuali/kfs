@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSConstants.RouteLevelNames;
@@ -94,8 +95,9 @@ public class AccountingDocumentPresentationControllerBase extends LedgerPostingD
      */
     protected boolean userOwnsAnyAccountingLine(Person user, List<AccountingLine> accountingLines) {
         for (AccountingLine accountingLine : accountingLines) {
-            if (SpringContext.getBean(AccountService.class).hasResponsibilityOnAccount(user, accountingLine.getAccount())) {
-                return true;
+            if (StringUtils.isNotEmpty(accountingLine.getAccountNumber()))
+                if (SpringContext.getBean(AccountService.class).hasResponsibilityOnAccount(user, accountingLine.getAccount())) {
+                    return true;
             }
         }
         return false;

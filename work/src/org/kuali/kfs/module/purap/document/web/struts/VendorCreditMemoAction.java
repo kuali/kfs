@@ -30,6 +30,8 @@ import org.kuali.kfs.module.purap.PurapConstants;
 import org.kuali.kfs.module.purap.PurapConstants.CMDocumentsStrings;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.businessobject.PurApAccountingLine;
+import org.kuali.kfs.module.purap.businessobject.PurApItem;
 import org.kuali.kfs.module.purap.document.AccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
@@ -44,6 +46,7 @@ import org.kuali.kfs.module.purap.document.validation.event.AttributedContinuePu
 import org.kuali.kfs.module.purap.util.PurQuestionCallback;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -166,6 +169,15 @@ public class VendorCreditMemoAction extends AccountsPayableActionBase {
             initiateReopenPurchaseOrder(po, cmForm.getAnnotation());
         }
 
+        // update the accounts amounts to zero.  The recalculate will calculate the totals...
+        List<PurApItem> items = creditMemoDocument.getItems();
+        
+        for (PurApItem item : items) {
+            for (PurApAccountingLine accountLine : item.getSourceAccountingLines()) {
+                accountLine.setAmount(KualiDecimal.ZERO);
+            }
+        }
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

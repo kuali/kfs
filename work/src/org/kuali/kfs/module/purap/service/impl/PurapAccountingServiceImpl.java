@@ -42,6 +42,7 @@ import org.kuali.kfs.module.purap.dataaccess.PurApAccountingDao;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.kfs.module.purap.document.PurchasingAccountsPayableDocumentBase;
+import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
 import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.validation.event.PurchasingAccountsPayableItemPreCalculateEvent;
 import org.kuali.kfs.module.purap.service.PurapAccountingService;
@@ -744,7 +745,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
 
         PurchasingAccountsPayableDocumentBase purApDocument = (PurchasingAccountsPayableDocumentBase) document;
         String accountDistributionMethod = purApDocument.getAccountDistributionMethod();
-
+        
         KualiRuleService kualiRuleService = (KualiRuleService) SpringContext.getBean(KualiRuleService.class);
 
         // the percent at fiscal approve
@@ -756,8 +757,13 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
         }
         document.fixItemReferences();
 
-      //if distribution method is sequential and document is PREQ then...
-        if ((document instanceof PaymentRequestDocument) && PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
+      //if distribution method is sequential and document is PREQ or VCM then...
+        if (((document instanceof PaymentRequestDocument) || (document instanceof VendorCreditMemoDocument)) && PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
+            if (document instanceof VendorCreditMemoDocument) {
+                VendorCreditMemoDocument cmDocument = (VendorCreditMemoDocument) document;
+                cmDocument.updateExtendedPriceOnItems();                
+            }
+            
             // update the accounts amounts for PREQ and distribution method = sequential
             for (PurApItem item : document.getItems()) {
                 updatePreqItemAccountAmounts(item);
@@ -766,9 +772,14 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             return;
         }
 
-        //if distribution method is proportional and document is PREQ then...
-        if ((document instanceof PaymentRequestDocument) && PurapConstants.AccountDistributionMethodCodes.PROPORTIONAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
+        //if distribution method is proportional and document is PREQ or VCM then...
+        if (((document instanceof PaymentRequestDocument) || (document instanceof VendorCreditMemoDocument)) && PurapConstants.AccountDistributionMethodCodes.PROPORTIONAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
             // update the accounts amounts for PREQ and distribution method = sequential
+            if (document instanceof VendorCreditMemoDocument) {
+                VendorCreditMemoDocument cmDocument = (VendorCreditMemoDocument) document;
+                cmDocument.updateExtendedPriceOnItems();                
+            }
+
             for (PurApItem item : document.getItems()) {
                 boolean rulePassed = true;
                 // check any business rules
@@ -782,7 +793,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             return;
         }
 
-        //do recalculate only if the account distribution method code is not equal to "S" sequential ON REQ or POs..
+        //No recalculate if the account distribution method code is equal to "S" sequential ON REQ or POs..
         if (PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
             for (PurApItem item : document.getItems()) {
                 boolean rulePassed = true;
@@ -793,7 +804,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             }
         }
 
-        //do recalculate only if the account distribution method code is not equal to "P" proportional.
+        //do recalculate only if the account distribution method code is not equal to "S" sequential method.
         if (!PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
             for (PurApItem item : document.getItems()) {
                 boolean rulePassed = true;

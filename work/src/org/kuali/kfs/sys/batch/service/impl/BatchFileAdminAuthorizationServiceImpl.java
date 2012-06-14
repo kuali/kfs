@@ -43,14 +43,14 @@ public class BatchFileAdminAuthorizationServiceImpl implements BatchFileAdminAut
     @Override
     public boolean canDownload(BatchFile batchFile, Person user) {
         return getIdentityManagementService().isAuthorizedByTemplateName(user.getPrincipalId(),
-                KRADConstants.KNS_NAMESPACE, KFSConstants.PermissionTemplate.VIEW_BATCH_FILES.name,
+                KFSConstants.PermissionTemplate.VIEW_BATCH_FILES.namespace, KFSConstants.PermissionTemplate.VIEW_BATCH_FILES.name,
                 generateDownloadCheckPermissionDetails(batchFile, user), generateDownloadCheckRoleQualifiers(batchFile, user));
     }
 
     @Override
     public boolean canDelete(BatchFile batchFile, Person user) {
         return getIdentityManagementService().isAuthorizedByTemplateName(user.getPrincipalId(),
-                KRADConstants.KNS_NAMESPACE, KFSConstants.PermissionTemplate.VIEW_BATCH_FILES.name,
+                KFSConstants.PermissionTemplate.VIEW_BATCH_FILES.namespace, KFSConstants.PermissionTemplate.VIEW_BATCH_FILES.name,
                 generateDownloadCheckPermissionDetails(batchFile, user), generateDownloadCheckRoleQualifiers(batchFile, user));
     }
 

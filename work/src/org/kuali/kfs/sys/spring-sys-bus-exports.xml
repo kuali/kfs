@@ -45,6 +45,10 @@
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
 
 	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
+		p:callbackService-ref="namespaceOrFilePathPermissionTypeService" p:localServiceName="namespaceOrFilePathPermissionTypeService" 
+		p:serviceInterface="org.kuali.rice.kim.framework.permission.PermissionTypeService" />
+
+	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="rice.ksb.serviceBus" 
 		p:callbackService-ref="KFSDocumentSearchCustomizer" p:localServiceName="KFSDocumentSearchCustomizer" 
 		p:serviceInterface="org.kuali.rice.kew.framework.document.search.DocumentSearchCustomizer">
 	</bean>

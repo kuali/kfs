@@ -17,6 +17,7 @@ package org.kuali.kfs.module.purap.service.impl;
 
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.ObjectCodeService;
@@ -122,6 +123,22 @@ public class PaymentRequestAccountingLineRuleHelperServiceImpl extends PurapAcco
             return false;
         }
 
+        return true;
+    }
+
+
+    /**
+     * @see org.kuali.kfs.sys.document.service.impl.AccountingLineRuleHelperServiceImpl#isValidSubAccount(org.kuali.kfs.coa.businessobject.SubAccount, org.kuali.rice.krad.datadictionary.DataDictionary, java.lang.String)
+     */
+    @Override
+    public boolean isValidSubAccount(SubAccount subAccount, DataDictionary dataDictionary, String errorPropertyName) {
+        String label = getSubAccountLabel();
+
+        // make sure it exists
+        if (ObjectUtils.isNull(subAccount)) {
+            GlobalVariables.getMessageMap().putError(errorPropertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
+            return false;
+        }
         return true;
     }
     

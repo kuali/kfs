@@ -201,6 +201,12 @@ public class PaymentApplicationDocumentRuleUtil {
         boolean isValid = true;
         
         // Required fields, so always validate these.
+        nonInvoiced.refreshReferenceObject("account");
+        if ( ObjectUtils.isNull(nonInvoiced.getAccount())) {
+            isValid &= false;
+            putError( ArPropertyConstants.PaymentApplicationDocumentFields.NON_INVOICED_LINE_ACCOUNT,
+                    ArKeyConstants.PaymentApplicationDocumentErrors.NON_AR_ACCOUNT_INVALID, nonInvoiced.getAccountNumber());
+        }
         isValid &= validateNonInvoicedLineItem("chartOfAccountsCode", nonInvoiced.getChartOfAccountsCode(), Chart.class, 
                 ArPropertyConstants.PaymentApplicationDocumentFields.NON_INVOICED_LINE_CHART,
                 ArKeyConstants.PaymentApplicationDocumentErrors.NON_AR_CHART_INVALID);
@@ -244,19 +250,23 @@ public class PaymentApplicationDocumentRuleUtil {
      * @return True if the value provided is valid and exists, false otherwise.
      */
     private static boolean validateNonInvoicedLineItem(String attributeName, String value, Class boClass, String errorPropertyName, String errorMessageKey) {
-        MessageMap errorMap = GlobalVariables.getMessageMap();
         boolean isValid = true;
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put(attributeName, value);
 
         Object object = SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(boClass, criteria);
         if(ObjectUtils.isNull(object)) {
-            errorMap.putError(errorPropertyName, errorMessageKey, value);
+            putError(errorPropertyName, errorMessageKey, value);
             isValid &= false;
         }
         return isValid;
     }
-
+    
+    protected static void putError( String errorPropertyName, String errorMessageKey,String value) {
+        MessageMap errorMap = GlobalVariables.getMessageMap();
+        errorMap.putError(errorPropertyName, errorMessageKey, value);
+    }
+    
     /**
      * This method...
      * @param nonInvoiced

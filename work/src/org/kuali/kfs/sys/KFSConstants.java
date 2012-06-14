@@ -1185,13 +1185,20 @@ public class KFSConstants {
     }
 
     public enum PermissionTemplate {
-        DEFAULT("Default"), ERROR_CORRECT_DOCUMENT("Error Correct Document"),
-        MODIFY_ACCOUNTING_LINES("Modify Accounting Lines"), CLAIM_ELECTRONIC_PAYMENT("Claim Electronic Payment"),
-        MODIFY_BATCH_JOB("Modify Batch Job"), EDIT_BANK_CODE("Edit Bank Code"), ADMINISTER_ROUTING_FOR_DOCUMENT("Administer Routing for Document"),
-        VIEW_BATCH_FILES("Administer Batch File"), UPLOAD_BATCH_INPUT_FILES("Upload Batch Input File(s)");
+        DEFAULT( KRADConstants.DEFAULT_NAMESPACE, "Default"),
+        ERROR_CORRECT_DOCUMENT( KFSConstants.CoreModuleNamespaces.KFS, "Error Correct Document"),
+        MODIFY_ACCOUNTING_LINES(KFSConstants.CoreModuleNamespaces.KFS, "Modify Accounting Lines"),
+        CLAIM_ELECTRONIC_PAYMENT(KFSConstants.CoreModuleNamespaces.KFS, "Claim Electronic Payment"),
+        MODIFY_BATCH_JOB(KFSConstants.CoreModuleNamespaces.KFS, "Modify Batch Job"),
+        EDIT_BANK_CODE(KFSConstants.CoreModuleNamespaces.KFS, "Edit Bank Code"),
+        ADMINISTER_ROUTING_FOR_DOCUMENT(KRADConstants.KUALI_RICE_WORKFLOW_NAMESPACE, "Administer Routing for Document"),
+        VIEW_BATCH_FILES(KFSConstants.CoreModuleNamespaces.KFS, "Administer Batch File"),
+        UPLOAD_BATCH_INPUT_FILES(KFSConstants.CoreModuleNamespaces.KFS, "Upload Batch Input File(s)");
 
         public final String name;
-        private PermissionTemplate(String name) {
+        public final String namespace;
+        private PermissionTemplate(String namespace, String name) {
+            this.namespace = namespace;
             this.name = name;
         }
     }

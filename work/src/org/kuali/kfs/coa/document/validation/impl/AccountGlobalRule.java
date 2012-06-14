@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -75,9 +75,10 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
      * This method checks the following rules: checkEmptyValues checkGeneralRules checkContractsAndGrants checkExpirationDate
      * checkOnlyOneChartErrorWrapper checkFiscalOfficerIsValidKualiUser but does not fail if any of them fail (this only happens on
      * routing)
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
+    @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
 
         LOG.info("processCustomSaveDocumentBusinessRules called");
@@ -99,9 +100,10 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
     /**
      * This method checks the following rules: checkEmptyValues checkGeneralRules checkContractsAndGrants checkExpirationDate
      * checkOnlyOneChartErrorWrapper checkFiscalOfficerIsValidKualiUser but does fail if any of these rule checks fail
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
+    @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 
         LOG.info("processCustomRouteDocumentBusinessRules called");
@@ -124,7 +126,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
     /**
      * This method loops through the list of {@link AccountGlobalDetail}s and passes them off to checkAccountDetails for further
      * rule analysis One rule it does check is checkOnlyOneChartErrorWrapper
-     * 
+     *
      * @param document
      * @param details
      * @return true if the collection of {@link AccountGlobalDetail}s passes the sub-rules
@@ -157,7 +159,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
 
     /**
      * This method ensures that each {@link AccountGlobalDetail} is valid and has a valid account number
-     * 
+     *
      * @param dtl
      * @return true if the detail object contains a valid account
      */
@@ -178,7 +180,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
 
     /**
      * This method checks the basic rules for empty reference key values on a continuation account and an income stream account
-     * 
+     *
      * @return true if no empty values or partially filled out reference keys
      */
     protected boolean checkEmptyValues() {
@@ -198,7 +200,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
     /**
      * This method checks some of the general business rules associated with this document Such as: valid user for fiscal officer,
      * supervisor or account manager (and not the same individual) are they trying to use an expired continuation account
-     * 
+     *
      * @param maintenanceDocument
      * @return false on rules violation
      */
@@ -211,19 +213,19 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
 
         boolean success = true;
 
-        if (!StringUtils.isBlank(newAccountGlobal.getAccountFiscalOfficerSystemIdentifier()) && (ObjectUtils.isNull(fiscalOfficer) || StringUtils.isBlank(fiscalOfficer.getPrincipalId()) || !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.CoreModuleNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER, fiscalOfficer.getPrincipalId()))) {
+        if (!StringUtils.isBlank(newAccountGlobal.getAccountFiscalOfficerSystemIdentifier()) && (ObjectUtils.isNull(fiscalOfficer) || StringUtils.isBlank(fiscalOfficer.getPrincipalId()) || !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER.namespace, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER.name, fiscalOfficer.getPrincipalId()))) {
             final String fiscalOfficerName = fiscalOfficer != null ? fiscalOfficer.getName() : newAccountGlobal.getAccountFiscalOfficerSystemIdentifier();
-            super.putFieldError("accountFiscalOfficerUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {fiscalOfficerName, KFSConstants.CoreModuleNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER});
+            super.putFieldError("accountFiscalOfficerUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {fiscalOfficerName, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER.namespace, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER.name});
 			success = false;
         }
-        if (!StringUtils.isBlank(newAccountGlobal.getAccountsSupervisorySystemsIdentifier()) && (ObjectUtils.isNull(accountSupervisor) || StringUtils.isBlank(accountSupervisor.getPrincipalId()) || !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.CoreModuleNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR, accountSupervisor.getPrincipalId()))) {
+        if (!StringUtils.isBlank(newAccountGlobal.getAccountsSupervisorySystemsIdentifier()) && (ObjectUtils.isNull(accountSupervisor) || StringUtils.isBlank(accountSupervisor.getPrincipalId()) || !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR.namespace, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR.name, accountSupervisor.getPrincipalId()))) {
             final String accountSupervisorName = accountSupervisor != null ? accountSupervisor.getName() : newAccountGlobal.getAccountsSupervisorySystemsIdentifier();
-            super.putFieldError("accountSupervisoryUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {accountSupervisorName, KFSConstants.CoreModuleNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR});
+            super.putFieldError("accountSupervisoryUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {accountSupervisorName, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR.namespace, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR.name});
 			success = false;
         }
-        if (!StringUtils.isBlank(newAccountGlobal.getAccountManagerSystemIdentifier()) && (ObjectUtils.isNull(accountManager) || StringUtils.isBlank(accountManager.getPrincipalId()) || !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.CoreModuleNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER, accountManager.getPrincipalId()))) {
+        if (!StringUtils.isBlank(newAccountGlobal.getAccountManagerSystemIdentifier()) && (ObjectUtils.isNull(accountManager) || StringUtils.isBlank(accountManager.getPrincipalId()) || !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER.namespace, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER.name, accountManager.getPrincipalId()))) {
             final String accountManagerName = accountManager != null ? accountManager.getName() : newAccountGlobal.getAccountManagerSystemIdentifier();
-            super.putFieldError("accountManagerUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {accountManagerName, KFSConstants.CoreModuleNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER});
+            super.putFieldError("accountManagerUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {accountManagerName, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER.namespace, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER.name});
 			success = false;
         }
 
@@ -255,7 +257,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
     /**
      * This method checks to make sure that if the users are filled out (fiscal officer, supervisor, manager) that they are not the
      * same individual Only need to check this if these are new users that override existing users on the {@link Account} object
-     * 
+     *
      * @param doc
      * @param newFiscalOfficer
      * @param newManager
@@ -287,7 +289,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
     /**
      * This method checks that the new users (fiscal officer, supervisor, manager) are not the same individual for the
      * {@link Account} being changed (contained in the {@link AccountGlobalDetail})
-     * 
+     *
      * @param detail - where the Account information is stored
      * @param newFiscalOfficer
      * @param newManager
@@ -344,7 +346,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
     /**
      * This method is a helper method for checking if the supervisor user is the same as the fiscal officer Calls
      * {@link AccountGlobalRule#areTwoUsersTheSame(Person, Person)}
-     * 
+     *
      * @param accountGlobals
      * @return true if the two users are the same
      */
@@ -355,7 +357,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
     /**
      * This method is a helper method for checking if the supervisor user is the same as the manager Calls
      * {@link AccountGlobalRule#areTwoUsersTheSame(Person, Person)}
-     * 
+     *
      * @param accountGlobals
      * @return true if the two users are the same
      */
@@ -365,7 +367,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
 
     /**
      * This method checks to see if two users are the same Person using their identifiers
-     * 
+     *
      * @param user1
      * @param user2
      * @return true if these two users are the same
@@ -383,7 +385,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
     /**
      * This method checks to see if any expiration date field rules were violated Loops through each detail object and calls
      * {@link AccountGlobalRule#checkExpirationDate(MaintenanceDocument, AccountGlobalDetail)}
-     * 
+     *
      * @param maintenanceDocument
      * @return false on rules violation
      */
@@ -417,7 +419,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
 
     /**
      * This method checks to see if any expiration date field rules were violated in relation to the given detail record
-     * 
+     *
      * @param maintenanceDocument
      * @param detail - the account detail we are investigating
      * @return false on rules violation
@@ -478,7 +480,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
 
     /**
      * This method checks to see if the updated expiration is not a valid one Only gets checked for specific {@link SubFundGroup}s
-     * 
+     *
      * @param oldAccount
      * @param newAccountGlobal
      * @return true if date has changed and is invalid
@@ -539,7 +541,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
 
     /**
      * This method tests whether the continuation account entered (if any) has expired or not.
-     * 
+     *
      * @param accountGlobals
      * @return true if the continuation account has expired
      */
@@ -577,7 +579,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
 
     /**
      * This method checks to see if any Contracts and Grants business rules were violated
-     * 
+     *
      * @return false on rules violation
      */
     protected boolean checkContractsAndGrants() {
@@ -595,7 +597,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
 
     /**
      * This method checks to see if the contracts and grants income stream account is required
-     * 
+     *
      * @param accountGlobals
      * @return false if it is required (and not entered) or invalid/inactive
      */
@@ -654,10 +656,11 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
     /**
      * This method calls checkAccountDetails checkExpirationDate checkOnlyOneChartAddLineErrorWrapper whenever a new
      * {@link AccountGlobalDetail} is added to this global
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument,
      *      java.lang.String, org.kuali.rice.krad.bo.PersistableBusinessObject)
      */
+    @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject bo) {
         AccountGlobalDetail detail = (AccountGlobalDetail) bo;
         boolean success = true;
@@ -671,7 +674,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
 
     /**
      * This method validates that a continuation account is required and that the values provided exist
-     * 
+     *
      * @param document An instance of the maintenance document being validated.
      * @param newExpDate The expiration date assigned to the account being validated for submission.
      * @return True if the continuation account values are valid for the associated account, false otherwise.
@@ -720,20 +723,20 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
 
         return result;
     }
-    
+
     /**
      * Validate that the object code on the form (if entered) is valid for all charts used in the detail sections.
-     * 
+     *
      * @param acctGlobal
      * @return
      */
     protected boolean checkOrganizationValidity( AccountGlobal acctGlobal ) {
         boolean result = true;
-        
+
         // check that an org has been entered
-        if ( StringUtils.isNotBlank( acctGlobal.getOrganizationCode() ) ) {           
+        if ( StringUtils.isNotBlank( acctGlobal.getOrganizationCode() ) ) {
             // get all distinct charts
-            HashSet<String> charts = new HashSet<String>(10); 
+            HashSet<String> charts = new HashSet<String>(10);
             for ( AccountGlobalDetail acct : acctGlobal.getAccountGlobalDetails() ) {
                 charts.add( acct.getChartOfAccountsCode() );
             }
@@ -749,7 +752,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
                 }
             }
         }
-                
+
         return result;
     }
 }

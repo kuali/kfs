@@ -1,12 +1,12 @@
 /*
  * Copyright 2005 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,7 +26,6 @@ import org.kuali.kfs.coa.businessobject.FundGroup;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.gl.service.BalanceService;
-import org.kuali.kfs.integration.cg.ContractsAndGrantsConstants;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsUnit;
 import org.kuali.kfs.module.external.kc.KcConstants;
@@ -80,6 +79,7 @@ public class AccountAutoCreateDefaultsRule extends org.kuali.kfs.coa.document.va
      * short and easy handles to the new and old objects contained in the maintenance document. It also calls the
      * BusinessObjectBase.refresh(), which will attempt to load all sub-objects from the DB by their primary keys, if available.
      */
+    @Override
     public void setupConvenienceObjects() {
 
         // setup oldAccountAutoCreateDefaults convenience objects, make sure all possible sub-objects are populated
@@ -94,9 +94,10 @@ public class AccountAutoCreateDefaultsRule extends org.kuali.kfs.coa.document.va
 
     /**
      * This method calls the route rules but does not fail if any of them fail (this only happens on routing)
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
+    @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
 
         LOG.info("processCustomSaveDocumentBusinessRules called");
@@ -111,9 +112,10 @@ public class AccountAutoCreateDefaultsRule extends org.kuali.kfs.coa.document.va
      * This method calls the following rules: checkAccountGuidelinesValidation checkEmptyValues checkGeneralRules checkCloseAccount
      * checkContractsAndGrants checkExpirationDate checkFundGroup checkSubFundGroup checkFiscalOfficerIsValidKualiUser this rule
      * will fail on routing
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
+    @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         // default to success
         boolean success = true;
@@ -147,8 +149,9 @@ public class AccountAutoCreateDefaultsRule extends org.kuali.kfs.coa.document.va
         }
         return success;
     }
- 
 
+
+    @Override
     protected boolean checkEmptyValues(MaintenanceDocument maintenanceDocument) {
 
         LOG.info("checkEmptyValues called");
@@ -163,6 +166,7 @@ public class AccountAutoCreateDefaultsRule extends org.kuali.kfs.coa.document.va
         return success;
     }
 
+    @Override
     protected boolean checkGeneralRules(MaintenanceDocument maintenanceDocument) {
 
         LOG.info("checkGeneralRules called");
@@ -175,16 +179,16 @@ public class AccountAutoCreateDefaultsRule extends org.kuali.kfs.coa.document.va
         // check FringeBenefit account rules
         success &= checkFringeBenefitAccountRule();
 
-        if (ObjectUtils.isNotNull(fiscalOfficer) && !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER, fiscalOfficer.getPrincipalId())) {
-            super.putFieldError("accountFiscalOfficerUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] { fiscalOfficer.getName(), KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER });
+        if (ObjectUtils.isNotNull(fiscalOfficer) && !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER.namespace, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER.name, fiscalOfficer.getPrincipalId())) {
+            super.putFieldError("accountFiscalOfficerUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] { fiscalOfficer.getName(), KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER.namespace, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER.name });
             success = false;
         }
-        if (ObjectUtils.isNotNull(accountSupervisor) && !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR, accountSupervisor.getPrincipalId())) {
-            super.putFieldError("accountSupervisoryUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] { accountSupervisor.getName(), KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR });
+        if (ObjectUtils.isNotNull(accountSupervisor) && !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR.namespace, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR.name, accountSupervisor.getPrincipalId())) {
+            super.putFieldError("accountSupervisoryUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] { accountSupervisor.getName(), KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR.namespace, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR.name });
             success = false;
         }
-        if (ObjectUtils.isNotNull(accountManager) && !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER, accountManager.getPrincipalId())) {
-            super.putFieldError("accountManagerUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] { accountManager.getName(), KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER });
+        if (ObjectUtils.isNotNull(accountManager) && !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER.namespace, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER.name, accountManager.getPrincipalId())) {
+            super.putFieldError("accountManagerUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] { accountManager.getName(), KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER.namespace, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER.name });
             success = false;
         }
 
@@ -296,6 +300,7 @@ public class AccountAutoCreateDefaultsRule extends org.kuali.kfs.coa.document.va
         return result;
     }
 
+    @Override
     protected boolean checkContractsAndGrants(MaintenanceDocument maintenanceDocument) {
 
         LOG.info("checkContractsAndGrants called");
@@ -377,6 +382,7 @@ public class AccountAutoCreateDefaultsRule extends org.kuali.kfs.coa.document.va
         return success;
     }
 
+    @Override
     protected boolean checkIncomeStreamAccountRule() {
         // KFSMI-4877: if fund group is in system parameter values then income stream account number must exist.
         if (ObjectUtils.isNotNull(newAccountAutoCreateDefaults.getSubFundGroup()) && StringUtils.isNotBlank(newAccountAutoCreateDefaults.getSubFundGroup().getFundGroupCode())) {
@@ -393,7 +399,7 @@ public class AccountAutoCreateDefaultsRule extends org.kuali.kfs.coa.document.va
 
     /**
      * This method checks to make sure that the kcUnit field exists and is entered correctly
-     * 
+     *
      * @param newAccountAutoCreateDefaults
      * @return true/false
      */
@@ -433,14 +439,16 @@ public class AccountAutoCreateDefaultsRule extends org.kuali.kfs.coa.document.va
 
     /**
      * Sets the contractsAndGrantsModuleService attribute value.
-     * 
+     *
      * @param contractsAndGrantsModuleService The contractsAndGrantsModuleService to set.
      */
+    @Override
     public void setContractsAndGrantsModuleService(ContractsAndGrantsModuleService contractsAndGrantsModuleService) {
         this.contractsAndGrantsModuleService = contractsAndGrantsModuleService;
     }
 
 
+    @Override
     public ParameterService getParameterService() {
         if (parameterService == null) {
             parameterService = SpringContext.getBean(ParameterService.class);
@@ -456,7 +464,7 @@ public class AccountAutoCreateDefaultsRule extends org.kuali.kfs.coa.document.va
        boolean success = true;
        List<IndirectCostRecoveryAutoDefAccount> indirectCostRecoveryAccountList = newAccountAutoCreateDefaults.getIndirectCostRecoveryAutoDefAccounts();
         success = expectFilled != newAccountAutoCreateDefaults.getIndirectCostRecoveryAutoDefAccounts().isEmpty();
-        
+
         //double check each of the account/coa codes are not blank
         if (!success && expectFilled){
             for (IndirectCostRecoveryAutoDefAccount account : indirectCostRecoveryAccountList){
@@ -464,7 +472,7 @@ public class AccountAutoCreateDefaultsRule extends org.kuali.kfs.coa.document.va
                     && StringUtils.isNotBlank(account.getIndirectCostRecoveryFinCoaCode());
             }
         }
-        
+
         return success;
     }
 
@@ -478,12 +486,12 @@ public class AccountAutoCreateDefaultsRule extends org.kuali.kfs.coa.document.va
         if (ObjectUtils.isNull(indirectCostRecoveryAccountList) || (indirectCostRecoveryAccountList.size() == 0)) {
             return result;
         }
-        
+
         DictionaryValidationService dvService = super.getDictionaryValidationService();
-        
+
         int i=0;
         BigDecimal totalDistribution = BigDecimal.ZERO;
-       
+
         for (IndirectCostRecoveryAutoDefAccount icra : indirectCostRecoveryAccountList){
             String errorPath = MAINTAINABLE_ERROR_PREFIX + boFieldPath + "[" + i++ + "]";
             GlobalVariables.getMessageMap().addToErrorPath(errorPath);
@@ -491,25 +499,25 @@ public class AccountAutoCreateDefaultsRule extends org.kuali.kfs.coa.document.va
             GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
             totalDistribution = totalDistribution.add(icra.getAccountLinePercent());
         }
-        
+
         //check the total distribution is 100
         if (totalDistribution.compareTo(BD100) != 0){
             putFieldError(boFieldPath, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_ACCOUNT_TOTAL_NOT_100_PERCENT);
             result &= false;
         }
-        
+
         return result;
     }
 
     protected boolean checkIndirectCostRecoveryAccount(IndirectCostRecoveryAutoDefAccount icra) {
         boolean success = true;
       //check for empty values on the ICR account
-        
+
         // The chart and account  must exist in the database.
         String chartOfAccountsCode = icra.getIndirectCostRecoveryFinCoaCode();
         String accountNumber = icra.getIndirectCostRecoveryAccountNumber();
         BigDecimal icraAccountLinePercentage = ObjectUtils.isNotNull(icra.getAccountLinePercent()) ? icra.getAccountLinePercent() : BigDecimal.ZERO;
         return checkIndirectCostRecoveryAccount(chartOfAccountsCode, accountNumber, icraAccountLinePercentage);
     }
- 
+
 }

@@ -1203,13 +1203,19 @@ public class KFSConstants {
         }
     }
 
-    public class PermissionNames {
-        public static final String EDIT_INACTIVE_ACCOUNT = "Edit Inactive Account";
-        public static final String SERVE_AS_ACCOUNT_MANAGER = "Serve As Account Manager";
-        public static final String SERVE_AS_ACCOUNT_SUPERVISOR = "Serve As Account Supervisor";
-        public static final String SERVE_AS_FISCAL_OFFICER = "Serve As Fiscal Officer";
-        public static final String SERVE_AS_FISCAL_OFFICER_DELEGATE = "Serve As Fiscal Officer Delegate";
-        public static final String FULL_UNMASK_FIELD = "Full Unmask Field";
+    public enum PermissionNames {
+        EDIT_INACTIVE_ACCOUNT( KFSConstants.CoreModuleNamespaces.CHART, "Edit Inactive Account" ),
+        SERVE_AS_ACCOUNT_MANAGER( KFSConstants.CoreModuleNamespaces.CHART, "Serve As Account Manager" ),
+        SERVE_AS_ACCOUNT_SUPERVISOR( KFSConstants.CoreModuleNamespaces.CHART, "Serve As Account Supervisor" ),
+        SERVE_AS_FISCAL_OFFICER( KFSConstants.CoreModuleNamespaces.CHART, "Serve As Fiscal Officer" ),
+        SERVE_AS_FISCAL_OFFICER_DELEGATE( KFSConstants.CoreModuleNamespaces.CHART, "Serve As Fiscal Officer Delegate" );
+
+        public final String name;
+        public final String namespace;
+        private PermissionNames(String namespace, String name) {
+            this.namespace = namespace;
+            this.name = name;
+        }
     }
 
     public static final String KFS_ACTION_CAN_ERROR_CORRECT = "canErrorCorrect";

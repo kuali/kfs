@@ -57,8 +57,8 @@ public class KualiAccountLookupableHelperServiceImpl extends KualiLookupableHelp
         }
         else {
             String principalId = user.getPrincipalId();
-            String namespaceCode = KFSConstants.ParameterNamespaces.CHART;
-            String permissionName = KFSConstants.PermissionNames.EDIT_INACTIVE_ACCOUNT;
+            String namespaceCode = KFSConstants.PermissionNames.EDIT_INACTIVE_ACCOUNT.namespace;
+            String permissionName = KFSConstants.PermissionNames.EDIT_INACTIVE_ACCOUNT.name;
 
             IdentityManagementService identityManagementService = SpringContext.getBean(IdentityManagementService.class);
             boolean isAuthorized = identityManagementService.hasPermission(principalId, namespaceCode, permissionName);

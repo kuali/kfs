@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.coa.document.validation.impl;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
@@ -23,7 +22,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.coa.businessobject.AccountDelegateModel;
 import org.kuali.kfs.coa.businessobject.AccountDelegateModelDetail;
-import org.kuali.kfs.coa.businessobject.AccountingPeriod;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -100,7 +98,7 @@ public class AccountDelegateModelRule extends KfsMaintenanceDocumentRuleBase {
     }
 
     /**
-     * This method calls 
+     * This method calls
      * <ul>
      * <li>{@link AccountDelegateModelRule#checkSimpleRulesForOrganizationRoutingModel(OrganizationRoutingModelName, OrganizationRoutingModel)}</li>
      * </ul>
@@ -116,7 +114,7 @@ public class AccountDelegateModelRule extends KfsMaintenanceDocumentRuleBase {
 
     /**
      * Checks the given rules against the entire Organization Routing Model parent.
-     * 
+     *
      * @param globalDelegateTemplate the Organization Routing Model parent to check
      * @return true if document passes all rules, false if otherwise
      */
@@ -133,13 +131,13 @@ public class AccountDelegateModelRule extends KfsMaintenanceDocumentRuleBase {
             GlobalVariables.getMessageMap().addToErrorPath(MAINTAINABLE_ERROR_PATH + ".accountDelegateModelDetails[" + line + "].");
             line++;
         }
-        
+
         return success;
     }
 
      /**
      * This method checks a series of basic rules for a single org routing model.
-     * 
+     *
      * @return true if model passes all the checks, false if otherwise
      */
     protected boolean checkSimpleRulesForOrganizationRoutingModel(MaintenanceDocument document, AccountDelegateModel globalDelegateTemplate, AccountDelegateModelDetail delegateModel, FinancialSystemDocumentTypeService documentService) {
@@ -174,7 +172,7 @@ public class AccountDelegateModelRule extends KfsMaintenanceDocumentRuleBase {
     /**
      * This method makes certain that the collection of account delegates in the "mo itdel" has at least one account delegate
      * template in it.
-     * 
+     *
      * @param globalDelegateTemplate the account delegate model to check
      * @return true if account delegate model has at least one account delegate template in it
      */
@@ -189,7 +187,7 @@ public class AccountDelegateModelRule extends KfsMaintenanceDocumentRuleBase {
 
     /**
      * This method checks that the account delegate model has at least one active "model" within it.
-     * 
+     *
      * @param globalDelegateTemplate the account delegate model to check
      * @return true if account delegate model has at least one active model in it.
      */
@@ -218,7 +216,7 @@ public class AccountDelegateModelRule extends KfsMaintenanceDocumentRuleBase {
 
     /**
      * Checks that if approval from amount is not null, then it is positive
-     * 
+     *
      * @param delegateModel Organization Routing Model to check
      * @return true if Organization Routing Model passes the checks, false if otherwise
      */
@@ -236,7 +234,7 @@ public class AccountDelegateModelRule extends KfsMaintenanceDocumentRuleBase {
     /**
      * Checks that if approval from amount is null, that approval to this amount is null or zero; and then checks that approval to
      * amount is greater than or equal to approval from amount.
-     * 
+     *
      * @param delegateModel Organization Routing Model to check
      * @return true if the Organization Routing Model passes the checks, false if otherwise
      */
@@ -259,7 +257,7 @@ public class AccountDelegateModelRule extends KfsMaintenanceDocumentRuleBase {
 
     /**
      * Checks that the account delegate listed exists in the system, and that user has an active status and is a professional type
-     * 
+     *
      * @param delegateModel the Organization Routing Model to check
      * @return true if delegate user passes the rules described above; false if they fail
      */
@@ -283,8 +281,8 @@ public class AccountDelegateModelRule extends KfsMaintenanceDocumentRuleBase {
         }
 
         if (success) {
-            if (!getDocumentHelperService().getDocumentAuthorizer(document).isAuthorized(document, KFSConstants.CoreModuleNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER_DELEGATE, delegateModel.getAccountDelegate().getPrincipalId())) {
-                super.putFieldError("accountDelegate.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {delegateModel.getAccountDelegate().getName(), KFSConstants.CoreModuleNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER_DELEGATE});
+            if (!getDocumentHelperService().getDocumentAuthorizer(document).isAuthorized(document, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER_DELEGATE.namespace, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER_DELEGATE.name, delegateModel.getAccountDelegate().getPrincipalId())) {
+                super.putFieldError("accountDelegate.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {delegateModel.getAccountDelegate().getName(), KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER_DELEGATE.namespace, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER_DELEGATE.name});
                 success = false;
             }
         }
@@ -297,7 +295,7 @@ public class AccountDelegateModelRule extends KfsMaintenanceDocumentRuleBase {
      * delegateGlobalToTest against the list, to determine whether adding this new delegateGlobalToTest would violate any
      * PrimaryRoute business rule violations. If any of the incoming variables is null or empty, the method will do nothing, and
      * return Null. It will only process the business rules if there is sufficient data to do so.
-     * 
+     *
      * @param delegateGlobalToTest A delegateGlobal line that you want to test against the list.
      * @param delegateGlobals A List of delegateGlobal items that is being tested against.
      * @return true if model, delegate template or org routing model is null, or if the primary routing indicator is set to false or the doc type code is empty
@@ -329,7 +327,7 @@ public class AccountDelegateModelRule extends KfsMaintenanceDocumentRuleBase {
 
         return success;
     }
-    
+
     /**
      * Validates the document type code for the delegate, to make sure it is a Financial System document type code
      * @param documentTypeCode the document type code to check

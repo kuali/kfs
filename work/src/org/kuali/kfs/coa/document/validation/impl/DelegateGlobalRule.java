@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,7 +23,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.coa.businessobject.AccountDelegateGlobal;
 import org.kuali.kfs.coa.businessobject.AccountDelegateGlobalDetail;
-import org.kuali.kfs.coa.businessobject.AccountDelegateModelDetail;
 import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
@@ -81,7 +80,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
      * <li>{@link DelegateGlobalRule#checkForPrimaryDelegateAllLines()}</li>
      * </ul>
      * fails if any rules fail
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
@@ -106,7 +105,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
      * <li>{@link DelegateGlobalRule#checkForPrimaryDelegateAllLines()}</li>
      * </ul>
      * fails if any rules fail
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
@@ -131,7 +130,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
      * <li>{@link DelegateGlobalRule#checkForPrimaryDelegateAllLines()}</li>
      * </ul>
      * fails if any rules fail
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
@@ -150,7 +149,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
     /**
      * This checks to see if there are any accounts in the details collection if there are then it calls
      * {@link DelegateGlobalRule#checkAccountDetails(AccountGlobalDetail)}
-     * 
+     *
      * @param details - collection of {@link AccountGlobalDetail}s
      * @return false if there are no objects in the collection or any one of the {@link AccountGlobalDetail} fail
      */
@@ -180,7 +179,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
 
     /**
      * This checks to make sure that each {@link AccountGlobalDetail} has a valid {@link Account}
-     * 
+     *
      * @param dtl - the {@link AccountGlobalDetail}
      * @return false if it does not have a valid {@link Account}
      */
@@ -209,7 +208,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
      * <li>{@link DelegateGlobalRule#checkDelegateFromAmtGreaterThanEqualZero(KualiDecimal, int, boolean)}</li>
      * <li>{@link DelegateGlobalRule#checkPrimaryRouteRules(List, DelegateGlobalDetail, Integer, boolean)}</li>
      * </ul>
-     * 
+     *
      * @return
      */
     protected boolean checkSimpleRulesAllLines(MaintenanceDocument document) {
@@ -249,7 +248,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
     /**
      * This method will check through each delegate referenced in the DelegateGlobal to ensure that there is one and only primary
      * for each account and doctype
-     * 
+     *
      * @return false if there is more than one primary delegate
      */
     protected boolean checkForPrimaryDelegateAllLines() {
@@ -264,7 +263,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
 
     /**
      * This method checks to see if the from amount is greater than zero
-     * 
+     *
      * @param fromAmount
      * @param lineNum
      * @return false if from amount less than zero
@@ -290,7 +289,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
 
     /**
      * This method checks to see if the to Amount is greater than the from amount
-     * 
+     *
      * @param fromAmount
      * @param toAmount
      * @param lineNum
@@ -335,7 +334,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
 
     /**
      * Validates the document type code for the delegate, to make sure it is a Financial System document type code
-     * 
+     *
      * @param documentTypeCode the document type code to check
      * @param delegateService a helpful instance of the delegate service, so new ones don't have to be created all the time
      * @return true if the document type code is valid, false otherwise
@@ -350,7 +349,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
         return true;
     }
 
-    
+
     private boolean checkStartDate(AccountDelegateGlobalDetail delegateGlobalDetail, int lineNum) {
         boolean success = true;
         if (ObjectUtils.isNotNull(delegateGlobalDetail.getAccountDelegateStartDate())) {
@@ -370,7 +369,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
      * delegateGlobalToTest against the list, to determine whether adding this new delegateGlobalToTest would violate any
      * PrimaryRoute business rule violations. If any of the incoming variables is null or empty, the method will do nothing, and
      * return Null. It will only process the business rules if there is sufficient data to do so.
-     * 
+     *
      * @param delegateGlobalToTest A delegateGlobal line that you want to test against the list.
      * @param delegateGlobals A List of delegateGlobal items that is being tested against.
      * @return Null if the business rule passes, or an Integer value greater than zero, representing the line that the new line is
@@ -413,7 +412,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
     /**
      * This checks that the primary routing for delegates is correct, specifically that - there is not already a primary route
      * delegate setup for this {@link Account}
-     * 
+     *
      * @param delegateGlobals
      * @param delegateGlobalToTest
      * @param lineNum
@@ -445,7 +444,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
 
     /**
      * This checks that the delegate for this {@link Account} exists and is valid (active and a professional)
-     * 
+     *
      * @param delegateGlobal
      * @param lineNum
      * @param add
@@ -454,7 +453,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
     protected boolean checkDelegateUserRules(MaintenanceDocument document, AccountDelegateGlobalDetail delegateGlobal, int lineNum, boolean add) {
         boolean success = true;
         String errorPath = KFSConstants.EMPTY_STRING;
-        
+
         Person accountDelegate = delegateGlobal.getAccountDelegate();
         if (StringUtils.isBlank(delegateGlobal.getAccountDelegateUniversalId()) || ObjectUtils.isNull(accountDelegate)) {
             if (add) {
@@ -468,16 +467,16 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
 
             success &= false;
         }
-        else if (!getDocumentHelperService().getDocumentAuthorizer(document).isAuthorized(document, KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER_DELEGATE, accountDelegate.getPrincipalId())) {
+        else if (!getDocumentHelperService().getDocumentAuthorizer(document).isAuthorized(document, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER_DELEGATE.namespace, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER_DELEGATE.name, accountDelegate.getPrincipalId())) {
             if (add) {
                 errorPath = KFSConstants.MAINTENANCE_ADD_PREFIX + DELEGATE_GLOBALS_PREFIX + "." + "accountDelegate.principalName";
-                putFieldError(errorPath, KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] { accountDelegate.getName(), KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER_DELEGATE });
+                putFieldError(errorPath, KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] { accountDelegate.getName(), KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER_DELEGATE.namespace, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER_DELEGATE.name });
             }
             else {
                 errorPath = DELEGATE_GLOBALS_PREFIX + "[" + lineNum + "]." + "accountDelegate.principalName";
-                putFieldError(errorPath, KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] { accountDelegate.getName(), KFSConstants.ParameterNamespaces.CHART, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER_DELEGATE });
+                putFieldError(errorPath, KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] { accountDelegate.getName(), KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER_DELEGATE.namespace, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER_DELEGATE.name });
             }
-            
+
             success &= false;
         }
 
@@ -499,10 +498,11 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
      * <li>{@link DelegateGlobalRule#checkDelegateUserRules(DelegateGlobalDetail, int, boolean)}</li>
      * <li>{@link DelegateGlobalRule#checkPrimaryRouteRules(List, DelegateGlobalDetail, Integer, boolean)}</li>
      * </ul>
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument,
      *      java.lang.String, org.kuali.rice.krad.bo.PersistableBusinessObject)
      */
+    @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject bo) {
         boolean success = true;
         if (bo instanceof AccountGlobalDetail) {
@@ -528,7 +528,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
 
             // check the start date
             success &= checkStartDate(detail, 0);
-            
+
             // FROM amount must be >= 0 (may not be negative)
             success &= checkDelegateFromAmtGreaterThanEqualZero(fromAmount, 0, true);
 

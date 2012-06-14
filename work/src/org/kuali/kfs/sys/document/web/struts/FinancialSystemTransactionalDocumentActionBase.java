@@ -21,12 +21,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.Correctable;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
@@ -36,12 +34,10 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.rice.kns.web.ui.ExtraButton;
-import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.KRADPropertyConstants;
 
 /**
  * This class...
@@ -50,29 +46,6 @@ public class FinancialSystemTransactionalDocumentActionBase extends KualiTransac
     public static final String MODULE_LOCKED_MESSAGE = "moduleLockedMessage";
     public static final String MODULE_LOCKED_URL_SUFFIX = "/moduleLocked.do";
 
-    
-    /**
-     * save the document without any validations.....as long as description is filled in
-     * @see org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-  //  @Override
-  //  public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//
-  //      KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-  //      FinancialSystemTransactionalDocument financialSystemTransactionalDocument = (FinancialSystemTransactionalDocument) kualiDocumentFormBase.getDocument();
-  //      
-   //     if (checkDocumentDescriptionEntered(financialSystemTransactionalDocument.getDocumentHeader())) {
-   //         //clear any error messages but there should not be any currently.
-   //         GlobalVariables.getMessageMap().clearErrorMessages();
-   //         SpringContext.getBean(FinancialSystemDocumentService.class).saveDocumentNoValidation(financialSystemTransactionalDocument);        
-   //         
-   //         KNSGlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_SAVED);
-   //         kualiDocumentFormBase.setAnnotation("");
-   //     }
-   //     
-   //     return mapping.findForward(RiceConstants.MAPPING_BASIC);
-   // }
-    
     /**
      * Method that will take the current document and call its copy method if Copyable.
      */
@@ -165,25 +138,5 @@ public class FinancialSystemTransactionalDocumentActionBase extends KualiTransac
 
         return false;
     }
-    
-    /**
-     * checks if document description entered
-     * 
-     * @param documentHeader
-     * @return true if document description entered else false
-     */
-    protected boolean checkDocumentDescriptionEntered(DocumentHeader documentHeader) {
-        boolean passed = true;
-        String documentDescription = documentHeader.getDocumentDescription();
-        
-        if (documentDescription == null || StringUtils.isEmpty(documentDescription)) {
-            //need to have document description filled to have the document saved....
-            passed &= false;
-            GlobalVariables.getMessageMap().putError(KRADPropertyConstants.DOCUMENT + "." + KRADPropertyConstants.DOCUMENT_HEADER + "." + KRADPropertyConstants.DOCUMENT_DESCRIPTION, KFSKeyConstants.ERROR_DOCUMENT_DESCRIPTION_REQUIRED);
-        }
-        
-        return passed;
-    }
-    
 }
 

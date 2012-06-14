@@ -30,11 +30,4 @@ public interface FinancialSystemDocumentService {
     public <T extends Document> Collection<T> findByDocumentHeaderStatusCode(Class<T> clazz, String statusCode) throws WorkflowException;
     public void prepareToCopy(FinancialSystemDocumentHeader oldDocumentHeader, FinancialSystemTransactionalDocument document);
     
-    /**
-     * saves the financial system transactional document without any validations and
-     * suppressing any validation errors.
-     * 
-     * @param document
-     */
-    public void saveDocumentNoValidation(Document document);
 }

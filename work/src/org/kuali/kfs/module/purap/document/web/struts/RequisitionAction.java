@@ -33,7 +33,6 @@ import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.util.RiceConstants;
-import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
@@ -56,27 +55,19 @@ public class RequisitionAction extends PurchasingActionBase {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         //call the super save to save the document without validations...
         
-        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-        PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument) kualiDocumentFormBase.getDocument();
-        
-        if (checkDocumentDescriptionEntered(purapDocument.getFinancialSystemDocumentHeader())) {
-            //clear any error messages but there should not be any currently.
-            GlobalVariables.getMessageMap().clearErrorMessages();
-            SpringContext.getBean(PurapService.class).saveDocumentNoValidation(purapDocument);        
-            
-            KNSGlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_SAVED);
-            kualiDocumentFormBase.setAnnotation("");
-        }
+        ActionForward actionForward = super.save(mapping, form, request, response);
         
         //we need to make "calculated" to false so that the "below lines"
         //can be edited until calculated button is clicked.
+        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         PurchasingFormBase baseForm = (PurchasingFormBase) form;
+        PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument) kualiDocumentFormBase.getDocument();
+        
         baseForm.setCalculated(false);
         purapDocument.setCalculated(false);
         
         return mapping.findForward(RiceConstants.MAPPING_BASIC);
     }
-    
     
     /**
      * Does initialization for a new requisition.

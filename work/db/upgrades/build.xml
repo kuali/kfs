@@ -119,6 +119,20 @@ KIM TYPES
         </sql>
     	<echo file="${output.file}" append="true">
 ********************************************************************************
+PERMISSION TEMPLATES
+********************************************************************************
+</echo>    	
+        <sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}"
+        	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
+        	SELECT pt.NMSPC_CD AS template_namespace, pt.NM AS template_name, t.NMSPC_CD AS type_namespace, t.NM AS type_name
+        	    FROM krim_perm_tmpl_t pt
+        	        LEFT OUTER JOIN krim_typ_t t ON t.KIM_TYP_ID = pt.KIM_TYP_ID
+        		WHERE pt.nmspc_cd NOT LIKE 'KR%'
+                  AND pt.nmspc_cd != 'KUALI'
+        	    ORDER BY template_namespace, template_name
+        </sql>
+    	<echo file="${output.file}" append="true">
+********************************************************************************
 PERMISSIONS
 ********************************************************************************
 </echo>    	

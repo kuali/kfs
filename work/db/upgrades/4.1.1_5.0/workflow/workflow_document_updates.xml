@@ -526,5 +526,114 @@
       <routingVersion>2</routingVersion>
     </documentType>
 
+	<!-- Updating to make the routing parallel like all other documents. -->
+    <documentType>
+      <name>
+        LDYE
+      </name>
+      <parent>
+        LD
+      </parent>
+      <label>
+        LaborDistributionYearEndTransactionalDocument
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="AccountingOrganizationHierarchy"/>
+          <role name="AccountingOrganizationHierarchy" nextNode="SubFund"/>
+          <role name="SubFund" nextNode="Award"/>
+          <role name="Award"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="SubFund">
+          <qualifierResolverClass>
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="Award">
+          <qualifierResolverClass>
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+
+	<!-- Updating to make the routing parallel like all other documents. -->
+    <documentType>
+      <name>
+        BT
+      </name>
+      <parent>
+        LD
+      </parent>
+      <label>
+        Benefit Expense Transfer
+      </label>
+      <docHandler>
+        ${kfs.url}/laborBenefitExpenseTransfer.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fbenefitexpensetransfer.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account"/>
+          <role name="Account" nextNode="AccountingOrganizationHierarchy"/>
+          <role name="AccountingOrganizationHierarchy" nextNode="SubFund"/>
+          <role name="SubFund" nextNode="Award"/>
+          <role name="Award"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="Account">
+          <qualifierResolverClass>
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="SubFund">
+          <qualifierResolverClass>
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+        <role name="Award">
+          <qualifierResolverClass>
+            org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>P</activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+
 </documentTypes>
 </data>

@@ -590,13 +590,12 @@
 		<sql splitStatements="false"><![CDATA[
 		CREATE INDEX KREW_APP_DOC_STAT_TI3 ON KREW_APP_DOC_STAT_TRAN_T (DOC_HDR_ID, APP_DOC_STAT_TO)
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
-		
+		<sql><![CDATA[		
 		--
 		-- KREW_DOC_HDR_CNTNT_T 
 		-- Depending on the size of the table, this conversion can take a long time.  Example - takes 45 minutes for 8 million rows 
 		-- 
-		
+		ALTER TABLE KREW_DOC_HDR_CNTNT_T DROP CONSTRAINT KREW_DOC_HDR_CNTNT_TP1;
 		ALTER TABLE KREW_DOC_HDR_CNTNT_T RENAME TO OLD_KREW_DOC_HDR_CNTNT_T
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
@@ -613,6 +612,57 @@
 		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		ALTER TABLE KREW_DOC_HDR_CNTNT_T ADD CONSTRAINT KREW_DOC_HDR_CNTNT_TP1 PRIMARY KEY (DOC_HDR_ID)
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+		-----------------------------------------------------------------------------
+		-- KREW_DOC_HDR_EXT_DT_T
+		-----------------------------------------------------------------------------
+		DECLARE
+		c NUMBER;
+		BEGIN
+		select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_DOC_HDR_EXT_DT_TP1' ;
+		IF c>0 THEN
+		EXECUTE IMMEDIATE 'ALTER TABLE KREW_DOC_HDR_EXT_DT_T DROP CONSTRAINT KREW_DOC_HDR_EXT_DT_TP1';
+		ELSE
+		DBMS_OUTPUT.PUT_LINE('KREW_DOC_HDR_EXT_DT_TP1 does not exist, so not running statement to change/drop it.');
+		END IF;
+		END;
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+		DECLARE
+		c NUMBER;
+		BEGIN
+		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_DOC_HDR_EXT_DT_TI1' ;
+		IF c>0 THEN
+		EXECUTE IMMEDIATE 'DROP INDEX KREW_DOC_HDR_EXT_DT_TI1';
+		ELSE
+		DBMS_OUTPUT.PUT_LINE('KREW_DOC_HDR_EXT_DT_TI1 does not exist, so not running statement to change/drop it.');
+		END IF;
+		END;
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+		DECLARE
+		c NUMBER;
+		BEGIN
+		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_DOC_HDR_EXT_DT_TI2' ;
+		IF c>0 THEN
+		EXECUTE IMMEDIATE 'DROP INDEX KREW_DOC_HDR_EXT_DT_TI2';
+		ELSE
+		DBMS_OUTPUT.PUT_LINE('KREW_DOC_HDR_EXT_DT_TI2 does not exist, so not running statement to change/drop it.');
+		END IF;
+		END;
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+		DECLARE
+		c NUMBER;
+		BEGIN
+		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_DOC_HDR_EXT_DT_TI3' ;
+		IF c>0 THEN
+		EXECUTE IMMEDIATE 'DROP INDEX KREW_DOC_HDR_EXT_DT_TI3';
+		ELSE
+		DBMS_OUTPUT.PUT_LINE('KREW_DOC_HDR_EXT_DT_TI3 does not exist, so not running statement to change/drop it.');
+		END IF;
+		END;
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
 		

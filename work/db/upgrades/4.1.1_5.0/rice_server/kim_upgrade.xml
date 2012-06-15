@@ -2,13 +2,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 
-	<changeSet author="KFS50" id="FIX_ADMIN_BATCH_PERM_TEMPLATE_NAMESPACE">
-		<update tableName="KRIM_PERM_TMPL_T">
-			<column name="NMSPC_CD" value="KFS-SYS" />
-			<where>nmspc_cd = 'KR-NS' AND nm = 'Administer Batch File'</where>
-		</update>
-	</changeSet>
-
 	<changeSet author="KFS50" id="ADD_NAMESPACE_TO_TYPE_SERVICES">
 		<comment>In Rice 2.0, the KIM type services need to be qualified by their namespace to work with a Rice standalone Server.</comment>
 		<sql>
@@ -442,6 +435,14 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 		
+	</changeSet>
+	
+	<changeSet author="KFS50" id="FIX_ADMIN_BATCH_PERM_TEMPLATE_NAMESPACE">
+		<update tableName="KRIM_PERM_TMPL_T">
+			<column name="NMSPC_CD" value="KFS-SYS" />
+			<column name="KIM_TYP_ID" value="KFSCNTRB199-TYP1" />
+			<where>nmspc_cd = 'KR-NS' AND nm = 'Administer Batch File'</where>
+		</update>
 	</changeSet>
 	
 	<changeSet author="jksmith" id="KFSMI6732_PREROUTE_EDIT_DOC_PERM_FOR_PAYMENT_APPLICATION">
@@ -1015,4 +1016,5 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 	</changeSet>
+		
 </databaseChangeLog>

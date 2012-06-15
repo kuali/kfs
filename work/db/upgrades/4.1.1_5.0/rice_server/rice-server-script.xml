@@ -46,7 +46,7 @@
 			drop_ref_cons( 'KRSB_FLT_SVC_DEF_T' );
 			drop_ref_cons( 'KRSB_SVC_DEF_T' );
 			drop_ref_cons( 'KREW_DOC_TYP_APP_DOC_STAT_T' );
-			drop_ref_cons( 'INIT_RTE_NODE_INSTN_T' );
+			drop_ref_cons( 'KREW_INIT_RTE_NODE_INSTN_T' );
 			drop_ref_cons( 'KREW_ACTN_ITM_T' );
 			drop_ref_cons( 'KREW_ACTN_RQST_T' );
 			drop_ref_cons( 'KREW_ACTN_TKN_T' );
@@ -98,7 +98,7 @@
 			drop_cons( 'KRSB_FLT_SVC_DEF_T' );
 			drop_cons( 'KRSB_SVC_DEF_T' );
 			drop_cons( 'KREW_DOC_TYP_APP_DOC_STAT_T' );
-			drop_cons( 'INIT_RTE_NODE_INSTN_T' );
+			drop_cons( 'KREW_INIT_RTE_NODE_INSTN_T' );
 			drop_cons( 'KREW_ACTN_ITM_T' );
 			drop_cons( 'KREW_ACTN_RQST_T' );
 			drop_cons( 'KREW_ACTN_TKN_T' );

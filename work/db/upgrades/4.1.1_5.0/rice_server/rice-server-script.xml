@@ -7,17 +7,25 @@
 	<sql splitStatements="false"><![CDATA[
 		DECLARE
 			PROCEDURE drop_cons( TableName IN VARCHAR2 ) IS
+				CURSOR tab_ref_cons IS
+					SELECT constraint_name
+						FROM user_constraints
+						WHERE table_name = TableName
+						  AND constraint_type = 'R';
 				CURSOR tab_cons IS
 					SELECT constraint_name
 						FROM user_constraints
 						WHERE table_name = TableName
-						  AND constraint_type IN ( 'P', 'U', 'R' );
+						  AND constraint_type IN ( 'P', 'U' );
                 CURSOR tab_ind IS
                     SELECT index_name
                         FROM user_indexes
                         WHERE table_name = TableName
                           AND index_type != 'LOB';
             BEGIN
+                FOR cons IN tab_ref_cons LOOP
+                    EXECUTE IMMEDIATE 'ALTER TABLE '||TableName||' DROP CONSTRAINT '||cons.constraint_name;
+                END LOOP;
                 FOR cons IN tab_cons LOOP
                     EXECUTE IMMEDIATE 'ALTER TABLE '||TableName||' DROP CONSTRAINT '||cons.constraint_name;
                 END LOOP;
@@ -81,16 +89,9 @@
 		]]></sql>		
 
 		<sql splitStatements="false"><![CDATA[
-		
-		
-		
-		
-		
 		-- 
 		-- 2010-04-15.sql
 		-- 
-		
-		
 		ALTER TABLE krns_sesn_doc_t ADD (OBJ_ID VARCHAR2(36))
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
@@ -184,28 +185,6 @@
 		]]></sql>
 
 		<sql splitStatements="false"><![CDATA[
-			DECLARE
-				CURSOR tab_cons IS
-					SELECT table_name, constraint_name
-						FROM user_constraints
-						WHERE table_name = 'KREW_ACTN_ITM_T' 
-						  AND constraint_type IN ( 'P', 'U', 'R' );
-                CURSOR tab_ind IS
-                    SELECT table_name, index_name
-                        FROM user_indexes
-                        WHERE table_name = 'KREW_ACTN_ITM_T'
-                          AND index_type != 'LOB';
-            BEGIN
-                FOR cons IN tab_cons LOOP
-                    EXECUTE IMMEDIATE 'ALTER TABLE '||cons.table_name||' DROP CONSTRAINT '||cons.constraint_name;
-                END LOOP;
-                FOR ind IN tab_ind LOOP
-                    EXECUTE IMMEDIATE 'DROP INDEX '||ind.index_name;
-                END LOOP;
-            END;
-		]]></sql>
-
-		<sql splitStatements="false"><![CDATA[
 		-- 
 		-- 2011-04-28.sql
 		-- 
@@ -269,28 +248,6 @@
 		CREATE INDEX KREW_ACTN_ITM_TI5 ON KREW_ACTN_ITM_T(PRNCPL_ID, DLGN_TYP, DOC_HDR_ID)
 		]]></sql>
 
-
-		<sql splitStatements="false"><![CDATA[
-			DECLARE
-				CURSOR tab_cons IS
-					SELECT table_name, constraint_name
-						FROM user_constraints
-						WHERE table_name = 'KREW_ACTN_RQST_T' 
-						  AND constraint_type IN ( 'P', 'U', 'R' );
-                CURSOR tab_ind IS
-                    SELECT table_name, index_name
-                        FROM user_indexes
-                        WHERE table_name = 'KREW_ACTN_RQST_T'
-                          AND index_type != 'LOB';
-            BEGIN
-                FOR cons IN tab_cons LOOP
-                    EXECUTE IMMEDIATE 'ALTER TABLE '||cons.table_name||' DROP CONSTRAINT '||cons.constraint_name;
-                END LOOP;
-                FOR ind IN tab_ind LOOP
-                    EXECUTE IMMEDIATE 'DROP INDEX '||ind.index_name;
-                END LOOP;
-            END;
-		]]></sql>
 
 		<sql splitStatements="false"><![CDATA[
 		--

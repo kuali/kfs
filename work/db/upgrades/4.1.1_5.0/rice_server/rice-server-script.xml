@@ -2791,34 +2791,28 @@
 		  ON KREW_DOC_HDR_T 
 		  (APP_DOC_ID)
 		]]></sql>
+
 		<sql splitStatements="false"><![CDATA[
-		
-		-----------------------------------------------------------------------------
-		-- KREW_DOC_TYP_PLCY_RELN_T
-		-----------------------------------------------------------------------------
-		
-		DECLARE
-		c NUMBER;
-		BEGIN
-		select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_DOC_TYP_PLCY_RELN_TC0' ;
-		IF c>0 THEN
-		EXECUTE IMMEDIATE 'ALTER TABLE KREW_DOC_TYP_PLCY_RELN_T DROP CONSTRAINT KREW_DOC_TYP_PLCY_RELN_TC0';
-		ELSE
-		DBMS_OUTPUT.PUT_LINE('KREW_DOC_TYP_PLCY_RELN_TC0 does not exist, so not running statement to change/drop it.');
-		END IF;
-		END;
-		]]></sql>
-		<sql splitStatements="false"><![CDATA[
-		DECLARE
-		c NUMBER;
-		BEGIN
-		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_DOC_TYP_PLCY_RELN_TC0' ;
-		IF c>0 THEN
-		EXECUTE IMMEDIATE 'DROP INDEX KREW_DOC_TYP_PLCY_RELN_TC0';
-		ELSE
-		DBMS_OUTPUT.PUT_LINE('KREW_DOC_TYP_PLCY_RELN_TC0 does not exist, so not running statement to change/drop it.');
-		END IF;
-		END;
+			DECLARE
+				TableName VARCHAR2(30) := 'KREW_DOC_TYP_PLCY_RELN_T';
+				CURSOR tab_cons IS
+					SELECT constraint_name
+						FROM user_constraints
+						WHERE table_name = TableName 
+						  AND constraint_type IN ( 'P', 'U', 'R' );
+                CURSOR tab_ind IS
+                    SELECT index_name
+                        FROM user_indexes
+                        WHERE table_name = TableName
+                          AND index_type != 'LOB';
+            BEGIN
+                FOR cons IN tab_cons LOOP
+                    EXECUTE IMMEDIATE 'ALTER TABLE '||TableName||' DROP CONSTRAINT '||cons.constraint_name;
+                END LOOP;
+                FOR ind IN tab_ind LOOP
+                    EXECUTE IMMEDIATE 'DROP INDEX '||ind.index_name;
+                END LOOP;
+            END;
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
 		ALTER TABLE KREW_DOC_TYP_PLCY_RELN_T RENAME TO OLD_KREW_DOC_TYP_PLCY_RELN_T

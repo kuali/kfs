@@ -1,12 +1,11 @@
 <data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     <documentType>
-      <name>
-        BCBB
-      </name>
-      <parent>
-        FSLO
-      </parent>
+      <name>BCBB</name>
+      <parent>FSLO</parent>
+      <label>Budget Construction Base Budget</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
     </documentType>
   </documentTypes>
 </data>

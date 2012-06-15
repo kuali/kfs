@@ -644,11 +644,6 @@
 		<sql splitStatements="false"><![CDATA[
 		UPDATE KREW_DOC_HDR_T SET DOC_HDR_ID_TEMP = DOC_HDR_ID
 		]]></sql>
-		<!-- 
-		<sql splitStatements="false"><![CDATA[
-		ALTER TABLE KREW_DOC_HDR_T DROP CONSTRAINT KREW_DOC_HDR_TP1
-		]]></sql>
-		 -->
 		<sql splitStatements="false"><![CDATA[
 		UPDATE KREW_DOC_HDR_T SET DOC_HDR_ID = NULL
 		]]></sql>
@@ -657,9 +652,6 @@
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
 		UPDATE KREW_DOC_HDR_T SET DOC_HDR_ID = DOC_HDR_ID_TEMP
-		]]></sql>
-		<sql splitStatements="false"><![CDATA[
-		ALTER TABLE KREW_DOC_HDR_T ADD CONSTRAINT KREW_DOC_HDR_TP1 PRIMARY KEY (DOC_HDR_ID)
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
 		ALTER TABLE KREW_DOC_HDR_T DROP COLUMN DOC_HDR_ID_TEMP

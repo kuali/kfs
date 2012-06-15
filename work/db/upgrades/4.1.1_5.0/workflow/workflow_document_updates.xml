@@ -4,7 +4,7 @@
 <documentTypes xmlns="ns:workflow/DocumentType"
 		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		
-<!-- Need to re-ingest the top-level document to reset the rule atributes -->
+<!-- Need to re-ingest the top-level document to reset the rule attributes -->
     <documentType>
       <name>KFS</name>
       <parent>KualiDocument</parent>
@@ -24,30 +24,6 @@
       <routingVersion>2</routingVersion>
     </documentType>
 
-
-	<!-- KFSMI-5343 -->
-	<documentType overwriteMode="true">
-		<name>CRM</name>
-		<routePaths>
-			<routePath>
-				<start name="AdHoc" nextNode="Account" />
-				<role name="Account" nextNode="AccountingOrganizationHierarchy" />
-				<role name="AccountingOrganizationHierarchy" />
-			</routePath>
-		</routePaths>
-		<routeNodes>
-			<start name="AdHoc" />
-			<role name="Account">
-				<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-				<activationType>P</activationType>
-			</role>
-			<role name="AccountingOrganizationHierarchy">
-				<qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-				<activationType>P</activationType>
-			</role>
-		</routeNodes>
-	</documentType>
-	
 	<documentType>
 		<name>PCDM</name>
 		<parent>FPSM</parent>

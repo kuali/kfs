@@ -900,20 +900,6 @@
 		ALTER TABLE KREW_EDL_FLD_DMP_T ADD CONSTRAINT KREW_EDL_FLD_DMP_TP1 PRIMARY KEY (EDL_FIELD_DMP_ID)
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		
-		--
-		-- KREW_INIT_RTE_NODE_INSTN_T 
-		-- 
-		
-		ALTER TABLE KREW_INIT_RTE_NODE_INSTN_T RENAME TO OLD_INIT_RTE_NODE_INSTN_T
-		]]></sql>
-		<sql splitStatements="false"><![CDATA[
-		CREATE TABLE KREW_INIT_RTE_NODE_INSTN_T ( 
-		    DOC_HDR_ID       	VARCHAR2(40),
-		    RTE_NODE_INSTN_ID	NUMBER(19,0)
-		)
-		]]></sql>
-		<sql splitStatements="false"><![CDATA[
 			DECLARE
 				TableName VARCHAR2(30) := 'KREW_INIT_RTE_NODE_INSTN_T';
 				CURSOR tab_cons IS
@@ -934,6 +920,20 @@
                     EXECUTE IMMEDIATE 'DROP INDEX '||ind.index_name;
                 END LOOP;
             END;
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+		
+		--
+		-- KREW_INIT_RTE_NODE_INSTN_T 
+		-- 
+		
+		ALTER TABLE KREW_INIT_RTE_NODE_INSTN_T RENAME TO OLD_INIT_RTE_NODE_INSTN_T
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+		CREATE TABLE KREW_INIT_RTE_NODE_INSTN_T ( 
+		    DOC_HDR_ID       	VARCHAR2(40),
+		    RTE_NODE_INSTN_ID	NUMBER(19,0)
+		)
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
 		INSERT INTO KREW_INIT_RTE_NODE_INSTN_T SELECT * FROM OLD_INIT_RTE_NODE_INSTN_T
@@ -6579,26 +6579,29 @@
 		drop table KREW_RMV_RPLC_RULE_T
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		
-		
-		
-		
-		
-		-- 
-		-- 2011-07-28-m7.sql
-		-- 
-		
-		
 		-----------------------------------------------------------------------------
 		-- KREW_INIT_RTE_NODE_INSTN_T
 		-----------------------------------------------------------------------------
-		ALTER TABLE KREW_INIT_RTE_NODE_INSTN_T DROP CONSTRAINT KREW_INIT_RTE_NODE_INSTN_TP1
-		]]></sql>
-		<sql splitStatements="false"><![CDATA[
-		DROP INDEX KREW_INIT_RTE_NODE_INSTN_TI1
-		]]></sql>
-		<sql splitStatements="false"><![CDATA[
-		DROP INDEX KREW_INIT_RTE_NODE_INSTN_TI2
+			DECLARE
+				TableName VARCHAR2(30) := 'KREW_INIT_RTE_NODE_INSTN_T';
+				CURSOR tab_cons IS
+					SELECT constraint_name
+						FROM user_constraints
+						WHERE table_name = TableName 
+						  AND constraint_type IN ( 'P', 'U' );
+                CURSOR tab_ind IS
+                    SELECT index_name
+                        FROM user_indexes
+                        WHERE table_name = TableName
+                          AND index_type != 'LOB';
+            BEGIN
+                FOR cons IN tab_cons LOOP
+                    EXECUTE IMMEDIATE 'ALTER TABLE '||TableName||' DROP CONSTRAINT '||cons.constraint_name;
+                END LOOP;
+                FOR ind IN tab_ind LOOP
+                    EXECUTE IMMEDIATE 'DROP INDEX '||ind.index_name;
+                END LOOP;
+            END;
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
 		ALTER TABLE KREW_INIT_RTE_NODE_INSTN_T RENAME TO TEMP_KREW_INIT_RTE_NODE

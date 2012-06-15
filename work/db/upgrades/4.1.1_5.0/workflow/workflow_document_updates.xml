@@ -512,21 +512,25 @@
           <qualifierResolverClass>
             org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>P</activationType>
         </role>
         <role name="AccountingOrganizationHierarchy">
           <qualifierResolverClass>
             org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>P</activationType>
         </role>
         <role name="SubFund">
           <qualifierResolverClass>
             org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>P</activationType>
         </role>
         <role name="Award">
           <qualifierResolverClass>
             org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver
           </qualifierResolverClass>
+          <activationType>P</activationType>
         </role>
         <split name="RequiresWorkstudyReview">
           <type>org.kuali.kfs.sys.document.workflow.SimpleBooleanSplitNode</type>

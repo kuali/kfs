@@ -94,7 +94,7 @@
     			<bean class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
     				<property name="documentValues">
 	    				<list>
-	    					<value>newMaintainableObject.businessObject.organizationOwnerAccount.organization.organizationPhysicalCampus.code</value>
+	    					<value>newMaintainableObject.businessObject.organizationOwnerAccount.organization.organizationPhysicalCampus.campusCode</value>
 	    					<value>newMaintainableObject.businessObject.organizationOwnerAccount.organizationCode</value>	    					
 	    				</list>
     				</property>

@@ -3,6 +3,83 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 
 	<changeSet author="RICE20" id="RICE_SERVER_UPDATES_oracle" dbms="oracle">
+
+	<sql splitStatements="false"><![CDATA[
+		DECLARE
+			PROCEDURE drop_cons( TableName IN VARCHAR2 ) IS
+				CURSOR tab_cons IS
+					SELECT constraint_name
+						FROM user_constraints
+						WHERE table_name = TableName
+						  AND constraint_type IN ( 'P', 'U', 'R' );
+                CURSOR tab_ind IS
+                    SELECT index_name
+                        FROM user_indexes
+                        WHERE table_name = TableName
+                          AND index_type != 'LOB';
+            BEGIN
+                FOR cons IN tab_cons LOOP
+                    EXECUTE IMMEDIATE 'ALTER TABLE '||TableName||' DROP CONSTRAINT '||cons.constraint_name;
+                END LOOP;
+                FOR ind IN tab_ind LOOP
+                    EXECUTE IMMEDIATE 'DROP INDEX '||ind.index_name;
+                END LOOP;
+            END;
+        BEGIN
+			drop_cons( 'KREW_RIA_DOC_T' );
+			drop_cons( 'KREW_RIA_DOCTYPE_MAP_T' );
+			drop_cons( 'KREW_RMV_RPLC_DOC_T ' );
+			drop_cons( 'KREW_RMV_RPLC_GRP_T' );
+			drop_cons( 'KREW_RMV_RPLC_RULE_T' );
+			drop_cons( 'KRMS_CNTXT_VLD_EVENT_T' );
+			drop_cons( 'KRSB_FLT_SVC_DEF_T' );
+			drop_cons( 'KRSB_SVC_DEF_T' );
+			drop_cons( 'KREW_DOC_TYP_APP_DOC_STAT_T' );
+			drop_cons( 'INIT_RTE_NODE_INSTN_T' );
+			drop_cons( 'KREW_ACTN_ITM_T' );
+			drop_cons( 'KREW_ACTN_RQST_T' );
+			drop_cons( 'KREW_ACTN_TKN_T' );
+			drop_cons( 'KREW_APP_DOC_STAT_TRAN_T' );
+			drop_cons( 'KREW_DOC_HDR_CNTNT_T' );
+			drop_cons( 'KREW_DOC_HDR_EXT_DT_T' );
+			drop_cons( 'KREW_DOC_HDR_EXT_FLT_T' );
+			drop_cons( 'KREW_DOC_HDR_EXT_LONG_T' );
+			drop_cons( 'KREW_DOC_HDR_EXT_T' );
+			drop_cons( 'KREW_DOC_HDR_T' );
+			drop_cons( 'KREW_DOC_LNK_T' );
+			drop_cons( 'KREW_DOC_NTE_T' );
+			drop_cons( 'KREW_DOC_TYP_ATTR_T' );
+			drop_cons( 'KREW_DOC_TYP_PLCY_RELN_T' );
+			drop_cons( 'KREW_DOC_TYP_PROC_T' );
+			drop_cons( 'KREW_DOC_TYP_T' );
+			drop_cons( 'KREW_EDL_DMP_T' );
+			drop_cons( 'KREW_EDL_FLD_DMP_T' );
+			drop_cons( 'KREW_OUT_BOX_ITM_T' );
+			drop_cons( 'KREW_RMV_RPLC_DOC_T' );
+			drop_cons( 'KREW_RTE_NODE_INSTN_T' );
+			drop_cons( 'KREW_RTE_NODE_T' );
+			drop_cons( 'KREW_RULE_T' );
+			drop_cons( 'KREW_ATT_T' );
+			drop_cons( 'KREW_DLGN_RSP_T' );
+			drop_cons( 'KREW_INIT_RTE_NODE' );
+			drop_cons( 'KREW_RTE_BRCH_PROTO_T' );
+			drop_cons( 'KREW_RTE_BRCH_ST_T' );
+			drop_cons( 'KREW_RTE_BRCH_T' );
+			drop_cons( 'KREW_RTE_NODE_CFG_PARM_T' );
+			drop_cons( 'KREW_RTE_NODE_INSTN_LNK_T' );
+			drop_cons( 'KREW_RTE_NODE_INSTN_ST_T' );
+			drop_cons( 'KREW_RTE_NODE_LNK_T' );
+			drop_cons( 'KREW_RULE_ATTR_T' );
+			drop_cons( 'KREW_RULE_EXPR_T' );
+			drop_cons( 'KREW_RULE_EXT_T' );
+			drop_cons( 'KREW_RULE_EXT_VAL_T' );
+			drop_cons( 'KREW_RULE_RSP_T' );
+			drop_cons( 'KREW_RULE_TMPL_ATTR_T' );
+			drop_cons( 'KREW_RULE_TMPL_OPTN_T' );
+			drop_cons( 'KREW_RULE_TMPL_T' );
+		END;
+		]]></sql>		
+
 		<sql splitStatements="false"><![CDATA[
 		
 		

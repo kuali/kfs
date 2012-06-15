@@ -47,6 +47,7 @@
 			</role>
 		</routeNodes>
 	</documentType>
+	
 	<documentType>
 		<name>PCDM</name>
 		<parent>FPSM</parent>
@@ -55,6 +56,7 @@
 		<active>true</active>
 		<routingVersion>2</routingVersion>
 	</documentType>
+	
 	<!-- KFSMI-7058 -->
 	<documentType>
 		<name>APDT</name>
@@ -75,9 +77,7 @@
 		<routingVersion>2</routingVersion>
 		<routePaths />
 	</documentType>
-		
-		
-		
+			
     <documentType>
       <name>
         BNRC
@@ -538,7 +538,17 @@
 		<name>YEARENDDEPR</name>
 		<label>Year End Depreciation Assets</label>
 		<parent>CMSM</parent>
+   	   	<active>true</active>
+    	<routingVersion>2</routingVersion>
 	</documentType>
+
+    <documentType>
+      <name>BCBB</name>
+      <parent>FSLO</parent>
+      <label>Budget Construction Base Budget</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+    </documentType>
 
 </documentTypes>
 </data>

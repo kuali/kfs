@@ -1017,4 +1017,57 @@
 		</insert>
 	</changeSet>
 		
+	<changeSet author="KFS50" id="RESTORE_INQUIRY_ON_RICE_OBJECTS">
+		<comment>Restore a few permissions which were lost from Rice objects between KFS versions.</comment>
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFS50-2" />
+			<column name="OBJ_ID" value="KFS50-2" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" valueNumeric=" (select role_id from krim_role_t WHERE NMSPC_CD = 'KFS-SYS' AND ROLE_NM = 'User') " />
+			<column name="PERM_ID" valueNumeric=" (select perm_id from krim_perm_t WHERE nmspc_cd = 'KR-NS' AND NM = 'Inquire Into Namespace')" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFS50-3" />
+			<column name="OBJ_ID" value="KFS50-3" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" valueNumeric=" (select role_id from krim_role_t WHERE NMSPC_CD = 'KFS-SYS' AND ROLE_NM = 'Active Faculty or Staff') " />
+			<column name="PERM_ID" valueNumeric=" (select perm_id from krim_perm_t WHERE nmspc_cd = 'KR-NS' AND NM = 'Inquire Into Namespace')" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFS50-4" />
+			<column name="OBJ_ID" value="KFS50-4" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" valueNumeric=" (select role_id from krim_role_t WHERE NMSPC_CD = 'KFS-SYS' AND ROLE_NM = 'User') " />
+			<column name="PERM_ID" valueNumeric=" (select perm_id from krim_perm_t WHERE nmspc_cd = 'KR-NS' AND NM = 'Inquire Into Parameter Component')" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFS50-5" />
+			<column name="OBJ_ID" value="KFS50-5" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" valueNumeric=" (select role_id from krim_role_t WHERE NMSPC_CD = 'KFS-SYS' AND ROLE_NM = 'Active Faculty or Staff') " />
+			<column name="PERM_ID" valueNumeric=" (select perm_id from krim_perm_t WHERE nmspc_cd = 'KR-NS' AND NM = 'Inquire Into Parameter Component')" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFS50-6" />
+			<column name="OBJ_ID" value="KFS50-6" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" valueNumeric=" (select role_id from krim_role_t WHERE NMSPC_CD = 'KFS-SYS' AND ROLE_NM = 'User') " />
+			<column name="PERM_ID" valueNumeric=" (select perm_id from krim_perm_t WHERE nmspc_cd = 'KR-NS' AND NM = 'Inquire Into Parameter Type')" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFS50-7" />
+			<column name="OBJ_ID" value="KFS50-7" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" valueNumeric=" (select role_id from krim_role_t WHERE NMSPC_CD = 'KFS-SYS' AND ROLE_NM = 'Active Faculty or Staff') " />
+			<column name="PERM_ID" valueNumeric=" (select perm_id from krim_perm_t WHERE nmspc_cd = 'KR-NS' AND NM = 'Inquire Into Parameter Type')" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+	</changeSet>
+	
+		
 </databaseChangeLog>

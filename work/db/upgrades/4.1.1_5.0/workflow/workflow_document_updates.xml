@@ -73,19 +73,7 @@
 		<docHandler>${kfs.url}/budgetBudgetConstruction.do?methodToCall=docHandler</docHandler>
 		<active>true</active>
 		<routingVersion>2</routingVersion>
-		<routePaths>
-			<routePath>
-				<start name="AdHoc" nextNode="Initiator" />
-				<role name="Initiator" />
-			</routePath>
-		</routePaths>
-		<routeNodes>
-			<start name="AdHoc" />
-			<role name="Initiator">
-				<qualifierResolverClass>org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
-				<activationType>P</activationType>
-			</role>
-		</routeNodes>
+		<routePaths />
 	</documentType>
 		
 		

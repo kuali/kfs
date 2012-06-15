@@ -105,80 +105,33 @@
 		update KREW_DOC_TYP_T set POST_PRCSR='org.kuali.rice.edl.framework.workflow.EDocLiteDatabasePostProcessor'
 		where POST_PRCSR='org.kuali.rice.kew.edl.EDLDatabasePostProcessor'
 		]]></sql>
+
 		<sql splitStatements="false"><![CDATA[
-		-----------------------------------------------------------------------------
-		-- KREW_ACTN_ITM_T
-		-----------------------------------------------------------------------------
-		DECLARE
-		c NUMBER;
-		BEGIN
-		select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_ACTN_ITM_TP1' ;
-		IF c>0 THEN
-		EXECUTE IMMEDIATE 'ALTER TABLE KREW_ACTN_ITM_T DROP CONSTRAINT KREW_ACTN_ITM_TP1';
-		ELSE
-		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_ITM_TP1 does not exist, so not running statement to change/drop it.');
-		END IF;
-		END;
+			DECLARE
+				CURSOR tab_cons IS
+					SELECT table_name, constraint_name
+						FROM user_constraints
+						WHERE table_name = 'KREW_ACTN_ITM_T' 
+						  AND constraint_type IN ( 'P', 'U' );
+                CURSOR tab_ind IS
+                    SELECT table_name, index_name
+                        FROM user_indexes
+                        WHERE table_name = 'KREW_ACTN_ITM_T'
+                          AND index_type != 'LOB';
+            BEGIN
+                FOR cons IN tab_cons LOOP
+                    EXECUTE IMMEDIATE 'ALTER TABLE '||cons.table_name||' DROP CONSTRAINT '||cons.constraint_name;
+                END LOOP;
+                FOR ind IN tab_ind LOOP
+                    EXECUTE IMMEDIATE 'DROP INDEX '||ind.index_name;
+                END LOOP;
+            END;
 		]]></sql>
+
 		<sql splitStatements="false"><![CDATA[
-		DECLARE
-		c NUMBER;
-		BEGIN
-		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_ITM_TI1' ;
-		IF c>0 THEN
-		EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_ITM_TI1';
-		ELSE
-		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_ITM_TI1 does not exist, so not running statement to change/drop it.');
-		END IF;
-		END;
-		]]></sql>
-		<sql splitStatements="false"><![CDATA[
-		DECLARE
-		c NUMBER;
-		BEGIN
-		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_ITM_TI2' ;
-		IF c>0 THEN
-		EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_ITM_TI2';
-		ELSE
-		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_ITM_TI2 does not exist, so not running statement to change/drop it.');
-		END IF;
-		END;
-		]]></sql>
-		<sql splitStatements="false"><![CDATA[
-		DECLARE
-		c NUMBER;
-		BEGIN
-		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_ITM_TI3' ;
-		IF c>0 THEN
-		EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_ITM_TI3';
-		ELSE
-		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_ITM_TI3 does not exist, so not running statement to change/drop it.');
-		END IF;
-		END;
-		]]></sql>
-		<sql splitStatements="false"><![CDATA[
-		DECLARE
-		c NUMBER;
-		BEGIN
-		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_ITM_TI5' ;
-		IF c>0 THEN
-		EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_ITM_TI5';
-		ELSE
-		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_ITM_TI5 does not exist, so not running statement to change/drop it.');
-		END IF;
-		END;
-		]]></sql>
-		<sql splitStatements="false"><![CDATA[
-		
-		
-		
-		
-		
 		-- 
 		-- 2011-04-28.sql
 		-- 
-		
-		
 		--
 		-- KULRICE-4794
 		-- The following statements will change the DOC_HDR_ID from a decimal to a VARCHAR(40) on various tables. 
@@ -186,7 +139,6 @@
 		-- NOTE:  If a table is empty, one statement can be used to convert the DOC_HDR_ID as follows:
 		-- ALTER TABLE TABLE_NAME_HERE MODIFY (DOC_HDR_ID VARCHAR2(40))
 		--
-		
 		--
 		-- KREW_ACTN_ITM_T 
 		--
@@ -239,124 +191,35 @@
 		<sql splitStatements="false"><![CDATA[
 		CREATE INDEX KREW_ACTN_ITM_TI5 ON KREW_ACTN_ITM_T(PRNCPL_ID, DLGN_TYP, DOC_HDR_ID)
 		]]></sql>
+
+
 		<sql splitStatements="false"><![CDATA[
-		-----------------------------------------------------------------------------
-		-- KREW_ACTN_RQST_T
-		-----------------------------------------------------------------------------
-		DECLARE
-		c NUMBER;
-		BEGIN
-		select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_ACTN_RQST_TP1' ;
-		IF c>0 THEN
-		EXECUTE IMMEDIATE 'ALTER TABLE KREW_ACTN_RQST_T DROP CONSTRAINT KREW_ACTN_RQST_TP1';
-		ELSE
-		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_RQST_TP1 does not exist, so not running statement to change/drop it.');
-		END IF;
-		END;
+			DECLARE
+				CURSOR tab_cons IS
+					SELECT table_name, constraint_name
+						FROM user_constraints
+						WHERE table_name = 'KREW_ACTN_RQST_T' 
+						  AND constraint_type IN ( 'P', 'U' );
+                CURSOR tab_ind IS
+                    SELECT table_name, index_name
+                        FROM user_indexes
+                        WHERE table_name = 'KREW_ACTN_RQST_T'
+                          AND index_type != 'LOB';
+            BEGIN
+                FOR cons IN tab_cons LOOP
+                    EXECUTE IMMEDIATE 'ALTER TABLE '||cons.table_name||' DROP CONSTRAINT '||cons.constraint_name;
+                END LOOP;
+                FOR ind IN tab_ind LOOP
+                    EXECUTE IMMEDIATE 'DROP INDEX '||ind.index_name;
+                END LOOP;
+            END;
 		]]></sql>
+
 		<sql splitStatements="false"><![CDATA[
-		DECLARE
-		c NUMBER;
-		BEGIN
-		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_RQST_T11' ;
-		IF c>0 THEN
-		EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_RQST_T11';
-		ELSE
-		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_RQST_T11 does not exist, so not running statement to change/drop it.');
-		END IF;
-		END;
-		]]></sql>
-		<sql splitStatements="false"><![CDATA[
-		DECLARE
-		c NUMBER;
-		BEGIN
-		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_RQST_T12' ;
-		IF c>0 THEN
-		EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_RQST_T12';
-		ELSE
-		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_RQST_T12 does not exist, so not running statement to change/drop it.');
-		END IF;
-		END;
-		]]></sql>
-		<sql splitStatements="false"><![CDATA[
-		DECLARE
-		c NUMBER;
-		BEGIN
-		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_RQST_T13' ;
-		IF c>0 THEN
-		EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_RQST_T13';
-		ELSE
-		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_RQST_T13 does not exist, so not running statement to change/drop it.');
-		END IF;
-		END;
-		]]></sql>
-		<sql splitStatements="false"><![CDATA[
-		DECLARE
-		c NUMBER;
-		BEGIN
-		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_RQST_T14' ;
-		IF c>0 THEN
-		EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_RQST_T14';
-		ELSE
-		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_RQST_T14 does not exist, so not running statement to change/drop it.');
-		END IF;
-		END;
-		]]></sql>
-		<sql splitStatements="false"><![CDATA[
-		DECLARE
-		c NUMBER;
-		BEGIN
-		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_RQST_T15' ;
-		IF c>0 THEN
-		EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_RQST_T15';
-		ELSE
-		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_RQST_T15 does not exist, so not running statement to change/drop it.');
-		END IF;
-		END;
-		]]></sql>
-		<sql splitStatements="false"><![CDATA[
-		DECLARE
-		c NUMBER;
-		BEGIN
-		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_RQST_T16' ;
-		IF c>0 THEN
-		EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_RQST_T16';
-		ELSE
-		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_RQST_T16 does not exist, so not running statement to change/drop it.');
-		END IF;
-		END;
-		]]></sql>
-		<sql splitStatements="false"><![CDATA[
-		DECLARE
-		c NUMBER;
-		BEGIN
-		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_RQST_T17' ;
-		IF c>0 THEN
-		EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_RQST_T17';
-		ELSE
-		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_RQST_T17 does not exist, so not running statement to change/drop it.');
-		END IF;
-		END;
-		]]></sql>
-		<sql splitStatements="false"><![CDATA[
-		DECLARE
-		c NUMBER;
-		BEGIN
-		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_RQST_T19' ;
-		IF c>0 THEN
-		EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_RQST_T19';
-		ELSE
-		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_RQST_T19 does not exist, so not running statement to change/drop it.');
-		END IF;
-		END;
-		]]></sql>
-		<sql splitStatements="false"><![CDATA[
-		
 		--
 		-- KREW_ACTN_RQST_T 
 		-- Depending on the size of the table, this conversion can take a long time.  Example - takes 90 minutes for 38 million rows. 
 		--
-		
 		ALTER TABLE KREW_ACTN_RQST_T RENAME TO OLD_KREW_ACTN_RQST_T
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
@@ -426,81 +289,30 @@
 		<sql splitStatements="false"><![CDATA[
 		CREATE INDEX KREW_ACTN_RQST_T19 ON KREW_ACTN_RQST_T(STAT_CD, DOC_HDR_ID)
 		]]></sql>
+
+
 		<sql splitStatements="false"><![CDATA[
-		-----------------------------------------------------------------------------
-		-- KREW_ACTN_TKN_T
-		-----------------------------------------------------------------------------
-		DECLARE
-		c NUMBER;
-		BEGIN
-		select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_ACTN_TKN_TP1' ;
-		IF c>0 THEN
-		EXECUTE IMMEDIATE 'ALTER TABLE KREW_ACTN_TKN_T DROP CONSTRAINT KREW_ACTN_TKN_TP1';
-		ELSE
-		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_TKN_TP1 does not exist, so not running statement to change/drop it.');
-		END IF;
-		END;
+			DECLARE
+				CURSOR tab_cons IS
+					SELECT table_name, constraint_name
+						FROM user_constraints
+						WHERE table_name = 'KREW_ACTN_TKN_T' 
+						  AND constraint_type IN ( 'P', 'U' );
+                CURSOR tab_ind IS
+                    SELECT table_name, index_name
+                        FROM user_indexes
+                        WHERE table_name = 'KREW_ACTN_TKN_T'
+                          AND index_type != 'LOB';
+            BEGIN
+                FOR cons IN tab_cons LOOP
+                    EXECUTE IMMEDIATE 'ALTER TABLE '||cons.table_name||' DROP CONSTRAINT '||cons.constraint_name;
+                END LOOP;
+                FOR ind IN tab_ind LOOP
+                    EXECUTE IMMEDIATE 'DROP INDEX '||ind.index_name;
+                END LOOP;
+            END;
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
-		DECLARE
-		c NUMBER;
-		BEGIN
-		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_TKN_TI1' ;
-		IF c>0 THEN
-		EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_TKN_TI1';
-		ELSE
-		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_TKN_TI1 does not exist, so not running statement to change/drop it.');
-		END IF;
-		END;
-		]]></sql>
-		<sql splitStatements="false"><![CDATA[
-		DECLARE
-		c NUMBER;
-		BEGIN
-		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_TKN_TI2' ;
-		IF c>0 THEN
-		EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_TKN_TI2';
-		ELSE
-		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_TKN_TI2 does not exist, so not running statement to change/drop it.');
-		END IF;
-		END;
-		]]></sql>
-		<sql splitStatements="false"><![CDATA[
-		DECLARE
-		c NUMBER;
-		BEGIN
-		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_TKN_TI3' ;
-		IF c>0 THEN
-		EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_TKN_TI3';
-		ELSE
-		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_TKN_TI3 does not exist, so not running statement to change/drop it.');
-		END IF;
-		END;
-		]]></sql>
-		<sql splitStatements="false"><![CDATA[
-		DECLARE
-		c NUMBER;
-		BEGIN
-		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_TKN_TI4' ;
-		IF c>0 THEN
-		EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_TKN_TI4';
-		ELSE
-		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_TKN_TI4 does not exist, so not running statement to change/drop it.');
-		END IF;
-		END;
-		]]></sql>
-		<sql splitStatements="false"><![CDATA[
-		DECLARE
-		c NUMBER;
-		BEGIN
-		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_ACTN_TKN_TI5' ;
-		IF c>0 THEN
-		EXECUTE IMMEDIATE 'DROP INDEX KREW_ACTN_TKN_TI5';
-		ELSE
-		DBMS_OUTPUT.PUT_LINE('KREW_ACTN_TKN_TI5 does not exist, so not running statement to change/drop it.');
-		END IF;
-		END;
-		]]></sql>
+
 		<sql splitStatements="false"><![CDATA[
 		
 		--
@@ -549,8 +361,31 @@
 		<sql splitStatements="false"><![CDATA[
 		CREATE INDEX KREW_ACTN_TKN_TI5 ON KREW_ACTN_TKN_T(DOC_HDR_ID)
 		]]></sql>
+
+
+
 		<sql splitStatements="false"><![CDATA[
-		
+			DECLARE
+				CURSOR tab_cons IS
+					SELECT table_name, constraint_name
+						FROM user_constraints
+						WHERE table_name = 'KREW_APP_DOC_STAT_TRAN_T' 
+						  AND constraint_type IN ( 'P', 'U' );
+                CURSOR tab_ind IS
+                    SELECT table_name, index_name
+                        FROM user_indexes
+                        WHERE table_name = 'KREW_APP_DOC_STAT_TRAN_T'
+                          AND index_type != 'LOB';
+            BEGIN
+                FOR cons IN tab_cons LOOP
+                    EXECUTE IMMEDIATE 'ALTER TABLE '||cons.table_name||' DROP CONSTRAINT '||cons.constraint_name;
+                END LOOP;
+                FOR ind IN tab_ind LOOP
+                    EXECUTE IMMEDIATE 'DROP INDEX '||ind.index_name;
+                END LOOP;
+            END;
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[		
 		--
 		-- KREW_APP_DOC_STAT_TRAN_T 
 		--
@@ -590,12 +425,33 @@
 		<sql splitStatements="false"><![CDATA[
 		CREATE INDEX KREW_APP_DOC_STAT_TI3 ON KREW_APP_DOC_STAT_TRAN_T (DOC_HDR_ID, APP_DOC_STAT_TO)
 		]]></sql>
+
+		<sql splitStatements="false"><![CDATA[
+			DECLARE
+				CURSOR tab_cons IS
+					SELECT table_name, constraint_name
+						FROM user_constraints
+						WHERE table_name = 'KREW_DOC_HDR_CNTNT_T' 
+						  AND constraint_type IN ( 'P', 'U' );
+                CURSOR tab_ind IS
+                    SELECT table_name, index_name
+                        FROM user_indexes
+                        WHERE table_name = 'KREW_DOC_HDR_CNTNT_T'
+                          AND index_type != 'LOB';
+            BEGIN
+                FOR cons IN tab_cons LOOP
+                    EXECUTE IMMEDIATE 'ALTER TABLE '||cons.table_name||' DROP CONSTRAINT '||cons.constraint_name;
+                END LOOP;
+                FOR ind IN tab_ind LOOP
+                    EXECUTE IMMEDIATE 'DROP INDEX '||ind.index_name;
+                END LOOP;
+            END;
+		]]></sql>
 		<sql><![CDATA[		
 		--
 		-- KREW_DOC_HDR_CNTNT_T 
 		-- Depending on the size of the table, this conversion can take a long time.  Example - takes 45 minutes for 8 million rows 
 		-- 
-		ALTER TABLE KREW_DOC_HDR_CNTNT_T DROP CONSTRAINT KREW_DOC_HDR_CNTNT_TP1;
 		ALTER TABLE KREW_DOC_HDR_CNTNT_T RENAME TO OLD_KREW_DOC_HDR_CNTNT_T
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
@@ -613,56 +469,27 @@
 		<sql splitStatements="false"><![CDATA[
 		ALTER TABLE KREW_DOC_HDR_CNTNT_T ADD CONSTRAINT KREW_DOC_HDR_CNTNT_TP1 PRIMARY KEY (DOC_HDR_ID)
 		]]></sql>
+
 		<sql splitStatements="false"><![CDATA[
-		-----------------------------------------------------------------------------
-		-- KREW_DOC_HDR_EXT_DT_T
-		-----------------------------------------------------------------------------
-		DECLARE
-		c NUMBER;
-		BEGIN
-		select count(*) into c from all_constraints where CONSTRAINT_NAME = 'KREW_DOC_HDR_EXT_DT_TP1' ;
-		IF c>0 THEN
-		EXECUTE IMMEDIATE 'ALTER TABLE KREW_DOC_HDR_EXT_DT_T DROP CONSTRAINT KREW_DOC_HDR_EXT_DT_TP1';
-		ELSE
-		DBMS_OUTPUT.PUT_LINE('KREW_DOC_HDR_EXT_DT_TP1 does not exist, so not running statement to change/drop it.');
-		END IF;
-		END;
-		]]></sql>
-		<sql splitStatements="false"><![CDATA[
-		DECLARE
-		c NUMBER;
-		BEGIN
-		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_DOC_HDR_EXT_DT_TI1' ;
-		IF c>0 THEN
-		EXECUTE IMMEDIATE 'DROP INDEX KREW_DOC_HDR_EXT_DT_TI1';
-		ELSE
-		DBMS_OUTPUT.PUT_LINE('KREW_DOC_HDR_EXT_DT_TI1 does not exist, so not running statement to change/drop it.');
-		END IF;
-		END;
-		]]></sql>
-		<sql splitStatements="false"><![CDATA[
-		DECLARE
-		c NUMBER;
-		BEGIN
-		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_DOC_HDR_EXT_DT_TI2' ;
-		IF c>0 THEN
-		EXECUTE IMMEDIATE 'DROP INDEX KREW_DOC_HDR_EXT_DT_TI2';
-		ELSE
-		DBMS_OUTPUT.PUT_LINE('KREW_DOC_HDR_EXT_DT_TI2 does not exist, so not running statement to change/drop it.');
-		END IF;
-		END;
-		]]></sql>
-		<sql splitStatements="false"><![CDATA[
-		DECLARE
-		c NUMBER;
-		BEGIN
-		select count(*) into c from all_indexes where INDEX_NAME = 'KREW_DOC_HDR_EXT_DT_TI3' ;
-		IF c>0 THEN
-		EXECUTE IMMEDIATE 'DROP INDEX KREW_DOC_HDR_EXT_DT_TI3';
-		ELSE
-		DBMS_OUTPUT.PUT_LINE('KREW_DOC_HDR_EXT_DT_TI3 does not exist, so not running statement to change/drop it.');
-		END IF;
-		END;
+			DECLARE
+				CURSOR tab_cons IS
+					SELECT table_name, constraint_name
+						FROM user_constraints
+						WHERE table_name = 'KREW_DOC_HDR_EXT_DT_T' 
+						  AND constraint_type IN ( 'P', 'U' );
+                CURSOR tab_ind IS
+                    SELECT table_name, index_name
+                        FROM user_indexes
+                        WHERE table_name = 'KREW_DOC_HDR_EXT_DT_T'
+                          AND index_type != 'LOB';
+            BEGIN
+                FOR cons IN tab_cons LOOP
+                    EXECUTE IMMEDIATE 'ALTER TABLE '||cons.table_name||' DROP CONSTRAINT '||cons.constraint_name;
+                END LOOP;
+                FOR ind IN tab_ind LOOP
+                    EXECUTE IMMEDIATE 'DROP INDEX '||ind.index_name;
+                END LOOP;
+            END;
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
 		
@@ -697,6 +524,29 @@
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
 		CREATE INDEX KREW_DOC_HDR_EXT_DT_TI3 ON KREW_DOC_HDR_EXT_DT_T(VAL)
+		]]></sql>
+
+		<sql splitStatements="false"><![CDATA[
+			DECLARE
+				TableName VARCHAR2(30) := 'KREW_DOC_HDR_EXT_LONG_T'
+				CURSOR tab_cons IS
+					SELECT constraint_name
+						FROM user_constraints
+						WHERE table_name = TableName 
+						  AND constraint_type IN ( 'P', 'U' );
+                CURSOR tab_ind IS
+                    SELECT index_name
+                        FROM user_indexes
+                        WHERE table_name = TableName
+                          AND index_type != 'LOB';
+            BEGIN
+                FOR cons IN tab_cons LOOP
+                    EXECUTE IMMEDIATE 'ALTER TABLE '||TableName||' DROP CONSTRAINT '||cons.constraint_name;
+                END LOOP;
+                FOR ind IN tab_ind LOOP
+                    EXECUTE IMMEDIATE 'DROP INDEX '||ind.index_name;
+                END LOOP;
+            END;
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
 		
@@ -733,6 +583,28 @@
 		CREATE INDEX KREW_DOC_HDR_EXT_LONG_TI3 ON KREW_DOC_HDR_EXT_LONG_T(VAL)
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
+			DECLARE
+				TableName VARCHAR2(30) := 'KREW_DOC_HDR_EXT_FLT_T'
+				CURSOR tab_cons IS
+					SELECT constraint_name
+						FROM user_constraints
+						WHERE table_name = TableName 
+						  AND constraint_type IN ( 'P', 'U' );
+                CURSOR tab_ind IS
+                    SELECT index_name
+                        FROM user_indexes
+                        WHERE table_name = TableName
+                          AND index_type != 'LOB';
+            BEGIN
+                FOR cons IN tab_cons LOOP
+                    EXECUTE IMMEDIATE 'ALTER TABLE '||TableName||' DROP CONSTRAINT '||cons.constraint_name;
+                END LOOP;
+                FOR ind IN tab_ind LOOP
+                    EXECUTE IMMEDIATE 'DROP INDEX '||ind.index_name;
+                END LOOP;
+            END;
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
 		
 		--
 		-- KREW_DOC_HDR_EXT_FLT_T 
@@ -765,6 +637,28 @@
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
 		CREATE INDEX KREW_DOC_HDR_EXT_FLT_TI3 ON KREW_DOC_HDR_EXT_FLT_T(VAL)
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+			DECLARE
+				TableName VARCHAR2(30) := 'KREW_DOC_HDR_EXT_T'
+				CURSOR tab_cons IS
+					SELECT constraint_name
+						FROM user_constraints
+						WHERE table_name = TableName 
+						  AND constraint_type IN ( 'P', 'U' );
+                CURSOR tab_ind IS
+                    SELECT index_name
+                        FROM user_indexes
+                        WHERE table_name = TableName
+                          AND index_type != 'LOB';
+            BEGIN
+                FOR cons IN tab_cons LOOP
+                    EXECUTE IMMEDIATE 'ALTER TABLE '||TableName||' DROP CONSTRAINT '||cons.constraint_name;
+                END LOOP;
+                FOR ind IN tab_ind LOOP
+                    EXECUTE IMMEDIATE 'DROP INDEX '||ind.index_name;
+                END LOOP;
+            END;
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
 		
@@ -832,6 +726,28 @@
 		ALTER TABLE KREW_DOC_HDR_T DROP COLUMN DOC_HDR_ID_TEMP
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
+			DECLARE
+				TableName VARCHAR2(30) := 'KREW_DOC_NTE_T'
+				CURSOR tab_cons IS
+					SELECT constraint_name
+						FROM user_constraints
+						WHERE table_name = TableName 
+						  AND constraint_type IN ( 'P', 'U' );
+                CURSOR tab_ind IS
+                    SELECT index_name
+                        FROM user_indexes
+                        WHERE table_name = TableName
+                          AND index_type != 'LOB';
+            BEGIN
+                FOR cons IN tab_cons LOOP
+                    EXECUTE IMMEDIATE 'ALTER TABLE '||TableName||' DROP CONSTRAINT '||cons.constraint_name;
+                END LOOP;
+                FOR ind IN tab_ind LOOP
+                    EXECUTE IMMEDIATE 'DROP INDEX '||ind.index_name;
+                END LOOP;
+            END;
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
 		
 		--
 		-- KREW_DOC_NTE_T 
@@ -881,6 +797,28 @@
 		ALTER TABLE KREW_DOC_TYP_T DROP COLUMN DOC_HDR_ID_OLD
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
+			DECLARE
+				TableName VARCHAR2(30) := 'KREW_EDL_DMP_T'
+				CURSOR tab_cons IS
+					SELECT constraint_name
+						FROM user_constraints
+						WHERE table_name = TableName 
+						  AND constraint_type IN ( 'P', 'U' );
+                CURSOR tab_ind IS
+                    SELECT index_name
+                        FROM user_indexes
+                        WHERE table_name = TableName
+                          AND index_type != 'LOB';
+            BEGIN
+                FOR cons IN tab_cons LOOP
+                    EXECUTE IMMEDIATE 'ALTER TABLE '||TableName||' DROP CONSTRAINT '||cons.constraint_name;
+                END LOOP;
+                FOR ind IN tab_ind LOOP
+                    EXECUTE IMMEDIATE 'DROP INDEX '||ind.index_name;
+                END LOOP;
+            END;
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
 		
 		--
 		-- KREW_EDL_DMP_T 
@@ -912,6 +850,28 @@
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
 		CREATE INDEX KREW_EDL_DMP_TI1 ON KREW_EDL_DMP_T(DOC_TYP_NM, DOC_HDR_ID)
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+			DECLARE
+				TableName VARCHAR2(30) := 'KREW_EDL_FLD_DMP_T'
+				CURSOR tab_cons IS
+					SELECT constraint_name
+						FROM user_constraints
+						WHERE table_name = TableName 
+						  AND constraint_type IN ( 'P', 'U' );
+                CURSOR tab_ind IS
+                    SELECT index_name
+                        FROM user_indexes
+                        WHERE table_name = TableName
+                          AND index_type != 'LOB';
+            BEGIN
+                FOR cons IN tab_cons LOOP
+                    EXECUTE IMMEDIATE 'ALTER TABLE '||TableName||' DROP CONSTRAINT '||cons.constraint_name;
+                END LOOP;
+                FOR ind IN tab_ind LOOP
+                    EXECUTE IMMEDIATE 'DROP INDEX '||ind.index_name;
+                END LOOP;
+            END;
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
 		
@@ -954,6 +914,28 @@
 		)
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
+			DECLARE
+				TableName VARCHAR2(30) := 'KREW_INIT_RTE_NODE_INSTN_T'
+				CURSOR tab_cons IS
+					SELECT constraint_name
+						FROM user_constraints
+						WHERE table_name = TableName 
+						  AND constraint_type IN ( 'P', 'U' );
+                CURSOR tab_ind IS
+                    SELECT index_name
+                        FROM user_indexes
+                        WHERE table_name = TableName
+                          AND index_type != 'LOB';
+            BEGIN
+                FOR cons IN tab_cons LOOP
+                    EXECUTE IMMEDIATE 'ALTER TABLE '||TableName||' DROP CONSTRAINT '||cons.constraint_name;
+                END LOOP;
+                FOR ind IN tab_ind LOOP
+                    EXECUTE IMMEDIATE 'DROP INDEX '||ind.index_name;
+                END LOOP;
+            END;
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
 		INSERT INTO KREW_INIT_RTE_NODE_INSTN_T SELECT * FROM OLD_INIT_RTE_NODE_INSTN_T
 		]]></sql>
 		<!-- <sql splitStatements="false"><![CDATA[
@@ -967,6 +949,28 @@
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
 		CREATE INDEX KREW_INIT_RTE_NODE_INSTN_TI2 ON KREW_INIT_RTE_NODE_INSTN_T(RTE_NODE_INSTN_ID)
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+			DECLARE
+				TableName VARCHAR2(30) := 'KREW_OUT_BOX_ITM_T'
+				CURSOR tab_cons IS
+					SELECT constraint_name
+						FROM user_constraints
+						WHERE table_name = TableName 
+						  AND constraint_type IN ( 'P', 'U' );
+                CURSOR tab_ind IS
+                    SELECT index_name
+                        FROM user_indexes
+                        WHERE table_name = TableName
+                          AND index_type != 'LOB';
+            BEGIN
+                FOR cons IN tab_cons LOOP
+                    EXECUTE IMMEDIATE 'ALTER TABLE '||TableName||' DROP CONSTRAINT '||cons.constraint_name;
+                END LOOP;
+                FOR ind IN tab_ind LOOP
+                    EXECUTE IMMEDIATE 'DROP INDEX '||ind.index_name;
+                END LOOP;
+            END;
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
 		
@@ -1017,6 +1021,28 @@
 		CREATE INDEX KREW_OUT_BOX_ITM_TI3 ON KREW_OUT_BOX_ITM_T(ACTN_RQST_ID)
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
+			DECLARE
+				TableName VARCHAR2(30) := 'KREW_RMV_RPLC_DOC_T'
+				CURSOR tab_cons IS
+					SELECT constraint_name
+						FROM user_constraints
+						WHERE table_name = TableName 
+						  AND constraint_type IN ( 'P', 'U' );
+                CURSOR tab_ind IS
+                    SELECT index_name
+                        FROM user_indexes
+                        WHERE table_name = TableName
+                          AND index_type != 'LOB';
+            BEGIN
+                FOR cons IN tab_cons LOOP
+                    EXECUTE IMMEDIATE 'ALTER TABLE '||TableName||' DROP CONSTRAINT '||cons.constraint_name;
+                END LOOP;
+                FOR ind IN tab_ind LOOP
+                    EXECUTE IMMEDIATE 'DROP INDEX '||ind.index_name;
+                END LOOP;
+            END;
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
 		
 		--
 		-- KREW_RMV_RPLC_DOC_T 
@@ -1043,6 +1069,28 @@
 		ALTER TABLE KREW_RMV_RPLC_DOC_T ADD CONSTRAINT KREW_RMV_RPLC_DOC_TP1 PRIMARY KEY (DOC_HDR_ID)
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
+			DECLARE
+				TableName VARCHAR2(30) := 'KREW_RMV_RPLC_GRP_T'
+				CURSOR tab_cons IS
+					SELECT constraint_name
+						FROM user_constraints
+						WHERE table_name = TableName 
+						  AND constraint_type IN ( 'P', 'U' );
+                CURSOR tab_ind IS
+                    SELECT index_name
+                        FROM user_indexes
+                        WHERE table_name = TableName
+                          AND index_type != 'LOB';
+            BEGIN
+                FOR cons IN tab_cons LOOP
+                    EXECUTE IMMEDIATE 'ALTER TABLE '||TableName||' DROP CONSTRAINT '||cons.constraint_name;
+                END LOOP;
+                FOR ind IN tab_ind LOOP
+                    EXECUTE IMMEDIATE 'DROP INDEX '||ind.index_name;
+                END LOOP;
+            END;
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
 		
 		--
 		-- KREW_RMV_RPLC_GRP_T 
@@ -1066,6 +1114,28 @@
 		ALTER TABLE KREW_RMV_RPLC_GRP_T ADD CONSTRAINT KREW_RMV_RPLC_GRP_TP1 PRIMARY KEY (DOC_HDR_ID, GRP_ID)
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
+			DECLARE
+				TableName VARCHAR2(30) := 'KREW_RMV_RPLC_RULE_T'
+				CURSOR tab_cons IS
+					SELECT constraint_name
+						FROM user_constraints
+						WHERE table_name = TableName 
+						  AND constraint_type IN ( 'P', 'U' );
+                CURSOR tab_ind IS
+                    SELECT index_name
+                        FROM user_indexes
+                        WHERE table_name = TableName
+                          AND index_type != 'LOB';
+            BEGIN
+                FOR cons IN tab_cons LOOP
+                    EXECUTE IMMEDIATE 'ALTER TABLE '||TableName||' DROP CONSTRAINT '||cons.constraint_name;
+                END LOOP;
+                FOR ind IN tab_ind LOOP
+                    EXECUTE IMMEDIATE 'DROP INDEX '||ind.index_name;
+                END LOOP;
+            END;
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
 		
 		--
 		-- KREW_RMV_RPLC_RULE_T 
@@ -1087,6 +1157,28 @@
 		]]></sql> -->
 		<sql splitStatements="false"><![CDATA[
 		ALTER TABLE KREW_RMV_RPLC_RULE_T ADD CONSTRAINT KREW_RMV_RPLC_RULE_TP1 PRIMARY KEY (DOC_HDR_ID, RULE_ID)
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+			DECLARE
+				TableName VARCHAR2(30) := 'KREW_RTE_NODE_INSTN_T'
+				CURSOR tab_cons IS
+					SELECT constraint_name
+						FROM user_constraints
+						WHERE table_name = TableName 
+						  AND constraint_type IN ( 'P', 'U' );
+                CURSOR tab_ind IS
+                    SELECT index_name
+                        FROM user_indexes
+                        WHERE table_name = TableName
+                          AND index_type != 'LOB';
+            BEGIN
+                FOR cons IN tab_cons LOOP
+                    EXECUTE IMMEDIATE 'ALTER TABLE '||TableName||' DROP CONSTRAINT '||cons.constraint_name;
+                END LOOP;
+                FOR ind IN tab_ind LOOP
+                    EXECUTE IMMEDIATE 'DROP INDEX '||ind.index_name;
+                END LOOP;
+            END;
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
 		
@@ -1129,6 +1221,28 @@
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
 		CREATE INDEX KREW_RTE_NODE_INSTN_TI4 ON KREW_RTE_NODE_INSTN_T(PROC_RTE_NODE_INSTN_ID)
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
+			DECLARE
+				TableName VARCHAR2(30) := 'KREW_RULE_T'
+				CURSOR tab_cons IS
+					SELECT constraint_name
+						FROM user_constraints
+						WHERE table_name = TableName 
+						  AND constraint_type IN ( 'P', 'U' );
+                CURSOR tab_ind IS
+                    SELECT index_name
+                        FROM user_indexes
+                        WHERE table_name = TableName
+                          AND index_type != 'LOB';
+            BEGIN
+                FOR cons IN tab_cons LOOP
+                    EXECUTE IMMEDIATE 'ALTER TABLE '||TableName||' DROP CONSTRAINT '||cons.constraint_name;
+                END LOOP;
+                FOR ind IN tab_ind LOOP
+                    EXECUTE IMMEDIATE 'DROP INDEX '||ind.index_name;
+                END LOOP;
+            END;
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
 		
@@ -1179,6 +1293,28 @@
 		    REFERENCES KREW_RULE_EXPR_T (RULE_EXPR_ID)
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
+			DECLARE
+				TableName VARCHAR2(30) := 'KREW_DOC_LNK_T'
+				CURSOR tab_cons IS
+					SELECT constraint_name
+						FROM user_constraints
+						WHERE table_name = TableName 
+						  AND constraint_type IN ( 'P', 'U' );
+                CURSOR tab_ind IS
+                    SELECT index_name
+                        FROM user_indexes
+                        WHERE table_name = TableName
+                          AND index_type != 'LOB';
+            BEGIN
+                FOR cons IN tab_cons LOOP
+                    EXECUTE IMMEDIATE 'ALTER TABLE '||TableName||' DROP CONSTRAINT '||cons.constraint_name;
+                END LOOP;
+                FOR ind IN tab_ind LOOP
+                    EXECUTE IMMEDIATE 'DROP INDEX '||ind.index_name;
+                END LOOP;
+            END;
+		]]></sql>
+		<sql splitStatements="false"><![CDATA[
 		
 		--
 		-- KREW_DOC_LNK_T 
@@ -1206,23 +1342,14 @@
 		create INDEX KREW_DOC_LNK_TI1 on krew_doc_lnk_t(ORGN_DOC_ID)
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		
-		
-		
-		
-		
 		-- 
 		-- 2011-05-09.sql
 		-- 
-		
-		
-		
 		--
 		--
 		-- DDL for KRMS repository
 		--
 		--
-		
 		-- -----------------------------------------------------
 		-- Table krms_typ_t
 		-- -----------------------------------------------------

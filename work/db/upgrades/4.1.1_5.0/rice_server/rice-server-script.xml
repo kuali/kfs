@@ -1017,10 +1017,6 @@
 		<sql splitStatements="false"><![CDATA[
 		ALTER TABLE KREW_RULE_T ADD CONSTRAINT KREW_RULE_TC0 UNIQUE (OBJ_ID)
 		]]></sql>
-		<sql splitStatements="false"><![CDATA[
-		ALTER TABLE KREW_RULE_T ADD CONSTRAINT KREW_RULE_TR1 FOREIGN KEY (RULE_EXPR_ID)
-		    REFERENCES KREW_RULE_EXPR_T (RULE_EXPR_ID)
-		]]></sql>
 		
 		<sql splitStatements="false"><![CDATA[
 		
@@ -5431,15 +5427,6 @@
 			IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_DOC_HDR_EXT_T CASCADE CONSTRAINTS PURGE'; END IF;
 		END;
 		]]></sql> -->
-		<sql splitStatements="false"><![CDATA[
-		
-		-----------------------------------------------------------------------------
-		-- FOREIGN KEY CONSTRAINTS IMPACTED BY CHANGES
-		-----------------------------------------------------------------------------
-		ALTER TABLE KREW_RULE_T
-		    ADD CONSTRAINT KREW_RULE_TR1 FOREIGN KEY (RULE_EXPR_ID)
-		    REFERENCES KREW_RULE_EXPR_T (RULE_EXPR_ID)
-		]]></sql>
 		<!-- JHK: removing since not in master datasource
 		<sql splitStatements="false"><![CDATA[
 		ALTER TABLE KREW_RTE_NODE_CFG_PARM_T
@@ -7441,6 +7428,16 @@
 		--
 		
 		UPDATE KRCR_STYLE_T set XML=replace(XML,'org.kuali.rice.kew.edl.WorkflowFunctions','org.kuali.rice.edl.framework.util.EDLFunctions')
+		]]></sql>
+
+		<sql splitStatements="false"><![CDATA[
+		
+		-----------------------------------------------------------------------------
+		-- FOREIGN KEY CONSTRAINTS IMPACTED BY CHANGES
+		-----------------------------------------------------------------------------
+		ALTER TABLE KREW_RULE_T
+		    ADD CONSTRAINT KREW_RULE_TR1 FOREIGN KEY (RULE_EXPR_ID)
+		    REFERENCES KREW_RULE_EXPR_T (RULE_EXPR_ID)
 		]]></sql>
 
 	</changeSet>

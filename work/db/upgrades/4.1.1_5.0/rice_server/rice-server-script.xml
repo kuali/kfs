@@ -6687,166 +6687,166 @@
 		INSERT INTO KRCR_NMSPC_T VALUES ('KR-KRAD', sys_guid(), 1, 'Kuali Rapid Application Development', 'Y', 'RICE')
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select (max(to_number(KIM_ATTR_DEFN_ID)) + 1) from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and REGEXP_LIKE(KIM_ATTR_DEFN_ID, '^[1-9][0-9]*$') and to_number(KIM_ATTR_DEFN_ID) < 10000), sys_guid(), 1, 'viewId', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes')
+		INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(KIM_ATTR_DEFN_ID, '[^0-9]', ''))) + 1) from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and REGEXP_LIKE(KIM_ATTR_DEFN_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(KIM_ATTR_DEFN_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, 'viewId', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes')
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select (max(to_number(KIM_ATTR_DEFN_ID)) + 1) from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and REGEXP_LIKE(KIM_ATTR_DEFN_ID, '^[1-9][0-9]*$') and to_number(KIM_ATTR_DEFN_ID) < 10000), sys_guid(), 1, 'actionEvent', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes')
+		INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(KIM_ATTR_DEFN_ID, '[^0-9]', ''))) + 1) from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and REGEXP_LIKE(KIM_ATTR_DEFN_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(KIM_ATTR_DEFN_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, 'actionEvent', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes')
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select (max(to_number(KIM_ATTR_DEFN_ID)) + 1) from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and REGEXP_LIKE(KIM_ATTR_DEFN_ID, '^[1-9][0-9]*$') and to_number(KIM_ATTR_DEFN_ID) < 10000), sys_guid(), 1, 'collectionPropertyName', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes')
+		INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(KIM_ATTR_DEFN_ID, '[^0-9]', ''))) + 1) from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and REGEXP_LIKE(KIM_ATTR_DEFN_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(KIM_ATTR_DEFN_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, 'collectionPropertyName', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes')
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select (max(to_number(KIM_ATTR_DEFN_ID)) + 1) from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and REGEXP_LIKE(KIM_ATTR_DEFN_ID, '^[1-9][0-9]*$') and to_number(KIM_ATTR_DEFN_ID) < 10000), sys_guid(), 1, 'fieldId', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes')
+		INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(KIM_ATTR_DEFN_ID, '[^0-9]', ''))) + 1) from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and REGEXP_LIKE(KIM_ATTR_DEFN_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(KIM_ATTR_DEFN_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, 'fieldId', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes')
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select (max(to_number(KIM_ATTR_DEFN_ID)) + 1) from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and REGEXP_LIKE(KIM_ATTR_DEFN_ID, '^[1-9][0-9]*$') and to_number(KIM_ATTR_DEFN_ID) < 10000), sys_guid(), 1, 'groupId', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes')
+		INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(KIM_ATTR_DEFN_ID, '[^0-9]', ''))) + 1) from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and REGEXP_LIKE(KIM_ATTR_DEFN_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(KIM_ATTR_DEFN_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, 'groupId', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes')
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select (max(to_number(KIM_ATTR_DEFN_ID)) + 1) from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and REGEXP_LIKE(KIM_ATTR_DEFN_ID, '^[1-9][0-9]*$') and to_number(KIM_ATTR_DEFN_ID) < 10000), sys_guid(), 1, 'widgetId', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes')
+		INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(KIM_ATTR_DEFN_ID, '[^0-9]', ''))) + 1) from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and REGEXP_LIKE(KIM_ATTR_DEFN_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(KIM_ATTR_DEFN_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, 'widgetId', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes')
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select (max(to_number(KIM_ATTR_DEFN_ID)) + 1) from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and REGEXP_LIKE(KIM_ATTR_DEFN_ID, '^[1-9][0-9]*$') and to_number(KIM_ATTR_DEFN_ID) < 10000), sys_guid(), 1, 'actionId', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes')
+		INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(KIM_ATTR_DEFN_ID, '[^0-9]', ''))) + 1) from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and REGEXP_LIKE(KIM_ATTR_DEFN_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(KIM_ATTR_DEFN_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, 'actionId', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes')
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_TYP_T VALUES ((select (max(to_number(kim_typ_id)) + 1) from KRIM_TYP_T where kim_typ_id is not NULL and REGEXP_LIKE(kim_typ_id, '^[1-9][0-9]*$') and to_number(kim_typ_id) < 10000), sys_guid(), 1, 'View', 'viewPermissionTypeService', 'Y', 'KR-KRAD')
+		INSERT INTO KRIM_TYP_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(kim_typ_id, '[^0-9]', ''))) + 1) from KRIM_TYP_T where kim_typ_id is not NULL and REGEXP_LIKE(kim_typ_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(kim_typ_id, '[^0-9]', '')) < 10000), sys_guid(), 1, 'View', 'viewPermissionTypeService', 'Y', 'KR-KRAD')
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_TYP_T VALUES ((select (max(to_number(kim_typ_id)) + 1) from KRIM_TYP_T where kim_typ_id is not NULL and REGEXP_LIKE(kim_typ_id, '^[1-9][0-9]*$') and to_number(kim_typ_id) < 10000), sys_guid(), 1, 'View Edit Mode', 'viewEditModePermissionTypeService', 'Y', 'KR-KRAD')
+		INSERT INTO KRIM_TYP_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(kim_typ_id, '[^0-9]', ''))) + 1) from KRIM_TYP_T where kim_typ_id is not NULL and REGEXP_LIKE(kim_typ_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(kim_typ_id, '[^0-9]', '')) < 10000), sys_guid(), 1, 'View Edit Mode', 'viewEditModePermissionTypeService', 'Y', 'KR-KRAD')
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_TYP_T VALUES ((select (max(to_number(kim_typ_id)) + 1) from KRIM_TYP_T where kim_typ_id is not NULL and REGEXP_LIKE(kim_typ_id, '^[1-9][0-9]*$') and to_number(kim_typ_id) < 10000), sys_guid(), 1, 'View Field', 'viewFieldPermissionTypeService', 'Y', 'KR-KRAD')
+		INSERT INTO KRIM_TYP_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(kim_typ_id, '[^0-9]', ''))) + 1) from KRIM_TYP_T where kim_typ_id is not NULL and REGEXP_LIKE(kim_typ_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(kim_typ_id, '[^0-9]', '')) < 10000), sys_guid(), 1, 'View Field', 'viewFieldPermissionTypeService', 'Y', 'KR-KRAD')
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_TYP_T VALUES ((select (max(to_number(kim_typ_id)) + 1) from KRIM_TYP_T where kim_typ_id is not NULL and REGEXP_LIKE(kim_typ_id, '^[1-9][0-9]*$') and to_number(kim_typ_id) < 10000), sys_guid(), 1, 'View Group', 'viewGroupPermissionTypeService', 'Y', 'KR-KRAD')
+		INSERT INTO KRIM_TYP_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(kim_typ_id, '[^0-9]', ''))) + 1) from KRIM_TYP_T where kim_typ_id is not NULL and REGEXP_LIKE(kim_typ_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(kim_typ_id, '[^0-9]', '')) < 10000), sys_guid(), 1, 'View Group', 'viewGroupPermissionTypeService', 'Y', 'KR-KRAD')
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_TYP_T VALUES ((select (max(to_number(kim_typ_id)) + 1) from KRIM_TYP_T where kim_typ_id is not NULL and REGEXP_LIKE(kim_typ_id, '^[1-9][0-9]*$') and to_number(kim_typ_id) < 10000), sys_guid(), 1, 'View Widget', 'viewWidgetPermissionTypeService', 'Y', 'KR-KRAD')
+		INSERT INTO KRIM_TYP_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(kim_typ_id, '[^0-9]', ''))) + 1) from KRIM_TYP_T where kim_typ_id is not NULL and REGEXP_LIKE(kim_typ_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(kim_typ_id, '[^0-9]', '')) < 10000), sys_guid(), 1, 'View Widget', 'viewWidgetPermissionTypeService', 'Y', 'KR-KRAD')
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_TYP_T VALUES ((select (max(to_number(kim_typ_id)) + 1) from KRIM_TYP_T where kim_typ_id is not NULL and REGEXP_LIKE(kim_typ_id, '^[1-9][0-9]*$') and to_number(kim_typ_id) < 10000), sys_guid(), 1, 'View Action', 'viewActionPermissionTypeService', 'Y', 'KR-KRAD')
+		INSERT INTO KRIM_TYP_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(kim_typ_id, '[^0-9]', ''))) + 1) from KRIM_TYP_T where kim_typ_id is not NULL and REGEXP_LIKE(kim_typ_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(kim_typ_id, '[^0-9]', '')) < 10000), sys_guid(), 1, 'View Action', 'viewActionPermissionTypeService', 'Y', 'KR-KRAD')
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_TYP_T VALUES ((select (max(to_number(kim_typ_id)) + 1) from KRIM_TYP_T where kim_typ_id is not NULL and REGEXP_LIKE(kim_typ_id, '^[1-9][0-9]*$') and to_number(kim_typ_id) < 10000), sys_guid(), 1, 'View Line Field', 'viewLineFieldPermissionTypeService', 'Y', 'KR-KRAD')
+		INSERT INTO KRIM_TYP_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(kim_typ_id, '[^0-9]', ''))) + 1) from KRIM_TYP_T where kim_typ_id is not NULL and REGEXP_LIKE(kim_typ_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(kim_typ_id, '[^0-9]', '')) < 10000), sys_guid(), 1, 'View Line Field', 'viewLineFieldPermissionTypeService', 'Y', 'KR-KRAD')
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_TYP_T VALUES ((select (max(to_number(kim_typ_id)) + 1) from KRIM_TYP_T where kim_typ_id is not NULL and REGEXP_LIKE(kim_typ_id, '^[1-9][0-9]*$') and to_number(kim_typ_id) < 10000), sys_guid(), 1, 'View Line Action', 'viewLineActionPermissionTypeService', 'Y', 'KR-KRAD')
+		INSERT INTO KRIM_TYP_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(kim_typ_id, '[^0-9]', ''))) + 1) from KRIM_TYP_T where kim_typ_id is not NULL and REGEXP_LIKE(kim_typ_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(kim_typ_id, '[^0-9]', '')) < 10000), sys_guid(), 1, 'View Line Action', 'viewLineActionPermissionTypeService', 'Y', 'KR-KRAD')
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'a', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
+		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', ''))) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, 'a', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'a', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Edit Mode'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
+		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', ''))) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, 'a', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Edit Mode'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'b', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Edit Mode'), '10', 'Y');
+		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', ''))) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, 'b', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Edit Mode'), '10', 'Y');
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'a', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Field'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
+		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', ''))) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, 'a', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Field'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'b', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Field'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='fieldId'), 'Y');
+		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', ''))) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, 'b', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Field'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='fieldId'), 'Y');
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'c', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Field'), '6', 'Y');
+		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', ''))) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, 'c', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Field'), '6', 'Y');
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'a', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Group'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
+		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', ''))) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, 'a', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Group'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'b', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Group'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='groupId'), 'Y');
+		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', ''))) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, 'b', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Group'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='groupId'), 'Y');
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'c', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Group'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='fieldId'), 'Y');
+		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', ''))) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, 'c', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Group'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='fieldId'), 'Y');
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'a', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Widget'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
+		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', ''))) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, 'a', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Widget'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'b', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Widget'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='widgetId'), 'Y');
+		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', ''))) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, 'b', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Widget'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='widgetId'), 'Y');
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'a', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
+		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', ''))) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, 'a', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'b', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='actionId'), 'Y');
+		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', ''))) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, 'b', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='actionId'), 'Y');
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'c', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='actionEvent'), 'Y');
+		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', ''))) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, 'c', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='actionEvent'), 'Y');
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'a', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Field'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
+		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', ''))) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, 'a', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Field'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'b', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Field'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='groupId'), 'Y');
+		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', ''))) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, 'b', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Field'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='groupId'), 'Y');
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'c', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Field'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='collectionPropertyName'), 'Y');
+		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', ''))) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, 'c', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Field'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='collectionPropertyName'), 'Y');
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'd', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Field'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='fieldId'), 'Y');
+		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', ''))) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, 'd', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Field'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='fieldId'), 'Y');
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'e', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Field'), '6', 'Y');
+		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', ''))) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, 'e', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Field'), '6', 'Y');
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'a', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
+		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', ''))) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, 'a', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'b', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='groupId'), 'Y');
+		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', ''))) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, 'b', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='groupId'), 'Y');
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'c', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='collectionPropertyName'), 'Y');
+		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', ''))) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, 'c', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='collectionPropertyName'), 'Y');
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'd', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='actionId'), 'Y');
+		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', ''))) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, 'd', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='actionId'), 'Y');
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'e', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='actionEvent'), 'Y');
+		INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', ''))) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, 'e', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='actionEvent'), 'Y');
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and REGEXP_LIKE(perm_tmpl_id, '^[1-9][0-9]*$') and to_number(perm_tmpl_id) < 10000), sys_guid(), 1, 'KR-KRAD', 'Open View', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View'), 'Y')
+		INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(perm_tmpl_id, '[^0-9]', ''))) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and REGEXP_LIKE(perm_tmpl_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(perm_tmpl_id, '[^0-9]', '')) < 10000), sys_guid(), 1, 'KR-KRAD', 'Open View', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View'), 'Y')
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and REGEXP_LIKE(perm_tmpl_id, '^[1-9][0-9]*$') and to_number(perm_tmpl_id) < 10000), sys_guid(), 1, 'KR-KRAD', 'Edit View', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View'), 'Y')
+		INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(perm_tmpl_id, '[^0-9]', ''))) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and REGEXP_LIKE(perm_tmpl_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(perm_tmpl_id, '[^0-9]', '')) < 10000), sys_guid(), 1, 'KR-KRAD', 'Edit View', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View'), 'Y')
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and REGEXP_LIKE(perm_tmpl_id, '^[1-9][0-9]*$') and to_number(perm_tmpl_id) < 10000), sys_guid(), 1, 'KR-KRAD', 'Use View', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Edit Mode'), 'Y')
+		INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(perm_tmpl_id, '[^0-9]', ''))) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and REGEXP_LIKE(perm_tmpl_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(perm_tmpl_id, '[^0-9]', '')) < 10000), sys_guid(), 1, 'KR-KRAD', 'Use View', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Edit Mode'), 'Y')
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and REGEXP_LIKE(perm_tmpl_id, '^[1-9][0-9]*$') and to_number(perm_tmpl_id) < 10000), sys_guid(), 1, 'KR-KRAD', 'View Field', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Field'), 'Y')
+		INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(perm_tmpl_id, '[^0-9]', ''))) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and REGEXP_LIKE(perm_tmpl_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(perm_tmpl_id, '[^0-9]', '')) < 10000), sys_guid(), 1, 'KR-KRAD', 'View Field', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Field'), 'Y')
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and REGEXP_LIKE(perm_tmpl_id, '^[1-9][0-9]*$') and to_number(perm_tmpl_id) < 10000), sys_guid(), 1, 'KR-KRAD', 'Edit Field', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Field'), 'Y')
+		INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(perm_tmpl_id, '[^0-9]', ''))) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and REGEXP_LIKE(perm_tmpl_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(perm_tmpl_id, '[^0-9]', '')) < 10000), sys_guid(), 1, 'KR-KRAD', 'Edit Field', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Field'), 'Y')
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and REGEXP_LIKE(perm_tmpl_id, '^[1-9][0-9]*$') and to_number(perm_tmpl_id) < 10000), sys_guid(), 1, 'KR-KRAD', 'View Group', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Group'), 'Y')
+		INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(perm_tmpl_id, '[^0-9]', ''))) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and REGEXP_LIKE(perm_tmpl_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(perm_tmpl_id, '[^0-9]', '')) < 10000), sys_guid(), 1, 'KR-KRAD', 'View Group', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Group'), 'Y')
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and REGEXP_LIKE(perm_tmpl_id, '^[1-9][0-9]*$') and to_number(perm_tmpl_id) < 10000), sys_guid(), 1, 'KR-KRAD', 'Edit Group', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Group'), 'Y')
+		INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(perm_tmpl_id, '[^0-9]', ''))) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and REGEXP_LIKE(perm_tmpl_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(perm_tmpl_id, '[^0-9]', '')) < 10000), sys_guid(), 1, 'KR-KRAD', 'Edit Group', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Group'), 'Y')
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and REGEXP_LIKE(perm_tmpl_id, '^[1-9][0-9]*$') and to_number(perm_tmpl_id) < 10000), sys_guid(), 1, 'KR-KRAD', 'View Widget', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Widget'), 'Y')
+		INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(perm_tmpl_id, '[^0-9]', ''))) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and REGEXP_LIKE(perm_tmpl_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(perm_tmpl_id, '[^0-9]', '')) < 10000), sys_guid(), 1, 'KR-KRAD', 'View Widget', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Widget'), 'Y')
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and REGEXP_LIKE(perm_tmpl_id, '^[1-9][0-9]*$') and to_number(perm_tmpl_id) < 10000), sys_guid(), 1, 'KR-KRAD', 'Edit Widget', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Widget'), 'Y')
+		INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(perm_tmpl_id, '[^0-9]', ''))) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and REGEXP_LIKE(perm_tmpl_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(perm_tmpl_id, '[^0-9]', '')) < 10000), sys_guid(), 1, 'KR-KRAD', 'Edit Widget', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Widget'), 'Y')
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and REGEXP_LIKE(perm_tmpl_id, '^[1-9][0-9]*$') and to_number(perm_tmpl_id) < 10000), sys_guid(), 1, 'KR-KRAD', 'Perform Action', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Action'), 'Y')
+		INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(perm_tmpl_id, '[^0-9]', ''))) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and REGEXP_LIKE(perm_tmpl_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(perm_tmpl_id, '[^0-9]', '')) < 10000), sys_guid(), 1, 'KR-KRAD', 'Perform Action', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Action'), 'Y')
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and REGEXP_LIKE(perm_tmpl_id, '^[1-9][0-9]*$') and to_number(perm_tmpl_id) < 10000), sys_guid(), 1, 'KR-KRAD', 'View Line', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Group'), 'Y')
+		INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(perm_tmpl_id, '[^0-9]', ''))) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and REGEXP_LIKE(perm_tmpl_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(perm_tmpl_id, '[^0-9]', '')) < 10000), sys_guid(), 1, 'KR-KRAD', 'View Line', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Group'), 'Y')
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and REGEXP_LIKE(perm_tmpl_id, '^[1-9][0-9]*$') and to_number(perm_tmpl_id) < 10000), sys_guid(), 1, 'KR-KRAD', 'Edit Line', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Group'), 'Y')
+		INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(perm_tmpl_id, '[^0-9]', ''))) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and REGEXP_LIKE(perm_tmpl_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(perm_tmpl_id, '[^0-9]', '')) < 10000), sys_guid(), 1, 'KR-KRAD', 'Edit Line', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Group'), 'Y')
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and REGEXP_LIKE(perm_tmpl_id, '^[1-9][0-9]*$') and to_number(perm_tmpl_id) < 10000), sys_guid(), 1, 'KR-KRAD', 'View Line Field', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Field'), 'Y')
+		INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(perm_tmpl_id, '[^0-9]', ''))) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and REGEXP_LIKE(perm_tmpl_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(perm_tmpl_id, '[^0-9]', '')) < 10000), sys_guid(), 1, 'KR-KRAD', 'View Line Field', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Field'), 'Y')
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and REGEXP_LIKE(perm_tmpl_id, '^[1-9][0-9]*$') and to_number(perm_tmpl_id) < 10000), sys_guid(), 1, 'KR-KRAD', 'Edit Line Field', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Field'), 'Y')
+		INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(perm_tmpl_id, '[^0-9]', ''))) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and REGEXP_LIKE(perm_tmpl_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(perm_tmpl_id, '[^0-9]', '')) < 10000), sys_guid(), 1, 'KR-KRAD', 'Edit Line Field', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Field'), 'Y')
 		]]></sql>
 		<sql splitStatements="false"><![CDATA[
-		INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and REGEXP_LIKE(perm_tmpl_id, '^[1-9][0-9]*$') and to_number(perm_tmpl_id) < 10000), sys_guid(), 1, 'KR-KRAD', 'Perform Line Action', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Action'), 'Y')
+		INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(perm_tmpl_id, '[^0-9]', ''))) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and REGEXP_LIKE(perm_tmpl_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(perm_tmpl_id, '[^0-9]', '')) < 10000), sys_guid(), 1, 'KR-KRAD', 'Perform Line Action', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Action'), 'Y')
 		]]></sql>
 		
 		<sql splitStatements="false"><![CDATA[
@@ -7325,7 +7325,7 @@
 		<sql splitStatements="false"><![CDATA[
 		insert into krim_perm_t
 		(perm_id, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind, ver_nbr, obj_id)
-		values ((select (max(to_number(perm_id)) + 1) from krim_perm_t where perm_id is not NULL and REGEXP_LIKE(perm_id, '^[1-9][0-9]*$') and to_number(perm_id) < 10000),
+		values ((select (max(TO_NUMBER(REGEXP_REPLACE(perm_id, '[^0-9]', ''))) + 1) from krim_perm_t where perm_id is not NULL and REGEXP_LIKE(perm_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(perm_id, '[^0-9]', '')) < 10000),
 		        (select perm_tmpl_id from krim_perm_tmpl_t where nm = 'Create / Maintain Record(s)' and nmspc_cd = 'KR-NS'),
 		        'KR-NS','Create Term Maintenance Document','Allows user to create a new Term maintainence document','Y',1,
 		        '0dbce939-4f22-4e9b-a4bb-1615c0f411a2')
@@ -7333,7 +7333,7 @@
 		<sql splitStatements="false"><![CDATA[
 		insert into krim_perm_attr_data_t
 		(attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, ver_nbr, obj_id)
-		values ((select (max(to_number(attr_data_id)) + 1) from krim_perm_attr_data_t where attr_data_id is not NULL and REGEXP_LIKE(attr_data_id, '^[1-9][0-9]*$') and to_number(attr_data_id) < 10000),
+		values ((select (max(TO_NUMBER(REGEXP_REPLACE(attr_data_id, '[^0-9]', ''))) + 1) from krim_perm_attr_data_t where attr_data_id is not NULL and REGEXP_LIKE(attr_data_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(attr_data_id, '[^0-9]', '')) < 10000),
 		        (select perm_id from krim_perm_t where nm = 'Create Term Maintenance Document' and nmspc_cd = 'KR-NS'),
 		        (select kim_typ_id from krim_typ_t where nm = 'Document Type & Existing Records Only' and nmspc_cd = 'KR-NS'),
 		        (select kim_attr_defn_id from krim_attr_defn_t where nm = 'documentTypeName'),
@@ -7342,7 +7342,7 @@
 		<sql splitStatements="false"><![CDATA[
 		insert into krim_role_perm_t
 		(role_perm_id, role_id, perm_id, actv_ind, ver_nbr, obj_id)
-		values ((select (max(to_number(role_perm_id)) + 1) from krim_role_perm_t where role_perm_id is not NULL and REGEXP_LIKE(role_perm_id, '^[1-9][0-9]*$') and to_number(role_perm_id) < 10000),
+		values ((select (max(TO_NUMBER(REGEXP_REPLACE(role_perm_id, '[^0-9]', ''))) + 1) from krim_role_perm_t where role_perm_id is not NULL and REGEXP_LIKE(role_perm_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(role_perm_id, '[^0-9]', '')) < 10000),
 		        (select role_id from krim_role_t where role_nm = 'Kuali Rules Management System Administrator' and nmspc_cd = 'KR-RULE'),
 		        (select perm_id from krim_perm_t where nm = 'Create Term Maintenance Document' and nmspc_cd = 'KR-NS'),
 		        'Y', 1, '45f8f55e-23d9-4278-ade8-ddfc870852e6')
@@ -7350,7 +7350,7 @@
 		<sql splitStatements="false"><![CDATA[
 		insert into krim_perm_t
 		(perm_id, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind, ver_nbr, obj_id)
-		values ((select (max(to_number(perm_id)) + 1) from krim_perm_t where perm_id is not NULL and REGEXP_LIKE(perm_id, '^[1-9][0-9]*$') and to_number(perm_id) < 10000),
+		values ((select (max(TO_NUMBER(REGEXP_REPLACE(perm_id, '[^0-9]', ''))) + 1) from krim_perm_t where perm_id is not NULL and REGEXP_LIKE(perm_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(perm_id, '[^0-9]', '')) < 10000),
 		        (select perm_tmpl_id from krim_perm_tmpl_t where nm = 'Create / Maintain Record(s)' and nmspc_cd = 'KR-NS'),
 		        'KR-NS','Create Context Maintenance Document','Allows user to create a new Context maintainence document','Y',1,
 		        'cefeed6d-b5e2-40aa-9034-137db317b532')
@@ -7358,7 +7358,7 @@
 		<sql splitStatements="false"><![CDATA[
 		insert into krim_perm_attr_data_t
 		(attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, ver_nbr, obj_id)
-		values ((select (max(to_number(attr_data_id)) + 1) from krim_perm_attr_data_t where attr_data_id is not NULL and REGEXP_LIKE(attr_data_id, '^[1-9][0-9]*$') and to_number(attr_data_id) < 10000),
+		values ((select (max(TO_NUMBER(REGEXP_REPLACE(attr_data_id, '[^0-9]', ''))) + 1) from krim_perm_attr_data_t where attr_data_id is not NULL and REGEXP_LIKE(attr_data_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(attr_data_id, '[^0-9]', '')) < 10000),
 		        (select perm_id from krim_perm_t where nm = 'Create Context Maintenance Document' and nmspc_cd = 'KR-NS'),
 		        (select kim_typ_id from krim_typ_t where nm = 'Document Type & Existing Records Only' and nmspc_cd = 'KR-NS'),
 		        (select kim_attr_defn_id from krim_attr_defn_t where nm = 'documentTypeName'),
@@ -7367,7 +7367,7 @@
 		<sql splitStatements="false"><![CDATA[
 		insert into krim_role_perm_t
 		(role_perm_id, role_id, perm_id, actv_ind, ver_nbr, obj_id)
-		values ((select (max(to_number(role_perm_id)) + 1) from krim_role_perm_t where role_perm_id is not NULL and REGEXP_LIKE(role_perm_id, '^[1-9][0-9]*$') and to_number(role_perm_id) < 10000),
+		values ((select (max(TO_NUMBER(REGEXP_REPLACE(role_perm_id, '[^0-9]', ''))) + 1) from krim_role_perm_t where role_perm_id is not NULL and REGEXP_LIKE(role_perm_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(role_perm_id, '[^0-9]', '')) < 10000),
 		        (select role_id from krim_role_t where role_nm = 'Kuali Rules Management System Administrator' and nmspc_cd = 'KR-RULE'),
 		        (select perm_id from krim_perm_t where nm = 'Create Context Maintenance Document' and nmspc_cd = 'KR-NS'),
 		        'Y', 1, 'cd7cbc67-c0b2-4785-afa8-8c8d073b78df')
@@ -7375,7 +7375,7 @@
 		<sql splitStatements="false"><![CDATA[
 		insert into krim_perm_t
 		(perm_id, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind, ver_nbr, obj_id)
-		values ((select (max(to_number(perm_id)) + 1) from krim_perm_t where perm_id is not NULL and REGEXP_LIKE(perm_id, '^[1-9][0-9]*$') and to_number(perm_id) < 10000),
+		values ((select (max(TO_NUMBER(REGEXP_REPLACE(perm_id, '[^0-9]', ''))) + 1) from krim_perm_t where perm_id is not NULL and REGEXP_LIKE(perm_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(perm_id, '[^0-9]', '')) < 10000),
 		        (select perm_tmpl_id from krim_perm_tmpl_t where nm = 'Create / Maintain Record(s)' and nmspc_cd = 'KR-NS'),
 		        'KR-NS','Create TermSpecification Maintenance Document','Allows user to create a new TermSpecification maintainence document','Y',1,
 		        '02bd9acd-48d9-4fec-acbd-6a441c5ea8c2')
@@ -7383,7 +7383,7 @@
 		<sql splitStatements="false"><![CDATA[
 		insert into krim_perm_attr_data_t
 		(attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, ver_nbr, obj_id)
-		values ((select (max(to_number(attr_data_id)) + 1) from krim_perm_attr_data_t where attr_data_id is not NULL and REGEXP_LIKE(attr_data_id, '^[1-9][0-9]*$') and to_number(attr_data_id) < 10000),
+		values ((select (max(TO_NUMBER(REGEXP_REPLACE(attr_data_id, '[^0-9]', ''))) + 1) from krim_perm_attr_data_t where attr_data_id is not NULL and REGEXP_LIKE(attr_data_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(attr_data_id, '[^0-9]', '')) < 10000),
 		        (select perm_id from krim_perm_t where nm = 'Create TermSpecification Maintenance Document' and nmspc_cd = 'KR-NS'),
 		        (select kim_typ_id from krim_typ_t where nm = 'Document Type & Existing Records Only' and nmspc_cd = 'KR-NS'),
 		        (select kim_attr_defn_id from krim_attr_defn_t where nm = 'documentTypeName'),
@@ -7392,7 +7392,7 @@
 		<sql splitStatements="false"><![CDATA[
 		insert into krim_role_perm_t
 		(role_perm_id, role_id, perm_id, actv_ind, ver_nbr, obj_id)
-		values ((select (max(to_number(role_perm_id)) + 1) from krim_role_perm_t where role_perm_id is not NULL and REGEXP_LIKE(role_perm_id, '^[1-9][0-9]*$') and to_number(role_perm_id) < 10000),
+		values ((select (max(TO_NUMBER(REGEXP_REPLACE(role_perm_id, '[^0-9]', ''))) + 1) from krim_role_perm_t where role_perm_id is not NULL and REGEXP_LIKE(role_perm_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(role_perm_id, '[^0-9]', '')) < 10000),
 		        (select role_id from krim_role_t where role_nm = 'Kuali Rules Management System Administrator' and nmspc_cd = 'KR-RULE'),
 		        (select perm_id from krim_perm_t where nm = 'Create TermSpecification Maintenance Document' and nmspc_cd = 'KR-NS'),
 		        'Y', 1, '83a270a0-1cdb-4440-ab8b-41cd8afc41d9')
@@ -7479,15 +7479,15 @@ ALTER TABLE KREW_DOC_TYP_T MODIFY (LBL NOT NULL);
 <changeSet author="RICE21" id="2012-03-28_oracle" dbms="oracle">
 	<sql><![CDATA[
 -- add 'appDocStatus' attr definition
-INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select (max(to_number(KIM_ATTR_DEFN_ID)) + 1) from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and REGEXP_LIKE(KIM_ATTR_DEFN_ID, '^[1-9][0-9]*$') and to_number(KIM_ATTR_DEFN_ID) < 10000), sys_guid(), 1, 'appDocStatus', null, 'Y', 'KR-WKFLW', 'org.kuali.rice.kim.bo.impl.KimAttributes')
+INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(KIM_ATTR_DEFN_ID, '[^0-9]', ''))) + 1) from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and REGEXP_LIKE(KIM_ATTR_DEFN_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(KIM_ATTR_DEFN_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, 'appDocStatus', null, 'Y', 'KR-WKFLW', 'org.kuali.rice.kim.bo.impl.KimAttributes')
 ;
 
 -- assign it to 'Document Type & Routing Node or State' type
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'a', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-SYS' and NM='Document Type & Routing Node or State'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-WKFLW' and NM='appDocStatus'), 'Y')
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', ''))) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, 'a', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-SYS' and NM='Document Type & Routing Node or State'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-WKFLW' and NM='appDocStatus'), 'Y')
 ;
 
 -- create Recall permission template
-INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and REGEXP_LIKE(perm_tmpl_id, '^[1-9][0-9]*$') and to_number(perm_tmpl_id) < 10000), sys_guid(), 1, 'KR-WKFLW', 'Recall Document', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-SYS' and NM='Document Type & Routing Node or State'), 'Y')
+INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(TO_NUMBER(REGEXP_REPLACE(perm_tmpl_id, '[^0-9]', ''))) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and REGEXP_LIKE(perm_tmpl_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(perm_tmpl_id, '[^0-9]', '')) < 10000), sys_guid(), 1, 'KR-WKFLW', 'Recall Document', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-SYS' and NM='Document Type & Routing Node or State'), 'Y')
 	]]></sql>
 </changeSet>
 
@@ -7500,13 +7500,13 @@ INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) 
 <changeSet author="RICE21" id="2012-04-11_oracle" dbms="oracle">
 	<sql><![CDATA[
 -- insert Recall permission for initiators
-INSERT INTO KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM) values ((select (max(to_number(PERM_ID)) + 1) from KRIM_PERM_T where PERM_ID is not NULL and REGEXP_LIKE(PERM_ID, '^[1-9][0-9]*$') and to_number(PERM_ID) < 10000), sys_guid(), 1, (select PERM_TMPL_ID from KRIM_PERM_TMPL_T where NMSPC_CD = 'KR-WKFLW' and NM = 'Recall Document'), 'KR-WKFLW', 'Recall Document')
+INSERT INTO KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM) values ((select (max(TO_NUMBER(REGEXP_REPLACE(PERM_ID, '[^0-9]', ''))) + 1) from KRIM_PERM_T where PERM_ID is not NULL and REGEXP_LIKE(PERM_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(PERM_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, (select PERM_TMPL_ID from KRIM_PERM_TMPL_T where NMSPC_CD = 'KR-WKFLW' and NM = 'Recall Document'), 'KR-WKFLW', 'Recall Document')
 ;
 -- define document type wildcard for permission
-INSERT INTO KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL) values ((select (max(to_number(ATTR_DATA_ID)) + 1) from KRIM_PERM_ATTR_DATA_T where ATTR_DATA_ID is not NULL and REGEXP_LIKE(ATTR_DATA_ID, '^[1-9][0-9]*$') and to_number(ATTR_DATA_ID) < 10000), sys_guid(), 1, (select PERM_ID from KRIM_PERM_T where NMSPC_CD = 'KR-WKFLW' and NM='Recall Document'), (select KIM_TYP_ID from KRIM_PERM_TMPL_T where NMSPC_CD = 'KR-WKFLW' and NM = 'Recall Document'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD = 'KR-WKFLW' and NM = 'documentTypeName'), '*')
+INSERT INTO KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL) values ((select (max(TO_NUMBER(REGEXP_REPLACE(ATTR_DATA_ID, '[^0-9]', ''))) + 1) from KRIM_PERM_ATTR_DATA_T where ATTR_DATA_ID is not NULL and REGEXP_LIKE(ATTR_DATA_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(ATTR_DATA_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, (select PERM_ID from KRIM_PERM_T where NMSPC_CD = 'KR-WKFLW' and NM='Recall Document'), (select KIM_TYP_ID from KRIM_PERM_TMPL_T where NMSPC_CD = 'KR-WKFLW' and NM = 'Recall Document'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD = 'KR-WKFLW' and NM = 'documentTypeName'), '*')
 ;
 -- associate Recall permission with initiator derived role
-INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND) values ((select (max(to_number(ROLE_PERM_ID)) + 1) from KRIM_ROLE_PERM_T where ROLE_PERM_ID is not NULL and REGEXP_LIKE(ROLE_PERM_ID, '^[1-9][0-9]*$') and to_number(ROLE_PERM_ID) < 10000), sys_guid(), 1, (select ROLE_ID from KRIM_ROLE_T where ROLE_NM = 'Initiator' and NMSPC_CD = 'KR-WKFLW'), (select PERM_ID from KRIM_PERM_T where NMSPC_CD = 'KR-WKFLW' and NM='Recall Document'), 'Y')
+INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND) values ((select (max(TO_NUMBER(REGEXP_REPLACE(ROLE_PERM_ID, '[^0-9]', ''))) + 1) from KRIM_ROLE_PERM_T where ROLE_PERM_ID is not NULL and REGEXP_LIKE(ROLE_PERM_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(ROLE_PERM_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, (select ROLE_ID from KRIM_ROLE_T where ROLE_NM = 'Initiator' and NMSPC_CD = 'KR-WKFLW'), (select PERM_ID from KRIM_PERM_T where NMSPC_CD = 'KR-WKFLW' and NM='Recall Document'), 'Y')
 ;
 	]]></sql>
 </changeSet>
@@ -7515,10 +7515,10 @@ INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, A
 <changeSet author="RICE21" id="2012-04-12_oracle" dbms="oracle">
 	<sql><![CDATA[
 -- create a Kim Type wired to the documentRouterRoleTypeService permission-derived role service
-INSERT INTO KRIM_TYP_T (KIM_TYP_ID, OBJ_ID, VER_NBR, NM, SRVC_NM, ACTV_IND, NMSPC_CD) values ((select (max(to_number(KIM_TYP_ID)) + 1) from KRIM_TYP_T where KIM_TYP_ID is not NULL and REGEXP_LIKE(KIM_TYP_ID, '^[1-9][0-9]*$') and to_number(KIM_TYP_ID) < 10000), sys_guid(), 1, 'Derived Role: Permission (Route Document)', 'documentRouterRoleTypeService', 'Y', 'KR-WKFLW')
+INSERT INTO KRIM_TYP_T (KIM_TYP_ID, OBJ_ID, VER_NBR, NM, SRVC_NM, ACTV_IND, NMSPC_CD) values ((select (max(TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ID, '[^0-9]', ''))) + 1) from KRIM_TYP_T where KIM_TYP_ID is not NULL and REGEXP_LIKE(KIM_TYP_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, 'Derived Role: Permission (Route Document)', 'documentRouterRoleTypeService', 'Y', 'KR-WKFLW')
 ;
 -- define the Route Document derived role
-INSERT INTO KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND) values ((select (max(to_number(ROLE_ID)) + 1) from KRIM_ROLE_T where ROLE_ID is not NULL and REGEXP_LIKE(ROLE_ID, '^[1-9][0-9]*$') and to_number(ROLE_ID) < 10000), sys_guid(), 1, 'Document Router', 'KR-WKFLW', 'This role derives its members from users with the Route Document permission for a given document type.', (select KIM_TYP_ID from KRIM_TYP_T where NM = 'Derived Role: Permission (Route Document)' and NMSPC_CD = 'KR-WKFLW'), 'Y')
+INSERT INTO KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND) values ((select (max(TO_NUMBER(REGEXP_REPLACE(ROLE_ID, '[^0-9]', ''))) + 1) from KRIM_ROLE_T where ROLE_ID is not NULL and REGEXP_LIKE(ROLE_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(ROLE_ID, '[^0-9]', '')) < 10000), sys_guid(), 1, 'Document Router', 'KR-WKFLW', 'This role derives its members from users with the Route Document permission for a given document type.', (select KIM_TYP_ID from KRIM_TYP_T where NM = 'Derived Role: Permission (Route Document)' and NMSPC_CD = 'KR-WKFLW'), 'Y')
 ;
 	]]></sql>
 </changeSet>
@@ -7535,7 +7535,7 @@ KIM_TYP_ID,
 KIM_ATTR_DEFN_ID,
 ACTV_IND)
 VALUES
-  ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from  krim_typ_attr_t where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and to_number(KIM_TYP_ATTR_ID) < 10000),
+  ((select (max(TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', ''))) + 1) from  krim_typ_attr_t where KIM_TYP_ATTR_ID is not NULL and REGEXP_LIKE(KIM_TYP_ATTR_ID, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(KIM_TYP_ATTR_ID, '[^0-9]', '')) < 10000),
   '69FA55ACC2EE2598E0404F8189D86880',
   1,
   'e',
@@ -7592,14 +7592,14 @@ delete from krms_attr_defn_t where ATTR_DEFN_ID = '1003'
 	<sql><![CDATA[
 insert into krim_perm_t
 (perm_id, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind, ver_nbr, obj_id)
-values ((select (max(to_number(perm_id)) + 1) from krim_perm_t where perm_id is not NULL and REGEXP_LIKE(perm_id, '^[1-9][0-9]*$') and to_number(perm_id) < 10000),
+values ((select (max(TO_NUMBER(REGEXP_REPLACE(perm_id, '[^0-9]', ''))) + 1) from krim_perm_t where perm_id is not NULL and REGEXP_LIKE(perm_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(perm_id, '[^0-9]', '')) < 10000),
         (select perm_tmpl_id from krim_perm_tmpl_t where nm = 'Send Ad Hoc Request' and nmspc_cd = 'KR-NS'),
         'KR-SYS','Send Complete Request Kuali Document','Authorizes users to send Complete ad hoc requests for Kuali Documents','Y',1,sys_guid())
 ;
 
 insert into krim_perm_attr_data_t
 (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, ver_nbr, obj_id)
-values ((select (max(to_number(attr_data_id)) + 1) from krim_perm_attr_data_t where attr_data_id is not NULL and REGEXP_LIKE(attr_data_id, '^[1-9][0-9]*$') and to_number(attr_data_id) < 10000),
+values ((select (max(TO_NUMBER(REGEXP_REPLACE(attr_data_id, '[^0-9]', ''))) + 1) from krim_perm_attr_data_t where attr_data_id is not NULL and REGEXP_LIKE(attr_data_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(attr_data_id, '[^0-9]', '')) < 10000),
         (select perm_id from krim_perm_t where nm = 'Send Complete Request Kuali Document' and nmspc_cd = 'KR-SYS'),
         (select kim_typ_id from krim_typ_t where nm = 'Ad Hoc Review' and nmspc_cd = 'KR-WKFLW'),
         (select kim_attr_defn_id from krim_attr_defn_t where nm = 'documentTypeName'), 'KualiDocument',1,sys_guid())
@@ -7608,7 +7608,7 @@ values ((select (max(to_number(attr_data_id)) + 1) from krim_perm_attr_data_t wh
 
 insert into krim_perm_attr_data_t
 (attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, ver_nbr, obj_id)
-values ((select (max(to_number(attr_data_id)) + 1) from krim_perm_attr_data_t where attr_data_id is not NULL and REGEXP_LIKE(attr_data_id, '^[1-9][0-9]*$') and to_number(attr_data_id) < 10000),
+values ((select (max(TO_NUMBER(REGEXP_REPLACE(attr_data_id, '[^0-9]', ''))) + 1) from krim_perm_attr_data_t where attr_data_id is not NULL and REGEXP_LIKE(attr_data_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(attr_data_id, '[^0-9]', '')) < 10000),
         (select perm_id from krim_perm_t where nm = 'Send Complete Request Kuali Document' and nmspc_cd = 'KR-SYS'),
         (select kim_typ_id from krim_typ_t where nm = 'Ad Hoc Review' and nmspc_cd = 'KR-WKFLW'),
         (select kim_attr_defn_id from krim_attr_defn_t where nm = 'actionRequestCd'), 'C',1,sys_guid())
@@ -7616,7 +7616,7 @@ values ((select (max(to_number(attr_data_id)) + 1) from krim_perm_attr_data_t wh
 
 insert into krim_role_perm_t
 (role_perm_id, role_id, perm_id, actv_ind, ver_nbr, obj_id)
-values ((select (max(to_number(role_perm_id)) + 1) from krim_role_perm_t where role_perm_id is not NULL and REGEXP_LIKE(role_perm_id, '^[1-9][0-9]*$') and to_number(role_perm_id) < 10000),
+values ((select (max(TO_NUMBER(REGEXP_REPLACE(role_perm_id, '[^0-9]', ''))) + 1) from krim_role_perm_t where role_perm_id is not NULL and REGEXP_LIKE(role_perm_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(role_perm_id, '[^0-9]', '')) < 10000),
         (select role_id from krim_role_t where role_nm = 'Document Opener' and nmspc_cd = 'KR-NS'),
         (select perm_id from krim_perm_t where nm = 'Send Complete Request Kuali Document' and nmspc_cd = 'KR-SYS'),
         'Y', 1, sys_guid())
@@ -7624,7 +7624,7 @@ values ((select (max(to_number(role_perm_id)) + 1) from krim_role_perm_t where r
 
 insert into krim_role_perm_t
 (role_perm_id, role_id, perm_id, actv_ind, ver_nbr, obj_id)
-values ((select (max(to_number(role_perm_id)) + 1) from krim_role_perm_t where role_perm_id is not NULL and REGEXP_LIKE(role_perm_id, '^[1-9][0-9]*$') and to_number(role_perm_id) < 10000),
+values ((select (max(TO_NUMBER(REGEXP_REPLACE(role_perm_id, '[^0-9]', ''))) + 1) from krim_role_perm_t where role_perm_id is not NULL and REGEXP_LIKE(role_perm_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(role_perm_id, '[^0-9]', '')) < 10000),
         (select role_id from krim_role_t where role_nm = 'Initiator or Reviewer' and nmspc_cd = 'KR-WKFLW'),
         (select perm_id from krim_perm_t where nm = 'Edit Kuali ENROUTE Document Route Status Code R' and nmspc_cd = 'KUALI'),
         'Y', 1, sys_guid())
@@ -7632,7 +7632,7 @@ values ((select (max(to_number(role_perm_id)) + 1) from krim_role_perm_t where r
 
 insert into krim_role_perm_t
 (role_perm_id, role_id, perm_id, actv_ind, ver_nbr, obj_id)
-values ((select (max(to_number(role_perm_id)) + 1) from krim_role_perm_t where role_perm_id is not NULL and REGEXP_LIKE(role_perm_id, '^[1-9][0-9]*$') and to_number(role_perm_id) < 10000),
+values ((select (max(TO_NUMBER(REGEXP_REPLACE(role_perm_id, '[^0-9]', ''))) + 1) from krim_role_perm_t where role_perm_id is not NULL and REGEXP_LIKE(role_perm_id, '^[1-9][0-9]*$') and TO_NUMBER(REGEXP_REPLACE(role_perm_id, '[^0-9]', '')) < 10000),
         (select role_id from krim_role_t where role_nm = 'Initiator or Reviewer' and nmspc_cd = 'KR-WKFLW'),
         (select perm_id from krim_perm_t where nm = 'Cancel Document' and nmspc_cd = 'KUALI'),
         'Y', 1, sys_guid())

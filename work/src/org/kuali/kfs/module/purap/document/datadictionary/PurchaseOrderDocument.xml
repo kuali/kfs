@@ -976,7 +976,7 @@
   <bean id="PurchaseOrderDocument-purchaseOrderVendorChoiceCode-parentBean" abstract="true" parent="PurchaseOrderVendorChoice-purchaseOrderVendorChoiceCode">
     <property name="label" value="Vendor Choice"/>
     <property name="shortLabel" value="Vendor Choice"/>
-    <property name="required" value="false"/>
+    <property name="required" value="true"/>
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.purap.businessobject.options.PurchaseOrderVendorChoiceValuesFinder" p:includeKeyInLabel="false"/>
     </property>

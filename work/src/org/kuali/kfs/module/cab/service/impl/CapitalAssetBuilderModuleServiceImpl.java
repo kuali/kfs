@@ -1306,12 +1306,12 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 valid &= false;
             }
             
-            if (StringUtils.isBlank(location.getBuildingRoomNumber()) && !ignoreRoom) {
+            if (StringUtils.isBlank(location.getBuildingRoomNumber()) && ignoreRoom) {
                 GlobalVariables.getMessageMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_ROOM);
                 valid &= false;
             }
             
-            if (!StringUtils.isBlank(location.getBuildingRoomNumber()) && ignoreRoom) {
+            if (!StringUtils.isBlank(location.getBuildingRoomNumber()) && !ignoreRoom) {
                 GlobalVariables.getMessageMap().putError(errorKey.toString(), CamsKeyConstants.AssetLocation.ERROR_ASSET_LOCATION_ROOM_NUMBER_NONMOVEABLE, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_ROOM);
                 valid &= false;
             }

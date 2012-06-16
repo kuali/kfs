@@ -99,7 +99,7 @@
    
                         <c:if test="${! empty KualiForm.document.contractManagerAssignmentDetails[ctr].requisition.items[0].commodityCode.commodityDescription}">
                     	  	&nbsp;-&nbsp;
-                    			<kul:htmlControlAttribute property="document.contractManagerAssignmentDetail[${ctr}].requisition.items[0].commodityCode.commodityDescription" attributeEntry="${requisitionItemAttributes['commodityCode.commodityDescription']}" readOnly="true" />
+                    			<kul:htmlControlAttribute property="document.contractManagerAssignmentDetail[${ctr}].requisition.items[0].commodityCode.commodityDescription" attributeEntry="${requisitionItemAttributes.purchasingCommodityCode}" readOnly="true" />
                         </c:if>
                     </td>                       
 		                <td align=left valign=middle class="datacell">		                    

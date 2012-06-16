@@ -1068,6 +1068,43 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 	</changeSet>
-	
-		
+	<changeSet author="KFS50" id="AUTHORIZE_ICR_USERS_TO_EDIT">
+		<comment>Authorizes users to edit the IndirectCostRecoveryAccounts section on the Sub-Account document</comment>
+		<insert tableName="KRIM_PERM_T">
+			<column name="PERM_ID" value="KFSMI8342-PRM" />
+			<column name="OBJ_ID" value="KFSMI8342-PRM"/>
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_TMPL_ID" value="44" />
+			<column name="NMSPC_CD" value="KFS-COA" />
+			<column name="NM" value="Modify Maintenance Document Section SubAccount indirectCostRecoveryAccounts" />
+			<column name="DESC_TXT" value="Authorizes users to edit the IndirectCostRecoveryAccounts section on the Sub-Account document." />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSMI8342-PRMATT1" />
+			<column name="OBJ_ID" value="KFSMI8342-PRMATT1" />
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_ID" value="KFSMI8342-PRM" />
+			<column name="KIM_TYP_ID" value="57" />
+			<column name="KIM_ATTR_DEFN_ID" value="44" />
+			<column name="ATTR_VAL" value="indirectCostRecoveryAccounts" />
+		</insert>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSMI8342-PRMATT2" />
+			<column name="OBJ_ID" value="KFSMI8342-PRMATT2" />
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_ID" value="KFSMI8342-PRM" />
+			<column name="KIM_TYP_ID" value="57" />
+			<column name="KIM_ATTR_DEFN_ID" value="44" />
+			<column name="ATTR_VAL" value="SubAccount" />
+		</insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+					<column name="ROLE_PERM_ID" value="KFSMI8342-RLPRM" />
+			<column name="OBJ_ID" value="KFSMI8342-RLPRM" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" value="39" />
+			<column name="PERM_ID" value="KFSMI8342-PRM" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+	</changeSet>	
 </databaseChangeLog>

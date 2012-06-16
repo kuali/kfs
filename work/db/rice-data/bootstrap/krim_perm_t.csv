@@ -295,3 +295,4 @@ KFSMI7041-PRM,KFSMI7041-PRM,1,29,KFS-LD,View Fringe Benefit Inquiry,Permits acce
 KFSCNTRB162-PRM,KFSCNTRB162-PRM,1,33,KFS-VND,Use Vendor Exclude File Upload Screen,Authorizes users to access the Vendor Exclude File Upload page.,Y
 KFSCNTRB199-P1,KFSCNTRB199-P1,"1","33","KFS-SYS","Upload semaphoreInputFileTypeError","Authorizes users to access the Batch Semaphore File Upload page.","Y"
 KFSCNTRB199-P2,KFSCNTRB199-P2,"1","50","KFS-SYS","Administer Batch File KFS-SYS batchContainer","Authorizes users to view the batch files using the Batch File lookup screen","Y"
+KFSMI8342-PRM,KFSMI8342-PRM,"1","44","KFS-COA","Modify Maintenance Document Section SubAccount indirectCostRecoveryAccounts","Authorizes users to edit the IndirectCostRecoveryAccounts section on the Sub-Account document.",Y

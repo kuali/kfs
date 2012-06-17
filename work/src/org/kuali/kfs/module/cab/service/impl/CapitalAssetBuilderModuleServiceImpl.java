@@ -2007,10 +2007,14 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 GeneralLedgerEntry generalLedgerEntry = generalLedgerEntryAsset.getGeneralLedgerEntry();
 
                 // update gl status as processed
-                if (SpringContext.getBean(GlLineService.class).findUnprocessedCapitalAssetInformation(generalLedgerEntry) == 0) {
+                if (generalLedgerEntry.getTransactionLedgerEntryAmount().compareTo(generalLedgerEntry.getTransactionLedgerSubmitAmount()) == 0) {
                     generalLedgerEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS);
                     this.getBusinessObjectService().save(generalLedgerEntry);
                 }
+            //    if (SpringContext.getBean(GlLineService.class).findUnprocessedCapitalAssetInformation(generalLedgerEntry) == 0) {
+            //        generalLedgerEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.PROCESSED_IN_CAMS);
+            //        this.getBusinessObjectService().save(generalLedgerEntry);
+            //    }
 
                 // release asset lock
                 if (isFpDocumentFullyProcessed(generalLedgerEntry)) {
@@ -2267,7 +2271,9 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             List<CapitalAssetAccountsGroupDetails> groupAccountingLines = capitalAssetInformation.getCapitalAssetAccountsGroupDetails();
             
             for (CapitalAssetAccountsGroupDetails accountingLine : groupAccountingLines) {
-                Collection<GeneralLedgerEntry> matchingGLEntries = glLineService.findMatchingGeneralLedgerEntry(accountingLine.getDocumentNumber(), accountingLine.getChartOfAccountsCode(), accountingLine.getAccountNumber(), accountingLine.getFinancialObjectCode(), accountingLine.getSequenceNumber());
+                String debitOrCreditCode = KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE.equals(accountingLine.getFinancialDocumentLineTypeCode()) ? KFSConstants.GL_CREDIT_CODE : KFSConstants.GL_DEBIT_CODE;
+                
+                Collection<GeneralLedgerEntry> matchingGLEntries = glLineService.findMatchingGeneralLedgerEntry(accountingLine.getDocumentNumber(), accountingLine.getChartOfAccountsCode(), accountingLine.getAccountNumber(), accountingLine.getFinancialObjectCode(), debitOrCreditCode);
                 for(GeneralLedgerEntry matchingGLEntry : matchingGLEntries) {
                     reduceTransactionSumbitGlEntryAmount(matchingGLEntry, accountingLine.getAmount());
                 }

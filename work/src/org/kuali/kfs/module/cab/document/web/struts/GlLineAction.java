@@ -57,7 +57,12 @@ public class GlLineAction extends CabActionBase {
      */
     public ActionForward process(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         GlLineForm glLineForm = (GlLineForm) form;
+        String glAcctId = request.getParameter(CabPropertyConstants.GeneralLedgerEntry.GENERAL_LEDGER_ACCOUNT_IDENTIFIER);
+        Long cabGlEntryId = Long.valueOf(glAcctId);
+        
         GeneralLedgerEntry entry = findGeneralLedgerEntry(request);
+        
+        
         String assetLineNumber = request.getParameter(CabPropertyConstants.CapitalAssetInformation.ASSET_LINE_NUMBER);
         Integer capitalAssetLineNumber = Integer.valueOf(assetLineNumber);
         glLineForm.setCapitalAssetLineNumber(capitalAssetLineNumber);
@@ -65,9 +70,11 @@ public class GlLineAction extends CabActionBase {
         if (ObjectUtils.isNotNull(entry)) {
             prepareRecordsForDisplay(glLineForm, entry, capitalAssetLineNumber);
         }
-        if (!entry.isActive()) {
-            KNSGlobalVariables.getMessageList().add(CabKeyConstants.WARNING_GL_PROCESSED);
-        }
+        
+        glLineForm.setGeneralLedgerEntry(entry);        
+     //   if (!entry.isActive()) {
+     //       KNSGlobalVariables.getMessageList().add(CabKeyConstants.WARNING_GL_PROCESSED);
+     //   }
         return mapping.findForward(RiceConstants.MAPPING_BASIC);
     }
 
@@ -200,7 +207,8 @@ public class GlLineAction extends CabActionBase {
         
         Integer capitalAssetLineNumber = glLineForm.getCapitalAssetLineNumber();
         
-        GeneralLedgerEntry entry = findGeneralLedgerEntry(glLineForm.getPrimaryGlAccountId(), false);
+        GeneralLedgerEntry entry = glLineForm.getGeneralLedgerEntry();
+        
         if (entry != null) {
             prepareRecordsForDisplay(glLineForm, entry, capitalAssetLineNumber);
         }

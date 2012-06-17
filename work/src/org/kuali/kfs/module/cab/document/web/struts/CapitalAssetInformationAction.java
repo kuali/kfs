@@ -64,9 +64,9 @@ public class CapitalAssetInformationAction extends CabActionBase {
         if (ObjectUtils.isNotNull(entry)) {
             prepareRecordsForDisplay(capitalAssetForm, entry);
         }
-        if (!entry.isActive()) {
-            KNSGlobalVariables.getMessageList().add(CabKeyConstants.WARNING_GL_PROCESSED);
-        }
+      //  if (!entry.isActive()) {
+      //      KNSGlobalVariables.getMessageList().add(CabKeyConstants.WARNING_GL_PROCESSED);
+      //  }
         return mapping.findForward(RiceConstants.MAPPING_BASIC);
     }
 
@@ -76,7 +76,7 @@ public class CapitalAssetInformationAction extends CabActionBase {
         entry.setSelected(true);
         capitalAssetForm.setGeneralLedgerEntry(entry);
         capitalAssetForm.setPrimaryGlAccountId(entry.getGeneralLedgerAccountIdentifier());
-        List<CapitalAssetInformation> capitalAssetInformation = glLineService.findAllCapitalAssetInformation(entry);
+        List<CapitalAssetInformation> capitalAssetInformation = glLineService.findCapitalAssetInformationForGLLine(entry);
         capitalAssetForm.setCapitalAssetInformation(capitalAssetInformation);
     }
 
@@ -148,10 +148,13 @@ public class CapitalAssetInformationAction extends CabActionBase {
      */
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CapitalAssetInformationForm capitalAssetForm = (CapitalAssetInformationForm) form;
-        GeneralLedgerEntry entry = findGeneralLedgerEntry(capitalAssetForm.getPrimaryGlAccountId(), false);
-        if (entry != null) {
+
+        GeneralLedgerEntry entry = capitalAssetForm.getGeneralLedgerEntry();    
+        
+     //   GeneralLedgerEntry entry = findGeneralLedgerEntry(request);
+     //   if (entry != null) {
             prepareRecordsForDisplay(capitalAssetForm, entry);
-        }
+      //  }
         
         return mapping.findForward(RiceConstants.MAPPING_BASIC);
     }

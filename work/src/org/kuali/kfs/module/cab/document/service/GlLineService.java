@@ -25,12 +25,14 @@ import org.kuali.rice.krad.document.Document;
 
 public interface GlLineService {
 
-    Collection<GeneralLedgerEntry> findMatchingGeneralLedgerEntry(String documentNumber, String chartCode, String accountNumber, String finalcialObjectcode, Integer transactionSequenceNumber);
+    Collection<GeneralLedgerEntry> findMatchingGeneralLedgerEntry(String documentNumber, String chartCode, String accountNumber, String finalcialObjectcode, String debutOrCreditCode);
     
     List<CapitalAssetInformation> findCapitalAssetInformation(GeneralLedgerEntry entry);
 
     List<CapitalAssetInformation> findAllCapitalAssetInformation(GeneralLedgerEntry entry);
 
+    List<CapitalAssetInformation> findCapitalAssetInformationForGLLine(GeneralLedgerEntry entry);
+    
     long findUnprocessedCapitalAssetInformation(GeneralLedgerEntry entry);
     
     CapitalAssetInformation findCapitalAssetInformation(GeneralLedgerEntry entry, Integer capitalAssetLineNumber);

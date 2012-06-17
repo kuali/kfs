@@ -43,6 +43,7 @@ import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.module.cam.util.ObjectValueUtils;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.parameter.ParameterEvaluator;
@@ -119,7 +120,10 @@ public class GlLineServiceImpl implements GlLineService {
         if (ObjectUtils.isNotNull(capitalAssetInformation)) {
             List<CapitalAssetAccountsGroupDetails> groupAccountingLines = capitalAssetInformation.getCapitalAssetAccountsGroupDetails();
             for (CapitalAssetAccountsGroupDetails accountingLine : groupAccountingLines) {
-                Collection<GeneralLedgerEntry> matchingGLEntries = findMatchingGeneralLedgerEntry(accountingLine.getDocumentNumber(), accountingLine.getChartOfAccountsCode(), accountingLine.getAccountNumber(), accountingLine.getFinancialObjectCode(), accountingLine.getCapitalAssetAccountLineNumber());
+                                
+                String debitOrCreditCode = KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE.equals(accountingLine.getFinancialDocumentLineTypeCode()) ? KFSConstants.GL_CREDIT_CODE : KFSConstants.GL_DEBIT_CODE;
+                
+                Collection<GeneralLedgerEntry> matchingGLEntries = findMatchingGeneralLedgerEntry(accountingLine.getDocumentNumber(), accountingLine.getChartOfAccountsCode(), accountingLine.getAccountNumber(), accountingLine.getFinancialObjectCode(), debitOrCreditCode);
                 for(GeneralLedgerEntry matchingGLEntry : matchingGLEntries) {
                     //if no more capital assets to be processed...
                     createGeneralLedgerEntryAsset(matchingGLEntry, document, capitalAssetLineNumber);
@@ -207,6 +211,50 @@ public class GlLineServiceImpl implements GlLineService {
 
         return assetInformation;
     }
+
+    /**
+     * @see org.kuali.kfs.module.cab.document.service.GlLineService#findCapitalAssetInformationForGLLine(org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry)
+     */
+    public List<CapitalAssetInformation> findCapitalAssetInformationForGLLine(GeneralLedgerEntry entry) {
+        String capitalAssetLineType = KFSConstants.GL_CREDIT_CODE.equals(entry.getTransactionDebitCreditCode()) ? KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE : KFSConstants.TARGET_ACCT_LINE_TYPE_CODE;
+
+        Map<String, String> primaryKeys = new HashMap<String, String>();
+        primaryKeys.put(CabPropertyConstants.CapitalAssetInformation.DOCUMENT_NUMBER, entry.getDocumentNumber());
+        
+        List<CapitalAssetInformation> assetInformation = (List<CapitalAssetInformation>) businessObjectService.findMatchingOrderBy(CapitalAssetInformation.class, primaryKeys, CabPropertyConstants.CapitalAssetInformation.ACTION_INDICATOR, true);
+
+        List<CapitalAssetInformation> matchingAssets = new ArrayList<CapitalAssetInformation>();
+        
+        for (CapitalAssetInformation capitalAsset : assetInformation) {
+            addToCapitalAssets(matchingAssets, capitalAsset, entry, capitalAssetLineType);
+            
+            
+        }
+        
+        return matchingAssets;
+    }
+    
+    /**
+     * Compares the gl line to the group accounting lines in each capital asset and
+     * when finds a match, adds the capital asset to the list of matching assets
+     * @param matchingAssets
+     * @param capitalAsset
+     * @param entry
+     * @param capitalAssetLineType
+     */
+    protected void addToCapitalAssets(List<CapitalAssetInformation> matchingAssets, CapitalAssetInformation capitalAsset, GeneralLedgerEntry entry, String capitalAssetLineType) {
+        List<CapitalAssetAccountsGroupDetails> groupAccountLines = capitalAsset.getCapitalAssetAccountsGroupDetails();
+        
+        for (CapitalAssetAccountsGroupDetails groupAccountLine : groupAccountLines) {
+            if (groupAccountLine.getFinancialDocumentLineTypeCode().equals(capitalAssetLineType) && 
+                    groupAccountLine.getChartOfAccountsCode().equals(entry.getChartOfAccountsCode()) && 
+                    groupAccountLine.getAccountNumber().equals(entry.getAccountNumber()) && 
+                    groupAccountLine.getFinancialObjectCode().equals(entry.getFinancialObjectCode())) {
+                matchingAssets.add(capitalAsset);
+                break;
+            }
+        }
+    }
     
     /**
      * @see org.kuali.kfs.module.cab.document.service.GlLineService#findUnprocessedCapitalAssetInformation(org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry)
@@ -228,7 +276,7 @@ public class GlLineServiceImpl implements GlLineService {
     /**
      * @see org.kuali.kfs.module.cab.document.service.GlLineService#findMatchingGeneralLedgerEntry(java.lang.String, java.lang.String, java.lang.String, java.lang.String, int)
      */
-    public Collection<GeneralLedgerEntry> findMatchingGeneralLedgerEntry(String documentNumber, String chartCode, String accountNumber, String finalcialObjectcode, Integer transactionSequenceNumber) {
+    public Collection<GeneralLedgerEntry> findMatchingGeneralLedgerEntry(String documentNumber, String chartCode, String accountNumber, String finalcialObjectcode, String debitOrCreditCode) {
         Collection<GeneralLedgerEntry> matchingGLEntry = new ArrayList<GeneralLedgerEntry>();
         
         Map<String, String> fieldValues = new HashMap<String, String>();
@@ -236,12 +284,11 @@ public class GlLineServiceImpl implements GlLineService {
         fieldValues.put(CabPropertyConstants.GeneralLedgerEntry.CHART_OF_ACCOUNTS_CODE, chartCode);
         fieldValues.put(CabPropertyConstants.GeneralLedgerEntry.ACCOUNT_NUMBER, accountNumber);
         fieldValues.put(CabPropertyConstants.GeneralLedgerEntry.FINANCIAL_OBJECT_CODE, finalcialObjectcode);
-        fieldValues.put(CabPropertyConstants.GeneralLedgerEntry.TRANSACTION_LEDGER_ENTRY_SEQUENCE_NUMBER, transactionSequenceNumber.toString());
+        fieldValues.put(CabPropertyConstants.GeneralLedgerEntry.TRANSACTION_DEBIT_CREDIT_CODE, debitOrCreditCode);
 
         matchingGLEntry = (List<GeneralLedgerEntry>) businessObjectService.findMatching(GeneralLedgerEntry.class, fieldValues);
 
         return matchingGLEntry;
-        
     }
     
     /**

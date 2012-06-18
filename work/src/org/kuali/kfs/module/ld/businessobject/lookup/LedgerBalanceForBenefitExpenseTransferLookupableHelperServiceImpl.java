@@ -29,6 +29,8 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * The class is the front-end for the balance inquiry of Ledger Balance For Benefit Expense Transfer processing.
@@ -52,6 +54,10 @@ public class LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl e
         String fiscalYearString = (String) fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         SystemOptions options = this.getOptions(fiscalYearString);
 
+        if (ObjectUtils.isNull(options)) {
+            return new CollectionIncomplete(new ArrayList(), new Long(0));
+        }
+        
         fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, options.getFinObjTypeExpenditureexpCd());
         fieldValues.put(KFSPropertyConstants.LABOR_OBJECT + "." + KFSPropertyConstants.FINANCIAL_OBJECT_FRINGE_OR_SALARY_CODE, BenefitExpenseTransfer.LABOR_LEDGER_BENEFIT_CODE);
 

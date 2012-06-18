@@ -2200,7 +2200,6 @@
 		        , CUR_IND NUMBER(1)
 		        , LBL VARCHAR2(128)
 		        , PREV_DOC_TYP_VER_NBR VARCHAR2(40)
-		        , DOC_HDR_ID VARCHAR2(40)
 		        , DOC_TYP_DESC VARCHAR2(4000)
 		        , DOC_HDLR_URL VARCHAR2(255)
 		        , POST_PRCSR VARCHAR2(255)
@@ -2222,6 +2221,7 @@
 		        , HELP_DEF_URL VARCHAR2(4000)
 		        , OBJ_ID VARCHAR2(36) NOT NULL
 		        , DOC_SEARCH_HELP_URL VARCHAR2(4000)
+		        , DOC_HDR_ID VARCHAR2(40)
 		    , CONSTRAINT KREW_DOC_TYP_TC0 UNIQUE (OBJ_ID)
 		    , CONSTRAINT KREW_DOC_TYP_TI1 UNIQUE (DOC_TYP_NM, DOC_TYP_VER_NBR)
 		)
@@ -7431,7 +7431,9 @@
 		    ADD CONSTRAINT KREW_RULE_TR1 FOREIGN KEY (RULE_EXPR_ID)
 		    REFERENCES KREW_RULE_EXPR_T (RULE_EXPR_ID)
 		]]></sql>
-
+		<sql splitStatements="false"><![CDATA[
+			CREATE INDEX KRNS_NTE_TI1 ON KRNS_NTE_T ( RMT_OBJ_ID )
+		]]></sql>
 	</changeSet>
 	<changeSet author="RICE20" id="RICE_SERVER_UPDATES_mysql" dbms="mysql">
 		<sqlFile path="rice_20_final_mysql.sql" />

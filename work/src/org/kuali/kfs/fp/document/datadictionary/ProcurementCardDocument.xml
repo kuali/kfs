@@ -91,7 +91,7 @@
 	  <property name="accountingLineClass" value="org.kuali.kfs.fp.businessobject.ProcurementCardTargetAccountingLine"/>
 	  <property name="groupLabel" value="Accounting Lines"/>
 	  <property name="accountingLineAuthorizerClass" value="org.kuali.kfs.fp.document.authorization.ProcurementCardAccountingLineAuthorizer"/>
-	  <property name="importedLinePropertyPrefix" value="target"/>
+	  <property name="importingAllowed" value="false"/>
 	  <property name="totals" ref="ProcurementCard-targetGroupTotals"/>
 	  <property name="errorKey" value="document.transactionEntries*,*targetAccountingLines*,*newTargetLine*"/>
 	  <property name="accountingLineGroupClass" value="org.kuali.kfs.sys.document.web.CollectionAccountingLineGroupImpl"/>

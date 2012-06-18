@@ -157,7 +157,7 @@
 		    		</list>
 		    	</property>
 		    </bean>
-    
+<!--     
 		    <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
 		    	<property name="searchingAttribute">
 		    		<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
@@ -171,7 +171,7 @@
 		    		</list>
 		    	</property>
 		    </bean>
-    
+ -->
 		    <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
 		    	<property name="searchingAttribute">
 		    		<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">

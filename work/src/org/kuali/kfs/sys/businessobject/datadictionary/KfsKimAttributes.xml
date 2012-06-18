@@ -156,11 +156,14 @@ http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
     p:shortLabel="To Amount" />
 
   <bean id="KfsKimAttributes-descendHierarchy" parent="KfsKimAttributes-descendHierarchy-parentBean" />
-  <bean id="KfsKimAttributes-descendHierarchy-parentBean" abstract="true" parent="GenericAttributes-genericBoolean"
+  <bean id="KfsKimAttributes-descendHierarchy-parentBean" abstract="true" parent="AttributeDefinition"
     p:name="descendHierarchy"
     p:label="Descends Hierarchy"
     p:shortLabel="Descends Hierarchy"
-    p:required="true" />
+    p:required="true"
+    p:forceUppercase="true"
+    p:maxLength="1"
+    p:control-ref="IndicatorYNSelectControl" />
     
   <bean id="KfsKimAttributes-filePath" parent="BatchFile-path" 
   	p:name="filePath" 

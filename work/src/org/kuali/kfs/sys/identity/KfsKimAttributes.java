@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.sys.identity;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
@@ -54,7 +52,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
     protected String chartOfAccountsCode;
     protected String accountNumber;
     protected String organizationCode;
-    protected Boolean descendHierarchy;
+    protected String descendHierarchy;
     protected String fromAmount;
     protected String toAmount;
     protected String accountingLineOverrideCode;
@@ -81,11 +79,6 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
 
 
     @SuppressWarnings("unchecked")
-
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-        return m;
-    }
 
     /**
      * Gets the chartOfAccountsCode attribute.
@@ -146,7 +139,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
      *
      * @return Returns the descendHierarchy.
      */
-    public Boolean isDescendHierarchy() {
+    public String isDescendHierarchy() {
         return descendHierarchy;
     }
 
@@ -155,7 +148,7 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
      *
      * @param descendHierarchy The descendHierarchy to set.
      */
-    public void setDescendHierarchy(Boolean descendHierarchy) {
+    public void setDescendHierarchy(String descendHierarchy) {
         this.descendHierarchy = descendHierarchy;
     }
 
@@ -231,56 +224,26 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
         this.subFundGroupCode = subFundGroupCode;
     }
 
-    /**
-     * Gets the purchasingCommodityCode attribute.
-     *
-     * @return Returns the purchasingCommodityCode.
-     */
     public String getPurchasingCommodityCode() {
         return purchasingCommodityCode;
     }
 
-    /**
-     * Sets the purchasingCommodityCode attribute value.
-     *
-     * @param purchasingCommodityCode The purchasingCommodityCode to set.
-     */
     public void setPurchasingCommodityCode(String purchasingCommodityCode) {
         this.purchasingCommodityCode = purchasingCommodityCode;
     }
 
-    /**
-     * Gets the contractManagerCode attribute.
-     *
-     * @return Returns the contractManagerCode.
-     */
     public Integer getContractManagerCode() {
         return contractManagerCode;
     }
 
-    /**
-     * Sets the contractManagerCode attribute value.
-     *
-     * @param contractManagerCode The contractManagerCode to set.
-     */
     public void setContractManagerCode(Integer contractManagerCode) {
         this.contractManagerCode = contractManagerCode;
     }
 
-    /**
-     * Gets the customerProfileId attribute.
-     *
-     * @return Returns the customerProfileId.
-     */
     public KualiInteger getCustomerProfileId() {
         return customerProfileId;
     }
 
-    /**
-     * Sets the customerProfileId attribute value.
-     *
-     * @param customerProfileId The customerProfileId to set.
-     */
     public void setCustomerProfileId(KualiInteger customerProfileId) {
         this.customerProfileId = customerProfileId;
     }
@@ -293,73 +256,34 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
         this.achTransactionTypeCode = achTransactionTypeCode;
     }
 
-    /**
-     * Gets the vendorTypeCode attribute.
-     *
-     * @return Returns the vendorTypeCode.
-     */
     public String getVendorTypeCode() {
         return vendorTypeCode;
     }
 
-    /**
-     * Sets the vendorTypeCode attribute value.
-     *
-     * @param vendorTypeCode The vendorTypeCode to set.
-     */
     public void setVendorTypeCode(String vendorTypeCode) {
         this.vendorTypeCode = vendorTypeCode;
     }
 
-    /**
-     * Gets the contractsAndGrantsAccountResponsibilityId attribute.
-     *
-     * @return Returns the contractsAndGrantsAccountResponsibilityId.
-     */
     public String getContractsAndGrantsAccountResponsibilityId() {
         return contractsAndGrantsAccountResponsibilityId;
     }
 
-    /**
-     * Sets the contractsAndGrantsAccountResponsibilityId attribute value.
-     *
-     * @param contractsAndGrantsAccountResponsibilityId The contractsAndGrantsAccountResponsibilityId to set.
-     */
     public void setContractsAndGrantsAccountResponsibilityId(String contractsAndGrantsAccountResponsibilityId) {
         this.contractsAndGrantsAccountResponsibilityId = contractsAndGrantsAccountResponsibilityId;
     }
 
-    /**
-     *
-     * @return Returns the disbursementVoucherPaymentMethodCode.
-     */
     public String getDisbursementVoucherPaymentMethodCode() {
         return disbursementVoucherPaymentMethodCode;
     }
 
-    /**
-     * Sets the disbursementVoucherPaymentMethodCode attribute value.
-     *
-     * @param disbursementVoucherPaymentMethodCode The disbursementVoucherPaymentMethodCode to set.
-     */
     public void setDisbursementVoucherPaymentMethodCode(String disbursementVoucherPaymentMethodCode) {
         this.disbursementVoucherPaymentMethodCode = disbursementVoucherPaymentMethodCode;
     }
 
-    /**
-     * Gets the subAccountNumber attribute.
-     *
-     * @return Returns the subAccountNumber.
-     */
     public String getSubAccountNumber() {
         return subAccountNumber;
     }
 
-    /**
-     * Sets the subAccountNumber attribute value.
-     *
-     * @param subAccountNumber The subAccountNumber to set.
-     */
     public void setSubAccountNumber(String subAccountNumber) {
         this.subAccountNumber = subAccountNumber;
     }
@@ -436,20 +360,10 @@ public class KfsKimAttributes extends org.kuali.rice.kim.bo.impl.KimAttributes {
         this.vendorType = vendorType;
     }
 
-    /**
-     * Gets the filePath attribute.
-     *
-     * @return Returns the filePath.
-     */
     public String getFilePath() {
         return filePath;
     }
 
-    /**
-     * Sets the filePath attribute value.
-     *
-     * @param filePath The filePath to set.
-     */
     public void setFilePath(String filePath) {
         this.filePath = filePath;
     }

@@ -76,6 +76,9 @@
   <bean id="IndicatorYNNullSelectControl" parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.IndicatorYNNullValuesFinder" p:includeKeyInLabel="false"/>
   <bean id="IndicatorYNOnlySelectControl" parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.krad.keyvalues.IndicatorYNOnlyValuesFinder" p:includeKeyInLabel="false"/>
 
+  <bean id="IndicatorYNSelectControl" parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.YesNoValuesFinder" p:includeKeyInLabel="false"/>
+
+
 
   <bean id="ExactlyOneCharacterValidationPattern" parent="AnyCharacterValidationPattern" p:exactLength="1"/>
   <bean id="ExactlyTwoCharacterValidationPattern" parent="AnyCharacterValidationPattern" p:exactLength="2"/>

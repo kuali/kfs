@@ -983,28 +983,6 @@
 	
 	</changeSet>
 	
-	<changeSet author="KFS50" id="ALLOW_AP_DOC_REVIEWER_TO_VIEW_ATTACHMENTS">
-
-		<insert tableName="KRIM_ROLE_PERM_T">
-			<column name="ROLE_PERM_ID" value="KFS98_260" />
-			<column name="OBJ_ID" value="KFS98_260" />
-			<column name="VER_NBR" valueNumeric="1" />
-			<column name="ROLE_ID" value="KFS98" />
-			<column name="PERM_ID" value="260" />
-			<column name="ACTV_IND" value="Y" />
-		</insert>
-
-		<insert tableName="KRIM_ROLE_PERM_T">
-			<column name="ROLE_PERM_ID" value="KFS98_326" />
-			<column name="OBJ_ID" value="KFS98_326" />
-			<column name="VER_NBR" valueNumeric="1" />
-			<column name="ROLE_ID" value="KFS98" />
-			<column name="PERM_ID" value="326" />
-			<column name="ACTV_IND" value="Y" />
-		</insert>
-	
-	</changeSet>
-		
 	<changeSet author="KFS50" id="GRANT_LOOKUP_TO_PAYEE_ACH_ACCTS_ADMIN">
 		<comment>Payee ACH Account document require permission to Lookup on the Payee Number field</comment>
 		<insert tableName="KRIM_ROLE_PERM_T">

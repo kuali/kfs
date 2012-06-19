@@ -82,7 +82,7 @@ public class AccountServiceImpl implements AccountService {
         Account account = businessObjectService.findByPrimaryKey(Account.class, keys);
 
         if (LOG.isDebugEnabled()) {
-            LOG.debug("retrieved account by primaryId (" + chartOfAccountsCode + "," + accountNumber + ")");
+            LOG.debug("retrieved account by primaryId (" + chartOfAccountsCode + "," + accountNumber + "): " + account );
         }
         return account;
     }
@@ -96,7 +96,10 @@ public class AccountServiceImpl implements AccountService {
     @Cacheable(value=Account.CACHE_NAME, key="#chartOfAccountsCode+'-'+#accountNumber")
     public Account getByPrimaryIdWithCaching(String chartOfAccountsCode, String accountNumber) {
         Account account = getByPrimaryId(chartOfAccountsCode, accountNumber);
-        account.getChartOfAccounts().getChartOfAccountsCode();
+        if ( account != null ) {
+            // force loading of chart reference object
+            account.getChartOfAccounts().getChartOfAccountsCode();
+        }
         return account;
     }
 
@@ -212,8 +215,9 @@ public class AccountServiceImpl implements AccountService {
         Set<String> potentialParentDocumentTypeNames = new HashSet<String>();
         for (Object delegateObject : delegations) {
             delegate = (AccountDelegate) delegateObject;
-            if (!potentialParentDocumentTypeNames.contains(delegate.getFinancialDocumentTypeCode()))
+            if (!potentialParentDocumentTypeNames.contains(delegate.getFinancialDocumentTypeCode())) {
                 potentialParentDocumentTypeNames.add(delegate.getFinancialDocumentTypeCode());
+            }
         }
         return potentialParentDocumentTypeNames;
     }
@@ -313,17 +317,17 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Boolean isFridgeBenefitCalculationEnable(){
         Boolean isFringeBeneCalcEnable = null;
-        
+
         //make sure the parameter exists
         if(parameterService.parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND")){
           //check the system param to see if the labor benefit rate category should be editable
             isFringeBeneCalcEnable = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND");
             LOG.debug("System Parameter retrieved: " + isFringeBeneCalcEnable);
         }
-        
+
         return (Boolean)org.apache.commons.lang.ObjectUtils.defaultIfNull(isFringeBeneCalcEnable, false);
     }
-    
+
 
     /**
      * @see org.kuali.kfs.coa.service.AccountService#getUniqueAccountForAccountNumber(java.lang.String)

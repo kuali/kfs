@@ -217,8 +217,8 @@ ROLE PERMISSIONS
         	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
         	<!-- REPLACE on the name is to compensate for bad Rice 1.0.3.1 data --> 
         	SELECT r.NMSPC_CD AS role_namespace, r.ROLE_NM AS role_name, p.NMSPC_CD AS perm_namespace, REPLACE( p.NM, 'Note  Attachment', 'Note / Attachment' ) AS perm_name
-        		FROM krim_role_t r
-        	      LEFT OUTER JOIN krim_role_perm_t rp ON rp.ROLE_ID = r.ROLE_ID
+        		FROM krim_role_perm_t rp
+        	      LEFT OUTER JOIN krim_role_t r ON r.ROLE_ID = rp.ROLE_ID
         	      LEFT OUTER JOIN krim_perm_t p ON p.PERM_ID = rp.perm_id
 	    		WHERE p.nmspc_cd NOT LIKE '%TEST%' AND r.nmspc_cd != 'KR-RULE'
         	    ORDER BY role_namespace, role_name, perm_namespace, perm_name
@@ -231,8 +231,8 @@ ROLE RESPONSIBILITIES
         <sql userid="${db.user}" password="${db.password}" url="${db.url}" driver="${db.driver}"
         	keepformat="true" print="true" output="${output.file}" showheaders="true" append="true">
         	SELECT p.NMSPC_CD AS resp_namespace, p.NM AS resp_name, r.NMSPC_CD AS role_namespace, r.ROLE_NM AS role_name, rra.ACTN_TYP_CD, rra.PRIORITY_NBR, rra.ACTN_PLCY_CD, rra.FRC_ACTN
-        		FROM krim_role_t r
-        	      LEFT OUTER JOIN krim_role_rsp_t rp ON rp.ROLE_ID = r.ROLE_ID
+        		FROM krim_role_rsp_t rp
+        	      LEFT OUTER JOIN krim_role_t r ON r.ROLE_ID = rp.ROLE_ID
         	      LEFT OUTER JOIN krim_rsp_t p ON p.RSP_ID = rp.RSP_id
         	      LEFT OUTER JOIN krim_role_rsp_actn_t rra ON rra.ROLE_RSP_ID = rp.ROLE_RSP_ID
         	    WHERE p.NM IS NOT NULL

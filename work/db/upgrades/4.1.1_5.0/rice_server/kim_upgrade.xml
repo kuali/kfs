@@ -1107,4 +1107,24 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 	</changeSet>	
+	
+	<changeSet author="KFS50" id="ADD_CM_PREQ_ATT_VIEW_TO_DOC_ROUTER">
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFS50-8" />
+			<column name="OBJ_ID" value="KFS50-8" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" value="99" />
+			<column name="PERM_ID" value="326" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFS50-9" />
+			<column name="OBJ_ID" value="KFS50-9" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" value="99" />
+			<column name="PERM_ID" value="260" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+	</changeSet>
+	
 </databaseChangeLog>

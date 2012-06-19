@@ -10,7 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.kew.api.doctype.DocumentType;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class KualiHeartbeatServlet extends HttpServlet {
@@ -27,15 +31,29 @@ public class KualiHeartbeatServlet extends HttpServlet {
 	@Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp){
         StringBuilder sb = new StringBuilder(200);
-        sb.append("<html><head><title>heartbeat</title></head><body>");
+        boolean errors = false;
+        sb.append("<html><head><title>KFS Heartbeat Monitor</title></head><body>");
 		try {
 	        Collection<Chart> hbResult = SpringContext.getBean(BusinessObjectService.class).findAll(Chart.class);
 		    // force a call to KIM
-	        if ( hbResult.isEmpty() ) {
-	            sb.append( "NO CHARTS RETRIEVED");
+	        if ( hbResult == null || hbResult.isEmpty() ) {
+	            sb.append( "ERROR: NO CHARTS RETRIEVED");
+	            errors = true;
 	        } else {
-	            // we don't care what it returns, only that the call to KIM does not bomb out
-	            hbResult.iterator().next().getFinCoaManager();
+	            // we don't care what it returns, only that the call to KIM does not bomb out and returns *somebody*
+	            Person p = hbResult.iterator().next().getFinCoaManager();
+	            if ( p == null ) {
+	                sb.append( "POTENTIAL PROBLEM: CHART MANAGER CALL TO KIM IMPLEMENTATION RETURNED NULL");
+	                errors = true;
+	            }
+	        }
+	        // attempt a workflow call
+	        DocumentType docDTO = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(KFSConstants.ROOT_DOCUMENT_TYPE);
+	        if ( docDTO == null  ) {
+	            sb.append( "POTENTIAL PROBLEM: " + KFSConstants.ROOT_DOCUMENT_TYPE + " document type not found.  Missing KFS Document hierarchy." );
+	            errors = true;
+	        }
+	        if ( !errors ) {
 	            sb.append( "LUB-DUB,LUB-DUB");
 	        }
 		} catch ( Exception ex ){
@@ -44,7 +62,7 @@ public class KualiHeartbeatServlet extends HttpServlet {
 		    PrintWriter pw = new PrintWriter( sw );
 		    ex.printStackTrace( pw );
 		    sb.append( sw.toString() );
-		    LOG.fatal( "Failed to detect heartbeat.  Apply paddles now!", ex);
+		    LOG.fatal( "Failed to detect heartbeat.  Apply paddles stat!   beeeeeeeeeeeeeeeeeeeeeeeeeeep  It's dead Jim.", ex);
 		} finally {
 		    sb.append( "</body></html>");
     		try {

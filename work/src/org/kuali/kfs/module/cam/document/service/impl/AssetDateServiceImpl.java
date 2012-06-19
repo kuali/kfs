@@ -133,17 +133,33 @@ public class AssetDateServiceImpl implements AssetDateService {
                 }
                 String conventionCode = depreciationConvention.getDepreciationConventionCode();
 
+                //kfsmi-8390 fix...
+                //when depreciationConventionCode = FY then NEW_IN_SERVICE_ASSET_DEPRECIATION_START_DATE + fiscal year and then
+                //subtracting 1 from the year to set the deprection date
                 if (CamsConstants.DepreciationConvention.FULL_YEAR.equalsIgnoreCase(conventionCode)) {
-                    depreciationDate = newInServiceFiscalYearStartDate;
-                }
-                else if (CamsConstants.DepreciationConvention.HALF_YEAR.equalsIgnoreCase(conventionCode)) {
-                    // Half year depreciation convention
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTime(newInServiceFiscalYearStartDate);
-                    calendar.add(Calendar.MONTH, 6);
+                    calendar.add(Calendar.YEAR, -1);
                     depreciationDate = new java.sql.Date(calendar.getTimeInMillis());
+                    
+                  //  depreciationDate = newInServiceFiscalYearStartDate;
                 }
-
+              //when depreciationConventionCode = HY
+                else if (CamsConstants.DepreciationConvention.HALF_YEAR.equalsIgnoreCase(conventionCode)) {
+                    // Half year depreciation convention
+                    //start the month and date as "01/01" and concat the fiscal year...
+                    java.sql.Date newInServiceFiscalYearStartDateForHalfYear = null;
+                    try {
+                        newInServiceFiscalYearStartDateForHalfYear= getDateTimeService().convertToSqlDate("01/01/" + fiscalYear);
+                    } catch( Exception e ){
+                        //issue to construct the new in service fiscal year start date
+                        String error = "Unable to construct new in service fiscal year start date"; 
+                        LOG.error(error, e );
+                        throw new IllegalArgumentException(error, e);
+                    }
+                    
+                    depreciationDate = newInServiceFiscalYearStartDateForHalfYear;
+                }
             }
         }
         return depreciationDate;

@@ -223,7 +223,6 @@ UPDATE KRIM_GRP_ATTR_DATA_T
     WHERE KIM_TYP_ID = '68';
 DELETE FROM KRIM_TYP_ATTR_T WHERE KIM_TYP_ID = '68';
 DELETE FROM KRIM_TYP_T WHERE KIM_TYP_ID = '68';
-COMMIT;
 		</sql>
 	</changeSet>
 
@@ -235,7 +234,6 @@ UPDATE KRIM_TYP_T
     SET KIM_TYP_ID = 'KFS69' 
     WHERE KIM_TYP_ID = '69';
 UPDATE KRIM_ROLE_T SET KIM_TYP_ID = 'KFS69' WHERE role_id = '98';
-COMMIT;
 		</sql>
 	</changeSet>
 
@@ -243,7 +241,7 @@ COMMIT;
 		<comment>The new 2.0 rice data contains an overlapping KIM Role id.</comment>
 		<sql>
 UPDATE KRIM_ROLE_T SET role_id = 'KFS98' WHERE role_id = '98';
-COMMIT;
+UPDATE KRIM_ROLE_PERM_T SET role_id = 'KFS98' WHERE role_id = '98';
 		</sql>
 	</changeSet>
 	

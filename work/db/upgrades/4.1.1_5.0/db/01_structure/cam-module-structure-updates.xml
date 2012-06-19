@@ -3,7 +3,7 @@
 	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
 	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
 
-	<changeSet author='kfs50' id='KFSMI-5998_structure'>
+	<changeSet author="KFS50" id='KFSMI-5998_structure'>
 		<comment>KFSMI-5998 </comment>
 		<createTable tableName="CM_AST_PMT_DST_CD_T">
 			<column name="AST_PMT_DST_CD" type="VARCHAR2(1)">
@@ -112,7 +112,7 @@
 		</modifySql>
 	</changeSet>
 
-	<changeSet author="schoo" id="KFSMI-6629_STRUCTURE_CHANGES">
+	<changeSet author="KFS50" id="KFSMI-6629_STRUCTURE_CHANGES">
 		<modifyColumn tableName='CM_CPTLAST_DTL_T'>
 			<column name='AST_OFFCMP_ADDR' type='VARCHAR2(45)' />
 		</modifyColumn>
@@ -140,7 +140,7 @@
 		<createSequence sequenceName="CM_AST_PMT_DOC_TYP_SEQ" startValue="20" incrementBy="1" />
 	</changeSet>
 
-	<changeSet author="jksmith" id="KFSMI7058_ASSET_PMT_DOC_TABLE">
+	<changeSet author="KFS50" id="KFSMI7058_ASSET_PMT_DOC_TABLE">
 		<createTable tableName="CM_AST_PMT_DOC_TYP_T">
 			<column name="DOC_TYP_ID" type="NUMBER(7,0)">
 				<constraints primaryKey="true" primaryKeyName="CM_AST_PMT_DOC_TYP_T_TP1" />
@@ -160,7 +160,7 @@
 		</modifySql>
 	</changeSet>
 
-	<changeSet author="jksmith" id="KFSCNTRB641_ADD_ACTIVE_INDICATORS_TO_CAMS_TABLES">
+	<changeSet author="KFS50" id="KFSCNTRB641_ADD_ACTIVE_INDICATORS_TO_CAMS_TABLES">
 		<comment>Adds active indicators to three CAMS tables.</comment>
 		<addColumn tableName="CM_AST_COMPONENT_T">
 			<column name="ACTV_IND" type="VARCHAR2(1)" defaultValue="Y" />

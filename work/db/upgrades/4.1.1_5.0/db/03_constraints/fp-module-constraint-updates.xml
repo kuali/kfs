@@ -14,7 +14,7 @@
 						referencedTableName="FP_CPTL_AST_INFO_T" referencedColumnNames="FDOC_NBR, CPTLAST_LINE_NBR" />
 	</changeSet>
 
-    <changeSet author="jksmith" id="KFSMI6285_STRUCTURE_CHANGES_constraints">
+    <changeSet author="KFS50" id="KFSMI6285_STRUCTURE_CHANGES_constraints">
         <addForeignKeyConstraint constraintName="FP_PRCRMNT_CARD_DFLT_TR1"
     		baseTableName="FP_PRCRMNT_CARD_DFLT_T" baseColumnNames="FIN_COA_CD"
     		referencedTableName="CA_CHART_T" referencedColumnNames="FIN_COA_CD"

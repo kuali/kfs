@@ -126,19 +126,19 @@
 		<renameTable oldTableName="FP_PRCRMNT_CARD_TRN_T" newTableName="FP_PRCRMNT_CARD_TRN_MT" />
 	</changeSet>
 
-	<changeSet author='KFS50' id='KFS_50_FP_PRCRMNT_CARD_TRN_T_SEQ_oracle' dbms="oracle">
+	<changeSet author="KFS50" id='KFS_50_FP_PRCRMNT_CARD_TRN_T_SEQ_oracle' dbms="oracle">
 		<comment>KFSMI-6720 rename FP_PRCRMNT_CARD_TRN_T to be renamed to FP_PRCRMNT_CARD_TRN_MT </comment>
 		<sql>
 			RENAME FP_PRCRMNT_CARD_TRN_T_SEQ TO FP_PRCRMNT_CARD_TRN_MT_SEQ;
 		</sql>
 	</changeSet>
 
-	<changeSet author='KFS50' id='KFS_50_FP_PRCRMNT_CARD_TRN_T_SEQ_mysql' dbms="mysql">
+	<changeSet author="KFS50" id='KFS_50_FP_PRCRMNT_CARD_TRN_T_SEQ_mysql' dbms="mysql">
 		<comment>KFSMI-6720 rename FP_PRCRMNT_CARD_TRN_T to be renamed to FP_PRCRMNT_CARD_TRN_MT </comment>
 		<renameTable oldTableName="FP_PRCRMNT_CARD_TRN_T_SEQ" newTableName="FP_PRCRMNT_CARD_TRN_MT_SEQ" />		
 	</changeSet>
 
-	<changeSet author='KFS50' id='KFS_50_FP_DEPOSIT_HDR_T'>
+	<changeSet author="KFS50" id='KFS_50_FP_DEPOSIT_HDR_T'>
 		<comment>KFSMI-6966 Need the ability to recategorize checks/currency/coins from CRs</comment>
 		<addColumn tableName='FP_DEPOSIT_HDR_T'>
 			<column name='FDOC_MSTR_100_DLR_AMT' type='NUMBER(19,2)' />
@@ -309,7 +309,7 @@
 		</modifySql>
 	</changeSet>
 
-    <changeSet author="jksmith" id="KFSMI6285_STRUCTURE_CHANGES">
+    <changeSet author="KFS50" id="KFSMI6285_STRUCTURE_CHANGES">
 		<createTable tableName="FP_PRCRMNT_CARD_DFLT_T">
             <column name="CC_NBR" type="VARCHAR2(16)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="FP_PRCRMNT_CARD_DFLT_TP1"/>
@@ -347,7 +347,7 @@
 		</modifySql>		
 	</changeSet>
 
-	<changeSet author="jksmith" id="KFSMI307_STRUCTURE_CHANGES">
+	<changeSet author="KFS50" id="KFSMI307_STRUCTURE_CHANGES">
 		<addColumn tableName="FP_DV_DOC_T">
 			<column name="IMD_PMT_IND" type="VARCHAR2(1)" defaultValue="N"/>
 		</addColumn>
@@ -356,7 +356,7 @@
 		</modifySql>		
 	</changeSet>
 	
-	<changeSet author="kekanaya" id="KFSMI4123_STRUCTURE_CHANGES">
+	<changeSet author="KFS50" id="KFSMI4123_STRUCTURE_CHANGES">
 		<addColumn tableName="FP_CASH_RCPT_DOC_T">
 			<column name="FDOC_BNK_CD" type="VARCHAR2(4)"/>
 		</addColumn>
@@ -365,7 +365,7 @@
 		</modifySql>		
 	</changeSet>
 
-	<changeSet author="jksmith" id="KFSMI6965_PCDO_ACCT_LINES_DESC">
+	<changeSet author="KFS50" id="KFSMI6965_PCDO_ACCT_LINES_DESC">
 		<comment>Adds column to hold description to PCDO accounting lines</comment>
 		<addColumn tableName="FP_PRCRMNT_ACCT_LINES_T">
 			<column name="FDOC_LINE_DESC" type="VARCHAR2(40)" />
@@ -388,7 +388,7 @@
 		</modifySql>		
 	</changeSet>
 	
-  <changeSet author='samuel' id='KFS_50_Add_ACCTG_CTGRY_CD'>
+  <changeSet author="KFS50" id='KFS_50_Add_ACCTG_CTGRY_CD'>
     <comment>KFSMI-KFSMI-7873 Add ACCTG_CTGRY_CD to object/level consolidaiton temp tables</comment>
     <addColumn tableName='FP_BAL_BY_LEVEL_MT'>
       <column name='ACCTG_CTGRY_CD' type='VARCHAR2(2)' />

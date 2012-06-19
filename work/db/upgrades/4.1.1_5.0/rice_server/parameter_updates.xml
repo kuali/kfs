@@ -435,7 +435,7 @@
 		</delete>
 	</changeSet>
 
-	<changeSet author="jksmith" id="KFSMI6342_UNORDERED_LINE_ITEM_MESSAGE_PARAMETER">
+	<changeSet author="KFS50" id="KFSMI6342_UNORDERED_LINE_ITEM_MESSAGE_PARAMETER">
 		<comment>Adds parameter for warning message for when user clicks "add unordered item" button</comment>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-PURAP" />
@@ -454,7 +454,7 @@
 	    </modifySql>
 	</changeSet>
 	
-	<changeSet author="jksmith" id="KFSMI6315_SEMAPHORE_PROCESSING_INTERVAL_INSERTION">
+	<changeSet author="KFS50" id="KFSMI6315_SEMAPHORE_PROCESSING_INTERVAL_INSERTION">
 		<comment>Adds parameter for semaphore processing interval</comment>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-SYS" />
@@ -473,7 +473,7 @@
 	    </modifySql>
 	</changeSet>
 	
-	<changeSet author="jksmith" id="KFSMI5346_ACH_CC_PARAMETER">
+	<changeSet author="KFS50" id="KFSMI5346_ACH_CC_PARAMETER">
 		<comment>Adds parameter for KFSMI-5346 cc address for ACH notifications</comment>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-PDP" />
@@ -492,7 +492,7 @@
 	    </modifySql>
 	</changeSet>
 	
-	<changeSet author="jksmith" id="KFSMI6653_UPDATE_BANK_CODE_DOCUMENT_TYPES_PARAMETER">
+	<changeSet author="KFS50" id="KFSMI6653_UPDATE_BANK_CODE_DOCUMENT_TYPES_PARAMETER">
 		<comment>Updates the parameter KFS-SYS / Bank / BANK_CODE_DOCUMENT_TYPES to take out document types which permanently have bank codes.</comment>
 		<update tableName="KRCR_PARM_T">
 			<column name="VAL" value="DV;PREQ;CM;CTRL"/>
@@ -500,7 +500,7 @@
 		</update>
 	</changeSet>
 
-	<changeSet author="jksmith" id="KFSMI307_DV_IMMEDIATE_EXTRACT_MAIL_PARAMS">
+	<changeSet author="KFS50" id="KFSMI307_DV_IMMEDIATE_EXTRACT_MAIL_PARAMS">
 		<comment>Adds parameters for the from addresses and the to addresses for Disbursement Vouchers which were immediately extracted.</comment>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-FP" />
@@ -531,7 +531,7 @@
 	    </modifySql>
 	</changeSet>
 	
-	<changeSet author="jksmith" id="KFSMI5918_COLLECTOR_FAILURE_SUBJECT_PARAM">
+	<changeSet author="KFS50" id="KFSMI5918_COLLECTOR_FAILURE_SUBJECT_PARAM">
 		<comment>Adds parameter for KFSMI-5918 subject for Collector notification e-mail when failures occur</comment>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-GL" />
@@ -550,7 +550,7 @@
 	    </modifySql>
 	</changeSet>
 	
-	<changeSet author="jksmith" id="KFSMI6285_PROCUREMENT_CARD_DEFAULT_PARAMETERS">
+	<changeSet author="KFS50" id="KFSMI6285_PROCUREMENT_CARD_DEFAULT_PARAMETERS">
 		<comment>Create parameters which turn on various fields in the ProcurementCardDefault business object</comment>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-FP" />
@@ -581,7 +581,7 @@
 	    </modifySql>
 	</changeSet>
 	
-	<changeSet author="jksmith" id="KFSMI6809_DEPRECIATION_BLANK_OUT_PARAMS">
+	<changeSet author="KFS50" id="KFSMI6809_DEPRECIATION_BLANK_OUT_PARAMS">
 		<comment>Adds parameters to control the more finely tuned running of the Asset Depreciation job during the "blank out period," traditionally in the months around year end.</comment>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-CAM" />
@@ -636,7 +636,7 @@
 	    </modifySql>
 	</changeSet>
 	
-	<changeSet author="jksmith" id="KFSMI6809_RUN_DATE_NOTIFICATION_PARAM">
+	<changeSet author="KFS50" id="KFSMI6809_RUN_DATE_NOTIFICATION_PARAM">
 		<comment>Adds parameter for KFSMI-6809 which holds the e-mail address for notifications about the Asset Depreciation run date.</comment>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-CAM" />
@@ -655,7 +655,7 @@
 	    </modifySql>
 	</changeSet>
 	
-	<changeSet author="jksmith" id="KFSMI6890_PARAMETER_UPDATE_FOR_ACH_BANKS">
+	<changeSet author="KFS50" id="KFSMI6890_PARAMETER_UPDATE_FOR_ACH_BANKS">
 		<comment>New parameter on url to find Federal ACH Bank file from, plus update corresponding parameter with bad parameter detail type</comment>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-PDP" />
@@ -678,7 +678,7 @@
 	    </modifySql>
 	</changeSet>
 	
-	<changeSet author="jksmith" id="KFSMI4452_BATCH_LOCKOUT_MESSAGE">
+	<changeSet author="KFS50" id="KFSMI4452_BATCH_LOCKOUT_MESSAGE">
 		<comment>Adds parameter for KFSMI-4452 to hold message when documents are locked out by other processes (such as pdp purap immediate extracts job)</comment>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-SYS" />
@@ -697,7 +697,7 @@
 	    </modifySql>
 	</changeSet>
 	
-	<changeSet author="jksmith" id="KFSMI6820_FROM_ADDRESSES_FOR_BATCH_JOBS">
+	<changeSet author="KFS50" id="KFSMI6820_FROM_ADDRESSES_FOR_BATCH_JOBS">
 		<comment>Adds parameters for several modules which have batch jobs that need to have specified from e-mail addresses for sent e-mails.  Kalani did the sql on this one.</comment>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-GL" />
@@ -752,7 +752,7 @@
 	    </modifySql>
 	</changeSet>
 	
-	<changeSet author="jksmith" id="KFSMI6944_SCHEDULE_PRIOR_YEAR_JOB">
+	<changeSet author="KFS50" id="KFSMI6944_SCHEDULE_PRIOR_YEAR_JOB">
 		<comment>Adds parameter for KFSMI-6944 to specify run date for prior year job, so that job can be scheduled. Megha did the sql here.</comment>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-COA" />
@@ -771,7 +771,7 @@
 	    </modifySql>
 	</changeSet>
 	
-	<changeSet author="jksmith" id="KFSMI7014_PARAM_TO_INACTIVE_AMOUNT_TOTAL_DURING_POST_PROCESS">
+	<changeSet author="KFS50" id="KFSMI7014_PARAM_TO_INACTIVE_AMOUNT_TOTAL_DURING_POST_PROCESS">
 		<comment>Adds parameter for KFSMI-7014 to activate or inactivate whether amount totaling occurs during post-processing.</comment>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-SYS" />
@@ -790,7 +790,7 @@
 	    </modifySql>
 	</changeSet>
 	
-	<changeSet author="jksmith" id="KFSMI6319_EINVOICE_OVERRIDE_CAMPUS">
+	<changeSet author="KFS50" id="KFSMI6319_EINVOICE_OVERRIDE_CAMPUS">
 		<comment>Adds parameter for KFSMI-6319 to potentially override the campus used by the e-invoicing process. Megha did the original sql here.</comment>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-PURAP" />
@@ -809,7 +809,7 @@
 	    </modifySql>
 	</changeSet>
 	
-	<changeSet author="jksmith" id="KFSMI6929_LABOR_LEDGER_ORIGIN_CODES_PARAMETER">
+	<changeSet author="KFS50" id="KFSMI6929_LABOR_LEDGER_ORIGIN_CODES_PARAMETER">
 		<comment>Adds parameter for KFSMI-6929 which lists labor ledger origin codes</comment>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-LD" />
@@ -828,7 +828,7 @@
 	    </modifySql>
 	</changeSet>
 	
-	<changeSet author="jksmith" id="KFSMI7006_CUTOFF_TIME_PARAMETER">
+	<changeSet author="KFS50" id="KFSMI7006_CUTOFF_TIME_PARAMETER">
 		<comment>Adds parameter to perform cutoff of batch cycle.</comment>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-SYS" />
@@ -847,7 +847,7 @@
 	    </modifySql>
 	</changeSet>
 
-	<changeSet author="jksmith" id="KFSCNTRB162_DEBARRED_VENDOR_TRACKING_PARMS">
+	<changeSet author="KFS50" id="KFSCNTRB162_DEBARRED_VENDOR_TRACKING_PARMS">
 		<comment>New parameters for debarred vendor tracking process as well as the permission to upload the vendor exclusion file.</comment>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-VND" />
@@ -890,7 +890,7 @@
 	    </modifySql>
 	</changeSet>
 
-	<changeSet author="jksmith" id="KFSCNTRB672_BATCH_MAX_FILE_SIZE_PARAMETER">
+	<changeSet author="KFS50" id="KFSCNTRB672_BATCH_MAX_FILE_SIZE_PARAMETER">
 		<comment>Adds parameter which determines the max size of files which can be uploaded via batch upload.</comment>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-SYS" />
@@ -909,7 +909,7 @@
 	    </modifySql>
 	</changeSet>
 	
-	<changeSet author="jksmith" id="KFSCNTRB155_DEFAULT_ASSET_MANUFACTURER_PARAMETER">
+	<changeSet author="KFS50" id="KFSCNTRB155_DEFAULT_ASSET_MANUFACTURER_PARAMETER">
 		<comment>Adds parameter to specify the default asset manufacturer</comment>
 		<insert tableName="KRCR_PARM_T">
 			<column name="NMSPC_CD" value="KFS-CAM" />

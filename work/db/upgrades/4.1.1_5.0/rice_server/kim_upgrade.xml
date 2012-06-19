@@ -288,7 +288,7 @@
 		</insert>
 	</changeSet>
 	
-	<changeSet author="jksmith" id="KFSMI307_IMMEDIATE_DV_DISBURSEMENT_PERMISSION">
+	<changeSet author="KFS50" id="KFSMI307_IMMEDIATE_DV_DISBURSEMENT_PERMISSION">
 		<comment>Creates a permission to allow KFS-SYS Operations and KFS-FP Disbursement Manager to set a DV for immediate disbursement.</comment>
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="KFSSYS6007"/>
@@ -339,7 +339,7 @@
 	    </modifySql>
 	</changeSet>
 
-	<changeSet author="jksmith" id="KFSMI4553_NEW_ROLE_FOR_VENDOR_REVIEWER">
+	<changeSet author="KFS50" id="KFSMI4553_NEW_ROLE_FOR_VENDOR_REVIEWER">
 		<comment>New KIM role type, role, and responsibility action for KFS-VND Exclude Single Actor Reviewer.  This one is ugly, sorry about that...</comment>
 		<insert tableName="KRIM_TYP_T">
 			<column name="KIM_TYP_ID" value="KFSMI4553-1"/>
@@ -445,7 +445,7 @@
 		</update>
 	</changeSet>
 	
-	<changeSet author="jksmith" id="KFSMI6732_PREROUTE_EDIT_DOC_PERM_FOR_PAYMENT_APPLICATION">
+	<changeSet author="KFS50" id="KFSMI6732_PREROUTE_EDIT_DOC_PERM_FOR_PAYMENT_APPLICATION">
 		<comment>Creates a permission to allow KR-WKFLW Initiator and KFS-SYS Accounts Receivable Lockbox Manager to edit a Payment Application document pre-route.</comment>
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="KFSAR6732"/>
@@ -496,7 +496,7 @@
 	    </modifySql>
 	</changeSet>
 	
-	<changeSet author="jksmith" id="KFSMI5340_ROLE_FOR_INVOICE_PROCESSING_EDITORS">
+	<changeSet author="KFS50" id="KFSMI5340_ROLE_FOR_INVOICE_PROCESSING_EDITORS">
 		<comment>A new role and a permission associated which will allow a select group of users to edit the processing organization fields on a Customer Invoice document.  Based on SQL by Kalani Ekanayake.</comment>
 		<insert tableName="KRIM_ROLE_T">
 			<column name="ROLE_ID" value="KFSAR5340R"/>
@@ -548,7 +548,7 @@
 	    </modifySql>
 	</changeSet>
 	
-	<changeSet author="jksmith" id="KFSMI6886_PAYEE_ACH_ADMIN_ROLE">
+	<changeSet author="KFS50" id="KFSMI6886_PAYEE_ACH_ADMIN_ROLE">
 		<comment>New role for administration of Payee ACH Accounts, with attendant new KIM role type and permissions.  SQL contributed by Ying.</comment>
 		<insert tableName="KRIM_TYP_T">
 			<column name="KIM_TYP_ID" value="KFSMI6886-TYP"/>
@@ -699,7 +699,7 @@
 	    </modifySql>
 	</changeSet>
 	
-	<changeSet author="jksmith" id="KFSMI7041_PERM_TO_USE_FRINGE_BENEFIT_INQUIRY_ACTION">
+	<changeSet author="KFS50" id="KFSMI7041_PERM_TO_USE_FRINGE_BENEFIT_INQUIRY_ACTION">
 		<comment>Create a KR-NS Use Screen template permission for the org.kuali.kfs.module.ld.document.web.struts.FringeBenefitInquiryAction.</comment>
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="KFSMI7041-PRM" />
@@ -733,7 +733,7 @@
 	    </modifySql>
 	</changeSet>
 	
-	<changeSet author="jksmith" id="KFSCNTRB162_DEBARRED_VENDOR_TRACKING_PERMS">
+	<changeSet author="KFS50" id="KFSCNTRB162_DEBARRED_VENDOR_TRACKING_PERMS">
 		<comment>New parameters for debarred vendor tracking process as well as the permission to upload the vendor exclusion file.</comment>
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="KFSCNTRB162-PRM" />

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
-  <changeSet author='KFS50' id='PDP_PMT_CHG_CD_T'>
+  <changeSet author="KFS50" id='PDP_PMT_CHG_CD_T'>
     <comment>KFSMI-KFSMI-6802 Need to create new PaymentChangeCode</comment>
     <insert tableName='PDP_PMT_CHG_CD_T'>
       <column name='PMT_CHG_CD' value='RC' />

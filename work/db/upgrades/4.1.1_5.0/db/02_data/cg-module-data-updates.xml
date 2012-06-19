@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 
  	
- <changeSet author='KFS50' id='Convert_CA_ICR_ACCT_T_mysql' dbms='mysql' >
+ <changeSet author="KFS50" id='Convert_CA_ICR_ACCT_T_mysql' dbms='mysql' >
   	<sql>
 ## MySQL data conversion for CA Account ICR values
 
@@ -59,7 +59,7 @@ SELECT @a21_acct_seq := @a21_acct_seq + 1, uuid(), 1, FIN_COA_CD, ACCOUNT_NBR, S
 INSERT CA_A21_ICR_ACCT_SEQ value (@a21_acct_seq);
   	</sql>
   	</changeSet>
-   	<changeSet author='KFS50' id='Convert_CA_ICR_ACCT_T_oracle' dbms='oracle' >
+   	<changeSet author="KFS50" id='Convert_CA_ICR_ACCT_T_oracle' dbms='oracle' >
   	<sql>
  <!--  
  KFSMI 6963 Conversion script to take the ICR COA/Account Number and populate into

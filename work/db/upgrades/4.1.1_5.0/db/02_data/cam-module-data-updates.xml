@@ -2,7 +2,7 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
-	<changeSet author="kfs50" id="KFS_50_Data_AST_PMT_DST_CD">
+	<changeSet author="KFS50" id="KFS_50_Data_AST_PMT_DST_CD">
 		<comment>KFSMI-KFSMI-5998 </comment>
 		<insert tableName="CM_AST_PMT_DST_CD_T">
 			<column name="AST_PMT_DST_CD" value="1" />
@@ -47,7 +47,7 @@
 			<replace replace="SYS_GUID" with="sys_guid()" />
 		</modifySql>
 	</changeSet>
-	<changeSet author="kfs50" id="KFS_50_Data_CM_CPTLAST_T_oracle"
+	<changeSet author="KFS50" id="KFS_50_Data_CM_CPTLAST_T_oracle"
 		context="manualRun" dbms="oracle">
 		<comment>KFSMI-6628 sql script to correct Total Costs in the Asset Detail Tab</comment>
 		<sql><![CDATA[
@@ -67,7 +67,7 @@
 			t.cptlast_totcst_amt));
 		]]></sql>
 	</changeSet>
-	<changeSet author="kfs50" id="KFS_50_Data_CM_CPTLAST_T_MySQL"
+	<changeSet author="KFS50" id="KFS_50_Data_CM_CPTLAST_T_MySQL"
 		context="manualRun" dbms="mysql">
 		<comment>KFSMI-6628 sql script to correct Total Costs in the Asset Detail Tab</comment>
 		<sql><![CDATA[
@@ -85,7 +85,7 @@
 		]]></sql>
 	</changeSet>
 
-	<changeSet author="jksmith" id="KFSMI7058_ASSET_PMT_DOC_SAMPLE_DATA">
+	<changeSet author="KFS50" id="KFSMI7058_ASSET_PMT_DOC_SAMPLE_DATA">
 		<insert tableName="CM_AST_PMT_DOC_TYP_T">
 			<column name="DOC_TYP_ID" value="1" />
 			<column name="OBJ_ID" valueNumeric="sys_guid() " />

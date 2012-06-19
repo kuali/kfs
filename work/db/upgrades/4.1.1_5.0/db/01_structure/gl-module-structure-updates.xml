@@ -4,7 +4,7 @@
 	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
 
 	
-	<changeSet author="schoo" id="KFSMI-6709_STRUCTURE_CHANGES">
+	<changeSet author="KFS50" id="KFSMI-6709_STRUCTURE_CHANGES">
 		<renameTable oldTableName="GL_EXPEND_TRN_T" newTableName="GL_EXPEND_TRN_MT"/>
 	</changeSet>
 

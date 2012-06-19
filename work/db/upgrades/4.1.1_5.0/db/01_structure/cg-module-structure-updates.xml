@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
  
-	<changeSet author="jksmith" id="KFSMI6999_RENAME_CFDA_REF_T">
+	<changeSet author="KFS50" id="KFSMI6999_RENAME_CFDA_REF_T">
 		<renameTable oldTableName="CG_CFDA_REF_T" newTableName="CA_CFDA_REF_T"/>
 	</changeSet>
 	

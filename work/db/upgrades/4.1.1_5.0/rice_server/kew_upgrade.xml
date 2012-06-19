@@ -2,7 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 	
-	<changeSet author="jksmith" id="KFSMI7019_CHANGE_MPAY_LBL">
+	<changeSet author="KFS50" id="KFSMI7019_CHANGE_MPAY_LBL">
 		<comment>Changes the label for the document type MPAY to the more accurate Asset Manual Payment</comment>
 		<update tableName="KREW_DOC_TYP_T">
 			<column name="LBL" value="Asset Manual Payment"/>
@@ -10,7 +10,7 @@
 		</update>
 	</changeSet>
 	
-	<changeSet author="jksmith" id="KFSMI6964_UPDATE_DOC_TYPE_HELP_URL">
+	<changeSet author="KFS50" id="KFSMI6964_UPDATE_DOC_TYPE_HELP_URL">
 		<comment>Updates the help urls for the MPAY (asset manual payment) and ALOC (asset location) document types.</comment>
 		<update tableName="KREW_DOC_TYP_T">
 			<column name="HELP_DEF_URL" value="default.htm?turl=WordDocuments%2Fassetmanualpayment.htm" />
@@ -23,7 +23,7 @@
 	</changeSet>
 	
 	
-	<changeSet author="jksmith" id="KFSCNTRB56_UPDATE_CFDM_PARENT_DOC_TYPE_oracle" dbms="oracle">
+	<changeSet author="KFS50" id="KFSCNTRB56_UPDATE_CFDM_PARENT_DOC_TYPE_oracle" dbms="oracle">
 		<comment>Changes the parent document type of the CFDA maintenance document, CFDM, so that it's parent is COSM, the Chart of Accounts simple maintenance document type.</comment>
 		<update tableName="KREW_DOC_TYP_T">
 			<column name="PARNT_ID" valueNumeric=" (select doc_typ_id from KREW_DOC_TYP_T where doc_typ_nm = 'COSM' and cur_ind = 1 and actv_ind = 1) " />
@@ -95,7 +95,7 @@
 		</update>
 	</changeSet>
 
-	<changeSet author="jksmith" id="KFSCNTRB56_UPDATE_CFDM_PARENT_DOC_TYPE_mysql" dbms="mysql">
+	<changeSet author="KFS50" id="KFSCNTRB56_UPDATE_CFDM_PARENT_DOC_TYPE_mysql" dbms="mysql">
 		<comment>Changes the parent document type of the CFDA maintenance document, CFDM, so that it's parent is COSM, the Chart of Accounts simple maintenance document type.</comment>
 		<sql splitStatements="false">DROP PROCEDURE IF EXISTS temp</sql>
 		<sql splitStatements="false">
@@ -118,7 +118,7 @@ END;
 		<sql splitStatements="false">DROP PROCEDURE temp</sql>
 	</changeSet>
 	
-	<changeSet author="kfs50" id="KFSMI_7568_FIX_DOC_OPENING_IN_EMBEDDED_RICE_MODE">
+	<changeSet author="KFS50" id="KFSMI_7568_FIX_DOC_OPENING_IN_EMBEDDED_RICE_MODE">
 		<comment>Updates all the KFS document types to use the new "kfs.url" instead of "application.url".</comment>
 		<update tableName="KREW_DOC_TYP_T">
 			<column name="doc_hdlr_url" valueNumeric=" REPLACE( DOC_HDLR_URL, 'application.url', 'kfs.url' ) " />

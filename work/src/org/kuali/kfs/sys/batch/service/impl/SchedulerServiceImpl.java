@@ -788,8 +788,10 @@ public class SchedulerServiceImpl implements SchedulerService {
             Trigger[] triggers = scheduler.getTriggersOfJob(job.getName(), job.getGroup());
             Date nextDate = new Date(Long.MAX_VALUE);
             for (Trigger trigger : triggers) {
-                if (trigger.getNextFireTime().getTime() < nextDate.getTime()) {
-                    nextDate = trigger.getNextFireTime();
+                if (trigger.getNextFireTime() != null){
+                    if (trigger.getNextFireTime().getTime() < nextDate.getTime()) {
+                        nextDate = trigger.getNextFireTime();
+                    }
                 }
             }
             if (nextDate.getTime() == Long.MAX_VALUE) {

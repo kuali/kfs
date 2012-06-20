@@ -110,7 +110,7 @@
 					lookupOrInquiryKeys="emplid" rowSpan="${rowspan}" 
 					accountingLineValuesMap="${fundingLine.valuesMap}"/>	
 					
-				<td class="datacell" rowspan="${rowspan}">${fundingLine.budgetConstructionIntendedIncumbent.iuClassificationLevel}&nbsp;</td>						
+				<td class="datacell" valign="top" rowspan="${rowspan}">${fundingLine.budgetConstructionIntendedIncumbent.iuClassificationLevel}&nbsp;</td>						
 			</c:when>
 			<c:otherwise>
 				<bc:pbglLineDataCell dataCellCssClass="datacell" 
@@ -124,23 +124,23 @@
 		</c:choose>
 		
 		<%-- Salary Plan Default --%>
-		<td class="datacell" rowSpan="${rowspan}">${fundingLine.budgetConstructionPosition.positionSalaryPlanDefault}</td>
+		<td class="datacell" valign="top" rowSpan="${rowspan}">${fundingLine.budgetConstructionPosition.positionSalaryPlanDefault}</td>
 
 		<%-- Position Grade Default --%>
-		<td class="datacell" rowSpan="${rowspan}">${fundingLine.budgetConstructionPosition.positionGradeDefault}</td>
+		<td class="datacell" valign="top" rowSpan="${rowspan}">${fundingLine.budgetConstructionPosition.positionGradeDefault}</td>
 
 		<%-- IU Normal Work Months --%>
-		<td class="datacell" rowSpan="${rowspan}">${fundingLine.budgetConstructionPosition.iuNormalWorkMonths}</td>
+		<td class="datacell" valign="top" rowSpan="${rowspan}">${fundingLine.budgetConstructionPosition.iuNormalWorkMonths}</td>
 
 		<%-- IU Pay Months --%>
-		<td class="datacell" rowSpan="${rowspan}">${fundingLine.budgetConstructionPosition.iuPayMonths}</td>
+		<td class="datacell" valign="top" rowSpan="${rowspan}">${fundingLine.budgetConstructionPosition.iuPayMonths}</td>
 				
 		<%-- csf Amount --%>
 		<c:choose>
 			<c:when test="${!empty fundingLine.bcnCalculatedSalaryFoundationTracker}">	
 				<fmt:formatNumber value="${fundingLine.bcnCalculatedSalaryFoundationTracker[0].csfAmount}" 
 					var="formattedCsfAmount" type="number" groupingUsed="true"/>		
-				<td class="datacell" style="text-align: right;">
+				<td class="datacell" valign="top" style="text-align: right;">
 					<a href="${ConfigProperties.application.url}/budgetTempListLookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.bc.businessobject.CalculatedSalaryFoundationTracker&universityFiscalYear=${KualiForm.universityFiscalYear-1}&chartOfAccountsCode=${KualiForm.chartOfAccountsCode}&accountNumber=${KualiForm.accountNumber}&subAccountNumber=${KualiForm.subAccountNumber}&financialObjectCode=${KualiForm.financialObjectCode}&financialSubObjectCode=${KualiForm.financialSubObjectCode}&hideReturnLink=true&suppressActions=true&tempListLookupMode=6&showInitialResults=true&docFormKey=${KualiForm.returnFormKey}&backLocation=${KualiForm.backLocation}"  target="_blank">
     					${formattedCsfAmount}
     				</a>
@@ -148,7 +148,7 @@
 				
 				<fmt:formatNumber value="${fundingLine.bcnCalculatedSalaryFoundationTracker[0].csfFullTimeEmploymentQuantity}" 
 					var="formattedCsfFTE" type="number" groupingUsed="true" minFractionDigits="5" />
-				<td class="datacell" style="text-align: right;">${formattedCsfFTE}</td>
+				<td class="datacell" valign="top" style="text-align: right;">${formattedCsfFTE}</td>
 			</c:when>
 			<c:otherwise>
 				<td>&nbsp;</td>
@@ -330,7 +330,7 @@
 			   			Refresh Incumbent?
 			   		</html:checkbox>
 		   		</c:if>
-			</td
+			</td>
 		</tr>
 	</c:if>
 		

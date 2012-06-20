@@ -64,6 +64,7 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.api.type.KimType;
 import org.kuali.rice.kim.api.type.KimTypeInfoService;
 import org.kuali.rice.kim.framework.role.RoleTypeService;
@@ -291,8 +292,8 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
      * @param budgetConstructionForm form containing budget document
      */
     protected void setBudgetDocumentNoAccessMessage(BudgetConstructionForm budgetConstructionForm) {
-        Role roleInfo = SpringContext.getBean(RoleService.class).getRoleByNamespaceCodeAndName(BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimApiConstants.DOCUMENT_VIEWER_ROLE_NAME);
-        KimType typeInfo = SpringContext.getBean(KimTypeInfoService.class).getKimType(roleInfo.getKimTypeId());
+        Role roleInfo = KimApiServiceLocator.getRoleService().getRoleByNamespaceCodeAndName(BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimApiConstants.DOCUMENT_VIEWER_ROLE_NAME);
+        KimType typeInfo = KimApiServiceLocator.getKimTypeInfoService().getKimType(roleInfo.getKimTypeId());
 
         if (StringUtils.isNotBlank(typeInfo.getServiceName())) {
             RoleTypeService roleTypeService = (RoleTypeService) SpringContext.getService(typeInfo.getServiceName());

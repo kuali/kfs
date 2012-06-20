@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
@@ -373,7 +374,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
         String docNumber = (String)fieldValues.get(DOC_NUMBER);
         Criteria subCriteria1 = new Criteria();
         boolean docNbrCriteriaNeeded = false;
-        if (fieldValues.get(DOC_NUMBER) != null) {
+        if (StringUtils.isNotBlank(docNumber)) {
             fieldValues.remove(DOC_NUMBER);
             subCriteria1 = new Criteria();
             subCriteria1.addEqualTo(KFSPropertyConstants.TRANSACTION_ENCUMBRANCE_UPDT_CD, KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);

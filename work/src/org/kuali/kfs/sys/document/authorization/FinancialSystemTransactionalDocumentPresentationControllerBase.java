@@ -17,12 +17,8 @@ package org.kuali.kfs.sys.document.authorization;
 
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTime;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSParameterKeyConstants;
-import org.kuali.kfs.sys.businessobject.Bank;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.Correctable;
@@ -37,7 +33,7 @@ import org.kuali.rice.core.api.parameter.ParameterEvaluatorService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.krad.datadictionary.DataDictionary;
+import org.kuali.rice.krad.datadictionary.DocumentEntry;
 import org.kuali.rice.krad.document.Document;
 import org.springframework.util.ObjectUtils;
 
@@ -47,7 +43,10 @@ import org.springframework.util.ObjectUtils;
 public class FinancialSystemTransactionalDocumentPresentationControllerBase extends TransactionalDocumentPresentationControllerBase implements FinancialSystemTransactionalDocumentPresentationController {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FinancialSystemTransactionalDocumentPresentationControllerBase.class);
 
+    private static ParameterEvaluatorService parameterEvaluatorService;
     private static BankService bankService;
+    private static UniversityDateService universityDateService;
+    private static DataDictionaryService dataDictionaryService;
 
     /**
      * Makes sure that the given document implements error correction, that error correction is turned on for the document in the
@@ -64,11 +63,11 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
         if (!this.canCopy(document)) {
             return false;
         }
+        DocumentEntry documentEntry = getDataDictionaryService().getDataDictionary().getDocumentEntry(document.getClass().getName());
+        //FinancialSystemTransactionalDocumentEntry documentEntry = (FinancialSystemTransactionalDocumentEntry) ();
 
-        DataDictionary dataDictionary = SpringContext.getBean(DataDictionaryService.class).getDataDictionary();
-        FinancialSystemTransactionalDocumentEntry documentEntry = (FinancialSystemTransactionalDocumentEntry) (dataDictionary.getDocumentEntry(document.getClass().getName()));
-
-        if (!documentEntry.getAllowsErrorCorrection()) {
+        if ( !(documentEntry instanceof FinancialSystemTransactionalDocumentEntry)
+                || !((FinancialSystemTransactionalDocumentEntry)documentEntry).getAllowsErrorCorrection()) {
             return false;
         }
 
@@ -80,7 +79,7 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
             return false;
         }
 
-        final WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (!isApprovalDateWithinFiscalYear(workflowDocument)) {
             return false;
         }
@@ -93,9 +92,8 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
             DateTime approvalDate = workflowDocument.getDateApproved();
             if ( approvalDate != null ) {
                 // compare approval fiscal year with current fiscal year
-                UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
-                final Integer approvalYear = universityDateService.getFiscalYear(approvalDate.toDate());
-                final Integer currentFiscalYear = universityDateService.getCurrentFiscalYear();
+                Integer approvalYear = getUniversityDateService().getFiscalYear(approvalDate.toDate());
+                Integer currentFiscalYear = getUniversityDateService().getCurrentFiscalYear();
                 return ObjectUtils.nullSafeEquals(currentFiscalYear, approvalYear);
             }
         }
@@ -123,12 +121,13 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
         // rSmart-jkneal-KFSCSU-199-begin mod for adding accounting period view action
         if (document instanceof LedgerPostingDocument) {
             // check account period selection is enabled
+            // PERFORMANCE: cache this setting - move call to service
             boolean accountingPeriodEnabled = getParameterService().getParameterValueAsBoolean(KFSConstants.CoreModuleNamespaces.KFS, KfsParameterConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.DETAIL_PARAMETER_TYPE, KfsParameterConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.ENABLE_FISCAL_PERIOD_SELECTION_IND, false);
             if ( accountingPeriodEnabled) {
                 // check accounting period is enabled for doc type in system parameter
                 String docType = document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
-                ParameterEvaluatorService parameterEvaluatorService = SpringContext.getBean(ParameterEvaluatorService.class);
-                ParameterEvaluator evaluator = parameterEvaluatorService.getParameterEvaluator(KFSConstants.CoreModuleNamespaces.KFS, KfsParameterConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.DETAIL_PARAMETER_TYPE, KfsParameterConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.FISCAL_PERIOD_SELECTION_DOCUMENT_TYPES, docType);
+                // PERFORMANCE: cache this setting - move call to service
+                ParameterEvaluator evaluator = getParameterEvaluatorService().getParameterEvaluator(KFSConstants.CoreModuleNamespaces.KFS, KfsParameterConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.DETAIL_PARAMETER_TYPE, KfsParameterConstants.YEAR_END_ACCOUNTING_PERIOD_PARAMETER_NAMES.FISCAL_PERIOD_SELECTION_DOCUMENT_TYPES, docType);
                 if (evaluator.evaluationSucceeds()) {
                     documentActions.add(KFSConstants.YEAR_END_ACCOUNTING_PERIOD_VIEW_DOCUMENT_ACTION);
                 }
@@ -165,18 +164,37 @@ public class FinancialSystemTransactionalDocumentPresentationControllerBase exte
         if (bankSpecificationEnabled) {
             String documentTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
 
-            ParameterEvaluator evaluator = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(Bank.class, KFSParameterKeyConstants.BANK_CODE_DOCUMENT_TYPES, documentTypeName);
-            return evaluator.evaluationSucceeds();
+            return getBankService().isBankSpecificationEnabledForDocument(document.getClass());
         }
 
         return false;
     }
 
+    protected ParameterEvaluatorService getParameterEvaluatorService() {
+        if (parameterEvaluatorService == null) {
+            parameterEvaluatorService = SpringContext.getBean(ParameterEvaluatorService.class);
+        }
+        return parameterEvaluatorService;
+    }
 
     protected BankService getBankService() {
         if (bankService == null) {
             bankService = SpringContext.getBean(BankService.class);
         }
         return bankService;
+    }
+
+    public DataDictionaryService getDataDictionaryService() {
+        if (dataDictionaryService == null) {
+            dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+        }
+        return dataDictionaryService;
+    }
+
+    public UniversityDateService getUniversityDateService() {
+        if (universityDateService == null) {
+            universityDateService = SpringContext.getBean(UniversityDateService.class);
+        }
+        return universityDateService;
     }
 }

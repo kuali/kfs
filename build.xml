@@ -14,7 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<project name="kfs" default="dist-local" basedir=".">
+<project name="kfs" default="help" basedir=".">
 	<!-- run the help target to view usage instructions for public targets -->
 
 	<taskdef resource="net/sf/antcontrib/antlib.xml">
@@ -1213,12 +1213,17 @@ The workflow files you want to run must exist in the pending subdirectory and wi
 			<arg value="-Dimpex.properties.file=${impex.properties}" />
 			<arg line="${rice.impex.import.targets}"/>
 		</java>
-		<property name="dont.drop.kfs.schema" value="true"/>
 	</target>
 	
 	<target name="refresh-kfs-db" depends="init-properties" description="Refreshes the KFS components of the database for the current build environment">
 		<property name="impex.properties" location="${all.temp.directory}/impex-build.properties"/>
 		<!-- special condition here - we don't want to drop the schema if we are importing both Rice and KFS into the same schema -->
+		<if>
+			<equals arg1="${datasource.url}${datasource.username}" arg2="${rice.server.datasource.url}${rice.server.datasource.username}"/>
+			<then>
+				<property name="dont.drop.kfs.schema" value="true"/>
+			</then>
+		</if>
 		<condition property="kfs.impex.import.targets" value="import" else="drop-schema create-schema import"><istrue value="${dont.drop.kfs.schema}"/></condition>
 
 		<!-- for Mysql, attempt to remove the schema for the admin URL -->
@@ -1260,34 +1265,124 @@ The workflow files you want to run must exist in the pending subdirectory and wi
 		</java>			
 	</target>
 	
+	<target name="run-dev2" depends="init-properties">
+		<if>
+			<not>
+				<equals arg1="${build.environment}" arg2="dev2"/>
+			</not>
+			<then>
+				<fail message="build.environment must be set to dev2 before running this target.  Please set it in your kfs-build.properties and run dist-local plus a refresh in Eclipse prior to running this target."/>
+			</then>
+		</if>
+		<echo>Clearing out web configuration files</echo>
+		<mkdir dir="${appserver.home}/conf/Catalina/localhost" />
+		<delete>
+			<fileset dir="${appserver.home}/conf/Catalina/localhost">
+    			<include name="*.xml"/>
+			</fileset>
+			<fileset dir="${appserver.home}/work">
+    			<include name="**/*"/>
+			</fileset>
+			<fileset dir="${appserver.home}/temp">
+    			<include name="**/*"/>
+			</fileset>
+			<fileset dir="${appserver.home}/logs">
+				<include name="**/*"/>
+			</fileset>
+			<fileset dir="${appserver.home}/webapps">
+				<include name="kr-*/**/*"/>
+				<include name="kfs-*/**/*"/>
+			</fileset>
+		</delete>
+		<echo>Moving Rice descriptor into path</echo>
+		<echo file="${appserver.home}/conf/Catalina/localhost/kr-dev2.xml"><![CDATA[
+			<Context path="/kr-dev2" reloadable="false" docBase="${basedir}/build/external/appserver/rice-web-${kfs.rice.version}.war" unpackWAR="false">
+			</Context>
+		]]></echo>
+		<java classname="org.apache.catalina.startup.Bootstrap" fork="true">
+			<classpath>
+				<pathelement location="${appserver.home}/bin/bootstrap.jar"/>				
+			</classpath>
+			<jvmarg value="-Dxxxxxxx=kfs-dev2" />
+			<jvmarg value="-Xmx3g" />
+			<jvmarg value="-Xms512m" />
+			<jvmarg value="-XX:MaxPermSize=256m" />
+			<jvmarg value="-Djava.awt.headless=true" />
+			<jvmarg value="-DTOMCAT_DIR=${appserver.home}" />
+			<jvmarg value="-Dadditional.config.locations=${appserver.config.dir}/rice-config.xml" />
+			<jvmarg value="-Dcatalina.base=&quot;${appserver.home}&quot;" />
+			<jvmarg value="-Dcatalina.home=&quot;${appserver.home}&quot;" />
+			<jvmarg value="-Djava.io.tmpdir=&quot;${appserver.home}/temp&quot;" />
+			<env key="JAVA_TOOL_OPTIONS" value=""/>
+			<arg value="start" />
+		</java>
+		<!--
+
+			"$_RUNJAVA" "$LOGGING_CONFIG" $JAVA_OPTS $CATALINA_OPTS \
+			      -Djava.endorsed.dirs="$JAVA_ENDORSED_DIRS" -classpath "$CLASSPATH" \
+			      -Dcatalina.base="$CATALINA_BASE" \
+			      -Dcatalina.home="$CATALINA_HOME" \
+			      -Djava.io.tmpdir="$CATALINA_TMPDIR" \
+			      org.apache.catalina.startup.Bootstrap "$@" start
+
+if [[ "$1" == "-debug" ]]; then
+	export CATALINA_OPTS="$CATALINA_OPTS -Xdebug -Xrunjdwp:transport=dt_socket,address=8000,suspend=n,server=y"
+fi
+
+trap stop_tomcat 1 2 3 15
+function stop_tomcat() {
+	echo "Attempting to Kill Tomcat server"
+	ps -Af | grep "Dxxxxxxx=kfs-dev2" | grep -v grep | cut -c 7-12 | xargs kill -9
+} # catch_sig()
+
+
+echo "Starting up Tomcat"
+./bin/startup.sh
+sleep 10
+echo "Moving KFS descriptor into path"
+cp -v conf/kfs-dev2.xml conf/Catalina/localhost
+tail -F logs/catalina.out
+stop_tomcat
+popd
+-->		
+	</target>
+	
 	<target name="help" depends="init-properties" description="Describe public targets">
 		<echo>--- OVERVIEW ---
 
 	the following configuration files are involved in the build process
-			- build.xml
-			- build.properties
-			- build/*
-			- kfs-build.properties in ${user.home}
+			- ${basedir}/build.xml
+			- ${user.home}/kfs-build.properties
+			- ${institution.build.properties.file}
+			- ${basedir}/${build.environment}-build.properties
+			- ${basedir}/build/properties/*
 
 	you should start using this build script as follows
 
-			1. copy the kfs-build.properties from ${build.user.directory} in
-			${basedir} to ${user.home}
-			    - fill in the missing values in the sections related to tempoarily and permanently customizing the
-			      build for your machine (you do not need to worry about the rice development section)
-			    - override other property values in ${user.home}/kfs-build.properties as needed
+			1. copy the sample kfs-build.properties from
+					${basedir}/${build.user.directory} 
+				to
+					${user.home}
+			    - If desired, add your email address to the notification addresses.			
+			    - The default database setup which will be used is in ${basedir}/dev-build.properties.
+				-- You can copy any properties from there (or any other property file) to your kfs-build.properties
+					file to override the defaults in the project.
 			    - save your changes
 
 			2. run the echo-properties target and review the results
 
-			3. follow the instructions associated with the dist-local target and run that target
+			3. Run the dist-local Ant target of this build file.
 
-			4. right click on the root project directory and select "Refresh"
+			4. Right-click on the root project directory in Eclipse (or other IDE) and select "Refresh".
+				(This forces the IDE to notice files which were copied into the source tree so that it
+				 will copy them to the output directory where they need to be for local server operation.) 
 
-			5. click the "Run/Stop/Restart MyEclipse Application Servers" button in the "Java (default)" perspective in
-			eclipse to start tomcat
+			5. Start up the tomcat server.  (Either via Eclipse or the command line.  The one bundled with KFS
+				is located in ${basedir}/build/tomcat.
 
-			6. launch a browser and access http://localhost:8080/kuali-dev
+			6. Wait.
+			
+			7. Launch a browser and access ${application.url}
 
 	you can override the default log4j settings for your local deployments by copying
 		${basedir}/${build.external.directory}/${log4j.file} to
@@ -1297,13 +1392,15 @@ The workflow files you want to run must exist in the pending subdirectory and wi
 			--- TARGETS ---
 
 			dist-local: prepares tokenized resources and local configuration files and deploys tomcat context file on development workstation
-			- this target should be run each time you update the project or change property values in ${user.home}/kfs-build.properties
+			- this target should be run each time you update the project from version control or change property values in ${user.home}/kfs-build.properties
 			- tomcat should not be running when you are executing this target
+			- You must refresh the project in Eclipse after running this target before starting up the server.
 
-			test-local: runs all project tests and generates results
+			test-local: runs all project JUnut tests and generates results
              - criteria for running dist-local must be met before running this target
 			- you can customize the set of tests that run by modifying the value of tests.includes in ${user.home}/kfs-build.propertie
 			- tomcat should not be running when you execute this target
+			- This assumes you have the default demo dataset loaded.  Most tests will fail if the database is not populated as expected.
 
 			echo-properties: executes ant echoproperties task, thereby printing out all the properties that have been set
 

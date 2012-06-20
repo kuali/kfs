@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,7 +17,6 @@
 package org.kuali.kfs.coa.businessobject;
 
 import java.math.BigDecimal;
-import java.util.LinkedHashMap;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
@@ -31,16 +30,16 @@ public class IndirectCostRecoveryAccount extends PersistableBusinessObjectBase i
     private static Logger LOG = Logger.getLogger(IndirectCostRecoveryAccount.class);
 
     private Integer indirectCostRecoveryAccountGeneratedIdentifier;
-    
+
     //foreign keys to Account
     private String chartOfAccountsCode;
     private String accountNumber;
-    
+
     private String indirectCostRecoveryFinCoaCode;
     private String indirectCostRecoveryAccountNumber;
     private BigDecimal accountLinePercent;
     private boolean active;
-    
+
     //BO Reference
     private Account indirectCostRecoveryAccount;
     private Chart indirectCostRecoveryChartOfAccounts;
@@ -50,12 +49,12 @@ public class IndirectCostRecoveryAccount extends PersistableBusinessObjectBase i
      */
     public IndirectCostRecoveryAccount() {
     }
-    
+
 
     public IndirectCostRecoveryAccount(IndirectCostRecoveryAccount icr) {
         BeanUtils.copyProperties(icr, this);
     }
-    
+
     /**
      * static instantiate an ICRAccount from an ICRAccount
      *
@@ -65,7 +64,7 @@ public class IndirectCostRecoveryAccount extends PersistableBusinessObjectBase i
     public static IndirectCostRecoveryAccount copyICRAccount(IndirectCostRecoveryAccount icrAccount) {
         return new IndirectCostRecoveryAccount(icrAccount);
     }
-    
+
     public Integer getIndirectCostRecoveryAccountGeneratedIdentifier() {
         return indirectCostRecoveryAccountGeneratedIdentifier;
     }
@@ -89,7 +88,7 @@ public class IndirectCostRecoveryAccount extends PersistableBusinessObjectBase i
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
     }
-    
+
     public String getIndirectCostRecoveryFinCoaCode() {
         return indirectCostRecoveryFinCoaCode;
     }
@@ -120,7 +119,7 @@ public class IndirectCostRecoveryAccount extends PersistableBusinessObjectBase i
 
     /**
      * Sets the indirectCostRecoveryAccount attribute.
-     * 
+     *
      * @param account The account to set.
      * @deprecated Setter is required by OJB, but should not be used to modify this attribute. This attribute is set on the initial
      *             creation of the object and should not be changed.
@@ -139,7 +138,7 @@ public class IndirectCostRecoveryAccount extends PersistableBusinessObjectBase i
 
     /**
      * Sets the indirectCostRcvyChartOfAccounts attribute.
-     * 
+     *
      * @param indirectCostRcvyChartOfAccounts The chartOfAccounts to set.
      * @deprecated Setter is required by OJB, but should not be used to modify this attribute. This attribute is set on the initial
      *             creation of the object and should not be changed.
@@ -148,24 +147,15 @@ public class IndirectCostRecoveryAccount extends PersistableBusinessObjectBase i
     public void setIndirectCostRecoveryChartOfAccounts(Chart indirectCostRecoveryChartOfAccounts) {
         this.indirectCostRecoveryChartOfAccounts = indirectCostRecoveryChartOfAccounts;
     }
-    
+
+    @Override
     public boolean isActive() {
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
-    }
-
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
-        if (this.indirectCostRecoveryAccountGeneratedIdentifier != null) {
-            m.put("indirectCostRecoveryAccountGeneratedIdentifier", this.indirectCostRecoveryAccountGeneratedIdentifier.toString());
-        }
-        return m;
     }
 
 }

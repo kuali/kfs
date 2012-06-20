@@ -48,13 +48,15 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
 
 public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
-    private VendorService vendorService;
-    private ParameterService parameterService;
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(VendorLookupableHelperServiceImpl.class);
+
+    protected VendorService vendorService;
+    protected ParameterService parameterService;
 
     /**
      * Add custom links to the vendor search results. One to Allow only active parent vendors to create new divisions. Another to
      * create a link for B2B shopping if PURAP service has been setup to allow for that.
-     * 
+     *
      * @see org.kuali.rice.kns.lookup.LookupableHelperService#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject,
      *      java.util.List, java.util.List pkNames)
      */
@@ -69,7 +71,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
             // only allow active parent vendors to create new divisions
             anchorHtmlDataList.add(super.getUrlData(businessObject, KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION, VendorConstants.CREATE_DIVISION, pkNames));
         }
-        
+
         //Adding a "Shopping" link for B2B vendors.
         String b2bUrlString = SpringContext.getBean(PurchasingAccountsPayableModuleService.class).getB2BUrlString();
         if (vendor.isB2BVendor() && StringUtils.isNotBlank(b2bUrlString)) {
@@ -78,7 +80,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
             String backLocation = this.getBackLocation();
             int lastSlash = backLocation.lastIndexOf("/");
             String returnUrlForShop = backLocation.substring(0, lastSlash+1) + "portal.do";
-            String href = UrlFactory.parameterizeUrl(returnUrlForShop, theProperties);            
+            String href = UrlFactory.parameterizeUrl(returnUrlForShop, theProperties);
             anchorHtmlDataList.add(new AnchorHtmlData(href + b2bUrlString, null, "shop"));
         }
         return anchorHtmlDataList;
@@ -138,8 +140,8 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
     @Override
     public List<BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         boolean unbounded = false;
-        super.setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
-        super.setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
+        super.setBackLocation(fieldValues.get(KFSConstants.BACK_LOCATION));
+        super.setDocFormKey(fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
         String vendorName = fieldValues.get(VendorPropertyConstants.VENDOR_NAME);
 
@@ -232,10 +234,15 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
     private void updateDefaultVendorAddress(VendorDetail vendor) {
         VendorAddress defaultAddress = vendorService.getVendorDefaultAddress(vendor.getVendorAddresses(), vendor.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
         if (ObjectUtils.isNotNull(defaultAddress)) {
-            
+
             if (ObjectUtils.isNotNull(defaultAddress.getVendorState())) {
-                  vendor.setVendorStateForLookup(defaultAddress.getVendorState().getName());
-             }
+                vendor.setVendorStateForLookup(defaultAddress.getVendorState().getName());
+            } else {
+                if ( LOG.isDebugEnabled() ) {
+                    LOG.debug( "Warning - unable to retrieve state for " + defaultAddress.getVendorCountryCode() + " / " + defaultAddress.getVendorStateCode() );
+                }
+                vendor.setVendorStateForLookup("");
+            }
             vendor.setDefaultAddressLine1(defaultAddress.getVendorLine1Address());
             vendor.setDefaultAddressLine2(defaultAddress.getVendorLine2Address());
             vendor.setDefaultAddressCity(defaultAddress.getVendorCityName());
@@ -244,6 +251,11 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
             vendor.setDefaultAddressInternationalProvince(defaultAddress.getVendorAddressInternationalProvinceName());
             vendor.setDefaultAddressCountryCode(defaultAddress.getVendorCountryCode());
             vendor.setDefaultFaxNumber(defaultAddress.getVendorFaxNumber());
+        } else {
+            if ( LOG.isDebugEnabled() ) {
+                LOG.debug( "Warning - default vendor address was null for " + vendor.getVendorNumber() + " / " + vendor.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode() );
+            }
+            vendor.setVendorStateForLookup("");
         }
     }
 
@@ -346,6 +358,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
         this.vendorService = vendorService;
     }
 
+    @Override
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }

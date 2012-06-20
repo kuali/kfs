@@ -30,7 +30,7 @@
 					<c:set var="documentName" value="${fn:substringBefore(KualiForm.document.newMaintainableObject.fpLinkedDocumentInfo[ctr], '-')}" />
 					<c:set var="documentNumber" value="${fn:substringAfter(KualiForm.document.newMaintainableObject.fpLinkedDocumentInfo[ctr], '-')}" />
 					<td class="infoline" align="center">${documentName} - 
-						<a href="${ConfigProperties.application.url}/kew/DocHandler.do?command=displayDocSearchView&docId=${documentNumber}"  target="_blank">
+						<a href="${ConfigProperties.kew.url}/${KFSConstants.DOC_HANDLER_ACTION}?command=displayDocSearchView&docId=${documentNumber}"  target="_blank">
 							${documentNumber}
 						</a>&nbsp;
 					</td>
@@ -45,7 +45,7 @@
 			<logic:iterate id="preqLinks" name="KualiForm" property="document.newMaintainableObject.preqLinks" indexId="ctr">
 				<tr>
 					<td class="infoline" align="center">Payment Request - 
-						<a href="${ConfigProperties.application.url}/kew/DocHandler.do?command=displayDocSearchView&docId=${KualiForm.document.newMaintainableObject.preqLinks[ctr]}"  target="_blank">
+						<a href="${ConfigProperties.kew.url}/${KFSConstants.DOC_HANDLER_ACTION}?command=displayDocSearchView&docId=${KualiForm.document.newMaintainableObject.preqLinks[ctr]}"  target="_blank">
 							${KualiForm.document.newMaintainableObject.preqLinks[ctr]}
 						</a>&nbsp;
 					</td>

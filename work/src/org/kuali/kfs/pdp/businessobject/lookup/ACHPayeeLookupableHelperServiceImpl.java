@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.businessobject.DisbursementPayee;
+import org.kuali.kfs.fp.businessobject.lookup.AbstractPayeeLookupableHelperServiceImpl;
 import org.kuali.kfs.fp.businessobject.lookup.DisbursementPayeeLookupableHelperServiceImpl;
 import org.kuali.kfs.pdp.PdpConstants;
 import org.kuali.kfs.pdp.PdpKeyConstants;
@@ -42,7 +43,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * Payee lookupable for PDP Payee ACH. Builds off of DV Payee lookup by taking off payment reason code, and adding adding entity id
  * to search and return url
  */
-public class ACHPayeeLookupableHelperServiceImpl extends DisbursementPayeeLookupableHelperServiceImpl {
+public class ACHPayeeLookupableHelperServiceImpl extends AbstractPayeeLookupableHelperServiceImpl {
 
     /**
      * @see org.kuali.kfs.fp.businessobject.lookup.DisbursementPayeeLookupableHelperServiceImpl#getSearchResults(java.util.Map)

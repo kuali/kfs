@@ -195,6 +195,7 @@
 	
 	<target name="init-database-properties" depends="init-property-files">
 		<condition property="datasource.url" value="${mysql.datasource.url}" else="${oracle.datasource.url}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
+		<condition property="impex.db.type" value="mysql" else="oracle"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
 		<condition property="use.p6spy.local" value="true">
 			<and>
 			    <isset property="is.local.build" />
@@ -208,11 +209,15 @@
 		-->
 		<condition property="datasource.driver.class" value="${p6spy.driver.class}"><isset property="use.p6spy.local" /></condition>
 		<condition property="datasource.driver.class" value="${mysql.driver.class}" else="${oracle.driver.class}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
+		<condition property="real.datasource.driver.class" value="${mysql.driver.class}" else="${oracle.driver.class}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
 		<condition property="p6spy.real.driver.class" value="${mysql.driver.class}" else="${oracle.driver.class}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
 		<condition property="pool.datasource.class" value="${non.xa.pool.datasource.class}"><not><equals arg1="${connection.pool.impl}" arg2="XAPool" /></not></condition>
 		<condition property="pool.datasource.class" value="${mysql.pool.datasource.class}" else="${oracle.pool.datasource.class}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
 		<condition property="datasource.ojb.sequence.manager" value="${mysql.ojb.sequence.manager}" else="${oracle.ojb.sequence.manager}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
 
+		<condition property="impex.admin.username" value="${mysql.impex.admin.username}" else="${oracle.impex.admin.username}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
+		<condition property="impex.admin.password" value="${mysql.impex.admin.password}" else="${oracle.impex.admin.password}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
+		
 		<property name="rice.server.datasource.driver.class" value="${datasource.driver.class}" />
 		<property name="rice.server.datasource.url" value="${datasource.url}" />
 		<condition property="rice.server.datasource.platform" value="${mysql.server.datasource.platform}" else="${oracle.server.datasource.platform}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
@@ -1151,6 +1156,115 @@ The workflow files you want to run must exist in the pending subdirectory and wi
     			<eclipse.refreshLocal resource="kfs/" depth="infinite"/>
     		</then>
     	</if>
+	</target>
+
+	<target name="refresh-db" depends="refresh-rice-db,refresh-kfs-db" description="Refreshes the KFS and Rice database schema(s) for the current build environment" />
+	
+	<target name="refresh-rice-db" depends="init-properties" description="Refreshes the Rice component of the database for the current build environment">
+		<property name="impex.properties" location="${all.temp.directory}/impex-build.properties"/>
+		<property name="impex.import.targets" value="drop-schema create-schema import" />
+	
+		<!-- for Mysql, attempt to remove the schema for the admin URL -->
+		<propertyregex property="rice.server.adminUrl" defaultvalue="${rice.server.datasource.url}"
+		              input="${rice.server.datasource.url}"
+		              regexp="^(.*)/${rice.server.datasource.username}$$"
+		              select="\1"
+		              casesensitive="true" />
+		
+		<!-- build temp impex-build.properties -->
+		<echo append="false" file="${impex.properties}">
+			torque.project=kfs
+			torque.schema.dir=${basedir}/work/db/kfs-db/rice
+			torque.sql.dir=${all.temp.directory}/sql
+			torque.output.dir=${all.temp.directory}/sql
+
+			import.torque.database=${impex.db.type}
+			import.torque.database.driver=${real.datasource.driver.class}
+			import.torque.database.url=${rice.server.datasource.url}
+			import.torque.database.user=${rice.server.datasource.username}
+			import.torque.database.schema=${rice.server.datasource.username}
+			import.torque.database.password=${rice.server.datasource.password}
+
+			post.import.liquibase.project=kfs
+			post.import.liquibase.xml.directory=${basedir}/work/db/rice-data
+			post.import.liquibase.contexts=bootstrap,demo
+			post.import.workflow.project=kfs
+			post.import.workflow.xml.directory=${basedir}/work/workflow
+			post.import.workflow.ingester.launcher.ant.script=${basedir}/build.xml
+			post.import.workflow.ingester.launcher.ant.target=import-workflow-xml
+			post.import.workflow.ingester.launcher.ant.xml.directory.property=workflow.dir
+			post.import.workflow.ingester.jdbc.url.property=datasource.url
+			post.import.workflow.ingester.username.property=datasource.username
+			post.import.workflow.ingester.password.property=datasource.password
+			post.import.workflow.ingester.additional.command.line=-Ddatasource.ojb.platform=${datasource.ojb.platform} \
+			-Dbuild.environment=dev \
+			-Dbase.directory=${all.temp.directory} \
+			-Dis.local.build= \
+			-Ddev.mode= \
+			-Drice.dev.mode= \
+			-Drice.ksb.batch.mode=true \
+			-Ddont.filter.project.rice= \
+			-Ddont.filter.project.spring.ide=
+
+			import.admin.url=${rice.server.adminUrl}
+			import.admin.user=${impex.admin.username}
+			import.admin.password=${impex.admin.password}
+		</echo>
+		<!-- run import tool for Rice tables/objects -->
+		<!-- Due to CloverETL issues with execution directory, we need to run Ant
+		     this way to fork the process so that the new JVM starts up within the
+		     base directory for the impex project -->
+		<java classname="org.apache.tools.ant.Main"
+		      fork="true"
+		      failonerror="true" dir="${basedir}/work/db/kfs-db/db-impex/impex">		    
+		    <classpath path="${java.class.path}" />
+		    <jvmarg value="-Xmx1g" />
+			<arg value="-Dimpex.properties.file=${impex.properties}" />
+			<arg line="${impex.import.targets}"/>
+		</java>			
+	</target>
+	
+	<target name="refresh-kfs-db" depends="init-properties" description="Refreshes the KFS components of the database for the current build environment">
+		<property name="impex.properties" location="${all.temp.directory}/impex-build.properties"/>
+		<property name="impex.import.targets" value="drop-schema create-schema import" />		
+
+		<!-- for Mysql, attempt to remove the schema for the admin URL -->
+		<propertyregex property="adminUrl" defaultvalue="${datasource.url}"
+		              input="${datasource.url}"
+		              regexp="^(.*)/${datasource.username}$$"
+		              select="\1"
+		              casesensitive="true" />
+		
+		<!-- build temp impex-build.properties -->
+		<echo append="false" file="${impex.properties}">
+			torque.project=kfs
+			torque.schema.dir=${basedir}/work/db/kfs-db/development
+			torque.sql.dir=${all.temp.directory}/sql
+			torque.output.dir=${all.temp.directory}/sql
+
+			import.torque.database=${impex.db.type}
+			import.torque.database.driver=${real.datasource.driver.class}
+			import.torque.database.url=${datasource.url}
+			import.torque.database.user=${datasource.username}
+			import.torque.database.schema=${datasource.username}
+			import.torque.database.password=${datasource.password}
+
+			import.admin.url=${adminUrl}
+			import.admin.user=${impex.admin.username}
+			import.admin.password=${impex.admin.password}
+		</echo>
+		<!-- run import tool for KFS tables/objects -->
+		<!-- Due to CloverETL issues with execution directory, we need to run Ant
+		     this way to fork the process so that the new JVM starts up within the
+		     base directory for the impex project -->
+		<java classname="org.apache.tools.ant.Main"
+		      fork="true"
+		      failonerror="true" dir="${basedir}/work/db/kfs-db/db-impex/impex">		    
+		    <classpath path="${java.class.path}" />
+		    <jvmarg value="-Xmx1g" />
+			<arg value="-Dimpex.properties.file=${impex.properties}" />
+			<arg line="${impex.import.targets}"/>
+		</java>			
 	</target>
 	
 	<target name="help" depends="init-properties" description="Describe public targets">

@@ -752,16 +752,12 @@
 	<bean id="bankService" parent="bankService-parentBean"/>
     
      <bean id="bankService-parentBean" class="org.kuali.kfs.sys.service.impl.BankServiceImpl" abstract="true">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" /> 
-		</property>
-		<property name="dataDictionaryService">
-			<ref bean="dataDictionaryService" />
-		</property>
-		<property name="parameterService">
-			<ref bean="parameterService" /> 
-		</property>
+		<property name="businessObjectService" ref="businessObjectService" /> 
+		<property name="dataDictionaryService" ref="dataDictionaryService" /> 
+		<property name="parameterService" ref="parameterService" /> 
+		<property name="parameterEvaluatorService" ref="parameterEvaluatorService" /> 
 	</bean>
+
 	<bean id="postalCodeValidationService" parent="postalCodeValidationService-parentBean"/>
 	
     <bean id="postalCodeValidationService-parentBean" class="org.kuali.kfs.sys.service.impl.PostalCodeValidationServiceImpl" abstract="true" />

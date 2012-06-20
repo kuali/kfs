@@ -21,6 +21,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.gl.businessobject.OriginEntryFull;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.rice.core.api.config.property.Config;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -84,13 +85,13 @@ public class KFSConstants {
     public static final String LOG4J_RELOAD_MINUTES_KEY = "log4j.reload.minutes";
     public static final String APPLICATION_URL_KEY = "application.url";
     public static final String TEMP_DIRECTORY_KEY = "temp.directory";
-    public static final String EXTERNALIZABLE_HELP_URL_KEY = "externalizable.help.url";
+    public static final String EXTERNALIZABLE_HELP_URL_KEY = KRADConstants.EXTERNALIZABLE_HELP_URL_KEY;
     public static final String EXTERNALIZABLE_IMAGES_URL_KEY = "externalizable.images.url";
-    public static final String RICE_EXTERNALIZABLE_IMAGES_URL_KEY = "kr.externalizable.images.url";
+    public static final String RICE_EXTERNALIZABLE_IMAGES_URL_KEY = KRADConstants.EXTERNALIZABLE_IMAGES_URL_KEY;
     public static final String KC_APPLICATION_URL_KEY = "kc.application.url";
     public static final String REPORTS_DIRECTORY_KEY = "reports.directory";
-    public static final String WORKFLOW_URL_KEY = "workflow.url";
-    public static final String PROD_ENVIRONMENT_CODE_KEY = "production.environment.code";
+    public static final String WORKFLOW_URL_KEY = Config.KEW_URL;
+    public static final String PROD_ENVIRONMENT_CODE_KEY = Config.PROD_ENVIRONMENT_CODE;
     public static final String BATCH_FILE_LOOKUP_ROOT_DIRECTORIES = "batch.file.lookup.root.directories";
     public static final String BATCH_UPLOAD_HELP_SYS_PARAM_NAME = "BATCH_UPLOAD_HELP_URL";
 

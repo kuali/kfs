@@ -54,6 +54,6 @@
   	<!-- <cache name="KFS/Organization" /> -->
   	<cache name="KFS/HomeOrigination" maxEntriesLocalHeap="10000" />
   	<cache name="KFS/AssetObjectCode" maxEntriesLocalHeap="10000" />  
-
+  	<cache name="KFS/Bank" maxEntriesLocalHeap="10000" /> 
   
 </ehcache>

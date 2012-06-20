@@ -1,12 +1,12 @@
 /*
  * Copyright 2005-2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,14 +15,12 @@
  */
 package org.kuali.kfs.sys.businessobject;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubAccount;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
-import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
@@ -30,30 +28,32 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  * Bank Business Object
  */
 public class Bank extends PersistableBusinessObjectBase implements MutableInactivatable {
-    private String bankCode;
-    private String bankName;
-    private String bankShortName;
-    private String bankRoutingNumber;
-    private String bankAccountNumber;
-    private String bankAccountDescription;
-    private String cashOffsetFinancialChartOfAccountCode;
-    private String cashOffsetAccountNumber;
-    private String cashOffsetSubAccountNumber;
-    private String cashOffsetObjectCode;
-    private String cashOffsetSubObjectCode;
-    private String continuationBankCode;
-    private boolean bankDepositIndicator;
-    private boolean bankDisbursementIndicator;
-    private boolean bankAchIndicator;
-    private boolean bankCheckIndicator;
-    private boolean active;
+    public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + "Bank";
 
-    private Chart cashOffsetFinancialChartOfAccount;
-    private Account cashOffsetAccount;
-    private ObjectCode cashOffsetObject;
-    private SubAccount cashOffsetSubAccount;
-    private SubObjectCode cashOffsetSubObject;
-    private Bank continuationBank;
+    protected String bankCode;
+    protected String bankName;
+    protected String bankShortName;
+    protected String bankRoutingNumber;
+    protected String bankAccountNumber;
+    protected String bankAccountDescription;
+    protected String cashOffsetFinancialChartOfAccountCode;
+    protected String cashOffsetAccountNumber;
+    protected String cashOffsetSubAccountNumber;
+    protected String cashOffsetObjectCode;
+    protected String cashOffsetSubObjectCode;
+    protected String continuationBankCode;
+    protected boolean bankDepositIndicator;
+    protected boolean bankDisbursementIndicator;
+    protected boolean bankAchIndicator;
+    protected boolean bankCheckIndicator;
+    protected boolean active;
+
+    protected Chart cashOffsetFinancialChartOfAccount;
+    protected Account cashOffsetAccount;
+    protected ObjectCode cashOffsetObject;
+    protected SubAccount cashOffsetSubAccount;
+    protected SubObjectCode cashOffsetSubObject;
+    protected Bank continuationBank;
 
     /**
      * Default no-arg constructor.
@@ -65,7 +65,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Gets the bankCode attribute.
-     * 
+     *
      * @return Returns the bankCode.
      */
     public String getBankCode() {
@@ -75,7 +75,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Sets the bankCode attribute value.
-     * 
+     *
      * @param bankCode The bankCode to set.
      */
     public void setBankCode(String bankCode) {
@@ -85,7 +85,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Gets the bankName attribute.
-     * 
+     *
      * @return Returns the bankName.
      */
     public String getBankName() {
@@ -95,7 +95,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Sets the bankName attribute value.
-     * 
+     *
      * @param bankName The bankName to set.
      */
     public void setBankName(String bankName) {
@@ -105,7 +105,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Gets the bankShortName attribute.
-     * 
+     *
      * @return Returns the bankShortName.
      */
     public String getBankShortName() {
@@ -115,7 +115,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Sets the bankShortName attribute value.
-     * 
+     *
      * @param bankShortName The bankShortName to set.
      */
     public void setBankShortName(String bankShortName) {
@@ -125,7 +125,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Gets the bankRoutingNumber attribute.
-     * 
+     *
      * @return Returns the bankRoutingNumber.
      */
     public String getBankRoutingNumber() {
@@ -135,7 +135,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Sets the bankRoutingNumber attribute value.
-     * 
+     *
      * @param bankRoutingNumber The bankRoutingNumber to set.
      */
     public void setBankRoutingNumber(String bankRoutingNumber) {
@@ -145,7 +145,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Gets the bankAccountNumber attribute.
-     * 
+     *
      * @return Returns the bankAccountNumber.
      */
     public String getBankAccountNumber() {
@@ -155,7 +155,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Sets the bankAccountNumber attribute value.
-     * 
+     *
      * @param bankAccountNumber The bankAccountNumber to set.
      */
     public void setBankAccountNumber(String bankAccountNumber) {
@@ -165,7 +165,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Gets the bankAccountDescription attribute.
-     * 
+     *
      * @return Returns the bankAccountDescription.
      */
     public String getBankAccountDescription() {
@@ -175,7 +175,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Sets the bankAccountDescription attribute value.
-     * 
+     *
      * @param bankAccountDescription The bankAccountDescription to set.
      */
     public void setBankAccountDescription(String bankAccountDescription) {
@@ -185,7 +185,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Gets the cashOffsetFinancialChartOfAccountCode attribute.
-     * 
+     *
      * @return Returns the cashOffsetFinancialChartOfAccountCode.
      */
     public String getCashOffsetFinancialChartOfAccountCode() {
@@ -195,7 +195,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Sets the cashOffsetFinancialChartOfAccountCode attribute value.
-     * 
+     *
      * @param cashOffsetFinancialChartOfAccountCode The cashOffsetFinancialChartOfAccountCode to set.
      */
     public void setCashOffsetFinancialChartOfAccountCode(String cashOffsetFinancialChartOfAccountCode) {
@@ -205,7 +205,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Gets the cashOffsetAccountNumber attribute.
-     * 
+     *
      * @return Returns the cashOffsetAccountNumber.
      */
     public String getCashOffsetAccountNumber() {
@@ -215,7 +215,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Sets the cashOffsetAccountNumber attribute value.
-     * 
+     *
      * @param cashOffsetAccountNumber The cashOffsetAccountNumber to set.
      */
     public void setCashOffsetAccountNumber(String cashOffsetAccountNumber) {
@@ -225,7 +225,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Gets the cashOffsetSubAccountNumber attribute.
-     * 
+     *
      * @return Returns the cashOffsetSubAccountNumber.
      */
     public String getCashOffsetSubAccountNumber() {
@@ -235,7 +235,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Sets the cashOffsetSubAccountNumber attribute value.
-     * 
+     *
      * @param cashOffsetSubAccountNumber The cashOffsetSubAccountNumber to set.
      */
     public void setCashOffsetSubAccountNumber(String cashOffsetSubAccountNumber) {
@@ -245,7 +245,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Gets the cashOffsetObjectCode attribute.
-     * 
+     *
      * @return Returns the cashOffsetObjectCode.
      */
     public String getCashOffsetObjectCode() {
@@ -255,7 +255,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Sets the cashOffsetObjectCode attribute value.
-     * 
+     *
      * @param cashOffsetObjectCode The cashOffsetObjectCode to set.
      */
     public void setCashOffsetObjectCode(String cashOffsetObjectCode) {
@@ -265,7 +265,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Gets the cashOffsetSubObjectCode attribute.
-     * 
+     *
      * @return Returns the cashOffsetSubObjectCode.
      */
     public String getCashOffsetSubObjectCode() {
@@ -275,7 +275,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Sets the cashOffsetSubObjectCode attribute value.
-     * 
+     *
      * @param cashOffsetSubObjectCode The cashOffsetSubObjectCode to set.
      */
     public void setCashOffsetSubObjectCode(String cashOffsetSubObjectCode) {
@@ -285,7 +285,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Gets the bankDepositIndicator attribute.
-     * 
+     *
      * @return Returns the bankDepositIndicator.
      */
     public boolean isBankDepositIndicator() {
@@ -295,7 +295,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Sets the bankDepositIndicator attribute value.
-     * 
+     *
      * @param bankDepositIndicator The bankDepositIndicator to set.
      */
     public void setBankDepositIndicator(boolean bankDepositIndicator) {
@@ -305,7 +305,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Gets the bankDisbursementIndicator attribute.
-     * 
+     *
      * @return Returns the bankDisbursementIndicator.
      */
     public boolean isBankDisbursementIndicator() {
@@ -315,7 +315,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Sets the bankDisbursementIndicator attribute value.
-     * 
+     *
      * @param bankDisbursementIndicator The bankDisbursementIndicator to set.
      */
     public void setBankDisbursementIndicator(boolean bankDisbursementIndicator) {
@@ -325,7 +325,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Gets the bankAchIndicator attribute.
-     * 
+     *
      * @return Returns the bankAchIndicator.
      */
     public boolean isBankAchIndicator() {
@@ -335,7 +335,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Sets the bankAchIndicator attribute value.
-     * 
+     *
      * @param bankAchIndicator The bankAchIndicator to set.
      */
     public void setBankAchIndicator(boolean bankAchIndicator) {
@@ -345,7 +345,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Gets the bankCheckIndicator attribute.
-     * 
+     *
      * @return Returns the bankCheckIndicator.
      */
     public boolean isBankCheckIndicator() {
@@ -355,7 +355,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Sets the bankCheckIndicator attribute value.
-     * 
+     *
      * @param bankCheckIndicator The bankCheckIndicator to set.
      */
     public void setBankCheckIndicator(boolean bankCheckIndicator) {
@@ -365,9 +365,10 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Gets the active attribute.
-     * 
+     *
      * @return Returns the active.
      */
+    @Override
     public boolean isActive() {
         return active;
     }
@@ -375,16 +376,17 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Sets the active attribute value.
-     * 
+     *
      * @param active The active to set.
      */
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
 
     /**
      * Gets the cashOffsetFinancialChartOfAccount attribute.
-     * 
+     *
      * @return Returns the cashOffsetFinancialChartOfAccount.
      */
     public Chart getCashOffsetFinancialChartOfAccount() {
@@ -393,7 +395,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Sets the cashOffsetFinancialChartOfAccount attribute value.
-     * 
+     *
      * @param cashOffsetFinancialChartOfAccount The cashOffsetFinancialChartOfAccount to set.
      */
     public void setCashOffsetFinancialChartOfAccount(Chart cashOffsetFinancialChartOfAccount) {
@@ -402,7 +404,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Gets the cashOffsetAccount attribute.
-     * 
+     *
      * @return Returns the cashOffsetAccount.
      */
     public Account getCashOffsetAccount() {
@@ -411,7 +413,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Sets the cashOffsetAccount attribute value.
-     * 
+     *
      * @param cashOffsetAccount The cashOffsetAccount to set.
      */
     public void setCashOffsetAccount(Account cashOffsetAccount) {
@@ -420,7 +422,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Gets the cashOffsetObject attribute.
-     * 
+     *
      * @return Returns the cashOffsetObject.
      */
     public ObjectCode getCashOffsetObject() {
@@ -429,7 +431,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Sets the cashOffsetObject attribute value.
-     * 
+     *
      * @param cashOffsetObject The cashOffsetObject to set.
      */
     public void setCashOffsetObject(ObjectCode cashOffsetObject) {
@@ -438,7 +440,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Gets the cashOffsetSubAccount attribute.
-     * 
+     *
      * @return Returns the cashOffsetSubAccount.
      */
     public SubAccount getCashOffsetSubAccount() {
@@ -447,7 +449,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Sets the cashOffsetSubAccount attribute value.
-     * 
+     *
      * @param cashOffsetSubAccount The cashOffsetSubAccount to set.
      */
     public void setCashOffsetSubAccount(SubAccount cashOffsetSubAccount) {
@@ -456,7 +458,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Gets the cashOffsetSubObject attribute.
-     * 
+     *
      * @return Returns the cashOffsetSubObject.
      */
     public SubObjectCode getCashOffsetSubObject() {
@@ -465,7 +467,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Sets the cashOffsetSubObject attribute value.
-     * 
+     *
      * @param cashOffsetSubObject The cashOffsetSubObject to set.
      */
     public void setCashOffsetSubObject(SubObjectCode cashOffsetSubObject) {
@@ -474,7 +476,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Gets the continuationBankCode attribute.
-     * 
+     *
      * @return Returns the continuationBankCode.
      */
     public String getContinuationBankCode() {
@@ -483,7 +485,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Sets the continuationBankCode attribute value.
-     * 
+     *
      * @param continuationBankCode The continuationBankCode to set.
      */
     public void setContinuationBankCode(String continuationBankCode) {
@@ -492,7 +494,7 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Gets the continuationBank attribute.
-     * 
+     *
      * @return Returns the continuationBank.
      */
     public Bank getContinuationBank() {
@@ -501,22 +503,11 @@ public class Bank extends PersistableBusinessObjectBase implements MutableInacti
 
     /**
      * Sets the continuationBank attribute value.
-     * 
+     *
      * @param continuationBank The continuationBank to set.
      */
     public void setContinuationBank(Bank continuationBank) {
         this.continuationBank = continuationBank;
-    }
-
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap m = new LinkedHashMap();
-
-        m.put(KFSPropertyConstants.BANK_CODE, this.getBankCode());
-
-        return m;
     }
 
 }

@@ -300,6 +300,8 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             if (roleTypeService instanceof BudgetConstructionNoAccessMessageSetting) {
                 ((BudgetConstructionNoAccessMessageSetting) roleTypeService).setNoAccessMessage(budgetConstructionForm.getBudgetConstructionDocument(), GlobalVariables.getUserSession().getPerson(), GlobalVariables.getMessageMap());
             }
+        } else {
+            LOG.warn(String.format("typeInfo.getServiceName() returned a blank service name for role %s/%s", BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimApiConstants.DOCUMENT_VIEWER_ROLE_NAME));
         }
     }
 

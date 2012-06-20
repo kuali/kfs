@@ -505,6 +505,4 @@
 	<import resource="document/validation/configuration/ProcurementCardValidation.xml" />
 	<import resource="document/validation/configuration/DisbursementVoucherValidation.xml" />
 	<import resource="spring-fp-bus-exports.xml"/>
-
 </beans>
-

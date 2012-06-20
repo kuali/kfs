@@ -38,6 +38,8 @@ public class NonCheckDisbursementDocumentPresentationController extends Financia
             documentActions.add(KFSConstants.KFS_ACTION_CAN_EDIT_BANK);
         }
 
+        documentActions.remove(KFSConstants.YEAR_END_ACCOUNTING_PERIOD_VIEW_DOCUMENT_ACTION);
+        
         return documentActions;
     }
 

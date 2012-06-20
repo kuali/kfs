@@ -23,17 +23,6 @@ import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocument;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.krad.document.Document;
 
-public class AuxiliaryVoucherDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase{
+public class ServiceBillingDocumentPresentationController extends FinancialSystemTransactionalDocumentPresentationControllerBase{
 
-    @Override
-    public Set<String> getDocumentActions(Document document) {
-
-        Set<String> documentActions = super.getDocumentActions(document);
-
-        //need to remove the action because we already have accounting period on
-        //details tab
-        documentActions.remove(KFSConstants.YEAR_END_ACCOUNTING_PERIOD_VIEW_DOCUMENT_ACTION);
-        
-        return documentActions;
-    }
 }

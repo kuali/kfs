@@ -19,6 +19,7 @@ import java.util.Set;
 
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KfsAuthorizationConstants;
 import org.kuali.kfs.sys.document.authorization.AccountingDocumentPresentationControllerBase;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -32,7 +33,17 @@ public class DisbursementVoucherDocumentPresentationController extends Accountin
     public boolean canBlanketApprove(Document document) {
         return false;
     }
+    
+    @Override
+    public Set<String> getDocumentActions(Document document) {
 
+        Set<String> documentActions = super.getDocumentActions(document);
+
+        documentActions.remove(KFSConstants.YEAR_END_ACCOUNTING_PERIOD_VIEW_DOCUMENT_ACTION);
+        
+        return documentActions;
+    }
+    
     /**
      * @see org.kuali.kfs.sys.document.authorization.FinancialSystemTransactionalDocumentPresentationControllerBase#getEditModes(org.kuali.rice.krad.document.Document)
      */

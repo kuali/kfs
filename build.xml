@@ -208,7 +208,10 @@
 
 		<condition property="impex.admin.username" value="${mysql.impex.admin.username}" else="${oracle.impex.admin.username}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
 		<condition property="impex.admin.password" value="${mysql.impex.admin.password}" else="${oracle.impex.admin.password}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
-		
+
+		<condition property="rice.server.impex.admin.username" value="${mysql.impex.admin.username}" else="${oracle.impex.admin.username}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
+		<condition property="rice.server.impex.admin.password" value="${mysql.impex.admin.password}" else="${oracle.impex.admin.password}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
+
 		<property name="rice.server.datasource.driver.class" value="${datasource.driver.class}" />
 		<property name="rice.server.datasource.url" value="${datasource.url}" />
 		<condition property="rice.server.datasource.platform" value="${mysql.server.datasource.platform}" else="${oracle.server.datasource.platform}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
@@ -1152,6 +1155,18 @@ The workflow files you want to run must exist in the pending subdirectory and wi
 	<target name="refresh-db" depends="refresh-rice-db,refresh-kfs-db" description="Refreshes the KFS and Rice database schema(s) for the current build environment" />
 	
 	<target name="refresh-rice-db" depends="init-properties" description="Refreshes the Rice component of the database for the current build environment">
+		<echo>
+Importing Rice tables into the database using the information shown below:
+
+DB Driver = ${real.datasource.driver.class}
+DB URL    = ${rice.server.datasource.url}
+Username  = ${rice.server.datasource.username}
+Password  = \${rice.server.datasource.password} (not shown)
+
+DB Admin URL   = ${rice.server.adminUrl}   (used for creating/recreating schema/user)
+Admin Username = ${rice.server.impex.admin.username}
+Admin Password = \${rice.server.impex.admin.password} (not shown)
+		</echo>
 		<property name="impex.properties" location="${all.temp.directory}/impex-build.properties"/>
 		<property name="rice.impex.import.targets" value="drop-schema create-schema import" />
 	
@@ -1198,8 +1213,8 @@ The workflow files you want to run must exist in the pending subdirectory and wi
 			-Ddont.filter.project.spring.ide=
 
 			import.admin.url=${rice.server.adminUrl}
-			import.admin.user=${impex.admin.username}
-			import.admin.password=${impex.admin.password}
+			import.admin.user=${rice.server.impex.admin.username}
+			import.admin.password=${rice.server.impex.admin.password}
 		</echo>
 		<!-- run import tool for Rice tables/objects -->
 		<!-- Due to CloverETL issues with execution directory, we need to run Ant
@@ -1216,6 +1231,18 @@ The workflow files you want to run must exist in the pending subdirectory and wi
 	</target>
 	
 	<target name="refresh-kfs-db" depends="init-properties" description="Refreshes the KFS components of the database for the current build environment">
+		<echo>
+Importing KFS tables into the database using the information shown below:
+
+DB Driver = ${real.datasource.driver.class}
+DB URL    = ${datasource.url}
+Username  = ${datasource.username}
+Password  = \${datasource.password} (not shown)
+
+DB Admin URL   = ${adminUrl}   (used for creating/recreating schema/user)
+Admin Username = ${impex.admin.username}
+Admin Password = \${impex.admin.password} (not shown)
+		</echo>
 		<property name="impex.properties" location="${all.temp.directory}/impex-build.properties"/>
 		<!-- special condition here - we don't want to drop the schema if we are importing both Rice and KFS into the same schema -->
 		<if>
@@ -1264,20 +1291,12 @@ The workflow files you want to run must exist in the pending subdirectory and wi
 			<arg line="${kfs.impex.import.targets}"/>
 		</java>			
 	</target>
-	
-	<target name="run-dev2" depends="init-properties">
-		<if>
-			<not>
-				<equals arg1="${build.environment}" arg2="dev2"/>
-			</not>
-			<then>
-				<fail message="build.environment must be set to dev2 before running this target.  Please set it in your kfs-build.properties and run dist-local plus a refresh in Eclipse prior to running this target."/>
-			</then>
-		</if>
+
+	<target name="clean-tomcat-config" depends="init-properties">
 		<echo>Clearing out web configuration files</echo>
-		<mkdir dir="${appserver.home}/conf/Catalina/localhost" />
+		<mkdir dir="${appserver.localhost.dir}" />
 		<delete>
-			<fileset dir="${appserver.home}/conf/Catalina/localhost">
+			<fileset dir="${appserver.localhost.dir}">
     			<include name="*.xml"/>
 			</fileset>
 			<fileset dir="${appserver.home}/work">
@@ -1289,19 +1308,22 @@ The workflow files you want to run must exist in the pending subdirectory and wi
 			<fileset dir="${appserver.home}/logs">
 				<include name="**/*"/>
 			</fileset>
-			<fileset dir="${appserver.home}/webapps">
+			<fileset dir="${appserver.deploy.dir}">
 				<include name="kr-*/**/*"/>
 				<include name="kfs-*/**/*"/>
 			</fileset>
 		</delete>
-		<echo>Moving Rice descriptor into path</echo>
-		<echo file="${appserver.home}/conf/Catalina/localhost/kr-dev2.xml"><![CDATA[
-			<Context path="/kr-dev2" reloadable="false" docBase="${basedir}/build/external/appserver/rice-web-${kfs.rice.version}.war" unpackWAR="false">
-			</Context>
-		]]></echo>
-		<java classname="org.apache.catalina.startup.Bootstrap" fork="true">
+	</target>
+
+	<target name="start-tomcat" depends="init-properties">
+		<echo>Starting Tomcat Server</echo>
+		<java classname="org.apache.catalina.startup.Bootstrap" 
+				fork="true" 
+				dir="${appserver.home}" failonerror="true">
 			<classpath>
-				<pathelement location="${appserver.home}/bin/bootstrap.jar"/>				
+				<fileset dir="${appserver.home}/bin">
+					<include name="*.jar"/>
+				</fileset>
 			</classpath>
 			<jvmarg value="-Dxxxxxxx=kfs-dev2" />
 			<jvmarg value="-Xmx3g" />
@@ -1310,47 +1332,91 @@ The workflow files you want to run must exist in the pending subdirectory and wi
 			<jvmarg value="-Djava.awt.headless=true" />
 			<jvmarg value="-DTOMCAT_DIR=${appserver.home}" />
 			<jvmarg value="-Dadditional.config.locations=${appserver.config.dir}/rice-config.xml" />
-			<jvmarg value="-Dcatalina.base=&quot;${appserver.home}&quot;" />
-			<jvmarg value="-Dcatalina.home=&quot;${appserver.home}&quot;" />
-			<jvmarg value="-Djava.io.tmpdir=&quot;${appserver.home}/temp&quot;" />
+			<jvmarg value="-Dcatalina.base=${appserver.home}" />
+			<jvmarg value="-Dcatalina.home=${appserver.home}" />
+			<jvmarg value="-Djava.io.tmpdir=${appserver.home}/temp" />
+			<jvmarg value="-Djava.util.logging.config.file=${appserver.home}/conf/logging.properties" />
+			<jvmarg value="-Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager" />
 			<env key="JAVA_TOOL_OPTIONS" value=""/>
 			<arg value="start" />
 		</java>
-		<!--
+	</target>
 
-			"$_RUNJAVA" "$LOGGING_CONFIG" $JAVA_OPTS $CATALINA_OPTS \
-			      -Djava.endorsed.dirs="$JAVA_ENDORSED_DIRS" -classpath "$CLASSPATH" \
-			      -Dcatalina.base="$CATALINA_BASE" \
-			      -Dcatalina.home="$CATALINA_HOME" \
-			      -Djava.io.tmpdir="$CATALINA_TMPDIR" \
-			      org.apache.catalina.startup.Bootstrap "$@" start
+	<target name="set-env-dev">
+		<property name="build.environment" value="dev" />
+	</target>
+	<target name="set-env-dev2">
+		<property name="build.environment" value="dev2" />
+	</target>
+	
+	<target name="dist-local-if-necessary">
+		<!-- run dist local if the configuration.properties file is missing
+			 or if the build environment in that file does not match -->
+		<loadfile property="configprops.temp" srcfile="${classes.directory}/configuration.properties" failonerror="false">
+			<filterchain>
+				<linecontainsregexp>
+					<regexp pattern="^build\.environment=${build.environment}$" />
+				</linecontainsregexp>
+			</filterchain>
+		</loadfile>
+		<echo>${configprops.temp}</echo>
+		<if>
+			<not>
+				<isset property="configprops.temp" />
+			</not>
+			<then>
+				<echo>Running dist-local since environment is different.</echo>
+				<antcall target="dist-local" />
+			</then>
+			<else>
+				<echo>Skipping dist-local - found regex: ^build\.environment=${build.environment}$</echo>
+			</else>
+		</if>
+	</target>
+	
+	<target name="run-dev" depends="set-env-dev,init-properties" description="Starts up the included Tomcat server with KFS using Rice in bundled mode.">
+		<antcall target="dist-local-if-necessary" />
+		<echo>Copying tokenized files to WEB-INF/classes</echo>
+		<copy todir="${classes.directory}" preservelastmodified="true" verbose="true">
+			<fileset dir="${source.directory}" includes="${non.java.resources}" />
+		</copy>
+		<antcall target="clean-tomcat-config" />
+		<echo>Moving KFS descriptor into path</echo>
+		<echo file="${appserver.home}/conf/Catalina/localhost/kfs-dev.xml"><![CDATA[
+			<Context path="/kfs-dev" reloadable="false" docBase="${basedir}/work/web-root">
+			</Context>
+		]]></echo>
+		<antcall target="start-tomcat" />
+	</target>
 
-if [[ "$1" == "-debug" ]]; then
-	export CATALINA_OPTS="$CATALINA_OPTS -Xdebug -Xrunjdwp:transport=dt_socket,address=8000,suspend=n,server=y"
-fi
-
-trap stop_tomcat 1 2 3 15
-function stop_tomcat() {
-	echo "Attempting to Kill Tomcat server"
-	ps -Af | grep "Dxxxxxxx=kfs-dev2" | grep -v grep | cut -c 7-12 | xargs kill -9
-} # catch_sig()
-
-
-echo "Starting up Tomcat"
-./bin/startup.sh
-sleep 10
-echo "Moving KFS descriptor into path"
-cp -v conf/kfs-dev2.xml conf/Catalina/localhost
-tail -F logs/catalina.out
-stop_tomcat
-popd
--->		
+	<target name="run-dev2" depends="init-properties" description="Starts up the included Tomcat server with KFS using Rice in embedded (Rice standalone) mode.">
+		<antcall target="dist-local-if-necessary" />
+		<antcall target="clean-tomcat-config" />
+		<echo>Moving Rice descriptor into path</echo>
+		<echo file="${appserver.home}/conf/Catalina/localhost/kr-dev2.xml"><![CDATA[
+			<Context path="/kr-dev2" reloadable="false" docBase="${basedir}/build/external/appserver/rice-web-${kfs.rice.version}.war" unpackWAR="false">
+			</Context>
+		]]></echo>
+		<parallel>
+			<sequential>
+				<antcall target="start-tomcat" />
+			</sequential>
+			<sequential>
+				<sleep seconds="10" />
+				<echo>Moving KFS descriptor into path</echo>
+				<echo file="${appserver.home}/conf/Catalina/localhost/kfs-dev2.xml"><![CDATA[
+					<Context path="/kfs-dev2" reloadable="false" docBase="${basedir}/work/web-root">
+					</Context>
+				]]></echo>
+			</sequential>
+		</parallel>
 	</target>
 	
 	<target name="help" depends="init-properties" description="Describe public targets">
 		<echo>--- OVERVIEW ---
 
 	the following configuration files are involved in the build process
+			
 			- ${basedir}/build.xml
 			- ${user.home}/kfs-build.properties
 			- ${institution.build.properties.file}
@@ -1370,26 +1436,31 @@ popd
 			    - save your changes
 
 			2. run the echo-properties target and review the results
-
-			3. Run the dist-local Ant target of this build file.
-
-			4. Right-click on the root project directory in Eclipse (or other IDE) and select "Refresh".
-				(This forces the IDE to notice files which were copied into the source tree so that it
-				 will copy them to the output directory where they need to be for local server operation.) 
-
-			5. Start up the tomcat server.  (Either via Eclipse or the command line.  The one bundled with KFS
-				is located in ${basedir}/build/tomcat.
-
-			6. Wait.
 			
-			7. Launch a browser and access ${application.url}
+			3. Open the project in Eclipse.  This will compile all the code and
+				place it in ${classes.directory} as needed by the local server.
+
+			4. Run the refresh-db Ant target
+				This will use the information in your configuration files to
+				log into the database and install the tables.
+			
+			5. Run the dist-local Ant target
+				This reads the above configuration files and builds the "final"
+				configuration files used by the application.  Some files are
+				placed into work/src and others are placed into ${external.config.directory}
+
+			6. Run the run-dev Ant target
+
+			7. Wait.
+			
+			8. Launch a browser and access ${application.url}
 
 	you can override the default log4j settings for your local deployments by copying
 		${basedir}/${build.external.directory}/${log4j.file} to
 			${user.home}/${log4j.file} and modifying as desired.  you will also need to run the dist-local target
 			for this change to take effect.
 
-			--- TARGETS ---
+			--- MAIN TARGETS ---
 
 			dist-local: prepares tokenized resources and local configuration files and deploys tomcat context file on development workstation
 			- this target should be run each time you update the project from version control or change property values in ${user.home}/kfs-build.properties

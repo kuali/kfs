@@ -75,7 +75,7 @@ public class UniversityDateServiceImpl implements UniversityDateService {
      * @see org.kuali.rice.core.api.datetime.DateTimeService#getFiscalYear(java.util.Date)
      */
     @Override
-    @Cacheable(value=UniversityDate.CACHE_NAME, key="'{FiscalYear}'+#date")
+    @Cacheable(value=UniversityDate.CACHE_NAME, key="'{FiscalYear}'+#p0")
     public Integer getFiscalYear(java.util.Date date) {
         if (date == null) {
             throw new IllegalArgumentException("invalid (null) date");
@@ -93,7 +93,7 @@ public class UniversityDateServiceImpl implements UniversityDateService {
      * @see org.kuali.kfs.sys.service.UniversityDateService#getFirstDateOfFiscalYear(java.lang.Integer)
      */
     @Override
-    @Cacheable(value=UniversityDate.CACHE_NAME, key="'{FirstDateOfFiscalYear}'+#fiscalYear")
+    @Cacheable(value=UniversityDate.CACHE_NAME, key="'{FirstDateOfFiscalYear}'+#p0")
     public java.util.Date getFirstDateOfFiscalYear(Integer fiscalYear) {
         UniversityDate uDate = universityDateDao.getFirstFiscalYearDate(fiscalYear);
         return (uDate == null) ? null : uDate.getUniversityDate();
@@ -108,7 +108,7 @@ public class UniversityDateServiceImpl implements UniversityDateService {
      * @see org.kuali.kfs.sys.service.UniversityDateService#getLastDateOfFiscalYear(java.lang.Integer)
      */
     @Override
-    @Cacheable(value=UniversityDate.CACHE_NAME, key="'{LastDateOfFiscalYear}'+#fiscalYear")
+    @Cacheable(value=UniversityDate.CACHE_NAME, key="'{LastDateOfFiscalYear}'+#p0")
     public java.util.Date getLastDateOfFiscalYear(Integer fiscalYear) {
         UniversityDate uDate = universityDateDao.getLastFiscalYearDate(fiscalYear);
         return (uDate == null) ? null : uDate.getUniversityDate();

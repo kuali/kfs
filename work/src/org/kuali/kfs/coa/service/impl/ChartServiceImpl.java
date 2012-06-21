@@ -54,7 +54,7 @@ public class ChartServiceImpl implements ChartService {
      * @see org.kuali.kfs.coa.service.ChartService#getByPrimaryId(java.lang.String)
      */
     @Override
-    @Cacheable(value=Chart.CACHE_NAME,key="#chartOfAccountsCode")
+    @Cacheable(value=Chart.CACHE_NAME,key="#p0")
     public Chart getByPrimaryId(String chartOfAccountsCode) {
         return businessObjectService.findBySinglePrimaryKey(Chart.class, chartOfAccountsCode);
     }
@@ -123,7 +123,7 @@ public class ChartServiceImpl implements ChartService {
     }
 
     @Override
-    @Cacheable(value=Chart.CACHE_NAME,key="'{isParentChart?}'+#potentialChildChartCode+'-->'+#potentialParentChartCode")
+    @Cacheable(value=Chart.CACHE_NAME,key="'{isParentChart?}'+#p0+'-->'+#p1")
     public boolean isParentChart(String potentialChildChartCode, String potentialParentChartCode) {
         if ((potentialChildChartCode == null) || (potentialParentChartCode == null)) {
             throw new IllegalArgumentException("The isParentChartCode method requires a non-null potentialChildChartCode and potentialParentChartCode");
@@ -171,8 +171,9 @@ public class ChartServiceImpl implements ChartService {
         return roleService;
     }
     protected PersonService getPersonService() {
-        if (personService == null)
+        if (personService == null) {
             personService = SpringContext.getBean(PersonService.class);
+        }
         return personService;
     }
 

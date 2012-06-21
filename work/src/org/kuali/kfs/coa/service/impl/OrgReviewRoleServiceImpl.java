@@ -165,7 +165,7 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
     }
 
     @Override
-    @Cacheable(value=OrgReviewRole.CACHE_NAME,key="'{ValidDocumentTypeForOrgReview}'+#documentTypeName")
+    @Cacheable(value=OrgReviewRole.CACHE_NAME,key="'{ValidDocumentTypeForOrgReview}'+#p0")
     public boolean isValidDocumentTypeForOrgReview(String documentTypeName){
         if(StringUtils.isEmpty(documentTypeName)){
             return false;
@@ -184,8 +184,8 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
     }
 
     @Override
-    @Cacheable(value=OrgReviewRole.CACHE_NAME,key="'{hasOrganizationHierarchy}'+#documentTypeName")
-    public boolean hasOrganizationHierarchy(final String documentTypeName) {
+    @Cacheable(value=OrgReviewRole.CACHE_NAME,key="'{hasOrganizationHierarchy}'+#p0")
+    public boolean hasOrganizationHierarchy(String documentTypeName) {
         if(StringUtils.isBlank(documentTypeName)) {
             return false;
         }
@@ -193,8 +193,8 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
     }
 
     @Override
-    @Cacheable(value=OrgReviewRole.CACHE_NAME,key="'{hasAccountingOrganizationHierarchy}'+#documentTypeName")
-    public boolean hasAccountingOrganizationHierarchy(final String documentTypeName) {
+    @Cacheable(value=OrgReviewRole.CACHE_NAME,key="'{hasAccountingOrganizationHierarchy}'+#p0")
+    public boolean hasAccountingOrganizationHierarchy(String documentTypeName) {
         if(StringUtils.isBlank(documentTypeName)) {
             return false;
         }
@@ -202,7 +202,7 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
     }
 
     @Override
-    @Cacheable(value=OrgReviewRole.CACHE_NAME,key="'{ClosestOrgReviewRoleParentDocumentTypeName}'+#documentTypeName")
+    @Cacheable(value=OrgReviewRole.CACHE_NAME,key="'{ClosestOrgReviewRoleParentDocumentTypeName}'+#p0")
     public String getClosestOrgReviewRoleParentDocumentTypeName(final String documentTypeName){
         if(StringUtils.isBlank(documentTypeName)) {
             return null;
@@ -228,7 +228,7 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
      * @return
      */
     @Override
-    @Cacheable(value=OrgReviewRole.CACHE_NAME,key="#documentTypeName")
+    @Cacheable(value=OrgReviewRole.CACHE_NAME,key="#p0")
     public List<String> getRolesToConsider(String documentTypeName) throws ValidationException {
         List<String> rolesToConsider = getRolesToConsiderInternal(documentTypeName);
         if ( rolesToConsider.isEmpty() ) {

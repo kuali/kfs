@@ -52,7 +52,7 @@ public class SubAccountServiceImpl implements SubAccountService {
      * @see org.kuali.kfs.coa.service.impl.SubAccountServiceImpl#getByPrimaryId(String, String, String)
      */
     @Override
-    @Cacheable(value=SubAccount.CACHE_NAME, key="#chartOfAccountsCode+'-'+#accountNumber+'-'+#subAccountNumber")
+    @Cacheable(value=SubAccount.CACHE_NAME, key="#p0+'-'+#p1+'-'+#p2")
     public SubAccount getByPrimaryIdWithCaching(String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
         return getByPrimaryId(chartOfAccountsCode, accountNumber, subAccountNumber);
     }

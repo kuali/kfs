@@ -83,7 +83,7 @@ public class AccountingPeriodServiceImpl implements AccountingPeriodService {
      * @return an accounting period
      */
     @Override
-    @Cacheable(value=AccountingPeriod.CACHE_NAME, key="#periodCode+'-'+#fiscalYear")
+    @Cacheable(value=AccountingPeriod.CACHE_NAME, key="#p0+'-'+#p1")
     public AccountingPeriod getByPeriod(String periodCode, Integer fiscalYear) {
         // build up the hashmap to find the accounting period
         HashMap<String,Object> keys = new HashMap<String,Object>();
@@ -117,7 +117,7 @@ public class AccountingPeriodServiceImpl implements AccountingPeriodService {
      * @see org.kuali.kfs.coa.service.AccountingPeriodService#getByDate(java.sql.Date)
      */
     @Override
-    @Cacheable(value=AccountingPeriod.CACHE_NAME, key="#date")
+    @Cacheable(value=AccountingPeriod.CACHE_NAME, key="#p0")
     public AccountingPeriod getByDate(Date date) {
         Map<String,Object> primaryKeys = new HashMap<String, Object>();
         primaryKeys.put(KFSPropertyConstants.UNIVERSITY_DATE, date);

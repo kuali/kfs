@@ -48,7 +48,7 @@ public class ObjectCodeServiceImpl implements ObjectCodeService {
      * @see org.kuali.kfs.coa.service.ObjectCodeService#getByPrimaryId(java.lang.Integer, java.lang.String, java.lang.String)
      */
     @Override
-    @Cacheable(value=ObjectCode.CACHE_NAME, key="#universityFiscalYear+'-'+#chartOfAccountsCode+'-'+#financialObjectCode")
+    @Cacheable(value=ObjectCode.CACHE_NAME, key="#p0+'-'+#p1+'-'+#p2")
     public ObjectCode getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode) {
         Map<String, Object> keys = new HashMap<String, Object>(3);
         keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
@@ -62,7 +62,7 @@ public class ObjectCodeServiceImpl implements ObjectCodeService {
      *      java.lang.String)
      */
     @Override
-    @Cacheable(value=ObjectCode.CACHE_NAME, key="#universityFiscalYear+'-'+#chartOfAccountsCode+'-'+#financialObjectCode")
+    @Cacheable(value=ObjectCode.CACHE_NAME, key="#p0+'-'+#p1+'-'+#p2")
     public ObjectCode getByPrimaryIdWithCaching(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode) {
         ObjectCode objectCode = getByPrimaryId(universityFiscalYear, chartOfAccountsCode, financialObjectCode);
         return objectCode;
@@ -116,7 +116,7 @@ public class ObjectCodeServiceImpl implements ObjectCodeService {
      * @see org.kuali.kfs.coa.service.ObjectCodeService#getByPrimaryIdForCurrentYear(java.lang.String, java.lang.String)
      */
     @Override
-    @Cacheable(value=ObjectCode.CACHE_NAME, key="'CurrentFY'+'-'+#chartOfAccountsCode+'-'+#financialObjectCode")
+    @Cacheable(value=ObjectCode.CACHE_NAME, key="'CurrentFY'+'-'+#p0+'-'+#p1")
     public ObjectCode getByPrimaryIdForCurrentYear(String chartOfAccountsCode, String financialObjectCode) {
         return getByPrimaryId(universityDateService.getCurrentFiscalYear(), chartOfAccountsCode, financialObjectCode);
     }

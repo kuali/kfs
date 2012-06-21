@@ -36,7 +36,7 @@ public class ProjectCodeServiceImpl implements ProjectCodeService {
      */
     @Override
     //   KFSMI-2612
-    @Cacheable(value=ProjectCode.CACHE_NAME, key="#projectCode")
+    @Cacheable(value=ProjectCode.CACHE_NAME, key="#p0")
     public ProjectCode getByPrimaryId(String projectCode) {
         return SpringContext.getBean(BusinessObjectService.class).findBySinglePrimaryKey(ProjectCode.class, projectCode);
     }

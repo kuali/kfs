@@ -261,7 +261,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     @SuppressWarnings("unchecked")
     public CustomerInvoiceDetail getCustomerInvoiceDetail(String documentNumber, Integer sequenceNumber) {
         Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put("documentNumber", documentNumber);
+        criteria.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
         criteria.put("sequenceNumber", sequenceNumber.toString());
 
         return businessObjectService.findByPrimaryKey(CustomerInvoiceDetail.class, criteria);
@@ -273,7 +273,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
     @Override
     public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForInvoice(String customerInvoiceDocumentNumber) {
         Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put("documentNumber", customerInvoiceDocumentNumber);
+        criteria.put(KFSPropertyConstants.DOCUMENT_NUMBER, customerInvoiceDocumentNumber);
 
         return businessObjectService.findMatching(CustomerInvoiceDetail.class, criteria);
     }
@@ -282,10 +282,10 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
      * @see org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService#getCustomerInvoiceDetailsForInvoiceWithCaching(java.lang.String)
      */
     @Override
-    @Cacheable(value=CustomerInvoiceDetail.CACHE_NAME, key="'{getCustomerInvoiceDetailsForInvoiceWithCaching}'+#customerInvoiceDocumentNumber")
+    @Cacheable(value=CustomerInvoiceDetail.CACHE_NAME, key="'{getCustomerInvoiceDetailsForInvoiceWithCaching}'+#p0")
     public Collection<CustomerInvoiceDetail> getCustomerInvoiceDetailsForInvoiceWithCaching(String customerInvoiceDocumentNumber) {
         Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put("documentNumber", customerInvoiceDocumentNumber);
+        criteria.put(KFSPropertyConstants.DOCUMENT_NUMBER, customerInvoiceDocumentNumber);
 
         return businessObjectService.findMatching(CustomerInvoiceDetail.class, criteria);
     }

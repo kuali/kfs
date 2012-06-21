@@ -68,7 +68,7 @@ public class OrganizationServiceImpl implements OrganizationService {
      * @see org.kuali.kfs.coa.service.impl.OrganizationServiceImpl#getByPrimaryId(java.lang.String, java.lang.String)
      */
     @Override
-    @Cacheable(value=Organization.CACHE_NAME, key="#chartOfAccountsCode+'-'+#organizationCode")
+    @Cacheable(value=Organization.CACHE_NAME, key="#p0+'-'+#p1")
     public Organization getByPrimaryIdWithCaching(String chartOfAccountsCode, String organizationCode) {
         return getByPrimaryId(chartOfAccountsCode, organizationCode);
     }

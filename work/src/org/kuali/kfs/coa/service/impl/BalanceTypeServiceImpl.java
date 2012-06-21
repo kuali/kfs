@@ -48,7 +48,7 @@ public class BalanceTypeServiceImpl implements BalanceTypeService {
      * @return A fully populated object instance.
      */
     @Override
-    @Cacheable(value=BalanceType.CACHE_NAME, key="#code")
+    @Cacheable(value=BalanceType.CACHE_NAME, key="#p0")
     public BalanceType getBalanceTypeByCode(String code) {
        return businessObjectService.findBySinglePrimaryKey(BalanceType.class, code);
     }
@@ -76,7 +76,7 @@ public class BalanceTypeServiceImpl implements BalanceTypeService {
      * @see org.kuali.kfs.coa.service.BalanceTypeService#getCostShareEncumbranceBalanceType(java.lang.Integer)
      */
     @Override
-    @Cacheable(value=SystemOptions.CACHE_NAME, key="'{getCostShareEncumbranceBalanceType}'+#universityFiscalYear")
+    @Cacheable(value=SystemOptions.CACHE_NAME, key="'{getCostShareEncumbranceBalanceType}'+#p0")
     public String getCostShareEncumbranceBalanceType(Integer universityFiscalYear) {
         SystemOptions option = businessObjectService.findBySinglePrimaryKey(SystemOptions.class, universityFiscalYear);
         return option.getCostShareEncumbranceBalanceTypeCd();
@@ -87,7 +87,7 @@ public class BalanceTypeServiceImpl implements BalanceTypeService {
      * @see org.kuali.kfs.coa.service.BalanceTypeService#getEncumbranceBalanceTypes(java.lang.Integer)
      */
     @Override
-    @Cacheable(value=SystemOptions.CACHE_NAME, key="'{getEncumbranceBalanceTypes}'+#universityFiscalYear")
+    @Cacheable(value=SystemOptions.CACHE_NAME, key="'{getEncumbranceBalanceTypes}'+#p0")
     public List<String> getEncumbranceBalanceTypes(Integer universityFiscalYear) {
         SystemOptions option = businessObjectService.findBySinglePrimaryKey(SystemOptions.class, universityFiscalYear);
         List<String> encumberanceBalanceTypes = new ArrayList<String>();
@@ -123,7 +123,7 @@ public class BalanceTypeServiceImpl implements BalanceTypeService {
      * @see org.kuali.kfs.coa.service.BalanceTypService#getContinuationAccountBypassBalanceTypeCodes(java.lang.Integer)
      */
     @Override
-    @Cacheable(value=SystemOptions.CACHE_NAME, key="'{getContinuationAccountBypassBalanceTypeCodes}'+#universityFiscalYear")
+    @Cacheable(value=SystemOptions.CACHE_NAME, key="'{getContinuationAccountBypassBalanceTypeCodes}'+#p0")
     public List<String> getContinuationAccountBypassBalanceTypeCodes(Integer universityFiscalYear) {
         SystemOptions option = businessObjectService.findBySinglePrimaryKey(SystemOptions.class, universityFiscalYear);
         List<String> continuationAccountBypassBalanceTypes = new ArrayList<String>(3);

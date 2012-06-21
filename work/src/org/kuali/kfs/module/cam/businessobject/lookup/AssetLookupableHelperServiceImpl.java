@@ -43,6 +43,7 @@ import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.service.DocumentDictionaryService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -212,8 +213,13 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
     }
 
     protected HtmlData getTransferUrl(Asset asset) {
-        boolean assetMovable = getAssetService().isAssetMovableCheckByPayment(asset);        
         boolean isAuthorized = true;
+        boolean assetMovable = false;
+        try {
+           assetMovable = getAssetService().isAssetMovableCheckByPayment(asset);             
+        } catch (ValidationException ve) {
+            isAuthorized = false;
+        }
         if (!assetMovable) {
             FinancialSystemTransactionalDocumentAuthorizerBase documentAuthorizer = (FinancialSystemTransactionalDocumentAuthorizerBase)SpringContext.getBean(DocumentDictionaryService.class).getDocumentAuthorizer(CamsConstants.DocumentTypeName.ASSET_TRANSFER);
             isAuthorized = documentAuthorizer.isAuthorized(asset, CamsConstants.CAM_MODULE_CODE, CamsConstants.PermissionNames.SEPARATE, GlobalVariables.getUserSession().getPerson().getPrincipalId());

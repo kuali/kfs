@@ -3,8 +3,7 @@
 	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
 	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
 
-	<changeSet author="KFS50" id='KFSMI-6861'>
-		<comment>KFSMI-6861</comment>
+	<changeSet author="KFS50" id='KFSMI-5253'>
 		<addColumn tableName='AR_INV_DOC_T'>
 			<column name='REPORTED_DT' type='DATE' />
 		</addColumn>

@@ -629,7 +629,7 @@
 	
 	<target name="filter-project-schema" unless="dont.filter.project.schema" depends="init-properties,init-make-references,check-filter-project-schema,make-source">
 		<path id="run.source.classpath">
-			<pathelement location="${war.classes.directory}" />
+			<pathelement location="${classes.directory}" />
 			<path refid="compile.source.classpath" />
 		</path>
 		
@@ -723,30 +723,30 @@
 	<target name="make-source" unless="dont.make.source" depends="make-foundation-source,make-additional-source" />
 	
 	<target name="make-foundation-source" depends="init-make-references,filter-project" unless="dont.make.source">
-		<mkdir dir="${war.classes.directory}" />
-	    <echo message="Compiling Source from ${source.directory} into ${war.classes.directory}" />
-		<javac destdir="${war.classes.directory}" srcdir="${source.directory}" includeantruntime="false" source="1.6" target="1.6" failonerror="${fail.when.compile.fails}"
+		<mkdir dir="${classes.directory}" />
+	    <echo message="Compiling Source from ${source.directory} into ${classes.directory}" />
+		<javac destdir="${classes.directory}" srcdir="${source.directory}" includeantruntime="false" source="1.6" target="1.6" failonerror="${fail.when.compile.fails}"
 			   debug="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}" excludes="${source.compile.excludes}">
 			<classpath refid="compile.source.classpath" />			
 			<compilerarg line="-Xmaxerrs 500"/>
 		</javac>
-		<copy todir="${war.classes.directory}">
+		<copy todir="${classes.directory}">
 			<fileset dir="${source.directory}" includes="${non.java.resources}" />
 		</copy>
 	</target>
 	
 	<target name="make-additional-source" if="institution.source.directory" unless="dont.make.source" depends="init-make-references,filter-project">
-        <echo message="Compiling Source from ${institution.source.directory} into ${war.classes.directory}" />
-        <javac destdir="${war.classes.directory}" srcdir="${institution.source.directory}"
+        <echo message="Compiling Source from ${institution.source.directory} into ${classes.directory}" />
+        <javac destdir="${classes.directory}" srcdir="${institution.source.directory}"
                debug="true" fork="true"  source="1.6" target="1.6" failonerror="${fail.when.compile.fails}"
                memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}" excludes="${source.compile.excludes}">
             <!-- add the just compiled files to the classpath for compiling the customizations -->
             <classpath>
-                <pathelement location="${war.classes.directory}"/>
+                <pathelement location="${classes.directory}"/>
                 <path refid="compile.source.classpath" />
             </classpath>
         </javac>
-        <copy todir="${war.classes.directory}" overwrite="true" verbose="true">
+        <copy todir="${classes.directory}" overwrite="true" verbose="true">
             <fileset dir="${institution.source.directory}" includes="${non.java.resources}" />
         </copy>
 	</target>
@@ -899,48 +899,56 @@ Excludes: ${tests.compile.excludes}
 	</target>
 
 	<target name="dist-external" depends="init-properties">
-		<mkdir dir="temp"/>
-		<echo file="temp/${log4j.file}" message="${log4j}" />
+		<mkdir dir="${all.temp.directory}/deploy"/>
+		<mkdir dir="${all.temp.directory}/deploy/security"/>
+		<mkdir dir="${all.temp.directory}/deploy/settings"/>
+		<!-- Settings directory -->
+		<echo file="${all.temp.directory}/deploy/settings/${log4j.file}" message="${log4j}" />
 		<if>
 			<isset property="institutional.log4j"/>
 			<then>
-				<echo append="true" file="temp/${log4j.file}" message="${line.separator}${institutional.log4j}"/>
+				<echo append="true" file="${all.temp.directory}/deploy/settings/${log4j.file}" message="${line.separator}${institutional.log4j}"/>
 			</then>
 		</if>
 		<if>
 			<isset property="institution.settings.directory" />
 			<then>
-				<copy todir="temp" overwrite="true">
+				<copy todir="${all.temp.directory}/deploy/settings" overwrite="true">
 					<fileset dir="${institution.settings.directory}" />
 				</copy>
 			</then>
 		</if>
-		<zip destfile="${deploy.working.directory}/settings.zip" basedir="temp" />
-		<delete dir="temp"/>
-		<mkdir dir="temp"/>
-		<echo file="temp/${security.file}" message="${security}"  />
+		
+		<!-- Security Directory -->
+		<echo file="${all.temp.directory}/deploy/security/${security.file}" message="${security}"  />
 	    <if>
 	        <isset property="institutional.security" />
 	        <then>
-	            <echo append="true" file="temp/${security.file}" message="${institutional.security}" />
+	            <echo append="true" file="${all.temp.directory}/deploy/security/${security.file}" message="${institutional.security}" />
             </then>
         </if>
 
-		<copy file="${build.external.directory}/${keystore.filename}" tofile="temp/${keystore.filename}"/>
+		<copy file="${build.external.directory}/${keystore.filename}" tofile="${all.temp.directory}/deploy/security/${keystore.filename}"/>
 		<if>
 			<isset property="institution.security.directory" />
 			<then>
-				<copy todir="temp" overwrite="true">
+				<copy todir="${all.temp.directory}/deploy/security" overwrite="true">
 					<fileset dir="${institution.security.directory}" />
 				</copy>
 			</then>
 		</if>
-		<zip destfile="${deploy.working.directory}/security.zip" basedir="temp" />
-		<delete dir="temp"/>
-		<zip destfile="${deploy.working.directory}/skel.zip" basedir="${build.work.directory}" />
+
+		<zip destfile="${basedir}/settings.zip" basedir="${all.temp.directory}/deploy/settings" />
+		<zip destfile="${basedir}/security.zip" basedir="${all.temp.directory}/deploy/security" />
+		<zip destfile="${basedir}/skel.zip" basedir="${build.work.directory}" />
+		<delete dir="${all.temp.directory}/deploy" />
+	</target>
+
+	<target name="override-classes-dir" depends="init-properties">
+		<var name="classes.directory" value="${war.classes.directory}" />
 	</target>
 	
-	<target name="dist" depends="make-source,overlay-additional-web-content,overlay-additional-schema,filter-project-schema" description="Builds the KFS war file for the current build.environment">
+	<target name="dist" depends="override-classes-dir,make-source,overlay-additional-web-content,overlay-additional-schema,filter-project-schema" description="Builds the KFS war file for the current build.environment">
 		<copy todir="${war.directory}">
 			<fileset dir="${webroot.directory}" excludes="WEB-INF/classes/**/**" />
 		</copy>
@@ -974,7 +982,7 @@ Excludes: ${tests.compile.excludes}
 			<jvmarg value="-XX:MaxPermSize=${run.postloadencrypt.max.permsize}" />
 			<arg value="postDataLoadEncryptionStep" />
 			<classpath>
-				<pathelement location="${war.classes.directory}" />
+				<pathelement location="${classes.directory}" />
 				<path refid="compile.source.classpath" />
 			</classpath>
 		</java>
@@ -1002,7 +1010,7 @@ The workflow files you want to run must exist in the pending subdirectory and wi
         	<jvmarg value="-Drice.krad.componentPublishing.enabled=false" />
             <arg value="${workflow.dir}" />
             <classpath>
-                <pathelement location="${war.classes.directory}" />
+                <pathelement location="${classes.directory}" />
                 <path refid="run.server.classpath" />
             </classpath>
         </java>
@@ -1161,11 +1169,11 @@ Importing Rice tables into the database using the information shown below:
 DB Driver = ${real.datasource.driver.class}
 DB URL    = ${rice.server.datasource.url}
 Username  = ${rice.server.datasource.username}
-Password  = \${rice.server.datasource.password} (not shown)
+Password  = $${rice.server.datasource.password} (not shown)
 
 DB Admin URL   = ${rice.server.adminUrl}   (used for creating/recreating schema/user)
 Admin Username = ${rice.server.impex.admin.username}
-Admin Password = \${rice.server.impex.admin.password} (not shown)
+Admin Password = $${rice.server.impex.admin.password} (not shown)
 		</echo>
 		<property name="impex.properties" location="${all.temp.directory}/impex-build.properties"/>
 		<property name="rice.impex.import.targets" value="drop-schema create-schema import" />
@@ -1237,11 +1245,11 @@ Importing KFS tables into the database using the information shown below:
 DB Driver = ${real.datasource.driver.class}
 DB URL    = ${datasource.url}
 Username  = ${datasource.username}
-Password  = \${datasource.password} (not shown)
+Password  = $${datasource.password} (not shown)
 
 DB Admin URL   = ${adminUrl}   (used for creating/recreating schema/user)
 Admin Username = ${impex.admin.username}
-Admin Password = \${impex.admin.password} (not shown)
+Admin Password = $${impex.admin.password} (not shown)
 		</echo>
 		<property name="impex.properties" location="${all.temp.directory}/impex-build.properties"/>
 		<!-- special condition here - we don't want to drop the schema if we are importing both Rice and KFS into the same schema -->
@@ -1374,13 +1382,13 @@ Admin Password = \${impex.admin.password} (not shown)
 		</if>
 	</target>
 	
-	<target name="run-dev" depends="set-env-dev,init-properties" description="Starts up the included Tomcat server with KFS using Rice in bundled mode.">
-		<antcall target="dist-local-if-necessary" />
+	<target name="run-dev" depends="set-env-dev,init-properties,dist-local-if-necessary,make-source,clean-tomcat-config" description="Starts up the included Tomcat server with KFS using Rice in bundled mode.">
+		<!--
 		<echo>Copying tokenized files to WEB-INF/classes</echo>
 		<copy todir="${classes.directory}" preservelastmodified="true" verbose="true">
 			<fileset dir="${source.directory}" includes="${non.java.resources}" />
 		</copy>
-		<antcall target="clean-tomcat-config" />
+		-->
 		<echo>Moving KFS descriptor into path</echo>
 		<echo file="${appserver.home}/conf/Catalina/localhost/kfs-dev.xml"><![CDATA[
 			<Context path="/kfs-dev" reloadable="false" docBase="${basedir}/work/web-root">
@@ -1389,9 +1397,7 @@ Admin Password = \${impex.admin.password} (not shown)
 		<antcall target="start-tomcat" />
 	</target>
 
-	<target name="run-dev2" depends="init-properties" description="Starts up the included Tomcat server with KFS using Rice in embedded (Rice standalone) mode.">
-		<antcall target="dist-local-if-necessary" />
-		<antcall target="clean-tomcat-config" />
+	<target name="run-dev2" depends="set-env-dev2,init-properties,dist-local-if-necessary,make-source,clean-tomcat-config" description="Starts up the included Tomcat server with KFS using Rice in embedded (Rice standalone) mode.">
 		<echo>Moving Rice descriptor into path</echo>
 		<echo file="${appserver.home}/conf/Catalina/localhost/kr-dev2.xml"><![CDATA[
 			<Context path="/kr-dev2" reloadable="false" docBase="${basedir}/build/external/appserver/rice-web-${kfs.rice.version}.war" unpackWAR="false">
@@ -1435,45 +1441,42 @@ Admin Password = \${impex.admin.password} (not shown)
 					file to override the defaults in the project.
 			    - save your changes
 
-			2. run the echo-properties target and review the results
-			
-			3. Open the project in Eclipse.  This will compile all the code and
-				place it in ${classes.directory} as needed by the local server.
-
-			4. Run the refresh-db Ant target
+			2. Run the refresh-db Ant target
 				This will use the information in your configuration files to
 				log into the database and install the tables.
 			
-			5. Run the dist-local Ant target
+			3. Run the dist-local Ant target
 				This reads the above configuration files and builds the "final"
 				configuration files used by the application.  Some files are
 				placed into work/src and others are placed into ${external.config.directory}
 
-			6. Run the run-dev Ant target
+			4. Run the run-dev Ant target
 
-			7. Wait.
+			5. Wait.  The process will take from 1-3 minutes depending on your system's speed.
 			
-			8. Launch a browser and access ${application.url}
+			6. Launch a browser and access ${application.url}
 
-	you can override the default log4j settings for your local deployments by copying
+	You can override the default log4j settings for your local deployments by copying
 		${basedir}/${build.external.directory}/${log4j.file} to
-			${user.home}/${log4j.file} and modifying as desired.  you will also need to run the dist-local target
+			${user.home} and modifying as desired.  you will also need to run the dist-local target
 			for this change to take effect.
 
 			--- MAIN TARGETS ---
 
 			dist-local: prepares tokenized resources and local configuration files and deploys tomcat context file on development workstation
-			- this target should be run each time you update the project from version control or change property values in ${user.home}/kfs-build.properties
-			- tomcat should not be running when you are executing this target
+			- this target should be run each time you update the project from version control 
+			    or change property values in ${user.home}/kfs-build.properties
+			- tomcat should not be running when you execute this target
 			- You must refresh the project in Eclipse after running this target before starting up the server.
 
-			test-local: runs all project JUnut tests and generates results
-             - criteria for running dist-local must be met before running this target
-			- you can customize the set of tests that run by modifying the value of tests.includes in ${user.home}/kfs-build.propertie
+			test-local: runs all project JUnit tests and generates results
+            - criteria for running dist-local must be met before running this target
+			- you can customize the set of tests that run by modifying the value of tests.includes in ${user.home}/kfs-build.properties
 			- tomcat should not be running when you execute this target
 			- This assumes you have the default demo dataset loaded.  Most tests will fail if the database is not populated as expected.
 
-			echo-properties: executes ant echoproperties task, thereby printing out all the properties that have been set
+			echo-properties: executes ant echoproperties task, thereby printing out all the properties that have been set.  
+				There are quite a number of property files loaded by KFS.
 
 			clean: removes all build output
 		</echo>

@@ -1339,8 +1339,21 @@ Admin Password = $${impex.admin.password} (not shown)
 			</classpath>
 			<jvmarg value="-Xmx3g" />
 			<jvmarg value="-Xms512m" />
+			<jvmarg value="-XX:PermSize=128m" />
 			<jvmarg value="-XX:MaxPermSize=256m" />
+			<jvmarg value="-XX:NewSize=128m" />
+			<jvmarg value="-XX:MaxNewSize=256m" />
+			<jvmarg value="-XX:+UseParNewGC" />
+			<jvmarg value="-XX:+UseConcMarkSweepGC" />
+			<jvmarg value="-XX:SurvivorRatio=128" />
+			<jvmarg value="-XX:MaxTenuringThreshold=0" />
+			<jvmarg value="-XX:+UseTLAB" />
+			<jvmarg value="-XX:+CMSClassUnloadingEnabled" />
+			<jvmarg value="-Dsun.io.serialization.extendedDebugInfo=true" />
+			<jvmarg value="-Doracle.net.CONNECT_TIMEOUT=10000" />
 			<jvmarg value="-Djava.awt.headless=true" />
+			<jvmarg value="-Dorg.apache.jasper.compiler.Parser.STRICT_QUOTE_ESCAPING=false" />
+			
 			<jvmarg value="-DTOMCAT_DIR=${appserver.home}" />
 			<jvmarg value="-Dadditional.config.locations=${appserver.config.dir}/rice-config.xml" />
 			<jvmarg value="-Dcatalina.base=${appserver.home}" />

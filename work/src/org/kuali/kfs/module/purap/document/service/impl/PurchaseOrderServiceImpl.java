@@ -1575,7 +1575,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             try{
                 po.appSpecificRouteDocumentToUser(
                         po.getDocumentHeader().getWorkflowDocument(),
-                        adHocPerson.getId(),
+                        adHocPerson.getPerson().getPrincipalId(),
                         annotation,
                         responsibilityNote);
             }catch (WorkflowException e) {

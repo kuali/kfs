@@ -312,7 +312,7 @@
     <changeSet author="KFS50" id="KFSMI6285_STRUCTURE_CHANGES">
 		<createTable tableName="FP_PRCRMNT_CARD_DFLT_T">
             <column name="CC_NBR" type="VARCHAR2(16)">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="FP_PRCRMNT_CARD_DFLT_TP1"/>
+                <constraints primaryKey="true" primaryKeyName="FP_PRCRMNT_CARD_DFLT_TP1"/>
             </column>
             <column defaultValueNumeric="1" name="VER_NBR" type="NUMBER(8,0)">
                 <constraints nullable="false"/>

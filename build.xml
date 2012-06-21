@@ -1160,9 +1160,19 @@ The workflow files you want to run must exist in the pending subdirectory and wi
     	</if>
 	</target>
 
+	<target name="refresh-dev-db" depends="set-env-dev,refresh-db" />
+	<target name="refresh-dev2-db" depends="set-env-dev2,refresh-db" />
+
 	<target name="refresh-db" depends="refresh-rice-db,refresh-kfs-db" description="Refreshes the KFS and Rice database schema(s) for the current build environment" />
 	
 	<target name="refresh-rice-db" depends="init-properties" description="Refreshes the Rice component of the database for the current build environment">
+		<!-- for Mysql, attempt to remove the schema for the admin URL -->
+		<propertyregex property="rice.server.adminUrl" defaultvalue="${rice.server.datasource.url}"
+		              input="${rice.server.datasource.url}"
+		              regexp="^(.*)/${rice.server.datasource.username}$$"
+		              select="\1"
+		              casesensitive="true" />
+		
 		<echo>
 Importing Rice tables into the database using the information shown below:
 
@@ -1178,13 +1188,6 @@ Admin Password = $${rice.server.impex.admin.password} (not shown)
 		<property name="impex.properties" location="${all.temp.directory}/impex-build.properties"/>
 		<property name="rice.impex.import.targets" value="drop-schema create-schema import" />
 	
-		<!-- for Mysql, attempt to remove the schema for the admin URL -->
-		<propertyregex property="rice.server.adminUrl" defaultvalue="${rice.server.datasource.url}"
-		              input="${rice.server.datasource.url}"
-		              regexp="^(.*)/${rice.server.datasource.username}$$"
-		              select="\1"
-		              casesensitive="true" />
-		
 		<!-- build temp impex-build.properties -->
 		<echo append="false" file="${impex.properties}">
 			torque.project=kfs
@@ -1239,6 +1242,13 @@ Admin Password = $${rice.server.impex.admin.password} (not shown)
 	</target>
 	
 	<target name="refresh-kfs-db" depends="init-properties" description="Refreshes the KFS components of the database for the current build environment">
+		<!-- for Mysql, attempt to remove the schema for the admin URL -->
+		<propertyregex property="adminUrl" defaultvalue="${datasource.url}"
+		              input="${datasource.url}"
+		              regexp="^(.*)/${datasource.username}$$"
+		              select="\1"
+		              casesensitive="true" />
+		
 		<echo>
 Importing KFS tables into the database using the information shown below:
 
@@ -1261,13 +1271,6 @@ Admin Password = $${impex.admin.password} (not shown)
 		</if>
 		<condition property="kfs.impex.import.targets" value="import" else="drop-schema create-schema import"><istrue value="${dont.drop.kfs.schema}"/></condition>
 
-		<!-- for Mysql, attempt to remove the schema for the admin URL -->
-		<propertyregex property="adminUrl" defaultvalue="${datasource.url}"
-		              input="${datasource.url}"
-		              regexp="^(.*)/${datasource.username}$$"
-		              select="\1"
-		              casesensitive="true" />
-		
 		<!-- build temp impex-build.properties -->
 		<echo append="false" file="${impex.properties}">
 			torque.project=kfs
@@ -1325,6 +1328,7 @@ Admin Password = $${impex.admin.password} (not shown)
 
 	<target name="start-tomcat" depends="init-properties">
 		<echo>Starting Tomcat Server</echo>
+		<property name="tomcat.debug.options" value="" />
 		<java classname="org.apache.catalina.startup.Bootstrap" 
 				fork="true" 
 				dir="${appserver.home}" failonerror="true">
@@ -1333,7 +1337,6 @@ Admin Password = $${impex.admin.password} (not shown)
 					<include name="*.jar"/>
 				</fileset>
 			</classpath>
-			<jvmarg value="-Dxxxxxxx=kfs-dev2" />
 			<jvmarg value="-Xmx3g" />
 			<jvmarg value="-Xms512m" />
 			<jvmarg value="-XX:MaxPermSize=256m" />
@@ -1345,6 +1348,7 @@ Admin Password = $${impex.admin.password} (not shown)
 			<jvmarg value="-Djava.io.tmpdir=${appserver.home}/temp" />
 			<jvmarg value="-Djava.util.logging.config.file=${appserver.home}/conf/logging.properties" />
 			<jvmarg value="-Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager" />
+			<jvmarg line="${tomcat.debug.options}" />
 			<env key="JAVA_TOOL_OPTIONS" value=""/>
 			<arg value="start" />
 		</java>
@@ -1381,6 +1385,13 @@ Admin Password = $${impex.admin.password} (not shown)
 			</else>
 		</if>
 	</target>
+
+	<target name="set-debug-props">
+		<property name="tomcat.debug.options" value="-Xdebug -Xrunjdwp:transport=dt_socket,address=8000,suspend=n,server=y"/>
+	</target>
+	
+	<target name="debug-dev" depends="set-debug-props,run-dev" description="Starts up the included Tomcat server with KFS using Rice in bundled mode." />
+	<target name="debug-dev2" depends="set-debug-props,run-dev2" description="Starts up the included Tomcat server with KFS using Rice in embedded (Rice standalone) mode." />
 	
 	<target name="run-dev" depends="set-env-dev,init-properties,dist-local-if-necessary,make-source,clean-tomcat-config" description="Starts up the included Tomcat server with KFS using Rice in bundled mode.">
 		<!--

@@ -313,8 +313,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
             invoiceMap.put("taxAmount", currencyFormatter.format(invoice.getInvoiceItemTaxAmountTotal()).toString());
             invoiceMap.put("taxPercentage", ""); // suppressing this as its useless ... see KULAR-415
         }
-        KualiDecimal invoiceAmtDue = invoice.getSourceTotal().subtract(creditMemoTotalForInvoice(invoice));
-        invoiceMap.put("invoiceAmountDue", currencyFormatter.format(invoiceAmtDue).toString());
+        invoiceMap.put("invoiceAmountDue", currencyFormatter.format(invoice.getSourceTotal()).toString());
         invoiceMap.put("invoiceTermsText", invoice.getInvoiceTermsText());
 
         OCRLineService ocrService = SpringContext.getBean(OCRLineService.class);
@@ -772,6 +771,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
                         statementDetailsForGivenBillingOrg.put(customerNumber, statementDetailsByCustomer);
                         statementDetailsForGivenProcessingOrg.put(getChartAndOrgCodesCombined(billedByOrg), statementDetailsForGivenBillingOrg);
                         customerStatementDetailsSorted.put(getChartAndOrgCodesCombined(processingOrg), statementDetailsForGivenProcessingOrg);
+                        if (! statementFormat.equalsIgnoreCase(ArConstants.STATEMENT_FORMAT_DETAIL)) detail.setFinancialDocumentTotalAmountCredit(creditMemoTotalForInvoice(invoice));
                     }
                 }
             }

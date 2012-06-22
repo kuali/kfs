@@ -133,13 +133,13 @@ public class PurapConstants {
         public static final String APPDOC_AWAIT_SEP_OF_DUTY_REVIEW = "Awaiting Separation of Duties";
         public static final String APPDOC_AWAIT_CONTRACT_MANAGER_ASSGN = "Awaiting Contract Manager Assignment";
 
-        public static final String APPDOC_DAPRVD_CONTENT = "Disapproved - Content";
-        public static final String APPDOC_DAPRVD_HAS_ACCOUNTING_LINES = "Disapproved - Accounting Lines";
-        public static final String APPDOC_DAPRVD_SUB_ACCT = "Disapproved - Sub Account";
-        public static final String APPDOC_DAPRVD_FISCAL = "Disapproved - Fiscal";
-        public static final String APPDOC_DAPRVD_CHART = "Disapproved - Base Org Review";
-        public static final String APPDOC_DAPRVD_COMMODITY_CODE = "Disapproved - Commodity Code";
-        public static final String APPDOC_DAPRVD_SEP_OF_DUTY = "Disapproved - Separation of Duties";
+        public static final String APPDOC_DAPRVD_CONTENT = "Disapproved Content";
+        public static final String APPDOC_DAPRVD_HAS_ACCOUNTING_LINES = "Disapproved Accounting Lines";
+        public static final String APPDOC_DAPRVD_SUB_ACCT = "Disapproved Sub Account";
+        public static final String APPDOC_DAPRVD_FISCAL = "Disapproved Fiscal";
+        public static final String APPDOC_DAPRVD_CHART = "Disapproved Base Org Review";
+        public static final String APPDOC_DAPRVD_COMMODITY_CODE = "Disapproved Commodity Code";
+        public static final String APPDOC_DAPRVD_SEP_OF_DUTY = "Disapproved Separation of Duties";
 
         public static HashMap<String, String> getAllAppDocStatuses(){
             HashMap<String, String> appDocStatusMap = new HashMap<String, String>();
@@ -259,7 +259,7 @@ public class PurapConstants {
 
     public static class PurchaseOrderStatuses {
         // Added for updating app doc status for disapproved
-        public static final String APPDOC_DAPRVD_UNORDERED_ITEM = "Disapproved - New Unordered Item Review";
+        public static final String APPDOC_DAPRVD_UNORDERED_ITEM = "Disapproved New Unordered Item Review";
         public static final String APPDOC_DAPRVD_PURCHASING = "Disapproved Purchasing";
         public static final String APPDOC_DAPRVD_COMMODITY_CODE = "Disapproved Commodity Code";
         public static final String APPDOC_DAPRVD_CG_APPROVAL = "Disapproved C and G";
@@ -290,7 +290,7 @@ public class PurapConstants {
         public static final String APPDOC_PENDING_CLOSE = "Pending Close";
         public static final String APPDOC_CANCELLED_CHANGE = "Cancelled Change";
         public static final String APPDOC_DISAPPROVED_CHANGE = "Disapproved Change";
-        public static final String APPDOC_DAPRVD_CONTRACTS_GRANTS = "Disapproved - C and G";
+        public static final String APPDOC_DAPRVD_CONTRACTS_GRANTS = "Disapproved C and G";
         public static final String APPDOC_PENDING_PAYMENT_HOLD = "Pending Payment Hold";
         public static final String APPDOC_PENDING_REMOVE_HOLD = "Pending Remove Hold";
         public static final String APPDOC_PENDING_REOPEN = "Pending Reopen";
@@ -591,7 +591,7 @@ public class PurapConstants {
     public static final class PaymentRequestStatuses {
         public static final String APPDOC_INITIATE = "Initiated";
         public static final String APPDOC_IN_PROCESS = "In Process";
-        public static final String APPDOC_CANCELLED_IN_PROCESS = "Cancelled - In Process";
+        public static final String APPDOC_CANCELLED_IN_PROCESS = "Cancelled In Process";
         public static final String APPDOC_CANCELLED_POST_AP_APPROVE = "Cancelled";
         public static final String APPDOC_DEPARTMENT_APPROVED = "Department-Approved";
         public static final String APPDOC_AUTO_APPROVED = "Auto-Approved";
@@ -842,7 +842,7 @@ public class PurapConstants {
     public static class CreditMemoStatuses {
         public static final String APPDOC_INITIATE = "Initiated";
         public static final String APPDOC_IN_PROCESS = "In Process";
-        public static final String APPDOC_CANCELLED_IN_PROCESS = "Cancelled - In Process";
+        public static final String APPDOC_CANCELLED_IN_PROCESS = "Cancelled In Process";
         public static final String APPDOC_CANCELLED_PRIOR_TO_AP_APPROVAL = "Void";
         public static final String APPDOC_CANCELLED_POST_AP_APPROVE = "Cancelled";
         public static final String APPDOC_COMPLETE = "Complete";

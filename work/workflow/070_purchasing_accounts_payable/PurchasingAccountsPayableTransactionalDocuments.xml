@@ -146,19 +146,19 @@
       </routingVersion>
       <validApplicationStatuses>
             	<status>Awaiting Content Approval</status>
-            	<status>Disapproved - Content</status>
+            	<status>Disapproved Content</status>
             	<status>Awaiting Accounting Lines</status>
-            	<status>Disapproved - Accounting Lines</status>
+            	<status>Disapproved Accounting Lines</status>
             	<status>Awaiting Sub Account</status>
-            	<status>Disapproved - Sub Account</status>
+            	<status>Disapproved Sub Account</status>
             	<status>Awaiting Fiscal Officer</status>
-            	<status>Disapproved - Fiscal</status>
+            	<status>Disapproved Fiscal</status>
             	<status>Awaiting Base Org Review</status>
-            	<status>Disapproved - Base Org Review</status>
+            	<status>Disapproved Base Org Review</status>
                 <status>Awaiting Commodity Code</status>
-                <status>Disapproved - Commodity Code</status>
+                <status>Disapproved Commodity Code</status>
             	<status>Awaiting Separation of Duties</status>
-            	<status>Disapproved - Separation of Duties</status>
+            	<status>Disapproved Separation of Duties</status>
             	<status>Awaiting Contract Manager Assignment</status>
             	<status>Closed</status>
             	<status>Cancelled</status>
@@ -303,17 +303,12 @@
 	  	<status>In Process</status>
 		<status>Awaiting Fiscal Officer Review</status>
 		<status>Awaiting New Unordered Item Review</status>
-		<status>Disapproved - New Unordered Item Review</status>
+		<status>Disapproved New Unordered Item Review</status>
 		<status>Awaiting Purchasing Approval</status>
-		<status>Disapproved Purchasing</status>
 		<status>Awaiting Commodity Code Approval</status>
-		<status>Disapproved Commodity Code</status>
 		<status>Awaiting C and G Approval</status>
-		<status>Disapproved C and G</status>
 		<status>Awaiting Budget Approval</status>
-		<status>Disapproved Budget</status>
 		<status>Awaiting Tax Approval</status>
-		<status>Disapproved Tax</status>
 		<status>Error occurred sending cxml</status>
 		<status>Error occurred sending fax</status>
 		<status>Out for Quote</status>
@@ -511,7 +506,7 @@
 	  	<status>In Process</status>
 		<status>Awaiting Fiscal Officer Review</status>
 		<status>Awaiting New Unordered Item Review</status>
-		<status>Disapproved - New Unordered Item Review</status>
+		<status>Disapproved New Unordered Item Review</status>
 		<status>Awaiting Purchasing Approval</status>
 		<status>Awaiting Commodity Code Approval</status>
 		<status>Awaiting C and G Approval</status>
@@ -1215,7 +1210,7 @@
       <validApplicationStatuses>
       	<status>Initiated</status>
       	<status>In Process</status>
-      	<status>Cancelled - In Process</status>
+      	<status>Cancelled In Process</status>
       	<status>Void</status>
       	<status>Cancelled</status>
       	<status>Complete</status>
@@ -1295,7 +1290,7 @@
       <validApplicationStatuses>
       	<status>Initiated</status>
       	<status>In Process</status>
-      	<status>Cancelled - In Process</status>
+      	<status>Cancelled In Process</status>
       	<status>Cancelled</status>
       	<status>Department-Approved</status>
       	<status>Auto-Approved</status>

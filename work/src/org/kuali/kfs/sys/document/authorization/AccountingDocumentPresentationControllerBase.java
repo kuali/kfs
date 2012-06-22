@@ -32,6 +32,7 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class AccountingDocumentPresentationControllerBase extends LedgerPostingDocumentPresentationControllerBase {
 
@@ -95,7 +96,7 @@ public class AccountingDocumentPresentationControllerBase extends LedgerPostingD
      */
     protected boolean userOwnsAnyAccountingLine(Person user, List<AccountingLine> accountingLines) {
         for (AccountingLine accountingLine : accountingLines) {
-            if (StringUtils.isNotEmpty(accountingLine.getAccountNumber()))
+            if (StringUtils.isNotEmpty(accountingLine.getAccountNumber()) && ObjectUtils.isNotNull(accountingLine.getAccount()))
                 if (SpringContext.getBean(AccountService.class).hasResponsibilityOnAccount(user, accountingLine.getAccount())) {
                     return true;
             }

@@ -816,7 +816,7 @@ public class ReceivingServiceImpl implements ReceivingService {
             try{
                 recDoc.appSpecificRouteDocumentToUser(
                         recDoc.getDocumentHeader().getWorkflowDocument(),
-                        adHocPerson.getId(),
+                        adHocPerson.getPerson().getPrincipalId(),
                         annotation,
                         responsibilityNote);
             }catch (WorkflowException e) {

@@ -94,7 +94,7 @@
 		  <bean parent="MaintainableFieldDefinition" p:name="city" p:required="true"/>
 		  <bean parent="MaintainableFieldDefinition" p:name="stateCode" p:required="true"/>
 		  <bean parent="MaintainableFieldDefinition" p:name="zipCode" p:required="false"/>
-		  <bean parent="MaintainableFieldDefinition" p:name="countryCode" p:required="false"/>
+		  <bean parent="MaintainableFieldDefinition" p:name="countryCode" p:required="true"/>
           <bean parent="MaintainableFieldDefinition" p:name="active" p:required="false" p:defaultValue="true"/>
         </list>
 	</property>

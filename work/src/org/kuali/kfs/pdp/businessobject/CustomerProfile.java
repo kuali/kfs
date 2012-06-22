@@ -70,7 +70,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
     protected String checkHeaderNoteTextLine4;
     protected String city; // CUST_CTY_NM
     protected String contactFullName; // CUST_CNTC_FULL_NM
-    protected String countryCode = KFSConstants.COUNTRY_CODE_UNITED_STATES; // CUST_CNTRY_NM
+    protected String countryCode; // CUST_CNTRY_NM
     protected String customerDescription; // CUST_DESC
     protected String defaultChartCode; // DFLT_COA_CD
     protected String defaultAccountNumber; // DFLT_ACCT_NBR
@@ -1070,10 +1070,6 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
      * @return Returns the countryCode.
      */
     public String getCountryCode() {
-        if (countryCode == null) {
-            return KFSConstants.COUNTRY_CODE_UNITED_STATES;
-        }
-        
         return countryCode;
     }
 
@@ -1082,11 +1078,7 @@ public class CustomerProfile extends PersistableBusinessObjectBase implements Mu
      * @param countryCode The countryCode to set.
      */
     public void setCountryCode(String countryCode) {
-        if (countryCode == null) {
-            this.countryCode = KFSConstants.COUNTRY_CODE_UNITED_STATES;            
-        } else {
-            this.countryCode = countryCode;
-        }
+        this.countryCode = countryCode;
     }
 
     /**

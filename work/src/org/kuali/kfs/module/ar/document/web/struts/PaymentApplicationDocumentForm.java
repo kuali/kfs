@@ -287,8 +287,11 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
          */
         public int compare(PaymentApplicationInvoiceApply rosencrantz, PaymentApplicationInvoiceApply guildenstern) {
             if (ObjectUtils.isNotNull(rosencrantz.getInvoice()) && ObjectUtils.isNotNull(rosencrantz.getInvoice().getDocumentNumber()))
-                if (ObjectUtils.isNotNull(guildenstern.getInvoice()) && ObjectUtils.isNotNull(guildenstern.getInvoice().getDocumentNumber()))
-                    return rosencrantz.getInvoice().getDocumentNumber().compareTo(guildenstern.getInvoice().getDocumentNumber());
+                if (ObjectUtils.isNotNull(guildenstern.getInvoice()) && ObjectUtils.isNotNull(guildenstern.getInvoice().getDocumentNumber())) {
+                    Integer rosecrantzDocNum = Integer.valueOf(rosencrantz.getInvoice().getDocumentNumber());
+                    Integer guildensternDocNum = Integer.valueOf(guildenstern.getInvoice().getDocumentNumber());
+                    return rosecrantzDocNum.compareTo(guildensternDocNum);
+                 }
             return 0;
         }
     }
@@ -583,12 +586,33 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         return amount;
     }
 
+    /**
+     * This comparator is used internally for sorting the list of invoices
+     */
+    protected static class NonAppliedHoldingComparator implements Comparator<NonAppliedHolding> {
+        
+        /**
+         * Compares two NonAppliedHolding based on their referenceFinancialDocumentNumber
+         * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+         */
+        public int compare(NonAppliedHolding rosencrantz, NonAppliedHolding guildenstern) {
+            if (ObjectUtils.isNotNull(rosencrantz.getReferenceFinancialDocumentNumber()))
+                if (ObjectUtils.isNotNull(guildenstern.getReferenceFinancialDocumentNumber())) {
+                    Integer rosecrantzDocNum = Integer.valueOf(rosencrantz.getReferenceFinancialDocumentNumber());
+                    Integer guildensternDocNum = Integer.valueOf(guildenstern.getReferenceFinancialDocumentNumber());
+                    return rosecrantzDocNum.compareTo(guildensternDocNum);
+                 }
+            return 0;
+        }
+     }
+
+
     public List<NonAppliedHolding> getNonAppliedControlHoldings() {
         BusinessObjectDictionaryService businessObjectDictionaryService = SpringContext.getBean(BusinessObjectDictionaryService.class);
-        List defaultSortColumns = new ArrayList();
-        defaultSortColumns.add("referenceFinancialDocumentNumber");
         List <NonAppliedHolding> results = new ArrayList<NonAppliedHolding>(nonAppliedControlHoldings);
-        if (results.size() > 0) Collections.sort(results, new BeanPropertyComparator(defaultSortColumns, true));
+        NonAppliedHoldingComparator nonAppliedHoldingComparator = new NonAppliedHoldingComparator();
+       
+        if (results.size() > 0) Collections.sort(results, nonAppliedHoldingComparator);
         return results;
     }
 

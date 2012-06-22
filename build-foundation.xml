@@ -167,6 +167,30 @@ Renaming from: rice-xxx-${rice.version}-xxxxx.jar
 <!-- 
 TODO:  SVN export to the temp dir
 
+dataset creation - script in Ant
+use export-to-svn?
+svn cp development demo
+svn cp development bootstrap
+Target: remove-dist-db-dirs
+Target: reset-dist-db-dirs
+Prep - Or fully revert within Eclipse and run the clean-all Ant task
+Need oracle database - properties for packaging/distribution schema
+default for schema name
+custom property file only loaded by this process
+re-use the refresh-kfs-db target but set the properties to point to packaging
+require Oracle schema - hard-code to Oracle driver class
+stop from checking everything out - use project and do an SVN revert and clean-all
+remove all Rice export sections
+add export/import for Rice bootstrap dataset (secondary)
+remove javadoc
+remove reg-build / ptd / ptds
+look for indiana.edu / kuali.org references in entire project
+Target: import-kfs-for-packaging
+Target: run demo cleanup
+Target: export-demo-db
+Target: run bootstrap cleanup
+Target: export-bootstrap-db
+
 knoreceipt-l@indiana.edu
  -->
 	<target name="replace-foundation-references" depends="init-properties,init-additional-properties">

@@ -8,10 +8,10 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"
 	default-lazy-init="false">
-
-
 	<!-- This Spring File loads all of the Rice Configuration (including transaction managers, datasources and the Rice Configurer) -->
-	<!-- <import resource="classpath:net/bull/javamelody/monitoring-spring.xml" /> -->
+
+	<!-- install the JavaMelody monitoring beans -->
+	<import resource="classpath:net/bull/javamelody/monitoring-spring.xml" />
 
 	<!--  Define the properties which will be used in ${} expressions throughout the remainder
 		  of the KFS and Rice spring files.  These properties will be injected into

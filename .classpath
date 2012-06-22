@@ -211,7 +211,7 @@
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="build/kfs-lib/javamelody-1.31.0.jar"><!-- Runtime Only lib -->
+	<classpathentry exported="true" kind="lib" path="build/kfs-lib/javamelody-1.39.0.jar"><!-- Runtime Only lib -->
 		<accessrules>
 			<accessrule kind="nonaccessible" pattern="**"/>
 		</accessrules>

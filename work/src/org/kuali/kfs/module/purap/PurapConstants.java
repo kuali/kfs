@@ -260,11 +260,11 @@ public class PurapConstants {
     public static class PurchaseOrderStatuses {
         // Added for updating app doc status for disapproved
         public static final String APPDOC_DAPRVD_UNORDERED_ITEM = "Disapproved - New Unordered Item Review";
-        public static final String APPDOC_DAPRVD_PURCHASING = "Disapproved - Purchasing";
-        public static final String APPDOC_DAPRVD_COMMODITY_CODE = "Disapproved - Commodity Code";
-        public static final String APPDOC_DAPRVD_CG_APPROVAL = "Disapproved - C and G";
-        public static final String APPDOC_DAPRVD_BUDGET = "Disapproved - Budget";
-        public static final String APPDOC_DAPRVD_TAX = "Disapproved - Tax";
+        public static final String APPDOC_DAPRVD_PURCHASING = "Disapproved Purchasing";
+        public static final String APPDOC_DAPRVD_COMMODITY_CODE = "Disapproved Commodity Code";
+        public static final String APPDOC_DAPRVD_CG_APPROVAL = "Disapproved C and G";
+        public static final String APPDOC_DAPRVD_BUDGET = "Disapproved Budget";
+        public static final String APPDOC_DAPRVD_TAX = "Disapproved Tax";
         public static final String APPDOC_CANCELLED = "Cancelled";
         public static final String APPDOC_VOID = "Void";
         public static final String APPDOC_IN_PROCESS = "In Process";

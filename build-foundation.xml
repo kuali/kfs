@@ -149,4 +149,84 @@ Renaming from: rice-xxx-${rice.version}-xxxxx.jar
       		</java>
     	</sequential>
   	</macrodef>
+
+<!-- 
+	<target name="package" depends="prep-temp-dir,checkout-projects,replace-foundation-references,unpack-and-remove-rice-licenses,add-doc-files,make-javadoc-for-dist,zip-package"
+			description="Cleans up the project, manipulates the contents slightly, and packs it up for distribution on the Kuali web site.">
+    	<delete dir="${all.temp.directory}" verbose="false" />
+	</target>
+ -->
+	<target name="prep-temp-dir" depends="init-properties,init-additional-properties">
+    	<delete>
+    		<fileset dir="${all.temp.directory}">
+    			<include name="**/*" />
+    		</fileset>
+    	</delete>
+	</target>
+
+<!-- 
+TODO:  SVN export to the temp dir
+
+knoreceipt-l@indiana.edu
+ -->
+	<target name="replace-foundation-references" depends="init-properties,init-additional-properties">
+		<delete verbose="true">
+			<fileset dir="${all.temp.directory}/kfs">
+				<!-- remove the "build-foundation" build file -->
+				<include name="build-foundation.xml" />
+				<include name="build/properties/build-foundation.properties" />
+				<!-- remove the distribution build files -->
+				<!-- both these files and files we do not have the authority to distribute ourselves -->
+				<include name="${build.distribution.directory}/build.xml" />
+				<include name="build/properties/distribution.properties" />
+				<include name="work/db/upgrades/*/temp-*/**" />
+				<include name="build/svn*.jar" />
+				<include name="build/ganymed.jar" />
+				<include name="build/drivers/*.jar" />
+			</fileset>
+		</delete>
+	    <!-- remove foundation-only targets import from main build file -->
+    	<replace file="${all.temp.directory}/kfs/build.xml">
+      		<replacefilter token="&lt;import file=&quot;build-foundation.xml&quot;/&gt;" value="" />
+      		<replacefilter token="&lt;import file=&quot;build-foundation.xml&quot;/&gt;" value="" />
+    		<replacefilter token="&lt;format property=&quot;build.version&quot; pattern=&quot;MM/dd/yyyy hh:mm aa&quot; /&gt;" value="&lt;format property=&quot;build.version&quot; pattern=&quot;'KFS ${release.version.number}' MM/dd/yyyy hh:mm aa&quot; /&gt;" />
+    	</replace>
+		<!-- replace foundation URL references -->
+		<replace dir="${all.temp.directory}">
+			<include name="impex/*.properties*" />
+			<include name="kfs/build/external/user/kfs-build.properties" />
+			<include name="kfs/build/properties/*.properties" />
+			<!-- SVN -->
+      		<replacefilter token="https://svn.kuali.org/repos/" value="" />
+			<!-- database -->
+      		<replacefilter token="mysql.datasource.url=jdbc:mysql://esdbk01.uits.indiana.edu:3306/$${datasource.username}" 
+    		     value="mysql.datasource.url=jdbc:mysql://localhost:3306/$${datasource.username}" />
+      		<replacefilter token="oracle.datasource.url=jdbc:oracle:thin:@esdbk02.uits.indiana.edu:1521:KUALI" 
+    		     value="oracle.datasource.url=jdbc:oracle:thin:@localhost:1521:XE" />
+			<!-- misc -->
+			<replacefilter token="feedback.link.url=https://test.kuali.org/jira/secure/CreateIssue.jspa?pid=10091&amp;amp;issuetype=1" value="feedback.link.url=" />
+			<replacefilter token="licensing.contact.email=license@kuali.org" value="licensing.contact.email=" />
+      	</replace>
+		<move file="${all.temp.directory}/kfs/${build.distribution.directory}/*-impex-build*.properties"
+			  todir="${all.temp.directory}" failonerror="false" />
+	</target>
+
+	<target name="add-doc-files" depends="init-properties,init-additional-properties">
+		<!-- get the current revision numbers for each SVN path we are including in the export -->
+		<echo>${kuali.svn.root}/${kfs.dataset.svn.module}/${kfs.dataset.svn.path}</echo>
+		<svn>
+			<info target="${basedir}"
+				  propPrefix="svn.info.kfs" verbose="true" />			
+		</svn>
+	    <!-- dump a file with the extracted tags -->
+    	<echo file="${all.temp.directory}/release-details.txt">
+      		KFS URL: ${kfs.svn.module}/${kfs.svn.path} (@${svn.info.kfs.lastRev})
+    	</echo>	
+	</target>
+	
+	<target name="zip-package" depends="init-properties">
+	    <!-- zip it up -->
+    	<zip destfile="${release.zip.name}" basedir="${all.temp.directory}" compress="true" />
+	</target>
+
 </project>

@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 
+	<include file="03_constraints/ar-module-constraint-updates.xml"/>
 	<include file="03_constraints/cam-module-constraint-updates.xml"/>
 	<include file="03_constraints/fp-module-constraint-updates.xml"/>
 	<include file="03_constraints/purap-module-constraint-updates.xml"/>

@@ -1055,6 +1055,8 @@
 
 <class-descriptor class="org.kuali.kfs.module.ar.businessobject.CustomerBillingStatement" table="AR_CUST_BILLING_STMT_T">
 	<field-descriptor name="customerNumber" column="CUST_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="previouslyBilledAmount" column="PREV_BILLED_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="reportedDate" column="REPORTED_DT" jdbc-type="DATE"/>
 </class-descriptor>	

@@ -1,22 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns='http://www.liquibase.org/xml/ns/dbchangelog/1.9'
-	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd'>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 
-	<changeSet author="KFS50" id='KFSMI-5253'>
-		<addColumn tableName='AR_INV_DOC_T'>
-			<column name='REPORTED_DT' type='DATE' />
+	<changeSet author="KFS50" id="KFSMI-5253">
+		<addColumn tableName="AR_INV_DOC_T">
+			<column name="REPORTED_DT" type="DATE" />
 		</addColumn>
 
 		<createTable tableName="AR_CUST_BILLING_STMT_T">
-			<column name='CUST_NBR' type='VARCHAR2(9)' />
-			<column name='PREV_BILLED_AMT' type='NUMBER(19,2)' />
-			<column name='REPORTED_DT' type='DATE' />
+			<column name="CUST_NBR" type="VARCHAR2(9)">
+				<constraints primaryKey="true" primaryKeyName="AR_CUST_BILLING_STMT_TP1"/>
+			</column>
+			<column name="OBJ_ID" type="VARCHAR2(36)">
+				<constraints unique="true" uniqueConstraintName="AR_CUST_BILLING_STMT_TC0" nullable="false"/>
+			</column>
+			<column name="VER_NBR" type="NUMBER(8)" defaultValueNumeric="1">
+				<constraints nullable="false"/>
+			</column>
+			<column name="PREV_BILLED_AMT" type="NUMBER(19,2)" />
+			<column name="REPORTED_DT" type="DATE" />
 		</createTable>
 
-		<modifySql dbms='mysql'>
-			<replace replace='VARCHAR2' with='VARCHAR' />
-			<replace replace='NUMBER' with='DECIMAL' />
+		<modifySql dbms="mysql">
+			<replace replace="VARCHAR2" with="VARCHAR" />
+			<replace replace="NUMBER" with="DECIMAL" />
 		</modifySql>
 	</changeSet>
 </databaseChangeLog>

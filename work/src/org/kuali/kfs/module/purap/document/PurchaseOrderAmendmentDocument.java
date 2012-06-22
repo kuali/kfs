@@ -88,6 +88,11 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
                     String nodeName = SpringContext.getBean(WorkflowDocumentService.class).getCurrentRouteLevelName(this.getFinancialSystemDocumentHeader().getWorkflowDocument());
                     String reqStatus = PurapConstants.PurchaseOrderStatuses.getPurchaseOrderAppDocDisapproveStatuses().get(nodeName);
                     updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.getPurchaseOrderAppDocDisapproveStatuses().get(reqStatus));
+                    
+                    RequisitionDocument req = getPurApSourceDocumentIfPossible();
+                    appSpecificRouteDocumentToUser(this.getFinancialSystemDocumentHeader().getWorkflowDocument(), req.getFinancialSystemDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId(), "Notification of Order Disapproval for Requisition " + req.getPurapDocumentIdentifier() + "(document id " + req.getDocumentNumber() + ")", "Requisition Routed By User");
+                    return;
+                    
                 } catch (WorkflowException e) {
                     logAndThrowRuntimeException("Error saving routing data while saving App Doc Status " + getDocumentNumber(), e);
                 }

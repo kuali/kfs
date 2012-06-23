@@ -113,6 +113,7 @@ public class CamsKeyConstants {
         public static final String ERROR_CHOOSE_ASSET_TYPE = "error.choose.asset.type.validate.location";
         public static final String ERROR_LOCATION_NOT_PERMITTED_ASSET_TYPE = "error.location.not.permitted.asset.type";
         public static final String ERROR_ASSET_LOCATION_ROOM_NUMBER_NONMOVEABLE = "error.asset.location.room.number.nonmoveable";
+        public static final String ERROR_ASSET_LOCATION_BUILDING_NONMOVEABLE = "error.asset.location.building.number.nonmoveable";
     }
 
     public static class Retirement {

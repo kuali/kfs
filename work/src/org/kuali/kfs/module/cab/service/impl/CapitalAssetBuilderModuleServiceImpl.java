@@ -1235,7 +1235,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 errorKey.append("[" + locationCount++ + "].");
                 AssetType assetType = getAssetType(system.getCapitalAssetTypeCode());                
                 ignoreRoom = ObjectUtils.isNull(assetType) ? false : assetType.isMovingIndicator();
-                valid &= validateCapitalAssetLocationAddressFields(location, ignoreRoom, errorKey);
+                boolean ignoreBuilding = ObjectUtils.isNull(assetType) ? false : assetType.isRequiredBuildingIndicator();
+                valid &= validateCapitalAssetLocationAddressFields(location, ignoreRoom, ignoreBuilding, errorKey);
             }
         }
         return valid;
@@ -1259,7 +1260,8 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 errorKey.append("[" + i++ + "].");
                 AssetType assetType = getAssetType(system.getCapitalAssetTypeCode());                
                 ignoreRoom = ObjectUtils.isNull(assetType) ? false : assetType.isMovingIndicator();
-                valid &= validateCapitalAssetLocationAddressFields(location, ignoreRoom, errorKey);
+                boolean ignoreBuilding = ObjectUtils.isNull(assetType) ? false : assetType.isRequiredBuildingIndicator();
+                valid &= validateCapitalAssetLocationAddressFields(location, ignoreRoom, ignoreBuilding, errorKey);
             }
         }
         return valid;
@@ -1272,7 +1274,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param errorKey
      * @return
      */
-    protected boolean validateCapitalAssetLocationAddressFields(CapitalAssetLocation location, boolean ignoreRoom, StringBuffer errorKey) {
+    protected boolean validateCapitalAssetLocationAddressFields(CapitalAssetLocation location, boolean ignoreRoom, boolean ignoreBuilding, StringBuffer errorKey) {
         boolean valid = true;
         if (StringUtils.isBlank(location.getCapitalAssetLine1Address())) {
             GlobalVariables.getMessageMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_ADDRESS_LINE1);
@@ -1301,11 +1303,16 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                 GlobalVariables.getMessageMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_CAMPUS);
                 valid &= false;
             }
-            if (StringUtils.isBlank(location.getBuildingCode())) {
+            if (StringUtils.isBlank(location.getBuildingCode()) && ignoreBuilding) {
                 GlobalVariables.getMessageMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_BUILDING);
                 valid &= false;
             }
             
+            if (!StringUtils.isBlank(location.getBuildingCode()) && !ignoreBuilding) {
+                GlobalVariables.getMessageMap().putError(errorKey.toString(), CamsKeyConstants.AssetLocation.ERROR_ASSET_LOCATION_BUILDING_NONMOVEABLE, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_BUILDING);
+                valid &= false;
+            }
+          
             if (StringUtils.isBlank(location.getBuildingRoomNumber()) && ignoreRoom) {
                 GlobalVariables.getMessageMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_ROOM);
                 valid &= false;

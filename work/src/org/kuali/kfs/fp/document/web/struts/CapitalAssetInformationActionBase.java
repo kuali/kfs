@@ -1734,7 +1734,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
     }
 
     /**
-     * 
+     * redistributes the capital asset amount for the modify capital asset lines.
      * @param mapping
      * @param form
      * @param request
@@ -2100,8 +2100,29 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
         for (CapitalAssetInformation capitalAsset : capitalAssetInformation) {
         //redistribute the capital asset modify amount to the group accounting lines
         //based on amount.
+            if (!capitalAssetAmountAlreadyDistributedToGroupAccountingLines(capitalAsset))
             redistributeToGroupAccountingLinesFromAssetsByAmounts(selectedCapitalAccountingLines, capitalAsset);
         }
     }
     
+    /**
+     * checks if the capital asset amount already distributed to its group accounting lines
+     * 
+     * @param capitalAsset
+     * @return true if amount already distributed else return false.
+     */
+    protected boolean capitalAssetAmountAlreadyDistributedToGroupAccountingLines(CapitalAssetInformation capitalAsset) {
+        boolean amountDistributed = true;
+        
+        KualiDecimal capitalAssetAmount = capitalAsset.getCapitalAssetLineAmount();
+        KualiDecimal totalAmountDistributed = KualiDecimal.ZERO;
+        
+        List<CapitalAssetAccountsGroupDetails> groupAccountLines = capitalAsset.getCapitalAssetAccountsGroupDetails();
+        for (CapitalAssetAccountsGroupDetails groupAccountLine : groupAccountLines) {
+            //keep track of amount distributed so far.
+            totalAmountDistributed = totalAmountDistributed.add(groupAccountLine.getAmount());
+        }
+        
+        return (capitalAssetAmount.compareTo(totalAmountDistributed) == 0);
+    }
 }

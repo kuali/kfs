@@ -1,6 +1,0 @@
-<Record name="databasechangeloglock" type="delimited">
-  <Field name="id"                              type="numeric"    nullable="true"  trim="false" delimiter="|"  />
-  <Field name="locked"                          type="numeric"    nullable="true"  trim="false" delimiter="|"  />
-  <Field name="lockgranted"                     type="date"       nullable="true"  trim="false" delimiter="|"  format="yyyyMMddHHmmss" />
-  <Field name="lockedby"                        type="string"     nullable="true"  trim="false" delimiter="|\r\n" />
-</Record>

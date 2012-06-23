@@ -897,9 +897,17 @@
         </unique>
     </table>
     <table name="AR_CUST_BILLING_STMT_T">
-        <column name="CUST_NBR" size="9" type="VARCHAR"/>
+        <column name="CUST_NBR" primaryKey="true" size="9" type="VARCHAR"/>
+        <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
+        <column default="1" name="VER_NBR" required="true" size="8" type="DECIMAL"/>
         <column name="PREV_BILLED_AMT" scale="2" size="19" type="DECIMAL"/>
         <column name="REPORTED_DT" type="DATE"/>
+        <foreign-key foreignTable="AR_CUST_T" name="AR_CUST_BILLING_STMT_TR1">
+            <reference foreign="CUST_NBR" local="CUST_NBR"/>
+        </foreign-key>
+        <unique name="AR_CUST_BILLING_STMT_TC0">
+            <unique-column name="OBJ_ID"/>
+        </unique>
     </table>
     <table name="AR_CUST_PRCS_TYP_T">
         <column name="CUST_SPCL_PRCS_CD" primaryKey="true" size="2" type="VARCHAR"/>
@@ -4748,23 +4756,6 @@
         <unique name="CM_RETIRE_REAS_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
-    </table>
-    <table name="DATABASECHANGELOG">
-        <column name="ID" primaryKey="true" size="63" type="VARCHAR"/>
-        <column name="AUTHOR" primaryKey="true" size="63" type="VARCHAR"/>
-        <column name="FILENAME" primaryKey="true" size="200" type="VARCHAR"/>
-        <column name="DATEEXECUTED" required="true" type="TIMESTAMP"/>
-        <column name="MD5SUM" size="32" type="VARCHAR"/>
-        <column name="DESCRIPTION" size="255" type="VARCHAR"/>
-        <column name="COMMENTS" size="255" type="VARCHAR"/>
-        <column name="TAG" size="255" type="VARCHAR"/>
-        <column name="LIQUIBASE" size="10" type="VARCHAR"/>
-    </table>
-    <table name="DATABASECHANGELOGLOCK">
-        <column name="ID" primaryKey="true" size="22" type="DECIMAL"/>
-        <column name="LOCKED" required="true" size="1" type="DECIMAL"/>
-        <column name="LOCKGRANTED" type="TIMESTAMP"/>
-        <column name="LOCKEDBY" size="255" type="VARCHAR"/>
     </table>
     <table name="END_ACRL_MTHD_T">
         <column name="SEC_ACRL_MTHD" primaryKey="true" size="1" type="VARCHAR"/>

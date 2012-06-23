@@ -62,8 +62,6 @@ public class VendorContractLookupableHelperServiceImpl extends AbstractLookupabl
 
         Date now = dateTimeService.getCurrentSqlDate();
         String nowString = dateTimeService.toDateString(now);
-        fieldValues.put("vendorContractBeginningDate", SearchOperator.LESS_THAN_EQUAL.op()+nowString);
-        fieldValues.put("vendorContractEndDate", SearchOperator.GREATER_THAN_EQUAL.op()+nowString);
 
         // We ought to call the findCollectionBySearchHelper that would accept the additionalCriteria
         boolean usePrimaryKeyValuesOnly = getLookupService().allPrimaryKeyValuesPresentAndNotWildcard(getBusinessObjectClass(), fieldValues);
@@ -73,7 +71,7 @@ public class VendorContractLookupableHelperServiceImpl extends AbstractLookupabl
         // loop through results to eliminate inactive or debarred vendors
         for (PersistableBusinessObject object : searchResults) {
             VendorContract vendorContract = (VendorContract) object;
-            if (vendorContract.getVendorDetail().isActiveIndicator() && !vendorContract.getVendorDetail().isVendorDebarred()) {
+            if (!vendorContract.getVendorDetail().isVendorDebarred()) {
                 finalSearchResults.add(vendorContract);
             }
         }

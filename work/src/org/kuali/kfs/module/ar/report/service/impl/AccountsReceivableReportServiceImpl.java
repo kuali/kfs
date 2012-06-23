@@ -486,8 +486,9 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
             sysinfoMap.put("FEIN", "FED ID #" + sysinfo.getUniversityFederalEmployerIdentificationNumber());
         }
 
-        calculateAgingAmounts(details, invoiceMap);
-
+        KualiDecimal bal =  (statementFormat.equals(ArConstants.STATEMENT_FORMAT_DETAIL)) ?  previousBalance : KualiDecimal.ZERO;
+        calculateAgingAmounts(details, invoiceMap, bal);
+        
         reportDataHolder.setSysinfo(sysinfoMap);
         reportDataHolder.setDetails(details);
         reportDataHolder.setInvoice(invoiceMap);
@@ -820,7 +821,7 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
      * @param details
      * @param invoiceMap
      */
-    protected void calculateAgingAmounts(List<CustomerStatementDetailReportDataHolder> details, Map<String, String> invoiceMap) {
+    protected void calculateAgingAmounts(List<CustomerStatementDetailReportDataHolder> details, Map<String, String> invoiceMap,KualiDecimal previousBalance) {
         for (CustomerStatementDetailReportDataHolder csdrdh : details) {
             if (csdrdh.getDocType().equals(ArConstants.INVOICE_DOC_TYPE)) {
                 CustomerInvoiceDocumentService customerInvoiceDocumentService = SpringContext.getBean(CustomerInvoiceDocumentService.class);
@@ -829,14 +830,15 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
                 Collection<CustomerInvoiceDetail> invoiceDetails = customerInvoiceDocumentService.getCustomerInvoiceDetailsForCustomerInvoiceDocument(ci);
                 java.util.Date reportRunDate = dateTimeService.getCurrentDate();
                 CustomerAgingReportDataHolder agingData = SpringContext.getBean(CustomerAgingReportService.class).calculateAgingReportAmounts(invoiceDetails, reportRunDate);
-    
-                addAgingAmountToInvoiceMap(ArConstants.CustomerAgingReportFields.TOTAL_0_TO_30, agingData.getTotal0to30(), invoiceMap);
+                // add previous balance to 30 days and total amount due
+           
+                addAgingAmountToInvoiceMap(ArConstants.CustomerAgingReportFields.TOTAL_0_TO_30, agingData.getTotal0to30().add(previousBalance), invoiceMap);
                 addAgingAmountToInvoiceMap(ArConstants.CustomerAgingReportFields.TOTAL_31_TO_60, agingData.getTotal31to60(), invoiceMap);
                 addAgingAmountToInvoiceMap(ArConstants.CustomerAgingReportFields.TOTAL_61_TO_90, agingData.getTotal61to90(), invoiceMap);
                 addAgingAmountToInvoiceMap(ArConstants.CustomerAgingReportFields.TOTAL_91_TO_SYSPR, agingData.getTotal91toSYSPR(), invoiceMap);
                 // it's not necessary to display an extra bucket on the statement, so I'm rolling up the amounts over 90 days into a single bucket for display
                 addAgingAmountToInvoiceMap(ArConstants.CustomerAgingReportFields.TOTAL_91_TO_SYSPR, agingData.getTotalSYSPRplus1orMore(), invoiceMap);
-                addAgingAmountToInvoiceMap(ArConstants.CustomerAgingReportFields.TOTAL_AMOUNT_DUE, agingData.getTotalAmountDue(), invoiceMap);               
+                addAgingAmountToInvoiceMap(ArConstants.CustomerAgingReportFields.TOTAL_AMOUNT_DUE, agingData.getTotalAmountDue().add(previousBalance), invoiceMap);               
             } 
         }
     }

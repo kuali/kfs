@@ -297,6 +297,7 @@ public class PurapConstants {
         public static final String APPDOC_PENDING_RETRANSMIT = "Pending Retransmit";
         public static final String APPDOC_RETIRED_VERSION = "Retired Version";
         public static final String APPDOC_PENDING_VOID = "Pending Void";
+        public static final String APPDOC_CANCELLED_IN_PROCESS = "Cancelled In Process";
 
         public static HashMap<String, String> getAllAppDocStatuses(){
             HashMap<String, String> appDocStatusMap = new HashMap<String, String>();
@@ -343,6 +344,7 @@ public class PurapConstants {
             return appDocStatusMap;
         }
 
+        public static final String NODE_ADHOC_REVIEW = "AdHoc";
         public static final String NODE_CONTRACT_MANAGEMENT = "ContractManagement";
         public static final String NODE_AWAIT_NEW_UNORDERED_ITEM_REVIEW = "NewUnorderedItems";
         public static final String NODE_INTERNAL_PURCHASING_REVIEW = "ContractManagement";
@@ -356,7 +358,7 @@ public class PurapConstants {
 
             HashMap<String, String> poAppDocStatusMap = new HashMap<String, String>();
             
-         //   poAppDocStatusMap.put(NODE_CONTRACT_MANAGEMENT,PurchaseOrderStatuses.APPDOC_AWAIT_PURCHASING_REVIEW);
+            poAppDocStatusMap.put(NODE_ADHOC_REVIEW, PurchaseOrderStatuses.APPDOC_CANCELLED);
             poAppDocStatusMap.put(NODE_AWAIT_NEW_UNORDERED_ITEM_REVIEW,PurchaseOrderStatuses.APPDOC_DAPRVD_UNORDERED_ITEM);
             poAppDocStatusMap.put(NODE_INTERNAL_PURCHASING_REVIEW, PurchaseOrderStatuses.APPDOC_DAPRVD_PURCHASING);
             poAppDocStatusMap.put(NODE_COMMODITY_CODE_REVIEW,  PurchaseOrderStatuses.APPDOC_DAPRVD_COMMODITY_CODE);

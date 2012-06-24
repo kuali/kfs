@@ -47,6 +47,33 @@
     	</map>
     </property>  
     <property name="importedLineParserClass" value="org.kuali.kfs.sys.businessobject.AccountingLineParserBase"/>
+        <property name="attributes">
+      <list>
+     	 <ref bean="BenefitExpenseTransferDocument-chartOfAccountsCode"/>
+     	 <ref bean="BenefitExpenseTransferDocument-accountNumber"/>
+      </list>
+    </property>
+    
+  </bean>
+  
+  <bean id="BenefitExpenseTransferDocument-chartOfAccountsCode" parent="BenefitExpenseTransferDocument-chartOfAccountsCode-parentBean"/>
+
+  <bean id="BenefitExpenseTransferDocument-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="name" value="chartOfAccountsCode"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <ref bean="ChartSimpleSelectControl" />
+    </property>
+  </bean>
+
+ <bean id="BenefitExpenseTransferDocument-accountNumber" parent="BenefitExpenseTransferDocument-accountNumber-parentBean"/>
+
+  <bean id="BenefitExpenseTransferDocument-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+    <property name="name" value="accountNumber"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <ref bean="ChartSimpleSelectControl" />
+    </property>
   </bean>
 
 <!-- Exported Workflow Attributes -->

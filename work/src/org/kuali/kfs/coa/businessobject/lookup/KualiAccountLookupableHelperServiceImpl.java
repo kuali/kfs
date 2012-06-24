@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -36,7 +37,7 @@ import org.kuali.rice.krad.util.KRADConstants;
  * This class overrides the base getActionUrls method
  */
 public class KualiAccountLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-
+    private static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
     /**
      * If the account is not closed or the user is an Administrator the "edit" link is added The "copy" link is added for Accounts
      *
@@ -97,6 +98,21 @@ public class KualiAccountLookupableHelperServiceImpl extends KualiLookupableHelp
             parameters.remove(KFSPropertyConstants.CLOSED);
         }
         return super.getSearchResults(parameters);
+    }
+
+
+    /**
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getReadOnlyFieldsList()
+     */
+    @Override
+    public List<String> getReadOnlyFieldsList() {
+        List<String> readonlyList = super.getReadOnlyFieldsList();
+        if (readonlyList == null) {
+            readonlyList = new ArrayList<String>();
+        }
+        AccountService accountService = SpringContext.getBean(AccountService.class);
+        if (!accountService.accountsCanCrossCharts()) readonlyList.add(CHART_OF_ACCOUNTS_CODE);
+        return readonlyList;
     }
 
 

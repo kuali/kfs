@@ -28,8 +28,6 @@ import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
  */
 public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase {
 
-    protected String chartOfAccountsCode;
-    protected String accountNumber;
     protected String subAccountNumber;
 
     /**
@@ -59,7 +57,7 @@ public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase 
      * @return Returns the accountNumber.
      */
     public String getAccountNumber() {
-        return accountNumber;
+        return this.getBenefitExpenseTransferDocument().getAccountNumber();
     }
 
     /**
@@ -68,7 +66,7 @@ public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase 
      * @param accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
+        this.getBenefitExpenseTransferDocument().setAccountNumber(accountNumber);
     }
 
     /**
@@ -95,7 +93,7 @@ public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase 
      * @return Return the chartOfAccountsCode.
      */
     public String getChartOfAccountsCode() {
-        return chartOfAccountsCode;
+        return this.getBenefitExpenseTransferDocument().getChartOfAccountsCode();
     }
 
     /**
@@ -104,7 +102,7 @@ public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase 
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
-        this.chartOfAccountsCode = chartOfAccountsCode;
+        this.getBenefitExpenseTransferDocument().setChartOfAccountsCode(chartOfAccountsCode);
     }
 
     /**

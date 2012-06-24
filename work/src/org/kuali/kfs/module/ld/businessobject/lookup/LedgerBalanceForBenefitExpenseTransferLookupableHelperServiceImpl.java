@@ -19,7 +19,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.gl.Constant;
 import org.kuali.kfs.gl.OJBUtility;
 import org.kuali.kfs.module.ld.LaborConstants.BenefitExpenseTransfer;
@@ -28,6 +30,7 @@ import org.kuali.kfs.module.ld.util.ConsolidationUtil;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.OptionsService;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -37,7 +40,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public class LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl extends LedgerBalanceForExpenseTransferLookupableHelperServiceImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl.class);
-
+    private static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
     private OptionsService optionsService;
 
 
@@ -127,4 +130,32 @@ public class LedgerBalanceForBenefitExpenseTransferLookupableHelperServiceImpl e
     public void setOptionsService(OptionsService optionsService) {
         this.optionsService = optionsService;
     }
+
+    /**
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getReadOnlyFieldsList()
+     */
+    @Override
+    public List<String> getReadOnlyFieldsList() {
+        List<String> readonlyList = super.getReadOnlyFieldsList();
+        if (readonlyList == null) {
+            readonlyList = new ArrayList<String>();
+        }
+        AccountService accountService = SpringContext.getBean(AccountService.class);
+        if (!accountService.accountsCanCrossCharts()) readonlyList.add(CHART_OF_ACCOUNTS_CODE);
+        return readonlyList;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#validateSearchParameters(java.util.Map)
+     */
+    @Override
+    public void validateSearchParameters(Map<String, String> fieldValues) {
+        // TODO Auto-generated method stub
+        AccountService accountService = SpringContext.getBean(AccountService.class);
+        if (!accountService.accountsCanCrossCharts()) fieldValues.remove(CHART_OF_ACCOUNTS_CODE);
+        super.validateSearchParameters(fieldValues);
+    }
+
+ 
+ 
 }

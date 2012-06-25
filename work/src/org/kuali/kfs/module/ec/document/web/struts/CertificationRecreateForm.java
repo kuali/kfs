@@ -72,7 +72,7 @@ public class CertificationRecreateForm extends EffortCertificationForm {
             dictionaryValidationService.validateDocumentAttribute(document, fieldName, EffortConstants.DOCUMENT_PREFIX);
         }
 
-        return GlobalVariables.getMessageMap().hasErrors();
+        return !GlobalVariables.getMessageMap().hasErrors();
     }
 
     /**

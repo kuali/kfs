@@ -25,24 +25,4 @@ import org.kuali.rice.krad.document.Document;
  * A rule that uses the accounting rule engine to perform rule validations.
  */
 public class LaborDocumentRuleEngineRuleBase extends AccountingRuleEngineRuleBase implements AccountingRuleEngineRule {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborDocumentRuleEngineRuleBase.class);
-    
-    /**
-     * Constructs a AccountingRuleEngineRuleBase.java.
-     */
-    public LaborDocumentRuleEngineRuleBase() {
-        super();
-    }
-
-    /**
-     * @see org.kuali.rice.krad.rules.DocumentRuleBase#isDocumentAttributesValid(org.kuali.rice.krad.document.Document, boolean)
-     */
-    @Override
-    public boolean isDocumentAttributesValid(Document document, boolean validateRequired) {
-        //remove the llpe's before validation.  prepareForSave() method will recreate them before saving the document..
-        LaborLedgerPendingEntryService laborLedgerPendingEntryService = SpringContext.getBean(LaborLedgerPendingEntryService.class);
-        laborLedgerPendingEntryService.delete(document.getDocumentNumber());
-        
-        return super.isDocumentAttributesValid(document, validateRequired);
-    }
 }

@@ -25,6 +25,8 @@ import org.kuali.kfs.fp.batch.service.ProcurementCardLoadTransactionsService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
+import org.kuali.kfs.sys.batch.service.WrappingBatchService;
+import org.kuali.kfs.sys.service.ReportWriterService;
 
 /**
  * This step will call a service method to load the kuali pcard xml file into the transaction table. Validates the data before the
@@ -39,7 +41,7 @@ public class ProcurementCardLoadStep extends AbstractStep {
     private ProcurementCardLoadTransactionsService procurementCardLoadTransactionsService;
     private BatchInputFileService batchInputFileService;
     private BatchInputFileType procurementCardInputFileType;
-
+    private ReportWriterService reportWriterService;
 
     /**
      * custom get requiredDirectoryNames step- assign the passed in procurementInputFileType to the batchInputFileType
@@ -59,16 +61,18 @@ public class ProcurementCardLoadStep extends AbstractStep {
         procurementCardLoadTransactionsService.cleanTransactionsTable();
 
         List<String> fileNamesToLoad = batchInputFileService.listInputFileNamesWithDoneFile(procurementCardInputFileType);
-
+        ((WrappingBatchService) reportWriterService).initialize();
+        
         boolean processSuccess = true;
         List<String> processedFiles = new ArrayList();
         for (String inputFileName : fileNamesToLoad) {
-            processSuccess = procurementCardLoadTransactionsService.loadProcurementCardFile(inputFileName);
+            processSuccess = procurementCardLoadTransactionsService.loadProcurementCardFile(inputFileName, reportWriterService);
             if (processSuccess) {
                 processedFiles.add(inputFileName);
             }
         }
-
+        ((WrappingBatchService) reportWriterService).destroy();
+        
         removeDoneFiles(fileNamesToLoad);
 
         return processSuccess;
@@ -105,5 +109,21 @@ public class ProcurementCardLoadStep extends AbstractStep {
      */
     public void setProcurementCardLoadTransactionsService(ProcurementCardLoadTransactionsService procurementCardLoadTransactionsService) {
         this.procurementCardLoadTransactionsService = procurementCardLoadTransactionsService;
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public ReportWriterService getReportWriterService() {
+        return reportWriterService;
+    }
+
+    /**
+     * 
+     * @param reportWriterService
+     */
+    public void setReportWriterService(ReportWriterService reportWriterService) {
+        this.reportWriterService = reportWriterService;
     }
 }

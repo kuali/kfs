@@ -16,6 +16,7 @@
 package org.kuali.kfs.fp.batch.service;
 
 import org.kuali.kfs.sys.batch.InitiateDirectory;
+import org.kuali.kfs.sys.service.ReportWriterService;
 
 /**
  * 
@@ -29,9 +30,10 @@ public interface ProcurementCardLoadTransactionsService extends InitiateDirector
      * Validates and parses the file identified by the given files name. If successful, parsed entries are stored.
      * 
      * @param fileNaem Name of file to be uploaded and processed.
+     * @param reportWriterService report writing service.
      * @return True if the file load and store was successful, false otherwise.
      */
-    public boolean loadProcurementCardFile(String fileName);
+    public boolean loadProcurementCardFile(String fileName, ReportWriterService reportWriterService);
     
     /**
      * Clears out the temporary transaction table.

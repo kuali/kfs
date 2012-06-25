@@ -24,12 +24,15 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.NumberUtils;
+import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kfs.fp.batch.service.ProcurementCardLoadTransactionsService;
 import org.kuali.kfs.fp.businessobject.ProcurementCardTransaction;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
 import org.kuali.kfs.sys.batch.InitiateDirectoryBase;
 import org.kuali.kfs.sys.batch.service.BatchInputFileService;
 import org.kuali.kfs.sys.exception.ParseException;
+import org.kuali.kfs.sys.service.ReportWriterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
@@ -46,14 +49,9 @@ public class ProcurementCardLoadTransactionsServiceImpl extends InitiateDirector
     private BatchInputFileType procurementCardInputFileType;
 
     /**
-     * Validates and parses the given file, then stores transactions into a temp table.
-     * 
-     * @param fileName The name of the file to be parsed.
-     * @return This method always returns true.  An exception is thrown if a problem occurs while loading the file.
-     * 
-     * @see org.kuali.kfs.fp.batch.service.ProcurementCardCreateDocumentService#loadProcurementCardFile()
+     * @see org.kuali.kfs.fp.batch.service.ProcurementCardLoadTransactionsService#loadProcurementCardFile(java.lang.String, org.kuali.kfs.sys.service.ReportWriterService)
      */
-    public boolean loadProcurementCardFile(String fileName) {
+    public boolean loadProcurementCardFile(String fileName, ReportWriterService reportWriterService) {
         
         //add a step to check for directory paths
         prepareDirectories(getRequiredDirectoryNames());
@@ -67,27 +65,31 @@ public class ProcurementCardLoadTransactionsServiceImpl extends InitiateDirector
             throw new RuntimeException("Cannot find the file requested to be parsed " + fileName + " " + e1.getMessage(), e1);
         }
 
-        Collection pcardTransactions = null;
+        Collection pcardTransactions = new ArrayList();
         try {
             byte[] fileByteContent = IOUtils.toByteArray(fileContents);
             pcardTransactions = (Collection) batchInputFileService.parse(procurementCardInputFileType, fileByteContent);
         }
         catch (IOException e) {
-            LOG.error("error while getting file bytes:  " + e.getMessage(), e);
-            throw new RuntimeException("Error encountered while attempting to get file bytes: " + e.getMessage(), e);
+            LOG.error("Error while getting file bytes:  " + e.getMessage(), e);
+            reportWriterService.writeFormattedMessageLine("%s cannot be processed. \n\tFile byptes error: %s", fileName, e.getMessage());
+            return false;
         }
         catch (ParseException e) {
             LOG.error("Error parsing xml " + e.getMessage());
-            throw new RuntimeException("Error parsing xml " + e.getMessage(), e);
+            reportWriterService.writeFormattedMessageLine("%s cannot be processed. \n\tXML parsing error: %s", fileName, e.getMessage());
+            return false;
         }
 
-        if (pcardTransactions == null || pcardTransactions.isEmpty()) {
+        if (pcardTransactions.isEmpty()) {
             LOG.warn("No PCard transactions in input file " + fileName);
+            reportWriterService.writeFormattedMessageLine("%s is processed. No PCard transactios in file. ", fileName);
+        }else{
+            loadTransactions((List) pcardTransactions);
+            LOG.info("Total transactions loaded: " + String.valueOf(pcardTransactions.size()));
+            reportWriterService.writeFormattedMessageLine("%s is processed. %d transaction(s) loaded. ", fileName, pcardTransactions.size());
         }
-
-        loadTransactions((List) pcardTransactions);
-
-        LOG.info("Total transactions loaded: " + Integer.toString(pcardTransactions.size()));
+        
         return true;
     }
 

@@ -282,6 +282,7 @@
 		<property name="procurementCardInputFileType">
 		    <ref bean="procurementCardInputFileType" />
 		</property>
+    <property name="reportWriterService" ref="procurementCardLoadReportWriterService"/>
 	</bean>
 
 	<bean id="procurementCardCreateDocumentsStep" class="org.kuali.kfs.fp.batch.ProcurementCardCreateDocumentsStep" parent="step">
@@ -301,6 +302,12 @@
 			<ref bean="procurementCardCreateDocumentService" />
 		</property>
 	</bean>
+
+  <bean id="procurementCardLoadReportWriterService" parent="reportWriterService">
+    <property name="filePath" value="${reports.directory}/fp"/>
+    <property name="fileNamePrefix" value="procurement_card_load_"/>
+    <property name="title" value="Procurement Card Load File"/>
+  </bean>
 
 	<bean id="disbursementVoucherExtractService"  parent="disbursementVoucherExtractService-parentBean"/>
 	<bean id="disbursementVoucherExtractService-parentBean" class="org.kuali.kfs.fp.batch.service.impl.DisbursementVoucherExtractServiceImpl" abstract="true">

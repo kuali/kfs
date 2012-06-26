@@ -1144,7 +1144,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
                     }
                 }
             }
-
+            if (form instanceof RequisitionForm) ((RequisitionForm) form).resetNewPurchasingCapitalAssetLocationLine();
             document.clearCapitalAssetFields();
             //saveDocumentNoValidationUsingClearErrorMap(document);
 

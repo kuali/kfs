@@ -1249,7 +1249,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      */
     protected boolean validateCapitalAssetLocationAddressFieldsForIndividualSystemType(List<PurchasingCapitalAssetItem> capitalAssetItems) {
         boolean valid = true;
-        boolean ignoreRoom = false;
+        boolean isMoving = false;
         for (PurchasingCapitalAssetItem item : capitalAssetItems) {
             CapitalAssetSystem system = item.getPurchasingCapitalAssetSystem();
             List<CapitalAssetLocation> capitalAssetLocations = system.getCapitalAssetLocations();
@@ -1259,9 +1259,9 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             for (CapitalAssetLocation location : capitalAssetLocations) {
                 errorKey.append("[" + i++ + "].");
                 AssetType assetType = getAssetType(system.getCapitalAssetTypeCode());                
-                ignoreRoom = ObjectUtils.isNull(assetType) ? false : assetType.isMovingIndicator();
-                boolean ignoreBuilding = ObjectUtils.isNull(assetType) ? false : assetType.isRequiredBuildingIndicator();
-                valid &= validateCapitalAssetLocationAddressFields(location, ignoreRoom, ignoreBuilding, errorKey);
+                isMoving = ObjectUtils.isNull(assetType) ? false : assetType.isMovingIndicator();
+                boolean isRequiredBuilding = ObjectUtils.isNull(assetType) ? false : assetType.isRequiredBuildingIndicator();
+                valid &= validateCapitalAssetLocationAddressFields(location, isMoving, isRequiredBuilding, errorKey);
             }
         }
         return valid;
@@ -1274,7 +1274,42 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
      * @param errorKey
      * @return
      */
-    protected boolean validateCapitalAssetLocationAddressFields(CapitalAssetLocation location, boolean ignoreRoom, boolean ignoreBuilding, StringBuffer errorKey) {
+    protected boolean validateCapitalAssetLocationAddressFields(CapitalAssetLocation location, boolean isMoving, boolean isRequiredBuilding, StringBuffer errorKey) {
+        boolean valid = true;
+        if (!location.isOffCampusIndicator()) {
+            if (StringUtils.isBlank(location.getCampusCode())) {
+                GlobalVariables.getMessageMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_CAMPUS);
+                valid &= false;
+            }
+        }
+        if (isRequiredBuilding) {
+            if (StringUtils.isBlank(location.getBuildingCode())) {
+                GlobalVariables.getMessageMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_BUILDING);
+                valid &= false;
+            }
+            valid &= validateCapitalAssetAddressFields(location,errorKey);
+        } else {
+            if (!StringUtils.isBlank(location.getBuildingCode())) {
+                GlobalVariables.getMessageMap().putError(errorKey.toString(), CamsKeyConstants.AssetLocation.ERROR_ASSET_LOCATION_BUILDING_NONMOVEABLE, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_BUILDING);
+                valid &= false;
+            }
+        }
+        if (isMoving) {
+            if (StringUtils.isBlank(location.getBuildingRoomNumber())) {
+                GlobalVariables.getMessageMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_ROOM);
+                valid &= false;
+            }
+        } else {
+            if (!StringUtils.isBlank(location.getBuildingRoomNumber())) {
+                GlobalVariables.getMessageMap().putError(errorKey.toString(), CamsKeyConstants.AssetLocation.ERROR_ASSET_LOCATION_ROOM_NUMBER_NONMOVEABLE, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_ROOM);
+                valid &= false;
+            }
+        }
+
+        return valid;
+    }
+    
+    protected boolean validateCapitalAssetAddressFields( CapitalAssetLocation location, StringBuffer errorKey) {
         boolean valid = true;
         if (StringUtils.isBlank(location.getCapitalAssetLine1Address())) {
             GlobalVariables.getMessageMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_ADDRESS_LINE1);
@@ -1295,31 +1330,6 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             }
             if (StringUtils.isBlank(location.getCapitalAssetPostalCode())) {
                 GlobalVariables.getMessageMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_POSTAL_CODE);
-                valid &= false;
-            }
-        }
-        if (!location.isOffCampusIndicator()) {
-            if (StringUtils.isBlank(location.getCampusCode())) {
-                GlobalVariables.getMessageMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_CAMPUS);
-                valid &= false;
-            }
-            if (StringUtils.isBlank(location.getBuildingCode()) && ignoreBuilding) {
-                GlobalVariables.getMessageMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_BUILDING);
-                valid &= false;
-            }
-            
-            if (!StringUtils.isBlank(location.getBuildingCode()) && !ignoreBuilding) {
-                GlobalVariables.getMessageMap().putError(errorKey.toString(), CamsKeyConstants.AssetLocation.ERROR_ASSET_LOCATION_BUILDING_NONMOVEABLE, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_BUILDING);
-                valid &= false;
-            }
-          
-            if (StringUtils.isBlank(location.getBuildingRoomNumber()) && ignoreRoom) {
-                GlobalVariables.getMessageMap().putError(errorKey.toString(), KFSKeyConstants.ERROR_REQUIRED, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_ROOM);
-                valid &= false;
-            }
-            
-            if (!StringUtils.isBlank(location.getBuildingRoomNumber()) && !ignoreRoom) {
-                GlobalVariables.getMessageMap().putError(errorKey.toString(), CamsKeyConstants.AssetLocation.ERROR_ASSET_LOCATION_ROOM_NUMBER_NONMOVEABLE, PurapPropertyConstants.CAPITAL_ASSET_LOCATION_ROOM);
                 valid &= false;
             }
         }

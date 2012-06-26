@@ -292,6 +292,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
      * @param budgetConstructionForm form containing budget document
      */
     protected void setBudgetDocumentNoAccessMessage(BudgetConstructionForm budgetConstructionForm) {
+        LOG.info("Starting BudgetConstructionAction.setBudgetDocumentNoAccessMessage");
         Role roleInfo = KimApiServiceLocator.getRoleService().getRoleByNamespaceCodeAndName(BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimApiConstants.DOCUMENT_VIEWER_ROLE_NAME);
         KimType typeInfo = KimApiServiceLocator.getKimTypeInfoService().getKimType(roleInfo.getKimTypeId());
 
@@ -303,6 +304,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         } else {
             LOG.warn(String.format("typeInfo.getServiceName() returned a blank service name for role %s/%s", BCConstants.BUDGET_CONSTRUCTION_NAMESPACE, BCConstants.KimApiConstants.DOCUMENT_VIEWER_ROLE_NAME));
         }
+        LOG.info("Finished BudgetConstructionAction.setBudgetDocumentNoAccessMessage");
     }
 
     /**

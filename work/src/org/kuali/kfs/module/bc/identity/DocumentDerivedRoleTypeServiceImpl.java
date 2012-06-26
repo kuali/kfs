@@ -47,6 +47,8 @@ import org.kuali.rice.kim.framework.role.RoleTypeService;
 import org.kuali.rice.krad.util.MessageMap;
 
 public class DocumentDerivedRoleTypeServiceImpl implements RoleTypeService, BudgetConstructionNoAccessMessageSetting {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DocumentDerivedRoleTypeServiceImpl.class);
+
     protected static final String UNMATCHABLE_QUALIFICATION = "!~!~!~!~!~";
 
     protected BudgetConstructionProcessorService budgetConstructionProcessorService;
@@ -109,6 +111,8 @@ public class DocumentDerivedRoleTypeServiceImpl implements RoleTypeService, Budg
      */
     @Override
     public void setNoAccessMessage(BudgetConstructionDocument document, Person user, MessageMap messageMap) {
+        LOG.info("Started DocumentDerivedRoleTypeServiceImpl.setNoAccessMessage");
+        
         Map<String,String> qualification = new HashMap<String,String>(3);
         qualification.put(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE, document.getChartOfAccountsCode());
         qualification.put(KfsKimAttributes.ACCOUNT_NUMBER, document.getAccountNumber());
@@ -148,6 +152,7 @@ public class DocumentDerivedRoleTypeServiceImpl implements RoleTypeService, Budg
                 messageMap.putError(KFSConstants.DOCUMENT_ERRORS, BCKeyConstants.ERROR_BUDGET_USER_NOT_ORG_APPROVER);
             }
         }
+        LOG.info("Finished DocumentDerivedRoleTypeServiceImpl.setNoAccessMessage");
     }
 
     public void setBudgetConstructionProcessorService(BudgetConstructionProcessorService budgetConstructionProcessorService) {

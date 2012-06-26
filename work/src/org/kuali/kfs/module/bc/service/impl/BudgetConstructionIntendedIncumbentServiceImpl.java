@@ -24,7 +24,10 @@ import org.kuali.kfs.module.bc.exception.BudgetIncumbentAlreadyExistsException;
 import org.kuali.kfs.module.bc.service.BudgetConstructionIntendedIncumbentService;
 import org.kuali.kfs.module.bc.service.HumanResourcesPayrollService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
@@ -39,6 +42,7 @@ public class BudgetConstructionIntendedIncumbentServiceImpl implements BudgetCon
     /**
      * @see org.kuali.kfs.module.bc.service.BudgetConstructionIntendedIncumbentService#pullNewIncumbentFromExternal(java.lang.String)
      */
+    @Transactional
     public synchronized void pullNewIncumbentFromExternal(String emplid) throws BudgetIncumbentAlreadyExistsException {
         // call humanResourcesPayrollService service to pull record
         Incumbent incumbent = humanResourcesPayrollService.getIncumbent(emplid);
@@ -66,6 +70,7 @@ public class BudgetConstructionIntendedIncumbentServiceImpl implements BudgetCon
     /**
      * @see org.kuali.kfs.module.bc.service.BudgetConstructionIntendedIncumbentService#refreshIncumbentFromExternal(java.lang.String)
      */
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void refreshIncumbentFromExternal(String emplid) {
         // call humanResourcesPayrollService service to pull record
         Incumbent incumbent = humanResourcesPayrollService.getIncumbent(emplid);
@@ -90,6 +95,7 @@ public class BudgetConstructionIntendedIncumbentServiceImpl implements BudgetCon
     /**
      * @see org.kuali.kfs.module.bc.service.BudgetConstructionIntendedIncumbentService#getByPrimaryId(java.lang.String)
      */
+    @NonTransactional
     public BudgetConstructionIntendedIncumbent getByPrimaryId(String emplid) {
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
         primaryKeys.put(KFSPropertyConstants.EMPLID, emplid);
@@ -102,6 +108,7 @@ public class BudgetConstructionIntendedIncumbentServiceImpl implements BudgetCon
      * 
      * @param businessObjectService The businessObjectService to set.
      */
+    @NonTransactional
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -111,6 +118,7 @@ public class BudgetConstructionIntendedIncumbentServiceImpl implements BudgetCon
      * 
      * @param humanResourcesPayrollService The humanResourcesPayrollService to set.
      */
+    @NonTransactional
     public void setHumanResourcesPayrollService(HumanResourcesPayrollService humanResourcesPayrollService) {
         this.humanResourcesPayrollService = humanResourcesPayrollService;
     }

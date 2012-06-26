@@ -271,7 +271,7 @@ public class DisbursementVoucherNonResidentAlienTax extends PersistableBusinessO
      *
      * @return Returns the taxOtherExemptIndicator.
      */
-    public boolean getTaxOtherExemptIndicator() {
+    public boolean isTaxOtherExemptIndicator() {
         return taxOtherExemptIndicator;
     }
 
@@ -280,7 +280,7 @@ public class DisbursementVoucherNonResidentAlienTax extends PersistableBusinessO
      *
      * @return Returns the taxUSAIDPerDiemIndicator.
      */
-    public boolean getTaxUSAIDPerDiemIndicator() {
+    public boolean isTaxUSAIDPerDiemIndicator() {
         return taxUSAIDPerDiemIndicator;
     }
 
@@ -307,7 +307,7 @@ public class DisbursementVoucherNonResidentAlienTax extends PersistableBusinessO
      *
      * @param taxOtherExemptIndicator The taxOtherExemptIndicator to set.
      */
-    public void setTaxOtherExemptIndicator(Boolean taxOtherExemptIndicator) {
+    public void setTaxOtherExemptIndicator(boolean taxOtherExemptIndicator) {
         this.taxOtherExemptIndicator = taxOtherExemptIndicator;
     }
 
@@ -316,7 +316,7 @@ public class DisbursementVoucherNonResidentAlienTax extends PersistableBusinessO
      *
      * @param taxUSAIDPerDiemIndicator The taxUSAIDPerDiemIndicator to set.
      */
-    public void setTaxUSAIDPerDiemIndicator(Boolean taxUSAIDPerDiemIndicator) {
+    public void setTaxUSAIDPerDiemIndicator(boolean taxUSAIDPerDiemIndicator) {
         this.taxUSAIDPerDiemIndicator = taxUSAIDPerDiemIndicator;
     }
 

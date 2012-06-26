@@ -76,13 +76,13 @@ public class DisbursementVoucherNonResidentAlienInformationValidation extends Ge
 
         /* income class code required */
         if (StringUtils.isBlank(nonResidentAlienTax.getIncomeClassCode())) {
-            errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_REQUIRED, "Income class code ");
+            errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_REQUIRED, "Income class code");
             return false;
         }
 
         /* country code required, unless income type is nonreportable */
         if (StringUtils.isBlank(nonResidentAlienTax.getPostalCountryCode()) && !NRA_TAX_INCOME_CLASS_NON_REPORTABLE.equals(nonResidentAlienTax.getIncomeClassCode())) {
-            errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_REQUIRED, "Country code ");
+            errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_REQUIRED, "Country code");
             return false;
         }
 
@@ -101,8 +101,8 @@ public class DisbursementVoucherNonResidentAlienInformationValidation extends Ge
         // income class is NON_REPORTABLE
         if(nonResidentAlienTax.getIncomeClassCode().equals(NRA_TAX_INCOME_CLASS_NON_REPORTABLE)){
             if( (nonResidentAlienTax.isForeignSourceIncomeCode()) || (nonResidentAlienTax.isIncomeTaxTreatyExemptCode()) ||
-                    (nonResidentAlienTax.getTaxOtherExemptIndicator()) || (nonResidentAlienTax.isIncomeTaxGrossUpCode()) ||
-                    (nonResidentAlienTax.getTaxUSAIDPerDiemIndicator()) || (nonResidentAlienTax.getTaxSpecialW4Amount() != null) ||
+                    (nonResidentAlienTax.isTaxOtherExemptIndicator()) || (nonResidentAlienTax.isIncomeTaxGrossUpCode()) ||
+                    (nonResidentAlienTax.isTaxUSAIDPerDiemIndicator()) || (nonResidentAlienTax.getTaxSpecialW4Amount() != null) ||
                     (nonResidentAlienTax.getReferenceFinancialDocumentNumber() != null) || (nonResidentAlienTax.getTaxNQIId() != null) ||
                     (nonResidentAlienTax.getPostalCountryCode() != null) ) {
                 String boxCode = "";
@@ -114,7 +114,7 @@ public class DisbursementVoucherNonResidentAlienInformationValidation extends Ge
                 {
                     boxCode = "Treaty Exempt";
                 }
-                if(nonResidentAlienTax.getTaxOtherExemptIndicator())
+                if(nonResidentAlienTax.isTaxOtherExemptIndicator())
                 {
                     boxCode = "Exempt Under Other Code";
                 }
@@ -122,7 +122,7 @@ public class DisbursementVoucherNonResidentAlienInformationValidation extends Ge
                 {
                     boxCode = "Gross Up Payment";
                 }
-                if(nonResidentAlienTax.getTaxUSAIDPerDiemIndicator())
+                if(nonResidentAlienTax.isTaxUSAIDPerDiemIndicator())
                 {
                     boxCode = "USAID Per Diem";
                 }
@@ -155,7 +155,7 @@ public class DisbursementVoucherNonResidentAlienInformationValidation extends Ge
         }
         else {
             if (nonResidentAlienTax.getFederalIncomeTaxPercent() == null) {
-                errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_REQUIRED, "Federal tax percent ");
+                errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_REQUIRED, "Federal tax percent");
                 return false;
             }
             else {
@@ -177,7 +177,7 @@ public class DisbursementVoucherNonResidentAlienInformationValidation extends Ge
         }
         else {
             if (nonResidentAlienTax.getStateIncomeTaxPercent() == null) {
-                errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_REQUIRED, "State tax percent ");
+                errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_REQUIRED, "State tax percent");
                 return false;
             }
             else {
@@ -212,21 +212,22 @@ public class DisbursementVoucherNonResidentAlienInformationValidation extends Ge
 // CHECK BOX SECTION
 
     /*examine check boxes*/
-
+       
+    // the 4 check boxes (Foreign Source, Treaty Exempt, Gross Up Payment, Exempt Under Other Code) shall be mutual exclusive
     if( OneOrLessBoxesChecked(document) ) {
 
         // if Foreign Source is checked
         if( nonResidentAlienTax.isForeignSourceIncomeCode() ) {
             // Conditions to be met for "Foreign Source" error to be generated
-            // No other items
-            if((nonResidentAlienTax.getTaxUSAIDPerDiemIndicator()) || (nonResidentAlienTax.getTaxSpecialW4Amount() != null) ||
-                    (nonResidentAlienTax.getReferenceFinancialDocumentNumber() != null) || (nonResidentAlienTax.getTaxNQIId() != null) ){
-                errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_WHEN_CHECKED_CANNOT_HAVE_VALUE , "Foreign Source", "NQI Id, Reference Doc, USAID Per Diem, or Special W-4 Amount");
+            // Federal and State tax rate should be zero.
+            if( (!nonResidentAlienTax.getFederalIncomeTaxPercent().equals(KualiDecimal.ZERO)) || (!nonResidentAlienTax.getStateIncomeTaxPercent().equals(KualiDecimal.ZERO)) ) {
+                errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_NRA_TAX_WHEN_CHECKED_FEDERAL_AND_STATE_TAXES_SHOULD_BE_ZERO , "Foreign Source");
                 return false;
             }
-            // fed and state tax should be zero.
-            if( (!nonResidentAlienTax.getFederalIncomeTaxPercent().equals(KualiDecimal.ZERO)) || (!nonResidentAlienTax.getStateIncomeTaxPercent().equals(KualiDecimal.ZERO)) ) {
-                errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_FED_AND_STATE_TAXES_SHOULD_BE_ZERO , "Foreign Source ");
+            // No other items (mutual exclusiveness checking on USAID Per Diem and Special W-4 Amount are optional here since these are also ensured by their validation later)  
+            if((nonResidentAlienTax.isTaxUSAIDPerDiemIndicator()) || (nonResidentAlienTax.getTaxSpecialW4Amount() != null) ||
+                    (nonResidentAlienTax.getReferenceFinancialDocumentNumber() != null) || (nonResidentAlienTax.getTaxNQIId() != null) ){
+                errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_NRA_TAX_WHEN_CHECKED_CANNOT_HAVE_VALUE , "Foreign Source", "NQI Id, Reference Doc, USAID Per Diem, or Special W-4 Amount");
                 return false;
             }
         }
@@ -234,26 +235,10 @@ public class DisbursementVoucherNonResidentAlienInformationValidation extends Ge
         // if Treaty Exempt is checked
         if( nonResidentAlienTax.isIncomeTaxTreatyExemptCode() ) {
             // Conditions to be met for "Treaty Exempt" error to be generated
-            // No other items
-            if((nonResidentAlienTax.getTaxUSAIDPerDiemIndicator()) || (nonResidentAlienTax.getTaxSpecialW4Amount() != null) ||
+            // No other items (mutual exclusiveness checking on USAID Per Diem and Special W-4 Amount are optional here since these are also ensured by their validation later)  
+            if((nonResidentAlienTax.isTaxUSAIDPerDiemIndicator()) || (nonResidentAlienTax.getTaxSpecialW4Amount() != null) ||
                     (nonResidentAlienTax.getReferenceFinancialDocumentNumber() != null) || (nonResidentAlienTax.getTaxNQIId() != null) ){
-                errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_WHEN_CHECKED_CANNOT_HAVE_VALUE , "Treaty Exempt", "NQI Id, Reference Doc, USAID Per Diem, or Special W-4 Amount");
-                return false;
-            }
-            // fed and state tax should be zero.
-            if( (!nonResidentAlienTax.getFederalIncomeTaxPercent().equals(KualiDecimal.ZERO)) || (!nonResidentAlienTax.getStateIncomeTaxPercent().equals(KualiDecimal.ZERO)) ) {
-                errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_FED_AND_STATE_TAXES_SHOULD_BE_ZERO , "Treaty Exempt ");
-                return false;
-            }
-        }
-
-        // if Exempt Under Other Code is checked
-        if( nonResidentAlienTax.getTaxOtherExemptIndicator() ) {
-            // also exists in PurapPropertyConstants.java as PurapPropertyConstants.TAX_OTHER_EXEMPT_INDICATOR
-            // Conditions to be met for "Exempt Under Other Code" error to be generated
-            // if state tax is not zero OR federal tax is not zero
-            if( !(nonResidentAlienTax.getStateIncomeTaxPercent().equals(KualiDecimal.ZERO)) || !(nonResidentAlienTax.getFederalIncomeTaxPercent().equals(KualiDecimal.ZERO)) ) {
-                errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_FED_AND_STATE_TAXES_SHOULD_BE_ZERO , "Exempt Under Other Code ");
+                errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_NRA_TAX_WHEN_CHECKED_CANNOT_HAVE_VALUE , "Treaty Exempt", "NQI Id, Reference Doc, USAID Per Diem, or Special W-4 Amount");
                 return false;
             }
         }
@@ -261,36 +246,52 @@ public class DisbursementVoucherNonResidentAlienInformationValidation extends Ge
         // if Gross Up Payment is checked
         if( nonResidentAlienTax.isIncomeTaxGrossUpCode() ) {
             // Conditions to be met for "Gross Up Payment" error to be generated
-            // state or federal tax rates not allowed to be zero
-            if( (nonResidentAlienTax.getFederalIncomeTaxPercent().equals(KualiDecimal.ZERO)) || (nonResidentAlienTax.getStateIncomeTaxPercent().equals(KualiDecimal.ZERO)) ) {
-                errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_TAXES_CANNOT_BE_ZERO, "Gross Up Payment" );
+            // Federal tax rate cannot be zero
+            // NOTE: Also, state tax not allowed to be zero for income classes "R" and "I", however, this rule is already checked in the tax rate section, so no need to re-check
+            if( (nonResidentAlienTax.getFederalIncomeTaxPercent().equals(KualiDecimal.ZERO))) {
+                errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_NRA_TAX_WHEN_CHECKED_FEDERAL_TAX_CANNOT_BE_ZERO, "Gross Up Payment" );
                 return false;
             }
-            // No other items
-            if((nonResidentAlienTax.getTaxUSAIDPerDiemIndicator()) || (nonResidentAlienTax.getTaxSpecialW4Amount() != null) ||
+            // No other items (mutual exclusiveness checking on USAID Per Diem and Special W-4 Amount are optional here since these are also ensured by their validation later)  
+            if((nonResidentAlienTax.isTaxUSAIDPerDiemIndicator()) || (nonResidentAlienTax.getTaxSpecialW4Amount() != null) ||
                     (nonResidentAlienTax.getReferenceFinancialDocumentNumber() != null) || (nonResidentAlienTax.getTaxNQIId() != null) ){
-                errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_WHEN_CHECKED_CANNOT_HAVE_VALUE , "Gross Up Payment", "NQI Id, Reference Doc, USAID Per Diem, or Special W-4 Amount");
+                errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_NRA_TAX_WHEN_CHECKED_CANNOT_HAVE_VALUE , "Gross Up Payment", "NQI Id, Reference Doc, USAID Per Diem, or Special W-4 Amount");
+                return false;
+            }
+        }
+
+        // if Exempt Under Other Code is checked
+        if( nonResidentAlienTax.isTaxOtherExemptIndicator() ) {
+            // also exists in PurapPropertyConstants.java as PurapPropertyConstants.TAX_OTHER_EXEMPT_INDICATOR
+            // Conditions to be met for "Exempt Under Other Code" error to be generated
+            // Federal and State tax rate should be zero.
+            if( !(nonResidentAlienTax.getStateIncomeTaxPercent().equals(KualiDecimal.ZERO)) || !(nonResidentAlienTax.getFederalIncomeTaxPercent().equals(KualiDecimal.ZERO)) ) {
+                errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_NRA_TAX_WHEN_CHECKED_FEDERAL_AND_STATE_TAXES_SHOULD_BE_ZERO , "Exempt Under Other Code");
                 return false;
             }
         }
 
         // if USAID Per Diem is checked
-        if( nonResidentAlienTax.getTaxUSAIDPerDiemIndicator() ) {
+        if( nonResidentAlienTax.isTaxUSAIDPerDiemIndicator() ) {
             // Conditions to be met for "USAID Per Diem" error to be generated
-            // income class code is not fellowship
+            // income class code should be fellowship
             if( !nonResidentAlienTax.getIncomeClassCode().equals(NRA_TAX_INCOME_CLASS_FELLOWSHIP)  ) {
-                errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_NRA_TAX_WHEN_CHECKED_SHOULD_BE_SELECTED, "USAID Per Diem", "Income Class Code:Fellowship" );
+                errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_NRA_TAX_WHEN_CHECKED_SHOULD_BE_SELECTED, "USAID Per Diem", "Income Class Code : Fellowship");
                 return false;
             }
-            // State and Fed tax should be zero
+            // Federal and State tax rate should be zero.
             if( !(nonResidentAlienTax.getStateIncomeTaxPercent().equals(KualiDecimal.ZERO)) || !(nonResidentAlienTax.getFederalIncomeTaxPercent().equals(KualiDecimal.ZERO)) ) {
-                errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_FED_AND_STATE_TAXES_SHOULD_BE_ZERO , "USAID Per Diem");
+                errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_NRA_TAX_WHEN_CHECKED_FEDERAL_AND_STATE_TAXES_SHOULD_BE_ZERO , "USAID Per Diem");
                 return false;
             }
-
-            // icc should be fellowship and Exempt Under Other Code should be checked
-            if( !(nonResidentAlienTax.getIncomeClassCode().equals(NRA_TAX_INCOME_CLASS_FELLOWSHIP))  || !nonResidentAlienTax.getTaxOtherExemptIndicator() ) {
-                errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_SHOULD_BE_SELECTED_AND_EUOC_CHECKED, "USAID Per Diem");
+            // Exempt Under Other Code should be checked; this will ensure the other 3 check boxes not checked due to mutual exclusiveness
+            if( !nonResidentAlienTax.isTaxOtherExemptIndicator() ) {
+                errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_NRA_TAX_WHEN_CHECKED_SHOULD_BE_SELECTED, "USAID Per Diem", "Exempt Under Other Code");
+                return false;
+            }
+            // Special W-4 Amount shall have no value 
+            if( nonResidentAlienTax.getTaxSpecialW4Amount() != null ) {
+                errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_NRA_TAX_WHEN_CHECKED_CANNOT_HAVE_VALUE, "USAID Per Diem", "Special W-4 Amount");
                 return false;
             }
         }
@@ -298,24 +299,24 @@ public class DisbursementVoucherNonResidentAlienInformationValidation extends Ge
         // if Special W-4 Amount is entered
         if( nonResidentAlienTax.getTaxSpecialW4Amount() != null ) {
             // Conditions to be met for "Special W-4 Amount" error to be generated
-            // income class code is not fellowship
-            if( !nonResidentAlienTax.getIncomeClassCode().equals(NRA_TAX_INCOME_CLASS_FELLOWSHIP)  ) {
-                errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_NRA_TAX_WHEN_CHECKED_SHOULD_BE_SELECTED, "Special W-4 Amount", "Income Class Code:Fellowship" );
+            // income class code should be fellowship
+            if( !nonResidentAlienTax.getIncomeClassCode().equals(NRA_TAX_INCOME_CLASS_FELLOWSHIP) ) {
+                errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_NRA_TAX_WHEN_CHECKED_SHOULD_BE_SELECTED, "Special W-4 Amount", "Income Class Code : Fellowship" );
                 return false;
             }
-            // State and Fed tax should be zero
+            // Federal and State tax rate should be zero.
             if( !(nonResidentAlienTax.getStateIncomeTaxPercent().equals(KualiDecimal.ZERO)) || !(nonResidentAlienTax.getFederalIncomeTaxPercent().equals(KualiDecimal.ZERO)) ) {
-                errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_FED_AND_STATE_TAXES_SHOULD_BE_ZERO , "Special W-4 Amount");
+                errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_NRA_TAX_WHEN_CHECKED_FEDERAL_AND_STATE_TAXES_SHOULD_BE_ZERO , "Special W-4 Amount");
                 return false;
             }
-            // Must also check EUOC
-            if( !nonResidentAlienTax.getTaxOtherExemptIndicator() ) {
-                errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_SHOULD_BE_SELECTED_AND_EUOC_CHECKED, "Special W-4 Amount");
+            // Exempt Under Other Code should be checked; this will ensure the other 3 check boxes not checked due to mutual exclusiveness
+            if( !nonResidentAlienTax.isTaxOtherExemptIndicator() ) {
+                errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_NRA_TAX_WHEN_CHECKED_SHOULD_BE_SELECTED, "Special W-4 Amount", "Exempt Under Other Code");
                 return false;
             }
-            // if usaid per diem
-            if( ( nonResidentAlienTax.getTaxUSAIDPerDiemIndicator() ) ) {
-                errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_NRA_TAX_CANNOT_SELECT_FS_TE_GUP_USAID, "Special W-4 Amount");
+            // USAID Per Diem should not be checked (mutual exclusive checking on USAID Per Diem here is optional since this is also ensured by validation on Special W-4 Amount above   
+            if( ( nonResidentAlienTax.isTaxUSAIDPerDiemIndicator() ) ) {
+                errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_NRA_TAX_WHEN_CHECKED_CANNOT_BE_SELECTED, "Special W-4 Amount", "USAID Per Diem");
                 return false;
             }
         }
@@ -434,7 +435,7 @@ public class DisbursementVoucherNonResidentAlienInformationValidation extends Ge
         if(document.getDvNonResidentAlienTax().isIncomeTaxTreatyExemptCode()) {
             boxCnt++;
         }
-        if(document.getDvNonResidentAlienTax().getTaxOtherExemptIndicator()) {
+        if(document.getDvNonResidentAlienTax().isTaxOtherExemptIndicator()) {
             boxCnt++;
         }
         if(document.getDvNonResidentAlienTax().isIncomeTaxGrossUpCode()) {
@@ -442,7 +443,7 @@ public class DisbursementVoucherNonResidentAlienInformationValidation extends Ge
         }
         if(boxCnt > 1) {
 //            errors.putError(KFSPropertyConstants.INCOME_TAX_TREATY_EXEMPT_CODE, KFSKeyConstants.ERROR_DV_ONLY_ONE_SELECTION_ALLOWED );
-            errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_ONLY_ONE_SELECTION_ALLOWED);
+            errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_NRA_TAX_ONLY_ONE_SELECTION_ALLOWED);
             return false;
         }
         else {

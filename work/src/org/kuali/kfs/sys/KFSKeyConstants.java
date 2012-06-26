@@ -355,6 +355,7 @@ public class KFSKeyConstants {
     public static final String ERROR_DV_STATE_TAX_NOT_ZERO = "error.dv.stateTaxNotZero";
     public static final String ERROR_DV_GROSS_UP_INDICATOR = "error.dv.grossUpIndicator";
     public static final String ERROR_DV_POSTAL_COUNTRY_CODE = "error.dv.postalCountryCode";
+    public static final String ERROR_DV_NON_REPORTABLE_ONLY = "error.dv.nraTaxNonReportableOnly";
     public static final String ERROR_DV_INVALID_FED_TAX_PERCENT = "error.dv.federalTaxPercent";
     public static final String ERROR_DV_INVALID_STATE_TAX_PERCENT = "error.dv.stateTaxPercent";
     public static final String ERROR_DV_NRA_PERMISSIONS_GENERATE = "error.dv.nraTaxLinesPermissions";
@@ -364,15 +365,13 @@ public class KFSKeyConstants {
     public static final String ERROR_DV_GENERATE_TAX_NOT_NRA = "error.dv.generateNotNRA";
     public static final String ERROR_DV_STATE_TAX_SHOULD_BE_ZERO = "error.dv.nraTaxStateTaxShouldBeZero";
     public static final String ERROR_DV_STATE_INCOME_TAX_PERCENT_SHOULD_BE_GREATER_THAN_ZERO = "error.dv.nraTaxStateTaxShouldBeGreaterThanZero";
-    public static final String ERROR_DV_ONLY_ONE_SELECTION_ALLOWED = "error.dv.nraTaxOnlyOneSelectionAllowed";
-    public static final String ERROR_DV_FED_AND_STATE_TAXES_SHOULD_BE_ZERO = "error.dv.nraTaxFedAndStateTaxesShouldBeZero";
-    public static final String ERROR_DV_NON_REPORTABLE_ONLY = "error.dv.nraTaxNonReportableOnly";
-    public static final String ERROR_DV_WHEN_CHECKED_CANNOT_HAVE_VALUE = "error.dv.nraTaxWhenCheckedCannotHaveValue";
-    public static final String ERROR_DV_TAXES_CANNOT_BE_ZERO = "error.dv.nraTaxTaxesCannotBeZero";
-    public static final String ERROR_DV_SHOULD_BE_SELECTED_AND_EUOC_CHECKED = "error.dv.nraTaxShouldBeSelectedAndEuocChecked";
-    public static final String ERROR_DV_NRA_TAX_WHEN_CHECKED_SHOULD_BE_SELECTED = "error.dv.nraTaxWhenCheckedShouldBeChecked";
-    public static final String ERROR_DV_NRA_TAX_CANNOT_SELECT_FS_TE_GUP_USAID = "error.dv.nraTaxCannotSelectFsTeGupUsaid";
-
+    public static final String ERROR_DV_NRA_TAX_ONLY_ONE_SELECTION_ALLOWED = "error.dv.nraTax.OnlyOneSelectionAllowed";    
+    public static final String ERROR_DV_NRA_TAX_WHEN_CHECKED_FEDERAL_AND_STATE_TAXES_SHOULD_BE_ZERO = "error.dv.nraTax.WhenCheckedFederalAndStateTaxesShouldBeZero";
+    public static final String ERROR_DV_NRA_TAX_WHEN_CHECKED_FEDERAL_TAX_CANNOT_BE_ZERO = "error.dv.nraTax.WhenCheckedFederalTaxCannotBeZero";
+    public static final String ERROR_DV_NRA_TAX_WHEN_CHECKED_SHOULD_BE_SELECTED = "error.dv.nraTax.WhenCheckedShouldBeSelected";
+    public static final String ERROR_DV_NRA_TAX_WHEN_CHECKED_CANNOT_BE_SELECTED = "error.dv.nraTax.WhenCheckedCannotBeSelected";
+    public static final String ERROR_DV_NRA_TAX_WHEN_CHECKED_CANNOT_HAVE_VALUE = "error.dv.nraTax.WhenCheckedCannotHaveValue";
+    
     public static final String ERROR_DV_GENERATE_TAX_DOC_REFERENCE = "error.dv.generateDocReference";
     public static final String ERROR_DV_ADD_LINE_MISSING_PAYMENT_REASON = "error.dv.addLineMissingPaymentReason";
     public static final String ERROR_DV_ADD_LINE_MISSING_PAYEE = "error.dv.addLineMissingPayee";

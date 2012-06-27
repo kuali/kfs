@@ -16,7 +16,9 @@
 package org.kuali.kfs.sys.document.workflow;
 //RICE20 Hook to document type is not working right now but needs to be changed to support pre-rice2.0 release
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.uif.RemotableAttributeError;
@@ -104,8 +106,14 @@ public class KFSDocumentSearchCustomizer implements SearchableAttribute, Documen
         if ( LOG.isDebugEnabled() ) {
             LOG.debug( "customizeCriteria( " + documentSearchCriteria + " )" );
         }
+        // since this is a result display option, we need to remove it from the criteria to prevent
+        // the query from blowing up or returning no results.
         if ( documentSearchCriteria.getDocumentAttributeValues().containsKey( FinancialSystemSearchableAttribute.DISPLAY_TYPE_SEARCH_ATTRIBUTE_NAME ) ) {
             DocumentSearchCriteria.Builder newCriteria = DocumentSearchCriteria.Builder.create(documentSearchCriteria);
+            Map<String, List<String>> searchOptions = new HashMap<String, List<String>>();
+            searchOptions.put(FinancialSystemSearchableAttribute.DISPLAY_TYPE_SEARCH_ATTRIBUTE_NAME,
+                            newCriteria.getDocumentAttributeValues().get(FinancialSystemSearchableAttribute.DISPLAY_TYPE_SEARCH_ATTRIBUTE_NAME));
+            newCriteria.setSearchOptions(searchOptions);
             newCriteria.getDocumentAttributeValues().remove( FinancialSystemSearchableAttribute.DISPLAY_TYPE_SEARCH_ATTRIBUTE_NAME );
             return newCriteria.build();
         }
@@ -140,7 +148,7 @@ public class KFSDocumentSearchCustomizer implements SearchableAttribute, Documen
         config.setOverrideSearchableAttributes(false);
         config.setStandardResultFieldsToRemove(standardResultsToRemove);
 
-        List<String> displayTypeList = documentSearchCriteria.getDocumentAttributeValues().get(FinancialSystemSearchableAttribute.DISPLAY_TYPE_SEARCH_ATTRIBUTE_NAME);
+        List<String> displayTypeList = documentSearchCriteria.getSearchOptions().get(FinancialSystemSearchableAttribute.DISPLAY_TYPE_SEARCH_ATTRIBUTE_NAME);
         if ( displayTypeList != null && !displayTypeList.isEmpty() ) {
 
             String displayType =  displayTypeList.get(0);

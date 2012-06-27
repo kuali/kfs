@@ -134,7 +134,7 @@ public class KFSDocumentSearchCustomizer implements SearchableAttribute, Documen
     static {
         standardResultsToRemove.add(StandardResultField.DOCUMENT_TYPE);
         standardResultsToRemove.add(StandardResultField.TITLE);
-        standardResultsToRemove.add(StandardResultField.STATUS);
+        //standardResultsToRemove.add(StandardResultField.STATUS);
         standardResultsToRemove.add(StandardResultField.INITIATOR);
         standardResultsToRemove.add(StandardResultField.DATE_CREATED);
     }

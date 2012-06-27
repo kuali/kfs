@@ -113,40 +113,25 @@ public class LaborPendingEntryGenerator {
 
             KualiDecimal benefitAmount = SpringContext.getBean(LaborBenefitsCalculationService.class).calculateFringeBenefit(positionObjectBenefit, accountingLine.getAmount(), accountingLine.getAccountNumber(), accountingLine.getSubAccountNumber());
             if (benefitAmount.isNonZero()) {
+
+                ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+                Boolean enableFringeBenefitCalculationByBenefitRate = parameterService.getParameterValueAsBoolean(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, LaborConstants.BenefitCalculation.ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_PARAMETER);
                 
-                //make sure the fringebenefitobjectcode is not null
-                if(ObjectUtils.isNull(fringeBenefitObjectCode)){
-                    String laborBenefitRateCategoryCode = "";
+                //If fringeBenefitObjectCode is empty and its enable to use calculation by benefit rate
+                if(StringUtils.isEmpty(fringeBenefitObjectCode) && enableFringeBenefitCalculationByBenefitRate){
                     
-                    //make sure the system parameter exists
-                    if (SpringContext.getBean(ParameterService.class).parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND")) {
-                        //parameter exists, get the benefit rate based off of the university fiscal year, chart of account code, labor benefit type code and labor benefit rate category code 
-                        String sysParam = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND");
-                        LOG.debug("sysParam: " + sysParam);
-                        //if sysParam == Y then use the Labor Benefit Rate Category Code to help determine the fringe benefit rate
-                        if (sysParam.equalsIgnoreCase("Y")) {
-                            laborBenefitRateCategoryCode = positionObjectBenefit.getLaborBenefitRateCategoryCode();
-                        }else{
-                         // make sure the parameter exists
-                            if (SpringContext.getBean(ParameterService.class).parameterExists(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE")) {
-                                laborBenefitRateCategoryCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE");
-                            }
-                            else {
-                                laborBenefitRateCategoryCode = "";
-                            }
-                        }
-                    }
-                    
+                    String laborBenefitRateCategoryCode = positionObjectBenefit.getLaborBenefitRateCategoryCode();
+                     // Use parameter default if labor benefit rate category code is blank
                     if(StringUtils.isBlank(laborBenefitRateCategoryCode)){
-                        laborBenefitRateCategoryCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE");
+                        laborBenefitRateCategoryCode = parameterService.getParameterValueAsString(Account.class, LaborConstants.BenefitCalculation.DEFAULT_BENEFIT_RATE_CATEGORY_CODE_PARAMETER);
                     }
-                    
+                
                     //create a  map for the search criteria to lookup the fringe benefit percentage 
                     Map<String, Object> fieldValues = new HashMap<String, Object>();
                     fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, positionObjectBenefit.getUniversityFiscalYear());
                     fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, positionObjectBenefit.getChartOfAccountsCode());
                     fieldValues.put(LaborPropertyConstants.POSITION_BENEFIT_TYPE_CODE, positionObjectBenefit.getFinancialObjectBenefitsTypeCode());
-                    fieldValues.put("laborBenefitRateCategoryCode",laborBenefitRateCategoryCode);
+                    fieldValues.put(LaborPropertyConstants.LABOR_BENEFIT_RATE_CATEGORY_CODE,laborBenefitRateCategoryCode);
                     BenefitsCalculation bc = (BenefitsCalculation) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BenefitsCalculation.class, fieldValues);
                     
                     fringeBenefitObjectCode = bc.getPositionFringeBenefitObjectCode();

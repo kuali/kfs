@@ -414,10 +414,10 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
 				wageEntry.getChartOfAccountsCode(), wageEntry.getAccountNumber(), wageEntry.getSubAccountNumber());
 
         String defaultLaborBenefitsRateCategoryCode =
-                StringUtils.trimToEmpty( parameterService.getParameterValueAsString(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE") );
+                StringUtils.trimToEmpty( parameterService.getParameterValueAsString(Account.class, LaborConstants.BenefitCalculation.DEFAULT_BENEFIT_RATE_CATEGORY_CODE_PARAMETER) );
 
         //if sysParam == Y then use the Labor Benefit Rate Category Code to help determine the fringe benefit rate
-        boolean useBenefitRateCategoryCode = parameterService.getParameterValueAsBoolean(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND");
+        boolean useBenefitRateCategoryCode = parameterService.getParameterValueAsBoolean(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, LaborConstants.BenefitCalculation.ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_PARAMETER);
 
 		// get benefit types for the entry object code and for each calculation generation an origin entry
 		Collection<PositionObjectBenefit> positionObjectBenefits = laborPositionObjectBenefitService

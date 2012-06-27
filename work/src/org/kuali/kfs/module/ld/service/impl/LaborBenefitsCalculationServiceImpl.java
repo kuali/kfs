@@ -147,24 +147,14 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
         fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, positionObjectBenefit.getChartOfAccountsCode());
         fieldValues.put(LaborPropertyConstants.POSITION_BENEFIT_TYPE_CODE, positionObjectBenefit.getFinancialObjectBenefitsTypeCode());
 
-        //make sure the system parameter exists
-        if (SpringContext.getBean(ParameterService.class).parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND")) {
-            //parameter exists, get the benefit rate based off of the university fiscal year, chart of account code, labor benefit type code and labor benefit rate category code 
-            String laborBenefitRateCategoryCode = "";
-            String sysParam = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND");
-            LOG.debug("sysParam: " + sysParam);
-            //if sysParam == Y then use the Labor Benefit Rate Category Code to help determine the fringe benefit rate
-            if (sysParam.equalsIgnoreCase("Y")) {
-                laborBenefitRateCategoryCode = getBenefitRateCategoryCode(positionObjectBenefit.getChartOfAccountsCode(), accountNumber, subAccountNumber);
-            }else{
-             // make sure the parameter exists
-                if (SpringContext.getBean(ParameterService.class).parameterExists(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE")) {
-                    laborBenefitRateCategoryCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE");
-                }
-                else {
-                    laborBenefitRateCategoryCode = "";
-                }
-            }
+        ParameterService parameterService = SpringContext.getBean(ParameterService.class);
+        Boolean enableFringeBenefitCalculationByBenefitRate = parameterService.getParameterValueAsBoolean(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, LaborConstants.BenefitCalculation.ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_PARAMETER);
+        
+        //If system parameter is evaluated to use calculation by benefit rate category
+        if (enableFringeBenefitCalculationByBenefitRate) {
+            
+            //get the benefit rate based off of the university fiscal year, chart of account code, labor benefit type code and labor benefit rate category code 
+            String laborBenefitRateCategoryCode = getBenefitRateCategoryCode(positionObjectBenefit.getChartOfAccountsCode(), accountNumber, subAccountNumber);
             
             //add the Labor Benefit Rate Category Code to the search criteria
             fieldValues.put("laborBenefitRateCategoryCode",laborBenefitRateCategoryCode);
@@ -261,14 +251,8 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
 		//make sure the laborBenefitRateCategoryCode is not null or blank
 		if(StringUtils.isBlank(laborBenefitRateCategoryCode)){
 		    LOG.info("The Account did not have a Labor Benefit Rate Category Code. Will use the system parameter default.");
-		    
-		    //make sure the system parameter exists
-	        if(SpringContext.getBean(ParameterService.class).parameterExists(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE")){
-	            laborBenefitRateCategoryCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE");
-	        }else{
-	            LOG.info("The system parameter DEFAULT_BENEFIT_RATE_CATEGORY_CODE does not exist. Using a blank Labor Benefit Rate Category Code.");
-	            laborBenefitRateCategoryCode = "";
-	        }
+		    //The system parameter does not exist. Using a blank Labor Benefit Rate Category Code
+		    laborBenefitRateCategoryCode = StringUtils.defaultString(SpringContext.getBean(ParameterService.class).getParameterValueAsString(Account.class, LaborConstants.BenefitCalculation.DEFAULT_BENEFIT_RATE_CATEGORY_CODE_PARAMETER));
 		}else{
 		    LOG.debug("Labor Benefit Rate Category Code for Account " + accountNumber + " is " + laborBenefitRateCategoryCode);
 		}

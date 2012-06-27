@@ -24,6 +24,7 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.integration.ld.LaborLedgerBenefitsCalculation;
 import org.kuali.kfs.integration.ld.LaborLedgerPositionObjectBenefit;
+import org.kuali.kfs.module.ld.LaborConstants;
 import org.kuali.kfs.module.ld.service.LaborBenefitsCalculationService;
 import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
@@ -335,11 +336,7 @@ public class PositionObjectBenefit extends PersistableBusinessObjectBase impleme
     public String getLaborBenefitRateCategoryCode() {
         if(StringUtils.isEmpty(laborBenefitRateCategoryCode)){
             ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-            
-            //make sure the parameter exists
-            if(parameterService.parameterExists(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE")){
-                laborBenefitRateCategoryCode = parameterService.getParameterValueAsString(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE");
-            }
+            laborBenefitRateCategoryCode = StringUtils.defaultString(parameterService.getParameterValueAsString(Account.class, LaborConstants.BenefitCalculation.DEFAULT_BENEFIT_RATE_CATEGORY_CODE_PARAMETER));
         }
         return laborBenefitRateCategoryCode;
     }

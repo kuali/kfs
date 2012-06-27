@@ -1185,7 +1185,7 @@ DB Admin URL   = ${rice.server.adminUrl}   (used for creating/recreating schema/
 Admin Username = ${rice.server.impex.admin.username}
 Admin Password = $${rice.server.impex.admin.password} (not shown)
 		</echo>
-		<property name="impex.properties" location="${all.temp.directory}/impex-build.properties"/>
+		<property name="impex.properties" value="${all.temp.directory}/impex-build.properties"/>
 		<property name="rice.impex.import.targets" value="drop-schema create-schema import" />
 	
 		<!-- build temp impex-build.properties -->
@@ -1261,7 +1261,7 @@ DB Admin URL   = ${adminUrl}   (used for creating/recreating schema/user)
 Admin Username = ${impex.admin.username}
 Admin Password = $${impex.admin.password} (not shown)
 		</echo>
-		<property name="impex.properties" location="${all.temp.directory}/impex-build.properties"/>
+		<property name="impex.properties" value="${all.temp.directory}/impex-build.properties"/>
 		<!-- special condition here - we don't want to drop the schema if we are importing both Rice and KFS into the same schema -->
 		<if>
 			<equals arg1="${datasource.url}${datasource.username}" arg2="${rice.server.datasource.url}${rice.server.datasource.username}"/>

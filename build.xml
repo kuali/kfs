@@ -1228,7 +1228,7 @@ Admin Password = $${rice.server.impex.admin.password} (not shown)
 			import.admin.user=${rice.server.impex.admin.username}
 			import.admin.password=${rice.server.impex.admin.password}
 			
-			oracle.usermaint.user=kuluseradmin
+			oracle.usermaint.user=${oracle.impex.tool.schema}
 		</echo>
 		<!-- run import tool for Rice tables/objects -->
 		<!-- Due to CloverETL issues with execution directory, we need to run Ant
@@ -1293,7 +1293,7 @@ Admin Password = $${impex.admin.password} (not shown)
 			import.admin.user=${impex.admin.username}
 			import.admin.password=${impex.admin.password}
 			
-			oracle.usermaint.user=kuluseradmin
+			oracle.usermaint.user=${oracle.impex.tool.schema}
 		</echo>
 		<!-- run import tool for KFS tables/objects -->
 		<!-- Due to CloverETL issues with execution directory, we need to run Ant

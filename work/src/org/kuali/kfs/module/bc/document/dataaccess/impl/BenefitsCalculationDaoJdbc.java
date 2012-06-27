@@ -20,7 +20,6 @@ import java.util.UUID;
 
 import org.kuali.kfs.module.bc.batch.dataaccess.impl.SQLForStep;
 import org.kuali.kfs.module.bc.document.dataaccess.BenefitsCalculationDao;
-import org.kuali.kfs.module.bc.util.BudgetConstructionUtils;
 import org.kuali.kfs.sys.KFSConstants;
 
 /**
@@ -183,10 +182,14 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         // general ledger budget balance type code
         insertionPoints.add(sqlBuilder.length());
         sqlBuilder.append("', ");
-        sqlBuilder.append("?, \n");
+        sqlBuilder.append("CA_OBJECT_CODE_T.fin_obj_typ_cd,\n");
         sqlBuilder.append("LD_BCN_BENEFITS_RECALC01_MT.fb_sum, 0\n");
-        sqlBuilder.append("FROM LD_BCN_BENEFITS_RECALC01_MT\n");
+        sqlBuilder.append("FROM LD_BCN_BENEFITS_RECALC01_MT,\n");
+        sqlBuilder.append("     CA_OBJECT_CODE_T\n");
         sqlBuilder.append("WHERE (LD_BCN_BENEFITS_RECALC01_MT.sesid = ?)\n");
+        sqlBuilder.append("  AND (CA_OBJECT_CODE_T.univ_fiscal_yr = ?)\n");
+        sqlBuilder.append("  AND (CA_OBJECT_CODE_T.fin_coa_cd = ?)\n");
+        sqlBuilder.append("  AND (CA_OBJECT_CODE_T.fin_object_cd = LD_BCN_BENEFITS_RECALC01_MT.pos_frngben_obj_cd)\n");
         sqlBuilder.append("  AND (NOT EXISTS\n");
         sqlBuilder.append("(SELECT 1\n");
         sqlBuilder.append(" FROM LD_PND_BCNSTR_GL_T\n");
@@ -344,7 +347,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         // general ledger budget balance type code
         insertionPoints.add(sqlBuilder.length());
         sqlBuilder.append("', ");
-        sqlBuilder.append("?, \n");
+        sqlBuilder.append("CA_OBJECT_CODE_T.fin_obj_typ_cd, \n");
         sqlBuilder.append("   ROUND(SUM(COALESCE(LD_BCNSTR_MONTH_T.fdoc_ln_mo1_amt * (LD_BENEFITS_CALC_T.pos_frng_bene_pct/100.0),0)),0),\n");
         sqlBuilder.append("   ROUND(SUM(COALESCE(LD_BCNSTR_MONTH_T.fdoc_ln_mo2_amt * (LD_BENEFITS_CALC_T.pos_frng_bene_pct/100.0),0)),0),\n");
         sqlBuilder.append("   ROUND(SUM(COALESCE(LD_BCNSTR_MONTH_T.fdoc_ln_mo3_amt * (LD_BENEFITS_CALC_T.pos_frng_bene_pct/100.0),0)),0),\n");
@@ -359,7 +362,8 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("   ROUND(SUM(COALESCE(LD_BCNSTR_MONTH_T.fdoc_ln_mo12_amt * (LD_BENEFITS_CALC_T.pos_frng_bene_pct/100.0),0)),0)\n");
         sqlBuilder.append("FROM LD_BCNSTR_MONTH_T,\n");
         sqlBuilder.append("     LD_BENEFITS_CALC_T,\n");
-        sqlBuilder.append("     LD_LBR_OBJ_BENE_T\n");
+        sqlBuilder.append("     LD_LBR_OBJ_BENE_T,\n");
+        sqlBuilder.append("     CA_OBJECT_CODE_T\n");
         sqlBuilder.append("WHERE LD_BCNSTR_MONTH_T.fdoc_nbr = ?\n");
         sqlBuilder.append("  AND LD_BCNSTR_MONTH_T.univ_fiscal_yr = ?\n");
         sqlBuilder.append("  AND LD_BCNSTR_MONTH_T.fin_coa_cd = ?\n");
@@ -383,7 +387,10 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("  AND LD_BENEFITS_CALC_T.univ_fiscal_yr = LD_LBR_OBJ_BENE_T.univ_fiscal_yr\n");
         sqlBuilder.append("  AND LD_BENEFITS_CALC_T.fin_coa_cd = LD_LBR_OBJ_BENE_T.fin_coa_cd\n");
         sqlBuilder.append("  AND LD_BENEFITS_CALC_T.pos_benefit_typ_cd = LD_LBR_OBJ_BENE_T.finobj_bene_typ_cd\n");
-        sqlBuilder.append("GROUP BY LD_BENEFITS_CALC_T.pos_frngben_obj_cd");
+        sqlBuilder.append("  AND LD_BENEFITS_CALC_T.univ_fiscal_yr = CA_OBJECT_CODE_T.univ_fiscal_yr\n");
+        sqlBuilder.append("  AND LD_BENEFITS_CALC_T.fin_coa_cd = CA_OBJECT_CODE_T.fin_coa_cd\n");
+        sqlBuilder.append("  AND LD_BENEFITS_CALC_T.pos_frngben_obj_cd = CA_OBJECT_CODE_T.fin_object_cd\n");
+        sqlBuilder.append("GROUP BY LD_BENEFITS_CALC_T.pos_frngben_obj_cd, CA_OBJECT_CODE_T.fin_obj_typ_cd");
         sqlMonthlySteps.add(new SQLForStep(sqlBuilder, insertionPoints));
         sqlBuilder.delete(0, sqlBuilder.length());
         insertionPoints.clear();
@@ -457,7 +464,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         // general ledger budget balance type code
         insertionPoints.add(sqlBuilder.length());
         sqlBuilder.append("', ");
-        sqlBuilder.append("?, \n");
+        sqlBuilder.append("CA_OBJECT_CODE_T.fin_obj_typ_cd, \n");
         sqlBuilder.append("   ROUND(SUM(COALESCE(ld_bcnstr_month_t.fdoc_ln_mo1_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0)),0),\n");
         sqlBuilder.append("   ROUND(SUM(COALESCE(ld_bcnstr_month_t.fdoc_ln_mo2_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0)),0),\n");
         sqlBuilder.append("   ROUND(SUM(COALESCE(ld_bcnstr_month_t.fdoc_ln_mo3_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0)),0),\n");
@@ -472,7 +479,8 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("   ROUND(SUM(COALESCE(ld_bcnstr_month_t.fdoc_ln_mo12_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0)),0)\n");
         sqlBuilder.append("FROM ld_bcnstr_month_t,\n");
         sqlBuilder.append("     ld_benefits_calc_t,\n");
-        sqlBuilder.append("     ld_lbr_obj_bene_t\n");
+        sqlBuilder.append("     ld_lbr_obj_bene_t,\n");
+        sqlBuilder.append("     CA_OBJECT_CODE_T\n");
         sqlBuilder.append("WHERE ld_bcnstr_month_t.fdoc_nbr = ?\n");
         sqlBuilder.append("  AND ld_bcnstr_month_t.univ_fiscal_yr = ?\n");
         sqlBuilder.append("  AND ld_bcnstr_month_t.fin_coa_cd = ?\n");
@@ -497,7 +505,10 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("  AND ld_benefits_calc_t.fin_coa_cd = ld_lbr_obj_bene_t.fin_coa_cd\n");
         sqlBuilder.append("  AND ld_benefits_calc_t.pos_benefit_typ_cd = ld_lbr_obj_bene_t.finobj_bene_typ_cd\n");
         sqlBuilder.append("  AND ld_benefits_calc_t.lbr_ben_rt_cat_cd = ?\n");
-        sqlBuilder.append("GROUP BY ld_benefits_calc_t.pos_frngben_obj_cd");
+        sqlBuilder.append("  AND ld_benefits_calc_t.univ_fiscal_yr = CA_OBJECT_CODE_T.univ_fiscal_yr\n");
+        sqlBuilder.append("  AND ld_benefits_calc_t.fin_coa_cd = CA_OBJECT_CODE_T.fin_coa_cd\n");
+        sqlBuilder.append("  AND ld_benefits_calc_t.pos_frngben_obj_cd = CA_OBJECT_CODE_T.fin_object_cd\n");
+        sqlBuilder.append("GROUP BY ld_benefits_calc_t.pos_frngben_obj_cd, CA_OBJECT_CODE_T.fin_obj_typ_cd");
         sqlMonthlySteps.add(new SQLForStep(sqlBuilder, insertionPoints));
         sqlBuilder.delete(0, sqlBuilder.length());
         insertionPoints.clear();
@@ -544,11 +555,11 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
 
 
     /**
-     * @see org.kuali.kfs.module.bc.document.dataaccess.BenefitsCalculationDao#calculateAnnualBudgetConstructionGeneralLedgerBenefits(String,
-     *      Integer, String, String, String, String, String)
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BenefitsCalculationDao#calculateAnnualBudgetConstructionGeneralLedgerBenefits(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.util.ArrayList)
      */
-    @Override
-    public void calculateAnnualBudgetConstructionGeneralLedgerBenefits(String documentNumber, Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber, String finObjTypeExpenditureexpCd, String laborBenefitRateCategoryCode) {
+    public void calculateAnnualBudgetConstructionGeneralLedgerBenefits(String documentNumber, Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber, String finObjTypeExpenditureexpCd, String expenditureINList){
+
+        // original non rate category code version
 
         // the first thing to do is get the SQL IN list of expenditure object code types allowed in budget construction.
         // if this parameter is ill-formed, we can't calculate benefits. we will blow the user out of the water as a consequence.
@@ -558,7 +569,38 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         ArrayList<String> stringsToInsert = new ArrayList<String>();
         stringsToInsert.add(KFSConstants.getDashFinancialSubObjectCode());
         stringsToInsert.add(KFSConstants.BALANCE_TYPE_BASE_BUDGET);
-        stringsToInsert.add(BudgetConstructionUtils.getExpenditureINList());
+        stringsToInsert.add(expenditureINList);
+        String idForSession = UUID.randomUUID().toString();
+
+        getSimpleJdbcTemplate().update(sqlAnnualSteps.get(0).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
+        getSimpleJdbcTemplate().update(sqlAnnualSteps.get(1).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
+        getSimpleJdbcTemplate().update(sqlAnnualSteps.get(2).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
+        getSimpleJdbcTemplate().update(sqlAnnualSteps.get(3).getSQL(), idForSession, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
+        // re-set general ledger amount for existing fringe benefits object codes
+        getSimpleJdbcTemplate().update(sqlAnnualSteps.get(4).getSQL(stringsToInsert), idForSession, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, idForSession);
+        // insert general ledger lines for new fringe benefits object codes.
+        stringsToInsert.add(2, stringsToInsert.get(0));
+        stringsToInsert.add(3, stringsToInsert.get(1));
+        getSimpleJdbcTemplate().update(sqlAnnualSteps.get(5).getSQL(stringsToInsert), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, idForSession, fiscalYear, chartOfAccounts, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
+        clearTempTableBySesId("LD_BCN_BENEFITS_RECALC01_MT", "SESID", idForSession);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.dataaccess.BenefitsCalculationDao#calculateAnnualBudgetConstructionGeneralLedgerBenefits(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.util.ArrayList, java.lang.String)
+     */
+    public void calculateAnnualBudgetConstructionGeneralLedgerBenefits(String documentNumber, Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber, String finObjTypeExpenditureexpCd, String expenditureINList, String laborBenefitRateCategoryCode) {
+
+        // new rate category code version
+
+        // the first thing to do is get the SQL IN list of expenditure object code types allowed in budget construction.
+        // if this parameter is ill-formed, we can't calculate benefits. we will blow the user out of the water as a consequence.
+        // if the benefits portion of budget construction is not in use at a particular site, then doing it this way will have no
+        // impact.
+
+        ArrayList<String> stringsToInsert = new ArrayList<String>();
+        stringsToInsert.add(KFSConstants.getDashFinancialSubObjectCode());
+        stringsToInsert.add(KFSConstants.BALANCE_TYPE_BASE_BUDGET);
+        stringsToInsert.add(expenditureINList);
         String idForSession = UUID.randomUUID().toString();
 
         getSimpleJdbcTemplate().update(sqlAnnualSteps.get(0).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
@@ -570,7 +612,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         // insert general ledger lines for new fringe benefits object codes.
         stringsToInsert.add(2, stringsToInsert.get(0));
         stringsToInsert.add(3, stringsToInsert.get(1));
-        getSimpleJdbcTemplate().update(sqlAnnualSteps.get(5).getSQL(stringsToInsert), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd, idForSession, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
+        getSimpleJdbcTemplate().update(sqlAnnualSteps.get(5).getSQL(stringsToInsert), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, idForSession, fiscalYear, chartOfAccounts, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
         clearTempTableBySesId("LD_BCN_BENEFITS_RECALC01_MT", "SESID", idForSession);
         /**
          * this is necessary to clear any rows for the tables we have just updated from the OJB cache. otherwise, subsequent calls
@@ -583,8 +625,10 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
      * @see org.kuali.kfs.module.bc.document.dataaccess.BenefitsCalculationDao#calculateMonthlyBudgetConstructionGeneralLedgerBenefits(java.lang.String,
      *      java.lang.Integer, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
-    @Override
     public void calculateMonthlyBudgetConstructionGeneralLedgerBenefits(String documentNumber, Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber, String finObjTypeExpenditureexpCd) {
+
+        // original non rate category code version
+
         String idForSession = UUID.randomUUID().toString();
 
         ArrayList<String> stringsToInsert = new ArrayList<String>();
@@ -596,7 +640,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         // get rid of existing monthly budgets for this key
         getSimpleJdbcTemplate().update(sqlMonthlySteps.get(1).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, fiscalYear, chartOfAccounts);
         // spread the budgeted general ledger fringe beneftis amounts for this key equally into the twelve months
-        getSimpleJdbcTemplate().update(sqlMonthlySteps.get(2).getSQL(stringsToInsert), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
+        getSimpleJdbcTemplate().update(sqlMonthlySteps.get(2).getSQL(stringsToInsert), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
         // add any rounding errors to the first month
         getSimpleJdbcTemplate().update(sqlMonthlySteps.get(3).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, fiscalYear, chartOfAccounts);
     }
@@ -609,8 +653,10 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
      * @see org.kuali.kfs.module.bc.document.dataaccess.BenefitsCalculationDao#calculateMonthlyBudgetConstructionGeneralLedgerBenefits(java.lang.String,
      *      java.lang.Integer, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
-    @Override
     public void calculateMonthlyBudgetConstructionGeneralLedgerBenefits(String documentNumber, Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber, String finObjTypeExpenditureexpCd, String laborBenefitRateCategoryCode) {
+
+        // new rate category code version
+
         String idForSession = UUID.randomUUID().toString();
 
         ArrayList<String> stringsToInsert = new ArrayList<String>();
@@ -622,7 +668,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         // get rid of existing monthly budgets for this key
         getSimpleJdbcTemplate().update(sqlMonthlySteps.get(1).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, fiscalYear, chartOfAccounts);
         // spread the budgeted general ledger fringe beneftis amounts for this key equally into the twelve months
-        getSimpleJdbcTemplate().update(sqlMonthlySteps.get(4).getSQL(stringsToInsert), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, laborBenefitRateCategoryCode);
+        getSimpleJdbcTemplate().update(sqlMonthlySteps.get(4).getSQL(stringsToInsert), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, laborBenefitRateCategoryCode);
         // add any rounding errors to the first month
         getSimpleJdbcTemplate().update(sqlMonthlySteps.get(5).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, fiscalYear, chartOfAccounts, laborBenefitRateCategoryCode);
         /**

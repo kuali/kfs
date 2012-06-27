@@ -54,7 +54,9 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
 import org.kuali.kfs.sys.service.OptionsService;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
@@ -63,6 +65,7 @@ import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.PersistenceService;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -87,6 +90,8 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
     private OptionsService optionsService;
     private DocumentHelperService documentHelperService;
     private DocumentService documentService;
+    private ParameterService parameterService;
+    private PersistenceService persistenceServiceOjb;
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetRequestImportServiceImpl.class);
 
@@ -158,9 +163,15 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
                 ObjectCode objectCode = getObjectCode(budgetConstructionRequestMove, budgetYear);
                 if (objectCode != null) {
                     if ( expenditureObjectTypesParamValues.contains(objectCode.getFinancialObjectTypeCode()) ) {
-                        budgetConstructionRequestMove.setFinancialObjectTypeCode(optionsService.getOptions(budgetYear).getFinObjTypeExpenditureexpCd());
+                        budgetConstructionRequestMove.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
+
+                        // now using type from object code table
+                        //budgetConstructionRequestMove.setFinancialObjectTypeCode(optionsService.getOptions(budgetYear).getFinObjTypeExpenditureexpCd());
                     } else if ( revenueObjectTypesParamValues.contains(objectCode.getFinancialObjectTypeCode()) ) {
-                        budgetConstructionRequestMove.setFinancialObjectTypeCode(optionsService.getOptions(budgetYear).getFinObjectTypeIncomecashCode());
+                        budgetConstructionRequestMove.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
+
+                        // now using type from object code table
+                        //budgetConstructionRequestMove.setFinancialObjectTypeCode(optionsService.getOptions(budgetYear).getFinObjectTypeIncomecashCode());
                     }
                 }
                 
@@ -318,6 +329,9 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         List<String> errorMessages = new ArrayList<String>();
         Map<String, BudgetConstructionRequestMove> recordMap = new HashMap<String, BudgetConstructionRequestMove>();
         
+        // month delete warning error is a soft error
+        String deleteMonthlyWarningErrorMessage = BCConstants.RequestImportErrorCode.UPDATE_ERROR_CODE_MONTHLY_BUDGET_DELETED.getErrorCode();
+
         for (BudgetConstructionRequestMove recordToLoad : recordsToLoad) {
             BudgetConstructionHeader header = importRequestDao.getHeaderRecord(recordToLoad, budgetYear);
 
@@ -364,10 +378,8 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
                 recordMap.put(recordToLoad.getSubAccountingString(), recordToLoad);
             }
             
-            //since error codes are copied based on the locking key, the previous records error code from the updateBudgetAmounts may have been copied to this record and should be ignored.
-            String updateAmountPreviousErrorMessage =BCConstants.RequestImportErrorCode.UPDATE_ERROR_CODE_MONTHLY_BUDGET_DELETED.getErrorCode();
             if (recordToLoad.getHasAccess() && recordToLoad.getHasLock() && 
-                    ( StringUtils.isBlank(recordToLoad.getRequestUpdateErrorCode()) || recordToLoad.getRequestUpdateErrorCode().endsWith(updateAmountPreviousErrorMessage)) ) {
+                    ( StringUtils.isBlank(recordToLoad.getRequestUpdateErrorCode()) || recordToLoad.getRequestUpdateErrorCode().endsWith(deleteMonthlyWarningErrorMessage)) ) {
                 String updateBudgetAmountErrorMessage = updateBudgetAmounts(fileType, recordToLoad, header, budgetYear);
                 if (!StringUtils.isEmpty(updateBudgetAmountErrorMessage))
                     errorMessages.add(recordToLoad.getErrorLinePrefixForLogFile() + " " + updateBudgetAmountErrorMessage);
@@ -379,7 +391,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         for (String key : recordMap.keySet()) {
             BudgetConstructionRequestMove record = recordMap.get(key);
             BudgetConstructionHeader header = importRequestDao.getHeaderRecord(record, budgetYear);
-            if (record.getHasAccess() && record.getHasLock() && StringUtils.isBlank(record.getRequestUpdateErrorCode())) {
+            if (record.getHasAccess() && record.getHasLock() && ( StringUtils.isBlank(record.getRequestUpdateErrorCode()) || record.getRequestUpdateErrorCode().endsWith(deleteMonthlyWarningErrorMessage))) {
                 udpateBenefits(fileType, header);
             }
 
@@ -389,6 +401,10 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         }
 
         deleteBudgetConstructionMoveRecords(user.getPrincipalId());
+
+        // clear ojb cache since benefits calc is done with JDBC
+        persistenceServiceOjb.clearCache();
+
         return errorMessages;
     }
 
@@ -524,10 +540,31 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
     protected void udpateBenefits(String fileType, BudgetConstructionHeader header) {
         BenefitsCalculationService benefitsCalculationService = SpringContext.getBean(BenefitsCalculationService.class);
 
-        benefitsCalculationService.calculateAnnualBudgetConstructionGeneralLedgerBenefits(header.getDocumentNumber(), header.getUniversityFiscalYear(), header.getChartOfAccountsCode(), header.getAccountNumber(), header.getSubAccountNumber());
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, header.getUniversityFiscalYear());
+        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, header.getChartOfAccountsCode());
+        fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, header.getAccountNumber());
+        fieldValues.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, header.getSubAccountNumber());
+        int monthlyCnt = businessObjectService.countMatching(BudgetConstructionMonthly.class, fieldValues);
+        
+        String sysParam = parameterService.getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND");
+        
+        // if sysParam == Y then Labor Benefit Rate Category Code must be used
+        if (sysParam.equalsIgnoreCase("Y")) {
+            benefitsCalculationService.calculateAnnualBudgetConstructionGeneralLedgerBenefits(header.getDocumentNumber(), header.getUniversityFiscalYear(), header.getChartOfAccountsCode(), header.getAccountNumber(), header.getSubAccountNumber(), header.getAccount().getLaborBenefitRateCategoryCode());
 
-        if (fileType.equalsIgnoreCase(BCConstants.RequestImportFileType.MONTHLY.toString())) {
-            benefitsCalculationService.calculateMonthlyBudgetConstructionGeneralLedgerBenefits(header.getDocumentNumber(), header.getUniversityFiscalYear(), header.getChartOfAccountsCode(), header.getAccountNumber(), header.getSubAccountNumber());
+            if (monthlyCnt > 0 || fileType.equalsIgnoreCase(BCConstants.RequestImportFileType.MONTHLY.toString())) {
+                benefitsCalculationService.calculateMonthlyBudgetConstructionGeneralLedgerBenefits(header.getDocumentNumber(), header.getUniversityFiscalYear(), header.getChartOfAccountsCode(), header.getAccountNumber(), header.getSubAccountNumber(), header.getAccount().getLaborBenefitRateCategoryCode());
+            }
+
+        } else {
+
+            // no rate category code - call original
+            benefitsCalculationService.calculateAnnualBudgetConstructionGeneralLedgerBenefits(header.getDocumentNumber(), header.getUniversityFiscalYear(), header.getChartOfAccountsCode(), header.getAccountNumber(), header.getSubAccountNumber());
+
+            if (monthlyCnt > 0 || fileType.equalsIgnoreCase(BCConstants.RequestImportFileType.MONTHLY.toString())) {
+                benefitsCalculationService.calculateMonthlyBudgetConstructionGeneralLedgerBenefits(header.getDocumentNumber(), header.getUniversityFiscalYear(), header.getChartOfAccountsCode(), header.getAccountNumber(), header.getSubAccountNumber());
+            }
         }
     }
 
@@ -744,6 +781,46 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
     @NonTransactional
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
+    }
+
+    /**
+     * Gets the parameterService attribute.
+     * 
+     * @return Returns the parameterService
+     */
+    @NonTransactional
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    /**	
+     * Sets the parameterService attribute.
+     * 
+     * @param parameterService The parameterService to set.
+     */
+    @NonTransactional
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    /**
+     * Gets the persistenceServiceOjb attribute.
+     * 
+     * @return Returns the persistenceServiceOjb
+     */
+    @NonTransactional
+    public PersistenceService getPersistenceServiceOjb() {
+        return persistenceServiceOjb;
+    }
+
+    /**	
+     * Sets the persistenceServiceOjb attribute.
+     * 
+     * @param persistenceServiceOjb The persistenceServiceOjb to set.
+     */
+    @NonTransactional
+    public void setPersistenceServiceOjb(PersistenceService persistenceServiceOjb) {
+        this.persistenceServiceOjb = persistenceServiceOjb;
     }
     
 }

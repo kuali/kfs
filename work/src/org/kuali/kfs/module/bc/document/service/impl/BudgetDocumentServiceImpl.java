@@ -273,14 +273,15 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         bcDoc.setBenefitsCalcNeeded(false);
         if (!bcDoc.isSalarySettingOnly()) {
             
+            // pbgl lines are saved at this point, calc benefits
             String sysParam = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND");
             LOG.debug("sysParam: " + sysParam);
             // if sysParam == Y then Labor Benefit Rate Category Code must be used
             if (sysParam.equalsIgnoreCase("Y")) {
                 benefitsCalculationService.calculateAnnualBudgetConstructionGeneralLedgerBenefits(bcDoc.getDocumentNumber(), bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getSubAccountNumber(), bcDoc.getAccount().getLaborBenefitRateCategoryCode());
             } else {
-                // pbgl lines are saved at this point, calc benefits
-                benefitsCalculationService.calculateAnnualBudgetConstructionGeneralLedgerBenefits(bcDoc.getDocumentNumber(), bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getSubAccountNumber(), this.getDefaultLaborBenefitRateCategoryCode());
+                // rate category code off - call original benefits calc
+                benefitsCalculationService.calculateAnnualBudgetConstructionGeneralLedgerBenefits(bcDoc.getDocumentNumber(), bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getSubAccountNumber());
             }
             
             // write global message on calc success
@@ -298,14 +299,15 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         bcDoc.setMonthlyBenefitsCalcNeeded(false);
         if (!bcDoc.isSalarySettingOnly()) {
             
+            // pbgl lines are saved at this point, calc benefits
             String sysParam = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND");
             LOG.debug("sysParam: " + sysParam);
             // if sysParam == Y then Labor Benefit Rate Category Code must be used
             if (sysParam.equalsIgnoreCase("Y")) {
                 benefitsCalculationService.calculateMonthlyBudgetConstructionGeneralLedgerBenefits(bcDoc.getDocumentNumber(), bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getSubAccountNumber(), bcDoc.getAccount().getLaborBenefitRateCategoryCode());
             } else {
-                // pbgl lines are saved at this point, calc benefits
-                benefitsCalculationService.calculateMonthlyBudgetConstructionGeneralLedgerBenefits(bcDoc.getDocumentNumber(), bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getSubAccountNumber(),this.getDefaultLaborBenefitRateCategoryCode());
+                // rate category code off - call original benefits calc
+                benefitsCalculationService.calculateMonthlyBudgetConstructionGeneralLedgerBenefits(bcDoc.getDocumentNumber(), bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getSubAccountNumber());
             }
                 
             // write global message on calc success

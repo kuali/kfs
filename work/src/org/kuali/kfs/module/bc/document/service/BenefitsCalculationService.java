@@ -33,7 +33,7 @@ public interface BenefitsCalculationService {
     public boolean isBenefitsCalculationDisabled();
     
     /**
-     * 
+     * no rate category used in calc
      * calculates the annual benefits for the budget construction general ledger key passed in, and stores them in the database
      * @param documentNumber  the string containing the document number
      * @param fiscalYear      the integer value of the fiscal year
@@ -47,7 +47,7 @@ public interface BenefitsCalculationService {
                                                                        String accountNumber,
                                                                        String subAccountNumber);
     /**
-     * 
+     * no rate category used in calc
      * calculates the monthly budget benefits for the budget construction general ledger key passed in, and stores them in the database
      * @param documentNumber  the string containing the document number
      * @param fiscalYear      the integer value of the fiscal year
@@ -64,7 +64,7 @@ public interface BenefitsCalculationService {
 
 
     /**
-     * 
+     * no rate category used in calc
      * calculates both the monthly budget and the annual budget budget construction general ledger benefits for the key passed in, and 
      * stores them in the database.
      * @param documentNumber  the string containing the document number
@@ -82,7 +82,7 @@ public interface BenefitsCalculationService {
    
     
     /**
-     * 
+     * rate category used in calc
      * calculates the annual benefits for the budget construction general ledger key passed in, and stores them in the database
      * @param documentNumber  the string containing the document number
      * @param fiscalYear      the integer value of the fiscal year
@@ -99,7 +99,7 @@ public interface BenefitsCalculationService {
                                                                        String laborBenefitRateCategoryCode);
     
     /**
-     * 
+     * rate category used in calc
      * calculates the monthly budget benefits for the budget construction general ledger key passed in, and stores them in the database
      * @param documentNumber  the string containing the document number
      * @param fiscalYear      the integer value of the fiscal year
@@ -116,4 +116,24 @@ public interface BenefitsCalculationService {
                                                                         String subAccountNumber, 
                                                                         String laborBenefitRateCategoryCode);
 
+    /**
+     * rate category used in calc 
+     * calculates both the monthly budget and the annual budget budget construction general ledger benefits for the key passed in, and 
+     * stores them in the database.
+     * @param documentNumber  the string containing the document number
+     * @param fiscalYear      the integer value of the fiscal year
+     * @param chartOfAccounts the string containing the chart of accounts
+     * @param accountNumber   the string containing the account number
+     * @param subAccountNumber
+     * @param laborBenefitRateCategoryCode the string containing the labor benefit rate category code
+     */
+    public void calculateAllBudgetConstructionGeneralLedgerBenefits(String documentNumber,
+                                                                    Integer fiscalYear,
+                                                                    String chartOfAccounts,
+                                                                    String accountNumber,
+                                                                    String subAccountNumber, 
+                                                                    String laborBenefitRateCategoryCode);
+
+   
+    
 }

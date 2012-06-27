@@ -939,6 +939,12 @@
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>	
+        <property name="parameterService">
+            <ref bean="parameterService" />
+        </property> 
+        <property name="persistenceServiceOjb">
+            <ref bean="persistenceServiceOjb" />
+        </property>
 	</bean>
 	
 	<bean id="importRequestDao" parent="platformAwareDao" class="org.kuali.kfs.module.bc.document.dataaccess.impl.ImportRequestDaoOjb">

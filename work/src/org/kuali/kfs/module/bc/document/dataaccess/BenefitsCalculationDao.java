@@ -15,10 +15,24 @@
  */
 package org.kuali.kfs.module.bc.document.dataaccess;
 
+
 public interface BenefitsCalculationDao {
 
     /**
-     * calculate the monthly budget benefits for the budget construction general ledger key passed in, and stores them in the
+     * calculate the annual benefits (no rate category code) for the budget construction general ledger key passed in, and stores them in the database
+     * 
+     * @param documentNumber
+     * @param fiscalYear
+     * @param chartOfAccounts
+     * @param accountNumber
+     * @param subAccountNumber
+     * @param finObjTypeExpenditureexpCd
+     * @param expenditureINList
+     */
+    public void calculateAnnualBudgetConstructionGeneralLedgerBenefits(String documentNumber, Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber, String finObjTypeExpenditureexpCd, String expenditureINList);
+
+    /**
+     * calculate the monthly budget benefits (no rate category code) for the budget construction general ledger key passed in, and stores them in the
      * database
      * 
      * @param documentNumber
@@ -26,23 +40,27 @@ public interface BenefitsCalculationDao {
      * @param chartOfAccounts
      * @param accountNumber
      * @param subAccountNumber
+     * @param finObjTypeExpenditureexpCd
      */
     public void calculateMonthlyBudgetConstructionGeneralLedgerBenefits(String documentNumber, Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber, String finObjTypeExpenditureexpCd);
 
+
     /**
-     * calculate the annual benefits for the budget construction general ledger key passed in, and stores them in the database
+     * calculate the annual benefits (with rate category code) for the budget construction general ledger key passed in, and stores them in the database
      * 
      * @param documentNumber
      * @param fiscalYear
      * @param chartOfAccounts
      * @param accountNumber
      * @param subAccountNumber
+     * @param finObjTypeExpenditureexpCd
+     * @param expenditureINList
      * @param laborBenefitRateCategoryCode
      */
-    public void calculateAnnualBudgetConstructionGeneralLedgerBenefits(String documentNumber, Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber, String finObjTypeExpenditureexpCd, String laborBenefitRateCategoryCode);
+    public void calculateAnnualBudgetConstructionGeneralLedgerBenefits(String documentNumber, Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber, String finObjTypeExpenditureexpCd, String expenditureINList, String laborBenefitRateCategoryCode);
 
     /**
-     * calculate the monthly budget benefits for the budget construction general ledger key passed in, and stores them in the
+     * calculate the monthly budget benefits (with rate category code) for the budget construction general ledger key passed in, and stores them in the
      * database
      * 
      * @param documentNumber
@@ -50,6 +68,7 @@ public interface BenefitsCalculationDao {
      * @param chartOfAccounts
      * @param accountNumber
      * @param subAccountNumber
+     * @param finObjTypeExpenditureexpCd
      * @param laborBenefitRateCategoryCode
      */
     public void calculateMonthlyBudgetConstructionGeneralLedgerBenefits(String documentNumber, Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber, String finObjTypeExpenditureexpCd, String laborBenefitRateCategoryCode);

@@ -56,13 +56,14 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
         if (isBenefitsCalculationDisabled())
             return;
         /**
-         * get the financial object type expenditure/expense
+         * get the financial object type expenditure/expense and expenditure types list
          */
         String finObjTypeExpenditureexpCd = optionsService.getOptions(fiscalYear).getFinObjTypeExpenditureexpCd();
+        String expenditureINList = BudgetConstructionUtils.getExpenditureINList();
         /**
          * calculate annual benefits
          */
-        benefitsCalculationDao.calculateAnnualBudgetConstructionGeneralLedgerBenefits(documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd, laborBenefitRateCategoryCode);
+        benefitsCalculationDao.calculateAnnualBudgetConstructionGeneralLedgerBenefits(documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd, expenditureINList, laborBenefitRateCategoryCode);
     }
     
 
@@ -78,14 +79,14 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
         if (isBenefitsCalculationDisabled())
             return;
         /**
-         * get the financial object type expenditure/expense
+         * get the financial object type expenditure/expense and expenditure types list
          */
         String finObjTypeExpenditureexpCd = optionsService.getOptions(fiscalYear).getFinObjTypeExpenditureexpCd();
+        String expenditureINList = BudgetConstructionUtils.getExpenditureINList();
+
         /**
          * calculate annual benefits
          */
-        String expenditureINList = BudgetConstructionUtils.getExpenditureINList();
-
         benefitsCalculationDao.calculateAnnualBudgetConstructionGeneralLedgerBenefits(documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd, expenditureINList);
     }
 
@@ -140,16 +141,39 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
         if (isBenefitsCalculationDisabled())
             return;
         /**
-         * get the financial object type expenditure/expense
+         * get the financial object type expenditure/expense and expenditure types list
          */
         String finObjTypeExpenditureexpCd = optionsService.getOptions(fiscalYear).getFinObjTypeExpenditureexpCd();
+        String expenditureINList = BudgetConstructionUtils.getExpenditureINList();
+
         /**
          * call both annual and monthly calculations (order is important)
          */
-        String expenditureINList = BudgetConstructionUtils.getExpenditureINList();
-
         benefitsCalculationDao.calculateAnnualBudgetConstructionGeneralLedgerBenefits(documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd, expenditureINList);
         benefitsCalculationDao.calculateMonthlyBudgetConstructionGeneralLedgerBenefits(documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.bc.document.service.BenefitsCalculationService#calculateAllBudgetConstructionGeneralLedgerBenefits(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     */
+    public void calculateAllBudgetConstructionGeneralLedgerBenefits(String documentNumber, Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber, String laborBenefitRateCategoryCode) {
+        /**
+         * do nothing if benefits calculation is disabled
+         */
+        if (isBenefitsCalculationDisabled())
+            return;
+        /**
+         * get the financial object type expenditure/expense and expenditure types list
+         */
+        String finObjTypeExpenditureexpCd = optionsService.getOptions(fiscalYear).getFinObjTypeExpenditureexpCd();
+        String expenditureINList = BudgetConstructionUtils.getExpenditureINList();
+
+        /**
+         * call both annual and monthly calculations (order is important)
+         */
+        benefitsCalculationDao.calculateAnnualBudgetConstructionGeneralLedgerBenefits(documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd, expenditureINList, laborBenefitRateCategoryCode);
+        benefitsCalculationDao.calculateMonthlyBudgetConstructionGeneralLedgerBenefits(documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd, laborBenefitRateCategoryCode);
+        
     }
 
     /**

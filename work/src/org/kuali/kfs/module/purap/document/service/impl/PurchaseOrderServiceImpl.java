@@ -94,6 +94,7 @@ import org.kuali.rice.core.api.mail.MailMessage;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.ActionRequestType;
@@ -293,7 +294,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     /**
      * checks for print option and if chosen then sets the app doc status to
      * Pending To Print.
-     * 
+     *
      * @param po
      */
     protected void checkForPrintTransmission(PurchaseOrderDocument po) throws WorkflowException {
@@ -301,7 +302,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             po.updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_PENDING_PRINT);
         }
     }
-    
+
     /**
      * @see org.kuali.kfs.module.purap.document.service.PurchaseOrderService#createPurchaseOrderDocument(org.kuali.kfs.module.purap.document.RequisitionDocument,
      *      java.lang.String, java.lang.Integer)
@@ -345,7 +346,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         poDocument.populatePurchaseOrderFromRequisition(reqDocument);
 
         poDocument.updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_IN_PROCESS);
-        
+
         poDocument.setPurchaseOrderCurrentIndicator(true);
         poDocument.setPendingActionIndicator(false);
 
@@ -641,7 +642,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
             if (ObjectUtils.isNotNull(newDocument)) {
                 newDocument.updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_CHANGE_IN_PROCESS);
-                
+
                 // set status if needed
                 if (StringUtils.isNotBlank(currentDocumentStatusCode)) {
                     currentDocument.updateAndSaveAppDocStatus(currentDocumentStatusCode);
@@ -680,18 +681,18 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     @Override
     public PurchaseOrderDocument createAndRoutePotentialChangeDocument(String documentNumber, String docType, String annotation, List adhocRoutingRecipients, String currentDocumentStatusCode) {
         PurchaseOrderDocument currentDocument = getPurchaseOrderByDocumentNumber(documentNumber);
-        
+
         try {
             currentDocument.updateAndSaveAppDocStatus(currentDocumentStatusCode);
         }
         catch (WorkflowException e) {
             throw new RuntimeException("Error saving routing data while saving document with id " + currentDocument.getDocumentNumber(), e);
         }
-        
+
         try {
             PurchaseOrderDocument newDocument = createPurchaseOrderDocumentFromSourceDocument(currentDocument, docType);
             newDocument.updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_CHANGE_IN_PROCESS);
-            
+
             if (ObjectUtils.isNotNull(newDocument)) {
                 try {
                     // set the pending indictor before routing, so that when routing is done in synch mode, the pending indicator won't be set again after route finishes and cause inconsistency
@@ -760,7 +761,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
                 if (copyNotes) {
                     // Copy the old notes, except for the one that contains the split note text.
-                    List<Note> notes = (List<Note>)currentDocument.getNotes();
+                    List<Note> notes = currentDocument.getNotes();
                     int noteLength = notes.size();
                     if (noteLength > 0) {
                         notes.subList(noteLength - 1, noteLength).clear();
@@ -941,11 +942,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         setCurrentAndPendingIndicatorsForApprovedPODocuments(poa);
 
         // check thresholds to see if receiving is required for purchase order amendment
-        if (!poa.isReceivingDocumentRequiredIndicator() && 
+        if (!poa.isReceivingDocumentRequiredIndicator() &&
                 !SpringContext.getBean(PaymentRequestService.class).hasActivePaymentRequestsForPurchaseOrder(poa.getPurapDocumentIdentifier())) {
             setReceivingRequiredIndicatorForPurchaseOrder(poa);
         }
-        
+
         // if unordered items have been added to the PO then send an FYI to all fiscal officers
         if (hasNewUnorderedItem(poa)) {
             sendFyiForNewUnorderedItems(poa);
@@ -1249,7 +1250,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     protected void fixDbNoteFields(PurchaseOrderDocument documentBusinessObject, List<Note> dbNotes) {
         for (int i = 0; i < dbNotes.size(); i++) {
             Note dbNote = dbNotes.get(i);
-            List<Note> currentNotes = (List<Note>) documentBusinessObject.getNotes();
+            List<Note> currentNotes = documentBusinessObject.getNotes();
             if (i < currentNotes.size()) {
                 Note currentNote = (currentNotes).get(i);
                 // set the fyi from the current note if not empty
@@ -1293,7 +1294,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             // set the status and status history of the oldPO to retired version
             try {
                 oldPO.updateAndSaveAppDocStatus(PurapConstants.PurchaseOrderStatuses.APPDOC_RETIRED_VERSION);
-            } 
+            }
             catch (WorkflowException e) {
                 throw new RuntimeException("Error saving routing data while saving document with id " + oldPO.getDocumentNumber(), e);
             }
@@ -1369,7 +1370,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         // Set the Pending indicator for the oldPO to N
         oldPO.setPendingActionIndicator(false);
         try {
-            oldPO.updateAndSaveAppDocStatus(oldPOStatus); 
+            oldPO.updateAndSaveAppDocStatus(oldPOStatus);
             newPO.updateAndSaveAppDocStatus(newPOStatus);
         }
         catch (WorkflowException e) {
@@ -1607,7 +1608,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                             //create AdHocRoutePerson object and add to list
                             adHocRoutePerson = new AdHocRoutePerson();
                             adHocRoutePerson.setId(account.getAccount().getAccountFiscalOfficerUser().getPrincipalName());
-                            adHocRoutePerson.setActionRequested(KFSConstants.WORKFLOW_FYI_REQUEST);
+                            adHocRoutePerson.setActionRequested(KewApiConstants.ACTION_REQUEST_FYI_REQ);
                             adHocRoutePersons.add(adHocRoutePerson);
                         }
                     }
@@ -1748,7 +1749,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     catch (WorkflowException e) {
                         throw new RuntimeException("Error saving routing data while saving document with id " + req.getDocumentNumber(), e);
                     }
-                    
+
                     purapService.saveDocumentNoValidation(req);
                     createPurchaseOrderDocument(req, KFSConstants.SYSTEM_USER, detail.getContractManagerCode());
                 }
@@ -2206,13 +2207,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
         return null;
     }
-    
+
     /**
      * @return Returns the personService.
      */
     protected PersonService getPersonService() {
-        if(personService==null)
+        if(personService==null) {
             personService = SpringContext.getBean(PersonService.class);
+        }
         return personService;
     }
 

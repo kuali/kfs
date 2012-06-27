@@ -76,10 +76,16 @@ public class RequestBenefitsLookupableHelperServiceImpl extends KualiLookupableH
 
 
             // make sure the system parameter exists
-            if (SpringContext.getBean(ParameterService.class).parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND")) {
+            Boolean categoryRateCalcParmExists = SpringContext.getBean(ParameterService.class).parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND");
+            String sysParam = " ";
+            if (categoryRateCalcParmExists){
+                sysParam = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND");
+            }
+            // if calc using rate category exists and is not "N" do new calc by category process
+            if (categoryRateCalcParmExists && !sysParam.equalsIgnoreCase("N")) {
                 String laborBenefitRateCategoryCode = "";
                 // check the system param to see if the labor benefit rate category should be filled in
-                String sysParam = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND");
+                sysParam = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND");
                 LOG.debug("sysParam: " + sysParam);
                 // if sysParam == Y then Labor Benefit Rate Category Code must be filled in
                 if (sysParam.equalsIgnoreCase("Y")) {
@@ -147,11 +153,15 @@ public class RequestBenefitsLookupableHelperServiceImpl extends KualiLookupableH
 
                     }
                     else {
-                        LOG.info("Could not locate a benfits calcution for {" + fiscalYear + "," + chartOfAccountsCode + "," + positionObjectBenefit.getFinancialObjectBenefitsTypeCode() + "," + positionObjectBenefit.getFinancialObjectCode() + "," + laborBenefitRateCategoryCode + "}");
+                        LOG.info("Could not locate a benfits calculation for {" + fiscalYear + "," + chartOfAccountsCode + "," + positionObjectBenefit.getFinancialObjectBenefitsTypeCode() + "," + positionObjectBenefit.getFinancialObjectCode() + "," + laborBenefitRateCategoryCode + "}");
                     }
                 }
             }
             else {
+                // no rate calc parm or it is set to "N" - do original calc benefit without category code
+                requestBenefit.setLaborBenefitRateCategoryCode(" ");
+                requestBenefit.setLaborBenefitRateCategoryCodeDesc("Category Calc Mode Off");
+
                 requestBenefit.setPositionFringeBenefitPercent(positionObjectBenefit.getLaborLedgerBenefitsCalculation().getPositionFringeBenefitPercent());
                 fringePct = positionObjectBenefit.getLaborLedgerBenefitsCalculation().getPositionFringeBenefitPercent();
             }

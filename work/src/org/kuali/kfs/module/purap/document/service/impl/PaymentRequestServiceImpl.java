@@ -776,8 +776,8 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                 fullOrderAmount = (ObjectUtils.isNotNull(fullOrderItem.getExtendedPrice())) ? fullOrderItem.getExtendedPrice() : KualiDecimal.ZERO;
                 fullOrderTaxAmount = (ObjectUtils.isNotNull(fullOrderItem.getItemTaxAmount())) ? fullOrderItem.getItemTaxAmount() : KualiDecimal.ZERO;
             }
-
             KualiDecimal totalCost = paymentRequestDocument.getTotalPreTaxDollarAmountAboveLineItems().add(fullOrderAmount);
+            totalCost = totalCost.subtract(paymentRequestDocument.getTotalDollarAmountForTradeIn());
             BigDecimal discountAmount = pt.getVendorPaymentTermsPercent().multiply(totalCost.bigDecimalValue()).multiply(new BigDecimal(PurapConstants.PREQ_DISCOUNT_MULT));
 
             // do we really need to set both, not positive, but probably won't hurt
@@ -1112,14 +1112,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                     includedItemTypeCodes.add(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE);
                     summaryAccounts = purapAccountingService.generateSummaryIncludeItemTypesAndNoZeroTotals(paymentRequestDocument.getItems(), includedItemTypeCodes);
                     distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE, PaymentRequestAccount.class);
-                    //now zero out the percents on distributedAccounts except the first line where
-                    //make the percent as 100.00
-                    for (PurApAccountingLine purApAcctLine : distributedAccounts) {
-                        purApAcctLine.setAccountLinePercent(BigDecimal.ZERO);
-                    }
-                    //set the first line account percent = 100.00 so everything is put on line 1
-                    distributedAccounts.get(0).setAccountLinePercent(new BigDecimal(100.00));
-
+                    
                     if (PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
                         purapAccountingService.updatePreqAccountAmountsWithTotal(distributedAccounts, item.getTotalAmount());
 

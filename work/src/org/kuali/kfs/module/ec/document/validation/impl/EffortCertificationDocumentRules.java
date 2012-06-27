@@ -171,9 +171,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         }
 
         if (EffortCertificationDocumentRuleUtil.isEffortPercentChangedFromPersisted(effortCertificationDocument)) {
-            NoteService noteService = KRADServiceLocator.getNoteService();
-            List<Note> notes = noteService.getByRemoteObjectId( effortCertificationDocument.getObjectId());
-             
+            List<Note> notes = effortCertificationDocument.getNotes();
             boolean noteHasBeenAdded = false;
             for(Note note : notes) {
                 if(note.isNewCollectionRecord()) {
@@ -202,8 +200,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         effortCertificationDocument.refreshReferenceObject(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_DEFINITION);
         EffortCertificationReportDefinition reportDefinition = effortCertificationDocument.getEffortCertificationReportDefinition();
         if (effortCertificationReportDefinitionService.hasApprovedEffortCertification(emplid, reportDefinition)) {
-            NoteService noteService = KRADServiceLocator.getNoteService();
-            List<Note> notes = noteService.getByRemoteObjectId( effortCertificationDocument.getObjectId());
+            List<Note> notes = effortCertificationDocument.getNotes();
             if (notes == null || notes.isEmpty()) {
                 reportError(EffortConstants.EFFORT_CERTIFICATION_TAB_ERRORS, EffortKeyConstants.ERROR_NOTE_REQUIRED_WHEN_APPROVED_EFFORT_CERTIFICATION_EXIST, emplid, reportDefinition.getUniversityFiscalYear().toString(), reportDefinition.getEffortCertificationReportNumber());
                 return false;

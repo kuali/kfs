@@ -126,7 +126,7 @@ public class PurApRelatedViews {
 
         if ((document != null) && (document.getDocumentHeader().getWorkflowDocument() != null)) {
             if (!document.getDocumentHeader().getWorkflowDocument().getStatus().equals(DocumentStatus.FINAL)) {
-                String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
+                String principalId =  GlobalVariables.getUserSession().getPrincipalId();
                 String namespaceCode = KFSConstants.ParameterNamespaces.KNS;
                 String permissionTemplateName = KimConstants.PermissionTemplateNames.FULL_UNMASK_FIELD;
 

@@ -275,6 +275,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
             String relationDescription = "TA - Customer Invoice";
             accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(travelAuthorizationDocument.getDocumentNumber(), customerInvoiceDocument.getDocumentNumber(), relationDescription));
             
+            //update AR Invoice Doc number to the travel advances 
             for (TravelAdvance adv : advances) {
                 if (StringUtils.isEmpty(adv.getArInvoiceDocNumber())) {
                     adv.setArInvoiceDocNumber(customerInvoiceDocument.getDocumentNumber());

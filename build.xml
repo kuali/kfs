@@ -119,10 +119,10 @@
 		</if>
     	<property name="build.environment" value="dev"/>
 		<if>
-			<available file="${basedir}/${build.environment}-build.properties" />
+			<available file="${basedir.safe}/${build.environment}-build.properties" />
 			<then>
-				<echo message="Reading Properties: ${basedir}/${build.environment}-build.properties" />    	
-		        <property file="${basedir}/${build.environment}-build.properties" />
+				<echo message="Reading Properties: ${basedir.safe}/${build.environment}-build.properties" />    	
+		        <property file="${basedir.safe}/${build.environment}-build.properties" />
 			</then>
 		</if>
 		<property name="properties.directory" location="build/properties" />
@@ -149,16 +149,22 @@
 		<echo message="Reading Properties: ${properties.directory}/b2b.properties" />
 		<property file="${properties.directory}/b2b.properties" />
 	</target>
-	
-	<target name="init-properties" depends="init-property-files,init-base-properties,init-database-properties,init-spring-properties,init-rice-properties,init-b2b-properties,init-other-properties" />
 		
+	<target name="init-properties" depends="init-core-properties,init-property-files,init-base-properties,init-database-properties,init-spring-properties,init-rice-properties,init-b2b-properties,init-other-properties" />
+	
+	<target name="init-core-properties">
+		<pathconvert property="basedir.safe" dirsep="/" pathsep=";">
+			<path location="${basedir}" />
+		</pathconvert>
+	</target>
+	
 	<target name="init-base-properties" depends="init-property-files">
 		<tstamp><format property="build.version" pattern="MM/dd/yyyy hh:mm aa" /></tstamp>
 	  	<tstamp><format property="current.year" pattern="yyyy" locale="en,US" /></tstamp>
 
 		<property name="fail.when.compile.fails" value="true"/>
 		
-		<condition property="context.docbase" value=' docBase="${basedir}${file.separator}work${file.separator}web-root"' else="">
+		<condition property="context.docbase" value=' docBase="${basedir.safe}/${webroot.directory}"' else="">
 			<isset property="is.local.build" />
 		</condition>
 
@@ -467,7 +473,7 @@
 
 	<target name="clean-help" depends="init-properties">
 		<delete failonerror="false">
-			<fileset dir="${basedir}">
+			<fileset dir="${basedir.safe}">
 				<include name="${help.directory}/**" />
 			</fileset>
 		</delete>
@@ -476,7 +482,7 @@
 	<target name="clean-rice" depends="init-properties">
 		<echo message="Cleaning Rice web content from KFS ${webroot.directory}" />
 		<delete failonerror="false" includeemptydirs="true">
-			<fileset dir="${basedir}">
+			<fileset dir="${basedir.safe}">
 				<include name="${webroot.directory}/ksb/**" />
 				<include name="${webroot.directory}/kew/**" />
 				<include name="${webroot.directory}/kr/**" />
@@ -497,7 +503,7 @@
 	<target name="clean-project" depends="init-properties,clean-help,clean-rice">
 		<delete dir="${build.rice.lib.directory}" />
 		<delete failonerror="false" includeemptydirs="true">
-			<fileset dir="${basedir}">
+			<fileset dir="${basedir.safe}">
 				<include name="${source.directory}/${configuration.file}" />
 				<include name="${source.directory}/${p6spy.file}" />
 				<include name="${source.directory}/${ojb.properties.file}" />
@@ -938,9 +944,9 @@ Excludes: ${tests.compile.excludes}
 			</then>
 		</if>
 
-		<zip destfile="${basedir}/settings.zip" basedir="${all.temp.directory}/deploy/settings" />
-		<zip destfile="${basedir}/security.zip" basedir="${all.temp.directory}/deploy/security" />
-		<zip destfile="${basedir}/skel.zip" basedir="${build.work.directory}" />
+		<zip destfile="${basedir.safe}/settings.zip" basedir="${all.temp.directory}/deploy/settings" />
+		<zip destfile="${basedir.safe}/security.zip" basedir="${all.temp.directory}/deploy/security" />
+		<zip destfile="${basedir.safe}/skel.zip" basedir="${build.work.directory}" />
 		<delete dir="${all.temp.directory}/deploy" />
 	</target>
 
@@ -1037,11 +1043,7 @@ The workflow files you want to run must exist in the pending subdirectory and wi
     	<echo append="false" file="${classpath.file}" message="${classpath.prefix}" />
 
 		<!-- Convert paths to unix format for replacement -->
-		<pathconvert property="basedir.safe" dirsep="/" pathsep=";">
-			<path location="${basedir}" />
-		</pathconvert>
-
-
+		
 		<!-- Rice Jars -->
 		<path id="rice.library.jars">
 			<fileset dir="${build.rice.lib.directory}"  includes="rice*.jar" excludes="rice*impl*.jar" />
@@ -1192,7 +1194,7 @@ Admin Password = $${rice.server.impex.admin.password} (not shown)
 		<!-- build temp impex-build.properties -->
 		<echo append="false" file="${impex.properties}">
 			torque.project=kfs
-			torque.schema.dir=${basedir}/work/db/kfs-db/rice
+			torque.schema.dir=${basedir.safe}/work/db/kfs-db/rice
 			torque.sql.dir=${all.temp.directory}/sql
 			torque.output.dir=${all.temp.directory}/sql
 
@@ -1204,11 +1206,11 @@ Admin Password = $${rice.server.impex.admin.password} (not shown)
 			import.torque.database.password=${rice.server.datasource.password}
 
 			post.import.liquibase.project=kfs
-			post.import.liquibase.xml.directory=${basedir}/work/db/rice-data
+			post.import.liquibase.xml.directory=${basedir.safe}/work/db/rice-data
 			post.import.liquibase.contexts=bootstrap,demo
 			post.import.workflow.project=kfs
-			post.import.workflow.xml.directory=${basedir}/work/workflow
-			post.import.workflow.ingester.launcher.ant.script=${basedir}/build.xml
+			post.import.workflow.xml.directory=${basedir.safe}/work/workflow
+			post.import.workflow.ingester.launcher.ant.script=${basedir.safe}/build.xml
 			post.import.workflow.ingester.launcher.ant.target=import-workflow-xml
 			post.import.workflow.ingester.launcher.ant.xml.directory.property=workflow.dir
 			post.import.workflow.ingester.jdbc.url.property=datasource.url
@@ -1236,7 +1238,7 @@ Admin Password = $${rice.server.impex.admin.password} (not shown)
 		     base directory for the impex project -->
 		<java classname="org.apache.tools.ant.Main"
 		      fork="true"
-		      failonerror="true" dir="${basedir}/work/db/kfs-db/db-impex/impex">		    
+		      failonerror="true" dir="${basedir.safe}/work/db/kfs-db/db-impex/impex">		    
 		    <classpath path="${java.class.path}" />
 		    <jvmarg value="-Xmx1g" />
 			<arg value="-Dimpex.properties.file=${impex.properties}" />
@@ -1278,7 +1280,7 @@ Admin Password = $${impex.admin.password} (not shown)
 		<!-- build temp impex-build.properties -->
 		<echo append="false" file="${impex.properties}">
 			torque.project=kfs
-			torque.schema.dir=${basedir}/work/db/kfs-db/development
+			torque.schema.dir=${basedir.safe}/work/db/kfs-db/development
 			torque.sql.dir=${all.temp.directory}/sql
 			torque.output.dir=${all.temp.directory}/sql
 
@@ -1301,7 +1303,7 @@ Admin Password = $${impex.admin.password} (not shown)
 		     base directory for the impex project -->
 		<java classname="org.apache.tools.ant.Main"
 		      fork="true"
-		      failonerror="true" dir="${basedir}/work/db/kfs-db/db-impex/impex">		    
+		      failonerror="true" dir="${basedir.safe}/work/db/kfs-db/db-impex/impex">		    
 		    <classpath path="${java.class.path}" />
 		    <jvmarg value="-Xmx1g" />
 			<arg value="-Dimpex.properties.file=${impex.properties}" />
@@ -1421,7 +1423,7 @@ Admin Password = $${impex.admin.password} (not shown)
 		-->
 		<echo>Moving KFS descriptor into path</echo>
 		<echo file="${appserver.home}/conf/Catalina/localhost/kfs-dev.xml"><![CDATA[
-			<Context path="/kfs-dev" reloadable="false" docBase="${basedir}/work/web-root">
+			<Context path="/kfs-dev" reloadable="false" docBase="${basedir.safe}/work/web-root">
 			</Context>
 		]]></echo>
 		<antcall target="start-tomcat" />
@@ -1430,7 +1432,7 @@ Admin Password = $${impex.admin.password} (not shown)
 	<target name="run-dev2" depends="set-env-dev2,init-properties,dist-local-if-necessary,make-source,clean-tomcat-config" description="Starts up the included Tomcat server with KFS using Rice in embedded (Rice standalone) mode.">
 		<echo>Moving Rice descriptor into path</echo>
 		<echo file="${appserver.home}/conf/Catalina/localhost/kr-dev2.xml"><![CDATA[
-			<Context path="/kr-dev2" reloadable="false" docBase="${basedir}/build/external/appserver/rice-web-${kfs.rice.version}.war" unpackWAR="false">
+			<Context path="/kr-dev2" reloadable="false" docBase="${basedir.safe}/build/external/appserver/rice-web-${kfs.rice.version}.war" unpackWAR="false">
 			</Context>
 		]]></echo>
 		<parallel>
@@ -1441,7 +1443,7 @@ Admin Password = $${impex.admin.password} (not shown)
 				<sleep seconds="10" />
 				<echo>Moving KFS descriptor into path</echo>
 				<echo file="${appserver.home}/conf/Catalina/localhost/kfs-dev2.xml"><![CDATA[
-					<Context path="/kfs-dev2" reloadable="false" docBase="${basedir}/work/web-root">
+					<Context path="/kfs-dev2" reloadable="false" docBase="${basedir.safe}/work/web-root">
 					</Context>
 				]]></echo>
 			</sequential>
@@ -1453,20 +1455,20 @@ Admin Password = $${impex.admin.password} (not shown)
 
 	the following configuration files are involved in the build process
 			
-			- ${basedir}/build.xml
+			- ${basedir.safe}/build.xml
 			- ${user.home}/kfs-build.properties
 			- ${institution.build.properties.file}
-			- ${basedir}/${build.environment}-build.properties
-			- ${basedir}/build/properties/*
+			- ${basedir.safe}/${build.environment}-build.properties
+			- ${basedir.safe}/build/properties/*
 
 	you should start using this build script as follows
 
 			1. copy the sample kfs-build.properties from
-					${basedir}/${build.user.directory} 
+					${basedir.safe}/${build.user.directory} 
 				to
 					${user.home}
 			    - If desired, add your email address to the notification addresses.			
-			    - The default database setup which will be used is in ${basedir}/dev-build.properties.
+			    - The default database setup which will be used is in ${basedir.safe}/dev-build.properties.
 				-- You can copy any properties from there (or any other property file) to your kfs-build.properties
 					file to override the defaults in the project.
 			    - save your changes
@@ -1487,7 +1489,7 @@ Admin Password = $${impex.admin.password} (not shown)
 			6. Launch a browser and access ${application.url}
 
 	You can override the default log4j settings for your local deployments by copying
-		${basedir}/${build.external.directory}/${log4j.file} to
+		${basedir.safe}/${build.external.directory}/${log4j.file} to
 			${user.home} and modifying as desired.  you will also need to run the dist-local target
 			for this change to take effect.
 

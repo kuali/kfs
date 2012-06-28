@@ -239,7 +239,7 @@ knoreceipt-l@indiana.edu
 		<!-- get the current revision numbers for each SVN path we are including in the export -->
 		<echo>${kuali.svn.root}/${kfs.dataset.svn.module}/${kfs.dataset.svn.path}</echo>
 		<svn>
-			<info target="${basedir}"
+			<info target="${basedir.safe}"
 				  propPrefix="svn.info.kfs" verbose="true" />			
 		</svn>
 	    <!-- dump a file with the extracted tags -->

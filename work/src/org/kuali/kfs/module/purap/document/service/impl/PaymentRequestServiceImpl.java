@@ -777,7 +777,8 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                 fullOrderTaxAmount = (ObjectUtils.isNotNull(fullOrderItem.getItemTaxAmount())) ? fullOrderItem.getItemTaxAmount() : KualiDecimal.ZERO;
             }
             KualiDecimal totalCost = paymentRequestDocument.getTotalPreTaxDollarAmountAboveLineItems().add(fullOrderAmount);
-            totalCost = totalCost.subtract(paymentRequestDocument.getTotalDollarAmountForTradeIn());
+            PurApItem tradeInItem = paymentRequestDocument.getTradeInItem();
+            if (ObjectUtils.isNotNull(tradeInItem)) totalCost = totalCost.subtract(tradeInItem.getTotalAmount());
             BigDecimal discountAmount = pt.getVendorPaymentTermsPercent().multiply(totalCost.bigDecimalValue()).multiply(new BigDecimal(PurapConstants.PREQ_DISCOUNT_MULT));
 
             // do we really need to set both, not positive, but probably won't hurt

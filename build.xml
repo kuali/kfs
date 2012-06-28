@@ -104,10 +104,10 @@
 	
 	<target name="init-property-files">
 		<if>
-			<available file="${user.home}/kfs-build.properties" />
+			<available file="${user.home.safe}/kfs-build.properties" />
 			<then>
-				<echo message="Reading Properties: ${user.home}/kfs-build.properties" />
-				<property file="${user.home}/kfs-build.properties" />
+				<echo message="Reading Properties: ${user.home.safe}/kfs-build.properties" />
+				<property file="${user.home.safe}/kfs-build.properties" />
 			</then>
 		</if>
 		<if>
@@ -155,6 +155,9 @@
 	<target name="init-core-properties">
 		<pathconvert property="basedir.safe" dirsep="/" pathsep=";">
 			<path location="${basedir}" />
+		</pathconvert>
+		<pathconvert property="user.home.safe" dirsep="/" pathsep=";">
+			<path location="${user.home}" />
 		</pathconvert>
 	</target>
 	
@@ -407,7 +410,7 @@
 		<loadfile property="ojb-repo"    srcfile="${build.project.directory}/${ojb.repository.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		
 		<loadfile property="context" srcfile="${build.appserver.directory}/${context.file}"><filterchain><expandproperties/></filterchain></loadfile>
-		<loadfile property="log4j" srcfile="${user.home}/${log4j.file}" failonerror="false"><filterchain><expandproperties/></filterchain></loadfile>
+		<loadfile property="log4j" srcfile="${user.home.safe}/${log4j.file}" failonerror="false"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="log4j" srcfile="${build.external.directory}/${log4j.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="security" srcfile="${build.external.directory}/${security.file}"><filterchain><expandproperties/></filterchain></loadfile>
 	    <if>
@@ -1456,7 +1459,7 @@ Admin Password = $${impex.admin.password} (not shown)
 	the following configuration files are involved in the build process
 			
 			- ${basedir.safe}/build.xml
-			- ${user.home}/kfs-build.properties
+			- ${user.home.safe}/kfs-build.properties
 			- ${institution.build.properties.file}
 			- ${basedir.safe}/${build.environment}-build.properties
 			- ${basedir.safe}/build/properties/*
@@ -1466,7 +1469,7 @@ Admin Password = $${impex.admin.password} (not shown)
 			1. copy the sample kfs-build.properties from
 					${basedir.safe}/${build.user.directory} 
 				to
-					${user.home}
+					${user.home.safe}
 			    - If desired, add your email address to the notification addresses.			
 			    - The default database setup which will be used is in ${basedir.safe}/dev-build.properties.
 				-- You can copy any properties from there (or any other property file) to your kfs-build.properties
@@ -1490,20 +1493,20 @@ Admin Password = $${impex.admin.password} (not shown)
 
 	You can override the default log4j settings for your local deployments by copying
 		${basedir.safe}/${build.external.directory}/${log4j.file} to
-			${user.home} and modifying as desired.  you will also need to run the dist-local target
+			${user.home.safe} and modifying as desired.  you will also need to run the dist-local target
 			for this change to take effect.
 
 			--- MAIN TARGETS ---
 
 			dist-local: prepares tokenized resources and local configuration files and deploys tomcat context file on development workstation
 			- this target should be run each time you update the project from version control 
-			    or change property values in ${user.home}/kfs-build.properties
+			    or change property values in ${user.home.safe}/kfs-build.properties
 			- tomcat should not be running when you execute this target
 			- You must refresh the project in Eclipse after running this target before starting up the server.
 
 			test-local: runs all project JUnit tests and generates results
             - criteria for running dist-local must be met before running this target
-			- you can customize the set of tests that run by modifying the value of tests.includes in ${user.home}/kfs-build.properties
+			- you can customize the set of tests that run by modifying the value of tests.includes in ${user.home.safe}/kfs-build.properties
 			- tomcat should not be running when you execute this target
 			- This assumes you have the default demo dataset loaded.  Most tests will fail if the database is not populated as expected.
 

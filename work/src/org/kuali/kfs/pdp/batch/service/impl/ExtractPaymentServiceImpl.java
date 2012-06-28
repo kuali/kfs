@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -80,16 +80,16 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
 
     /**
      * Generate the output file with prefix and date subfix
-     * 
+     *
      * @param fileprefix
      * @param runDate
      * @return
      */
     protected String getOutputFile(String fileprefix, Date runDate) {
-        
+
         //add a step to check for directory paths
         prepareDirectories(getRequiredDirectoryNames());
-        
+
         String filename = directoryName + "/" + fileprefix + "_";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
         filename = filename + sdf.format(runDate);
@@ -101,6 +101,7 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
     /**
      * @see org.kuali.kfs.pdp.batch.service.ExtractPaymentService#extractCancelledChecks()
      */
+    @Override
     public void extractCanceledChecks() {
         LOG.debug("extractCancelledChecks() started");
 
@@ -181,6 +182,7 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
     /**
      * @see org.kuali.kfs.pdp.batch.service.ExtractPaymentService#extractAchPayments()
      */
+    @Override
     public void extractAchPayments() {
         LOG.debug("extractAchPayments() started");
 
@@ -207,6 +209,7 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
     /**
      * @see org.kuali.kfs.pdp.batch.service.ExtractPaymentService#extractChecks()
      */
+    @Override
     public void extractChecks() {
         LOG.debug("extractChecks() started");
 
@@ -529,15 +532,19 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
         writeTag(os, indent + 2, "city", pg.getCity());
         writeTag(os, indent + 2, "state", pg.getState());
         writeTag(os, indent + 2, "zipCd", pg.getZipCd());
-        
+
         // get country name for code
-        Country country = countryService.getCountry(pg.getCountry());
-        if (country != null) {
-            writeTag(os, indent + 2, "country", country.getName());
+        String countryName = "";
+        if ( StringUtils.isNotBlank(pg.getCountry()) ) {
+            Country country = countryService.getCountry(pg.getCountry());
+            if (country != null) {
+                countryName = country.getName();
+            }
+            if ( StringUtils.isBlank(countryName) ) {
+                countryName = pg.getCountry();
+            }
         }
-        else {
-            writeTag(os, indent + 2, "country", pg.getCountry());
-        }
+        writeTag(os, indent + 2, "country", countryName);
 
         if (includeAch) {
             writeTag(os, indent + 2, "achBankRoutingNbr", pg.getAchBankRoutingNbr());
@@ -546,14 +553,14 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
         }
         writeCloseTag(os, indent, "payee");
     }
-    
+
     /**
      * Creates a '.done' file with the name of the original file.
      */
     protected void createDoneFile(String filename) {
         String doneFileName =  StringUtils.substringBeforeLast(filename,".") + ".done";
         File doneFile = new File(doneFileName);
-        
+
         if (!doneFile.exists()) {
             boolean doneFileCreated = false;
             try {
@@ -583,7 +590,7 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
 
     /**
      * Sets the directoryName attribute value.
-     * 
+     *
      * @param directoryName The directoryName to set.
      */
     public void setDirectoryName(String directoryName) {
@@ -593,7 +600,7 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
 
     /**
      * Sets the dateTimeService attribute value.
-     * 
+     *
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -602,7 +609,7 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
 
     /**
      * Sets the parameterService attribute value.
-     * 
+     *
      * @param parameterService The parameterService to set.
      */
     public void setParameterService(ParameterService parameterService) {
@@ -611,7 +618,7 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
 
     /**
      * Sets the paymentGroupService attribute value.
-     * 
+     *
      * @param paymentGroupService The paymentGroupService to set.
      */
     public void setPaymentGroupService(PaymentGroupService paymentGroupService) {
@@ -620,7 +627,7 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
 
     /**
      * Sets the paymentDetailService attribute value.
-     * 
+     *
      * @param paymentDetailService The paymentDetailService to set.
      */
     public void setPaymentDetailService(PaymentDetailService paymentDetailService) {
@@ -629,7 +636,7 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
 
     /**
      * Sets the paymentGroupHistoryDao attribute value.
-     * 
+     *
      * @param paymentGroupHistoryDao The paymentGroupHistoryDao to set.
      */
     public void setPaymentGroupHistoryDao(PaymentGroupHistoryDao paymentGroupHistoryDao) {
@@ -638,7 +645,7 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
 
     /**
      * Sets the processDao attribute value.
-     * 
+     *
      * @param processDao The processDao to set.
      */
     public void setProcessDao(ProcessDao processDao) {
@@ -647,7 +654,7 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
 
     /**
      * Sets the paymentFileEmailService attribute value.
-     * 
+     *
      * @param paymentFileEmailService The paymentFileEmailService to set.
      */
     public void setPaymentFileEmailService(PdpEmailService paymentFileEmailService) {
@@ -656,7 +663,7 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
 
     /**
      * Sets the business object service
-     * 
+     *
      * @param businessObjectService
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -669,7 +676,7 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
 
     /**
      * Gets the countryService attribute.
-     * 
+     *
      * @return Returns the countryService.
      */
     protected CountryService getCountryService() {
@@ -678,7 +685,7 @@ public class ExtractPaymentServiceImpl extends InitiateDirectoryBase implements 
 
     /**
      * Sets the countryService attribute value.
-     * 
+     *
      * @param countryService The countryService to set.
      */
     public void setCountryService(CountryService countryService) {

@@ -27,6 +27,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * Barcode Inventory Error Document Authorizer to edit.
@@ -54,8 +55,11 @@ public class BarcodeInventoryErrorDocumentAuthorizer extends FinancialSystemTran
             for (Iterator<ActionRequestValue> futureAction = futureActions.iterator(); futureAction.hasNext();) {
                 //if logged in principal id is same as the one in future actions record then add the edit permission
                 // check jira: KFSMI-5698
-                if (futureAction.next().getPrincipalId().equals(principalId)) {
-                    documentActionsToReturn.add(KRADConstants.KUALI_ACTION_CAN_EDIT);
+                ActionRequestValue nextFutureAction = futureAction.next();
+                if (ObjectUtils.isNotNull(nextFutureAction) && ObjectUtils.isNotNull(nextFutureAction.getPrincipalId())) {
+                    if (nextFutureAction.getPrincipalId().equals(principalId)) {
+                        documentActionsToReturn.add(KRADConstants.KUALI_ACTION_CAN_EDIT);
+                    }
                 }
             }
         }

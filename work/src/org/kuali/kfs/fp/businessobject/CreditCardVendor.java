@@ -63,7 +63,7 @@ public class CreditCardVendor extends PersistableBusinessObjectBase implements M
      * Default constructor.
      */
     public CreditCardVendor() {
-
+        this.active = true;
     }
 
     /**

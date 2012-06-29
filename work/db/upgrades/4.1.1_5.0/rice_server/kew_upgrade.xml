@@ -22,15 +22,6 @@
 		</update>
 	</changeSet>
 	
-	
-	<changeSet author="KFS50" id="KFSCNTRB56_UPDATE_CFDM_PARENT_DOC_TYPE_oracle" dbms="oracle">
-		<comment>Changes the parent document type of the CFDA maintenance document, CFDM, so that it's parent is COSM, the Chart of Accounts simple maintenance document type.</comment>
-		<update tableName="KREW_DOC_TYP_T">
-			<column name="PARNT_ID" valueNumeric=" (select doc_typ_id from KREW_DOC_TYP_T where doc_typ_nm = 'COSM' and cur_ind = 1 and actv_ind = 1) " />
-			<where>doc_typ_nm = 'CFDM' and cur_ind = 1 and actv_ind = 1</where>
-		</update>
-	</changeSet>
-
 	<changeSet author="KFS50" id="UPDATE_DOC_TYPE_HELP_URLS">
 		<comment>Updates the help URLs for multiple document types.</comment>
 		<update tableName="KREW_DOC_TYP_T">
@@ -95,29 +86,6 @@
 		</update>
 	</changeSet>
 
-	<changeSet author="KFS50" id="KFSCNTRB56_UPDATE_CFDM_PARENT_DOC_TYPE_mysql" dbms="mysql">
-		<comment>Changes the parent document type of the CFDA maintenance document, CFDM, so that it's parent is COSM, the Chart of Accounts simple maintenance document type.</comment>
-		<sql splitStatements="false">DROP PROCEDURE IF EXISTS temp</sql>
-		<sql splitStatements="false">
-CREATE PROCEDURE temp()
-BEGIN
-    DECLARE new_parent_id VARCHAR(40);
-
-    SELECT doc_typ_id 
-        INTO new_parent_id
-        from KREW_DOC_TYP_T 
-        where doc_typ_nm = 'COSM' and cur_ind = 1 and actv_ind = 1;
-
-    UPDATE KREW_DOC_TYP_T SET PARNT_ID = new_parent_id 
-        WHERE doc_typ_nm = 'CFDM' and cur_ind = 1 and actv_ind = 1;
-
-    COMMIT;
-END;
-		</sql>
-		<sql splitStatements="false">call temp()</sql>
-		<sql splitStatements="false">DROP PROCEDURE temp</sql>
-	</changeSet>
-	
 	<changeSet author="KFS50" id="KFSMI_7568_FIX_DOC_OPENING_IN_EMBEDDED_RICE_MODE">
 		<comment>Updates all the KFS document types to use the new "kfs.url" instead of "application.url".</comment>
 		<update tableName="KREW_DOC_TYP_T">

@@ -24,6 +24,28 @@
       <routingVersion>2</routingVersion>
     </documentType>
 
+	<!-- KFSCNTRB56_UPDATE_CFDM_PARENT_DOC_TYPE -->
+    <documentType>
+      <name>
+        CFDM
+      </name>
+      <parent>
+        COSM
+      </parent>
+      <label>
+        Catalog of Federal Domestic Assistance
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fcatalogoffederaldomesticassistance.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+
 	<documentType>
 		<name>PCDM</name>
 		<parent>FPSM</parent>

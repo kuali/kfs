@@ -214,7 +214,8 @@ public class KFSKeyConstants {
     public static final String ERROR_DOCUMENT_DELEGATE_CHANGE_NO_DELEGATE = "error.document.delegateGlobal.noDelegate";
     public static final String ERROR_DOCUMENT_DELEGATE_CHANGE_NO_ACTIVE_DELEGATE = "error.document.delegateGlobal.noActiveDelegate";
     public static final String ERROR_DOCUMENT_ACCTDELEGATEMAINT_INVALID_DOC_TYPE = "error.document.delegateMaintenance.invalidFinancialSystemDocumentTypeCode";
-
+    public static final String ERROR_DOCUMENT_ACCTDELEGATEMAINT_INVALID_CHART_CODE = "error.document.accountDelegateMaintenance.invalidChartCode";
+    public static final String ERROR_DOCUMENT_ACCTDELEGATEMAINT_INVALID_ORGANIZATION_CODE = "error.document.accountDelegateMaintenance.invalidOrganizationCode";
     // SubAccount Maintenance Errors
     public static final String ERROR_DOCUMENT_SUBACCTMAINT_RPTCODE_ALL_FIELDS_IF_ANY_FIELDS = "error.document.subAccountMaintenance.someReportingCodeFieldsEnteredButNotAll";
     public static final String ERROR_DOCUMENT_SUBACCTMAINT_NOT_AUTHORIZED_ENTER_CG_FIELDS = "error.document.subAccountMaintenance.cannotEnterCgValuesNotAuthorized";

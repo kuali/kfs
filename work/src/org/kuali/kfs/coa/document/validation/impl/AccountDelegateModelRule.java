@@ -22,6 +22,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.coa.businessobject.AccountDelegateModel;
 import org.kuali.kfs.coa.businessobject.AccountDelegateModelDetail;
+import org.kuali.kfs.coa.businessobject.Chart;
+import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -182,6 +184,24 @@ public class AccountDelegateModelRule extends KfsMaintenanceDocumentRuleBase {
             success = false;
             GlobalVariables.getMessageMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + "add.accountDelegateModelDetails.financialDocumentTypeCode", KFSKeyConstants.ERROR_DOCUMENT_DELEGATE_CHANGE_NO_DELEGATE, new String[0]);
         }
+        
+        success &= checkDelegateModel(globalDelegateTemplate);        
+        return success;
+    }
+
+    private boolean checkDelegateModel(AccountDelegateModel globalDelegateTemplate) {
+        boolean success = true;
+        Chart accounts = globalDelegateTemplate.getChartOfAccounts();
+        if (ObjectUtils.isNull(accounts)) {
+            GlobalVariables.getMessageMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + "chartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_INVALID_CHART_CODE);
+            success = false;
+        }
+        Organization organization = globalDelegateTemplate.getOrganization();
+        if (ObjectUtils.isNull(organization)) {
+            GlobalVariables.getMessageMap().putError(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + "organizationCode", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_INVALID_ORGANIZATION_CODE);
+            success = false;
+        }
+
         return success;
     }
 

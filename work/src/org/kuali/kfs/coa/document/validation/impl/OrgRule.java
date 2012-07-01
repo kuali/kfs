@@ -165,7 +165,6 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         isHrmsOrgActivated = isHrmsOrgActivated();
 
         // check that all sub-objects whose keys are specified have matching objects in the db
-        checkExistenceAndActive();
 
         checkOrgClosureRules(document);
 

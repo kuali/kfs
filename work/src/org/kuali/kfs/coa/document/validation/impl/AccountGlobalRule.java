@@ -28,9 +28,12 @@ import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.AccountGlobal;
 import org.kuali.kfs.coa.businessobject.AccountGlobalDetail;
+import org.kuali.kfs.coa.businessobject.CFDA;
 import org.kuali.kfs.coa.businessobject.SubFundGroup;
+import org.kuali.kfs.coa.service.CfdaService;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.coa.service.SubFundGroupService;
+import org.kuali.kfs.module.external.kc.KcConstants.Cfda;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -41,6 +44,8 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import com.ctc.wstx.util.StringUtil;
 
 /**
  * This class represents the business rules for the maintenance of {@link AccountGlobal} business objects
@@ -209,7 +214,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
         LOG.info("checkGeneralRules called");
         Person fiscalOfficer = newAccountGlobal.getAccountFiscalOfficerUser();
         Person accountManager = newAccountGlobal.getAccountManagerUser();
-        Person accountSupervisor = newAccountGlobal.getAccountSupervisoryUser();
+        Person accountSupervisor = newAccountGlobal.getAccountSupervisoryUser();     
 
         boolean success = true;
 
@@ -217,16 +222,26 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
             final String fiscalOfficerName = fiscalOfficer != null ? fiscalOfficer.getName() : newAccountGlobal.getAccountFiscalOfficerSystemIdentifier();
             super.putFieldError("accountFiscalOfficerUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {fiscalOfficerName, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER.namespace, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER.name});
 			success = false;
+        } else if (ObjectUtils.isNull(fiscalOfficer) || StringUtils.isBlank(fiscalOfficer.getPrincipalId())) {
+            super.putFieldError("accountFiscalOfficerUser.principalName", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_PRINCPAL_NAME_FISCAL_OFFICER_SUPER_INVALID);
+            success = false;           
         }
+        
         if (!StringUtils.isBlank(newAccountGlobal.getAccountsSupervisorySystemsIdentifier()) && (ObjectUtils.isNull(accountSupervisor) || StringUtils.isBlank(accountSupervisor.getPrincipalId()) || !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR.namespace, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR.name, accountSupervisor.getPrincipalId()))) {
             final String accountSupervisorName = accountSupervisor != null ? accountSupervisor.getName() : newAccountGlobal.getAccountsSupervisorySystemsIdentifier();
             super.putFieldError("accountSupervisoryUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {accountSupervisorName, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR.namespace, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR.name});
 			success = false;
+        } else if (ObjectUtils.isNull(accountSupervisor) || StringUtils.isBlank(accountSupervisor.getPrincipalId())) {
+            super.putFieldError("accountSupervisoryUser.principalName", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_PRINCPAL_NAME_ACCOUNT_SUPER_INVALID);
+            success = false;           
         }
         if (!StringUtils.isBlank(newAccountGlobal.getAccountManagerSystemIdentifier()) && (ObjectUtils.isNull(accountManager) || StringUtils.isBlank(accountManager.getPrincipalId()) || !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER.namespace, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER.name, accountManager.getPrincipalId()))) {
             final String accountManagerName = accountManager != null ? accountManager.getName() : newAccountGlobal.getAccountManagerSystemIdentifier();
             super.putFieldError("accountManagerUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {accountManagerName, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER.namespace, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER.name});
 			success = false;
+        } else if (ObjectUtils.isNull(accountManager) || StringUtils.isBlank(accountManager.getPrincipalId())) {
+            super.putFieldError("accountManagerUser.principalName", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_PRINCPAL_NAME_ACCOUNT_MANAGER_INVALID);
+            success = false;            
         }
 
         // the supervisor cannot be the same as the fiscal officer or account manager.
@@ -251,6 +266,21 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
             success &= checkAllAccountUsers(newAccountGlobal, fiscalOfficer, accountManager, accountSupervisor);
         }
 
+        success &= checkCfda(  newAccountGlobal.getAccountCfdaNumber());
+
+        return success;
+    }
+
+    private boolean checkCfda(String accountCfdaNumber) {
+        boolean success = false;
+        CFDA cfda = null;
+        if (! StringUtils.isEmpty(accountCfdaNumber)) {
+            CfdaService cfdaService = SpringContext.getBean(CfdaService.class);
+            cfda = cfdaService.getByPrimaryId(accountCfdaNumber);
+            
+        } 
+        success = (ObjectUtils.isNull(cfda)) ? false : true;
+        if (!success) putFieldError("accountCfdaNumber", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_CFDA_NUMBER_INVALID);
         return success;
     }
 

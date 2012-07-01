@@ -2175,13 +2175,21 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         else {
             noteText.append("Existing Asset Numbers have been applied for this document: ");
         }
-
-        for (int i = 0; i < assetNumbers.size(); i++) {
-            noteText.append(assetNumbers.get(i).toString());
-            if (i < assetNumbers.size() - 1) {
-                noteText.append(", ");
+ 
+        if (assetNumbers != null || assetNumbers.size() > 0) {
+            noteText.append(assetNumbers.get(0).toString());
+            if (assetNumbers.size() > 1) {
+                noteText.append(",....,");
+                noteText.append(assetNumbers.get(assetNumbers.size() - 1).toString());
             }
         }
+        
+//        for (int i = 0; i < assetNumbers.size(); i++) {
+//            noteText.append(assetNumbers.get(i).toString());
+//            if (i < assetNumbers.size() - 1) {
+//                noteText.append(", ");
+//            }
+//        }
 
         return noteText.toString();
     }

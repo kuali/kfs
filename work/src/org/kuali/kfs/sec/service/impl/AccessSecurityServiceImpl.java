@@ -354,8 +354,10 @@ public class AccessSecurityServiceImpl implements AccessSecurityService {
         // fiscal officer override
         boolean alwaysAllowFOAccess = parameterService.getParameterValueAsBoolean(SecConstants.ACCESS_SECURITY_NAMESPACE_CODE, SecConstants.ALL_PARAMETER_DETAIL_COMPONENT, SecConstants.SecurityParameterNames.ALWAYS_ALLOW_FISCAL_OFFICER_LINE_ACCESS_IND);
         if (alwaysAllowFOAccess) {
-            if (StringUtils.equals(line.getAccount().getAccountFiscalOfficerSystemIdentifier(), person.getPrincipalId())) {
-                return true;
+            if (ObjectUtils.isNotNull(line.getAccount())) {
+                if (StringUtils.equals(line.getAccount().getAccountFiscalOfficerSystemIdentifier(), person.getPrincipalId())) {
+                    return true;
+                }
             }
         }
 

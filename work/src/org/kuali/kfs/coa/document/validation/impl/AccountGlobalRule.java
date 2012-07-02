@@ -33,7 +33,6 @@ import org.kuali.kfs.coa.businessobject.SubFundGroup;
 import org.kuali.kfs.coa.service.CfdaService;
 import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.coa.service.SubFundGroupService;
-import org.kuali.kfs.module.external.kc.KcConstants.Cfda;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;

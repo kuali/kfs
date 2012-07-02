@@ -80,12 +80,13 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
 
         RequisitionDocument r = requisitionService.getRequisitionById(purchaseOrder.getRequisitionIdentifier());
         WorkflowDocument reqWorkflowDoc = r.getDocumentHeader().getWorkflowDocument();
+        String requisitionInitiatorPrincipalId = getRequisitionInitiatorPrincipal(reqWorkflowDoc.getInitiatorPrincipalId());
 
         if (LOG.isDebugEnabled()) {
             LOG.debug("sendPurchaseOrder(): b2bPurchaseOrderURL is " + b2bPurchaseOrderURL);
         }
 
-        String validateErrors = verifyCxmlPOData(purchaseOrder, reqWorkflowDoc.getInitiatorPrincipalId(), b2bPurchaseOrderPassword, contractManager, contractManagerEmail, vendorDuns);
+        String validateErrors = verifyCxmlPOData(purchaseOrder, requisitionInitiatorPrincipalId, b2bPurchaseOrderPassword, contractManager, contractManagerEmail, vendorDuns);
         if (StringUtils.isEmpty(validateErrors)) {
             return validateErrors;
         }
@@ -94,7 +95,7 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
 
         try {
             LOG.debug("sendPurchaseOrder() Generating cxml");
-            String cxml = getCxml(purchaseOrder, reqWorkflowDoc.getInitiatorPrincipalId(), b2bPurchaseOrderPassword, contractManager, contractManagerEmail, vendorDuns);
+            String cxml = getCxml(purchaseOrder, requisitionInitiatorPrincipalId, b2bPurchaseOrderPassword, contractManager, contractManagerEmail, vendorDuns);
 
             LOG.info("sendPurchaseOrder() Sending cxml\n" + cxml);
             String responseCxml = b2bDao.sendPunchOutRequest(cxml, b2bPurchaseOrderURL);
@@ -144,7 +145,7 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
      *      org.kuali.rice.kim.api.identity.Person, java.lang.String, org.kuali.kfs.vnd.businessobject.ContractManager,
      *      java.lang.String, java.lang.String)
      */
-    public String getCxml(PurchaseOrderDocument purchaseOrder, String requisitionInitiatorId, String password, ContractManager contractManager, String contractManagerEmail, String vendorDuns) {
+    public String getCxml(PurchaseOrderDocument purchaseOrder, String requisitionInitiatorPrincipalId, String password, ContractManager contractManager, String contractManagerEmail, String vendorDuns) {
 
         StringBuffer cxml = new StringBuffer();
         Date d = SpringContext.getBean(DateTimeService.class).getCurrentDate();
@@ -158,7 +159,7 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
         cxml.append("  <Header>\n");
         cxml.append("    <From>\n");
         cxml.append("      <Credential domain=\"NetworkUserId\">\n");
-        cxml.append("        <Identity>").append(requisitionInitiatorId.toUpperCase()).append("</Identity>\n");
+        cxml.append("        <Identity>").append(requisitionInitiatorPrincipalId.toUpperCase()).append("</Identity>\n");
         cxml.append("      </Credential>\n");
         cxml.append("    </From>\n");
         cxml.append("    <To>\n");
@@ -259,7 +260,7 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
         cxml.append("          <Money currency=\"USD\">").append(purchaseOrder.getTotalTaxAmount()).append("</Money>\n");
         cxml.append("          <Description xml:lang=\"en\">").append("tax description").append("</Description>\n");
         cxml.append("        </Tax>\n");
-        cxml.append("        <Extrinsic name=\"username\">").append(requisitionInitiatorId.toUpperCase()).append("</Extrinsic>\n");
+        cxml.append("        <Extrinsic name=\"username\">").append(requisitionInitiatorPrincipalId.toUpperCase()).append("</Extrinsic>\n");
         cxml.append("        <Extrinsic name=\"BuyerPhone\">").append(contractManager.getContractManagerPhoneNumber()).append("</Extrinsic>\n");
         cxml.append("        <Extrinsic name=\"SupplierNumber\">").append(purchaseOrder.getVendorNumber()).append("</Extrinsic>\n");
         cxml.append("      </OrderRequestHeader>\n");
@@ -307,7 +308,7 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
      *      org.kuali.rice.kim.api.identity.Person, java.lang.String, org.kuali.kfs.vnd.businessobject.ContractManager,
      *      java.lang.String, java.lang.String)
      */
-    public String verifyCxmlPOData(PurchaseOrderDocument purchaseOrder, String requisitionInitiatorId, String password, ContractManager contractManager, String contractManagerEmail, String vendorDuns) {
+    public String verifyCxmlPOData(PurchaseOrderDocument purchaseOrder, String requisitionInitiatorPrincipalId, String password, ContractManager contractManager, String contractManagerEmail, String vendorDuns) {
         StringBuffer errors = new StringBuffer();
 
         if (ObjectUtils.isNull(purchaseOrder)) {
@@ -328,9 +329,9 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
             LOG.error("verifyCxmlPOData()  The purchase order Id is required for the cXML PO but is missing.");
             errors.append("Missing Data: Purchase Order ID\n");
         }
-        if (StringUtils.isEmpty(requisitionInitiatorId)) {
-            LOG.error("verifyCxmlPOData()  The requisition initiator Network Id is required for the cXML PO but is missing.");
-            errors.append("Missing Data: Requisition Initiator NetworkId\n");
+        if (StringUtils.isEmpty(requisitionInitiatorPrincipalId)) {
+            LOG.error("verifyCxmlPOData()  The requisition initiator principal name is required for the cXML PO but is missing.");
+            errors.append("Missing Data: Requisition Initiator Principal Name\n");
         }
         if (ObjectUtils.isNull(purchaseOrder.getPurchaseOrderCreateTimestamp())) {
             LOG.error("verifyCxmlPOData()  The PO create date is required for the cXML PO but is null.");
@@ -459,6 +460,18 @@ public class B2BPurchaseOrderServiceImpl implements B2BPurchaseOrderService {
         return "";
     }
 
+    /**
+     * Retrieve the Requisition Initiator Principal Name
+     */
+    protected String getRequisitionInitiatorPrincipal(String requisitionInitiatorPrincipalId) {
+
+        Person requisitionInitiator = getPersonService().getPerson(requisitionInitiatorPrincipalId);
+        if (ObjectUtils.isNotNull(requisitionInitiator)) {
+            return requisitionInitiator.getPrincipalName();
+        }
+        return "";
+    }
+    
     /**
      * @return Returns the personService.
      */

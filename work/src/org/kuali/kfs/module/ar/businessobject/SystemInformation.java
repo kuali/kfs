@@ -26,6 +26,7 @@ import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kfs.fp.businessobject.DisbursementVoucherDocumentationLocation;
 import org.kuali.kfs.fp.businessobject.PaymentReasonCode;
 import org.kuali.kfs.integration.ar.AccountsReceivableSystemInformation;
+import org.kuali.kfs.sys.businessobject.FiscalYearBasedBusinessObject;
 import org.kuali.kfs.sys.businessobject.SystemOptions;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
@@ -39,7 +40,7 @@ import org.kuali.rice.kns.service.StateService;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class SystemInformation extends PersistableBusinessObjectBase implements Inactivateable, AccountsReceivableSystemInformation {
+public class SystemInformation extends PersistableBusinessObjectBase implements Inactivateable, AccountsReceivableSystemInformation, FiscalYearBasedBusinessObject {
 
     protected Integer universityFiscalYear;
     protected String processingChartOfAccountCode;

@@ -427,7 +427,7 @@ public class FormatServiceImpl implements FormatService {
             paymentGroupHistory.setBank(originalBank);
             paymentGroupHistory.setOrigPaymentStatus(paymentGroup.getPaymentStatus());
 
-            Person changeUser = getPersonService().getPerson(KFSConstants.SYSTEM_USER);
+            Person changeUser = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
             paymentGroupHistory.setChangeUser(changeUser);
             paymentGroupHistory.setPaymentGroup(paymentGroup);
             paymentGroupHistory.setChangeTime(new Timestamp(new Date().getTime()));

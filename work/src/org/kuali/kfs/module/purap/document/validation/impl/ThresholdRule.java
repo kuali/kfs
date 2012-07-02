@@ -50,7 +50,7 @@ public class ThresholdRule extends MaintenanceDocumentRuleBase {
     
     @Override
     protected boolean isDocumentValidForSave(MaintenanceDocument document) {
-        if (document.isNew() || document.isEdit() || document.isNewWithExisting()) {
+        if (document.isEdit() || document.isNewWithExisting()) {
             newThreshold = (ReceivingThreshold) document.getNewMaintainableObject().getBusinessObject();            
             oldThreshold = document.getOldMaintainableObject() != null ? (ReceivingThreshold)document.getOldMaintainableObject().getBusinessObject() : null;
 

@@ -30,12 +30,8 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.ActionRequest;
 import org.kuali.rice.kew.api.action.RoutingReportCriteria;
 import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
-import org.kuali.rice.kew.api.doctype.DocumentType;
-import org.kuali.rice.kew.api.doctype.DocumentTypeService;
+import org.kuali.rice.kew.api.document.node.RouteNodeInstance;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kew.engine.CompatUtils;
-import org.kuali.rice.kew.engine.node.RouteNode;
-import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.document.Document;
@@ -261,18 +257,15 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
             return true;
         }
 
-        //grab doctype, and get node list
-        String docTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
-        DocumentType docType = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeByName(docTypeName);        
-        List<RouteNode>nodes = CompatUtils.getRouteLevelCompatibleNodeList(KEWServiceLocator.getRouteHeaderService().getRouteHeader(document.getDocumentNumber()).getDocumentType()); 
+        List<RouteNodeInstance> routeNodes = KewApiServiceLocator.getWorkflowDocumentService().getRouteNodeInstances(document.getDocumentNumber());
         
         int currentNodeIndex = 0;
         int givenNodeIndex = 0;
-        RouteNode node = null;
+        RouteNodeInstance node = null;
         
         //find index of given and current node
-        for(int i=0; i < nodes.size(); i++){
-            node = nodes.get(i);
+        for(int i=0; i < routeNodes.size(); i++){
+            node = routeNodes.get(i);
 
             if(node.getName().equals(currentNodeName)){
                 currentNodeIndex = i;                
@@ -284,9 +277,7 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
         
         //compare
         return givenNodeIndex > currentNodeIndex;
-        
     }
-
 
     /**
      * @return Returns the personService.

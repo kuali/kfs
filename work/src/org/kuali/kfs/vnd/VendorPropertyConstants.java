@@ -76,7 +76,8 @@ public class VendorPropertyConstants {
     public static final String VENDOR_ALIAS_NAME = "vendorAliasName";
     public static final String VENDOR_ALIAS_NAME_FULL_PATH = "vendorAliases.vendorAliasName";
     public static final String VENDOR_ALIAS_ACTIVE = "vendorAliases.active";
-
+    public static final String VENDOR_SEARCH_ALIASES = "vendorAliases";
+    
     public static final String CONTRACT_LANGUAGE_CREATE_DATE = "contractLanguageCreateDate";
 
     // Vendor contracts
@@ -105,8 +106,8 @@ public class VendorPropertyConstants {
     public static final String CAMPUS_CODE = "campusCode";
     public static final String VENDOR_COMMODITIES_CODE_PURCHASING_COMMODITY_CODE = "vendorCommodities." + PURCHASING_COMMODITY_CODE;
     public static final String VENDOR_COMMODITIES_DEFAULT_INDICATOR = "commodityDefaultIndicator";
-    
-    //Purchase order cost source
+
+     //Purchase order cost source
     public static final String ITEM_UNIT_PRICE_UPPER_VARIANCE_PERCENT = "itemUnitPriceUpperVariancePercent";
     public static final String ITEM_UNIT_PRICE_LOWER_VARIANCE_PERCENT = "itemUnitPriceLowerVariancePercent";
     

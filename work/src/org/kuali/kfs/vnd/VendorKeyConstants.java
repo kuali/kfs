@@ -39,6 +39,7 @@ public class VendorKeyConstants {
     public static final String ERROR_INACTIVE_REASON_REQUIRED = "error.vendorMaint.inactiveReason.required";
     public static final String ERROR_INACTIVE_REASON_NOT_ALLOWED = "error.vendorMaint.inactiveReason.notAllowed";
     public static final String ERROR_RESTRICTED_REASON_REQUIRED = "error.vendorMaint.restrictedReason.required";
+    public static final String ERROR_DUPLICATE_ENTRY_NOT_ALLOWED="error.vendorMaint.duplicateEntry.notAllowed";
     public static final String ERROR_VENDOR_TAX_BEGIN_DATE_AFTER_END = "error.vendorTax.beginDateAfterEnd";
     public static final String ERROR_VENDOR_W9_AND_W8_RECEIVED_INDICATOR_BOTH_TRUE = "error.vendor.w9Andw8.receivedIndicator.BothTrue";
     public static final String MESSAGE_VENDOR_PARENT_TO_DIVISION = "message.vendorMaint.parent.to.division";

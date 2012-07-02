@@ -40,6 +40,7 @@ import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.AddressType;
 import org.kuali.kfs.vnd.businessobject.OwnershipType;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
+import org.kuali.kfs.vnd.businessobject.VendorAlias;
 import org.kuali.kfs.vnd.businessobject.VendorCommodityCode;
 import org.kuali.kfs.vnd.businessobject.VendorContact;
 import org.kuali.kfs.vnd.businessobject.VendorContract;
@@ -257,7 +258,69 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         valid &= validateOwnershipCategory(vendorDetail);
         valid &= validateVendorWithholdingTaxDates(vendorDetail);
         valid &= validateVendorW8BenOrW9ReceivedIndicator(vendorDetail);
+        valid &= validateSearchAliases(vendorDetail);
+        valid &= validateContracts(vendorDetail);
         return valid;
+    }
+
+    private boolean validateContracts(VendorDetail vendorDetail) {
+        boolean success = true;
+        int vendorPos = 0;
+        List<VendorContract> vendorContracts = vendorDetail.getVendorContracts();
+        for (VendorContract vendorContract : vendorContracts) {
+            List<VendorContractOrganization> organizations = vendorContract.getVendorContractOrganizations();
+            List<VendorContractOrganization> organizationCopy = new ArrayList<VendorContractOrganization>(organizations);
+            for (VendorContractOrganization organization :organizations ) {
+                 String chartCode = organization.getChartOfAccountsCode();
+                 String organizationCode = organization.getOrganizationCode();
+                 if (StringUtils.isNotEmpty(chartCode) && StringUtils.isNotEmpty(organizationCode)) {
+                     int counter = 0;
+                     int organizationPos = 0;
+                     for (VendorContractOrganization org : organizationCopy) {
+                         if (chartCode.equalsIgnoreCase(org.getChartOfAccountsCode()) && organizationCode.equalsIgnoreCase(org.getOrganizationCode())) {
+                             if (counter++ != 0) {
+                                 organizationCopy.remove(organization);
+                                 putFieldError(VendorPropertyConstants.VENDOR_CONTRACT + "[" + vendorPos + "]." + 
+                                         VendorPropertyConstants.VENDOR_CONTRACT_ORGANIZATION + "[" + organizationPos + "]." +
+                                         VendorPropertyConstants.VENDOR_CUSTOMER_NUMBER_CHART_OF_ACCOUNTS_CODE, 
+                                         VendorKeyConstants.ERROR_DUPLICATE_ENTRY_NOT_ALLOWED,chartCode + " " + organizationCode );
+                                 success = false;
+                                 break;
+                             }
+                         }
+                     }
+                     organizationPos++;
+                 }
+                 vendorPos++;
+            }
+        }      
+        return success;
+    }
+
+
+    private boolean validateSearchAliases(VendorDetail vendorDetail) {
+        boolean success = true;
+        List<VendorAlias> searchAliases = vendorDetail.getVendorAliases();
+        List<VendorAlias> aliasList = new ArrayList<VendorAlias>(searchAliases);
+        int pos = 0;
+        for (VendorAlias searchAlias : searchAliases) {    
+                String aliasName = searchAlias.getVendorAliasName();
+               if (aliasName != null) {
+                   int counter = 0;
+                   for (VendorAlias alias : aliasList) {
+                       if (aliasName.equals(alias.getVendorAliasName())) {
+                           if (counter++ != 0) {
+                               putFieldError(VendorPropertyConstants.VENDOR_SEARCH_ALIASES + "[" + pos + "]." + VendorPropertyConstants.VENDOR_ALIAS_NAME, VendorKeyConstants.ERROR_DUPLICATE_ENTRY_NOT_ALLOWED,aliasName);
+                               aliasList.remove(searchAlias);
+                               success = false;
+                               break;
+                           }
+                       }
+                   }
+                }
+               pos++;
+        }
+        return success;
     }
 
     /**

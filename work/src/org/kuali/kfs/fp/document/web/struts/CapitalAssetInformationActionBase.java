@@ -1141,7 +1141,7 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
         if (totalCapitalLinesSelectedAmount.isNonZero()) {
             for (CapitalAccountingLines capitalAccountingLine : capitalAccountingLines) {
                 if (capitalAccountingLine.isSelectLine() && !capitalAccountingLine.isAmountDistributed()) {
-                    capitalAccountingLine.setAccountLinePercent(capitalAccountingLine.getAmount().divide(totalCapitalLinesSelectedAmount).multiply(new KualiDecimal(100), true));
+                    capitalAccountingLine.setAccountLinePercent(capitalAccountingLine.getAmount().abs().divide(totalCapitalLinesSelectedAmount).multiply(new KualiDecimal(100), true));
                 }
             }
         }

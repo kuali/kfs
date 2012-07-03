@@ -217,28 +217,28 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
 
         boolean success = true;
 
-        if (!StringUtils.isBlank(newAccountGlobal.getAccountFiscalOfficerSystemIdentifier()) && (ObjectUtils.isNull(fiscalOfficer) || StringUtils.isBlank(fiscalOfficer.getPrincipalId()) || !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER.namespace, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER.name, fiscalOfficer.getPrincipalId()))) {
+        if (!StringUtils.isBlank(newAccountGlobal.getAccountFiscalOfficerSystemIdentifier()) && (ObjectUtils.isNull(fiscalOfficer) || StringUtils.isEmpty(fiscalOfficer.getPrincipalId()) || !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER.namespace, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER.name, fiscalOfficer.getPrincipalId()))) {
             final String fiscalOfficerName = fiscalOfficer != null ? fiscalOfficer.getName() : newAccountGlobal.getAccountFiscalOfficerSystemIdentifier();
             super.putFieldError("accountFiscalOfficerUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {fiscalOfficerName, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER.namespace, KFSConstants.PermissionNames.SERVE_AS_FISCAL_OFFICER.name});
 			success = false;
-        } else if (ObjectUtils.isNull(fiscalOfficer) || StringUtils.isBlank(fiscalOfficer.getPrincipalId())) {
+        } else if ((ObjectUtils.isNotNull(fiscalOfficer) && !StringUtils.isBlank(fiscalOfficer.getPrincipalName()) && ObjectUtils.isNull(fiscalOfficer.getPrincipalId()))) {
             super.putFieldError("accountFiscalOfficerUser.principalName", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_PRINCPAL_NAME_FISCAL_OFFICER_SUPER_INVALID);
             success = false;           
         }
         
-        if (!StringUtils.isBlank(newAccountGlobal.getAccountsSupervisorySystemsIdentifier()) && (ObjectUtils.isNull(accountSupervisor) || StringUtils.isBlank(accountSupervisor.getPrincipalId()) || !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR.namespace, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR.name, accountSupervisor.getPrincipalId()))) {
+        if (!StringUtils.isBlank(newAccountGlobal.getAccountsSupervisorySystemsIdentifier()) && (ObjectUtils.isNull(accountSupervisor) || StringUtils.isEmpty(accountSupervisor.getPrincipalId()) || !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR.namespace, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR.name, accountSupervisor.getPrincipalId()))) {
             final String accountSupervisorName = accountSupervisor != null ? accountSupervisor.getName() : newAccountGlobal.getAccountsSupervisorySystemsIdentifier();
             super.putFieldError("accountSupervisoryUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {accountSupervisorName, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR.namespace, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_SUPERVISOR.name});
 			success = false;
-        } else if (ObjectUtils.isNull(accountSupervisor) || StringUtils.isBlank(accountSupervisor.getPrincipalId())) {
+        } else if (ObjectUtils.isNotNull(accountSupervisor) && !StringUtils.isBlank(accountSupervisor.getPrincipalName()) && ObjectUtils.isNull(accountSupervisor.getPrincipalId())) {
             super.putFieldError("accountSupervisoryUser.principalName", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_PRINCPAL_NAME_ACCOUNT_SUPER_INVALID);
             success = false;           
         }
-        if (!StringUtils.isBlank(newAccountGlobal.getAccountManagerSystemIdentifier()) && (ObjectUtils.isNull(accountManager) || StringUtils.isBlank(accountManager.getPrincipalId()) || !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER.namespace, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER.name, accountManager.getPrincipalId()))) {
+        if (!StringUtils.isBlank(newAccountGlobal.getAccountManagerSystemIdentifier()) && (ObjectUtils.isNull(accountManager) || StringUtils.isEmpty(accountManager.getPrincipalId()) || !getDocumentHelperService().getDocumentAuthorizer(maintenanceDocument).isAuthorized(maintenanceDocument, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER.namespace, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER.name, accountManager.getPrincipalId()))) {
             final String accountManagerName = accountManager != null ? accountManager.getName() : newAccountGlobal.getAccountManagerSystemIdentifier();
             super.putFieldError("accountManagerUser.principalName", KFSKeyConstants.ERROR_USER_MISSING_PERMISSION, new String[] {accountManagerName, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER.namespace, KFSConstants.PermissionNames.SERVE_AS_ACCOUNT_MANAGER.name});
 			success = false;
-        } else if (ObjectUtils.isNull(accountManager) || StringUtils.isBlank(accountManager.getPrincipalId())) {
+        } else if (ObjectUtils.isNotNull(accountManager) && !StringUtils.isBlank(accountManager.getPrincipalName()) &&  ObjectUtils.isNull(accountManager.getPrincipalId())) {
             super.putFieldError("accountManagerUser.principalName", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_PRINCPAL_NAME_ACCOUNT_MANAGER_INVALID);
             success = false;            
         }
@@ -271,15 +271,14 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
     }
 
     private boolean checkCfda(String accountCfdaNumber) {
-        boolean success = false;
+        boolean success = true;
         CFDA cfda = null;
         if (! StringUtils.isEmpty(accountCfdaNumber)) {
             CfdaService cfdaService = SpringContext.getBean(CfdaService.class);
             cfda = cfdaService.getByPrimaryId(accountCfdaNumber);
-            
+            success = (ObjectUtils.isNull(cfda)) ? false : true;
+            if (!success) putFieldError("accountCfdaNumber", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_CFDA_NUMBER_INVALID);
         } 
-        success = (ObjectUtils.isNull(cfda)) ? false : true;
-        if (!success) putFieldError("accountCfdaNumber", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_CFDA_NUMBER_INVALID);
         return success;
     }
 

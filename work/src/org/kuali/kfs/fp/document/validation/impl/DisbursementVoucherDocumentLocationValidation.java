@@ -70,7 +70,8 @@ public class DisbursementVoucherDocumentLocationValidation extends GenericValida
 
         Person initiator = getInitiator(document);
         ChartOrgHolder chartOrg = SpringContext.getBean(FinancialSystemUserService.class).getPrimaryOrganization(initiator, KFSConstants.ParameterNamespaces.FINANCIAL);
-        String locationCode = (chartOrg == null || chartOrg.getOrganization() == null) ? null : chartOrg.getOrganization().getOrganizationPhysicalCampusCode();
+        
+        String locationCode = (chartOrg == null || chartOrg.getOrganization() == null) ? document.getCampusCode() : chartOrg.getOrganization().getOrganizationPhysicalCampusCode();
 
         // initiator campus code restrictions
         ParameterEvaluator parameterEvaluator = /*REFACTORME*/SpringContext.getBean(ParameterEvaluatorService.class).getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherConstants.VALID_DOC_LOC_BY_CAMPUS_PARM, DisbursementVoucherConstants.INVALID_DOC_LOC_BY_CAMPUS_PARM, locationCode, documentationLocationCode);

@@ -25,9 +25,9 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.gl.batch.ScrubberStep;
 import org.kuali.kfs.module.purap.PurapConstants;
-import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.PurapParameterConstants;
+import org.kuali.kfs.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.kfs.module.purap.businessobject.CreditMemoItem;
 import org.kuali.kfs.module.purap.businessobject.ItemType;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestItem;
@@ -520,7 +520,16 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
         }
         else if (PurapConstants.CreditMemoStatuses.APPDOC_AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(document.getApplicationDocumentStatus())) {
             //while awaiting AP approval, just call regular disapprove logic as user will have action request
-            documentService.disapproveDocument(document, noteText);
+            //need to set the user session as kfs because this document needs to be disapproved
+            // in the context of kfs user because that is where it is in the route path.
+            UserSession originalUserSession = GlobalVariables.getUserSession();
+            GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
+
+            DocumentActionParameters parameters = DocumentActionParameters.create(document.getDocumentNumber(), GlobalVariables.getUserSession().getPrincipalId(), noteText);
+            KewApiServiceLocator.getWorkflowDocumentActionsService().superUserDisapprove(parameters, false);
+
+            //restore the original user session 
+            GlobalVariables.setUserSession(originalUserSession);
         }
         else if (document instanceof PaymentRequestDocument && PurapConstants.PaymentRequestStatuses.APPDOC_AWAITING_FISCAL_REVIEW.equals(document.getApplicationDocumentStatus()) && ((PaymentRequestDocument)document).isPaymentRequestedCancelIndicator()) {
             // special logic to disapprove PREQ as the fiscal officer

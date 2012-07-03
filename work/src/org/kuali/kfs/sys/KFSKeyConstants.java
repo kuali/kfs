@@ -159,6 +159,7 @@ public class KFSKeyConstants {
     public static final String ERROR_DOCUMENT_ACCMAINT_ACCT_MGR_CANNOT_EQUAL_EXISTING_ACCT_SUPERVISOR = "error.document.accountMaintenance.accountManagerCannotEqualExistingAccountSupervisor";
     public static final String ERROR_DOCUMENT_ACCMAINT_FISCAL_OFFICER_CANNOT_EQUAL_EXISTING_ACCT_SUPERVISOR = "error.document.accountMaintenance.fiscalOfficerCannotEqualExistingAccountSupervisor";
     public static final String ERROR_DOCUMENT_ACCMAINT_ACCT_CANNOT_BE_CLOSED_EXP_DATE_INVALID = "error.document.accountMaintenance.accountCannotBeClosedExpDateInvalid";
+    public static final String ERROR_DOCUMENT_ACCMAINT_ACCT_CLOSE_CONTINUATION_CHART_CODE_REQD = "error.document.accountMaintenance.accountCloseContinuationChartCodeReqd";
     public static final String ERROR_DOCUMENT_ACCMAINT_ACCT_CLOSE_CONTINUATION_ACCT_REQD = "error.document.accountMaintenance.accountCloseContinuationAcctReqd";
     public static final String ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_NBR_CANNOT_BE_EMPTY = "error.document.accountMaintenance.incomeStreamAcctNbrCannotBeEmpty";
     public static final String ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_COA_CANNOT_BE_EMPTY = "error.document.accountMaintenance.incomeStreamAcctCOACannotBeEmpty";

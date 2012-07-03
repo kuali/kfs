@@ -596,7 +596,7 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
             success &= false;
         }
         if (StringUtils.isBlank(newAccount.getContinuationFinChrtOfAcctCd())) {
-            putFieldError("continuationFinChrtOfAcctCd", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CLOSE_CONTINUATION_ACCT_REQD);
+            putFieldError("continuationFinChrtOfAcctCd", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CLOSE_CONTINUATION_CHART_CODE_REQD);
             success &= false;
         }
 

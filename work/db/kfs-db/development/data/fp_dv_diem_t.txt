@@ -11,3 +11,6 @@ univ_fiscal_yr|dv_diem_cntry_nm|obj_id|ver_nbr|dv_diem_rt|dv_diem_cntry_txt|
 2012.0|Foreign|4EAB41C2-FA1C-A51B-9B85-5E9D66B6983D|2.0||http://www.gsa.gov/Portal/gsa/ep/contentView.do?contentType=GSA_BASIC&contentId=17943&noc=T|
 2012.0|U.S. 48|E6E3929C-1A29-7B65-9661-B6A49D917F64|2.0||http://www.gsa.gov/Portal/gsa/ep/contentView.do?contentType=GSA_BASIC&contentId=17943&noc=T|
 2012.0|US-AK & HI|64166553-312B-7D18-60DF-11B44B75F334|2.0||http://www.gsa.gov/Portal/gsa/ep/contentView.do?contentType=GSA_BASIC&contentId=17943&noc=T|
+2013.0|Foreign|045610c6-6f82-4c80-88c9-f77ea2727697|2.0||http://www.gsa.gov/Portal/gsa/ep/contentView.do?contentType=GSA_BASIC&contentId=17943&noc=T|
+2013.0|U.S. 48|96612331-651f-4ff1-8e98-28ed2d3254b8|2.0||http://www.gsa.gov/Portal/gsa/ep/contentView.do?contentType=GSA_BASIC&contentId=17943&noc=T|
+2013.0|US-AK & HI|c830cb32-88eb-42ca-9aae-9c60f152194d|2.0||http://www.gsa.gov/Portal/gsa/ep/contentView.do?contentType=GSA_BASIC&contentId=17943&noc=T|

@@ -16,7 +16,6 @@
 	</changeSet>
 	
  <changeSet author="KFS50" id='CreateTable_ca_icr_acct_t'>
-    <comment>KFSMI-KFSMI-6921 Create Account and A21SubAccount ICR collection tables</comment>
     <createTable tableName='CA_ICR_ACCT_T'>
       <column name='CA_ICR_ACCT_GNRTD_ID' type='NUMBER(10,0)' defaultValueNumeric='0'>
         <constraints primaryKey='true' primaryKeyName="CA_ICR_ACCT_TP1"/>
@@ -157,7 +156,9 @@
 				<constraints nullable="false" primaryKey="true" />
 			</column>
 		</createTable>
-		<sql>ALTER TABLE CA_ACCT_AUTODEF_ICR_SEQ AUTO_INCREMENT=10000</sql>
+	  	<modifySql>
+	  		<append value=" ENGINE = MyISAM AUTO_INCREMENT = 10000 "/>
+	  	</modifySql>
 	</changeSet>
   	
 </databaseChangeLog>

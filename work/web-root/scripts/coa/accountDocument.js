@@ -14,6 +14,45 @@
  * limitations under the License.
  */
 
+function loadChartCodeUsingAccountNumber(accountNumberField, coaCodePropertyName) {
+    var accountNumber = dwr.util.getValue(accountNumberField);
+    
+	var dwrReply = {
+		callback: function (param) {
+			if ( typeof param == "boolean" && param == false) {	
+				loadChartCodeForBenefitExpenseTransferDocument(accountNumber, coaCodePropertyName);
+			}
+		},	
+		errorHandler:function( errorMessage ) { 
+			window.status = errorMessage;
+		}
+	};
+	AccountService.accountsCanCrossCharts(dwrReply);	
+}
+
+function loadChartCodeForBenefitExpenseTransferDocument(accountNumber, coaCodePropertyName) {
+	var chartCodePropertyName = coaCodePropertyName;
+	
+	if (accountNumber == "") {
+	}
+	else {
+		var dwrReply = {
+				callback: function (data) {
+				if ( data != null && typeof data == "object" ) {  
+					dwr.util.setValue(chartCodePropertyName, data.chartOfAccountsCode, {escapeHtml:true});					
+				}
+				else {
+					clearRecipients(coaCodePropertyName); 
+				}
+			},
+			errorHandler:function( errorMessage ) { 
+				clearRecipients(coaCodePropertyName); 
+			}
+		};
+		AccountService.getUniqueAccountForAccountNumber(accountNumber, dwrReply);	    
+	}
+}
+
 function onblur_subFundGroup( sfgField, callbackFunction ) {
     var subFundGroup = getElementValue(sfgField.name);
 

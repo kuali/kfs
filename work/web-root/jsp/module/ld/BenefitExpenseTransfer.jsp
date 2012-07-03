@@ -21,11 +21,14 @@
 
 <c:set var="readOnly"
 	value="${!KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT] || !KualiForm.editingMode['ledgerBalanceImporting']}"/>	
+
+<!-- accountsChartReadOnly is set to false even when account can cross indicator = Y because if it 
+read only then the javascript can not write value to the field. -->
 <c:set var="accountsChartsReadOnly" value="${readOnly}"/>
 <c:if test="${not readOnly}">
-<c:set var="accountsChartsReadOnly" value="${not KualiForm.editingMode['AccountsCanCrossChart']}"/>
-</c:if>								    
-
+	<c:set var="accountsChartsReadOnly" value="false"/>
+</c:if>	
+							    
 <c:set var="documentTypeName" value="BenefitExpenseTransferDocument"/>
 <c:set var="htmlFormAction" value="laborBenefitExpenseTransfer"/>
 
@@ -33,6 +36,7 @@
   <c:set var="documentTypeName" value="YearEndBenefitExpenseTransferDocument"/>
   <c:set var="htmlFormAction" value="laborYearEndBenefitExpenseTransfer"/>
 </c:if>
+
 
 <kul:documentPage showDocumentInfo="true"
     documentTypeName="${documentTypeName}"
@@ -76,7 +80,7 @@
 				<kul:htmlControlAttribute
 					attributeEntry="${balanceInquiryAttributes.chartOfAccountsCode}"
 						property="chartOfAccountsCode" forceRequired="true" readOnly="${accountsChartsReadOnly}" />
-					<c:if test="${!accountsChartsReadOnly}">
+					<c:if test="${KualiForm.editingMode['AccountsCanCrossChart']}">
 					<!-- KULLAB-704 Force the field conversions. -->
 					<kul:lookup	boClassName="org.kuali.kfs.coa.businessobject.Chart"
 						lookupParameters="chartOfAccountsCode:chartOfAccountsCode"							
@@ -91,10 +95,15 @@
 				<kul:htmlAttributeHeaderCell
 					attributeEntry="${balanceInquiryAttributes.accountNumber}"
 					horizontal="true" labelFor="accountNumber" forceRequired="true"/>
-					
+                        <c:set var="accountNumberField"  value="accountNumber" />
+                        <c:set var="coaCodePropertyName"  value="chartOfAccountsCode" />
+	<script language="JavaScript" type="text/javascript" src="dwr/interface/AccountService.js"></script>
+	<script language="JavaScript" type="text/javascript" src="scripts/coa/accountDocument.js"></script>
+                        
 				<td class="datacell-nowrap"><kul:htmlControlAttribute
 					attributeEntry="${balanceInquiryAttributes.accountNumber}"
-					property="accountNumber" forceRequired="true" readOnly="${readOnly}" />
+					property="accountNumber" forceRequired="true" readOnly="${readOnly}" 
+					onblur="loadChartCodeUsingAccountNumber('${accountNumberField}', '${coaCodePropertyName}');${onblur}" />
 					<c:if test="${!readOnly}">
 						 <kul:lookup boClassName="org.kuali.kfs.coa.businessobject.Account"
 						lookupParameters="accountNumber:accountNumber,chartOfAccountsCode:chartOfAccountsCode"
@@ -139,12 +148,12 @@
 		</div>
 	</kul:tab>
 		
+	
 	<kul:tab tabTitle="Accounting Lines" defaultOpen="true">
-
-	<sys-java:accountingLines>
-		<sys-java:accountingLineGroup collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
-		<sys-java:accountingLineGroup collectionPropertyName="document.targetAccountingLines" collectionItemPropertyName="document.targetAccountingLine" attributeGroupName="target"/> 
-	</sys-java:accountingLines>
+		<sys-java:accountingLines>
+			<sys-java:accountingLineGroup collectionPropertyName="document.sourceAccountingLines" collectionItemPropertyName="document.sourceAccountingLine" attributeGroupName="source" />
+			<sys-java:accountingLineGroup collectionPropertyName="document.targetAccountingLines" collectionItemPropertyName="document.targetAccountingLine" attributeGroupName="target"/> 
+		</sys-java:accountingLines>
 	</kul:tab>
 	
 	<ld:laborLedgerPendingEntries />

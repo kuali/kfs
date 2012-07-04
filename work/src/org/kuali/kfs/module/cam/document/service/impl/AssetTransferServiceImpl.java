@@ -18,6 +18,7 @@ package org.kuali.kfs.module.cam.document.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
@@ -39,6 +40,7 @@ import org.kuali.kfs.module.cam.document.service.AssetPaymentService;
 import org.kuali.kfs.module.cam.document.service.AssetService;
 import org.kuali.kfs.module.cam.document.service.AssetTransferService;
 import org.kuali.kfs.module.cam.util.ObjectValueUtils;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.kfs.sys.util.KfsDateUtils;
@@ -449,20 +451,26 @@ public class AssetTransferServiceImpl implements AssetTransferService {
             offCampusLocation.setAssetLocationTypeCode(CamsConstants.AssetLocationTypeCode.OFF_CAMPUS);
             saveAsset.getAssetLocations().add(offCampusLocation);
         }
-        // save details
-        offCampusLocation.setAssetLocationContactName(document.getOffCampusName());
-        offCampusLocation.setAssetLocationState(document.getOffCampusState());
-        offCampusLocation.setPostalZipCode(document.getPostalZipCode());
-        offCampusLocation.setAssetLocationCountryCode(document.getOffCampusCountryCode());
-        offCampusLocation.setAssetLocationStreetAddress(document.getOffCampusAddress());
-        offCampusLocation.setAssetLocationCityName(document.getOffCampusCityName());
-        offCampusLocation.setAssetLocationStateCode(document.getOffCampusStateCode());
-        offCampusLocation.setAssetLocationZipCode(document.getOffCampusZipCode());
-        
-        // remove off Campus Location if it's an empty record. When asset transfer from off to on campus, the off campus location will be removed.
-        if (getAssetLocationService().isOffCampusLocationEmpty(offCampusLocation)) { 
+        if (StringUtils.isNotBlank(saveAsset.getCampusCode()) && StringUtils.isNotBlank(saveAsset.getBuildingCode()) && StringUtils.isNotBlank(saveAsset.getBuildingRoomNumber())) {
+            // remove off campus info if oncampus info exists      
             saveAsset.getAssetLocations().remove(offCampusLocation); 
-        }
+            getBusinessObjectService().delete(offCampusLocation);
+            saveAsset.setOffCampusLocation(null);
+        } else {
+            // save details
+            offCampusLocation.setAssetLocationContactName(document.getOffCampusName());
+            offCampusLocation.setAssetLocationState(document.getOffCampusState());
+            offCampusLocation.setPostalZipCode(document.getPostalZipCode());
+            offCampusLocation.setAssetLocationCountryCode(document.getOffCampusCountryCode());
+            offCampusLocation.setAssetLocationStreetAddress(document.getOffCampusAddress());
+            offCampusLocation.setAssetLocationCityName(document.getOffCampusCityName());
+            offCampusLocation.setAssetLocationStateCode(document.getOffCampusStateCode());
+            offCampusLocation.setAssetLocationZipCode(document.getOffCampusZipCode());
+            if (getAssetLocationService().isOffCampusLocationEmpty(offCampusLocation)) { 
+                // remove off Campus Location if it's an empty record. When asset transfer from off to on campus, the off campus location will be removed.
+                saveAsset.getAssetLocations().remove(offCampusLocation); 
+            }
+         }
     }
 
 

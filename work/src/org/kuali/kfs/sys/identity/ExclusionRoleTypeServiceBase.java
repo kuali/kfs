@@ -102,7 +102,7 @@ public class ExclusionRoleTypeServiceBase extends RoleTypeServiceBase {
            for(RoleMembership membershipInfo : roleMembers) {
                if(MemberType.PRINCIPAL.getCode().equals(membershipInfo.getType().getCode())) {
                    if(!excludedPrincipalId.equals(membershipInfo.getMemberId())) {
-                       RoleMembership.Builder updatedMembershipInfo = RoleMembership.Builder.create(topLevelRoleId, member.getId(), topLevelRoleMemberId, MemberType.PRINCIPAL, qualification);
+                       RoleMembership.Builder updatedMembershipInfo = RoleMembership.Builder.create(topLevelRoleId, membershipInfo.getId(), membershipInfo.getMemberId(), MemberType.PRINCIPAL, qualification);
                        qualifiedRoleMembers.add(updatedMembershipInfo.build());
                    }
                }
@@ -138,7 +138,7 @@ public class ExclusionRoleTypeServiceBase extends RoleTypeServiceBase {
              for(GroupMember membershipInfo : GroupMembers) {
                  if(MemberType.PRINCIPAL.getCode().equals(membershipInfo.getType().getCode())) {
                      if(!excludedPrincipalId.equals(membershipInfo.getMemberId())) {
-                         RoleMembership.Builder updatedMembershipInfo = RoleMembership.Builder.create(topLevelRoleId, member.getId(), topLevelRoleMemberId, MemberType.PRINCIPAL, qualification);
+                         RoleMembership.Builder updatedMembershipInfo = RoleMembership.Builder.create(topLevelRoleId, membershipInfo.getId(), membershipInfo.getMemberId(), MemberType.PRINCIPAL, qualification);
                          qualifiedRoleMembers.add(updatedMembershipInfo.build());
                      }
                  }

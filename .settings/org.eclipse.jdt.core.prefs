@@ -1,4 +1,4 @@
-#Wed Oct 06 12:55:44 PDT 2010
+#Thu Jul 05 14:22:44 PDT 2012
 eclipse.preferences.version=1
 instance/org.eclipse.core.net/org.eclipse.core.net.hasMigrated=true
 org.eclipse.jdt.core.builder.cleanOutputFolder=clean
@@ -107,8 +107,8 @@ org.eclipse.jdt.core.compiler.problem.unusedWarningToken=warning
 org.eclipse.jdt.core.compiler.problem.varargsArgumentNeedCast=warning
 org.eclipse.jdt.core.compiler.source=1.5
 org.eclipse.jdt.core.compiler.taskCaseSensitive=enabled
-org.eclipse.jdt.core.compiler.taskPriorities=NORMAL,HIGH,NORMAL
-org.eclipse.jdt.core.compiler.taskTags=TODO,FIXME,XXX
+org.eclipse.jdt.core.compiler.taskPriorities=NORMAL,HIGH,NORMAL,HIGH
+org.eclipse.jdt.core.compiler.taskTags=TODO,FIXME,XXX,CLEANUP
 org.eclipse.jdt.core.formatter.align_type_members_on_columns=false
 org.eclipse.jdt.core.formatter.alignment_for_arguments_in_allocation_expression=20
 org.eclipse.jdt.core.formatter.alignment_for_arguments_in_enum_constant=16

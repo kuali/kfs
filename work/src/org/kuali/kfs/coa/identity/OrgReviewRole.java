@@ -53,7 +53,6 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.ModuleService;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.location.framework.country.CountryEbo;
 
 /**
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
@@ -61,7 +60,7 @@ import org.kuali.rice.location.framework.country.CountryEbo;
 public class OrgReviewRole extends PersistableBusinessObjectBase implements MutableInactivatable {
 
     public static final String CACHE_NAME = KFSConstants.APPLICATION_NAMESPACE_CODE + "/" + "OrgReviewRole";
-    
+
     protected static final String ORR_INQUIRY_TITLE_PROPERTY = "message.inquiry.org.review.role.title";
     protected static String INQUIRY_TITLE_VALUE = null;
 
@@ -894,19 +893,19 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
     }
 
     public KfsKimDocDelegateMember getDelegationMemberOfType(String memberTypeCode){
-        if(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE.equals(memberTypeCode)){
+        if(MemberType.ROLE.getCode().equals(memberTypeCode)){
             delegationMemberRole.setMemberId(roleMemberRoleId);
             delegationMemberRole.setMemberName(roleMemberRoleName);
             delegationMemberRole.setMemberNamespaceCode(roleMemberRoleNamespaceCode);
             delegationMemberRole.setRoleMemberId(roleMemberId);
             return delegationMemberRole;
-        } else if(KimConstants.KimUIConstants.MEMBER_TYPE_GROUP.equals(memberTypeCode)){
+        } else if(MemberType.GROUP.getCode().equals(memberTypeCode)){
             delegationMemberGroup.setMemberId(groupMemberGroupId);
             delegationMemberGroup.setMemberName(groupMemberGroupName);
             delegationMemberGroup.setMemberNamespaceCode(groupMemberGroupNamespaceCode);
             delegationMemberRole.setRoleMemberId(roleMemberId);
             return delegationMemberGroup;
-        } else if(KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL.equals(memberTypeCode)){
+        } else if(MemberType.PRINCIPAL.getCode().equals(memberTypeCode)){
             delegationMemberPerson.setMemberId(principalMemberPrincipalId);
             delegationMemberPerson.setMemberName(principalMemberPrincipalName);
             delegationMemberRole.setRoleMemberId(roleMemberId);
@@ -916,17 +915,17 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
     }
 
     public KfsKimDocRoleMember getRoleMemberOfType(String memberTypeCode){
-        if(KimConstants.KimUIConstants.MEMBER_TYPE_ROLE.equals(memberTypeCode)){
+        if(MemberType.ROLE.getCode().equals(memberTypeCode)){
             memberRole.setMemberId(roleMemberRoleId);
             memberRole.setMemberName(roleMemberRoleName);
             memberRole.setMemberNamespaceCode(roleMemberRoleNamespaceCode);
             return memberRole;
-        } else if(KimConstants.KimUIConstants.MEMBER_TYPE_GROUP.equals(memberTypeCode)){
+        } else if(MemberType.GROUP.getCode().equals(memberTypeCode)){
             memberGroup.setMemberId(groupMemberGroupId);
             memberGroup.setMemberName(groupMemberGroupName);
             memberGroup.setMemberNamespaceCode(groupMemberGroupNamespaceCode);
             return memberGroup;
-        } else if(KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL.equals(memberTypeCode)){
+        } else if(MemberType.PRINCIPAL.getCode().equals(memberTypeCode)){
             memberPerson.setMemberId(principalMemberPrincipalId);
             memberPerson.setMemberName(principalMemberPrincipalName);
             return memberPerson;

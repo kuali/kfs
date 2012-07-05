@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,7 +39,7 @@ import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 public class ExclusionRoleTypeServiceBase extends RoleTypeServiceBase {
     protected RoleService roleManagementService;
     protected GroupService groupService;
-    
+
     /**
      * Remove the excluded principal from any matching memberships in the role
      * @param excludedPrincipalId the principal id to exclude
@@ -51,39 +51,39 @@ public class ExclusionRoleTypeServiceBase extends RoleTypeServiceBase {
         if (StringUtils.isBlank(excludedPrincipalId)) {
             return membershipInfos;
         }
-        
+
         String topLevelRoleId = null;
         if (!membershipInfos.isEmpty()) {
             topLevelRoleId = membershipInfos.get(0).getRoleId();
         }
-        
+
         Set<String> checkedMembers = new HashSet<String>();
         final String documentId = new String(qualification.get(KimConstants.AttributeConstants.DOCUMENT_NUMBER));
 
         List<RoleMembership> qualifiedRoleMembers = new ArrayList<RoleMembership>();
         for (RoleMembership member : membershipInfos) {
             String topLevelRoleMemberId = member.getId();
-            if(KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL.equals(member.getType().getCode())) {
+            if(MemberType.PRINCIPAL.equals(member.getType())) {
                 if(!excludedPrincipalId.equals(member.getMemberId())) {
                     qualifiedRoleMembers.add(member);
                 }
             }
-            else if (KimConstants.KimUIConstants.MEMBER_TYPE_ROLE.equals(member.getType().getCode())) {
+            else if (MemberType.ROLE.equals(member.getType()) ) {
                 // get members of role
                 RoleMembership.Builder membership = RoleMembership.Builder.create(member.getRoleId(), member.getId(), member.getMemberId(), member.getType(), qualification);
-                checkRoleMemberShip(excludedPrincipalId,membership.build(), qualification, qualifiedRoleMembers, checkedMembers,  documentId, topLevelRoleId, topLevelRoleMemberId); 
-           
+                checkRoleMemberShip(excludedPrincipalId,membership.build(), qualification, qualifiedRoleMembers, checkedMembers,  documentId, topLevelRoleId, topLevelRoleMemberId);
+
             }
-            else if (KimConstants.KimUIConstants.MEMBER_TYPE_GROUP.equals(member.getType().getCode())) {
+            else if (MemberType.GROUP.equals(member.getType())) {
                 RoleMembership.Builder membership = RoleMembership.Builder.create(member.getRoleId(), member.getId(), member.getMemberId(), member.getType(), qualification);
-                checkGroupMemberShip(excludedPrincipalId, membership.build(), qualification, qualifiedRoleMembers, checkedMembers,  documentId, topLevelRoleId, topLevelRoleMemberId); 
+                checkGroupMemberShip(excludedPrincipalId, membership.build(), qualification, qualifiedRoleMembers, checkedMembers,  documentId, topLevelRoleId, topLevelRoleMemberId);
             }
         }
         return qualifiedRoleMembers;
     }
-    
+
     /**
-     * 
+     *
      * This method is to check role members of given role and skip the single approver if exists from the role.
      * @param approverOrInitiator
      * @param member
@@ -100,27 +100,27 @@ public class ExclusionRoleTypeServiceBase extends RoleTypeServiceBase {
            checkedRoletypeMember.add(key);
            List<RoleMembership> roleMembers = getRoleManagementService().getRoleMembers(Collections.singletonList(member.getMemberId()), qualification);
            for(RoleMembership membershipInfo : roleMembers) {
-               if(KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL.equals(membershipInfo.getType().getCode())) {
+               if(MemberType.PRINCIPAL.getCode().equals(membershipInfo.getType().getCode())) {
                    if(!excludedPrincipalId.equals(membershipInfo.getMemberId())) {
                        RoleMembership.Builder updatedMembershipInfo = RoleMembership.Builder.create(topLevelRoleId, member.getId(), topLevelRoleMemberId, MemberType.PRINCIPAL, qualification);
                        qualifiedRoleMembers.add(updatedMembershipInfo.build());
                    }
                }
-               else if (KimConstants.KimUIConstants.MEMBER_TYPE_ROLE.equals(membershipInfo.getType().getCode())) {
+               else if (MemberType.ROLE.getCode().equals(membershipInfo.getType().getCode())) {
                    checkRoleMemberShip(excludedPrincipalId,membershipInfo, qualification, qualifiedRoleMembers, checkedRoletypeMember,  documentId, topLevelRoleId, topLevelRoleMemberId);
                }
-               else if (KimConstants.KimUIConstants.MEMBER_TYPE_GROUP.equals(membershipInfo.getType().getCode())) {
-                   checkGroupMemberShip(excludedPrincipalId ,membershipInfo, qualification, qualifiedRoleMembers, checkedRoletypeMember,  documentId, topLevelRoleId, topLevelRoleMemberId); 
+               else if (MemberType.GROUP.getCode().equals(membershipInfo.getType().getCode())) {
+                   checkGroupMemberShip(excludedPrincipalId ,membershipInfo, qualification, qualifiedRoleMembers, checkedRoletypeMember,  documentId, topLevelRoleId, topLevelRoleMemberId);
                }
            }
        }
     }
-     
+
     /**
-     * 
-     * This method is to check group members of given group and skip the single approver 
+     *
+     * This method is to check group members of given group and skip the single approver
      * member from the group.
-     * 
+     *
      * @param approverOrInitiator
      * @param member
      * @param qualification
@@ -145,17 +145,17 @@ public class ExclusionRoleTypeServiceBase extends RoleTypeServiceBase {
                  else if (KimConstants.KimGroupMemberTypes.GROUP_MEMBER_TYPE.equals(membershipInfo.getType().getCode())) {
                     checkGroupMemberShip(excludedPrincipalId, member, qualification, qualifiedRoleMembers, checkedMembers, documentId, topLevelRoleId, topLevelRoleMemberId);
                  }
-             }   
+             }
         }
     }
-    
+
     protected RoleService getRoleManagementService() {
         if (roleManagementService == null) {
             roleManagementService = KimApiServiceLocator.getRoleService();
         }
         return roleManagementService;
     }
-    
+
     protected GroupService getGroupService(){
         if (groupService == null) {
             groupService = KimApiServiceLocator.getGroupService();

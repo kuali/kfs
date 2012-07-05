@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -43,6 +43,7 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,6 +59,7 @@ public class VendorServiceImpl implements VendorService {
     /**
      * @see org.kuali.kfs.vnd.document.service.VendorService#saveVendorHeader(org.kuali.kfs.vnd.businessobject.VendorDetail)
      */
+    @Override
     public void saveVendorHeader(VendorDetail vendorDetail) {
         businessObjectService.save(vendorDetail.getVendorHeader());
     }
@@ -65,6 +67,7 @@ public class VendorServiceImpl implements VendorService {
     /**
      * @see org.kuali.kfs.vnd.document.service.getByVendorNumber(String)
      */
+    @Override
     public VendorDetail getByVendorNumber(String vendorNumber) {
         return getVendorDetail(vendorNumber);
     }
@@ -72,6 +75,7 @@ public class VendorServiceImpl implements VendorService {
     /**
      * @see org.kuali.kfs.vnd.document.service.VendorService#getVendorDetail(String)
      */
+    @Override
     public VendorDetail getVendorDetail(String vendorNumber) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Entering getVendorDetail for vendorNumber: " + vendorNumber);
@@ -100,6 +104,7 @@ public class VendorServiceImpl implements VendorService {
     /**
      * @see org.kuali.kfs.vnd.document.service.VendorService#getVendorDetail(java.lang.Integer, java.lang.Integer)
      */
+    @Override
     public VendorDetail getVendorDetail(Integer headerId, Integer detailId) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Entering getVendorDetail for headerId:" + headerId + ", detailId:" + detailId);
@@ -113,6 +118,7 @@ public class VendorServiceImpl implements VendorService {
     /**
      * @see org.kuali.kfs.vnd.document.service.VendorService#getApoLimitFromContract(Integer, String, String)
      */
+    @Override
     public KualiDecimal getApoLimitFromContract(Integer contractId, String chart, String org) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Entering getApoLimitFromContract with contractId:" + contractId + ", chart:" + chart + ", org:" + org);
@@ -153,11 +159,12 @@ public class VendorServiceImpl implements VendorService {
     /**
      * @see org.kuali.kfs.vnd.document.service.VendorService#getParentVendor(java.lang.Integer)
      */
+    @Override
     public VendorDetail getParentVendor(Integer vendorHeaderGeneratedIdentifier) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Entering getParentVendor for vendorHeaderGeneratedIdentifier:" + vendorHeaderGeneratedIdentifier);
         }
-        Collection<VendorDetail> vendors = businessObjectService.findMatching(VendorDetail.class, 
+        Collection<VendorDetail> vendors = businessObjectService.findMatching(VendorDetail.class,
                 Collections.singletonMap("vendorHeaderGeneratedIdentifier", vendorHeaderGeneratedIdentifier));
         VendorDetail result = null;
         if (vendors == null || vendors.isEmpty() ) {
@@ -187,6 +194,7 @@ public class VendorServiceImpl implements VendorService {
     /**
      * @see org.kuali.kfs.vnd.document.service.VendorService#getVendorByDunsNumber(String)
      */
+    @Override
     public VendorDetail getVendorByDunsNumber(String vendorDunsNumber) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Entering getVendorByDunsNumber for vendorDunsNumber:" + vendorDunsNumber);
@@ -206,6 +214,7 @@ public class VendorServiceImpl implements VendorService {
     /**
      * @see org.kuali.kfs.vnd.document.service.VendorService#getVendorDefaultAddress(Integer, Integer, String, String)
      */
+    @Override
     public VendorAddress getVendorDefaultAddress(Integer vendorHeaderId, Integer vendorDetailId, String addressType, String campus) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Entering getVendorDefaultAddress for vendorHeaderId:" + vendorHeaderId + ", vendorDetailId:" + vendorDetailId + ", addressType:" + addressType + ", campus:" + campus);
@@ -222,6 +231,7 @@ public class VendorServiceImpl implements VendorService {
     /**
      * @see org.kuali.kfs.vnd.document.service.VendorService#getVendorDefaultAddress(List, String, String)
      */
+    @Override
     public VendorAddress getVendorDefaultAddress(Collection<VendorAddress> addresses, String addressType, String campus) {
         LOG.debug("Entering getVendorDefaultAddress.");
         VendorAddress allDefaultAddress = null;
@@ -255,33 +265,49 @@ public class VendorServiceImpl implements VendorService {
     /**
      * @see org.kuali.kfs.vnd.document.service.VendorService#shouldVendorRouteForApproval(java.lang.String)
      */
+    @Override
     public boolean shouldVendorRouteForApproval(String documentId) {
-        LOG.debug("Entering shouldVendorRouteForApproval.");
-        boolean shouldRoute = true;
-        MaintenanceDocument newDoc = null;
+        MaintenanceDocument document = null;
         try {
-            newDoc = (MaintenanceDocument) documentService.getByDocumentHeaderId(documentId);
-        }
-        catch (WorkflowException we) {
-            throw new RuntimeException("A WorkflowException was thrown which prevented the loading of " + "the comparison document (" + documentId + ")", we);
+            document = (MaintenanceDocument) documentService.getByDocumentHeaderId(documentId);
+        } catch (WorkflowException we) {
+            throw new RuntimeException("A WorkflowException was thrown which prevented the loading of the comparison document (" + documentId + ")", we);
         }
 
-        if (ObjectUtils.isNotNull(newDoc)) {
-
-            VendorDetail oldVDtl = (VendorDetail) (newDoc.getOldMaintainableObject().getBusinessObject());
-            VendorHeader oldVHdr = oldVDtl.getVendorHeader();
-            VendorDetail newVDtl = (VendorDetail) (newDoc.getNewMaintainableObject().getBusinessObject());
-            VendorHeader newVHdr = newVDtl.getVendorHeader();
-
-            if ((ObjectUtils.isNotNull(oldVHdr)) && (ObjectUtils.isNotNull(oldVDtl)) && (ObjectUtils.isNotNull(newVHdr)) && (ObjectUtils.isNotNull(newVDtl))) {
-                shouldRoute = !(noRouteSignificantChangeOccurred(newVDtl, newVHdr, oldVDtl, oldVHdr));
-            }
-            else {
-                shouldRoute = true;
-            }
+        if (document == null) {
+            // this should never happen - unable to load document in routing
+            LOG.error( "Unable to retrieve document in workflow: " + documentId);
+            return false;
         }
-        LOG.debug("Exiting shouldVendorRouteForApproval.");
-        return shouldRoute;
+        String maintenanceAction = document.getNewMaintainableObject().getMaintenanceAction();
+        if ( StringUtils.equals(KRADConstants.MAINTENANCE_NEW_ACTION, maintenanceAction)
+                || StringUtils.equals(KRADConstants.MAINTENANCE_NEWWITHEXISTING_ACTION, maintenanceAction)
+                || StringUtils.equals(KRADConstants.MAINTENANCE_COPY_ACTION, maintenanceAction) ) {
+            return true;  // New vendor - impacting change by definition
+        }
+        VendorDetail oldVendorDetail = (VendorDetail)document.getOldMaintainableObject().getBusinessObject();
+        if ( oldVendorDetail == null ) {
+            // we can't compare - route for safety
+            return true;
+        }
+        VendorHeader oldVendorHeader = oldVendorDetail.getVendorHeader();
+        if ( ObjectUtils.isNull(oldVendorHeader) ) {
+            // we can't compare - route for safety
+            return true;
+        }
+
+        VendorDetail newVendorDetail = (VendorDetail)document.getNewMaintainableObject().getBusinessObject();
+        if ( newVendorDetail == null ) {
+            // we can't compare - route for safety
+            return true;
+        }
+        VendorHeader newVendorHeader = newVendorDetail.getVendorHeader();
+
+        if ( ObjectUtils.isNull(newVendorHeader) ) {
+            // we can't compare - route for safety
+            return true;
+        }
+        return !noRouteSignificantChangeOccurred(newVendorDetail, newVendorHeader, oldVendorDetail, oldVendorHeader);
     }
 
     /**
@@ -289,11 +315,17 @@ public class VendorServiceImpl implements VendorService {
      *      org.kuali.kfs.vnd.businessobject.VendorHeader, org.kuali.kfs.vnd.businessobject.VendorDetail,
      *      org.kuali.kfs.vnd.businessobject.VendorHeader)
      */
+    @Override
     public boolean noRouteSignificantChangeOccurred(VendorDetail newVDtl, VendorHeader newVHdr, VendorDetail oldVDtl, VendorHeader oldVHdr) {
         LOG.debug("Entering noRouteSignificantChangeOccurred.");
 
         // The subcollections which are being compared here must implement VendorRoutingComparable.
-        boolean unchanged = ((oldVHdr.isEqualForRouting(newVHdr)) && (equalMemberLists(oldVHdr.getVendorSupplierDiversities(), newVHdr.getVendorSupplierDiversities())) && (oldVDtl.isEqualForRouting(newVDtl)) && (equalMemberLists(oldVDtl.getVendorAddresses(), newVDtl.getVendorAddresses())) && (equalMemberLists(oldVDtl.getVendorContracts(), newVDtl.getVendorContracts())) && (equalMemberLists(oldVDtl.getVendorShippingSpecialConditions(), newVDtl.getVendorShippingSpecialConditions())));
+        boolean unchanged = ((oldVHdr.isEqualForRouting(newVHdr))
+                && (equalMemberLists(oldVHdr.getVendorSupplierDiversities(), newVHdr.getVendorSupplierDiversities()))
+                && (oldVDtl.isEqualForRouting(newVDtl))
+                && (equalMemberLists(oldVDtl.getVendorAddresses(), newVDtl.getVendorAddresses()))
+                && (equalMemberLists(oldVDtl.getVendorContracts(), newVDtl.getVendorContracts()))
+                && (equalMemberLists(oldVDtl.getVendorShippingSpecialConditions(), newVDtl.getVendorShippingSpecialConditions())));
 
         LOG.debug("Exiting noRouteSignificantChangeOccurred.");
         return unchanged;
@@ -302,6 +334,7 @@ public class VendorServiceImpl implements VendorService {
     /**
      * @see org.kuali.kfs.vnd.document.service.VendorService#equalMemberLists(java.util.List, java.util.List)
      */
+    @Override
     public boolean equalMemberLists(List<? extends VendorRoutingComparable> list_a, List<? extends VendorRoutingComparable> list_b) {
         LOG.debug("Entering equalMemberLists.");
         boolean result = true;
@@ -325,6 +358,7 @@ public class VendorServiceImpl implements VendorService {
     /**
      * @see org.kuali.kfs.vnd.document.service.VendorService#isVendorInstitutionEmployee(java.lang.Integer)
      */
+    @Override
     public boolean isVendorInstitutionEmployee(Integer vendorHeaderGeneratedIdentifier) {
         VendorDetail vendorToUse = getParentVendor(vendorHeaderGeneratedIdentifier);
         if (ObjectUtils.isNull(vendorToUse)) {
@@ -351,6 +385,7 @@ public class VendorServiceImpl implements VendorService {
     /**
      * @see org.kuali.kfs.vnd.document.service.VendorService#isVendorNonResidentAlien(java.lang.Integer)
      */
+    @Override
     public boolean isVendorForeign(Integer vendorHeaderGeneratedIdentifier) {
         VendorDetail vendorToUse = getParentVendor(vendorHeaderGeneratedIdentifier);
         if (ObjectUtils.isNull(vendorToUse)) {
@@ -364,6 +399,7 @@ public class VendorServiceImpl implements VendorService {
     /**
      * @see org.kuali.kfs.vnd.document.service.VendorService#isSubjectPaymentVendor(java.lang.Integer)
      */
+    @Override
     public boolean isSubjectPaymentVendor(Integer vendorHeaderGeneratedIdentifier) {
         VendorDetail vendorToUse = getParentVendor(vendorHeaderGeneratedIdentifier);
         if (ObjectUtils.isNull(vendorToUse)) {
@@ -377,6 +413,7 @@ public class VendorServiceImpl implements VendorService {
     /**
      * @see org.kuali.kfs.vnd.document.service.VendorService#isRevolvingFundCodeVendor(java.lang.Integer)
      */
+    @Override
     public boolean isRevolvingFundCodeVendor(Integer vendorHeaderGeneratedIdentifier) {
         VendorDetail vendorToUse = getParentVendor(vendorHeaderGeneratedIdentifier);
         if (ObjectUtils.isNull(vendorToUse)) {
@@ -387,6 +424,7 @@ public class VendorServiceImpl implements VendorService {
         return VendorConstants.VendorTypes.REVOLVING_FUND.equals(vendorToUse.getVendorHeader().getVendorTypeCode());
     }
 
+    @Override
     public VendorContract getVendorB2BContract(VendorDetail vendorDetail, String campus) {
         return vendorDao.getVendorB2BContract(vendorDetail, campus, dateTimeService.getCurrentSqlDate());
     }

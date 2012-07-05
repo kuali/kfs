@@ -2,13 +2,13 @@
             NoteService noteService = KRADServiceLocator.getNoteService();
             notes = noteService.getByRemoteObjectId(this.getBusinessObject().getObjectId());
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -51,6 +51,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class VendorMaintainableImpl extends FinancialSystemMaintainable {
+    protected static final String VENDOR_REQUIRES_APPROVAL_SPLIT_NODE = "RequiresApproval";
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(VendorMaintainableImpl.class);
 
     /**
@@ -59,13 +60,13 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
 	@Override
     public void setGenerateDefaultValues(String docTypeName) {
         super.setGenerateDefaultValues(docTypeName);
-        
+
         List<Note> notes = new ArrayList<Note>();
 
         if (getBusinessObject().getObjectId() != null) {
             NoteService noteService = KRADServiceLocator.getNoteService();
             notes = noteService.getByRemoteObjectId(this.getBusinessObject().getObjectId());
-                  
+
             if (notes.isEmpty()) {
                 notes.add(getNewBoNoteForAdding(VendorConstants.VendorCreateAndUpdateNotePrefixes.ADD));
             }
@@ -74,7 +75,7 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * Overrides the kuali default documents title with a Vendor-specific document title style
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#getDocumentTitle(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
@@ -102,15 +103,15 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
 
             if (StringUtils.isNotBlank(newBo.getVendorName())) {
                 documentTitle += " '" + newBo.getVendorName() + "'";
-            } 
-            else {            
+            }
+            else {
                 if (StringUtils.isNotBlank(newBo.getVendorFirstName())) {
                     documentTitle += " '" + newBo.getVendorFirstName() + " ";
                     if (StringUtils.isBlank(newBo.getVendorLastName())) {
                         documentTitle += "'";
                     }
                 }
-                
+
                 if (StringUtils.isNotBlank(newBo.getVendorLastName())) {
                     if (StringUtils.isBlank(newBo.getVendorFirstName())) {
                         documentTitle += " '";
@@ -142,12 +143,12 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
         // This code is only executed when the final approval occurs
         if (workflowDoc.isProcessed()) {
             // This id and versionNumber null check is needed here since those fields are always null for a fresh maintenance doc.
-            if (vendorDetail.isVendorParentIndicator() && vendorDetail.getVendorHeaderGeneratedIdentifier() != null) { 
+            if (vendorDetail.isVendorParentIndicator() && vendorDetail.getVendorHeaderGeneratedIdentifier() != null) {
                 VendorDetail previousParent = SpringContext.getBean(VendorService.class).getParentVendor(vendorDetail.getVendorHeaderGeneratedIdentifier());
                 // We'll only need to do the following if the previousParent is not the same as the current vendorDetail, because
                 // the following lines are for vendor parent indicator changes.
-                if (vendorDetail.getVendorDetailAssignedIdentifier() == null || 
-                        previousParent.getVendorHeaderGeneratedIdentifier().intValue() != vendorDetail.getVendorHeaderGeneratedIdentifier().intValue() || 
+                if (vendorDetail.getVendorDetailAssignedIdentifier() == null ||
+                        previousParent.getVendorHeaderGeneratedIdentifier().intValue() != vendorDetail.getVendorHeaderGeneratedIdentifier().intValue() ||
                         previousParent.getVendorDetailAssignedIdentifier().intValue() != vendorDetail.getVendorDetailAssignedIdentifier().intValue()) {
                     previousParent.setVendorParentIndicator(false);
                     addNoteForParentIndicatorChange(vendorDetail, previousParent, header.getDocumentNumber());
@@ -180,23 +181,23 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
 
         }//endif isProcessed()
     }
-    
+
     /**
      * Add a note to the previous parent vendor to denote that parent vendor indicator change had occurred.
-     * 
+     *
      * @param newVendorDetail The current vendor
      * @param oldVendorDetail The parent vendor of the current vendor prior to this change.
      * @param getDocumentNumber() The document number of the document where we're attempting the parent vendor indicator change.
      */
     private void addNoteForParentIndicatorChange(VendorDetail newVendorDetail, VendorDetail oldVendorDetail, String docNumber) {
-        String noteText = VendorUtils.buildMessageText(VendorKeyConstants.MESSAGE_VENDOR_PARENT_TO_DIVISION, docNumber, newVendorDetail.getVendorName() + " (" + newVendorDetail.getVendorNumber() + ")");   
+        String noteText = VendorUtils.buildMessageText(VendorKeyConstants.MESSAGE_VENDOR_PARENT_TO_DIVISION, docNumber, newVendorDetail.getVendorName() + " (" + newVendorDetail.getVendorNumber() + ")");
         Note newBONote = new Note();
         newBONote.setNoteText(noteText);
         try {
             NoteService noteService = SpringContext.getBean(NoteService.class);
             newBONote = noteService.createNote(newBONote, oldVendorDetail, GlobalVariables.getUserSession().getPrincipalId());
             newBONote.setNotePostedTimestampToCurrent();
-            
+
             noteService.save(newBONote);
         }
         catch (Exception e) {
@@ -207,11 +208,11 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
         List<Note> notes = noteService.getByRemoteObjectId(oldVendorDetail.getObjectId());
         notes.add(newBONote);
     }
-    
+
     /**
      * Refreshes the vendorDetail. Currently we need this mainly for refreshing the soldToVendor object after returning from the
      * lookup for a sold to vendor.
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map,
      *      org.kuali.rice.kns.document.MaintenanceDocument)
      */
@@ -254,7 +255,7 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
      * separately. Restriction-related information will be changed based on whether the Vendor Restricted Indicator was changed. If
      * the Tax Number or Tax Type code have changed, the fact will be recorded with a new record in the Tax Change table. Finally
      * the method will call the saveBusinessObject( ) of the super class to save the vendor detail.
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#saveBusinessObject()
      */
     @Override
@@ -285,22 +286,22 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
             NoteService noteService = KRADServiceLocator.getNoteService();
             notes = noteService.getByRemoteObjectId(this.getBusinessObject().getObjectId());
         }
-        
+
         setVendorCreateAndUpdateNote(notes, VendorConstants.VendorCreateAndUpdateNotePrefixes.CHANGE);
         document.setNotes(notes);
-        
+
         super.processAfterEdit(document, parameters);
     }
 
     /**
      * Checks whether the previous note was an "Add" with the same document number as this one
-     * 
+     *
      * @param notes List of exisiting notes.
      * @param prefix String to determine if it is a note "Add" or a note "Change"
      */
     private void setVendorCreateAndUpdateNote(List<Note> notes, String prefix) {
         boolean shouldAddNote = true;
-        
+
         if (prefix.equals(VendorConstants.VendorCreateAndUpdateNotePrefixes.CHANGE)) {
             // Check whether the previous note was an "Add" with the same document number as this one
             if (!notes.isEmpty()) {
@@ -317,28 +318,28 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
 
     /**
      * creates a new bo note and sets the timestamp.
-     * 
+     *
      * @return a newly created note
      */
     protected Note getNewBoNoteForAdding(String prefix) {
         Note newBoNote = new Note();
         newBoNote.setNoteText(prefix + " vendor document ID " + getDocumentNumber());
         newBoNote.setNotePostedTimestampToCurrent();
-       
+
         try {
             newBoNote = SpringContext.getBean(NoteService.class).createNote(newBoNote, this.getBusinessObject(), GlobalVariables.getUserSession().getPrincipalId());
         }
         catch (Exception e) {
             throw new RuntimeException("Caught Exception While Trying To Add Note to Vendor", e);
         }
-        
+
         return newBoNote;
     }
-    
+
     /**
      * Concatenates the vendorLastName and a delimiter and the vendorFirstName fields into vendorName field of the vendorDetail
      * object.
-     * 
+     *
      * @param vendorDetail VendorDetail The vendor whose name field we are trying to assign
      */
     private void setVendorName(VendorDetail vendorDetail) {
@@ -351,13 +352,13 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
      * If the vendorFirstLastNameIndicator is true, this method will set the vendor first name and vendor last name fields from the
      * vendorName field, then set the vendorName field to null. Then it sets the businessObject of this maintainable to the
      * VendorDetail object that contains our modification to the name fields.
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.Maintainable#saveBusinessObject()
      */
     @Override
     public void setBusinessObject(PersistableBusinessObject bo) {
         VendorDetail originalBo = (VendorDetail) bo;
-        
+
         String vendorName = originalBo.getVendorName();
         if (originalBo.isVendorFirstLastNameIndicator() && ObjectUtils.isNotNull(vendorName)) {
             int start = vendorName.indexOf(VendorConstants.NAME_DELIM);
@@ -373,7 +374,7 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
                 originalBo.setVendorName(null);
             }
         }
-        
+
         super.setBusinessObject(originalBo);
     }
 
@@ -385,7 +386,7 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
      * id and detail id as the count has existed. If a vendor with such criteria exists, this method will increment the count
      * by 1 and look up in the database again. If it does not exist, assign the count as the vendor detail id and change the
      * boolean flag to stop the loop, because we have already found the valid detail assigned id that we were looking for
-     * 
+     *
      * @param vendorDetail VendorDetail The vendor whose detail assigned id we're trying to assign.
      */
     private void setDetailAssignedId(VendorDetail vendorDetail) {
@@ -420,7 +421,7 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
      * Returns the locking representation of the vendor. If the vendor detail id is not null, call the super class
      * implementation of generateMaintenanceLocks which will set the locking key to be the header and detail ids. However, if the
      * detail id is null, that means this is a new vendor (parent or division) and we should ignore locking.
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.Maintainable#generateMaintenanceLocks()
      */
     @Override
@@ -437,13 +438,13 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
      * Create a new division vendor if the user clicks on the "Create a new division" link. By default, the vendorParentIndicator is
      * set to true in the constructor of VendorDetail, but if we're creating a new division, it's not a parent, so we need to set
      * the vendorParentIndicator to false in this case.
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.Maintainable#setupNewFromExisting()
      */
     @Override
     public void setupNewFromExisting( MaintenanceDocument document, Map<String,String[]> parameters ) {
         super.setupNewFromExisting(document, parameters);
-        
+
         ((VendorDetail) super.getBusinessObject()).setVendorParentIndicator(false);
         ((VendorDetail) super.getBusinessObject()).setActiveIndicator(true);
 
@@ -453,7 +454,7 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
             NoteService noteService = KRADServiceLocator.getNoteService();
             notes = noteService.getByRemoteObjectId(this.getBusinessObject().getObjectId());
         }
-        
+
         setVendorCreateAndUpdateNote(notes, VendorConstants.VendorCreateAndUpdateNotePrefixes.ADD);
 
         document.setNotes(notes);
@@ -475,7 +476,9 @@ public class VendorMaintainableImpl extends FinancialSystemMaintainable {
      */
     @Override
     protected boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        if (nodeName.equals("RequiresApproval")) return SpringContext.getBean(VendorService.class).shouldVendorRouteForApproval(getDocumentNumber());
+        if (nodeName.equals(VENDOR_REQUIRES_APPROVAL_SPLIT_NODE)) {
+            return SpringContext.getBean(VendorService.class).shouldVendorRouteForApproval(getDocumentNumber());
+        }
         return super.answerSplitNodeQuestion(nodeName);
     }
 }

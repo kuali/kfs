@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,7 +18,6 @@ package org.kuali.kfs.vnd.businessobject;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -28,7 +27,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 /**
  * Contains information specific to a parent Vendor, which may be shared by its division Vendors if it has any. Contained by a
  * <code>VendorDetail</code>.
- * 
+ *
  * @see org.kuali.kfs.vnd.businessobject.VendorDetail
  */
 public class VendorHeader extends PersistableBusinessObjectBase {
@@ -159,7 +158,7 @@ public class VendorHeader extends PersistableBusinessObjectBase {
 
     /**
      * Sets the vendorType attribute.
-     * 
+     *
      * @param vendorType The vendorType to set.
      * @deprecated
      */
@@ -174,7 +173,7 @@ public class VendorHeader extends PersistableBusinessObjectBase {
 
     /**
      * Sets the vendorOwnership attribute.
-     * 
+     *
      * @param vendorOwnership The vendorOwnership to set.
      * @deprecated
      */
@@ -189,7 +188,7 @@ public class VendorHeader extends PersistableBusinessObjectBase {
 
     /**
      * Sets the vendorOwnershipCategory attribute.
-     * 
+     *
      * @param vendorOwnershipCategory The vendorOwnershipCategory to set.
      * @deprecated
      */
@@ -204,7 +203,7 @@ public class VendorHeader extends PersistableBusinessObjectBase {
 
     /**
      * Sets the vendorDebarredIndicator attribute value.
-     * 
+     *
      * @param vendorDebarredIndicator The vendorDebarredIndicator to set.
      */
     public void setVendorDebarredIndicator(Boolean vendorDebarredIndicator) {
@@ -218,7 +217,7 @@ public class VendorHeader extends PersistableBusinessObjectBase {
 
     /**
      * Sets the vendorForeignIndicator attribute value.
-     * 
+     *
      * @param vendorForeignIndicator The vendorForeignIndicator to set.
      */
     public void setVendorForeignIndicator(Boolean vendorForeignIndicator) {
@@ -236,9 +235,9 @@ public class VendorHeader extends PersistableBusinessObjectBase {
 
     /**
      * Used by the Spring Framework to correctly retrieve the vendor supplier diversities as a single
-     * attribute. The vendorSupplierDiversities is a collection of diversities, and without this method, 
+     * attribute. The vendorSupplierDiversities is a collection of diversities, and without this method,
      * there was no way to get a single attribute for it.
-     * 
+     *
      * @return the vendor supplier diversities as a single attribute
      */
     public String getVendorSupplierDiversitiesAsString() {
@@ -251,7 +250,7 @@ public class VendorHeader extends PersistableBusinessObjectBase {
                     sb.append(", ");
                 } else {
                     first = false;
-                }            
+                }
                 sb.append(vsd.getVendorSupplierDiversity().getVendorSupplierDiversityDescription().toString());
             }
         }
@@ -272,29 +271,24 @@ public class VendorHeader extends PersistableBusinessObjectBase {
     /**
      * This method is a predicate to test equality of all the persisted attributes of an instance of this class, including member
      * collections. This is used to determine whether to route
-     * 
+     *
      * @param vh Another VendorHeader object
      * @return True if all non-derived attributes of the given object are equal to this one's
      */
-    public boolean isEqualForRouting(Object toCompare) {
+    public boolean isEqualForRouting(VendorHeader vh) {
         LOG.debug("Entering isEqualForRouting.");
-        if (!(toCompare instanceof VendorHeader)) {
-            return false;
-        }
-        else {
-            VendorHeader vh = (VendorHeader) toCompare;
-            return new EqualsBuilder().append(this.getVendorTypeCode(), vh.getVendorTypeCode()).append(this.getVendorTaxNumber(), vh.getVendorTaxNumber()).append(this.getVendorOwnershipCode(), vh.getVendorOwnershipCode()).append(this.getVendorOwnershipCategoryCode(), vh.getVendorOwnershipCategoryCode()).append(this.getVendorFederalWithholdingTaxBeginningDate(), vh.getVendorFederalWithholdingTaxBeginningDate()).append(this.getVendorFederalWithholdingTaxEndDate(), vh.getVendorFederalWithholdingTaxEndDate()).append(this.getVendorW9ReceivedIndicator(), vh.getVendorW9ReceivedIndicator()).append(this.getVendorW8BenReceivedIndicator(), vh.getVendorW8BenReceivedIndicator()).append(this.getVendorDebarredIndicator(), vh.getVendorDebarredIndicator()).append(this.getVendorForeignIndicator(), vh.getVendorForeignIndicator()).isEquals();
-        }
+        return new EqualsBuilder()
+                .append(getVendorTypeCode(), vh.getVendorTypeCode())
+                .append(getVendorTaxNumber(), vh.getVendorTaxNumber())
+                .append(getVendorOwnershipCode(), vh.getVendorOwnershipCode())
+                .append(getVendorOwnershipCategoryCode(), vh.getVendorOwnershipCategoryCode())
+                .append(getVendorFederalWithholdingTaxBeginningDate(), vh.getVendorFederalWithholdingTaxBeginningDate())
+                .append(getVendorFederalWithholdingTaxEndDate(), vh.getVendorFederalWithholdingTaxEndDate())
+                .append(getVendorW9ReceivedIndicator(), vh.getVendorW9ReceivedIndicator())
+                .append(getVendorW8BenReceivedIndicator(), vh.getVendorW8BenReceivedIndicator())
+                .append(getVendorDebarredIndicator(), vh.getVendorDebarredIndicator())
+                .append(getVendorForeignIndicator(), vh.getVendorForeignIndicator())
+                .isEquals();
     }
 
-    /**
-     * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper_RICE20_REFACTORME() {
-        LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
-        if (this.vendorHeaderGeneratedIdentifier != null) {
-            m.put("vendorHeaderGeneratedIdentifier", this.vendorHeaderGeneratedIdentifier.toString());
-        }
-        return m;
-    }
 }

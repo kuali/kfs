@@ -136,13 +136,13 @@ public class ExclusionRoleTypeServiceBase extends RoleTypeServiceBase {
             checkedMembers.add(key);
              List<GroupMember> GroupMembers = (List<GroupMember>)getGroupService().getMembersOfGroup(member.getMemberId());
              for(GroupMember membershipInfo : GroupMembers) {
-                 if(KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE.equals(membershipInfo.getType().getCode())) {
+                 if(MemberType.PRINCIPAL.getCode().equals(membershipInfo.getType().getCode())) {
                      if(!excludedPrincipalId.equals(membershipInfo.getMemberId())) {
                          RoleMembership.Builder updatedMembershipInfo = RoleMembership.Builder.create(topLevelRoleId, member.getId(), topLevelRoleMemberId, MemberType.PRINCIPAL, qualification);
                          qualifiedRoleMembers.add(updatedMembershipInfo.build());
                      }
                  }
-                 else if (KimConstants.KimGroupMemberTypes.GROUP_MEMBER_TYPE.equals(membershipInfo.getType().getCode())) {
+                 else if (MemberType.GROUP.getCode().equals(membershipInfo.getType().getCode())) {
                     checkGroupMemberShip(excludedPrincipalId, member, qualification, qualifiedRoleMembers, checkedMembers, documentId, topLevelRoleId, topLevelRoleMemberId);
                  }
              }

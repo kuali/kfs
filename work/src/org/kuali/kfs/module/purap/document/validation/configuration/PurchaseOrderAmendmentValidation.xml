@@ -326,7 +326,7 @@
 						<list>
 							<bean parent="validationFieldConversion">
 								<property name="sourceEventProperty" value="item" />
-								<property name="targetValidationProperty" value="item" />
+								<property name="targetValidationProperty" value="itemForValidation" />
 							</bean>
 						</list>
 					</property>

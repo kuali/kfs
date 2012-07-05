@@ -43,7 +43,12 @@ public class PurchasingImportItemValidation extends PurchasingAccountsPayableImp
     private DataDictionaryService dataDictionaryService;
     
     public boolean validate(AttributedDocumentEvent event) {
-        boolean valid = true;        
+        boolean valid = true;  
+        
+        PurApItem refreshedItem = getItemForValidation();
+        refreshedItem.refreshReferenceObject("itemType");
+        super.setItemForValidation(refreshedItem);
+        
         valid &= super.validate(event);
         GlobalVariables.getMessageMap().addToErrorPath(PurapConstants.ITEM_TAB_ERROR_PROPERTY);
         

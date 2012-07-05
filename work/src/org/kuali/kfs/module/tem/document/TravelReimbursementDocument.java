@@ -93,6 +93,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 /**
  * Travel Reimbursement Document
  */
+@SuppressWarnings("restriction")
 @Entity
 @Table(name = "TEM_TRVL_REIMB_DOC_T")
 public class TravelReimbursementDocument extends TEMReimbursementDocument implements AmountTotaling {
@@ -230,64 +231,46 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     }
 
     /**
-     * @see org.kuali.rice.kns.document.Document#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
      */
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
-
+        
         debug("Handling route status change");
         if (KEWConstants.ROUTE_HEADER_FINAL_CD.equals(statusChangeEvent.getNewRouteStatus()) || KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(statusChangeEvent.getNewRouteStatus())) {
             if (!(KEWConstants.ROUTE_HEADER_FINAL_CD.equals(statusChangeEvent.getOldRouteStatus()) || KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(statusChangeEvent.getOldRouteStatus()))) {            
                 // for some reason when it goes to final it never updates to the last status
                 updateAppDocStatus(TravelReimbursementStatusCodeKeys.DEPT_APPROVED);
                 
-                if (getFinalReimbursement()) {                
+                if (getFinalReimbursement()) {
                     // store this so we can reset after we're finished
                     UserSession originalUser = GlobalVariables.getUserSession();
                     try {
-                        String newStatus = TravelAuthorizationStatusCodeKeys.RETIRED_VERSION;
-    
                         String message = getConfigurationService().getPropertyString(TA_MESSAGE_CLOSE_DOCUMENT_TEXT);
                         String user = GlobalVariables.getUserSession().getPerson().getLastName() + ", " + GlobalVariables.getUserSession().getPerson().getFirstName();
                         String note = replace(message, "{0}", user);
-                        TravelAuthorizationDocument currTADocument = new TravelAuthorizationDocument();
-                        Map<String, List<Document>> relatedDocuments = getTravelDocumentService().getDocumentsRelatedTo(this);
-                        List<Document> taDocs = relatedDocuments.get(TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
-                        List<Document> taaDocs = relatedDocuments.get(TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
-                        taDocs.addAll(taaDocs);
-                        for (Document tempDocument : taDocs) {
-                            // Find the doc that is the open to perform actions against.
-                            if ((getTravelDocumentService().isFinal((TravelAuthorizationDocument) tempDocument)
-                                    || getTravelDocumentService().isProcessed((TravelAuthorizationDocument) tempDocument))
-                                    && getTravelDocumentService().isOpen((TravelAuthorizationDocument) tempDocument)) {
-                                currTADocument = (TravelAuthorizationDocument) tempDocument;
-                                break;
-                            }
-                        }
+                        
+                        TravelAuthorizationDocument currTADocument = getTravelReimbursementService().getRelatedOpenTravelAuthorizationDocument(this); 
     
                         final Note newNote = getDocumentService().createNoteFromDocument(currTADocument, note);
                         final Note newNoteTAC = getDocumentService().createNoteFromDocument(currTADocument, note);
                         getDocumentService().addNoteToDocument(currTADocument, newNote);
-                        ((TravelDocumentBase) currTADocument).updateAppDocStatus(newStatus);
+                        currTADocument.updateAppDocStatus(TravelAuthorizationStatusCodeKeys.RETIRED_VERSION);
                         getDocumentDao().save(currTADocument);
     
                         String initiatorId = this.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
+                        Person initiator = getPersonService().getPerson(initiatorId);
     
-                        PersonService<Person> personService = (PersonService<Person>) SpringContext.getService("personService");
-                        Person initiator = personService.getPerson(initiatorId);
-    
-                        UserSession tempUser = new UserSession(initiator.getPrincipalName());
                         // setting to initiator
-                        GlobalVariables.setUserSession(tempUser);
+                        GlobalVariables.setUserSession(new UserSession(initiator.getPrincipalName()));
                         final TravelAuthorizationCloseDocument tacDocument = toCopyTAC();
                         getDocumentService().addNoteToDocument(tacDocument, newNoteTAC);
                         tacDocument.setTravelDocumentIdentifier(getTravelDocumentIdentifier());
     
                         // switching to KR user to route
-                        tempUser = new UserSession(KNSConstants.SYSTEM_USER);
-                        GlobalVariables.setUserSession(tempUser);
+                        GlobalVariables.setUserSession(new UserSession(KNSConstants.SYSTEM_USER));
                         tacDocument.updateAppDocStatus(TravelAuthorizationStatusCodeKeys.CLOSED);
-                        getDocumentService().routeDocument(tacDocument, getTripDescription(), new ArrayList());
+                        getDocumentService().routeDocument(tacDocument, getTripDescription(), null);
                     }
                     catch (Exception e) {
                         error("Could not create TAC or route it with travel id ", getTravelDocumentIdentifier());
@@ -303,11 +286,10 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
                 }
 
                 try {
-                    getTravelReimbursementService().spawnCashControlDocumentFrom(this);
-                    // getTravelReimbursementService().reprocessDvFor(this);
+                    getTravelReimbursementService().processCustomerReimbursement(this);
                 }
                 catch (Exception e) {
-                    error("Could not spawn Cash Control on FINAL for travel id ", getTravelDocumentIdentifier());
+                    error("Could not spawn CRM or DV on FINAL for travel id ", getTravelDocumentIdentifier());
                     error(e.getMessage());
                     if (logger().isDebugEnabled()) {
                         e.printStackTrace();
@@ -316,7 +298,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
             }
         }
     }
-
+    
     protected String getActualExpenseSequenceName() {
         Class boClass = ActualExpense.class;
         String retval = "";
@@ -363,7 +345,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     }
     
     /**
-     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#toCopy()
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#toCopy()
      */
     @Override
     public void toCopy() throws WorkflowException {
@@ -393,7 +375,6 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         this.setContactCampusCode(initiator.getCampusCode());
     }    
 
-    @SuppressWarnings("deprecation")
     public TravelAuthorizationCloseDocument toCopyTAC() throws WorkflowException {
 
         TravelAuthorizationCloseDocument tacDocument = (TravelAuthorizationCloseDocument) SpringContext.getBean(DocumentService.class).getNewDocument(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT);
@@ -411,11 +392,9 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
             tacDocument.setGeneralLedgerPendingEntries(new ArrayList<GeneralLedgerPendingEntry>());
         }
         catch (IllegalAccessException ex) {
-            // TODO Auto-generated catch block
             ex.printStackTrace();
         }
         catch (InvocationTargetException ex) {
-            // TODO Auto-generated catch block
             ex.printStackTrace();
         }
         return tacDocument;
@@ -583,7 +562,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         return true;
     }
 
-    protected PersonService getPersonService() {
+    protected PersonService<Person> getPersonService() {
         return SpringContext.getBean(PersonService.class);
     }
 
@@ -641,7 +620,6 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
      */
     @Override
     public void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument) {
-        // TODO Auto-generated method stub
         //super.populateDisbursementVoucherFields(disbursementVoucherDocument, document);
         String reasonCode = getParameterService().getParameterValue(PARAM_NAMESPACE, TravelReimbursementParameters.PARAM_DTL_TYPE,TravelReimbursementParameters.DEFAULT_REFUND_PAYMENT_REASON_CODE);
         disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(reasonCode);

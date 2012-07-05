@@ -253,7 +253,7 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
     }
 
     @Override
-    public Collection<AccountsReceivableCustomerInvoice> getOpenInvoiceDocumentsByCustomerNumber(String customerNumber) {
+    public Collection<AccountsReceivableCustomerInvoice> getOpenInvoiceDocumentsByCustomerNumberForTrip(String customerNumber, String travelDocId) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -302,6 +302,24 @@ public class AccountsReceivableModuleServiceNoOp implements AccountsReceivableMo
     
     @Override
     public AccountsReceivableCustomerInvoice createCustomerInvoiceDocument() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public AccountsReceivableCustomerCreditMemo createCustomerCreditMemoDocument() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Document blanketApproveCustomerCreditMemoDocument(AccountsReceivableCustomerCreditMemo creditMemoDocument, String annotation) throws WorkflowException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public AccountsReceivableCustomerCreditMemo populateCustomerCreditMemoDocumentDetails(AccountsReceivableCustomerCreditMemo crmDocument, String invoiceNumber, KualiDecimal creditAmount) {
         // TODO Auto-generated method stub
         return null;
     }

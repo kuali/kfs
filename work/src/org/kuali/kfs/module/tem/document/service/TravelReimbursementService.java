@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
@@ -59,6 +60,32 @@ public interface TravelReimbursementService {
     void addListenersTo(final TravelReimbursementDocument reimbursement);
 
     /**
+     *     Search for the INV associated with the Travel Authorization from AR (Org Doc Number = Trip ID)
+     *     
+     *     If any amount is left in the invoice - determine CRM spawn by TA
+     *     
+     *     Compute the reimbursable amount = total year-to-date amount reimbursed for this trip plus reimbursable amount for this TR
+     *     (possibly in TA?)
+     *     
+     *         1. reimbursable amount >= INV 
+     *              Spawn a customer credit memo (CRM) up to the Invoice amount
+     *              The traveler will be reimbursed for the difference by (DV)
+     *              
+     *         2. reimbursable amount < INV
+     *              Spawn a customer credit memo (CRM) for the reimbursable amount
+     *              The traveler will not receive any reimbursement - No DV necessary
+     *              
+     *        3. If there is no reimbursement for this travel $0
+     *              No CRM & No DV ?? TR w/ no reimbursement?
+     *        
+     *        4. There is no INV, then do not spawn a credit memo - under case 1
+     * 
+     * @param reimbursement
+     * @throws WorkflowException
+     */
+    void processCustomerReimbursement(final TravelReimbursementDocument reimbursement) throws WorkflowException;
+    
+    /**
      * Use a reimbursement to create a {@link CashControlDocument}. Nothing is returned because the 
      * created document will be blanketApproved and will show up in the "relatedDocuments" section
      *
@@ -66,6 +93,27 @@ public interface TravelReimbursementService {
      */
     void spawnCashControlDocumentFrom(final TravelReimbursementDocument reimbursement) throws WorkflowException;
 
+    /**
+     * Use a reimbursement to create a {@link CustomerCreditMemoDocument}. Nothing is returned because the 
+     * created document will be blanketApproved and will show up in the "relatedDocuments" section
+     * 
+     * AccountsReceivableCustomerInvoice 
+     *
+     * @param reimbursement
+     * @param invoice {@link AccountsReceivableCustomerInvoice} invoice used for generating  {@link CustomerCreditMemoDocument}
+     * @param creditAmount amount to be credited by the {@link CustomerCreditMemoDocument}
+     * @throws WorkflowException
+     */
+    void spawnCustomerCreditMemoDocument(final TravelReimbursementDocument reimbursement, AccountsReceivableCustomerInvoice invoice, KualiDecimal creditAmount) throws WorkflowException;
+
+    /**
+     * Using the related documents of the {@link TravelReimbursementDocument} TR, look up the open {@link TravelAuthorizationDocument} TA
+     * If there are ANY {@link TravelAuthorizationAmendmentDocument} TAA, it should select the latest TAA doc with OPEN status.
+     *
+     * @param reimbursement to use for creating the {@link CustomerCreditMemoDocument}
+     */
+    TravelAuthorizationDocument getRelatedOpenTravelAuthorizationDocument(final TravelReimbursementDocument reimbursement) throws WorkflowException;
+    
     /**
      * Notification when the original trip date is changed. A note is left on the workflow document detailing
      * the date change with the message DATE_CHANGED_MESSAGE

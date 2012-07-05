@@ -45,11 +45,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.gl.service.EncumbranceService;
 import org.kuali.kfs.integration.ar.AccountsReceivableCashControlDetail;
 import org.kuali.kfs.integration.ar.AccountsReceivableCashControlDocument;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomerCreditMemo;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
 import org.kuali.kfs.integration.ar.AccountsReceivableInvoicePaidApplied;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
@@ -57,6 +59,7 @@ import org.kuali.kfs.integration.ar.AccountsReceivableNonInvoiced;
 import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
 import org.kuali.kfs.integration.ar.AccountsReceivablePaymentApplicationDocument;
 import org.kuali.kfs.integration.ar.AccountsRecievableDocumentHeader;
+import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
@@ -111,6 +114,8 @@ import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
  */
 public class TravelReimbursementServiceImpl implements TravelReimbursementService {
 
+    protected static Logger LOG = Logger.getLogger(TravelReimbursementServiceImpl.class);
+    
     private KualiRuleService kualiRuleService;
     private BusinessObjectService businessObjectService;
     private DataDictionaryService dataDictionaryService;
@@ -342,7 +347,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
      * 
      * @return OrganizationOptions
      */
-    protected AccountsReceivableOrganizationOptions getOrgOptionsForPayment() {
+    protected AccountsReceivableOrganizationOptions getOrgOptions() {
         final Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("chartOfAccountsCode", getParameterService().getParameterValue(PARAM_NAMESPACE,
                 TravelAuthorizationParameters.PARAM_DTL_TYPE,
@@ -355,8 +360,84 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
     }
 
     /**
+     *      TA may have the above information related to reimbursable amount and (invoice?)
+     * 
+     *     Search for the INV associated with the Travel Authorization from AR (Org Doc Number = Trip ID)
+     *     
+     *     If any amount is left in the invoice - determine CRM spawn by
+     *     TA -  Less Non-Reimbursable ??
+     *     
+     *     Compute the reimbursable amount = total year-to-date amount reimbursed for this trip plus reimbursable amount for this TR
+     *     (possibly in TA?)
+     *     
+     *         1. reimbursable amount >= INV 
+     *              Spawn a customer credit memo (CRM) up to the Invoice amount
+     *              The traveler will be reimbursed for the difference by (DV)
+     *              
+     *         2. reimbursable amount < INV
+     *              Spawn a customer credit memo (CRM) for the reimbursable amount
+     *              The traveler will not receive any reimbursement - No DV necessary
+     *              
+     *        3. If there is no reimbursement for this travel $0
+     *              No CRM & No DV ?? TR w/ no reimbursement?
+     *        
+     *        4. There is no INV, then do not spawn a credit memo - under case 1
+     * 
+     * @param reimbursement
+     * @throws WorkflowException
+     */
+    public void processCustomerReimbursement(final TravelReimbursementDocument reimbursement) throws WorkflowException{
+        
+        //Calculate the invoice total for customer
+        
+        Map<AccountsReceivableCustomerInvoice, KualiDecimal> openInvoiceMap = getInvoicesOpenAmountMapFor (reimbursement.getTraveler().getCustomerNumber(), reimbursement.getTravelDocumentIdentifier());
+
+        KualiDecimal invoicesTotal = KualiDecimal.ZERO;
+        //calculate open invoice totals
+        for (final KualiDecimal invoiceAmount : openInvoiceMap.values()) {
+            invoicesTotal = invoicesTotal.add(invoiceAmount);
+        }
+        KualiDecimal reimbursableTotal = reimbursement.getReimbursableTotal();
+
+        info(String.format("Invoice Total $%f - Reimbursable Total $%f", invoicesTotal.bigDecimalValue(), reimbursableTotal.bigDecimalValue()));
+        
+        //reimbursable >= invoice
+        if (reimbursableTotal.isGreaterEqual(invoicesTotal)){
+            
+            //if there is invoice to pay, we will pay the invoice first and then reimburse the rest
+            if (invoicesTotal.isNonZero()){
+                //loop through invoices and spawn credit memos for each 
+                for (AccountsReceivableCustomerInvoice invoice : openInvoiceMap.keySet()){
+                    spawnCustomerCreditMemoDocument(reimbursement, invoice, openInvoiceMap.get(invoice));
+                }
+            }
+            
+            //TODO: takes care of the DV
+            //spawnDisbursementVoucherDocument(reimbursement, reimbursableTotal.subtract(invoicesTotal));
+            
+        } 
+        //reimbursable < invoice (owe more than reimbursable, then all will go into owed invoice)
+        else{
+            //loop through the invoices, but only spawn CRM up until the reimbursable total
+            for (AccountsReceivableCustomerInvoice invoice : openInvoiceMap.keySet()){
+                
+                KualiDecimal invoiceAmount = openInvoiceMap.get(invoice);
+                if (invoiceAmount.isGreaterEqual(reimbursableTotal)){
+                    spawnCustomerCreditMemoDocument(reimbursement, invoice, reimbursableTotal);
+                    break;
+                }else{
+                    spawnCustomerCreditMemoDocument(reimbursement, invoice, invoiceAmount);
+                    //decreased the credit by the invoice amount reduced by this CRM
+                    reimbursableTotal = reimbursableTotal.subtract(invoiceAmount);
+                }
+            }
+        }
+    }
+    
+    /**
      * @see org.kuali.kfs.module.tem.service.TravelReimbursementService#spawnCashConrolDocument(TravelReimbursementDocument)
      */
+    //CLEANUP
     public void spawnCashControlDocumentFrom(final TravelReimbursementDocument reimbursement) throws WorkflowException {
         final AccountsReceivablePaymentApplicationDocument paymentApplication = createPaymentApplicationFor(reimbursement);
 
@@ -395,6 +476,105 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         
         //relationDescription = "TR - Cash Control";
         //accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(reimbursement.getDocumentNumber(), paymentApplication.getAccountsReceivableCashControlDetail().getAccountsReceivableCashControlDocument().getDocumentNumber(), relationDescription));
+    }
+    
+    @SuppressWarnings("restriction")
+    public void spawnCustomerCreditMemoDocument(final TravelReimbursementDocument reimbursement, AccountsReceivableCustomerInvoice invoice, KualiDecimal creditAmount) throws WorkflowException {
+        
+        final AccountsReceivableCustomerCreditMemo customerCreditMemo = createCustomerCreditMemo(reimbursement, invoice, creditAmount);
+        
+        LOG.info("Blanket Approving CRM with travelDocumentIdentifier " + reimbursement.getTravelDocumentIdentifier());
+
+        UserSession originalUser = GlobalVariables.getUserSession();
+        KualiWorkflowDocument originalWorkflowDocument = customerCreditMemo.getDocumentHeader().getWorkflowDocument();
+        
+        try {
+            
+            // original initiator may not have permission to blanket approve the credit memo document, switch to sys user
+            GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
+
+            KualiWorkflowDocument newWorkflowDocument = getWorkflowDocumentService().createWorkflowDocument(Long.valueOf(customerCreditMemo.getDocumentNumber()), GlobalVariables.getUserSession().getPerson());
+            newWorkflowDocument.setTitle(originalWorkflowDocument.getTitle());
+
+            customerCreditMemo.getDocumentHeader().setWorkflowDocument(newWorkflowDocument);
+
+            //blanket approve CRM doc
+            final String approvalAnnotation = "Blanket Approving APP with travelDocumentIdentifier " + reimbursement.getTravelDocumentIdentifier();
+            getAccountsReceivableModuleService().blanketApproveCustomerCreditMemoDocument(customerCreditMemo, approvalAnnotation);
+
+            //Adding note to the TR document
+            final String noteText = String.format("Customer Credit Memo Document %s was system generated.", customerCreditMemo.getDocumentNumber());
+            final Note noteToAdd = getDocumentService().createNoteFromDocument(reimbursement, noteText);
+            getDocumentService().addNoteToDocument(reimbursement, noteToAdd);
+            getDocumentService().saveDocument(reimbursement);
+        }
+        catch (Exception ex) {
+            //log the error and continue to link CRM to TR
+            LOG.error("Encountered error on the CRM document with travelDocumentIdentifier " + reimbursement.getTravelDocumentIdentifier(), ex);
+        }
+        finally {
+            GlobalVariables.setUserSession(originalUser);
+            customerCreditMemo.getDocumentHeader().setWorkflowDocument(originalWorkflowDocument);
+        }
+        
+        // add relationship
+        String relationDescription = "TR - Customer Credit Memo";
+        accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(reimbursement.getDocumentNumber(), customerCreditMemo.getDocumentNumber(), relationDescription));
+    }
+    
+    /**
+     * Create the CRM document and set the document headers
+     * 
+     * @param reimbursement
+     * @param creditAmount
+     * @return
+     * @throws WorkflowException
+     */
+    protected AccountsReceivableCustomerCreditMemo createCustomerCreditMemo(TravelReimbursementDocument reimbursement, AccountsReceivableCustomerInvoice invoice, KualiDecimal creditAmount) throws WorkflowException {
+        
+        // create a new CustomerCreditMemoDocument
+        final AccountsReceivableCustomerCreditMemo arCreditMemoDoc = getAccountsReceivableModuleService().createCustomerCreditMemoDocument();
+
+        //pre-populate the AR DocHeader so it will be bypassed in the CRM populate CRM details
+        arCreditMemoDoc.setAccountsReceivableDocumentHeader(createAccountsReceivableDocumentHeader(arCreditMemoDoc.getDocumentNumber(), reimbursement.getTraveler().getCustomerNumber()));
+        arCreditMemoDoc.getDocumentHeader().setDocumentDescription(reimbursement.getDocumentHeader().getDocumentDescription());
+        arCreditMemoDoc.getDocumentHeader().setOrganizationDocumentNumber(reimbursement.getTravelDocumentIdentifier());
+        
+        //populate detail of CRM doc by invoice number and the amount to credit
+        getAccountsReceivableModuleService().populateCustomerCreditMemoDocumentDetails(arCreditMemoDoc, invoice.getDocumentNumber(), creditAmount);
+
+        //travel advance amount
+        reimbursement.setTravelAdvanceAmount(creditAmount);
+        
+        return arCreditMemoDoc;
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelReimbursementService#getRelatedOpenTravelAuthorizationDocument(org.kuali.kfs.module.tem.document.TravelReimbursementDocument)
+     */
+    @SuppressWarnings("restriction")
+    public TravelAuthorizationDocument getRelatedOpenTravelAuthorizationDocument(final TravelReimbursementDocument reimbursement) throws WorkflowException{
+        TravelAuthorizationDocument travelAuthorizationDocument = new TravelAuthorizationDocument();
+        Map<String, List<Document>> relatedDocuments = getTravelDocumentService().getDocumentsRelatedTo(reimbursement);
+
+        List<Document> travelAuthDocs = relatedDocuments.get(TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
+        List<Document> travelAuthAmendDocs = relatedDocuments.get(TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
+        
+        //adding all TAA docs to the list if they exists
+        if (travelAuthAmendDocs != null){
+            travelAuthDocs.addAll(travelAuthAmendDocs);
+        }
+        
+        for (Document document : travelAuthDocs) {
+            // Find the doc that is the open to perform actions against - only one of the TAA/TA should be found
+            TravelAuthorizationDocument travelDocument = (TravelAuthorizationDocument) document;
+            if ((getTravelDocumentService().isFinal(travelDocument) || getTravelDocumentService().isProcessed(travelDocument)) && getTravelDocumentService().isOpen(travelDocument)) {
+                travelAuthorizationDocument = travelDocument;
+                break;
+            }
+        }
+        
+        return travelAuthorizationDocument;
     }
 
     protected Collection<DisbursementVoucherDocument> getDisbursementVouchersFor(final Integer trip) throws WorkflowException {
@@ -472,14 +652,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         final KualiDecimal cashControlTotal = reimbursement.getTotalDollarAmount();
         retval.getDocumentHeader().setFinancialDocumentTotalAmount(cashControlTotal);
 
-        final AccountsReceivableOrganizationOptions orgOptions = getOrgOptionsForPayment();
-        final String processingChart = orgOptions.getProcessingChartOfAccountCode();
-        final String processingOrg = orgOptions.getProcessingOrganizationCode();
-
-        final AccountsRecievableDocumentHeader arDocHeader = getAccountsReceivableModuleService().getNewAccountsReceivableDocumentHeader(processingChart, processingOrg);
-        arDocHeader.setDocumentNumber(retval.getDocumentNumber());
-        arDocHeader.setCustomerNumber(reimbursement.getTraveler().getCustomerNumber());
-        retval.setAccountsReceivableDocumentHeader(arDocHeader);
+        retval.setAccountsReceivableDocumentHeader(createAccountsReceivableDocumentHeader(retval.getDocumentNumber(), reimbursement.getTraveler().getCustomerNumber()));
         
         //String[] travelDocumentIdentifier = reimbursement.getTravelDocumentIdentifier().split("-");        
         retval.getDocumentHeader().setOrganizationDocumentNumber(reimbursement.getTravelDocumentIdentifier());
@@ -490,7 +663,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
 
         createDetailsFor(retval, reimbursement);
 
-        final KualiDecimal invoicesTotal = getInvoicesTotalFor(reimbursement.getTraveler().getCustomerNumber());
+        final KualiDecimal invoicesTotal = getInvoicesTotalFor(reimbursement.getTraveler().getCustomerNumber(), reimbursement.getTravelDocumentIdentifier());
 
         debug("Invoice total ", invoicesTotal);
         debug("Cash Control Total is ", retval.getTotalFromControl());
@@ -530,6 +703,26 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
     }
 
     /**
+     * Create {@link org.kuali.kfs.integration.ar.AccountsRecievableDocumentHeader} for AR documents used by TEM
+     * 
+     * @param document
+     * @param customerNumber
+     * @return
+     */
+    public AccountsRecievableDocumentHeader createAccountsReceivableDocumentHeader(String documentNumber, String customerNumber){
+
+        final AccountsReceivableOrganizationOptions orgOptions = getOrgOptions();
+        final String processingChart = orgOptions.getProcessingChartOfAccountCode();
+        final String processingOrg = orgOptions.getProcessingOrganizationCode();
+
+        final AccountsRecievableDocumentHeader arDocHeader = getAccountsReceivableModuleService().getNewAccountsReceivableDocumentHeader(processingChart, processingOrg);
+        arDocHeader.setDocumentNumber(documentNumber);
+        arDocHeader.setCustomerNumber(customerNumber);
+        
+        return arDocHeader;
+    }
+    
+    /**
      * Applies payments on the {@link PaymentApplicationDocument} according to the <code>cashControlTotal</code>. Iterates over
      * invoices. Each {@link CustomerInvoiceDocument} gets its own {@link InvoicePaidApplied} instance added to the
      * {@link PaymentApplicationDocument}. As more is invoices are applied, the <code>cashControlTotal</code> is decrimented by the
@@ -545,7 +738,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
 
         Integer sequence = 1;
 
-        final Collection<AccountsReceivableCustomerInvoice> invoices = getAccountsReceivableModuleService().getOpenInvoiceDocumentsByCustomerNumber(customerNumber);
+        final Collection<AccountsReceivableCustomerInvoice> invoices = getAccountsReceivableModuleService().getOpenInvoiceDocumentsByCustomerNumberForTrip(customerNumber, "");
         debug("There are ", invoices.size(), " invoices");
         for (final AccountsReceivableCustomerInvoice invoice : invoices) {
             debug("Remaining cash control total is ", remaining);
@@ -608,21 +801,38 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
     }
 
     /**
-     * Tallies up all the invoice amounts for all invoices a customer has
+     * Tallies up all the (open) invoice amounts for all invoices a customer has for a particular trip
      * 
-     * @param customerNumber used to identify the {@link Customer} to get invoices for
-     * @return total {@link KualiDecimal} of all invoices
+     * @param customerNumber
+     * @param travelDocId
+     * @return
      */
-    protected KualiDecimal getInvoicesTotalFor(final String customerNumber) {
+    protected KualiDecimal getInvoicesTotalFor(final String customerNumber, final String travelDocId) {
         KualiDecimal retval = KualiDecimal.ZERO;
-        final Collection<AccountsReceivableCustomerInvoice> invoices = getAccountsReceivableModuleService().getOpenInvoiceDocumentsByCustomerNumber(customerNumber);
+        for (final KualiDecimal invoiceAmount : getInvoicesOpenAmountMapFor(customerNumber, travelDocId).values()) {           
+            debug("Accumulating ", invoiceAmount);
+            retval = retval.add(invoiceAmount);
+        }
+        return retval;
+    }
+    
+    /**
+     * Look up the open invoice(s) for customer for a particular trip; Return the open amount for each of the invoice.
+     * 
+     * @param customerNumber
+     * @param travelDocId
+     * @return
+     */
+    protected Map<AccountsReceivableCustomerInvoice, KualiDecimal> getInvoicesOpenAmountMapFor(final String customerNumber, final String travelDocId) {
+        final Collection<AccountsReceivableCustomerInvoice> invoices = getAccountsReceivableModuleService().getOpenInvoiceDocumentsByCustomerNumberForTrip(customerNumber, travelDocId);
+        
+        Map<AccountsReceivableCustomerInvoice, KualiDecimal> invoiceOpenAmountMap = new HashMap<AccountsReceivableCustomerInvoice, KualiDecimal>();
         debug("Invoices for customer ", customerNumber, " ", invoices);
         for (final AccountsReceivableCustomerInvoice invoice : invoices) {           
             KualiDecimal openAmountForCustomerInvoiceDocument = getAccountsReceivableModuleService().getOpenAmountForCustomerInvoiceDocument(invoice);
-            debug("Accumulating ", openAmountForCustomerInvoiceDocument);
-            retval = retval.add(openAmountForCustomerInvoiceDocument);
+            invoiceOpenAmountMap.put(invoice, openAmountForCustomerInvoiceDocument);
         }
-        return retval;
+        return invoiceOpenAmountMap;
     }
 
     protected Collection<DocumentHeader> getHeadersWith(final Integer orgDocId) throws WorkflowException {

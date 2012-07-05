@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.Organization;
+import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.sys.businessobject.ChartOrgHolder;
 import org.kuali.kfs.sys.service.ElectronicPaymentClaimingDocumentGenerationStrategy;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -185,7 +186,14 @@ public interface AccountsReceivableModuleService {
 
     public KualiDecimal getOpenAmountForCustomerInvoiceDocument(AccountsReceivableCustomerInvoice invoice);
 
-    public Collection<AccountsReceivableCustomerInvoice> getOpenInvoiceDocumentsByCustomerNumber(String customerNumber);
+    /**
+     * Look for open invoice documents by customer number and travel doc Id 
+     * 
+     * @param customerNumber
+     * @param tripId
+     * @return
+     */
+    public Collection<AccountsReceivableCustomerInvoice> getOpenInvoiceDocumentsByCustomerNumberForTrip(String customerNumber, String travelDocId);
 
     public AccountsReceivableNonInvoiced createNonInvoiced();
 
@@ -202,4 +210,34 @@ public interface AccountsReceivableModuleService {
     public Document blanketApprovePaymentApplicationDocument(AccountsReceivablePaymentApplicationDocument paymentApplicationDocument, String travelDocumentIdentifier) throws WorkflowException;
     
     public AccountsReceivableCustomerInvoice createCustomerInvoiceDocument();
+    
+    /**
+     * Create new {@link CustomerCreditMemoDocument} document
+     * 
+     * @return
+     */
+    public AccountsReceivableCustomerCreditMemo createCustomerCreditMemoDocument();
+    
+    /**
+     * Blanket approve CRM doc
+     * 
+     * @param creditMemoDocument
+     * @param annotation
+     * @return
+     * @throws WorkflowException
+     */
+    @SuppressWarnings("restriction")
+    public Document blanketApproveCustomerCreditMemoDocument(AccountsReceivableCustomerCreditMemo creditMemoDocument, String annotation) throws WorkflowException;
+
+    /**
+     * Populate Customer Credit Memo document detail using the document own method
+     * 
+     * @param crmDocument
+     * @param invoiceNumber
+     * @param creditAmount
+     * @return
+     */
+    public AccountsReceivableCustomerCreditMemo populateCustomerCreditMemoDocumentDetails(AccountsReceivableCustomerCreditMemo crmDocument, String invoiceNumber, KualiDecimal creditAmount);
+    
+    
 }

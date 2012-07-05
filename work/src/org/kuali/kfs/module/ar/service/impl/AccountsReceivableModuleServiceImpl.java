@@ -22,11 +22,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.integration.ar.AccountsReceivableCashControlDetail;
 import org.kuali.kfs.integration.ar.AccountsReceivableCashControlDocument;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
+import org.kuali.kfs.integration.ar.AccountsReceivableCustomerCreditMemo;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoiceDetail;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerType;
@@ -43,6 +45,7 @@ import org.kuali.kfs.module.ar.ArPropertyConstants.CustomerTypeFields;
 import org.kuali.kfs.module.ar.businessobject.CashControlDetail;
 import org.kuali.kfs.module.ar.businessobject.Customer;
 import org.kuali.kfs.module.ar.businessobject.CustomerAddress;
+import org.kuali.kfs.module.ar.businessobject.CustomerCreditMemoDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceDetail;
 import org.kuali.kfs.module.ar.businessobject.CustomerInvoiceRecurrenceDetails;
 import org.kuali.kfs.module.ar.businessobject.CustomerType;
@@ -50,9 +53,11 @@ import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
 import org.kuali.kfs.module.ar.businessobject.NonInvoiced;
 import org.kuali.kfs.module.ar.businessobject.OrganizationOptions;
 import org.kuali.kfs.module.ar.document.CashControlDocument;
+import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.service.AccountsReceivableDocumentHeaderService;
+import org.kuali.kfs.module.ar.document.service.CustomerCreditMemoDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDetailService;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
 import org.kuali.kfs.module.ar.document.service.CustomerService;
@@ -301,14 +306,24 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
         return SpringContext.getBean(CustomerInvoiceDocumentService.class).getOpenAmountForCustomerInvoiceDocument((CustomerInvoiceDocument) invoice);     
     }
 
+    /**
+     * @see org.kuali.kfs.integration.ar.AccountsReceivableModuleService#getOpenInvoiceDocumentsByCustomerNumberForTrip(java.lang.String, java.lang.String)
+     */
     @Override
-    public Collection<AccountsReceivableCustomerInvoice> getOpenInvoiceDocumentsByCustomerNumber(String customerNumber) {
+    public Collection<AccountsReceivableCustomerInvoice> getOpenInvoiceDocumentsByCustomerNumberForTrip(String customerNumber, String travelDocId) {
+        
         Collection<AccountsReceivableCustomerInvoice> invoices = new ArrayList<AccountsReceivableCustomerInvoice>();
-        
         Collection<CustomerInvoiceDocument> result = SpringContext.getBean(CustomerInvoiceDocumentService.class).getOpenInvoiceDocumentsByCustomerNumber(customerNumber);
-        
-        if (result != null && !result.isEmpty()) {
-            invoices.addAll(result);
+
+        // if the trip id is not blank, perform a comparison with the Org Doc Num, otherwise add the entire collection into the result
+        if (StringUtils.isNotBlank(travelDocId)){
+            for (CustomerInvoiceDocument invoice : result){
+                if (invoice.getDocumentHeader().getOrganizationDocumentNumber().equals(travelDocId)){
+                    invoices.add(invoice);
+                }
+            }
+        }else{
+          invoices.addAll(result);
         }
         
         return invoices;
@@ -385,5 +400,46 @@ public class AccountsReceivableModuleServiceImpl implements AccountsReceivableMo
         }
         
         return new CustomerInvoiceDocument();
+    }
+
+    @Override
+    public AccountsReceivableCustomerCreditMemo createCustomerCreditMemoDocument() {
+        CustomerCreditMemoDocument crmDocument = new CustomerCreditMemoDocument();
+        try {
+            crmDocument = (CustomerCreditMemoDocument)getDocumentService().getNewDocument(CustomerCreditMemoDocument.class);
+        }
+        catch (WorkflowException ex) {
+            ex.printStackTrace();
+        }
+        return crmDocument;
+    }
+
+    @Override
+    public AccountsReceivableCustomerCreditMemo populateCustomerCreditMemoDocumentDetails(AccountsReceivableCustomerCreditMemo arCrmDocument, String invoiceNumber, KualiDecimal creditAmount) {
+
+        CustomerCreditMemoDocument crmDocument = (CustomerCreditMemoDocument)arCrmDocument;
+        
+        //set invoice number
+        crmDocument.setFinancialDocumentReferenceInvoiceNumber(invoiceNumber);
+        //force to refresh invoice;
+        crmDocument.getInvoice();
+        crmDocument.populateCustomerCreditMemoDetails();
+        
+        //update the amount on the credit memo detail, there should only be one item for Travel item so we will update that amount
+        CustomerCreditMemoDetail detail = crmDocument.getCreditMemoDetails().get(0);
+        detail.setCreditMemoItemTotalAmount(creditAmount);
+
+        //CLEANUP 
+        // HM this isn't stored in DB and it looks like UI specific
+        //detail.setInvoiceOpenItemQuantity(crmDocument.getInvoiceOpenItemQuantity(detail, detail.getCustomerInvoiceDetail()));
+//        CustomerCreditMemoDetailService service = SpringContext.getBean(CustomerCreditMemoDetailService.class);
+//        service.recalculateCustomerCreditMemoDetail(detail, crmDocument);
+//        
+        return crmDocument;
+    }
+
+    @Override
+    public Document blanketApproveCustomerCreditMemoDocument(AccountsReceivableCustomerCreditMemo creditMemoDocument, String annotation) throws WorkflowException {
+        return getDocumentService().blanketApproveDocument((CustomerCreditMemoDocument)creditMemoDocument, annotation, null);
     }
 }

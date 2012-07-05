@@ -31,7 +31,7 @@ import org.kuali.rice.kns.util.KNSConstants;
 
 public class TemParameterConstants extends KfsParameterConstants {
 
-    public static final String TEM_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "TEM";
+    public static final String TEM_NAMESPACE = TemConstants.PARAM_NAMESPACE;
     
     public static final String AUTHORIZATION_PARAM_DTL_TYPE = "TravelAuthorization";
     public static final String REIMBURSEMENT_PARAM_DTL_TYPE = "TravelReimbursement";

@@ -125,6 +125,7 @@ public class TemConstants extends JSTLConstants {
 
     public static class TravelParameters {
         public static final String ALLOW_TRAVELER_ADDRESS_CHANGE_IND = "ALLOW_TRAVELER_ADDRESS_CHANGE_IND";
+        //CLEANUP update all the parameter usage
         public static final String DOCUMENT_DTL_TYPE = "Document";
         public static final String NON_EMPLOYEE_TRAVELER_TYPE_CODES = "NON_EMPLOYEE_TRAVELER_TYPE_CODES";
         public static final String EMPLOYEE_TRAVELER_TYPE_CODES = "EMPLOYEE_TRAVELER_TYPE_CODES";

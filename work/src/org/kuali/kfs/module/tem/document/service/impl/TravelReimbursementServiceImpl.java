@@ -17,22 +17,15 @@ package org.kuali.kfs.module.tem.document.service.impl;
 
 import static org.kuali.kfs.module.tem.TemConstants.DATE_CHANGED_MESSAGE;
 import static org.kuali.kfs.module.tem.TemConstants.DISBURSEMENT_VOUCHER_DOCTYPE;
-import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.DOCUMENT_DTL_TYPE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.TRAVEL_COVERSHEET_INSTRUCTIONS;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.TRAVEL_DOCUMENTATION_LOCATION_CODE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.AR_REFUND_ACCOUNT_NBR;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.AR_REFUND_CHART_CODE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.AR_REFUND_OBJECT_CODE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.PARAM_DTL_TYPE;
 import static org.kuali.kfs.module.tem.TemKeyConstants.MESSAGE_TR_LODGING_ALREADY_CLAIMED;
 import static org.kuali.kfs.module.tem.TemKeyConstants.MESSAGE_TR_MEAL_ALREADY_CLAIMED;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.AIRFARE_EXPENSE_DISABLED;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.PER_DIEM_EXPENSE_DISABLED;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.info;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.logger;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.warn;
 import static org.kuali.kfs.sys.KFSConstants.EXTERNALIZABLE_HELP_URL_KEY;
 
 import java.beans.PropertyChangeListener;
@@ -59,11 +52,11 @@ import org.kuali.kfs.integration.ar.AccountsReceivableNonInvoiced;
 import org.kuali.kfs.integration.ar.AccountsReceivableOrganizationOptions;
 import org.kuali.kfs.integration.ar.AccountsReceivablePaymentApplicationDocument;
 import org.kuali.kfs.integration.ar.AccountsRecievableDocumentHeader;
-import org.kuali.kfs.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
@@ -109,9 +102,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
-/**
- * Travel Reimbursement Service Implementation
- */
+@SuppressWarnings("restriction")
 public class TravelReimbursementServiceImpl implements TravelReimbursementService {
 
     protected static Logger LOG = Logger.getLogger(TravelReimbursementServiceImpl.class);
@@ -126,7 +117,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
     private TravelAuthorizationService travelAuthorizationService;
     private ParameterService parameterService;
     private WorkflowDocumentService workflowDocumentService;
-    private PersonService personService;
+    private PersonService<Person> personService;
     private DocumentDao documentDao;
     private AccountingDocumentRelationshipService accountingDocumentRelationshipService;
     private AccountsReceivableModuleService accountsReceivableModuleService;
@@ -134,10 +125,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
     private List<PropertyChangeListener> propertyChangeListeners;
 
     /**
-     * Locate all {@link TravelReimbursementDocument} instances with the same <code>travelDocumentIdentifier</code>
-     * 
-     * @param travelDocumentIdentifier to locate {@link TravelReimbursementDocument} instances
-     * @return {@link Collection} of {@link TravelReimbursementDocument} instances
+     * @see org.kuali.kfs.module.tem.document.service.TravelReimbursementService#findByTravelId(java.lang.String)
      */
     public List<TravelReimbursementDocument> findByTravelId(final String travelDocumentIdentifier) throws WorkflowException {
         final List<TravelReimbursementDocument> retval = getTravelDocumentService().find(TravelReimbursementDocument.class, travelDocumentIdentifier);
@@ -147,12 +135,18 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         return retval;
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelReimbursementService#find(java.lang.String)
+     */
     public TravelReimbursementDocument find(final String documentNumber) throws WorkflowException {
         final TravelReimbursementDocument retval = (TravelReimbursementDocument) getDocumentService().getByDocumentHeaderId(documentNumber);
         addListenersTo(retval);
         return retval;
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelReimbursementService#addListenersTo(org.kuali.kfs.module.tem.document.TravelReimbursementDocument)
+     */
     public void addListenersTo(final TravelReimbursementDocument reimbursement) {
         if (reimbursement != null) {
             reimbursement.setPropertyChangeListeners(getPropertyChangeListeners());
@@ -166,8 +160,8 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
     public Coversheet generateCoversheetFor(final TravelReimbursementDocument document) throws Exception {
         final String docNumber = document.getDocumentNumber();
         final String initiatorId = document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
-        final String instructions = getParameterService().getParameterValue(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, TRAVEL_COVERSHEET_INSTRUCTIONS);
-        final String mailTo = travelDocumentService.retrieveAddressFromLocationCode(getParameterService().getParameterValue(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, TRAVEL_DOCUMENTATION_LOCATION_CODE));
+        final String instructions = getParameterService().getParameterValue(TemParameterConstants.TEM_DOCUMENT.class, TRAVEL_COVERSHEET_INSTRUCTIONS);
+        final String mailTo = travelDocumentService.retrieveAddressFromLocationCode(getParameterService().getParameterValue(TemParameterConstants.TEM_DOCUMENT.class, TRAVEL_DOCUMENTATION_LOCATION_CODE));
         final String destination  = document.getPrimaryDestination().getPrimaryDestinationName();
 
         final String directory = getConfigurationService().getPropertyString(EXTERNALIZABLE_HELP_URL_KEY);
@@ -235,8 +229,14 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         return cover;
     }
     
+    /**
+     * 
+     * @param expenseType
+     * @param document
+     * @return
+     */
     protected String getReceiptRequired(String expenseType, final TravelDocument document) {
-        final String expenseTypeCode = getParameterService().getParameterValue(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, expenseType);
+        final String expenseTypeCode = getParameterService().getParameterValue(TemParameterConstants.TEM_DOCUMENT.class, expenseType);
         Map<String, String> primaryKeys = new HashMap<String, String>();
         primaryKeys.put(KFSPropertyConstants.CODE, expenseTypeCode);
         primaryKeys.put(TemPropertyConstants.TRIP_TYPE, document.getTripTypeCode());
@@ -246,6 +246,11 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         return getReceiptRequired((TemTravelExpenseTypeCode) businessObjectService.findByPrimaryKey(TemTravelExpenseTypeCode.class, primaryKeys));
     }
     
+    /**
+     * 
+     * @param expenseTypeCode
+     * @return
+     */
     protected String getReceiptRequired(TemTravelExpenseTypeCode expenseTypeCode) {
         String receipt = "-";
         if(ObjectUtils.isNotNull(expenseTypeCode) && ObjectUtils.isNotNull(expenseTypeCode.getReceiptRequired())) {
@@ -275,9 +280,9 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
                 notifyDateChangedOn(travelReqDoc, startDateIn, endDateIn);
             }
             catch (Exception e) {
-                warn("Could not add a note to reimbursement with document number: ", travelReqDoc.getDocumentHeader().getDocumentNumber());
-                warn(e.getMessage());
-                if (logger().isDebugEnabled()) {
+                LOG.warn("Could not add a note to reimbursement with document number: " + travelReqDoc.getDocumentHeader().getDocumentNumber());
+                LOG.warn(e.getMessage());
+                if (LOG.isDebugEnabled()) {
                     e.printStackTrace();
                 }
             }
@@ -349,18 +354,14 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
      */
     protected AccountsReceivableOrganizationOptions getOrgOptions() {
         final Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put("chartOfAccountsCode", getParameterService().getParameterValue(PARAM_NAMESPACE,
-                TravelAuthorizationParameters.PARAM_DTL_TYPE,
-                TravelAuthorizationParameters.TRAVEL_ADVANCE_BILLING_CHART_CODE));
-        criteria.put("organizationCode", getParameterService().getParameterValue(PARAM_NAMESPACE,
-                TravelAuthorizationParameters.PARAM_DTL_TYPE,
-                TravelAuthorizationParameters.TRAVEL_ADVANCE_BILLING_ORG_CODE));
+        criteria.put("chartOfAccountsCode", getParameterService().getParameterValue(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_BILLING_CHART_CODE));
+        criteria.put("organizationCode", getParameterService().getParameterValue(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_BILLING_ORG_CODE));
         
         return getAccountsReceivableModuleService().getOrganizationOptionsByPrimaryKey(criteria);
     }
 
     /**
-     *      TA may have the above information related to reimbursable amount and (invoice?)
+     *      TA may have the above LOG.information related to reimbursable amount and (invoice?)
      * 
      *     Search for the INV associated with the Travel Authorization from AR (Org Doc Number = Trip ID)
      *     
@@ -387,9 +388,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
      * @throws WorkflowException
      */
     public void processCustomerReimbursement(final TravelReimbursementDocument reimbursement) throws WorkflowException{
-        
         //Calculate the invoice total for customer
-        
         Map<AccountsReceivableCustomerInvoice, KualiDecimal> openInvoiceMap = getInvoicesOpenAmountMapFor (reimbursement.getTraveler().getCustomerNumber(), reimbursement.getTravelDocumentIdentifier());
 
         KualiDecimal invoicesTotal = KualiDecimal.ZERO;
@@ -399,7 +398,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         }
         KualiDecimal reimbursableTotal = reimbursement.getReimbursableTotal();
 
-        info(String.format("Invoice Total $%f - Reimbursable Total $%f", invoicesTotal.bigDecimalValue(), reimbursableTotal.bigDecimalValue()));
+        LOG.info(String.format("Invoice Total $%f - Reimbursable Total $%f", invoicesTotal.bigDecimalValue(), reimbursableTotal.bigDecimalValue()));
         
         //reimbursable >= invoice
         if (reimbursableTotal.isGreaterEqual(invoicesTotal)){
@@ -441,7 +440,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
     public void spawnCashControlDocumentFrom(final TravelReimbursementDocument reimbursement) throws WorkflowException {
         final AccountsReceivablePaymentApplicationDocument paymentApplication = createPaymentApplicationFor(reimbursement);
 
-        info("Blanket Approving APP with travelDocumentIdentifier ", reimbursement.getTravelDocumentIdentifier());
+        LOG.info("Blanket Approving APP with travelDocumentIdentifier " + reimbursement.getTravelDocumentIdentifier());
 
         UserSession originalUser = GlobalVariables.getUserSession();
         KualiWorkflowDocument originalWorkflowDocument = paymentApplication.getDocumentHeader().getWorkflowDocument();
@@ -478,7 +477,9 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         //accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(reimbursement.getDocumentNumber(), paymentApplication.getAccountsReceivableCashControlDetail().getAccountsReceivableCashControlDocument().getDocumentNumber(), relationDescription));
     }
     
-    @SuppressWarnings("restriction")
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelReimbursementService#spawnCustomerCreditMemoDocument(org.kuali.kfs.module.tem.document.TravelReimbursementDocument, org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice, org.kuali.rice.kns.util.KualiDecimal)
+     */
     public void spawnCustomerCreditMemoDocument(final TravelReimbursementDocument reimbursement, AccountsReceivableCustomerInvoice invoice, KualiDecimal creditAmount) throws WorkflowException {
         
         final AccountsReceivableCustomerCreditMemo customerCreditMemo = createCustomerCreditMemo(reimbursement, invoice, creditAmount);
@@ -519,7 +520,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         
         // add relationship
         String relationDescription = "TR - Customer Credit Memo";
-        accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(reimbursement.getDocumentNumber(), customerCreditMemo.getDocumentNumber(), relationDescription));
+        getAccountingDocumentRelationshipService().save(new AccountingDocumentRelationship(reimbursement.getDocumentNumber(), customerCreditMemo.getDocumentNumber(), relationDescription));
     }
     
     /**
@@ -552,7 +553,6 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelReimbursementService#getRelatedOpenTravelAuthorizationDocument(org.kuali.kfs.module.tem.document.TravelReimbursementDocument)
      */
-    @SuppressWarnings("restriction")
     public TravelAuthorizationDocument getRelatedOpenTravelAuthorizationDocument(final TravelReimbursementDocument reimbursement) throws WorkflowException{
         TravelAuthorizationDocument travelAuthorizationDocument = new TravelAuthorizationDocument();
         Map<String, List<Document>> relatedDocuments = getTravelDocumentService().getDocumentsRelatedTo(reimbursement);
@@ -625,7 +625,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         newCashControlDetail.setCustomerPaymentMediumIdentifier(reimbursement.getDocumentNumber());
 
         // add cash control detail. implicitly saves the cash control document
-        debug("Adding a new cash control detail");
+        LOG.debug("Adding a new cash control detail");
         newCashControlDetail.setCashControlDocument(cashControl);
         List<AccountsReceivableCashControlDetail> accountsReceivableCashControlDetails = cashControl.getAccountsReceivableCashControlDetails();
         accountsReceivableCashControlDetails.add(newCashControlDetail);
@@ -659,30 +659,30 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         // refresh nonupdatable references and save the PaymentApplicationDocument
         retval.refreshNonUpdateableReferences();
 
-        debug("Created payment with customer number ", retval.getAccountsReceivableDocumentHeader().getCustomerNumber());
+        LOG.debug("Created payment with customer number " + retval.getAccountsReceivableDocumentHeader().getCustomerNumber());
 
         createDetailsFor(retval, reimbursement);
 
         final KualiDecimal invoicesTotal = getInvoicesTotalFor(reimbursement.getTraveler().getCustomerNumber(), reimbursement.getTravelDocumentIdentifier());
 
-        debug("Invoice total ", invoicesTotal);
-        debug("Cash Control Total is ", retval.getTotalFromControl());
+        LOG.debug("Invoice total " + invoicesTotal);
+        LOG.debug("Cash Control Total is " + retval.getTotalFromControl());
         KualiDecimal noninvoiced = KualiDecimal.ZERO;
         for (final AccountsReceivableNonInvoiced item : retval.getAccountsReceivableNonInvoiceds()) {
             noninvoiced = noninvoiced.add(item.getFinancialDocumentLineAmount());
         }
-        debug("Non Invoiced Total is ", noninvoiced);
+        LOG.debug("Non Invoiced Total is " + noninvoiced);
 
         KualiDecimal refundTotal = KualiDecimal.ZERO;
         if (cashControlTotal.isGreaterThan(invoicesTotal)) {
             refundTotal = cashControlTotal.subtract(invoicesTotal);
         }
-        debug("Expecting refund of ", refundTotal);
+        LOG.debug("Expecting refund of " + refundTotal);
         if (KualiDecimal.ZERO.isLessThan(refundTotal)) {
             createNonInvoicedItemFor(retval, refundTotal);
         }
 
-        debug("NonInvoice Total is ", retval.getSumOfNonInvoiceds());
+        LOG.debug("NonInvoice Total is " + retval.getSumOfNonInvoiceds());
 
         if (KualiDecimal.ZERO.isLessThan(invoicesTotal)) {
             applyPaymentsOn(retval, cashControlTotal);
@@ -696,7 +696,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         }
         retval.setAccountsReceivableInvoicePaidApplieds(accountsReceivableInvoicePaidApplieds);
         
-        debug("The applied total is now ", appliedTotal);
+        LOG.debug("The applied total is now " + appliedTotal);
         reimbursement.setTravelAdvanceAmount(appliedTotal);
 
         return retval;
@@ -739,18 +739,18 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         Integer sequence = 1;
 
         final Collection<AccountsReceivableCustomerInvoice> invoices = getAccountsReceivableModuleService().getOpenInvoiceDocumentsByCustomerNumberForTrip(customerNumber, "");
-        debug("There are ", invoices.size(), " invoices");
+        LOG.debug("There are " + invoices.size() + " invoices");
         for (final AccountsReceivableCustomerInvoice invoice : invoices) {
-            debug("Remaining cash control total is ", remaining);
+            LOG.debug("Remaining cash control total is " + remaining);
             if (remaining.isGreaterThan(KualiDecimal.ZERO)) {
                 KualiDecimal applyAmount = invoice.getOpenAmount();
-                debug("Got invoice with open amount ", applyAmount, " docNbr: ", invoice.getDocumentNumber());
+                LOG.debug("Got invoice with open amount "+ applyAmount + " docNbr: " + invoice.getDocumentNumber());
 
                 if (applyAmount.isGreaterThan(remaining)) {
                     applyAmount = KualiDecimal.ZERO.add(remaining);
                 }
 
-                debug("Applying ", applyAmount);
+                LOG.debug("Applying " + applyAmount);
                 final AccountsReceivableInvoicePaidApplied toApply = getAccountsReceivableModuleService().createInvoicePaidApplied();
                 toApply.setDocumentNumber(payment.getDocumentNumber());
                 toApply.setFinancialDocumentReferenceInvoiceNumber(invoice.getDocumentNumber());
@@ -762,7 +762,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
                 accountsReceivableInvoicePaidApplieds.add(toApply);
                 payment.setAccountsReceivableInvoicePaidApplieds(accountsReceivableInvoicePaidApplieds);
                 remaining = remaining.subtract(applyAmount);
-                debug("Remaining is ", remaining);
+                LOG.debug("Remaining is " + remaining);
             }
         }
 
@@ -777,9 +777,9 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
      * @param amount
      */
     protected void createNonInvoicedItemFor(final AccountsReceivablePaymentApplicationDocument payment, final KualiDecimal amount) {
-        final String refundChartCode = getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, AR_REFUND_CHART_CODE);
-        final String refundAccount = getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, AR_REFUND_ACCOUNT_NBR);
-        final String refundObject = getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, AR_REFUND_OBJECT_CODE);
+        final String refundChartCode = getParameterService().getParameterValue(TemParameterConstants.TEM_DOCUMENT.class, AR_REFUND_CHART_CODE);
+        final String refundAccount = getParameterService().getParameterValue(TemParameterConstants.TEM_DOCUMENT.class, AR_REFUND_ACCOUNT_NBR);
+        final String refundObject = getParameterService().getParameterValue(TemParameterConstants.TEM_DOCUMENT.class, AR_REFUND_OBJECT_CODE);
 
         final AccountsReceivableNonInvoiced nonInvoiced = getAccountsReceivableModuleService().createNonInvoiced();
 
@@ -793,11 +793,11 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         nonInvoiced.setFinancialDocumentLineNumber(1);
         nonInvoiced.setRefundIndicator(true);
 
-        debug("Adding NonInvoiced item with amount ", nonInvoiced.getFinancialDocumentLineAmount());
+        LOG.debug("Adding NonInvoiced item with amount " + nonInvoiced.getFinancialDocumentLineAmount());
         List<AccountsReceivableNonInvoiced> accountsReceivableNonInvoiceds = payment.getAccountsReceivableNonInvoiceds();
         accountsReceivableNonInvoiceds.add(nonInvoiced);
         payment.setAccountsReceivableNonInvoiceds(accountsReceivableNonInvoiceds);
-        debug("NonInvoice Total is ", payment.getSumOfNonInvoiceds());
+        LOG.debug("NonInvoice Total is " + payment.getSumOfNonInvoiceds());
     }
 
     /**
@@ -810,7 +810,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
     protected KualiDecimal getInvoicesTotalFor(final String customerNumber, final String travelDocId) {
         KualiDecimal retval = KualiDecimal.ZERO;
         for (final KualiDecimal invoiceAmount : getInvoicesOpenAmountMapFor(customerNumber, travelDocId).values()) {           
-            debug("Accumulating ", invoiceAmount);
+            LOG.debug("Accumulating " + invoiceAmount);
             retval = retval.add(invoiceAmount);
         }
         return retval;
@@ -827,7 +827,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         final Collection<AccountsReceivableCustomerInvoice> invoices = getAccountsReceivableModuleService().getOpenInvoiceDocumentsByCustomerNumberForTrip(customerNumber, travelDocId);
         
         Map<AccountsReceivableCustomerInvoice, KualiDecimal> invoiceOpenAmountMap = new HashMap<AccountsReceivableCustomerInvoice, KualiDecimal>();
-        debug("Invoices for customer ", customerNumber, " ", invoices);
+        LOG.debug("Invoices for customer " + customerNumber + " " + invoices);
         for (final AccountsReceivableCustomerInvoice invoice : invoices) {           
             KualiDecimal openAmountForCustomerInvoiceDocument = getAccountsReceivableModuleService().getOpenAmountForCustomerInvoiceDocument(invoice);
             invoiceOpenAmountMap.put(invoice, openAmountForCustomerInvoiceDocument);
@@ -835,6 +835,12 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         return invoiceOpenAmountMap;
     }
 
+    /**
+     * 
+     * @param orgDocId
+     * @return
+     * @throws WorkflowException
+     */
     protected Collection<DocumentHeader> getHeadersWith(final Integer orgDocId) throws WorkflowException {
         final Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put("organizationDocumentNumber", "" + orgDocId);
@@ -858,162 +864,8 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
     }
 
     /**
-     * Sets the propertyChangeListener attribute value.
-     * 
-     * @param propertyChangeListener The propertyChangeListener to set.
+     * @see org.kuali.kfs.module.tem.document.service.TravelReimbursementService#disencumberFunds(org.kuali.kfs.module.tem.document.TravelReimbursementDocument)
      */
-    public void setPropertyChangeListeners(final List<PropertyChangeListener> propertyChangeListeners) {
-        this.propertyChangeListeners = propertyChangeListeners;
-    }
-
-    /**
-     * Gets the propertyChangeListeners attribute.
-     * 
-     * @return Returns the propertyChangeListenerDetailId.
-     */
-    public List<PropertyChangeListener> getPropertyChangeListeners() {
-        return this.propertyChangeListeners;
-    }
-
-    /**
-     * Gets the parameterService attribute.
-     * 
-     * @return Returns the parameterService.
-     */
-    public ParameterService getParameterService() {
-        return parameterService;
-    }
-
-    /**
-     * Sets the parameterService attribute value.
-     * 
-     * @param parameterService The parameterService to set.
-     */
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
-
-    /**
-     * Gets the objectCodeService attribute.
-     * 
-     * @return Returns the objectCodeService.
-     */
-    public ObjectCodeService getObjectCodeService() {
-        return objectCodeService;
-    }
-
-    /**
-     * Sets the objectCodeService attribute value.
-     * 
-     * @param objectCodeService The objectCodeService to set.
-     */
-    public void setObjectCodeService(ObjectCodeService objectCodeService) {
-        this.objectCodeService = objectCodeService;
-    }
-
-    /**
-     * Gets a {@link TravelAuthorizationDocument} for times when {@link TravelReimbursementDocument} is dependent upon data therein.
-     */
-    public void setTravelAuthorizationService(final TravelAuthorizationService travelAuthorizationService) {
-        this.travelAuthorizationService = travelAuthorizationService;
-    }
-
-    protected TravelAuthorizationService getTravelAuthorizationService() {
-        return this.travelAuthorizationService;
-    }
-
-    public void setDocumentService(final DocumentService documentService) {
-        this.documentService = documentService;
-    }
-
-    protected DocumentService getDocumentService() {
-        return documentService;
-    }
-
-    public void setPersonService(final PersonService personService) {
-        this.personService = personService;
-    }
-
-    protected PersonService getPersonService() {
-        return personService;
-    }
-
-    public void setWorkflowDocumentService(final WorkflowDocumentService workflowDocumentService) {
-        this.workflowDocumentService = workflowDocumentService;
-    }
-
-    protected WorkflowDocumentService getWorkflowDocumentService() {
-        return workflowDocumentService;
-    }
-
-    public void setBusinessObjectService(final BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
-    protected BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    public void setDataDictionaryService(final DataDictionaryService dataDictionaryService) {
-        this.dataDictionaryService = dataDictionaryService;
-    }
-
-    protected DataDictionaryService getDataDictionaryService() {
-        return dataDictionaryService;
-    }
-
-    public void setRuleService(final KualiRuleService kualiRuleService) {
-        this.kualiRuleService = kualiRuleService;
-    }
-
-    protected KualiRuleService getRuleService() {
-        return kualiRuleService;
-    }
-
-    public void setTravelDocumentService(final TravelDocumentService travelDocumentService) {
-        this.travelDocumentService = travelDocumentService;
-    }
-
-    protected TravelDocumentService getTravelDocumentService() {
-        return travelDocumentService;
-    }
-
-    /**
-     * Sets the kualiConfigurationService attribute.
-     * 
-     * @return Returns the kualiConfigurationService.
-     */
-    public void setConfigurationService(final KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
-    }
-
-    /**
-     * Gets the kualiConfigurationService attribute.
-     * 
-     * @return Returns the kualiConfigurationService.
-     */
-    protected KualiConfigurationService getConfigurationService() {
-        return kualiConfigurationService;
-    }
-
-    /**
-     * Gets the documentDao attribute.
-     * 
-     * @return Returns the documentDao.
-     */
-    public DocumentDao getDocumentDao() {
-        return documentDao;
-    }
-
-    /**
-     * Sets the documentDao attribute value.
-     * 
-     * @param documentDao The documentDao to set.
-     */
-    public void setDocumentDao(DocumentDao documentDao) {
-        this.documentDao = documentDao;
-    }
-
     @Override
     public void disencumberFunds(TravelReimbursementDocument trDocument) {
         if (trDocument.getTripType().isGenerateEncumbrance()) {
@@ -1115,7 +967,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
      * This method creates the pending entry based on the document and encumbrance
      * 
      * @param encumbrance The encumbrance record that will be updated. This object never gets persisted, but is used for passing
-     *        info
+     *        LOG.info
      * @param sequenceHelper The current sequence
      * @param taDocument The document the entries are added to.
      * @return pendingEntry The completed pending entry.
@@ -1144,8 +996,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
     /**
      * This method creates the offset entry based on the pending entry, document, and encumbrance
      * 
-     * @param encumbrance The encumbrance record that will be updated. This object never gets persisted, but is used for passing
-     *        info
+     * @param encumbrance The encumbrance record that will be updated. This object never gets persisted, but is used for passing info
      * @param sequenceHelper The current sequence
      * @param taDocument The document the entries are added to.
      * @param pendingEntry The pending entry that will accompany the offset entry.
@@ -1186,18 +1037,6 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
             percentageMap.put(key.toString(), percentage);
         }
         return percentageMap;
-    }
-    
-    
-    
-    
-    
-    protected EncumbranceService getEncumbranceService() {
-        return SpringContext.getBean(EncumbranceService.class);
-    }
-    
-    protected GeneralLedgerPendingEntryService getGeneralLedgerPendingEntryService() {
-        return SpringContext.getBean(GeneralLedgerPendingEntryService.class);
     }
 
     /**
@@ -1286,7 +1125,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
                     }
                     final String expenseDate = new SimpleDateFormat("MM/dd/yyyy").format(actualExpense.getExpenseDate());
 
-                    debug("Comparing ", mileageDate, " to ", expenseDate);
+                    LOG.debug("Comparing " + mileageDate + " to " + expenseDate);
                     if (mileageDate.equals(expenseDate)) {
                         String temp = "";
                         if (actualExpense.getTravelExpenseTypeCode().getCode().equals(TemConstants.ExpenseTypes.HOSTED_BREAKFAST) && canRemove){
@@ -1334,6 +1173,180 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
             }
         }
         return success;
+    }
+    
+
+    /**
+     * Sets the propertyChangeListener attribute value.
+     * 
+     * @param propertyChangeListener The propertyChangeListener to set.
+     */
+    public void setPropertyChangeListeners(final List<PropertyChangeListener> propertyChangeListeners) {
+        this.propertyChangeListeners = propertyChangeListeners;
+    }
+
+    /**
+     * Gets the propertyChangeListeners attribute.
+     * 
+     * @return Returns the propertyChangeListenerDetailId.
+     */
+    public List<PropertyChangeListener> getPropertyChangeListeners() {
+        return this.propertyChangeListeners;
+    }
+
+    /**
+     * Gets the parameterService attribute.
+     * 
+     * @return Returns the parameterService.
+     */
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    /**
+     * Sets the parameterService attribute value.
+     * 
+     * @param parameterService The parameterService to set.
+     */
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    /**
+     * Gets the objectCodeService attribute.
+     * 
+     * @return Returns the objectCodeService.
+     */
+    public ObjectCodeService getObjectCodeService() {
+        return objectCodeService;
+    }
+
+    /**
+     * Sets the objectCodeService attribute value.
+     * 
+     * @param objectCodeService The objectCodeService to set.
+     */
+    public void setObjectCodeService(ObjectCodeService objectCodeService) {
+        this.objectCodeService = objectCodeService;
+    }
+
+    /**
+     * Gets a {@link TravelAuthorizationDocument} for times when {@link TravelReimbursementDocument} is dependent upon data therein.
+     */
+    public void setTravelAuthorizationService(final TravelAuthorizationService travelAuthorizationService) {
+        this.travelAuthorizationService = travelAuthorizationService;
+    }
+
+    protected TravelAuthorizationService getTravelAuthorizationService() {
+        return this.travelAuthorizationService;
+    }
+
+    public void setDocumentService(final DocumentService documentService) {
+        this.documentService = documentService;
+    }
+
+    protected DocumentService getDocumentService() {
+        return documentService;
+    }
+
+    public void setPersonService(final PersonService<Person> personService) {
+        this.personService = personService;
+    }
+
+    protected PersonService<Person> getPersonService() {
+        return personService;
+    }
+
+    public void setWorkflowDocumentService(final WorkflowDocumentService workflowDocumentService) {
+        this.workflowDocumentService = workflowDocumentService;
+    }
+
+    protected WorkflowDocumentService getWorkflowDocumentService() {
+        return workflowDocumentService;
+    }
+
+    public void setBusinessObjectService(final BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    protected BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    public void setDataDictionaryService(final DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
+    }
+
+    protected DataDictionaryService getDataDictionaryService() {
+        return dataDictionaryService;
+    }
+
+    public void setRuleService(final KualiRuleService kualiRuleService) {
+        this.kualiRuleService = kualiRuleService;
+    }
+
+    protected KualiRuleService getRuleService() {
+        return kualiRuleService;
+    }
+
+    public void setTravelDocumentService(final TravelDocumentService travelDocumentService) {
+        this.travelDocumentService = travelDocumentService;
+    }
+
+    protected TravelDocumentService getTravelDocumentService() {
+        return travelDocumentService;
+    }
+
+    /**
+     * Sets the kualiConfigurationService attribute.
+     * 
+     * @return Returns the kualiConfigurationService.
+     */
+    public void setConfigurationService(final KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
+    }
+
+    /**
+     * Gets the kualiConfigurationService attribute.
+     * 
+     * @return Returns the kualiConfigurationService.
+     */
+    protected KualiConfigurationService getConfigurationService() {
+        return kualiConfigurationService;
+    }
+
+    /**
+     * 
+     * @return
+     */
+    protected EncumbranceService getEncumbranceService() {
+        return SpringContext.getBean(EncumbranceService.class);
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    protected GeneralLedgerPendingEntryService getGeneralLedgerPendingEntryService() {
+        return SpringContext.getBean(GeneralLedgerPendingEntryService.class);
+    }
+    
+    /**
+     * Gets the documentDao attribute.
+     * 
+     * @return Returns the documentDao.
+     */
+    public DocumentDao getDocumentDao() {
+        return documentDao;
+    }
+
+    /**
+     * Sets the documentDao attribute value.
+     * 
+     * @param documentDao The documentDao to set.
+     */
+    public void setDocumentDao(DocumentDao documentDao) {
+        this.documentDao = documentDao;
     }
 
     public AccountingDocumentRelationshipService getAccountingDocumentRelationshipService() {

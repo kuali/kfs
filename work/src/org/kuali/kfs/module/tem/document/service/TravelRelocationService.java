@@ -24,12 +24,17 @@ import org.kuali.kfs.module.tem.pdf.Coversheet;
 import org.kuali.rice.kew.exception.WorkflowException;
 
 public interface TravelRelocationService {
+    
+    /**
+     * Adding properties listeners
+     * 
+     * @param relocation
+     */
     void addListenersTo(final TravelRelocationDocument relocation);
     
     /**
      * Locate all {@link TravelRelocationDocument} instances with the same
      * <code>travelDocumentIdentifier</code>
-     * 
      *
      * @param travelDocumentIdentifier to locate {@link TravelRelocationDocument} instances
      * @return {@link Collection} of {@link TravelRelocationDocument} instances
@@ -52,16 +57,4 @@ public interface TravelRelocationService {
      * @param relocation
      */
     public void createDVReimbursementDocument(TravelRelocationDocument relocation);    
-    
-    // TODO: remove this when sure.
-    //public void createDVForVendor(TravelRelocationDocument relocation);
-    
-    //public void createREQS(TravelRelocationDocument relocation);
-    
-    //public void populateDisbursementVoucherFieldsForVendor(final DisbursementVoucherDocument dvDocument, TravelRelocationDocument reloDocument);
-    
-    //public void populateRequisitionFields(final RequisitionDocument reqsDocument, TravelRelocationDocument reloDocument);
-    
-    public AccountingDocumentRelationshipService getAccountingDocumentRelationshipService();
-
 }

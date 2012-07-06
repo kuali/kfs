@@ -15,12 +15,10 @@
  */
 package org.kuali.kfs.module.tem.document;
 
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.error;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.logger;
+import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters.RELO_REIMBURSEMENT_DV_REASON_CODE;
+import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters.RELOCATION_DOCUMENTATION_LOCATION_CODE;
+import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationStatusCodeKeys.RELO_MANAGER_APPROVED;
 
-import java.lang.reflect.Field;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,67 +27,36 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemWorkflowConstants;
-import org.kuali.kfs.module.tem.TemConstants.TravelEntertainmentParameters;
-import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters;
-import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
-import org.kuali.kfs.module.tem.businessobject.JobClassification;
+import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
+import org.kuali.kfs.module.tem.businessobject.JobClassification;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.RelocationReason;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
-import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.service.TravelRelocationService;
-import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
-import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
-
-import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters.DV_PAYEE_TYPE_CODE_V;
-import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters.PARAM_DTL_TYPE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters.RELOCATION_DOCUMENTATION_LOCATION_CODE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.VENDOR_PAYMENT_DV_REASON_CODE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationStatusCodeKeys.AWAIT_RELO_MANAGER;
-import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationStatusCodeKeys.AWAIT_TAX_MANAGER;
-import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationStatusCodeKeys.AWAIT_EXECUTIVE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationStatusCodeKeys.AWAIT_AWARD;
-import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationStatusCodeKeys.AWAIT_FISCAL;
-import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationStatusCodeKeys.AWAIT_ORG;
-import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationStatusCodeKeys.AWAIT_SUB;
-import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationStatusCodeKeys.DAPRVD_RELO_MANAGER;
-import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationStatusCodeKeys.DAPRVD_TAX_MANAGER;
-import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationStatusCodeKeys.DAPRVD_EXECUTIVE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationStatusCodeKeys.DAPRVD_AWARD;
-import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationStatusCodeKeys.DAPRVD_FISCAL;
-import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationStatusCodeKeys.DAPRVD_ORG;
-import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationStatusCodeKeys.DAPRVD_SUB;
-import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationStatusCodeKeys.RELO_MANAGER_APPROVED;
-import static org.kuali.kfs.module.tem.TemKeyConstants.MESSAGE_RELO_DV_IN_ACTION_LIST;
-import static org.kuali.rice.kns.util.GlobalVariables.getMessageList;
 
 /**
  * Travel Relocation Document
@@ -98,6 +65,8 @@ import static org.kuali.rice.kns.util.GlobalVariables.getMessageList;
 @Entity
 @Table(name="TEM_RELO_DOC_T")
 public class TravelRelocationDocument extends TEMReimbursementDocument implements AmountTotaling {
+    
+    protected static Logger LOG = Logger.getLogger(TravelRelocationDocument.class);
     
     private String fromAddress1;
     private String fromAddress2;
@@ -283,24 +252,24 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
         setPerDiemExpenses(new ArrayList<PerDiemExpense>());
 
         getDocumentHeader().setDocumentDescription(TemConstants.PRE_FILLED_DESCRIPTION);
-        if (this.getTraveler() == null) {
-            this.setTraveler(new TravelerDetail());
-            this.getTraveler().setTravelerTypeCode(TemConstants.EMP_TRAVELER_TYP_CD);
+        if (getTraveler() == null) {
+            setTraveler(new TravelerDetail());
+            getTraveler().setTravelerTypeCode(TemConstants.EMP_TRAVELER_TYP_CD);
         }
 
         Calendar calendar = getDateTimeService().getCurrentCalendar();
-        if (this.getTripBegin() == null) {
+        if (getTripBegin() == null) {
             calendar.add(Calendar.DAY_OF_MONTH, 1);
             setTripBegin(new Timestamp(calendar.getTimeInMillis()));
 
         }
-        if (this.getTripEnd() == null) {
+        if (getTripEnd() == null) {
             calendar.add(Calendar.DAY_OF_MONTH, 2);
             setTripEnd(new Timestamp(calendar.getTimeInMillis()));
         }
         
         Person currentUser = GlobalVariables.getUserSession().getPerson();
-        if(!getTravelDocumentService().isTravelArranger(currentUser, null)) {
+        if(!getTravelDocumentService().isTravelArranger(currentUser)) {
             TEMProfile temProfile = getTravelService().findTemProfileByPrincipalId(currentUser.getPrincipalId());
             if(temProfile != null) {
                 setTemProfile(temProfile);
@@ -323,8 +292,8 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
         
-        debug("Handling route status change");
-        debug("route status is ", statusChangeEvent.getNewRouteStatus());
+        LOG.debug("Handling route status change");
+        LOG.debug("Current route status is: " + statusChangeEvent.getNewRouteStatus());
                
         // in this case the status has already been updated and we need to update the internal status code
         String currStatus = getDocumentHeader().getWorkflowDocument().getRouteHeader().getAppDocStatus();
@@ -333,49 +302,20 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
             updateAppDocStatus(currStatus);
         }
         
+        // disapproved - update internal app doc status
         if (KEWConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(statusChangeEvent.getNewRouteStatus())) {
-         // first we need to see where we were so we can change the app doc status
-            String currAppDocStatus = getAppDocStatus();
-            if (currAppDocStatus.equals(AWAIT_FISCAL)) {
-                updateAppDocStatus(DAPRVD_FISCAL);
-            }
-            if (currAppDocStatus.equals(AWAIT_ORG)) {
-                updateAppDocStatus(DAPRVD_ORG);
-            }
-            if (currAppDocStatus.equals(AWAIT_SUB)) {
-                updateAppDocStatus(DAPRVD_SUB);
-            }
-            if (currAppDocStatus.equals(AWAIT_AWARD)) {
-                updateAppDocStatus(DAPRVD_AWARD);
-            }
-            if (currAppDocStatus.equals(AWAIT_EXECUTIVE)) {
-                updateAppDocStatus(DAPRVD_EXECUTIVE);
-            }
-            if (currAppDocStatus.equals(AWAIT_TAX_MANAGER)) {
-                updateAppDocStatus(DAPRVD_TAX_MANAGER);
-            }
-            if (currAppDocStatus.equals(AWAIT_RELO_MANAGER)) {
-                updateAppDocStatus(DAPRVD_RELO_MANAGER);
-            }
+            // update app doc status from the disapprove map
+            updateAppDocStatus(TemConstants.TravelRelocationStatusCodeKeys.getDisapprovedAppDocStatusMap().get(getAppDocStatus()));
         }
         
-        if (KEWConstants.ROUTE_HEADER_FINAL_CD.equals(statusChangeEvent.getNewRouteStatus()) || KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(statusChangeEvent.getNewRouteStatus())) {
-            debug("New route status is ", statusChangeEvent.getNewRouteStatus());
-            
+        if (KEWConstants.ROUTE_HEADER_FINAL_CD.equals(statusChangeEvent.getNewRouteStatus()) 
+                || KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(statusChangeEvent.getNewRouteStatus())) {
+
+            LOG.debug("New route status is: " + statusChangeEvent.getNewRouteStatus());
             updateAppDocStatus(RELO_MANAGER_APPROVED);
-            
-            if(this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()){            
-            
-                if(getDocumentGrandTotal().isGreaterThan(KualiDecimal.ZERO)){
-                    try{
-                        getTravelRelocationService().createDVReimbursementDocument(this);
-                    }
-                    catch(Exception ex){
-                        error("Could not spawn DV for reimbursement.", ex.getMessage());
-                        if (logger().isDebugEnabled()) {
-                            ex.printStackTrace();
-                        }
-                    }
+            if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+                if (getDocumentGrandTotal().isGreaterThan(KualiDecimal.ZERO)) {
+                    getTravelRelocationService().createDVReimbursementDocument(this);
                 }
             }
         }
@@ -436,10 +376,10 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
     public KualiDecimal getTotalFor(final String financialObjectCode) {
         KualiDecimal retval = KualiDecimal.ZERO;
         
-        debug("Getting total for ", financialObjectCode);
+        LOG.debug("Getting total for " + financialObjectCode);
         
         for (final AccountingLine line : (List<AccountingLine>) getSourceAccountingLines()) {
-            debug("Comparing ", financialObjectCode, " to ", line.getObjectCode().getCode());
+            LOG.debug("Comparing " + financialObjectCode + " to " + line.getObjectCode().getCode());
             if (line.getObjectCode().getCode().equals(financialObjectCode)) {
                 retval = retval.add(line.getAmount());
             }
@@ -460,12 +400,12 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
         getTravelDocumentService().trimFinancialSystemDocumentHeader(disbursementVoucherDocument.getDocumentHeader());
         
         disbursementVoucherDocument.setDisbVchrPaymentMethodCode(TemConstants.DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE);
-        disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, RELOCATION_DOCUMENTATION_LOCATION_CODE));
+        disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(getParameterService().getParameterValue(TemParameterConstants.TEM_RELOCATION.class, RELOCATION_DOCUMENTATION_LOCATION_CODE));
         
-        final String dvReasonCode = getParameterService().getParameterValue(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, VENDOR_PAYMENT_DV_REASON_CODE);
+        final String dvReasonCode = getParameterService().getParameterValue(TemParameterConstants.TEM_RELOCATION.class, RELO_REIMBURSEMENT_DV_REASON_CODE);
         disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(dvReasonCode);
-        //disbursementVoucherDocument.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(DV_PAYEE_TYPE_CODE_V);
-        //disbursementVoucherDocument.setDisbVchrCheckTotalAmount(this.getDocumentGrandTotal());
+        disbursementVoucherDocument.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(DisbursementVoucherConstants.DV_PAYEE_TYPE_CUSTOMER);
+        //disbursementVoucherDocument.setDisbVchrCheckTotalAmount(getDocumentGrandTotal());
     }
     
     /**
@@ -506,10 +446,10 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
         super.populateVendorPayment(disbursementVoucherDocument);
         
         disbursementVoucherDocument.setDisbVchrPaymentMethodCode(TemConstants.DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE);
-        String locationCode = getParameterService().getParameterValue(PARAM_NAMESPACE, TravelRelocationParameters.PARAM_DTL_TYPE, TravelRelocationParameters.RELOCATION_DOCUMENTATION_LOCATION_CODE);
-        String startDate = new SimpleDateFormat("MM/dd/yyyy").format(this.getTripBegin());
-        String endDate = new SimpleDateFormat("MM/dd/yyyy").format(this.getTripEnd());
-        String checkStubText = this.getTravelDocumentIdentifier() + ", " + startDate + " - " + endDate + ", " + this.getToCity() + ", " + this.getToStateCode();
+        String locationCode = getParameterService().getParameterValue(TemParameterConstants.TEM_RELOCATION.class, TravelRelocationParameters.RELOCATION_DOCUMENTATION_LOCATION_CODE);
+        String startDate = new SimpleDateFormat("MM/dd/yyyy").format(getTripBegin());
+        String endDate = new SimpleDateFormat("MM/dd/yyyy").format(getTripEnd());
+        String checkStubText = getTravelDocumentIdentifier() + ", " + startDate + " - " + endDate + ", " + getToCity() + ", " + getToStateCode();
         
         disbursementVoucherDocument.setDisbVchrPaymentMethodCode(TemConstants.DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE);
         

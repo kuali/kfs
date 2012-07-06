@@ -91,7 +91,7 @@
     <property name="shortLabel" value="BldgCmpCd"/>
     <property name="required" value="false"/>
     <property name="control">
-      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.campus.CampusValuesFinder" p:includeKeyInLabel="false"/>
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.vnd.businessobject.options.CampusWithBlankValuesFinder" p:includeKeyInLabel="false"/>
     </property>
   </bean>
   

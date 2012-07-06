@@ -343,16 +343,21 @@
 
 	<bean id="OrgReviewRole-activeFromDate" parent="OrgReviewRole-activeFromDate-parentBean" />
 	<bean id="OrgReviewRole-activeFromDate-parentBean" abstract="true"
-		parent="DocRoleMember-activeFromDate" p:name="activeFromDate" />
+		parent="DocRoleMember-activeFromDate" p:name="activeFromDate">
+	    <property name="control" ref="DateControl" />
+	    <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
+	</bean>
 
 	<bean id="OrgReviewRole-activeToDate" parent="OrgReviewRole-activeToDate-parentBean" />
 	<bean id="OrgReviewRole-activeToDate-parentBean" abstract="true"
-		parent="DocRoleMember-activeToDate" p:name="activeToDate" />
+		parent="DocRoleMember-activeToDate" p:name="activeToDate">
+	    <property name="control" ref="DateControl" />
+	    <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
+	</bean>
 
 	<bean id="OrgReviewRole-active" parent="OrgReviewRole-active-parentBean" />
 	<bean id="OrgReviewRole-active-parentBean" abstract="true"
-		parent="AttributeReferenceDummy-genericBoolean" p:name="active"
-		p:label="Active Indicator" />
+		parent="GenericAttributes-activeIndicator" p:name="active" />
 
 	<bean id="OrgReviewRole-orgReviewRoleInquiryTitle" parent="OrgReviewRole-orgReviewRoleInquiryTitle-parentBean" />
 	<bean id="OrgReviewRole-orgReviewRoleInquiryTitle-parentBean"

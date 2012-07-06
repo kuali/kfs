@@ -29,13 +29,8 @@
     <property name="lockingKeys">
       <list>
         <value>roleMemberRoleId</value>
-        <!-- <value>roleMemberRoleNamespaceCode</value> -->
-        <!-- <value>roleMemberRoleName</value> -->
     	<value>groupMemberGroupId</value>
-        <!-- <value>groupMemberGroupNamespaceCode</value> -->
-        <!-- <value>groupMemberGroupName</value> -->
 		<value>principalMemberPrincipalId</value>
-        <!-- <value>principalMemberPrincipalName</value> -->
         <value>chartOfAccountsCode</value>
         <value>organizationCode</value>
       </list>
@@ -84,10 +79,10 @@
         <dd:maintField attributeName="roleMemberRoleNamespaceCode"/>
         <dd:maintField attributeName="roleMemberRoleName"/>
         <dd:maintField attributeName="groupMemberGroupNamespaceCode"/>
-        <dd:maintField attributeName="groupMemberGroupName"/>
+        <dd:maintField attributeName="groupMemberGroupName" />
         <dd:maintField attributeName="actionTypeCode" required="true"/>
         <dd:maintField attributeName="priorityNumber"/>
-        <bean parent="MaintainableFieldDefinition" p:name="actionPolicyCode" p:required="true" p:defaultValue="F" />
+        <dd:maintField attributeName="actionPolicyCode" required="true" defaultValue="F" />
         <dd:maintField attributeName="forceAction"/>
         <dd:maintField attributeName="activeFromDate"/>
         <dd:maintField attributeName="activeToDate"/>

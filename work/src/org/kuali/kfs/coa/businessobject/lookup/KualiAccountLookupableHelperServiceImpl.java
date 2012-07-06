@@ -100,20 +100,4 @@ public class KualiAccountLookupableHelperServiceImpl extends KualiLookupableHelp
         return super.getSearchResults(parameters);
     }
 
-
-    /**
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getReadOnlyFieldsList()
-     */
-    @Override
-    public List<String> getReadOnlyFieldsList() {
-        List<String> readonlyList = super.getReadOnlyFieldsList();
-        if (readonlyList == null) {
-            readonlyList = new ArrayList<String>();
-        }
-        AccountService accountService = SpringContext.getBean(AccountService.class);
-        if (!accountService.accountsCanCrossCharts()) readonlyList.add(CHART_OF_ACCOUNTS_CODE);
-        return readonlyList;
-    }
-
-
 }

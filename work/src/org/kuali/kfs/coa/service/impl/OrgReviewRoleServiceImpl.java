@@ -287,72 +287,54 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
         RoleService roleService = KimApiServiceLocator.getRoleService();
         // Save delegation(s)
         List<KfsKimDocDelegateMember> delegationMembers = getDelegationMembersToSave(orr);
+
         for( KfsKimDocDelegateMember dm : delegationMembers ) {
             // retrieve the delegate type so it can be updated
             DelegationType delegationType = dm.getDelegationType();
-            DelegateType existingDelegateType = roleService.getDelegateTypeByRoleIdAndDelegateTypeCode(orr.getRoleId(), delegationType);
-            DelegateType.Builder updatedDelegateType;
-            if ( existingDelegateType == null ) {
-                updatedDelegateType = DelegateType.Builder.create(orr.getRoleId(), delegationType, new ArrayList<DelegateMember.Builder>(1));
+            DelegateType delegateType = roleService.getDelegateTypeByRoleIdAndDelegateTypeCode(orr.getRoleId(), delegationType);
+            if ( delegateType == null ) {
+                DelegateType.Builder newDelegateType = DelegateType.Builder.create(orr.getRoleId(), delegationType, new ArrayList<DelegateMember.Builder>(1));
+                // ensure this is set (for new delegation types)
+                newDelegateType.setKimTypeId(orr.getRole().getKimTypeId());
+                delegateType = roleService.createDelegateType(newDelegateType.build());
             } else {
-                updatedDelegateType = DelegateType.Builder.create(existingDelegateType);
-            }
-            if ( LOG.isDebugEnabled() ) {
-                LOG.debug("Pulled DelegateType from KIM: " + updatedDelegateType);
+                if ( LOG.isDebugEnabled() ) {
+                    LOG.debug("Pulled DelegateType from KIM: " + delegateType);
+                }
             }
 
-            // ensure this is set (for new delegation types)
-            updatedDelegateType.setKimTypeId(orr.getRole().getKimTypeId());
-            List<DelegateMember.Builder> members = updatedDelegateType.getMembers();
-            List<String> existingMemberIds = new ArrayList<String>(members.size());
             boolean foundExistingMember = false;
+            DelegateMember addedMember = null;
 
             // check for an existing delegation member given its unique ID
             // if found, update that record
             if ( StringUtils.isNotBlank(dm.getDelegationMemberId()) ) {
-                for ( DelegateMember.Builder member : members ) {
-                    existingMemberIds.add(member.getDelegationMemberId());
+                List<DelegateMember> members = delegateType.getMembers();
+                for ( DelegateMember member : members ) {
                     if ( member.getDelegationMemberId().equals(dm.getDelegationMemberId()) ) {
                         if ( LOG.isDebugEnabled() ) {
-                            LOG.debug("Found existing role member - updating existing record. " + member);
+                            LOG.debug("Found existing delgate member - updating existing record. " + member);
                         }
-                        updateDelegateMemberFromDocDelegateMember(member, dm);
+                        DelegateMember.Builder updatedMember = DelegateMember.Builder.create(member);
+                        updateDelegateMemberFromDocDelegateMember(updatedMember, dm);
                         foundExistingMember = true;
+                        addedMember = roleService.updateDelegateMember(updatedMember.build());
+                        break;
                     }
                 }
             }
-            // if we did not find one, then add a new entry to the list
+            // if we did not find one, then we need to create a new member
             if ( !foundExistingMember ) {
                 if ( LOG.isDebugEnabled() ) {
-                    LOG.debug("No existing role member found, adding as a new delegate: " + dm);
+                    LOG.debug("No existing delegate member found, adding as a new delegate: " + dm);
                 }
                 DelegateMember.Builder newMember = DelegateMember.Builder.create();
                 updateDelegateMemberFromDocDelegateMember(newMember, dm);
-                updatedDelegateType.getMembers().add(newMember);
+                addedMember = roleService.createDelegateMember(newMember.build());
             }
 
-            DelegateType updatedType = updatedDelegateType.build();
-            if ( existingDelegateType == null || StringUtils.isBlank( existingDelegateType.getDelegationId() ) ) {
-                if ( LOG.isDebugEnabled() ) {
-                    LOG.debug( "Calling roleService.createDelegateType: " + updatedType );
-                }
-                updatedType = roleService.createDelegateType(updatedType);
-            } else {
-                if ( LOG.isDebugEnabled() ) {
-                    LOG.debug( "Calling roleService.updateDelegateType: " + updatedType );
-                }
-                updatedType = roleService.updateDelegateType(updatedType);
-            }
-            if ( LOG.isDebugEnabled() ) {
-                LOG.debug( "Updated record - returned object from KIM: " + updatedType );
-            }
-            // to get the member we just added, filter out all the other IDs until we find one
-            // which was not there before
-            for ( DelegateMember member : updatedType.getMembers() ) {
-                if ( !existingMemberIds.contains(member.getDelegationMemberId()) ) {
-                    orr.setDelegationMemberId(member.getDelegationMemberId());
-                    break;
-                }
+            if ( addedMember != null ) {
+                orr.setDelegationMemberId(addedMember.getDelegationMemberId());
             }
         }
     }

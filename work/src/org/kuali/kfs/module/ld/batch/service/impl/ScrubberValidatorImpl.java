@@ -401,7 +401,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
                 laborWorkingEntry.setChartOfAccountsCode(altAccount.getChartOfAccountsCode());
                 Message err = handleExpiredClosedAccount(altAccount, laborOriginEntry, laborWorkingEntry, universityRunDate);
                 if (err == null) {
-                    err = MessageBuilder.buildMessageWithPlaceHolder(LaborKeyConstants.MESSAGE_FRINGES_MOVED_TO, Message.TYPE_WARNING, altAccount.getAccountNumber());
+                    err = MessageBuilder.buildMessageWithPlaceHolder(LaborKeyConstants.MESSAGE_FRINGES_MOVED_TO, Message.TYPE_WARNING, new Object[] { altAccount.getAccountNumber() } );
                 }
                 return err;
             }
@@ -464,7 +464,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         workingEntry.setChartOfAccountsCode(suspenseCOAcode);
         workingEntry.setSubAccountNumber(suspenseSubAccountNumber);
 
-        return MessageBuilder.buildMessageWithPlaceHolder(LaborKeyConstants.MESSAGE_SUSPENSE_ACCOUNT_APPLIED, Message.TYPE_WARNING, suspenseCOAcode, suspenseAccountNumber, suspenseSubAccountNumber);
+        return MessageBuilder.buildMessageWithPlaceHolder(LaborKeyConstants.MESSAGE_SUSPENSE_ACCOUNT_APPLIED, Message.TYPE_WARNING, new Object[] { suspenseCOAcode, suspenseAccountNumber, suspenseSubAccountNumber } );
     }
     
     /**

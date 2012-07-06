@@ -271,7 +271,6 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
     }
 
     protected void updateDelegateMemberFromDocDelegateMember( DelegateMember.Builder member, KfsKimDocDelegateMember dm ) {
-        member.setDelegationId(dm.getDelegationId());
         member.setMemberId(dm.getMemberId());
         member.setType(dm.getType());
         member.setRoleMemberId(dm.getRoleMemberId());
@@ -292,7 +291,8 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
             // retrieve the delegate type so it can be updated
             DelegationType delegationType = dm.getDelegationType();
             DelegateType delegateType = roleService.getDelegateTypeByRoleIdAndDelegateTypeCode(orr.getRoleId(), delegationType);
-            if ( delegateType == null ) {
+            // KIM always returns a non-null value even if it has never been persisted
+            if ( delegateType == null || delegateType.getDelegationId() == null ) {
                 DelegateType.Builder newDelegateType = DelegateType.Builder.create(orr.getRoleId(), delegationType, new ArrayList<DelegateMember.Builder>(1));
                 // ensure this is set (for new delegation types)
                 newDelegateType.setKimTypeId(orr.getRole().getKimTypeId());
@@ -329,6 +329,7 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
                     LOG.debug("No existing delegate member found, adding as a new delegate: " + dm);
                 }
                 DelegateMember.Builder newMember = DelegateMember.Builder.create();
+                newMember.setDelegationId(delegateType.getDelegationId());
                 updateDelegateMemberFromDocDelegateMember(newMember, dm);
                 addedMember = roleService.createDelegateMember(newMember.build());
             }

@@ -23,11 +23,10 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.identity.KfsKimDocDelegateMember;
 import org.kuali.kfs.coa.identity.OrgReviewRole;
-import org.kuali.kfs.coa.service.OrgReviewRoleService;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.core.api.criteria.PredicateUtils;
@@ -68,7 +67,7 @@ public class OrgReviewRoleServiceImplTest extends KualiTestBase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        orgReviewRoleService = (OrgReviewRoleServiceImpl) SpringContext.getBean(OrgReviewRoleService.class);
+        orgReviewRoleService =  (OrgReviewRoleServiceImpl) TestUtils.getUnproxiedService( "orgReviewRoleService" );
         roleService = KimApiServiceLocator.getRoleService();
         responsibilityService = KimApiServiceLocator.getResponsibilityService();
         kimTypeInfoService = KimApiServiceLocator.getKimTypeInfoService();
@@ -138,7 +137,7 @@ public class OrgReviewRoleServiceImplTest extends KualiTestBase {
         return orr;
     }
 
-    protected OrgReviewRole buildOrgHierDelegateData( DelegationType delegationType ) {
+    protected OrgReviewRole buildOrgHierDelegateTypeData( DelegationType delegationType ) {
         OrgReviewRole orr = new OrgReviewRole();
         orr.setDelegate(true);
         orr.setRoleId( orgHierRole.getId() );
@@ -153,6 +152,42 @@ public class OrgReviewRoleServiceImplTest extends KualiTestBase {
         //orr.setFromAmount(KualiDecimal.ZERO);
         //orr.setToAmount(new KualiDecimal("5000.00"));
         orr.setFinancialSystemDocumentTypeCode("ACCT");
+
+        orr.setActionTypeCode(ActionRequestType.APPROVE.getCode());
+        orr.setPriorityNumber("");
+        orr.setActionPolicyCode(ActionRequestPolicy.FIRST.getCode());
+        orr.setForceAction(false);
+
+        orr.setDelegationMemberRole( new KfsKimDocDelegateMember( orr.getRoleId(), MemberType.ROLE ) );
+        orr.setDelegationMemberGroup( new KfsKimDocDelegateMember( orr.getRoleId(), MemberType.GROUP ) );
+        orr.setDelegationMemberPerson( new KfsKimDocDelegateMember( orr.getRoleId(), MemberType.PRINCIPAL ) );
+
+        orr.setMemberTypeCode(MemberType.PRINCIPAL.getCode());
+        Person p = UserNameFixture.rorenfro.getPerson();
+        orr.setPrincipalMemberPrincipalName(p.getPrincipalName());
+        orr.setPrincipalMemberPrincipalId(p.getPrincipalId());
+
+        //orr.setActiveFromDate(null);
+        //orr.setActiveToDate(null);
+        return orr;
+    }
+
+    protected OrgReviewRole buildAcctHierDelegateTypeData( DelegationType delegationType ) {
+        OrgReviewRole orr = new OrgReviewRole();
+        orr.setDelegate(true);
+        orr.setRoleId( orgHierRole.getId() );
+        orr.setKimTypeId( orgHierRole.getKimTypeId() );
+        orr.setRoleName(orgHierRole.getName());
+        orr.setNamespaceCode(orgHierRole.getNamespaceCode());
+        orr.setDelegationTypeCode(delegationType.getCode());
+
+        orr.setChartOfAccountsCode("BL");
+        orr.setOrganizationCode("PSY");
+        orr.setOverrideCode("");
+        // delegates don't have amounts
+//        orr.setFromAmount(KualiDecimal.ZERO);
+//        orr.setToAmount(new KualiDecimal("5000.00"));
+        orr.setFinancialSystemDocumentTypeCode("DI");
 
         orr.setActionTypeCode(ActionRequestType.APPROVE.getCode());
         orr.setPriorityNumber("");
@@ -203,6 +238,7 @@ public class OrgReviewRoleServiceImplTest extends KualiTestBase {
 
     protected void matchOrgReviewRoleToRoleMember( OrgReviewRole orr, RoleMember rm, Role role ) {
         System.err.println( "RoleMember: " + rm );
+        System.err.println( "OrgReviewRole: " + orr );
 
         assertEquals( "RoleMember id should be that requested", orr.getRoleMemberId(), rm.getId() );
         assertEquals( "RoleMember's ID should match the inputs", orr.getPrincipalMemberPrincipalId(), rm.getMemberId() );
@@ -229,6 +265,7 @@ public class OrgReviewRoleServiceImplTest extends KualiTestBase {
 
     protected void matchOrgReviewRoleToDelegationMember( OrgReviewRole orr, DelegateMember dm, Role role ) {
         System.err.println( "DelegateMember: " + dm );
+        System.err.println( "OrgReviewRole: " + orr );
 
         assertEquals( "DelegateMember id should be that requested", orr.getDelegationMemberId(), dm.getDelegationMemberId() );
         assertEquals( "DelegateMember's ID should match the inputs", orr.getPrincipalMemberPrincipalId(), dm.getMemberId() );
@@ -330,7 +367,7 @@ public class OrgReviewRoleServiceImplTest extends KualiTestBase {
         checkForMatchingRoleMember(orr, orgHierRole);
         String createdRoleMemberId = orr.getRoleMemberId();
 
-        orr = buildOrgHierDelegateData( DelegationType.PRIMARY );
+        orr = buildOrgHierDelegateTypeData( DelegationType.PRIMARY );
         orr.setEdit(false);
         orr.setRoleMemberId(createdRoleMemberId);
         orgReviewRoleService.saveOrgReviewRoleToKim(orr);
@@ -347,18 +384,102 @@ public class OrgReviewRoleServiceImplTest extends KualiTestBase {
     }
 
     public void testSaveOrgReviewRoleToKim_AcctReview_Delegate_New() throws Exception {
-        fail("Not yet implemented");
+        // FIRST - create a known role member
+        OrgReviewRole orr = buildAcctOrgHierData();
+
+        orr.setEdit(false);
+        orgReviewRoleService.saveOrgReviewRoleToKim(orr);
+        assertNotNull( "OrgReviewRole roleMemberId should not be null.", orr.getRoleMemberId() );
+        assertFalse( "OrgReviewRole roleMemberId should not have been blank.", orr.getRoleMemberId().equals("") );
+
+        // now, look in KIM for the role
+        checkForMatchingRoleMember(orr, acctHierRole);
+        String createdRoleMemberId = orr.getRoleMemberId();
+
+        orr = buildAcctHierDelegateTypeData( DelegationType.PRIMARY );
+        orr.setEdit(false);
+        orr.setRoleMemberId(createdRoleMemberId);
+        orgReviewRoleService.saveOrgReviewRoleToKim(orr);
+        assertNotNull( "OrgReviewRole delegationMemberId should not be null.", orr.getDelegationMemberId() );
+        assertFalse( "OrgReviewRole delegationMemberId should not have been blank.", orr.getDelegationMemberId().equals("") );
+
+        // ensure the delegate type now exists
+        DelegateType existingDelegateType = roleService.getDelegateTypeByRoleIdAndDelegateTypeCode(orr.getRoleId(), DelegationType.fromCode(orr.getDelegationTypeCode()));
+        assertNotNull( "Unable to retrieve delegate type object from the KIM Service", existingDelegateType );
+        DelegateMember dm = roleService.getDelegationMemberById(orr.getDelegationMemberId());
+        assertNotNull( "Unable to retrieve delegate member with given ID: " + dm.getDelegationMemberId(), dm );
+
+        checkForMatchingDelegationMember(orr, acctHierRole);
     }
 
     public void testSaveOrgReviewRoleToKim_OrgReview_Delegate_Edit() throws Exception {
-        fail("Not yet implemented");
+        // Create a org role and delegation
+        OrgReviewRole orr = buildOrgHierData();
+        orr.setEdit(false);
+        orgReviewRoleService.saveOrgReviewRoleToKim(orr);
+        assertNotNull( "OrgReviewRole roleMemberId should not be null.", orr.getRoleMemberId() );
+        // add a delegation
+        String createdRoleMemberId = orr.getRoleMemberId();
+        orr = buildOrgHierDelegateTypeData( DelegationType.PRIMARY );
+        orr.setEdit(false);
+        orr.setRoleMemberId(createdRoleMemberId);
+        orgReviewRoleService.saveOrgReviewRoleToKim(orr);
+        assertNotNull( "OrgReviewRole delegationMemberId should not be null.", orr.getDelegationMemberId() );
+
+        // check that the delegate member exists
+        DelegateMember dm = roleService.getDelegationMemberById(orr.getDelegationMemberId());
+        assertNotNull( "Unable to retrieve delegation from KIM after save", dm );
+        String originalDelegationMemberId = dm.getDelegationMemberId();
+
+        // edit the delegation
+        orr = new OrgReviewRole();
+        orgReviewRoleService.populateOrgReviewRoleFromDelegationMember(orr, dm.getDelegationMemberId());
+        orr.setEdit(true);
+        assertEquals( "Document type on the retrieved DelegationMember was not correct","ACCT",orr.getFinancialSystemDocumentTypeCode());
+        orr.setFinancialSystemDocumentTypeCode( "SACC" );
+        orgReviewRoleService.saveOrgReviewRoleToKim(orr);
+        assertNotNull( "OrgReviewRole delegationMemberId should not be null.", orr.getDelegationMemberId() );
+
+        dm = roleService.getDelegationMemberById(orr.getDelegationMemberId());
+        assertNotNull( "Unable to retrieve delegation from KIM after save", dm );
+        assertEquals( "The delegationMemberId should not have changed", originalDelegationMemberId, dm.getDelegationMemberId() );
+        assertEquals( "Document type on the retrieved DelegationMember was not correct","SACC",orr.getFinancialSystemDocumentTypeCode());
     }
 
     public void testSaveOrgReviewRoleToKim_AcctReview_Delegate_Edit() throws Exception {
-        fail("Not yet implemented");
+        // Create a org role and delegation
+        OrgReviewRole orr = buildAcctOrgHierData();
+        orr.setEdit(false);
+        orgReviewRoleService.saveOrgReviewRoleToKim(orr);
+        assertNotNull( "OrgReviewRole roleMemberId should not be null.", orr.getRoleMemberId() );
+        // add a delegation
+        String createdRoleMemberId = orr.getRoleMemberId();
+        orr = buildAcctHierDelegateTypeData( DelegationType.PRIMARY );
+        orr.setEdit(false);
+        orr.setRoleMemberId(createdRoleMemberId);
+        orgReviewRoleService.saveOrgReviewRoleToKim(orr);
+        assertNotNull( "OrgReviewRole delegationMemberId should not be null.", orr.getDelegationMemberId() );
+
+        // check that the delegate member exists
+        DelegateMember dm = roleService.getDelegationMemberById(orr.getDelegationMemberId());
+        assertNotNull( "Unable to retrieve delegation from KIM after save", dm );
+        String originalDelegationMemberId = dm.getDelegationMemberId();
+
+        // edit the delegation
+        orr = new OrgReviewRole();
+        orgReviewRoleService.populateOrgReviewRoleFromDelegationMember(orr, dm.getDelegationMemberId());
+        orr.setEdit(true);
+        assertEquals( "Document type on the retrieved DelegationMember was not correct","DI",orr.getFinancialSystemDocumentTypeCode());
+        orr.setFinancialSystemDocumentTypeCode( "GEC" );
+        orgReviewRoleService.saveOrgReviewRoleToKim(orr);
+        assertNotNull( "OrgReviewRole delegationMemberId should not be null.", orr.getDelegationMemberId() );
+
+        dm = roleService.getDelegationMemberById(orr.getDelegationMemberId());
+        assertNotNull( "Unable to retrieve delegation from KIM after save", dm );
+        assertEquals( "The delegationMemberId should not have changed", originalDelegationMemberId, dm.getDelegationMemberId() );
+        assertEquals( "Document type on the retrieved DelegationMember was not correct","GEC",orr.getFinancialSystemDocumentTypeCode());
     }
 
-    // TODO: on save of delegates, ensure that other (existing) delegates are not removed
 
 //    public void testPopulateOrgReviewRoleFromRoleMember() {
 //        fail("Not yet implemented");

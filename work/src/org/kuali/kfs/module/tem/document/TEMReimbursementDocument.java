@@ -34,6 +34,16 @@ import org.kuali.rice.kns.util.KualiDecimal;
 
 public abstract class TEMReimbursementDocument extends TravelDocumentBase {
     
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#populateDisbursementVoucherFields(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
+     */
+    public void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument) {
+        super.populateDisbursementVoucherFields(disbursementVoucherDocument);
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocument#getReimbursableTotal()
+     */
     public KualiDecimal getReimbursableTotal() {
         KualiDecimal eligible = getEligibleAmount();
         final KualiDecimal expenseLimit = getExpenseLimit();
@@ -45,10 +55,20 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase {
         return eligible;
     }
     
+    /**
+     * Get eligible amount
+     * 
+     * @return
+     */
     public KualiDecimal getEligibleAmount(){
         return getApprovedAmount().subtract(getCTSTotal()).subtract(getCorporateCardTotal());
     }
     
+    /**
+     * Total amount to be paid to Vendor
+     * 
+     * @return
+     */
     public KualiDecimal getTotalPaidAmountToVendor() {
         KualiDecimal totalPaidAmountToVendor = KualiDecimal.ZERO;
         try {
@@ -71,6 +91,11 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase {
         return totalPaidAmountToVendor;
     }
 
+    /**
+     * Total requested to be paid
+     * 
+     * @return
+     */
     public KualiDecimal getTotalPaidAmountToRequests() {
         KualiDecimal totalPaidAmountToRequests = KualiDecimal.ZERO;
         try {
@@ -110,4 +135,18 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase {
         
         return grandTotal;
     }   
+    
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocument#getPerDiemAdjustment()
+     */
+    public KualiDecimal getPerDiemAdjustment() {
+        //do not use per diem adjustment
+        return null;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocument#setPerDiemAdjustment(org.kuali.rice.kns.util.KualiDecimal)
+     */
+    public void setPerDiemAdjustment(KualiDecimal perDiemAdjustment) {
+    }
 }

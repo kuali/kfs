@@ -49,6 +49,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
@@ -147,33 +148,25 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
         return false;
     }
 
+    @Override
     public void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument) {
         super.populateDisbursementVoucherFields(disbursementVoucherDocument);
         
-        disbursementVoucherDocument.setDisbVchrCheckStubText(this.getTravelDocumentIdentifier() + " " + (this.getEventTitle() != null ? this.getEventTitle() : "") + this.getTripBegin());              
-        disbursementVoucherDocument.getDocumentHeader().setDocumentDescription("Generated for ENT doc: " + this.getDocumentTitle() != null ? this.getDocumentTitle() : this.getTravelDocumentIdentifier());
-        if (disbursementVoucherDocument.getDocumentHeader().getDocumentDescription().length() >= 40) {
-            String truncatedDocumentDescription = disbursementVoucherDocument.getDocumentHeader().getDocumentDescription().substring(0, 39);
-            disbursementVoucherDocument.getDocumentHeader().setDocumentDescription(truncatedDocumentDescription);
-        }
+        disbursementVoucherDocument.setDisbVchrCheckStubText(getTravelDocumentIdentifier() + " " + StringUtils.defaultString(getEventTitle()) + getTripBegin());              
+        disbursementVoucherDocument.getDocumentHeader().setDocumentDescription("Generated for ENT doc: " + StringUtils.defaultString(getDocumentTitle(), getTravelDocumentIdentifier()));
+        getTravelDocumentService().trimFinancialSystemDocumentHeader(disbursementVoucherDocument.getDocumentHeader());
 
-        try {
-            disbursementVoucherDocument.getDocumentHeader().getWorkflowDocument().setTitle(this.getDocumentHeader().getDocumentDescription());
-        }
-        catch (WorkflowException ex) {
-            ex.printStackTrace();
-        }
-        
         disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, ENTERTAINMENT_DOCUMENT_LOCATION));        
         String paymentReasonCode = getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, TemConstants.TravelEntertainmentParameters.ENT_REIMBURSEMENT_DV_REASON_CODE);
         disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(paymentReasonCode);
         disbursementVoucherDocument.setDisbVchrPaymentMethodCode(this.getPaymentMethod());
     }
 
+    @Override
     public void populateRequisitionFields(RequisitionDocument reqsDoc, TravelDocument document) {
         super.populateRequisitionFields(reqsDoc, document);
         TravelEntertainmentDocument entDocument = (TravelEntertainmentDocument) document;
-        reqsDoc.getDocumentHeader().setDocumentDescription("Generated for ENT doc: " + (entDocument.getEventTitle() == null ? "" : entDocument.getEventTitle()));
+        reqsDoc.getDocumentHeader().setDocumentDescription("Generated for ENT doc: " + StringUtils.defaultString(entDocument.getEventTitle()));
         reqsDoc.getDocumentHeader().setOrganizationDocumentNumber(entDocument.getTravelDocumentIdentifier());
         Calendar calendar = getDateTimeService().getCurrentCalendar();
         calendar.setTime(entDocument.getTripBegin());
@@ -472,16 +465,6 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
         this.purposeCode = purposeCode;
     }
 
-    @Override
-    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    protected TravelService getTravelService() {
-        return SpringContext.getBean(TravelService.class);
-    }
-
     protected TravelDocumentService getTravelDocumentService() {
         return SpringContext.getBean(TravelDocumentService.class);
     }
@@ -588,15 +571,4 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
         
     }
 
-    @Override
-    public KualiDecimal getPerDiemAdjustment() {
-        // Never Used
-        return null;
-    }
-
-    @Override
-    public void setPerDiemAdjustment(KualiDecimal perDiemAdjustment) {
-        // Never Used
-        
-    }
 }

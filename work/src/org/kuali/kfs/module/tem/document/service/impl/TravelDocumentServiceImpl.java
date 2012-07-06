@@ -53,6 +53,7 @@ import java.util.TreeSet;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
@@ -72,6 +73,7 @@ import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
@@ -157,9 +159,10 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Travel Service Implementation
  */
+@SuppressWarnings("restriction")
 public class TravelDocumentServiceImpl implements TravelDocumentService {
     
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TravelDocumentServiceImpl.class);
+    protected static Logger LOG = Logger.getLogger(TravelDocumentServiceImpl.class);
     
     protected DataDictionaryService dataDictionaryService;
     protected DocumentService documentService;
@@ -403,8 +406,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
      * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#getMileageRateKeyValues(java.sql.Date)
      */
     @Override
-    public List getMileageRateKeyValues(Date searchDate) {
-        final List keyValues = new ArrayList();
+    public List<KeyLabelPair> getMileageRateKeyValues(Date searchDate) {
+        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
         TravelDocument document = (TravelDocument) ((TravelFormBase)GlobalVariables.getKualiForm()).getDocument();
         Map<String,Object> fieldValues = new HashMap<String,Object>();
         
@@ -539,6 +542,14 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         return retval;
     }
 
+    /**
+     * looks like its not used, deprecating it
+     * 
+     * @param documentClass
+     * @return
+     */
+    @Deprecated
+    @SuppressWarnings("rawtypes")
     protected boolean isTravelDocument(final Class documentClass) {
         return documentClass.getPackage().getName().contains("org.kuali.kfs.module.tem");
     }
@@ -1204,7 +1215,6 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             }
         }
         catch (WorkflowException ex) {
-            // TODO Auto-generated catch block
             ex.printStackTrace();
         }
 
@@ -1704,7 +1714,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             return doc.getOpenAmount();
         }
         catch (Exception ex) {
-            // TODO Auto-generated catch block
+            //  Auto-generated catch block
             //.printStackTrace();
         }
         
@@ -1762,7 +1772,6 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             trDocs = getDocumentsRelatedTo(document).get(TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
         }
         catch (WorkflowException ex) {
-            // TODO Auto-generated catch block
             ex.printStackTrace();
         }
         if(trDocs != null && trDocs.size() > 0) {
@@ -1792,7 +1801,6 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             taDoc = (TravelAuthorizationDocument) findCurrentTravelAuthorization(document);
         }
         catch (WorkflowException ex) {
-            // TODO Auto-generated catch block
             ex.printStackTrace();
         }
         if(taDoc != null) {
@@ -1844,6 +1852,9 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         return new ArrayList(retval);
     }
     
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#populateDisbursementVoucherFields(org.kuali.kfs.fp.document.DisbursementVoucherDocument, org.kuali.kfs.module.tem.document.TravelDocument)
+     */
     public void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument, TravelDocument document) {
         disbursementVoucherDocument.setRefundIndicator(true);
         disbursementVoucherDocument.getDvPayeeDetail().setDocumentNumber(disbursementVoucherDocument.getDocumentNumber());
@@ -1883,11 +1894,12 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPayeeCountryCode(document.getTraveler().getCountryCode());
         disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(travelerService.isEmployee(document.getTraveler()));
 
-        disbursementVoucherDocument.setDisbVchrPaymentMethodCode("P");
+        disbursementVoucherDocument.setDisbVchrPaymentMethodCode(TemConstants.DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE);
         
-        String advancePaymentChartCode = parameterService.getParameterValue(PARAM_NAMESPACE, TemConstants.TravelAuthorizationParameters.PARAM_DTL_TYPE, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_PAYMENT_CHART_CODE);
-        String advancePaymentAccountNumber = parameterService.getParameterValue(PARAM_NAMESPACE, TemConstants.TravelAuthorizationParameters.PARAM_DTL_TYPE, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_PAYMENT_ACCOUNT_NBR);
-        String advancePaymentObjectCode = parameterService.getParameterValue(PARAM_NAMESPACE, TemConstants.TravelAuthorizationParameters.PARAM_DTL_TYPE, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_PAYMENT_OBJECT_CODE);
+        //Copied from TA's impl - may be usable when we refactor that code
+//        String advancePaymentChartCode = parameterService.getParameterValue(TemParameterConstants.TEM_AUTHORIZATION.class, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_PAYMENT_CHART_CODE);
+//        String advancePaymentAccountNumber = parameterService.getParameterValue(TemParameterConstants.TEM_AUTHORIZATION.class, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_PAYMENT_ACCOUNT_NBR);
+//        String advancePaymentObjectCode = parameterService.getParameterValue(TemParameterConstants.TEM_AUTHORIZATION.class, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_PAYMENT_OBJECT_CODE);
 
         // set accounting
         KualiDecimal totalAmount = KualiDecimal.ZERO;
@@ -1921,37 +1933,47 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         disbursementVoucherDocument.setDisbVchrCheckTotalAmount(totalAmount);
     }
     
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#createDVReimbursementDocument(org.kuali.kfs.module.tem.document.TravelDocumentBase)
+     */
     public DisbursementVoucherDocument createDVReimbursementDocument(TravelDocumentBase document){
         String principalName = SpringContext.getBean(PersonService.class).getPerson(document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId()).getPrincipalName();
         GlobalVariables.setUserSession(new UserSession(principalName));
 
         DisbursementVoucherDocument disbursementVoucherDocument = null;
+        
+        //1. create and populate the DV data and details
         try {
             disbursementVoucherDocument = (DisbursementVoucherDocument) documentService.getNewDocument(DisbursementVoucherDocument.class);
+            
+            //update the DV's DocumentHeader's workflow title to be that fo the travel document 
+            disbursementVoucherDocument.getDocumentHeader().getWorkflowDocument().setTitle(document.getDocumentHeader().getDocumentDescription());
+            
+            document.populateDisbursementVoucherFields(disbursementVoucherDocument);
         }
-        catch (Exception e) {
-            error("Error creating new disbursement voucher document: ", e.getMessage());
-            throw new RuntimeException("Error creating new disbursement voucher document: " + e.getMessage(), e);
+        catch (WorkflowException wfe) {
+            LOG.error("Error creating new disbursement voucher document: " + wfe.getMessage());
+            throw new RuntimeException("Error creating new disbursement voucher document: " + wfe.getMessage(), wfe);
         }
-        document.populateDisbursementVoucherFields(disbursementVoucherDocument);
         
         final Map<String, TypedArrayList> oldErrors = new LinkedHashMap<String, TypedArrayList>();
         oldErrors.putAll(GlobalVariables.getMessageMap().getErrorMessages());
 
-        // always save DV
+        //2. attempt to first save DV doc
         try {
             disbursementVoucherDocument.prepareForSave();
             businessObjectService.save(disbursementVoucherDocument);
-        }catch(Exception e){
+        }
+        catch(Exception e){
             // if we can't save DV, need to stop processing
-            error("cannot save DV ", disbursementVoucherDocument.getDocumentNumber(), e);
+            LOG.error("Cannot save DV " + disbursementVoucherDocument.getDocumentNumber(), e);
             throw new RuntimeException("cannot save DV " + disbursementVoucherDocument.getDocumentNumber(), e);           
         }
         
-        Note taDvNote = null;
+        //3. blanket approve the doc and add notes to the travel doc
         try {
-            taDvNote = getDocumentService().createNoteFromDocument(disbursementVoucherDocument, "system generated note by document # " + document.getTravelDocumentIdentifier());
-            getDocumentService().addNoteToDocument(disbursementVoucherDocument, taDvNote);
+            Note dvNote = getDocumentService().createNoteFromDocument(disbursementVoucherDocument, "System generated note by document # " + document.getTravelDocumentIdentifier());
+            getDocumentService().addNoteToDocument(disbursementVoucherDocument, dvNote);
 
             boolean rulePassed = getKualiRuleService().applyRules(new AttributedRouteDocumentEvent("", disbursementVoucherDocument));
 
@@ -1969,9 +1991,12 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                     
                     disbursementVoucherDocument.getDocumentHeader().setWorkflowDocument(newWorkflowDocument);
                 
-                    String annotation = "Blanket Approved by system in relation to Travel Auth Document: " + document.getDocumentNumber();
+                    String annotation= String.format("Blanket Approved by system for %s Document: %s",  getDocumentType(document), document.getDocumentNumber());
                 	getWorkflowDocumentService().blanketApprove(disbursementVoucherDocument.getDocumentHeader().getWorkflowDocument(), annotation, null); 
             	}
+            	 catch (WorkflowException wfe) {
+                     LOG.error(wfe.getMessage(), wfe);
+                 }
                 finally {
                     GlobalVariables.setUserSession(new UserSession(principalName));
                     disbursementVoucherDocument.getDocumentHeader().setWorkflowDocument(originalWorkflowDocument);
@@ -1993,12 +2018,13 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             }
         }
         catch (Exception ex) {
-            // TODO Auto-generated catch block
-            ex.printStackTrace();
+            LOG.error(ex.getMessage(), ex);
         }
-
+        
+        //done with everything, reset errors and put back the old errors
         GlobalVariables.getMessageMap().clearErrorMessages();
         GlobalVariables.getMessageMap().getErrorMessages().putAll(oldErrors);
+        
         return disbursementVoucherDocument;
     }
     
@@ -2047,11 +2073,9 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                     BeanUtils.copyProperties(newGroupTraveler, groupTraveler);
                 }
                 catch (IllegalAccessException ex) {
-                    // TODO Auto-generated catch block
                     ex.printStackTrace();
                 }
                 catch (InvocationTargetException ex) {
-                    // TODO Auto-generated catch block
                     ex.printStackTrace();
                 }
                 newGroupTraveler.setDocumentNumber(documentNumber);
@@ -2084,11 +2108,9 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                     BeanUtils.copyProperties(newActualExpense, actualExpense);
                 }
                 catch (IllegalAccessException ex) {
-                    // TODO Auto-generated catch block
                     ex.printStackTrace();
                 }
                 catch (InvocationTargetException ex) {
-                    // TODO Auto-generated catch block
                     ex.printStackTrace();
                 }
                 if (nullCheck) {
@@ -2126,11 +2148,9 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                     BeanUtils.copyProperties(newExpense, expense);
                 }
                 catch (IllegalAccessException ex) {
-                    // TODO Auto-generated catch block
                     ex.printStackTrace();
                 }
                 catch (InvocationTargetException ex) {
-                    // TODO Auto-generated catch block
                     ex.printStackTrace();
                 }
                 newExpense.setBreakfastValue(expense.getBreakfastValue());
@@ -2179,11 +2199,9 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                     BeanUtils.copyProperties(newEmergencyContact, emergencyContact);
                 }
                 catch (IllegalAccessException ex) {
-                    // TODO Auto-generated catch block
                     ex.printStackTrace();
                 }
                 catch (InvocationTargetException ex) {
-                    // TODO Auto-generated catch block
                     ex.printStackTrace();
                 }
                 newEmergencyContact.setDocumentNumber(documentNumber);
@@ -2209,11 +2227,9 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                     BeanUtils.copyProperties(newSpecialCircumstances, specialCircumstances);
                 }
                 catch (IllegalAccessException ex) {
-                    // TODO Auto-generated catch block
                     ex.printStackTrace();
                 }
                 catch (InvocationTargetException ex) {
-                    // TODO Auto-generated catch block
                     ex.printStackTrace();
                 }
                 newSpecialCircumstances.setDocumentNumber(documentNumber);
@@ -2239,11 +2255,9 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                     BeanUtils.copyProperties(newDetail, detail);
                 }
                 catch (IllegalAccessException ex) {
-                    // TODO Auto-generated catch block
                     ex.printStackTrace();
                 }
                 catch (InvocationTargetException ex) {
-                    // TODO Auto-generated catch block
                     ex.printStackTrace();
                 }
                 newDetail.setDocumentNumber(documentNumber);
@@ -2264,7 +2278,6 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                 }
             }
             catch (WorkflowException ex) {
-                // TODO Auto-generated catch block
                 ex.printStackTrace();
             }
         }
@@ -2281,7 +2294,6 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             authorization = (TravelAuthorizationDocument) findCurrentTravelAuthorization(travelDocument);
         }
         catch (WorkflowException ex) {
-            // TODO Auto-generated catch block
             ex.printStackTrace();
         }
 
@@ -2435,55 +2447,6 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         return false;
     }    
     
-    public PersistenceStructureService getPersistenceStructureService() {
-        return persistenceStructureService;
-    }
-
-    public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
-        this.persistenceStructureService = persistenceStructureService;
-    }
-            
-    public TravelerService getTravelerService() {
-        return travelerService;
-    }
-
-    public void setTravelerService(TravelerService travelerService) {
-        this.travelerService = travelerService;
-    }
-
-    @Override
-    public void populateRequisitionFields(RequisitionDocument reqsDoc, TravelDocument document) {
-        //implement the common functionality       
-    }
-
-    public WorkflowDocumentService getWorkflowDocumentService() {
-        return workflowDocumentService;
-    }
-
-    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
-        this.workflowDocumentService = workflowDocumentService;
-    }
-
-    public KualiRuleService getKualiRuleService() {
-        return kualiRuleService;
-    }
-
-    public void setKualiRuleService(KualiRuleService kualiRuleService) {
-        this.kualiRuleService = kualiRuleService;
-    }
-
-    public StateService getStateService() {
-        return stateService;
-    }
-
-    public void setStateService(StateService stateService) {
-        this.stateService = stateService;
-    }
-    
-    private DocumentHelperService getDocumentHelperService() {
-        return SpringContext.getBean(DocumentHelperService.class);
-    }    
-    
 	/**
 	 * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#getOutstandingTravelAdvanceByInvoice(java.util.Set)
 	 */
@@ -2537,24 +2500,8 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
 		return false;
 	}
 
-	/**
-	 * Gets the universityDateService attribute. 
-	 * @return Returns the universityDateService.
-	 */
-	public UniversityDateService getUniversityDateService() {
-		return universityDateService;
-	}
-
-	/**
-	 * Sets the universityDateService attribute value.
-	 * @param universityDateService The universityDateService to set.
-	 */
-	public void setUniversityDateService(UniversityDateService universityDateService) {
-		this.universityDateService = universityDateService;
-	}
-
     /**
-     * Called when an amendment is canceled.  
+     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#revertOriginalDocument(org.kuali.kfs.module.tem.document.TravelDocument, java.lang.String)
      */
     public void revertOriginalDocument(TravelDocument travelDocument, String status) {
         Map<String, List<Document>> relatedDocs = new HashMap<String, List<Document>>();
@@ -2562,7 +2509,6 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
             relatedDocs = getDocumentsRelatedTo(travelDocument);
         }
         catch (WorkflowException ex1) {
-            // TODO Auto-generated catch block
             ex1.printStackTrace();
         }
         List<Document> taDocs = relatedDocs.get(TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
@@ -2587,13 +2533,15 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                     getDocumentService().saveDocument(taDoc);
                 }
                 catch (Exception ex) {
-                    // TODO Auto-generated catch block
                     ex.printStackTrace();
                 }
             }
         }
     }
     
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#getDocumentType(org.kuali.kfs.module.tem.document.TravelDocument)
+     */
     @Override
     public String getDocumentType(TravelDocument document) {
         String documentType = null;
@@ -2614,6 +2562,82 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         }
         
         return documentType;
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#trimFinancialSystemDocumentHeader(org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader)
+     */
+    public void trimFinancialSystemDocumentHeader(FinancialSystemDocumentHeader header){
+        final int DOC_DESC_MAX_LEN = 40;
+        if (header.getDocumentDescription().length() >= DOC_DESC_MAX_LEN) {
+            String truncatedDocumentDescription = header.getDocumentDescription().substring(0, DOC_DESC_MAX_LEN - 1);
+            header.setDocumentDescription(truncatedDocumentDescription);
+        }
+    }
+
+    public PersistenceStructureService getPersistenceStructureService() {
+        return persistenceStructureService;
+    }
+
+    public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
+        this.persistenceStructureService = persistenceStructureService;
+    }
+            
+    public TravelerService getTravelerService() {
+        return travelerService;
+    }
+
+    public void setTravelerService(TravelerService travelerService) {
+        this.travelerService = travelerService;
+    }
+
+    @Override
+    public void populateRequisitionFields(RequisitionDocument reqsDoc, TravelDocument document) {
+        //implement the common functionality       
+    }
+
+    public WorkflowDocumentService getWorkflowDocumentService() {
+        return workflowDocumentService;
+    }
+
+    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
+        this.workflowDocumentService = workflowDocumentService;
+    }
+
+    public KualiRuleService getKualiRuleService() {
+        return kualiRuleService;
+    }
+
+    public void setKualiRuleService(KualiRuleService kualiRuleService) {
+        this.kualiRuleService = kualiRuleService;
+    }
+
+    public StateService getStateService() {
+        return stateService;
+    }
+
+    public void setStateService(StateService stateService) {
+        this.stateService = stateService;
+    }
+    
+    private DocumentHelperService getDocumentHelperService() {
+        return SpringContext.getBean(DocumentHelperService.class);
+    }    
+
+    /**
+     * Gets the universityDateService attribute. 
+     * @return Returns the universityDateService.
+     */
+    public UniversityDateService getUniversityDateService() {
+        return universityDateService;
+    }
+
+    /**
+     * Sets the universityDateService attribute value.
+     * @param universityDateService The universityDateService to set.
+     */
+    public void setUniversityDateService(UniversityDateService universityDateService) {
+        this.universityDateService = universityDateService;
     }
 
 }

@@ -39,6 +39,7 @@ import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.web.struts.TravelAuthorizationForm;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
@@ -280,6 +281,12 @@ public interface TravelDocumentService {
 
     public void populateRequisitionFields(RequisitionDocument reqsDoc,TravelDocument document);
     
+    /**
+     * Create Disbursement Voucher document from reimbursement
+     * 
+     * @param document
+     * @return
+     */
     public DisbursementVoucherDocument createDVReimbursementDocument(TravelDocumentBase document);
 
     public boolean checkNonEmployeeTravelerTypeCode(String travelerTypeCode);
@@ -387,4 +394,11 @@ public interface TravelDocumentService {
      * @return
      */
     List getMileageRateKeyValues(Date searchDate);
+    
+    /**
+     * Truncate the financial system document header to have maximum length (40)
+     * 
+     * @param header
+     */
+    void trimFinancialSystemDocumentHeader(FinancialSystemDocumentHeader header);
 }

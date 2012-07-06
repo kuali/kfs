@@ -17,9 +17,7 @@ package org.kuali.kfs.module.tem.document;
 
 
 import static org.apache.commons.lang.StringUtils.replace;
-import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.ALLOW_TR_WITHOUT_TA_IND;
-import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.PARAM_DTL_TYPE;
 import static org.kuali.kfs.module.tem.TemKeyConstants.TA_MESSAGE_CLOSE_DOCUMENT_TEXT;
 import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
 import static org.kuali.kfs.module.tem.util.BufferedLogger.error;
@@ -52,6 +50,7 @@ import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementStatusCodeKeys;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.ClassOfService;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
@@ -184,6 +183,22 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
 
     public KualiDecimal getTotalDollarAmount() {
         return getReimbursableTotal();
+    }
+
+    /**
+     * Gets the travelAdvanceAmount attribute. This is the travel advance amount applied on this TR.
+     * @return Returns the travelAdvanceAmount.
+     */
+    public KualiDecimal getTravelAdvanceAmount() {
+        return travelAdvanceAmount;
+    }
+
+    /**
+     * Sets the travelAdvanceAmount attribute value. This is the travel advance amount applied on this TR.
+     * @param travelAdvanceAmount The travelAdvanceAmount to set.
+     */
+    public void setTravelAdvanceAmount(KualiDecimal travelAdvanceAmount) {
+        this.travelAdvanceAmount = travelAdvanceAmount;
     }
     
     /**
@@ -351,7 +366,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     public void toCopy() throws WorkflowException {
         super.toCopy();
 
-        final boolean isTaFree = getParameterService().getIndicatorParameter(PARAM_NAMESPACE, PARAM_DTL_TYPE, ALLOW_TR_WITHOUT_TA_IND);
+        final boolean isTaFree = getParameterService().getIndicatorParameter(TemParameterConstants.TEM_REIMBURSEMENT.class, ALLOW_TR_WITHOUT_TA_IND);
         if (isTaFree) {
             cleanTravelDocument();
         }
@@ -400,6 +415,9 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         return tacDocument;
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#initiateDocument()
+     */
     public void initiateDocument() {
         updateAppDocStatus(TemConstants.TravelReimbursementStatusCodeKeys.IN_PROCESS);
         setActualExpenses(new ArrayList<ActualExpense>());
@@ -470,6 +488,10 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         throw new UnsupportedOperationException("Cannot answer split question for this node you call \"" + nodeName + "\"");
     }
 
+    /**
+     * 
+     * @return
+     */
     private boolean requiresTravelerApprovalRouting() {
         String initiator = this.getDocumentHeader().getWorkflowDocument().getRouteHeader().getInitiatorPrincipalId();
         String travelerID = this.getTraveler().getPrincipalId();
@@ -477,8 +499,12 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         return travelerID != null && !initiator.equals(travelerID);
     }
 
+    /**
+     * 
+     * @return
+     */
     private boolean isNotAutomaticReimbursement() {
-        boolean enabled = getParameterService().getIndicatorParameter(PARAM_NAMESPACE, TemConstants.TravelReimbursementParameters.PARAM_DTL_TYPE, TemConstants.TravelReimbursementParameters.ENABLE_AUTOMATIC_TR_IND);
+        boolean enabled = getParameterService().getIndicatorParameter(TemParameterConstants.TEM_REIMBURSEMENT.class, TemConstants.TravelReimbursementParameters.ENABLE_AUTOMATIC_TR_IND);
         if (!enabled) {
             return true;
         }
@@ -515,22 +541,32 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         return false;
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#requiresInternationalTravelReviewRouting()
+     */
     @Override
     protected boolean requiresInternationalTravelReviewRouting() {
         return super.requiresInternationalTravelReviewRouting() && requiresDivisionApprovalRouting();
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#requiresDivisionApprovalRouting()
+     */
     @Override
     protected boolean requiresDivisionApprovalRouting() {
         boolean reqDivApproval = false;
         KualiDecimal trTotal = getTravelDocumentService().getTotalCumulativeReimbursements(this);
-        KualiDecimal divApprovalMax = new KualiDecimal(getParameterService().getParameterValue(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, TravelParameters.CUMULATIVE_REIMBURSABLE_AMT_WITHOUT_DIV_APPROVAL));
+        KualiDecimal divApprovalMax = new KualiDecimal(getParameterService().getParameterValue(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.CUMULATIVE_REIMBURSABLE_AMT_WITHOUT_DIV_APPROVAL));
         return (trTotal.isGreaterThan(divApprovalMax)) && requiresAccountingReviewRouting();
     }
 
+    /**
+     * 
+     * @return
+     */
     private boolean requiresAccountingReviewRouting() {
         // start with getting the TA encumbrance amount
-        String percent = getParameterService().getParameterValue(PARAM_NAMESPACE, TemConstants.TravelReimbursementParameters.PARAM_DTL_TYPE, TravelReimbursementParameters.REIMBURSEMENT_PERCENT_OVER_ENCUMBRANCE_AMT);
+        String percent = getParameterService().getParameterValue(TemParameterConstants.TEM_REIMBURSEMENT.class, TravelReimbursementParameters.REIMBURSEMENT_PERCENT_OVER_ENCUMBRANCE_AMT);
 
         KualiDecimal taTotal = getTravelDocumentService().getTotalAuthorizedEncumbrance(this);
         if (taTotal.isLessEqual(KualiDecimal.ZERO)) {
@@ -557,44 +593,6 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         }
     }
 
-    @Override
-    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
-        return true;
-    }
-
-    protected PersonService<Person> getPersonService() {
-        return SpringContext.getBean(PersonService.class);
-    }
-
-    protected SequenceAccessorService getSequenceAccessorService() {
-        return SpringContext.getBean(SequenceAccessorService.class);
-    }
-
-    protected DocumentService getDocumentService() {
-        return SpringContext.getBean(DocumentService.class);
-    }
-
-    protected TravelReimbursementService getTravelReimbursementService() {
-        return SpringContext.getBean(TravelReimbursementService.class);
-    }
-
-    protected TravelAuthorizationService getTravelAuthorizationService() {
-        return SpringContext.getBean(TravelAuthorizationService.class);
-    }
-
-    protected EncumbranceService getEncumbranceService() {
-        return SpringContext.getBean(EncumbranceService.class);
-    }
-
-    protected GeneralLedgerPendingEntryService getGeneralLedgerPendingEntryService() {
-        return SpringContext.getBean(GeneralLedgerPendingEntryService.class);
-    }
-
-    @Transient
-    @Override
-    public KualiDecimal getEncumbranceTotal() {
-        return getReimbursableTotal();
-    }
 
     /**
      * Gets the kualiConfigurationService attribute.
@@ -621,11 +619,11 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     @Override
     public void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument) {
         //super.populateDisbursementVoucherFields(disbursementVoucherDocument, document);
-        String reasonCode = getParameterService().getParameterValue(PARAM_NAMESPACE, TravelReimbursementParameters.PARAM_DTL_TYPE,TravelReimbursementParameters.DEFAULT_REFUND_PAYMENT_REASON_CODE);
+        String reasonCode = getParameterService().getParameterValue(TemParameterConstants.TEM_REIMBURSEMENT.class,TravelReimbursementParameters.DEFAULT_REFUND_PAYMENT_REASON_CODE);
         disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(reasonCode);
         disbursementVoucherDocument.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR);
         disbursementVoucherDocument.getDocumentHeader().setOrganizationDocumentNumber(this.getTravelDocumentIdentifier());
-        String locationCode = getParameterService().getParameterValue(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE,TravelParameters.TRAVEL_DOCUMENTATION_LOCATION_CODE);
+        String locationCode = getParameterService().getParameterValue(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.TRAVEL_DOCUMENTATION_LOCATION_CODE);
         disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(locationCode);
         Calendar dueDate = Calendar.getInstance();
         dueDate.add(Calendar.DATE, 1);
@@ -633,17 +631,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         
         disbursementVoucherDocument.setDisbVchrCheckStubText(this.getDocumentTitle() != null ? this.getDocumentTitle() : "");               
         disbursementVoucherDocument.getDocumentHeader().setDocumentDescription("Generated for TR doc: " + this.getDocumentTitle() != null ? this.getDocumentTitle() : this.getTravelDocumentIdentifier());
-        if (disbursementVoucherDocument.getDocumentHeader().getDocumentDescription().length() >= 40) {
-            String truncatedDocumentDescription = disbursementVoucherDocument.getDocumentHeader().getDocumentDescription().substring(0, 39);
-            disbursementVoucherDocument.getDocumentHeader().setDocumentDescription(truncatedDocumentDescription);
-        }
-        
-        try {
-            disbursementVoucherDocument.getDocumentHeader().getWorkflowDocument().setTitle(this.getDocumentHeader().getDocumentDescription());
-        }
-        catch (WorkflowException ex) {
-            ex.printStackTrace();
-        }
+        getTravelDocumentService().trimFinancialSystemDocumentHeader(disbursementVoucherDocument.getDocumentHeader());
         
         for (Object accountingLineObj : this.getSourceAccountingLines()) {
             SourceAccountingLine sourceccountingLine=(SourceAccountingLine)accountingLineObj;
@@ -738,7 +726,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     @Override
     public void populateVendorPayment(DisbursementVoucherDocument disbursementVoucherDocument) {
         super.populateVendorPayment(disbursementVoucherDocument);
-        String locationCode = getParameterService().getParameterValue(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE,TravelParameters.TRAVEL_DOCUMENTATION_LOCATION_CODE);
+        String locationCode = getParameterService().getParameterValue(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.TRAVEL_DOCUMENTATION_LOCATION_CODE);
         String startDate = new SimpleDateFormat("MM/dd/yyyy").format(this.getTripBegin());
         String endDate = new SimpleDateFormat("MM/dd/yyyy").format(this.getTripEnd());
         String checkStubText = this.getTravelDocumentIdentifier() + ", " + this.getPrimaryDestinationName() + ", " + startDate + " - " + endDate;
@@ -746,20 +734,43 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(locationCode);
         disbursementVoucherDocument.setDisbVchrCheckStubText(checkStubText);
     }
-
-    /**
-     * Gets the travelAdvanceAmount attribute. This is the travel advance amount applied on this TR.
-     * @return Returns the travelAdvanceAmount.
-     */
-    public KualiDecimal getTravelAdvanceAmount() {
-        return travelAdvanceAmount;
+    
+    @Override
+    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
+        return true;
     }
 
-    /**
-     * Sets the travelAdvanceAmount attribute value. This is the travel advance amount applied on this TR.
-     * @param travelAdvanceAmount The travelAdvanceAmount to set.
-     */
-    public void setTravelAdvanceAmount(KualiDecimal travelAdvanceAmount) {
-        this.travelAdvanceAmount = travelAdvanceAmount;
+    @Transient
+    @Override
+    public KualiDecimal getEncumbranceTotal() {
+        return getReimbursableTotal();
+    }
+
+    protected PersonService<Person> getPersonService() {
+        return SpringContext.getBean(PersonService.class);
+    }
+
+    protected SequenceAccessorService getSequenceAccessorService() {
+        return SpringContext.getBean(SequenceAccessorService.class);
+    }
+
+    protected DocumentService getDocumentService() {
+        return SpringContext.getBean(DocumentService.class);
+    }
+
+    protected TravelReimbursementService getTravelReimbursementService() {
+        return SpringContext.getBean(TravelReimbursementService.class);
+    }
+
+    protected TravelAuthorizationService getTravelAuthorizationService() {
+        return SpringContext.getBean(TravelAuthorizationService.class);
+    }
+
+    protected EncumbranceService getEncumbranceService() {
+        return SpringContext.getBean(EncumbranceService.class);
+    }
+
+    protected GeneralLedgerPendingEntryService getGeneralLedgerPendingEntryService() {
+        return SpringContext.getBean(GeneralLedgerPendingEntryService.class);
     }
 }

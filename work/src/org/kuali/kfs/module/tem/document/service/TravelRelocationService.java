@@ -51,7 +51,7 @@ public interface TravelRelocationService {
      * This method initiates Disbursement Voucher for Reimbursement
      * @param relocation
      */
-    public void createDVReimbursement(TravelRelocationDocument relocation);    
+    public void createDVReimbursementDocument(TravelRelocationDocument relocation);    
     
     // TODO: remove this when sure.
     //public void createDVForVendor(TravelRelocationDocument relocation);

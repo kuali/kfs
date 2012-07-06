@@ -43,6 +43,12 @@ import org.kuali.rice.kns.util.KualiDecimal;
  */
 public interface TravelDocument extends AccountingDocument, TravelEntertainmentMovingTravelDocument {
 
+    /**
+     * Determines if this document should be able to return to the fiscal officer node again. This can happen
+     * if the user has rights to reroute and also if the document is already ENROUTE.
+     * 
+     * @return true if the doucment is currently enroute and reroutable
+     */
     boolean canReturn();
 
     void initiateDocument();

@@ -435,12 +435,6 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
         logErrors();
     }
 
-    @Override
-    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
     /**
      * This method populates specific items when the document is first initiated
      */
@@ -832,17 +826,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
         
         disbursementVoucherDocument.setDisbVchrCheckStubText(this.getDocumentTitle() != null ? this.getDocumentTitle() : "");               
         disbursementVoucherDocument.getDocumentHeader().setDocumentDescription("Generated for TA doc: " + this.getTravelDocumentIdentifier());
-        if (disbursementVoucherDocument.getDocumentHeader().getDocumentDescription().length() >= 40) {
-            String truncatedDocumentDescription = disbursementVoucherDocument.getDocumentHeader().getDocumentDescription().substring(0, 39);
-            disbursementVoucherDocument.getDocumentHeader().setDocumentDescription(truncatedDocumentDescription);
-        }
-        
-        try {
-            disbursementVoucherDocument.getDocumentHeader().getWorkflowDocument().setTitle(this.getDocumentHeader().getDocumentDescription());
-        }
-        catch (WorkflowException ex) {
-            ex.printStackTrace();
-        }
+        getTravelDocumentService().trimFinancialSystemDocumentHeader(disbursementVoucherDocument.getDocumentHeader());
         
         for (Object accountingLineObj : this.getSourceAccountingLines()) {
             SourceAccountingLine sourceccountingLine=(SourceAccountingLine)accountingLineObj;

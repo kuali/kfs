@@ -171,9 +171,9 @@ public class TravelRelocationServiceImpl implements TravelRelocationService{
     }
     
     /**
-     * @see org.kuali.kfs.module.tem.document.service.TravelRelocationService#createDVReimbursement(org.kuali.kfs.module.tem.document.TravelRelocationDocument)
+     * @see org.kuali.kfs.module.tem.document.service.TravelRelocationService#createDVReimbursementDocument(org.kuali.kfs.module.tem.document.TravelRelocationDocument)
      */
-    public void createDVReimbursement(TravelRelocationDocument document){
+    public void createDVReimbursementDocument(TravelRelocationDocument document){
         DisbursementVoucherDocument disbursementVoucherDocument = getTravelDocumentService().createDVReimbursementDocument(document);
         String relationDescription = "RELO - DV";
         accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(document.getDocumentNumber(), disbursementVoucherDocument.getDocumentNumber(), relationDescription));

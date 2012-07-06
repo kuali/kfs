@@ -35,6 +35,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.tem.TemConstants;
@@ -94,6 +95,7 @@ import static org.kuali.rice.kns.util.GlobalVariables.getMessageList;
  * Travel Relocation Document
  * 
  */
+@SuppressWarnings("restriction")
 @Entity
 @Table(name="TEM_RELO_DOC_T")
 public class TravelRelocationDocument extends TEMReimbursementDocument implements AmountTotaling {
@@ -261,15 +263,21 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
         return this.comments;
     }
           
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#prepareForSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
+     */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
         if(getFromCity() != null){
             getPrimaryDestination().setPrimaryDestinationName(getFromCity());
         }
-        
         super.prepareForSave(event);
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#initiateDocument()
+     */
+    @Override
     public void initiateDocument() {
         updateAppDocStatus(TemConstants.TravelRelocationStatusCodeKeys.IN_PROCESS);
         setActualExpenses(new ArrayList<ActualExpense>());
@@ -301,17 +309,18 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
         }        
     }
     
+    /**
+     * 
+     * @return
+     */
     public TEMProfile retrieveTravelerProfile(){
         return getTravelService().findTemProfileByPrincipalId(getTraveler().getPrincipalId());
     }
     
-    protected TravelService getTravelService() {
-        return SpringContext.getBean(TravelService.class);
-    }
-    protected TravelDocumentService getTravelDocumentService() {
-        return SpringContext.getBean(TravelDocumentService.class);
-    }
-    
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
+     */
+    @Override
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
         
@@ -360,11 +369,10 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
             
                 if(getDocumentGrandTotal().isGreaterThan(KualiDecimal.ZERO)){
                     try{
-                        getTravelRelocationService().createDVReimbursement(this);
+                        getTravelRelocationService().createDVReimbursementDocument(this);
                     }
                     catch(Exception ex){
-                        error("Could not spawn DV for reimbursement.");
-                        error(ex.getMessage());
+                        error("Could not spawn DV for reimbursement.", ex.getMessage());
                         if (logger().isDebugEnabled()) {
                             ex.printStackTrace();
                         }
@@ -423,6 +431,7 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
      * @param financialObjectCode to search for total on
      * @return @{link KualiDecimal} with total value for {@link AccountingLines} with <code>finanncialObjectCode</code>
      */
+    @Override
     public KualiDecimal getTotalFor(final String financialObjectCode) {
         KualiDecimal retval = KualiDecimal.ZERO;
         
@@ -438,23 +447,16 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
         return retval;
     }
     
+    /**
+     * @see org.kuali.kfs.module.tem.document.TEMReimbursementDocument#populateDisbursementVoucherFields(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
+     */
     @Override
     public void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument){
         super.populateDisbursementVoucherFields(disbursementVoucherDocument);
         
-        disbursementVoucherDocument.setDisbVchrCheckStubText(this.getDocumentTitle() != null ? this.getDocumentTitle() : "");               
-        disbursementVoucherDocument.getDocumentHeader().setDocumentDescription("Generated for RELO doc: " + this.getDocumentTitle() != null ? this.getDocumentTitle() : this.getTravelDocumentIdentifier());
-        if (disbursementVoucherDocument.getDocumentHeader().getDocumentDescription().length() >= 40) {
-            String truncatedDocumentDescription = disbursementVoucherDocument.getDocumentHeader().getDocumentDescription().substring(0, 39);
-            disbursementVoucherDocument.getDocumentHeader().setDocumentDescription(truncatedDocumentDescription);
-        }
-        
-        try {
-            disbursementVoucherDocument.getDocumentHeader().getWorkflowDocument().setTitle(this.getDocumentHeader().getDocumentDescription());
-        }
-        catch (WorkflowException ex) {
-            ex.printStackTrace();
-        }
+        disbursementVoucherDocument.setDisbVchrCheckStubText(StringUtils.defaultString(getDocumentTitle()));               
+        disbursementVoucherDocument.getDocumentHeader().setDocumentDescription("Generated for RELO doc: " + StringUtils.defaultString(getDocumentTitle(), getTravelDocumentIdentifier()));
+        getTravelDocumentService().trimFinancialSystemDocumentHeader(disbursementVoucherDocument.getDocumentHeader());
         
         disbursementVoucherDocument.setDisbVchrPaymentMethodCode(TemConstants.DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE);
         disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, RELOCATION_DOCUMENTATION_LOCATION_CODE));
@@ -465,11 +467,13 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
         //disbursementVoucherDocument.setDisbVchrCheckTotalAmount(this.getDocumentGrandTotal());
     }
     
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#populateRequisitionFields(org.kuali.kfs.module.purap.document.RequisitionDocument, org.kuali.kfs.module.tem.document.TravelDocument)
+     */
     @Override
     public void populateRequisitionFields(RequisitionDocument reqsDocument, TravelDocument document) {
         super.populateRequisitionFields(reqsDocument, document);
         TravelRelocationDocument reloDocument = (TravelRelocationDocument) document;
-        
         reqsDocument.getDocumentHeader().setDocumentDescription("Requisition for Moving And Relocation");
         reqsDocument.getDocumentHeader().setOrganizationDocumentNumber(reloDocument.getTravelDocumentIdentifier());
         Calendar calendar = getDateTimeService().getCurrentCalendar();
@@ -477,68 +481,24 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
         reqsDocument.setPostingYear(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
     }
 
-    @Override
-    public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-    
-    /*public String getSequenceName() {
-        Class boClass = getClass();
-        String retval = "";
-        try {
-            boolean rethrow = true;
-            Exception e = null;
-            while (rethrow) {
-                debug("Looking for id in ", boClass.getName());
-                try {
-                    final Field idField = boClass.getDeclaredField("movingAndRelocationId");
-                    final SequenceGenerator sequenceInfo = idField.getAnnotation(SequenceGenerator.class);
-                    
-                    return sequenceInfo.sequenceName();
-                }
-                catch (Exception ee) {
-                    // ignore and try again
-                    debug("Could not find movingAndRelocationId in ", boClass.getName());
-                    
-                    // At the end. Went all the way up the hierarchy until we got to Object
-                    if (Object.class.equals(boClass)) {
-                        rethrow = false;
-                    }
-                    
-                    // get the next superclass
-                    boClass = boClass.getSuperclass();
-                    e = ee;
-                }
-            }
-            
-            if (e != null) {
-                throw e;
-            }
-        }
-        catch (Exception e) {
-            error("Could not get the sequence name for business object ", getClass().getSimpleName());
-            error(e.getMessage());
-            if (logger().isDebugEnabled()) {
-                e.printStackTrace();
-            }
-        }
-        return retval;
-    }*/
-    
+    /**
+     * 
+     * @return
+     */
     protected TravelRelocationService getTravelRelocationService() {
         return SpringContext.getBean(TravelRelocationService.class);
     }
 
-    @Override
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocument#getReportPurpose()
+     */
     public String getReportPurpose() {
-        if (reason != null) {
-            return reason.getReloReasonName();
-        }
-        
-        return null;
+        return reason != null? reason.getReloReasonName() : null;
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#populateVendorPayment(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
+     */
     @Override
     public void populateVendorPayment(DisbursementVoucherDocument disbursementVoucherDocument) {
         super.populateVendorPayment(disbursementVoucherDocument);
@@ -555,15 +515,4 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
         disbursementVoucherDocument.setDisbVchrCheckStubText(checkStubText);
     }
     
-    @Override
-    public KualiDecimal getPerDiemAdjustment() {
-        // Never Used
-        return null;
-    }
-
-    @Override
-    public void setPerDiemAdjustment(KualiDecimal perDiemAdjustment) {
-        // Never Used
-        
-    }
 }

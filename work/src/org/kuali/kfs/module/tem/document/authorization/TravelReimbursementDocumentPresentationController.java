@@ -68,7 +68,7 @@ public class TravelReimbursementDocumentPresentationController extends TravelDoc
     @Override
     public boolean canInitiate(String documentTypeName) {
         Person currentUser = GlobalVariables.getUserSession().getPerson();
-        if(!getTravelDocumentService().isTravelArranger(currentUser, null)) {
+        if(!getTravelDocumentService().isTravelArranger(currentUser)) {
             TEMProfile temProfile = getTravelService().findTemProfileByPrincipalId(currentUser.getPrincipalId());
             if(temProfile == null) {
                 throw new DocumentInitiationException(TemKeyConstants.ERROR_AUTHORIZATION_TR_INITIATION, new String[] { documentTypeName }, true);

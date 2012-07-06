@@ -45,6 +45,9 @@ public class TravelRelocationDocumentPresentationController extends TravelDocume
         return editModes;
     }
     
+    /**
+     * @see org.kuali.kfs.module.tem.document.authorization.TravelDocumentPresentationController#addFullEntryEntryMode(org.kuali.rice.kns.document.Document, java.util.Set)
+     */
     @Override
     protected void addFullEntryEntryMode(Document document, Set<String> editModes) {
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
@@ -54,10 +57,13 @@ public class TravelRelocationDocumentPresentationController extends TravelDocume
         }
     }
     
+    /**
+     * @see org.kuali.rice.kns.document.authorization.DocumentPresentationControllerBase#canInitiate(java.lang.String)
+     */
     @Override
     public boolean canInitiate(String documentTypeName) {
         Person currentUser = GlobalVariables.getUserSession().getPerson();
-        if (!getTravelDocumentService().isTravelArranger(currentUser, null)) {
+        if (!getTravelDocumentService().isTravelArranger(currentUser)) {
             TEMProfile temProfile = getTravelService().findTemProfileByPrincipalId(currentUser.getPrincipalId());
             if (temProfile == null) {
                 throw new DocumentInitiationException(TemKeyConstants.ERROR_TRAVEL_DOCUMENT_INITIATION, new String[] { TemConstants.TravelEntertainment.DOCUMENT_NAME }, true);

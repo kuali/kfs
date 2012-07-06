@@ -238,6 +238,14 @@ public interface TravelDocumentService {
      * @return true if the user is a travel arranger, false otherwise
      */
     public boolean isTravelArranger(final Person user, final String primaryDepartmentCode);
+    
+    /**
+     * Check to see if the user has the travel arranger role assigned to them
+     * 
+     * @param user
+     * @return true if the user is a travel arranger, false otherwise
+     */
+    public boolean isTravelArranger(final Person user);
 
     /**
      * Check to see if the user has the travel manager role assigned to them

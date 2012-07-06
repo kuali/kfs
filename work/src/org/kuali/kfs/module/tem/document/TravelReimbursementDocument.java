@@ -446,7 +446,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         }*/
 
         Person currentUser = GlobalVariables.getUserSession().getPerson();
-        if(!getTravelDocumentService().isTravelArranger(currentUser, null)) {
+        if(!getTravelDocumentService().isTravelArranger(currentUser)) {
             TEMProfile temProfile = getTravelService().findTemProfileByPrincipalId(currentUser.getPrincipalId());
             if (temProfile != null) {
                 setTemProfile(temProfile);

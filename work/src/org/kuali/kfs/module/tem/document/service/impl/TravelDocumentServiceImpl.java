@@ -1387,6 +1387,9 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         }
     }
     
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#isTravelArranger(org.kuali.rice.kim.bo.Person, java.lang.String)
+     */
     @Override
     public boolean isTravelArranger(final Person user, final String primaryDepartmentCode) {
     	boolean checkProfileAssignedRole = checkPersonRole(user, TemConstants.TEM_ASSIGNED_PROFILE_ARRANGER, TemConstants.PARAM_NAMESPACE);
@@ -1396,7 +1399,18 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         }
         return checkProfileAssignedRole;
     }
+
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#isTravelArranger(org.kuali.rice.kim.bo.Person)
+     */
+    @Override
+    public boolean isTravelArranger(final Person user) {
+        return isTravelArranger(user, null);
+    }
     
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#isTravelManager(org.kuali.rice.kim.bo.Person)
+     */
     @Override
     public boolean isTravelManager(final Person user) {
         return checkPersonRole(user, TemConstants.TRAVEL_MANAGER, KFSConstants.CoreModuleNamespaces.FINANCIAL);

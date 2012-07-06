@@ -64,7 +64,7 @@ public class TravelAuthorizationDocumentPresentationController extends TravelDoc
     public boolean canInitiate(String documentTypeName) {
     	if(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT.equalsIgnoreCase(documentTypeName)) {
 	        Person currentUser = GlobalVariables.getUserSession().getPerson();
-	        if(!getTravelDocumentService().isTravelArranger(currentUser, null)) {
+	        if(!getTravelDocumentService().isTravelArranger(currentUser)) {
 	            TEMProfile temProfile = getTravelService().findTemProfileByPrincipalId(currentUser.getPrincipalId());
 	            if(temProfile == null) {
 	                throw new DocumentInitiationException(TemKeyConstants.ERROR_AUTHORIZATION_TA_INITIATION, new String[] { documentTypeName }, true);

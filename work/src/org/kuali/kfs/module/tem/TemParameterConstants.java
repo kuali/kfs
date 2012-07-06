@@ -64,17 +64,17 @@ public class TemParameterConstants extends KfsParameterConstants {
     }
     
     @NAMESPACE(namespace = TEM_NAMESPACE)
-    @COMPONENT(component = AUTHORIZATION_PARAM_DTL_TYPE)
+    @COMPONENT(component = REIMBURSEMENT_PARAM_DTL_TYPE)
     public final class TEM_REIMBURSEMENT{
     }
     
     @NAMESPACE(namespace = TEM_NAMESPACE)
-    @COMPONENT(component = AUTHORIZATION_PARAM_DTL_TYPE)
+    @COMPONENT(component = RELOCATION_PARAM_DTL_TYPE)
     public final class TEM_RELOCATION {
     }
     
     @NAMESPACE(namespace = TEM_NAMESPACE)
-    @COMPONENT(component = AUTHORIZATION_PARAM_DTL_TYPE)
+    @COMPONENT(component = ENTERTAINMENT_PARAM_DTL_TYPE)
     public final class TEM_ENTERTAINMENT{
     }
     

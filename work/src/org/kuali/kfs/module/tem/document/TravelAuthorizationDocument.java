@@ -462,7 +462,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
         }
 
         Person currentUser = GlobalVariables.getUserSession().getPerson();
-        if (!getTravelDocumentService().isTravelArranger(currentUser, null)) {
+        if (!getTravelDocumentService().isTravelArranger(currentUser)) {
             TEMProfile temProfile = getTravelService().findTemProfileByPrincipalId(currentUser.getPrincipalId());
             if (temProfile != null) {
                 setTemProfile(temProfile);

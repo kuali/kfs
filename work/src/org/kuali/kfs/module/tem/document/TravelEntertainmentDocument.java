@@ -270,7 +270,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
 
     @Override
     public void initiateDocument() {
-        updateAppDocStatus(TemConstants.TravelReimbursementStatusCodeKeys.IN_PROCESS);
+        updateAppDocStatus(TemConstants.EntertainmentStatusCodeKeys.IN_PROCESS);
         setActualExpenses(new ArrayList<ActualExpense>());
         setPerDiemExpenses(new ArrayList<PerDiemExpense>());
 
@@ -292,7 +292,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
         }
 
         Person currentUser = GlobalVariables.getUserSession().getPerson();
-        if (!getTravelDocumentService().isTravelArranger(currentUser, null)) {
+        if (!getTravelDocumentService().isTravelArranger(currentUser)) {
             TEMProfile temProfile = getTravelService().findTemProfileByPrincipalId(currentUser.getPrincipalId());
             if (temProfile != null) {
                 setTemProfile(temProfile);

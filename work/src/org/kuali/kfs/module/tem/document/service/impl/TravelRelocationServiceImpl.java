@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 The Kuali Foundation.
+ * Copyright 2012 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,8 @@
  */
 package org.kuali.kfs.module.tem.document.service.impl;
 
-import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.DOCUMENT_DTL_TYPE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.TRAVEL_COVERSHEET_INSTRUCTIONS;
-import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters.DV_PAYEE_TYPE_CODE_C;
-import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters.DV_PAYEE_TYPE_CODE_V;
 import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters.PARAM_DTL_TYPE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters.RELOCATION_DOCUMENTATION_LOCATION_CODE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters.RELO_REIMBURSEMENT_DV_REASON_CODE;
@@ -38,9 +35,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
@@ -72,6 +72,8 @@ import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
 public class TravelRelocationServiceImpl implements TravelRelocationService{
 
+    protected static Logger LOG = Logger.getLogger(TravelRelocationServiceImpl.class);
+    
     private KualiRuleService kualiRuleService;
     private BusinessObjectService businessObjectService;
     private DataDictionaryService dataDictionaryService;
@@ -124,8 +126,8 @@ public class TravelRelocationServiceImpl implements TravelRelocationService{
     public Coversheet generateCoversheetFor(final TravelRelocationDocument document) throws Exception {
         final String docNumber = document.getDocumentNumber();
         final String initiatorId = document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
-        final String instructions = getParameterService().getParameterValue(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, TRAVEL_COVERSHEET_INSTRUCTIONS);
-        final String mailTo = travelDocumentService.retrieveAddressFromLocationCode(getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, RELOCATION_DOCUMENTATION_LOCATION_CODE));
+        final String instructions = getParameterService().getParameterValue(TemParameterConstants.TEM_DOCUMENT.class, TRAVEL_COVERSHEET_INSTRUCTIONS);
+        final String mailTo = travelDocumentService.retrieveAddressFromLocationCode(getParameterService().getParameterValue(TemParameterConstants.TEM_RELOCATION.class, RELOCATION_DOCUMENTATION_LOCATION_CODE));
         final String destination = document.getToCity();
 
         final String directory = getConfigurationService().getPropertyString(EXTERNALIZABLE_HELP_URL_KEY);
@@ -146,7 +148,7 @@ public class TravelRelocationServiceImpl implements TravelRelocationService{
         cover.setInitiatorEmail(initiator.getEmailAddress());
         cover.setTravelerName(traveler.getCustomer().getCustomerName());
         Person person = getPersonService().getPerson(traveler.getPrincipalId());
-        cover.setTravelerPrincipalName(person != null ? person.getPrincipalName() : "");
+        cover.setTravelerPrincipalName(StringUtils.defaultString(person.getPrincipalName()));
         cover.setTravelerPhone(traveler.getPhoneNumber());
         cover.setTravelerEmail(traveler.getEmailAddress());
         cover.setDestination(destination);
@@ -177,10 +179,15 @@ public class TravelRelocationServiceImpl implements TravelRelocationService{
      */
     @Override
     public void createDVReimbursementDocument(TravelRelocationDocument document){
-        DisbursementVoucherDocument disbursementVoucherDocument = getTravelDocumentService().createDVReimbursementDocument(document);
         String relationDescription = "RELO - DV";
-        accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(document.getDocumentNumber(), disbursementVoucherDocument.getDocumentNumber(), relationDescription));
-        GlobalVariables.getMessageList().add(MESSAGE_DV_IN_ACTION_LIST, disbursementVoucherDocument.getDocumentNumber());
+        try {
+            DisbursementVoucherDocument disbursementVoucherDocument = getTravelDocumentService().createDVReimbursementDocument(document);
+            accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(document.getDocumentNumber(), disbursementVoucherDocument.getDocumentNumber(), relationDescription));
+            GlobalVariables.getMessageList().add(MESSAGE_DV_IN_ACTION_LIST, disbursementVoucherDocument.getDocumentNumber());
+        }
+        catch (Exception ex) {
+            LOG.error("Could not spawn " + relationDescription + " for reimbursement:" + ex.getMessage(), ex);
+        }
     }
     
 
@@ -282,11 +289,18 @@ public class TravelRelocationServiceImpl implements TravelRelocationService{
         this.documentDao = documentDao;
     }
     
-    @Override
+    /**
+     * 
+     * @return
+     */
     public AccountingDocumentRelationshipService getAccountingDocumentRelationshipService() {
         return accountingDocumentRelationshipService;
     }
 
+    /**
+     * 
+     * @param accountingDocumentRelationshipService
+     */
     public void setAccountingDocumentRelationshipService(AccountingDocumentRelationshipService accountingDocumentRelationshipService) {
         this.accountingDocumentRelationshipService = accountingDocumentRelationshipService;
     }
@@ -308,13 +322,4 @@ public class TravelRelocationServiceImpl implements TravelRelocationService{
     public List<PropertyChangeListener> getPropertyChangeListeners() {
         return this.propertyChangeListeners;
     }
-    
-    /**
-     * 
-     * @return
-     */
-    public static DateTimeService getDateTimeService() {
-        return SpringContext.getBean(DateTimeService.class);
-    }
-
 }

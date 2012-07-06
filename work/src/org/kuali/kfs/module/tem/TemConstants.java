@@ -235,8 +235,6 @@ public class TemConstants extends JSTLConstants {
         public static final String DEFAULT_CHART_CODE = "DEFAULT_CHART_CODE";
         public static final String RELOCATION_DOCUMENTATION_LOCATION_CODE = "RELOCATION_DOCUMENTATION_LOCATION_CODE";
         public static final String RELO_REIMBURSEMENT_DV_REASON_CODE = "RELO_REIMBURSEMENT_DV_REASON_CODE";
-        public static final String DV_PAYEE_TYPE_CODE_C = "C";
-        public static final String DV_PAYEE_TYPE_CODE_V = "V";
     }
 
     public static class TravelEntertainmentParameters {
@@ -322,8 +320,8 @@ public class TemConstants extends JSTLConstants {
         public static final String AWAIT_SUB = "Awaiting Sub-Fund Review";
         public static final String AWAIT_AWARD = "Awaiting Award Review";
         public static final String AWAIT_TAX_MANAGER = "Awaiting Tax Manager Review";
-
         public static final String AWAIT_EXECUTIVE = "Awaiting Executive Review";
+        
         public static final String RELO_MANAGER_APPROVED = "Moving And Relocation Manager Approved";
         public static final String DAPRVD_RELO_MANAGER = "Disapproved - Moving And Relocation Manager";
         public static final String DAPRVD_FISCAL = "Disapproved - Fiscal Officer";
@@ -335,6 +333,21 @@ public class TemConstants extends JSTLConstants {
 
         public static final String IN_PROCESS = "In Process";
         public static final String CANCELLED = "Cancelled";
+        
+        public static HashMap<String, String> getDisapprovedAppDocStatusMap() {
+            HashMap<String, String> disapprovedAppDocStatusMap;
+            
+            disapprovedAppDocStatusMap = new HashMap<String, String>();
+            disapprovedAppDocStatusMap.put(AWAIT_FISCAL, DAPRVD_FISCAL);
+            disapprovedAppDocStatusMap.put(AWAIT_ORG, DAPRVD_ORG);
+            disapprovedAppDocStatusMap.put(AWAIT_SUB,  DAPRVD_SUB);
+            disapprovedAppDocStatusMap.put(AWAIT_AWARD, DAPRVD_AWARD); 
+            disapprovedAppDocStatusMap.put(AWAIT_EXECUTIVE, DAPRVD_EXECUTIVE); 
+            disapprovedAppDocStatusMap.put(AWAIT_TAX_MANAGER, DAPRVD_TAX_MANAGER);
+            disapprovedAppDocStatusMap.put(AWAIT_RELO_MANAGER, DAPRVD_RELO_MANAGER); 
+            
+            return disapprovedAppDocStatusMap;
+        }
     }
 
     public static class EntertainmentStatusCodeKeys {

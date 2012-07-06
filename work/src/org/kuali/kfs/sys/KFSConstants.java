@@ -1319,6 +1319,18 @@ public class KFSConstants {
     public static final String YEAR_END_ACCOUNTING_PERIOD_VIEW_DOCUMENT_ACTION = "AccountingPeriodViewAction";
     // CSU 6702 END
 
-
+    public static class FinancialObjectTypeCodes {
+        public static final String AS = "AS";
+        public static final String EX = "EX";
+        public static final String ES = "ES";
+        public static final String EE = "EE";
+        public static final String TE = "TE";
+        public static final String LI = "LI";
+        public static final String FB = "FB";
+        public static final String IN = "IN";
+        public static final String IC = "IC";
+        public static final String CM = "CM";
+        public static final String TI = "TI";
+    }
 }
 

@@ -50,6 +50,7 @@ public class TravelerDaoOjb extends PlatformAwareDaoBaseOjb implements TravelerD
      *
      * @return {@link Collection} of {@linK TravelerDetail} instances
      */
+    @Override
     public Collection<AccountsReceivableCustomer> findCustomersBy(final Map<String, String> criteria) {
         final Criteria customerCrit = new Criteria();
         final Criteria addressCrit  = new Criteria();
@@ -87,6 +88,7 @@ public class TravelerDaoOjb extends PlatformAwareDaoBaseOjb implements TravelerD
         return (Collection<AccountsReceivableCustomer>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 
+    @Override
     public void setLookupDao(final LookupDao lookupDao) {
         this.lookupDao = lookupDao;
     }

@@ -57,6 +57,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidation {
 
+    @Override
     public boolean validate(AttributedDocumentEvent event) {
         final Person currentUser = GlobalVariables.getUserSession().getPerson();
         TemSourceAccountingLine line  = null;
@@ -139,7 +140,7 @@ public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidat
                         break;
                     }
                 }
-                boolean isCGEnabled = SpringContext.getBean(ParameterService.class).getIndicatorParameter(KFSConstants.ParameterNamespaces.CHART, KFSConstants.RouteLevelNames.ACCOUNT, KFSConstants.ChartApcParms.ACCOUNT_FUND_GROUP_DENOTES_CG);
+                boolean isCGEnabled = SpringContext.getBean(ParameterService.class).getIndicatorParameter(KFSConstants.CoreModuleNamespaces.CHART, KFSConstants.RouteLevelNames.ACCOUNT, KFSConstants.ChartApcParms.ACCOUNT_FUND_GROUP_DENOTES_CG);
                 if (isCGEnabled){   
                     for (TEMExpense expense : allExpenses){
                         if (expense.getTravelCompanyCodeCode().equals(TemConstants.ExpenseTypes.AIRFARE)){
@@ -155,7 +156,7 @@ public class TEMAccountingLineAllowedObjectCodeValidation extends GenericValidat
                                     }
                                 }
                                 if (financialObjectCode != null && financialObjectCode.equals(line.getFinancialObjectCode())){
-                                    String cg = SpringContext.getBean(ParameterService.class).getParameterValue(KFSConstants.ParameterNamespaces.CHART, KFSConstants.RouteLevelNames.ACCOUNT, KFSConstants.ChartApcParms.ACCOUNT_CG_DENOTING_VALUE);
+                                    String cg = SpringContext.getBean(ParameterService.class).getParameterValue(KFSConstants.CoreModuleNamespaces.CHART, KFSConstants.RouteLevelNames.ACCOUNT, KFSConstants.ChartApcParms.ACCOUNT_CG_DENOTING_VALUE);
                                     if (line.getAccount() == null){
                                         line.refreshReferenceObject(KFSPropertyConstants.ACCOUNT);
                                     }

@@ -137,24 +137,29 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
         request.setAttribute(ENABLE_PER_DIEM_LOOKUP_LINKS_ATTRIBUTE, enablePerDiemLookupLinks);
     }
 
+    @Override
     public Integer getTravelerId() {
         return travelerId;
     }
 
+    @Override
     public TravelDocument getTravelDocument() {
         return (TravelDocument) getDocument();
     }
 
+    @Override
     public void setTravelerId(Integer travelerId) {
         this.travelerId = travelerId;
     }
 
 
+    @Override
     public Integer getTempTravelerId() {
         return tempTravelerId;
     }
 
 
+    @Override
     public void setTempTravelerId(Integer tempTravelerId) {
         this.tempTravelerId = tempTravelerId;
     }
@@ -173,6 +178,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * 
      * @return Returns the empPrincipalId.
      */
+    @Override
     public String getEmpPrincipalId() {
         return empPrincipalId;
     }
@@ -183,6 +189,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * 
      * @param empPrincipalId The empPrincipalId to set.
      */
+    @Override
     public void setEmpPrincipalId(String empPrincipalId) {
         this.empPrincipalId = empPrincipalId;
     }
@@ -193,6 +200,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * 
      * @return Returns the tempEmpPrincipalId.
      */
+    @Override
     public String getTempEmpPrincipalId() {
         return tempEmpPrincipalId;
     }
@@ -203,6 +211,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * 
      * @param tempEmpPrincipalId The tempEmpPrincipalId to set.
      */
+    @Override
     public void setTempEmpPrincipalId(String tempEmpPrincipalId) {
         this.tempEmpPrincipalId = tempEmpPrincipalId;
     }
@@ -239,6 +248,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * 
      * @see org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase#populateHeaderFields(org.kuali.rice.kns.workflow.service.KualiWorkflowDocument)
      */
+    @Override
     public void populateHeaderFields(KualiWorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
         final TravelDocument travelDoc = (TravelDocument) getDocument();
@@ -255,6 +265,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
         getDocInfo().add(new HeaderField(getDataDictionaryAttributeName(getStatusCodeFieldName()), status));
     }
 
+    @Override
     public Map<String, String> getModesOfTransportation() {
         Map<String, String> modesOfTrans = new HashMap<String, String>();
 
@@ -292,6 +303,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * 
      * @return Returns the showLodging.
      */
+    @Override
     public boolean isShowLodging() {
         return showLodging;
     }
@@ -301,6 +313,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * 
      * @param showLodging The showLodging to set.
      */
+    @Override
     public void setShowLodging(boolean showLodging) {
         this.showLodging = showLodging;
     }
@@ -310,6 +323,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * 
      * @return Returns the showMileage.
      */
+    @Override
     public boolean isShowMileage() {
         return showMileage;
     }
@@ -319,6 +333,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * 
      * @param showMileage The showMileage to set.
      */
+    @Override
     public void setShowMileage(boolean showMileage) {
         this.showMileage = showMileage;
     }
@@ -328,6 +343,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * 
      * @return Returns the showPerDiem.
      */
+    @Override
     public boolean isShowPerDiem() {
         return showPerDiem;
     }
@@ -355,6 +371,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * 
      * @return canReturn The canReturn to set.
      */
+    @Override
     public boolean canReturn() {
         return canReturn;
     }
@@ -364,6 +381,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * 
      * @param canReturn The canReturn to set.
      */
+    @Override
     public void setCanReturn(final boolean canReturn) {
         this.canReturn = canReturn;
     }
@@ -391,6 +409,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * 
      * @return Returns the enableTaxable.
      */
+    @Override
     public boolean getEnableImportedTaxable() {
         return enableImportedTaxable;
     }
@@ -400,6 +419,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * 
      * @param enableTaxable The enableTaxable to set.
      */
+    @Override
     public void setEnableImportedTaxable(boolean enableImportedTaxable) {
         this.enableImportedTaxable = enableImportedTaxable;
     }
@@ -409,10 +429,12 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * 
      * @param showPerDiem The showPerDiem to set.
      */
+    @Override
     public void setShowPerDiem(boolean showPerDiem) {
         this.showPerDiem = showPerDiem;
     }
 
+    @Override
     public boolean isShowAllPerDiemCategories() {
         return (this.showLodging || this.showMileage || this.showPerDiem);
     }
@@ -422,6 +444,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * 
      * @param perDiemPercentage
      */
+    @Override
     public void setPerDiemPercentage(String perDiemPercentage) {
         this.perDiemPercentage = Integer.parseInt(perDiemPercentage);
     }
@@ -431,6 +454,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * 
      * @return Returns the perDiemPercentage.
      */
+    @Override
     public int getPerDiemPercentage() {
         return perDiemPercentage;
     }
@@ -440,14 +464,17 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * 
      * @param perDiemPercentage The perDiemPercentage to set.
      */
+    @Override
     public void setPerDiemPercentage(int perDiemPercentage) {
         this.perDiemPercentage = perDiemPercentage;
     }
 
+    @Override
     public Map<String, List<Document>> getRelatedDocuments() {
         return this.relatedDocuments;
     }
 
+    @Override
     public void setRelatedDocuments(Map<String, List<Document>> relatedDocuments) {
         this.relatedDocuments = relatedDocuments;
     }
@@ -457,6 +484,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * 
      * @return Returns the relatedDocumentNotes.
      */
+    @Override
     public Map<String, List<Note>> getRelatedDocumentNotes() {
         if (relatedDocumentNotes == null) {
             relatedDocumentNotes = new HashMap<String, List<Note>>();
@@ -484,6 +512,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * 
      * @param relatedDocumentNotes The relatedDocumentNotes to set.
      */
+    @Override
     public void setRelatedDocumentNotes(Map<String, List<Note>> relatedDocumentNotes) {
         this.relatedDocumentNotes = relatedDocumentNotes;
     }
@@ -492,10 +521,12 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
         return SpringContext.getBean(ParameterService.class);
     }
 
+    @Override
     public boolean isCalculated() {
         return calculated;
     }
 
+    @Override
     public void setCalculated(boolean calculated) {
         this.calculated = calculated;
     }
@@ -606,6 +637,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * 
      * @return Returns the newActualExpenseLine.
      */
+    @Override
     public List<ActualExpense> getNewActualExpenseLines() {
         if (newActualExpenseLines == null) {
             newActualExpenseLines = new ArrayList<ActualExpense>();
@@ -622,6 +654,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * 
      * @param newActualExpenseLines The newActualExpenseLines to set.
      */
+    @Override
     public void setNewActualExpenseLines(List<ActualExpense> newActualExpenseLines) {
         this.newActualExpenseLines = newActualExpenseLines;
     }
@@ -631,6 +664,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * 
      * @return Returns the newOtherExpenseLine.
      */
+    @Override
     public ActualExpense getNewActualExpenseLine() {
         return newActualExpenseLine;
     }
@@ -640,6 +674,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * 
      * @param newOtherExpenseLine The newOtherExpenseLine to set.
      */
+    @Override
     public void setNewActualExpenseLine(ActualExpense newActualExpenseLine) {
         this.newActualExpenseLine = newActualExpenseLine;
     }
@@ -649,6 +684,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * 
      * @return Returns the newImportedExpenseLines.
      */
+    @Override
     public List<ImportedExpense> getNewImportedExpenseLines() {
         if (newImportedExpenseLines == null) {
             newImportedExpenseLines = new ArrayList<ImportedExpense>();
@@ -664,6 +700,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * 
      * @param newImportedExpenseLines The newImportedExpenseLines to set.
      */
+    @Override
     public void setNewImportedExpenseLines(List<ImportedExpense> newImportedExpenseLines) {
         this.newImportedExpenseLines = newImportedExpenseLines;
     }
@@ -673,6 +710,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * 
      * @return Returns the newImportedExpenseLine.
      */
+    @Override
     public ImportedExpense getNewImportedExpenseLine() {
         return newImportedExpenseLine;
     }
@@ -682,14 +720,17 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * 
      * @param newImportedExpenseLine The newImportedExpenseLine to set.
      */
+    @Override
     public void setNewImportedExpenseLine(ImportedExpense newImportedExpenseLine) {
         this.newImportedExpenseLine = newImportedExpenseLine;
     }
 
+    @Override
     public AccountingDocumentRelationship getNewAccountingDocumentRelationship() {
         return newAccountingDocumentRelationship;
     }
 
+    @Override
     public void setNewAccountingDocumentRelationship(AccountingDocumentRelationship newAccountingDocumentRelationship) {
         this.newAccountingDocumentRelationship = newAccountingDocumentRelationship;
     }
@@ -725,6 +766,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * 
      * @return Returns the accountDistributionnextSourceLineNumber.
      */
+    @Override
     public Integer getAccountDistributionnextSourceLineNumber() {
         return accountDistributionnextSourceLineNumber;
     }
@@ -734,6 +776,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * 
      * @param accountDistributionnextSourceLineNumber The accountDistributionnextSourceLineNumber to set.
      */
+    @Override
     public void setAccountDistributionnextSourceLineNumber(Integer accountDistributionnextSourceLineNumber) {
         this.accountDistributionnextSourceLineNumber = accountDistributionnextSourceLineNumber;
     }
@@ -743,6 +786,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * 
      * @return Returns the accountDistributionnewSourceLine.
      */
+    @Override
     public TemDistributionAccountingLine getAccountDistributionnewSourceLine() {
         return accountDistributionnewSourceLine;
     }
@@ -752,6 +796,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * 
      * @param accountDistributionnewSourceLine The accountDistributionnewSourceLine to set.
      */
+    @Override
     public void setAccountDistributionnewSourceLine(TemDistributionAccountingLine accountDistributionnewSourceLine) {
         this.accountDistributionnewSourceLine = accountDistributionnewSourceLine;
     }
@@ -764,6 +809,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * @param line the accounting line to add to the list.
      * @see org.kuali.kfs.sys.document.AccountingDocument#addSourceAccountingLine(SourceAccountingLine)
      */
+    @Override
     public void addAccountDistributionsourceAccountingLine(TemDistributionAccountingLine line) {
         line.setSequenceNumber(this.getAccountDistributionnextSourceLineNumber());
         this.getAccountDistributionsourceAccountingLines().add(line);
@@ -771,6 +817,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
         this.setAccountDistributionnewSourceLine(setupNewAccountDistributionAccountingLine());
     }
 
+    @Override
     public void setDistribution(final List<AccountingDistribution> distribution) {
         if (distribution != null && distribution.size() > 0
                 && this.distribution != null && this.distribution.size() > 0) {
@@ -788,6 +835,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
         this.distribution = distribution;
     }
 
+    @Override
     public List<AccountingDistribution> getDistribution() {
         if (distribution == null) {
             distribution = new ArrayList<AccountingDistribution>();
@@ -819,6 +867,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
         return total;
     }
 
+    @Override
     public KualiDecimal getDistributionRemainingAmount(boolean selectedDistributions) {
         KualiDecimal total = KualiDecimal.ZERO;
         for (AccountingDistribution accountDistribution : distribution) {
@@ -833,6 +882,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
         return total;
     }
 
+    @Override
     public KualiDecimal getDistributionSubTotal(boolean selectedDistributions) {
         KualiDecimal total = KualiDecimal.ZERO;
         for (AccountingDistribution accountDistribution : distribution) {
@@ -890,6 +940,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * 
      * @return Returns the accountDistributionsourceAccountingLines.
      */
+    @Override
     public List<TemDistributionAccountingLine> getAccountDistributionsourceAccountingLines() {
         return accountDistributionsourceAccountingLines;
     }
@@ -899,6 +950,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * 
      * @param accountDistributionsourceAccountingLines The accountDistributionsourceAccountingLines to set.
      */
+    @Override
     public void setAccountDistributionsourceAccountingLines(List<TemDistributionAccountingLine> accountDistributionsourceAccountingLines) {
         this.accountDistributionsourceAccountingLines = accountDistributionsourceAccountingLines;
     }

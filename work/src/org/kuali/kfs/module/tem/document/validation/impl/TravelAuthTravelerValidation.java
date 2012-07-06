@@ -41,6 +41,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class TravelAuthTravelerValidation extends GenericValidation {
 
     //@Override
+    @Override
     public boolean validate(AttributedDocumentEvent event) {
         GlobalVariables.getMessageMap().clearErrorPath();
         GlobalVariables.getMessageMap().addToErrorPath(TRIP_OVERVIEW);

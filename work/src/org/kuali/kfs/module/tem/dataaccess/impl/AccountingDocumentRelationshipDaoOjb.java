@@ -36,6 +36,7 @@ public class AccountingDocumentRelationshipDaoOjb extends PlatformAwareDaoBaseOj
 
     private static final Logger LOG = Logger.getLogger(AccountingDocumentRelationshipDaoOjb.class);
 
+    @Override
     public List<AccountingDocumentRelationship> findAccountingDocumentRelationshipByDocumentNumber(String value) {
         return findAccountingDocumentRelationshipByDocumentNumber(null, value);
     }
@@ -104,6 +105,7 @@ public class AccountingDocumentRelationshipDaoOjb extends PlatformAwareDaoBaseOj
      * @see org.kuali.kfs.module.tem.dataaccess.AccountingDocumentRelationshipDao#save(org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship)
      *      This method saves an accountingDocumentRelationship
      */
+    @Override
     public void save(AccountingDocumentRelationship accountingDocumentRelationship) {
         if (accountingDocumentRelationship.getDocumentNumber() != null &&
                 accountingDocumentRelationship.getRelDocumentNumber() != null &&
@@ -141,6 +143,7 @@ public class AccountingDocumentRelationshipDaoOjb extends PlatformAwareDaoBaseOj
      * @see org.kuali.kfs.module.tem.dataaccess.AccountingDocumentRelationshipDao#delete(org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship)
      *      This method deletes an accountingDocumentRelationship
      */
+    @Override
     public void delete(AccountingDocumentRelationship accountingDocumentRelationship) {
         accountingDocumentRelationship.refresh();
         getPersistenceBrokerTemplate().delete(accountingDocumentRelationship);

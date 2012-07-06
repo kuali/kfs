@@ -31,6 +31,7 @@ public class AdvancePaymentReasonValuesFinder extends KeyValuesBase {
     /*
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @Override
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> list = new ArrayList<KeyLabelPair>();
         Map<String,Object> fieldValues = new HashMap<String,Object>();

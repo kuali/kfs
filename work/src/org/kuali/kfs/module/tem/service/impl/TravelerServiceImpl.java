@@ -93,6 +93,7 @@ public class TravelerServiceImpl implements TravelerService {
      * @param person to create {@link TravelerDetail} instance from
      * @return a new {@link Traveler} detail instance
      */
+    @Override
     public TravelerDetail convertToTraveler(final Person person) {
         TravelerDetail retval = new TravelerDetail();
         retval.setPrincipalId(person.getPrincipalId());
@@ -111,6 +112,7 @@ public class TravelerServiceImpl implements TravelerService {
         return retval;
     }
     
+    @Override
     public boolean canIncludeProfileInSearch(TEMProfile profile, Person user, boolean isProfileAdmin, boolean isAssignedArranger, boolean isOrgArranger, boolean isArrangerDoc, boolean isRiskManagement) {
         boolean canInclude = false;
         if(isArrangerDoc || isRiskManagement) {
@@ -145,6 +147,7 @@ public class TravelerServiceImpl implements TravelerService {
         return canInclude;
     }
     
+    @Override
     public void convertTEMProfileToTravelerDetail(TEMProfile profile, TravelerDetail detail){
         if(profile != null){
             if(detail.getId() == null){
@@ -196,6 +199,7 @@ public class TravelerServiceImpl implements TravelerService {
         }
     }
 
+    @Override
     public TravelerDetail copyTraveler(TravelerDetail fromTraveler, String documentNumber) {
         TravelerDetail detail = new TravelerDetail();
         if(fromTraveler != null){
@@ -273,6 +277,7 @@ public class TravelerServiceImpl implements TravelerService {
         return retval;
     }
 
+    @Override
     public boolean isEmployee(final TravelerDetail traveler) {
         final String employeeTypes = getParameterService().getParameterValue(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, EMPLOYEE_TRAVELER_TYPE_CODES);
         if (employeeTypes != null && traveler != null && traveler.getTravelerTypeCode() != null) {
@@ -287,6 +292,7 @@ public class TravelerServiceImpl implements TravelerService {
      * @param customer to create {@link TravelerDetail} instance from
      * @return a new {@link Traveler} detail instance
      */
+    @Override
     public TravelerDetail convertToTraveler(final AccountsReceivableCustomer customer) {
         TravelerDetail retval = new TravelerDetail();
 
@@ -673,6 +679,7 @@ public class TravelerServiceImpl implements TravelerService {
         return false;
     }
 
+    @Override
     public boolean isParentOrg(String chartCode, String orgCode, String roleChartCode, String roleOrgCode, boolean descendHierarchy) {
         if ( StringUtils.isBlank(chartCode) || StringUtils.isBlank(orgCode) ) {
             debug("No chart/org qualifications passed into isParentOrg()");

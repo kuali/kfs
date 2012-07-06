@@ -33,6 +33,7 @@ public class AttendeeTypeValuesFinder extends KeyValuesBase {
     /*
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @Override
     public List getKeyValues() {
         
        

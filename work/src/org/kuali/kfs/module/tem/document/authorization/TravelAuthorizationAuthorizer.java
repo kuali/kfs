@@ -67,6 +67,7 @@ public class TravelAuthorizationAuthorizer extends AccountingDocumentAuthorizerB
         return getActionPermission(taDoc, user, TemConstants.PermissionNames.AMEND_TA, true);
     }
 
+    @Override
     public boolean canReturn(final TravelDocument travelDocument, final Person user) {
         if(ObjectUtils.isNull(user)) {
             return false;

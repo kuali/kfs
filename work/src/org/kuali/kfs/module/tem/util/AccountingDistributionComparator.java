@@ -27,7 +27,7 @@ import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
 
 public class AccountingDistributionComparator implements Comparator<AccountingDistribution> {
 
-    //@Override
+    @Override
     public int compare(AccountingDistribution accountingDistribution1, AccountingDistribution accountingDistribution2) {
         // TODO Auto-generated method stub
         String name1 = accountingDistribution1.getObjectCodeName();

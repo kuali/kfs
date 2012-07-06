@@ -30,6 +30,8 @@ import java.util.Map;
 
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
+import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
+import org.kuali.kfs.module.ec.document.EffortCertificationDocument;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
@@ -52,6 +54,8 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.sys.service.impl.GeneralLedgerPendingEntryServiceImpl;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.service.DataDictionaryService;
+import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -108,7 +112,6 @@ public class ImportedCTSExpenseServiceImpl implements TEMExpenseService {
 
     @Override
     public String getExpenseType() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -164,8 +167,8 @@ public class ImportedCTSExpenseServiceImpl implements TEMExpenseService {
         return total;
     }
 
-    private KualiDecimal calculateTotals(KualiDecimal total, List expenses, String code){
-        for (TEMExpense expense : (List<TEMExpense>)expenses){
+    private KualiDecimal calculateTotals(KualiDecimal total, List<ImportedExpense> expenses, String code){
+        for (TEMExpense expense : expenses){
             if (expense instanceof ImportedExpense
                     && ((ImportedExpense)expense).getCardType() != null
                     && ((ImportedExpense)expense).getCardType().equals(TemConstants.CARD_TYPE_CTS)){
@@ -198,7 +201,10 @@ public class ImportedCTSExpenseServiceImpl implements TEMExpenseService {
      * 
      * If no change, original account info is correct and nothing needs to be done.
      */
+    @Override
     public void processExpense(TravelDocument travelDocument){
+        
+        String distributionIncomeAndExpenseDocumentType = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(DistributionOfIncomeAndExpenseDocument.class);
         
         //build map of the accounting line info and amount
         List<TemSourceAccountingLine> lines = travelDocument.getSourceAccountingLines();
@@ -273,7 +279,7 @@ public class ImportedCTSExpenseServiceImpl implements TEMExpenseService {
                 KualiDecimal amount = (accountingLineMap.get(key) == null?tripAccountMap.get(key):tripAccountMap.get(key).subtract(accountingLineMap.get(key)));
                 creditLine.setAmount(amount);
                 creditLine.setReferenceOriginCode(TemConstants.ORIGIN_CODE);
-                ExpenseUtils.generateImportedExpenseGeneralLedgerPendingEntries(travelDocument, creditLine, sequenceHelper,true,KFSConstants.FinancialDocumentTypeCodes.DISTRIBUTION_OF_INCOME_AND_EXPENSE);
+                ExpenseUtils.generateImportedExpenseGeneralLedgerPendingEntries(travelDocument, creditLine, sequenceHelper, true, distributionIncomeAndExpenseDocumentType);
                 
                 accountingLineMap.remove(key);
             }
@@ -298,14 +304,13 @@ public class ImportedCTSExpenseServiceImpl implements TEMExpenseService {
             debitLine.setOrganizationReferenceId((accountInfo[6].toLowerCase().equals("null")?"":accountInfo[6]));
             debitLine.setAmount(accountingLineMap.get(key));
             debitLine.setReferenceOriginCode(TemConstants.ORIGIN_CODE);
-            ExpenseUtils.generateImportedExpenseGeneralLedgerPendingEntries(travelDocument, debitLine, sequenceHelper,false,KFSConstants.FinancialDocumentTypeCodes.DISTRIBUTION_OF_INCOME_AND_EXPENSE);
+            ExpenseUtils.generateImportedExpenseGeneralLedgerPendingEntries(travelDocument, debitLine, sequenceHelper, false, distributionIncomeAndExpenseDocumentType);
         }
     }
 
      
     @Override
     public void updateExpense(TravelDocument travelDocument) {
-        // TODO Auto-generated method stub
         List<HistoricalTravelExpense> historicalTravelExpenses = travelDocument.getHistoricalTravelExpenses();
         for (HistoricalTravelExpense historicalTravelExpense : historicalTravelExpenses){
             if (historicalTravelExpense.getAgencyStagingDataId() != null){

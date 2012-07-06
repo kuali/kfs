@@ -35,6 +35,7 @@ public class AddAttendeesEvent implements Observer {
     private KualiRuleService kualiRuleService;
     private TravelEntertainmentDocumentService travelEntertainmentDocumentService;
 
+    @Override
     public void update(final Observable observable, Object arg) {
         if (!(arg instanceof TravelEntertainmentMVCWrapperBean)) {
             return;

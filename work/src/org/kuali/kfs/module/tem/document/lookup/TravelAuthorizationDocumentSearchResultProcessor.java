@@ -107,6 +107,7 @@ public class TravelAuthorizationDocumentSearchResultProcessor extends AbstractDo
         return SpringContext.getBean(ParameterService.class);
     }
 
+    @Override
     protected DocumentTypeService getDocumentTypeService() {
         return SpringContext.getBean(DocumentTypeService.class);
     }

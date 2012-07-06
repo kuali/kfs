@@ -103,10 +103,12 @@ public class TravelAuthorizationDocumentPresentationController extends TravelDoc
         return super.canEdit(document);
 	}
     
+    @Override
     protected TravelDocumentService getTravelDocumentService() {
         return SpringContext.getBean(TravelDocumentService.class);
     }
     
+    @Override
     protected TravelService getTravelService() {
         return SpringContext.getBean(TravelService.class);
     }

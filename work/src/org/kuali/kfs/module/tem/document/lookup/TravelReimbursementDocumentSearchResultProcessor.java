@@ -116,6 +116,7 @@ public class TravelReimbursementDocumentSearchResultProcessor extends AbstractDo
 
     }
     
+    @Override
     protected DocumentTypeService getDocumentTypeService() {
         return SpringContext.getBean(DocumentTypeService.class);
     }

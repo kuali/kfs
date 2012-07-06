@@ -67,7 +67,7 @@ public class PrimaryDestinationLookupableHelperServiceImpl extends KualiLookupab
                 //skip dummy value for custom expenses
                 if (tempPrimaryDestination.getId().intValue() == TemConstants.CUSTOM_PER_DIEM_ID
                         || tempPrimaryDestination.getCountryStateName().equals(TemConstants.CONUS)
-                        || tempPrimaryDestination.getCountryState().equals(KFSConstants.FinancialDocumentTypeCodes.ALL)
+                        || tempPrimaryDestination.getCountryState().equals(TemConstants.ALL_STATES)
                         || tempPrimaryDestination.getPrimaryDestinationName().contains(TemConstants.OTHER_PRIMARY_DESTINATION)){
                     continue;
                 }

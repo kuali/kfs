@@ -41,6 +41,7 @@ import org.kuali.kfs.sys.context.SpringContext;
  * @author Leo Przybylski (leo [at] rsmart.com)
  */
 public class ContextInitListener extends JstlConstantsInitListener implements ServletContextListener {
+    @Override
     public void contextInitialized(ServletContextEvent sce) {
         ServletContext context = sce.getServletContext();
         
@@ -59,6 +60,7 @@ public class ContextInitListener extends JstlConstantsInitListener implements Se
 
     protected Map<String, Object> buildParameterMap(final String component) {
         final InvocationHandler handler = new InvocationHandler() {
+                @Override
                 public Object invoke(final Object proxy, final Method method, final Object[] args) {
                     final String paramName = args[0] + "";
                     System.out.println("Proxying " + method.getName());
@@ -97,6 +99,7 @@ public class ContextInitListener extends JstlConstantsInitListener implements Se
         return retval;
     }
 
+    @Override
     public void contextDestroyed(ServletContextEvent sce) {}
 
 }

@@ -70,48 +70,58 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
     private String temExpenseTypeCode = "";
     private List<TEMExpense> expenseDetails = new ArrayList<TEMExpense>();
     
+    @Override
     @Id    
     @Column(name="id",nullable=false)
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(final Long id) {
         this.id = id;
     }
 
+    @Override
     @Column(name="fdoc_nbr",length=14,nullable=false)
     public String getDocumentNumber() {
         return documentNumber;
     }
 
+    @Override
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
     }
     
+    @Override
     @Column(name="fdoc_line_nbr",nullable=false)
     public Integer getDocumentLineNumber() {
         return documentLineNumber;
     }
 
+    @Override
     public void setDocumentLineNumber(Integer documentLineNumber) {
         this.documentLineNumber = documentLineNumber;
     }
     
+    @Override
     @Column(name="exp_parent_id",nullable=true)
     public Long getExpenseParentId() {
         return expenseParentId;
     }
 
+    @Override
     public void setExpenseParentId(Long expenseParentId) {
         this.expenseParentId = expenseParentId;
     }
     
+    @Override
     @Column(name="exp_dt",nullable=true)
     public Date getExpenseDate() {
         return expenseDate;
     }
 
+    @Override
     public void setExpenseDate(Date expenseDate) {
         this.expenseDate = expenseDate;
     }
@@ -121,6 +131,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
      *
      * @return the value of nonReimbursable
      */
+    @Override
     @Column(name="NON_REIM_IND",nullable=true,length=1)
     public Boolean getNonReimbursable() {
         return nonReimbursable != null ? nonReimbursable : false;
@@ -131,6 +142,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
      *
      * @param argNonReimbursable Value to assign to this.nonReimbursable
      */
+    @Override
     public void setNonReimbursable(final Boolean nonReimbursable) {
         this.nonReimbursable = nonReimbursable;
     }
@@ -140,6 +152,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
      *
      * @return the value of taxable
      */
+    @Override
     @Column(name="TAXABLE_IND",nullable=true,length=1)
     public Boolean getTaxable() {
         return this.taxable;
@@ -150,6 +163,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
      *
      * @param argTaxable Value to assign to this.taxable
      */
+    @Override
     public void setTaxable(final Boolean argTaxable) {
         this.taxable = argTaxable;
     }
@@ -159,6 +173,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
      *
      * @return the value of missingReceipt
      */
+    @Override
     @Column(name="MISG_RCPT_IND",nullable=true,length=1)
     public Boolean getMissingReceipt() {
         return this.missingReceipt;
@@ -169,16 +184,19 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
      *
      * @param argMissingReceipt Value to assign to this.missingReceipt
      */
+    @Override
     public void setMissingReceipt(final Boolean argMissingReceipt) {
         this.missingReceipt = argMissingReceipt;
     }
 
 
+    @Override
     @Column(name="EXP_AMT",precision=19,scale=2,nullable=false)
     public KualiDecimal getExpenseAmount() {
         return expenseAmount;
     }
 
+    @Override
     public void setExpenseAmount(KualiDecimal expenseAmount) {
         this.expenseAmount = expenseAmount;
     }
@@ -188,6 +206,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
      *
      * @return the value of travelExpenseTypeCodeCode
      */
+    @Override
     public String getTravelExpenseTypeCodeCode() {
         TemTravelExpenseTypeCode ttetc = getTravelExpenseTypeCode();
         if (ttetc != null) {
@@ -201,6 +220,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
      *
      * @return the value of travelExpenseTypeCode
      */
+    @Override
     @ManyToOne
     @JoinColumn(name="DV_EXP_CD",nullable=false)
     public TemTravelExpenseTypeCode getTravelExpenseTypeCode() {
@@ -218,6 +238,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
      *
      * @param argTravelExpenseTypeCode Value to assign to this.travelExpenseTypeCode
      */
+    @Override
     public void setTravelExpenseTypeCode(final TemTravelExpenseTypeCode argTravelExpenseTypeCode) {
         this.travelExpenseTypeCode = argTravelExpenseTypeCode;
     }
@@ -227,6 +248,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
      *
      * @return the value of description
      */
+    @Override
     @Column(name="EXP_DESC",length=255,nullable=true)
     public String getDescription() {
         return this.description;
@@ -237,6 +259,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
      *
      * @param argDescription Value to assign to this.description
      */
+    @Override
     public void setDescription(final String argDescription) {
         this.description = argDescription;
     }
@@ -246,6 +269,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
      *
      * @return the value of description
      */
+    @Override
     public String getNotes() {
         return this.description;
     }
@@ -255,6 +279,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
      *
      * @param argDescription Value to assign to this.description
      */
+    @Override
     public void setNotes(final String argDescription) {
         this.description = argDescription;
     }
@@ -264,6 +289,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
      *
      * @return the value of currencyRate
      */
+    @Override
     @Column(name="CUR_RT",precision=4,scale=3,nullable=false)
     public KualiDecimal getCurrencyRate() {
         if (currencyRate == null){
@@ -277,6 +303,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
      *
      * @param argCurrencyRate Value to assign to this.currencyRate
      */
+    @Override
     public void setCurrencyRate(final KualiDecimal argCurrencyRate) {
         this.currencyRate = argCurrencyRate;
     }
@@ -286,6 +313,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
      * 
      * @param convertedAmount value to assign to this.convertedAmount 
      */
+    @Override
     public void setConvertedAmount(final KualiDecimal convertedAmount) {
         this.convertedAmount = convertedAmount;
     }
@@ -295,6 +323,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
      * 
      * @return the value of convertedAmount
      */
+    @Override
     @Column(name="CONVERTED_AMT",precision=7,scale=2,nullable=true)
     public KualiDecimal getConvertedAmount() {
         KualiDecimal calc = KualiDecimal.ZERO;
@@ -313,6 +342,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
      *
      * @return the value of travelCompanyCodeName
      */
+    @Override
     @Column(name="DV_EXP_CO_NM",nullable=false)
     public String getTravelCompanyCodeName() {
         return this.travelCompanyCodeName;
@@ -323,6 +353,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
      *
      * @param argTravelCompanyCodeName Value to assign to this.travelCompanyCodeName
      */
+    @Override
     public void setTravelCompanyCodeName(final String argTravelCompanyCodeName) {
         this.travelCompanyCodeName = argTravelCompanyCodeName;
     }
@@ -332,6 +363,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
      *
      * @return the value of travelCompanyCode
      */
+    @Override
     @ManyToOne
     @JoinColumn(name="DV_EXP_CO_NM",nullable=false)
     public TravelCompanyCode getTravelCompanyCode() {
@@ -343,6 +375,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
      *
      * @param argTravelCompanyCode Value to assign to this.travelCompanyCode
      */
+    @Override
     public void setTravelCompanyCode(final TravelCompanyCode argTravelCompanyCode) {
         this.travelCompanyCode = argTravelCompanyCode;
     }
@@ -351,6 +384,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
      * Gets the travelCompanyCodeCode attribute. 
      * @return Returns the travelCompanyCodeCode.
      */
+    @Override
     public String getTravelCompanyCodeCode() {
         if (travelCompanyCodeCode == null && travelExpenseTypeCode != null){
             travelCompanyCodeCode = travelExpenseTypeCode.getCode();
@@ -382,6 +416,7 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
      * Gets the expenseDetails attribute. 
      * @return Returns the expenseDetails.
      */
+    @Override
     public List<TEMExpense> getExpenseDetails() {
         if (expenseDetails == null){
             expenseDetails = new ArrayList<TEMExpense>();
@@ -393,10 +428,12 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
      * Sets the expenseDetails attribute value.
      * @param expenseDetails The expenseDetails to set.
      */
+    @Override
     public void setExpenseDetails(List<TEMExpense> expenseDetails) {
         this.expenseDetails = expenseDetails;
     }
 
+    @Override
     public String getSequenceName() {
         Class boClass = getClass();
         String retval = "";
@@ -446,10 +483,12 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
         return null;
     }
 
+    @Override
     public Long getTravelExpenseTypeCodeId() {
         return travelExpenseTypeCodeId;
     }
 
+    @Override
     public void setTravelExpenseTypeCodeId(Long travelExpenseTypeCodeId) {
         this.travelExpenseTypeCodeId = travelExpenseTypeCodeId;
     }

@@ -31,6 +31,7 @@ public class JobClassificationCodeValuesFinder extends KeyValuesBase {
     /*
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @Override
     public List getKeyValues() {
         
         List<JobClassification> codes = (List<JobClassification>) getBusinessObjectService().findAll(JobClassification.class);

@@ -57,6 +57,7 @@ public class CloseQuestionHandler implements QuestionHandler<TravelDocument> {
     private DocumentDao documentDao;
     private AccountingDocumentRelationshipService accountingDocumentRelationshipService;
     
+    @Override
     public <T> T handleResponse(final Inquisitive<TravelDocument,?> asker) throws Exception {
         if (asker.denied(CLOSE_TA_QUESTION)) {
             return (T) asker.back();
@@ -118,6 +119,7 @@ public class CloseQuestionHandler implements QuestionHandler<TravelDocument> {
         }
     }
 
+    @Override
     public <T> T askQuestion(final Inquisitive<TravelDocument,?> asker) throws Exception {
         T retval = (T) asker.confirm(CLOSE_TA_QUESTION, CONFIRM_CLOSE_QUESTION_TEXT, false);
         return retval;

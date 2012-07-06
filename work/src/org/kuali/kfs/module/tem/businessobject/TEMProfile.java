@@ -152,6 +152,7 @@ public class TEMProfile extends BaseTemProfile {
      * 
      * @return Returns the nonResIdentAlien.
      */
+    @Override
     @Column(name = "non_res_alien", length = 1, nullable = true)
     public boolean isNonResidentAlien() {
         return nonResidentAlien;
@@ -166,6 +167,7 @@ public class TEMProfile extends BaseTemProfile {
         this.nonResidentAlien = nonResidentAlien;
     }
 
+    @Override
     @ManyToOne
     @JoinColumn(name = "traveler_typ_cd")
     public TravelerType getTravelerType() {
@@ -173,6 +175,7 @@ public class TEMProfile extends BaseTemProfile {
     }
 
 
+    @Override
     public void setTravelerType(TravelerType travelerType) {
         this.travelerType = travelerType;
     }
@@ -197,6 +200,7 @@ public class TEMProfile extends BaseTemProfile {
      * 
      * @return Returns the motorVehicleRecordCheck.
      */
+    @Override
     @Column(length = 1, nullable = true)
     public boolean isMotorVehicleRecordCheck() {
         return motorVehicleRecordCheck;
@@ -207,6 +211,7 @@ public class TEMProfile extends BaseTemProfile {
      * 
      * @param motorVehicleRecordCheck The motorVehicleRecordCheck to set.
      */
+    @Override
     public void setMotorVehicleRecordCheck(boolean motorVehicleRecordCheck) {
         this.motorVehicleRecordCheck = motorVehicleRecordCheck;
     }

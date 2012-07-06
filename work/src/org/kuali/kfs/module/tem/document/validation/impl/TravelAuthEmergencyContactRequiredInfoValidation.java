@@ -34,6 +34,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class TravelAuthEmergencyContactRequiredInfoValidation extends GenericValidation {
     private TravelService travelService;
 
+    @Override
     public boolean validate(AttributedDocumentEvent event) {
         TravelDocumentBase taDocument = (TravelDocumentBase) event.getDocument();
         boolean valid = true;

@@ -56,6 +56,7 @@ public class PerDiemLoadValidationServiceImpl implements PerDiemLoadValidationSe
     /**
      * @see org.kuali.kfs.module.tem.batch.service.PerDiemLoadValidationService#validate(java.util.List)
      */
+    @Override
     public <T extends PerDiem> boolean validate(List<T> perDiemList) {
         MessageMap messageMap = GlobalVariables.getMessageMap();
         
@@ -75,6 +76,7 @@ public class PerDiemLoadValidationServiceImpl implements PerDiemLoadValidationSe
     /**
      * @see org.kuali.kfs.module.tem.batch.service.PerDiemLoadValidationService#validate(org.kuali.kfs.module.tem.businessobject.PerDiem)
      */
+    @Override
     public <T extends PerDiem> List<Message> validate(T perDiem) {
         List<Message> meesageList = new ArrayList<Message>();
         

@@ -37,6 +37,7 @@ import org.kuali.kfs.module.tem.businessobject.TEMProfileArranger;
 import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.impl.PersonImpl;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -71,7 +72,7 @@ public class TEMProfileValidation extends MaintenanceDocumentRuleBase{
         }
 
         if (!StringUtils.isEmpty(profile.getDefaultChartCode())){
-            fieldValues.put(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, profile.getDefaultChartCode());
+            fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, profile.getDefaultChartCode());
             List<Chart> chartList = (List<Chart>) businessObjectService.findMatching(Chart.class, fieldValues);
             if (chartList.size() == 0){
                 GlobalVariables.getMessageMap().putError(TemPropertyConstants.TEMProfileProperties.DEFAULT_CHART_CODE, 
@@ -84,7 +85,7 @@ public class TEMProfileValidation extends MaintenanceDocumentRuleBase{
         }
         
         if (success && !StringUtils.isEmpty(profile.getDefaultAccount())){
-            fieldValues.put(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, profile.getDefaultAccount());
+            fieldValues.put(KFSPropertyConstants.ACCOUNT_NUMBER, profile.getDefaultAccount());
             List<Account> accountList = (List<Account>) businessObjectService.findMatching(Account.class, fieldValues);
             if (accountList.size() == 0){
                 GlobalVariables.getMessageMap().putError(TemPropertyConstants.TEMProfileProperties.DEFAULT_ACCOUNT_NUMBER, 
@@ -97,7 +98,7 @@ public class TEMProfileValidation extends MaintenanceDocumentRuleBase{
         }
         
         if (success && !StringUtils.isEmpty(profile.getDefaultSubAccount())){
-            fieldValues.put(KFSConstants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME, profile.getDefaultSubAccount());
+            fieldValues.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, profile.getDefaultSubAccount());
             List<SubAccount> subAccountList = (List<SubAccount>) businessObjectService.findMatching(SubAccount.class, fieldValues);
             if (subAccountList.size() == 0){
                 GlobalVariables.getMessageMap().putError(TemPropertyConstants.TEMProfileProperties.DEFAULT_SUB_ACCOUNT_NUMBER, 

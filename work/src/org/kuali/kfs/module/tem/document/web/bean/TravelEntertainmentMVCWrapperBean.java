@@ -33,12 +33,16 @@ public interface TravelEntertainmentMVCWrapperBean extends TravelMvcWrapperBean 
 
     void setNewAttendeeLine(final Attendee newAttendeeLine);
 
+    @Override
     ActualExpense getNewActualExpenseLine();
 
+    @Override
     void setNewActualExpenseLines(final List<ActualExpense> newActualExpenseLines);
 
+    @Override
     List<ActualExpense> getNewActualExpenseLines();
 
+    @Override
     void setNewActualExpenseLine(final ActualExpense newActualExpenseLine);
 
 

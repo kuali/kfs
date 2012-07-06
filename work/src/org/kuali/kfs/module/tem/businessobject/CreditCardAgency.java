@@ -287,6 +287,7 @@ public class CreditCardAgency extends PersistableBusinessObjectBase implements I
     }
 
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -302,6 +303,7 @@ public class CreditCardAgency extends PersistableBusinessObjectBase implements I
     }
 
 
+    @Override
     @Column(name="ACTV_IND",length=1, nullable=false)
     public boolean isActive() {
         return getActive();

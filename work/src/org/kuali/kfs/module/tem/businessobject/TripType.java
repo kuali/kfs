@@ -198,11 +198,13 @@ public class TripType extends PersistableBusinessObjectBase implements Inactivat
         this.perDiemCalcMethod = perDiemCalcMethod;
     }
 
+    @Override
     @Column(name="actv_ind",nullable=false,length=1)
     public boolean isActive() {
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

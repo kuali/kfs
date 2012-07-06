@@ -37,6 +37,7 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase {
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#populateDisbursementVoucherFields(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
      */
+    @Override
     public void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument) {
         super.populateDisbursementVoucherFields(disbursementVoucherDocument);
     }
@@ -44,6 +45,7 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase {
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getReimbursableTotal()
      */
+    @Override
     public KualiDecimal getReimbursableTotal() {
         KualiDecimal eligible = getEligibleAmount();
         final KualiDecimal expenseLimit = getExpenseLimit();
@@ -139,6 +141,7 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase {
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getPerDiemAdjustment()
      */
+    @Override
     public KualiDecimal getPerDiemAdjustment() {
         //do not use per diem adjustment
         return null;
@@ -147,6 +150,7 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase {
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#setPerDiemAdjustment(org.kuali.rice.kns.util.KualiDecimal)
      */
+    @Override
     public void setPerDiemAdjustment(KualiDecimal perDiemAdjustment) {
     }
 }

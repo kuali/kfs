@@ -55,7 +55,8 @@ import org.kuali.rice.kns.util.TransactionalServiceUtils;
  */
 public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements TravelDocumentDao, OjbCollectionAware {
 
-	public List<String> findDocumentNumbers(final Class<?> travelDocumentClass, final String travelDocumentNumber) {
+	@Override
+    public List<String> findDocumentNumbers(final Class<?> travelDocumentClass, final String travelDocumentNumber) {
         final Criteria c = new Criteria();
         c.addEqualTo(TRVL_IDENTIFIER_PROPERTY, travelDocumentNumber);
 
@@ -80,7 +81,8 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
 	/**
 	 * @see org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao#findPerDiem(java.util.Map)
 	 */
-	public PerDiem findPerDiem(Map<String, Object> fieldValues){
+	@Override
+    public PerDiem findPerDiem(Map<String, Object> fieldValues){
 	    Criteria criteria = new Criteria();
 	    Iterator<String> it = fieldValues.keySet().iterator();
 	    //Add all field values but the date
@@ -182,7 +184,7 @@ public class TravelDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements Tra
         }
         else{
             criteria = new Criteria();
-            criteria.addEqualTo(TemPropertyConstants.PER_DIEM_COUNTRY_STATE, KFSConstants.FinancialDocumentTypeCodes.ALL);
+            criteria.addEqualTo(TemPropertyConstants.PER_DIEM_COUNTRY_STATE, TemConstants.ALL_STATES);
             query = QueryFactory.newQuery(clazz, criteria,true);
             results = (List) getPersistenceBrokerTemplate().getCollectionByQuery(query);
         }

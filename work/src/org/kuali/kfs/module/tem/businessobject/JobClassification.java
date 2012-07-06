@@ -50,9 +50,11 @@ public class JobClassification extends PersistableBusinessObjectBase implements 
         return this.jobClsName;
     }
     
+    @Override
     public void setActive(boolean active){
         this.active = active;
     }
+    @Override
     @Column(name="ROW_ACTV_IND",length=1,nullable=false)
     public boolean isActive(){
         return this.active;

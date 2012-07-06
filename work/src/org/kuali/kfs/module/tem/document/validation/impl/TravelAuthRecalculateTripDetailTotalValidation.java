@@ -28,6 +28,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 
 public class TravelAuthRecalculateTripDetailTotalValidation extends GenericValidation {
 
+    @Override
     public boolean validate(AttributedDocumentEvent event) {
         TravelAuthorizationDocument doc = (TravelAuthorizationDocument)event.getDocument();
         List<PerDiemExpense> estimates = doc.getPerDiemExpenses();

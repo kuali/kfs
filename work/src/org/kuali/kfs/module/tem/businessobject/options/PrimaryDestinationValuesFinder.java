@@ -44,6 +44,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class PrimaryDestinationValuesFinder extends KeyValuesBase {
 
 
+    @Override
     public List getKeyValues() {
         List keyValues = new ArrayList();
         keyValues.add(new KeyLabelPair("", ""));
@@ -90,7 +91,7 @@ public class PrimaryDestinationValuesFinder extends KeyValuesBase {
             //skip dummy value for custom expenses
             if (primaryDestination.getId().intValue() == TemConstants.CUSTOM_PER_DIEM_ID
                     || primaryDestination.getCountryStateName().equals(TemConstants.CONUS)
-                    || primaryDestination.getCountryState().equals(KFSConstants.FinancialDocumentTypeCodes.ALL)){
+                    || primaryDestination.getCountryState().equals(TemConstants.ALL_STATES)){
                 continue;
             }
             String tempKey = primaryDestination.getCountryStateName();
@@ -106,7 +107,7 @@ public class PrimaryDestinationValuesFinder extends KeyValuesBase {
             //skip dummy value for custom expenses
             if (primaryDestination.getId().intValue() == TemConstants.CUSTOM_PER_DIEM_ID
                     || primaryDestination.getCountryStateName().equals(TemConstants.CONUS)
-                    || primaryDestination.getCountryState().equals(KFSConstants.FinancialDocumentTypeCodes.ALL)){
+                    || primaryDestination.getCountryState().equals(TemConstants.ALL_STATES)){
                 continue;
             }
             String tempKey = primaryDestination.getCountryStateName();

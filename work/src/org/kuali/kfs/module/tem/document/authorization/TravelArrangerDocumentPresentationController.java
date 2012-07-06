@@ -24,6 +24,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 
 public class TravelArrangerDocumentPresentationController extends TransactionalDocumentPresentationControllerBase {
     
+    @Override
     public Set<String> getEditModes(Document document) {
         Set<String> editModes = super.getEditModes(document);
 

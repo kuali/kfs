@@ -25,7 +25,8 @@ import org.kuali.rice.kns.util.KualiDecimal;
 
    public class TravelAuthAccountingLineBlanketTripTypeValidation extends GenericValidation {
        //@Override
-       public boolean validate(AttributedDocumentEvent event) {
+       @Override
+    public boolean validate(AttributedDocumentEvent event) {
            boolean rulePassed = true;
            TravelDocumentBase travelDocument = (TravelDocumentBase)event.getDocument();
            if (travelDocument.getSourceAccountingLines() != null || travelDocument.getSourceTotal().isGreaterThan(KualiDecimal.ZERO)) {

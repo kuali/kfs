@@ -573,6 +573,7 @@ public class Coversheet implements PdfStream {
      * @see org.kuali.kfs.module.tem.pdf.PdfStream#print(java.io.OutputStream)
      * @throws Exception
      */
+    @Override
     public void print(final OutputStream stream) throws Exception {
         final Font titleFont  = FontFactory.getFont(FontFactory.HELVETICA, 20, Font.BOLD);
         final Font headerFont = FontFactory.getFont(FontFactory.HELVETICA, 12, Font.BOLD);

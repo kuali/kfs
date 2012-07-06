@@ -88,6 +88,7 @@ public class CreditCardDataXmlInputFileType extends XmlBatchInputFileTypeBase {
     /**
      * @see org.kuali.kfs.sys.batch.BatchInputType#getTitleKey()
      */
+    @Override
     public String getTitleKey() {
         return TemKeyConstants.MESSAGE_BATCH_UPLOAD_TITLE_CREDIT_CARD_DATA_XML_FILE;
     }

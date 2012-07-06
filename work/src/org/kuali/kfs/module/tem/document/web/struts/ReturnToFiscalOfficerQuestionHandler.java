@@ -44,6 +44,7 @@ public class ReturnToFiscalOfficerQuestionHandler implements QuestionHandler<Tra
     private DataDictionaryService dataDictionaryService;
     private TravelDocumentService travelDocumentService;
     
+    @Override
     public <T> T handleResponse(final Inquisitive<TravelDocument,?> asker) throws Exception {
         if (asker.denied(RETURN_TO_FO_QUESTION)) {
             return (T) asker.back();
@@ -70,6 +71,7 @@ public class ReturnToFiscalOfficerQuestionHandler implements QuestionHandler<Tra
         return (T) asker.finish();
     }
 
+    @Override
     public <T> T askQuestion(final Inquisitive<TravelDocument,?> asker) throws Exception {
         //final Object question = asker.getQuestion();
         //final String reason   = asker.getReason();

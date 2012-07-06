@@ -194,6 +194,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getAccountingDistributionService()
      */
+    @Override
     public AccountingDistributionService getAccountingDistributionService(){
         return SpringContext.getBean(AccountingDistributionService.class);
     }
@@ -229,6 +230,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         }
     }
            
+    @Override
     public String getAppDocStatus() {
         String status = getDocumentHeader().getWorkflowDocument().getRouteHeader().getAppDocStatus();
         if (StringUtils.isBlank(status)) {
@@ -262,6 +264,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      * Gets the primaryDestinationIndicator attribute. 
      * @return Returns the primaryDestinationIndicator.
      */
+    @Override
     public Boolean getPrimaryDestinationIndicator() {
         return primaryDestinationIndicator;
     }
@@ -270,6 +273,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      * Sets the primaryDestinationIndicator attribute value.
      * @param primaryDestinationIndicator The primaryDestinationIndicator to set.
      */
+    @Override
     public void setPrimaryDestinationIndicator(Boolean primaryDestinationIndicator) {
         this.primaryDestinationIndicator = primaryDestinationIndicator;
     }
@@ -278,15 +282,18 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     public String getTripDescription() {
         return tripDescription;
     }
+    @Override
     public Integer getPrimaryDestinationId() {
         return primaryDestinationId;
     }
 
+    @Override
     public void setPrimaryDestinationId(Integer primaryDestinationId) {
         this.primaryDestinationId = primaryDestinationId;
         
     }
 
+    @Override
     public PrimaryDestination getPrimaryDestination() {
         if (primaryDestination ==  null){
             primaryDestination = new PrimaryDestination();
@@ -294,6 +301,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         return primaryDestination;
     }
 
+    @Override
     public void setPrimaryDestination(PrimaryDestination primaryDestination) {
         this.primaryDestination = primaryDestination;
         if (primaryDestination !=  null){
@@ -312,6 +320,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getPrimaryDestinationName()
      */
+    @Override
     public String getPrimaryDestinationName() {
         return primaryDestinationName;
     }
@@ -319,6 +328,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#setPrimaryDestinationName(java.lang.String)
      */
+    @Override
     public void setPrimaryDestinationName(String primaryDestinationName) {
         this.primaryDestinationName = primaryDestinationName;
     }
@@ -326,6 +336,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getPrimaryDestinationCountryState()
      */
+    @Override
     public String getPrimaryDestinationCountryState() {
         return primaryDestinationCountryState;
     }
@@ -333,6 +344,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#setPrimaryDestinationCountryState(java.lang.String)
      */
+    @Override
     public void setPrimaryDestinationCountryState(String primaryDestinationCountryState) {
         if (primaryDestinationCountryState != null) {
             primaryDestinationCountryState = primaryDestinationCountryState.toUpperCase();
@@ -344,6 +356,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getPrimaryDestinationCounty()
      */
+    @Override
     public String getPrimaryDestinationCounty() {
         return primaryDestinationCounty;
     }
@@ -351,6 +364,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#setPrimaryDestinationCounty(java.lang.String)
      */
+    @Override
     public void setPrimaryDestinationCounty(String primaryDestinationCounty) {
         this.primaryDestinationCounty = primaryDestinationCounty;
     }
@@ -358,6 +372,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#setTripDescription(java.lang.String)
      */
+    @Override
     public void setTripDescription(String tripDescription) {
         this.tripDescription = tripDescription;
     }
@@ -365,6 +380,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getTripType()
      */
+    @Override
     @ManyToOne
     @JoinColumn(name = "TRIP_TYP_CD")
     public TripType getTripType() {
@@ -374,6 +390,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#setTripType(org.kuali.kfs.module.tem.businessobject.TripType)
      */
+    @Override
     public void setTripType(TripType tripType) {
         this.tripType = tripType;
     }
@@ -381,6 +398,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getTripTypeCode()
      */
+    @Override
     @Column(name = "TRIP_TYP_CD", length = 3)
     public String getTripTypeCode() {
         return tripTypeCode;
@@ -389,6 +407,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#setTripTypeCode(java.lang.String)
      */
+    @Override
     public void setTripTypeCode(String tripTypeCode) {
         this.tripTypeCode = tripTypeCode;
     }
@@ -396,6 +415,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getTravelDocumentIdentifier()
      */
+    @Override
     @Column(name = "TRVL_ID")
     public String getTravelDocumentIdentifier() {
         return travelDocumentIdentifier;
@@ -404,6 +424,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#setTravelDocumentIdentifier(java.lang.String)
      */
+    @Override
     public void setTravelDocumentIdentifier(String travelDocumentIdentifier) {
         this.travelDocumentIdentifier = travelDocumentIdentifier;
     }
@@ -411,6 +432,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getTripBegin()
      */
+    @Override
     @Column(name = "TRIP_BGN_DT")
     public Timestamp getTripBegin() {
         return tripBegin;
@@ -419,6 +441,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#setTripBegin(java.sql.Timestamp)
      */
+    @Override
     public void setTripBegin(Timestamp tripBegin) {
         this.tripBegin = tripBegin;
     }
@@ -426,6 +449,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getTripEnd()
      */
+    @Override
     @Column(name = "TRIP_END_DT")
     public Timestamp getTripEnd() {
         return tripEnd;
@@ -434,6 +458,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#setTripEnd(java.sql.Timestamp)
      */
+    @Override
     public void setTripEnd(Timestamp tripEnd) {
         this.tripEnd = tripEnd;
     }
@@ -441,6 +466,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#canReturn()
      */
+    @Override
     public boolean canReturn() {
         return getDocumentHeader().getWorkflowDocument().stateIsEnroute();
     }
@@ -448,6 +474,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getTravelDocumentLinkIdentifier()
      */
+    @Override
     public Integer getTravelDocumentLinkIdentifier() {
         return travelDocumentLinkIdentifier;
     }
@@ -455,6 +482,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#setTravelDocumentLinkIdentifier(java.lang.Integer)
      */
+    @Override
     public void setTravelDocumentLinkIdentifier(Integer travelDocumentLinkIdentifier) {
         this.travelDocumentLinkIdentifier = travelDocumentLinkIdentifier;
     }
@@ -462,6 +490,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getTraveler()
      */
+    @Override
     @ManyToOne
     @JoinColumn(name = "traveler_dtl_id")
     public TravelerDetail getTraveler() {
@@ -471,6 +500,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#setTraveler(org.kuali.kfs.module.tem.businessobject.TravelerDetail)
      */
+    @Override
     public void setTraveler(TravelerDetail traveler) {
         this.traveler = traveler;
     }
@@ -478,6 +508,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getTravelerDetailId()
      */
+    @Override
     @Column(name = "traveler_dtl_id")
     public Integer getTravelerDetailId() {
         return travelerDetailId;
@@ -486,6 +517,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#setTravelerDetailId(java.lang.Integer)
      */
+    @Override
     public void setTravelerDetailId(Integer travelerDetailId) {
         this.travelerDetailId = travelerDetailId;
     }
@@ -493,6 +525,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getExpenseLimit()
      */
+    @Override
     @Column(name = "expenseLimit", precision = 19, scale = 2)
     public KualiDecimal getExpenseLimit() {
         return expenseLimit;
@@ -501,6 +534,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#setExpenseLimit(org.kuali.rice.kns.util.KualiDecimal)
      */
+    @Override
     public void setExpenseLimit(KualiDecimal expenseLimit) {
         this.expenseLimit = expenseLimit;
     }
@@ -537,6 +571,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#setSpecialCircumstances(java.util.List)
      */
+    @Override
     public void setSpecialCircumstances(final List<SpecialCircumstances> specialCircumstances) {
         this.specialCircumstances = specialCircumstances;
     }
@@ -544,6 +579,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getSpecialCircumstances()
      */
+    @Override
     public List<SpecialCircumstances> getSpecialCircumstances() {
         return this.specialCircumstances;
     }
@@ -779,6 +815,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getDailyTotalGrandTotal()
      */
+    @Override
     @Transient
     public KualiDecimal getDailyTotalGrandTotal() {
         PerDiemService service = SpringContext.getBean(PerDiemService.class);
@@ -788,6 +825,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getDocumentGrandTotal()
      */
+    @Override
     @Transient
     public KualiDecimal getDocumentGrandTotal() {
         KualiDecimal total  = KualiDecimal.ZERO;
@@ -812,6 +850,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getPerDiemExpenses()
      */
+    @Override
     @OneToMany(mappedBy="documentNumber")
     public List<PerDiemExpense> getPerDiemExpenses() {
         return perDiemExpenses;
@@ -820,6 +859,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#setPerDiemExpenses(java.util.List)
      */
+    @Override
     public void setPerDiemExpenses(List<PerDiemExpense> perDiemExpenses) {
         this.perDiemExpenses = perDiemExpenses;
     }
@@ -827,6 +867,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getActualExpenses()
      */
+    @Override
     @OneToMany(mappedBy="documentNumber")
     public List<ActualExpense> getActualExpenses() {
         return actualExpenses;
@@ -835,6 +876,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#setActualExpenses(java.util.List)
      */
+    @Override
     public void setActualExpenses(List<ActualExpense> actualExpenses) {
         this.actualExpenses = actualExpenses;
     }
@@ -842,6 +884,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#enableExpenseTypeSpecificFields(java.util.List)
      */
+    @Override
     @Transient
     public void enableExpenseTypeSpecificFields(final List<ActualExpense> actualExpenses){
         for(ActualExpense actualExpense: actualExpenses){
@@ -854,6 +897,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      * 
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getTotalPendingAmount(java.util.List, java.lang.Long)
      */
+    @Override
     @Transient
     public KualiDecimal getTotalPendingAmount(ActualExpense actualExpense){
         KualiDecimal expenseAmount = actualExpense.getExpenseAmount();
@@ -869,6 +913,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getParentExpenseAmount(java.util.List, java.lang.Long)
      */
+    @Override
     @Transient
     public KualiDecimal getParentExpenseAmount(List<ActualExpense> actualExpenses, Long id){        
         
@@ -884,6 +929,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getTotalDetailExpenseAmount(org.kuali.kfs.module.tem.businessobject.ActualExpense)
      */
+    @Override
     @Transient
     public KualiDecimal getTotalDetailExpenseAmount(ActualExpense actualExpense){
         KualiDecimal totalDetailExpenseAmount = KualiDecimal.ZERO;
@@ -898,6 +944,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getParentExpenseRecord(java.util.List, java.lang.Long)
      */
+    @Override
     @Transient
     public ActualExpense getParentExpenseRecord(List<ActualExpense> actualExpenses, Long id){        
         
@@ -916,6 +963,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      *
      * @return {@link KualiDecimal} with the total
      */
+    @Override
     @Transient
     public KualiDecimal getActualExpensesTotal() {
         KualiDecimal retval = KualiDecimal.ZERO;
@@ -940,6 +988,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      * 
      * @see org.kuali.kfs.module.tem.document.TravelDocument#addActualExpense(org.kuali.kfs.module.tem.businessobject.ActualExpense)
      */
+    @Override
     @Transient
     public void addActualExpense(final ActualExpense line) {
         final String sequenceName = line.getSequenceName();
@@ -951,6 +1000,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         getActualExpenses().add(line);
     }
     
+    @Override
     @Transient
     public void addExpense(TEMExpense line) {
         final String sequenceName = line.getSequenceName();
@@ -973,6 +1023,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#addExpenseDetail(org.kuali.kfs.module.tem.businessobject.TEMExpense, java.lang.Integer)
      */
+    @Override
     @Transient
     public void addExpenseDetail(TEMExpense line, Integer index) {
         final String sequenceName = line.getSequenceName();
@@ -996,6 +1047,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      * 
      * @see org.kuali.kfs.module.tem.document.TravelDocument#removeActualExpense(java.lang.Integer)
      */
+    @Override
     @Transient
     public void removeActualExpense(final Integer index) {
         final ActualExpense line = getActualExpenses().remove(index.intValue());
@@ -1012,6 +1064,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#removeExpense(org.kuali.kfs.module.tem.businessobject.TEMExpense, java.lang.Integer)
      */
+    @Override
     @Transient
     public void removeExpense(TEMExpense expense, Integer index) {
         TEMExpense line = null;
@@ -1028,6 +1081,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#removeExpenseDetail(org.kuali.kfs.module.tem.businessobject.TEMExpense, java.lang.Integer)
      */
+    @Override
     @Transient
     public void removeExpenseDetail(TEMExpense expense, Integer index) {
         final TEMExpense line = expense.getExpenseDetails().remove(index.intValue());
@@ -1115,6 +1169,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      * Gets the profileId attribute. 
      * @return Returns the profileId.
      */
+    @Override
     public Integer getProfileId() {
         return temProfileId;
     }
@@ -1123,6 +1178,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      * Sets the profileId attribute value, looks up the profile and populates the TravelerDetail based on the profile.
      * @param profileId The profileId to set.
      */
+    @Override
     public void setProfileId(Integer profileId) {
         this.temProfileId = profileId;
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
@@ -1134,6 +1190,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      * Gets the temProfileId attribute. 
      * @return Returns the temProfileId.
      */
+    @Override
     public Integer getTemProfileId() {
         return temProfileId;
     }
@@ -1142,6 +1199,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      * Sets the temProfileId attribute value.
      * @param temProfileId The temProfileId to set.
      */
+    @Override
     public void setTemProfileId(Integer temProfileId) {
         this.temProfileId = temProfileId;      
     }
@@ -1150,6 +1208,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      * Gets the temProfile attribute. 
      * @return Returns the temProfile.
      */
+    @Override
     public TEMProfile getTemProfile() {
         return temProfile;
     }
@@ -1158,6 +1217,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      * Sets the temProfile attribute value and populates the TravelerDetail from the TemProfile.
      * @param temProfile The temProfile to set.
      */
+    @Override
     public void setTemProfile(TEMProfile temProfile) {
         this.temProfile = temProfile;
         if(temProfile != null){
@@ -1237,6 +1297,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getDelinquentAction()
      */
+    @Override
     public String getDelinquentAction(){
         if(tripEnd != null){
             List<String> delinquentRules = getParameterService().getParameterValues(PARAM_NAMESPACE, TemConstants.TravelParameters.DOCUMENT_DTL_TYPE, TemConstants.TravelParameters.NUMBER_OF_TR_DELINQUENT_DAYS);                    
@@ -1271,6 +1332,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#canDisplayAgencySitesUrl()
      */
+    @Override
     public boolean canDisplayAgencySitesUrl(){
         String value = getConfigurationService().getPropertyString(ENABLE_AGENCY_SITES_URL);
         
@@ -1283,6 +1345,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getAgencySitesUrl()
      */
+    @Override
     public String getAgencySitesUrl(){
         return getConfigurationService().getPropertyString(AGENCY_SITES_URL);
     }
@@ -1290,6 +1353,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#canPassTripIdToAgencySites()
      */
+    @Override
     public boolean canPassTripIdToAgencySites(){
         String value = getConfigurationService().getPropertyString(PASS_TRIP_ID_TO_AGENCY_SITES);
         
@@ -1498,6 +1562,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      * 
      * @return Returns the groupTravelers.
      */
+    @Override
     public List<GroupTraveler> getGroupTravelers() {
         Collections.sort(groupTravelers, new GroupTravelerComparator());
         return groupTravelers;
@@ -1508,6 +1573,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      * 
      * @param groupTravelers The groupTravelers to set.
      */
+    @Override
     public void setGroupTravelers(List<GroupTraveler> groupTravelers) {
         this.groupTravelers = groupTravelers;
     }
@@ -1528,6 +1594,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      * 
      * @return Returns the travelAdvances.
      */
+    @Override
     public List<TravelAdvance> getTravelAdvances() {
         return travelAdvances;
     }
@@ -1537,6 +1604,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      * 
      * @param travelAdvances The travelAdvances to set.
      */
+    @Override
     public void setTravelAdvances(List<TravelAdvance> travelAdvances) {
         this.travelAdvances = travelAdvances;
     }    
@@ -1559,6 +1627,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      * @param financialObjectCode to search for total on
      * @return @{link KualiDecimal} with total value for {@link AccountingLines} with <code>finanncialObjectCode</code>
      */
+    @Override
     public KualiDecimal getTotalFor(final String financialObjectCode) {
         KualiDecimal retval = KualiDecimal.ZERO;
 
@@ -1582,6 +1651,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getNonReimbursableTotal()
      */
+    @Override
     public KualiDecimal getNonReimbursableTotal() {
         KualiDecimal total  = KualiDecimal.ZERO;
         Iterator<String> it = TemConstants.expenseTypes().keySet().iterator();
@@ -1598,6 +1668,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      * 
      * @return
      */
+    @Override
     public KualiDecimal getApprovedAmount() {
         KualiDecimal total  = KualiDecimal.ZERO;
         Iterator<String> it = TemConstants.expenseTypes().keySet().iterator();
@@ -1611,6 +1682,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getMealWithoutLodgingReason()
      */
+    @Override
     public String getMealWithoutLodgingReason() {
         return mealWithoutLodgingReason;
     }
@@ -1680,6 +1752,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getTransportationModes()
      */
+    @Override
     public List<TransportationModeDetail> getTransportationModes() {
         return null;
     }
@@ -1687,12 +1760,14 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#setTransportationModes(java.util.List)
      */
+    @Override
     public void setTransportationModes(List<TransportationModeDetail> transportationModes) {
     }
     
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getImportedExpenses()
      */
+    @Override
     public List<ImportedExpense> getImportedExpenses() {
         return importedExpenses;
     }
@@ -1700,6 +1775,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#setImportedExpenses(java.util.List)
      */
+    @Override
     public void setImportedExpenses(List<ImportedExpense> importedExpenses) {
         this.importedExpenses = importedExpenses;
     }
@@ -1707,6 +1783,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getCTSTotal()
      */
+    @Override
     public KualiDecimal getCTSTotal() {
         TEMExpenseService service = (TEMExpenseService) SpringContext.getBean(TEMExpense.class,TemConstants.TEMExpenseTypes.IMPORTED_CTS);
         KualiDecimal lessCtsCharges = service.getAllExpenseTotal(this, false);
@@ -1716,6 +1793,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getCorporateCardTotal()
      */
+    @Override
     public KualiDecimal getCorporateCardTotal() {
         TEMExpenseService service = (TEMExpenseService) SpringContext.getBean(TEMExpense.class,TemConstants.TEMExpenseTypes.IMPORTED_CORP_CARD);
         KualiDecimal lessCorpCardCharges = service.getAllExpenseTotal(this, false);
@@ -1774,12 +1852,14 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#initiateDocument()
      */
+    @Override
     public void initiateDocument() {
     }
 
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getEncumbranceTotal()
      */
+    @Override
     public KualiDecimal getEncumbranceTotal() {
         return KualiDecimal.ZERO;
     }
@@ -1843,6 +1923,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         return true;
     }
     
+    @Override
     public void populateVendorPayment(DisbursementVoucherDocument disbursementVoucherDocument) {
         disbursementVoucherDocument.getDocumentHeader().setDocumentDescription("Created by " + this.getDocumentTypeName() + " document" + (this.getTravelDocumentIdentifier() == null?".":": " + this.getTravelDocumentIdentifier()));
         disbursementVoucherDocument.getDocumentHeader().setOrganizationDocumentNumber(this.getTravelDocumentIdentifier());

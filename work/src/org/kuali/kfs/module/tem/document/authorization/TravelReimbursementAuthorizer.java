@@ -49,6 +49,7 @@ import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
  */
 public class TravelReimbursementAuthorizer extends AccountingDocumentAuthorizerBase implements ReturnToFiscalOfficerAuthorizer {
 
+    @Override
     public boolean canReturn(final TravelDocument taDoc, final Person user) {
         if (ObjectUtils.isNull(user)) {
             return false;

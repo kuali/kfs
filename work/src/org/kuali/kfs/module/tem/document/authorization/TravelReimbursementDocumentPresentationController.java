@@ -128,10 +128,12 @@ public class TravelReimbursementDocumentPresentationController extends TravelDoc
         return super.getDocumentActions(document);
     }        
     
+    @Override
     protected TravelDocumentService getTravelDocumentService() {
         return SpringContext.getBean(TravelDocumentService.class);
     }
     
+    @Override
     protected TravelService getTravelService() {
         return SpringContext.getBean(TravelService.class);
     }

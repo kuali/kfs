@@ -40,6 +40,7 @@ import org.kuali.rice.kns.util.MessageMap;
  */
 public class TravelUpdateTripDetailsValidation extends GenericValidation {
 
+    @Override
     public boolean validate(AttributedDocumentEvent event) {
         TravelDocument doc = (TravelDocument) event.getDocument();
         Date beginDate = doc.getTripBegin();

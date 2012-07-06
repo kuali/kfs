@@ -35,6 +35,7 @@ import org.kuali.rice.core.util.KeyLabelPair;
 public class TravelExpenseTypeServiceImpl implements TravelExpenseTypeService {
     private KeyValuesService keyValuesService;
     
+    @Override
     public Map<String, String> getCompanyNameMapFrom(final String expenseTypeCode) {
         final Map<String, String> retval = new HashMap<String, String>();
         final List<TravelCompanyCode> boList = getCompanyCodesBy(expenseTypeCode);
@@ -44,6 +45,7 @@ public class TravelExpenseTypeServiceImpl implements TravelExpenseTypeService {
         return retval;
     }
 
+    @Override
     public List<KeyLabelPair> getCompanyNamePairsFrom(final String expenseTypeCode) {
         final List<TravelCompanyCode> boList = getCompanyCodesBy(expenseTypeCode);
         final List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();

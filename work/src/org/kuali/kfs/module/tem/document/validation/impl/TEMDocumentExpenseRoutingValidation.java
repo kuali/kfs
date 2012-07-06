@@ -27,6 +27,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 
 public class TEMDocumentExpenseRoutingValidation extends GenericValidation {
+    @Override
     public boolean validate(AttributedDocumentEvent event) {
         boolean success = true;
         TravelDocument travelDocument = (TravelDocument) event.getDocument();

@@ -29,6 +29,7 @@ public class RemoveAttendeeEvent implements Observer {
     private static final int WRAPPER_ARG_IDX = 0;
     private static final int SELECTED_LINE_ARG_IDX = 1;
 
+    @Override
     public void update(final Observable observable, Object arg) {
         if (!(arg instanceof Object[])) {
             return;

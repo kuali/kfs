@@ -170,9 +170,10 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
         reqsDoc.getDocumentHeader().setOrganizationDocumentNumber(entDocument.getTravelDocumentIdentifier());
         Calendar calendar = getDateTimeService().getCurrentCalendar();
         calendar.setTime(entDocument.getTripBegin());
-        reqsDoc.setPostingYear(calendar.get(calendar.YEAR));
+        reqsDoc.setPostingYear(calendar.get(Calendar.YEAR));
     }
 
+    @Override
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
 
@@ -241,6 +242,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
         }
     }
 
+    @Override
     public void updateAppDocStatus(String newStatus) {
         debug("new status is: " + newStatus);
 
@@ -266,6 +268,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
         return SpringContext.getBean(TravelEntertainmentDocumentService.class);
     }
 
+    @Override
     public void initiateDocument() {
         updateAppDocStatus(TemConstants.TravelReimbursementStatusCodeKeys.IN_PROCESS);
         setActualExpenses(new ArrayList<ActualExpense>());
@@ -304,6 +307,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
      * @param financialObjectCode to search for total on
      * @return @{link KualiDecimal} with total value for {@link AccountingLines} with <code>finanncialObjectCode</code>
      */
+    @Override
     public KualiDecimal getTotalFor(final String financialObjectCode) {
         KualiDecimal retval = KualiDecimal.ZERO;
 
@@ -327,6 +331,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
         return ((getHostProfile() != null && getHostProfile().getTravelerTypeCode().equals(TemConstants.NONEMP_TRAVELER_TYP_CD)) || (getTemProfile() != null && getTemProfile().getTravelerTypeCode().equals(TemConstants.NONEMP_TRAVELER_TYP_CD)));
     }
 
+    @Override
     protected String generateDescription() {
         StringBuffer sb = new StringBuffer();
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
@@ -465,6 +470,7 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
         this.purposeCode = purposeCode;
     }
 
+    @Override
     protected TravelDocumentService getTravelDocumentService() {
         return SpringContext.getBean(TravelDocumentService.class);
     }

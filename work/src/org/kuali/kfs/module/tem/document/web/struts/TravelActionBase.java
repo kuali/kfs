@@ -325,6 +325,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    @Override
     public ActionForward performLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TravelFormBase travelForm = (TravelFormBase) form;
         // parse out the important strings from our methodToCall parameter
@@ -515,6 +516,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         return SpringContext.getBean(TravelDocumentService.class);
     }
 
+    @Override
     protected DocumentHelperService getDocumentHelperService() {
         return SpringContext.getBean(DocumentHelperService.class);
     }
@@ -532,6 +534,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         return (T) getDocumentHelperService().getDocumentAuthorizer(form.getDocument());
     }
 
+    @Override
     protected DataDictionaryService getDataDictionaryService() {
         return SpringContext.getBean(DataDictionaryService.class);
     }
@@ -792,6 +795,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
             this.mvcObj = mvcObj;
         }
 
+        @Override
         public Object invoke(final Object proxy, final Method method, final Object[] args) throws Exception {
             return method.invoke(mvcObj, args);
         }
@@ -988,6 +992,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         this.paramService = paramService;
     }
 
+    @Override
     protected DocumentService getDocumentService() {
         return SpringContext.getBean(DocumentService.class);
     }

@@ -50,6 +50,7 @@ public class TravelDocumentActualExpenseLineValidation extends TEMDocumentExpens
         // TODO Auto-generated constructor stub
     }
 
+    @Override
     public boolean validate(AttributedDocumentEvent event) {
         boolean success = true;
 

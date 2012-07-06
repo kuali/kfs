@@ -70,10 +70,12 @@ public class SpecialCircumstancesQuestion extends PersistableBusinessObjectBase 
         this.text = text;
     }
 
+    @Override
     public boolean isActive() {
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

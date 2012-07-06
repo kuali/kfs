@@ -28,6 +28,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 public class TripTypeValuesFinder extends KeyValuesBase {
 
 
+    @Override
     public List getKeyValues() {
         List keyValues = new ArrayList();
 

@@ -40,6 +40,7 @@ public class ImportedExpense extends AbstractExpense implements TEMExpense, Expe
     public ImportedExpense(){
     }
     
+    @Override
     public String getTemExpenseTypeCode(){
         return temExpenseTypeCode;
     }
@@ -114,13 +115,12 @@ public class ImportedExpense extends AbstractExpense implements TEMExpense, Expe
      * Sets the enableNonReimburable attribute value.
      * @param enableNonReimburable The enableNonReimburable to set.
      */
-    public void setEnableNonReimbursable(Boolean enableNonReimbusrable) {
+    public void setEnableNonReimbursable(Boolean enableNonReimbursable) {
         this.enableNonReimbursable = enableNonReimbursable;
     }
 
     @Override
     protected LinkedHashMap toStringMapper() {
-        // TODO Auto-generated method stub
         return null;
     }
 

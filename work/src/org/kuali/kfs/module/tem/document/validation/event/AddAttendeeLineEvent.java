@@ -62,6 +62,7 @@ public class AddAttendeeLineEvent<E extends Attendee> extends AttributedDocument
     }
 
    
+    @Override
     public E getAttendee() {
         // TODO Auto-generated method stub
         return attendee;

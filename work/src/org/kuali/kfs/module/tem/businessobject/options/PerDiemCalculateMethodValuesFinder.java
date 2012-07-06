@@ -24,6 +24,7 @@ import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 
 public class PerDiemCalculateMethodValuesFinder extends KeyValuesBase {
+    @Override
     @SuppressWarnings("rawtypes")
     public List getKeyValues() {
         List keyValues = new ArrayList();

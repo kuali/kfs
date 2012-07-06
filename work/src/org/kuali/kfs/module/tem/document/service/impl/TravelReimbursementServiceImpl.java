@@ -102,7 +102,6 @@ import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
-@SuppressWarnings("restriction")
 public class TravelReimbursementServiceImpl implements TravelReimbursementService {
 
     protected static Logger LOG = Logger.getLogger(TravelReimbursementServiceImpl.class);
@@ -127,6 +126,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelReimbursementService#findByTravelId(java.lang.String)
      */
+    @Override
     public List<TravelReimbursementDocument> findByTravelId(final String travelDocumentIdentifier) throws WorkflowException {
         final List<TravelReimbursementDocument> retval = getTravelDocumentService().find(TravelReimbursementDocument.class, travelDocumentIdentifier);
         for (final TravelReimbursementDocument reimbursement : retval) {
@@ -138,6 +138,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelReimbursementService#find(java.lang.String)
      */
+    @Override
     public TravelReimbursementDocument find(final String documentNumber) throws WorkflowException {
         final TravelReimbursementDocument retval = (TravelReimbursementDocument) getDocumentService().getByDocumentHeaderId(documentNumber);
         addListenersTo(retval);
@@ -147,6 +148,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelReimbursementService#addListenersTo(org.kuali.kfs.module.tem.document.TravelReimbursementDocument)
      */
+    @Override
     public void addListenersTo(final TravelReimbursementDocument reimbursement) {
         if (reimbursement != null) {
             reimbursement.setPropertyChangeListeners(getPropertyChangeListeners());
@@ -157,6 +159,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
      * @see org.kuali.kfs.module.tem.service.TravelReimbursementService#generateCoversheetFor(java.lang.String, java.lang.String,
      *      org.kuali.kfs.module.tem.document.TravelReimbursementDocument, java.io.OutputStream)
      */
+    @Override
     public Coversheet generateCoversheetFor(final TravelReimbursementDocument document) throws Exception {
         final String docNumber = document.getDocumentNumber();
         final String initiatorId = document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
@@ -264,6 +267,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         return receipt;
     }
 
+    @Override
     public void addDateChangedNote(TravelReimbursementDocument travelReqDoc, TravelAuthorizationDocument taDoc) {
         // get original dates
         final Date startDateIn = taDoc.getTripBegin();
@@ -332,6 +336,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
     /**
      * @see org.kuali.kfs.module.tem.service.TravelReimbursementService#notifyDateChangedOn(TravelReimbursementDocument, Date, Date)
      */
+    @Override
     public void notifyDateChangedOn(final TravelReimbursementDocument reimbursement, final Date start, final Date end) throws Exception {
         final SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         final String origStartDateStr = formatter.format(start);
@@ -387,6 +392,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
      * @param reimbursement
      * @throws WorkflowException
      */
+    @Override
     public void processCustomerReimbursement(final TravelReimbursementDocument reimbursement) throws WorkflowException{
         //Calculate the invoice total for customer
         Map<AccountsReceivableCustomerInvoice, KualiDecimal> openInvoiceMap = getInvoicesOpenAmountMapFor (reimbursement.getTraveler().getCustomerNumber(), reimbursement.getTravelDocumentIdentifier());
@@ -437,6 +443,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
      * @see org.kuali.kfs.module.tem.service.TravelReimbursementService#spawnCashConrolDocument(TravelReimbursementDocument)
      */
     //CLEANUP
+    @Override
     public void spawnCashControlDocumentFrom(final TravelReimbursementDocument reimbursement) throws WorkflowException {
         final AccountsReceivablePaymentApplicationDocument paymentApplication = createPaymentApplicationFor(reimbursement);
 
@@ -480,6 +487,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelReimbursementService#spawnCustomerCreditMemoDocument(org.kuali.kfs.module.tem.document.TravelReimbursementDocument, org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice, org.kuali.rice.kns.util.KualiDecimal)
      */
+    @Override
     public void spawnCustomerCreditMemoDocument(final TravelReimbursementDocument reimbursement, AccountsReceivableCustomerInvoice invoice, KualiDecimal creditAmount) throws WorkflowException {
         
         final AccountsReceivableCustomerCreditMemo customerCreditMemo = createCustomerCreditMemo(reimbursement, invoice, creditAmount);
@@ -553,6 +561,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelReimbursementService#getRelatedOpenTravelAuthorizationDocument(org.kuali.kfs.module.tem.document.TravelReimbursementDocument)
      */
+    @Override
     public TravelAuthorizationDocument getRelatedOpenTravelAuthorizationDocument(final TravelReimbursementDocument reimbursement) throws WorkflowException{
         TravelAuthorizationDocument travelAuthorizationDocument = new TravelAuthorizationDocument();
         Map<String, List<Document>> relatedDocuments = getTravelDocumentService().getDocumentsRelatedTo(reimbursement);

@@ -49,6 +49,7 @@ public class AddTravelAdvanceLineEvent extends AttributedDocumentEventBase imple
         this.travelAdvance = travelAdvance;
     }
     
+    @Override
     public TravelAdvance getTravelAdvance() {
         return travelAdvance;
     }

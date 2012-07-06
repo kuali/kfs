@@ -37,6 +37,7 @@ public class AddGroupTravelLineEvent extends AttributedDocumentEventBase impleme
         this.groupTraveler = groupTraveler;
     }
     
+    @Override
     public GroupTraveler getGroupTraveler() {
         return groupTraveler;
     }

@@ -31,11 +31,13 @@ public class TravelStrutsObservable extends Observable {
     /**
      * deprecating this since the best practice is to use Spring
      */
+    @Override
     @Deprecated
     public void addObserver(final Observer observer) {      
         super.addObserver(observer);
     }
 
+    @Override
     public void notifyObservers(final Object arg) {
         TravelMvcWrapperBean wrapper = null;
         if (arg instanceof TravelMvcWrapperBean) {

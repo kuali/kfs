@@ -34,6 +34,7 @@ public class AgencyCorrectionGroupEntriesFinder extends KeyValuesBase {
     /**
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @Override
     public List<KeyLabelPair> getKeyValues() {
         List activeLabels = new ArrayList();
 

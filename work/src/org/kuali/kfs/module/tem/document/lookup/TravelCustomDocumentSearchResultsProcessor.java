@@ -39,7 +39,7 @@ import org.kuali.rice.kns.web.ui.Column;
 public class TravelCustomDocumentSearchResultsProcessor extends StandardDocumentSearchResultProcessor {
     TravelDocumentSearchResultsProcessor searchProcessor = null;
     
-    @SuppressWarnings("null")
+    @Override
     public DocumentSearchResultComponents processIntoFinalResults(final List<DocSearchDTO> docSearchResultRows,
             final DocSearchCriteriaDTO criteria, 
             final String principalId) {
@@ -62,7 +62,7 @@ public class TravelCustomDocumentSearchResultsProcessor extends StandardDocument
             
          // this.setSearchCriteria(criteria);
             this.setSearchingUser(principalId);
-            final List columns = constructColumnList(criteria, docSearchResultRows);
+            final List<Column> columns = constructColumnList(criteria, docSearchResultRows);
 
             final List<DocumentSearchResult> documentSearchResults = new ArrayList<DocumentSearchResult>();
             for (DocSearchDTO docCriteriaDTO : docSearchResultRows) {
@@ -74,13 +74,13 @@ public class TravelCustomDocumentSearchResultsProcessor extends StandardDocument
             return new DocumentSearchResultComponents(columns, documentSearchResults);
         }
         catch (Exception ex) {
-            // TODO Auto-generated catch block
             ex.printStackTrace();
         }
         return new DocumentSearchResultComponents(new ArrayList<Column>(), new ArrayList<DocumentSearchResult>());
         
     }
     
+    @Override
     public List<Column> constructColumnList(final DocSearchCriteriaDTO criteria, final List<DocSearchDTO> docSearchResultRows) {
         List<Column> columns = super.constructColumnList(criteria, docSearchResultRows);
         columns.add(0, constructColumnUsingKey(TRVL_DOC_SEARCH_RESULT_PROPERTY_NAME_ACTIONS, null,null));
@@ -92,6 +92,7 @@ public class TravelCustomDocumentSearchResultsProcessor extends StandardDocument
      * Below methods should probably not be overridden by overriding classes but
      * could be if desired
      */
+    @Override
     public Column constructColumnUsingKey(String key, String label,
             Boolean sortable) {
         debug("Constructing column with key ", key);
@@ -132,6 +133,7 @@ public class TravelCustomDocumentSearchResultsProcessor extends StandardDocument
         
     }
     
+    @Override
     public Map<String, String> getLabelsByKey() {
         Map<String, String> retval = new HashMap<String, String>(); // super.getLabelsByKey();
         retval.put(TRVL_DOC_SEARCH_RESULT_PROPERTY_NAME_ACTIONS, "Actions");

@@ -89,6 +89,7 @@ import org.kuali.kfs.sys.report.ReportInfo;
  *
  * @author Leo Przybylski (leo [at] rsmart.com)
  */
+@SuppressWarnings("deprecation")
 public class TravelReportFactoryServiceImpl implements TravelReportFactoryService {
     private static final int MARGIN            = 10;
     private static final int PAGEHEADER_HEIGHT = 25;
@@ -112,6 +113,7 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
      * @param str is a {@link String} to use the preset on
      * @return {@link RString} instance that is the embodiment of the style
      */
+    @Override
     public RString h1(final String str) {
         return applyStyle(str);
     }
@@ -122,6 +124,7 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
      * @param str is a {@link String} to use the preset on
      * @return {@link RString} instance that is the embodiment of the style
      */
+    @Override
     public RString h2(final String str) {
         return applyStyle(str);
     }
@@ -132,6 +135,7 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
      * @param str is a {@link String} to use the preset on
      * @return {@link RString} instance that is the embodiment of the style
      */
+    @Override
     public RString h3(final String str) {
         return applyStyle(str);
     }
@@ -142,6 +146,7 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
      * @param str is a {@link String} to use the preset on
      * @return {@link RString} instance that is the embodiment of the style
      */
+    @Override
     public RString h4(final String str) {
         return applyStyle(str);
     }
@@ -152,6 +157,7 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
      * @param str is a {@link String} to use the preset on
      * @return {@link RString} instance that is the embodiment of the style
      */
+    @Override
     public RString h5(final String str) {
         return applyStyle(str);
     }
@@ -257,6 +263,7 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
      * @param report to check for {@link Summary} in
      * @return true if there is a {@link Summary} or false otherwise
      */
+    @Override
     public boolean hasSummary(final ReportInfo report) {
         return hasFieldWithAnnotations(report, Summary.class);        
     }
@@ -828,6 +835,7 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
      * @return {@link JasperDesign} out
      * @throws Exception because there is a lot of under-the-hood I/O and reflection going on.
      */
+    @Override
     public JasperDesign designSummary(final ReportInfo report) throws Exception {
         final JasperDesign designObj = new JasperDesign();
         final String reportTitle = getReportTitle(report);
@@ -875,6 +883,7 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
      * @return {@link JasperDesign} out
      * @throws Exception because there is a lot of under-the-hood I/O and reflection going on.
      */
+    @Override
     public JasperDesign designReport(final ReportInfo report, final Integer reportIndex) throws Exception {
         final JasperDesign designObj = new JasperDesign();
         final String reportTitle = getReportTitle(report);
@@ -993,6 +1002,7 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
      * @return a {@link Collection} instance containing {@link Field} objects that will be mapped to report fields when creating the
      * report.
      */
+    @Override
     public Collection<Field> getSubreportFieldsFrom(final ReportInfo report) throws Exception {
         final Collection<Field> retval = new ArrayList<Field>();
         for (final Field field : report.getClass().getDeclaredFields()) {
@@ -1035,6 +1045,7 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
      * 
      * @return JasperReport as a subreport
      */
+    @Override
     public JasperReport processReportForField(final ReportInfo report, final Field field) throws Exception {
         final JasperDesign design = designReport(report, field);
         if (design == null) {
@@ -1445,6 +1456,7 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
         return false;
     }
 
+    @Override
     public Field getFieldWithAnnotation(final ReportInfo report, final Class ... annotations) {
         return getFieldsWithAnnotation(report.getClass(), annotations).iterator().next();
     }
@@ -1490,6 +1502,7 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
      * @param field a {@link Field} instance in a {@link ReportInfo} class
      * @param true if the {@link Summary} annotation is on a {@link Field} 
      */
+    @Override
     public boolean isSummary(final Field field) {
         return field.getAnnotation(Summary.class) != null;
     }
@@ -1560,14 +1573,17 @@ public class TravelReportFactoryServiceImpl implements TravelReportFactoryServic
             super(container);
             
             final JRBaseBoxPen pen = new JRBaseBoxPen(this) {
+                    @Override
                     public Color getLineColor() {
                         return BLACK;
                     }
                     
+                    @Override
                     public Byte getLineStyle() {
                         return LINE_STYLE_SOLID;
                     }
                     
+                    @Override
                     public Float getLineWidth() {
                         return 0.5f;
                     }

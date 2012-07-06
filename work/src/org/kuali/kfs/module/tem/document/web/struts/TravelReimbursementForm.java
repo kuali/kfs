@@ -111,6 +111,7 @@ public class TravelReimbursementForm extends TravelFormBase implements TravelRei
         return result;
     }
  
+    @Override
     public List<ExtraButton> getExtraButtons() {
         super.getExtraButtons();
         final Map<String, ExtraButton> buttonsMap = createButtonsMap();
@@ -125,14 +126,17 @@ public class TravelReimbursementForm extends TravelFormBase implements TravelRei
         return extraButtons;
     }
     
+    @Override
     public boolean canCertify() {
         return canCertify;
     }
     
+    @Override
     public boolean getCanCertify() {
         return canCertify;
     }
 
+    @Override
     public void setCanCertify(final boolean canCertify) {
         this.canCertify = canCertify;
     }
@@ -142,6 +146,7 @@ public class TravelReimbursementForm extends TravelFormBase implements TravelRei
      * 
      * @return TravelReimbursementForm
      */
+    @Override
     public TravelReimbursementDocument getTravelReimbursementDocument() {
         return (TravelReimbursementDocument) getDocument();
     }
@@ -151,6 +156,7 @@ public class TravelReimbursementForm extends TravelFormBase implements TravelRei
      *
      * @return String with the field name of the document identifier
      */
+    @Override
     protected String getDocumentIdentifierFieldName() {
         return "travelDocumentIdentifier";
     }
@@ -160,18 +166,22 @@ public class TravelReimbursementForm extends TravelFormBase implements TravelRei
         return "TR";
     }
 
+    @Override
     public List<Serializable> getHistory() {
         return this.history;
     }
 
+    @Override
     public void setHistory(final List<Serializable> history) {
         this.history = history;
     }
 
+    @Override
     public void setInvoices(final List<TravelAdvance> invoices) {
         this.invoices = invoices;
     }
 
+    @Override
     public List<TravelAdvance> getInvoices() {
         return this.invoices;
     }
@@ -181,6 +191,7 @@ public class TravelReimbursementForm extends TravelFormBase implements TravelRei
      * 
      * @return Returns the startDate.
      */
+    @Override
     public Date getStartDate() {
         return startDate;
     }
@@ -190,6 +201,7 @@ public class TravelReimbursementForm extends TravelFormBase implements TravelRei
      * 
      * @param startDate The startDate to set.
      */
+    @Override
     public void setStartDate(final Date startDate) {
         this.startDate = startDate;
     }
@@ -199,6 +211,7 @@ public class TravelReimbursementForm extends TravelFormBase implements TravelRei
      * 
      * @return Returns the endDate.
      */
+    @Override
     public Date getEndDate() {
         return endDate;
     }
@@ -208,6 +221,7 @@ public class TravelReimbursementForm extends TravelFormBase implements TravelRei
      * 
      * @param endDate The endDate to set.
      */
+    @Override
     public void setEndDate(final Date endDate) {
         try{
             this.endDate = endDate;
@@ -233,6 +247,7 @@ public class TravelReimbursementForm extends TravelFormBase implements TravelRei
         return SpringContext.getBean(TravelAuthorizationService.class);
     }
 
+    @Override
     protected ParameterService getParameterService() {
         return SpringContext.getBean(ParameterService.class);
     }

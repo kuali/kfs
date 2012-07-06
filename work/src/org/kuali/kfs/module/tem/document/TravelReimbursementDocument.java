@@ -92,7 +92,6 @@ import org.kuali.rice.kns.util.ObjectUtils;
 /**
  * Travel Reimbursement Document
  */
-@SuppressWarnings("restriction")
 @Entity
 @Table(name = "TEM_TRVL_REIMB_DOC_T")
 public class TravelReimbursementDocument extends TEMReimbursementDocument implements AmountTotaling {
@@ -173,14 +172,17 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         this.contactCampusCode = contactCampusCode;
     }
 
+    @Override
     public void setPerDiemAdjustment(final KualiDecimal perDiemAdjustment) {
         this.perDiemAdjustment = perDiemAdjustment;
     }
 
+    @Override
     public KualiDecimal getPerDiemAdjustment() {
         return perDiemAdjustment;
     }
 
+    @Override
     public KualiDecimal getTotalDollarAmount() {
         return getReimbursableTotal();
     }
@@ -208,6 +210,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
      * @see org.kuali.rice.kns.rule.GenerateGeneralLedgerPendingEntriesRule#processGenerateGeneralLedgerPendingEntries(org.kuali.rice.kns.document.AccountingDocument,
      *      org.kuali.rice.kns.bo.AccountingLine, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
+    @Override
     public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         debug("processGenerateGeneralLedgerPendingEntries(AccountingDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper) - start");
 
@@ -248,6 +251,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
      */
+    @Override
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
         
@@ -418,6 +422,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#initiateDocument()
      */
+    @Override
     public void initiateDocument() {
         updateAppDocStatus(TemConstants.TravelReimbursementStatusCodeKeys.IN_PROCESS);
         setActualExpenses(new ArrayList<ActualExpense>());
@@ -599,6 +604,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
      * 
      * @return Returns the kualiConfigurationService.
      */
+    @Override
     protected KualiConfigurationService getConfigurationService() {
         if (kualiConfigurationService == null) {
             kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
@@ -750,6 +756,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         return SpringContext.getBean(PersonService.class);
     }
 
+    @Override
     protected SequenceAccessorService getSequenceAccessorService() {
         return SpringContext.getBean(SequenceAccessorService.class);
     }

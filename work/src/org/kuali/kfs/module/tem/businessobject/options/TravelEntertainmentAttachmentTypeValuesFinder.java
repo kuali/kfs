@@ -23,6 +23,7 @@ import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 
 public class TravelEntertainmentAttachmentTypeValuesFinder extends KeyValuesBase {
+    @Override
     public List getKeyValues() {
         List keyValues = new ArrayList();
 

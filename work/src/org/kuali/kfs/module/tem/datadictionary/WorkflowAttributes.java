@@ -53,6 +53,7 @@ public class WorkflowAttributes extends org.kuali.rice.kns.datadictionary.Workfl
     }
 
    
+    @Override
     public void setSearchingTypeDefinitions(final List<SearchingTypeDefinition> searchingTypeDefinitions) {
         super.setSearchingTypeDefinitions(new BoAwareList(searchingTypeDefinitions));
         ((BoAwareList) getSearchingTypeDefinitions()).setBusinessObjectClassName(getBusinessObjectClassName());

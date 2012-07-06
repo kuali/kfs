@@ -70,7 +70,6 @@ import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
-@SuppressWarnings("restriction")
 public class TravelRelocationServiceImpl implements TravelRelocationService{
 
     private KualiRuleService kualiRuleService;
@@ -90,6 +89,7 @@ public class TravelRelocationServiceImpl implements TravelRelocationService{
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelRelocationService#findByIdentifier(java.lang.String)
      */
+    @Override
     public Collection<TravelRelocationDocument> findByIdentifier(final String travelDocumentIdentifier) {
         final Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(TRVL_IDENTIFIER_PROPERTY, travelDocumentIdentifier);
@@ -99,6 +99,7 @@ public class TravelRelocationServiceImpl implements TravelRelocationService{
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelRelocationService#find(java.lang.String)
      */
+    @Override
     public TravelRelocationDocument find(final String documentNumber) throws WorkflowException {
         final TravelRelocationDocument retval = (TravelRelocationDocument) getDocumentService().getByDocumentHeaderId(documentNumber);
         addListenersTo(retval);
@@ -119,6 +120,7 @@ public class TravelRelocationServiceImpl implements TravelRelocationService{
      * @see org.kuali.kfs.module.tem.service.TravelRelocationService#generateCoversheetFor(java.lang.String, java.lang.String,
      *      org.kuali.kfs.module.tem.document.TravelRelocationDocument, java.io.OutputStream)
      */
+    @Override
     public Coversheet generateCoversheetFor(final TravelRelocationDocument document) throws Exception {
         final String docNumber = document.getDocumentNumber();
         final String initiatorId = document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
@@ -173,6 +175,7 @@ public class TravelRelocationServiceImpl implements TravelRelocationService{
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelRelocationService#createDVReimbursementDocument(org.kuali.kfs.module.tem.document.TravelRelocationDocument)
      */
+    @Override
     public void createDVReimbursementDocument(TravelRelocationDocument document){
         DisbursementVoucherDocument disbursementVoucherDocument = getTravelDocumentService().createDVReimbursementDocument(document);
         String relationDescription = "RELO - DV";
@@ -279,6 +282,7 @@ public class TravelRelocationServiceImpl implements TravelRelocationService{
         this.documentDao = documentDao;
     }
     
+    @Override
     public AccountingDocumentRelationshipService getAccountingDocumentRelationshipService() {
         return accountingDocumentRelationshipService;
     }

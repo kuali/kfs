@@ -494,6 +494,7 @@ public class TravelReimbursementAction extends TravelActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    @Override
     protected Class getMvcWrapperInterface() {
         return TravelReimbursementMvcWrapperBean.class;
     }
@@ -623,6 +624,7 @@ public class TravelReimbursementAction extends TravelActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    @Override
     public ActionForward clearPerDiemExpenses(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TravelFormBase reqForm = (TravelFormBase) form;
         TravelDocument document = reqForm.getTravelDocument();
@@ -776,6 +778,7 @@ public class TravelReimbursementAction extends TravelActionBase {
         }
     }
 
+    @Override
     protected TravelDocumentService getTravelDocumentService() {
         return SpringContext.getBean(TravelDocumentService.class);
     }

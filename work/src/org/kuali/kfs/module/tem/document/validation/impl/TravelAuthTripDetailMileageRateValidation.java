@@ -34,6 +34,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class TravelAuthTripDetailMileageRateValidation extends GenericValidation {
 
     //@Override
+    @Override
     public boolean validate(AttributedDocumentEvent event) {
         boolean rulePassed = true;
         boolean showMileage = false;

@@ -76,6 +76,7 @@ public class SummaryByDayReportServiceImpl implements SummaryByDayReportService 
     /**
      *
      */
+    @Override
     public SummaryByDayReport buildReport(final TravelDocument travelDocument) {
         debug("Building a ", SummaryByDayReport.class, " report for trip id ", travelDocument.getTravelDocumentIdentifier());
         final SummaryByDayReport retval = new SummaryByDayReport();

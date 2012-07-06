@@ -641,6 +641,8 @@ public class TemConstants extends JSTLConstants {
     public static final String CONUS = "CONUS";
     public static final String OTHER_PRIMARY_DESTINATION = "[OTHER]";
     public static final String BLANKET_IN_STATE = "BLN";
+    public static final String ALL_STATES = "ALL";
+    
     public static final String ALL_DOCUMENT = "ALL";
 
     public static final String IMPORTED_FLAG = "-IMP";
@@ -669,10 +671,13 @@ public class TemConstants extends JSTLConstants {
     public static final String SUMMARY_ANCHOR = "summaryAnchor";
     
     public static final String PRIMARY_DESTINATION_CLASS_NAME = "PrimaryDestination";
-
     
     public enum NotificationPreference {
-        TA_ON_FINAL("TA_ON_FINAL"), TA_ON_CHANGE("TA_ON_CHANGE"), TER_ON_FINAL("TER_ON_FINAL"), TER_ON_CHANGE("TER_ON_CHANGE"), NONE("");
+        TA_ON_FINAL("TA_ON_FINAL"), 
+        TA_ON_CHANGE("TA_ON_CHANGE"), 
+        TER_ON_FINAL("TER_ON_FINAL"), 
+        TER_ON_CHANGE("TER_ON_CHANGE"), 
+        NONE("");
 
         public String code;
 

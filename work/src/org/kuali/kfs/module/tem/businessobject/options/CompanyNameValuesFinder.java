@@ -35,6 +35,7 @@ public class CompanyNameValuesFinder extends KeyValuesBase {
     /*
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @Override
     public List getKeyValues() {
         List<TravelCompanyCode> boList = (List<TravelCompanyCode>) 
             getKeyValuesService().findAllOrderBy(TravelCompanyCode.class, "name", true);

@@ -62,6 +62,7 @@ public class TravelServiceImpl implements TravelService {
      *
      * @param phoneNumber to validate
      */
+    @Override
     public String validatePhoneNumber(final String phoneNumber, String error){
         return validatePhoneNumber("", phoneNumber, error);
     }
@@ -72,6 +73,7 @@ public class TravelServiceImpl implements TravelService {
      * @param countryCode to consider for validation
      * @param phoneNumber to validate
      */
+    @Override
     public String validatePhoneNumber(final String countryCode, final String phoneNumber, String error){
         
         //Determine if the US phone format should be used or a very lax international format.
@@ -97,6 +99,7 @@ public class TravelServiceImpl implements TravelService {
         }
     }
     
+    @Override
     public TEMProfile findTemProfileByPrincipalId(String principalId) {
         Map<String,String> criteria = new HashMap<String,String>(1);
         criteria.put("principalId", principalId);
@@ -107,6 +110,7 @@ public class TravelServiceImpl implements TravelService {
         return null;
     }
 
+    @Override
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -145,6 +149,7 @@ public class TravelServiceImpl implements TravelService {
         this.accountsReceivableModuleService = accountsReceivableModuleService;
     }    
     
+    @Override
     public List<PrimaryDestination> findAllDistinctPrimaryDestinations(String tripType){
         return getTravelDocumentDao().findAllDistinctPrimaryDestinations(tripType);
     }

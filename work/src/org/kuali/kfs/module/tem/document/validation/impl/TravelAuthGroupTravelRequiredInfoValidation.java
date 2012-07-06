@@ -32,6 +32,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 public class TravelAuthGroupTravelRequiredInfoValidation extends GenericValidation {
     private PersonService personService;
 
+    @Override
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
         GroupTraveler groupTraveler = ((AddGroupTravelLineEvent) event).getGroupTraveler();

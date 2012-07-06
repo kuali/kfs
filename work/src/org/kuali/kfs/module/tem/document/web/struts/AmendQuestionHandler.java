@@ -62,6 +62,7 @@ public class AmendQuestionHandler implements QuestionHandler<TravelDocument> {
     private DocumentDao documentDao;
     private AccountingDocumentRelationshipService accountingDocumentRelationshipService;
     
+    @Override
     public <T> T handleResponse(final Inquisitive<TravelDocument,?> asker) throws Exception {
         if (asker.denied(AMENDMENT_TA_QUESTION)) {
             return (T) asker.back();
@@ -150,6 +151,7 @@ public class AmendQuestionHandler implements QuestionHandler<TravelDocument> {
     }
 
 
+    @Override
     public <T> T askQuestion(final Inquisitive<TravelDocument,?> asker) throws Exception {
         final String key      = getMessageFrom(TA_QUESTION_DOCUMENT);
         final String question = replace(key, "{0}", AMEND_TA_TEXT);

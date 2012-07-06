@@ -128,6 +128,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
 
     private final int currentYear = Calendar.getInstance().get(Calendar.YEAR);
 
+    @Override
     public void createCustomerInvoice(TravelAuthorizationDocument travelAuthorizationDocument) {
 
         boolean enableInvoice = getParameterService().getIndicatorParameter(PARAM_NAMESPACE, PARAM_DTL_TYPE, TravelAuthorizationParameters.ENABLE_AR_INV_FOR_TRAVL_ADVANCE_IND);
@@ -433,6 +434,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
      * @param travelDocumentIdentifier to locate {@link TravelAuthorizationDocument} instances
      * @return {@link Collection} of {@link TravelAuthorizationDocument} instances
      */
+    @Override
     public Collection<TravelAuthorizationDocument> find(final String travelDocumentIdentifier) {
         final Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(TRVL_IDENTIFIER_PROPERTY, travelDocumentIdentifier);
@@ -449,12 +451,14 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
      * @param travelDocumentIdentifier to locate {@link TravelAuthorizationAmendmentDocument} instances
      * @return {@link Collection} of {@link TravelAuthorizationAmendmentDocument} instances
      */
+    @Override
     public Collection<TravelAuthorizationAmendmentDocument> findAmendment(Integer travelDocumentIdentifier) {
         final Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(TRVL_IDENTIFIER_PROPERTY, travelDocumentIdentifier);
         return getBusinessObjectService().findMatching(TravelAuthorizationAmendmentDocument.class, criteria);
     }
 
+    @Override
     public void createDVARDocument(TravelAuthorizationDocument travelAuthorizationDocument) {
         boolean enableDVAR = getParameterService().getIndicatorParameter(PARAM_NAMESPACE, PARAM_DTL_TYPE, TravelAuthorizationParameters.ENABLE_DV_FOR_TRAVEL_ADVANCE_IND);
         if (enableDVAR) {
@@ -713,6 +717,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelAuthorizationService#getTravelAuthorizationBy(java.lang.String)
      */
+    @Override
     public TravelAuthorizationDocument getTravelAuthorizationBy(String documentNumber) {
         if (ObjectUtils.isNotNull(documentNumber)) {
             try {
@@ -906,6 +911,7 @@ public class TravelAuthorizationServiceImpl implements TravelAuthorizationServic
         this.universityDateService = universityDateService;
     }
 
+    @Override
     public void setTravelDocumentDao(final TravelDocumentDao travelDocumentDao) {
         this.travelDocumentDao = travelDocumentDao;
     }

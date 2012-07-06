@@ -145,6 +145,7 @@ public class Attendee  extends PersistableBusinessObjectBase{
         return retval;
     }
 
+    @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap map = new LinkedHashMap();
         map.put("id", this.id);

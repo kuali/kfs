@@ -50,6 +50,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class TravelAuthTravelAdvanceValidation extends GenericValidation {
     private TemProfileService temProfileService;
     
+    @Override
     public boolean validate(AttributedDocumentEvent event) {
         boolean success = true;
         TravelAuthorizationDocument document = (TravelAuthorizationDocument)event.getDocument();

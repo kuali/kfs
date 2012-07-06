@@ -48,6 +48,7 @@ public class TemCorrectionDocumentServiceImpl implements TemCorrectionDocumentSe
      * @return a List of Columns to render
      * @see org.kuali.kfs.gl.document.service.CorrectionDocumentService#getTableRenderColumnMetadata(java.lang.String)
      */
+    @Override
     public List<Column> getTableRenderColumnMetadata(String docId) {
         synchronized (this) {
             if (cachedColumns == null) {

@@ -57,9 +57,11 @@ public class RelocationReason extends PersistableBusinessObjectBase implements I
     public String getReloReasonDescription(){
         return this.reloReasonDescription;
     }
+    @Override
     public void setActive(boolean active){
         this.active = active;
     }
+    @Override
     @Column(name="ROW_ACTV_IND",length=1, nullable=false)
     public boolean isActive(){
         return this.active;

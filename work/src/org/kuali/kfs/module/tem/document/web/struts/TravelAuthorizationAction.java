@@ -708,6 +708,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
      * @return the page to forward back to
      * @throws Exception
      */
+    @Override
     public ActionForward deleteActualExpenseLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         final ActionForward retval = super.deleteActualExpenseLine(mapping, form, request, response);        
         //recalculate(mapping, form, request, response);
@@ -907,6 +908,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
      * @return An ActionForward
      * @throws Exception
      */
+    @Override
     protected ActionForward askQuestionsAndPerformDocumentAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String questionType, String confirmType, String documentType, String notePrefix, String messageType, String operation) throws Exception {
         debug("askQuestionsAndPerformDocumentAction started.");
         TravelAuthorizationForm taForm = (TravelAuthorizationForm) form;
@@ -1119,10 +1121,12 @@ public class TravelAuthorizationAction extends TravelActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    @Override
     protected BusinessObjectService getBusinessObjectService() {
         return SpringContext.getBean(BusinessObjectService.class);
     }
 
+    @Override
     protected TravelerService getTravelerService() {
         return SpringContext.getBean(TravelerService.class);
     }
@@ -1268,6 +1272,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
      * @see org.kuali.kfs.module.tem.document.web.struts.TravelActionBase#newMvcDelegate(ActionForm)
      * @see org.kuali.kfs.module.tem.document.web.struts.TravelStrutsObservable
      */
+    @Override
     protected Class getMvcWrapperInterface() {
         return TravelAuthorizationMvcWrapperBean.class;
     }
@@ -1284,6 +1289,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
         return SpringContext.getBean(GeneralLedgerPendingEntryService.class);
     }
 
+    @Override
     protected DataDictionaryService getDataDictionaryService() {
         return SpringContext.getBean(DataDictionaryService.class);
     }

@@ -78,6 +78,7 @@ public interface TravelReimbursementMvcWrapperBean extends TravelMvcWrapperBean 
      */
     void setEndDate(final Date endDate);
 
+    @Override
     /**
      * Gets the newActualExpenseLine attribute.
      * 
@@ -85,6 +86,7 @@ public interface TravelReimbursementMvcWrapperBean extends TravelMvcWrapperBean 
      */
     ActualExpense getNewActualExpenseLine();
 
+    @Override
     /**
      * Sets the newActualExpenseLines attribute value.
      * 
@@ -92,6 +94,7 @@ public interface TravelReimbursementMvcWrapperBean extends TravelMvcWrapperBean 
      */
     void setNewActualExpenseLines(final List<ActualExpense> newActualExpenseLines);
     
+    @Override
     /**
      * Gets the newActualExpenseLines attribute.
      * 
@@ -99,6 +102,7 @@ public interface TravelReimbursementMvcWrapperBean extends TravelMvcWrapperBean 
      */
     List<ActualExpense> getNewActualExpenseLines();
 
+    @Override
     /**
      * Sets the newActualExpenseLine attribute value.
      * 

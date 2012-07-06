@@ -31,6 +31,7 @@ public class TemDistributionAccountingLine extends SourceAccountingLine implemen
      * Gets the cardType attribute. 
      * @return Returns the cardType.
      */
+    @Override
     public String getCardType() {
         return cardType;
     }
@@ -39,6 +40,7 @@ public class TemDistributionAccountingLine extends SourceAccountingLine implemen
      * Sets the cardType attribute value.
      * @param cardType The cardType to set.
      */
+    @Override
     public void setCardType(String cardType) {
         this.cardType = cardType;
     }

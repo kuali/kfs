@@ -105,6 +105,7 @@ public class TravelRelocationDocumentSearchResultProcessor extends AbstractDocum
         return false;
     }
     
+    @Override
     protected DocumentTypeService getDocumentTypeService() {
         return SpringContext.getBean(DocumentTypeService.class);
     }

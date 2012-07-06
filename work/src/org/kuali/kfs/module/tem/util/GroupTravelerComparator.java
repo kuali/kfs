@@ -26,9 +26,8 @@ import org.kuali.kfs.module.tem.businessobject.GroupTraveler;
 
 public class GroupTravelerComparator implements Comparator<GroupTraveler> {
 
-    //@Override
+    @Override
     public int compare(GroupTraveler groupTraveler1, GroupTraveler groupTraveler2) {
-        // TODO Auto-generated method stub
         groupTraveler1.setName(formatName(groupTraveler1.getName()));
         groupTraveler2.setName(formatName(groupTraveler2.getName()));
         String name1 = groupTraveler1.getName();

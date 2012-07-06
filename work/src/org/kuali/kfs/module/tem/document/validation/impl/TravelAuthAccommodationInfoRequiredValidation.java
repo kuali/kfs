@@ -29,6 +29,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 
 public class TravelAuthAccommodationInfoRequiredValidation extends GenericValidation {
 
+    @Override
     public boolean validate(AttributedDocumentEvent event) {
         TravelAuthorizationDocument taDocument = (TravelAuthorizationDocument)event.getDocument();
         taDocument.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);

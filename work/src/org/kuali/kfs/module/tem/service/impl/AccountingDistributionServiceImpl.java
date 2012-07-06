@@ -73,6 +73,8 @@ public class AccountingDistributionServiceImpl implements AccountingDistribution
     private ParameterService parameterService;
 
     
+    @SuppressWarnings("deprecation")
+    @Override
     public List<TemSourceAccountingLine> distributionToSouceAccountingLines(List<TemDistributionAccountingLine> distributionAccountingLines, List<AccountingDistribution> accountingDistributionList, Integer sequenceNumber){
         List<TemSourceAccountingLine> sourceAccountingList = new ArrayList<TemSourceAccountingLine>();
         Map<String, AccountingDistribution> distributionMap = new HashMap<String, AccountingDistribution>();
@@ -92,11 +94,9 @@ public class AccountingDistributionServiceImpl implements AccountingDistribution
                         BeanUtils.copyProperties(newLine, accountingLine);
                     }
                     catch (IllegalAccessException ex) {
-                        // TODO Auto-generated catch block
                         ex.printStackTrace();
                     }
                     catch (InvocationTargetException ex) {
-                        // TODO Auto-generated catch block
                         ex.printStackTrace();
                     }
                     BigDecimal product = accountingLine.getAccountLinePercent().multiply(accountingDistribution.getRemainingAmount().bigDecimalValue());
@@ -147,6 +147,7 @@ public class AccountingDistributionServiceImpl implements AccountingDistribution
         return sourceAccountingList;
     }
 
+    @Override
     public TemDistributionAccountingLine distributionToDistributionAccountingLine(List<AccountingDistribution> accountingDistributionList) {
         KualiDecimal distributionTotal = KualiDecimal.ZERO;
         for (AccountingDistribution accountingDistribution : accountingDistributionList) {
@@ -159,6 +160,7 @@ public class AccountingDistributionServiceImpl implements AccountingDistribution
         return newLine;
     }
     
+    @Override
     public List<AccountingDistribution> createDistributions(TravelDocument travelDocument) {
         List<AccountingDistribution> documentDistribution = new ArrayList<AccountingDistribution>();
         Map<String, AccountingDistribution> distributionMap = new HashMap<String, AccountingDistribution>();
@@ -300,6 +302,7 @@ public class AccountingDistributionServiceImpl implements AccountingDistribution
     /**
      * @see org.kuali.kfs.module.tem.document.service.AccountingDistributionService#buildDistribution(TravelDocument)
      */
+    @Override
     public List<AccountingDistribution> buildDistributionFrom(final TravelDocument travelDocument) {
         List<AccountingDistribution> distributions = createDistributions(travelDocument);
 // TODO: remove when sure. For TA > TR accounting distribution fix
@@ -437,6 +440,7 @@ public class AccountingDistributionServiceImpl implements AccountingDistribution
 //        }
 //    }
 
+    @Override
     public KualiDecimal getTotalAmount(List<TemDistributionAccountingLine> lines){
         KualiDecimal total = KualiDecimal.ZERO;
         
@@ -446,6 +450,7 @@ public class AccountingDistributionServiceImpl implements AccountingDistribution
         return total;
     }
     
+    @Override
     public BigDecimal getTotalPercent(List<TemDistributionAccountingLine> lines){
         BigDecimal total = new BigDecimal(0);
         
@@ -507,6 +512,7 @@ public class AccountingDistributionServiceImpl implements AccountingDistribution
         this.businessObjectService = businessObjectService;
     }
     
+    @Override
     public TEMExpenseService getExpenseService(String beanName){
         return (TEMExpenseService) SpringContext.getBean(TEMExpense.class,beanName);
     }

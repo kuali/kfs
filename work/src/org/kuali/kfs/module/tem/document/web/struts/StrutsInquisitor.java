@@ -111,6 +111,7 @@ public class StrutsInquisitor<Document,StrutsF,StrutsA> implements Inquisitive<D
         this.action = action;
     }
     
+    @Override
     public boolean wasQuestionAsked() {
         return !isNull(getRequest().getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME));
     }
@@ -151,6 +152,7 @@ public class StrutsInquisitor<Document,StrutsF,StrutsA> implements Inquisitive<D
         this.response = response;
     }
 
+    @Override
     public Document getDocument() {
         if (document == null){
             document =(Document) ((TravelFormBase)this.getForm()).getDocument();
@@ -158,33 +160,40 @@ public class StrutsInquisitor<Document,StrutsF,StrutsA> implements Inquisitive<D
         return document;
     }
 
+    @Override
     public String getReason() {
         String reason = (String) request.getParameter(KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
         return reason == null?"":reason;
     }
     
+    @Override
     public Object getQuestion() {
         return request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
     }
 
+    @Override
     public boolean denied(final String qid) {
         final Object buttonClicked = request.getParameter(QUESTION_CLICKED_BUTTON);
         return getQuestion().equals(qid) && buttonClicked.equals(NO);
     }
 
+    @Override
     public boolean confirmed(final String qid) {
         final Object buttonClicked = request.getParameter(QUESTION_CLICKED_BUTTON);
         return getQuestion().equals(qid) && buttonClicked.equals(OK);
     }
     
+    @Override
     public ActionForward finish() throws Exception {
         return back();
     }
 
+    @Override
     public ActionForward back() throws Exception {
         return getMapping().findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    @Override
     public ActionForward end() throws Exception {
         return mapping.findForward(KFSConstants.MAPPING_PORTAL);
     }
@@ -225,6 +234,7 @@ public class StrutsInquisitor<Document,StrutsF,StrutsA> implements Inquisitive<D
                                              questionId, questionText, questionType, caller, context, showReasonField, reason, errorKey, errorPropertyName, errorParameter);
     }
 
+    @Override
     public ActionForward confirm(final String questionType, final String message, final boolean showReasonField, final String ... errorArgs) throws Exception {
         if (errorArgs.length > 0) {
             return performQuestion(questionType, message, TemConstants.QUESTION_CONFIRMATION, questionType, "", showReasonField, getReason(), errorArgs[0], errorArgs[1], errorArgs[2]);

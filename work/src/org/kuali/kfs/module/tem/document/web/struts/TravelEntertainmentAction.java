@@ -333,6 +333,7 @@ public class TravelEntertainmentAction extends TravelActionBase {
         return null;
     }
 
+    @Override
     public ActionForward createREQSForVendor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -426,6 +427,7 @@ public class TravelEntertainmentAction extends TravelActionBase {
         return SpringContext.getBean(NonEmployeeCertificationReportService.class);
     }
 
+    @Override
     protected Class<? extends TravelMvcWrapperBean> getMvcWrapperInterface() {
         return TravelEntertainmentMVCWrapperBean.class;
     }

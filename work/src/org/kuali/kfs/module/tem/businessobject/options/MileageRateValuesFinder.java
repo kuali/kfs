@@ -33,6 +33,7 @@ import org.kuali.rice.kns.service.DateTimeService;
 public class MileageRateValuesFinder extends KeyValuesBase {
     private String queryDate;
 
+    @Override
     public List getKeyValues() {
         java.util.Date javaDate = null;
         final DateFormat df = new SimpleDateFormat("yyyy-MM-dd");

@@ -24,6 +24,7 @@ import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 
 public class CorrectionEditMethodValuesFinder extends KeyValuesBase{
     
+    @Override
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> activeLabels = new ArrayList<KeyLabelPair>();
         activeLabels.add(new KeyLabelPair("", "Edit Method"));

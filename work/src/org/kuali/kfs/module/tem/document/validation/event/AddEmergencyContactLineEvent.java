@@ -36,6 +36,7 @@ public class AddEmergencyContactLineEvent extends AttributedDocumentEventBase im
         this.emergencyContact = emergencyContact;
     }
     
+    @Override
     public TravelerDetailEmergencyContact getEmergencyContact() {
         return emergencyContact;
     }

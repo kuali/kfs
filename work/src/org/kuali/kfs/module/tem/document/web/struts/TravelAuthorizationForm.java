@@ -87,6 +87,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
      * 
      * @return Returns the newEmergencyContactLine.
      */
+    @Override
     public TravelerDetailEmergencyContact getNewEmergencyContactLine() {
         return newEmergencyContactLine;
     }
@@ -97,6 +98,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
      * 
      * @param newEmergencyContactLine The newEmergencyContactLine to set.
      */
+    @Override
     public void setNewEmergencyContactLine(TravelerDetailEmergencyContact newEmergencyContactLine) {
         this.newEmergencyContactLine = newEmergencyContactLine;
     }
@@ -106,6 +108,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
      * 
      * @return Returns the newTravelAdvanceLine.
      */
+    @Override
     public TravelAdvance getNewTravelAdvanceLine() {
         return newTravelAdvanceLine;
     }
@@ -115,6 +118,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
      * 
      * @param newTravelAdvanceLine The newTravelAdvanceLine to set.
      */
+    @Override
     public void setNewTravelAdvanceLine(TravelAdvance newTravelAdvanceLine) {
         this.newTravelAdvanceLine = newTravelAdvanceLine;
     }
@@ -124,6 +128,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
      * 
      * @return Returns the selectedTransportationModes.
      */
+    @Override
     public List<String> getSelectedTransportationModes() {
 
         List<String> mySelectedTransportationModes = new ArrayList<String>();
@@ -140,10 +145,12 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
      * 
      * @param selectedTransportationModes The selectedTransportationModes to set.
      */
+    @Override
     public void setSelectedTransportationModes(List<String> selectedTransportationModes) {
         this.tempSelectedTransportationModes = selectedTransportationModes;
     }
     
+    @Override
     public List<String> getTempSelectedTransporationModes() {
         return this.tempSelectedTransportationModes;
     }
@@ -153,6 +160,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
      * 
      * @return String with the field name of the document identifier
      */
+    @Override
     protected String getDocumentIdentifierFieldName() {
         return "travelDocumentIdentifier";
     }
@@ -160,15 +168,18 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     /**
      * @return TravelAuthorizationDocument
      */
+    @Override
     public TravelAuthorizationDocument getTravelAuthorizationDocument() {
         return (TravelAuthorizationDocument) getDocument();
     }
 
 
+    @Override
     public void setNewTraveler(final TravelerDetail traveler) {
         this.newTraveler = traveler;
     }
 
+    @Override
     public TravelerDetail getNewTraveler() {
         return this.newTraveler;
     }
@@ -226,6 +237,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
         return result;
     }
 
+    @Override
     public List<ExtraButton> getExtraButtons() {
         super.getExtraButtons();
         Map<String, ExtraButton> buttonsMap = createButtonsMap();
@@ -271,6 +283,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
      * Gets the canCloseTA attribute. 
      * @return Returns the canCloseTA.
      */
+    @Override
     public boolean canCloseTA() {
         return canCloseTA;
     }
@@ -279,6 +292,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
      * Sets the canCloseTA attribute value.
      * @param canCloseTA The canCloseTA to set.
      */
+    @Override
     public void setCanCloseTA(boolean canCloseTA) {
         this.canCloseTA = canCloseTA;
     }
@@ -287,6 +301,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
      * Sets the canCloseTA attribute value.
      * @param canCloseTA The canCloseTA to set.
      */
+    @Override
     public void setCanCancelTA(boolean canCancelTA) {
         this.canCancelTA = canCancelTA;
     }
@@ -295,6 +310,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
      * Gets the canCancelTA attribute. 
      * @return Returns the canCancelTA.
      */
+    @Override
     public boolean canCancelTA() {
         return canCancelTA;
     }
@@ -303,6 +319,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
      * Gets the canAmend attribute. 
      * @return Returns the canAmend.
      */
+    @Override
     public boolean canAmend() {
         return canAmend;
     }
@@ -311,6 +328,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
      * Sets the canAmend attribute value.
      * @param canAmend The canAmend to set.
      */
+    @Override
     public void setCanAmend(boolean canAmend) {
         this.canAmend = canAmend;
     }
@@ -320,6 +338,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
      * Sets the canHold attribute value
      * @param canHold
      */
+    @Override
     public void setCanHold(boolean canHold) {
         this.canHold = canHold;
         
@@ -334,6 +353,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
         return this.canHold;
     }
 
+    @Override
     public void setCanRemoveHold(boolean canRemoveHold) {
         this.canRemoveHold = canRemoveHold;
     }
@@ -347,14 +367,17 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
         return this.canRemoveHold;
     }
    
+    @Override
     public boolean isCanUnmask() {
         return canUnmask;
     }
 
+    @Override
     public void setCanUnmask(boolean canUnmask) {
         this.canUnmask = canUnmask;
     }
     
+    @Override
     public Map<String, String> getModesOfTransportation() {
         Map<String, String> modesOfTrans = new HashMap<String, String>();
 

@@ -210,6 +210,7 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
         return true;
     }
     
+    @Override
     public TEMProfileAccount findTraveler(CreditCardStagingData creditCardData){
         Map<String,String> criteria = new HashMap<String,String>(1);        
         criteria.put(TemPropertyConstants.ACCOUNT_NUMBER, creditCardData.getCreditCardNumber());

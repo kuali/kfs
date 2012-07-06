@@ -95,7 +95,6 @@ import static org.kuali.rice.kns.util.GlobalVariables.getMessageList;
  * Travel Relocation Document
  * 
  */
-@SuppressWarnings("restriction")
 @Entity
 @Table(name="TEM_RELO_DOC_T")
 public class TravelRelocationDocument extends TEMReimbursementDocument implements AmountTotaling {
@@ -410,6 +409,7 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
      * This method return..
      * @return
      */
+    @Override
     public KualiDecimal getTotalPaidAmountToVendor(){
         KualiDecimal totalPaidAmountToVendor = KualiDecimal.ZERO;
         return totalPaidAmountToVendor;
@@ -419,6 +419,7 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
      * This method...
      * @return
      */
+    @Override
     public KualiDecimal getTotalPaidAmountToRequests(){
         KualiDecimal totalPaidAmountToRequests = KualiDecimal.ZERO;
         return totalPaidAmountToRequests;
@@ -492,6 +493,7 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getReportPurpose()
      */
+    @Override
     public String getReportPurpose() {
         return reason != null? reason.getReloReasonName() : null;
     }

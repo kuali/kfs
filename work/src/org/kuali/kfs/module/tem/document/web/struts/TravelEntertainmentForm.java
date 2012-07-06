@@ -86,6 +86,7 @@ public class TravelEntertainmentForm extends TravelFormBase implements TravelEnt
         return (TravelEntertainmentDocument) getDocument();
     }
 
+    @Override
     protected String getDocumentIdentifierFieldName() {
         return "travelDocumentIdentifier";
     }
@@ -111,6 +112,7 @@ public class TravelEntertainmentForm extends TravelFormBase implements TravelEnt
         return result;
     }
 
+    @Override
     public List<ExtraButton> getExtraButtons() {
         super.getExtraButtons();
         final Map<String, ExtraButton> buttonsMap = createButtonsMap();
@@ -135,18 +137,22 @@ public class TravelEntertainmentForm extends TravelFormBase implements TravelEnt
         this.canUnmask = canUnmask;
     }
 
+    @Override
     public Attendee getNewAttendeeLine() {
         return newAttendeeLine;
     }
 
+    @Override
     public void setNewAttendeeLine(Attendee newAttendeeLine) {
         this.newAttendeeLine = newAttendeeLine;
     }
 
+    @Override
     public List<Attendee> getNewAttendeeLines() {
         return newAttendeeLines;
     }
 
+    @Override
     public void setNewAttendeeLines(List<Attendee> newAttendeeLines) {
         this.newAttendeeLines = newAttendeeLines;
     }

@@ -112,6 +112,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
      * @param agencyData
      * @return
      */
+    @Override
     public boolean isAccountingInfoMissing(AgencyStagingData agencyData) {
         
         boolean accountInfoMissing = false;
@@ -140,6 +141,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
      * @param agencyData
      * @return
      */
+    @Override
     public boolean isTripDataMissing(AgencyStagingData agencyData) {
 
         if (StringUtils.isEmpty(agencyData.getAirTicketNumber()) && 
@@ -605,6 +607,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
      * Gets the dateTimeService attribute. 
      * @return Returns the dateTimeService.
      */
+    @Override
     public DateTimeService getDateTimeService() {
         return dateTimeService;
     }
@@ -621,6 +624,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
      * Gets the travelExpenseService attribute. 
      * @return Returns the travelExpenseService.
      */
+    @Override
     public TravelExpenseService getTravelExpenseService() {
         return travelExpenseService;
     }
@@ -633,10 +637,12 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
         this.travelExpenseService = travelExpenseService;
     }
 
+    @Override
     public List<String> getErrorMessages() {
         return errorMessages;
     }
 
+    @Override
     public void setErrorMessages(List<String> errorMessages) {
         this.errorMessages = errorMessages;
     }

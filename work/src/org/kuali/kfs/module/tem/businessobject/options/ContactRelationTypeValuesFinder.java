@@ -27,6 +27,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class ContactRelationTypeValuesFinder extends KeyValuesBase {
 
+    @Override
     public List getKeyValues() {
         List keyValues = new ArrayList();
 

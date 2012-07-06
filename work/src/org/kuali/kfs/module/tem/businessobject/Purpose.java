@@ -77,6 +77,7 @@ public class Purpose extends PersistableBusinessObjectBase implements Inactivate
     public Boolean isReviewRequiredIndicator(){
         return getReviewRequiredIndicator();
     }
+    @Override
     @Column(name="ROW_ACTV_IND",length=1, nullable=false)
     public boolean isActive() {
         return this.active;
@@ -85,6 +86,7 @@ public class Purpose extends PersistableBusinessObjectBase implements Inactivate
     public boolean getActive(){
         return this.active;
     }
+    @Override
     public void setActive(boolean active){
         this.active = active;
     }

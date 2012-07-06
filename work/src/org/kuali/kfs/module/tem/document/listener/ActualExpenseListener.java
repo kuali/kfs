@@ -40,6 +40,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  * @author Leo Przybylski (leo [at] rsmart.com
  */
 public class ActualExpenseListener implements PropertyChangeListener, java.io.Serializable {
+    @Override
     public void propertyChange(final PropertyChangeEvent event) {
         final TravelDocumentBase document = (TravelDocumentBase) event.getSource();
 

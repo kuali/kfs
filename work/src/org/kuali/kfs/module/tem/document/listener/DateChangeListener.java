@@ -32,6 +32,7 @@ import org.kuali.rice.kns.service.DocumentService;
  */
 public class DateChangeListener implements PropertyChangeListener, java.io.Serializable {
 
+    @Override
     public void propertyChange(final PropertyChangeEvent event) {
         final TravelReimbursementDocument reimbursement = (TravelReimbursementDocument) event.getSource();
     }

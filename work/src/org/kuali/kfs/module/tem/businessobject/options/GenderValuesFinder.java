@@ -23,6 +23,7 @@ import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 
 public class GenderValuesFinder extends KeyValuesBase {
 
+    @Override
     public List getKeyValues() {
         List keyValues = new ArrayList();
 

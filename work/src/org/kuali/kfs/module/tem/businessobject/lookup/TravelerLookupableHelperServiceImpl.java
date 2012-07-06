@@ -292,10 +292,12 @@ public class TravelerLookupableHelperServiceImpl extends KualiLookupableHelperSe
      * 
      * @param parameterService The parameterService to set.
      */
+    @Override
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
 
+    @Override
     public ParameterService getParameterService() {
         return this.parameterService;
     }
@@ -305,10 +307,12 @@ public class TravelerLookupableHelperServiceImpl extends KualiLookupableHelperSe
      * 
      * @param businessObjectService The businessObjectService to set.
      */
+    @Override
     public void setBusinessObjectService(final BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
 
+    @Override
     public BusinessObjectService getBusinessObjectService() {
         return this.businessObjectService;
     }
@@ -332,10 +336,12 @@ public class TravelerLookupableHelperServiceImpl extends KualiLookupableHelperSe
      * 
      * @param dataDictionaryService The dataDictionaryService to set.
      */
+    @Override
     public void setDataDictionaryService(final DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
     }
 
+    @Override
     public DataDictionaryService getDataDictionaryService() {
         return this.dataDictionaryService;
     }

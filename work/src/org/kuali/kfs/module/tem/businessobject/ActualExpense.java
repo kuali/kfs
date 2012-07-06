@@ -80,6 +80,7 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
      * 
      * @param airfareSourceCode value to assign to this.airfareSourceCode 
      */
+    @Override
     public void setAirfareSourceCode(final String airfareSourceCode){
         this.airfareSourceCode = airfareSourceCode;
     }
@@ -89,6 +90,7 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
      * 
      * @return the value of airfareSourceCode
      */
+    @Override
     @Column(name="AIRFARE_SRC_CD",nullable=true)
     public String getAirfareSourceCode(){
         return this.airfareSourceCode;
@@ -99,6 +101,7 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
      * 
      * @param classOfServiceCode value to assign to this.classOfServiceCode 
      */
+    @Override
     public void setClassOfServiceCode(final String classOfServiceCode){
         this.classOfServiceCode = classOfServiceCode;
     }
@@ -108,6 +111,7 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
      * 
      * @return the value of classOfServiceCode
      */
+    @Override
     @Column(name="CLASS_SVC_CODE",nullable=true)
     public String getClassOfServiceCode(){
         return this.classOfServiceCode;
@@ -118,6 +122,7 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
      * 
      * @return the value of mileageRateId
      */
+    @Override
     @Column(name="MILEAGE_RT_ID",length=19,nullable=true)
     public Integer getMileageRateId(){
         return this.mileageRateId;
@@ -128,6 +133,7 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
      * 
      * @param mileageRateId value to assign to this.mileageRateId 
      */
+    @Override
     public void setMileageRateId(Integer mileageRateId){
         this.mileageRateId = mileageRateId;
     }
@@ -137,6 +143,7 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
      * 
      * @return the value of mileageRate
      */
+    @Override
     @ManyToOne
     @JoinColumn(name="MILEAGE_RT_ID",nullable=false)
     public MileageRate getMileageRate(){
@@ -151,6 +158,7 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
      * 
      * @param mileageRate value to assign to this.mileageRate 
      */
+    @Override
     public void setMileageRate(MileageRate mileageRate){
         this.mileageRate = mileageRate;
     }
@@ -160,6 +168,7 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
      * 
      * @return the value of miles
      */
+    @Override
     @Column(name="MILES",length=19,nullable=true)
     public Integer getMiles(){
         return this.miles;
@@ -170,6 +179,7 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
      * 
      * @param miles value to assign to this.miles 
      */
+    @Override
     public void setMiles(Integer miles){
         this.miles = miles;
     }
@@ -179,6 +189,7 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
      * 
      * @param mileageOtherRate value to assign to this.mileageOtherRate 
      */
+    @Override
     public void setMileageOtherRate(final KualiDecimal mileageOtherRate) {
         this.mileageOtherRate = mileageOtherRate;
     }
@@ -188,6 +199,7 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
      * 
      * @return the value of mileageOtherRate
      */
+    @Override
     @Column(name="MILEAGE_OTHR_RT",precision=19,scale=2,nullable=true)
     public KualiDecimal getMileageOtherRate() {
         return this.mileageOtherRate;
@@ -198,6 +210,7 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
      * 
      * @param rentalCarInsurance value to assign to this.rentalCarInsurance 
      */
+    @Override
     public void setRentalCarInsurance(final Boolean rentalCarInsurance){
         this.rentalCarInsurance = rentalCarInsurance;
     }
@@ -207,6 +220,7 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
      * 
      * @return the value of rentalCarInsurance
      */
+    @Override
     @Column(name="RENTAL_CAR_INSURANCE",nullable=true, length=1)
     public Boolean getRentalCarInsurance(){
         return this.rentalCarInsurance;
@@ -292,6 +306,7 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
         return false;
     }
     
+    @Override
     public boolean isRentalCar(){
         final String rentalCarType = getParameterService().getParameterValue(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, TravelParameters.EXPENSE_TYPE_FOR_RENTAL_CAR);
         
@@ -393,6 +408,7 @@ public class ActualExpense extends AbstractExpense implements OtherExpense, Expe
         return super.getConvertedAmount();
     }
 
+    @Override
     public String getSequenceName() {
         Class boClass = getClass();
         String retval = "";

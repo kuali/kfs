@@ -32,6 +32,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class TravelAuthTripDetailMealsAndIncidentalsValidation extends GenericValidation {
     private TravelDocumentService travelDocumentService;
     
+    @Override
     public boolean validate(AttributedDocumentEvent event) {
         boolean rulePassed = true;
         TravelDocumentBase document = (TravelDocumentBase) event.getDocument();

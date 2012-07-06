@@ -39,6 +39,7 @@ public class ActualExpenseHostedMealsValidation extends GenericValidation {
     private static final String OTHER_EXPENSE_ERROR_KEY_FMT = "%s.%s";
 
 
+    @Override
     public boolean validate(AttributedDocumentEvent event) {
         boolean valid = true;
         

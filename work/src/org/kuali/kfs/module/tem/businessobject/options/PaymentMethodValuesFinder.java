@@ -32,6 +32,7 @@ public class PaymentMethodValuesFinder extends KeyValuesBase {
     /*
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @Override
     public List<KeyLabelPair> getKeyValues() {
         return activeLabels;
     }

@@ -216,6 +216,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
      * 
      * @return Returns the perDiemAdjustment.
      */
+    @Override
     @Column(name = "PER_DIEM_ADJ", precision = 19, scale = 2)
     public KualiDecimal getPerDiemAdjustment() {
         return perDiemAdjustment == null?KualiDecimal.ZERO:perDiemAdjustment;
@@ -226,6 +227,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
      * 
      * @param perDiemAdjustment The perDiemAdjustment to set.
      */
+    @Override
     public void setPerDiemAdjustment(KualiDecimal perDiemAdjustment) {
         this.perDiemAdjustment = perDiemAdjustment == null?KualiDecimal.ZERO:perDiemAdjustment;
     }
@@ -346,6 +348,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
         this.citizenshipCountry = citizenshipCountry;
     }
 
+    @Override
     @Transient
     public List<TransportationModeDetail> getTransportationModes() {
         return transportationModes;
@@ -356,6 +359,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
      * 
      * @param transportationModes
      */
+    @Override
     public void setTransportationModes(List<TransportationModeDetail> transportationModes) {
         this.transportationModes = transportationModes;
     }
@@ -438,6 +442,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
     /**
      * This method populates specific items when the document is first initiated
      */
+    @Override
     public void initiateDocument() {
         // due date
         Calendar calendar = getDateTimeService().getCurrentCalendar();
@@ -490,10 +495,12 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
      * 
      * @return true if the document is currently enroute and reroutable
      */
+    @Override
     public boolean canReturn() {
         return getDocumentHeader().getWorkflowDocument().stateIsEnroute();
     }
 
+    @Override
     @Transient
     public KualiDecimal getEncumbranceTotal() {
         TEMExpenseService service = (TEMExpenseService) SpringContext.getBean(TEMExpense.class,TemConstants.TEMExpenseTypes.PER_DIEM);
@@ -579,6 +586,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
     /**
      * @see org.kuali.rice.kns.document.Document#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
      */
+    @Override
     public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
 
@@ -763,6 +771,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
     /**
      * @see org.kuali.rice.kns.document.DocumentBase#postProcessSave(org.kuali.rice.kns.rule.event.KualiDocumentEvent)
      */
+    @Override
     public void postProcessSave(KualiDocumentEvent event) {
         super.postProcessSave(event);
     }

@@ -53,6 +53,7 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
 
     void initiateDocument();
 
+    @Override
     String getTravelDocumentIdentifier();
 
     void setTravelDocumentIdentifier(String travelDocumentIdentifier);
@@ -63,6 +64,7 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
 
     void setTravelDocumentLinkIdentifier(Integer travelDocumentLinkIdentifier);
 
+    @Override
     /**
      * Gets the traveler attribute.
      * 
@@ -107,6 +109,7 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
 
     public void setPrimaryDestination(PrimaryDestination primaryDestination);
     
+    @Override
     public String getPrimaryDestinationName();
     
     public void setPrimaryDestinationName(String primaryDestinationName);
@@ -151,6 +154,7 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
      */
     void setTripTypeCode(String tripTypeCode);
 
+    @Override
     /**
      * This method gets the begin date for this trip
      * 

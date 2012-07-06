@@ -31,6 +31,7 @@ public class MealBreakDownStrategyForOutsideContinental extends DefaultMealBreak
     /**
      * @see org.kuali.kfs.module.tem.batch.businessobject.DefaultMealBreakDownStrategy#getParameterName()
      */
+    @Override
     protected String getParameterName() {
         return PerDiemParameter.OCONUS_MEAL_BREAKDOWN_PARAM_NAME;
     }

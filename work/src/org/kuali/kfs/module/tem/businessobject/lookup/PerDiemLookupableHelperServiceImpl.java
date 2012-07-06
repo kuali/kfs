@@ -90,7 +90,7 @@ public class PerDiemLookupableHelperServiceImpl extends KualiLookupableHelperSer
                 PerDiem perDiem = it.next();
                 if (perDiem.getId().intValue() == TemConstants.CUSTOM_PER_DIEM_ID
                         || perDiem.getCountryStateName().equals(TemConstants.CONUS)
-                        || perDiem.getCountryState().equals(KFSConstants.FinancialDocumentTypeCodes.ALL)
+                        || perDiem.getCountryState().equals(TemConstants.ALL_STATES)
                         || perDiem.getPrimaryDestination().contains(TemConstants.OTHER_PRIMARY_DESTINATION)){
                     continue;
                 }

@@ -83,6 +83,7 @@ public class PerDiemServiceImpl implements PerDiemService, TEMExpenseService {
     /**
      * @see org.kuali.kfs.module.tem.service.PerDiemService#breakDownMealsIncidental(java.util.List)
      */
+    @Override
     public <T extends PerDiem> void breakDownMealsIncidental(List<T> perDiemList) {
         for (T perDiem : perDiemList) {
             this.breakDownMealsIncidental(perDiem);
@@ -92,6 +93,7 @@ public class PerDiemServiceImpl implements PerDiemService, TEMExpenseService {
     /**
      * @see org.kuali.kfs.module.tem.service.PerDiemService#breakDownMealsIncidental(org.kuali.kfs.module.tem.businessobject.PerDiem)
      */
+    @Override
     public <T extends PerDiem> void breakDownMealsIncidental(T perDiem) {
         String conusIndicator = perDiem.getConusIndicator();
         if (this.getMealBreakDownStrategies().containsKey(conusIndicator)) {
@@ -107,6 +109,7 @@ public class PerDiemServiceImpl implements PerDiemService, TEMExpenseService {
     /**
      * @see org.kuali.kfs.module.tem.service.PerDiemService#retrieveActivePerDiem()
      */
+    @Override
     public <T extends PerDiem> List<T> retrieveActivePerDiem() {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(KFSPropertyConstants.ACTIVE, Boolean.TRUE);
@@ -117,6 +120,7 @@ public class PerDiemServiceImpl implements PerDiemService, TEMExpenseService {
     /**
      * @see org.kuali.kfs.module.tem.service.PerDiemService#deactivateAndSavePerDiem()
      */
+    @Override
     @Transactional
     public void deactivateAndSavePerDiem() {
         List<PerDiem> perDiemList = this.retrieveActivePerDiem();
@@ -131,6 +135,7 @@ public class PerDiemServiceImpl implements PerDiemService, TEMExpenseService {
     /**
      * @see org.kuali.kfs.module.tem.service.PerDiemService#deactivatePerDiemBySeasonEndDate(java.util.List)
      */
+    @Override
     public <T extends PerDiem> void deactivatePerDiemBySeasonEndDate(List<T> perDiemList) {
         Date date = dateTimeService.getCurrentSqlDate();
 
@@ -140,6 +145,7 @@ public class PerDiemServiceImpl implements PerDiemService, TEMExpenseService {
     /**
      * @see org.kuali.kfs.module.tem.service.PerDiemService#deactivatePerDiemBySeasonEndDate(java.util.List, java.sql.Date)
      */
+    @Override
     public <T extends PerDiem> void deactivatePerDiemBySeasonEndDate(List<T> perDiemList, Date date) {
         for (PerDiem perDiem : perDiemList) {
             this.deactivatePerDiemSeasonEndDate(perDiem, date);
@@ -150,6 +156,7 @@ public class PerDiemServiceImpl implements PerDiemService, TEMExpenseService {
      * @see org.kuali.kfs.module.tem.service.PerDiemService#deactivatePerDiemBySeasonEndDate(org.kuali.kfs.module.tem.businessobject.PerDiem,
      *      java.sql.Date)
      */
+    @Override
     public <T extends PerDiem> void deactivatePerDiemSeasonEndDate(T perDiem, Date date) {
         /*Date seasonEndDate = perDiem.getSeasonEndDate();
 
@@ -161,6 +168,7 @@ public class PerDiemServiceImpl implements PerDiemService, TEMExpenseService {
     /**
      * @see org.kuali.kfs.module.tem.service.PerDiemService#deactivatePerDiemByEffectiveDate(java.util.List, java.sql.Date)
      */
+    @Override
     public <T extends PerDiem> void deactivatePerDiemByEffectiveDate(List<T> perDiemList, Date date) {
         for (PerDiem perDiem : perDiemList) {
             this.deactivatePerDiemByEffectiveDate(perDiem, date);
@@ -171,6 +179,7 @@ public class PerDiemServiceImpl implements PerDiemService, TEMExpenseService {
      * @see org.kuali.kfs.module.tem.service.PerDiemService#deactivatePerByDiemEffectiveDate(org.kuali.kfs.module.tem.businessobject.PerDiem,
      *      java.sql.Date)
      */
+    @Override
     public <T extends PerDiem> void deactivatePerDiemByEffectiveDate(T perDiem, Date date) {
         Date effectiveDate = perDiem.getEffectiveFromDate();
 
@@ -182,6 +191,7 @@ public class PerDiemServiceImpl implements PerDiemService, TEMExpenseService {
     /**
      * @see org.kuali.kfs.module.tem.service.PerDiemService#updateTripType(java.util.List)
      */
+    @Override
     public <T extends PerDiem> void updateTripType(List<T> perDiemList) {
         for (T perDiem : perDiemList) {
             this.updateTripType(perDiem);
@@ -191,6 +201,7 @@ public class PerDiemServiceImpl implements PerDiemService, TEMExpenseService {
     /**
      * @see org.kuali.kfs.module.tem.service.PerDiemService#updateTripType(org.kuali.kfs.module.tem.businessobject.PerDiem)
      */
+    @Override
     public <T extends PerDiem> void updateTripType(T perDiem) {
         String countryState = perDiem.getCountryState();
         String institutionState = this.getInstitutionState();
@@ -219,6 +230,7 @@ public class PerDiemServiceImpl implements PerDiemService, TEMExpenseService {
     /**
      * @see org.kuali.kfs.module.tem.service.PerDiemService#retrievePreviousPerDiem(java.util.List)
      */
+    @Override
     public <T extends PerDiem> List<PerDiem> retrievePreviousPerDiem(List<T> perDiemList) {
         List<PerDiem> previousPerDiemList = new ArrayList<PerDiem>();
 
@@ -236,6 +248,7 @@ public class PerDiemServiceImpl implements PerDiemService, TEMExpenseService {
     /**
      * @see org.kuali.kfs.module.tem.service.PerDiemService#retrievePreviousPerDiem(org.kuali.kfs.module.tem.businessobject.PerDiem)
      */
+    @Override
     public <T extends PerDiem> List<PerDiem> retrievePreviousPerDiem(T perDiem) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(TemPropertyConstants.COUNTRY_STATE, perDiem.getCountryState());
@@ -251,6 +264,7 @@ public class PerDiemServiceImpl implements PerDiemService, TEMExpenseService {
     /**
      * @see org.kuali.kfs.module.tem.service.PerDiemService#retrieveExpireDeactivatePreviousPerDiem(java.util.List, boolean)
      */
+    @Override
     public <T extends PerDiem> List<PerDiem> retrieveExpireDeactivatePreviousPerDiem(List<T> perDiemList, boolean isDeactivate) {
         List<PerDiem> previousPerDiemList = new ArrayList<PerDiem>();
 
@@ -269,6 +283,7 @@ public class PerDiemServiceImpl implements PerDiemService, TEMExpenseService {
      * @see org.kuali.kfs.module.tem.service.PerDiemService#retrieveExpireDeactivatePreviousPerDiem(org.kuali.kfs.module.tem.businessobject.PerDiem,
      *      boolean)
      */
+    @Override
     public <T extends PerDiem> List<PerDiem> retrieveExpireDeactivatePreviousPerDiem(T perDiem, boolean isDeactivate) {
         List<PerDiem> perviousPerDiems = this.retrievePreviousPerDiem(perDiem);
 
@@ -292,6 +307,7 @@ public class PerDiemServiceImpl implements PerDiemService, TEMExpenseService {
      * @param perDiem the given per diem
      * @return true if the given per diem exists in the database
      */
+    @Override
     public <T extends PerDiem> boolean hasExistingPerDiem(T perDiem) {
     	Map<String, Object> fieldValues = new HashMap<String, Object>();
     	boolean atLeastOneNull = false;
@@ -578,6 +594,7 @@ public class PerDiemServiceImpl implements PerDiemService, TEMExpenseService {
 	    }
     }
     
+    @Override
     public Map<String, AccountingDistribution> getAccountingDistribution(TravelDocument document) {
         Map<String, AccountingDistribution> distributionMap = new HashMap<String, AccountingDistribution>();
         if (document.getPerDiemExpenses() != null
@@ -726,6 +743,7 @@ public class PerDiemServiceImpl implements PerDiemService, TEMExpenseService {
         return objCode;
     }
     
+    @Override
     public String getExpenseType() {
         // TODO Auto-generated method stub
         return null;
@@ -777,6 +795,7 @@ public class PerDiemServiceImpl implements PerDiemService, TEMExpenseService {
         return KualiDecimal.ZERO; // This is because for per diem, when the personal checkbox is checked the amount is already excluded from the total.
     }
 
+    @Override
     public KualiDecimal getMealsAndIncidentalsGrandTotal(TravelDocument travelDocument) {
         KualiDecimal mealsAndIncidentalsTotal = KualiDecimal.ZERO;
         for (PerDiemExpense expense : travelDocument.getPerDiemExpenses()) {
@@ -785,6 +804,7 @@ public class PerDiemServiceImpl implements PerDiemService, TEMExpenseService {
         return mealsAndIncidentalsTotal;        
     }
 
+    @Override
     public KualiDecimal getLodgingGrandTotal(TravelDocument travelDocument) {
         KualiDecimal lodgingTotal = KualiDecimal.ZERO;
         for (PerDiemExpense perDiemExpense : travelDocument.getPerDiemExpenses()) {
@@ -795,6 +815,7 @@ public class PerDiemServiceImpl implements PerDiemService, TEMExpenseService {
         return lodgingTotal;
     }
 
+    @Override
     public KualiDecimal getMileageTotalGrandTotal(TravelDocument travelDocument) {
         KualiDecimal mileageTotal = KualiDecimal.ZERO;
         for (PerDiemExpense perDiemExpense : travelDocument.getPerDiemExpenses()) {
@@ -803,6 +824,7 @@ public class PerDiemServiceImpl implements PerDiemService, TEMExpenseService {
         return mileageTotal;
     }
 
+    @Override
     public KualiDecimal getDailyTotalGrandTotal(TravelDocument travelDocument) {
         KualiDecimal dailyTotal = KualiDecimal.ZERO;
         for (PerDiemExpense perDiemExpense : travelDocument.getPerDiemExpenses()) {
@@ -811,6 +833,7 @@ public class PerDiemServiceImpl implements PerDiemService, TEMExpenseService {
         return dailyTotal;
     }
     
+    @Override
     public Integer getMilesGrandTotal(TravelDocument travelDocument) {
         Integer milesTotal = 0;
         for (PerDiemExpense perDiemExpense : travelDocument.getPerDiemExpenses()) {

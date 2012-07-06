@@ -47,6 +47,7 @@ public interface TravelAuthorizationMvcWrapperBean extends TravelMvcWrapperBean 
     void setNewEmergencyContactLine(TravelerDetailEmergencyContact newEmergencyContactLine);
 
 
+    @Override
     /**
      * Gets the newActualExpenseLine attribute.
      * 
@@ -54,6 +55,7 @@ public interface TravelAuthorizationMvcWrapperBean extends TravelMvcWrapperBean 
      */
     ActualExpense getNewActualExpenseLine();
 
+    @Override
     /**
      * Sets the newActualExpenseLine attribute value.
      * 
@@ -61,6 +63,7 @@ public interface TravelAuthorizationMvcWrapperBean extends TravelMvcWrapperBean 
      */
     void setNewActualExpenseLine(ActualExpense newActualExpenseLine);
     
+    @Override
     /**
      * Gets the newActualExpenseLines attribute.
      * 
@@ -68,6 +71,7 @@ public interface TravelAuthorizationMvcWrapperBean extends TravelMvcWrapperBean 
      */
     List<ActualExpense> getNewActualExpenseLines();
 
+    @Override
     /**
      * Sets the newActualExpenseLines attribute value.
      * 
@@ -130,6 +134,7 @@ public interface TravelAuthorizationMvcWrapperBean extends TravelMvcWrapperBean 
 
     TravelerDetail getNewTraveler();
 
+    @Override
     List<ExtraButton> getExtraButtons();
 
     /**
@@ -183,5 +188,6 @@ public interface TravelAuthorizationMvcWrapperBean extends TravelMvcWrapperBean 
     void setCanUnmask(boolean canUnmask);
 
     
+    @Override
     Map<String, String> getModesOfTransportation();
 }

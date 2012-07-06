@@ -239,6 +239,7 @@ public class ExpenseSummaryReport extends ReportInfoHolder implements DetailedRe
      *
      * @return the value of Data
      */
+    @Override
     public JRDataSource getData() {
         return this.data;
     }

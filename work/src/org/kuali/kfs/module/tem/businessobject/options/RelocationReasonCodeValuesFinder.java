@@ -31,6 +31,7 @@ public class RelocationReasonCodeValuesFinder extends KeyValuesBase {
     /*
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @Override
     public List getKeyValues() {
         
         List<RelocationReason> codes = (List<RelocationReason>) getBusinessObjectService().findAll(RelocationReason.class);

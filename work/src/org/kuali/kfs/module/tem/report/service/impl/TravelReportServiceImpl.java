@@ -58,6 +58,7 @@ public class TravelReportServiceImpl implements TravelReportService {
      * @param report
      * @param ByteArrayOutputStream
      */
+    @Override
     public ByteArrayOutputStream buildReport(final ReportInfo report) throws Exception {
         final Collection reportSet           = new ArrayList(); // Empty data set. The report is essentially subreports
         final Map<String, Object> reportData = new HashMap<String, Object>();

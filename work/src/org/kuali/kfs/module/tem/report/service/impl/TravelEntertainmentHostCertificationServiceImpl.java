@@ -84,6 +84,7 @@ public class TravelEntertainmentHostCertificationServiceImpl implements TravelEn
     /**
      * Creates a {@link ReportInfoHolder} instance that is used with the {@link TravelReportService}
      */
+    @Override
     public EntertainmentHostCertificationReport buildReport(final TravelEntertainmentDocument document) {
         EntertainmentHostCertificationReport report = new EntertainmentHostCertificationReport();
         
@@ -200,6 +201,7 @@ public class TravelEntertainmentHostCertificationServiceImpl implements TravelEn
         this.travelDocumentService = travelDocumentService;
     }
 
+    @Override
     public File generateEntertainmentHostCertReport(EntertainmentHostCertificationReport report) {
         String reportFileName;
         String reportDirectory;

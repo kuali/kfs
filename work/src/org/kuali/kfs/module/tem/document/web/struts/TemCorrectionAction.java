@@ -566,6 +566,7 @@ public class TemCorrectionAction extends KualiDocumentActionBase implements Kual
                 // mechanism compare values using
                 // the comparable comparator
                 valueComparator = new Comparator() {
+                    @Override
                     public int compare(Object obj1, Object obj2) {
                         if (obj1 == null) {
                             return -1;

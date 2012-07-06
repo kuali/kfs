@@ -25,6 +25,7 @@ import org.kuali.rice.kns.util.GlobalVariables;
 public class TravelAuthBlanketTripTypeValidation extends GenericValidation {
 
     //@Override
+    @Override
     public boolean validate(AttributedDocumentEvent event) {
         boolean rulePassed = true;
         TravelAuthorizationDocument taDocument = (TravelAuthorizationDocument)event.getDocument();

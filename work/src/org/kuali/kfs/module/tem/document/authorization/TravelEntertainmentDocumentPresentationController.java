@@ -36,6 +36,7 @@ public class TravelEntertainmentDocumentPresentationController extends TravelDoc
         return editModes;
     }
 
+    @Override
     protected void addFullEntryEntryMode(Document document, Set<String> editModes) {
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 

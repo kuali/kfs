@@ -115,11 +115,13 @@ public class MileageRate extends PersistableBusinessObjectBase implements Inacti
         this.activeToDate = activeToDate;
     }
 
+    @Override
     @Column(name="actv_ind",nullable=false,length=1)
     public boolean isActive() {
         return active;
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

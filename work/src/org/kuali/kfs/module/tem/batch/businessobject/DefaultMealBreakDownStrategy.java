@@ -30,6 +30,7 @@ public class DefaultMealBreakDownStrategy implements MealBreakDownStrategy {
     /**
      * @see org.kuali.kfs.module.tem.batch.businessobject.MealBreakDownStrategy#breakDown(org.kuali.kfs.module.tem.businessobject.PerDiem)
      */
+    @Override
     public void breakDown(PerDiem perDiem) {
         KualiDecimal mealsAndIncidentals = perDiem.getMealsAndIncidentals();
 
@@ -40,6 +41,7 @@ public class DefaultMealBreakDownStrategy implements MealBreakDownStrategy {
      * @see org.kuali.kfs.module.tem.batch.businessobject.MealBreakDownStrategy#breakDown(org.kuali.kfs.module.tem.businessobject.PerDiem,
      *      org.kuali.rice.kns.util.KualiDecimal)
      */
+    @Override
     public void breakDown(PerDiem perDiem, KualiDecimal mealsAndIncidentals) {
         if (ObjectUtils.isNull(mealsAndIncidentals) || mealsAndIncidentals.isNegative()) {
             throw new RuntimeException("The given mealsAndIncidentals cannot be null or negative.");

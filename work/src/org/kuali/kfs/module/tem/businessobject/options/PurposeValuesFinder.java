@@ -32,6 +32,7 @@ public class PurposeValuesFinder extends KeyValuesBase {
     /*
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @Override
     public List getKeyValues() {
         
         List<Purpose> purposes = (List<Purpose>) getBusinessObjectService().findAll(Purpose.class);

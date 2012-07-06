@@ -102,6 +102,7 @@ public class TravelEntertainmentDocumentSearchResultProcessor extends AbstractDo
         return false;
     }
     
+    @Override
     protected DocumentTypeService getDocumentTypeService() {
         return SpringContext.getBean(DocumentTypeService.class);
     }

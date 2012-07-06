@@ -98,6 +98,7 @@ public class TravelRelocationForm extends TravelFormBase implements TravelReloca
         return result;
     }
 
+    @Override
     public List<ExtraButton> getExtraButtons() {
         super.getExtraButtons();
         final Map<String, ExtraButton> buttonsMap = createButtonsMap();
@@ -115,14 +116,17 @@ public class TravelRelocationForm extends TravelFormBase implements TravelReloca
         return extraButtons;
     }
 
+    @Override
     public boolean canCertify() {
         return canCertify;
     }
 
+    @Override
     public boolean getCanCertify() {
         return canCertify;
     }
 
+    @Override
     public void setCanCertify(final boolean canCertify) {
         this.canCertify = canCertify;
     }
@@ -132,6 +136,7 @@ public class TravelRelocationForm extends TravelFormBase implements TravelReloca
      * 
      * @return TravelRelocationForm
      */
+    @Override
     public TravelRelocationDocument getTravelRelocationDocument() {
         return (TravelRelocationDocument) getDocument();
     }
@@ -141,6 +146,7 @@ public class TravelRelocationForm extends TravelFormBase implements TravelReloca
      * 
      * @return String with the field name of the document identifier
      */
+    @Override
     protected String getDocumentIdentifierFieldName() {
         return "travelDocumentIdentifier";
     }
@@ -150,10 +156,12 @@ public class TravelRelocationForm extends TravelFormBase implements TravelReloca
         return "RELO";
     }
 
+    @Override
     public List<Serializable> getHistory() {
         return this.history;
     }
 
+    @Override
     public void setHistory(final List<Serializable> history) {
         this.history = history;
     }
@@ -163,6 +171,7 @@ public class TravelRelocationForm extends TravelFormBase implements TravelReloca
      * 
      * @return Returns the startDate.
      */
+    @Override
     public Date getStartDate() {
         return startDate;
     }
@@ -172,6 +181,7 @@ public class TravelRelocationForm extends TravelFormBase implements TravelReloca
      * 
      * @param startDate The startDate to set.
      */
+    @Override
     public void setStartDate(final Date startDate) {
         this.startDate = startDate;
     }
@@ -181,6 +191,7 @@ public class TravelRelocationForm extends TravelFormBase implements TravelReloca
      * 
      * @return Returns the endDate.
      */
+    @Override
     public Date getEndDate() {
         return endDate;
     }
@@ -190,6 +201,7 @@ public class TravelRelocationForm extends TravelFormBase implements TravelReloca
      * 
      * @param endDate The endDate to set.
      */
+    @Override
     public void setEndDate(final Date endDate) {
         this.endDate = endDate;
     }
@@ -210,6 +222,7 @@ public class TravelRelocationForm extends TravelFormBase implements TravelReloca
         return SpringContext.getBean(TravelAuthorizationService.class);
     }
 
+    @Override
     protected ParameterService getParameterService() {
         return SpringContext.getBean(ParameterService.class);
     }

@@ -81,6 +81,7 @@ public class ExpenseSummaryReportServiceImpl implements ExpenseSummaryReportServ
     /**
      * Creates a {@link ReportInfoHolder} instance that is used with the {@link TravelReportService}
      */
+    @Override
     public ExpenseSummaryReport buildReport(TravelDocument travelDocument) {
         info("Building report objects");
         final ExpenseSummaryReport retval = new ExpenseSummaryReport();

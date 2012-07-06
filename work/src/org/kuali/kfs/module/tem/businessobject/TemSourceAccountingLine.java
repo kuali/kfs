@@ -32,6 +32,7 @@ public class TemSourceAccountingLine extends SourceAccountingLine implements Tem
      * Gets the cardType attribute. 
      * @return Returns the cardType.
      */
+    @Override
     public String getCardType() {
         return cardType;
     }
@@ -40,6 +41,7 @@ public class TemSourceAccountingLine extends SourceAccountingLine implements Tem
      * Sets the cardType attribute value.
      * @param cardType The cardType to set.
      */
+    @Override
     public void setCardType(String cardType) {
         this.cardType = cardType;
     }
@@ -80,6 +82,7 @@ public class TemSourceAccountingLine extends SourceAccountingLine implements Tem
      * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
+    @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof AccountingLine)) {
             return false;

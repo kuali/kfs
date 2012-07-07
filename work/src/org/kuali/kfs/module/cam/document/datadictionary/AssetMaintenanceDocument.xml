@@ -357,14 +357,14 @@
           <property name="businessObjectClass" value="org.kuali.kfs.module.cam.businessobject.AssetRepairHistory"/>
           <property name="maintainableFields">
             <list>
-              <bean parent="MaintainableFieldDefinition" p:name="incidentDate" p:required="true" p:readOnlyAfterAdd="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="problemDescription" p:required="true" p:readOnlyAfterAdd="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="repairContactName" p:readOnlyAfterAdd="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="estimatedRepairDate" p:readOnlyAfterAdd="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="repairDate" p:readOnlyAfterAdd="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="repairAmount" p:readOnlyAfterAdd="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="repairSolutionDescription" p:readOnlyAfterAdd="true"/>
-              <bean parent="MaintainableFieldDefinition" p:name="repairNoteText" p:readOnlyAfterAdd="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="incidentDate" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="problemDescription" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="repairContactName"/>
+              <bean parent="MaintainableFieldDefinition" p:name="estimatedRepairDate"/>
+              <bean parent="MaintainableFieldDefinition" p:name="repairDate"/>
+              <bean parent="MaintainableFieldDefinition" p:name="repairAmount"/>
+              <bean parent="MaintainableFieldDefinition" p:name="repairSolutionDescription"/>
+              <bean parent="MaintainableFieldDefinition" p:name="repairNoteText"/>
               <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
               <bean parent="MaintainableFieldDefinition" p:name="active" />
             </list>

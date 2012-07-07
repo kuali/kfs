@@ -78,21 +78,11 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         OrgReviewRole orr = (OrgReviewRole)businessObject;
         List<HtmlData> htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
         if(StringUtils.isNotBlank(getMaintenanceDocumentTypeName()) && allowsMaintenanceEditAction(businessObject) && !orr.isDelegate()) {
-            HtmlData createDelegationUrl = getUrlData(businessObject, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, KFSConstants.COAConstants.ORG_REVIEW_ROLE_CREATE_DELEGATION_DISPLAY_TEXT, pkNames);
+            HtmlData createDelegationUrl = getCreateDelegationUrl(businessObject, pkNames);
             //createDelegationUrl.setDisplayText(KFSConstants.COAConstants.ORG_REVIEW_ROLE_CREATE_DELEGATION_DISPLAY_TEXT);
             htmlDataList.add(createDelegationUrl);
         }
         return htmlDataList;
-    }
-
-    @Override
-    protected AnchorHtmlData getUrlData(BusinessObject businessObject, String methodToCall, String displayText, List pkNames){
-        if(KFSConstants.COAConstants.ORG_REVIEW_ROLE_CREATE_DELEGATION_DISPLAY_TEXT.equals(displayText)){
-            return getCreateDelegationUrl(businessObject, pkNames);
-        }
-        else {
-            return super.getUrlData(businessObject, methodToCall, displayText, pkNames);
-        }
     }
 
     protected AnchorHtmlData getCreateDelegationUrl(BusinessObject businessObject, List pkNames){

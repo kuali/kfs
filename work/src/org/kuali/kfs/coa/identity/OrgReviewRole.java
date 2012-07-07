@@ -580,9 +580,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
         if(hasFinancialSystemDocumentTypeCodeChanged){
             //If role id is populated role names to consider have already been narrowed down
             if(StringUtils.isNotBlank(getRoleId()) && StringUtils.isNotBlank(getRoleName())){
-                List<String> narrowedDownRoleNames = new ArrayList<String>();
-                narrowedDownRoleNames.add(getRoleName());
-                setRoleNamesToConsider(roleNamesToConsider);
+                setRoleNamesToConsider(Collections.singletonList(getRoleName()));
             } else {
                 setRoleNamesToConsider();
             }

@@ -137,6 +137,9 @@ public class KFSKeyConstants {
     public static final String ERROR_DOCUMENT_CAPITAL_ASSET_NUMBER_REQUIRED = "error.document.capitalAsset.capitalAssetNumber.required";
     public static final String ERROR_DOCUMENT_CAPITAL_ASSET_QUANTITY_REQUIRED = "error.document.capitalAsset.quantity.notEntered";
 
+    public static final String ERROR_DOCUMENT_CAPITAL_ASSET_DETAIL_INACTIVE_BUILDING_NOT_ALLOWED = "error.document.capitalAssetDetail.inactive.building.notAllowed";
+    public static final String ERROR_DOCUMENT_CAPITAL_ASSET_DETAIL_INACTIVE_ROOM_NOT_ALLOWED = "error.document.capitalAssetDetail.inactive.room.notAllowed";
+    
     public static final String ERROR_DOCUMENT_PRE_ENCUMBRANCE_SINGLE_SECTION_NO_ACCOUNTING_LINES="error.document.singleSectionNoAccountingLines";
 
     // General Maintenance Document Error Messages

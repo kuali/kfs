@@ -1664,16 +1664,42 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
         CapitalAssetEditable capitalAssetEditable = (CapitalAssetEditable) accountingDocument;
         List<CapitalAssetInformation> capitalAssets = capitalAssetEditable.getCapitalAssetInformation();
 
+        BusinessObjectDictionaryService businessDictionaryService = SpringContext.getBean(BusinessObjectDictionaryService.class);
+        
+        int indexCapital = 0;
+        
         for (CapitalAssetInformation capitalAsset : capitalAssets) {
             if (KFSConstants.CapitalAssets.CAPITAL_ASSET_CREATE_ACTION_INDICATOR.equals(capitalAsset.getCapitalAssetActionIndicator())) {
                 List<CapitalAssetInformationDetail> capitalAssetInformationDetails = capitalAsset.getCapitalAssetInformationDetails();
+                int index = 0;
+                
                 for (CapitalAssetInformationDetail dtl : capitalAssetInformationDetails) {
-                    SpringContext.getBean(BusinessObjectDictionaryService.class).performForceUppercase(dtl);
+                    dtl.refreshReferenceObject("building");
+                    
+                    //if building is inactiv then validation fails....
+                    if (!dtl.getBuilding().isActive()) {
+                        String errorPathPrefix = KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION + "[" + indexCapital + "]." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION_DETAILS;
+                        GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.BUILDING_CODE, KFSKeyConstants.ERROR_DOCUMENT_CAPITAL_ASSET_DETAIL_INACTIVE_BUILDING_NOT_ALLOWED, dtl.getBuildingCode());
+                        valid &=  false;                        
+                    }
+                    
+                    dtl.refreshReferenceObject("room");
+                    //if room is inactiv then validation fails....
+                    if (!dtl.getRoom().isActive()) {
+                        String errorPathPrefix = KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION + "[" + indexCapital + "]." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION_DETAILS;
+                        GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.BUILDING_ROOM_NUMBER, KFSKeyConstants.ERROR_DOCUMENT_CAPITAL_ASSET_DETAIL_INACTIVE_ROOM_NOT_ALLOWED, dtl.getBuildingRoomNumber());
+                        valid &=  false;
+                    }
+                    
+                    index++;
+                    
+                    businessDictionaryService.performForceUppercase(dtl);
                     if (StringUtils.isNotBlank(dtl.getCapitalAssetTagNumber()) && !dtl.getCapitalAssetTagNumber().equalsIgnoreCase(CamsConstants.Asset.NON_TAGGABLE_ASSET)) {
                         allTags.add(new TagRecord(dtl.getCapitalAssetTagNumber(), capitalAsset.getCapitalAssetLineNumber(), dtl.getCapitalAssetLineNumber(), dtl.getItemLineNumber()));
                     }
                 }
             }
+            indexCapital++;
         }
         
         for (TagRecord tagRecord : allTags) {

@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.purap.businessobject;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -29,6 +30,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.datadictionary.exception.UnknownDocumentTypeException;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.NoteService;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -42,8 +44,6 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
     private Integer purapDocumentIdentifier;
     private String documentNumber;
     private String poNumberMasked;
-
-    private List<Note> notes;
 
     public Integer getAccountsPayablePurchasingDocumentLinkIdentifier() {
         return accountsPayablePurchasingDocumentLinkIdentifier;
@@ -70,17 +70,16 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
     }
 
     public List<Note> getNotes() {
-        if (notes != null) {
-            //reverse the order of notes only when anything exists in it..
-            List<Note> tmpNotes = notes;
-            notes.clear();
-            // reverse the order of notes retrieved so that newest note is in the front
-            for (int i = tmpNotes.size()-1; i>=0; i--) {
-                Note note = tmpNotes.get(i);
-                notes.add(note);
-            }
+        List<Note> notes = new ArrayList<Note>();
+        //reverse the order of notes only when anything exists in it..      
+        NoteService noteService = SpringContext.getBean(NoteService.class);
+        List<Note> tmpNotes = noteService.getByRemoteObjectId(findDocument(this.documentNumber).getDocumentHeader().getObjectId());
+        notes.clear();
+        // reverse the order of notes retrieved so that newest note is in the front
+        for (int i = tmpNotes.size()-1; i>=0; i--) {
+            Note note = tmpNotes.get(i);
+            notes.add(note);
         }
-        
         return notes;
     }
 

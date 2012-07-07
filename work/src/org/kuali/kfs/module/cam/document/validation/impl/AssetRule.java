@@ -540,9 +540,14 @@ public class AssetRule extends MaintenanceDocumentRuleBase {
             putFieldError(CamsPropertyConstants.Asset.SALVAGE_AMOUNT, CamsKeyConstants.Asset.ERROR_INVALID_SALVAGE_AMOUNT);
             return false;
         }
-        else {
-            return true;
+        
+        // If book value is negative then depreciation data is invalid.
+        if (asset.getBookValue().compareTo(KualiDecimal.ZERO) < 0) {
+            putFieldError(CamsPropertyConstants.Asset.BOOK_VALUE, CamsKeyConstants.Asset.ERROR_INVALID_BOOKVALUE_AMOUNT);
+            return false;
         }
+        
+        return true;
     }
 
     @Override

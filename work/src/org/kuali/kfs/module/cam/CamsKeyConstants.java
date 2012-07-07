@@ -234,6 +234,8 @@ public class CamsKeyConstants {
 
     public static class Asset {
         public static final String ERROR_INVALID_SALVAGE_AMOUNT = "error.asset.salvage.amount.not.valid";
+        public static final String ERROR_INVALID_BOOKVALUE_AMOUNT = "error.asset.bookValue.amount.not.valid";
+        
         // for use with Asset Edit
         public static final String ERROR_OWNER_INVALID = "error.owner.invalid";
         public static final String ERROR_ACQUISITION_TYPE_CODE_INVALID = "error.acquisition.type.code.invalid";

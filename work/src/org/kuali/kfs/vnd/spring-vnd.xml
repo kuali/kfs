@@ -80,6 +80,7 @@
         <property name="businessObjectService" ref="businessObjectService"/>
         <property name="documentService" ref="documentService"/>
         <property name="dateTimeService" ref="dateTimeService"/>
+        <property name="noteService" ref="noteService"/>
     </bean>
     <bean id="phoneNumberService" parent="phoneNumberService-parentBean"/>
 

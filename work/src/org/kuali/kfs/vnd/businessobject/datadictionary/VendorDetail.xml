@@ -110,10 +110,8 @@
 					p:elementLabel="Customer Numbers" />
 				<bean parent="CollectionDefinition" p:name="vendorAliases"
 					p:label="Search Alias" p:shortLabel="Search Alias" p:elementLabel="Search Alias" />
-				<!-- RICE20 : boNotes is no longer part of the main class - this will need to be replaced somehow
 				<bean parent="CollectionDefinition" p:name="boNotes" p:label="Notes"
-					p:shortLabel="Notes" p:elementLabel="Notes" />
-					 -->
+					p:shortLabel="Notes" p:elementLabel="Notes" />		 
 				<bean parent="CollectionDefinition" p:name="vendorCommodities"
 					p:label="Commodity Codes" p:shortLabel="Commodity Codes" />
 			</list>
@@ -751,9 +749,7 @@
 				<ref bean="VendorDetail-inquirySectionDefinition-vendorPhoneNumber" />
 				<ref bean="VendorDetail-inquirySectionDefinition-vendorCustomerNumber" />
 				<ref bean="VendorDetail-inquirySectionDefinition-contracts" />
-				<!-- RICE20 : boNotes is no longer part of the main class - this will need to be replaced somehow
 				<ref bean="VendorDetail-inquirySectionDefinition-notes" />
-				-->
 			</list>
 		</property>
 		<property name="inquirableClass"
@@ -1279,8 +1275,6 @@
 		</property>
 	</bean>
 
-<!-- RICE20 : boNotes is no longer part of the main class - this will need to be replaced somehow
-
 	<bean id="VendorDetail-inquirySectionDefinition-notes" parent="VendorDetail-inquirySectionDefinition-notes-parentBean" />
 	<bean id="VendorDetail-inquirySectionDefinition-notes-parentBean"
 		parent="InquirySectionDefinition" abstract="true">
@@ -1308,7 +1302,7 @@
 			</list>
 		</property>
 	</bean>
--->
+	
 	<!-- Business Object Lookup Definition -->
 
 

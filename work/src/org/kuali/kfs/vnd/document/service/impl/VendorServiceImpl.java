@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.vnd.document.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -23,6 +24,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorConstants;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
@@ -41,8 +43,11 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.NoteService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,7 +60,8 @@ public class VendorServiceImpl implements VendorService {
     protected DocumentService documentService;
     protected DateTimeService dateTimeService;
     protected VendorDao vendorDao;
-
+    protected NoteService noteService;
+    
     /**
      * @see org.kuali.kfs.vnd.document.service.VendorService#saveVendorHeader(org.kuali.kfs.vnd.businessobject.VendorDetail)
      */
@@ -380,6 +386,41 @@ public class VendorServiceImpl implements VendorService {
             }
         }
         return false;
+    }
+
+    @Override
+    public void createVendorNote(VendorDetail vendorDetail, String vendorNote) {
+        try {
+            if (StringUtils.isNotBlank(vendorNote)) {
+                Note newBONote = new Note();
+                newBONote.setNoteText(vendorNote);
+                newBONote.setNotePostedTimestampToCurrent();
+                newBONote.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
+                Note note = noteService.createNote(newBONote, vendorDetail, GlobalVariables.getUserSession().getPrincipalId());
+                noteService.save(note); 
+            }
+        } catch (Exception e){
+            throw new RuntimeException("Problems creating note for Vendor " + vendorDetail);
+        }
+    }
+
+    @Override
+    public List<Note> getVendorNotes(VendorDetail vendorDetail) {
+        List<Note> notes = new ArrayList<Note>();
+        if (ObjectUtils.isNotNull(vendorDetail)) {
+            notes = noteService.getByRemoteObjectId(vendorDetail.getObjectId());
+        }
+        return notes;
+    }
+
+    @Override
+    public NoteService getNoteService() {
+        return noteService;
+    }
+
+    @Override
+    public void setNoteService(NoteService noteService) {
+        this.noteService = noteService;
     }
 
     /**

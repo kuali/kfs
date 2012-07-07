@@ -28,8 +28,10 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
+import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.service.LookupService;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -101,7 +103,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     private String defaultAddressPostalCode; // not persisted in the db
     private String defaultAddressCountryCode; // not persisted in the db
     private String defaultFaxNumber; // not persisted in the db
-    
+    private List    boNotes;
     /**
      * Default constructor.
      */
@@ -811,5 +813,25 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
         return m;
     }
 
+    /**
+     * Gets the boNotes attribute.
+     * 
+     * @return Returns the boNotes
+     */
+    
+    public List<Note> getBoNotes() {    
+        VendorService vendorService = SpringContext.getBean(VendorService.class);
+        return vendorService.getVendorNotes(this);
+    }
+
+    /** 
+     * Sets the boNotes attribute.
+     * 
+     * @param boNotes The boNotes to set.
+     */
+    public void setBoNotes(List boNotes) {
+        this.boNotes = boNotes;
+    }
+    
 }
 

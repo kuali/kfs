@@ -24,6 +24,8 @@ import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.businessobject.VendorHeader;
 import org.kuali.kfs.vnd.businessobject.VendorRoutingComparable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.service.NoteService;
 
 public interface VendorService {
 
@@ -187,5 +189,13 @@ public interface VendorService {
      * @return VendorContract B2B Contract for given vendor
      */
     public VendorContract getVendorB2BContract(VendorDetail vendorDetail, String campus);
+
+    void createVendorNote(VendorDetail vendorDetail, String vendorNote);
+
+    List<Note> getVendorNotes(VendorDetail vendorDetail);
+
+    NoteService getNoteService();
+
+    void setNoteService(NoteService noteService);
 
 }

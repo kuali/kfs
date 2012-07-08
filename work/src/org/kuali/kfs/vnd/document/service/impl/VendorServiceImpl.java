@@ -25,8 +25,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.module.purap.PurapKeyConstants;
-import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorConstants;
@@ -47,6 +45,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.NoteService;
@@ -471,13 +470,13 @@ public class VendorServiceImpl implements VendorService {
     /**
      * @see org.kuali.kfs.vnd.document.service.VendorService#isVendorContractExpired(org.kuali.kfs.vnd.businessobject.VendorDetail)
      */
-    public boolean isVendorContractExpired(PurchaseOrderDocument poDocument, VendorDetail vendorDetail) {
+    public boolean isVendorContractExpired(Document document, VendorDetail vendorDetail) {
         boolean isExpired = false;
         
         Date currentDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
         
         List<VendorContract> vendorContracts = vendorDetail.getVendorContracts();
-        List<Note> notes = poDocument.getNotes();
+        List<Note> notes = document.getNotes();
         
         for (VendorContract vendorContract : vendorContracts) {
             if (currentDate.compareTo(vendorContract.getVendorContractEndDate()) > 0) {

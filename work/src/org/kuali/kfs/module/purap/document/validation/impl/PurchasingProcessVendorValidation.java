@@ -113,6 +113,12 @@ public class PurchasingProcessVendorValidation extends PurchasingAccountsPayable
             errorMap.putError(VendorPropertyConstants.VENDOR_NAME, PurapKeyConstants.ERROR_INACTIVE_VENDOR);
         }
 
+        //make sure that the vendor contract expiration date
+    //    if (vendorService.isVendorContractExpired(vendorDetail)) {
+    //        errorMap.putError(VendorPropertyConstants.VENDOR_CONTRACT_END_DATE, PurapKeyConstants.ERROR_EXPIRED_CONTRACT_END_DATE);
+    //        valid &= false;
+    //    }
+        
         // validate vendor address
         postalCodeValidationService.validateAddress(purDocument.getVendorCountryCode(), purDocument.getVendorStateCode(), purDocument.getVendorPostalCode(), PurapPropertyConstants.VENDOR_STATE_CODE, PurapPropertyConstants.VENDOR_POSTAL_CODE);
 

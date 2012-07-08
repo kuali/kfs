@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.vnd.document.service.impl;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -24,6 +25,8 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kfs.module.purap.PurapKeyConstants;
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.vnd.VendorConstants;
@@ -465,6 +468,32 @@ public class VendorServiceImpl implements VendorService {
         return VendorConstants.VendorTypes.REVOLVING_FUND.equals(vendorToUse.getVendorHeader().getVendorTypeCode());
     }
 
+    /**
+     * @see org.kuali.kfs.vnd.document.service.VendorService#isVendorContractExpired(org.kuali.kfs.vnd.businessobject.VendorDetail)
+     */
+    public boolean isVendorContractExpired(PurchaseOrderDocument poDocument, VendorDetail vendorDetail) {
+        boolean isExpired = false;
+        
+        Date currentDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
+        
+        List<VendorContract> vendorContracts = vendorDetail.getVendorContracts();
+        List<Note> notes = poDocument.getNotes();
+        
+        for (VendorContract vendorContract : vendorContracts) {
+            if (currentDate.compareTo(vendorContract.getVendorContractEndDate()) > 0) {
+                Note newNote = new Note();
+                newNote.setNoteText("Vendor Contract: " + vendorContract.getVendorContractName() + " contract has expired contract end date.");
+                newNote.setNotePostedTimestampToCurrent();
+                newNote.setNoteTypeCode(KFSConstants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE.getCode());
+                Note note = noteService.createNote(newNote, vendorDetail, GlobalVariables.getUserSession().getPrincipalId());
+                notes.add(note);
+                return true;
+            }
+        }
+        
+        return isExpired;
+    }
+    
     @Override
     public VendorContract getVendorB2BContract(VendorDetail vendorDetail, String campus) {
         return vendorDao.getVendorB2BContract(vendorDetail, campus, dateTimeService.getCurrentSqlDate());

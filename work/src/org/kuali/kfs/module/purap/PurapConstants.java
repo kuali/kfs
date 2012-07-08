@@ -233,7 +233,7 @@ public class PurapConstants {
     // Requisition/Purchase Order Tab Errors
     public static final String DELIVERY_TAB_ERRORS = "document.delivery*";
     public static final String DETAIL_TAB_ERRORS="document";
-    public static final String VENDOR_ERRORS = "document.vendor*,document.purchaseOrderVendorChoiceCode,document.alternateVendorName,document.shipmentReceivedDate";
+    public static final String VENDOR_ERRORS = "document.vendor*,document.purchaseOrderVendorChoiceCode,document.alternateVendorName,document.shipmentReceivedDate,document.vendorContractEndDate";
     public static final String ADDITIONAL_TAB_ERRORS = "document.requestor*,document.institution*,document.purchaseOrderTransmissionMethodCode,document.purchaseOrderCostSourceCode,document.purchaseOrderTotalLimit";
     public static final String ITEM_TAB_ERRORS = "document.item*,newPurchasingItemLine*,itemQuantity,document.grandTotal,accountDistributionnewSourceLine*";
     public static final String LINEITEM_TAB_ERRORS = "document.item*,newLineItemReceivingItemLine*";

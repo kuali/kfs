@@ -18,6 +18,7 @@ package org.kuali.kfs.vnd.document.service;
 import java.util.Collection;
 import java.util.List;
 
+import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorContract;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
@@ -198,4 +199,15 @@ public interface VendorService {
 
     void setNoteService(NoteService noteService);
 
+    /**
+     * REQ should have failed APO rules and routed to Contract Mgr Assignment since the REQ had a contracted vendor 
+     * used where the contract end date is expired (regardless of the Active Indicator).
+     * Notes tab should reflect that the vendor on REQ has an expired contract.
+     * 
+     * @param poDocument
+     * @param vendorDetail
+     * @return true if vendor contract expired end date is not expired else retur false.
+     */
+    public boolean isVendorContractExpired(PurchaseOrderDocument poDocument, VendorDetail vendorDetail);
+    
 }

@@ -91,6 +91,12 @@ public class PurchaseOrderProcessVendorValidation extends PurchasingProcessVendo
             }
         }
 
+        //make sure that the vendor contract expiration date
+        if (super.getVendorService().isVendorContractExpired(poDocument, vendorDetail)) {
+            errorMap.putError(VendorPropertyConstants.VENDOR_CONTRACT_END_DATE, PurapKeyConstants.ERROR_EXPIRED_CONTRACT_END_DATE);
+            valid &= false;
+        }
+        
         errorMap.clearErrorPath();
         return valid;
     }

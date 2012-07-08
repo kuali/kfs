@@ -56,6 +56,7 @@ public class PurapKeyConstants {
     public static final String ERROR_APO_CONTRACT_MANAGER_CODE_CHOSEN = "error.apoContractManagerCodeChosen";
     public static final String NO_CONTRACT_MANAGER_ASSIGNED = "error.noContractManagerAssigned";
     public static final String ERROR_REQ_COPY_EXPIRED_CONTRACT = "error.requisition.copy.expired.contract";
+    public static final String ERROR_EXPIRED_CONTRACT_END_DATE = "error.vendor.contract.expired.endDate";
     public static final String ERROR_REQ_COPY_INACTIVE_VENDOR = "error.requisition.copy.inactive.vendor";
     public static final String ERROR_STIPULATION_DESCRIPTION = "error.purchaseOrder.stipulationDescriptionEmpty";
     public static final String ERROR_NO_ITEMS = "error.requisition.no.items";

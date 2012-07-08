@@ -273,10 +273,20 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     //the doc status needs to be "Pending To Print"..
                     checkForPrintTransmission(po);
                     po.setContractManagerCode(PurapConstants.APO_CONTRACT_MANAGER);
-                    documentService.routeDocument(po, null, null);
+                    
+                    boolean rulePassed = kualiRuleService.applyRules(new AttributedRouteDocumentEvent("", po));
+                    
+                    if (!rulePassed) {
+                        GlobalVariables.getMessageMap().getErrorMessages().clear();
+                        documentService.saveDocument(po);
+                    } else {
+                        documentService.routeDocument(po, null, null);
+                    }
+                    
                     final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();
                     documentAttributeIndexingQueue.indexDocument(po.getDocumentNumber());
-                     return null;
+                    
+                    return null;
                 }
             };
             purapService.performLogicWithFakedUserSession(newSessionUserId, logicToRun, new Object[] { reqDocument });

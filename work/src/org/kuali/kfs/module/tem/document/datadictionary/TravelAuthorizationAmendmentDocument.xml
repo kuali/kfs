@@ -38,8 +38,6 @@
             <ref bean="TravelAuthorizationDocument-primaryDestinationCounty" />
             <ref bean="TravelAuthorizationDocument-tripDescription" />
             <ref bean="TravelAuthorizationDocument-perDiemAdjustment" />
-            <ref bean="TravelAuthorizationDocument-arCustomerId" />
-            <ref bean="TravelAuthorizationDocument-arInvoiceDocNumber" />
 			<ref bean="TravelAuthorizationDocument-cellPhoneNumber" />
 			<ref bean="TravelAuthorizationDocument-regionFamiliarity" />
 			<ref bean="TravelAuthorizationDocument-citizenshipCountryCode" />

@@ -64,11 +64,26 @@
   </bean>
 
   <bean id="TaxableRamificationDocument-arInvoiceDocNumber" parent="TaxableRamificationDocument-arInvoiceDocNumber-parent"/>  
-  <bean id="TaxableRamificationDocument-arInvoiceDocNumber-parent" abstract="true" parent="TravelAuthorizationDocument-arInvoiceDocNumber">
+  <bean id="TaxableRamificationDocument-arInvoiceDocNumber-parent" abstract="true" parent="AttributeDefinition">
   	<property name="name" value="arInvoiceDocNumber" />
 	<property name="label" value="Advance Number" />
     <property name="required" value="true"/>	
+    <property name="shortLabel" value="AR Invoice Document Number" />
+    <property name="maxLength" value="255" />
+    <property name="summary" value="AR Invoice Document Number" />
+    <property name="description" value="AR Invoice Document Number" />
+    <property name="control"><bean parent="TextControlDefinition" p:size="35"/></property>
   </bean> 
+  
+  <bean id="TravelAuthorizationDocument-arCustomerId-parentBean" parent="AttributeDefinition">
+        <property name="name" value="arCustomerId" />
+        <property name="label" value="AR Customer ID" />
+        <property name="shortLabel" value="AR Customer ID" />
+        <property name="maxLength" value="255" />
+        <property name="summary" value="AR Customer ID" />
+        <property name="description" value="AR Customer ID" />
+        <property name="control"><bean parent="TextControlDefinition" p:size="35"/></property>
+    </bean>
   
   <bean id="TaxableRamificationDocument-dueDate" parent="TaxableRamificationDocument-dueDate-parentBean"/>
   <bean id="TaxableRamificationDocument-dueDate-parentBean" abstract="true" parent="TravelAdvance-dueDate">

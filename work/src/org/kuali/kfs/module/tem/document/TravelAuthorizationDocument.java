@@ -104,11 +104,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
 @Table(name = "TEM_TRVL_AUTH_DOC_T")
 public class TravelAuthorizationDocument extends TravelDocumentBase {
     
-    // need fields here that will be pre-populated from KIM if the traveler type is KIM
-    // used for the Other Travel Expense section
     private KualiDecimal perDiemAdjustment;
-    private String arCustomerId;
-    private String arInvoiceDocNumber;
 
     // Emergency contact info section
     private String cellPhoneNumber;
@@ -230,44 +226,6 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
     @Override
     public void setPerDiemAdjustment(KualiDecimal perDiemAdjustment) {
         this.perDiemAdjustment = perDiemAdjustment == null?KualiDecimal.ZERO:perDiemAdjustment;
-    }
-
-    /**
-     * This method returns the Accounts Receivable Customer ID associated with this traveler
-     * 
-     * @return customer ID
-     */
-    @Column(name = "AR_CUST_ID")
-    public String getArCustomerId() {
-        return arCustomerId;
-    }
-
-    /**
-     * This method sets the Accounts Receivable Customer ID associated with this traveler
-     * 
-     * @param arCustomerId
-     */
-    public void setArCustomerId(String arCustomerId) {
-        this.arCustomerId = arCustomerId;
-    }
-
-    /**
-     * Gets the arInvoiceDocNumber attribute.
-     * 
-     * @return Returns the arInvoiceDocNumber.
-     */
-    @Column(name = "AR_INV_DOC_NBR")
-    public String getArInvoiceDocNumber() {
-        return arInvoiceDocNumber;
-    }
-
-    /**
-     * Sets the arInvoiceDocNumber attribute value.
-     * 
-     * @param arInvoiceDocNumber The arInvoiceDocNumber to set.
-     */
-    public void setArInvoiceDocNumber(String arInvoiceDocNumber) {
-        this.arInvoiceDocNumber = arInvoiceDocNumber;
     }
 
     /**

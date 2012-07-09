@@ -269,7 +269,7 @@
     </class-descriptor>
     
     <!-- Transactional Docs -->
-    <class-descriptor class="org.kuali.kfs.module.tem.document.TravelAuthorizationDocument" table="tem_trvl_auth_doc_t">
+    <class-descriptor class="org.kuali.kfs.module.tem.document.TravelAuthorizationDocument" table="TEM_TRVL_AUTH_DOC_T">
         <extent-class class-ref="org.kuali.kfs.module.tem.document.TravelAuthorizationAmendmentDocument" />
         <extent-class class-ref="org.kuali.kfs.module.tem.document.TravelAuthorizationCloseDocument" />
         <field-descriptor name="documentNumber" primarykey="true" column="FDOC_NBR" jdbc-type="VARCHAR"/>
@@ -288,8 +288,6 @@
         <field-descriptor name="tripDescription" column="TRIP_DESC" jdbc-type="VARCHAR"/>
         <field-descriptor name="delinquentTRException" column="DELINQUENT_TR_EXCEPTION" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
         <field-descriptor name="perDiemAdjustment" column="PER_DIEM_ADJ" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-        <field-descriptor name="arCustomerId" column="AR_CUST_ID" jdbc-type="VARCHAR"/>
-        <field-descriptor name="arInvoiceDocNumber" column="AR_INV_DOC_NBR" jdbc-type="VARCHAR"/>
         <field-descriptor name="cellPhoneNumber" column="CELL_PH_NUM" jdbc-type="VARCHAR"/>
         <field-descriptor name="regionFamiliarity" column="rgn_famil" jdbc-type="VARCHAR"/>
         <field-descriptor name="citizenshipCountryCode" column="CTZN_CNTRY_CD" jdbc-type="VARCHAR"/>
@@ -371,8 +369,6 @@
         <field-descriptor name="primaryDestinationCounty" column="primary_dest_cnty" jdbc-type="VARCHAR"/>
         <field-descriptor name="tripDescription" column="TRIP_DESC" jdbc-type="VARCHAR"/>
         <field-descriptor name="perDiemAdjustment" column="PER_DIEM_ADJ" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-        <field-descriptor name="arCustomerId" column="AR_CUST_ID" jdbc-type="VARCHAR"/>
-        <field-descriptor name="arInvoiceDocNumber" column="AR_INV_DOC_NBR" jdbc-type="VARCHAR"/>
         <field-descriptor name="cellPhoneNumber" column="CELL_PH_NUM" jdbc-type="VARCHAR"/>
         <field-descriptor name="regionFamiliarity" column="rgn_famil" jdbc-type="VARCHAR"/>
         <field-descriptor name="citizenshipCountryCode" column="CTZN_CNTRY_CD" jdbc-type="VARCHAR"/>
@@ -454,8 +450,6 @@
         <field-descriptor name="primaryDestinationCounty" column="primary_dest_cnty" jdbc-type="VARCHAR"/>
         <field-descriptor name="tripDescription" column="TRIP_DESC" jdbc-type="VARCHAR"/>
         <field-descriptor name="perDiemAdjustment" column="PER_DIEM_ADJ" jdbc-type="DECIMAL" conversion="org.kuali.rice.kns.util.OjbKualiDecimalFieldConversion"/>
-        <field-descriptor name="arCustomerId" column="AR_CUST_ID" jdbc-type="VARCHAR"/>
-        <field-descriptor name="arInvoiceDocNumber" column="AR_INV_DOC_NBR" jdbc-type="VARCHAR"/>
         <field-descriptor name="cellPhoneNumber" column="CELL_PH_NUM" jdbc-type="VARCHAR"/>
         <field-descriptor name="regionFamiliarity" column="rgn_famil" jdbc-type="VARCHAR"/>
         <field-descriptor name="citizenshipCountryCode" column="CTZN_CNTRY_CD" jdbc-type="VARCHAR"/>

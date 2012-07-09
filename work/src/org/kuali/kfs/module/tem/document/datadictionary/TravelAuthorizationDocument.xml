@@ -39,8 +39,6 @@
             <ref bean="TravelAuthorizationDocument-primaryDestinationCounty" />
             <ref bean="TravelAuthorizationDocument-tripDescription" />
             <ref bean="TravelAuthorizationDocument-perDiemAdjustment" />
-            <ref bean="TravelAuthorizationDocument-arCustomerId" />
-            <ref bean="TravelAuthorizationDocument-arInvoiceDocNumber" />
 			<ref bean="TravelAuthorizationDocument-cellPhoneNumber" />
 			<ref bean="TravelAuthorizationDocument-regionFamiliarity" />
 			<ref bean="TravelAuthorizationDocument-citizenshipCountryCode" />
@@ -237,26 +235,6 @@
         <property name="shortLabel" value="Per Diem Adjustment" />
         <property name="summary" value="Per Diem Adjustment" />
         <property name="description" value="Per Diem Adjustment" />
-    </bean>
-    <bean id="TravelAuthorizationDocument-arCustomerId" parent="TravelAuthorizationDocument-arCustomerId-parentBean" />
-    <bean id="TravelAuthorizationDocument-arCustomerId-parentBean" parent="AttributeDefinition">
-        <property name="name" value="arCustomerId" />
-        <property name="label" value="AR Customer ID" />
-        <property name="shortLabel" value="AR Customer ID" />
-        <property name="maxLength" value="255" />
-        <property name="summary" value="AR Customer ID" />
-        <property name="description" value="AR Customer ID" />
-        <property name="control"><bean parent="TextControlDefinition" p:size="35"/></property>
-    </bean>
-    <bean id="TravelAuthorizationDocument-arInvoiceDocNumber" parent="TravelAuthorizationDocument-arInvoiceDocNumber-parentBean" />
-    <bean id="TravelAuthorizationDocument-arInvoiceDocNumber-parentBean" parent="AttributeDefinition">
-        <property name="name" value="arInvoiceDocNumber" />
-        <property name="label" value="AR Invoice Document Number" />
-        <property name="shortLabel" value="AR Invoice Document Number" />
-        <property name="maxLength" value="255" />
-        <property name="summary" value="AR Invoice Document Number" />
-        <property name="description" value="AR Invoice Document Number" />
-        <property name="control"><bean parent="TextControlDefinition" p:size="35"/></property>
     </bean>
 	<bean id="TravelAuthorizationDocument-cellPhoneNumber" parent="TravelAuthorizationDocument-cellPhoneNumber-parentBean" />
 	<bean id="TravelAuthorizationDocument-cellPhoneNumber-parentBean" parent="AttributeDefinition">

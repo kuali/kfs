@@ -17,6 +17,7 @@ package org.kuali.kfs.module.tem.service;
 
 import java.util.List;
 
+import org.kuali.kfs.module.tem.TemConstants.ExpenseType;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
 import org.kuali.kfs.module.tem.businessobject.CreditCardStagingData;
@@ -94,6 +95,14 @@ public interface TravelExpenseService {
     
     public CreditCardStagingData findImportedCreditCardExpense(KualiDecimal amount, String ticketNumber, String serviceFeeNumber);
 
+    /**
+     * Return the ExpenseService base on expenseType
+     * 
+     * @param expenseType
+     * @return
+     */
+    public TEMExpenseService getExpenseServiceByType(ExpenseType expenseType);
+    
     public TemTravelExpenseTypeCode getExpenseType(Long travelExpenseTypeCodeId);
 
     public Long getExpenseTypeId(String travelExpenseCode, String documentNumber);

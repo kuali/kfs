@@ -18,14 +18,13 @@ package org.kuali.kfs.module.tem.service.impl;
 import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.PARAM_DTL_TYPE;
 import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.logger;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.warn;
 
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -36,25 +35,21 @@ import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemConstants.ExpenseType;
 import org.kuali.kfs.module.tem.businessobject.MileageRateObjCode;
-import org.kuali.kfs.module.tem.businessobject.TEMExpense;
 import org.kuali.kfs.module.tem.businessobject.TemDistributionAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.businessobject.TripType;
-import org.kuali.kfs.module.tem.document.TravelAuthorizationCloseDocument;
-import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
-import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
-import org.kuali.kfs.module.tem.service.TEMExpenseService;
+import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.module.tem.util.AccountingDistributionComparator;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
-import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -164,16 +159,15 @@ public class AccountingDistributionServiceImpl implements AccountingDistribution
     public List<AccountingDistribution> createDistributions(TravelDocument travelDocument) {
         List<AccountingDistribution> documentDistribution = new ArrayList<AccountingDistribution>();
         Map<String, AccountingDistribution> distributionMap = new HashMap<String, AccountingDistribution>();
-        Iterator<String> it = TemConstants.expenseTypes().keySet().iterator();
-        while (it.hasNext()) {
-            Map<String, AccountingDistribution> newDistributionMap = getExpenseService(it.next()).getAccountingDistribution(travelDocument);
+        
+        for (ExpenseType expense : EnumSet.allOf(ExpenseType.class)){
+            Map<String, AccountingDistribution> newDistributionMap = getTravelExpenseService().getExpenseServiceByType(expense).getAccountingDistribution(travelDocument);
             addMergeDistributionMap(distributionMap, newDistributionMap);
         }
         subtractMergeDistributionMap(distributionMap, accountingLinesToDistributionMap(travelDocument));
 
-        it = distributionMap.keySet().iterator();
-        while (it.hasNext()) {
-            documentDistribution.add(distributionMap.get(it.next()));
+        for (String distribution : distributionMap.keySet()){
+            documentDistribution.add(distributionMap.get(distribution));
         }
         Collections.sort(documentDistribution, new AccountingDistributionComparator());
 
@@ -206,9 +200,7 @@ public class AccountingDistributionServiceImpl implements AccountingDistribution
     }
 
     protected void addMergeDistributionMap(Map<String, AccountingDistribution> destinationMap, Map<String, AccountingDistribution> originMap) {
-        Iterator<String> it = originMap.keySet().iterator();
-        while (it.hasNext()) {
-            String key = it.next();
+        for (String key : originMap.keySet()) {
             if (destinationMap.containsKey(key)) {
                 destinationMap.get(key).setSubTotal(destinationMap.get(key).getSubTotal().add(originMap.get(key).getSubTotal()));
                 destinationMap.get(key).setRemainingAmount(destinationMap.get(key).getRemainingAmount().add(originMap.get(key).getRemainingAmount()));
@@ -512,9 +504,8 @@ public class AccountingDistributionServiceImpl implements AccountingDistribution
         this.businessObjectService = businessObjectService;
     }
     
-    @Override
-    public TEMExpenseService getExpenseService(String beanName){
-        return (TEMExpenseService) SpringContext.getBean(TEMExpense.class,beanName);
+    public TravelExpenseService getTravelExpenseService(){
+        return (TravelExpenseService) SpringContext.getBean(TravelExpenseService.class);
     }
         
 }

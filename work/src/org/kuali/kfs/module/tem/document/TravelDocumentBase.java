@@ -31,6 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -49,19 +50,17 @@ import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.TemKeyConstants;
+import org.kuali.kfs.module.tem.TemConstants.ExpenseType;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
-import org.kuali.kfs.module.tem.TemConstants.TravelEntertainmentParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
-import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters;
-import org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelRelocationStatusCodeKeys;
+import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ClassOfService;
 import org.kuali.kfs.module.tem.businessobject.GroupTraveler;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
-import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
 import org.kuali.kfs.module.tem.businessobject.SpecialCircumstances;
@@ -77,17 +76,14 @@ import org.kuali.kfs.module.tem.businessobject.TripType;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
 import org.kuali.kfs.module.tem.service.PerDiemService;
-import org.kuali.kfs.module.tem.service.TEMExpenseService;
 import org.kuali.kfs.module.tem.service.TravelDocumentNotificationService;
+import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.module.tem.util.GroupTravelerComparator;
-import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
@@ -104,7 +100,6 @@ import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -177,6 +172,10 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
 
     protected TravelService getTravelService() {
         return SpringContext.getBean(TravelService.class);
+    }
+    
+    protected TravelExpenseService getTravelExpenseService() {
+        return SpringContext.getBean(TravelExpenseService.class);
     }
     
     protected TravelerService getTravelerService() {
@@ -829,10 +828,8 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     @Transient
     public KualiDecimal getDocumentGrandTotal() {
         KualiDecimal total  = KualiDecimal.ZERO;
-        Iterator<String> it = TemConstants.expenseTypes().keySet().iterator();
-        while (it.hasNext()){
-            TEMExpenseService service = (TEMExpenseService) SpringContext.getBean(TEMExpense.class,it.next());
-            total = service.getAllExpenseTotal(this,true).add(total);
+        for (ExpenseType expense : EnumSet.allOf(ExpenseType.class)){
+            total = getTravelExpenseService().getExpenseServiceByType(expense).getAllExpenseTotal(this, true).add(total);
         }
         return total;
     }
@@ -1654,12 +1651,9 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     @Override
     public KualiDecimal getNonReimbursableTotal() {
         KualiDecimal total  = KualiDecimal.ZERO;
-        Iterator<String> it = TemConstants.expenseTypes().keySet().iterator();
-        while (it.hasNext()){
-            TEMExpenseService service = (TEMExpenseService) SpringContext.getBean(TEMExpense.class,it.next());
-            total = service.getNonReimbursableExpenseTotal(this).add(total);
+        for (ExpenseType expense : EnumSet.allOf(ExpenseType.class)){
+            total = getTravelExpenseService().getExpenseServiceByType(expense).getNonReimbursableExpenseTotal(this).add(total);
         }
-        
         return total;              
     }
 
@@ -1671,14 +1665,12 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     @Override
     public KualiDecimal getApprovedAmount() {
         KualiDecimal total  = KualiDecimal.ZERO;
-        Iterator<String> it = TemConstants.expenseTypes().keySet().iterator();
-        while (it.hasNext()){
-            TEMExpenseService service = (TEMExpenseService) SpringContext.getBean(TEMExpense.class,it.next());
-            total = service.getAllExpenseTotal(this,false).add(total);
+        for (ExpenseType expense : EnumSet.allOf(ExpenseType.class)){
+            total = getTravelExpenseService().getExpenseServiceByType(expense).getAllExpenseTotal(this, false).add(total);
         }
         return total;
-    }      
-
+    }
+    
     /**
      * @see org.kuali.kfs.module.tem.document.TravelDocument#getMealWithoutLodgingReason()
      */
@@ -1785,8 +1777,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      */
     @Override
     public KualiDecimal getCTSTotal() {
-        TEMExpenseService service = (TEMExpenseService) SpringContext.getBean(TEMExpense.class,TemConstants.TEMExpenseTypes.IMPORTED_CTS);
-        KualiDecimal lessCtsCharges = service.getAllExpenseTotal(this, false);
+        KualiDecimal lessCtsCharges = getTravelExpenseService().getExpenseServiceByType(ExpenseType.importedCTS).getAllExpenseTotal(this, false);
         return lessCtsCharges;
     }
     
@@ -1795,8 +1786,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      */
     @Override
     public KualiDecimal getCorporateCardTotal() {
-        TEMExpenseService service = (TEMExpenseService) SpringContext.getBean(TEMExpense.class,TemConstants.TEMExpenseTypes.IMPORTED_CORP_CARD);
-        KualiDecimal lessCorpCardCharges = service.getAllExpenseTotal(this, false);
+        KualiDecimal lessCorpCardCharges = getTravelExpenseService().getExpenseServiceByType(ExpenseType.importedCorpCard).getAllExpenseTotal(this, false);
         return lessCorpCardCharges;
     }
 
@@ -1888,20 +1878,16 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
                 }
             }
             if (processImports){
-                TEMExpenseService service = (TEMExpenseService) SpringContext.getBean(TEMExpense.class,TemConstants.TEMExpenseTypes.IMPORTED_CTS);
-                service.updateExpense(this);
-                service = (TEMExpenseService) SpringContext.getBean(TEMExpense.class,TemConstants.TEMExpenseTypes.IMPORTED_CORP_CARD);
-                service.updateExpense(this);
+                getTravelExpenseService().getExpenseServiceByType(ExpenseType.importedCTS).updateExpense(this);
+                getTravelExpenseService().getExpenseServiceByType(ExpenseType.importedCorpCard).updateExpense(this);
             }            
         }
     }
     
     @Override
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        TEMExpenseService service = (TEMExpenseService) SpringContext.getBean(TEMExpense.class,TemConstants.TEMExpenseTypes.IMPORTED_CTS);
-        service.processExpense(this);
-        service = (TEMExpenseService) SpringContext.getBean(TEMExpense.class,TemConstants.TEMExpenseTypes.IMPORTED_CORP_CARD);
-        service.processExpense(this);
+        getTravelExpenseService().getExpenseServiceByType(ExpenseType.importedCTS).processExpense(this);
+        getTravelExpenseService().getExpenseServiceByType(ExpenseType.importedCorpCard).processExpense(this);
         return true;
     }
     

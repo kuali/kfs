@@ -643,14 +643,19 @@ public class TemConstants extends JSTLConstants {
         public static final String IMPORTED_CORP_CARD = "importedCorporateCardExpenseService";
     }
 
-    public static final Map<String, String> expenseTypes() {
-        Map<String, String> returnMap = new HashMap<String, String>();
-        returnMap.put(TEMExpenseTypes.ACTUAL, TEMExpenseTypes.ACTUAL);
-        returnMap.put(TEMExpenseTypes.IMPORTED_CTS, TEMExpenseTypes.IMPORTED_CTS);
-        returnMap.put(TEMExpenseTypes.IMPORTED_CORP_CARD, TEMExpenseTypes.IMPORTED_CORP_CARD);
-        returnMap.put(TEMExpenseTypes.PER_DIEM, TEMExpenseTypes.PER_DIEM);
-        return returnMap;
+    public enum ExpenseType {
+        actual(TEMExpenseTypes.ACTUAL), 
+        importedCTS(TEMExpenseTypes.IMPORTED_CTS), 
+        importedCorpCard(TEMExpenseTypes.IMPORTED_CORP_CARD), 
+        perDiem(TEMExpenseTypes.PER_DIEM); 
+
+        public String service;
+
+        private ExpenseType(String service) {
+            this.service= service;
+        }
     }
+    
     public static final String CONUS = "CONUS";
     public static final String OTHER_PRIMARY_DESTINATION = "[OTHER]";
     public static final String BLANKET_IN_STATE = "BLN";

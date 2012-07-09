@@ -30,14 +30,17 @@ import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.CreditCardStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseImportTypes;
+import org.kuali.kfs.module.tem.TemConstants.ExpenseType;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseTypes;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
 import org.kuali.kfs.module.tem.businessobject.CreditCardStagingData;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
+import org.kuali.kfs.module.tem.businessobject.TEMExpense;
 import org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.web.struts.TravelFormBase;
+import org.kuali.kfs.module.tem.service.TEMExpenseService;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -289,6 +292,12 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
         return null;
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.service.TravelExpenseService#getExpenseServiceByType(org.kuali.kfs.module.tem.TemConstants.ExpenseType)
+     */
+    public TEMExpenseService getExpenseServiceByType(ExpenseType expenseType){
+        return (TEMExpenseService) SpringContext.getBean(TEMExpense.class, expenseType.service);
+    }
 
     /**
      * Gets the businessObjectService attribute. 

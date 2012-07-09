@@ -37,8 +37,6 @@ public interface AccountingDistributionService {
     
     public List<AccountingDistribution> createDistributions(TravelDocument travelDocument);
     
-    public TEMExpenseService getExpenseService(String beanName);
-    
     public TemDistributionAccountingLine distributionToDistributionAccountingLine(List<AccountingDistribution> accountingDistributionList);
     
     public List<TemSourceAccountingLine> distributionToSouceAccountingLines(List<TemDistributionAccountingLine> distributionAccountingLines, List<AccountingDistribution> accountingDistributionList, Integer sequenceNumber);

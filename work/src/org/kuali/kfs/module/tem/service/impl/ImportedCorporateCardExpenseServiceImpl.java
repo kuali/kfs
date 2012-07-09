@@ -28,6 +28,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
@@ -58,6 +59,7 @@ import org.kuali.kfs.vnd.businessobject.VendorAddress;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
 import org.kuali.kfs.vnd.document.service.VendorService;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.UserSession;
 import org.kuali.rice.kns.bo.Note;
@@ -71,29 +73,24 @@ import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 
-public class ImportedCorporateCardExpenseServiceImpl implements TEMExpenseService {
+public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase implements TEMExpenseService {
 
+    /**
+     * @see org.kuali.kfs.module.tem.service.TEMExpenseService#calculateDistributionTotals(org.kuali.kfs.module.tem.document.TravelDocument, java.util.Map, java.util.List)
+     */
     @Override
-    public Map<String, AccountingDistribution> getAccountingDistribution(TravelDocument document) {
+    public void calculateDistributionTotals(TravelDocument document, Map<String, AccountingDistribution> distributionMap, List<? extends TEMExpense> expenses){
         String defaultChartCode = ExpenseUtils.getDefaultChartCode(document);
-        
-        Map<String, AccountingDistribution> distributionMap = new HashMap<String, AccountingDistribution>();
-
-        if (document.getImportedExpenses() != null){
-            calculateDistributionTotals(document, distributionMap, document.getImportedExpenses(), null);
-        }
-        
-        return distributionMap;
-    }
-
-    private void calculateDistributionTotals(TravelDocument document, Map<String, AccountingDistribution> distributionMap, List expenses, String cardType){
-        String defaultChartCode = ExpenseUtils.getDefaultChartCode(document);
-        for (ImportedExpense expense : (List<ImportedExpense>)expenses) {
-            if (expense.getExpenseParentId() != null && expense.getCardType() == null){
-                expense.setCardType(cardType);
-            }
+        for (ImportedExpense expense : (List<ImportedExpense>) expenses) {
+            
             if (expense.getExpenseDetails() != null && expense.getExpenseDetails().size() > 0){
-                calculateDistributionTotals(document, distributionMap, expense.getExpenseDetails(), expense.getCardType());
+                //update the expense detail's card type (if null) to the expense's card type 
+                for (ImportedExpense imported : (List<ImportedExpense>)expense.getExpenseDetails()){
+                    if (imported.getExpenseParentId() != null && imported.getCardType() == null){
+                        imported.setCardType(expense.getCardType());
+                    }
+                }
+                calculateDistributionTotals(document, distributionMap, expense.getExpenseDetails());
             }
             else {
                 if (expense.getCardType() != null 
@@ -132,92 +129,26 @@ public class ImportedCorporateCardExpenseServiceImpl implements TEMExpenseServic
         }
     }      
 
+    /**
+     * @see org.kuali.kfs.module.tem.service.TEMExpenseService#getExpenseDetails(org.kuali.kfs.module.tem.document.TravelDocument)
+     */
     @Override
-    public String getExpenseType() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<TEMExpense> getExpenseDetails(TravelDocument document) {      
-        return null;
+    public List<? extends TEMExpense> getExpenseDetails(TravelDocument document) {      
+        return document.getImportedExpenses();
     }
     
     /**
-     * Gets the objectCodeService attribute.
-     * 
-     * @return Returns the objectCodeService.
+     * @see org.kuali.kfs.module.tem.service.impl.ExpenseServiceBase#validateExpenseCalculation(org.kuali.kfs.module.tem.businessobject.TEMExpense)
      */
-    public ObjectCodeService getObjectCodeService() {
-        return SpringContext.getBean(ObjectCodeService.class);
-    }
-    /**
-     * Gets the parameterService attribute.
-     * 
-     * @return Returns the parameterService.
-     */
-    public ParameterService getParameterService() {
-        return SpringContext.getBean(ParameterService.class);
-    }
-
-    protected TravelDocumentService getTravelDocumentService() {
-        return SpringContext.getBean(TravelDocumentService.class);
-    }
-
-    public BusinessObjectService getBusinessObjectService() {
-        return SpringContext.getBean(BusinessObjectService.class);
-    }
-
     @Override
-    public KualiDecimal getAllExpenseTotal(TravelDocument document, boolean includeNonReimbursable) {
-        KualiDecimal total = KualiDecimal.ZERO;
-
-        if (includeNonReimbursable){
-            total = calculateTotals(total, document.getImportedExpenses(), TemConstants.ExpenseTypeReimbursementCodes.ALL);
-        }
-        else{
-            total = calculateTotals(total, document.getImportedExpenses(), TemConstants.ExpenseTypeReimbursementCodes.REIMBURSABLE);
-        }
-        return total;
-    }
-
-    @Override
-    public KualiDecimal getNonReimbursableExpenseTotal(TravelDocument document) {
-        KualiDecimal total = KualiDecimal.ZERO;
-
-        total = calculateTotals(total, document.getImportedExpenses(), TemConstants.ExpenseTypeReimbursementCodes.NON_REIMBURSABLE);
-        return total;
-    }
-
-    private KualiDecimal calculateTotals(KualiDecimal total, List expenses, String code){
-        for (TEMExpense expense : (List<TEMExpense>)expenses){
-            if (expense instanceof ImportedExpense
-                    && ((ImportedExpense)expense).getCardType() != null
-                    && !((ImportedExpense)expense).getCardType().equals(TemConstants.CARD_TYPE_CTS)){
-                if (expense.getExpenseDetails() != null && expense.getExpenseDetails().size() > 0){
-                    total = total.add(calculateTotals(total, expense.getExpenseDetails(), code));
-                }
-                else{
-                    if (code.equals(TemConstants.ExpenseTypeReimbursementCodes.ALL)){
-                        total = total.add(expense.getConvertedAmount());
-                    }
-                    else if (code.equals(TemConstants.ExpenseTypeReimbursementCodes.NON_REIMBURSABLE)){
-                        if ((expense.getTravelExpenseTypeCode() != null && expense.getTravelExpenseTypeCode().isPrepaidExpense()) || expense.getNonReimbursable()) {
-                            total = total.add(expense.getExpenseAmount());
-                        }
-                    }
-                    else if (code.equals(TemConstants.ExpenseTypeReimbursementCodes.REIMBURSABLE)){
-                        if ((expense.getTravelExpenseTypeCode() != null && !expense.getTravelExpenseTypeCode().isPrepaidExpense()) && !expense.getNonReimbursable()) {
-                            total = total.add(expense.getExpenseAmount());
-                        }
-                    }
-                }
-            }           
-        }
-        
-        return total;
+    public boolean validateExpenseCalculation(TEMExpense expense){
+        return (expense instanceof ImportedExpense)
+                && StringUtils.defaultString(((ImportedExpense)expense).getCardType()).equals(TemConstants.CARD_TYPE_CORPCARD);
     }
     
+    /**
+     * @see org.kuali.kfs.module.tem.service.impl.ExpenseServiceBase#processExpense(org.kuali.kfs.module.tem.document.TravelDocument)
+     */
     @Override
     public void processExpense(TravelDocument travelDocument) {
         GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper(travelDocument.getGeneralLedgerPendingEntries().size()+1);
@@ -235,7 +166,7 @@ public class ImportedCorporateCardExpenseServiceImpl implements TEMExpenseServic
      */
     private void createVendorDisbursementVoucher(TravelDocument travelDocument){
         String currentUser = GlobalVariables.getUserSession().getPrincipalName();
-        PersonService personService = SpringContext.getBean(PersonService.class);
+        PersonService<Person> personService = SpringContext.getBean(PersonService.class);
         String principalName = personService.getPerson(travelDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId()).getPrincipalName();
         String principalPhoneNumber = personService.getPerson(travelDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId()).getPhoneNumber();
         
@@ -399,6 +330,9 @@ public class ImportedCorporateCardExpenseServiceImpl implements TEMExpenseServic
         }
     }
     
+    /**
+     * @see org.kuali.kfs.module.tem.service.impl.ExpenseServiceBase#updateExpense(org.kuali.kfs.module.tem.document.TravelDocument)
+     */
     @Override
     public void updateExpense(TravelDocument travelDocument) {
         List<HistoricalTravelExpense> historicalTravelExpenses = travelDocument.getHistoricalTravelExpenses();
@@ -416,6 +350,12 @@ public class ImportedCorporateCardExpenseServiceImpl implements TEMExpenseServic
         }
     }
 
+    /**
+     * 
+     * @param disbursementVoucherDocument
+     * @param travelDocument
+     * @throws Exception
+     */
     private void saveDisbursementVoucher(DisbursementVoucherDocument disbursementVoucherDocument, TravelDocument travelDocument) throws Exception{
         String annotation = "Saved by system in relation to Travel Document: " + travelDocument.getDocumentNumber();
         getWorkflowDocumentService().save(disbursementVoucherDocument.getDocumentHeader().getWorkflowDocument(), annotation);
@@ -441,4 +381,5 @@ public class ImportedCorporateCardExpenseServiceImpl implements TEMExpenseServic
     private GeneralLedgerPendingEntryService getGeneralLedgerPendingEntryService(){
         return SpringContext.getBean(GeneralLedgerPendingEntryService.class);
     }
+
 }

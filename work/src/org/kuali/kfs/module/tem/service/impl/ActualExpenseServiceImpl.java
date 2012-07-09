@@ -44,25 +44,14 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-public class ActualExpenseServiceImpl implements TEMExpenseService {
-
-    @Override
-    public Map<String, AccountingDistribution> getAccountingDistribution(TravelDocument document) {
-        final List<AccountingDistribution> retval = new ArrayList<AccountingDistribution>();
-        String defaultChartCode = ExpenseUtils.getDefaultChartCode(document);
-        
-        Map<String, AccountingDistribution> distributionMap = new HashMap<String, AccountingDistribution>();
+public class ActualExpenseServiceImpl extends ExpenseServiceBase implements TEMExpenseService {
     
-        // Actual expenses
-        if (document.getActualExpenses() != null) {
-            calculateDistributionTotals(document, distributionMap, document.getActualExpenses());
-        }
-        return distributionMap;
-    }
-    
-    private void calculateDistributionTotals(TravelDocument document, Map<String, AccountingDistribution> distributionMap, List expenses){
+    /**
+     * @see org.kuali.kfs.module.tem.service.impl.ExpenseServiceBase#calculateDistributionTotals(org.kuali.kfs.module.tem.document.TravelDocument, java.util.Map, java.util.List)
+     */
+    public void calculateDistributionTotals(TravelDocument document, Map<String, AccountingDistribution> distributionMap, List<? extends TEMExpense> expenses){
         String defaultChartCode = ExpenseUtils.getDefaultChartCode(document);
-        for (TEMExpense expense : (List<TEMExpense>)expenses) {
+        for (TEMExpense expense : expenses) {
             if (expense.getExpenseDetails() != null && expense.getExpenseDetails().size() > 0){
                 calculateDistributionTotals(document, distributionMap, expense.getExpenseDetails());
             }
@@ -110,97 +99,27 @@ public class ActualExpenseServiceImpl implements TEMExpenseService {
         }
     }
 
-    @Override
-    public String getExpenseType() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<TEMExpense> getExpenseDetails(TravelDocument document) {       
-        return null;
-    }
-
     /**
-     * Gets the objectCodeService attribute.
-     * 
-     * @return Returns the objectCodeService.
+     * @see org.kuali.kfs.module.tem.service.TEMExpenseService#getExpenseDetails(org.kuali.kfs.module.tem.document.TravelDocument)
      */
-    public ObjectCodeService getObjectCodeService() {
-        return SpringContext.getBean(ObjectCodeService.class);
+    @Override
+    public List<? extends TEMExpense> getExpenseDetails(TravelDocument document) {       
+        return document.getActualExpenses();
     }
+    
     /**
-     * Gets the parameterService attribute.
-     * 
-     * @return Returns the parameterService.
+     * @see org.kuali.kfs.module.tem.service.impl.ExpenseServiceBase#processExpense(org.kuali.kfs.module.tem.document.TravelDocument)
      */
-    public ParameterService getParameterService() {
-        return SpringContext.getBean(ParameterService.class);
-    }
-
-    protected TravelDocumentService getTravelDocumentService() {
-        return SpringContext.getBean(TravelDocumentService.class);
-    }
-
-    public BusinessObjectService getBusinessObjectService() {
-        return SpringContext.getBean(BusinessObjectService.class);
-    }
-    
-    @Override
-    public KualiDecimal getAllExpenseTotal(TravelDocument document, boolean includeNonReimbursable) {
-        KualiDecimal total = KualiDecimal.ZERO;
-        if (includeNonReimbursable){
-            total = calculateTotals(total, document.getActualExpenses(), TemConstants.ExpenseTypeReimbursementCodes.ALL);
-        }
-        else{
-            total = calculateTotals(total, document.getActualExpenses(), TemConstants.ExpenseTypeReimbursementCodes.REIMBURSABLE);
-        }
-        
-        return total;
-    }
-
-    @Override
-    public KualiDecimal getNonReimbursableExpenseTotal(TravelDocument document) {
-        KualiDecimal total = KualiDecimal.ZERO;
-
-        total = calculateTotals(total, document.getActualExpenses(), TemConstants.ExpenseTypeReimbursementCodes.NON_REIMBURSABLE);
-        return total;
-    }
-
-    private KualiDecimal calculateTotals(KualiDecimal total, List expenses, String code){
-        for (TEMExpense expense : (List<TEMExpense>)expenses){
-            if (expense.getExpenseDetails() != null && expense.getExpenseDetails().size() > 0){
-                total = total.add(calculateTotals(total, expense.getExpenseDetails(), code));
-            }
-            else{
-                if (code.equals(TemConstants.ExpenseTypeReimbursementCodes.ALL)){
-                    total = total.add(expense.getConvertedAmount());
-                }
-                else if (code.equals(TemConstants.ExpenseTypeReimbursementCodes.NON_REIMBURSABLE)){
-                    if ((expense.getTravelExpenseTypeCode() != null && expense.getTravelExpenseTypeCode().isPrepaidExpense()) || expense.getNonReimbursable()) {
-                        total = total.add(expense.getExpenseAmount());
-                    }
-                }
-                else if (code.equals(TemConstants.ExpenseTypeReimbursementCodes.REIMBURSABLE)){
-                    if ((expense.getTravelExpenseTypeCode() != null && !expense.getTravelExpenseTypeCode().isPrepaidExpense()) && !expense.getNonReimbursable()) {
-                        total = total.add(expense.getExpenseAmount());
-                    }
-                }
-            }
-        }
-        return total;
-    }
-    
-    
     @Override
     public void processExpense(TravelDocument travelDocument) {
-        // TODO Auto-generated method stub
-        
+        //do nothing
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.service.impl.ExpenseServiceBase#updateExpense(org.kuali.kfs.module.tem.document.TravelDocument)
+     */
     @Override
     public void updateExpense(TravelDocument travelDocument) {
-        // TODO Auto-generated method stub
-        
+      //do nothing
     }
 }

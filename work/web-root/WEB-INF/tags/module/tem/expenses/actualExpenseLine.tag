@@ -113,10 +113,12 @@
             </td>
             <td valign="top" nowrap class="infoline">
             	<div align="center">
+            		<c:if test="${! empty detailObject.travelExpenseTypeCode}" >
 					<kul:htmlControlAttribute
 						attributeEntry="${otherExpenseAttributes.travelExpenseTypeCode.receiptRequired}"
 						property="${expense}.travelExpenseTypeCode.receiptRequired"
 						readOnly="${!fullEntryMode || lineNumber !=null }" />
+					</c:if>
 				</div>
             </td>
 			

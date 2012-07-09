@@ -223,7 +223,7 @@ public interface TEMExpense {
      * Gets the expenseDetails attribute. 
      * @return Returns the expenseDetails.
      */
-    public List<TEMExpense> getExpenseDetails();
+    public List<? extends TEMExpense> getExpenseDetails();
 
     /**
      * Sets the expenseDetails attribute value.
@@ -231,6 +231,11 @@ public interface TEMExpense {
      */
     public void setExpenseDetails(List<TEMExpense> expenseDetails);
 
+    /**
+     * @param expense
+     */
+    public void addExpenseDetails(TEMExpense expense);
+    
     public String getSequenceName();
     
     public String getTemExpenseTypeCode();

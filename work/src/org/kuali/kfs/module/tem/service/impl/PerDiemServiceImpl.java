@@ -70,7 +70,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * implement the service method calls defined in PerDiemService
  */
-public class PerDiemServiceImpl implements PerDiemService, TEMExpenseService {
+public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemService, TEMExpenseService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PerDiemServiceImpl.class);
 
     private DateTimeService dateTimeService;
@@ -743,31 +743,9 @@ public class PerDiemServiceImpl implements PerDiemService, TEMExpenseService {
         return objCode;
     }
     
-    @Override
-    public String getExpenseType() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<TEMExpense> getExpenseDetails(TravelDocument document) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-    
     /**
-     * Gets the objectCodeService attribute.
-     * 
-     * @return Returns the objectCodeService.
+     * @see org.kuali.kfs.module.tem.service.impl.ExpenseServiceBase#getAllExpenseTotal(org.kuali.kfs.module.tem.document.TravelDocument, boolean)
      */
-    public ObjectCodeService getObjectCodeService() {
-        return SpringContext.getBean(ObjectCodeService.class);
-    }
-
-    protected TravelDocumentService getTravelDocumentService() {
-        return SpringContext.getBean(TravelDocumentService.class);
-    }
-
     @Override
     public KualiDecimal getAllExpenseTotal(TravelDocument document, boolean includeNonReimbursable) {
         KualiDecimal total = KualiDecimal.ZERO;
@@ -782,6 +760,9 @@ public class PerDiemServiceImpl implements PerDiemService, TEMExpenseService {
         return total;
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.service.impl.ExpenseServiceBase#getNonReimbursableExpenseTotal(org.kuali.kfs.module.tem.document.TravelDocument)
+     */
     @Override
     public KualiDecimal getNonReimbursableExpenseTotal(TravelDocument document) {
 //        KualiDecimal total = KualiDecimal.ZERO;
@@ -792,7 +773,9 @@ public class PerDiemServiceImpl implements PerDiemService, TEMExpenseService {
 //            }
 //        }
 //        return total;
-        return KualiDecimal.ZERO; // This is because for per diem, when the personal checkbox is checked the amount is already excluded from the total.
+
+        // This is because for per diem, when the personal checkbox is checked the amount is already excluded from the total.
+        return KualiDecimal.ZERO; 
     }
 
     @Override
@@ -844,14 +827,23 @@ public class PerDiemServiceImpl implements PerDiemService, TEMExpenseService {
     
     @Override
     public void processExpense(TravelDocument travelDocument) {
-        // TODO Auto-generated method stub
-        
+        //do nothing
     }
 
     @Override
     public void updateExpense(TravelDocument travelDocument) {
-        // TODO Auto-generated method stub
-        
+        //do nothing
+    }
+
+    @Override
+    public void calculateDistributionTotals(TravelDocument document, Map<String, AccountingDistribution> distributionMap, List<? extends TEMExpense> expenses) {
+        //not used for PerDiem
+    }
+    
+    @Override
+    public List<? extends TEMExpense> getExpenseDetails(TravelDocument document) {
+        //not used for PerDiem
+        return null;
     }
 
 }

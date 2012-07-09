@@ -1030,11 +1030,11 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         notifyChangeListeners(new PropertyChangeEvent(this, TemPropertyConstants.IMPORTED_EXPENSES, null, line));
 
         if (line instanceof ActualExpense){
-            getActualExpenses().get(index).getExpenseDetails().add((ActualExpense) line);
+            getActualExpenses().get(index).addExpenseDetails(line);
             notifyChangeListeners(new PropertyChangeEvent(this, TemPropertyConstants.ACTUAL_EXPENSES, null, line));
         }
         else{
-            getImportedExpenses().get(index).getExpenseDetails().add((ImportedExpense) line);
+            getImportedExpenses().get(index).addExpenseDetails(line);
             notifyChangeListeners(new PropertyChangeEvent(this, TemPropertyConstants.IMPORTED_EXPENSES, null, line));
         }
     }   

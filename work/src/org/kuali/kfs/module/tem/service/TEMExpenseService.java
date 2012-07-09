@@ -27,15 +27,54 @@ public interface TEMExpenseService {
 
     public Map<String, AccountingDistribution> getAccountingDistribution(TravelDocument document);
     
-    public String getExpenseType();
+    /**
+     * Calculate distribution total
+     * 
+     * @param document
+     * @param distributionMap
+     * @param expenses
+     */
+    public void calculateDistributionTotals(TravelDocument document, Map<String, AccountingDistribution> distributionMap, List<? extends TEMExpense> expenses);
     
-    public List<TEMExpense> getExpenseDetails(TravelDocument document);
+    /**
+     * Get the appropriate expense detail from the document
+     * 
+     * @param document
+     * @return
+     */
+    public List<? extends TEMExpense> getExpenseDetails(TravelDocument document);
     
+    /**
+     * Validation for expense calculation
+     * 
+     * @param expenses
+     */
+    public boolean validateExpenseCalculation(TEMExpense expense);
+    
+    /**
+     * 
+     * @param document
+     * @param includeNonReimbursable
+     * @return
+     */
     public KualiDecimal getAllExpenseTotal(TravelDocument document, boolean includeNonReimbursable);
     
+    /**
+     * 
+     * @param document
+     * @return
+     */
     public KualiDecimal getNonReimbursableExpenseTotal(TravelDocument document);
     
+    /**
+     * 
+     * @param travelDocument
+     */
     public void processExpense(TravelDocument travelDocument);
     
+    /**
+     * 
+     * @param travelDocument
+     */
     public void updateExpense(TravelDocument travelDocument);
 }

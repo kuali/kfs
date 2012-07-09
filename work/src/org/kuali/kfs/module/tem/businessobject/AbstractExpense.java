@@ -417,11 +417,20 @@ public abstract class AbstractExpense extends PersistableBusinessObjectBase impl
      * @return Returns the expenseDetails.
      */
     @Override
-    public List<TEMExpense> getExpenseDetails() {
+    public List<? extends TEMExpense> getExpenseDetails() {
         if (expenseDetails == null){
             expenseDetails = new ArrayList<TEMExpense>();
         }
         return expenseDetails;
+    }
+    
+    /**
+     * Gets the expenseDetails attribute. 
+     * @return Returns the expenseDetails.
+     */
+    @Override
+    public void addExpenseDetails(TEMExpense expense) {
+        expenseDetails.add(expense);
     }
 
     /**

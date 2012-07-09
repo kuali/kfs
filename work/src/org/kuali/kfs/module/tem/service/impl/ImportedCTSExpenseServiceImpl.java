@@ -28,6 +28,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
@@ -59,15 +60,17 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
-public class ImportedCTSExpenseServiceImpl implements TEMExpenseService {
+public class ImportedCTSExpenseServiceImpl extends ExpenseServiceBase implements TEMExpenseService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ImportedCTSExpenseServiceImpl.class);
 
+    /**
+     * @see org.kuali.kfs.module.tem.service.TEMExpenseService#calculateDistributionTotals(org.kuali.kfs.module.tem.document.TravelDocument, java.util.Map, java.util.List)
+     */
     @Override
-    public Map<String, AccountingDistribution> getAccountingDistribution(TravelDocument document) {
+    public void calculateDistributionTotals(TravelDocument document, Map<String, AccountingDistribution> distributionMap, List<? extends TEMExpense> expenses){
         String defaultChartCode = ExpenseUtils.getDefaultChartCode(document);
+        for (ImportedExpense expense : (List<ImportedExpense>) expenses) {
         
-        Map<String, AccountingDistribution> distributionMap = new HashMap<String, AccountingDistribution>();
-        for (ImportedExpense expense : document.getImportedExpenses()){
             String cardType = expense.getCardType();
             if (cardType != null && cardType.equals(TemConstants.CARD_TYPE_CTS) && !expense.getNonReimbursable()){
                 expense.refreshReferenceObject("travelExpenseTypeCode");
@@ -106,92 +109,25 @@ public class ImportedCTSExpenseServiceImpl implements TEMExpenseService {
                 }
             }
         }
-        
-        return distributionMap;
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.service.impl.ExpenseServiceBase#getExpenseDetails(org.kuali.kfs.module.tem.document.TravelDocument)
+     */
     @Override
-    public String getExpenseType() {
-        return null;
+    public List<? extends TEMExpense> getExpenseDetails(TravelDocument document) {
+        return document.getImportedExpenses();
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.service.TEMExpenseService#validateExpenseCalculation(org.kuali.kfs.module.tem.businessobject.TEMExpense)
+     */
     @Override
-    public List<TEMExpense> getExpenseDetails(TravelDocument document) {
-       
-        
-        return null;
+    public boolean validateExpenseCalculation(TEMExpense expense){
+        return (expense instanceof ImportedExpense)
+                && StringUtils.defaultString(((ImportedExpense)expense).getCardType()).equals(TemConstants.CARD_TYPE_CTS);
     }
     
-    /**
-     * Gets the objectCodeService attribute.
-     * 
-     * @return Returns the objectCodeService.
-     */
-    public ObjectCodeService getObjectCodeService() {
-        return SpringContext.getBean(ObjectCodeService.class);
-    }
-    /**
-     * Gets the parameterService attribute.
-     * 
-     * @return Returns the parameterService.
-     */
-    public ParameterService getParameterService() {
-        return SpringContext.getBean(ParameterService.class);
-    }
-
-    protected TravelDocumentService getTravelDocumentService() {
-        return SpringContext.getBean(TravelDocumentService.class);
-    }
-
-    public BusinessObjectService getBusinessObjectService() {
-        return SpringContext.getBean(BusinessObjectService.class);
-    }
-
-    @Override
-    public KualiDecimal getAllExpenseTotal(TravelDocument document, boolean includeNonReimbursable) {
-        KualiDecimal total = KualiDecimal.ZERO;
-
-        if (includeNonReimbursable){
-            total = calculateTotals(total, document.getImportedExpenses(), TemConstants.ExpenseTypeReimbursementCodes.ALL);
-        }
-        else{
-            total = calculateTotals(total, document.getImportedExpenses(), TemConstants.ExpenseTypeReimbursementCodes.REIMBURSABLE);
-        }
-        return total;
-    }
-
-    @Override
-    public KualiDecimal getNonReimbursableExpenseTotal(TravelDocument document) {
-        KualiDecimal total = KualiDecimal.ZERO;
-        total = calculateTotals(total, document.getImportedExpenses(), TemConstants.ExpenseTypeReimbursementCodes.NON_REIMBURSABLE);
-        return total;
-    }
-
-    private KualiDecimal calculateTotals(KualiDecimal total, List<ImportedExpense> expenses, String code){
-        for (TEMExpense expense : expenses){
-            if (expense instanceof ImportedExpense
-                    && ((ImportedExpense)expense).getCardType() != null
-                    && ((ImportedExpense)expense).getCardType().equals(TemConstants.CARD_TYPE_CTS)){
-                if (code.equals(TemConstants.ExpenseTypeReimbursementCodes.ALL)){
-                    total = total.add(expense.getConvertedAmount());
-                }
-                else if (code.equals(TemConstants.ExpenseTypeReimbursementCodes.NON_REIMBURSABLE)){
-                    if ((expense.getTravelExpenseTypeCode() != null && expense.getTravelExpenseTypeCode().isPrepaidExpense()) || expense.getNonReimbursable()) {
-                        total = total.add(expense.getExpenseAmount());
-                    }
-                }
-                else if (code.equals(TemConstants.ExpenseTypeReimbursementCodes.REIMBURSABLE)){
-                    if ((expense.getTravelExpenseTypeCode() != null && !expense.getTravelExpenseTypeCode().isPrepaidExpense()) && !expense.getNonReimbursable()) {
-                        total = total.add(expense.getExpenseAmount());
-                    }
-                }
-            }
-            
-        }
-        return total;
-    }
-    
-
     /**
      * Used to create GLPE's for CTS imports.
      * 
@@ -253,9 +189,7 @@ public class ImportedCTSExpenseServiceImpl implements TEMExpenseService {
          * Iterate through imported expense accounts and match them to accounting line accounts.
          * process any changes by creating a new credit glpe
          */
-        Iterator<String> it = tripAccountMap.keySet().iterator();
-        while (it.hasNext()){
-            String key = it.next();
+        for (String key : tripAccountMap.keySet()) {
             if (accountingLineMap.containsKey(key)
                     && accountingLineMap.get(key).equals(tripAccountMap.get(key))){
                 //do nothing.  The accounting line(s) haven't made a change that warrants new glpe creation
@@ -289,10 +223,7 @@ public class ImportedCTSExpenseServiceImpl implements TEMExpenseService {
          * Iterate through the rest of the accounting lines.
          * Create normal debit glpe's.
          */
-        it = accountingLineMap.keySet().iterator();
-        while (it.hasNext()){
-            String key = it.next();
-            
+        for (String key : accountingLineMap.keySet()){
             TemSourceAccountingLine debitLine = new TemSourceAccountingLine();
             String[] accountInfo = key.split("_");
             debitLine.setChartOfAccountsCode(accountInfo[0]);
@@ -308,7 +239,9 @@ public class ImportedCTSExpenseServiceImpl implements TEMExpenseService {
         }
     }
 
-     
+    /**
+     * @see org.kuali.kfs.module.tem.service.impl.ExpenseServiceBase#updateExpense(org.kuali.kfs.module.tem.document.TravelDocument)
+     */
     @Override
     public void updateExpense(TravelDocument travelDocument) {
         List<HistoricalTravelExpense> historicalTravelExpenses = travelDocument.getHistoricalTravelExpenses();

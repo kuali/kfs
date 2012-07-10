@@ -37,7 +37,6 @@ import org.kuali.rice.kew.api.util.CodeTranslator;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kim.api.common.attribute.KimAttribute;
 import org.kuali.rice.kim.api.common.delegate.DelegateMember;
 import org.kuali.rice.kim.api.common.delegate.DelegateMemberContract;
 import org.kuali.rice.kim.api.identity.Person;
@@ -313,6 +312,9 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
      * @return Returns the principalMemberPrincipalName.
      */
     public String getPrincipalMemberPrincipalName() {
+        if ( StringUtils.isBlank(principalMemberPrincipalName) ) {
+            getPerson();
+        }
         return principalMemberPrincipalName;
     }
     /**
@@ -386,22 +388,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
     public void setOrganization(Organization organization) {
         this.organization = organization;
     }
-    private void updateAttributeValue(String attributeName, String attributeValue){
-        if(StringUtils.isNotEmpty(attributeName)){
-            KfsKimDocumentAttributeData attributeData = getAttribute(attributeName);
-            if(attributeData==null){
-                attributeData = new KfsKimDocumentAttributeData();
-                KimAttribute.Builder attribute = KimAttribute.Builder.create("", attributeName, "");
-                attribute.setAttributeName(attributeName);
-                attributeData.setKimAttribute(attribute.build());
-                attributeData.setAttrVal(attributeValue);
-                attributes.add(attributeData);
-            }
-            else {
-                attributeData.setAttrVal(attributeValue);
-            }
-        }
-    }
+
     /**
      * Gets the overrideCode attribute.
      * @return Returns the overrideCode.
@@ -438,7 +425,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
     }
 
     public void setFromAmount(String fromAmount) {
-        if(StringUtils.isNotEmpty(fromAmount)) {
+        if(StringUtils.isNotEmpty(fromAmount) && StringUtils.isNumeric(fromAmount) ) {
             this.fromAmount = new KualiDecimal(fromAmount);
         }
         else {
@@ -467,7 +454,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
     }
 
     public void setToAmount(String toAmount) {
-        if(StringUtils.isNotEmpty(toAmount)) {
+        if(StringUtils.isNotEmpty(toAmount) && StringUtils.isNumeric(toAmount) ) {
             this.toAmount = new KualiDecimal(toAmount);
         }
         else {
@@ -535,9 +522,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
     }
 
     @Override
-    public void refresh(){
-
-    }
+    public void refresh() {}
 
     /**
      * Gets the financialSystemDocumentTypeCode attribute.
@@ -991,6 +976,9 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
                     || StringUtils.isBlank(person.getPrincipalName())
                     || !StringUtils.equals(person.getPrincipalId(), principalMemberPrincipalId) )){
             person = KimApiServiceLocator.getPersonService().getPerson(principalMemberPrincipalId);
+            if ( person != null ) {
+                principalMemberPrincipalName = person.getPrincipalName();
+            }
         }
         return person;
     }
@@ -1000,6 +988,10 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
      */
     public void setPerson(Person person) {
         this.person = person;
+        if ( person != null ) {
+            principalMemberPrincipalName = person.getPrincipalName();
+            principalMemberPrincipalId = person.getPrincipalId();
+        }
     }
 
     /**

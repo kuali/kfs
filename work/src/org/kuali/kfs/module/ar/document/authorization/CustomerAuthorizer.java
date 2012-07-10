@@ -16,8 +16,19 @@
 package org.kuali.kfs.module.ar.document.authorization;
 
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.document.Document;
 
 public class CustomerAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
+
+    /**
+     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase#canRecall(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
+     */
+    @Override
+    public boolean canRecall(Document document, Person user) {
+        if (!document.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) return false;
+        return super.canRecall(document, user);
+    }
 
     // TODO this is commented out because the old logic doesnt match up the new logic at 
     //      https://test.kuali.org/confluence/display/KULAR/Document+Types%2C+Approvals 

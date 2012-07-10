@@ -1,12 +1,12 @@
 /*
  * Copyright 2007-2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,12 +41,10 @@ import org.kuali.rice.kim.api.common.delegate.DelegateMember;
 import org.kuali.rice.kim.api.group.Group;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.role.DelegateMemberQueryResults;
-import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.role.RoleMemberQueryResults;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.kim.api.type.KimType;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.document.Document;
@@ -60,17 +58,17 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
     private static final Logger LOG = Logger.getLogger(OrgReviewRoleRule.class);
 
     private transient static OrgReviewRoleService orgReviewRoleService;
-    
+
     /**
      * Need to override to avoid the primary key check which (wrongly) assumes that the object's PKs can be found in the persistence service.
-     * 
+     *
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processGlobalSaveDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
     protected boolean processGlobalSaveDocumentBusinessRules(MaintenanceDocument document) {
         return dataDictionaryValidate(document);
     }
-    
+
     @Override
     public boolean processRouteDocument(Document document) {
         boolean valid = super.processRouteDocument(document);
@@ -91,7 +89,7 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
         }
         return valid;
     }
-    
+
     protected void validateRoleMembersToSave(OrgReviewRole orr){
         if(orr==null) return;
         boolean valid = true;
@@ -99,7 +97,7 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
         if(StringUtils.isNotEmpty(orr.getPrincipalMemberPrincipalName())){
             Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(orr.getPrincipalMemberPrincipalName());
             if(principal == null || StringUtils.isEmpty(principal.getPrincipalId())){
-                GlobalVariables.getMessageMap().putError(MAINTAINABLE_ERROR_PATH+"."+OrgReviewRole.PRINCIPAL_NAME_FIELD_NAME, 
+                GlobalVariables.getMessageMap().putError(MAINTAINABLE_ERROR_PATH+"."+OrgReviewRole.PRINCIPAL_NAME_FIELD_NAME,
                         KFSKeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL);
                 valid = false;
             }
@@ -107,7 +105,7 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
         if(StringUtils.isNotEmpty(orr.getRoleMemberRoleName())){
             memberId = KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(orr.getRoleMemberRoleNamespaceCode(), orr.getRoleMemberRoleName());
             if(memberId == null){
-                GlobalVariables.getMessageMap().putError(MAINTAINABLE_ERROR_PATH+"."+OrgReviewRole.ROLE_NAME_FIELD_NAME, 
+                GlobalVariables.getMessageMap().putError(MAINTAINABLE_ERROR_PATH+"."+OrgReviewRole.ROLE_NAME_FIELD_NAME,
                         KFSKeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, KimConstants.KimUIConstants.MEMBER_TYPE_ROLE);
                 valid = false;
             }
@@ -115,7 +113,7 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
         if(StringUtils.isNotEmpty(orr.getGroupMemberGroupName())){
             Group groupInfo = KimApiServiceLocator.getGroupService().getGroupByNamespaceCodeAndName(orr.getGroupMemberGroupNamespaceCode(), orr.getGroupMemberGroupName());
             if(groupInfo == null || StringUtils.isEmpty(groupInfo.getId())){
-                GlobalVariables.getMessageMap().putError(MAINTAINABLE_ERROR_PATH+"."+OrgReviewRole.GROUP_NAME_FIELD_NAME, 
+                GlobalVariables.getMessageMap().putError(MAINTAINABLE_ERROR_PATH+"."+OrgReviewRole.GROUP_NAME_FIELD_NAME,
                         KFSKeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, KimConstants.KimUIConstants.MEMBER_TYPE_GROUP);
                 valid = false;
             }
@@ -123,7 +121,7 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
         if(!valid)
             throw new ValidationException("Invalid Role Member Data");
     }
-    
+
     protected boolean validateDelegation(OrgReviewRole orr, boolean isEdit){
         boolean valid = true;
         String roleId;
@@ -134,8 +132,8 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
                 Map<String, String> criteria = new HashMap<String, String>();
                 criteria.put(KimConstants.PrimaryKeyConstants.ROLE_ID, roleId);
                 DelegateMemberQueryResults results = KimApiServiceLocator.getRoleService().findDelegateMembers(QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ROLE_ID, roleId))));
-                List<DelegateMember> roleDelegationMembers = results.getResults(); 
-                
+                List<DelegateMember> roleDelegationMembers = results.getResults();
+
                 //validate if the newly entered delegation members are already assigned to the role
                 if(roleDelegationMembers!=null){
                     for(DelegateMember delegationMember: roleDelegationMembers){
@@ -144,7 +142,7 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
                             String memberId = getMemberIdByName(member.getType(), member.getMemberNamespaceCode(), member.getMemberName());
                             boolean attributesUnique = areAttributesUnique(orr, delegationMember.getAttributes());
                             if(!attributesUnique && member!=null && StringUtils.isNotBlank(memberId) && memberId.equals(delegationMember.getMemberId())
-                                    && (StringUtils.isNotBlank(orr.getRoleMemberId()) && StringUtils.isNotBlank(delegationMember.getRoleMemberId()) 
+                                    && (StringUtils.isNotBlank(orr.getRoleMemberId()) && StringUtils.isNotBlank(delegationMember.getRoleMemberId())
                                             && orr.getRoleMemberId().equals(delegationMember.getRoleMemberId()))){
                                putFieldError(orr.getMemberFieldName(member.getType()), KFSKeyConstants.ALREADY_ASSIGNED_MEMBER);
                                valid = false;
@@ -163,9 +161,7 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
             if(roleMembers!=null && !roleMembers.isEmpty() ) {
                 roleMember = roleMembers.get(0);
             }
-            Role roleInfo = KimApiServiceLocator.getRoleService().getRole(roleMember.getRoleId());
-            KimType typeInfo = KimApiServiceLocator.getKimTypeInfoService().getKimType(roleInfo.getKimTypeId());
-            List<KfsKimDocumentAttributeData> attributes = orr.getAttributeSetAsQualifierList(typeInfo, roleMember.getAttributes());
+            List<KfsKimDocumentAttributeData> attributes = orr.getAttributeSetAsQualifierList(roleMember.getAttributes());
             if(roleMember!=null && attributes!=null){
                 for(KfsKimDocumentAttributeData attribute: attributes){
                     if(KfsKimAttributes.FROM_AMOUNT.equals(attribute.getKimAttribute().getAttributeName())){
@@ -203,7 +199,7 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
         }
         return valid;
     }
-    
+
     protected boolean validateRoleMember(OrgReviewRole orr, boolean isEdit){
         boolean valid = true;
         String roleId;
@@ -228,7 +224,7 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
                         if(member!=null && StringUtils.isNotEmpty(member.getMemberName())){
                             memberId = getMemberIdByName(member.getType(), member.getMemberNamespaceCode(), member.getMemberName());
                             attributesUnique = areAttributesUnique(orr, roleMembershipInfo.getQualifier());
-                            if(!attributesUnique && member!=null && StringUtils.isNotEmpty(memberId) && memberId.equals(roleMembershipInfo.getMemberId()) && 
+                            if(!attributesUnique && member!=null && StringUtils.isNotEmpty(memberId) && memberId.equals(roleMembershipInfo.getMemberId()) &&
                                     member.getType().equals(roleMembershipInfo.getType())){
                                putFieldError(orr.getMemberFieldName(member.getType()), KFSKeyConstants.ALREADY_ASSIGNED_MEMBER);
                                valid = false;
@@ -260,12 +256,12 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
         }
         return memberId;
     }
-    
+
     protected boolean areAttributesUnique(OrgReviewRole orr, Map<String,String> attributeSet){
         String docTypeName = orr.getFinancialSystemDocumentTypeCode();
         String chartOfAccountCode = orr.getChartOfAccountsCode();
         String organizationCode = orr.getOrganizationCode();
-        boolean uniqueAttributes = 
+        boolean uniqueAttributes =
             !StringUtils.equals(docTypeName, attributeSet.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)) ||
             !StringUtils.equals(chartOfAccountCode, attributeSet.get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE)) ||
             !StringUtils.equals(organizationCode, attributeSet.get(KfsKimAttributes.ORGANIZATION_CODE));

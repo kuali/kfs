@@ -45,7 +45,6 @@ import org.kuali.rice.kim.api.common.delegate.DelegateType;
 import org.kuali.rice.kim.api.group.Group;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.role.Role;
-import org.kuali.rice.kim.api.role.RoleContract;
 import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.role.RoleMemberContract;
 import org.kuali.rice.kim.api.role.RoleMemberQueryResults;
@@ -85,25 +84,10 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
             throw new IllegalArgumentException( "Unknown role member ID passed in - nothing returned from KIM RoleService: " + roleMemberId );
         }
         RoleMember roleMember = roleMembers.getResults().get(0);
-        orr.setRoleMemberId(roleMember.getId());
+        orr.setRoleMember(roleMember);
+
         orr.setKimDocumentRoleMember(roleMember);
 
-        Role roleInfo = roleService.getRole(roleMember.getRoleId());
-        KimType typeInfo = KimApiServiceLocator.getKimTypeInfoService().getKimType(roleInfo.getKimTypeId());
-        List<KfsKimDocumentAttributeData> attributes = orr.getAttributeSetAsQualifierList(typeInfo, roleMember.getAttributes());
-        orr.setAttributes(attributes);
-        orr.setRoleRspActions(roleService.getRoleMemberResponsibilityActions(roleMember.getId()));
-        orr.setRoleId(roleMember.getRoleId());
-        if ( roleMember.getActiveFromDate() != null ) {
-            orr.setActiveFromDate(roleMember.getActiveFromDate().toDate());
-        } else {
-            orr.setActiveFromDate( null );
-        }
-        if ( roleMember.getActiveToDate() != null ) {
-            orr.setActiveToDate(roleMember.getActiveToDate().toDate());
-        } else {
-            orr.setActiveToDate( null );
-        }
         populateObjectExtras(orr);
     }
 
@@ -112,31 +96,16 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
         RoleService roleService = KimApiServiceLocator.getRoleService();
         DelegateMember delegationMember = roleService.getDelegationMemberById(delegationMemberId);
         DelegateType delegation = roleService.getDelegateTypeByDelegationId(delegationMember.getDelegationId());
-        Role roleInfo = roleService.getRole(delegation.getRoleId());
-        KimType typeInfo = KimApiServiceLocator.getKimTypeInfoService().getKimType(roleInfo.getKimTypeId());
 
-        orr.setDelegationMemberId(delegationMember.getDelegationMemberId());
-        orr.setRoleMemberId(delegationMember.getRoleMemberId());
+        orr.setDelegateMember(delegationMember);
+
         orr.setRoleRspActions(roleService.getRoleMemberResponsibilityActions(delegationMember.getRoleMemberId()));
-        orr.setAttributes(orr.getAttributeSetAsQualifierList(typeInfo, delegationMember.getAttributes()));
-        orr.setRoleId(delegation.getRoleId());
-        orr.setDelegationTypeCode(delegation.getDelegationType().getCode());
+
         orr.setRoleDocumentDelegationMember(delegationMember);
         populateObjectExtras(orr);
     }
 
     protected void populateObjectExtras( OrgReviewRole orr ) {
-        RoleContract role = orr.getRole();
-        //Set the role details
-        orr.setRoleName(role.getName());
-        orr.setNamespaceCode(role.getNamespaceCode());
-
-        orr.setChartOfAccountsCode(orr.getAttributeValue(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE));
-        orr.setOrganizationCode(orr.getAttributeValue(KfsKimAttributes.ORGANIZATION_CODE));
-        orr.setOverrideCode(orr.getAttributeValue(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE));
-        orr.setFromAmount(orr.getAttributeValue(KfsKimAttributes.FROM_AMOUNT));
-        orr.setToAmount(orr.getAttributeValue(KfsKimAttributes.TO_AMOUNT));
-        orr.setFinancialSystemDocumentTypeCode(orr.getAttributeValue(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME));
 
 //        orr.getChart().setChartOfAccountsCode(orr.getChartOfAccountsCode());
 //        orr.getOrganization().setOrganizationCode(orr.getOrganizationCode());

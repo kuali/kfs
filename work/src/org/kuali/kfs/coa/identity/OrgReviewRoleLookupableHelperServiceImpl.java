@@ -42,7 +42,6 @@ import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.role.RoleMemberQueryResults;
 import org.kuali.rice.kim.api.role.RoleQueryResults;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.kim.api.type.KimType;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -447,37 +446,10 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
             }
             if(StringUtils.isBlank(active) || activeInd == member.isActive() ) {
                 OrgReviewRole orgReviewRole = new OrgReviewRole();
-                orgReviewRole.setMemberId(member.getMemberId());
-                orgReviewRole.setMemberTypeCode(member.getType().getCode());
-                if ( member.getActiveFromDate() != null ) {
-                    orgReviewRole.setActiveFromDate(member.getActiveFromDate().toDate());
-                }
-                if ( member.getActiveToDate() != null ) {
-                    orgReviewRole.setActiveToDate(member.getActiveToDate().toDate());
-                }
-                orgReviewRole.setActive(member.isActive());
-                orgReviewRole.setFinancialSystemDocumentTypeCode(documentTypeName);
-
-                Role roleInfo = KimApiServiceLocator.getRoleService().getRole(member.getRoleId());
-                KimType kimTypeInfo = KimApiServiceLocator.getKimTypeInfoService().getKimType(roleInfo.getKimTypeId());
-                orgReviewRole.setAttributes(orgReviewRole.getAttributeSetAsQualifierList(kimTypeInfo, member.getAttributes()));
-
-                orgReviewRole.setRoleRspActions(KimApiServiceLocator.getRoleService().getRoleMemberResponsibilityActions(member.getId()));
-                orgReviewRole.setRoleMemberId(member.getId());
-                orgReviewRole.setRoleId(member.getRoleId());
-                orgReviewRole.setNamespaceCode(roleInfo.getNamespaceCode());
-                orgReviewRole.setRoleName(roleInfo.getName());
-                orgReviewRole.setDelegate(false);
-
-                orgReviewRole.setChartOfAccountsCode(orgReviewRole.getAttributeValue(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE));
-                orgReviewRole.setOrganizationCode(orgReviewRole.getAttributeValue(KfsKimAttributes.ORGANIZATION_CODE));
-                orgReviewRole.setOverrideCode(orgReviewRole.getAttributeValue(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE));
-                orgReviewRole.setFromAmount(orgReviewRole.getAttributeValue(KfsKimAttributes.FROM_AMOUNT));
-                orgReviewRole.setToAmount(orgReviewRole.getAttributeValue(KfsKimAttributes.TO_AMOUNT));
-                orgReviewRole.setFinancialSystemDocumentTypeCode(orgReviewRole.getAttributeValue(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME));
+                orgReviewRole.setRoleMember(member);
 
                 if ( LOG.isDebugEnabled() ) {
-                    LOG.debug( "Converting To OrgReviewRole: " + orgReviewRole );
+                    LOG.debug( "Converted To OrgReviewRole: " + orgReviewRole );
                 }
                 orgReviewRoles.add(orgReviewRole);
             } else {
@@ -495,39 +467,15 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         List<OrgReviewRole> orgReviewRoles = new ArrayList<OrgReviewRole>();
         boolean activeInd = getBooleanValueForString(active, true);
         for(KfsKimDocDelegateMember member: delegationMembers){
+            if ( LOG.isDebugEnabled() ) {
+                LOG.debug( "Converting Delegation Member: " + member );
+            }
             if( activeInd != member.isActive() ) {
                 OrgReviewRole orgReviewRole = new OrgReviewRole();
-                orgReviewRole.setMemberId(member.getMemberId());
-                orgReviewRole.setMemberTypeCode(member.getType().getCode());
-                if ( member.getActiveFromDate() != null ) {
-                    orgReviewRole.setActiveFromDate(member.getActiveFromDate().toDate());
+                orgReviewRole.setDelegateMember(member);
+                if ( LOG.isDebugEnabled() ) {
+                    LOG.debug( "Converted To OrgReviewRole: " + orgReviewRole );
                 }
-                if ( member.getActiveToDate() != null ) {
-                    orgReviewRole.setActiveToDate(member.getActiveToDate().toDate());
-                }
-                orgReviewRole.setActive(member.isActive());
-                orgReviewRole.setFinancialSystemDocumentTypeCode(documentTypeName);
-
-                // this is the role for which this is a delegation
-                Role roleInfo = KimApiServiceLocator.getRoleService().getRole(member.getRoleMemberId());
-                KimType kimTypeInfo = KimApiServiceLocator.getKimTypeInfoService().getKimType(roleInfo.getKimTypeId());
-                orgReviewRole.setAttributes(orgReviewRole.getAttributeSetAsQualifierList(kimTypeInfo, member.getAttributes()));
-
-                orgReviewRole.setDelegationMemberId(member.getDelegationMemberId());
-                orgReviewRole.setRoleMemberId(member.getRoleMemberId());
-                orgReviewRole.setRoleId(member.getRoleMemberId());
-                orgReviewRole.setNamespaceCode(roleInfo.getNamespaceCode());
-                orgReviewRole.setRoleName(roleInfo.getName());
-                orgReviewRole.setDelegationTypeCode(member.getDelegationType().getCode());
-                orgReviewRole.setDelegate(true);
-
-                orgReviewRole.setChartOfAccountsCode(orgReviewRole.getAttributeValue(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE));
-                orgReviewRole.setOrganizationCode(orgReviewRole.getAttributeValue(KfsKimAttributes.ORGANIZATION_CODE));
-                orgReviewRole.setOverrideCode(orgReviewRole.getAttributeValue(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE));
-                orgReviewRole.setFromAmount(orgReviewRole.getAttributeValue(KfsKimAttributes.FROM_AMOUNT));
-                orgReviewRole.setToAmount(orgReviewRole.getAttributeValue(KfsKimAttributes.TO_AMOUNT));
-                orgReviewRole.setFinancialSystemDocumentTypeCode(orgReviewRole.getAttributeValue(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME));
-
                 orgReviewRoles.add(orgReviewRole);
             }
         }

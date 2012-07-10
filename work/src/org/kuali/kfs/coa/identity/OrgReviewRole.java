@@ -28,6 +28,7 @@ import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.service.OrgReviewRoleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
@@ -40,6 +41,7 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.common.delegate.DelegateMember;
 import org.kuali.rice.kim.api.common.delegate.DelegateMemberContract;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.role.RoleMemberContract;
 import org.kuali.rice.kim.api.role.RoleResponsibilityAction;
@@ -131,17 +133,15 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
 
     protected String principalMemberPrincipalId;
     protected String principalMemberPrincipalName;
+    protected String principalMemberName;
 
-    //The role id this object corresponds to
+    //The role id this object corresponds to ( org review / acct review )
     protected String roleId;
     protected String namespaceCode;
     protected String roleName;
 
     //Identifying information for a single member (of any type)
-    protected String memberId;
     protected String memberTypeCode;
-    protected String memberName;
-    protected String memberNamespaceCode;
 
     //In case the document is dealing with delegations
     protected String delegationTypeCode;
@@ -317,6 +317,14 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
         }
         return principalMemberPrincipalName;
     }
+
+    public String getPrincipalMemberName() {
+        if ( StringUtils.isBlank(principalMemberName) ) {
+            getPerson();
+        }
+        return principalMemberName;
+    }
+
     /**
      * Sets the principalMemberPrincipalName attribute value.
      * @param principalMemberPrincipalName The principalMemberPrincipalName to set.
@@ -463,20 +471,6 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
     }
 
     /**
-     * Gets the memberName attribute.
-     * @return Returns the memberName.
-     */
-    public String getMemberName() {
-        return memberName;
-    }
-    /**
-     * Sets the memberName attribute value.
-     * @param memberName The memberName to set.
-     */
-    public void setMemberName(String memberName) {
-        this.memberName = memberName;
-    }
-    /**
      * Gets the activeFromDate attribute.
      * @return Returns the activeFromDate.
      */
@@ -605,20 +599,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
     public void setDelegationTypeCode(String delegationTypeCode) {
         this.delegationTypeCode = delegationTypeCode;
     }
-    /**
-     * Gets the memberNamespaceCode attribute.
-     * @return Returns the memberNamespaceCode.
-     */
-    public String getMemberNamespaceCode() {
-        return memberNamespaceCode;
-    }
-    /**
-     * Sets the memberNamespaceCode attribute value.
-     * @param memberNamespaceCode The memberNamespaceCode to set.
-     */
-    public void setMemberNamespaceCode(String memberNamespaceCode) {
-        this.memberNamespaceCode = memberNamespaceCode;
-    }
+
     /**
      * Gets the memberTypeCode attribute.
      * @return Returns the memberTypeCode.
@@ -632,13 +613,6 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
      */
     public void setMemberTypeCode(String memberTypeCode) {
         this.memberTypeCode = memberTypeCode;
-    }
-    /**
-     * Sets the memberId attribute value.
-     * @param memberId The memberId to set.
-     */
-    public void setMemberId(String memberId) {
-        this.memberId = memberId;
     }
     /**
      * Sets the attributes attribute value.
@@ -834,6 +808,12 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
      * @param roleId The roleId to set.
      */
     public void setRoleId(String roleId) {
+        Role roleInfo = KimApiServiceLocator.getRoleService().getRole(roleId);
+        if ( roleInfo != null ) {
+            setNamespaceCode(roleInfo.getNamespaceCode());
+            setRoleName(roleInfo.getName());
+            setKimTypeId(roleInfo.getKimTypeId());
+        }
         this.roleId = roleId;
     }
     /**
@@ -916,6 +896,86 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
         return null;
     }
 
+    public void setRoleMember( RoleMemberContract roleMember ) {
+        memberTypeCode = roleMember.getType().getCode();
+        if(MemberType.ROLE.equals(roleMember.getType())){
+            roleMemberRoleId = roleMember.getMemberId();
+            roleMemberRoleNamespaceCode = roleMember.getMemberNamespaceCode();
+            roleMemberRoleName = roleMember.getMemberName();
+        } else if(MemberType.GROUP.equals(roleMember.getType())){
+            groupMemberGroupId = roleMember.getMemberId();
+            groupMemberGroupNamespaceCode = roleMember.getMemberNamespaceCode();
+            groupMemberGroupName = roleMember.getMemberName();
+        } else if(MemberType.PRINCIPAL.equals(roleMember.getType())){
+            principalMemberPrincipalId = roleMember.getMemberId();
+            principalMemberPrincipalName = roleMember.getMemberName();
+        }
+
+        if ( roleMember.getActiveFromDate() != null ) {
+            setActiveFromDate(roleMember.getActiveFromDate().toDate());
+        } else {
+            setActiveFromDate( null );
+        }
+        if ( roleMember.getActiveToDate() != null ) {
+            setActiveToDate(roleMember.getActiveToDate().toDate());
+        } else {
+            setActiveToDate( null );
+        }
+        setActive(roleMember.isActive());
+
+        setRoleMemberId(roleMember.getId());
+        setDelegate(false);
+        setRoleId(roleMember.getRoleId());
+
+        setRoleRspActions(KimApiServiceLocator.getRoleService().getRoleMemberResponsibilityActions(roleMember.getId()));
+
+        extractAttributesFromMap(roleMember.getAttributes());
+    }
+
+    public void extractAttributesFromMap( Map<String,String> attributes ) {
+        setAttributes(getAttributeSetAsQualifierList(attributes));
+
+
+        setChartOfAccountsCode(getAttributeValue(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE));
+        setOrganizationCode(getAttributeValue(KfsKimAttributes.ORGANIZATION_CODE));
+        setOverrideCode(getAttributeValue(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE));
+        setFromAmount(getAttributeValue(KfsKimAttributes.FROM_AMOUNT));
+        setToAmount(getAttributeValue(KfsKimAttributes.TO_AMOUNT));
+        setFinancialSystemDocumentTypeCode(getAttributeValue(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME));
+    }
+
+    public void setDelegateMember( DelegateMemberContract roleMember ) {
+        memberTypeCode = roleMember.getType().getCode();
+        if(MemberType.ROLE.equals(roleMember.getType())){
+            roleMemberRoleId = roleMember.getMemberId();
+            getRole();
+//            roleMemberRoleNamespaceCode = roleMember.getMemberNamespaceCode();
+//            roleMemberRoleName = roleMember.getMemberName();
+        } else if(MemberType.GROUP.equals(roleMember.getType())){
+            groupMemberGroupId = roleMember.getMemberId();
+            getGroup();
+//            groupMemberGroupNamespaceCode = roleMember.getMemberNamespaceCode();
+//            groupMemberGroupName = roleMember.getMemberName();
+        } else if(MemberType.PRINCIPAL.equals(roleMember.getType())){
+            principalMemberPrincipalId = roleMember.getMemberId();
+            getPerson();
+//            principalMemberPrincipalName = roleMember.getMemberName();
+        }
+
+        if ( roleMember.getActiveFromDate() != null ) {
+            setActiveFromDate(roleMember.getActiveFromDate().toDate());
+        }
+        if ( roleMember.getActiveToDate() != null ) {
+            setActiveToDate(roleMember.getActiveToDate().toDate());
+        }
+        setActive(roleMember.isActive());
+        setDelegate(true);
+        setDelegationMemberId(roleMember.getDelegationMemberId());
+        setRoleMemberId(roleMember.getRoleMemberId());
+
+        extractAttributesFromMap(roleMember.getAttributes());
+    }
+
 //    public String getMemberIdForDelegationMember(String memberTypeCode){
 //        KfsKimDocDelegateMember member = getDelegationMemberOfType(memberTypeCode);
 //        return member!=null?member.getMemberId():null;
@@ -925,6 +985,40 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
 //        KfsKimDocRoleMember member = getRoleMemberOfType(memberTypeCode);
 //        return member!=null?member.getMemberId():null;
 //    }
+
+
+    public String getMemberId() {
+        if(MemberType.ROLE.getCode().equals(memberTypeCode)){
+            return getRoleMemberRoleId();
+        } else if(MemberType.GROUP.getCode().equals(memberTypeCode)){
+            return getGroupMemberGroupId();
+        } else if(MemberType.PRINCIPAL.getCode().equals(memberTypeCode)){
+            return getPrincipalMemberPrincipalId();
+        }
+        return "";
+    }
+
+    public String getMemberName() {
+        if(MemberType.ROLE.getCode().equals(memberTypeCode)){
+            return getRoleMemberRoleName();
+        } else if(MemberType.GROUP.getCode().equals(memberTypeCode)){
+            return getGroupMemberGroupName();
+        } else if(MemberType.PRINCIPAL.getCode().equals(memberTypeCode)){
+            return getPrincipalMemberName();
+        }
+        return "";
+    }
+
+    public String getMemberNamespaceCode() {
+        if(MemberType.ROLE.getCode().equals(memberTypeCode)){
+            return getRoleMemberRoleNamespaceCode();
+        } else if(MemberType.GROUP.getCode().equals(memberTypeCode)){
+            return getGroupMemberGroupNamespaceCode();
+        } else if(MemberType.PRINCIPAL.getCode().equals(memberTypeCode)){
+            return "";
+        }
+        return "";
+    }
 
     public String getMemberFieldName( MemberType memberType ){
         if(MemberType.ROLE.equals(memberType)) {
@@ -938,13 +1032,6 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
     }
 
     /**
-     * Gets the memberId attribute.
-     * @return Returns the memberId.
-     */
-    public String getMemberId() {
-        return memberId;
-    }
-    /**
      * Gets the memberTypeCode attribute.
      * @return Returns the memberTypeCode.
      */
@@ -956,6 +1043,18 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
      * @return Returns the group.
      */
     public GroupEbo getGroup() {
+        if ( group == null || !StringUtils.equals(group.getId(), groupMemberGroupId)) {
+            ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(GroupEbo.class);
+            if ( moduleService != null ) {
+                Map<String,Object> keys = new HashMap<String, Object>(1);
+                keys.put(KimConstants.PrimaryKeyConstants.ID, groupMemberGroupId);
+                group = moduleService.getExternalizableBusinessObject(GroupEbo.class, keys);
+                groupMemberGroupNamespaceCode = group.getNamespaceCode();
+                groupMemberGroupName = group.getName();
+            } else {
+                throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
+            }
+        }
         return group;
     }
     /**
@@ -978,6 +1077,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
             person = KimApiServiceLocator.getPersonService().getPerson(principalMemberPrincipalId);
             if ( person != null ) {
                 principalMemberPrincipalName = person.getPrincipalName();
+                principalMemberName = person.getName();
             }
         }
         return person;
@@ -991,6 +1091,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
         if ( person != null ) {
             principalMemberPrincipalName = person.getPrincipalName();
             principalMemberPrincipalId = person.getPrincipalId();
+            principalMemberName = person.getName();
         }
     }
 
@@ -999,12 +1100,14 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
      * @return Returns the role.
      */
     public RoleEbo getRole() {
-        if ( role == null || !StringUtils.equals(role.getId(), roleId)) {
+        if ( role == null || !StringUtils.equals(role.getId(), roleMemberRoleId)) {
             ModuleService moduleService = SpringContext.getBean(KualiModuleService.class).getResponsibleModuleService(RoleEbo.class);
             if ( moduleService != null ) {
                 Map<String,Object> keys = new HashMap<String, Object>(1);
-                keys.put(KimConstants.PrimaryKeyConstants.ID, roleId);
+                keys.put(KimConstants.PrimaryKeyConstants.ID, roleMemberRoleId);
                 role = moduleService.getExternalizableBusinessObject(RoleEbo.class, keys);
+                roleMemberRoleNamespaceCode = role.getNamespaceCode();
+                roleMemberRoleName = role.getName();
             } else {
                 throw new RuntimeException( "CONFIGURATION ERROR: No responsible module found for EBO class.  Unable to proceed." );
             }
@@ -1343,15 +1446,15 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
         return m;
     }
 
-    public List<KfsKimDocumentAttributeData> getAttributeSetAsQualifierList(
-            KimType typeInfo, Map<String,String> qualifiers) {
+    public List<KfsKimDocumentAttributeData> getAttributeSetAsQualifierList( Map<String,String> qualifiers) {
+        KimType kimTypeInfo = KimApiServiceLocator.getKimTypeInfoService().getKimType(kimTypeId);
         List<KfsKimDocumentAttributeData> attributesList = new ArrayList<KfsKimDocumentAttributeData>();
         KfsKimDocumentAttributeData attribData;
         for(String key: qualifiers.keySet()){
-            KimTypeAttribute attribInfo = typeInfo.getAttributeDefinitionByName(key);
+            KimTypeAttribute attribInfo = kimTypeInfo.getAttributeDefinitionByName(key);
             attribData = new KfsKimDocumentAttributeData();
             attribData.setKimAttribute(attribInfo.getKimAttribute());
-            attribData.setKimTypId(typeInfo.getId());
+            attribData.setKimTypId(kimTypeInfo.getId());
             attribData.setKimAttrDefnId(attribInfo.getId());
             //attribData.setAttrDataId(attrDataId) - Not Available
             attribData.setAttrVal(qualifiers.get(key));

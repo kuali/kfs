@@ -35,6 +35,7 @@ import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 @NonTransactional
 public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsModuleService {
@@ -63,7 +64,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
      * @see org.kuali.kfs.integration.service.ContractsAndGrantsModuleService#getProjectDirectorForAccount(org.kuali.kfs.coa.businessobject.Account)
      */
     public Person getProjectDirectorForAccount(Account account) {
-        if (account != null) {
+        if (ObjectUtils.isNotNull(account) && StringUtils.isNotBlank(account.getAccountNumber())) {
             String chartOfAccountsCode = account.getChartOfAccountsCode();
             String accountNumber = account.getAccountNumber();
             return this.getProjectDirectorForAccount(chartOfAccountsCode, accountNumber);

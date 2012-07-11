@@ -64,7 +64,9 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
      * @see org.kuali.kfs.integration.service.ContractsAndGrantsModuleService#getProjectDirectorForAccount(org.kuali.kfs.coa.businessobject.Account)
      */
     public Person getProjectDirectorForAccount(Account account) {
-        if (ObjectUtils.isNotNull(account) && StringUtils.isNotBlank(account.getAccountNumber())) {
+        
+        if (ObjectUtils.isNotNull(account)) {
+            account.refreshNonUpdateableReferences();
             String chartOfAccountsCode = account.getChartOfAccountsCode();
             String accountNumber = account.getAccountNumber();
             return this.getProjectDirectorForAccount(chartOfAccountsCode, accountNumber);

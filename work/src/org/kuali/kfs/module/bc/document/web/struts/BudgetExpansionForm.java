@@ -18,6 +18,9 @@ package org.kuali.kfs.module.bc.document.web.struts;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.kuali.kfs.module.bc.BCConstants;
 import org.kuali.rice.kns.util.MessageList;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
@@ -263,4 +266,16 @@ public class BudgetExpansionForm extends KualiForm {
     public void setMainWindow(boolean mainWindow) {
         this.mainWindow = mainWindow;
     }
+
+    /**
+     * checks for lost session
+     * 
+     * @param request
+     * @return
+     */
+    protected boolean isLostSessionDetected(HttpServletRequest request) {
+        HttpSession sesCheck = request.getSession(false);
+        return (sesCheck == null || sesCheck.isNew());
+    }
+
 }

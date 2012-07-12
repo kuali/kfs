@@ -18,6 +18,8 @@ package org.kuali.kfs.module.bc.document.web.struts;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionObjectPick;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionReasonCodePick;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionReportThresholdSettings;
@@ -51,6 +53,14 @@ public class OrganizationReportSelectionForm extends BudgetExpansionForm {
         reasonCodePickList = new ArrayList<BudgetConstructionReasonCodePick>();
 
         budgetConstructionReportThresholdSettings = new BudgetConstructionReportThresholdSettings();
+    }
+
+    @Override
+    public void populate(HttpServletRequest request) {
+
+        if (!this.isLostSessionDetected(request)){
+            super.populate(request);
+        }
     }
 
     /**

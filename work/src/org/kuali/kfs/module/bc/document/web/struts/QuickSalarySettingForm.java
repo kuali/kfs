@@ -46,10 +46,11 @@ public class QuickSalarySettingForm extends SalarySettingBaseForm {
      */
     @Override
     public void populate(HttpServletRequest request) {
-        super.populate(request);
-
-        this.populateBCAFLines();
-
+        
+        if (!this.isLostSessionDetected(request)){
+            super.populate(request);
+            this.populateBCAFLines();
+        }
     }
 
     /**

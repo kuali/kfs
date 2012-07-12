@@ -77,10 +77,11 @@ public class OrganizationSelectionTreeForm extends BudgetExpansionForm {
     @Override
     public void populate(HttpServletRequest request) {
 
-        super.populate(request);
-        populatePreviousBranchOrgs();
-        populateSelectionSubTreeOrgs();
-
+        if (!this.isLostSessionDetected(request)){
+            super.populate(request);
+            populatePreviousBranchOrgs();
+            populateSelectionSubTreeOrgs();
+        }
     }
 
     public void populateSelectionSubTreeOrgs() {

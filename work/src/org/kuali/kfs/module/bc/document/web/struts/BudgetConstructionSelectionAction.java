@@ -127,6 +127,13 @@ public class BudgetConstructionSelectionAction extends BudgetExpansionAction {
                     return mapping.findForward(KFSConstants.MAPPING_BASIC);
                 }
             }
+        } else {
+            // cleanup anyway to handle back door lost session case
+            GlobalVariables.getUserSession().removeObjectsByPrefix(BCConstants.FORMKEY_PREFIX);
+
+            // clear out any session object form attribute
+            HttpSession sess = request.getSession(Boolean.FALSE);
+            sess.removeAttribute(BCConstants.MAPPING_ATTRIBUTE_KUALI_FORM);
         }
 
 

@@ -45,6 +45,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
@@ -66,6 +68,7 @@ import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
 import org.kuali.kfs.module.tem.businessobject.SpecialCircumstances;
 import org.kuali.kfs.module.tem.businessobject.TEMExpense;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
+import org.kuali.kfs.module.tem.businessobject.TemAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode;
 import org.kuali.kfs.module.tem.businessobject.TransportationModeDetail;
@@ -149,7 +152,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     private List<PropertyChangeListener> propertyChangeListeners = new ArrayList<PropertyChangeListener>();
 
     @Transient
-    private Map disabledProperties;
+    private Map<String, String> disabledProperties;
     
     @Transient
     private Boolean taxSelectable = Boolean.TRUE;
@@ -671,6 +674,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#toCopy()
      */
+    @SuppressWarnings("rawtypes")
     @Override
     public void toCopy() throws WorkflowException {      
         super.toCopy();
@@ -711,7 +715,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      * @return
      */
     protected String getSpecialCircumstancesSequenceName() {
-        Class boClass = SpecialCircumstances.class;
+        Class<?> boClass = SpecialCircumstances.class;
         String retval = "";
         try {
             boolean rethrow = true;
@@ -1147,9 +1151,9 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      * Gets the disabledProperties attribute. 
      * @return Returns the disabledProperties.
      */
-    public Map<String,String> getDisabledProperties() {
+    public Map<String, String> getDisabledProperties() {
         if (disabledProperties == null){
-            disabledProperties = new HashMap<String,String>();
+            disabledProperties = new HashMap<String, String>();
         }
         return disabledProperties;
     }
@@ -1158,7 +1162,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
      * Sets the disabledProperties attribute value.
      * @param disabledProperties The disabledProperties to set.
      */
-    public void setDisabledProperties(Map disabledProperties) {
+    public void setDisabledProperties(Map<String, String> disabledProperties) {
         this.disabledProperties = disabledProperties;
     }
     
@@ -1363,6 +1367,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     /**
      * @see org.kuali.rice.kns.document.DocumentBase#buildListOfDeletionAwareLists()
      */
+    @SuppressWarnings("rawtypes")
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
@@ -1824,13 +1829,14 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         return false;
     }
     
+    /**
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#getGeneralLedgerPendingEntrySourceDetails()
+     */
     @Override
     public List<GeneralLedgerPendingEntrySourceDetail> getGeneralLedgerPendingEntrySourceDetails() {
         List<GeneralLedgerPendingEntrySourceDetail> accountingLines = new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
         if (getSourceAccountingLines() != null) {
-            Iterator iter = getSourceAccountingLines().iterator();
-            while (iter.hasNext()) {
-                TemSourceAccountingLine line = (TemSourceAccountingLine) iter.next();
+            for (TemSourceAccountingLine line : (List<TemSourceAccountingLine>)getSourceAccountingLines()){
                 if (line.getCardType().equals(TemConstants.ACTUAL_EXPENSE)){
                     accountingLines.add((GeneralLedgerPendingEntrySourceDetail) line);
                 }              
@@ -1883,7 +1889,46 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
             }            
         }
     }
+
+    /**
+     * Perform business rules common to all TEM documents when generating general ledger pending entries. Do not generate the
+     * entries if the card type is of ACTUAL Expense
+     * 
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#generateGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail,
+     *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
+     */
+    @Override
+    public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        LOG.info("processGenerateGeneralLedgerPendingEntries for TEMReimbursementDocument - start");
+
+        boolean success = true;
+        boolean doGenerate = true;
+
+        // special handling for TEMAccountingLine
+        if (glpeSourceDetail instanceof TemAccountingLine) {
+
+            // salesTax seems to be a problem on loading the doc, just filtering this from the output
+            LOG.info(new ReflectionToStringBuilder(glpeSourceDetail, ToStringStyle.MULTI_LINE_STYLE).setExcludeFieldNames(new String[] { "salesTax" }).toString());
+
+            // check by cardType
+            String cardType = ((TemAccountingLine) glpeSourceDetail).getCardType();
+            // do not generate entries for ACTUAL Expenses - DV will handle them
+            doGenerate = !TemConstants.ACTUAL_EXPENSE.equals(cardType);
+
+            if (!doGenerate) {
+                LOG.debug("GLPE processing was skipped for " + glpeSourceDetail + "\n for card type" + cardType);
+            }
+        }
+
+        success = doGenerate ? super.generateGeneralLedgerPendingEntries(glpeSourceDetail, sequenceHelper) : success;
+
+        LOG.info("processGenerateGeneralLedgerPendingEntries for TEMReimbursementDocument - end");
+        return success;
+    }
     
+    /**
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#generateDocumentGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
+     */
     @Override
     public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         getTravelExpenseService().getExpenseServiceByType(ExpenseType.importedCTS).processExpense(this);

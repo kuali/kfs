@@ -7,7 +7,7 @@
 		<comment>KFSMI-7175 We need to add a column to FP_CPTL_AST_INFO_T and CM_AST_PMT_DOC_T tables for enhancement work on KFSMI-7106</comment>
  -->
 
-	<changeSet author="KFS50" id="KFSMI-7011_tables">
+	<changeSet author="KFS50" id="KFSMI-7175_tables">
 		<dropForeignKeyConstraint baseTableName="FP_CPTL_AST_INFO_DTL_T" constraintName="FP_CPTL_AST_INFO_DTL_TR1" />
 		<dropPrimaryKey tableName="FP_CPTL_AST_INFO_T" />	
 		<dropPrimaryKey tableName="FP_CPTL_AST_INFO_DTL_T" />

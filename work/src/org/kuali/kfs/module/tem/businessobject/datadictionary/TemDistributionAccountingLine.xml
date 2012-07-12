@@ -101,14 +101,7 @@
 	</bean>
 
 	<bean id="TemDistributionAccountingLine-cardType" parent="TemDistributionAccountingLine-cardType-parentBean" />
-	<bean id="TemDistributionAccountingLine-cardType-parentBean" parent="AttributeDefinition">
-		<property name="name" value="cardType" />
-		<property name="label" value="Card Type" />
-		<property name="shortLabel" value="Card Type" />
-		<property name="maxLength" value="10" />
-		<property name="required" value="false" />
-		<property name="summary" value="Card Type" />
-		<property name="description" value="Card Type" />
-      <property name="control"><bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.CardTypeValuesFinder" p:includeKeyInLabel="false"/></property>
+	<bean id="TemDistributionAccountingLine-cardType-parentBean" parent="ImportedExpense-cardType-parentBean">
+		<property name="control"><bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.CardTypeValuesFinder" p:includeKeyInLabel="false"/></property>
 	</bean>
 </beans>

@@ -30,17 +30,21 @@
 						<div align="right">add:</div>
 					</th>
 				</c:if>
-				<td align="left" class="infoline">
+				<td class="infoline">
+					<div align="center">
 					<kul:htmlControlAttribute
 						attributeEntry="${importedExpenseAttributes.cardType}"
 						property="${expense}.cardType" 
 						readOnly="true" />
+					</div>
 				</td>
-				<td valign="top" class="infoline">
+				<td class="infoline">
+					<div align="center">
 					<kul:htmlControlAttribute
 						attributeEntry="${importedExpenseAttributes.expenseDate}"
 						property="${expense}.expenseDate"
 						readOnly="true" />
+					</div>
 				</td>
 				<td valign="top" class="infoline">
 					<c:choose>

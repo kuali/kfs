@@ -57,8 +57,8 @@
 	<bean id="ImportedExpense-cardType" parent="ImportedExpense-cardType-parentBean" />
 	<bean id="ImportedExpense-cardType-parentBean" parent="AttributeDefinition">
 		<property name="name" value="cardType" />
-		<property name="label" value="Card Type" />
-		<property name="shortLabel" value="Card Type" />
+		<property name="label" value="Card or Agency Type" />
+		<property name="shortLabel" value="Card or Agency Type" />
 		<property name="maxLength" value="40" />
 		<property name="required" value="false" />
 		<property name="summary" value="Card Type" />

@@ -74,7 +74,7 @@
 							${KualiForm.document.historicalTravelExpenses[ctr].agencyStagingData.agency}
 						</c:when>
 						<c:otherwise>
-							${KualiForm.document.historicalTravelExpenses[ctr].creditCardAgency.creditCardType.financialDocumentCreditCardCompanyName}
+							${KualiForm.document.historicalTravelExpenses[ctr].creditCardAgency.creditCardOrAgencyCode}
 						</c:otherwise>
 					</c:choose>
 				</div>

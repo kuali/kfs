@@ -155,7 +155,7 @@ public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase 
         GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper(travelDocument.getGeneralLedgerPendingEntries().size()+1);
         //create glpe's for just corp cards;
         for (TemSourceAccountingLine line : (List<TemSourceAccountingLine>)travelDocument.getSourceAccountingLines()){
-            if (!line.getCardType().equals(TemConstants.NOT_APPLICABLE)
+            if (!line.getCardType().equals(TemConstants.ACTUAL_EXPENSE)
                     && !line.getCardType().equals(TemConstants.CARD_TYPE_CTS)){
                 ExpenseUtils.generateImportedExpenseGeneralLedgerPendingEntries(travelDocument, line, sequenceHelper, false, travelDocument.getFinancialDocumentTypeCode());
             }
@@ -177,7 +177,7 @@ public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase 
         Map<String,KualiDecimal> accountingLineMap = new HashMap<String, KualiDecimal>();
         for (TemSourceAccountingLine line : lines){
            if (!line.getCardType().equals(TemConstants.CARD_TYPE_CTS)
-                   && !line.getCardType().equals(TemConstants.NOT_APPLICABLE)){
+                   && !line.getCardType().equals(TemConstants.ACTUAL_EXPENSE)){
                String key = line.getCardType();
                KualiDecimal amount = line.getAmount();
                if (accountingLineMap.containsKey(key)){

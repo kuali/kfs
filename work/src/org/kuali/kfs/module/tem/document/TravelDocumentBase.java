@@ -1831,7 +1831,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
             Iterator iter = getSourceAccountingLines().iterator();
             while (iter.hasNext()) {
                 TemSourceAccountingLine line = (TemSourceAccountingLine) iter.next();
-                if (line.getCardType().equals(TemConstants.NOT_APPLICABLE)){
+                if (line.getCardType().equals(TemConstants.ACTUAL_EXPENSE)){
                     accountingLines.add((GeneralLedgerPendingEntrySourceDetail) line);
                 }              
             }

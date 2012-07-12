@@ -50,6 +50,23 @@ public class HistoricalTravelExpense extends ImportedExpenseBase {
     private CreditCardStagingData creditCardStagingData;
     private AgencyStagingData agencyStagingData;
     
+    /**
+     * If CreditCardStagingDataId is null, this is agency data (CTS)
+     * 
+     * @return
+     */
+    public boolean isAgencyTravelExpense(){
+        return getCreditCardStagingDataId() == null;
+    }
+
+    /**
+     * is credit card travel expense if it is not agency travel expense
+     * 
+     * @return
+     */
+    public boolean isCreditCardTravelExpense(){
+        return !isAgencyTravelExpense();
+    }
 
     /**
      * Gets the creditCardStagingData attribute. 

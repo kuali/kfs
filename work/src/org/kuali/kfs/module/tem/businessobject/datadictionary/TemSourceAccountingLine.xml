@@ -73,14 +73,7 @@
 
 	<!-- Attribute Definitions -->
 	<bean id="TemSourceAccountingLine-cardType" parent="TemSourceAccountingLine-cardType-parentBean" />
-	<bean id="TemSourceAccountingLine-cardType-parentBean" parent="AttributeDefinition">
-		<property name="name" value="cardType" />
-		<property name="label" value="Card Type" />
-		<property name="shortLabel" value="Card Type" />
-		<property name="maxLength" value="40" />
-		<property name="required" value="true" />
-		<property name="summary" value="Card Type" />
-		<property name="description" value="Card Type" />
+	<bean id="TemSourceAccountingLine-cardType-parentBean" parent="ImportedExpense-cardType-parentBean">
       <property name="control"><bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.CardTypeValuesFinder" p:includeKeyInLabel="false"/></property>
 	</bean>
 </beans>

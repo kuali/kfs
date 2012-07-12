@@ -18,9 +18,11 @@ package org.kuali.kfs.module.tem.businessobject.options;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.businessobject.AccommodationType;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
@@ -33,23 +35,28 @@ import org.kuali.rice.kns.util.GlobalVariables;
 
 public class CardTypeValuesFinder extends KeyValuesBase {
 
-
+    /**
+     * Get the card type values based on available imported expenses
+     * 
+     * Always include actual expense as the first option on the type
+     * 
+     * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     */
     @Override
-    public List getKeyValues() {
-        List keyValues = new ArrayList();
-
+    public List<KeyLabelPair> getKeyValues() {
         List<ImportedExpense> importedExpenses = ((TravelFormBase)GlobalVariables.getKualiForm()).getTravelDocument().getImportedExpenses();
-        Map<String,String> map = new HashMap<String, String>();
-        keyValues.add(new KeyLabelPair(TemConstants.NOT_APPLICABLE, TemConstants.NOT_APPLICABLE));
+        Map<String,KeyLabelPair> map = new LinkedHashMap<String, KeyLabelPair>();
+        
+        //default to always include actual expense type 
+        map.put(TemConstants.ACTUAL_EXPENSE, new KeyLabelPair(TemConstants.ACTUAL_EXPENSE, TemConstants.ACTUAL_EXPENSE));
+        
         for (ImportedExpense expense : importedExpenses) {
-            String cardType = expense.getCardType();
-            if (cardType != null && !map.containsKey(cardType)){
-                keyValues.add(new KeyLabelPair(cardType,cardType));
-                map.put(cardType, cardType);
+            String cardType = StringUtils.defaultString(expense.getCardType());
+            if (!map.containsKey(cardType)){
+                map.put(cardType, new KeyLabelPair(cardType,cardType));
             }
         }
-
-        return keyValues;
+        return new ArrayList<KeyLabelPair>(map.values());
     }
 
 }

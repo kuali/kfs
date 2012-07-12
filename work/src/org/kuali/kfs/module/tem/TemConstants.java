@@ -523,7 +523,6 @@ public class TemConstants extends JSTLConstants {
     public static final String EXPENSE_ACTUAL = "A";
 
     public static final String CARD_TYPE_CTS = "CTS";
-    public static final String CARD_TYPE_CORPCARD = "Corporate";
 
     public static final String ACCOUNTING_LINE_INDEX = "-1";
     public static final String DIST_ACCOUNTING_LINE_INDEX = "-2";

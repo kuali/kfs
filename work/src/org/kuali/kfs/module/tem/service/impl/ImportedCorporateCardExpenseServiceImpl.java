@@ -143,7 +143,8 @@ public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase 
     @Override
     public boolean validateExpenseCalculation(TEMExpense expense){
         return (expense instanceof ImportedExpense)
-                && StringUtils.defaultString(((ImportedExpense)expense).getCardType()).equals(TemConstants.CARD_TYPE_CORPCARD);
+                && ((ImportedExpense)expense).getCardType() != null
+                && !StringUtils.defaultString(((ImportedExpense)expense).getCardType()).equals(TemConstants.CARD_TYPE_CTS);
     }
     
     /**

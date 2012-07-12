@@ -4,16 +4,12 @@
 	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
 	<changeSet author="KFS50" id='PDP_PMT_GRP_T'>
 		<comment>KFSMI-KFMI-7042 Modify column sizes for PDP address </comment>
-		<modifyColumn tableName='PDP_PMT_GRP_T'>
-			<column name='PMT_LN1_ADDR' type='VARCHAR2(55)' />
-			<column name='PMT_LN2_ADDR' type='VARCHAR2(55)' />
-			<column name='PMT_LN3_ADDR' type='VARCHAR2(55)' />
-			<column name='PMT_LN4_ADDR' type='VARCHAR2(55)' />
-		</modifyColumn>
-		<modifyColumn tableName='PDP_ACH_BNK_T'>
-			<column name='BNK_STR_ADDR' type='VARCHAR2(45)' />
-		</modifyColumn>
-		<comment>KFSMI-KFSMI-7125 Add Customer Institution Number to Payment Detail table</comment>
+		<modifyDataType tableName='PDP_PMT_GRP_T' columnName='PMT_LN1_ADDR' newDataType='VARCHAR2(55)' />
+		<modifyDataType tableName='PDP_PMT_GRP_T' columnName='PMT_LN2_ADDR' newDataType='VARCHAR2(55)' />
+		<modifyDataType tableName='PDP_PMT_GRP_T' columnName='PMT_LN3_ADDR' newDataType='VARCHAR2(55)' />
+		<modifyDataType tableName='PDP_PMT_GRP_T' columnName='PMT_LN4_ADDR' newDataType='VARCHAR2(55)' />
+		<modifyDataType tableName='PDP_ACH_BNK_T' columnName='BNK_STR_ADDR' newDataType='VARCHAR2(45)' />
+
 		<addColumn tableName='PDP_PMT_DTL_T'>
 			<column name='CUST_INST_NBR' type='VARCHAR2(30)' />
 		</addColumn>

@@ -38,21 +38,21 @@
 		<addColumn tableName='PUR_REQS_T'>
 			<column name='ACCT_DISTR_MTD_IND' type='VARCHAR2(1)' defaultValue='P' />
 		</addColumn>
-		<modifyColumn tableName='PUR_REQS_ACCT_T'>
-			<column name='ACLN_PCT' type='NUMBER(35,20)' />
-		</modifyColumn>
+
+		<modifyDataType tableName='PUR_REQS_ACCT_T' columnName='ACLN_PCT' newDataType='NUMBER(35,20)' />
 		<addColumn tableName='PUR_REQS_ACCT_T'>
 			<column name='FDOC_LINE_NBR' type='NUMBER(7,0)' />
 		</addColumn>
+
 		<addColumn tableName='PUR_PO_T'>
 			<column name='ACCT_DISTR_MTD_IND' type='VARCHAR2(1)' defaultValue='P' />
 		</addColumn>
-		<modifyColumn tableName='PUR_PO_ACCT_T'>
-			<column name='ACLN_PCT' type='NUMBER(35,20)' />
-		</modifyColumn>
+
+		<modifyDataType tableName='PUR_PO_ACCT_T' columnName='ACLN_PCT' newDataType='NUMBER(35,20)' />
 		<addColumn tableName='PUR_PO_ACCT_T'>
 			<column name='FDOC_LINE_NBR' type='NUMBER(7,0)' />
 		</addColumn>
+
 		<addColumn tableName='AP_PMT_RQST_T'>
 			<column name='ACCT_DISTR_MTD_IND' type='VARCHAR2(1)' defaultValue='P' />
 		</addColumn>
@@ -60,9 +60,11 @@
 		<addColumn tableName='AP_PMT_RQST_ACCT_T'>
 			<column name='FDOC_LINE_NBR' type='NUMBER(7,0)' />
 		</addColumn>
+
 		<addColumn tableName='AP_CRDT_MEMO_T'>
 			<column name='ACCT_DISTR_MTD_IND' type='VARCHAR2(1)' defaultValue='P' />
 		</addColumn>
+
 		<addColumn tableName='AP_CRDT_MEMO_ACCT_T'>
 			<column name='FDOC_LINE_NBR' type='NUMBER(7,0)' />
 		</addColumn>

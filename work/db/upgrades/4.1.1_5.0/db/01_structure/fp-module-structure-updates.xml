@@ -21,17 +21,13 @@
 			<column name="CPTLAST_DST_AMT_CD" type="VARCHAR2(1)" defaultValue="1" />
 		</addColumn>
 		
-		<modifyColumn tableName="FP_CPTL_AST_INFO_T">
-			<column name="CPTLAST_DESC" type="VARCHAR2(4000)" />
-		</modifyColumn>
+		<modifyDataType tableName="FP_CPTL_AST_INFO_T" columnName="CPTLAST_DESC" newDataType="VARCHAR2(4000)" />
 
 		<addColumn tableName="FP_CPTL_AST_INFO_DTL_T">
 			<column name="CPTLAST_LINE_NBR" type="NUMBER(7,0)" defaultValueNumeric="1" />
 		</addColumn>
 
-		<modifyColumn tableName="FP_CPTL_AST_INFO_DTL_T">
-			<column name="ITM_LN_NBR" type="NUMBER(7,0)" />
-		</modifyColumn>
+		<modifyDataType tableName="FP_CPTL_AST_INFO_DTL_T" columnName="ITM_LN_NBR" newDataType="NUMBER(7,0)" />
 
 		<addPrimaryKey tableName="FP_CPTL_AST_INFO_T" constraintName="FP_CPTL_AST_INFO_TP1" 
 					   columnNames="FDOC_NBR, CPTLAST_LINE_NBR" />

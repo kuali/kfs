@@ -14,7 +14,9 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<project name="kfs" default="help" basedir=".">
+<project name="kfs" default="help" basedir="."
+	xmlns:rsel="antlib:org.apache.tools.ant.types.resources.selectors"
+    xmlns:rcmp="antlib:org.apache.tools.ant.types.resources.comparators">
 	<!-- run the help target to view usage instructions for public targets -->
 
 	<taskdef resource="net/sf/antcontrib/antlib.xml">
@@ -1314,6 +1316,58 @@ Admin Password = $${impex.admin.password} (not shown)
 		</java>			
 	</target>
 
+
+	<target name="run-liquibase-dir" depends="init-properties" description="Runs the directory of liquibase files pointed to by the 'dir.name' property into the main datasource.  Files will be run in alphanumeric order.">
+	    <for param="file.name" keepgoing="false" parallel="false">
+	        <path>
+	          <!-- ensure that the files are run in name order -->
+	        	<sort>
+	            	<fileset dir="${dir.name}" includes="*.xml"/>
+	        		<rcmp:name />
+	            </sort>
+	        </path>
+		    <sequential>
+				<liquibase fileName="@{file.name}" />
+		    </sequential>
+	    </for>
+	</target>
+
+	<target name="run-liquibase-file" depends="init-properties" description="Runs the liquibase file pointed to by the 'file.name' property into the main datasource.">
+		<liquibase fileName="${file.name}" />
+	</target>
+	
+	
+	<macrodef name="liquibase">
+    	<attribute name="fileName" />
+		<attribute name="command" default="update" />
+	    <sequential>
+		    <path id="driver.classpath.for.liquibase" >
+			    <fileset dir="${drivers.directory}" >
+				    <include name="*.jar"/>
+			    </fileset>
+		    </path>
+		    <!-- need to keep back-slashes out of the path -->
+		    <pathconvert refid="driver.classpath.for.liquibase" property="driver.classpath.for.liquibase.string" dirsep="/" />
+	        <echo message="Running Liquibase ChangeLog: @{fileName}"/>
+		    <java jar="${build.directory}/liquibase-2.0.5.jar" 
+				    failonerror="true" 
+				    fork="true"
+				    dir="${post.import.liquibase.xml.directory}" >
+			    <arg value="--driver=${datasource.driver.class}"/>
+			    <arg value="--classpath=${driver.classpath.for.liquibase.string}"/>
+			    <arg value="--url=${database.url}"/>
+				<arg value="--username=${database.username}"/>
+				<arg value="--password=${database.password}"/>
+			    <!--<arg value="- -defaultSchemaName=${import.torque.database.schema}"/>-->
+			    <arg value="--changeLogFile=@{fileName}"/>
+			    <arg value="--logLevel=debug"/>
+			    <!--<arg value="- -contexts=${post.import.liquibase.contexts}"/>-->
+			    <arg value="@{command}"/>
+		    </java>
+	    </sequential>
+	</macrodef>
+	        		
+	
 	<target name="clean-tomcat-config" depends="init-properties">
 		<echo>Clearing out web configuration files</echo>
 		<mkdir dir="${appserver.localhost.dir}" />

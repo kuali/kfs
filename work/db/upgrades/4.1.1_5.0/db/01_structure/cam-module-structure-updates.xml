@@ -38,24 +38,12 @@
 
 	<changeSet author="KFS50" id="KFSMI-6889_structure">
 		<comment>KFSMI-6889 Extend the column size for CPTLAST_DESC field </comment>
-		<modifyColumn tableName="CB_PRTG_T">
-			<column name="CPTLAST_TOPS_DESC" type="VARCHAR2(4000)" />
-		</modifyColumn>
-		<modifyColumn tableName="CM_CPTLAST_T">
-			<column name="CPTLAST_DESC" type="VARCHAR2(4000)" />
-		</modifyColumn>
-		<modifyColumn tableName="CM_AST_RETIRE_DOC_T">
-			<column name="MERGED_TGT_CPTLAST_DESC" type="VARCHAR2(4000)" />
-		</modifyColumn>
-		<modifyColumn tableName="CM_CPTLAST_DOC_T">
-			<column name="CPTLAST_DESC" type="VARCHAR2(4000)" />
-		</modifyColumn>
-		<modifyColumn tableName="CM_CPTLAST_DTL_T">
-			<column name="CPTLAST_DESC" type="VARCHAR2(4000)" />
-		</modifyColumn>
-		<modifyColumn tableName="FP_CPTL_AST_INFO_T">
-			<column name="CPTLAST_DESC" type="VARCHAR2(4000)" />
-		</modifyColumn>
+		<modifyDataType tableName="CB_PRTG_T" columnName="CPTLAST_TOPS_DESC" newDataType="VARCHAR2(4000)" />
+		<modifyDataType tableName="CM_CPTLAST_T" columnName="CPTLAST_DESC" newDataType="VARCHAR2(4000)" />
+		<modifyDataType tableName="CM_AST_RETIRE_DOC_T" columnName="MERGED_TGT_CPTLAST_DESC" newDataType="VARCHAR2(4000)" />
+		<modifyDataType tableName="CM_CPTLAST_DOC_T" columnName="CPTLAST_DESC" newDataType="VARCHAR2(4000)" />
+		<modifyDataType tableName="CM_CPTLAST_DTL_T" columnName="CPTLAST_DESC" newDataType="VARCHAR2(4000)" />
+		<modifyDataType tableName="FP_CPTL_AST_INFO_T" columnName="CPTLAST_DESC" newDataType="VARCHAR2(4000)" />
 		<modifySql dbms="mysql">
 			<replace replace="VARCHAR2" with="VARCHAR" />
 			<replace replace="NUMBER" with="DECIMAL" />
@@ -113,12 +101,8 @@
 	</changeSet>
 
 	<changeSet author="KFS50" id="KFSMI-6629_STRUCTURE_CHANGES">
-		<modifyColumn tableName='CM_CPTLAST_DTL_T'>
-			<column name='AST_OFFCMP_ADDR' type='VARCHAR2(45)' />
-		</modifyColumn>
-		<modifyColumn tableName='CM_AST_TRNFR_DOC_T'>
-			<column name='AST_OFFCMP_ADDR' type='VARCHAR2(45)' />
-		</modifyColumn>
+		<modifyDataType tableName='CM_CPTLAST_DTL_T' columnName='AST_OFFCMP_ADDR' newDataType='VARCHAR2(45)' />
+		<modifyDataType tableName='CM_AST_TRNFR_DOC_T' columnName='AST_OFFCMP_ADDR' newDataType='VARCHAR2(45)' />
 		<modifySql dbms="mysql">
 			<replace replace="VARCHAR2" with="VARCHAR" />
 			<replace replace="NUMBER" with="DECIMAL" />
@@ -178,9 +162,7 @@
 	
 	<changeSet author="KFS50" id="CM_STRUCTURE_CLEANUP_mysql" dbms="mysql">
 		<dropNotNullConstraint tableName="CM_AST_STATUS_T" columnName="ROW_ACTV_IND" columnDataType="VARCHAR(1)" />
-		<modifyColumn tableName="CM_AST_STATUS_T">
-			<column name="ROW_ACTV_IND" type="VARCHAR(1)" defaultValue="Y" />
-		</modifyColumn>
+		<addDefaultValue tableName="CM_AST_STATUS_T" columnName="ROW_ACTV_IND" defaultValue="Y" />
 	</changeSet>
 
 	<changeSet author="KFS50" id="CM_STRUCTURE_CLEANUP_oracle" dbms="oracle">
@@ -190,9 +172,7 @@
 	</changeSet>
 
 	<changeSet author="KFS50" id="CM_CPTLAST_DTL_T_CHG_AST_OFFCMPT_CITY_NM">
-	<comment>need to change the field length in CM_CPTLAST_DTL_T"."AST_OFFCMP_CITY_NM to 45.</comment>
-	<modifyColumn tableName="CM_CPTLAST_DTL_T">
-		<column name="AST_OFFCMP_CITY_NM" type="VARCHAR(45)" />
-	</modifyColumn>
+		<comment>need to change the field length in CM_CPTLAST_DTL_T"."AST_OFFCMP_CITY_NM to 45.</comment>
+		<modifyDataType tableName="CM_CPTLAST_DTL_T" columnName="AST_OFFCMP_CITY_NM" newDataType="VARCHAR(45)" />
 	</changeSet>
 </databaseChangeLog>

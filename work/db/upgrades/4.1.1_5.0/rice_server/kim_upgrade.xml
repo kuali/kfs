@@ -1085,5 +1085,40 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 	</changeSet>	
+
+	<changeSet author="KFS50" id="BLOCK_INCORRECT_PERMISSIVE_RICE_EDIT_PERM">
+		<comment>Incorrect data in Rice allows editing of any enroute document in Rice 2.1.  Add KFS document permission to block it for KFS documents.</comment>
+		<insert tableName="KRIM_PERM_T">
+			<column name="PERM_ID" value="KFS181" />
+			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="PERM_TMPL_ID" valueNumeric="16" />
+			<column name="NMSPC_CD" value="KFS-SYS" />
+			<column name="NM" value="Edit KFS ENROUTE Document" />
+			<column name="DESC_TXT" value="Allows users to edit KFS documents that are in ENROUTE status." />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFS239" />
+			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_ID" value="KFS181" />
+			<column name="KIM_TYP_ID" valueNumeric="8" />
+			<column name="KIM_ATTR_DEFN_ID" valueNumeric="13" />
+			<column name="ATTR_VAL" value="KFS" />
+		</insert>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFS240" />
+			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_ID" value="KFS181" />
+			<column name="KIM_TYP_ID" valueNumeric="8" />
+			<column name="KIM_ATTR_DEFN_ID" valueNumeric="15" />
+			<column name="ATTR_VAL" value="R" />
+		</insert>
+	    <modifySql dbms='mysql'>
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
+	</changeSet>
 	
 </databaseChangeLog>

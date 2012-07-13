@@ -26,6 +26,7 @@ import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
@@ -56,6 +57,7 @@ import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -296,7 +298,19 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         KimType typeInfo = KimApiServiceLocator.getKimTypeInfoService().getKimType(roleInfo.getKimTypeId());
 
         if (StringUtils.isNotBlank(typeInfo.getServiceName())) {
-            RoleTypeService roleTypeService = (RoleTypeService) SpringContext.getService(typeInfo.getServiceName());
+            // fix to find service using new prefixed name if so configured
+            // RoleTypeService roleTypeService = (RoleTypeService) SpringContext.getService(typeInfo.getServiceName());
+            RoleTypeService roleTypeService;
+            String svcName = typeInfo.getServiceName();
+            String[] svcNameParts = svcName.split("\\{|\\}");
+            if (svcNameParts.length == 3){
+                String nameSpaceURI = svcNameParts[1];
+                String remoteServiceName = svcNameParts[2];
+                roleTypeService = (RoleTypeService)GlobalResourceLoader.getService(new QName(nameSpaceURI, remoteServiceName));
+            } else {
+              roleTypeService = (RoleTypeService) SpringContext.getService(typeInfo.getServiceName());
+            }
+
             if (roleTypeService instanceof BudgetConstructionNoAccessMessageSetting) {
                 ((BudgetConstructionNoAccessMessageSetting) roleTypeService).setNoAccessMessage(budgetConstructionForm.getBudgetConstructionDocument(), GlobalVariables.getUserSession().getPerson(), GlobalVariables.getMessageMap());
             } else {

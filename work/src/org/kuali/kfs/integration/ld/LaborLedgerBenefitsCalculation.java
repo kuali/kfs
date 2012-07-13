@@ -153,4 +153,18 @@ public interface LaborLedgerBenefitsCalculation extends PersistableBusinessObjec
      */
     public abstract void setUniversityFiscal(SystemOptions universityFiscal);
 
+    /**
+     * Gets the active attribute.
+     * 
+     * @return Returns the active.
+     */
+    public abstract boolean isActive();
+
+    /**
+     * Sets the active attribute value.
+     * 
+     * @param active The active to set.
+     */
+    public abstract void setActive(boolean active);
+
 }

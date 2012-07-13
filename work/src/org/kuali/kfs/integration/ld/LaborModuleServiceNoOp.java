@@ -109,6 +109,12 @@ public class LaborModuleServiceNoOp extends UnimplementedKfsModuleServiceImpl im
     }
 
     @Override
+    public List<LaborLedgerPositionObjectBenefit> retrieveActiveLaborPositionObjectBenefits(Integer fiscalYear, String chartOfAccountsCode, String objectCode) {
+        LOG.warn( "Using No-Op " + getClass().getSimpleName() + " service." );
+        return Collections.emptyList();
+    }
+
+    @Override
     public KualiDecimal calculateFringeBenefitFromLaborObject(LaborLedgerObject laborLedgerObject, KualiDecimal salaryAmount, String accountNumber, String subAccountNumber) {
         // TODO Auto-generated method stub
         return null;

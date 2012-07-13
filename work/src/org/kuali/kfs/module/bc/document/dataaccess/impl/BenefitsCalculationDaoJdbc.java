@@ -124,9 +124,11 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("   AND (LD_PND_BCNSTR_GL_T.UNIV_FISCAL_YR = LD_LBR_OBJ_BENE_T.UNIV_FISCAL_YR)\n");
         sqlBuilder.append("   AND (LD_PND_BCNSTR_GL_T.fin_coa_cd = LD_LBR_OBJ_BENE_T.fin_coa_cd)\n");
         sqlBuilder.append("   AND (LD_PND_BCNSTR_GL_T.fin_object_cd = LD_LBR_OBJ_BENE_T.fin_object_cd)\n");
+        sqlBuilder.append("   AND (LD_LBR_OBJ_BENE_T.actv_ind = ?)\n");
         sqlBuilder.append("   AND (LD_LBR_OBJ_BENE_T.univ_fiscal_yr = LD_BENEFITS_CALC_T.univ_fiscal_yr)\n");
         sqlBuilder.append("   AND (LD_LBR_OBJ_BENE_T.fin_coa_cd = LD_BENEFITS_CALC_T.fin_coa_cd)\n");
         sqlBuilder.append("   AND (LD_LBR_OBJ_BENE_T.finobj_bene_typ_cd = LD_BENEFITS_CALC_T.pos_benefit_typ_cd)\n");
+        sqlBuilder.append("   AND (LD_BENEFITS_CALC_T.actv_ind = ?)\n");
         sqlBuilder.append(" GROUP BY LD_BENEFITS_CALC_T.pos_frngben_obj_cd)");
         sqlAnnualSteps.add(new SQLForStep(sqlBuilder));
         sqlBuilder.delete(0, sqlBuilder.length());
@@ -258,6 +260,8 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("   AND (LD_LBR_OBJ_BENE_T.fin_coa_cd = LD_BENEFITS_CALC_T.fin_coa_cd)\n");
         sqlBuilder.append("   AND (LD_BENEFITS_CALC_T.LBR_BEN_RT_CAT_CD = ?)\n");
         sqlBuilder.append("   AND (LD_LBR_OBJ_BENE_T.finobj_bene_typ_cd = LD_BENEFITS_CALC_T.pos_benefit_typ_cd)\n");
+        sqlBuilder.append("   AND (LD_LBR_OBJ_BENE_T.actv_ind = ?)\n");
+        sqlBuilder.append("   AND (LD_BENEFITS_CALC_T.actv_ind = ?)\n");
         sqlBuilder.append(" GROUP BY LD_BENEFITS_CALC_T.pos_frngben_obj_cd)");
         sqlAnnualSteps.add(new SQLForStep(sqlBuilder));
         sqlBuilder.delete(0, sqlBuilder.length());
@@ -384,12 +388,14 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("  AND LD_LBR_OBJ_BENE_T.univ_fiscal_yr = LD_BCNSTR_MONTH_T.univ_fiscal_yr\n");
         sqlBuilder.append("  AND LD_LBR_OBJ_BENE_T.fin_coa_cd = LD_BCNSTR_MONTH_T.fin_coa_cd\n");
         sqlBuilder.append("  AND LD_LBR_OBJ_BENE_T.fin_object_cd = LD_BCNSTR_MONTH_T.fin_object_cd\n");
+        sqlBuilder.append("  AND LD_LBR_OBJ_BENE_T.actv_ind = ?\n");
         sqlBuilder.append("  AND LD_BENEFITS_CALC_T.univ_fiscal_yr = LD_LBR_OBJ_BENE_T.univ_fiscal_yr\n");
         sqlBuilder.append("  AND LD_BENEFITS_CALC_T.fin_coa_cd = LD_LBR_OBJ_BENE_T.fin_coa_cd\n");
         sqlBuilder.append("  AND LD_BENEFITS_CALC_T.pos_benefit_typ_cd = LD_LBR_OBJ_BENE_T.finobj_bene_typ_cd\n");
         sqlBuilder.append("  AND LD_BENEFITS_CALC_T.univ_fiscal_yr = CA_OBJECT_CODE_T.univ_fiscal_yr\n");
         sqlBuilder.append("  AND LD_BENEFITS_CALC_T.fin_coa_cd = CA_OBJECT_CODE_T.fin_coa_cd\n");
         sqlBuilder.append("  AND LD_BENEFITS_CALC_T.pos_frngben_obj_cd = CA_OBJECT_CODE_T.fin_object_cd\n");
+        sqlBuilder.append("  AND LD_BENEFITS_CALC_T.actv_ind = ?\n");
         sqlBuilder.append("GROUP BY LD_BENEFITS_CALC_T.pos_frngben_obj_cd, CA_OBJECT_CODE_T.fin_obj_typ_cd");
         sqlMonthlySteps.add(new SQLForStep(sqlBuilder, insertionPoints));
         sqlBuilder.delete(0, sqlBuilder.length());
@@ -429,7 +435,8 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("        FROM LD_BENEFITS_CALC_T\n");
         sqlBuilder.append("        WHERE LD_BENEFITS_CALC_T.univ_fiscal_yr = ?\n");
         sqlBuilder.append("          AND LD_BENEFITS_CALC_T.fin_coa_cd = ?\n");
-        sqlBuilder.append("          AND LD_BENEFITS_CALC_T.pos_frngben_obj_cd = LD_BCNSTR_MONTH_T.fin_object_cd)\n");
+        sqlBuilder.append("          AND LD_BENEFITS_CALC_T.pos_frngben_obj_cd = LD_BCNSTR_MONTH_T.fin_object_cd\n");
+        sqlBuilder.append("          AND LD_BENEFITS_CALC_T.actv_ind = ?)\n");
         ;
         sqlMonthlySteps.add(new SQLForStep(sqlBuilder));
 
@@ -508,6 +515,8 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("  AND ld_benefits_calc_t.univ_fiscal_yr = CA_OBJECT_CODE_T.univ_fiscal_yr\n");
         sqlBuilder.append("  AND ld_benefits_calc_t.fin_coa_cd = CA_OBJECT_CODE_T.fin_coa_cd\n");
         sqlBuilder.append("  AND ld_benefits_calc_t.pos_frngben_obj_cd = CA_OBJECT_CODE_T.fin_object_cd\n");
+        sqlBuilder.append("  AND ld_lbr_obj_bene_t.actv_ind = ?\n");
+        sqlBuilder.append("  AND ld_benefits_calc_t.actv_ind = ?\n");
         sqlBuilder.append("GROUP BY ld_benefits_calc_t.pos_frngben_obj_cd, CA_OBJECT_CODE_T.fin_obj_typ_cd");
         sqlMonthlySteps.add(new SQLForStep(sqlBuilder, insertionPoints));
         sqlBuilder.delete(0, sqlBuilder.length());
@@ -548,7 +557,8 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("        WHERE ld_benefits_calc_t.univ_fiscal_yr = ?\n");
         sqlBuilder.append("          AND ld_benefits_calc_t.fin_coa_cd = ?\n");
         sqlBuilder.append("          AND ld_benefits_calc_t.lbr_ben_rt_cat_cd = ?\n");
-        sqlBuilder.append("          AND ld_benefits_calc_t.pos_frngben_obj_cd = ld_bcnstr_month_t.fin_object_cd)\n");
+        sqlBuilder.append("          AND ld_benefits_calc_t.pos_frngben_obj_cd = ld_bcnstr_month_t.fin_object_cd\n");
+        sqlBuilder.append("          AND ld_benefits_calc_t.actv_ind = ?)\n");
         sqlMonthlySteps.add(new SQLForStep(sqlBuilder));
 
     }
@@ -575,7 +585,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         getSimpleJdbcTemplate().update(sqlAnnualSteps.get(0).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
         getSimpleJdbcTemplate().update(sqlAnnualSteps.get(1).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
         getSimpleJdbcTemplate().update(sqlAnnualSteps.get(2).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
-        getSimpleJdbcTemplate().update(sqlAnnualSteps.get(3).getSQL(), idForSession, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
+        getSimpleJdbcTemplate().update(sqlAnnualSteps.get(3).getSQL(), idForSession, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, KFSConstants.ACTIVE_INDICATOR, KFSConstants.ACTIVE_INDICATOR);
         // re-set general ledger amount for existing fringe benefits object codes
         getSimpleJdbcTemplate().update(sqlAnnualSteps.get(4).getSQL(stringsToInsert), idForSession, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, idForSession);
         // insert general ledger lines for new fringe benefits object codes.
@@ -606,7 +616,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         getSimpleJdbcTemplate().update(sqlAnnualSteps.get(0).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
         getSimpleJdbcTemplate().update(sqlAnnualSteps.get(1).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
         getSimpleJdbcTemplate().update(sqlAnnualSteps.get(6).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, laborBenefitRateCategoryCode);
-        getSimpleJdbcTemplate().update(sqlAnnualSteps.get(7).getSQL(), idForSession, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, laborBenefitRateCategoryCode);
+        getSimpleJdbcTemplate().update(sqlAnnualSteps.get(7).getSQL(), idForSession, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, laborBenefitRateCategoryCode, KFSConstants.ACTIVE_INDICATOR, KFSConstants.ACTIVE_INDICATOR);
         // re-set general ledger amount for existing fringe benefits object codes
         getSimpleJdbcTemplate().update(sqlAnnualSteps.get(4).getSQL(stringsToInsert), idForSession, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, idForSession);
         // insert general ledger lines for new fringe benefits object codes.
@@ -640,9 +650,9 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         // get rid of existing monthly budgets for this key
         getSimpleJdbcTemplate().update(sqlMonthlySteps.get(1).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, fiscalYear, chartOfAccounts);
         // spread the budgeted general ledger fringe beneftis amounts for this key equally into the twelve months
-        getSimpleJdbcTemplate().update(sqlMonthlySteps.get(2).getSQL(stringsToInsert), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
+        getSimpleJdbcTemplate().update(sqlMonthlySteps.get(2).getSQL(stringsToInsert), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, KFSConstants.ACTIVE_INDICATOR, KFSConstants.ACTIVE_INDICATOR);
         // add any rounding errors to the first month
-        getSimpleJdbcTemplate().update(sqlMonthlySteps.get(3).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, fiscalYear, chartOfAccounts);
+        getSimpleJdbcTemplate().update(sqlMonthlySteps.get(3).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, fiscalYear, chartOfAccounts, KFSConstants.ACTIVE_INDICATOR);
     }
 
 
@@ -668,9 +678,9 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         // get rid of existing monthly budgets for this key
         getSimpleJdbcTemplate().update(sqlMonthlySteps.get(1).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, fiscalYear, chartOfAccounts);
         // spread the budgeted general ledger fringe beneftis amounts for this key equally into the twelve months
-        getSimpleJdbcTemplate().update(sqlMonthlySteps.get(4).getSQL(stringsToInsert), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, laborBenefitRateCategoryCode);
+        getSimpleJdbcTemplate().update(sqlMonthlySteps.get(4).getSQL(stringsToInsert), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, laborBenefitRateCategoryCode, KFSConstants.ACTIVE_INDICATOR, KFSConstants.ACTIVE_INDICATOR);
         // add any rounding errors to the first month
-        getSimpleJdbcTemplate().update(sqlMonthlySteps.get(5).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, fiscalYear, chartOfAccounts, laborBenefitRateCategoryCode);
+        getSimpleJdbcTemplate().update(sqlMonthlySteps.get(5).getSQL(), documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, fiscalYear, chartOfAccounts, laborBenefitRateCategoryCode, KFSConstants.ACTIVE_INDICATOR);
         /**
          * this is necessary to clear any rows for the tables we have just updated from the OJB cache. otherwise, subsequent calls
          * to OJB will fetch the old, unupdated cached rows.

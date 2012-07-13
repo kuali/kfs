@@ -141,6 +141,8 @@ public interface LaborModuleService {
      */
     public List<LaborLedgerPositionObjectBenefit> retrieveLaborPositionObjectBenefits(Integer fiscalYear, String chartOfAccountsCode, String objectCode);
 
+    public List<LaborLedgerPositionObjectBenefit> retrieveActiveLaborPositionObjectBenefits(Integer fiscalYear, String chartOfAccountsCode, String objectCode);
+
     /**
      * Does the given account have any labor ledger entries? It is necessary to check this before closing an account.
      *

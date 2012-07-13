@@ -18,7 +18,7 @@ package org.kuali.kfs.module.tem.businessobject.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.module.tem.service.TemCorrectionDocumentService;
+import org.kuali.kfs.module.tem.document.service.TemCorrectionDocumentService;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 

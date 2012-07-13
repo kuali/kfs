@@ -832,7 +832,7 @@
         <property name="notificationTemplate" value="org/kuali/kfs/module/tem/report/email/taxbleRamificationNotificationTemplate.vm" />        
     </bean> 
 
-    <bean id="taxableRamificationDocumentService" class="org.kuali.kfs.module.tem.service.impl.TaxableRamificationDocumentServiceImpl">
+    <bean id="taxableRamificationDocumentService" class="org.kuali.kfs.module.tem.document.service.impl.TaxableRamificationDocumentServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="documentService" ref="documentService" />
         <property name="accountsReceivableModuleService" ref="accountsReceivableModuleService" />
@@ -1254,7 +1254,7 @@
         <property name="nightlyOutFileName" value="tem_agentry_kfs" />
         <property name="backupFileName" value="tem_agBackup" />
     </bean>
-    <bean id="temCorrectionDocumentService" class="org.kuali.kfs.module.tem.service.impl.TemCorrectionDocumentServiceImpl">
+    <bean id="temCorrectionDocumentService" class="org.kuali.kfs.module.tem.document.service.impl.TemCorrectionDocumentServiceImpl">
         
         <property name="batchFileDirectoryName" value="${staging.directory}/tem/agencyData"/>
     </bean>

@@ -27,7 +27,7 @@ import org.kuali.kfs.module.tem.batch.service.TaxableRamificationNotificationSer
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.document.TaxableRamificationDocument;
-import org.kuali.kfs.module.tem.service.TaxableRamificationDocumentService;
+import org.kuali.kfs.module.tem.document.service.TaxableRamificationDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.KfsNotificationService;

@@ -21,7 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.module.tem.businessobject.AgencyCorrectionChangeGroup;
-import org.kuali.kfs.module.tem.service.TemCorrectionDocumentService;
+import org.kuali.kfs.module.tem.document.service.TemCorrectionDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.document.AmountTotaling;
 import org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase;

@@ -25,7 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kfs.module.tem.businessobject.AgencyEntryFull;
 import org.kuali.kfs.module.tem.document.TemCorrectionProcessDocument;
-import org.kuali.kfs.module.tem.service.TemCorrectionDocumentService;
+import org.kuali.kfs.module.tem.document.service.TemCorrectionDocumentService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.util.ObjectUtils;

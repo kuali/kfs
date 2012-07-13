@@ -144,7 +144,7 @@
 	        <property name="supportAttributes">
 	        	<list>
 	            	<bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="principalMemberPrincipalName" p:targetName="principalName"/>
-	            	<bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="principalMemberName" p:targetName="name"/>
+	            	<bean parent="SupportAttributeDefinition" p:sourceName="principalMemberName" p:targetName="name"/>
             	</list>
 	        </property>
    		</bean>

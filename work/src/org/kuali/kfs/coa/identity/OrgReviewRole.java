@@ -1069,15 +1069,21 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
      * @return Returns the person.
      */
     public Person getPerson() {
-        if(StringUtils.isNotEmpty(principalMemberPrincipalId) &&
-                (person==null
-                    || StringUtils.isBlank(person.getPrincipalId())
-                    || StringUtils.isBlank(person.getPrincipalName())
-                    || !StringUtils.equals(person.getPrincipalId(), principalMemberPrincipalId) )){
-            person = KimApiServiceLocator.getPersonService().getPerson(principalMemberPrincipalId);
+        if( (StringUtils.isNotEmpty(principalMemberPrincipalId)
+                || StringUtils.isNotEmpty(principalMemberPrincipalName))
+                &&
+                (person==null || !StringUtils.equals(person.getPrincipalId(), principalMemberPrincipalId) ) ) {
+            if ( StringUtils.isNotEmpty(principalMemberPrincipalId) ) {
+                person = KimApiServiceLocator.getPersonService().getPerson(principalMemberPrincipalId);
+            } else if ( StringUtils.isNotEmpty(principalMemberPrincipalName) ) {
+                person = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(principalMemberPrincipalName);
+            }
             if ( person != null ) {
+                principalMemberPrincipalId = person.getPrincipalId();
                 principalMemberPrincipalName = person.getPrincipalName();
                 principalMemberName = person.getName();
+            } else {
+                principalMemberPrincipalId = "";
             }
         }
         return person;

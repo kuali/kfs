@@ -72,9 +72,11 @@ public class GeneralLedgerEntryLookupableHelperServiceImpl extends KualiLookupab
         else {
             List<GeneralLedgerEntryAsset> generalLedgerEntryAssets = entry.getGeneralLedgerEntryAssets();
             if (!generalLedgerEntryAssets.isEmpty()) {
-                AnchorHtmlData viewDocLink = new AnchorHtmlData("../cabCapitalAssetInformation.do?methodToCall=viewDoc&" + "documentNumber" + "=" + generalLedgerEntryAssets.get(0).getCapitalAssetManagementDocumentNumber(), "viewDoc", generalLedgerEntryAssets.get(0).getCapitalAssetManagementDocumentNumber());
-                viewDocLink.setTarget(generalLedgerEntryAssets.get(0).getCapitalAssetManagementDocumentNumber());
-                anchorHtmlDataList.add(viewDocLink);
+                for (GeneralLedgerEntryAsset generalLedgerEntryAsset : generalLedgerEntryAssets) {
+                    AnchorHtmlData viewDocLink = new AnchorHtmlData("../cabCapitalAssetInformation.do?methodToCall=viewDoc&" + "documentNumber" + "=" + generalLedgerEntryAsset.getCapitalAssetManagementDocumentNumber(), "viewDoc", generalLedgerEntryAsset.getCapitalAssetManagementDocumentNumber());
+                    viewDocLink.setTarget(generalLedgerEntryAssets.get(0).getCapitalAssetManagementDocumentNumber());
+                    anchorHtmlDataList.add(viewDocLink);
+                }
             }
             else {
                 anchorHtmlDataList.add(new AnchorHtmlData("", "n/a", "n/a"));

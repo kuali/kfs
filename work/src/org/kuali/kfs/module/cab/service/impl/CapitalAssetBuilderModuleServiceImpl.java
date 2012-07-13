@@ -1677,7 +1677,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                     dtl.refreshReferenceObject("building");
                     
                     //if building is inactiv then validation fails....
-                    if (!dtl.getBuilding().isActive()) {
+                    if (ObjectUtils.isNotNull(dtl.getBuilding()) && !dtl.getBuilding().isActive()) {
                         String errorPathPrefix = KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION + "[" + indexCapital + "]." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION_DETAILS;
                         GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.BUILDING_CODE, KFSKeyConstants.ERROR_DOCUMENT_CAPITAL_ASSET_DETAIL_INACTIVE_BUILDING_NOT_ALLOWED, dtl.getBuildingCode());
                         valid &=  false;                        
@@ -1685,7 +1685,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
                     
                     dtl.refreshReferenceObject("room");
                     //if room is inactiv then validation fails....
-                    if (!dtl.getRoom().isActive()) {
+                    if (ObjectUtils.isNotNull(dtl.getRoom()) && !dtl.getRoom().isActive()) {
                         String errorPathPrefix = KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION + "[" + indexCapital + "]." + KFSPropertyConstants.CAPITAL_ASSET_INFORMATION_DETAILS;
                         GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(errorPathPrefix + "[" + index + "]" + "." + KFSPropertyConstants.BUILDING_ROOM_NUMBER, KFSKeyConstants.ERROR_DOCUMENT_CAPITAL_ASSET_DETAIL_INACTIVE_ROOM_NOT_ALLOWED, dtl.getBuildingRoomNumber());
                         valid &=  false;

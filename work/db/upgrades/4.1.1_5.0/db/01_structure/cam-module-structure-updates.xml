@@ -175,4 +175,19 @@
 		<comment>need to change the field length in CM_CPTLAST_DTL_T"."AST_OFFCMP_CITY_NM to 45.</comment>
 		<modifyDataType tableName="CM_CPTLAST_DTL_T" columnName="AST_OFFCMP_CITY_NM" newDataType="VARCHAR(45)" />
 	</changeSet>
+	
+	<changeSet author="KFS50" id="KFSMI8745_ADD_POST_YR_POST_PRD_CD_TO_CAMS_TABLES">
+		<comment>need to include these two columns: FDOC_POST_YR, and FDOC_POST_PRD_CD to CAMS tables.</comment>
+		<addColumn tableName="CM_CPTLAST_DOC_T">
+			<column name="FDOC_POST_YR" type="NUMBER(4.0)"/>
+		</addColumn>
+		<addColumn tableName="CM_CPTLAST_DOC_T">
+			<column name="FDOC_POST_PRD_CD" type="VARCHAR2(1)"/>
+		</addColumn>
+		<modifySql dbms='mysql'>
+			<replace replace='VARCHAR2' with='VARCHAR' />
+			<replace replace="NUMBER" with="DECIMAL" />
+		</modifySql>
+	</changeSet>
+	
 </databaseChangeLog>

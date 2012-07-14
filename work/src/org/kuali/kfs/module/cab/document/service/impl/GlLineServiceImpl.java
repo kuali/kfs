@@ -43,6 +43,7 @@ import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.module.cam.util.ObjectValueUtils;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.parameter.ParameterEvaluator;
@@ -226,8 +227,6 @@ public class GlLineServiceImpl implements GlLineService {
         
         for (CapitalAssetInformation capitalAsset : assetInformation) {
             addToCapitalAssets(matchingAssets, capitalAsset, entry, capitalAssetLineType);
-            
-            
         }
         
         return matchingAssets;
@@ -245,7 +244,7 @@ public class GlLineServiceImpl implements GlLineService {
         List<CapitalAssetAccountsGroupDetails> groupAccountLines = capitalAsset.getCapitalAssetAccountsGroupDetails();
         
         for (CapitalAssetAccountsGroupDetails groupAccountLine : groupAccountLines) {
-            if (groupAccountLine.getFinancialDocumentLineTypeCode().equals(capitalAssetLineType) && 
+            if (groupAccountLine.getDocumentNumber().equals(entry.getDocumentNumber()) &&
                     groupAccountLine.getChartOfAccountsCode().equals(entry.getChartOfAccountsCode()) && 
                     groupAccountLine.getAccountNumber().equals(entry.getAccountNumber()) && 
                     groupAccountLine.getFinancialObjectCode().equals(entry.getFinancialObjectCode())) {
@@ -359,6 +358,18 @@ public class GlLineServiceImpl implements GlLineService {
         // Asset Payment Detail - sourceAccountingLines on the document....
         document.getSourceAccountingLines().addAll(createAssetPaymentDetails(primaryGlEntry, document, 0, capitalAssetLineNumber));
         
+        KualiDecimal assetAmount = KualiDecimal.ZERO;
+        
+        List<SourceAccountingLine> sourceAccountingLines = document.getSourceAccountingLines();
+        for (SourceAccountingLine sourceAccountingLine : sourceAccountingLines) {
+            assetAmount = assetAmount.add(sourceAccountingLine.getAmount());
+        }
+        
+        List<AssetPaymentAssetDetail> assetPaymentDetails = document.getAssetPaymentAssetDetail();
+        for (AssetPaymentAssetDetail assetPaymentDetail : assetPaymentDetails) {
+            assetPaymentDetail.setAllocatedAmount(assetAmount);
+        }
+        
         // Asset payment asset detail
         // save the document
         documentService.saveDocument(document);
@@ -455,7 +466,17 @@ public class GlLineServiceImpl implements GlLineService {
                 detail.setFinancialObjectCode(replaceFiller(accountingLine.getFinancialObjectCode()));
                 detail.setProjectCode(replaceFiller(entry.getProjectCode()));
                 detail.setOrganizationReferenceId(replaceFiller(entry.getOrganizationReferenceId()));
-                detail.setAmount(KFSConstants.GL_CREDIT_CODE.equals(debitCreditCode) ? accountingLine.getAmount().negated() : accountingLine.getAmount());
+            //    detail.setAmount(KFSConstants.GL_CREDIT_CODE.equals(debitCreditCode) ? accountingLine.getAmount().negated() : accountingLine.getAmount());
+
+                //If the GL Entry's D/C code is same as the default D/C code 
+                //AND accounting line type = "F" SOURCE for the object type, then negate the amount.
+                if (entry.getTransactionDebitCreditCode().equals(entry.getFinancialObject().getFinancialObjectType().getFinObjectTypeDebitcreditCd()) &&
+                        KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE.equals(accountingLine.getFinancialDocumentLineTypeCode())) {
+                    detail.setAmount(accountingLine.getAmount().negated());
+                } else {
+                    detail.setAmount(accountingLine.getAmount());
+                }
+                
                 detail.setExpenditureFinancialSystemOriginationCode(replaceFiller(entry.getFinancialSystemOriginationCode()));
                 detail.setExpenditureFinancialDocumentNumber(entry.getDocumentNumber());
                 detail.setExpenditureFinancialDocumentTypeCode(replaceFiller(entry.getFinancialDocumentTypeCode()));
@@ -483,7 +504,7 @@ public class GlLineServiceImpl implements GlLineService {
             submitTotalAmount = matchingGLEntry.getTransactionLedgerSubmitAmount();
         }
         
-        matchingGLEntry.setTransactionLedgerSubmitAmount(submitTotalAmount.add(accountLineAmount));
+        matchingGLEntry.setTransactionLedgerSubmitAmount(submitTotalAmount.add(accountLineAmount.abs()));
 
         if (matchingGLEntry.getTransactionLedgerSubmitAmount().equals(matchingGLEntry.getTransactionLedgerEntryAmount())) {
             matchingGLEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.ENROUTE);
@@ -515,16 +536,16 @@ public class GlLineServiceImpl implements GlLineService {
         detail.setProjectCode(replaceFiller(entry.getProjectCode()));
         detail.setOrganizationReferenceId(replaceFiller(entry.getOrganizationReferenceId()));
         KualiDecimal capitalAssetAmount = getCapitalAssetAmount(entry, capitalAssetLineNumber);
-        detail.setAmount(KFSConstants.GL_CREDIT_CODE.equals(entry.getTransactionDebitCreditCode()) ? capitalAssetAmount.negated() : capitalAssetAmount);
+        detail.setAmount(capitalAssetAmount);
         detail.setExpenditureFinancialSystemOriginationCode(replaceFiller(entry.getFinancialSystemOriginationCode()));
         detail.setExpenditureFinancialDocumentNumber(entry.getDocumentNumber());
         detail.setExpenditureFinancialDocumentTypeCode(replaceFiller(entry.getFinancialDocumentTypeCode()));
         detail.setExpenditureFinancialDocumentPostedDate(entry.getTransactionDate());
         detail.setPurchaseOrderNumber(replaceFiller(entry.getReferenceFinancialDocumentNumber()));
         detail.setTransferPaymentIndicator(false);
+        
         return detail;
     }
-
     
     /**
      * retrieves the amount from the capital asset

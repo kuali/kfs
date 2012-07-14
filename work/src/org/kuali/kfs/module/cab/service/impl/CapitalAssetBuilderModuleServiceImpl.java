@@ -2222,13 +2222,6 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             }
         }
         
-//        for (int i = 0; i < assetNumbers.size(); i++) {
-//            noteText.append(assetNumbers.get(i).toString());
-//            if (i < assetNumbers.size() - 1) {
-//                noteText.append(", ");
-//            }
-//        }
-
         return noteText.toString();
     }
 
@@ -2360,7 +2353,7 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             submitTotalAmount = matchingGLEntry.getTransactionLedgerSubmitAmount();
         }
         
-        matchingGLEntry.setTransactionLedgerSubmitAmount(submitTotalAmount.subtract(accountLineAmount));
+        matchingGLEntry.setTransactionLedgerSubmitAmount(submitTotalAmount.subtract(accountLineAmount.abs()));
 
         if (matchingGLEntry.getTransactionLedgerSubmitAmount().isLessThan(matchingGLEntry.getTransactionLedgerEntryAmount())) {
             matchingGLEntry.setActivityStatusCode(CabConstants.ActivityStatusCode.NEW);

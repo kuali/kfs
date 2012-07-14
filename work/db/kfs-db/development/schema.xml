@@ -4438,6 +4438,8 @@
         <column name="SEP_SRC_CPTLAST_NBR" size="12" type="DECIMAL"/>
         <column name="SEP_SRC_AST_PMT_SEQ_NBR" size="12" type="DECIMAL"/>
         <column name="CB_ORIGIN_IND" size="1" type="VARCHAR"/>
+        <column name="FDOC_POST_YR" size="4" type="DECIMAL"/>
+        <column name="FDOC_POST_PRD_CD" size="2" type="VARCHAR"/>
         <foreign-key foreignTable="CM_ASSET_TYPE_T" name="CM_CPTLAST_DOC_TR2">
             <reference foreign="CPTLAST_TYP_CD" local="CPTLAST_TYP_CD"/>
         </foreign-key>

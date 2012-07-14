@@ -468,13 +468,23 @@ public class GlLineServiceImpl implements GlLineService {
                 detail.setOrganizationReferenceId(replaceFiller(entry.getOrganizationReferenceId()));
             //    detail.setAmount(KFSConstants.GL_CREDIT_CODE.equals(debitCreditCode) ? accountingLine.getAmount().negated() : accountingLine.getAmount());
 
-                //If the GL Entry's D/C code is same as the default D/C code 
-                //AND accounting line type = "F" SOURCE for the object type, then negate the amount.
-                if (entry.getTransactionDebitCreditCode().equals(entry.getFinancialObject().getFinancialObjectType().getFinObjectTypeDebitcreditCd()) &&
-                        KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE.equals(accountingLine.getFinancialDocumentLineTypeCode())) {
+                //if gl entry's d/c equals object type default d/c and account line type = F or
+                //gl entry's d/c = D and accounting line type = D then negate the line amount...else
+                if ((entry.getTransactionDebitCreditCode().equals(entry.getFinancialObject().getFinancialObjectType().getFinObjectTypeDebitcreditCd()) &&
+                        KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE.equals(accountingLine.getFinancialDocumentLineTypeCode())) || 
+                        (KFSConstants.GL_DEBIT_CODE.equals(entry.getTransactionDebitCreditCode()) &&
+                                KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE.equals(accountingLine.getFinancialDocumentLineTypeCode()))) {
                     detail.setAmount(accountingLine.getAmount().negated());
                 } else {
-                    detail.setAmount(accountingLine.getAmount());
+                    //if gl entry's d/c equals = D and account line type = F then negate the line amount else
+                    if (KFSConstants.GL_CREDIT_CODE.equals(entry.getTransactionDebitCreditCode()) &&
+                            accountingLine.getAmount().isGreaterThan(KualiDecimal.ZERO) &&
+                            KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE.equals(accountingLine.getFinancialDocumentLineTypeCode()) ) {
+                        detail.setAmount(accountingLine.getAmount().negated());
+                    } else {
+                        //carry the amount from the account line to payment document.
+                            detail.setAmount(accountingLine.getAmount());
+                      }
                 }
                 
                 detail.setExpenditureFinancialSystemOriginationCode(replaceFiller(entry.getFinancialSystemOriginationCode()));

@@ -222,7 +222,7 @@ public class LaborPendingEntryGenerator {
             }
 
             KualiDecimal clearingAmount = sourceAmount.subtract(targetAmount);
-            if (clearingAmount.isNonZero()) {
+            if (clearingAmount.isNonZero() && ObjectUtils.isNotNull(benefitTypeCode)) {
                 benefitClearingPendingEntries.add(SpringContext.getBean(LaborPendingEntryConverterService.class).getBenefitClearingPendingEntry(document, sequenceHelper, accountNumber, chartOfAccountsCode, benefitTypeCode, clearingAmount));
             }
         }

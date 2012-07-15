@@ -123,8 +123,10 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
 
         Collection<PositionObjectBenefit> positionObjectBenefits = laborPositionObjectBenefitService.getPositionObjectBenefits(fiscalYear, chartOfAccountsCode, objectCode);
         for (PositionObjectBenefit positionObjectBenefit : positionObjectBenefits) {
-            KualiDecimal benefitAmount = this.calculateFringeBenefit(positionObjectBenefit, salaryAmount, accountNumber, subAccountNumber);
-            fringeBenefit = fringeBenefit.add(benefitAmount);
+            if (positionObjectBenefit.isActive()) {
+                KualiDecimal benefitAmount = this.calculateFringeBenefit(positionObjectBenefit, salaryAmount, accountNumber, subAccountNumber);
+                fringeBenefit = fringeBenefit.add(benefitAmount);
+            }
         }
 
         return fringeBenefit;

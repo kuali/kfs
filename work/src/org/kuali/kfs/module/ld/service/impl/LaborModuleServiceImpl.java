@@ -292,7 +292,6 @@ public class LaborModuleServiceImpl implements LaborModuleService {
         searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
         searchCriteria.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
         searchCriteria.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode);
-
         return getKualiModuleService().getResponsibleModuleService(LaborLedgerPositionObjectBenefit.class).getExternalizableBusinessObjectsList(LaborLedgerPositionObjectBenefit.class, searchCriteria);
     }
 
@@ -313,7 +312,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      */
     @Override
     public boolean hasFringeBenefitProducingObjectCodes(Integer fiscalYear, String chartOfAccountsCode, String financialObjectCode) {
-        List<LaborLedgerPositionObjectBenefit> objectBenefits = this.retrieveLaborPositionObjectBenefits(fiscalYear, chartOfAccountsCode, financialObjectCode);
+        List<LaborLedgerPositionObjectBenefit> objectBenefits = this.retrieveActiveLaborPositionObjectBenefits(fiscalYear, chartOfAccountsCode, financialObjectCode);
         return (objectBenefits != null && !objectBenefits.isEmpty());
     }
 
@@ -453,5 +452,25 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      */
     public KualiModuleService getKualiModuleService() {
         return SpringContext.getBean(KualiModuleService.class);
+    }
+
+    @Override
+    public String getBenefitRateCategoryCode(String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
+            return getLaborBenefitsCalculationService().getBenefitRateCategoryCode(chartOfAccountsCode, accountNumber, subAccountNumber);
+    }
+
+    @Override
+    public String getCostSharingSourceAccountNumber() {
+         return getLaborBenefitsCalculationService().getCostSharingSourceAccountNumber();
+    }
+
+    @Override
+    public String getCostSharingSourceSubAccountNumber() {
+        return getLaborBenefitsCalculationService().getCostSharingSourceSubAccountNumber();
+    }
+
+    @Override
+    public String getCostSharingSourceChartOfAccountsCode() {
+        return getLaborBenefitsCalculationService().getCostSharingSourceAccountChartOfAccountsCode();
     }
 }

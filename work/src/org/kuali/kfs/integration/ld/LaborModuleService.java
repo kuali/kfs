@@ -190,4 +190,9 @@ public interface LaborModuleService {
      * @return the inquiry HtmlData for the given general ledger entry
      */
     public HtmlData getInquiryUrlForGeneralLedgerEntryDocumentNumber(Entry entry);
+    
+    public String getBenefitRateCategoryCode(String chartOfAccountsCode, String accountNumber, String subAccountNumber);
+    public String getCostSharingSourceAccountNumber();
+    public String getCostSharingSourceSubAccountNumber();
+    public String getCostSharingSourceChartOfAccountsCode();
 }

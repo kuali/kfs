@@ -92,4 +92,10 @@ public interface LaborBenefitsCalculationService {
      * @return the associated benefit rate category code
      */
     public String getBenefitRateCategoryCode(String chartOfAccountsCode, String accountNumber, String subAccountNumber);
+
+    public String getCostSharingSourceAccountNumber();
+
+    public String getCostSharingSourceSubAccountNumber();
+
+    public String getCostSharingSourceAccountChartOfAccountsCode();
 }

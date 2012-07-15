@@ -28,6 +28,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.fp.businessobject.BudgetAdjustmentAccountingLine;
 import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
 import org.kuali.kfs.fp.document.service.BudgetAdjustmentLaborBenefitsService;
+import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
 import org.kuali.kfs.integration.ld.LaborBenefitRateCategory;
 import org.kuali.kfs.integration.ld.LaborLedgerBenefitsCalculation;
 import org.kuali.kfs.integration.ld.LaborLedgerPositionObjectBenefit;
@@ -37,9 +38,17 @@ import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.api.util.type.KualiInteger;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.kuali.rice.krad.service.ModuleService;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.location.api.LocationConstants;
+import org.kuali.rice.location.framework.country.CountryEbo;
 
 /**
  * This is the default implementation of the methods defined by the BudgetAdjustmentLaborBenefitsService. These service performs
@@ -102,9 +111,8 @@ public class BudgetAdjustmentLaborBenefitsServiceImpl implements BudgetAdjustmen
      */
     protected List<BudgetAdjustmentAccountingLine> generateBenefitLines(Integer fiscalYear, BudgetAdjustmentAccountingLine line, BudgetAdjustmentDocument document) {
         List<BudgetAdjustmentAccountingLine> fringeLines = new ArrayList<BudgetAdjustmentAccountingLine>();
- 
         try {
-            Collection<LaborLedgerPositionObjectBenefit> objectBenefits = SpringContext.getBean(LaborModuleService.class).retrieveLaborPositionObjectBenefits(fiscalYear, line.getChartOfAccountsCode(), line.getFinancialObjectCode());
+            Collection<LaborLedgerPositionObjectBenefit> objectBenefits = SpringContext.getBean(LaborModuleService.class).retrieveActiveLaborPositionObjectBenefits(fiscalYear, line.getChartOfAccountsCode(), line.getFinancialObjectCode());
             if (objectBenefits != null) {
                 for (LaborLedgerPositionObjectBenefit fringeBenefitInformation : objectBenefits) {
                     // now create and set properties for the benefit line
@@ -116,32 +124,96 @@ public class BudgetAdjustmentLaborBenefitsServiceImpl implements BudgetAdjustmen
                         benefitLine = (BudgetAdjustmentAccountingLine) document.getTargetAccountingLineClass().newInstance();
                     }
 
-                    LaborLedgerBenefitsCalculation benefitsCalculation = fringeBenefitInformation.getLaborLedgerBenefitsCalculation();
+                    // create a map to use in the lookup of the account
+                    Map<String, Object> fieldValues = new HashMap<String, Object>();
+                    fieldValues.put("chartOfAccountsCode", line.getChartOfAccountsCode());
+                    fieldValues.put("accountNumber", line.getAccountNumber());
+                    // use the budget adjustment accounting line to get the account number that will then be used to lookup the
+                    // labor benefit rate category code
+                    Account lookupAccount = (Account) businessObjectService.findByPrimaryKey(Account.class, fieldValues);
+                    LaborLedgerBenefitsCalculation benefitsCalculation = null;
+                    String laborBenefitsRateCategoryCode = "";
+                    // make sure the parameter exists
+                    if (SpringContext.getBean(ParameterService.class).parameterExists(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE")) {
+                        laborBenefitsRateCategoryCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE");
+                    }
+                    else {
+                        laborBenefitsRateCategoryCode = "";
+                    }
+                    // make sure the system parameter exists
+                    if (SpringContext.getBean(ParameterService.class).parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY")) {
+                        // check the system param to see if the labor benefit rate category should be filled in
+                        String sysParam = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY");
+                        LOG.debug("sysParam: " + sysParam);
+                        // if sysParam == Y then Labor Benefit Rate Category should be used in the search
+                        if (sysParam.equalsIgnoreCase("Y")) {
 
-                    benefitLine.copyFrom(line);
-                    benefitLine.setFinancialObjectCode(benefitsCalculation.getPositionFringeBenefitObjectCode());
-                    benefitLine.refreshNonUpdateableReferences();
 
-                    // convert whole percentage to decimal value (5% to .0500, 18.66% to 0.1866)
-                    BigDecimal fringeBenefitPercent = formatPercentageForMultiplication(benefitsCalculation.getPositionFringeBenefitPercent());
+                            if (StringUtils.isBlank(line.getSubAccount().getSubAccountNumber())) {
+                                laborBenefitsRateCategoryCode = lookupAccount.getLaborBenefitRateCategoryCode();
+                            }
+                            else {
+                                laborBenefitsRateCategoryCode = SpringContext.getBean(LaborModuleService.class).getBenefitRateCategoryCode(line.getChartOfAccountsCode(), line.getAccountNumber(), line.getSubAccount().getSubAccountNumber());
+                            }
 
-                    // compute the benefit current amount with all decimals and then round it to the closest integer by setting the
-                    // scale to 0 and using the round half up rounding mode: exp. 1200*0.1866 = 223.92 -> rounded to 224
-                    BigDecimal benefitCurrentAmount = line.getCurrentBudgetAdjustmentAmount().bigDecimalValue().multiply(fringeBenefitPercent);
-                    benefitCurrentAmount = benefitCurrentAmount.setScale(0, BigDecimal.ROUND_HALF_UP);
+                            // make sure laborBenefitsRateCategoryCode isn't null
+                            if (ObjectUtils.isNull(laborBenefitsRateCategoryCode)) {
+                                // make sure the parameter exists
+                                if (SpringContext.getBean(ParameterService.class).parameterExists(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE")) {
+                                    laborBenefitsRateCategoryCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE");
+                                }
+                                else {
+                                    laborBenefitsRateCategoryCode = "";
+                                }
+                            }
 
-                    benefitLine.setCurrentBudgetAdjustmentAmount(new KualiDecimal(benefitCurrentAmount));
 
-                    KualiInteger benefitBaseAmount = line.getBaseBudgetAdjustmentAmount().multiply(fringeBenefitPercent);
-                    benefitLine.setBaseBudgetAdjustmentAmount(benefitBaseAmount);
+                        }
+                    }
 
-                    // clear monthly lines per KULEDOCS-1606
-                    benefitLine.clearFinancialDocumentMonthLineAmounts();
+                    String beneCalc = "{" + fringeBenefitInformation.getUniversityFiscalYear() + "," + fringeBenefitInformation.getChartOfAccountsCode() + "," + fringeBenefitInformation.getFinancialObjectBenefitsTypeCode() + "," + laborBenefitsRateCategoryCode + "}";
+                    LOG.info("Looking for a benefits calculation for " + beneCalc);
+                    // get the benefits calculation taking the laborBenefitRateCategoryCode into account
+                    benefitsCalculation = fringeBenefitInformation.getLaborLedgerBenefitsCalculation(laborBenefitsRateCategoryCode);
 
-                    // set flag on line so we know it was a generated benefit line and can clear it out later if needed
-                    benefitLine.setFringeBenefitIndicator(true);
+                    if (benefitsCalculation != null) {
+                        LOG.info("Found benefits calculation for " + beneCalc);
+                    }
+                    else {
+                        LOG.info("Couldn't locate a benefits calculation for " + beneCalc);
+                    }
+                    if (benefitsCalculation != null) {
+                        benefitLine.copyFrom(line);
+                        benefitLine.setFinancialObjectCode(benefitsCalculation.getPositionFringeBenefitObjectCode());
+                        benefitLine.refreshNonUpdateableReferences();
+                        LaborModuleService laborModuleService = SpringContext.getBean(LaborModuleService.class);
+                        if (ObjectUtils.isNotNull(laborModuleService.getCostSharingSourceAccountNumber())) {
+                            benefitLine.setAccountNumber(laborModuleService.getCostSharingSourceAccountNumber());
+                            benefitLine.setSubAccountNumber(laborModuleService.getCostSharingSourceSubAccountNumber());
+                            benefitLine.setChartOfAccountsCode(laborModuleService.getCostSharingSourceChartOfAccountsCode());
+                        }
 
-                    fringeLines.add(benefitLine);
+                        benefitLine.refreshNonUpdateableReferences();
+
+                        // convert whole percentage to decimal value (5% to .0500, 18.66% to 0.1866)
+                        BigDecimal fringeBenefitPercent = formatPercentageForMultiplication(benefitsCalculation.getPositionFringeBenefitPercent());
+                        // compute the benefit current amount with all decimals and then round it to the closest integer by setting the
+                        // scale to 0 and using the round half up rounding mode: exp. 1200*0.1866 = 223.92 -> rounded to 224
+                        BigDecimal benefitCurrentAmount = line.getCurrentBudgetAdjustmentAmount().bigDecimalValue().multiply(fringeBenefitPercent);
+                        benefitCurrentAmount = benefitCurrentAmount.setScale(0, BigDecimal.ROUND_HALF_UP);  
+                        benefitLine.setCurrentBudgetAdjustmentAmount(new KualiDecimal(benefitCurrentAmount));
+
+                        KualiInteger benefitBaseAmount = line.getBaseBudgetAdjustmentAmount().multiply(fringeBenefitPercent);
+                        benefitLine.setBaseBudgetAdjustmentAmount(benefitBaseAmount);
+
+                        // clear monthly lines per KULEDOCS-1606
+                        benefitLine.clearFinancialDocumentMonthLineAmounts();
+
+                        // set flag on line so we know it was a generated benefit line and can clear it out later if needed
+                        benefitLine.setFringeBenefitIndicator(true);
+
+                        fringeLines.add(benefitLine);
+                    }
                 }
             }
         }

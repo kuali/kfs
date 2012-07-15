@@ -395,15 +395,15 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         boolean checkInProcess = false;
         boolean hasInProcess = false;
         
-        PaymentRequestService paymentRequestService = SpringContext.getBean(PaymentRequestService.class);
+        Map <String, String> processPaymentRequestResult = new HashMap<String, String>();
+        processPaymentRequestResult = SpringContext.getBean(PaymentRequestService.class).getPaymentRequestsByStatusAndPurchaseOrderId(PaymentRequestStatuses.APPDOC_IN_PROCESS, poDocId);
+
+        if ("Y".equals(processPaymentRequestResult.get("hasInProcess"))) {
+            hasInProcess = true;  
+        }
         
-        List<String> docs =  paymentRequestService.getPaymentRequestsByStatusAndPurchaseOrderId(PaymentRequestStatuses.APPDOC_IN_PROCESS, true, poDocId);
-        if (!docs.isEmpty()) {
-            hasInProcess = true;
-         }
-        docs = paymentRequestService.getPaymentRequestsByStatusAndPurchaseOrderId(PaymentRequestStatuses.APPDOC_IN_PROCESS, false, poDocId);
-        if (!docs.isEmpty()) {
-            checkInProcess = true;
+        if ("Y".equals(processPaymentRequestResult.get("checkInProcess"))) {
+            checkInProcess = true;  
         }
         
         if (checkInProcess && !hasInProcess) {

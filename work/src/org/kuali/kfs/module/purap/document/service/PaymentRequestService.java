@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
@@ -376,14 +377,15 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
     
     /**
      * fetches list of document numebrs of payment requests for a given purchase order id.
-     * It filters the records by application document status by including if include is true
-     * else not including.
+     * It filters the records by application document status.
+     * 
+     * KFSMI-8687: The code is refactored from the patch provided in KFSCNTRB-14.
      * 
      * @param applicationDocumentStatus
-     * @param include
      * @param purchaseOrderId
-     * @return List<String> document numbers
+     * @return Map <String, String> results indicating if hasInProcess and checkInProcess
+     * has results.
      */
-    public List<String> getPaymentRequestsByStatusAndPurchaseOrderId(String applicationDocumentStatus, boolean include, Integer purchaseOrderId);
+    public Map <String, String> getPaymentRequestsByStatusAndPurchaseOrderId(String applicationDocumentStatus, Integer purchaseOrderId);
 }
 

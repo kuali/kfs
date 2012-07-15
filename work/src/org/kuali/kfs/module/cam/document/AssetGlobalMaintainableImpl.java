@@ -27,7 +27,6 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.coa.service.ObjectCodeService;
-import org.kuali.kfs.fp.document.BudgetAdjustmentDocument;
 import org.kuali.kfs.gl.GeneralLedgerConstants;
 import org.kuali.kfs.integration.cab.CapitalAssetBuilderModuleService;
 import org.kuali.kfs.integration.cam.CapitalAssetManagementModuleService;
@@ -166,8 +165,8 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
             Integer closingYear = new Integer(SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM));
             String closingDate = getClosingDate(closingYear);
             try {
-                if (ObjectUtils.isNotNull(assetGlobal.getPostingYear()) ) {
-                    assetGlobal.setAccountingPeriodCompositeString(assetGlobal.getAccountingPeriod().getUniversityFiscalPeriodCode()+assetGlobal.getPostingYear()); 
+                if (ObjectUtils.isNotNull(assetGlobal.getFinancialDocumentPostingYear()) ) {
+                    assetGlobal.setAccountingPeriodCompositeString(assetGlobal.getAccountingPeriod().getUniversityFiscalPeriodCode()+assetGlobal.getFinancialDocumentPostingYear()); 
                 }
                 updateAssetGlobalForPeriod13(assetGlobal, closingYear, closingDate);
                 assetGlobal.refreshNonUpdateableReferences();                   
@@ -431,13 +430,12 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
             // CSU 6702 BEGIN
             //year end logic
             if (isPeriod13(assetGlobal)) {                
-                assetPaymentDetail.setPostingPeriodCode(assetGlobal.getPostingPeriodCode());
-                assetPaymentDetail.setPostingYear(assetGlobal.getPostingYear());
+                assetPaymentDetail.setPostingPeriodCode(assetGlobal.getFinancialDocumentPostingPeriodCode());
+                assetPaymentDetail.setPostingYear(assetGlobal.getFinancialDocumentPostingYear());
             }                
             // CSU 6702 END
         }
     }
-
 
     /**
      * We are using a substitute mechanism for asset locking which can lock on assets when rule check passed. Return empty list from
@@ -827,7 +825,6 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
             }
         }
     }
-
 
     /**
      * Update assetGlobal fields for period 13 

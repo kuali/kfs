@@ -56,7 +56,9 @@
         <ref bean="AssetGlobal-separateSourceRemainingAmount"/>
         <ref bean="AssetGlobal-separateSourceTotalAmount"/>
         <ref bean="AssetGlobal-totalAssetPaymentAmount"/>        
-        <ref bean="AssetGlobal-documentNumber"/>  
+        <ref bean="AssetGlobal-documentNumber"/> 
+        <ref bean="AssetGlobal-financialDocumentPostingPeriodCode"/>
+        <ref bean="AssetGlobal-financialDocumentPostingYear"/>
         <!-- CSU 6702 BEGIN -->      
         <ref bean="AssetGlobal-accountingPeriodCompositeString" />
         <!-- CSU 6702 END -->
@@ -335,6 +337,21 @@
     <property name="name" value="totalAssetPaymentAmount"/>
     <property name="label" value="Total Amount"/>
     <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
+  </bean>
+  <bean id="AssetGlobal-financialDocumentPostingPeriodCode" parent="AssetGlobal-financialDocumentPostingPeriodCode-parentBean"/>
+
+  <bean id="AssetGlobal-financialDocumentPostingPeriodCode-parentBean" abstract="true" parent="AccountingPeriod-universityFiscalPeriodCode">
+    <property name="name" value="financialDocumentPostingPeriodCode"/>
+    <property name="label" value="Period"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="required" value="false"/>
+  </bean>
+  <bean id="AssetGlobal-financialDocumentPostingYear" parent="Asset-financialDocumentPostingYear-parentBean"/>
+  
+  <bean id="AssetGlobal-financialDocumentPostingYear-parentBean" abstract="true" parent="AccountingPeriod-universityFiscalYear">
+    <property name="name" value="financialDocumentPostingYear"/>
+    <property name="label" value="Fiscal Year"/>
+    <property name="required" value="false"/>
   </bean>
   
   <!-- CSU 6702 BEGIN -->

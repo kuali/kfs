@@ -413,6 +413,8 @@
 	<field-descriptor name="separateSourceCapitalAssetNumber" column="SEP_SRC_CPTLAST_NBR" jdbc-type="BIGINT"/>
 	<field-descriptor name="separateSourcePaymentSequenceNumber" column="SEP_SRC_AST_PMT_SEQ_NBR" jdbc-type="INTEGER"/> 
 	<field-descriptor name="capitalAssetBuilderOriginIndicator" column="CB_ORIGIN_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+	<field-descriptor name="financialDocumentPostingPeriodCode" column="FDOC_POST_PRD_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="financialDocumentPostingYear" column="FDOC_POST_YR" jdbc-type="INTEGER"/>
 
     <collection-descriptor name="assetGlobalDetails" element-class-ref="org.kuali.kfs.module.cam.businessobject.AssetGlobalDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
         <inverse-foreignkey field-ref="documentNumber" />

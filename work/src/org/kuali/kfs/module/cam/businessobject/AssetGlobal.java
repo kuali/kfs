@@ -85,8 +85,8 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     private boolean capitalAssetBuilderOriginIndicator;
     
     // CSU 6702 BEGIN
-    private Integer postingYear;
-    private String postingPeriodCode;
+    protected String financialDocumentPostingPeriodCode;
+    protected Integer financialDocumentPostingYear;
     private AccountingPeriod accountingPeriod;
     // CSU 6702 END
 
@@ -270,7 +270,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         this.manufacturerName = manufacturerName;
     }
 
-
     /**
      * Gets the manufacturerModelNumber attribute.
      * 
@@ -288,7 +287,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     public void setManufacturerModelNumber(String manufacturerModelNumber) {
         this.manufacturerModelNumber = manufacturerModelNumber;
     }
-
 
     /**
      * Gets the totalCostAmount attribute.
@@ -327,7 +325,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         this.landCountyName = landCountyName;
     }
 
-
     /**
      * Gets the landAcreageSize attribute.
      * 
@@ -345,7 +342,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     public void setLandAcreageSize(Integer landAcreageSize) {
         this.landAcreageSize = landAcreageSize;
     }
-
 
     /**
      * Gets the landParcelNumber attribute.
@@ -365,7 +361,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         this.landParcelNumber = landParcelNumber;
     }
 
-
     /**
      * Gets the vendorName attribute.
      * 
@@ -384,7 +379,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         this.vendorName = vendorName;
     }
 
-
     /**
      * Gets the organizationText attribute.
      * 
@@ -402,7 +396,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     public void setOrganizationText(String organizationText) {
         this.organizationText = organizationText;
     }
-
 
     /**
      * Gets the createDate attribute.
@@ -427,7 +420,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         this.createDate = createDate;
     }
 
-
     /**
      * Gets the capitalAssetInServiceDate attribute.
      * 
@@ -445,7 +437,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     public void setCapitalAssetInServiceDate(Date capitalAssetInServiceDate) {
         this.capitalAssetInServiceDate = capitalAssetInServiceDate;
     }
-
 
     /**
      * Gets the capitalAssetDepreciationDate attribute.
@@ -730,6 +721,43 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         this.lastInventoryDate = lastInventoryDate;
     }
 
+    /**
+     * Gets the financialDocumentPostingPeriodCode attribute.
+     *
+     * @return Returns the financialDocumentPostingPeriodCode
+     */
+    public String getFinancialDocumentPostingPeriodCode() {
+        return financialDocumentPostingPeriodCode;
+    }
+
+    /**
+     * Sets the financialDocumentPostingPeriodCode attribute.
+     *
+     * @param financialDocumentPostingPeriodCode The financialDocumentPostingPeriodCode to set.
+     */
+    public void setFinancialDocumentPostingPeriodCode(String financialDocumentPostingPeriodCode) {
+        this.financialDocumentPostingPeriodCode = financialDocumentPostingPeriodCode;
+    }
+
+
+    /**
+     * Gets the financialDocumentPostingYear attribute.
+     *
+     * @return Returns the financialDocumentPostingYear
+     */
+    public Integer getFinancialDocumentPostingYear() {
+        return financialDocumentPostingYear;
+    }
+
+    /**
+     * Sets the financialDocumentPostingYear attribute.
+     *
+     * @param financialDocumentPostingYear The financialDocumentPostingYear to set.
+     */
+    public void setFinancialDocumentPostingYear(Integer financialDocumentPostingYear) {
+        this.financialDocumentPostingYear = financialDocumentPostingYear;
+    }
+    
     /**
      * @see org.kuali.rice.kns.bo.BusinessObjectBase#toStringMapper()
      */
@@ -1091,24 +1119,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         this.maxAssetTotalAmount = maxAssetTotalAmount;
     }
 
-    
-    // CSU 6702 BEGIN
-    /**
-     * Get Posting Year
-     * @return postingYear
-     */
-    public Integer getPostingYear() {
-        return postingYear;
-    }
-
-    /**
-     * Set Posting year
-     * @param postingYear
-     */
-    public void setPostingYear(Integer postingYear) {
-        this.postingYear = postingYear;
-    }
-
     /**
      * Get the {@link AccountingPeriodService}
      * @return {@link AccountingPeriodService}
@@ -1126,10 +1136,10 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
      * @return composite or an empty string if either postingPeriodCode or postingYear is null
      */
     public String getAccountingPeriodCompositeString() {
-        if (postingPeriodCode== null || postingYear == null ) {
+        if (financialDocumentPostingPeriodCode== null || financialDocumentPostingYear == null ) {
             return "";
         }        
-        return postingPeriodCode + postingYear;
+        return financialDocumentPostingPeriodCode + financialDocumentPostingYear;
     }
 
     /**
@@ -1148,30 +1158,14 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     }
 
     /**
-     * Get the posting period code
-     * @return postingPeriodCode
-     */
-    public String getPostingPeriodCode() {
-        return postingPeriodCode;
-    }
-
-    /**
-     * Set the posting period code
-     * @param postingPeriodCode
-     */
-    public void setPostingPeriodCode(String postingPeriodCode) {
-        this.postingPeriodCode = postingPeriodCode;
-    }
-    
-    /**
      * Set postingYear and postingPeriodCode 
      * @param accountingPeriod
      */
     public void setAccountingPeriod(AccountingPeriod accountingPeriod) {
         this.accountingPeriod = accountingPeriod;        
         if(ObjectUtils.isNotNull(accountingPeriod)) {
-            setPostingYear(accountingPeriod.getUniversityFiscalYear());
-            setPostingPeriodCode(accountingPeriod.getUniversityFiscalPeriodCode());
+            setFinancialDocumentPostingYear(accountingPeriod.getUniversityFiscalYear());
+            setFinancialDocumentPostingPeriodCode(accountingPeriod.getUniversityFiscalPeriodCode());
         }
     }
     

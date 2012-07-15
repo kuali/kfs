@@ -606,6 +606,25 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     }
 
     /**
+     * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getPaymentRequestsByStatusAndPurchaseOrderId(java.lang.String, boolean, java.lang.Integer)
+     */
+    @Override
+    public List<String> getPaymentRequestsByStatusAndPurchaseOrderId(String applicationDocumentStatus, boolean include, Integer purchaseOrderId) {
+        List<String> paymentRequestDocNumbers = paymentRequestDao.getDocumentNumbersByPurchaseOrderId(purchaseOrderId);
+        
+        //if there are no payment request document numbers exist then there is no need to 
+        //check for application document status on the workflow documents....
+        if (paymentRequestDocNumbers == null || paymentRequestDocNumbers.isEmpty()) {
+            return paymentRequestDocNumbers;
+        }
+        
+        List<String> filteredPaymentRequestDocNumbers = filterPaymentRequestByAppDocStatus(include, paymentRequestDocNumbers, applicationDocumentStatus);
+
+        return filteredPaymentRequestDocNumbers;
+    }
+    
+    
+    /**
      * @see org.kuali.kfs.module.purap.document.service.PaymentRequestService#getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(java.lang.Integer,
      *      org.kuali.rice.core.api.util.type.KualiDecimal, java.sql.Date)
      */
@@ -1762,6 +1781,51 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         return paymentRequestDocNumbers;
     }
 
+    /**
+     *  Since PaymentRequest does not have the app doc status, perform an additional lookup
+     *  through doc search by using list of PaymentRequest Doc numbers.  Query appDocStatus
+     *  from workflow document and filter against the provided status
+     *
+     *  DocumentSearch allows for multiple docNumber lookup by docId|docId|docId conversion
+     *
+     * @param include
+     * @param lookupDocNumbers
+     * @param appDocStatus
+     * @return a list of document numbers matching application document status based on
+     */
+    protected List<String> filterPaymentRequestByAppDocStatus(boolean include, List<String> lookupDocNumbers, String... appDocStatus) {
+        boolean valid = false;
+
+        final String DOC_NUM_DELIM = "|";
+        StrBuilder routerHeaderIdBuilder = new StrBuilder().appendWithSeparators(lookupDocNumbers, DOC_NUM_DELIM);
+
+        List<String> paymentRequestDocNumbers = new ArrayList<String>();
+
+        DocumentSearchCriteria.Builder documentSearchCriteriaDTO = DocumentSearchCriteria.Builder.create();
+        documentSearchCriteriaDTO.setDocumentId(routerHeaderIdBuilder.toString());
+        documentSearchCriteriaDTO.setDocumentTypeName(PurapConstants.PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT);
+
+        DocumentSearchResults reqDocumentsList = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(
+                GlobalVariables.getUserSession().getPrincipalId(), documentSearchCriteriaDTO.build());
+
+        for (DocumentSearchResult reqDocument : reqDocumentsList.getSearchResults()) {
+            ///use the appDocStatus from the KeyValueDTO result to look up custom status
+            if (include) {
+                if (Arrays.asList(appDocStatus).contains(reqDocument.getDocument().getApplicationDocumentStatus())){
+                    //found the matching status, retrieve the routeHeaderId and add to the list
+                    paymentRequestDocNumbers.add(reqDocument.getDocument().getDocumentId());
+                }
+            } else {
+                if (!Arrays.asList(appDocStatus).contains(reqDocument.getDocument().getApplicationDocumentStatus())){
+                    //found the matching status, retrieve the routeHeaderId and add to the list
+                    paymentRequestDocNumbers.add(reqDocument.getDocument().getDocumentId());
+                }
+            }
+        }
+
+        return paymentRequestDocNumbers;
+    }
+    
     /**
      * Wrapper class to the filterPaymentRequestByAppDocStatus
      *

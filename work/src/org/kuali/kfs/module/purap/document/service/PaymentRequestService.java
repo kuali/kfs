@@ -18,8 +18,8 @@ package org.kuali.kfs.module.purap.document.service;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
+
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.VendorCreditMemoDocument;
@@ -373,5 +373,17 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
      * @param document The disbursement voucher document being modified.
      */
     public void clearTax(PaymentRequestDocument document);
+    
+    /**
+     * fetches list of document numebrs of payment requests for a given purchase order id.
+     * It filters the records by application document status by including if include is true
+     * else not including.
+     * 
+     * @param applicationDocumentStatus
+     * @param include
+     * @param purchaseOrderId
+     * @return List<String> document numbers
+     */
+    public List<String> getPaymentRequestsByStatusAndPurchaseOrderId(String applicationDocumentStatus, boolean include, Integer purchaseOrderId);
 }
 

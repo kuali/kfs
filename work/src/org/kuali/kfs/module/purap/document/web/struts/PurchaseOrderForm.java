@@ -42,12 +42,10 @@ import org.kuali.kfs.module.purap.businessobject.PurchaseOrderVendorStipulation;
 import org.kuali.kfs.module.purap.businessobject.RequisitionCapitalAssetLocation;
 import org.kuali.kfs.module.purap.businessobject.SensitiveData;
 import org.kuali.kfs.module.purap.businessobject.SensitiveDataAssignment;
-import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderAmendmentDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderDocument;
 import org.kuali.kfs.module.purap.document.PurchaseOrderSplitDocument;
 import org.kuali.kfs.module.purap.document.service.PaymentRequestService;
-import org.kuali.kfs.module.purap.document.service.PurapService;
 import org.kuali.kfs.module.purap.document.service.PurchaseOrderService;
 import org.kuali.kfs.module.purap.document.service.ReceivingService;
 import org.kuali.kfs.module.purap.util.PurApItemUtils;
@@ -56,7 +54,6 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.document.DocumentStatusCategory;
-import org.kuali.rice.kew.exception.WorkflowServiceErrorException;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
@@ -392,44 +389,28 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * @return True if the document passes all the validations.
      */
     protected boolean processPaymentRequestRulesForCanClose(PurchaseOrderDocument document) {
-        boolean valid = true;
-        // The PO must have at least one PREQ against it.
+        boolean valid = false;
         Integer poDocId = document.getPurapDocumentIdentifier();
-        List<PaymentRequestDocument> pReqs = SpringContext.getBean(PaymentRequestService.class).getPaymentRequestsByPurchaseOrderId(poDocId);
-        if (ObjectUtils.isNotNull(pReqs)) {
-            if (pReqs.size() == 0) {
-                valid = false;
-            }
-            else {
-                boolean checkInProcess = true;
-                boolean hasInProcess = false;
-
-                for (PaymentRequestDocument pReq : pReqs) {
-                    // skip exception docs
-                    if (pReq.getDocumentHeader().getWorkflowDocument().isException()) {
-                        continue;
-                    }
-                    // TODO NOTE for below, this could/should be changed to look at the first route level after full entry instead of
-                    // being tied to AwaitingFiscal (in case full entry is moved)
-                    // look for a doc that is currently routing, that will probably be the one that called this close if called from
-                    // preq (with close po box)
-                    if (StringUtils.equalsIgnoreCase(pReq.getApplicationDocumentStatus(), PaymentRequestStatuses.APPDOC_AWAITING_FISCAL_REVIEW) && !StringUtils.equalsIgnoreCase(pReq.getDocumentHeader().getWorkflowDocument().getCurrentNodeNames().toString(), PurapConstants.PaymentRequestStatuses.NODE_ACCOUNT_REVIEW)) {
-                        // terminate the search since this close doc is probably being called by this doc, a doc should never be In
-                        // Process and enroute in any other case
-                        checkInProcess = false;
-                        break;
-                    }
-                    if (!SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(pReq)) {
-                        hasInProcess = true;
-                    }
-                }
-                if (checkInProcess && hasInProcess) {
-                    valid = false;
-                }
-            }
+        
+        boolean checkInProcess = false;
+        boolean hasInProcess = false;
+        
+        PaymentRequestService paymentRequestService = SpringContext.getBean(PaymentRequestService.class);
+        
+        List<String> docs =  paymentRequestService.getPaymentRequestsByStatusAndPurchaseOrderId(PaymentRequestStatuses.APPDOC_IN_PROCESS, true, poDocId);
+        if (!docs.isEmpty()) {
+            hasInProcess = true;
+         }
+        docs = paymentRequestService.getPaymentRequestsByStatusAndPurchaseOrderId(PaymentRequestStatuses.APPDOC_IN_PROCESS, false, poDocId);
+        if (!docs.isEmpty()) {
+            checkInProcess = true;
         }
-
-        return valid;
+        
+        if (checkInProcess && !hasInProcess) {
+            valid = true;
+        }
+ 
+         return valid;
     }
 
     /**

@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -31,7 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionMapping;
-import org.joda.time.DateTime;
+import org.kuali.kfs.gl.service.impl.StringHelper;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
@@ -285,12 +284,19 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
          * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
          */
         public int compare(PaymentApplicationInvoiceApply rosencrantz, PaymentApplicationInvoiceApply guildenstern) {
+      
             if (ObjectUtils.isNotNull(rosencrantz.getInvoice()) && ObjectUtils.isNotNull(rosencrantz.getInvoice().getDocumentNumber()))
                 if (ObjectUtils.isNotNull(guildenstern.getInvoice()) && ObjectUtils.isNotNull(guildenstern.getInvoice().getDocumentNumber())) {
-                    Date rosecrantzDocDate= rosencrantz.getInvoice().getDocumentHeader().getWorkflowDocument().getDateCreated().toDate();
-
-                    Date guildensternDocDate = guildenstern.getInvoice().getDocumentHeader().getWorkflowDocument().getDateCreated().toDate();
-                    return rosecrantzDocDate.compareTo(guildensternDocDate);
+                    String rosecrantzDocNum = rosencrantz.getInvoice().getDocumentNumber();
+                    String guildensternDocNum = guildenstern.getInvoice().getDocumentNumber();
+                    if (rosecrantzDocNum.length() == guildensternDocNum.length()) {
+                        return rosecrantzDocNum.compareTo(guildensternDocNum);
+                    } else if (rosecrantzDocNum.length() > guildensternDocNum.length()) {
+                        return rosecrantzDocNum.compareTo(StringHelper.justifyRight(guildensternDocNum, rosecrantzDocNum.length(), ' '));
+                    } else {
+                        return StringHelper.justifyRight(rosecrantzDocNum, guildensternDocNum.length(), ' ').compareTo(guildensternDocNum);
+                    }
+   
                  }
             return 0;
         }
@@ -596,11 +602,22 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
          * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
          */
         public int compare(NonAppliedHolding rosencrantz, NonAppliedHolding guildenstern) {
-            Date rosecrantzDocDate = rosencrantz.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate();
-            Date guildensternDocDate = guildenstern.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate();
-            return rosecrantzDocDate.compareTo(guildensternDocDate);
-      }
-    }
+            if (ObjectUtils.isNotNull(rosencrantz.getReferenceFinancialDocumentNumber()))
+                if (ObjectUtils.isNotNull(guildenstern.getReferenceFinancialDocumentNumber())) {
+                    String rosecrantzDocNum = rosencrantz.getReferenceFinancialDocumentNumber();
+                    String guildensternDocNum = guildenstern.getReferenceFinancialDocumentNumber();
+                    if (rosecrantzDocNum.length() == guildensternDocNum.length()) {
+                        return rosecrantzDocNum.compareTo(guildensternDocNum);
+                    } else if (rosecrantzDocNum.length() > guildensternDocNum.length()) {
+                        return rosecrantzDocNum.compareTo(StringHelper.justifyRight(guildensternDocNum, rosecrantzDocNum.length(), ' '));
+                    } else {
+                        return StringHelper.justifyRight(rosecrantzDocNum, guildensternDocNum.length(), ' ').compareTo(guildensternDocNum);
+                    }
+                 }
+            return 0;
+        }
+     }
+
 
     public List<NonAppliedHolding> getNonAppliedControlHoldings() {
         BusinessObjectDictionaryService businessObjectDictionaryService = SpringContext.getBean(BusinessObjectDictionaryService.class);

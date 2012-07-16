@@ -274,14 +274,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                     checkForPrintTransmission(po);
                     po.setContractManagerCode(PurapConstants.APO_CONTRACT_MANAGER);
                     
-                    boolean rulePassed = kualiRuleService.applyRules(new AttributedRouteDocumentEvent("", po));
-                    
-                    if (!rulePassed) {
-                        GlobalVariables.getMessageMap().getErrorMessages().clear();
-                        documentService.saveDocument(po);
-                    } else {
-                        documentService.routeDocument(po, null, null);
-                    }
+                    documentService.routeDocument(po, null, null);
                     
                     final DocumentAttributeIndexingQueue documentAttributeIndexingQueue = KewApiServiceLocator.getDocumentAttributeIndexingQueue();
                     documentAttributeIndexingQueue.indexDocument(po.getDocumentNumber());

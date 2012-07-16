@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -30,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionMapping;
+import org.joda.time.DateTime;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
@@ -40,18 +42,15 @@ import org.kuali.kfs.module.ar.document.CashControlDocument;
 import org.kuali.kfs.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.kfs.module.ar.document.PaymentApplicationDocument;
 import org.kuali.kfs.module.ar.document.service.CustomerInvoiceDocumentService;
-import org.kuali.kfs.module.ar.document.web.struts.PaymentApplicationDocumentForm.PaymentApplicationComparator;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.util.BeanPropertyComparator;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class PaymentApplicationDocumentForm extends FinancialSystemTransactionalDocumentFormBase {
@@ -288,9 +287,10 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         public int compare(PaymentApplicationInvoiceApply rosencrantz, PaymentApplicationInvoiceApply guildenstern) {
             if (ObjectUtils.isNotNull(rosencrantz.getInvoice()) && ObjectUtils.isNotNull(rosencrantz.getInvoice().getDocumentNumber()))
                 if (ObjectUtils.isNotNull(guildenstern.getInvoice()) && ObjectUtils.isNotNull(guildenstern.getInvoice().getDocumentNumber())) {
-                    Integer rosecrantzDocNum = Integer.valueOf(rosencrantz.getInvoice().getDocumentNumber());
-                    Integer guildensternDocNum = Integer.valueOf(guildenstern.getInvoice().getDocumentNumber());
-                    return rosecrantzDocNum.compareTo(guildensternDocNum);
+                    Date rosecrantzDocDate= rosencrantz.getInvoice().getDocumentHeader().getWorkflowDocument().getDateCreated().toDate();
+
+                    Date guildensternDocDate = guildenstern.getInvoice().getDocumentHeader().getWorkflowDocument().getDateCreated().toDate();
+                    return rosecrantzDocDate.compareTo(guildensternDocDate);
                  }
             return 0;
         }
@@ -596,16 +596,11 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
          * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
          */
         public int compare(NonAppliedHolding rosencrantz, NonAppliedHolding guildenstern) {
-            if (ObjectUtils.isNotNull(rosencrantz.getReferenceFinancialDocumentNumber()))
-                if (ObjectUtils.isNotNull(guildenstern.getReferenceFinancialDocumentNumber())) {
-                    Integer rosecrantzDocNum = Integer.valueOf(rosencrantz.getReferenceFinancialDocumentNumber());
-                    Integer guildensternDocNum = Integer.valueOf(guildenstern.getReferenceFinancialDocumentNumber());
-                    return rosecrantzDocNum.compareTo(guildensternDocNum);
-                 }
-            return 0;
-        }
-     }
-
+            Date rosecrantzDocDate = rosencrantz.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate();
+            Date guildensternDocDate = guildenstern.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate();
+            return rosecrantzDocDate.compareTo(guildensternDocDate);
+      }
+    }
 
     public List<NonAppliedHolding> getNonAppliedControlHoldings() {
         BusinessObjectDictionaryService businessObjectDictionaryService = SpringContext.getBean(BusinessObjectDictionaryService.class);

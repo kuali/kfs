@@ -398,9 +398,9 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         boolean valid = true;
         boolean isParent = vendorDetail.isVendorParentIndicator();
         Map criteria = new HashMap();
-        criteria.put(VendorPropertyConstants.VENDOR_TAX_TYPE_CODE, vendorDetail.getVendorHeader().getVendorTaxTypeCode());
+        //criteria.put(VendorPropertyConstants.VENDOR_TAX_TYPE_CODE, vendorDetail.getVendorHeader().getVendorTaxTypeCode());
         criteria.put(VendorPropertyConstants.VENDOR_TAX_NUMBER, vendorDetail.getVendorHeader().getVendorTaxNumber());
-        criteria.put(KFSPropertyConstants.ACTIVE_INDICATOR, true);
+        //criteria.put(KFSPropertyConstants.ACTIVE_INDICATOR, true);
         Map negativeCriteria = new HashMap();
         int existingVendor = 0;
         // If this is editing an existing vendor, we have to include the current vendor's

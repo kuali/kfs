@@ -482,7 +482,7 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
             if ( LOG.isDebugEnabled() ) {
                 LOG.debug( "Converting Delegation Member: " + member );
             }
-            if( activeInd != member.isActive() ) {
+            if( StringUtils.isBlank(active) || activeInd == member.isActive() ) {
                 OrgReviewRole orgReviewRole = new OrgReviewRole();
                 orgReviewRole.setDelegateMember(member);
                 if ( LOG.isDebugEnabled() ) {
@@ -630,8 +630,10 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
             searchCriteriaMain.put(MEMBER_ATTRIBUTE_VALUE_KEY, organizationCode);
         }
 
-
-        searchCriteriaMain.put(MEMBER_ID, buildMemberIdLookupString(principalIds, groupIds, roleIds));
+        String memberIdString = buildMemberIdLookupString(principalIds, groupIds, roleIds);
+        if ( StringUtils.isNotBlank(memberIdString) ) {
+            searchCriteriaMain.put(MEMBER_ID, memberIdString );
+        }
         addDelegationsToDelegationMemberSearchCriteria(documentTypeName, searchCriteriaMain);
         return searchCriteriaMain;
     }

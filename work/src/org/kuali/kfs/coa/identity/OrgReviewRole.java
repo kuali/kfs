@@ -945,21 +945,17 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
     }
 
     public void setDelegateMember( DelegateMemberContract roleMember ) {
+//        setRoleId(  roleMember.get)
         memberTypeCode = roleMember.getType().getCode();
         if(MemberType.ROLE.equals(roleMember.getType())){
             roleMemberRoleId = roleMember.getMemberId();
             getRole();
-//            roleMemberRoleNamespaceCode = roleMember.getMemberNamespaceCode();
-//            roleMemberRoleName = roleMember.getMemberName();
         } else if(MemberType.GROUP.equals(roleMember.getType())){
             groupMemberGroupId = roleMember.getMemberId();
             getGroup();
-//            groupMemberGroupNamespaceCode = roleMember.getMemberNamespaceCode();
-//            groupMemberGroupName = roleMember.getMemberName();
         } else if(MemberType.PRINCIPAL.equals(roleMember.getType())){
             principalMemberPrincipalId = roleMember.getMemberId();
             getPerson();
-//            principalMemberPrincipalName = roleMember.getMemberName();
         }
 
         if ( roleMember.getActiveFromDate() != null ) {

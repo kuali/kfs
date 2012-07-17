@@ -227,6 +227,11 @@ public class RequisitionServiceImpl implements RequisitionService {
                     return "Standard requisition with no contract selected but a B2B contract exists for the selected vendor.";
                 }
             }
+            
+            //vendor contract expirated date validation....KFSMI-8502
+            if (vendorService.isVendorContractExpired(requisition, vendorDetail)) {
+                return "Contracted Vendor used where the contract end date is expired.";
+            }
         }
         
         //if vendor address isn't complete, no APO
@@ -237,17 +242,6 @@ public class RequisitionServiceImpl implements RequisitionService {
             return "Requistion does not contain a complete vendor address";
         }
 
-        
-        //make sure that the vendor contract expiration date
-        VendorDetail vendorDetail = vendorService.getVendorDetail(requisition.getVendorHeaderGeneratedIdentifier(), requisition.getVendorDetailAssignedIdentifier());
-        if (vendorDetail == null) {
-            return "Error retrieving vendor from the database.";
-        }
-        
-        if (vendorService.isVendorContractExpired(requisition, vendorDetail)) {
-            return "Contracted Vendor used where the contract end date is expired.";
-        }
-        
         // These are needed for commodity codes. They are put in here so that
         // we don't have to loop through items too many times.
         String purchaseOrderRequiresCommodityCode = parameterService.getParameterValueAsString(PurchaseOrderDocument.class, PurapRuleConstants.ITEMS_REQUIRE_COMMODITY_CODE_IND);

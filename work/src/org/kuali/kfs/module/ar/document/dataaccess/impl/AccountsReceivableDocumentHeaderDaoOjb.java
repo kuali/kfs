@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.module.ar.document.dataaccess.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -73,10 +74,12 @@ public class AccountsReceivableDocumentHeaderDaoOjb extends PlatformAwareDaoBase
         documentNumbers.addAll(appDocumentNumbers);
 
         // get the final AR documents
-        Criteria criteria3 = new Criteria();
+        
         if (!documentNumbers.isEmpty()) {
+            Criteria criteria3 = new Criteria();
             criteria3.addIn(KFSConstants.CustomerOpenItemReport.DOCUMENT_NUMBER,documentNumbers);
+            return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(AccountsReceivableDocumentHeader.class, criteria3));
         }
-        return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(AccountsReceivableDocumentHeader.class, criteria3));
+        return new ArrayList<AccountsReceivableDocumentHeader>();
     }
 }

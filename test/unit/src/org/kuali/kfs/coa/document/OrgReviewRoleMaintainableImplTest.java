@@ -25,6 +25,7 @@ import org.kuali.kfs.coa.identity.OrgReviewRole;
 import org.kuali.kfs.coa.service.impl.OrgReviewRoleServiceImpl;
 import org.kuali.kfs.coa.service.impl.OrgReviewRoleTestBase;
 import org.kuali.kfs.sys.ConfigureContext;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.web.ui.Field;
@@ -32,6 +33,7 @@ import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.kns.web.ui.Section;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -112,7 +114,7 @@ public class OrgReviewRoleMaintainableImplTest extends OrgReviewRoleTestBase {
         assertEquals( "The roleMemberId should have been blank", "", orgHierOrgReviewRole.getRoleMemberId() );
     }
 
-    public void testPrepareBusinessObject_OrgHier_Delegate_New() {
+    public void testPrepareBusinessObject_OrgHier_Delegate_New() throws Exception {
         fail("Not yet implemented");
     }
 
@@ -226,6 +228,21 @@ public class OrgReviewRoleMaintainableImplTest extends OrgReviewRoleTestBase {
         return document;
     }
 
+    public void testDocumentSubmit_OrgHier_Delegate_New() throws Exception {
+        // create an org hierarchy role member on which to create a delegation
+        orgHierOrgReviewRole.setEdit(false);
+        orgReviewRoleService.saveOrgReviewRoleToKim(orgHierOrgReviewRole);
+        MaintenanceDocument doc = createNewDocument_OrgHier_Delegation( orgHierOrgReviewRole.getRoleMemberId() );
+
+        ((OrgReviewRole)doc.getNewMaintainableObject().getBusinessObject()).setDelegationTypeCode("P");
+        doc.getDocumentHeader().setDocumentDescription("Unit Test");
+
+        SpringContext.getBean(BusinessObjectService.class).linkUserFields(doc);
+
+
+        KRADServiceLocatorWeb.getDocumentService().routeDocument(doc, null, null);
+    }
+
     @SuppressWarnings("deprecation")
     protected MaintenanceDocument createCopyDocument() {
         fail("Not yet implemented");
@@ -233,9 +250,22 @@ public class OrgReviewRoleMaintainableImplTest extends OrgReviewRoleTestBase {
     }
 
     @SuppressWarnings("deprecation")
-    protected MaintenanceDocument createCreateDelegationDocument() {
-        fail("Not yet implemented");
-        throw new UnsupportedOperationException();
+    protected MaintenanceDocument createNewDocument_OrgHier_Delegation( String roleMemberId ) throws Exception {
+        OrgReviewRole existingOrr = new OrgReviewRole();
+        orgReviewRoleService.populateOrgReviewRoleFromRoleMember(existingOrr, roleMemberId);
+        MaintenanceDocument document = (MaintenanceDocument) KRADServiceLocatorWeb.getDocumentService().getNewDocument(ORG_REVIEW_DOC_TYPE);
+        existingOrr.setODelMId("New");
+        existingOrr.setORMId(roleMemberId);
+        document.getOldMaintainableObject().prepareBusinessObject((BusinessObject) ObjectUtils.deepCopy(existingOrr));
+        PersistableBusinessObject oldBo = document.getOldMaintainableObject().getBusinessObject();
+        document.getOldMaintainableObject().setBusinessObject(oldBo);
+        document.getOldMaintainableObject().setBoClass(OrgReviewRole.class);
+        document.getNewMaintainableObject().setBusinessObject((PersistableBusinessObject) ObjectUtils.deepCopy(oldBo));
+        document.getNewMaintainableObject().setBoClass(OrgReviewRole.class);
+        document.getNewMaintainableObject().processAfterEdit( document, new HashMap<String, String[]>() );
+        document.getNewMaintainableObject().setMaintenanceAction(KRADConstants.MAINTENANCE_EDIT_ACTION);
+
+        return document;
     }
 
 

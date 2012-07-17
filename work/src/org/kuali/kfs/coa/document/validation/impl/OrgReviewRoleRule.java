@@ -155,7 +155,7 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
         if(StringUtils.isNotEmpty(orr.getRoleMemberId())){
             valid = validateAmounts(orr);
             //TODO: put from and to amounts validation here
-            RoleMemberQueryResults roleMemberResults = KimApiServiceLocator.getRoleService().findRoleMembers(QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ROLE_MEMBER_ID, orr.getRoleMemberId()))));
+            RoleMemberQueryResults roleMemberResults = KimApiServiceLocator.getRoleService().findRoleMembers(QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ID, orr.getRoleMemberId()))));
             List<RoleMember> roleMembers = roleMemberResults.getResults();
             RoleMember roleMember = null;
             if(roleMembers!=null && !roleMembers.isEmpty() ) {

@@ -264,7 +264,7 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
             if ( delegateType == null || delegateType.getDelegationId() == null ) {
                 DelegateType.Builder newDelegateType = DelegateType.Builder.create(orr.getRoleId(), delegationType, new ArrayList<DelegateMember.Builder>(1));
                 // ensure this is set (for new delegation types)
-                newDelegateType.setKimTypeId(orr.getRole().getKimTypeId());
+                newDelegateType.setKimTypeId( orr.getKimTypeId());
                 delegateType = roleService.createDelegateType(newDelegateType.build());
             } else {
                 if ( LOG.isDebugEnabled() ) {
@@ -351,7 +351,7 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
 
     protected List<KfsKimDocDelegateMember> getDelegationMembersToSave(OrgReviewRole orr){
         KfsKimDocDelegateMember delegationMember = null;
-        if(orr.isEdit() && !orr.isCreateDelegation()){
+        if(orr.isEdit() && StringUtils.isNotBlank(orr.getDelegationMemberId())){
             delegationMember = new KfsKimDocDelegateMember( KimApiServiceLocator.getRoleService().getDelegationMemberById(orr.getDelegationMemberId()) );
         }
 

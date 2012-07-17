@@ -564,13 +564,14 @@
 	
 	<bean id="taxRegionTypeLookupableHelperService-parentBean" class="org.kuali.kfs.sys.businessobject.lookup.TaxRegionTypeLookupableServiceImpl" parent="lookupableHelperService" abstract="true" />
 	
-    <bean id="taxRegionTypeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">
+    <bean id="taxRegionTypeLookupable" parent="taxRegionTypeLookupable-parentBean" scope="prototype" />
+    <bean id="taxRegionTypeLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
         <property name="lookupableHelperService">
     		<ref bean="taxRegionTypeLookupableHelperService" /> 
         </property>
     </bean>		
+	
 	<bean id="taxRegionLookupable" parent="taxRegionLookupable-parentBean" scope="prototype"/>
-    
     <bean id="taxRegionLookupable-parentBean" class="org.kuali.kfs.sys.businessobject.lookup.TaxRegionLookupableImpl" abstract="true">
         <property name="lookupableHelperService">
             <ref bean="lookupableHelperService" />
@@ -605,7 +606,7 @@
 		<property name="businessObjectMetaDataDao" ref="businessObjectMetaDataDao" />
 		<property name="lookupService" ref="lookupService" />
     </bean>
-	<bean id="businessObjectComponentLookupable" parent="businessObjectComponentLookupable-parentBean"/>
+	<bean id="businessObjectComponentLookupable" parent="businessObjectComponentLookupable-parentBean" scope="prototype"/>
 
     <bean id="businessObjectComponentLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
         <property name="lookupableHelperService">
@@ -614,7 +615,7 @@
             </bean>
         </property>
     </bean>
-	<bean id="businessObjectPropertyLookupable" parent="businessObjectPropertyLookupable-parentBean"/>
+	<bean id="businessObjectPropertyLookupable" parent="businessObjectPropertyLookupable-parentBean" scope="prototype"/>
     
     <bean id="businessObjectPropertyLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
         <property name="lookupableHelperService">
@@ -623,7 +624,7 @@
             </bean>
         </property>
     </bean>
-	<bean id="functionalFieldDescriptionLookupable" parent="functionalFieldDescriptionLookupable-parentBean"/>
+	<bean id="functionalFieldDescriptionLookupable" parent="functionalFieldDescriptionLookupable-parentBean" scope="prototype"/>
 
     <bean id="functionalFieldDescriptionLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
         <property name="lookupableHelperService">
@@ -632,7 +633,7 @@
     </bean>
         </property>
     </bean>
-	<bean id="dataMappingFieldDefinitionLookupable" parent="dataMappingFieldDefinitionLookupable-parentBean"/>
+	<bean id="dataMappingFieldDefinitionLookupable" parent="dataMappingFieldDefinitionLookupable-parentBean" scope="prototype"/>
 
     <bean id="dataMappingFieldDefinitionLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
         <property name="lookupableHelperService">
@@ -922,7 +923,8 @@
 	 	<property name="fileTypeIdentifier" value="semaphoreInputFileTypeError" />
 	</bean>
 	
-	<bean id="namespaceOrFilePathPermissionTypeService" class="org.kuali.kfs.sys.identity.NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeServiceImpl">
+	<bean id="namespaceOrFilePathPermissionTypeService" parent="namespaceOrFilePathPermissionTypeService-parentBean" />
+	<bean id="namespaceOrFilePathPermissionTypeService-parentBean" abstract="true" class="org.kuali.kfs.sys.identity.NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeServiceImpl">
         <property name="wildcardMatchStringAttributeName" value="filePath"/>
     	<property name="namespaceRequiredOnStoredAttributeSet" value="false" />
     </bean>

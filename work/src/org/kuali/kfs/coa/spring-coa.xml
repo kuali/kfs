@@ -348,7 +348,8 @@
 		</property>
 	</bean>
 
-	<bean id="addPriorYearAccountsReportWriterService" parent="reportWriterService">
+	<bean id="addPriorYearAccountsReportWriterService" parent="addPriorYearAccountsReportWriterService-parentBean"/>
+	<bean id="addPriorYearAccountsReportWriterService-parentBean" parent="reportWriterService" abstract="true">
 		<property name="filePath" value="${reports.directory}/coa"/>
 		<property name="fileNamePrefix" value="add_prior_year_accounts_"/>
         <property name="title" value="Accounts Added (and not Added) For Prior Year"/>
@@ -589,8 +590,9 @@
 	<bean id="indirectCostRecoveryRateFiscalYearMaker" parent="FiscalYearMaker">
 		<property name="businessObjectClass" value="org.kuali.kfs.coa.businessobject.IndirectCostRecoveryRate" /> 
 	</bean>	
-	
-    <bean id="orgReviewRoleLookupableHelperService" class="org.kuali.kfs.coa.identity.OrgReviewRoleLookupableHelperServiceImpl" parent="lookupableHelperService">
+
+    <bean id="orgReviewRoleLookupableHelperService" parent="orgReviewRoleLookupableHelperService-parentBean" />
+    <bean id="orgReviewRoleLookupableHelperService-parentBean" class="org.kuali.kfs.coa.identity.OrgReviewRoleLookupableHelperServiceImpl" parent="lookupableHelperService" abstract="true">
 		<property name="orgReviewRoleService" ref="orgReviewRoleService" />
     </bean>
 
@@ -613,9 +615,11 @@
     	
 	<bean id="chartLedgerReferenceValuePreparedStatementCachingDao" parent="preparedStatementCachingDao" class="org.kuali.kfs.coa.batch.dataaccess.impl.LedgerReferenceValuePreparedStatementCachingDaoJdbc" />
 
-	<bean id="orgReviewRoleService" class="org.kuali.kfs.coa.service.impl.OrgReviewRoleServiceImpl" />
-	
-	<bean id="cfdaService" class="org.kuali.kfs.coa.service.impl.CfdaServiceImpl">
+	<bean id="orgReviewRoleService" parent="orgReviewRoleService-parentBean" />
+	<bean id="orgReviewRoleService-parentBean" class="org.kuali.kfs.coa.service.impl.OrgReviewRoleServiceImpl" abstract="true" />
+		
+	<bean id="cfdaService" parent="cfdaService-parentBean" />
+	<bean id="cfdaService-parentBean" class="org.kuali.kfs.coa.service.impl.CfdaServiceImpl" abstract="true">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
 	

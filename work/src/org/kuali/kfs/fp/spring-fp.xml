@@ -303,7 +303,8 @@
 		</property>
 	</bean>
 
-  <bean id="procurementCardLoadReportWriterService" parent="reportWriterService">
+  <bean id="procurementCardLoadReportWriterService" parent="procurementCardLoadReportWriterService-parentBean" />
+  <bean id="procurementCardLoadReportWriterService-parentBean" parent="reportWriterService" abstract="true">
     <property name="filePath" value="${reports.directory}/fp"/>
     <property name="fileNamePrefix" value="procurement_card_load_"/>
     <property name="title" value="Procurement Card Load File"/>
@@ -418,7 +419,7 @@
 		<property name="parameterService"><ref bean="parameterService" /></property>
 	</bean>
 	
-	<bean id="disbursementPayeeLookupable"  parent="disbursementPayeeLookupable-parentBean"/>
+	<bean id="disbursementPayeeLookupable"  parent="disbursementPayeeLookupable-parentBean" scope="prototype"/>
 	<bean id="disbursementPayeeLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="disbursementPayeeLookupableHelperService" />

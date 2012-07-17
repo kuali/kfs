@@ -1872,7 +1872,8 @@
         </property>
     </bean>
     
-    <bean id="laborEnterpriseFeedErrorStatisticsWriterService"  parent="reportWriterService">
+    <bean id="laborEnterpriseFeedErrorStatisticsWriterService"  parent="laborEnterpriseFeedErrorStatisticsWriterService-parentBean" />
+    <bean id="laborEnterpriseFeedErrorStatisticsWriterService-parentBean"  parent="reportWriterService" abstract="true">
         <property name="filePath" value="${reports.directory}/ld"/>
         <property name="fileNamePrefix" value="labor_enterprise_feed_error_statistics_"/>
         <property name="title" value="ERROR AND STATISTICS REPORT"/>

@@ -292,7 +292,8 @@
 		</property>
 	</bean>	
 	
-	<bean id="budgetPositionLookupableHelperService" class="org.kuali.kfs.module.bc.businessobject.lookup.PositionLookupableHelperServiceImpl" parent="lookupableHelperService" scope="prototype">
+	<bean id="budgetPositionLookupableHelperService" parent="budgetPositionLookupableHelperService-parentBean" scope="prototype"/>
+	<bean id="budgetPositionLookupableHelperService-parentBean" class="org.kuali.kfs.module.bc.businessobject.lookup.PositionLookupableHelperServiceImpl" parent="lookupableHelperService"  abstract="true">
 		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
@@ -305,7 +306,8 @@
 		</property>
 	</bean>	
 	
-	<bean id="budgetIntendedIncumbentLookupableHelperService" class="org.kuali.kfs.module.bc.businessobject.lookup.IntendedIncumbentLookupableHelperServiceImpl" parent="lookupableHelperService" scope="prototype">	
+	<bean id="budgetIntendedIncumbentLookupableHelperService" parent="budgetIntendedIncumbentLookupableHelperService-parentBean" scope="prototype" />	
+	<bean id="budgetIntendedIncumbentLookupableHelperService-parentBean" class="org.kuali.kfs.module.bc.businessobject.lookup.IntendedIncumbentLookupableHelperServiceImpl" parent="lookupableHelperService" abstract="true">	
 		<property name="configurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
@@ -612,7 +614,8 @@
     </property>
     </bean>
     
-    <bean id="budgetConstructionReasonSummaryReportService" class="org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionReasonSummaryReportServiceImpl">
+    <bean id="budgetConstructionReasonSummaryReportService" parent="budgetConstructionReasonSummaryReportService-parentBean" />
+    <bean id="budgetConstructionReasonSummaryReportService-parentBean" class="org.kuali.kfs.module.bc.document.service.impl.BudgetConstructionReasonSummaryReportServiceImpl" abstract="true">
 	<property name="budgetConstructionSalarySummaryReportDao">
 		<ref bean="budgetConstructionSalarySummaryReportDao" />
 	</property>
@@ -848,7 +851,7 @@
     
     <bean id="genesisBatchStep" parent="GenesisBatchStep-parentBean"/>    
     
-    <bean id="GenesisBatchStep-parentBean" class="org.kuali.kfs.module.bc.batch.GenesisBatchStep" parent="step">
+    <bean id="GenesisBatchStep-parentBean" class="org.kuali.kfs.module.bc.batch.GenesisBatchStep" parent="step" abstract="true">
       <property name="genesisService">
          <ref bean="genesisService"/>
        </property>

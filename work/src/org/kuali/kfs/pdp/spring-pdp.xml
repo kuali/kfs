@@ -309,7 +309,8 @@
 		<property name="achAdviceNotificationService" ref="pdpAchAdviceNotificationService" />
 	</bean>
 	
-	<bean id="pdpInactivatePayeeAchAccountsService" class="org.kuali.kfs.pdp.batch.service.impl.InactivatePayeeAchAccountsServiceImpl">
+	<bean id="pdpInactivatePayeeAchAccountsService" parent="pdpInactivatePayeeAchAccountsService-parentBean" />
+	<bean id="pdpInactivatePayeeAchAccountsService-parentBean" class="org.kuali.kfs.pdp.batch.service.impl.InactivatePayeeAchAccountsServiceImpl" abstract="true">
     	<property name="businessObjectService" ref="businessObjectService"/>
 		<property name="dateTimeService" ref="dateTimeService"/>
     	<property name="identityManagementService" ref="kimIdentityManagementService"/>
@@ -453,7 +454,7 @@
 	</bean>
 	
 	<bean id="paymentInputFileType" parent="paymentInputFileType-parentBean"/>
-	<bean id="paymentInputFileType-parentBean" class="org.kuali.kfs.pdp.batch.PaymentInputFileType">
+	<bean id="paymentInputFileType-parentBean" class="org.kuali.kfs.pdp.batch.PaymentInputFileType" abstract="true">
     	<property name="directoryPath">
 	       <value>${staging.directory}/pdp/paymentImport</value>
 	    </property>
@@ -615,7 +616,7 @@
 	
 	<bean id="bankChangeHistoryLookupableHelperService-parentBean" class="org.kuali.kfs.pdp.businessobject.lookup.BankChangeHistoryLookupableHelperServiceImpl" parent="lookupableHelperService" scope="prototype" abstract="true">
 	</bean>
-    <bean id="bankChangeHistoryLookupable" parent="bankChangeHistoryLookupable-parentBean"/>
+    <bean id="bankChangeHistoryLookupable" parent="bankChangeHistoryLookupable-parentBean" scope="prototype"/>
 	
 	<bean id="bankChangeHistoryLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
 		<property name="lookupableHelperService">
@@ -656,7 +657,9 @@
         	</map>
         </property>
 	</bean>
-	<bean id="pdpInactivatedPayeeAchAccountsReportWriterService" parent="reportWriterService">
+	
+	<bean id="pdpInactivatedPayeeAchAccountsReportWriterService" parent="pdpInactivatedPayeeAchAccountsReportWriterService-parentBean" />
+	<bean id="pdpInactivatedPayeeAchAccountsReportWriterService-parentBean" parent="reportWriterService" abstract="true">
 		<property name="filePath" value="${reports.directory}/pdp"/>
 		<property name="fileNamePrefix" value="pdp_payee_ach_account_"/>
         <property name="title" value="Inactivated Payee ACH Accounts"/>

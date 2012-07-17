@@ -230,7 +230,7 @@
 	</bean>
 
 	<bean id="glPendingEntryLookupable"  parent="glPendingEntryLookupable-parentBean" scope="prototype"/>
-	<bean id="glPendingEntryLookupable-parentBean" parent="generalLedgerLookupableHelperService-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
+	<bean id="glPendingEntryLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
 		<property name="lookupableHelperService">
 			<ref bean="glPendingEntryLookupableHelperService" />
 		</property>

@@ -30,24 +30,27 @@ import org.kuali.kfs.sys.batch.TriggerDescriptor;
 import org.kuali.kfs.sys.batch.dataaccess.FiscalYearMaker;
 import org.kuali.kfs.sys.batch.dataaccess.impl.FiscalYearMakerImpl;
 import org.kuali.kfs.sys.service.impl.KfsModuleServiceImpl;
+import org.kuali.kfs.sys.suite.AnnotationTestSuite;
+import org.kuali.kfs.sys.suite.PreCommitSuite;
 import org.kuali.rice.core.framework.persistence.dao.PlatformAwareDao;
 import org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJdbc;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.kns.lookup.KualiLookupableImpl;
+import org.kuali.rice.kns.lookup.Lookupable;
 import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.krad.service.ModuleService;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.config.BeanDefinition;
 
 @ConfigureContext
+@AnnotationTestSuite(PreCommitSuite.class)
 public class SpringConfigurationConsistencyCheckTest extends KualiTestBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SpringConfigurationConsistencyCheckTest.class);
 
     public void testAllLookupablesArePrototypes() throws Exception {
         List<String> failingBeans = new ArrayList<String>();
 
-        Map<String,KualiLookupableImpl> beans = SpringContext.getBeansOfType(KualiLookupableImpl.class);
-        Map<String,KualiLookupableImpl> beans2 = SpringContext.getBeansOfType(KualiLookupableImpl.class);
+        Map<String,Lookupable> beans = SpringContext.getBeansOfType(Lookupable.class);
+        Map<String,Lookupable> beans2 = SpringContext.getBeansOfType(Lookupable.class);
 
         for ( String beanName : beans.keySet() ) {
             BeanDefinition beanDef = SpringContext.applicationContext.getBeanFactory().getBeanDefinition(beanName);
@@ -238,6 +241,7 @@ public class SpringConfigurationConsistencyCheckTest extends KualiTestBase {
         for ( Map.Entry<String,PlatformAwareDao> dao : SpringContext.getBeansOfType(PlatformAwareDao.class).entrySet() ) {
             Object service = ProxyUtils.getTargetIfProxied(dao.getValue());
             if ( !dao.getKey().endsWith("Dao" )
+                    && !dao.getKey().endsWith("DaoBase" )
                     && !service.getClass().getName().startsWith( "org.kuali.rice" )
                     && !FiscalYearMakerImpl.class.isAssignableFrom(service.getClass())) {
                 failingBeanNames.add( " *** FAIL: Bean " + dao.getKey() + " implements PlatformAwareDao (" + service.getClass().getName() + ") but its name does not end in 'Dao'\n");

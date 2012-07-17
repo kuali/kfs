@@ -248,7 +248,7 @@
 
 	<bean id="OrgReviewRole-namespaceCode" parent="OrgReviewRole-namespaceCode-parentBean" />
 	<bean id="OrgReviewRole-namespaceCode-parentBean" parent="RoleBo-namespaceCode"
-		abstract="true" p:name="namespaceCode" />
+		abstract="true" p:name="namespaceCode" p:label="Role Namespace Code" />
 
 	<bean id="OrgReviewRole-roleName" parent="OrgReviewRole-roleName-parentBean" />
 	<bean id="OrgReviewRole-roleName-parentBean" parent="RoleBo-name"

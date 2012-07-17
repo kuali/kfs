@@ -155,7 +155,7 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
                         }
                     }
                 }
-            } else if(orr.isCreateDelegation() || orr.isCopyDelegation()){
+            } else if(orr.isDelegate() && (orr.isCopy() || StringUtils.isBlank( orr.getDelegationMemberId() )) ){
                 for (Section section : sections) {
                     for (Row row : section.getRows()) {
                         for (Field field : row.getFields()) {

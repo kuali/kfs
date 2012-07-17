@@ -85,7 +85,7 @@
 	
 	<!-- security lookupables -->
     <bean id="securityAccountLookupableHelperService" parent="securityAccountLookupableHelperService-parentBean" scope="prototype"/>	
-	<bean id="securityAccountLookupableHelperService-parentBean" class="org.kuali.kfs.sec.businessobject.lookup.AccessSecurityAccountLookupableHelperServiceImpl" scope="prototype" parent="accountLookupableHelperService">
+	<bean id="securityAccountLookupableHelperService-parentBean" class="org.kuali.kfs.sec.businessobject.lookup.AccessSecurityAccountLookupableHelperServiceImpl" scope="prototype" parent="accountLookupableHelperService" abstract="true">
 		<property name="accessSecurityService" ref="accessSecurityService" />
 	</bean>	
 	
@@ -124,7 +124,7 @@
 	</bean>	
 	
     <bean id="securityAccountDelegateModelLookupableHelperService" parent="securityAccountDelegateModelLookupableHelperService-parentBean" scope="prototype"/>
-	<bean id="securityAccountDelegateModelLookupableHelperService-parentBean" class="org.kuali.kfs.sec.businessobject.lookup.AccessSecurityAccountDelegateModelLookupableHelperServiceImpl" parent="lookupableHelperService" >
+	<bean id="securityAccountDelegateModelLookupableHelperService-parentBean" class="org.kuali.kfs.sec.businessobject.lookup.AccessSecurityAccountDelegateModelLookupableHelperServiceImpl" parent="lookupableHelperService" abstract="true">
 		<property name="accessSecurityService" ref="accessSecurityService" />
 	</bean>	
 	
@@ -134,7 +134,7 @@
 	</bean>
 	
     <bean id="securityOrgReviewRoleLookupableHelperService" parent="securityOrgReviewRoleLookupableHelperService-parentBean" scope="prototype"/>
-    <bean id="securityOrgReviewRoleLookupableHelperService-parentBean" class="org.kuali.kfs.sec.businessobject.lookup.AccountSecurityOrgReviewRoleLookupableHelperServiceImpl" parent="orgReviewRoleLookupableHelperService" >
+    <bean id="securityOrgReviewRoleLookupableHelperService-parentBean" class="org.kuali.kfs.sec.businessobject.lookup.AccountSecurityOrgReviewRoleLookupableHelperServiceImpl" parent="orgReviewRoleLookupableHelperService" abstract="true">
         <property name="accessSecurityService" ref="accessSecurityService" />
     </bean> 
 

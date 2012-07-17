@@ -15,10 +15,6 @@
  */
 package org.kuali.kfs.module.tem.document;
 
-import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters.RELO_REIMBURSEMENT_DV_REASON_CODE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters.RELOCATION_DOCUMENTATION_LOCATION_CODE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelRelocationStatusCodeKeys.RELO_MANAGER_APPROVED;
-
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,6 +33,7 @@ import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters;
+import org.kuali.kfs.module.tem.TemConstants.TravelRelocationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
@@ -45,7 +42,6 @@ import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.RelocationReason;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
-import org.kuali.kfs.module.tem.document.service.TravelRelocationService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AmountTotaling;
@@ -278,14 +274,6 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
     }
     
     /**
-     * 
-     * @return
-     */
-    public TEMProfile retrieveTravelerProfile(){
-        return getTravelService().findTemProfileByPrincipalId(getTraveler().getPrincipalId());
-    }
-    
-    /**
      * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
      */
     @Override
@@ -312,10 +300,10 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
                 || KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(statusChangeEvent.getNewRouteStatus())) {
 
             LOG.debug("New route status is: " + statusChangeEvent.getNewRouteStatus());
-            updateAppDocStatus(RELO_MANAGER_APPROVED);
+            updateAppDocStatus(TravelRelocationStatusCodeKeys.RELO_MANAGER_APPROVED);
             if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
                 if (getDocumentGrandTotal().isGreaterThan(KualiDecimal.ZERO)) {
-                    getTravelRelocationService().createDVReimbursementDocument(this);
+                    getTravelDisbursementService().processTEMReimbursementDV(this);
                 }
             }
         }
@@ -400,12 +388,10 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
         getTravelDocumentService().trimFinancialSystemDocumentHeader(disbursementVoucherDocument.getDocumentHeader());
         
         disbursementVoucherDocument.setDisbVchrPaymentMethodCode(TemConstants.DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE);
-        disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(getParameterService().getParameterValue(TemParameterConstants.TEM_RELOCATION.class, RELOCATION_DOCUMENTATION_LOCATION_CODE));
+        disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(getParameterService().getParameterValue(TemParameterConstants.TEM_RELOCATION.class, TravelRelocationParameters.RELOCATION_DOCUMENTATION_LOCATION_CODE));
         
-        final String dvReasonCode = getParameterService().getParameterValue(TemParameterConstants.TEM_RELOCATION.class, RELO_REIMBURSEMENT_DV_REASON_CODE);
+        final String dvReasonCode = getParameterService().getParameterValue(TemParameterConstants.TEM_RELOCATION.class, TravelRelocationParameters.RELO_REIMBURSEMENT_DV_REASON_CODE);
         disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(dvReasonCode);
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(DisbursementVoucherConstants.DV_PAYEE_TYPE_CUSTOMER);
-        //disbursementVoucherDocument.setDisbVchrCheckTotalAmount(getDocumentGrandTotal());
     }
     
     /**
@@ -420,14 +406,6 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
         Calendar calendar = getDateTimeService().getCurrentCalendar();
         calendar.setTime(reloDocument.getTripBegin());
         reqsDocument.setPostingYear(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
-    }
-
-    /**
-     * 
-     * @return
-     */
-    protected TravelRelocationService getTravelRelocationService() {
-        return SpringContext.getBean(TravelRelocationService.class);
     }
 
     /**

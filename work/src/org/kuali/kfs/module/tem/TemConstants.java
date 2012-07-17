@@ -302,6 +302,7 @@ public class TemConstants extends JSTLConstants {
         public static final String AWAIT_SUB = "Awaiting Sub-Fund Review";
         public static final String AWAIT_AWARD = "Awaiting Award Review";
         public static final String DEPT_APPROVED = "Department Approved";
+        
         public static final String DAPRVD_TRAVELER = "Disapproved - Traveler";
         public static final String DAPRVD_FISCAL = "Disapproved - Fiscal Officer";
         public static final String DAPRVD_ORG = "Disapproved - Organization";
@@ -309,6 +310,7 @@ public class TemConstants extends JSTLConstants {
         public static final String DAPRVD_INTL = "Disapproved - International Travel Reviewer";
         public static final String DAPRVD_SUB = "Disapproved - Sub-Fund Review";
         public static final String DAPRVD_AWARD = "Disapproved - Award Review";
+        
         public static final String IN_PROCESS = "In Process";
         public static final String CANCELLED = "Cancelled";
     }
@@ -358,6 +360,7 @@ public class TemConstants extends JSTLConstants {
         public static final String AWAIT_AWARD = "Awaiting Award Review";
         public static final String AWAIT_TAX_MANAGER = "Awaiting Tax Manager Review";
         public static final String AWAIT_ENT_MANAGER = "Awaiting Entertainment Manager Review";
+        
         public static final String ENT_MANAGER_APPROVED = "Entertainment Manager Approved";
         public static final String DAPRVD_FISCAL = "Disapproved - Fiscal Officer";
         public static final String DAPRVD_ORG = "Disapproved - Organization";
@@ -368,6 +371,21 @@ public class TemConstants extends JSTLConstants {
         public static final String DAPRVD_ENT_MANAGER = "Disapproved - Entertainment Manager";
         public static final String IN_PROCESS = "In Process";
         public static final String CANCELLED = "Cancelled";
+        
+        public static HashMap<String, String> getDisapprovedAppDocStatusMap() {
+            HashMap<String, String> disapprovedAppDocStatusMap;
+            
+            disapprovedAppDocStatusMap = new HashMap<String, String>();
+            disapprovedAppDocStatusMap.put(AWAIT_FISCAL, DAPRVD_FISCAL);
+            disapprovedAppDocStatusMap.put(AWAIT_ORG, DAPRVD_ORG);
+            disapprovedAppDocStatusMap.put(AWAIT_SUB,  DAPRVD_SUB);
+            disapprovedAppDocStatusMap.put(AWAIT_AWARD, DAPRVD_AWARD); 
+            disapprovedAppDocStatusMap.put(AWAIT_SPCL, DAPRVD_SPCL); 
+            disapprovedAppDocStatusMap.put(AWAIT_TAX_MANAGER, DAPRVD_TAX_MANAGER);
+            disapprovedAppDocStatusMap.put(AWAIT_ENT_MANAGER, DAPRVD_ENT_MANAGER); 
+            
+            return disapprovedAppDocStatusMap;
+        }
     }
 
     public class PermissionNames {
@@ -653,6 +671,11 @@ public class TemConstants extends JSTLConstants {
         private ExpenseType(String service) {
             this.service= service;
         }
+    }
+
+    public enum DisburseType {
+        corpCard, 
+        reimbursable; 
     }
     
     public static final String CONUS = "CONUS";

@@ -31,8 +31,6 @@ public interface TravelEntertainmentDocumentService {
 
     void addListenersTo(TravelEntertainmentDocument entertainment);
 
-    void createDVReimbursementDocument(TravelEntertainmentDocument document);
-
     void handleNewAttendee(Attendee newAttendeeLine);
  
 }

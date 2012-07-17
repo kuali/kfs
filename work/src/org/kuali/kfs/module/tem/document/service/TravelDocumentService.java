@@ -24,10 +24,9 @@ import java.util.Set;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.gl.businessobject.Encumbrance;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
+import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeAware;
 import org.kuali.kfs.module.tem.businessobject.GroupTraveler;
-import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
-import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.SpecialCircumstances;
 import org.kuali.kfs.module.tem.businessobject.TEMExpense;
@@ -35,10 +34,9 @@ import org.kuali.kfs.module.tem.businessobject.TransportationModeDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetailEmergencyContact;
 import org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao;
+import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
-import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
-import org.kuali.kfs.module.tem.document.web.struts.TravelAuthorizationForm;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
@@ -285,18 +283,8 @@ public interface TravelDocumentService {
     
     public boolean isResponsibleForAccountsOn(final TravelDocument document, String principalId);
     
-    public void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument, TravelDocument document);
-
     public void populateRequisitionFields(RequisitionDocument reqsDoc,TravelDocument document);
     
-    /**
-     * Create Disbursement Voucher document from reimbursement
-     * 
-     * @param document
-     * @return
-     */
-    public DisbursementVoucherDocument createDVReimbursementDocument(TravelDocumentBase document);
-
     public boolean checkNonEmployeeTravelerTypeCode(String travelerTypeCode);
     
     /**

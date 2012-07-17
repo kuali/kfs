@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.tem.document;
 
-
-import static org.apache.commons.lang.StringUtils.replace;
 import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.ALLOW_TR_WITHOUT_TA_IND;
 import static org.kuali.kfs.module.tem.TemKeyConstants.TA_MESSAGE_CLOSE_DOCUMENT_TEXT;
 import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
@@ -267,7 +265,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
                     try {
                         String message = getConfigurationService().getPropertyString(TA_MESSAGE_CLOSE_DOCUMENT_TEXT);
                         String user = GlobalVariables.getUserSession().getPerson().getLastName() + ", " + GlobalVariables.getUserSession().getPerson().getFirstName();
-                        String note = replace(message, "{0}", user);
+                        String note = StringUtils.replace(message, "{0}", user);
                         
                         TravelAuthorizationDocument currTADocument = getTravelReimbursementService().getRelatedOpenTravelAuthorizationDocument(this); 
     

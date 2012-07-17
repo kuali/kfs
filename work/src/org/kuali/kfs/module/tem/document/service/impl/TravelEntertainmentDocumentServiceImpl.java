@@ -69,15 +69,10 @@ public class TravelEntertainmentDocumentServiceImpl implements TravelEntertainme
     private ParameterService parameterService;
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
-    private PersonService personService;
+    private PersonService<Person> personService;
     private KualiConfigurationService kualiConfigurationService;
     private List<PropertyChangeListener> propertyChangeListeners;
-    private TravelerService travelerService;
-    private AccountingDocumentRelationshipService accountingDocumentRelationshipService;
-    private WorkflowDocumentService workflowDocumentService;
     private TravelDocumentService travelDocumentService;
-    private KualiRuleService kualiRuleService;
-    
    
     @Override
     public Collection<TravelEntertainmentDocument> findByTravelId(String travelDocumentIdentifier) {
@@ -101,14 +96,6 @@ public class TravelEntertainmentDocumentServiceImpl implements TravelEntertainme
     }
     public List<PropertyChangeListener> getPropertyChangeListeners() {
         return this.propertyChangeListeners;
-    }
-    
-    @Override
-    public void createDVReimbursementDocument(TravelEntertainmentDocument document) {
-        DisbursementVoucherDocument disbursementVoucherDocument = getTravelDocumentService().createDVReimbursementDocument(document);
-        String relationDescription = "ENT - DV";
-        accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(document.getDocumentNumber(), disbursementVoucherDocument.getDocumentNumber(), relationDescription));
-        getMessageList().add(MESSAGE_DV_IN_ACTION_LIST, disbursementVoucherDocument.getDocumentNumber());
     }
         
     @Override
@@ -216,11 +203,11 @@ public class TravelEntertainmentDocumentServiceImpl implements TravelEntertainme
         this.propertyChangeListeners = propertyChangeListeners;
     }
 
-    public PersonService getPersonService() {
+    public PersonService<Person> getPersonService() {
         return personService;
     }
 
-    public void setPersonService(PersonService personService) {
+    public void setPersonService(PersonService<Person> personService) {
         this.personService = personService;
     }
 
@@ -232,44 +219,12 @@ public class TravelEntertainmentDocumentServiceImpl implements TravelEntertainme
         this.kualiConfigurationService = kualiConfigurationService;
     }
 
-    public TravelerService getTravelerService() {
-        return travelerService;
-    }
-
-    public void setTravelerService(TravelerService travelerService) {
-        this.travelerService = travelerService;
-    }
-    
-    public AccountingDocumentRelationshipService getAccountingDocumentRelationshipService() {
-        return accountingDocumentRelationshipService;
-    }
-
-    public void setAccountingDocumentRelationshipService(AccountingDocumentRelationshipService accountingDocumentRelationshipService) {
-        this.accountingDocumentRelationshipService = accountingDocumentRelationshipService;
-    }
-
-    public WorkflowDocumentService getWorkflowDocumentService() {
-        return workflowDocumentService;
-    }
-
-    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
-        this.workflowDocumentService = workflowDocumentService;
-    }
-
     public TravelDocumentService getTravelDocumentService() {
         return travelDocumentService;
     }
 
     public void setTravelDocumentService(TravelDocumentService travelDocumentService) {
         this.travelDocumentService = travelDocumentService;
-    }
-
-    public KualiRuleService getKualiRuleService() {
-        return kualiRuleService;
-    }
-
-    public void setKualiRuleService(KualiRuleService kualiRuleService) {
-        this.kualiRuleService = kualiRuleService;
     }
 
     @Override
@@ -281,8 +236,4 @@ public class TravelEntertainmentDocumentServiceImpl implements TravelEntertainme
         return getBean(DictionaryValidationService.class);
     }
 
-    protected DisbursementVoucherCoverSheetService getDisbursementVoucherCoverSheetService() {
-        return getBean(DisbursementVoucherCoverSheetService.class);
-    }
-    
 }

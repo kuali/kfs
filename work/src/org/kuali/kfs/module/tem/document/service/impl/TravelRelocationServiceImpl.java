@@ -74,18 +74,12 @@ public class TravelRelocationServiceImpl implements TravelRelocationService{
 
     protected static Logger LOG = Logger.getLogger(TravelRelocationServiceImpl.class);
     
-    private KualiRuleService kualiRuleService;
     private BusinessObjectService businessObjectService;
-    private DataDictionaryService dataDictionaryService;
-    private ObjectCodeService objectCodeService;
     private DocumentService documentService;
     private KualiConfigurationService kualiConfigurationService;
     private PersonService<Person> personService;
     private TravelDocumentService travelDocumentService;
     private ParameterService parameterService;
-    private WorkflowDocumentService workflowDocumentService;
-    private DocumentDao documentDao;
-    private AccountingDocumentRelationshipService accountingDocumentRelationshipService;
     private List<PropertyChangeListener> propertyChangeListeners;
     
     /**
@@ -174,53 +168,12 @@ public class TravelRelocationServiceImpl implements TravelRelocationService{
         return cover;
     }
     
-    /**
-     * @see org.kuali.kfs.module.tem.document.service.TravelRelocationService#createDVReimbursementDocument(org.kuali.kfs.module.tem.document.TravelRelocationDocument)
-     */
-    @Override
-    public void createDVReimbursementDocument(TravelRelocationDocument document){
-        String relationDescription = "RELO - DV";
-        try {
-            DisbursementVoucherDocument disbursementVoucherDocument = getTravelDocumentService().createDVReimbursementDocument(document);
-            accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(document.getDocumentNumber(), disbursementVoucherDocument.getDocumentNumber(), relationDescription));
-            GlobalVariables.getMessageList().add(MESSAGE_DV_IN_ACTION_LIST, disbursementVoucherDocument.getDocumentNumber());
-        }
-        catch (Exception ex) {
-            LOG.error("Could not spawn " + relationDescription + " for reimbursement:" + ex.getMessage(), ex);
-        }
-    }
-    
-
-    public void setRuleService(final KualiRuleService kualiRuleService){
-        this.kualiRuleService = kualiRuleService;
-    }
-    
-    protected KualiRuleService getRuleService(){
-        return this.kualiRuleService;
-    }
-    
     public void setBusinessObjectService(final BusinessObjectService businessObjectService){
         this.businessObjectService = businessObjectService;
     }
     
     protected BusinessObjectService getBusinessObjectService(){
         return this.businessObjectService;
-    }
-    
-    public void setDataDictionaryService(final DataDictionaryService dataDictionaryService){
-        this.dataDictionaryService = dataDictionaryService;
-    }
-    
-    protected DataDictionaryService getDataDictionaryService(){
-        return this.dataDictionaryService;
-    }
-    
-    public void setObjectCodeService(final ObjectCodeService objectCodeService){
-        this.objectCodeService = objectCodeService;
-    }
-    
-    protected ObjectCodeService getObjectCodeService(){
-        return this.objectCodeService;
     }
     
     public void setDocumentService(final DocumentService documentService){
@@ -262,49 +215,7 @@ public class TravelRelocationServiceImpl implements TravelRelocationService{
     protected ParameterService getParameterService(){
         return this.parameterService;
     }
-    
-    public void setWorkflowDocumentService(final WorkflowDocumentService workflowDocumentService){
-        this.workflowDocumentService = workflowDocumentService;
-    }
-    
-    protected WorkflowDocumentService getWorkflowDocumentService(){
-        return this.workflowDocumentService;
-    }
 
-    /**
-     * Gets the documentDao attribute.
-     * 
-     * @return Returns the documentDao.
-     */
-    public DocumentDao getDocumentDao() {
-        return documentDao;
-    }
-
-    /**
-     * Sets the documentDao attribute value.
-     * 
-     * @param documentDao The documentDao to set.
-     */
-    public void setDocumentDao(DocumentDao documentDao) {
-        this.documentDao = documentDao;
-    }
-    
-    /**
-     * 
-     * @return
-     */
-    public AccountingDocumentRelationshipService getAccountingDocumentRelationshipService() {
-        return accountingDocumentRelationshipService;
-    }
-
-    /**
-     * 
-     * @param accountingDocumentRelationshipService
-     */
-    public void setAccountingDocumentRelationshipService(AccountingDocumentRelationshipService accountingDocumentRelationshipService) {
-        this.accountingDocumentRelationshipService = accountingDocumentRelationshipService;
-    }
-    
     /**
      * Sets the propertyChangeListener attribute value.
      * 

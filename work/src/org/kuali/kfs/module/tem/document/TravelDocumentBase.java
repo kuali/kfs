@@ -76,6 +76,7 @@ import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelerType;
 import org.kuali.kfs.module.tem.businessobject.TripType;
+import org.kuali.kfs.module.tem.document.service.TravelDisbursementService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
 import org.kuali.kfs.module.tem.service.PerDiemService;
@@ -87,6 +88,7 @@ import org.kuali.kfs.module.tem.util.GroupTravelerComparator;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocumentBase;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
@@ -163,6 +165,10 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
 
     protected TravelDocumentService getTravelDocumentService() {
         return SpringContext.getBean(TravelDocumentService.class);
+    }
+    
+    protected TravelDisbursementService getTravelDisbursementService() {
+        return SpringContext.getBean(TravelDisbursementService.class);
     }
 
     protected ParameterService getParameterService() {
@@ -1107,11 +1113,12 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     }
     
     /**
+     * Disbursement voucher fields for reimbursable  
      * 
      * @param disbursementVoucherDocument
      */
     public void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument) {
-        getTravelDocumentService().populateDisbursementVoucherFields(disbursementVoucherDocument, this);
+        getTravelDisbursementService().populateReimbursableDisbursementVoucherFields(disbursementVoucherDocument, this);
     }
     
     /**
@@ -1954,6 +1961,9 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         return true;
     }
     
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocument#populateVendorPayment(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
+     */
     @Override
     public void populateVendorPayment(DisbursementVoucherDocument disbursementVoucherDocument) {
         disbursementVoucherDocument.getDocumentHeader().setDocumentDescription("Created by " + this.getDocumentTypeName() + " document" + (this.getTravelDocumentIdentifier() == null?".":": " + this.getTravelDocumentIdentifier()));
@@ -1976,4 +1986,20 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         disbursementVoucherDocument.setDisbVchrContactPersonName(initiator.getPrincipalName());
         disbursementVoucherDocument.setDisbVchrContactPhoneNumber(initiator.getPhoneNumber());       
     }
+
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocument#getReimbursableSourceAccountingLines()
+     */
+    @Override
+    public List<SourceAccountingLine> getReimbursableSourceAccountingLines() {
+        List<SourceAccountingLine> reimbursableLines = new ArrayList<SourceAccountingLine>();
+        for (TemAccountingLine line : (List<TemAccountingLine>) getSourceAccountingLines()){
+            if (TemConstants.ACTUAL_EXPENSE.equals(line.getCardType())){
+                reimbursableLines.add((SourceAccountingLine)line);
+            }
+        }
+        return reimbursableLines;
+    }
+    
+    
 }

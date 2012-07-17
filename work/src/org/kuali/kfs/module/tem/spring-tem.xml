@@ -305,11 +305,7 @@
 		<property name="documentService" ref="documentService" />
 		<property name="parameterService" ref="parameterService" />
 		<property name="personService" ref="personService" />
-		<property name="travelerService" ref="travelerService" />
-		<property name="accountingDocumentRelationshipService" ref="temAccountingDocumentRelationshipService" />
-		<property name="workflowDocumentService" ref="workflowDocumentService" />
 		<property name="travelDocumentService" ref="temTravelDocumentService" />
-		<property name="kualiRuleService" ref="kualiRuleService" />
 	</bean>
 
 	<bean id="temTravelRelocationService" parent="temTravelRelocationService-parentBean" />
@@ -321,13 +317,7 @@
 		<property name="documentService" ref="documentService" />
 		<property name="parameterService" ref="parameterService" />
 		<property name="personService" ref="personService" />
-		<property name="ruleService" ref="kualiRuleService" />
-		<property name="objectCodeService" ref="objectCodeService" />
 		<property name="travelDocumentService" ref="temTravelDocumentService" />
-		<property name="workflowDocumentService" ref="workflowDocumentService" />
-		<property name="documentDao" ref="documentDao" />
-		<property name="accountingDocumentRelationshipService" ref="temAccountingDocumentRelationshipService" />
-
 		<property name="propertyChangeListeners">
 			<list>
 				<ref bean="TravelDocument-addActualExpenseListener" />
@@ -483,6 +473,20 @@
 		<property name="persistenceStructureService" ref="persistenceStructureService"/>
 		<property name="universityDateService" ref="universityDateService" />
 	</bean>
+  
+    <bean id="travelDisbursementService" parent="travelDisbursementService-parentBean" />
+    <bean id="travelDisbursementService-parentBean"
+      class="org.kuali.kfs.module.tem.document.service.impl.TravelDisbursementServiceImpl" abstract="true">
+      <property name="documentService" ref="documentService" />
+      <property name="businessObjectService" ref="businessObjectService" />
+      <property name="dateTimeService" ref="dateTimeService" />
+      <property name="travelerService" ref="travelerService" />
+      <property name="accountingDocumentRelationshipService" ref="temAccountingDocumentRelationshipService" />
+      <property name="parameterService" ref="parameterService" />
+      <property name="workflowDocumentService" ref="workflowDocumentService" />
+      <property name="kualiRuleService" ref="kualiRuleService" />
+      <property name="travelDocumentService" ref="temTravelDocumentService" />
+    </bean>
 
 	<bean id="temTravelAuthorizationService" parent="temTravelAuthorizationService-parentBean" />
 
@@ -735,7 +739,9 @@
 		class="org.kuali.kfs.module.tem.service.impl.ImportedCTSExpenseServiceImpl" />
 		
 	<bean id="importedCorporateCardExpenseService"
-		class="org.kuali.kfs.module.tem.service.impl.ImportedCorporateCardExpenseServiceImpl" />
+		class="org.kuali.kfs.module.tem.service.impl.ImportedCorporateCardExpenseServiceImpl">
+        <property name="travelDisbursementService" ref="travelDisbursementService" />
+    </bean>
 		
 	<bean id="actualExpenseService"
 		class="org.kuali.kfs.module.tem.service.impl.ActualExpenseServiceImpl" />

@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.tem.document;
 
-import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
 import static org.kuali.kfs.module.tem.TemConstants.EntertainmentStatusCodeKeys.AWAIT_AWARD;
 import static org.kuali.kfs.module.tem.TemConstants.EntertainmentStatusCodeKeys.AWAIT_ENT_MANAGER;
 import static org.kuali.kfs.module.tem.TemConstants.EntertainmentStatusCodeKeys.AWAIT_FISCAL;
@@ -30,9 +29,6 @@ import static org.kuali.kfs.module.tem.TemConstants.EntertainmentStatusCodeKeys.
 import static org.kuali.kfs.module.tem.TemConstants.EntertainmentStatusCodeKeys.DAPRVD_SPCL;
 import static org.kuali.kfs.module.tem.TemConstants.EntertainmentStatusCodeKeys.DAPRVD_SUB;
 import static org.kuali.kfs.module.tem.TemConstants.EntertainmentStatusCodeKeys.DAPRVD_TAX_MANAGER;
-import static org.kuali.kfs.module.tem.TemConstants.TravelEntertainmentParameters.ENTERTAINMENT_DOCUMENT_LOCATION;
-import static org.kuali.kfs.module.tem.TemConstants.TravelEntertainmentParameters.PARAM_DTL_TYPE;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
 
 import java.beans.PropertyChangeEvent;
 import java.sql.Timestamp;
@@ -50,14 +46,16 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.EntertainmentStatusCodeKeys;
+import org.kuali.kfs.module.tem.TemConstants.TravelEntertainmentParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.Attendee;
@@ -67,13 +65,10 @@ import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelerType;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
-import org.kuali.kfs.module.tem.document.service.TravelEntertainmentDocumentService;
-import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO;
@@ -91,6 +86,8 @@ import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
 @Table(name = "TEM_ENT_DOC_T")
 public class TravelEntertainmentDocument extends TEMReimbursementDocument {
 
+    protected static Logger LOG = Logger.getLogger(TravelEntertainmentDocument.class);
+    
     private Integer hostProfileId;
     private String hostName;
     private String eventTitle;
@@ -111,275 +108,6 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
     private List<Attendee> attendee = new ArrayList<Attendee>();
 
     public TravelEntertainmentDocument() {
-    }
-
-    @Override
-    public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
-        if (nodeName.equals(TemWorkflowConstants.SPECIAL_REQUEST))
-            return requiresSpecialRequestReviewRouting();
-        if (nodeName.equals(TemWorkflowConstants.TAX_MANAGER))
-            return requiresTaxManagerApprovalRouting();
-        if (nodeName.equals(TemWorkflowConstants.ENTERTAINMENT_MANAGER))
-            return requiresEntertainmentManagerRouting();
-        throw new UnsupportedOperationException("Cannot answer split question for this node you call \"" + nodeName + "\"");
-    }
-
-    private boolean requiresEntertainmentManagerRouting() {
-        return true;
-    }
-
-    @Override
-    protected boolean requiresSpecialRequestReviewRouting() {
-        if (super.requiresSpecialRequestReviewRouting()) {
-            return true;
-        }
-        
-        if (getPurpose() != null) {
-            String purposeCode = getPurpose().getPurposeCode();
-            if (getPurpose().isReviewRequiredIndicator() != null && getPurpose().isReviewRequiredIndicator()) {
-                return true;
-            }
-        }
-
-        if ((ObjectUtils.isNotNull(getSpouseIncluded()) && getSpouseIncluded())) {
-            return true;
-        }
-        
-        return false;
-    }
-
-    @Override
-    public void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument) {
-        super.populateDisbursementVoucherFields(disbursementVoucherDocument);
-        
-        disbursementVoucherDocument.setDisbVchrCheckStubText(getTravelDocumentIdentifier() + " " + StringUtils.defaultString(getEventTitle()) + getTripBegin());              
-        disbursementVoucherDocument.getDocumentHeader().setDocumentDescription("Generated for ENT doc: " + StringUtils.defaultString(getDocumentTitle(), getTravelDocumentIdentifier()));
-        getTravelDocumentService().trimFinancialSystemDocumentHeader(disbursementVoucherDocument.getDocumentHeader());
-
-        disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, ENTERTAINMENT_DOCUMENT_LOCATION));        
-        String paymentReasonCode = getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, TemConstants.TravelEntertainmentParameters.ENT_REIMBURSEMENT_DV_REASON_CODE);
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(paymentReasonCode);
-        disbursementVoucherDocument.setDisbVchrPaymentMethodCode(this.getPaymentMethod());
-    }
-
-    @Override
-    public void populateRequisitionFields(RequisitionDocument reqsDoc, TravelDocument document) {
-        super.populateRequisitionFields(reqsDoc, document);
-        TravelEntertainmentDocument entDocument = (TravelEntertainmentDocument) document;
-        reqsDoc.getDocumentHeader().setDocumentDescription("Generated for ENT doc: " + StringUtils.defaultString(entDocument.getEventTitle()));
-        reqsDoc.getDocumentHeader().setOrganizationDocumentNumber(entDocument.getTravelDocumentIdentifier());
-        Calendar calendar = getDateTimeService().getCurrentCalendar();
-        calendar.setTime(entDocument.getTripBegin());
-        reqsDoc.setPostingYear(calendar.get(Calendar.YEAR));
-    }
-
-    @Override
-    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
-        super.doRouteStatusChange(statusChangeEvent);
-
-        debug("Handling route status change");
-        debug("route status is ", statusChangeEvent.getNewRouteStatus());
-        String currStatus = getDocumentHeader().getWorkflowDocument().getRouteHeader().getAppDocStatus();
-        if (ObjectUtils.isNotNull(currStatus)) {
-            updateAppDocStatus(currStatus);
-        }
-        
-        if (KEWConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(statusChangeEvent.getNewRouteStatus())) {
-            // first we need to see where we were so we can change the app doc status
-            String currAppDocStatus = getAppDocStatus();
-            if (currAppDocStatus.equals(AWAIT_FISCAL)) {
-                updateAppDocStatus(DAPRVD_FISCAL);
-            }
-            if (currAppDocStatus.equals(AWAIT_ORG)) {
-                updateAppDocStatus(DAPRVD_ORG);
-            }
-            if (currAppDocStatus.equals(AWAIT_SUB)) {
-                updateAppDocStatus(DAPRVD_SUB);
-            }
-            if (currAppDocStatus.equals(AWAIT_AWARD)) {
-                updateAppDocStatus(DAPRVD_AWARD);
-            }
-            if (currAppDocStatus.equals(AWAIT_SPCL)) {
-                updateAppDocStatus(DAPRVD_SPCL);
-            }
-            if (currAppDocStatus.equals(AWAIT_TAX_MANAGER)) {
-                updateAppDocStatus(DAPRVD_TAX_MANAGER);
-            }
-            if (currAppDocStatus.equals(AWAIT_ENT_MANAGER)) {
-                updateAppDocStatus(DAPRVD_ENT_MANAGER);
-            }
-        }
-        
-        String s = statusChangeEvent.getNewRouteStatus();
-        if (KEWConstants.ROUTE_HEADER_FINAL_CD.equals(statusChangeEvent.getNewRouteStatus()) || KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(statusChangeEvent.getNewRouteStatus())) {
-            debug("New route status is ", statusChangeEvent.getNewRouteStatus());
-            // for some reason when it goes to final it never updates to the last status
-            updateAppDocStatus(EntertainmentStatusCodeKeys.ENT_MANAGER_APPROVED);
-            if (getDocumentGrandTotal() != null && getDocumentGrandTotal().isGreaterThan(KualiDecimal.ZERO)) {
-                getEntertainmentDocumentService().createDVReimbursementDocument(this);
-            }
-
-            // If the hold new fiscal year encumbrance indicator is true and the trip end date
-            // is after the current fiscal year end date then mark all the gl pending entries
-            // as 'H' (Hold) otherwise mark all the gl pending entries as 'A' (approved)
-            if (getGeneralLedgerPendingEntries() != null && !getGeneralLedgerPendingEntries().isEmpty()) {
-                if (getParameterService().getIndicatorParameter(TemConstants.PARAM_NAMESPACE, TemConstants.TravelAuthorizationParameters.PARAM_DTL_TYPE, TemConstants.TravelAuthorizationParameters.HOLD_NEW_FY_ENCUMBRANCES_IND)) {
-                    UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
-                    java.util.Date endDate = universityDateService.getLastDateOfFiscalYear(universityDateService.getCurrentFiscalYear());
-                    if (ObjectUtils.isNotNull(getTripEnd()) && getTripEnd().after(endDate)) {
-                        for (GeneralLedgerPendingEntry glpe : getGeneralLedgerPendingEntries()) {
-                            glpe.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.HOLD);
-                        }
-                    }
-                }
-                else {
-                    for (GeneralLedgerPendingEntry glpe : getGeneralLedgerPendingEntries()) {
-                        glpe.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
-                    }
-                }
-                SpringContext.getBean(BusinessObjectService.class).save(getGeneralLedgerPendingEntries());
-            }
-        }
-    }
-
-    @Override
-    public void updateAppDocStatus(String newStatus) {
-        debug("new status is: " + newStatus);
-
-        // get current workflow status and compare to status change
-        String currStatus = getAppDocStatus();
-        if (ObjectUtils.isNull(currStatus) || !newStatus.equalsIgnoreCase(currStatus)) {
-            // update
-            setAppDocStatus(newStatus);
-        }
-        if ((this.getDocumentHeader().getWorkflowDocument().stateIsFinal() || getDocumentHeader().getWorkflowDocument().stateIsProcessed())) {
-            WorkflowDocumentService workflowDocumentService = SpringContext.getBean(WorkflowDocumentService.class);
-            try {
-                workflowDocumentService.save(this.getDocumentHeader().getWorkflowDocument(), null);
-            }
-            catch (WorkflowException ex) {
-                // TODO Auto-generated catch block
-                ex.printStackTrace();
-            }
-        }
-    }
-
-    protected TravelEntertainmentDocumentService getEntertainmentDocumentService() {
-        return SpringContext.getBean(TravelEntertainmentDocumentService.class);
-    }
-
-    @Override
-    public void initiateDocument() {
-        updateAppDocStatus(TemConstants.EntertainmentStatusCodeKeys.IN_PROCESS);
-        setActualExpenses(new ArrayList<ActualExpense>());
-        setPerDiemExpenses(new ArrayList<PerDiemExpense>());
-
-        getDocumentHeader().setDocumentDescription(TemConstants.PRE_FILLED_DESCRIPTION);
-        if (this.getTraveler() == null) {
-            this.setTraveler(new TravelerDetail());
-            this.getTraveler().setTravelerTypeCode(TemConstants.EMP_TRAVELER_TYP_CD);
-        }
-        
-        Calendar calendar = getDateTimeService().getCurrentCalendar();
-        if (this.getTripBegin() == null) {
-            calendar.add(Calendar.DAY_OF_MONTH, 1);
-            setTripBegin(new Timestamp(calendar.getTimeInMillis()));
-
-        }
-        if (this.getTripEnd() == null) {
-            calendar.add(Calendar.DAY_OF_MONTH, 2);
-            setTripEnd(new Timestamp(calendar.getTimeInMillis()));
-        }
-
-        Person currentUser = GlobalVariables.getUserSession().getPerson();
-        if (!getTravelDocumentService().isTravelArranger(currentUser)) {
-            TEMProfile temProfile = getTravelService().findTemProfileByPrincipalId(currentUser.getPrincipalId());
-            if (temProfile != null) {
-                setTemProfile(temProfile);
-            }
-        }
-    }
-
-    /**
-     * Given the <code>financialObjectCode</code>, determine the total of the {@link SourceAccountingLine} instances with that
-     * <code>financialObjectCode</code>
-     * 
-     * @param financialObjectCode to search for total on
-     * @return @{link KualiDecimal} with total value for {@link AccountingLines} with <code>finanncialObjectCode</code>
-     */
-    @Override
-    public KualiDecimal getTotalFor(final String financialObjectCode) {
-        KualiDecimal retval = KualiDecimal.ZERO;
-
-        debug("Getting total for ", financialObjectCode);
-
-        for (final AccountingLine line : (List<AccountingLine>) getSourceAccountingLines()) {
-            debug("Comparing ", financialObjectCode, " to ", line.getObjectCode().getCode());
-            if (line.getObjectCode().getCode().equals(financialObjectCode)) {
-                retval = retval.add(line.getAmount());
-            }
-        }
-
-        return retval;
-    }
-
-    public boolean canShowHostCertification() {
-        return (getHostProfile() != null && getTemProfile() != null && !getHostProfile().getProfileId().equals(getTemProfile().getProfileId()) && !getDocumentHeader().getWorkflowDocument().stateIsInitiated());
-    }
-
-    public boolean canDisplayNonEmployeeCheckbox() {
-        return ((getHostProfile() != null && getHostProfile().getTravelerTypeCode().equals(TemConstants.NONEMP_TRAVELER_TYP_CD)) || (getTemProfile() != null && getTemProfile().getTravelerTypeCode().equals(TemConstants.NONEMP_TRAVELER_TYP_CD)));
-    }
-
-    @Override
-    protected String generateDescription() {
-        StringBuffer sb = new StringBuffer();
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-        PersonService<Person> ps = SpringContext.getBean(PersonService.class);
-
-        Person person = ps.getPerson(getTraveler().getPrincipalId());
-
-        this.getTraveler().refreshReferenceObject(TemPropertyConstants.CUSTOMER);
-
-        AccountsReceivableCustomer customer = getTraveler().getCustomer();
-        if (person != null) {
-            sb.append(person.getLastName() + ", " + person.getFirstName() + " " + person.getMiddleName() + " ");
-        }
-        else if (customer != null) {
-            sb.append(customer.getCustomerName() + " ");
-        }
-        else {
-            sb.append(getTraveler().getFirstName() + " " + getTraveler().getLastName() + " ");
-        }
-
-        if (this.getTripBegin() != null) {
-            sb.append(format.format(this.getTripBegin()) + " ");
-        }
-        if (eventTitle != null)
-            sb.append(this.eventTitle);
-        String tempStr = sb.toString();
-
-        if (tempStr.length() > 40) {
-            tempStr = tempStr.substring(0, 39);
-        }
-
-        return tempStr;
-    }
-
-    @Transient
-    public void addAttendee(final Attendee line) {
-        final String sequenceName = line.getSequenceName();
-        final Long sequenceNumber = getSequenceAccessorService().getNextAvailableSequenceNumber(sequenceName, Attendee.class);
-        line.setId(sequenceNumber.intValue());
-        line.setDocumentNumber(this.documentNumber);
-        notifyChangeListeners(new PropertyChangeEvent(this, "attendee", null, line));
-        getAttendee().add(line);
-    }
-
-    @Transient
-    public void removeAttendee(final Integer index) {
-        final Attendee line = getAttendee().remove((int) index);
-        notifyChangeListeners(new PropertyChangeEvent(this, "attendee", line, null));
     }
 
     @Column(name = "HOST_TEM_PROFILE_ID", length = 50, nullable = true)
@@ -538,7 +266,277 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
     public TEMProfile getHostProfile() {
         return hostProfile;
     }
+    
+    /**
+     * @see org.kuali.kfs.sys.document.FinancialSystemTransactionalDocumentBase#answerSplitNodeQuestion(java.lang.String)
+     */
+    @Override
+    public boolean answerSplitNodeQuestion(String nodeName) throws UnsupportedOperationException {
+        if (nodeName.equals(TemWorkflowConstants.SPECIAL_REQUEST))
+            return requiresSpecialRequestReviewRouting();
+        if (nodeName.equals(TemWorkflowConstants.TAX_MANAGER))
+            return requiresTaxManagerApprovalRouting();
+        if (nodeName.equals(TemWorkflowConstants.ENTERTAINMENT_MANAGER))
+            return requiresEntertainmentManagerRouting();
+        throw new UnsupportedOperationException("Cannot answer split question for this node you call \"" + nodeName + "\"");
+    }
 
+    /**
+     * 
+     * @return
+     */
+    private boolean requiresEntertainmentManagerRouting() {
+        return true;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#requiresSpecialRequestReviewRouting()
+     */
+    @Override
+    protected boolean requiresSpecialRequestReviewRouting() {
+        if (super.requiresSpecialRequestReviewRouting()) {
+            return true;
+        }
+        
+        if (getPurpose() != null) {
+            String purposeCode = getPurpose().getPurposeCode();
+            if (getPurpose().isReviewRequiredIndicator() != null && getPurpose().isReviewRequiredIndicator()) {
+                return true;
+            }
+        }
+
+        if ((ObjectUtils.isNotNull(getSpouseIncluded()) && getSpouseIncluded())) {
+            return true;
+        }
+        
+        return false;
+    }
+
+    /**
+     * @see org.kuali.kfs.module.tem.document.TEMReimbursementDocument#populateDisbursementVoucherFields(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
+     */
+    @Override
+    public void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument) {
+        super.populateDisbursementVoucherFields(disbursementVoucherDocument);
+        
+        disbursementVoucherDocument.setDisbVchrCheckStubText(getTravelDocumentIdentifier() + " " + StringUtils.defaultString(getEventTitle()) + getTripBegin());              
+        disbursementVoucherDocument.getDocumentHeader().setDocumentDescription("Generated for ENT doc: " + StringUtils.defaultString(getDocumentTitle(), getTravelDocumentIdentifier()));
+        getTravelDocumentService().trimFinancialSystemDocumentHeader(disbursementVoucherDocument.getDocumentHeader());
+
+        disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(getParameterService().getParameterValue(TemParameterConstants.TEM_ENTERTAINMENT.class, TravelEntertainmentParameters.ENTERTAINMENT_DOCUMENT_LOCATION));        
+        String paymentReasonCode = getParameterService().getParameterValue(TemParameterConstants.TEM_ENTERTAINMENT.class, TravelEntertainmentParameters.ENT_REIMBURSEMENT_DV_REASON_CODE);
+        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(paymentReasonCode);
+        disbursementVoucherDocument.setDisbVchrPaymentMethodCode(this.getPaymentMethod());
+    }
+
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#populateRequisitionFields(org.kuali.kfs.module.purap.document.RequisitionDocument, org.kuali.kfs.module.tem.document.TravelDocument)
+     */
+    @Override
+    public void populateRequisitionFields(RequisitionDocument reqsDoc, TravelDocument document) {
+        super.populateRequisitionFields(reqsDoc, document);
+        TravelEntertainmentDocument entDocument = (TravelEntertainmentDocument) document;
+        reqsDoc.getDocumentHeader().setDocumentDescription("Generated for ENT doc: " + StringUtils.defaultString(entDocument.getEventTitle()));
+        reqsDoc.getDocumentHeader().setOrganizationDocumentNumber(entDocument.getTravelDocumentIdentifier());
+        Calendar calendar = getDateTimeService().getCurrentCalendar();
+        calendar.setTime(entDocument.getTripBegin());
+        reqsDoc.setPostingYear(calendar.get(Calendar.YEAR));
+    }
+
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#doRouteStatusChange(org.kuali.rice.kew.dto.DocumentRouteStatusChangeDTO)
+     */
+    @Override
+    public void doRouteStatusChange(DocumentRouteStatusChangeDTO statusChangeEvent) {
+        super.doRouteStatusChange(statusChangeEvent);
+
+        LOG.debug("Handling route status change");
+        LOG.debug("route status is " + statusChangeEvent.getNewRouteStatus());
+        
+        String currStatus = getDocumentHeader().getWorkflowDocument().getRouteHeader().getAppDocStatus();
+        
+        if (ObjectUtils.isNotNull(currStatus)) {
+            updateAppDocStatus(currStatus);
+        }
+        
+        if (KEWConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(statusChangeEvent.getNewRouteStatus())) {
+         // update app doc status from the disapprove map
+            updateAppDocStatus(TemConstants.EntertainmentStatusCodeKeys.getDisapprovedAppDocStatusMap().get(getAppDocStatus()));
+        }
+        
+        if (KEWConstants.ROUTE_HEADER_FINAL_CD.equals(statusChangeEvent.getNewRouteStatus()) 
+                || KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(statusChangeEvent.getNewRouteStatus())) {
+
+            LOG.debug("New route status is " + statusChangeEvent.getNewRouteStatus());
+            
+            // for some reason when it goes to final it never updates to the last status
+            updateAppDocStatus(EntertainmentStatusCodeKeys.ENT_MANAGER_APPROVED);
+            if (getDocumentGrandTotal() != null && getDocumentGrandTotal().isGreaterThan(KualiDecimal.ZERO)) {
+                getTravelDisbursementService().processTEMReimbursementDV(this);
+            }
+
+            // If the hold new fiscal year encumbrance indicator is true and the trip end date
+            // is after the current fiscal year end date then mark all the gl pending entries
+            // as 'H' (Hold) otherwise mark all the gl pending entries as 'A' (approved)
+            if (getGeneralLedgerPendingEntries() != null && !getGeneralLedgerPendingEntries().isEmpty()) {
+                if (getParameterService().getIndicatorParameter(TemConstants.PARAM_NAMESPACE, TemConstants.TravelAuthorizationParameters.PARAM_DTL_TYPE, TemConstants.TravelAuthorizationParameters.HOLD_NEW_FY_ENCUMBRANCES_IND)) {
+                    UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
+                    java.util.Date endDate = universityDateService.getLastDateOfFiscalYear(universityDateService.getCurrentFiscalYear());
+                    if (ObjectUtils.isNotNull(getTripEnd()) && getTripEnd().after(endDate)) {
+                        for (GeneralLedgerPendingEntry glpe : getGeneralLedgerPendingEntries()) {
+                            glpe.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.HOLD);
+                        }
+                    }
+                }
+                else {
+                    for (GeneralLedgerPendingEntry glpe : getGeneralLedgerPendingEntries()) {
+                        glpe.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
+                    }
+                }
+                getBusinessObjectService().save(getGeneralLedgerPendingEntries());
+            }
+        }
+    }
+
+    @Override
+    public void updateAppDocStatus(String newStatus) {
+        LOG.debug("new status is: " + newStatus);
+
+        // get current workflow status and compare to status change
+        String currStatus = getAppDocStatus();
+        if (ObjectUtils.isNull(currStatus) || !newStatus.equalsIgnoreCase(currStatus)) {
+            // update
+            setAppDocStatus(newStatus);
+        }
+        if ((this.getDocumentHeader().getWorkflowDocument().stateIsFinal() || getDocumentHeader().getWorkflowDocument().stateIsProcessed())) {
+            WorkflowDocumentService workflowDocumentService = SpringContext.getBean(WorkflowDocumentService.class);
+            try {
+                workflowDocumentService.save(this.getDocumentHeader().getWorkflowDocument(), null);
+            }
+            catch (WorkflowException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void initiateDocument() {
+        updateAppDocStatus(TemConstants.EntertainmentStatusCodeKeys.IN_PROCESS);
+        setActualExpenses(new ArrayList<ActualExpense>());
+        setPerDiemExpenses(new ArrayList<PerDiemExpense>());
+
+        getDocumentHeader().setDocumentDescription(TemConstants.PRE_FILLED_DESCRIPTION);
+        if (this.getTraveler() == null) {
+            this.setTraveler(new TravelerDetail());
+            this.getTraveler().setTravelerTypeCode(TemConstants.EMP_TRAVELER_TYP_CD);
+        }
+        
+        Calendar calendar = getDateTimeService().getCurrentCalendar();
+        if (this.getTripBegin() == null) {
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+            setTripBegin(new Timestamp(calendar.getTimeInMillis()));
+
+        }
+        if (this.getTripEnd() == null) {
+            calendar.add(Calendar.DAY_OF_MONTH, 2);
+            setTripEnd(new Timestamp(calendar.getTimeInMillis()));
+        }
+
+        Person currentUser = GlobalVariables.getUserSession().getPerson();
+        if (!getTravelDocumentService().isTravelArranger(currentUser)) {
+            TEMProfile temProfile = getTravelService().findTemProfileByPrincipalId(currentUser.getPrincipalId());
+            if (temProfile != null) {
+                setTemProfile(temProfile);
+            }
+        }
+    }
+
+    /**
+     * Given the <code>financialObjectCode</code>, determine the total of the {@link SourceAccountingLine} instances with that
+     * <code>financialObjectCode</code>
+     * 
+     * @param financialObjectCode to search for total on
+     * @return @{link KualiDecimal} with total value for {@link AccountingLines} with <code>finanncialObjectCode</code>
+     */
+    @Override
+    public KualiDecimal getTotalFor(final String financialObjectCode) {
+        KualiDecimal retval = KualiDecimal.ZERO;
+
+        LOG.debug("Getting total for " + financialObjectCode);
+
+        for (final AccountingLine line : (List<AccountingLine>) getSourceAccountingLines()) {
+            LOG.debug("Comparing " + financialObjectCode + " to " + line.getObjectCode().getCode());
+            if (line.getObjectCode().getCode().equals(financialObjectCode)) {
+                retval = retval.add(line.getAmount());
+            }
+        }
+
+        return retval;
+    }
+
+    public boolean canShowHostCertification() {
+        return (getHostProfile() != null && getTemProfile() != null && !getHostProfile().getProfileId().equals(getTemProfile().getProfileId()) && !getDocumentHeader().getWorkflowDocument().stateIsInitiated());
+    }
+
+    public boolean canDisplayNonEmployeeCheckbox() {
+        return ((getHostProfile() != null && getHostProfile().getTravelerTypeCode().equals(TemConstants.NONEMP_TRAVELER_TYP_CD)) || (getTemProfile() != null && getTemProfile().getTravelerTypeCode().equals(TemConstants.NONEMP_TRAVELER_TYP_CD)));
+    }
+
+    @Override
+    protected String generateDescription() {
+        StringBuffer sb = new StringBuffer();
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+        PersonService<Person> ps = SpringContext.getBean(PersonService.class);
+
+        Person person = ps.getPerson(getTraveler().getPrincipalId());
+
+        this.getTraveler().refreshReferenceObject(TemPropertyConstants.CUSTOMER);
+
+        AccountsReceivableCustomer customer = getTraveler().getCustomer();
+        if (person != null) {
+            sb.append(person.getLastName() + ", " + person.getFirstName() + " " + person.getMiddleName() + " ");
+        }
+        else if (customer != null) {
+            sb.append(customer.getCustomerName() + " ");
+        }
+        else {
+            sb.append(getTraveler().getFirstName() + " " + getTraveler().getLastName() + " ");
+        }
+
+        if (this.getTripBegin() != null) {
+            sb.append(format.format(this.getTripBegin()) + " ");
+        }
+        if (eventTitle != null)
+            sb.append(this.eventTitle);
+        String tempStr = sb.toString();
+
+        if (tempStr.length() > 40) {
+            tempStr = tempStr.substring(0, 39);
+        }
+
+        return tempStr;
+    }
+
+    @Transient
+    public void addAttendee(final Attendee line) {
+        final String sequenceName = line.getSequenceName();
+        final Long sequenceNumber = getSequenceAccessorService().getNextAvailableSequenceNumber(sequenceName, Attendee.class);
+        line.setId(sequenceNumber.intValue());
+        line.setDocumentNumber(this.documentNumber);
+        notifyChangeListeners(new PropertyChangeEvent(this, "attendee", null, line));
+        getAttendee().add(line);
+    }
+
+    @Transient
+    public void removeAttendee(final Integer index) {
+        final Attendee line = getAttendee().remove((int) index);
+        notifyChangeListeners(new PropertyChangeEvent(this, "attendee", line, null));
+    }
+
+    /**
+     * 
+     * @param hostProfile
+     */
     public void setHostProfile(TEMProfile hostProfile) {
         this.hostProfile = hostProfile;
         if (hostProfile != null) {
@@ -554,21 +552,23 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
         }
     }
     
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocument#getReportPurpose()
+     */
     @Override
     public String getReportPurpose() {
-        if (purpose != null) {
-            return purpose.getPurposeName();
-        }
-        
-        return null;
+        return purpose != null? purpose.getPurposeName() : null;
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#populateVendorPayment(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
+     */
     @Override
     public void populateVendorPayment(DisbursementVoucherDocument disbursementVoucherDocument) {
         super.populateVendorPayment(disbursementVoucherDocument);
         
         disbursementVoucherDocument.setDisbVchrPaymentMethodCode(TemConstants.DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE);
-        String locationCode = getParameterService().getParameterValue(PARAM_NAMESPACE, TravelRelocationParameters.PARAM_DTL_TYPE, TravelRelocationParameters.RELOCATION_DOCUMENTATION_LOCATION_CODE);
+        String locationCode = getParameterService().getParameterValue(TemParameterConstants.TEM_ENTERTAINMENT.class, TravelRelocationParameters.RELOCATION_DOCUMENTATION_LOCATION_CODE);
         String checkStubText = this.getTravelDocumentIdentifier() + ", " + this.getEventTitle();
         disbursementVoucherDocument.setDisbVchrPaymentMethodCode(TemConstants.DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE);
         

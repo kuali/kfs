@@ -34,6 +34,7 @@ import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.businessobject.TripType;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.datadictionary.FinancialSystemTransactionalDocumentEntry;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -308,4 +309,18 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
     public KualiDecimal getPerDiemAdjustment();
 
     public void setPerDiemAdjustment(KualiDecimal perDiemAdjustment);
+    
+    /**
+     * Populate the fields from the Travel document to create the DisbursementVoucherDocument
+     * 
+     * @param disbursementVoucherDocument
+     */
+    public void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument);
+    
+    /**
+     * Return the source accounting lines which will be used for reimbursement in DV
+     * 
+     * @return
+     */
+    public List<SourceAccountingLine> getReimbursableSourceAccountingLines();
 }

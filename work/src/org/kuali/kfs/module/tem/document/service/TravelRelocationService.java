@@ -51,10 +51,4 @@ public interface TravelRelocationService {
      */
     Coversheet generateCoversheetFor(final TravelRelocationDocument document) throws Exception;
     
-    /**
-     * 
-     * This method initiates Disbursement Voucher for Reimbursement
-     * @param relocation
-     */
-    public void createDVReimbursementDocument(TravelRelocationDocument relocation);    
 }

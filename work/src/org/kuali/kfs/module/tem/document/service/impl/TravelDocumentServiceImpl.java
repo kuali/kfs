@@ -25,6 +25,7 @@ import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.DOCUMENT_DT
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.ENABLE_PER_DIEM_CATEGORIES;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.HOSTED_MEAL_EXPENSE_TYPES;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.NON_EMPLOYEE_TRAVELER_TYPE_CODES;
+import static org.kuali.kfs.module.tem.TemKeyConstants.MESSAGE_DV_IN_ACTION_LIST;
 import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
 import static org.kuali.kfs.module.tem.util.BufferedLogger.error;
 import static org.kuali.kfs.module.tem.util.BufferedLogger.warn;
@@ -76,6 +77,7 @@ import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
+import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeAware;
 import org.kuali.kfs.module.tem.businessobject.GroupTraveler;
@@ -92,6 +94,7 @@ import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetailEmergencyContact;
 import org.kuali.kfs.module.tem.businessobject.TripType;
 import org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao;
+import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelDocumentBase;
@@ -1916,185 +1919,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         }
         return new ArrayList(retval);
     }
-    
-    /**
-     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#populateDisbursementVoucherFields(org.kuali.kfs.fp.document.DisbursementVoucherDocument, org.kuali.kfs.module.tem.document.TravelDocument)
-     */
-    @Override
-    public void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument, TravelDocument document) {
-        disbursementVoucherDocument.setRefundIndicator(true);
-        disbursementVoucherDocument.getDvPayeeDetail().setDocumentNumber(disbursementVoucherDocument.getDocumentNumber());
-        disbursementVoucherDocument.getDocumentHeader().setOrganizationDocumentNumber(document.getTravelDocumentIdentifier());
-        Calendar calendar = getDateTimeService().getCurrentCalendar();
-        calendar.add(Calendar.DAY_OF_MONTH, 1);        
-        disbursementVoucherDocument.setDisbursementVoucherDueDate(new java.sql.Date(calendar.getTimeInMillis()));
-        
-        try {
-            disbursementVoucherDocument.getDocumentHeader().getWorkflowDocument().setTitle("Disbursement Voucher - " + document.getDocumentHeader().getDocumentDescription());
-        }
-        catch (WorkflowException ex) {
-            error("cannot set title for DV " + disbursementVoucherDocument.getDocumentNumber(), ex);
-            throw new RuntimeException("Error setting DV title: " + disbursementVoucherDocument.getDocumentNumber(), ex);
-        }
-        disbursementVoucherDocument.initiateDocument();
-        Person initiator = SpringContext.getBean(PersonService.class).getPerson(document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
-        if (initiator == null) {
-            throw new RuntimeException("Initiator could not be found in KIM!");
-        }
-        
-        disbursementVoucherDocument.setDisbVchrContactPersonName(initiator.getPrincipalName());
-        disbursementVoucherDocument.setDisbVchrContactPhoneNumber(initiator.getPhoneNumber());
 
-        // This type needs to be Customer "C", do not change otherwise we will change the configuration
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(DisbursementVoucherConstants.DV_PAYEE_TYPE_CUSTOMER); 
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPayeeIdNumber(document.getTraveler().getPrincipalId());
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPayeePersonName(document.getTraveler().getFirstName() + " " + document.getTraveler().getLastName());
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrAlienPaymentCode(false);
-
-       // disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrVendorAddressIdNumber(document.getTraveler().getCustomerAddressIdentifier().toString());
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPayeeLine1Addr(document.getTraveler().getStreetAddressLine1());
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPayeeLine2Addr(document.getTraveler().getStreetAddressLine2());
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPayeeCityName(document.getTraveler().getCityName());
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPayeeStateCode(document.getTraveler().getStateCode());
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPayeeZipCode(document.getTraveler().getZipCode());
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPayeeCountryCode(document.getTraveler().getCountryCode());
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(travelerService.isEmployee(document.getTraveler()));
-
-        disbursementVoucherDocument.setDisbVchrPaymentMethodCode(TemConstants.DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE);
-        
-        //Copied from TA's impl - may be usable when we refactor that code
-//        String advancePaymentChartCode = parameterService.getParameterValue(TemParameterConstants.TEM_AUTHORIZATION.class, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_PAYMENT_CHART_CODE);
-//        String advancePaymentAccountNumber = parameterService.getParameterValue(TemParameterConstants.TEM_AUTHORIZATION.class, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_PAYMENT_ACCOUNT_NBR);
-//        String advancePaymentObjectCode = parameterService.getParameterValue(TemParameterConstants.TEM_AUTHORIZATION.class, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_PAYMENT_OBJECT_CODE);
-
-        // set accounting
-        KualiDecimal totalAmount = KualiDecimal.ZERO;
-        for (Object accountingLineObj : document.getSourceAccountingLines()) {
-            SourceAccountingLine sourceccountingLine=(SourceAccountingLine)accountingLineObj;
-            SourceAccountingLine accountingLine = new SourceAccountingLine();
-              
-            accountingLine.setChartOfAccountsCode(sourceccountingLine.getChartOfAccountsCode());
-            accountingLine.setAccountNumber(sourceccountingLine.getAccountNumber());
-            if (StringUtils.isNotBlank(sourceccountingLine.getFinancialObjectCode())) {
-                    accountingLine.setFinancialObjectCode(sourceccountingLine.getFinancialObjectCode());              
-            }
-
-            if (StringUtils.isNotBlank(sourceccountingLine.getFinancialSubObjectCode())) {
-                accountingLine.setFinancialSubObjectCode(sourceccountingLine.getFinancialSubObjectCode());
-            }
-
-            if (StringUtils.isNotBlank(sourceccountingLine.getSubAccountNumber())) {
-                accountingLine.setSubAccountNumber(sourceccountingLine.getSubAccountNumber());
-            }
-
-            accountingLine.setAmount(sourceccountingLine.getAmount());
-            accountingLine.setPostingYear(disbursementVoucherDocument.getPostingYear());
-            accountingLine.setDocumentNumber(disbursementVoucherDocument.getDocumentNumber());
-
-            disbursementVoucherDocument.addSourceAccountingLine(accountingLine);
-
-            totalAmount = totalAmount.add(sourceccountingLine.getAmount()); //TODO: verify this.
-        }
-
-        disbursementVoucherDocument.setDisbVchrCheckTotalAmount(totalAmount);
-    }
-    
-    /**
-     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#createDVReimbursementDocument(org.kuali.kfs.module.tem.document.TravelDocumentBase)
-     */
-    @Override
-    public DisbursementVoucherDocument createDVReimbursementDocument(TravelDocumentBase document){
-        String principalName = SpringContext.getBean(PersonService.class).getPerson(document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId()).getPrincipalName();
-        GlobalVariables.setUserSession(new UserSession(principalName));
-
-        DisbursementVoucherDocument disbursementVoucherDocument = null;
-        
-        //1. create and populate the DV data and details
-        try {
-            disbursementVoucherDocument = (DisbursementVoucherDocument) documentService.getNewDocument(DisbursementVoucherDocument.class);
-            
-            //update the DV's DocumentHeader's workflow title to be that fo the travel document 
-            disbursementVoucherDocument.getDocumentHeader().getWorkflowDocument().setTitle(document.getDocumentHeader().getDocumentDescription());
-            
-            document.populateDisbursementVoucherFields(disbursementVoucherDocument);
-        }
-        catch (WorkflowException wfe) {
-            LOG.error("Error creating new disbursement voucher document: " + wfe.getMessage());
-            throw new RuntimeException("Error creating new disbursement voucher document: " + wfe.getMessage(), wfe);
-        }
-        
-        final Map<String, TypedArrayList> oldErrors = new LinkedHashMap<String, TypedArrayList>();
-        oldErrors.putAll(GlobalVariables.getMessageMap().getErrorMessages());
-
-        //2. attempt to first save DV doc
-        try {
-            disbursementVoucherDocument.prepareForSave();
-            businessObjectService.save(disbursementVoucherDocument);
-        }
-        catch(Exception e){
-            // if we can't save DV, need to stop processing
-            LOG.error("Cannot save DV " + disbursementVoucherDocument.getDocumentNumber(), e);
-            throw new RuntimeException("cannot save DV " + disbursementVoucherDocument.getDocumentNumber(), e);           
-        }
-        
-        //3. blanket approve the doc and add notes to the travel doc
-        try {
-            Note dvNote = getDocumentService().createNoteFromDocument(disbursementVoucherDocument, "System generated note by document # " + document.getTravelDocumentIdentifier());
-            getDocumentService().addNoteToDocument(disbursementVoucherDocument, dvNote);
-
-            boolean rulePassed = getKualiRuleService().applyRules(new AttributedRouteDocumentEvent("", disbursementVoucherDocument));
-
-            if (rulePassed && !(TemConstants.DisbursementVoucherPaymentMethods.WIRE_TRANSFER_PAYMENT_METHOD_CODE.equals(disbursementVoucherDocument.getDisbVchrPaymentMethodCode())
-            		|| TemConstants.DisbursementVoucherPaymentMethods.FOREIGN_DRAFT_PAYMENT_METHOD_CODE.equals(disbursementVoucherDocument.getDisbVchrPaymentMethodCode()))) {
-            	
-            	KualiWorkflowDocument originalWorkflowDocument = disbursementVoucherDocument.getDocumentHeader().getWorkflowDocument();
-                
-            	try {
-                    // original initiator may not have permission to blanket approve the DV
-                    GlobalVariables.setUserSession(new UserSession(KFSConstants.SYSTEM_USER));
-                    
-                    KualiWorkflowDocument newWorkflowDocument = getWorkflowDocumentService().createWorkflowDocument(Long.valueOf(disbursementVoucherDocument.getDocumentNumber()), GlobalVariables.getUserSession().getPerson());
-                    newWorkflowDocument.setTitle(originalWorkflowDocument.getTitle());
-                    
-                    disbursementVoucherDocument.getDocumentHeader().setWorkflowDocument(newWorkflowDocument);
-                
-                    String annotation= String.format("Blanket Approved by system for %s Document: %s",  getDocumentType(document), document.getDocumentNumber());
-                	getWorkflowDocumentService().blanketApprove(disbursementVoucherDocument.getDocumentHeader().getWorkflowDocument(), annotation, null); 
-            	}
-            	 catch (WorkflowException wfe) {
-                     LOG.error(wfe.getMessage(), wfe);
-                 }
-                finally {
-                    GlobalVariables.setUserSession(new UserSession(principalName));
-                    disbursementVoucherDocument.getDocumentHeader().setWorkflowDocument(originalWorkflowDocument);
-                }
-            	
-                final String noteText = String.format("DV Document %s was system generated and blanket approved", disbursementVoucherDocument.getDocumentNumber());                
-            	final Note noteToAdd = getDocumentService().createNoteFromDocument(document, noteText);
-            	getDocumentService().addNoteToDocument(document, noteToAdd);
-            }
-            else {
-                businessObjectService.save(disbursementVoucherDocument);
-                String annotation = "Saved by system in relation to Document: " + document.getDocumentNumber();
-                getWorkflowDocumentService().save(disbursementVoucherDocument.getDocumentHeader().getWorkflowDocument(), annotation);
-
-                final String noteText = String.format("DV Document %s is saved in the initiator's action list", disbursementVoucherDocument.getDocumentNumber());
-                final Note noteToAdd = getDocumentService().createNoteFromDocument(document, noteText);
-                getDocumentService().addNoteToDocument(document, noteToAdd);
-                addAdHocFYIRecipient(disbursementVoucherDocument, document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
-            }
-        }
-        catch (Exception ex) {
-            LOG.error(ex.getMessage(), ex);
-        }
-        
-        //done with everything, reset errors and put back the old errors
-        GlobalVariables.getMessageMap().clearErrorMessages();
-        GlobalVariables.getMessageMap().getErrorMessages().putAll(oldErrors);
-        
-        return disbursementVoucherDocument;
-    }
-    
     /**
      * This method checks to see if the type code is for a non-employee
      * 

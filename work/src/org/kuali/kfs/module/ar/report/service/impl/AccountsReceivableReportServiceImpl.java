@@ -78,6 +78,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.core.web.format.CurrencyFormatter;
 import org.kuali.rice.core.web.format.PhoneNumberFormatter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -658,7 +659,8 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
         for (CustomerCreditMemoDocument doc : creditMemos) {
             try {
                 doc.populateCustomerCreditMemoDetailsAfterLoad();
-                if (doc.getDocumentHeader().getWorkflowDocument().isFinal()) totalCredit = totalCredit.add(doc.getTotalDollarAmount());
+                WorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();
+                if (workflowDoc.isFinal() || workflowDoc.isProcessed()) totalCredit = totalCredit.add(doc.getTotalDollarAmount());
             } catch(Exception ex) {
                 LOG.error(ex);
             }
@@ -716,7 +718,8 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
                         for (CustomerCreditMemoDocument doc : creditMemos) {
                             try {
                                 doc.populateCustomerCreditMemoDetailsAfterLoad();
-                                if (doc.getDocumentHeader().getWorkflowDocument().isFinal()) {
+                                WorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();
+                                if (workflowDoc.isFinal() || workflowDoc.isProcessed()) {
                                     CustomerCreditMemoDocument creditMemoDoc = (CustomerCreditMemoDocument)documentService.getByDocumentHeaderId(doc.getDocumentNumber());
                                     CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(creditMemoDoc.getFinancialSystemDocumentHeader(),
                                             //creditMemoDoc.getInvoice().getAccountsReceivableDocumentHeader().getProcessingOrganization(),
@@ -736,7 +739,8 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
                             try {
                                 Document payAppDoc = documentService.getByDocumentHeaderId(doc.getDocumentNumber());
                                 if (payAppDoc instanceof PaymentApplicationDocument ){    
-                                    if (doc.getDocumentHeader().getWorkflowDocument().isFinal()) {
+                                    WorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();
+                                    if (workflowDoc.isFinal() || workflowDoc.isProcessed()) {
                                         PaymentApplicationDocument paymentApplicationDoc = (PaymentApplicationDocument)payAppDoc;
                                         CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(paymentApplicationDoc.getFinancialSystemDocumentHeader(),
                                                 invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(),
@@ -753,7 +757,8 @@ public class AccountsReceivableReportServiceImpl implements AccountsReceivableRe
                         Collection<CustomerInvoiceWriteoffDocument> writeoffs = writeoffService.getCustomerCreditMemoDocumentByInvoiceDocument(invoice.getDocumentNumber());
                         for (CustomerInvoiceWriteoffDocument doc : writeoffs) {
                             try {
-                                if (doc.getDocumentHeader().getWorkflowDocument().isFinal()) {
+                                WorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();
+                                if (workflowDoc.isFinal() || workflowDoc.isProcessed()) {
                                     CustomerStatementDetailReportDataHolder detail = new CustomerStatementDetailReportDataHolder(doc.getFinancialSystemDocumentHeader(),
                                             invoice.getAccountsReceivableDocumentHeader().getProcessingOrganization(),
                                             ArConstants.WRITEOFF_DOC_TYPE, doc.getTotalDollarAmount());                            

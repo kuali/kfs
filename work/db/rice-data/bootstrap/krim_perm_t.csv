@@ -288,4 +288,3 @@ KFSPURAP6940,KFSPURAP6940,1,27,KFS-PURAP,Full Unmask Field,Authorizes users to v
 15001,KFSLD6987h,1,33,KFS-LD,Upload Batch Input File(s),Allows access to the Labor Enterprise Feed Upload Batch Upload page.,Y
 KFSSYS7145a,KFSSYS7145a,1,1,KFS-SYS,View Accounting Period,Users who can view the accounting period field when enabled for year end processing.,Y
 KFSSYS7145b,KFSSYS7145b,1,1,KFS-SYS,Edit Accounting Period,Users who can edit the accounting period field when enabled for year end processing.,Y
-TEM-11001,KFSPERMTEM11001,1,1,KFS-FP,Pay AR Customers,Allows users to select AR customers for payment on the disbursement voucher document.,Y

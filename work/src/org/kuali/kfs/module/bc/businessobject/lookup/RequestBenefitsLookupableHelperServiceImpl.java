@@ -28,6 +28,7 @@ import org.kuali.kfs.integration.ld.LaborLedgerBenefitsCalculation;
 import org.kuali.kfs.integration.ld.LaborLedgerPositionObjectBenefit;
 import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.module.bc.businessobject.RequestBenefits;
+import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
@@ -62,10 +63,10 @@ public class RequestBenefitsLookupableHelperServiceImpl extends KualiLookupableH
       
       // find out if we are running in rate category mode
       Boolean categoryRateCalcMode = false;
-      Boolean categoryRateCalcParmExists = SpringContext.getBean(ParameterService.class).parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND");
+      Boolean categoryRateCalcParmExists = SpringContext.getBean(ParameterService.class).parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, KFSParameterKeyConstants.LdParameterConstants.ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND);
       String sysParam = " ";
       if (categoryRateCalcParmExists) {
-          sysParam = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND");
+          sysParam = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, KFSParameterKeyConstants.LdParameterConstants.ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND);
           if (sysParam.equalsIgnoreCase("Y")){
               categoryRateCalcMode = true;
           }

@@ -34,6 +34,7 @@ import org.kuali.kfs.integration.ld.LaborLedgerBenefitsCalculation;
 import org.kuali.kfs.integration.ld.LaborLedgerPositionObjectBenefit;
 import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.integration.ld.LaborBenefitsCalculation;
+import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.businessobject.TargetAccountingLine;
@@ -134,16 +135,16 @@ public class BudgetAdjustmentLaborBenefitsServiceImpl implements BudgetAdjustmen
                     LaborLedgerBenefitsCalculation benefitsCalculation = null;
                     String laborBenefitsRateCategoryCode = "";
                     // make sure the parameter exists
-                    if (SpringContext.getBean(ParameterService.class).parameterExists(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE")) {
-                        laborBenefitsRateCategoryCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE");
+                    if (SpringContext.getBean(ParameterService.class).parameterExists(Account.class, KFSParameterKeyConstants.LdParameterConstants.DEFAULT_BENEFIT_RATE_CATEGORY_CODE)) {
+                        laborBenefitsRateCategoryCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Account.class, KFSParameterKeyConstants.LdParameterConstants.DEFAULT_BENEFIT_RATE_CATEGORY_CODE);
                     }
                     else {
                         laborBenefitsRateCategoryCode = "";
                     }
                     // make sure the system parameter exists
-                    if (SpringContext.getBean(ParameterService.class).parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY")) {
+                    if (SpringContext.getBean(ParameterService.class).parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, KFSParameterKeyConstants.LdParameterConstants.ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND)) {
                         // check the system param to see if the labor benefit rate category should be filled in
-                        String sysParam = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY");
+                        String sysParam = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, KFSParameterKeyConstants.LdParameterConstants.ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND);
                         LOG.debug("sysParam: " + sysParam);
                         // if sysParam == Y then Labor Benefit Rate Category should be used in the search
                         if (sysParam.equalsIgnoreCase("Y")) {
@@ -159,8 +160,8 @@ public class BudgetAdjustmentLaborBenefitsServiceImpl implements BudgetAdjustmen
                             // make sure laborBenefitsRateCategoryCode isn't null
                             if (ObjectUtils.isNull(laborBenefitsRateCategoryCode)) {
                                 // make sure the parameter exists
-                                if (SpringContext.getBean(ParameterService.class).parameterExists(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE")) {
-                                    laborBenefitsRateCategoryCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE");
+                                if (SpringContext.getBean(ParameterService.class).parameterExists(Account.class, KFSParameterKeyConstants.LdParameterConstants.DEFAULT_BENEFIT_RATE_CATEGORY_CODE)) {
+                                    laborBenefitsRateCategoryCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Account.class, KFSParameterKeyConstants.LdParameterConstants.DEFAULT_BENEFIT_RATE_CATEGORY_CODE);
                                 }
                                 else {
                                     laborBenefitsRateCategoryCode = "";

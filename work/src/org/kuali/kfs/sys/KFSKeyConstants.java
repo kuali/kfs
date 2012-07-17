@@ -524,6 +524,7 @@ public class KFSKeyConstants {
     public static final String ERROR_PAYROLL_END_DATE_FISCAL_PERIOD = "error.labor.PayrollEndDateFiscalPeriodCodeNotFound";
     public static final String ERROR_PAYROLL_END_DATE_FISCAL_YEAR = "error.labor.PayrollEndDateFiscalYearNotFound";
     public static final String ERROR_EMPTY_LABOR_BENEFIT_CATEGORY_CODE = "error.labor.laborBenefitRateCategoryEmpty";
+    public static final String ERROR_LABOR_BENEFIT_CATEGORY_CODE = "error.labor.laborBenefitRateCategory";
 
     public static final String WARNING_ICR_GENERATION_PROBLEM_WITH_A21SUBACCOUNT_FIELD_BLANK_INVALID = "warning.gl.IndirectCostRecoveryGeneration.A21SubAccount.icrField.blankInvalid";
 

@@ -33,6 +33,7 @@ import org.kuali.kfs.coa.businessobject.AccountDelegate;
 import org.kuali.kfs.coa.dataaccess.AccountDao;
 import org.kuali.kfs.coa.service.AccountService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.KFSConstants.SystemGroupParameterNames;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
@@ -306,7 +307,7 @@ public class AccountServiceImpl implements AccountService {
     public String getDefaultLaborBenefitRateCategoryCodeForAccountType(String accountTypeCode) {
         String benefitRateCategory = parameterService.getSubParameterValueAsString(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE_BY_ACCOUNT_TYPE", accountTypeCode);
         if ( StringUtils.isBlank(benefitRateCategory) ) {
-            benefitRateCategory = parameterService.getParameterValueAsString(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE");
+            benefitRateCategory = parameterService.getParameterValueAsString(Account.class, KFSParameterKeyConstants.LdParameterConstants.DEFAULT_BENEFIT_RATE_CATEGORY_CODE);
         }
         return StringUtils.trimToEmpty(benefitRateCategory);
     }
@@ -319,9 +320,9 @@ public class AccountServiceImpl implements AccountService {
         Boolean isFringeBeneCalcEnable = null;
 
         //make sure the parameter exists
-        if(parameterService.parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND")){
+        if(parameterService.parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, KFSParameterKeyConstants.LdParameterConstants.ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND)){
           //check the system param to see if the labor benefit rate category should be editable
-            isFringeBeneCalcEnable = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND");
+            isFringeBeneCalcEnable = SpringContext.getBean(ParameterService.class).getParameterValueAsBoolean(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, KFSParameterKeyConstants.LdParameterConstants.ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND);
             LOG.debug("System Parameter retrieved: " + isFringeBeneCalcEnable);
         }
 

@@ -50,6 +50,7 @@ import org.kuali.kfs.module.bc.document.service.LockService;
 import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.module.bc.util.ImportRequestFileParsingHelper;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.NonTransactional;
@@ -547,7 +548,7 @@ public class BudgetRequestImportServiceImpl implements BudgetRequestImportServic
         fieldValues.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, header.getSubAccountNumber());
         int monthlyCnt = businessObjectService.countMatching(BudgetConstructionMonthly.class, fieldValues);
         
-        String sysParam = parameterService.getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND");
+        String sysParam = parameterService.getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, KFSParameterKeyConstants.LdParameterConstants.ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND);
         
         // if sysParam == Y then Labor Benefit Rate Category Code must be used
         if (sysParam.equalsIgnoreCase("Y")) {

@@ -118,7 +118,12 @@ public class BenefitsCalculationDocumentRule extends MaintenanceDocumentRuleBase
                 success = false;
             }
         }
-        
+        success &= checkLaborBenefitRateCategory();    
+        return success;
+    }
+
+    private boolean checkLaborBenefitRateCategory() {
+        boolean success = true;
         //make sure the system parameter exists
         if (SpringContext.getBean(ParameterService.class).parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, LaborConstants.BenefitCalculation.ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_PARAMETER)) {
             //check the system param to see if the labor benefit rate category should be filled in
@@ -130,6 +135,13 @@ public class BenefitsCalculationDocumentRule extends MaintenanceDocumentRuleBase
                 if (ObjectUtils.isNull(newBenefitsCalculation.getLaborBenefitRateCategoryCode())) {
                     putFieldError("laborBenefitRateCategoryCode", KFSKeyConstants.ERROR_EMPTY_LABOR_BENEFIT_CATEGORY_CODE);
                     success = false;
+                } else {
+                    newBenefitsCalculation.refreshReferenceObject("laborBenefitRateCategory");
+                    if (newBenefitsCalculation.getLaborBenefitRateCategory() == null) {
+                        putFieldError("laborBenefitRateCategoryCode", KFSKeyConstants.ERROR_LABOR_BENEFIT_CATEGORY_CODE);
+                        success &= false;
+                    }   
+
                 }
             }
         }

@@ -53,6 +53,7 @@ import org.kuali.kfs.module.ld.service.LaborBenefitsCalculationService;
 import org.kuali.kfs.module.ld.service.LaborPositionObjectBenefitService;
 import org.kuali.kfs.module.ld.util.LaborOriginEntryFileIterator;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.Message;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -414,7 +415,7 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
 				wageEntry.getChartOfAccountsCode(), wageEntry.getAccountNumber(), wageEntry.getSubAccountNumber());
 
         String defaultLaborBenefitsRateCategoryCode =
-                StringUtils.trimToEmpty( parameterService.getParameterValueAsString(Account.class, LaborConstants.BenefitCalculation.DEFAULT_BENEFIT_RATE_CATEGORY_CODE_PARAMETER) );
+                StringUtils.trimToEmpty( parameterService.getParameterValueAsString(Account.class, KFSParameterKeyConstants.LdParameterConstants.ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND) );
 
         //if sysParam == Y then use the Labor Benefit Rate Category Code to help determine the fringe benefit rate
         boolean useBenefitRateCategoryCode = parameterService.getParameterValueAsBoolean(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, LaborConstants.BenefitCalculation.ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_PARAMETER);

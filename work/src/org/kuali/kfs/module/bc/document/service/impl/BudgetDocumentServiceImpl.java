@@ -56,6 +56,7 @@ import org.kuali.kfs.module.bc.document.web.struts.BudgetConstructionForm;
 import org.kuali.kfs.module.bc.document.web.struts.MonthlyBudgetForm;
 import org.kuali.kfs.module.bc.util.BudgetParameterFinder;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -274,7 +275,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         if (!bcDoc.isSalarySettingOnly()) {
             
             // pbgl lines are saved at this point, calc benefits
-            String sysParam = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND");
+            String sysParam = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, KFSParameterKeyConstants.LdParameterConstants.ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND);
             LOG.debug("sysParam: " + sysParam);
             // if sysParam == Y then Labor Benefit Rate Category Code must be used
             if (sysParam.equalsIgnoreCase("Y")) {
@@ -300,7 +301,7 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
         if (!bcDoc.isSalarySettingOnly()) {
             
             // pbgl lines are saved at this point, calc benefits
-            String sysParam = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND");
+            String sysParam = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, KFSParameterKeyConstants.LdParameterConstants.ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND);
             LOG.debug("sysParam: " + sysParam);
             // if sysParam == Y then Labor Benefit Rate Category Code must be used
             if (sysParam.equalsIgnoreCase("Y")) {
@@ -1284,8 +1285,8 @@ public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     public String getDefaultLaborBenefitRateCategoryCode() {
         if(ObjectUtils.isNull(defaultLaborBenefitRateCategoryCode)){
          // make sure the parameter exists
-            if (SpringContext.getBean(ParameterService.class).parameterExists(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE")) {
-                this.defaultLaborBenefitRateCategoryCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE");
+            if (SpringContext.getBean(ParameterService.class).parameterExists(Account.class, KFSParameterKeyConstants.LdParameterConstants.DEFAULT_BENEFIT_RATE_CATEGORY_CODE)) {
+                this.defaultLaborBenefitRateCategoryCode = SpringContext.getBean(ParameterService.class).getParameterValueAsString(Account.class, KFSParameterKeyConstants.LdParameterConstants.DEFAULT_BENEFIT_RATE_CATEGORY_CODE);
             }
             else {
                 this.defaultLaborBenefitRateCategoryCode = "";

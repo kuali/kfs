@@ -16,6 +16,7 @@
 package org.kuali.kfs.coa.businessobject.defaultvalue;
 
 import org.kuali.kfs.coa.businessobject.Account;
+import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.valuefinder.ValueFinder;
@@ -28,8 +29,8 @@ public class DefaultLaborBenefitRateCategoryCodeValueFinder implements ValueFind
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
         
         //make sure the parameter exists
-        if(parameterService.parameterExists(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE")){
-            defaultValue = parameterService.getParameterValueAsString(Account.class, "DEFAULT_BENEFIT_RATE_CATEGORY_CODE");
+        if(parameterService.parameterExists(Account.class, KFSParameterKeyConstants.LdParameterConstants.DEFAULT_BENEFIT_RATE_CATEGORY_CODE)){
+            defaultValue = parameterService.getParameterValueAsString(Account.class, KFSParameterKeyConstants.LdParameterConstants.DEFAULT_BENEFIT_RATE_CATEGORY_CODE);
         }
         
         return defaultValue;

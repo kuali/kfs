@@ -36,9 +36,11 @@ import org.kuali.kfs.coa.service.SubFundGroupService;
 import org.kuali.kfs.gl.service.BalanceService;
 import org.kuali.kfs.gl.service.EncumbranceService;
 import org.kuali.kfs.integration.cg.ContractsAndGrantsModuleService;
+import org.kuali.kfs.integration.ld.LaborBenefitRateCategory;
 import org.kuali.kfs.integration.ld.LaborModuleService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
+import org.kuali.kfs.sys.KFSParameterKeyConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.kfs.sys.context.SpringContext;
@@ -424,16 +426,24 @@ public class AccountRule extends IndirectCostRecoveryAccountsRule {
     protected boolean isLaborBenefitRateCategoryCodeValid() {
         //make sure the system parameter exists
         boolean success = true;
-        if (SpringContext.getBean(ParameterService.class).parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY")) {
+        if (SpringContext.getBean(ParameterService.class).parameterExists(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, KFSParameterKeyConstants.LdParameterConstants.ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND)) {
             //check the system param to see if the labor benefit rate category should be filled in
-            String sysParam = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, "ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY");
+            String sysParam = SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.FINANCIAL_SYSTEM_ALL.class, KFSParameterKeyConstants.LdParameterConstants.ENABLE_FRINGE_BENEFIT_CALC_BY_BENEFIT_RATE_CATEGORY_IND);
             LOG.debug("sysParam: " + sysParam);
             //if sysParam == Y then Labor Benefit Rate Category Code must be filled in
             if (sysParam.equalsIgnoreCase("Y")) {
                 //check to see if the labor benefit category code is empty
+               
                 if (ObjectUtils.isNull(newAccount.getLaborBenefitRateCategoryCode())) {
                     putFieldError("laborBenefitRateCategoryCode", KFSKeyConstants.ERROR_EMPTY_LABOR_BENEFIT_CATEGORY_CODE);
                     success &= false;
+                } else {
+                    // validate labor benefit category code is valid
+                    newAccount.refreshReferenceObject("laborBenefitRateCategory");
+                    if (newAccount.getLaborBenefitRateCategory() == null) {
+                        putFieldError("laborBenefitRateCategoryCode", KFSKeyConstants.ERROR_LABOR_BENEFIT_CATEGORY_CODE);
+                        success &= false;
+                    }   
                 }
             }
         }

@@ -79,15 +79,17 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
      */
 
     public void calculateAndSetPaymentSummary(Asset asset) {
-        asset.setFederalContribution(calculateFederalContribution(asset));
-        setPaymentYearToDate(asset);
-        asset.setPaymentTotalCost(calculatePaymentTotalCost(asset));
-        asset.setAccumulatedDepreciation(calculatePrimaryAccumulatedDepreciation(asset));
-        asset.setBaseAmount(calculatePrimaryBaseAmount(asset));
-        asset.setBookValue(calculatePrimaryBookValue(asset));
-        asset.setPrevYearDepreciation(calculatePrimaryPrevYearDepreciation(asset));
-        asset.setYearToDateDepreciation(calculatePrimaryYTDDepreciation(asset));
-        asset.setCurrentMonthDepreciation(calculatePrimaryCurrentMonthDepreciation(asset));
+        if (ObjectUtils.isNotNull(asset)) {
+            asset.setFederalContribution(calculateFederalContribution(asset));
+            setPaymentYearToDate(asset);
+            asset.setPaymentTotalCost(calculatePaymentTotalCost(asset));
+            asset.setAccumulatedDepreciation(calculatePrimaryAccumulatedDepreciation(asset));
+            asset.setBaseAmount(calculatePrimaryBaseAmount(asset));
+            asset.setBookValue(calculatePrimaryBookValue(asset));
+            asset.setPrevYearDepreciation(calculatePrimaryPrevYearDepreciation(asset));
+            asset.setYearToDateDepreciation(calculatePrimaryYTDDepreciation(asset));
+            asset.setCurrentMonthDepreciation(calculatePrimaryCurrentMonthDepreciation(asset));
+        }
     }
 
 
@@ -96,6 +98,7 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
      */
     public KualiDecimal calculateFederalContribution(Asset asset) {
         KualiDecimal amount = new KualiDecimal(0);
+        if (ObjectUtils.isNull(asset)) return amount;
         List<AssetPayment> assetPayments = asset.getAssetPayments();
 
         for (AssetPayment payment : assetPayments) {
@@ -119,10 +122,12 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
      * @return Total Payment Amount
      */
     public KualiDecimal calculatePaymentTotalCost(Asset asset) {
-        List<AssetPayment> payments = asset.getAssetPayments();
         KualiDecimal totalCost = new KualiDecimal(0);
-        for (AssetPayment payment : payments) {
-            totalCost = addAmount(totalCost, payment.getAccountChargeAmount());
+        if (ObjectUtils.isNotNull(asset)) {
+            List<AssetPayment> payments = asset.getAssetPayments();
+            for (AssetPayment payment : payments) {
+                totalCost = addAmount(totalCost, payment.getAccountChargeAmount());
+            }  
         }
         return totalCost;
     }
@@ -134,11 +139,14 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
      * @return Accumulated Primary Depreciation Amount
      */
     public KualiDecimal calculatePrimaryAccumulatedDepreciation(Asset asset) {
-        List<AssetPayment> assetPayments = asset.getAssetPayments();
         KualiDecimal amount = new KualiDecimal(0);
-        if (assetPayments != null) {
-            for (AssetPayment assetPayment : assetPayments) {
-                amount = addAmount(amount, assetPayment.getAccumulatedPrimaryDepreciationAmount());
+        if (ObjectUtils.isNotNull(asset)) {
+            List<AssetPayment> assetPayments = asset.getAssetPayments();
+
+            if (assetPayments != null) {
+                for (AssetPayment assetPayment : assetPayments) {
+                    amount = addAmount(amount, assetPayment.getAccumulatedPrimaryDepreciationAmount());
+                }
             }
         }
         return amount;
@@ -152,11 +160,13 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
      * @return Base Amount
      */
     protected KualiDecimal calculatePrimaryBaseAmount(Asset asset) {
-        List<AssetPayment> assetPayments = asset.getAssetPayments();
         KualiDecimal amount = new KualiDecimal(0);
-        if (assetPayments != null) {
-            for (AssetPayment assetPayment : assetPayments) {
-                amount = addAmount(amount, assetPayment.getPrimaryDepreciationBaseAmount());
+        if (ObjectUtils.isNotNull(asset)) {
+            List<AssetPayment> assetPayments = asset.getAssetPayments();
+            if (assetPayments != null) {
+                for (AssetPayment assetPayment : assetPayments) {
+                    amount = addAmount(amount, assetPayment.getPrimaryDepreciationBaseAmount());
+                }
             }
         }
         return amount;
@@ -187,12 +197,14 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
      * @return Current month depreciation amount
      */
     protected KualiDecimal calculatePrimaryCurrentMonthDepreciation(Asset asset) {
-        List<AssetPayment> assetPayments = asset.getAssetPayments();
         KualiDecimal amount = new KualiDecimal(0);
-        if (assetPayments != null) {
-            for (AssetPayment assetPayment : assetPayments) {
-                amount = addAmount(amount, getCurrentMonthDepreciationAmount(assetPayment));
+        if (ObjectUtils.isNotNull(asset)) {
+            List<AssetPayment> assetPayments = asset.getAssetPayments();   
+            if (assetPayments != null) {
+                for (AssetPayment assetPayment : assetPayments) {
+                    amount = addAmount(amount, getCurrentMonthDepreciationAmount(assetPayment));
 
+                }
             }
         }
         return amount;
@@ -206,11 +218,13 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
      * @return Previoud Year Depreciation Amount
      */
     protected KualiDecimal calculatePrimaryPrevYearDepreciation(Asset asset) {
-        List<AssetPayment> assetPayments = asset.getAssetPayments();
         KualiDecimal amount = new KualiDecimal(0);
-        if (assetPayments != null) {
-            for (AssetPayment assetPayment : assetPayments) {
-                amount = addAmount(amount, assetPayment.getPreviousYearPrimaryDepreciationAmount());
+        if (ObjectUtils.isNotNull(asset)) {
+            List<AssetPayment> assetPayments = asset.getAssetPayments();
+            if (assetPayments != null) {
+                for (AssetPayment assetPayment : assetPayments) {
+                    amount = addAmount(amount, assetPayment.getPreviousYearPrimaryDepreciationAmount());
+                }
             }
         }
         return amount;
@@ -224,22 +238,24 @@ public class PaymentSummaryServiceImpl implements PaymentSummaryService {
      * @return Year To Date Depreciation Amount
      */
     protected KualiDecimal calculatePrimaryYTDDepreciation(Asset asset) {
-        List<AssetPayment> assetPayments = asset.getAssetPayments();
         KualiDecimal amount = new KualiDecimal(0);
-        if (assetPayments != null) {
-            for (AssetPayment assetPayment : assetPayments) {
-                amount = addAmount(amount, assetPayment.getPeriod1Depreciation1Amount());
-                amount = addAmount(amount, assetPayment.getPeriod2Depreciation1Amount());
-                amount = addAmount(amount, assetPayment.getPeriod3Depreciation1Amount());
-                amount = addAmount(amount, assetPayment.getPeriod4Depreciation1Amount());
-                amount = addAmount(amount, assetPayment.getPeriod5Depreciation1Amount());
-                amount = addAmount(amount, assetPayment.getPeriod6Depreciation1Amount());
-                amount = addAmount(amount, assetPayment.getPeriod7Depreciation1Amount());
-                amount = addAmount(amount, assetPayment.getPeriod8Depreciation1Amount());
-                amount = addAmount(amount, assetPayment.getPeriod9Depreciation1Amount());
-                amount = addAmount(amount, assetPayment.getPeriod10Depreciation1Amount());
-                amount = addAmount(amount, assetPayment.getPeriod11Depreciation1Amount());
-                amount = addAmount(amount, assetPayment.getPeriod12Depreciation1Amount());
+        if (ObjectUtils.isNotNull(asset)) {
+            List<AssetPayment> assetPayments = asset.getAssetPayments();
+            if (assetPayments != null) {
+                for (AssetPayment assetPayment : assetPayments) {
+                    amount = addAmount(amount, assetPayment.getPeriod1Depreciation1Amount());
+                    amount = addAmount(amount, assetPayment.getPeriod2Depreciation1Amount());
+                    amount = addAmount(amount, assetPayment.getPeriod3Depreciation1Amount());
+                    amount = addAmount(amount, assetPayment.getPeriod4Depreciation1Amount());
+                    amount = addAmount(amount, assetPayment.getPeriod5Depreciation1Amount());
+                    amount = addAmount(amount, assetPayment.getPeriod6Depreciation1Amount());
+                    amount = addAmount(amount, assetPayment.getPeriod7Depreciation1Amount());
+                    amount = addAmount(amount, assetPayment.getPeriod8Depreciation1Amount());
+                    amount = addAmount(amount, assetPayment.getPeriod9Depreciation1Amount());
+                    amount = addAmount(amount, assetPayment.getPeriod10Depreciation1Amount());
+                    amount = addAmount(amount, assetPayment.getPeriod11Depreciation1Amount());
+                    amount = addAmount(amount, assetPayment.getPeriod12Depreciation1Amount());
+                }
             }
         }
         return amount;

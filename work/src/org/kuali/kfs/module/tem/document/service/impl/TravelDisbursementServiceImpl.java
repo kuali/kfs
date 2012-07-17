@@ -86,9 +86,7 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
         disbursementVoucherDocument.getDocumentHeader().setOrganizationDocumentNumber(document.getTravelDocumentIdentifier());
         
         //due date is set to the next day
-        Calendar calendar = dateTimeService.getCurrentCalendar();
-        calendar.add(Calendar.DAY_OF_MONTH, 1);        
-        disbursementVoucherDocument.setDisbursementVoucherDueDate(new java.sql.Date(calendar.getTimeInMillis()));
+        setDVDocNextDueDay(disbursementVoucherDocument);
         
         try {
             disbursementVoucherDocument.getDocumentHeader().getWorkflowDocument().setTitle("Disbursement Voucher - " + document.getDocumentHeader().getDocumentDescription());
@@ -99,15 +97,14 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
         }
         disbursementVoucherDocument.initiateDocument();
         Person initiator = SpringContext.getBean(PersonService.class).getPerson(document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
-        if (initiator == null) {
-            throw new RuntimeException("Initiator could not be found in KIM!");
-        }
         
         disbursementVoucherDocument.setDisbVchrContactPersonName(initiator.getPrincipalName());
         disbursementVoucherDocument.setDisbVchrContactPhoneNumber(initiator.getPhoneNumber());
 
-        // This type needs to be Customer "C", do not change otherwise we will change the configuration
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(DisbursementVoucherConstants.DV_PAYEE_TYPE_CUSTOMER); 
+        //if traveler has KIM data, default to use DV Payee Employee type, otherwise use Customer
+        Person traveler = SpringContext.getBean(PersonService.class).getPerson(document.getTraveler().getPrincipalId());
+        disbursementVoucherDocument.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(traveler == null? DisbursementVoucherConstants.DV_PAYEE_TYPE_CUSTOMER : DisbursementVoucherConstants.DV_PAYEE_TYPE_EMPLOYEE); 
+
         disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPayeeIdNumber(document.getTraveler().getPrincipalId());
         disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPayeePersonName(document.getTraveler().getFirstName() + " " + document.getTraveler().getLastName());
         disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrAlienPaymentCode(false);
@@ -167,10 +164,7 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
                 }
             }
         }
-        
-        Calendar calendar = dateTimeService.getCurrentCalendar();
-        calendar.add(Calendar.DAY_OF_MONTH, 1);
-        disbursementVoucherDocument.setDisbursementVoucherDueDate(new java.sql.Date(calendar.getTimeInMillis()));
+        setDVDocNextDueDay(disbursementVoucherDocument);
         
         disbursementVoucherDocument.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR);
         disbursementVoucherDocument.getDocumentHeader().setDocumentDescription(document.getDocumentHeader().getDocumentDescription());
@@ -228,6 +222,17 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
         disbursementVoucherDocument.setDisbVchrPaymentMethodCode(TemConstants.DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE);
         disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(parameterService.getParameterValue(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.TRAVEL_DOCUMENTATION_LOCATION_CODE));
 
+    }
+    
+    /**
+     * Set due date of the DV doc to the next day
+     * 
+     * @param disbursementVoucherDocument
+     */
+    private void setDVDocNextDueDay(DisbursementVoucherDocument disbursementVoucherDocument){
+        Calendar calendar = dateTimeService.getCurrentCalendar();
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        disbursementVoucherDocument.setDisbursementVoucherDueDate(new java.sql.Date(calendar.getTimeInMillis()));
     }
 
     /**

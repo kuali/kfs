@@ -39,7 +39,7 @@
 						<list>
 							<bean
 								parent="AccountingLineView-overrideField"
-								p:name="accountExpiredOverride" p:unconditionallyReadOnly="true" />
+								p:name="accountExpiredOverride" p:allowEditDespiteReadOnlyParentWhenAccoutingLineEditable="true"/>
 							<bean
 								parent="AccountingLineView-overrideField"
 								p:name="nonFringeAccountOverride" p:unconditionallyReadOnly="true" />

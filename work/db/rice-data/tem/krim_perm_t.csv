@@ -50,3 +50,5 @@ TEM-10037,KFS-TEM-PERM-048,1,41,KFS-TEM,Modify Accounting Lines,Allows access to
 TEM-10038,KFS-TEM-PERM-049,1,41,KFS-TEM,Modify Accounting Lines,Allows access to Modify the Accounting Lines on a TR doc,Y
 TEM-10039,KFS-TEM-PERM-050,1,27,KFS-TEM,Full Unmask Field,Allows users to unmask the citizenship country field in the Emergency Contacts tab in a Travel document.,Y
 TEM-10040,KFS-TEM-PERM-051,1,27,KFS-TEM,Full Unmask Field,Allows users to unmask the cell phone number field in the Emergency Contacts tab in a Travel Authorization document.,Y
+TEM-11001,KFS-TEM-PERM-052,1,1,KFS-FP,Pay AR Customers,Allows users to select AR customers for payment on the disbursement voucher document.,Y
+TEM-10051,KFS-TEM-PERM-053,1,10,KFS-AR,Initiate Document,Authorizes the initiation of the Customer Credit Memo Document.,Y

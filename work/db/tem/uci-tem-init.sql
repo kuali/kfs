@@ -1,10 +1,4 @@
 
--- update the reason code parameter to T (instead of C) to get away with numeric reason code for DV
-UPDATE KRNS_PARM_T 
-SET TXT = 'T' 
-WHERE NMSPC_CD = 'KFS-AR' AND PARM_NM = 'TRAVEL_ADVANCE_DV_PAYMENT_REASON_CODE'
-/
-
 -- update parameters for UCI institution names and travel policy URL
 UPDATE KRNS_PARM_T
 SET TXT = 'University of California, Irvine'

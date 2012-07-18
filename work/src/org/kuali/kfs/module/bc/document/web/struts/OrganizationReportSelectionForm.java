@@ -20,6 +20,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.struts.action.ActionMapping;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionObjectPick;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionReasonCodePick;
 import org.kuali.kfs.module.bc.businessobject.BudgetConstructionReportThresholdSettings;
@@ -205,5 +206,24 @@ public class OrganizationReportSelectionForm extends BudgetExpansionForm {
      */
     public void setBudgetConstructionReportThresholdSettings(BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings) {
         this.budgetConstructionReportThresholdSettings = budgetConstructionReportThresholdSettings;
+    }
+
+    /**
+     * @see org.kuali.rice.kns.web.struts.form.KualiForm#reset(org.apache.struts.action.ActionMapping, javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    public void reset(ActionMapping mapping, HttpServletRequest request) {
+
+        super.reset(mapping, request);
+        for (BudgetConstructionObjectPick budgetConstructionObjectPick : objectCodePickList){
+            budgetConstructionObjectPick.setSelectFlag(0);
+        }
+        for (BudgetConstructionSubFundPick budgetConstructionSubFundPick : subFundPickList){
+            budgetConstructionSubFundPick.setReportFlag(0);
+        }
+        for (BudgetConstructionReasonCodePick budgetConstructionReasonCodePick : reasonCodePickList){
+            budgetConstructionReasonCodePick.setSelectFlag(0);
+        }
+        budgetConstructionReportThresholdSettings.setUseThreshold(false);
     }
 }

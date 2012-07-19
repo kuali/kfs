@@ -20,7 +20,7 @@ import org.kuali.rice.core.util.JSTLConstants;
 /**
  * Travel and Entertainment module constants for struts error keys
  * 
- * @author Leo Przybylski (leo [at] rsmart.com)
+ * @author Leo Przybylski (leo [at] rsmart.com) 
  */
 public class TemKeyConstants extends JSTLConstants {
     public static final String TRMB_CONTACT_TAB_ERRORS = "TRMBContactErrors,document.contact*";

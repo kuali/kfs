@@ -1896,42 +1896,6 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
             }            
         }
     }
-
-    /**
-     * Perform business rules common to all TEM documents when generating general ledger pending entries. Do not generate the
-     * entries if the card type is of ACTUAL Expense
-     * 
-     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#generateGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail,
-     *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
-     */
-    @Override
-    public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        LOG.info("processGenerateGeneralLedgerPendingEntries for TEMReimbursementDocument - start");
-
-        boolean success = true;
-        boolean doGenerate = true;
-
-        // special handling for TEMAccountingLine
-        if (glpeSourceDetail instanceof TemAccountingLine) {
-
-            // salesTax seems to be a problem on loading the doc, just filtering this from the output
-            LOG.info(new ReflectionToStringBuilder(glpeSourceDetail, ToStringStyle.MULTI_LINE_STYLE).setExcludeFieldNames(new String[] { "salesTax" }).toString());
-
-            // check by cardType
-            String cardType = ((TemAccountingLine) glpeSourceDetail).getCardType();
-            // do not generate entries for ACTUAL Expenses - DV will handle them
-            doGenerate = !TemConstants.ACTUAL_EXPENSE.equals(cardType);
-
-            if (!doGenerate) {
-                LOG.debug("GLPE processing was skipped for " + glpeSourceDetail + "\n for card type" + cardType);
-            }
-        }
-
-        success = doGenerate ? super.generateGeneralLedgerPendingEntries(glpeSourceDetail, sequenceHelper) : success;
-
-        LOG.info("processGenerateGeneralLedgerPendingEntries for TEMReimbursementDocument - end");
-        return success;
-    }
     
     /**
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#generateDocumentGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)

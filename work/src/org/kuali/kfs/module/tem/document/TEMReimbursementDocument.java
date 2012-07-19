@@ -20,12 +20,18 @@ import static org.kuali.kfs.module.tem.TemConstants.DISBURSEMENT_VOUCHER_DOCTYPE
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.util.PurApRelatedViews;
+import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.businessobject.TemAccountingLine;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
@@ -40,6 +46,42 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase {
     @Override
     public void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument) {
         super.populateDisbursementVoucherFields(disbursementVoucherDocument);
+    }
+
+    /**
+     * Perform business rules common to all TEM documents when generating general ledger pending entries. Do not generate the
+     * entries if the card type is of ACTUAL Expense
+     * 
+     * @see org.kuali.kfs.sys.document.AccountingDocumentBase#generateGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail,
+     *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
+     */
+    @Override
+    public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        LOG.info("processGenerateGeneralLedgerPendingEntries for TEMReimbursementDocument - start");
+
+        boolean success = true;
+        boolean doGenerate = true;
+
+        // special handling for TEMAccountingLine
+        if (glpeSourceDetail instanceof TemAccountingLine) {
+
+            // salesTax seems to be a problem on loading the doc, just filtering this from the output
+            LOG.info(new ReflectionToStringBuilder(glpeSourceDetail, ToStringStyle.MULTI_LINE_STYLE).setExcludeFieldNames(new String[] { "salesTax" }).toString());
+
+            // check by cardType
+            String cardType = ((TemAccountingLine) glpeSourceDetail).getCardType();
+            // do not generate entries for ACTUAL Expenses - DV will handle them
+            doGenerate = !TemConstants.ACTUAL_EXPENSE.equals(cardType);
+
+            if (!doGenerate) {
+                LOG.debug("GLPE processing was skipped for " + glpeSourceDetail + "\n for card type" + cardType);
+            }
+        }
+
+        success = doGenerate ? super.generateGeneralLedgerPendingEntries(glpeSourceDetail, sequenceHelper) : success;
+
+        LOG.info("processGenerateGeneralLedgerPendingEntries for TEMReimbursementDocument - end");
+        return success;
     }
     
     /**

@@ -17,8 +17,6 @@ package org.kuali.kfs.module.tem.document.web.struts;
 
 import static org.kuali.kfs.module.tem.TemConstants.ENABLE_PER_DIEM_LOOKUP_LINKS_ATTRIBUTE;
 import static org.kuali.kfs.module.tem.TemConstants.ENABLE_PRIMARY_DESTINATION_ATTRIBUTE;
-import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters.PARAM_DTL_TYPE;
 import static org.kuali.kfs.sys.KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY;
 
 import java.util.ArrayList;
@@ -35,6 +33,7 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelCustomSearchLinks;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.businessobject.GroupTraveler;
@@ -131,11 +130,39 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
     @Override
     public void populate(final HttpServletRequest request) {
         super.populate(request);
-        final boolean enablePrimaryDestination = getParameterService().getIndicatorParameter(PARAM_NAMESPACE, PARAM_DTL_TYPE, TravelAuthorizationParameters.ALLOW_FREE_FORMAT_PRIMARY_DESTINATION_IND);
+        final boolean enablePrimaryDestination = getParameterService().getIndicatorParameter(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.ALLOW_FREE_FORMAT_PRIMARY_DESTINATION_IND);
         request.setAttribute(ENABLE_PRIMARY_DESTINATION_ATTRIBUTE, enablePrimaryDestination);
-        final boolean enablePerDiemLookupLinks = getParameterService().getIndicatorParameter(PARAM_NAMESPACE, PARAM_DTL_TYPE, TravelAuthorizationParameters.ENABLE_PER_DIEM_LOOKUP_LINKS_IND);
+        final boolean enablePerDiemLookupLinks = getParameterService().getIndicatorParameter(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.ENABLE_PER_DIEM_LOOKUP_LINKS_IND);
         request.setAttribute(ENABLE_PER_DIEM_LOOKUP_LINKS_ATTRIBUTE, enablePerDiemLookupLinks);
     }
+    
+    /**
+     * Retrieve the Per Diem Expense Label for the form
+     * 
+     * @return
+     */
+    public String getPerDiemLabel(){
+        return TemConstants.PER_DIEM_EXPENSES_LABEL;
+    }
+    
+    /**
+     * Retrieve the Actual Expense Label for the form
+     * 
+     * @return
+     */
+    public String getExpenseLabel(){
+        return TemConstants.ACTUAL_EXPENSES_LABEL;
+    }
+    
+    /**
+     * Retrieve the Actual Expense Tab Label for the form
+     * 
+     * @return
+     */
+    public String getExpenseTabLabel(){
+        return TemConstants.ACTUAL_EXPENSES_LABEL;
+    }
+
 
     @Override
     public Integer getTravelerId() {
@@ -392,7 +419,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      * @return Returns the canImportExpenses.
      */
     public boolean getCanShowImportExpenseDetails() {
-        return !getParameterService().getIndicatorParameter(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, TravelParameters.DISABLE_IMPORTED_EXPENSE_DETAIL_IND);
+        return !getParameterService().getIndicatorParameter(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.DISABLE_IMPORTED_EXPENSE_DETAIL_IND);
     }
 
     /**
@@ -817,6 +844,9 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
         this.setAccountDistributionnewSourceLine(setupNewAccountDistributionAccountingLine());
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.document.web.bean.TravelMvcWrapperBean#setDistribution(java.util.List)
+     */
     @Override
     public void setDistribution(final List<AccountingDistribution> distribution) {
         if (distribution != null && distribution.size() > 0
@@ -898,17 +928,15 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
     }
 
     public FormFile getAccountDistributionFile() {
-        // TODO Auto-generated method stub
         return accountDistributionFile;
     }
 
     public void setAccountDistributionFile(FormFile accountDistributionFile) {
-        // TODO Auto-generated method stub
         this.accountDistributionFile = accountDistributionFile;
     }
 
     public String getUploadParserInstructionsUrl() {
-        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY) + SpringContext.getBean(ParameterService.class).getParameterValue(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, TravelParameters.UPLOAD_PARSER_INSTRUCTIONS_URL);
+        return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_HELP_URL_KEY) + SpringContext.getBean(ParameterService.class).getParameterValue(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.UPLOAD_PARSER_INSTRUCTIONS_URL);
     }
 
     public String getLookupResultsSequenceNumber() {

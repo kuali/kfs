@@ -541,7 +541,15 @@ public class TemConstants extends JSTLConstants {
     public static final String EXPENSE_ACTUAL = "A";
 
     public static final String CARD_TYPE_CTS = "CTS";
-
+    public static final String ACTUAL_EXPENSE = "OUT OF POCKET";
+    public static final String ENCUMBRANCE = "ENCUMBRANCE";
+    
+    //Expenses label
+    public static final String ENCUMBRANCE_PREFIX = "Estimated ";
+    public static final String PER_DIEM_EXPENSES_LABEL = "Per Diem Expenses";
+    public static final String ACTUAL_EXPENSES_LABEL = "Actual Expenses";
+    public static final String GENERAL_EXPENSES_LABEL = "Expenses";
+    
     public static final String ACCOUNTING_LINE_INDEX = "-1";
     public static final String DIST_ACCOUNTING_LINE_INDEX = "-2";
 
@@ -550,8 +558,6 @@ public class TemConstants extends JSTLConstants {
     
     public static final String MILEAGE_EXPENSE = "MM";
 
-    public static final String ACTUAL_EXPENSE = "OUT OF POCKET";
-    
     public static final String DISBURSEMENT_VOUCHER_DOCTYPE = "DV";
 
     public static final String ASSIGN_ACCOUNTS_DISABLED_MESSAGE = "All amounts have been assigned accounts.";

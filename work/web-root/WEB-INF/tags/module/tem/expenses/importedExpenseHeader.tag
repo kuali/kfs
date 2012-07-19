@@ -18,7 +18,6 @@
 <%@ attribute name="lineNumber" required="false" description="Line number for the record." %>
 <%@ attribute name="isCTS" required="true" description="determines rowspan." %>
 
-<c:set var="documentAttributes" value="${DataDictionary.TravelDocumentBase.attributes}" />
 <c:set var="importedExpenseAttributes" value="${DataDictionary.ImportedExpense.attributes}" />
 			<tr>
 				<c:choose>

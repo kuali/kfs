@@ -16,7 +16,6 @@
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 <%@ taglib uri="/WEB-INF/tlds/temfunc.tld" prefix="temfunc"%>
 
-<c:set var="documentAttributes" value="${DataDictionary.TravelDocumentBase.attributes}" />
 <c:set var="otherExpenseAttributes" value="${DataDictionary.ActualExpense.attributes}" />
 <c:set var="temExtension" value="${DataDictionary.TemTravelExpenseTypeCode.attributes}" />
 <c:set var="isTA" value="${KualiForm.docTypeName == TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT}" />
@@ -27,7 +26,7 @@
 <c:set target="${paramMap}" property="documentType" value="${KualiForm.docTypeName}" />
   	
 	<div class="tab-container" align="center">
-	    <h3>Actual Expenses</h3>
+	    <h3>${KualiForm.expenseLabel}</h3>
 	    <table cellpadding="0" cellspacing="0" class="datatable" summary="Actual Expenses">
 			<tr>
 				<td colspan="12" class="tab-subhead">* All fields required if section is used</td>
@@ -50,7 +49,7 @@
 				<tr>
 				  	<td colspan="12">
 			  			<kul:subtab lookedUpCollectionName="expenseDetails${ctr}" width="${tableWidth}" 
-			  				subTabTitle="Actual Expense Details - ${KualiForm.document.actualExpenses[ctr].travelExpenseTypeCode.name} - ${lineCounter}" 
+			  				subTabTitle="${KualiForm.expenseLabel} Details - ${KualiForm.document.actualExpenses[ctr].travelExpenseTypeCode.name} - ${lineCounter}" 
 			  				noShowHideButton="false" 
 			  				open="${(fn:length(KualiForm.document.actualExpenses[ctr].expenseDetails) > 0)|| KualiForm.document.actualExpenses[ctr].mileageIndicator || KualiForm.document.actualExpenses[ctr].airfareIndicator || KualiForm.document.actualExpenses[ctr].rentalCarIndicator }">
 			  				<table cellpadding="0" cellspacing="0" class="datatable">

@@ -16,7 +16,7 @@
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 <%@ taglib uri="/WEB-INF/tlds/temfunc.tld" prefix="temfunc"%>
 	
-<kul:tab tabTitle="Actual Expenses" defaultOpen="true" tabErrorKey="${TemKeyConstants.TRVL_EXPENSES}">
+<kul:tab tabTitle="${KualiForm.expenseTabLabel}" defaultOpen="true" tabErrorKey="${TemKeyConstants.TRVL_EXPENSES}">
 	<tem-exp:actualExpenses />
     <tem-exp:importedExpenses />    	
 	<tem-exp:reconciledExpenses />

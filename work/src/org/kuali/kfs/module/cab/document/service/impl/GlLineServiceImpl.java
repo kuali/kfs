@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.coa.service.ObjectTypeService;
 import org.kuali.kfs.fp.businessobject.CapitalAssetAccountsGroupDetails;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformation;
 import org.kuali.kfs.fp.businessobject.CapitalAssetInformationDetail;
@@ -43,6 +45,7 @@ import org.kuali.kfs.module.cam.document.AssetPaymentDocument;
 import org.kuali.kfs.module.cam.document.service.AssetGlobalService;
 import org.kuali.kfs.module.cam.util.ObjectValueUtils;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
@@ -52,18 +55,21 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentHeaderService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class GlLineServiceImpl implements GlLineService {
     private static final String CAB_DESC_PREFIX = "CAB created for FP ";
+    
     protected BusinessObjectService businessObjectService;
     protected AssetGlobalService assetGlobalService;
-
-
+    protected ObjectTypeService objectTypeService;
+    
     /**
      * @see org.kuali.kfs.module.cab.document.service.GlLineService#createAssetGlobalDocument(java.util.List,
      *      org.kuali.kfs.module.cab.businessobject.GeneralLedgerEntry)
@@ -116,22 +122,20 @@ public class GlLineServiceImpl implements GlLineService {
     protected void deactivateGLEntries(GeneralLedgerEntry entry, Document document, Integer capitalAssetLineNumber) {
         //now deactivate the gl line..
         CapitalAssetInformation capitalAssetInformation = findCapitalAssetInformation(entry, capitalAssetLineNumber);
+        createGeneralLedgerEntryAsset(entry, document, capitalAssetLineNumber); 
         
         if (ObjectUtils.isNotNull(capitalAssetInformation)) {
             List<CapitalAssetAccountsGroupDetails> groupAccountingLines = capitalAssetInformation.getCapitalAssetAccountsGroupDetails();
             for (CapitalAssetAccountsGroupDetails accountingLine : groupAccountingLines) {
-                                
-                String debitOrCreditCode = KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE.equals(accountingLine.getFinancialDocumentLineTypeCode()) ? KFSConstants.GL_CREDIT_CODE : KFSConstants.GL_DEBIT_CODE;
-                
-                Collection<GeneralLedgerEntry> matchingGLEntries = findMatchingGeneralLedgerEntry(accountingLine.getDocumentNumber(), accountingLine.getChartOfAccountsCode(), accountingLine.getAccountNumber(), accountingLine.getFinancialObjectCode(), debitOrCreditCode);
-                for(GeneralLedgerEntry matchingGLEntry : matchingGLEntries) {
-                    //if no more capital assets to be processed...
-                    createGeneralLedgerEntryAsset(matchingGLEntry, document, capitalAssetLineNumber);
+                if (entry.getDocumentNumber().equals(accountingLine.getDocumentNumber()) &&
+                        entry.getChartOfAccountsCode().equals(accountingLine.getChartOfAccountsCode()) &&
+                        entry.getAccountNumber().equals(accountingLine.getAccountNumber()) &&
+                        entry.getFinancialObjectCode().equals(accountingLine.getFinancialObjectCode())) {
                     
                     KualiDecimal lineAmount = accountingLine.getAmount();
-
+                    
                     //update submitted amount on the gl entry and save the results.
-                    updateTransactionSumbitGlEntryAmount(matchingGLEntry, lineAmount);
+                    updateTransactionSumbitGlEntryAmount(entry, lineAmount);
                 }
             }
         }
@@ -442,7 +446,6 @@ public class GlLineServiceImpl implements GlLineService {
         List<AssetPaymentDetail> appliedPayments = new ArrayList<AssetPaymentDetail>();
         CapitalAssetInformation capitalAssetInformation = findCapitalAssetInformation(entry, capitalAssetLineNumber);
         
-        
         if (ObjectUtils.isNotNull(capitalAssetInformation)) {
             List<CapitalAssetAccountsGroupDetails> groupAccountingLines = capitalAssetInformation.getCapitalAssetAccountsGroupDetails();
             Integer paymentSequenceNumber = 1;
@@ -468,24 +471,26 @@ public class GlLineServiceImpl implements GlLineService {
                 detail.setOrganizationReferenceId(replaceFiller(entry.getOrganizationReferenceId()));
             //    detail.setAmount(KFSConstants.GL_CREDIT_CODE.equals(debitCreditCode) ? accountingLine.getAmount().negated() : accountingLine.getAmount());
 
+                detail.setAmount(getAccountingLineAmountForPaymentDetail(entry, accountingLine));
+                
                 //if gl entry's d/c equals object type default d/c and account line type = F or
                 //gl entry's d/c = D and accounting line type = D then negate the line amount...else
-                if ((entry.getTransactionDebitCreditCode().equals(entry.getFinancialObject().getFinancialObjectType().getFinObjectTypeDebitcreditCd()) &&
-                        KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE.equals(accountingLine.getFinancialDocumentLineTypeCode())) || 
-                        (KFSConstants.GL_DEBIT_CODE.equals(entry.getTransactionDebitCreditCode()) &&
-                                KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE.equals(accountingLine.getFinancialDocumentLineTypeCode()))) {
-                    detail.setAmount(accountingLine.getAmount().negated());
-                } else {
-                    //if gl entry's d/c equals = D and account line type = F then negate the line amount else
-                    if (KFSConstants.GL_CREDIT_CODE.equals(entry.getTransactionDebitCreditCode()) &&
-                            accountingLine.getAmount().isGreaterThan(KualiDecimal.ZERO) &&
-                            KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE.equals(accountingLine.getFinancialDocumentLineTypeCode()) ) {
-                        detail.setAmount(accountingLine.getAmount().negated());
-                    } else {
-                        //carry the amount from the account line to payment document.
-                            detail.setAmount(accountingLine.getAmount());
-                      }
-                }
+            //    if ((entry.getTransactionDebitCreditCode().equals(entry.getFinancialObject().getFinancialObjectType().getFinObjectTypeDebitcreditCd()) &&
+            //            KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE.equals(accountingLine.getFinancialDocumentLineTypeCode())) || 
+            //            (KFSConstants.GL_DEBIT_CODE.equals(entry.getTransactionDebitCreditCode()) &&
+            //                    KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE.equals(accountingLine.getFinancialDocumentLineTypeCode()))) {
+             //       detail.setAmount(accountingLine.getAmount().negated());
+             //   } else {
+             //       //if gl entry's d/c equals = D and account line type = F then negate the line amount else
+             //       if (KFSConstants.GL_CREDIT_CODE.equals(entry.getTransactionDebitCreditCode()) &&
+             //               accountingLine.getAmount().isGreaterThan(KualiDecimal.ZERO) &&
+             //               KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE.equals(accountingLine.getFinancialDocumentLineTypeCode()) ) {
+             //           detail.setAmount(accountingLine.getAmount().negated());
+             //       } else {
+             //           //carry the amount from the account line to payment document.
+             //               detail.setAmount(accountingLine.getAmount());
+              //        }
+              //  }
                 
                 detail.setExpenditureFinancialSystemOriginationCode(replaceFiller(entry.getFinancialSystemOriginationCode()));
                 detail.setExpenditureFinancialDocumentNumber(entry.getDocumentNumber());
@@ -501,6 +506,52 @@ public class GlLineServiceImpl implements GlLineService {
         return appliedPayments;
     }
     
+    /**
+     * 
+     * @param entry GL entry
+     * @param accountingLine accounting line in the capital asset
+     * @return accountingLineAmount
+     */
+    protected KualiDecimal getAccountingLineAmountForPaymentDetail(GeneralLedgerEntry entry, CapitalAssetAccountsGroupDetails accountingLine) {
+        KualiDecimal accountLineAmount = accountingLine.getAmount();
+
+        List<String> expenseObjectTypes = objectTypeService.getExpenseAndTransferObjectTypesForPayments();
+        List<String> incomeObjectTypes = objectTypeService.getIncomeAndTransferObjectTypesForPayments();
+        
+        //we are dealing with error correction document so the from amount line should become positive.
+        if (isDocumentAnErrorCorrection(entry)) {
+            if (KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE.equals(accountingLine.getFinancialDocumentLineTypeCode())) {
+                return accountLineAmount.negated();
+            }
+            
+            return accountLineAmount;
+        }
+        
+        if (expenseObjectTypes.contains(entry.getFinancialObjectTypeCode()) && 
+                KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE.equals(accountingLine.getFinancialDocumentLineTypeCode()) && 
+                KFSConstants.GL_CREDIT_CODE.equals(entry.getTransactionDebitCreditCode()) &&
+                accountLineAmount.compareTo(KualiDecimal.ZERO) > 0) {
+            return accountLineAmount.negated();
+        }
+       
+        if (incomeObjectTypes.contains(entry.getFinancialObjectTypeCode()) && accountLineAmount.compareTo(KualiDecimal.ZERO) > 0) {
+            return accountLineAmount.negated();
+        }
+        
+        return accountLineAmount;
+    }
+    
+    /**
+     * determines if the document is an error correction document...
+     * @param entry
+     * @return true if the document is an error correction else false
+     */
+    protected boolean isDocumentAnErrorCorrection(GeneralLedgerEntry entry) {
+        DocumentHeader docHeader = SpringContext.getBean(DocumentHeaderService.class).getDocumentHeaderById(entry.getDocumentNumber());
+        FinancialSystemDocumentHeader fsDocumentHeader = (FinancialSystemDocumentHeader) docHeader;
+        
+        return StringUtils.isNotBlank(fsDocumentHeader.getFinancialDocumentInErrorNumber());
+    }
     /**
      * updates the submit amount by the amount on the accounting line.  When submit amount equals
      * transaction ledger amount, the activity status code is marked as in route status.
@@ -617,4 +668,12 @@ public class GlLineServiceImpl implements GlLineService {
         this.assetGlobalService = assetGlobalService;
     }
     
+    /**
+     * Sets the objectTypeService attribute value.
+     * 
+     * @param objectTypeService The objectTypeService to set.
+     */
+    public void setObjectTypeService(ObjectTypeService objectTypeService) {
+        this.objectTypeService = objectTypeService;
+    }
 }

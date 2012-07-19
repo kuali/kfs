@@ -2327,13 +2327,14 @@ public class CapitalAssetBuilderModuleServiceImpl implements CapitalAssetBuilder
             List<CapitalAssetAccountsGroupDetails> groupAccountingLines = capitalAssetInformation.getCapitalAssetAccountsGroupDetails();
             
             for (CapitalAssetAccountsGroupDetails accountingLine : groupAccountingLines) {
-                String debitOrCreditCode = KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE.equals(accountingLine.getFinancialDocumentLineTypeCode()) ? KFSConstants.GL_CREDIT_CODE : KFSConstants.GL_DEBIT_CODE;
-                
-                Collection<GeneralLedgerEntry> matchingGLEntries = glLineService.findMatchingGeneralLedgerEntry(accountingLine.getDocumentNumber(), accountingLine.getChartOfAccountsCode(), accountingLine.getAccountNumber(), accountingLine.getFinancialObjectCode(), debitOrCreditCode);
-                for(GeneralLedgerEntry matchingGLEntry : matchingGLEntries) {
-                    reduceTransactionSumbitGlEntryAmount(matchingGLEntry, accountingLine.getAmount());
+                if (generalLedgerEntry.getDocumentNumber().equals(accountingLine.getDocumentNumber()) &&
+                        generalLedgerEntry.getChartOfAccountsCode().equals(accountingLine.getChartOfAccountsCode()) &&
+                        generalLedgerEntry.getAccountNumber().equals(accountingLine.getAccountNumber()) &&
+                        generalLedgerEntry.getFinancialObjectCode().equals(accountingLine.getFinancialObjectCode())) {
+                    reduceTransactionSumbitGlEntryAmount(generalLedgerEntry, accountingLine.getAmount());
                 }
             }
+            
             //mark the capital asseet processed indicator as false so it can be processed again
             capitalAssetInformation.setCapitalAssetProcessedIndicator(false);
             getBusinessObjectService().save(capitalAssetInformation);

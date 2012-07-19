@@ -149,4 +149,21 @@ public interface ObjectTypeService {
      * @return list of cumulative forward balance object types associated with this fiscal year
      */
     public List<String> getCumulativeForwardBalanceObjectTypes(Integer fiscalYear);
+    
+    /**
+     * returns a list of expense object types that are used in determining whether the
+     * amount on the accounting line is negated for using in payments.
+     * 
+     * @return list of expense object types
+     */
+    public List<String> getExpenseAndTransferObjectTypesForPayments();
+    
+    /**
+     * returns a list of income object types that are used in determining whether the
+     * amount on the accounting line is negated for using in payments.
+     * 
+     * @return list of income object types
+     */
+    public List<String> getIncomeAndTransferObjectTypesForPayments();
+    
 }

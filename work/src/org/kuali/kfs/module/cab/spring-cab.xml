@@ -250,6 +250,7 @@
 	<bean id="glLineService-parentBean" class="org.kuali.kfs.module.cab.document.service.impl.GlLineServiceImpl" abstract="true">
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="assetGlobalService" ref="assetGlobalService"/>
+		<property name="objectTypeService" ref="objectTypeService"/>
 	</bean> 
 <!-- End GL Line Processing beans -->
 

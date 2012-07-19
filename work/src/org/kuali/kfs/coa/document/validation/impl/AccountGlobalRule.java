@@ -423,18 +423,15 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
         boolean success = true;
         Date newExpDate = newAccountGlobal.getAccountExpirationDate();
 
-        // If creating a new account if acct_expiration_dt is set and the fund_group is not "CG" then
+        // If creating a new account if acct_expiration_dt is set then
         // the acct_expiration_dt must be changed to a date that is today or later
-        if (ObjectUtils.isNotNull(newExpDate)) {
-            if (ObjectUtils.isNotNull(newAccountGlobal.getSubFundGroup())) {
-                if (!SpringContext.getBean(SubFundGroupService.class).isForContractsAndGrants(newAccountGlobal.getSubFundGroup())) {
-                    if (!newExpDate.after(today) && !newExpDate.equals(today)) {
-                        putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_TODAY_LATER);
-                        success &= false;
-                    }
-                }
+        if (maintenanceDocument.isNew() && ObjectUtils.isNotNull(newExpDate)) {
+            if (!newExpDate.after(today) && !newExpDate.equals(today)) {
+                putFieldError("accountExpirationDate", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_EXP_DATE_TODAY_LATER);
+                success &= false;
             }
         }
+
 
         // a continuation account is required if the expiration date is completed.
         success &= checkContinuationAccount(maintenanceDocument, newExpDate);

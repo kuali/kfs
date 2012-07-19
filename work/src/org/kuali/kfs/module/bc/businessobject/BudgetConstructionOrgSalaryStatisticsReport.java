@@ -32,6 +32,7 @@ public class BudgetConstructionOrgSalaryStatisticsReport {
     private String organizationName;
     private String consHdr;
     private String objectCodes;
+    private String threshold;
 
     // Body parts
     private BigDecimal initialRequestedFteQuantity;
@@ -179,5 +180,24 @@ public class BudgetConstructionOrgSalaryStatisticsReport {
 
     public void setTotalInitialRequestedAmount(Integer totalInitialRequestedAmount) {
         this.totalInitialRequestedAmount = totalInitialRequestedAmount;
+    }
+
+    /**
+     * Gets the threshold attribute.
+     * 
+     * @return Returns the threshold
+     */
+    
+    public String getThreshold() {
+        return threshold;
+    }
+
+    /**	
+     * Sets the threshold attribute.
+     * 
+     * @param threshold The threshold to set.
+     */
+    public void setThreshold(String threshold) {
+        this.threshold = threshold;
     }
 }

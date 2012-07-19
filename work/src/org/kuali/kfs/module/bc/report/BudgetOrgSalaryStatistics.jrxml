@@ -40,6 +40,7 @@
 	<field name="averageAppointmentRequestedAmount" class="java.math.BigDecimal"/>
 	<field name="averageChange" class="java.math.BigDecimal"/>
 	<field name="percentChange" class="java.math.BigDecimal"/>
+	<field name="threshold" class="java.lang.String"/>
 
 
 		<group  name="ChartOfAccountsCodeGroup" isStartNewPage="true" isReprintHeaderOnEachPage="true" >
@@ -300,6 +301,20 @@
 						key="line-2"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="445"
+						y="39"
+						width="317"
+						height="12"
+						key="textField-265"
+						stretchType="RelativeToBandHeight"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font fontName="Courier New" pdfFontName="Courier"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{threshold}]]></textFieldExpression>
+				</textField>
 			</band>
 		</pageHeader>
 		<columnHeader>

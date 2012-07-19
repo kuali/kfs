@@ -124,6 +124,9 @@ public class BudgetConstructionSalaryStatisticsReportServiceImpl implements Budg
         }
         Integer prevPrevFiscalyear = prevFiscalyear - 1;
         orgSalaryStatisticsReportEntry.setObjectCodes(objectCodes);
+
+        // place holder for possible threshold use
+        orgSalaryStatisticsReportEntry.setThreshold("");
     }
 
 

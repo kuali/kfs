@@ -1423,7 +1423,7 @@
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="445"
-						y="65"
+						y="39"
 						width="317"
 						height="12"
 						key="textField-289"

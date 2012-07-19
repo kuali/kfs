@@ -21,7 +21,6 @@
 <%@ attribute name="detailObject" required="true" description="The actual object" type="org.kuali.kfs.module.tem.businessobject.ActualExpense"%>
 <%@ attribute name="parentObject" required="true" description="The parent object" type="org.kuali.kfs.module.tem.businessobject.ActualExpense"%>
 
-<c:set var="documentAttributes" value="${DataDictionary.TravelDocumentBase.attributes}" />
 <c:set var="otherExpenseAttributes" value="${DataDictionary.ActualExpense.attributes}" />
 <jsp:useBean id="paramMap" class="java.util.HashMap" />
 <c:set target="${paramMap}" property="tripType" value="${KualiForm.document.tripTypeCode}" />

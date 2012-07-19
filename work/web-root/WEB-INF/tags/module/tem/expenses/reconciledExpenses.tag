@@ -15,7 +15,6 @@
 --%>
 <%@ include file="/jsp/sys/kfsTldHeader.jsp"%>
 <%@ taglib uri="/WEB-INF/tlds/temfunc.tld" prefix="temfunc"%>
-<c:set var="documentAttributes" value="${DataDictionary.TravelDocumentBase.attributes}" />
 <c:set var="historicalTravelExpenseAttributes" value="${DataDictionary.HistoricalTravelExpense.attributes}" />
 <jsp:useBean id="paramMap" class="java.util.HashMap" />
   

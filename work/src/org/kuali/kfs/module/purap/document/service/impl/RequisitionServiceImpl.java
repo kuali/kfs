@@ -229,8 +229,11 @@ public class RequisitionServiceImpl implements RequisitionService {
             }
             
             //vendor contract expirated date validation....KFSMI-8502
-            if (vendorService.isVendorContractExpired(requisition, vendorDetail)) {
-                return "Contracted Vendor used where the contract end date is expired.";
+            // if the vendor is selected through vendor contract is selected 
+            if (StringUtils.isNotBlank(requisition.getVendorContractName())) {
+                if (vendorService.isVendorContractExpired(requisition, vendorDetail)) {
+                    return "Contracted Vendor used where the contract end date is expired.";
+                }
             }
         }
         

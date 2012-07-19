@@ -479,7 +479,7 @@ public class VendorServiceImpl implements VendorService {
         List<Note> notes = document.getNotes();
         
         for (VendorContract vendorContract : vendorContracts) {
-            if (currentDate.compareTo(vendorContract.getVendorContractEndDate()) > 0) {
+            if (currentDate.compareTo(vendorContract.getVendorContractEndDate()) > 0 || !vendorContract.isActive()) {
                 Note newNote = new Note();
                 newNote.setNoteText("Vendor Contract: " + vendorContract.getVendorContractName() + " contract has expired contract end date.");
                 newNote.setNotePostedTimestampToCurrent();

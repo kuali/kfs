@@ -37,19 +37,6 @@
 	</c:choose>
 </c:if>
 
-<c:set var="backdoorMainUrlAddition" value="" />
-<c:if test="${UserSession.backdoorInUse}">
-	<c:choose>
-	<c:when test="${fn:contains(url,'?')}">
-			<c:set var="backdoorMainUrlAddition" value="&backdoorId=${UserSession.principalName}" />
-		</c:when>
-		<c:otherwise>
-			<c:set var="backdoorMainUrlAddition" value="?backdoorId=${UserSession.principalName}" />
-		</c:otherwise>
-	</c:choose>
-</c:if>
-
-
 <c:if test="${displayTitle}" >
   <a class="portal_link" href="${prefix}portal.do?channelTitle=${title}&channelUrl=${url}${backdoorMainUrlAddition}"  title="${title}">${title}</a>
 </c:if>

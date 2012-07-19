@@ -1,12 +1,12 @@
 /*
  * Copyright 2008 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.coa.identity;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +25,6 @@ import org.kuali.rice.core.api.uif.RemotableAttributeError;
 import org.kuali.rice.core.api.uif.RemotableAttributeError.Builder;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.common.attribute.KimAttribute;
 import org.kuali.rice.kim.api.type.KimType;
 import org.kuali.rice.kim.api.type.KimTypeAttribute;
@@ -43,19 +40,20 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
      * service will need to compare it to from and to amount qualifier values for assignees Requirements: - Traverse the org
      * hierarchy but not the document type hierarchy - from amount must be null or <= total amount supplied / to amount must be null
      * or >= total amount supplied, and null override code on assignment matches all override codes
-     * 
+     *
      * @see org.kuali.kfs.coa.identity.OrganizationOptionalHierarchyRoleTypeServiceImpl#performMatch(org.kuali.rice.kim.bo.types.dto.AttributeSet,
      *      org.kuali.rice.kim.bo.types.dto.AttributeSet)
      */
+    @Override
     public boolean performMatch(Map<String,String> qualification, Map<String,String> roleQualifier) {
-        return doesOverrideCodeMatch(qualification, roleQualifier) 
-                && isValidTotalAmount(qualification, roleQualifier) 
+        return doesOverrideCodeMatch(qualification, roleQualifier)
+                && isValidTotalAmount(qualification, roleQualifier)
                 && super.performMatch(qualification, roleQualifier);
     }
 
     protected boolean doesOverrideCodeMatch(Map<String,String> qualification, Map<String,String> roleQualifier) {
-        return qualification==null || roleQualifier==null || StringUtils.isBlank(qualification.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE)) 
-                || StringUtils.isBlank(roleQualifier.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE)) 
+        return qualification==null || roleQualifier==null || StringUtils.isBlank(qualification.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE))
+                || StringUtils.isBlank(roleQualifier.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE))
                 || qualification.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE).equals(roleQualifier.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE));
     }
 
@@ -72,7 +70,7 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
             KualiDecimal totalAmount = new KualiDecimal(totalAmountStr);
             String toAmountStr = roleQualifier.get(KfsKimAttributes.TO_AMOUNT);
             String fromAmountStr = roleQualifier.get(KfsKimAttributes.FROM_AMOUNT);
-            if ((StringUtils.isBlank(toAmountStr) || new KualiDecimal(toAmountStr).isGreaterEqual(totalAmount) ) 
+            if ((StringUtils.isBlank(toAmountStr) || new KualiDecimal(toAmountStr).isGreaterEqual(totalAmount) )
                     && (StringUtils.isBlank(fromAmountStr) || new KualiDecimal(fromAmountStr).isLessEqual(totalAmount) )) {
                 isValidTotalAmount = true;
             }
@@ -81,19 +79,6 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
             LOG.error( "Exception comparing document amount to role qualifiers.", ex );
         }
         return isValidTotalAmount;
-    }
-
-    private List<String> uniqueAttributes = new ArrayList<String>();
-    {
-        uniqueAttributes.add(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME);
-        uniqueAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
-        uniqueAttributes.add(KfsKimAttributes.ORGANIZATION_CODE);
-        uniqueAttributes = Collections.unmodifiableList(uniqueAttributes);
-    }
-    
-    @Override
-    public List<String> getUniqueAttributes(String kimTypeId){
-        return uniqueAttributes;
     }
 
     @Override
@@ -110,43 +95,43 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
         if(isLesserNumber(fromAmountDelegationMember, fromAmountRoleMember)){
             attributeInfo = kimType.getAttributeDefinitionById(KfsKimAttributes.FROM_AMOUNT);
             GlobalVariables.getMessageMap().putError(
-                    KfsKimAttributes.FROM_AMOUNT, RiceKeyConstants.ERROR_DELEGATION_FROM_AMOUNT_LESSER, 
+                    KfsKimAttributes.FROM_AMOUNT, RiceKeyConstants.ERROR_DELEGATION_FROM_AMOUNT_LESSER,
                     getDataDictionaryService().getAttributeLabel(attributeInfo.getKimAttribute().getComponentName(), KfsKimAttributes.FROM_AMOUNT));
             attributeErrors = extractErrorsFromGlobalVariablesErrorMap(KfsKimAttributes.FROM_AMOUNT);
         }
-        
+
         Builder fromBuilder = RemotableAttributeError.Builder.create(KfsKimAttributes.FROM_AMOUNT);
-        
+
         if(attributeErrors!=null){
             for(String err: attributeErrors){
                 fromBuilder.getErrors().add(err);
             }
-            
+
             validationErrors.add(fromBuilder.build());
-            
+
             attributeErrors = null;
         }
-        
+
         String toAmountRoleMember = getAttributeValue(originalAttributeSet, KfsKimAttributes.TO_AMOUNT);
         String toAmountDelegationMember = getAttributeValue(newAttributeSet, KfsKimAttributes.TO_AMOUNT);
         if(StringUtils.isNotEmpty(toAmountRoleMember) && isGreaterNumber(toAmountDelegationMember, toAmountRoleMember)){
             attributeInfo = kimType.getAttributeDefinitionById(KfsKimAttributes.TO_AMOUNT);
             GlobalVariables.getMessageMap().putError(
-                    KfsKimAttributes.TO_AMOUNT, RiceKeyConstants.ERROR_DELEGATION_TO_AMOUNT_GREATER, 
+                    KfsKimAttributes.TO_AMOUNT, RiceKeyConstants.ERROR_DELEGATION_TO_AMOUNT_GREATER,
                     getDataDictionaryService().getAttributeLabel(attributeInfo.getKimAttribute().getComponentName(), KfsKimAttributes.TO_AMOUNT));
             attributeErrors = extractErrorsFromGlobalVariablesErrorMap(KfsKimAttributes.TO_AMOUNT);
         }
-        
+
         Builder toBuilder = RemotableAttributeError.Builder.create(KfsKimAttributes.TO_AMOUNT);
-        
+
         if(attributeErrors!=null){
-            
-            
+
+
             for(String err: attributeErrors){
                 toBuilder.getErrors().add(err);
             }
             validationErrors.add(toBuilder.build());
-            
+
             attributeErrors = null;
         }
 

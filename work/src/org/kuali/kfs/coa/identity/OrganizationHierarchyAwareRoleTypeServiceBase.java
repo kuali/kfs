@@ -1,12 +1,12 @@
 /*
  * Copyright 2008-2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,17 +41,31 @@ public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends Role
     protected OrganizationService organizationService;
     protected static final String DOCUMENT_TYPE_NAME = "ORR";
 
-   List<String> workflowRoutingAttributes = new ArrayList<String>(2);
+    private List<String> workflowRoutingAttributes = new ArrayList<String>(2);
     {
         workflowRoutingAttributes.add( KfsKimAttributes.CHART_OF_ACCOUNTS_CODE );
         workflowRoutingAttributes.add( KfsKimAttributes.ORGANIZATION_CODE );
-    }    
-    
+        workflowRoutingAttributes = Collections.unmodifiableList(workflowRoutingAttributes);
+    }
+
+    private List<String> uniqueAttributes = new ArrayList<String>(3);
+    {
+        uniqueAttributes.add(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME);
+        uniqueAttributes.add(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
+        uniqueAttributes.add(KfsKimAttributes.ORGANIZATION_CODE);
+        uniqueAttributes = Collections.unmodifiableList(uniqueAttributes);
+    }
+
+    @Override
+    public List<String> getUniqueAttributes(String kimTypeId){
+        return uniqueAttributes;
+    }
+
    @Override
    public List<String> getWorkflowRoutingAttributes(String routeLevel) {
-       return Collections.unmodifiableList(workflowRoutingAttributes);
+       return workflowRoutingAttributes;
    }
-    
+
     @Override
     public String getWorkflowDocumentTypeName() {
         return DOCUMENT_TYPE_NAME;
@@ -69,20 +83,20 @@ public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends Role
             return false;
         }
         if (roleOrgCode == null) {
-            return roleChartCode.equals(qualificationChartCode) 
+            return roleChartCode.equals(qualificationChartCode)
                     || (descendHierarchy && chartService.isParentChart(qualificationChartCode, roleChartCode));
         }
-        return (roleChartCode.equals(qualificationChartCode) && roleOrgCode.equals(qualificationOrgCode)) 
+        return (roleChartCode.equals(qualificationChartCode) && roleOrgCode.equals(qualificationOrgCode))
                 || (descendHierarchy && organizationService.isParentOrganization(qualificationChartCode, qualificationOrgCode, roleChartCode, roleOrgCode));
     }
-    
+
     @Override
     public Map<String,String> convertQualificationForMemberRoles(String namespaceCode, String roleName, String memberRoleNamespaceCode, String memberRoleName, Map<String,String> qualification) {
         if ( qualification == null ) {
             return null;
         }
         // only attempt the conversion if :
-        // (a) there is not already a campus code provided by the document 
+        // (a) there is not already a campus code provided by the document
         // and (b) we have a chart and organization to resolve
         if ( StringUtils.isBlank( qualification.get(KimConstants.AttributeConstants.CAMPUS_CODE ) )
                 && StringUtils.isNotBlank( KfsKimAttributes.CHART_OF_ACCOUNTS_CODE)
@@ -106,6 +120,7 @@ public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends Role
         }
     }
 
+    @Override
     public boolean doesDelegationQualifierMatchQualification(Map<String,String> qualification, Map<String,String> delegationQualifier) {
         return performMatch(translateInputAttributes(qualification), delegationQualifier);
     }
@@ -121,7 +136,7 @@ public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends Role
         return matchingMemberships;
     }
 
-    
+
     public void setOrganizationService(OrganizationService organizationService) {
         this.organizationService = organizationService;
     }
@@ -129,8 +144,9 @@ public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends Role
     public void setChartService(ChartService chartService) {
         this.chartService = chartService;
     }
-    
 
+
+    @Override
     public List<RoleMembership> sortRoleMembers(List<RoleMembership> roleMembers) {
         List<SortableRoleMembershipHolder> listToSort = new ArrayList<SortableRoleMembershipHolder>( roleMembers.size() );
         // build the sortable list
@@ -156,11 +172,11 @@ public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends Role
     }
 
     protected class SortableRoleMembershipHolder implements Comparable<SortableRoleMembershipHolder> {
-        
+
         public String chart;
         public String org;
         public RoleMembership rmi;
-        
+
         public SortableRoleMembershipHolder( RoleMembership rmi ) {
             chart = rmi.getQualifier().get(KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
             org = rmi.getQualifier().get(KfsKimAttributes.ORGANIZATION_CODE);
@@ -168,7 +184,8 @@ public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends Role
             builder.setRoleSortingCode(chart+"-"+org);
             this.rmi = builder.build();
         }
-        
+
+        @Override
         public int compareTo(SortableRoleMembershipHolder o) {
             if ( chart == null || org == null || o.chart == null || o.org == null || (o.chart == chart && o.org == org) ) {
                 return 0;
@@ -180,7 +197,7 @@ public abstract class OrganizationHierarchyAwareRoleTypeServiceBase extends Role
             }
         }
     }
-    
-    
-    
+
+
+
 }

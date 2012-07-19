@@ -38,9 +38,9 @@
 <c:set var="masterDailyTotal" value="0.00" />
 
 <c:if test="${showAllPerDiemCategories}">
-	<kul:tab tabTitle="${KualiForm.perDiemLabel}" defaultOpen="true" tabErrorKey="${TemKeyConstants.TRVL_PER_DIEM_EXPENSES}">
+	<kul:tab tabTitle="Per Diem Expenses" defaultOpen="true" tabErrorKey="${TemKeyConstants.TRVL_PER_DIEM_EXPENSES}">
 		<div class="tab-container" align=center>
-			<h3>${KualiForm.perDiemLabel}</h3>
+			<h3>Per Diem Expenses</h3>
 			<table cellpadding="0" class="datatable" summary="Destination, Miles and Meals">
 				<c:forEach items="${KualiForm.document.perDiemExpenses}" var="perDiemExpense" varStatus="perDiemIndex">
 					<c:set target="${paramMap}" property="queryDate" value="${perDiemExpense.mileageDate}" />

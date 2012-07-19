@@ -20,9 +20,14 @@
 	description="The actual object"
 	type="org.kuali.kfs.module.tem.businessobject.ActualExpense"%>
 
-<c:set var="otherExpenseAttributes" value="${DataDictionary.ActualExpense.attributes}" />
-<c:set var="temExtension" value="${DataDictionary.TemTravelExpenseTypeCode.attributes}" />
-<c:set var="isTA" value="${KualiForm.docTypeName == TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT}" />
+<c:set var="documentAttributes"
+	value="${DataDictionary.TravelDocumentBase.attributes}" />
+<c:set var="otherExpenseAttributes"
+	value="${DataDictionary.ActualExpense.attributes}" />
+<c:set var="temExtension"
+	value="${DataDictionary.TemTravelExpenseTypeCode.attributes}" />
+<c:set var="isTA"
+	value="${KualiForm.docTypeName == TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT}" />
 
 <jsp:useBean id="paramMap" class="java.util.HashMap" />
 <c:set target="${paramMap}" property="tripType"

@@ -21,8 +21,12 @@
 	description="The actual object"
 	type="org.kuali.kfs.module.tem.businessobject.ActualExpense"%>
 
-<c:set var="otherExpenseAttributes"	value="${DataDictionary.ActualExpense.attributes}" />
-<c:set var="temExtension" value="${DataDictionary.TemTravelExpenseTypeCode.attributes}" />
+<c:set var="documentAttributes"
+	value="${DataDictionary.TravelDocumentBase.attributes}" />
+<c:set var="otherExpenseAttributes"
+	value="${DataDictionary.ActualExpense.attributes}" />
+<c:set var="temExtension"
+	value="${DataDictionary.TemTravelExpenseTypeCode.attributes}" />
 
 
 <tr>

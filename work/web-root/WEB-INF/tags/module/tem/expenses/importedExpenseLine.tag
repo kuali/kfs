@@ -18,6 +18,7 @@
 <%@ attribute name="expense" required="false" description="The expense to create the form for." %>
 <%@ attribute name="lineNumber" required="false" description="Line number for the record." %>
 <%@ attribute name="detailObject" required="true" description="The actual object" type="org.kuali.kfs.module.tem.businessobject.ImportedExpense"%>
+<c:set var="documentAttributes" value="${DataDictionary.TravelDocumentBase.attributes}" />
 <c:set var="importedExpenseAttributes" value="${DataDictionary.ImportedExpense.attributes}" />
 <jsp:useBean id="paramMap" class="java.util.HashMap" />
 <c:set target="${paramMap}" property="tripType" value="${KualiForm.document.tripTypeCode}" />

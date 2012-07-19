@@ -26,7 +26,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
@@ -84,29 +83,6 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     }
 
     /**
-     * @see org.kuali.kfs.module.tem.document.web.struts.TravelFormBase#getPerDiemLabel()
-     */
-    @Override
-    public String getPerDiemLabel(){
-        return TemConstants.ENCUMBRANCE_PREFIX + super.getPerDiemLabel();
-    }
-    
-    /**
-     * @see org.kuali.kfs.module.tem.document.web.struts.TravelFormBase#getExpenseLabel()
-     */
-    @Override
-    public String getExpenseLabel(){
-        return TemConstants.ENCUMBRANCE_PREFIX + StringUtils.substringAfter(super.getExpenseLabel(), " ");
-    }
-    
-    /**
-     * @see org.kuali.kfs.module.tem.document.web.struts.TravelFormBase#getExpenseTabLabel()
-     */
-    public String getExpenseTabLabel(){
-        return TemConstants.GENERAL_EXPENSES_LABEL;
-    }
-    
-    /**
      * Gets the newEmergencyContactLine attribute.
      * 
      * @return Returns the newEmergencyContactLine.
@@ -115,6 +91,7 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
     public TravelerDetailEmergencyContact getNewEmergencyContactLine() {
         return newEmergencyContactLine;
     }
+
 
     /**
      * Sets the newEmergencyContactLine attribute value.

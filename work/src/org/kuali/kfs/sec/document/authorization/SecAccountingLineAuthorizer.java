@@ -65,7 +65,7 @@ public class SecAccountingLineAuthorizer implements AccountingLineAuthorizer {
     public boolean hasEditPermissionOnField(AccountingDocument accountingDocument, AccountingLine accountingLine, String accountingLineCollectionProperty, String fieldName, boolean editableLine, boolean editablePage, Person currentUser) {
         boolean hasEditPermission = lineAuthorizer.hasEditPermissionOnField(accountingDocument, accountingLine, accountingLineCollectionProperty, fieldName, editableLine, editablePage, currentUser);
         
-        return hasEditPermission && editableLine;
+        return hasEditPermission;
     }
 
     public boolean isGroupEditable(AccountingDocument accountingDocument, List<? extends AccountingLineRenderingContext> accountingLineRenderingContexts, Person currentUser) {

@@ -244,6 +244,7 @@
 				<status>In Process</status>
 				<status>Awaiting Fiscal Officer Review</status>
 				<status>Awaiting New Unordered Item Review</status>
+				<status>Disapproved New Unordered Item Review</status>
 				<status>Awaiting Purchasing Approval</status>
 				<status>Awaiting Commodity Code Approval</status>
 				<status>Awaiting C and G Approval</status>
@@ -264,9 +265,12 @@
 				<status>Cancelled Change</status>
 				<status>Change in Process</status>
 				<status>Closed</status>
+				<status>Disapproved Budget</status>
 				<status>Disapproved C and G</status>
 				<status>Disapproved Change</status>
 				<status>Disapproved Commodity Code</status>
+				<status>Disapproved Purchasing</status>
+				<status>Disapproved Tax</status>
 				<status>Open</status>
 				<status>Pending Amendment</status>
 				<status>Pending Close</status>
@@ -447,6 +451,7 @@
 				<status>In Process</status>
 				<status>Awaiting Fiscal Officer Review</status>
 				<status>Awaiting New Unordered Item Review</status>
+				<status>Disapproved New Unordered Item Review</status>
 				<status>Awaiting Purchasing Approval</status>
 				<status>Awaiting Commodity Code Approval</status>
 				<status>Awaiting C and G Approval</status>
@@ -467,9 +472,12 @@
 				<status>Cancelled Change</status>
 				<status>Change in Process</status>
 				<status>Closed</status>
+				<status>Disapproved Budget</status>
 				<status>Disapproved C and G</status>
 				<status>Disapproved Change</status>
 				<status>Disapproved Commodity Code</status>
+				<status>Disapproved Purchasing</status>
+				<status>Disapproved Tax</status>
 				<status>Open</status>
 				<status>Pending Amendment</status>
 				<status>Pending Close</status>
@@ -571,9 +579,12 @@
 				<status>Cancelled Change</status>
 				<status>Change in Process</status>
 				<status>Closed</status>
+				<status>Disapproved Budget</status>
 				<status>Disapproved C and G</status>
 				<status>Disapproved Change</status>
 				<status>Disapproved Commodity Code</status>
+				<status>Disapproved Purchasing</status>
+				<status>Disapproved Tax</status>
 				<status>Open</status>
 				<status>Pending Amendment</status>
 				<status>Pending Close</status>
@@ -648,9 +659,12 @@
 				<status>Cancelled Change</status>
 				<status>Change in Process</status>
 				<status>Closed</status>
+				<status>Disapproved Budget</status>
 				<status>Disapproved C and G</status>
 				<status>Disapproved Change</status>
 				<status>Disapproved Commodity Code</status>
+				<status>Disapproved Purchasing</status>
+				<status>Disapproved Tax</status>
 				<status>Open</status>
 				<status>Pending Amendment</status>
 				<status>Pending Close</status>
@@ -726,9 +740,12 @@
 				<status>Cancelled Change</status>
 				<status>Change in Process</status>
 				<status>Closed</status>
+				<status>Disapproved Budget</status>
 				<status>Disapproved C and G</status>
 				<status>Disapproved Change</status>
 				<status>Disapproved Commodity Code</status>
+				<status>Disapproved Purchasing</status>
+				<status>Disapproved Tax</status>
 				<status>Open</status>
 				<status>Pending Amendment</status>
 				<status>Pending Close</status>
@@ -809,9 +826,12 @@
 				<status>Cancelled Change</status>
 				<status>Change in Process</status>
 				<status>Closed</status>
+				<status>Disapproved Budget</status>
 				<status>Disapproved C and G</status>
 				<status>Disapproved Change</status>
 				<status>Disapproved Commodity Code</status>
+				<status>Disapproved Purchasing</status>
+				<status>Disapproved Tax</status>
 				<status>Open</status>
 				<status>Pending Amendment</status>
 				<status>Pending Close</status>
@@ -886,9 +906,12 @@
 				<status>Cancelled Change</status>
 				<status>Change in Process</status>
 				<status>Closed</status>
+				<status>Disapproved Budget</status>
 				<status>Disapproved C and G</status>
 				<status>Disapproved Change</status>
 				<status>Disapproved Commodity Code</status>
+				<status>Disapproved Purchasing</status>
+				<status>Disapproved Tax</status>
 				<status>Open</status>
 				<status>Pending Amendment</status>
 				<status>Pending Close</status>
@@ -963,9 +986,12 @@
 				<status>Cancelled Change</status>
 				<status>Change in Process</status>
 				<status>Closed</status>
+				<status>Disapproved Budget</status>
 				<status>Disapproved C and G</status>
 				<status>Disapproved Change</status>
 				<status>Disapproved Commodity Code</status>
+				<status>Disapproved Purchasing</status>
+				<status>Disapproved Tax</status>
 				<status>Open</status>
 				<status>Pending Amendment</status>
 				<status>Pending Close</status>
@@ -1032,9 +1058,12 @@
 				<status>Cancelled Change</status>
 				<status>Change in Process</status>
 				<status>Closed</status>
+				<status>Disapproved Budget</status>
 				<status>Disapproved C and G</status>
 				<status>Disapproved Change</status>
 				<status>Disapproved Commodity Code</status>
+				<status>Disapproved Purchasing</status>
+				<status>Disapproved Tax</status>
 				<status>Open</status>
 				<status>Pending Amendment</status>
 				<status>Pending Close</status>

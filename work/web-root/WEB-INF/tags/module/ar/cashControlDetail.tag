@@ -98,11 +98,10 @@
 					readOnly="${readOnly}" />
 			</c:when>
 			<c:otherwise>
-			 <kul:htmlControlAttribute
-			 	attributeEntry="${cashControlDetailAttributes.customerPaymentDate}" datePicker="true"
-			 	property="${propertyName}.customerPaymentDate" 
-			 	tabindexOverride="${tabindexOverrideBase} + 20"
-			 	readOnly="${readOnly}" />
+				<kul:dateInput
+					attributeEntry="${cashControlDetailAttributes.customerPaymentDate}"
+					tabindexOverride="${tabindexOverrideBase} + 20"
+					property="${propertyName}.customerPaymentDate" />
 			</c:otherwise>
 		</c:choose>
 	</td>

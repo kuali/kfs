@@ -66,12 +66,8 @@
 			                 	readOnly="${readOnly}" />
 			            </c:when>
                         <c:otherwise>
-			 				<kul:htmlControlAttribute
-			 					attributeEntry="${customerInvoiceRecurrenceAttributes.documentRecurrenceBeginDate}" 
-			 					datePicker="true"
-			 					property="document.customerInvoiceRecurrenceDetails.documentRecurrenceBeginDate"
-			 					tabindexOverride="${tabindexOverrideBase} + 15"
-			 					readOnly="${readOnly}" />
+		                    <kul:dateInput attributeEntry="${customerInvoiceRecurrenceAttributes.documentRecurrenceBeginDate}"
+                       			property="document.customerInvoiceRecurrenceDetails.documentRecurrenceBeginDate" tabindexOverride="${tabindexOverrideBase} + 15" />
 			            </c:otherwise>
 					</c:choose>
                 </td>			          
@@ -89,12 +85,8 @@
 			                	readOnly="${readOnly}" />
 			            </c:when>
                         <c:otherwise>
-			 				<kul:htmlControlAttribute
-			 					attributeEntry="${customerInvoiceRecurrenceAttributes.documentRecurrenceEndDate}"
-			 					datePicker="true"
-			 					property="document.customerInvoiceRecurrenceDetails.documentRecurrenceEndDate"
-			 					tabindexOverride="${tabindexOverrideBase} + 25"
-			 					readOnly="${readOnly}" />
+		                    <kul:dateInput attributeEntry="${customerInvoiceRecurrenceAttributes.documentRecurrenceEndDate}"
+                       			property="document.customerInvoiceRecurrenceDetails.documentRecurrenceEndDate" tabindexOverride="${tabindexOverrideBase} + 25" />
 			            </c:otherwise>
 					</c:choose>
                 </td>			

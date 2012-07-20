@@ -98,12 +98,7 @@
 	                        readOnly="${readOnly}" />
 	                    </c:when>
 	                    <c:otherwise>
-	                    	<kul:htmlControlAttribute
-			 					attributeEntry="${documentAttributes.customerPurchaseOrderDate}"
-			 					datePicker="true"
-			 					property="document.customerPurchaseOrderDate"
-			 					tabindexOverride="${tabindexOverrideBase} + 20"
-			 					readOnly="${readOnly}" />
+	                        <kul:dateInput attributeEntry="${documentAttributes.customerPurchaseOrderDate}" tabindexOverride="${tabindexOverrideBase} + 20" property="document.customerPurchaseOrderDate"/>
 	                    </c:otherwise>
 	                </c:choose>                
                 </td>          
@@ -134,12 +129,7 @@
 	                          readOnly="${readOnly}" />
 	                    </c:when>
 	                    <c:otherwise>
-	                    	<kul:htmlControlAttribute
-			 					attributeEntry="${documentAttributes.invoiceDueDate}" 
-			 					property="document.invoiceDueDate"
-			 					datePicker="true"
-			 					tabindexOverride="${tabindexOverrideBase} + 35"
-			 					readOnly="${readOnly}" />
+	                        <kul:dateInput attributeEntry="${documentAttributes.invoiceDueDate}" tabindexOverride="${tabindexOverrideBase} + 35" property="document.invoiceDueDate"/>
 	                    </c:otherwise>
 	                </c:choose>
                 </td>                          

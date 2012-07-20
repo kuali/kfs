@@ -49,6 +49,7 @@
     	<kul:notes />
 		<kul:adHocRecipients />
 		<kul:routeLog />
+		<kul:superUserActions />
 		<kul:panelFooter />
 	</c:if>
 

@@ -56,6 +56,7 @@
 		
 	    <kul:routeLog />
 	    
+	    <kul:superUserActions />
 	</c:if>
 	    		
     <kul:panelFooter />

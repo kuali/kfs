@@ -77,6 +77,8 @@
 
 	<kul:routeLog />
 
+	<kul:superUserActions />
+
 	<kul:panelFooter />
 	
 	<c:set var="extraButtons" value="${KualiForm.extraButtons}"/>  	

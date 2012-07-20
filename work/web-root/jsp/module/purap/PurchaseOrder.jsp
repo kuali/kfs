@@ -162,6 +162,8 @@
 		    <kul:adHocRecipients />
 		
 		    <kul:routeLog />
+		    
+		    <kul:superUserActions />
 		
 		</c:if>
 	</c:otherwise>

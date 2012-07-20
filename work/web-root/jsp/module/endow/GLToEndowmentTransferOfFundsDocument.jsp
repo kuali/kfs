@@ -49,6 +49,8 @@
 	<kul:notes /> 
 	
 	<kul:routeLog />
+	
+	<kul:superUserActions />
 
 	<kul:panelFooter />
 

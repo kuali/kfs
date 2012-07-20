@@ -42,6 +42,8 @@
 	
 	<kul:routeLog />
 
+	<kul:superUserActions />
+
 	<kul:panelFooter />
 
 	<sys:documentControls transactionalDocument="true" extraButtons="${KualiForm.extraButtons}" />

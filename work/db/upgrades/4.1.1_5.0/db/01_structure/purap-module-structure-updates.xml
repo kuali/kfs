@@ -186,5 +186,15 @@
 			<replace replace='NUMBER' with='DECIMAL' />
 		</modifySql>
 	</changeSet>
-
+	
+	<changeSet author="KFS50" id="KFS8843_PUR_BILL_ADDR_T">
+	   <modifyColumn tableName="PUR_BILL_ADDR_T">
+      		<column name="BILL_PHN_NBR" type="VARCHAR2(45)">
+      			<constraints nullable="true"/>
+     		 </column>
+    	</modifyColumn>
+		<modifySql dbms='mysql'>
+			replace replace='VARCHAR2' with='VARCHAR' />
+		</modifySql>
+	</changeSet>
 </databaseChangeLog>

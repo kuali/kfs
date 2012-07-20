@@ -39,12 +39,12 @@ import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelDisbursementService;
 import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
+import org.kuali.kfs.module.tem.service.CreditCardAgencyService;
 import org.kuali.kfs.module.tem.service.TEMExpenseService;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -55,6 +55,8 @@ public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase 
     
     TravelDisbursementService travelDisbursementService;
     
+    CreditCardAgencyService creditCardAgencyService;
+
     /**
      * @see org.kuali.kfs.module.tem.service.TEMExpenseService#calculateDistributionTotals(org.kuali.kfs.module.tem.document.TravelDocument, java.util.Map, java.util.List)
      */
@@ -135,8 +137,7 @@ public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase 
         GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper(travelDocument.getGeneralLedgerPendingEntries().size()+1);
         //create glpe's for just corp cards;
         for (TemSourceAccountingLine line : (List<TemSourceAccountingLine>)travelDocument.getSourceAccountingLines()){
-            if (!line.getCardType().equals(TemConstants.ACTUAL_EXPENSE)
-                    && !line.getCardType().equals(TemConstants.CARD_TYPE_CTS)){
+            if (creditCardAgencyService.getCorpCreditCardAgencyCodeList().contains(line.getCardType())){
                 ExpenseUtils.generateImportedExpenseGeneralLedgerPendingEntries(travelDocument, line, sequenceHelper, false, travelDocument.getFinancialDocumentTypeCode());
             }
         }       
@@ -154,9 +155,10 @@ public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase 
         //build map of the accounting line info and amount by card type
         Collection<String> cardAgencyTypeSet = new TreeSet<String>();
         for (TemSourceAccountingLine line : (List<TemSourceAccountingLine>)document.getSourceAccountingLines()){
-           if (!line.getCardType().equals(TemConstants.CARD_TYPE_CTS) && !line.getCardType().equals(TemConstants.ACTUAL_EXPENSE)){
-               cardAgencyTypeSet.add(line.getCardType());
-           }
+            //pick up all the corp card types
+            if (creditCardAgencyService.getCorpCreditCardAgencyCodeList().contains(line.getCardType())){
+                cardAgencyTypeSet.add(line.getCardType());
+            }
         }
         
         //process DV for each of the card type
@@ -192,5 +194,8 @@ public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase 
     public void setTravelDisbursementService(TravelDisbursementService travelDisbursementService) {
         this.travelDisbursementService = travelDisbursementService;
     }
-
+    
+    public void setCreditCardAgencyService(CreditCardAgencyService creditCardAgencyService) {
+        this.creditCardAgencyService = creditCardAgencyService;
+    }
 }

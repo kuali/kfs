@@ -851,4 +851,12 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
         disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(locationCode);
         disbursementVoucherDocument.setDisbVchrCheckStubText(checkStubText);
     }
+
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocument#getExpenseTypeCode()
+     */
+    @Override
+    public String getExpenseTypeCode() {
+        return TemConstants.ENCUMBRANCE;
+    }
 }

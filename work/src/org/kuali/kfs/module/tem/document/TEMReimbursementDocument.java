@@ -195,4 +195,12 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase {
     @Override
     public void setPerDiemAdjustment(KualiDecimal perDiemAdjustment) {
     }
+    
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocument#getExpenseTypeCode()
+     */
+    @Override
+    public String getExpenseTypeCode() {
+        return TemConstants.ACTUAL_EXPENSE;
+    }
 }

@@ -42,6 +42,7 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
+import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.document.Document;
@@ -381,6 +382,12 @@ public interface TravelDocumentService {
      */
     public boolean validateSourceAccountingLines(TravelDocument travelDocument, boolean addToErrorPath);
 
+    /**
+     * Get Document type of the travel document
+     * 
+     * @param document
+     * @return
+     */
     public String getDocumentType(TravelDocument document);
 
     /**
@@ -389,7 +396,7 @@ public interface TravelDocumentService {
      * @param searchDate
      * @return
      */
-    List getMileageRateKeyValues(Date searchDate);
+    List<KeyLabelPair> getMileageRateKeyValues(Date searchDate);
     
     /**
      * Truncate the financial system document header to have maximum length (40)

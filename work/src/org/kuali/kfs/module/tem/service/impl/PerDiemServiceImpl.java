@@ -617,12 +617,12 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
             AccountingDistribution accountingDistribution = new AccountingDistribution();
             
             if (perDiemObjCode != null) {
-                String key = perDiemObjCode.getCode() + "-" + TemConstants.ACTUAL_EXPENSE;
+                String key = perDiemObjCode.getCode() + "-" + document.getExpenseTypeCode();
                 
                 for(PerDiemExpense expense : document.getPerDiemExpenses()){
                     if (!expense.getPersonal()){
                         if (!distributionMap.containsKey(key)){
-                            accountingDistribution.setCardType(TemConstants.ACTUAL_EXPENSE);
+                            accountingDistribution.setCardType(document.getExpenseTypeCode());
                             accountingDistribution.setObjectCode(perDiemObjCode.getCode());
                             accountingDistribution.setObjectCodeName(perDiemObjCode.getName());
                             distributionMap.put(key, accountingDistribution);
@@ -665,12 +665,12 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
         debug("Got lodging object code ", lodgingObjCode);
 
         AccountingDistribution accountingDistribution = new AccountingDistribution();
-        String key = lodgingObjCode.getCode() + "-" + TemConstants.ACTUAL_EXPENSE;
+        String key = lodgingObjCode.getCode() + "-" + document.getExpenseTypeCode();
 
         if (document.getPerDiemExpenses() != null) {           
             for(PerDiemExpense expense : document.getPerDiemExpenses()){
                 if (!distributionMap.containsKey(key)){
-                    accountingDistribution.setCardType(TemConstants.ACTUAL_EXPENSE);
+                    accountingDistribution.setCardType(document.getExpenseTypeCode());
                     accountingDistribution.setObjectCode(lodgingObjCode.getCode());
                     accountingDistribution.setObjectCodeName(lodgingObjCode.getName());
                     distributionMap.put(key, accountingDistribution);
@@ -701,10 +701,10 @@ public class PerDiemServiceImpl extends ExpenseServiceBase implements PerDiemSer
                     debug("Looking up Object Code for chart = ", defaultChartCode, " mileageCode = ", mileageCode);
                     final ObjectCode mileageObjCode = getObjectCodeService().getByPrimaryIdForCurrentYear(defaultChartCode, mileageCode);
                     debug("Got mileage object code ", mileageObjCode);
-                    String key = mileageObjCode.getCode() + "-" + TemConstants.ACTUAL_EXPENSE;
+                    String key = mileageObjCode.getCode() + "-" + document.getExpenseTypeCode();
                     
                     if (!distributionMap.containsKey(key)){
-                        accountingDistribution.setCardType(TemConstants.ACTUAL_EXPENSE);
+                        accountingDistribution.setCardType(document.getExpenseTypeCode());
                         accountingDistribution.setObjectCode(mileageObjCode.getCode());
                         accountingDistribution.setObjectCodeName(mileageObjCode.getName());
                         distributionMap.put(key, accountingDistribution);

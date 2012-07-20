@@ -741,7 +741,10 @@
 	<bean id="importedCorporateCardExpenseService"
 		class="org.kuali.kfs.module.tem.service.impl.ImportedCorporateCardExpenseServiceImpl">
         <property name="travelDisbursementService" ref="travelDisbursementService" />
+        <property name="creditCardAgencyService" ref="creditCardAgencyService" />
     </bean>
+    
+    <bean id="creditCardAgencyService" class="org.kuali.kfs.module.tem.service.impl.CreditCardAgencyServiceImpl" />
 		
 	<bean id="actualExpenseService"
 		class="org.kuali.kfs.module.tem.service.impl.ActualExpenseServiceImpl" />

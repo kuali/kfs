@@ -323,4 +323,21 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
      * @return
      */
     public List<SourceAccountingLine> getReimbursableSourceAccountingLines();
+    
+    /**
+     * Return default card agency type in the source accounting line
+     * 
+     * @return
+     */
+    public String getDefaultAccountingLineCardAgencyType();
+
+    /**
+     * Return the expense type code by Travel Document
+     * 
+     * TA document returns EMCUMBRANCE
+     * TEMReimbursement document returns OUT OF POCKET
+     * 
+     * @return
+     */
+    public String getExpenseTypeCode();
 }

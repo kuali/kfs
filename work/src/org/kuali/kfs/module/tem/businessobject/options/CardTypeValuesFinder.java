@@ -16,21 +16,17 @@
 package org.kuali.kfs.module.tem.businessobject.options;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.businessobject.AccommodationType;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
+import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.web.struts.TravelFormBase;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class CardTypeValuesFinder extends KeyValuesBase {
@@ -44,11 +40,15 @@ public class CardTypeValuesFinder extends KeyValuesBase {
      */
     @Override
     public List<KeyLabelPair> getKeyValues() {
-        List<ImportedExpense> importedExpenses = ((TravelFormBase)GlobalVariables.getKualiForm()).getTravelDocument().getImportedExpenses();
+        
+        TravelDocument document = ((TravelFormBase)GlobalVariables.getKualiForm()).getTravelDocument();
+        List<ImportedExpense> importedExpenses = document.getImportedExpenses();
         Map<String,KeyLabelPair> map = new LinkedHashMap<String, KeyLabelPair>();
         
+        String defaultCardType = document.getDefaultAccountingLineCardAgencyType();
+        
         //default to always include actual expense type 
-        map.put(TemConstants.ACTUAL_EXPENSE, new KeyLabelPair(TemConstants.ACTUAL_EXPENSE, TemConstants.ACTUAL_EXPENSE));
+        map.put(defaultCardType, new KeyLabelPair(defaultCardType, defaultCardType));
         
         for (ImportedExpense expense : importedExpenses) {
             String cardType = StringUtils.defaultString(expense.getCardType());

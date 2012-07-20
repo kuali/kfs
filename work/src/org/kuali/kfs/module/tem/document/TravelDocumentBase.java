@@ -1844,7 +1844,9 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         List<GeneralLedgerPendingEntrySourceDetail> accountingLines = new ArrayList<GeneralLedgerPendingEntrySourceDetail>();
         if (getSourceAccountingLines() != null) {
             for (TemSourceAccountingLine line : (List<TemSourceAccountingLine>)getSourceAccountingLines()){
-                if (line.getCardType().equals(TemConstants.ACTUAL_EXPENSE)){
+                //we are generating source accounting lines on document's expense type code 
+                // could be either ACTUAL or ENCUMBRANCE
+                if (line.getCardType().equals(getExpenseTypeCode())){
                     accountingLines.add((GeneralLedgerPendingEntrySourceDetail) line);
                 }              
             }
@@ -1965,5 +1967,11 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         return reimbursableLines;
     }
     
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocument#getDefaultAccountingLineCardAgencyType()
+     */
+    public String getDefaultAccountingLineCardAgencyType(){
+        return getExpenseTypeCode();
+    }
     
 }

@@ -278,7 +278,7 @@ public class DocumentDerivedRoleTypeServiceImpl implements RoleTypeService, Budg
 
     @Override
     public boolean isDerivedRoleType() {
-        return false;
+        return true;
     }
 
     @Override

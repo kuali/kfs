@@ -382,10 +382,12 @@ public class PaymentRequestTaxAreaValidation extends GenericValidation {
             if (ObjectUtils.equals(preq.getTaxForeignSourceIndicator(), true)) { 
                 valid = false;
                 errorMap.putError(PurapPropertyConstants.TAX_FOREIGN_SOURCE_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_OTHER_EXEMPT_INDICATOR, PurapPropertyConstants.TAX_FOREIGN_SOURCE_INDICATOR);
-            }               
-            if (preq.getTaxSpecialW4Amount() != null && preq.getTaxSpecialW4Amount().compareTo(new KualiDecimal(0)) != 0) {
+            }   
+            //if W4 amount is null or 0.00 when Exempt Under Other Code is checked then validation failure...
+            //KFSMI-8415
+            if (preq.getTaxSpecialW4Amount() == null || preq.getTaxSpecialW4Amount().compareTo(new KualiDecimal(0)) == 0) {
                 valid = false;
-                errorMap.putError(PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_OTHER_EXEMPT_INDICATOR, PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT);
+                errorMap.putError(PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_W4_AMOUNT_MUST_EXIST, PurapPropertyConstants.TAX_OTHER_EXEMPT_INDICATOR, PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT);
             }               
             if (preq.getTaxFederalPercent() != null && preq.getTaxFederalPercent().compareTo(new BigDecimal(0)) != 0 ) {
                 valid = false;
@@ -410,7 +412,13 @@ public class PaymentRequestTaxAreaValidation extends GenericValidation {
             if (ObjectUtils.equals(preq.getTaxForeignSourceIndicator(), true)) { 
                 valid = false;
                 errorMap.putError(PurapPropertyConstants.TAX_FOREIGN_SOURCE_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT, PurapPropertyConstants.TAX_FOREIGN_SOURCE_INDICATOR);
-            }               
+            }   
+            //if Exempt Under Other Code box is not checked then validation error...
+            //KFSMI-8415..
+            if (ObjectUtils.equals(preq.getTaxOtherExemptIndicator(), false)) { 
+                valid = false;
+                errorMap.putError(PurapPropertyConstants.TAX_OTHER_EXEMPT_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_EXEMPT_UNDER_OTHER_CODE_MUST_EXIST, PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT, PurapPropertyConstants.TAX_OTHER_EXEMPT_INDICATOR);
+            }   
             if (preq.getTaxSpecialW4Amount().compareTo(new KualiDecimal(0)) < 0) { 
                 valid = false;
                 errorMap.putError(PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_MUST_NOT_NEGATIVE, PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT);

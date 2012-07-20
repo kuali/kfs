@@ -218,7 +218,9 @@ public class PurapKeyConstants {
     public static final String ERROR_PAYMENT_REQUEST_TAX_FIELD_VALUE_MUST_NOT_NEGATIVE = "errors.paymentRequest.tax.field.value.must.not.negative";
     public static final String ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF = "errors.paymentRequest.tax.rate.must.zero.if";
     public static final String ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_NOT_ZERO_IF = "errors.paymentRequest.tax.rate.must.not.zero.if";
-    
+    public static final String ERROR_PAYMENT_REQUEST_TAX_W4_AMOUNT_MUST_EXIST = "errors.paymentRequest.tax.w4.amount.must.exist";
+    public static final String ERROR_PAYMENT_REQUEST_EXEMPT_UNDER_OTHER_CODE_MUST_EXIST = "errors.paymentRequest.tax.exempt.under.other.code.must.be.checked";
+
     // Item parser
     public static final String ERROR_ITEMPARSER_INVALID_FILE_FORMAT = "error.itemParser.invalidFileFormat";
     public static final String ERROR_ITEMPARSER_WRONG_PROPERTY_NUMBER = "error.itemParser.wrongPropertyNumber";

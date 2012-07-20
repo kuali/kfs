@@ -101,10 +101,6 @@ public class DocumentDerivedRoleTypeServiceImpl implements RoleTypeService, Budg
         return newQualification;
     }
 
-    public boolean isApplicationRoleType() {
-        return true;
-    }
-
     /**
      * @see org.kuali.kfs.module.bc.identity.BudgetConstructionNoAccessMessageSetting#setNoAccessMessage(org.kuali.kfs.module.bc.document.BudgetConstructionDocument,
      *      org.kuali.rice.kim.api.identity.Person, org.kuali.rice.krad.util.MessageMap)

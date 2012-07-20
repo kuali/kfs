@@ -689,7 +689,7 @@
 					<reportElement
 						mode="Opaque"
 						x="19"
-						y="115"
+						y="136"
 						width="49"
 						height="16"
 						backcolor="#DDDDDD"
@@ -703,7 +703,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="73"
-						y="115"
+						y="153"
 						width="191"
 						height="16"
 						key="textField-35"/>
@@ -716,7 +716,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="73"
-						y="132"
+						y="170"
 						width="191"
 						height="16"
 						key="textField-36"/>
@@ -729,7 +729,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="73"
-						y="166"
+						y="204"
 						width="191"
 						height="16"
 						key="textField-37"/>
@@ -742,8 +742,8 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="73"
-						y="149"
-						width="191"
+						y="187"
+						width="170"
 						height="16"
 						key="textField-40"/>
 					<box></box>

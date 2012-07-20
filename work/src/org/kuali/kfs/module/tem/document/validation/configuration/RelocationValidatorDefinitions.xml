@@ -33,7 +33,6 @@
 	<bean id="TravelRelocation-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
    	<property name="validations">
    		<list>
-   			<bean parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" />  
    			<bean parent="AccountingDocument-oneSidedRequiredAccountingLinesCountValidation" scope="prototype">
 				<property name="requiredMinimumCount" value="1" />
 				<property name="parameterProperties">
@@ -56,6 +55,7 @@
   	<bean id="TravelRelocation-saveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
     	<property name="validations">
     		<list>
+                <bean parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" />
     			<bean parent="TravelModule-expensesValidation" scope="prototype" />
     		</list>
     	</property>

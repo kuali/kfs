@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
-import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.rice.kns.service.BusinessObjectService;
 
 /**

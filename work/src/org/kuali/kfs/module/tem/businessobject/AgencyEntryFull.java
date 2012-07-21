@@ -17,8 +17,6 @@ package org.kuali.kfs.module.tem.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.ObjectUtils;
 import org.springframework.beans.BeanUtils;
 
 public class AgencyEntryFull extends AgencyStagingData {

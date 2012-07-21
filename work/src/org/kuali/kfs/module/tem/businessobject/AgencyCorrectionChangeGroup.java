@@ -19,8 +19,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.kfs.gl.businessobject.CorrectionChange;
-import org.kuali.kfs.gl.businessobject.CorrectionCriteria;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 public class AgencyCorrectionChangeGroup extends PersistableBusinessObjectBase implements Comparable<AgencyCorrectionChangeGroup> {

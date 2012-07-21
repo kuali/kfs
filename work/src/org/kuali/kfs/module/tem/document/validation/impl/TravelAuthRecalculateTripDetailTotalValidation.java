@@ -17,7 +17,6 @@ package org.kuali.kfs.module.tem.document.validation.impl;
 
 import java.util.List;
 
-import org.kuali.kfs.module.tem.TemPropertyConstants.TravelAuthorizationFields;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.sys.KFSKeyConstants;

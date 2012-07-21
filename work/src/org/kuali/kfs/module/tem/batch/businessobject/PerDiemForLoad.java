@@ -15,11 +15,9 @@
  */
 package org.kuali.kfs.module.tem.batch.businessobject;
 
-import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.module.tem.businessobject.PerDiem;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public class PerDiemForLoad extends PerDiem {

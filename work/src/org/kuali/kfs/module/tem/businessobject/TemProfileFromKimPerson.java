@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.tem.businessobject;
 
-import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import javax.persistence.Column;

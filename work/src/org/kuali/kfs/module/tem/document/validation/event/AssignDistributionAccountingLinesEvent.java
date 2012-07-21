@@ -15,9 +15,6 @@
  */
 package org.kuali.kfs.module.tem.document.validation.event;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kfs.module.tem.document.web.bean.TravelMvcWrapperBean;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
 import org.kuali.rice.kns.document.Document;

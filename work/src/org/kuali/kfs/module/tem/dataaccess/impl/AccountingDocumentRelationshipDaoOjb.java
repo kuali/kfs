@@ -17,10 +17,8 @@ package org.kuali.kfs.module.tem.dataaccess.impl;
 
 import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;

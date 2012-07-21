@@ -18,8 +18,6 @@ package org.kuali.kfs.module.tem.document.web.bean;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.document.TravelRelocationDocument;
 

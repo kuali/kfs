@@ -22,17 +22,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.batch.TaxableRamificationNotificationStep;
 import org.kuali.kfs.module.tem.batch.TravelImportedExpenseNotificationStep;
 import org.kuali.kfs.module.tem.batch.service.TravelImportedExpenseNotificationService;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
-import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
-import org.kuali.kfs.module.tem.document.TaxableRamificationDocument;
 import org.kuali.kfs.module.tem.service.HistoricalTravelExpenseService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.service.KfsNotificationService;
 import org.kuali.rice.kns.mail.MailMessage;
 import org.kuali.rice.kns.service.BusinessObjectService;

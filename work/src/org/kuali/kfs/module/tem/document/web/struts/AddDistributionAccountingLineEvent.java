@@ -19,10 +19,7 @@ package org.kuali.kfs.module.tem.document.web.struts;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
-import org.kuali.kfs.module.tem.businessobject.TemDistributionAccountingLine;
-import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.validation.event.AddDistributionAccountingLineValidationEvent;
 import org.kuali.kfs.module.tem.document.web.bean.TravelMvcWrapperBean;

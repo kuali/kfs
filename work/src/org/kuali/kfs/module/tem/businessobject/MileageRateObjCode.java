@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.tem.businessobject;
 
-import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import javax.persistence.Column;
@@ -29,7 +28,6 @@ import javax.persistence.Table;
 
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  * Mileage Rate Object Code

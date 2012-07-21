@@ -15,14 +15,11 @@
  */
 package org.kuali.kfs.module.tem.businessobject;
 
-import java.math.BigDecimal;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.rice.kns.util.KualiDecimal;
 
 public class TemSourceAccountingLine extends SourceAccountingLine implements TemAccountingLine {
     private String cardType;

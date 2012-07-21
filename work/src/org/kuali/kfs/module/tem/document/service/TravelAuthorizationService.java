@@ -16,13 +16,9 @@
 package org.kuali.kfs.module.tem.document.service;
 
 import java.util.Collection;
-import java.util.Map;
-
 import org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationAmendmentDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
-import org.kuali.kfs.module.tem.document.TravelDocument;
-import org.kuali.rice.kns.util.KualiDecimal;
 
 public interface TravelAuthorizationService {
     

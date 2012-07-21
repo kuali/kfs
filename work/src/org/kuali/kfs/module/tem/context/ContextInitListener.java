@@ -26,11 +26,8 @@ import java.lang.reflect.Proxy;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.web.listener.JstlConstantsInitListener;
-import org.kuali.rice.ksb.messaging.MessageFetcher;
-
 import org.kuali.kfs.sys.context.SpringContext;
 
 /**

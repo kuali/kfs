@@ -32,7 +32,6 @@ import org.kuali.kfs.module.tem.report.annotations.Crosstab;
 import org.kuali.kfs.module.tem.report.annotations.DetailSection;
 import org.kuali.kfs.module.tem.report.annotations.JasperReport;
 import org.kuali.kfs.module.tem.report.annotations.Measure;
-import org.kuali.kfs.module.tem.report.annotations.Parameter;
 import org.kuali.kfs.module.tem.report.annotations.ReportStyle;
 import org.kuali.kfs.module.tem.report.annotations.RowHeader;
 import org.kuali.kfs.module.tem.report.annotations.SubReport;

@@ -18,17 +18,9 @@ package org.kuali.kfs.module.tem.businessobject;
 import java.sql.Date;
 
 import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-
-import org.kuali.kfs.module.tem.document.TravelDocumentBase;
-import org.kuali.kfs.module.tem.service.TravelExpenseService;
-import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public abstract class ImportedExpenseBase extends PersistableBusinessObjectBase {

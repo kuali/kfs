@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.tem.identity;
 
-import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 
 public class TemKimAttributes extends KfsKimAttributes {

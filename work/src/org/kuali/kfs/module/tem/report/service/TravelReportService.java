@@ -17,17 +17,7 @@ package org.kuali.kfs.module.tem.report.service;
 
 import java.io.ByteArrayOutputStream;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
-import org.kuali.kfs.module.tem.report.ExpenseSummaryReport;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.report.ReportInfo;
-import org.kuali.rice.kns.service.KualiConfigurationService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

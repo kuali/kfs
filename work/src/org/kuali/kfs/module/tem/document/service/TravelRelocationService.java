@@ -17,8 +17,6 @@ package org.kuali.kfs.module.tem.document.service;
 
 import java.util.Collection;
 
-import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
-import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.tem.document.TravelRelocationDocument;
 import org.kuali.kfs.module.tem.pdf.Coversheet;
 import org.kuali.rice.kew.exception.WorkflowException;

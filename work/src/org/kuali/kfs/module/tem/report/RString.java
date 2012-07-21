@@ -15,10 +15,7 @@
  */
 package org.kuali.kfs.module.tem.report;
 
-import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.design.*;
-
-import org.kuali.kfs.module.tem.util.BufferedLogger.*;
 
 /**
  * 

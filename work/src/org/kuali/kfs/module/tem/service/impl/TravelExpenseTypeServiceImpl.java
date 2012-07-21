@@ -17,13 +17,11 @@ package org.kuali.kfs.module.tem.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.tem.service.TravelExpenseTypeService;
 import org.kuali.kfs.fp.businessobject.TravelCompanyCode;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.service.KeyValuesService;
 import org.kuali.rice.core.util.KeyLabelPair;
 

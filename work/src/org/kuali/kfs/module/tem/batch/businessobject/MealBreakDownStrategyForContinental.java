@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.module.tem.batch.businessobject;
 
-import org.kuali.kfs.module.tem.TemConstants.MEAL_CODE;
 import org.kuali.kfs.module.tem.businessobject.PerDiem;
 import org.kuali.kfs.module.tem.businessobject.PerDiemMealIncidentalBreakDown;
 import org.kuali.rice.kns.service.BusinessObjectService;

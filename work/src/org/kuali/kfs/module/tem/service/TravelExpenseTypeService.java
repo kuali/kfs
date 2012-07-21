@@ -18,9 +18,6 @@ package org.kuali.kfs.module.tem.service;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.fp.businessobject.TravelCompanyCode;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.service.KeyValuesService;
 import org.kuali.rice.core.util.KeyLabelPair;
 
 /**

@@ -15,10 +15,7 @@
  */
 package org.kuali.kfs.module.tem.businessobject;
 
-import java.math.BigDecimal;
 import java.util.Map;
-
-import org.kuali.rice.kns.util.KualiDecimal;
 
 
 public interface TemAccountingLine {

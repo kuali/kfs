@@ -18,7 +18,6 @@ package org.kuali.kfs.module.tem.document.web.struts;
 import java.util.Observable;
 import java.util.Observer;
 
-import org.kuali.kfs.module.tem.businessobject.TemAccountingLine;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.web.bean.TravelMvcWrapperBean;
@@ -26,7 +25,6 @@ import org.kuali.kfs.module.tem.service.AccountingDistributionService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.util.KualiDecimal;
 
 public class RemoveDistributionAccountingLineEvent  implements Observer {
     private static final int WRAPPER_ARG_IDX       = 0;

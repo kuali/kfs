@@ -19,7 +19,6 @@ import java.sql.Date;
 import java.util.List;
 
 import org.kuali.kfs.module.tem.businessobject.PerDiem;
-import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.rice.kns.util.KualiDecimal;
 

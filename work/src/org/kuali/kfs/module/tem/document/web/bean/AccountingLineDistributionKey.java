@@ -17,7 +17,6 @@ package org.kuali.kfs.module.tem.document.web.bean;
 
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.rice.kns.util.KualiDecimal;
 
 public class AccountingLineDistributionKey implements Comparable<AccountingLineDistributionKey> {
 

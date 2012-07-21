@@ -15,14 +15,8 @@
  */
 package org.kuali.kfs.module.tem.identity;
 
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
-
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.coa.service.ChartService;
-import org.kuali.kfs.coa.service.OrganizationService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
-import org.kuali.rice.kns.util.ObjectUtils;
 
 public abstract class TemOrganizationHierarchyRoleTypeService extends KimRoleTypeServiceBase {
 

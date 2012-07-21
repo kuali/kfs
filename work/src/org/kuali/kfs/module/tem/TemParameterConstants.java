@@ -15,18 +15,7 @@
  */
 package org.kuali.kfs.module.tem;
 
-import static org.kuali.rice.kns.service.ParameterConstants.DOCUMENT_COMPONENT;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
 import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
-import org.kuali.rice.kns.service.ParameterConstants;
-import org.kuali.rice.kns.service.ParameterConstants.COMPONENT;
-import org.kuali.rice.kns.service.ParameterConstants.NAMESPACE;
-import org.kuali.rice.kns.util.KNSConstants;
 
 
 public class TemParameterConstants extends KfsParameterConstants {

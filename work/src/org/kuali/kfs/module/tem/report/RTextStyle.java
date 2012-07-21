@@ -15,9 +15,6 @@
  */
 package org.kuali.kfs.module.tem.report;
 
-import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.design.*;
-
 /**
  * 
  * @author Leo Przybylski (leo [at] rsmart.com)

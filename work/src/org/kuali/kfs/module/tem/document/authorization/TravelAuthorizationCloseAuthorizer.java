@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.tem.document.authorization;
 
-import org.kuali.kfs.sys.document.authorization.AccountingDocumentAuthorizerBase;
-
 public class TravelAuthorizationCloseAuthorizer extends TravelAuthorizationAuthorizer {
 
 }

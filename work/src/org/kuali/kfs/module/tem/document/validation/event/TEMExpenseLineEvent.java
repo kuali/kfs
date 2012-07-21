@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.tem.document.validation.event;
 
-import org.kuali.kfs.module.tem.businessobject.ActualExpense;
-import org.kuali.kfs.module.tem.businessobject.OtherExpense;
 import org.kuali.kfs.module.tem.businessobject.TEMExpense;
 import org.kuali.rice.kns.rule.event.KualiDocumentEvent;
 

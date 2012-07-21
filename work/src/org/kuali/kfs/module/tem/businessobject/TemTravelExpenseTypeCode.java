@@ -15,8 +15,6 @@
  */
 package org.kuali.kfs.module.tem.businessobject;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 
 import org.kuali.rice.kns.bo.Inactivateable;

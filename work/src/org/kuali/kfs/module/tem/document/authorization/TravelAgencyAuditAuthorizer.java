@@ -15,10 +15,7 @@
  */
 package org.kuali.kfs.module.tem.document.authorization;
 
-import java.util.Map;
-
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase;
-import org.kuali.rice.kns.bo.BusinessObject;
 
 public class TravelAgencyAuditAuthorizer extends FinancialSystemMaintenanceDocumentAuthorizerBase {
     

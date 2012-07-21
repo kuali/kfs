@@ -15,23 +15,10 @@
  */
 package org.kuali.kfs.module.tem.document.validation.event;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.ListIterator;
-
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.KFSKeyConstants;
-import org.kuali.kfs.sys.businessobject.AccountingLine;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.BusinessRule;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 public class AddTravelAdvanceLineEvent extends AttributedDocumentEventBase implements TravelAdvanceLineEvent {
 

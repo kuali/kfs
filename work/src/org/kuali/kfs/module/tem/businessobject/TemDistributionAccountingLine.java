@@ -16,12 +16,9 @@
 package org.kuali.kfs.module.tem.businessobject;
 
 import java.math.BigDecimal;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
-import org.kuali.rice.kns.util.KualiDecimal;
 
 public class TemDistributionAccountingLine extends SourceAccountingLine implements TemAccountingLine {
     private BigDecimal accountLinePercent = new BigDecimal(0);

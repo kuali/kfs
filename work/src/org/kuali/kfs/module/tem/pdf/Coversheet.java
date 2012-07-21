@@ -27,7 +27,6 @@ import java.io.OutputStream;
 import java.util.Collection;
 import java.util.Map;
 
-import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.report.util.BarcodeHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.service.ParameterService;

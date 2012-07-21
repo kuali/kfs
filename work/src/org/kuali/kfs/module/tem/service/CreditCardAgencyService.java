@@ -15,18 +15,7 @@
  */
 package org.kuali.kfs.module.tem.service;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.PrintStream;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-
-import org.kuali.kfs.gl.businessobject.LedgerEntryHolder;
-import org.kuali.kfs.gl.businessobject.OriginEntryFull;
-import org.kuali.kfs.gl.businessobject.PosterOutputSummaryEntry;
-import org.kuali.kfs.module.tem.businessobject.AgencyEntryFull;
 import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
 
 public interface CreditCardAgencyService {

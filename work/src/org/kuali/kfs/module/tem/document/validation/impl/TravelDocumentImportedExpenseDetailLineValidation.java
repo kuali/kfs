@@ -17,15 +17,12 @@ package org.kuali.kfs.module.tem.document.validation.impl;
 
 import java.util.List;
 
-import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.businessobject.TEMExpense;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.validation.event.AddImportedExpenseDetailLineEvent;
-import org.kuali.kfs.module.tem.document.web.struts.AddImportedExpenseDetailEvent;
-import org.kuali.kfs.module.tem.document.web.struts.AddImportedExpenseEvent;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.validation.GenericValidation;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEvent;

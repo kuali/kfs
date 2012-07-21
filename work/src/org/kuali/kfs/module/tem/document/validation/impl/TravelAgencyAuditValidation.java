@@ -17,11 +17,9 @@ package org.kuali.kfs.module.tem.document.validation.impl;
 
 import static org.kuali.kfs.module.tem.TemPropertyConstants.TravelAgencyAuditReportFields.*;
 
-import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;

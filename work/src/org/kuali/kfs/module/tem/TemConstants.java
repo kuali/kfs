@@ -21,7 +21,6 @@ import java.util.Map;
 
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.core.util.JSTLConstants;
-import org.kuali.rice.kns.util.KualiDecimal;
 
 public class TemConstants extends JSTLConstants {
     public static final String PRE_FILLED_DESCRIPTION = "(Description will be filled upon submit)";

@@ -17,7 +17,6 @@ package org.kuali.kfs.module.tem.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.module.tem.batch.service.AgencyDataImportService;
 import org.kuali.kfs.module.tem.batch.service.CreditCardDataImportService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 

@@ -30,7 +30,6 @@ import org.kuali.kfs.module.tem.batch.businessobject.PerDiemForLoad;
 import org.kuali.kfs.module.tem.batch.service.PerDiemFileParsingService;
 import org.kuali.kfs.module.tem.batch.service.PerDiemLoadService;
 import org.kuali.kfs.module.tem.batch.service.PerDiemLoadValidationService;
-import org.kuali.kfs.module.tem.businessobject.PerDiem;
 import org.kuali.kfs.sys.batch.BatchInputFileTypeBase;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.exception.ParseException;

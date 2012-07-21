@@ -22,7 +22,6 @@ import org.apache.struts.action.ActionForm;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.document.validation.impl.MaintenancePreRulesBase;
 import org.kuali.kfs.coa.service.AccountService;
-import org.kuali.kfs.module.endow.EndowKeyConstants;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;

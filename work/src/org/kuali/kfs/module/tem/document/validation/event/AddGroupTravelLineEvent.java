@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.tem.document.validation.event;
 
 import org.kuali.kfs.module.tem.businessobject.GroupTraveler;
-import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.sys.document.validation.event.AttributedDocumentEventBase;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.rule.BusinessRule;

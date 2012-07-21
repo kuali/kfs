@@ -17,7 +17,6 @@ package org.kuali.kfs.module.tem.batch;
 
 import java.util.Date;
 
-import org.kuali.kfs.module.tem.batch.service.PerDiemLoadService;
 import org.kuali.kfs.module.tem.service.PerDiemService;
 import org.kuali.kfs.sys.batch.AbstractStep;
 import org.kuali.rice.kns.util.spring.Logged;

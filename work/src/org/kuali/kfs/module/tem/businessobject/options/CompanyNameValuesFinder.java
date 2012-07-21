@@ -16,7 +16,6 @@
 package org.kuali.kfs.module.tem.businessobject.options;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kfs.fp.businessobject.TravelCompanyCode;

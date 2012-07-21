@@ -15,21 +15,6 @@
  */
 package org.kuali.kfs.module.tem.document;
 
-import static org.kuali.kfs.module.tem.TemConstants.EntertainmentStatusCodeKeys.AWAIT_AWARD;
-import static org.kuali.kfs.module.tem.TemConstants.EntertainmentStatusCodeKeys.AWAIT_ENT_MANAGER;
-import static org.kuali.kfs.module.tem.TemConstants.EntertainmentStatusCodeKeys.AWAIT_FISCAL;
-import static org.kuali.kfs.module.tem.TemConstants.EntertainmentStatusCodeKeys.AWAIT_ORG;
-import static org.kuali.kfs.module.tem.TemConstants.EntertainmentStatusCodeKeys.AWAIT_SPCL;
-import static org.kuali.kfs.module.tem.TemConstants.EntertainmentStatusCodeKeys.AWAIT_SUB;
-import static org.kuali.kfs.module.tem.TemConstants.EntertainmentStatusCodeKeys.AWAIT_TAX_MANAGER;
-import static org.kuali.kfs.module.tem.TemConstants.EntertainmentStatusCodeKeys.DAPRVD_AWARD;
-import static org.kuali.kfs.module.tem.TemConstants.EntertainmentStatusCodeKeys.DAPRVD_ENT_MANAGER;
-import static org.kuali.kfs.module.tem.TemConstants.EntertainmentStatusCodeKeys.DAPRVD_FISCAL;
-import static org.kuali.kfs.module.tem.TemConstants.EntertainmentStatusCodeKeys.DAPRVD_ORG;
-import static org.kuali.kfs.module.tem.TemConstants.EntertainmentStatusCodeKeys.DAPRVD_SPCL;
-import static org.kuali.kfs.module.tem.TemConstants.EntertainmentStatusCodeKeys.DAPRVD_SUB;
-import static org.kuali.kfs.module.tem.TemConstants.EntertainmentStatusCodeKeys.DAPRVD_TAX_MANAGER;
-
 import java.beans.PropertyChangeEvent;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;

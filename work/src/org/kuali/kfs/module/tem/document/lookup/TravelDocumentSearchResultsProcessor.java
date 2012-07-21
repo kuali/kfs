@@ -15,14 +15,8 @@
  */
 package org.kuali.kfs.module.tem.document.lookup;
 
-import java.sql.SQLException;
-import java.util.List;
-
-import org.kuali.rice.kew.docsearch.DocSearchCriteriaDTO;
 import org.kuali.rice.kew.docsearch.DocSearchDTO;
 import org.kuali.rice.kew.docsearch.DocumentSearchResult;
-import org.kuali.rice.kew.docsearch.DocumentSearchResultComponents;
-import org.kuali.rice.kns.web.ui.Column;
 
 public interface TravelDocumentSearchResultsProcessor {
     public DocumentSearchResult addActionsColumn(DocSearchDTO docCriteriaDTO, DocumentSearchResult result);

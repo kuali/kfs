@@ -24,11 +24,9 @@ import java.util.Observer;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
-import org.kuali.kfs.module.tem.businessobject.TEMExpense;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.validation.event.AddImportedExpenseDetailLineEvent;
-import org.kuali.kfs.module.tem.document.validation.event.AddImportedExpenseLineEvent;
 import org.kuali.kfs.module.tem.document.web.bean.TravelMvcWrapperBean;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;

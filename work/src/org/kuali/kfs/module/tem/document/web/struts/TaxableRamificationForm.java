@@ -15,17 +15,13 @@
  */
 package org.kuali.kfs.module.tem.document.web.struts;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.tem.document.TaxableRamificationDocument;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumentFormBase;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.document.Document;
-import org.kuali.rice.kns.service.NoteService;
-import org.kuali.rice.kns.util.TypedArrayList;
 
 public class TaxableRamificationForm extends FinancialSystemTransactionalDocumentFormBase {
     private final static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TaxableRamificationForm.class);

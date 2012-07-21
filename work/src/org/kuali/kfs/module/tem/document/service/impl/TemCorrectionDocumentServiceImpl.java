@@ -26,7 +26,6 @@ import org.kuali.kfs.module.tem.businessobject.AgencyEntryFull;
 import org.kuali.kfs.module.tem.document.TemCorrectionProcessDocument;
 import org.kuali.kfs.module.tem.document.service.TemCorrectionDocumentService;
 import org.kuali.kfs.module.tem.document.web.struts.TemCorrectionForm;
-import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.rice.kns.web.comparator.NumericValueComparator;
 import org.kuali.rice.kns.web.comparator.StringValueComparator;
 import org.kuali.rice.kns.web.comparator.TemporalValueComparator;

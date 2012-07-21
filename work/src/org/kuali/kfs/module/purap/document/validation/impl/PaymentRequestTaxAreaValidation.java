@@ -383,12 +383,6 @@ public class PaymentRequestTaxAreaValidation extends GenericValidation {
                 valid = false;
                 errorMap.putError(PurapPropertyConstants.TAX_FOREIGN_SOURCE_INDICATOR, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_FIELD_DISALLOWED_IF, PurapPropertyConstants.TAX_OTHER_EXEMPT_INDICATOR, PurapPropertyConstants.TAX_FOREIGN_SOURCE_INDICATOR);
             }   
-            //if W4 amount is null or 0.00 when Exempt Under Other Code is checked then validation failure...
-            //KFSMI-8415
-            if (preq.getTaxSpecialW4Amount() == null || preq.getTaxSpecialW4Amount().compareTo(new KualiDecimal(0)) == 0) {
-                valid = false;
-                errorMap.putError(PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_W4_AMOUNT_MUST_EXIST, PurapPropertyConstants.TAX_OTHER_EXEMPT_INDICATOR, PurapPropertyConstants.TAX_SPECIAL_W4_AMOUNT);
-            }               
             if (preq.getTaxFederalPercent() != null && preq.getTaxFederalPercent().compareTo(new BigDecimal(0)) != 0 ) {
                 valid = false;
                 errorMap.putError(PurapPropertyConstants.TAX_FEDERAL_PERCENT, PurapKeyConstants.ERROR_PAYMENT_REQUEST_TAX_RATE_MUST_ZERO_IF, PurapPropertyConstants.TAX_OTHER_EXEMPT_INDICATOR, PurapPropertyConstants.TAX_FEDERAL_PERCENT);

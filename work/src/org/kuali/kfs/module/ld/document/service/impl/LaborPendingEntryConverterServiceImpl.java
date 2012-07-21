@@ -165,6 +165,8 @@ public class LaborPendingEntryConverterServiceImpl implements LaborPendingEntryC
     public LaborLedgerPendingEntry getDefaultPendingEntry(LaborLedgerPostingDocument document, ExpenseTransferAccountingLine accountingLine) {
         LaborLedgerPendingEntry pendingEntry = getDefaultPendingEntry(document);
 
+        pendingEntry.setUniversityFiscalYear(accountingLine.getPostingYear());
+        
         pendingEntry.setChartOfAccountsCode(accountingLine.getChartOfAccountsCode());
         pendingEntry.setAccountNumber(accountingLine.getAccountNumber());
         pendingEntry.setFinancialObjectCode(accountingLine.getFinancialObjectCode());

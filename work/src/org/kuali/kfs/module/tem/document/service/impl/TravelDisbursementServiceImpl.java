@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
@@ -36,6 +37,8 @@ import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelDisbursementService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
+import org.kuali.kfs.module.tem.document.web.bean.AccountingLineDistributionKey;
+import org.kuali.kfs.module.tem.service.AccountingDistributionService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -56,6 +59,7 @@ import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.kuali.rice.kns.util.KualiPercent;
 import org.kuali.rice.kns.util.TypedArrayList;
 import org.kuali.rice.kns.workflow.service.KualiWorkflowDocument;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
@@ -72,6 +76,7 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
     protected DateTimeService dateTimeService;
     protected TravelerService travelerService;
     protected AccountingDocumentRelationshipService accountingDocumentRelationshipService;
+    protected AccountingDistributionService accountingDistributionService;
     protected ParameterService parameterService;
     protected WorkflowDocumentService workflowDocumentService;
     protected KualiRuleService kualiRuleService;
@@ -81,6 +86,11 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
      * @see org.kuali.kfs.module.tem.document.service.TravelDisbursementService#populateReimbursableDisbursementVoucherFields(org.kuali.kfs.fp.document.DisbursementVoucherDocument, org.kuali.kfs.module.tem.document.TravelDocument)
      */
     public void populateReimbursableDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument, TravelDocument document){
+        
+        disbursementVoucherDocument.setDisbVchrCheckStubText(StringUtils.defaultString(document.getDocumentTitle()));              
+        disbursementVoucherDocument.getDocumentHeader().setDocumentDescription("Generated for " + travelDocumentService.getDocumentType(document) +" doc: " + StringUtils.defaultString(document.getDocumentTitle(), document.getTravelDocumentIdentifier()));
+        travelDocumentService.trimFinancialSystemDocumentHeader(disbursementVoucherDocument.getDocumentHeader());
+        
         disbursementVoucherDocument.setRefundIndicator(true);
         disbursementVoucherDocument.getDvPayeeDetail().setDocumentNumber(disbursementVoucherDocument.getDocumentNumber());
         disbursementVoucherDocument.getDocumentHeader().setOrganizationDocumentNumber(document.getTravelDocumentIdentifier());
@@ -101,11 +111,15 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
         disbursementVoucherDocument.setDisbVchrContactPersonName(initiator.getPrincipalName());
         disbursementVoucherDocument.setDisbVchrContactPhoneNumber(initiator.getPhoneNumber());
 
-        //if traveler has KIM data, default to use DV Payee Employee type, otherwise use Customer
-        Person traveler = SpringContext.getBean(PersonService.class).getPerson(document.getTraveler().getPrincipalId());
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(traveler == null? DisbursementVoucherConstants.DV_PAYEE_TYPE_CUSTOMER : DisbursementVoucherConstants.DV_PAYEE_TYPE_EMPLOYEE); 
-
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPayeeIdNumber(document.getTraveler().getPrincipalId());
+        //if traveler has is an employee data, default to use DV Payee Employee type and employee Id, otherwise use Customer type and customer number
+        if (TemConstants.EMP_TRAVELER_TYP_CD.equals(document.getTraveler().getTravelerTypeCode())){
+            disbursementVoucherDocument.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(DisbursementVoucherConstants.DV_PAYEE_TYPE_EMPLOYEE); 
+            document.setProfileId(document.getTemProfileId());
+            disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPayeeIdNumber(document.getTemProfile().getEmployeeId());
+        }else{
+            disbursementVoucherDocument.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(DisbursementVoucherConstants.DV_PAYEE_TYPE_CUSTOMER); 
+            disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPayeeIdNumber(document.getTraveler().getCustomerNumber());
+        }
         disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPayeePersonName(document.getTraveler().getFirstName() + " " + document.getTraveler().getLastName());
         disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrAlienPaymentCode(false);
 
@@ -207,8 +221,6 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
                 accountingLine.setPostingYear(disbursementVoucherDocument.getPostingYear());
                 accountingLine.setDocumentNumber(disbursementVoucherDocument.getDocumentNumber());
 
-                //accountingLine.setOrganizationReferenceId("");
-                
                 disbursementVoucherDocument.addSourceAccountingLine(accountingLine); 
                 totalAmount = totalAmount.add(line.getAmount());
             }
@@ -374,6 +386,34 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
         
         travelDocumentService.addAdHocFYIRecipient(disbursementVoucherDocument, travelDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
     }
+    
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelDisbursementService#redistributeDisbursementAccountingLine(org.kuali.kfs.fp.document.DisbursementVoucherDocument, java.util.List)
+     */
+    @Override
+    public void redistributeDisbursementAccountingLine(DisbursementVoucherDocument disbursementVoucherDocument, List<SourceAccountingLine> sourceAccountingLines) {
+        Map<AccountingLineDistributionKey, KualiDecimal> distributionPercentMap = accountingDistributionService.calculateAccountingLineDistributionPercent(sourceAccountingLines);
+        
+        //** the DV's DisbVchrCheckTotalAmount MUST be set already
+        KualiDecimal dvTotal = disbursementVoucherDocument.getDisbVchrCheckTotalAmount();
+        KualiDecimal remainder = dvTotal;
+        
+        AccountingLineDistributionKey key;
+        //traverse through the DV's source accounting lines and look for the percentage from the map to redistribute by the percent
+        int index = 0;
+        
+        for (SourceAccountingLine line : (List<SourceAccountingLine>)disbursementVoucherDocument.getSourceAccountingLines()){
+            key = new AccountingLineDistributionKey(line);
+            
+            //when we reach the end of the list, do not apply the amount through percentage, but use the remainders directly
+            if(disbursementVoucherDocument.getSourceAccountingLines().size() == ++index){ 
+                line.setAmount(remainder);
+            }else{
+                line.setAmount(dvTotal.multiply(distributionPercentMap.get(key)));
+                remainder = remainder.subtract(line.getAmount());
+            }
+        }
+    }
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
@@ -410,6 +450,5 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
     public void setAccountingDocumentRelationshipService(AccountingDocumentRelationshipService accountingDocumentRelationshipService) {
         this.accountingDocumentRelationshipService = accountingDocumentRelationshipService;
     }
-    
 
 }

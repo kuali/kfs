@@ -318,15 +318,17 @@ public class TravelEntertainmentDocument extends TEMReimbursementDocument {
     @Override
     public void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument) {
         super.populateDisbursementVoucherFields(disbursementVoucherDocument);
-        
-        disbursementVoucherDocument.setDisbVchrCheckStubText(getTravelDocumentIdentifier() + " " + StringUtils.defaultString(getEventTitle()) + getTripBegin());              
-        disbursementVoucherDocument.getDocumentHeader().setDocumentDescription("Generated for ENT doc: " + StringUtils.defaultString(getDocumentTitle(), getTravelDocumentIdentifier()));
-        getTravelDocumentService().trimFinancialSystemDocumentHeader(disbursementVoucherDocument.getDocumentHeader());
 
-        disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(getParameterService().getParameterValue(TemParameterConstants.TEM_ENTERTAINMENT.class, TravelEntertainmentParameters.ENTERTAINMENT_DOCUMENT_LOCATION));        
-        String paymentReasonCode = getParameterService().getParameterValue(TemParameterConstants.TEM_ENTERTAINMENT.class, TravelEntertainmentParameters.ENT_REIMBURSEMENT_DV_REASON_CODE);
+        //override the check stub text on ENT doc
+        disbursementVoucherDocument.setDisbVchrCheckStubText(getTravelDocumentIdentifier() + " " + StringUtils.defaultString(getEventTitle()) + getTripBegin());              
+        //change to use payment method from the document 
+        disbursementVoucherDocument.setDisbVchrPaymentMethodCode(getPaymentMethod());
+        
+        final String paymentReasonCode = getParameterService().getParameterValue(TemParameterConstants.TEM_ENTERTAINMENT.class, TravelEntertainmentParameters.ENT_REIMBURSEMENT_DV_REASON_CODE);
         disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(paymentReasonCode);
-        disbursementVoucherDocument.setDisbVchrPaymentMethodCode(this.getPaymentMethod());
+        
+        final String paymentLocationCode = getParameterService().getParameterValue(TemParameterConstants.TEM_ENTERTAINMENT.class, TravelEntertainmentParameters.ENTERTAINMENT_DOCUMENT_LOCATION);
+        disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(paymentLocationCode);
     }
 
     /**

@@ -283,11 +283,13 @@
 		<property name="objectCodeService" ref="objectCodeService" />
 		<property name="personService" ref="personService" />
 		<property name="travelDocumentService" ref="temTravelDocumentService" />
+        <property name="travelDisbursementService" ref="travelDisbursementService" />
 		<property name="travelAuthorizationService" ref="temTravelAuthorizationService" />
 		<property name="workflowDocumentService" ref="workflowDocumentService" />
 		<property name="documentDao" ref="documentDao" />
 		<property name="accountingDocumentRelationshipService" ref="temAccountingDocumentRelationshipService" />
 		<property name="accountsReceivableModuleService" ref="accountsReceivableModuleService" />
+        <property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService" />
 		<property name="propertyChangeListeners">
 			<list>
 				<ref bean="TravelDocument-addActualExpenseListener" />

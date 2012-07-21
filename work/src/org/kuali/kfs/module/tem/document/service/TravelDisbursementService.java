@@ -15,10 +15,13 @@
  */
 package org.kuali.kfs.module.tem.document.service;
 
+import java.util.List;
+
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.tem.TemConstants.DisburseType;
 import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 
 /**
  * Travel Disbursement Voucher Service
@@ -77,4 +80,13 @@ public interface TravelDisbursementService {
      * @throws Exception
      */
     public void saveErrorDisbursementVoucher(DisbursementVoucherDocument disbursementVoucherDocument, TravelDocument travelDocument) throws Exception;
+
+    /**
+     * Redistribute the DV's source accounting line amounts base on the given source accounting lines distribution used as the percentage calculation map.
+     * The new total DV distribute amount MUST be set before using this function
+     * 
+     * @param disbursementVoucherDocument
+     * @param sourceAccountingLines
+     */
+    public void redistributeDisbursementAccountingLine(DisbursementVoucherDocument disbursementVoucherDocument, List<SourceAccountingLine> sourceAccountingLines);
 }

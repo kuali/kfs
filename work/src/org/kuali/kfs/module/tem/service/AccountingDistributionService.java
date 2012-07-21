@@ -17,14 +17,18 @@ package org.kuali.kfs.module.tem.service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kfs.module.tem.businessobject.TemDistributionAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
-import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
 import org.kuali.kfs.module.tem.document.TravelDocument;
+import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
+import org.kuali.kfs.module.tem.document.web.bean.AccountingLineDistributionKey;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.rice.kns.util.KualiDecimal;
 
 public interface AccountingDistributionService {
+    
     /**
      * For the purposes of user interface domain, creates a {@link Collection} of {@link AccountingDistribution} instances
      * that are displayed to the user. The user can then choose one to distribute as accounting lines, but then the {@link Collection}
@@ -35,6 +39,12 @@ public interface AccountingDistributionService {
      */
     List<AccountingDistribution> buildDistributionFrom(final TravelDocument document);
     
+    /**
+     * Create the distributions for all the expenses in the travel document 
+     * 
+     * @param travelDocument
+     * @return
+     */
     public List<AccountingDistribution> createDistributions(TravelDocument travelDocument);
     
     public TemDistributionAccountingLine distributionToDistributionAccountingLine(List<AccountingDistribution> accountingDistributionList);
@@ -47,4 +57,15 @@ public interface AccountingDistributionService {
     public KualiDecimal getTotalAmount(List<TemDistributionAccountingLine> lines);
     
     public BigDecimal getTotalPercent(List<TemDistributionAccountingLine> lines);
+    
+    /**
+     * From the accounting line list, calculate the percentage of each of the accounting line distribution.
+     * 
+     * This does not take into consideration of card type in TEM accounting lines, so the lines must be pre-filtered when used for
+     * a particular card type
+     * 
+     * @param accountingLine
+     * @return
+     */
+    public Map<AccountingLineDistributionKey, KualiDecimal> calculateAccountingLineDistributionPercent(List<SourceAccountingLine> accountingLine);
 }

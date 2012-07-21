@@ -32,6 +32,7 @@ import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelRelocationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemParameterConstants;
@@ -383,15 +384,11 @@ public class TravelRelocationDocument extends TEMReimbursementDocument implement
     public void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument){
         super.populateDisbursementVoucherFields(disbursementVoucherDocument);
         
-        disbursementVoucherDocument.setDisbVchrCheckStubText(StringUtils.defaultString(getDocumentTitle()));               
-        disbursementVoucherDocument.getDocumentHeader().setDocumentDescription("Generated for RELO doc: " + StringUtils.defaultString(getDocumentTitle(), getTravelDocumentIdentifier()));
-        getTravelDocumentService().trimFinancialSystemDocumentHeader(disbursementVoucherDocument.getDocumentHeader());
+        final String paymentReasonCode = getParameterService().getParameterValue(TemParameterConstants.TEM_RELOCATION.class, TravelRelocationParameters.RELO_REIMBURSEMENT_DV_REASON_CODE);
+        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(paymentReasonCode);
         
-        disbursementVoucherDocument.setDisbVchrPaymentMethodCode(TemConstants.DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE);
-        disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(getParameterService().getParameterValue(TemParameterConstants.TEM_RELOCATION.class, TravelRelocationParameters.RELOCATION_DOCUMENTATION_LOCATION_CODE));
-        
-        final String dvReasonCode = getParameterService().getParameterValue(TemParameterConstants.TEM_RELOCATION.class, TravelRelocationParameters.RELO_REIMBURSEMENT_DV_REASON_CODE);
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(dvReasonCode);
+        final String paymentLocationCode = getParameterService().getParameterValue(TemParameterConstants.TEM_RELOCATION.class,TravelRelocationParameters.RELOCATION_DOCUMENTATION_LOCATION_CODE);
+        disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(paymentLocationCode);
     }
     
     /**

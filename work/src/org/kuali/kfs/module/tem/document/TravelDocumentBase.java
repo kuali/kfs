@@ -33,7 +33,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -45,8 +44,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
 import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
@@ -68,7 +65,6 @@ import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
 import org.kuali.kfs.module.tem.businessobject.SpecialCircumstances;
 import org.kuali.kfs.module.tem.businessobject.TEMExpense;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
-import org.kuali.kfs.module.tem.businessobject.TemAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode;
 import org.kuali.kfs.module.tem.businessobject.TransportationModeDetail;
@@ -1959,7 +1955,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
     @Override
     public List<SourceAccountingLine> getReimbursableSourceAccountingLines() {
         List<SourceAccountingLine> reimbursableLines = new ArrayList<SourceAccountingLine>();
-        for (TemAccountingLine line : (List<TemAccountingLine>) getSourceAccountingLines()){
+        for (TemSourceAccountingLine line : (List<TemSourceAccountingLine>) getSourceAccountingLines()){
             if (TemConstants.ACTUAL_EXPENSE.equals(line.getCardType())){
                 reimbursableLines.add((SourceAccountingLine)line);
             }

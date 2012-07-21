@@ -102,10 +102,10 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     private String contactEmailAddress;
     private String contactCampusCode;
     private KualiDecimal perDiemAdjustment;
-    private KualiConfigurationService kualiConfigurationService;
-    private DocumentDao documentDao;
     private KualiDecimal travelAdvanceAmount = KualiDecimal.ZERO;
-
+    @Transient
+    private KualiDecimal reimbursableAmount = KualiDecimal.ZERO;
+    
     public TravelReimbursementDocument() {
     }
 
@@ -201,6 +201,14 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         this.travelAdvanceAmount = travelAdvanceAmount;
     }
     
+    public KualiDecimal getReimbursableAmount() {
+        return reimbursableAmount;
+    }
+
+    public void setReimbursableAmount(KualiDecimal reimbursableAmount) {
+        this.reimbursableAmount = reimbursableAmount;
+    }
+
     /**
      * Perform business rules common to all transactional documents when generating general ledger pending entries. Adds dis
      * encumbering explicit entries on top of existing ones
@@ -214,7 +222,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
 
         boolean success = true;
         boolean hasClose = false;
-        List<TravelAuthorizationDocument> taDocs = null;
+        List<TravelAuthorizationDocument> taDocs = new ArrayList<TravelAuthorizationDocument>();
         try {
             taDocs = getTravelDocumentService().find(TravelAuthorizationDocument.class, travelDocumentIdentifier);
             for (TravelAuthorizationDocument doc : taDocs) {
@@ -231,10 +239,11 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         }
 
         success = super.generateGeneralLedgerPendingEntries(glpeSourceDetail, sequenceHelper);
-        if (success && (taDocs != null & taDocs.size() > 0)) {
+        if (success && !taDocs.isEmpty()) {
             if (getTripType() != null && getTripType().isGenerateEncumbrance()) {
                 // Only run disencumberFunds once
-
+                //CLEANUP when does this happen? GLPE = double of Sourc Accounting Line will not work on ommited GLPE through DV 
+                //                  **NOTE no GLPE is generated as well when pay to CTS (if there is no change)
                 if ((!hasClose) && this.getGeneralLedgerPendingEntries().size() == this.getSourceAccountingLines().size() * 2) {
                     getTravelReimbursementService().disencumberFunds(this);
                 }
@@ -316,8 +325,12 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         }
     }
     
+    /**
+     * 
+     * @return
+     */
     protected String getActualExpenseSequenceName() {
-        Class boClass = ActualExpense.class;
+        Class<?> boClass = ActualExpense.class;
         String retval = "";
         try {
             boolean rethrow = true;
@@ -372,7 +385,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         if (isTaFree) {
             cleanTravelDocument();
         }
-        this.setBoNotes(new ArrayList());
+        setBoNotes(new ArrayList<Note>());
         addContactInformation();
     }
     
@@ -596,25 +609,12 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         }
     }
 
-
     /**
-     * Gets the kualiConfigurationService attribute.
      * 
-     * @return Returns the kualiConfigurationService.
+     * @return
      */
-    @Override
-    protected KualiConfigurationService getConfigurationService() {
-        if (kualiConfigurationService == null) {
-            kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
-        }
-        return kualiConfigurationService;
-    }
-
     public DocumentDao getDocumentDao() {
-        if (documentDao == null) {
-            documentDao = SpringContext.getBean(DocumentDao.class);
-        }
-        return documentDao;
+        return SpringContext.getBean(DocumentDao.class);
     }
 
     /**
@@ -622,47 +622,32 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
      */
     @Override
     public void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument) {
-        //super.populateDisbursementVoucherFields(disbursementVoucherDocument, document);
-        String reasonCode = getParameterService().getParameterValue(TemParameterConstants.TEM_REIMBURSEMENT.class,TravelReimbursementParameters.DEFAULT_REFUND_PAYMENT_REASON_CODE);
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(reasonCode);
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR);
-        disbursementVoucherDocument.getDocumentHeader().setOrganizationDocumentNumber(this.getTravelDocumentIdentifier());
-        String locationCode = getParameterService().getParameterValue(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.TRAVEL_DOCUMENTATION_LOCATION_CODE);
-        disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(locationCode);
-        Calendar dueDate = Calendar.getInstance();
-        dueDate.add(Calendar.DATE, 1);
-        disbursementVoucherDocument.setDisbursementVoucherDueDate(new java.sql.Date(dueDate.getTimeInMillis()));
+        super.populateDisbursementVoucherFields(disbursementVoucherDocument);
         
-        disbursementVoucherDocument.setDisbVchrCheckStubText(this.getDocumentTitle() != null ? this.getDocumentTitle() : "");               
-        disbursementVoucherDocument.getDocumentHeader().setDocumentDescription("Generated for TR doc: " + this.getDocumentTitle() != null ? this.getDocumentTitle() : this.getTravelDocumentIdentifier());
-        getTravelDocumentService().trimFinancialSystemDocumentHeader(disbursementVoucherDocument.getDocumentHeader());
-        
-        for (Object accountingLineObj : this.getSourceAccountingLines()) {
-            SourceAccountingLine sourceccountingLine=(SourceAccountingLine)accountingLineObj;
-            SourceAccountingLine accountingLine = new SourceAccountingLine();
-              
-            accountingLine.setChartOfAccountsCode(sourceccountingLine.getChartOfAccountsCode());
-            accountingLine.setAccountNumber(sourceccountingLine.getAccountNumber());
-            if (StringUtils.isNotBlank(sourceccountingLine.getFinancialObjectCode())) {
-                accountingLine.setFinancialObjectCode(sourceccountingLine.getFinancialObjectCode());              
+        final String paymentReasonCode = getParameterService().getParameterValue(TemParameterConstants.TEM_REIMBURSEMENT.class,TravelReimbursementParameters.DEFAULT_REFUND_PAYMENT_REASON_CODE);
+        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(paymentReasonCode);
+        final String paymentLocationCode = getParameterService().getParameterValue(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.TRAVEL_DOCUMENTATION_LOCATION_CODE);
+        disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(paymentLocationCode);
+
+        //check if the reimbursable total and the reimbursable amount (reduced by CRM) is different, which means we need to adjust the DV's accounting line amounts
+        if (!getReimbursableTotal().equals(getReimbursableAmount())){
+            //change the DV's total to the reimbursable amount set previously
+            disbursementVoucherDocument.setDisbVchrCheckTotalAmount(getReimbursableAmount());
+            
+            //Distribute the DV accounting line to the reimbursable amount
+            if (getReimbursableSourceAccountingLines().size() > 1){
+                getTravelDisbursementService().redistributeDisbursementAccountingLine(disbursementVoucherDocument, getReimbursableSourceAccountingLines());
+            }else{
+                //there is only one reimbursable source line, go ahead and assign the reimbursable amount to it directly
+                disbursementVoucherDocument.getSourceAccountingLine(0).setAmount(getReimbursableAmount());
             }
-
-            if (StringUtils.isNotBlank(sourceccountingLine.getFinancialSubObjectCode())) {
-                accountingLine.setFinancialSubObjectCode(sourceccountingLine.getFinancialSubObjectCode());
-            }
-
-            if (StringUtils.isNotBlank(sourceccountingLine.getSubAccountNumber())) {
-                accountingLine.setSubAccountNumber(sourceccountingLine.getSubAccountNumber());
-            }
-
-            accountingLine.setAmount(sourceccountingLine.getAmount());
-            accountingLine.setPostingYear(disbursementVoucherDocument.getPostingYear());
-            accountingLine.setDocumentNumber(disbursementVoucherDocument.getDocumentNumber());
-
-            disbursementVoucherDocument.addSourceAccountingLine(accountingLine);
-        }        
+        }
     }
     
+    /**
+     * 
+     * @return
+     */
     public KualiDecimal getAdvancesTotal() {
         KualiDecimal retval = KualiDecimal.ZERO;
         if (getTravelAdvanceAmount().isZero()) {
@@ -711,22 +696,33 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         return retval;
     }
     
+    /**
+     * @see org.kuali.kfs.module.tem.document.TEMReimbursementDocument#getReimbursableGrandTotal()
+     */
     @Override
     public KualiDecimal getReimbursableGrandTotal() {
         KualiDecimal grandTotal = super.getReimbursableGrandTotal();
-        
         return grandTotal.subtract(getAdvancesTotal());
     }
     
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#populateRequisitionFields(org.kuali.kfs.module.purap.document.RequisitionDocument, org.kuali.kfs.module.tem.document.TravelDocument)
+     */
     @Override
     public void populateRequisitionFields(RequisitionDocument reqsDoc, TravelDocument document) {
     }
     
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocument#getReportPurpose()
+     */
     @Override
     public String getReportPurpose() {
         return getTripDescription();
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#populateVendorPayment(org.kuali.kfs.fp.document.DisbursementVoucherDocument)
+     */
     @Override
     public void populateVendorPayment(DisbursementVoucherDocument disbursementVoucherDocument) {
         super.populateVendorPayment(disbursementVoucherDocument);
@@ -739,11 +735,17 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         disbursementVoucherDocument.setDisbVchrCheckStubText(checkStubText);
     }
     
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#isDebit(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail)
+     */
     @Override
     public boolean isDebit(GeneralLedgerPendingEntrySourceDetail postable) {
         return true;
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#getEncumbranceTotal()
+     */
     @Transient
     @Override
     public KualiDecimal getEncumbranceTotal() {

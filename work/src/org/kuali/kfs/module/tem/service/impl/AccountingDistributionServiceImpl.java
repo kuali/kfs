@@ -15,10 +15,6 @@
  */
 package org.kuali.kfs.module.tem.service.impl;
 
-import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters.PARAM_DTL_TYPE;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
-
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -31,11 +27,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.log4j.Logger;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.service.ObjectCodeService;
-import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.ExpenseType;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.businessobject.MileageRateObjCode;
 import org.kuali.kfs.module.tem.businessobject.TemDistributionAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
@@ -44,10 +41,12 @@ import org.kuali.kfs.module.tem.businessobject.TripType;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
+import org.kuali.kfs.module.tem.document.web.bean.AccountingLineDistributionKey;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.module.tem.util.AccountingDistributionComparator;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -62,11 +61,12 @@ import org.kuali.rice.kns.util.KualiDecimal;
  */
 public class AccountingDistributionServiceImpl implements AccountingDistributionService {
 
+    protected static Logger LOG = Logger.getLogger(AccountingDistributionServiceImpl.class);
+    
     private BusinessObjectService businessObjectService;
     private ObjectCodeService objectCodeService;
     private TravelDocumentService travelDocumentService;
     private ParameterService parameterService;
-
     
     @SuppressWarnings("deprecation")
     @Override
@@ -118,9 +118,9 @@ public class AccountingDistributionServiceImpl implements AccountingDistribution
         return sourceAccountingList;
     }
     
-    
     /**
      * This method will adjust the last accounting line to make the amounts sum up to the total.
+     * 
      * @param sourceAccountingList
      * @param total
      * @return
@@ -142,6 +142,9 @@ public class AccountingDistributionServiceImpl implements AccountingDistribution
         return sourceAccountingList;
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.service.AccountingDistributionService#distributionToDistributionAccountingLine(java.util.List)
+     */
     @Override
     public TemDistributionAccountingLine distributionToDistributionAccountingLine(List<AccountingDistribution> accountingDistributionList) {
         KualiDecimal distributionTotal = KualiDecimal.ZERO;
@@ -155,6 +158,9 @@ public class AccountingDistributionServiceImpl implements AccountingDistribution
         return newLine;
     }
     
+    /**
+     * @see org.kuali.kfs.module.tem.service.AccountingDistributionService#createDistributions(org.kuali.kfs.module.tem.document.TravelDocument)
+     */
     @Override
     public List<AccountingDistribution> createDistributions(TravelDocument travelDocument) {
         List<AccountingDistribution> documentDistribution = new ArrayList<AccountingDistribution>();
@@ -222,7 +228,7 @@ public class AccountingDistributionServiceImpl implements AccountingDistribution
     }
     
     public String getObjectCodeFrom(final TravelDocument travelDocument, String paramName) {
-        final String parameterValue = getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, paramName);
+        final String parameterValue = getParameterService().getParameterValue(TemParameterConstants.TEM_REIMBURSEMENT.class, paramName);
         String paramSearchStr = "";
         TravelerDetail traveler = travelDocument.getTraveler();
         if(traveler != null){
@@ -281,7 +287,7 @@ public class AccountingDistributionServiceImpl implements AccountingDistribution
     protected AccountingDistribution retrieveDistributionFor(final List<AccountingDistribution> distros, final String code) {
         if (distros != null && code != null) {
             for (final AccountingDistribution distribution : distros) {
-                debug("comparing ", code, " to ", distribution.getObjectCode());
+                LOG.debug("comparing " + code + " to " + distribution.getObjectCode());
                 if (distribution.getObjectCode().equals(code)) {
                     return distribution;
                 }
@@ -450,6 +456,36 @@ public class AccountingDistributionServiceImpl implements AccountingDistribution
             total = total.add(line.getAccountLinePercent());
         }
         return total;
+    }
+    
+    /**
+     * @see org.kuali.kfs.module.tem.service.AccountingDistributionService#calculateAccountingLineDistributionPercent(java.util.List)
+     */
+    public Map<AccountingLineDistributionKey, KualiDecimal> calculateAccountingLineDistributionPercent(List<SourceAccountingLine> accountingLine){
+        Map<AccountingLineDistributionKey, KualiDecimal> distributionMap = new HashMap<AccountingLineDistributionKey, KualiDecimal>();
+
+        //calculate the total from the accounting line
+        KualiDecimal total = KualiDecimal.ZERO;
+        for (SourceAccountingLine sourceLine : accountingLine){
+            total = total.add(sourceLine.getAmount());
+        }
+        
+        //calculate the distribution on each of the accounting line distribution keys
+        AccountingLineDistributionKey key;
+        KualiDecimal factor;
+        for (SourceAccountingLine sourceLine : accountingLine){
+            key = new AccountingLineDistributionKey(sourceLine);
+            
+            factor = sourceLine.getAmount().divide(total);
+            if (distributionMap.containsKey(key)){
+                //accumulate the stored percentage to the calculated; though this is probably very unlikely
+                factor = distributionMap.get(key).add(factor);
+            }
+            //store the final distribution to the map
+            distributionMap.put(key, factor);
+        }
+        
+        return distributionMap;
     }
     
     /**

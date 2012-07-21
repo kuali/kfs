@@ -12451,7 +12451,7 @@
         <column name="BILL_ST_CD" required="true" size="2" type="VARCHAR"/>
         <column name="BILL_PSTL_CD" required="true" size="20" type="VARCHAR"/>
         <column name="BILL_CNTRY_CD" required="true" size="2" type="VARCHAR"/>
-        <column name="BILL_PHN_NBR" required="true" size="45" type="VARCHAR"/>
+        <column name="BILL_PHN_NBR" size="45" type="VARCHAR"/>
         <column name="DOBJ_MAINT_CD_ACTV_IND" required="true" size="1" type="VARCHAR"/>
         <column name="BILL_EMAIL_ADDR" size="100" type="VARCHAR"/>
         <unique name="PUR_BILL_ADDR_TC0">

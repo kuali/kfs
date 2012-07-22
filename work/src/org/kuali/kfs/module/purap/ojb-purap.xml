@@ -3492,9 +3492,6 @@
     <field-descriptor name="purchaseOrderIdentifier" column="PO_ID" jdbc-type="INTEGER" index="true"/>
     <field-descriptor name="postingYear" column="PO_ENCUM_FSCL_YR" jdbc-type="INTEGER"/>
     <field-descriptor name="paymentRequestIdentifier" column="PMT_RQST_ID" jdbc-type="INTEGER" index="true"/>
-	<!--     
-    	<field-descriptor name="statusCode" column="CRDT_MEMO_STAT_CD" jdbc-type="VARCHAR" index="true"/>
- 	-->    
     <field-descriptor name="creditMemoNumber" column="CRDT_MEMO_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="creditMemoDate" column="CRDT_MEMO_DT" jdbc-type="DATE"/>
     <field-descriptor name="creditMemoAmount" column="CRDT_MEMO_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>

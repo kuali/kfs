@@ -122,6 +122,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     protected Boolean taxUSAIDPerDiemIndicator;
     protected Boolean taxOtherExemptIndicator;
 
+    protected String justification;
+    
     // NOT PERSISTED IN DB
     protected String vendorShippingTitleCode;
     protected Date purchaseOrderEndDate;
@@ -1371,5 +1373,22 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         }
         return true;
     }
+    
+    /**
+     * Gets the justification attribute.
+     * @return Returns the justification.
+     */
+    public String getJustification() {
+        return justification;
+    }
+
+    /**
+     * Sets the justification attribute value.
+     * @param justification The justification to set.
+     */
+    public void setJustification(String justification) {
+        this.justification = justification;
+    }
+    
     
 }

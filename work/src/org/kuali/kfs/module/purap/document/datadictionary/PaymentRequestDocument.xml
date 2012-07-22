@@ -137,7 +137,8 @@
         <ref bean="PaymentRequestDocument-documentOrganizationCodeForSearching"/> 
         <ref bean="PaymentRequestDocument-processingCampusCodeForSearch"/>
         <ref bean="PaymentRequestDocument-sensitive"/>
-		<ref bean="PaymentRequestDocument-accountDistributionMethod"/> 
+		<ref bean="PaymentRequestDocument-accountDistributionMethod"/>
+        <ref bean="PaymentRequestDocument-justification"/>
       </list>
     </property>
     <property name="validationMap" ref="PaymentRequestDocument-validations"/>    
@@ -988,6 +989,19 @@
     <property name="name" value="documentOrganizationCodeForSearching"/>
     <property name="label" value="PO Organization Code"/>
     <property name="shortLabel" value="Organization Code"/>
+  </bean>
+  <bean id="PaymentRequestDocument-justification" parent="PaymentRequestDocument-justification-parentBean"/>
+
+  <bean id="PaymentRequestDocument-justification-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="justification"/>
+    <property name="label" value="Justification"/>
+    <property name="maxLength" value="255"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:rows="5" p:cols="50"/>
+    </property>
   </bean>
   
   <!--Payment Request accountingInformation -->

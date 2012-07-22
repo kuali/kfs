@@ -90,8 +90,9 @@ public class JournalVoucherForm extends VoucherForm {
      * @param sourceLine - line to set code on
      */
     protected void populateSourceAccountingLineEncumbranceCode(SourceAccountingLine sourceLine) {
-        BalanceType selectedBalanceType = getSelectedBalanceType();
-        if (ObjectUtils.isNotNull(selectedBalanceType) && StringUtils.isNotBlank(selectedBalanceType.getCode())) {
+        BalanceType selectedBalanceType = getSelectedBalanceType();      
+        if (ObjectUtils.isNotNull(selectedBalanceType)) {
+            selectedBalanceType.refresh();
             sourceLine.setBalanceTyp(selectedBalanceType);
             sourceLine.setBalanceTypeCode(selectedBalanceType.getCode());
 
@@ -108,7 +109,7 @@ public class JournalVoucherForm extends VoucherForm {
         else {
             // it's the first time in, the form will be empty the first time in
             // set up default selection value
-            selectedBalanceType = getPopulatedBalanceTypeInstance(KFSConstants.BALANCE_TYPE_ACTUAL);
+            selectedBalanceType = getPopulatedBalanceTypeInstance(KFSConstants.BALANCE_TYPE_ACTUAL);   
             setSelectedBalanceType(selectedBalanceType);
             setOriginalBalanceType(selectedBalanceType.getCode());
 
@@ -231,7 +232,10 @@ public class JournalVoucherForm extends VoucherForm {
     protected BalanceType getPopulatedBalanceTypeInstance(String balanceTypeCode) {
         // now we have to get the code and the name of the original and new balance types
         BalanceTypeService bts = SpringContext.getBean(BalanceTypeService.class);
-        return bts.getBalanceTypeByCode(balanceTypeCode);
+      
+        BalanceType balanceType = bts.getBalanceTypeByCode(balanceTypeCode);
+        balanceType.setCode(balanceTypeCode);
+        return balanceType;
     }
 
     /**
@@ -253,5 +257,5 @@ public class JournalVoucherForm extends VoucherForm {
      */
     protected boolean isSelectedBalanceTypeFinancialOffsetGenerationIndicator() {
         return getPopulatedBalanceTypeInstance(getSelectedBalanceType().getCode()).isFinancialOffsetGenerationIndicator();
-    }
+      }
 }

@@ -260,15 +260,15 @@ values ((select role_perm_id from
         'Y', 1, uuid())
 ;
 
-insert into krim_role_perm_t
-(role_perm_id, role_id, perm_id, actv_ind, ver_nbr, obj_id)
-values ((select role_perm_id from
-          (select (max(cast(role_perm_id as decimal)) + 1) as role_perm_id from krim_role_perm_t where role_perm_id is not NULL and role_perm_id REGEXP '^[1-9][0-9]*$' and cast(role_perm_id as decimal) < 10000)
-         as tmptable),
-        (select role_id from krim_role_t where role_nm = 'Initiator or Reviewer' and nmspc_cd = 'KR-WKFLW'),
-        (select perm_id from krim_perm_t where nm = 'Edit Kuali ENROUTE Document Route Status Code R' and nmspc_cd = 'KUALI'),
-        'Y', 1, uuid())
-;
+--insert into krim_role_perm_t
+--(role_perm_id, role_id, perm_id, actv_ind, ver_nbr, obj_id)
+--values ((select role_perm_id from
+--          (select (max(cast(role_perm_id as decimal)) + 1) as role_perm_id from krim_role_perm_t where role_perm_id is not NULL and role_perm_id REGEXP '^[1-9][0-9]*$' and cast(role_perm_id as decimal) < 10000)
+--         as tmptable),
+--        (select role_id from krim_role_t where role_nm = 'Initiator or Reviewer' and nmspc_cd = 'KR-WKFLW'),
+--        (select perm_id from krim_perm_t where nm = 'Edit Kuali ENROUTE Document Route Status Code R' and nmspc_cd = 'KUALI'),
+--        'Y', 1, uuid())
+--
 
 insert into krim_role_perm_t
 (role_perm_id, role_id, perm_id, actv_ind, ver_nbr, obj_id)

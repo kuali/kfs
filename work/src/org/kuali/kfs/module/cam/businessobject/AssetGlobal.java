@@ -690,10 +690,13 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         // This is needed because otherwise we could get DB Constraint violation error if user tries 
         // to save Asset Global document with a non existing, inactive or expired account.
         this.refreshReferenceObject(CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCOUNT);
-        Account organizationOwnerAccount = this.getOrganizationOwnerAccount();
-        if (ObjectUtils.isNull(organizationOwnerAccount) || !organizationOwnerAccount.isActive() || organizationOwnerAccount.isExpired()) {
-            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KfsMaintenanceDocumentRuleBase.MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.ORGANIZATION_OWNER_ACCOUNT_INVALID);
-            return false;
+        AssetGlobalService assetGlobalService = SpringContext.getBean(AssetGlobalService.class);
+        if (!assetGlobalService.isAssetSeparate(this))  {
+            Account organizationOwnerAccount = this.getOrganizationOwnerAccount();
+            if (ObjectUtils.isNull(organizationOwnerAccount) || !organizationOwnerAccount.isActive() || organizationOwnerAccount.isExpired()) {
+                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KfsMaintenanceDocumentRuleBase.MAINTAINABLE_ERROR_PREFIX + CamsPropertyConstants.AssetGlobal.ORGANIZATION_OWNER_ACCOUNT_NUMBER, CamsKeyConstants.ORGANIZATION_OWNER_ACCOUNT_INVALID);
+                return false;
+            }
         }
         return true;
     }

@@ -77,12 +77,16 @@ public class GlLineServiceImpl implements GlLineService {
     public Document createAssetGlobalDocument(GeneralLedgerEntry primary, Integer capitalAssetLineNumber) throws WorkflowException {
         // initiate a new document
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
+
         MaintenanceDocument document = (MaintenanceDocument) documentService.getNewDocument(DocumentTypeName.ASSET_ADD_GLOBAL);
+
         // create asset global
         AssetGlobal assetGlobal = createAssetGlobal(primary, document);
         assetGlobal.setCapitalAssetBuilderOriginIndicator(true);
         assetGlobal.setAcquisitionTypeCode(getAssetGlobalService().getNewAcquisitionTypeCode());
+
         updatePreTagInformation(primary, document, assetGlobal, capitalAssetLineNumber);
+
         assetGlobal.getAssetPaymentDetails().addAll(createAssetPaymentDetails(primary, document, 0, capitalAssetLineNumber));
 
         // save the document
@@ -90,9 +94,12 @@ public class GlLineServiceImpl implements GlLineService {
         document.getDocumentHeader().setDocumentDescription(CAB_DESC_PREFIX + primary.getDocumentNumber());
         document.getNewMaintainableObject().setBusinessObject(assetGlobal);
         document.getNewMaintainableObject().setBoClass(assetGlobal.getClass());
+
         documentService.saveDocument(document);
+
         //mark the capital asset as processed..
         markCapitalAssetProcessed(primary, capitalAssetLineNumber);
+
         deactivateGLEntries(primary, document, capitalAssetLineNumber);
         
         return document;
@@ -349,9 +356,10 @@ public class GlLineServiceImpl implements GlLineService {
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         AssetPaymentDocument document = (AssetPaymentDocument) documentService.getNewDocument(DocumentTypeName.ASSET_PAYMENT);
         document.setCapitalAssetBuilderOriginIndicator(true);
-      //  document.setAssetPaymentAllocationTypeCode(CamsPropertyConstants.AssetPaymentAllocation.ASSET_DISTRIBUTION_DEFAULT_CODE);
+
         //populate the capital asset line distribution amount code to the payment document.
         CapitalAssetInformation capitalAssetInformation = findCapitalAssetInformation(primaryGlEntry, capitalAssetLineNumber);
+
         if (ObjectUtils.isNotNull(capitalAssetInformation)) {
             document.setAssetPaymentAllocationTypeCode(capitalAssetInformation.getDistributionAmountCode());
             document.setAllocationFromFPDocuments(true);
@@ -359,6 +367,7 @@ public class GlLineServiceImpl implements GlLineService {
         
         document.getDocumentHeader().setDocumentDescription(CAB_DESC_PREFIX + primaryGlEntry.getDocumentNumber());
         updatePreTagInformation(primaryGlEntry, document, capitalAssetLineNumber);
+
         // Asset Payment Detail - sourceAccountingLines on the document....
         document.getSourceAccountingLines().addAll(createAssetPaymentDetails(primaryGlEntry, document, 0, capitalAssetLineNumber));
         
@@ -398,7 +407,7 @@ public class GlLineServiceImpl implements GlLineService {
                 assetPaymentAssetDetail.setDocumentNumber(document.getDocumentNumber());
                 // get the allocated amount for the capital asset....
                 assetPaymentAssetDetail.setCapitalAssetNumber(capitalAssetInformation.getCapitalAssetNumber());
-                assetPaymentAssetDetail.setAllocatedAmount(getAllocatedAmountFromCapitalAsset(capitalAssetInformation));
+                assetPaymentAssetDetail.setAllocatedAmount(KualiDecimal.ZERO);
                 assetPaymentAssetDetail.setAllocatedUserValue(assetPaymentAssetDetail.getAllocatedAmount());
                 assetPaymentAssetDetail.refreshReferenceObject(CamsPropertyConstants.AssetPaymentAssetDetail.ASSET);
                 Asset asset = assetPaymentAssetDetail.getAsset();
@@ -410,29 +419,6 @@ public class GlLineServiceImpl implements GlLineService {
         }
     }
 
-    /**
-     * sums up the amount on capital accounting line
-     * 
-     * @param capitalAssetInformation
-     * @return allocatedAmount
-     */
-    protected KualiDecimal getAllocatedAmountFromCapitalAsset(CapitalAssetInformation capitalAssetInformation) {
-        KualiDecimal allocatedAmount = KualiDecimal.ZERO;
-        
-        String debitCreditCode = "";
-        
-        List<CapitalAssetAccountsGroupDetails> groupAccountingLines = capitalAssetInformation.getCapitalAssetAccountsGroupDetails();
-        for (CapitalAssetAccountsGroupDetails accountingLine : groupAccountingLines) {
-            if (accountingLine.getFinancialDocumentLineTypeCode().equals(KFSConstants.TARGET_ACCT_LINE_TYPE_CODE)) {
-                debitCreditCode = KFSConstants.GL_DEBIT_CODE;
-            } else {
-                debitCreditCode = KFSConstants.GL_CREDIT_CODE;
-            }
-            allocatedAmount = allocatedAmount.add(KFSConstants.GL_CREDIT_CODE.equals(debitCreditCode) ? accountingLine.getAmount().negated() : accountingLine.getAmount());
-        }
-        
-        return allocatedAmount;
-    }
     /**
      * Creates asset payment details based on accounting lines distributed
      * for the given capital asset.
@@ -452,13 +438,6 @@ public class GlLineServiceImpl implements GlLineService {
             
             for (CapitalAssetAccountsGroupDetails accountingLine : groupAccountingLines) {
                 AssetPaymentDetail detail = new AssetPaymentDetail();
-                String debitCreditCode = "";
-                if (accountingLine.getFinancialDocumentLineTypeCode().equals(KFSConstants.TARGET_ACCT_LINE_TYPE_CODE)) {
-                    debitCreditCode = KFSConstants.GL_DEBIT_CODE;
-                } else {
-                    debitCreditCode = KFSConstants.GL_CREDIT_CODE;
-                }
-                
                 detail.setDocumentNumber(document.getDocumentNumber());
                 detail.setSequenceNumber(paymentSequenceNumber++);
                 detail.setPostingYear(entry.getUniversityFiscalYear());
@@ -469,29 +448,7 @@ public class GlLineServiceImpl implements GlLineService {
                 detail.setFinancialObjectCode(replaceFiller(accountingLine.getFinancialObjectCode()));
                 detail.setProjectCode(replaceFiller(entry.getProjectCode()));
                 detail.setOrganizationReferenceId(replaceFiller(entry.getOrganizationReferenceId()));
-            //    detail.setAmount(KFSConstants.GL_CREDIT_CODE.equals(debitCreditCode) ? accountingLine.getAmount().negated() : accountingLine.getAmount());
-
                 detail.setAmount(getAccountingLineAmountForPaymentDetail(entry, accountingLine));
-                
-                //if gl entry's d/c equals object type default d/c and account line type = F or
-                //gl entry's d/c = D and accounting line type = D then negate the line amount...else
-            //    if ((entry.getTransactionDebitCreditCode().equals(entry.getFinancialObject().getFinancialObjectType().getFinObjectTypeDebitcreditCd()) &&
-            //            KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE.equals(accountingLine.getFinancialDocumentLineTypeCode())) || 
-            //            (KFSConstants.GL_DEBIT_CODE.equals(entry.getTransactionDebitCreditCode()) &&
-            //                    KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE.equals(accountingLine.getFinancialDocumentLineTypeCode()))) {
-             //       detail.setAmount(accountingLine.getAmount().negated());
-             //   } else {
-             //       //if gl entry's d/c equals = D and account line type = F then negate the line amount else
-             //       if (KFSConstants.GL_CREDIT_CODE.equals(entry.getTransactionDebitCreditCode()) &&
-             //               accountingLine.getAmount().isGreaterThan(KualiDecimal.ZERO) &&
-             //               KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE.equals(accountingLine.getFinancialDocumentLineTypeCode()) ) {
-             //           detail.setAmount(accountingLine.getAmount().negated());
-             //       } else {
-             //           //carry the amount from the account line to payment document.
-             //               detail.setAmount(accountingLine.getAmount());
-              //        }
-              //  }
-                
                 detail.setExpenditureFinancialSystemOriginationCode(replaceFiller(entry.getFinancialSystemOriginationCode()));
                 detail.setExpenditureFinancialDocumentNumber(entry.getDocumentNumber());
                 detail.setExpenditureFinancialDocumentTypeCode(replaceFiller(entry.getFinancialDocumentTypeCode()));

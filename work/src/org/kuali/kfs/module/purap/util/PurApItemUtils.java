@@ -57,7 +57,7 @@ public class PurApItemUtils {
     public static List<PurApItem> getAboveTheLineOnly(List<PurApItem> items) {
         List<PurApItem> returnItems = new ArrayList<PurApItem>();
         for (PurApItem item : items) {
-            if (item.getItemType().isLineItemIndicator()) {
+            if (ObjectUtils.isNotNull(item.getItemType()) && item.getItemType().isLineItemIndicator()) {
                 returnItems.add((PurApItem) ObjectUtils.deepCopy(item));
             }
         }
@@ -74,7 +74,7 @@ public class PurApItemUtils {
         for (int i = items.size() - 1; i > 0; i--) {
             PurApItem item = items.get(i);
             // will have to change if we stop putting below the line at bottom
-            if (item.getItemType().isLineItemIndicator()) {
+            if (ObjectUtils.isNotNull(item.getItemType()) && item.getItemType().isLineItemIndicator()) {
                 break;
             }
             else {

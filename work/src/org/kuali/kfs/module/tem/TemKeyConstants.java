@@ -68,7 +68,7 @@ public class TemKeyConstants extends JSTLConstants {
                                                                 "document.stateCode,document.zipCode,document.phoneNumber,document.tripDescription,document.delinquentTRMessage,tripOverview.*";
     public static final String TRVL_ENT_ERRORS ="document.tripBegin,document.tripEnd,document.tripTypeCode," +
                                                                 "document.travelerTypeCode,document.firstName,document.lastName,document.streetAddressLine1,"+
-                                                                "document.stateCode,document.purposeCode,document.paymentMethod,document.hostName,document.zipCode,document.phoneNumber,tripOverview.*";
+                                                                "document.stateCode,document.purposeCode,document.paymentMethod,document.hostName,document.zipCode,document.phoneNumber,tripOverview.*,document.traveler*";
     public static final String TRVL_AUTH_EMERGENCY_CONTACT_ERRORS = "newEmergencyContactLine.*,emergencyContact.*,document.regionFamiliarity,document.cellPhoneNumber,document.traveler.emergencyContacts*";
     public static final String TRVL_AUTH_SPECIAL_CIRCUMSTANCES_ERRORS = "document.expenseLimit,document.mealWithoutLodgingReason";
     public static final String TRVL_EXPENSES = "newActualExpenseLine.*,newActualExpenseLine*,newImportedExpenseLines*," +

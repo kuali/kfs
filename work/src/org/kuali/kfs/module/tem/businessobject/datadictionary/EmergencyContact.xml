@@ -118,7 +118,7 @@
         <property name="label" value="Contact Phone Number" />
         <property name="shortLabel" value="Contact Phone Number" />
         <property name="maxLength" value="20" />
-        <property name="required" value="true" />
+        <property name="required" value="false" />
         <property name="summary" value="Phone Number" />
         <property name="description" value="Phone Number" />
         <property name="validationPattern" >

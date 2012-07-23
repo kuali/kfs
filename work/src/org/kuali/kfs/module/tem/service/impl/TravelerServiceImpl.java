@@ -184,6 +184,9 @@ public class TravelerServiceImpl implements TravelerService {
             detail.setNotifyTERFinal(profile.isNotifyTERFinal());
             detail.setNotifyTERStatusChange(profile.isNotifyTERStatusChange());
             
+            //reset traverl detail's emergency contact list
+            detail.resetEmergencyContacts();
+            
             if (ObjectUtils.isNotNull(profile.getEmergencyContacts())){
                 int count = 1;
                 for(TemProfileEmergencyContact profileContact : profile.getEmergencyContacts()){

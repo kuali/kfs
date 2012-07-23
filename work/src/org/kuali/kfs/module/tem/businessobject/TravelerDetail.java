@@ -32,6 +32,13 @@ public class TravelerDetail extends BaseTemProfile {
     @OneToMany(mappedBy = "id")
     private List<TravelerDetailEmergencyContact> emergencyContacts = new ArrayList<TravelerDetailEmergencyContact>();
     
+    /**
+     * Reset emergency contact lists when switching the traveler/tem profile
+     */
+    public void resetEmergencyContacts(){
+        emergencyContacts = new ArrayList<TravelerDetailEmergencyContact>();
+    }
+    
     public List<TravelerDetailEmergencyContact> getEmergencyContacts() {
         return emergencyContacts;
     }

@@ -198,8 +198,8 @@
       			<constraints nullable="true"/>
      		 </column>
     	</modifyColumn>
-		<modifySql dbms='mysql'>
-			replace replace='VARCHAR2' with='VARCHAR' />
+		<modifySql dbms="mysql">
+			<replace replace="VARCHAR2" with="VARCHAR" />
 		</modifySql>
 	</changeSet>
 </databaseChangeLog>

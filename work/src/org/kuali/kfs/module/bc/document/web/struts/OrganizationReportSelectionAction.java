@@ -130,7 +130,7 @@ public class OrganizationReportSelectionAction extends BudgetExpansionAction {
      * @param buildHelper - contains the current and requested build states
      * @param reportSelectMode - indicates whether the report takes a sub-fund or object code select list
      */
-    private void buildControlLists(String principalName, Integer universityFiscalYear, ReportControlListBuildHelper buildHelper, ReportSelectMode reportSelectMode) {
+    protected void buildControlLists(String principalName, Integer universityFiscalYear, ReportControlListBuildHelper buildHelper, ReportSelectMode reportSelectMode) {
         BudgetReportsControlListService budgetReportsControlListService = SpringContext.getBean(BudgetReportsControlListService.class);
 
         if (buildHelper.isBuildNeeded()) {
@@ -207,7 +207,7 @@ public class OrganizationReportSelectionAction extends BudgetExpansionAction {
      * @return - true if a selection was found and the list was stored or if we need to show reason code select screen, false
      *         otherwise
      */
-    private boolean storeCodeSelections(OrganizationReportSelectionForm organizationReportSelectionForm, BudgetConstructionReportMode reportMode, String principalName) {
+    protected boolean storeCodeSelections(OrganizationReportSelectionForm organizationReportSelectionForm, BudgetConstructionReportMode reportMode, String principalName) {
         boolean codeSelected = true;
 
         if (ReportSelectMode.SUBFUND.equals(reportMode.reportSelectMode)) {
@@ -256,7 +256,7 @@ public class OrganizationReportSelectionAction extends BudgetExpansionAction {
      * @param budgetConstructionReportThresholdSettings - contains threshold setting options
      * @return Collection - Reports objects that contain built data
      */
-    private Collection buildReportData(BudgetConstructionReportMode reportMode, Integer universityFiscalYear, String principalId, boolean runConsolidated, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings) {
+    protected Collection buildReportData(BudgetConstructionReportMode reportMode, Integer universityFiscalYear, String principalId, boolean runConsolidated, BudgetConstructionReportThresholdSettings budgetConstructionReportThresholdSettings) {
         Collection reportData = new ArrayList();
 
         switch (reportMode) {
@@ -327,7 +327,7 @@ public class OrganizationReportSelectionAction extends BudgetExpansionAction {
     /**
      * Builds URL for the report dump url.
      */
-    private String buildReportExportForwardURL(OrganizationReportSelectionForm organizationReportSelectionForm, ActionMapping mapping) {
+    protected String buildReportExportForwardURL(OrganizationReportSelectionForm organizationReportSelectionForm, ActionMapping mapping) {
         Map<String, String> parameters = new HashMap<String, String>();
         parameters.put(BCConstants.Report.REPORT_MODE, organizationReportSelectionForm.getReportMode());
         parameters.put(BCConstants.IS_ORG_REPORT_REQUEST_PARAMETER, "true");

@@ -20,6 +20,7 @@ import java.util.List;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.tem.TemConstants.DisburseType;
 import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
+import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 
@@ -65,12 +66,22 @@ public interface TravelDisbursementService {
     /**
      * process Disbursement Voucher document for the TEMReimbursementDocument document
      * 
-     * It will create the DV Reimbursement document and then add to the travel document as a related doc
+     * It will create the Reimbursement DV document and then add to the travel document as a related doc
      * 
      * @param document
      * @return
      */
     public void processTEMReimbursementDV(TEMReimbursementDocument document);
+    
+    /**
+     * process Disbursement Voucher document for the Travel Authorization document
+     * 
+     * It will create the Payment DV document according to the advance and then add to the travel document as a related doc
+     * 
+     * @param document
+     * @return
+     */
+    public void processTravelAdvanceDV(TravelAuthorizationDocument document);
     
     /**
      * save the DV with added notes and annotation

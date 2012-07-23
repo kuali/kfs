@@ -497,19 +497,16 @@
 		abstract="true">
 
 		<property name="businessObjectService" ref="businessObjectService" />
-		<property name="documentService" ref="documentService" />
-		<property name="travelDocumentService" ref="temTravelDocumentService" />
-		<property name="documentDao" ref="documentDao" />
-		<property name="accountsReceivableModuleService" ref="accountsReceivableModuleService" />
-		<property name="parameterService" ref="parameterService" />
+	    <property name="accountsReceivableModuleService" ref="accountsReceivableModuleService" />	
+        <property name="parameterService" ref="parameterService" />
+        <property name="documentService" ref="documentService" />
+		<property name="travelDisbursementService" ref="travelDisbursementService" />
 		<property name="dateTimeService" ref="dateTimeService" />
+	    <property name="ruleService" ref="kualiRuleService" />	
+        <property name="workflowDocumentService" ref="workflowDocumentService" />
 		<property name="universityDateService" ref="universityDateService" />
-		<property name="workflowDocumentService" ref="workflowDocumentService" />
-		<property name="ruleService" ref="kualiRuleService" />
 		<property name="accountingDocumentRelationshipService" ref="temAccountingDocumentRelationshipService" />
-		<property name="travelerService" ref="travelerService" />
 		<property name="temProfileService" ref="temProfileService" />
-
 		<property name="propertyChangeListeners">
 			<list>
 				<ref bean="TravelDocument-addActualExpenseListener" />

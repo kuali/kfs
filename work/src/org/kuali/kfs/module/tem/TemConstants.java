@@ -284,6 +284,23 @@ public class TemConstants extends JSTLConstants {
         public static final String PEND_AMENDMENT = "Pending Amendment";
         public static final String CHANGE_IN_PROCESS = "Change In Process";
         public static final String RETIRED_VERSION = "Retired Version";
+        
+        public static HashMap<String, String> getDisapprovedAppDocStatusMap() {
+            HashMap<String, String> disapprovedAppDocStatusMap;
+            
+            disapprovedAppDocStatusMap = new HashMap<String, String>();
+            disapprovedAppDocStatusMap.put(AWAIT_FISCAL, DAPRVD_FISCAL);
+            disapprovedAppDocStatusMap.put(AWAIT_ORG, DAPRVD_ORG);
+            disapprovedAppDocStatusMap.put(AWAIT_DIV, DAPRVD_DIV); 
+            disapprovedAppDocStatusMap.put(AWAIT_INTL, DAPRVD_INTL);
+            disapprovedAppDocStatusMap.put(AWAIT_RISK, DAPRVD_RISK);
+            disapprovedAppDocStatusMap.put(AWAIT_SUB,  DAPRVD_SUB);
+            disapprovedAppDocStatusMap.put(AWAIT_AWARD, DAPRVD_AWARD); 
+            disapprovedAppDocStatusMap.put(AWAIT_SPCL, DAPRVD_SPCL); 
+            disapprovedAppDocStatusMap.put(AWAIT_TRVL_MGR, DAPRVD_TRVL);
+            
+            return disapprovedAppDocStatusMap;
+        }
     }
 
     public static final Map<String, Class> uncopyableFieldsForTravelAuthorization() {

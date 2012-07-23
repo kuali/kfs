@@ -17,11 +17,8 @@ package org.kuali.kfs.module.tem.service.impl;
 
 import static org.kuali.kfs.module.tem.TemConstants.EMP_TRAVELER_TYP_CD;
 import static org.kuali.kfs.module.tem.TemConstants.NONEMP_TRAVELER_TYP_CD;
-import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
 import static org.kuali.kfs.module.tem.TemConstants.TemProfileParameters.AR_CUSTOMER_TYPE_TO_TRAVELER_TYPE_CROSSWALK;
 import static org.kuali.kfs.module.tem.TemConstants.TemProfileParameters.KIM_AFFILIATION_TYPE_TO_TRAVELER_TYPE_CROSSWALK;
-import static org.kuali.kfs.module.tem.TemConstants.TemProfileParameters.PARAM_DTL_TYPE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.DOCUMENT_DTL_TYPE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.EMPLOYEE_TRAVELER_TYPE_CODES;
 import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
 
@@ -32,6 +29,7 @@ import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.text.StrTokenizer;
 import org.apache.log4j.Logger;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.service.ChartService;
@@ -40,6 +38,7 @@ import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
 import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileAddress;
@@ -75,7 +74,7 @@ import org.kuali.rice.kns.util.ObjectUtils;
  */
 public class TravelerServiceImpl implements TravelerService {
     private ParameterService parameterService;
-    private PersonService personService;
+    private PersonService<Person> personService;
     private TravelArrangerDocumentService arrangerDocumentService;
     private IdentityManagementService identityManagementService;
     private BusinessObjectService businessObjectService;
@@ -279,11 +278,10 @@ public class TravelerServiceImpl implements TravelerService {
 
     @Override
     public boolean isEmployee(final TravelerDetail traveler) {
-        final String employeeTypes = getParameterService().getParameterValue(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, EMPLOYEE_TRAVELER_TYPE_CODES);
-        if (employeeTypes != null && traveler != null && traveler.getTravelerTypeCode() != null) {
-            return employeeTypes.indexOf(traveler.getTravelerTypeCode()) != -1;
-        }
-        return false;
+        final String param = getParameterService().getParameterValue(TemParameterConstants.TEM_DOCUMENT.class, EMPLOYEE_TRAVELER_TYPE_CODES);
+        List<String> employeeTypes = StrTokenizer.getCSVInstance(param).getTokenList();
+        
+        return employeeTypes.contains(StringUtils.defaultString(traveler.getTravelerTypeCode()));
     }
 
     /**
@@ -418,7 +416,7 @@ public class TravelerServiceImpl implements TravelerService {
      * Gets the personService attribute. 
      * @return Returns the personService.
      */
-    public PersonService getPersonService() {
+    public PersonService<Person> getPersonService() {
         if ( personService == null ) {
             personService = SpringContext.getBean(PersonService.class);
         }
@@ -605,7 +603,7 @@ public class TravelerServiceImpl implements TravelerService {
      */
     @Override
     public boolean isCustomerEmployee(AccountsReceivableCustomer person) {
-        List<String> empParams = getParameterService().getParameterValues(PARAM_NAMESPACE, PARAM_DTL_TYPE, AR_CUSTOMER_TYPE_TO_TRAVELER_TYPE_CROSSWALK);
+        List<String> empParams = getParameterService().getParameterValues(TemParameterConstants.TEM_PROFILE.class, AR_CUSTOMER_TYPE_TO_TRAVELER_TYPE_CROSSWALK);
         List<String> empCodes = new ArrayList<String>();
         List<String> nonEmpCodes = new ArrayList<String>();
         splitCodes(empCodes, nonEmpCodes, empParams);
@@ -623,7 +621,7 @@ public class TravelerServiceImpl implements TravelerService {
      */
     @Override
     public boolean isKimPersonEmployee(PersonImpl person) {
-        List<String> empParams = getParameterService().getParameterValues(PARAM_NAMESPACE, PARAM_DTL_TYPE, KIM_AFFILIATION_TYPE_TO_TRAVELER_TYPE_CROSSWALK);
+        List<String> empParams = getParameterService().getParameterValues(TemParameterConstants.TEM_PROFILE.class, KIM_AFFILIATION_TYPE_TO_TRAVELER_TYPE_CROSSWALK);
         List<String> empCodes = new ArrayList<String>();
         List<String> nonEmpCodes = new ArrayList<String>();
         splitCodes(empCodes, nonEmpCodes, empParams);

@@ -339,4 +339,12 @@ public interface TravelDocument extends AccountingDocument, TravelEntertainmentM
      * @return
      */
     public String getExpenseTypeCode();
+
+    /**
+     * Return true if the travel document has custom distribution for the DV doc
+     * 
+     * @return
+     */
+    public boolean hasCustomDVDistribution();
+    
 }

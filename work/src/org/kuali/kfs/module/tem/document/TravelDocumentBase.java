@@ -1970,4 +1970,11 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         return getExpenseTypeCode();
     }
     
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocument#hasCustomDVDistribution()
+     */
+    public boolean hasCustomDVDistribution(){
+       return false;
+    }
+   
 }

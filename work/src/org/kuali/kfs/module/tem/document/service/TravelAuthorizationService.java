@@ -16,7 +16,7 @@
 package org.kuali.kfs.module.tem.document.service;
 
 import java.util.Collection;
-import org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao;
+
 import org.kuali.kfs.module.tem.document.TravelAuthorizationAmendmentDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 
@@ -24,7 +24,12 @@ public interface TravelAuthorizationService {
     
     public void createCustomerInvoice(TravelAuthorizationDocument travelAuthorizationDocument);
 
-    public void createDVARDocument(TravelAuthorizationDocument travelAuthorizationDocument);
+    /**
+     * Create DV document from the Travel Advance
+     * 
+     * @param travelAuthorizationDocument
+     */
+    public void createTravelAdvanceDVDocument(TravelAuthorizationDocument travelAuthorizationDocument);
     
     public TravelAuthorizationDocument getTravelAuthorizationBy(String documentNumber); 
 
@@ -46,8 +51,6 @@ public interface TravelAuthorizationService {
      */
     public Collection<TravelAuthorizationAmendmentDocument> findAmendment(Integer travelDocumentIdentifier);
 
-    void setTravelDocumentDao(final TravelDocumentDao travelDocumentDao);
-    
     //TODO: remove when sure.
     //public void adjustEncumbranceForAmendment(TravelDocument taDocument);    
 }

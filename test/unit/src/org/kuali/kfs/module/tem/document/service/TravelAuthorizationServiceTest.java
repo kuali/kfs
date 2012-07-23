@@ -117,7 +117,7 @@ public class TravelAuthorizationServiceTest extends KualiTestBase {
         boolean success = false;
 
         try {
-            taService.createDVARDocument(ta);
+            taService.createTravelAdvanceDVDocument(ta);
             success = true;
         }
         catch (Exception e) {

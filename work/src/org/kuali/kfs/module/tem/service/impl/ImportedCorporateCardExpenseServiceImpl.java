@@ -149,7 +149,6 @@ public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase 
      * @param document
      */
     private void createVendorDisbursementVouchers(TravelDocument document){
-        String currentUser = GlobalVariables.getUserSession().getPrincipalName();
         Person principal = SpringContext.getBean(PersonService.class).getPerson(document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
         
         //build map of the accounting line info and amount by card type

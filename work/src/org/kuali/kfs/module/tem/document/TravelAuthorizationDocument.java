@@ -15,26 +15,6 @@
  */
 package org.kuali.kfs.module.tem.document;
 
-import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
-import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys.AWAIT_AWARD;
-import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys.AWAIT_DIV;
-import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys.AWAIT_FISCAL;
-import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys.AWAIT_INTL;
-import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys.AWAIT_ORG;
-import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys.AWAIT_RISK;
-import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys.AWAIT_SPCL;
-import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys.AWAIT_SUB;
-import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys.AWAIT_TRVL_MGR;
-import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys.DAPRVD_AWARD;
-import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys.DAPRVD_DIV;
-import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys.DAPRVD_FISCAL;
-import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys.DAPRVD_INTL;
-import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys.DAPRVD_ORG;
-import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys.DAPRVD_RISK;
-import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys.DAPRVD_SPCL;
-import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys.DAPRVD_SUB;
-import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys.DAPRVD_TRVL;
-import static org.kuali.kfs.module.tem.TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT;
 import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
 
 import java.beans.PropertyChangeEvent;
@@ -54,14 +34,14 @@ import javax.persistence.Transient;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.fp.document.DisbursementVoucherConstants;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationStatusCodeKeys;
 import org.kuali.kfs.module.tem.TemConstants.TravelDocTypes;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
-import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters;
+import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
@@ -156,11 +136,9 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
             BeanUtils.copyProperties(documentHeader, doc.getDocumentHeader());
         }
         catch (IllegalAccessException ex) {
-            // TODO Auto-generated catch block
             ex.printStackTrace();
         }
         catch (InvocationTargetException ex) {
-            // TODO Auto-generated catch block
             ex.printStackTrace();
         }
         
@@ -168,11 +146,9 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
             BeanUtils.copyProperties(doc, this);
         }
         catch (IllegalAccessException ex) {
-            // TODO Auto-generated catch block
             ex.printStackTrace();
         }
         catch (InvocationTargetException ex) {
-            // TODO Auto-generated catch block
             ex.printStackTrace();
         }
         /*
@@ -491,7 +467,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
         String referenceDocumentNumber = this.getTravelDocumentIdentifier();
         if (ObjectUtils.isNotNull(referenceDocumentNumber)) {
             offsetEntry.setReferenceFinancialDocumentNumber(referenceDocumentNumber);
-            offsetEntry.setReferenceFinancialDocumentTypeCode(TRAVEL_AUTHORIZATION_DOCUMENT);
+            offsetEntry.setReferenceFinancialDocumentTypeCode(TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
             offsetEntry.setReferenceFinancialSystemOriginationCode(TemConstants.ORIGIN_CODE);
         }
 
@@ -525,7 +501,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
         String referenceDocumentNumber = this.getTravelDocumentIdentifier();
         if (ObjectUtils.isNotNull(referenceDocumentNumber)) {
             explicitEntry.setReferenceFinancialDocumentNumber(referenceDocumentNumber);
-            explicitEntry.setReferenceFinancialDocumentTypeCode(TRAVEL_AUTHORIZATION_DOCUMENT);
+            explicitEntry.setReferenceFinancialDocumentTypeCode(TravelDocTypes.TRAVEL_AUTHORIZATION_DOCUMENT);
             explicitEntry.setReferenceFinancialSystemOriginationCode(TemConstants.ORIGIN_CODE);
         }
         // set the offset entry to Debit "D"
@@ -557,34 +533,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
         }
         if (KEWConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(statusChangeEvent.getNewRouteStatus())) {
             // first we need to see where we were so we can change the app doc status
-            String currAppDocStatus = getAppDocStatus();
-            if (currAppDocStatus.equals(AWAIT_FISCAL)) {
-                updateAppDocStatus(DAPRVD_FISCAL);
-            }
-            if (currAppDocStatus.equals(AWAIT_ORG)) {
-                updateAppDocStatus(DAPRVD_ORG);
-            }
-            if (currAppDocStatus.equals(AWAIT_DIV)) {
-                updateAppDocStatus(DAPRVD_DIV);
-            }
-            if (currAppDocStatus.equals(AWAIT_INTL)) {
-                updateAppDocStatus(DAPRVD_INTL);
-            }
-            if (currAppDocStatus.equals(AWAIT_RISK)) {
-                updateAppDocStatus(DAPRVD_RISK);
-            }
-            if (currAppDocStatus.equals(AWAIT_SUB)) {
-                updateAppDocStatus(DAPRVD_SUB);
-            }
-            if (currAppDocStatus.equals(AWAIT_AWARD)) {
-                updateAppDocStatus(DAPRVD_AWARD);
-            }
-            if (currAppDocStatus.equals(AWAIT_SPCL)) {
-                updateAppDocStatus(DAPRVD_SPCL);
-            }
-            if (currAppDocStatus.equals(AWAIT_TRVL_MGR)) {
-                updateAppDocStatus(DAPRVD_TRVL);
-            }
+            updateAppDocStatus(TravelAuthorizationStatusCodeKeys.getDisapprovedAppDocStatusMap().get(getAppDocStatus()));
         }
         
         if (KEWConstants.ROUTE_HEADER_FINAL_CD.equals(statusChangeEvent.getNewRouteStatus()) || KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(statusChangeEvent.getNewRouteStatus())) {
@@ -595,7 +544,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
             
             if (!(this instanceof TravelAuthorizationCloseDocument)) {
                 if (!(KEWConstants.ROUTE_HEADER_FINAL_CD.equals(statusChangeEvent.getOldRouteStatus()) || KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(statusChangeEvent.getOldRouteStatus()))) {
-                    getTravelAuthorizationService().createDVARDocument(this);
+                    getTravelAuthorizationService().createTravelAdvanceDVDocument(this);
                     getTravelAuthorizationService().createCustomerInvoice(this);
                     
                     //If the hold new fiscal year encumbrance indicator is true and the trip end date
@@ -626,7 +575,6 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
                     relatedDocs = getTravelDocumentService().getDocumentsRelatedTo(this);            
                 }
                 catch (WorkflowException ex) {
-                    // TODO Auto-generated catch block
                     ex.printStackTrace();
                 }
                 
@@ -718,7 +666,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
      */
     private boolean requiresRiskManagementReviewRouting() {
         // Right now this works just like International Travel Reviewer, but may change for next version
-        if (ObjectUtils.isNotNull(this.getTripTypeCode()) && getParameterService().getParameterValues(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, TravelParameters.INTERNATIONAL_TRIP_TYPE_CODES).contains(this.getTripTypeCode())) {
+        if (ObjectUtils.isNotNull(this.getTripTypeCode()) && getParameterService().getParameterValues(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.INTERNATIONAL_TRIP_TYPE_CODES).contains(this.getTripTypeCode())) {
             return true;
         }
         return false;
@@ -737,7 +685,6 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
      */
     @Override
     public void setTemProfile(TEMProfile temProfile) {
-        // TODO Auto-generated method stub
         super.setTemProfile(temProfile);
         if (getTravelAdvances() != null && getTravelAdvances().size() > 0){
             for (TravelAdvance advance : getTravelAdvances()){
@@ -751,7 +698,6 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
      */
     @Override
     public void logErrors() {
-        // TODO Auto-generated method stub
         super.logErrors();
     }
 
@@ -762,6 +708,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
     /**
      * @see org.kuali.rice.kns.document.DocumentBase#buildListOfDeletionAwareLists()
      */
+    @SuppressWarnings("rawtypes")
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
@@ -777,46 +724,46 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
      */
     @Override
     public void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument) {
-        // TODO Auto-generated method stub
-        //super.populateDisbursementVoucherFields(disbursementVoucherDocument, document);
-        String reasonCode = getParameterService().getParameterValue(PARAM_NAMESPACE, TravelReimbursementParameters.PARAM_DTL_TYPE,TravelReimbursementParameters.DEFAULT_REFUND_PAYMENT_REASON_CODE);
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(reasonCode);
-        disbursementVoucherDocument.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(DisbursementVoucherConstants.DV_PAYEE_TYPE_VENDOR);
-        disbursementVoucherDocument.getDocumentHeader().setOrganizationDocumentNumber(this.getTravelDocumentIdentifier());
-        String locationCode = getParameterService().getParameterValue(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE,TravelParameters.TRAVEL_DOCUMENTATION_LOCATION_CODE);
-        disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(locationCode);
-        Calendar dueDate = Calendar.getInstance();
-        dueDate.add(Calendar.DATE, 1);
-        disbursementVoucherDocument.setDisbursementVoucherDueDate(new java.sql.Date(dueDate.getTimeInMillis()));
+      
+        super.populateDisbursementVoucherFields(disbursementVoucherDocument);
+
+        //override the check stub text
+        disbursementVoucherDocument.setDisbVchrCheckStubText("Travel Advance for " + getTravelDocumentIdentifier() + " " + getTraveler().getLastName() + " - " + getPrimaryDestinationName() + " - " + getTripBegin());
+        //set the payment method from the advance
+        disbursementVoucherDocument.setDisbVchrPaymentMethodCode(getTravelAdvances().get(0).getPaymentMethod());
         
-        disbursementVoucherDocument.setDisbVchrCheckStubText(this.getDocumentTitle() != null ? this.getDocumentTitle() : "");               
-        disbursementVoucherDocument.getDocumentHeader().setDocumentDescription("Generated for TA doc: " + this.getTravelDocumentIdentifier());
-        getTravelDocumentService().trimFinancialSystemDocumentHeader(disbursementVoucherDocument.getDocumentHeader());
-        
-        for (Object accountingLineObj : this.getSourceAccountingLines()) {
-            SourceAccountingLine sourceccountingLine=(SourceAccountingLine)accountingLineObj;
+        final String paymentReasonCode = getParameterService().getParameterValue(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_DV_PAYMENT_REASON_CODE);
+        disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(paymentReasonCode);
+        final String paymentLocationCode = getParameterService().getParameterValue(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.TRAVEL_DOCUMENTATION_LOCATION_CODE);
+        disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(paymentLocationCode);
+                
+        final String advancePaymentChartCode = getParameterService().getParameterValue(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_PAYMENT_CHART_CODE);
+        final String advancePaymentAccountNumber = getParameterService().getParameterValue(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_PAYMENT_ACCOUNT_NBR);
+        final String advancePaymentObjectCode = getParameterService().getParameterValue(TemParameterConstants.TEM_AUTHORIZATION.class, TravelAuthorizationParameters.TRAVEL_ADVANCE_PAYMENT_OBJECT_CODE);
+
+        // set accounting (this should have been bypassed in the super class)
+        KualiDecimal totalAmount = KualiDecimal.ZERO;
+        for (TravelAdvance advance : getTravelAdvances()) {
             SourceAccountingLine accountingLine = new SourceAccountingLine();
-              
-            accountingLine.setChartOfAccountsCode(sourceccountingLine.getChartOfAccountsCode());
-            accountingLine.setAccountNumber(sourceccountingLine.getAccountNumber());
-            if (StringUtils.isNotBlank(sourceccountingLine.getFinancialObjectCode())) {
-                accountingLine.setFinancialObjectCode(sourceccountingLine.getFinancialObjectCode());
-            }
 
-            if (StringUtils.isNotBlank(sourceccountingLine.getFinancialSubObjectCode())) {
-                accountingLine.setFinancialSubObjectCode(sourceccountingLine.getFinancialSubObjectCode());
-            }
-
-            if (StringUtils.isNotBlank(sourceccountingLine.getSubAccountNumber())) {
-                accountingLine.setSubAccountNumber(sourceccountingLine.getSubAccountNumber());
-            }
-
-            accountingLine.setAmount(sourceccountingLine.getAmount());
+            //if the parameter fields are empty, use that of the advance
+            accountingLine.setChartOfAccountsCode(StringUtils.defaultIfEmpty(advancePaymentChartCode, advance.getAcct().getChartOfAccountsCode()));
+            accountingLine.setAccountNumber(StringUtils.defaultIfEmpty(advancePaymentAccountNumber, advance.getAccountNumber()));
+            accountingLine.setFinancialObjectCode(StringUtils.defaultIfEmpty(advancePaymentObjectCode, StringUtils.defaultString(advance.getFinancialObjectCode())));
+            accountingLine.setFinancialSubObjectCode(StringUtils.defaultString(advance.getFinancialSubObjectCode()));
+            accountingLine.setSubAccountNumber(StringUtils.defaultString(advance.getSubAccountNumber()));
+            accountingLine.setAmount(advance.getTravelAdvanceRequested());
             accountingLine.setPostingYear(disbursementVoucherDocument.getPostingYear());
             accountingLine.setDocumentNumber(disbursementVoucherDocument.getDocumentNumber());
 
             disbursementVoucherDocument.addSourceAccountingLine(accountingLine);
-        }        
+
+            totalAmount = totalAmount.add(advance.getTravelAdvanceRequested());
+            if (advance.getDueDate() != null) {
+                disbursementVoucherDocument.setDisbursementVoucherDueDate(advance.getDueDate());
+            }
+        }
+        disbursementVoucherDocument.setDisbVchrCheckTotalAmount(totalAmount);
     }
     
     @Override
@@ -841,7 +788,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
     @Override
     public void populateVendorPayment(DisbursementVoucherDocument disbursementVoucherDocument) {
         super.populateVendorPayment(disbursementVoucherDocument);
-        String locationCode = getParameterService().getParameterValue(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE,TravelParameters.TRAVEL_DOCUMENTATION_LOCATION_CODE);
+        String locationCode = getParameterService().getParameterValue(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.TRAVEL_DOCUMENTATION_LOCATION_CODE);
         String startDate = new SimpleDateFormat("MM/dd/yyyy").format(this.getTripBegin());
         String endDate = new SimpleDateFormat("MM/dd/yyyy").format(this.getTripEnd());
         String checkStubText = this.getTravelDocumentIdentifier() + ", " + this.getPrimaryDestinationName() + ", " + startDate + " - " + endDate;
@@ -857,4 +804,13 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
     public String getExpenseTypeCode() {
         return TemConstants.ENCUMBRANCE;
     }
+    
+    /**
+     * @see org.kuali.kfs.module.tem.document.TravelDocument#hasCustomDVDistribution()
+     */
+    @Override
+    public boolean hasCustomDVDistribution(){
+       return true;
+    }
+   
 }

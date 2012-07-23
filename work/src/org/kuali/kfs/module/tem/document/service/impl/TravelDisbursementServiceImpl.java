@@ -33,6 +33,7 @@ import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
+import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelDisbursementService;
@@ -84,6 +85,7 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelDisbursementService#populateReimbursableDisbursementVoucherFields(org.kuali.kfs.fp.document.DisbursementVoucherDocument, org.kuali.kfs.module.tem.document.TravelDocument)
      */
+    @Override
     public void populateReimbursableDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument, TravelDocument document){
         
         disbursementVoucherDocument.setDisbVchrCheckStubText(StringUtils.defaultString(document.getDocumentTitle()));              
@@ -111,7 +113,7 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
         disbursementVoucherDocument.setDisbVchrContactPhoneNumber(initiator.getPhoneNumber());
 
         //if traveler has is an employee data, default to use DV Payee Employee type and employee Id, otherwise use Customer type and customer number
-        if (TemConstants.EMP_TRAVELER_TYP_CD.equals(document.getTraveler().getTravelerTypeCode())){
+        if (travelerService.isEmployee(document.getTraveler())){
             disbursementVoucherDocument.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(DisbursementVoucherConstants.DV_PAYEE_TYPE_EMPLOYEE); 
             document.setProfileId(document.getTemProfileId());
             disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPayeeIdNumber(document.getTemProfile().getEmployeeId());
@@ -132,36 +134,36 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
         disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPayeeEmployeeCode(travelerService.isEmployee(document.getTraveler()));
 
         disbursementVoucherDocument.setDisbVchrPaymentMethodCode(TemConstants.DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE);
-        
-        //Copied from TA's impl - may be usable when we refactor that code
-//        String advancePaymentChartCode = parameterService.getParameterValue(TemParameterConstants.TEM_AUTHORIZATION.class, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_PAYMENT_CHART_CODE);
-//        String advancePaymentAccountNumber = parameterService.getParameterValue(TemParameterConstants.TEM_AUTHORIZATION.class, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_PAYMENT_ACCOUNT_NBR);
-//        String advancePaymentObjectCode = parameterService.getParameterValue(TemParameterConstants.TEM_AUTHORIZATION.class, TemConstants.TravelAuthorizationParameters.TRAVEL_ADVANCE_PAYMENT_OBJECT_CODE);
 
-        // set accounting
-        KualiDecimal totalAmount = KualiDecimal.ZERO;
-        for (SourceAccountingLine line : document.getReimbursableSourceAccountingLines()) {
-            SourceAccountingLine accountingLine = new SourceAccountingLine();
-              
-            accountingLine.setChartOfAccountsCode(line.getChartOfAccountsCode());
-            accountingLine.setAccountNumber(line.getAccountNumber());
-            accountingLine.setFinancialObjectCode(line.getFinancialObjectCode());              
-            accountingLine.setFinancialSubObjectCode(line.getFinancialSubObjectCode());
-            accountingLine.setSubAccountNumber(line.getSubAccountNumber());
-            accountingLine.setAmount(line.getAmount());
-            accountingLine.setPostingYear(disbursementVoucherDocument.getPostingYear());
-            accountingLine.setDocumentNumber(disbursementVoucherDocument.getDocumentNumber());
-
-            disbursementVoucherDocument.addSourceAccountingLine(accountingLine);
-            totalAmount = totalAmount.add(line.getAmount());
+        if (document.hasCustomDVDistribution()){
+            // disbursement voucher distribution will be set by the document in the caller function
+        }else {
+            // set accounting
+            KualiDecimal totalAmount = KualiDecimal.ZERO;
+            for (SourceAccountingLine line : document.getReimbursableSourceAccountingLines()) {
+                SourceAccountingLine accountingLine = new SourceAccountingLine();
+                  
+                accountingLine.setChartOfAccountsCode(line.getChartOfAccountsCode());
+                accountingLine.setAccountNumber(line.getAccountNumber());
+                accountingLine.setFinancialObjectCode(line.getFinancialObjectCode());              
+                accountingLine.setFinancialSubObjectCode(line.getFinancialSubObjectCode());
+                accountingLine.setSubAccountNumber(line.getSubAccountNumber());
+                accountingLine.setAmount(line.getAmount());
+                accountingLine.setPostingYear(disbursementVoucherDocument.getPostingYear());
+                accountingLine.setDocumentNumber(disbursementVoucherDocument.getDocumentNumber());
+    
+                disbursementVoucherDocument.addSourceAccountingLine(accountingLine);
+                totalAmount = totalAmount.add(line.getAmount());
+            }
+            //change the DV's total to the total of accounting lines
+            disbursementVoucherDocument.setDisbVchrCheckTotalAmount(totalAmount);
         }
-        //change the DV's total to the total of accounting lines
-        disbursementVoucherDocument.setDisbVchrCheckTotalAmount(totalAmount);
     }
 
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelDisbursementService#populateImportedCorpCardDisbursementVoucherFields(org.kuali.kfs.fp.document.DisbursementVoucherDocument, org.kuali.kfs.module.tem.document.TravelDocument, java.lang.String)
      */
+    @Override
     public void populateImportedCorpCardDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument, TravelDocument document, String cardAgencyType){
 
         Person principal = SpringContext.getBean(PersonService.class).getPerson(document.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
@@ -224,7 +226,7 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
                 totalAmount = totalAmount.add(line.getAmount());
             }
         }
-      //change the DV's total to the total of accounting lines
+        //change the DV's total to the total of accounting lines
         disbursementVoucherDocument.setDisbVchrCheckTotalAmount(totalAmount);
         
         disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(parameterService.getParameterValue(TemParameterConstants.TEM_DOCUMENT.class, TravelParameters.CORP_CARD_BANK_PAYMENT_REASON_CODE));
@@ -249,6 +251,7 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelDisbursementService#createAndApproveDisbursementVoucherDocument(org.kuali.kfs.module.tem.TemConstants.DisburseType, org.kuali.kfs.module.tem.document.TravelDocument, java.lang.String)
      */
+    @Override
     public DisbursementVoucherDocument createAndApproveDisbursementVoucherDocument(DisburseType type, TravelDocument document, String cardAgencyType){
         String currentUser = GlobalVariables.getUserSession().getPrincipalName();
         
@@ -344,6 +347,7 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
         //done with everything, reset errors and put back the old errors
         GlobalVariables.getMessageMap().clearErrorMessages();
         GlobalVariables.getMessageMap().getErrorMessages().putAll(oldErrors);
+        GlobalVariables.setUserSession(new UserSession(currentUser));
         
         return disbursementVoucherDocument;
     }
@@ -351,14 +355,18 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelDisbursementService#createAndApproveDisbursementVoucherDocument(org.kuali.kfs.module.tem.TemConstants.DisburseType, org.kuali.kfs.module.tem.document.TravelDocument)
      */
+    @Override
     public DisbursementVoucherDocument createAndApproveDisbursementVoucherDocument(DisburseType type, TravelDocument document){
         return  createAndApproveDisbursementVoucherDocument(type, document, null);
     }
     
     /**
-     * @see org.kuali.kfs.module.tem.document.service.TravelDisbursementService#processTEMReimbursementDV(org.kuali.kfs.module.tem.document.TEMReimbursementDocument)
+     * Since there is no difference between TEMReimbursement and TravelAdvance type disbursement voucher,
+     * use the same implementation.
+     * 
+     * @param document
      */
-    public void processTEMReimbursementDV(TEMReimbursementDocument document){
+    private void processTravelDocumentDV(TravelDocument document){
         String relationDescription = document.getDocumentHeader().getWorkflowDocument().getDocumentType() + " - DV";
         try {
             DisbursementVoucherDocument disbursementVoucherDocument = createAndApproveDisbursementVoucherDocument(DisburseType.reimbursable, document);
@@ -371,8 +379,25 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
     }
     
     /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelDisbursementService#processTEMReimbursementDV(org.kuali.kfs.module.tem.document.TEMReimbursementDocument)
+     */
+    @Override
+    public void processTEMReimbursementDV(TEMReimbursementDocument document){
+        processTravelDocumentDV(document);
+    }
+
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelDisbursementService#processTEMReimbursementDV(org.kuali.kfs.module.tem.document.TEMReimbursementDocument)
+     */
+    @Override
+    public void processTravelAdvanceDV(TravelAuthorizationDocument document){
+        processTravelDocumentDV(document);
+    }
+    
+    /**
      * @see org.kuali.kfs.module.tem.document.service.TravelDisbursementService#saveErrorDisbursementVoucher(org.kuali.kfs.fp.document.DisbursementVoucherDocument, org.kuali.kfs.module.tem.document.TravelDocument)
      */
+    @Override
     public void saveErrorDisbursementVoucher(DisbursementVoucherDocument disbursementVoucherDocument, TravelDocument travelDocument) throws Exception {
         businessObjectService.save(disbursementVoucherDocument);
         

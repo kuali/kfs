@@ -93,6 +93,12 @@ public class KFSPurapDocumentSearchCustomizer extends KFSDocumentSearchCustomize
     }
 
     protected boolean isAuthorizedToViewPurapDocId() {
+        //prevent a NPE when user has not logged in yet..
+        //KFSMI-8771
+        if (GlobalVariables.getUserSession().getPerson() == null) {
+            return false;
+        }
+        
         String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
         String namespaceCode = KFSConstants.CoreModuleNamespaces.KNS;
         String permissionTemplateName = KimConstants.PermissionTemplateNames.FULL_UNMASK_FIELD;

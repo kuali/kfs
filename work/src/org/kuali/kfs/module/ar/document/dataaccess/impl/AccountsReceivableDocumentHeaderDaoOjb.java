@@ -50,31 +50,28 @@ public class AccountsReceivableDocumentHeaderDaoOjb extends PlatformAwareDaoBase
         // get the AR documents by the customer b=number
         Criteria criteria1 = new Criteria();
         criteria1.addEqualTo(KFSConstants.CustomerOpenItemReport.CUSTOMER_NUMBER,customerNumber);
- 
+
         Collection<AccountsReceivableDocumentHeader> arHeadersByCustomer = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(AccountsReceivableDocumentHeader.class, criteria1));
-        
+
         Set<String> documentNumbers = new HashSet<String>();
         for (AccountsReceivableDocumentHeader header : arHeadersByCustomer) {
             documentNumbers.add(header.getDocumentNumber());
         }
-        
+
         // get the payment application documents, which belong to the customer but not in specified in AR_DOC_HDR_T 
-        Criteria criteria2 = new Criteria();
         if (!documentNumbers.isEmpty()) {
+            Criteria criteria2 = new Criteria();
             criteria2.addIn("financialDocumentReferenceInvoiceNumber",documentNumbers);
+            Collection<InvoicePaidApplied> invoicePaidAppliedList = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(InvoicePaidApplied.class, criteria2));    
+            Set<String> appDocumentNumbers = new HashSet<String>();
+            for (InvoicePaidApplied app : invoicePaidAppliedList) {
+                appDocumentNumbers.add(app.getDocumentNumber());
+            }
+            // now combine the document numbers
+            documentNumbers.addAll(appDocumentNumbers);
         }
-        Collection<InvoicePaidApplied> invoicePaidAppliedList = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(InvoicePaidApplied.class, criteria2));
-        
-        Set<String> appDocumentNumbers = new HashSet<String>();
-        for (InvoicePaidApplied app : invoicePaidAppliedList) {
-            appDocumentNumbers.add(app.getDocumentNumber());
-        }
-        
-        // now combine the document numbers
-        documentNumbers.addAll(appDocumentNumbers);
 
         // get the final AR documents
-        
         if (!documentNumbers.isEmpty()) {
             Criteria criteria3 = new Criteria();
             criteria3.addIn(KFSConstants.CustomerOpenItemReport.DOCUMENT_NUMBER,documentNumbers);

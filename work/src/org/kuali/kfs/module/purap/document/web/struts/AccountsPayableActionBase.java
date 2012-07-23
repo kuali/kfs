@@ -563,6 +563,7 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                     Note cancelNote = new Note();
                     cancelNote.setAuthorUniversalIdentifier(GlobalVariables.getUserSession().getPerson().getPrincipalId());
                     cancelNote.setNoteText(SpringContext.getBean(ConfigurationService.class).getPropertyValueAsString(PurapKeyConstants.AP_REOPENS_PURCHASE_ORDER_NOTE));
+                    cancelNote.setNotePostedTimestampToCurrent();
                     po.addNote(cancelNote);
                     SpringContext.getBean(PurapService.class).saveDocumentNoValidation(po);
 

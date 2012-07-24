@@ -58,11 +58,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class BudgetConstructionReasonSummaryReportServiceImpl implements BudgetConstructionReasonSummaryReportService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionReasonSummaryReportServiceImpl.class);
 
-    BudgetConstructionSalarySummaryReportDao budgetConstructionSalarySummaryReportDao;
-    BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService;
-    private BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
-    ConfigurationService kualiConfigurationService;
-    BusinessObjectService businessObjectService;
+    protected BudgetConstructionSalarySummaryReportDao budgetConstructionSalarySummaryReportDao;
+    protected BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService;
+    protected BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
+    protected ConfigurationService kualiConfigurationService;
+    protected BusinessObjectService businessObjectService;
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionReasonSummaryReportService#updateReasonSummaryReport(java.lang.String,

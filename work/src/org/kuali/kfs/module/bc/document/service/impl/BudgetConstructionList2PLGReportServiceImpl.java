@@ -41,11 +41,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BudgetConstructionList2PLGReportServiceImpl implements BudgetConstructionList2PLGReportService {
 
-    BudgetConstructionList2PLGReportDao budgetConstructionList2PLGReportDao;
-    BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService;
-    ConfigurationService kualiConfigurationService;
-    BusinessObjectService businessObjectService;
-    PersistenceService persistenceServiceOjb; 
+    protected BudgetConstructionList2PLGReportDao budgetConstructionList2PLGReportDao;
+    protected BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService;
+    protected ConfigurationService kualiConfigurationService;
+    protected BusinessObjectService businessObjectService;
+    protected PersistenceService persistenceServiceOjb; 
 
     @Override
     public void updateList2PLGReport(String principalName, Integer universityFiscalYear) {

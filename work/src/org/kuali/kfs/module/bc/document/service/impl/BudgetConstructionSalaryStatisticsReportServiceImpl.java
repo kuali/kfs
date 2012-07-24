@@ -44,12 +44,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BudgetConstructionSalaryStatisticsReportServiceImpl implements BudgetConstructionSalaryStatisticsReportService {
 
-    BudgetConstructionSalaryStatisticsReportDao budgetConstructionSalaryStatisticsReportDao;
-    BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService;
-    private BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
-    ConfigurationService kualiConfigurationService;
-    BusinessObjectService businessObjectService;
-    PersistenceService persistenceServiceOjb;
+    protected BudgetConstructionSalaryStatisticsReportDao budgetConstructionSalaryStatisticsReportDao;
+    protected BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService;
+    protected BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
+    protected ConfigurationService kualiConfigurationService;
+    protected BusinessObjectService businessObjectService;
+    protected PersistenceService persistenceServiceOjb;
 
     public void updateSalaryStatisticsReport(String principalName, Integer universityFiscalYear) {
         budgetConstructionSalaryStatisticsReportDao.updateReportsSalaryStatisticsTable(principalName, universityFiscalYear-1);

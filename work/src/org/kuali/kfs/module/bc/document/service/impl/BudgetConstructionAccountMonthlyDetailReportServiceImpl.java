@@ -36,8 +36,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BudgetConstructionAccountMonthlyDetailReportServiceImpl implements BudgetConstructionAccountMonthlyDetailReportService {
 
-    private ConfigurationService kualiConfigurationService;
-    private BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
+    protected ConfigurationService kualiConfigurationService;
+    protected BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
     
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionLevelSummaryReportService#buildReports(java.lang.Integer,

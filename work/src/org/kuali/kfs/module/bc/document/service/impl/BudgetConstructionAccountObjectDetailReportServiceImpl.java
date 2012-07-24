@@ -47,11 +47,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BudgetConstructionAccountObjectDetailReportServiceImpl implements BudgetConstructionAccountObjectDetailReportService {
 
-    private BudgetConstructionAccountObjectDetailReportDao budgetConstructionAccountObjectDetailReportDao;
-    private ConfigurationService kualiConfigurationService;
-    private BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService;
-    private BusinessObjectService businessObjectService;
-    private PersistenceService persistenceServiceOjb;
+    protected BudgetConstructionAccountObjectDetailReportDao budgetConstructionAccountObjectDetailReportDao;
+    protected ConfigurationService kualiConfigurationService;
+    protected BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService;
+    protected BusinessObjectService businessObjectService;
+    protected PersistenceService persistenceServiceOjb;
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateSubFundSummaryReport(java.lang.String)

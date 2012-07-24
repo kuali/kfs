@@ -29,7 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class BudgetPushPullServiceImpl implements BudgetPushPullService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetPushPullServiceImpl.class);
     
-    private BudgetOrganizationPushPullDao budgetOrganizationPushPullDao;
+    protected BudgetOrganizationPushPullDao budgetOrganizationPushPullDao;
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetPushPullService#pullupSelectedOrganizationDocuments(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String)

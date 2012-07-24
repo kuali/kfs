@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class OrganizationBCDocumentSearchServiceImpl implements OrganizationBCDocumentSearchService {
     private static Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationBCDocumentSearchServiceImpl.class);
 
-    private OrganizationBCDocumentSearchDao organizationBCDocumentSearchDao;
+    protected OrganizationBCDocumentSearchDao organizationBCDocumentSearchDao;
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.OrganizationBCDocumentSearchService#buildAccountSelectPullList(java.lang.String,

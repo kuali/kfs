@@ -33,8 +33,8 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteServiceImpl implements 
     private static Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionMonthlyBudgetsCreateDeleteService.class);
 
 
-    private BudgetConstructionMonthlyBudgetsCreateDeleteDao budgetConstructionMonthlyBudgetsCreateDeleteDao;
-    private PersistenceService persistenceServiceOjb; 
+    protected BudgetConstructionMonthlyBudgetsCreateDeleteDao budgetConstructionMonthlyBudgetsCreateDeleteDao;
+    protected PersistenceService persistenceServiceOjb; 
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionMonthlyBudgetsCreateDeleteService#deleteBudgetConstructionMonthlyBudgetsRevenue(java.lang.String,

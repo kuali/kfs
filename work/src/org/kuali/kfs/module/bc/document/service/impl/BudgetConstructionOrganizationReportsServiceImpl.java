@@ -40,7 +40,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BudgetConstructionOrganizationReportsServiceImpl implements BudgetConstructionOrganizationReportsService {
 
-    private BudgetConstructionOrganizationReportsDao budgetConstructionOrganizationReportsDao;
+    protected BudgetConstructionOrganizationReportsDao budgetConstructionOrganizationReportsDao;
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionOrganizationReportsService#getByPrimaryId(java.lang.String,

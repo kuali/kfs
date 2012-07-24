@@ -38,11 +38,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTreeService {
     private static Logger LOG = org.apache.log4j.Logger.getLogger(BudgetOrganizationTreeServiceImpl.class);
 
-    private BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService;
-    private BusinessObjectService businessObjectService;
-    private BudgetConstructionDao budgetConstructionDao;
-    private BudgetPullupDao budgetPullupDao;
-    private PersistenceService persistenceServiceOjb;
+    protected BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService;
+    protected BusinessObjectService businessObjectService;
+    protected BudgetConstructionDao budgetConstructionDao;
+    protected BudgetPullupDao budgetPullupDao;
+    protected PersistenceService persistenceServiceOjb;
 
     // controls used to trap any runaways due to cycles in the reporting tree
     protected static final int MAXLEVEL = 50;

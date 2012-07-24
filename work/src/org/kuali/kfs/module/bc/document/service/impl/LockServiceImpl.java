@@ -59,9 +59,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class LockServiceImpl implements LockService {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LockServiceImpl.class);
 
-    private BudgetConstructionDao budgetConstructionDao;
-    private BudgetConstructionLockDao budgetConstructionLockDao;
-    private BudgetDocumentService budgetDocumentService;
+    protected BudgetConstructionDao budgetConstructionDao;
+    protected BudgetConstructionLockDao budgetConstructionLockDao;
+    protected BudgetDocumentService budgetDocumentService;
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.LockService#lockAccount(org.kuali.kfs.module.bc.businessobject.BudgetConstructionHeader,

@@ -42,8 +42,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class ReportExportServiceImpl implements ReportExportService {
-    ReportDumpDao reportDumpDao;
-    BusinessObjectService businessObjectService;
+    protected ReportDumpDao reportDumpDao;
+    protected BusinessObjectService businessObjectService;
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.ReportExportService#updateAccountDump(java.lang.String)

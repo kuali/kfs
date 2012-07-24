@@ -44,8 +44,8 @@ import org.kuali.rice.krad.util.MessageMap;
 public class SalarySettingRuleHelperServiceImpl implements SalarySettingRuleHelperService {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SalarySettingRuleHelperServiceImpl.class);
 
-    private SalarySettingService salarySettingService;
-    private HumanResourcesPayrollService humanResourcesPayrollService;
+    protected SalarySettingService salarySettingService;
+    protected HumanResourcesPayrollService humanResourcesPayrollService;
     
     /**
      * @see org.kuali.kfs.module.bc.document.service.SalarySettingRuleHelperService#canBeAdjusted(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding, org.kuali.rice.krad.util.MessageMap)

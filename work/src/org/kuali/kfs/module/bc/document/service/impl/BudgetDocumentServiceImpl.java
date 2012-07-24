@@ -94,20 +94,20 @@ import org.springframework.transaction.annotation.Transactional;
 public class BudgetDocumentServiceImpl implements BudgetDocumentService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetDocumentServiceImpl.class);
 
-    private BudgetConstructionDao budgetConstructionDao;
-    private DocumentDao documentDao;
-    private DocumentService documentService;
-    private WorkflowDocumentService workflowDocumentService;
-    private BenefitsCalculationService benefitsCalculationService;
-    private BusinessObjectService businessObjectService;
-    private KualiModuleService kualiModuleService;
-    private ParameterService parameterService;
-    private BudgetParameterService budgetParameterService;
-    private FiscalYearFunctionControlService fiscalYearFunctionControlService;
-    private OptionsService optionsService;
-    private PersistenceService persistenceService;
-    private OrganizationService organizationService;
-    private String defaultLaborBenefitRateCategoryCode;
+    protected BudgetConstructionDao budgetConstructionDao;
+    protected DocumentDao documentDao;
+    protected DocumentService documentService;
+    protected WorkflowDocumentService workflowDocumentService;
+    protected BenefitsCalculationService benefitsCalculationService;
+    protected BusinessObjectService businessObjectService;
+    protected KualiModuleService kualiModuleService;
+    protected ParameterService parameterService;
+    protected BudgetParameterService budgetParameterService;
+    protected FiscalYearFunctionControlService fiscalYearFunctionControlService;
+    protected OptionsService optionsService;
+    protected PersistenceService persistenceService;
+    protected OrganizationService organizationService;
+    protected String defaultLaborBenefitRateCategoryCode;
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetDocumentService#getByCandidateKey(java.lang.String, java.lang.String,

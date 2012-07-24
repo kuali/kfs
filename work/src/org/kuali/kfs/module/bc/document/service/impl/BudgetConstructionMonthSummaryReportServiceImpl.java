@@ -40,9 +40,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BudgetConstructionMonthSummaryReportServiceImpl implements BudgetConstructionMonthSummaryReportService {
 
-    BudgetConstructionMonthSummaryReportDao budgetConstructionMonthSummaryReportDao;
-    ConfigurationService kualiConfigurationService;
-    BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
+    protected BudgetConstructionMonthSummaryReportDao budgetConstructionMonthSummaryReportDao;
+    protected ConfigurationService kualiConfigurationService;
+    protected BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateRepotsMonthSummaryTable(java.lang.String)

@@ -42,11 +42,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BudgetConstructionSynchronizationProblemsReportServiceImpl implements BudgetConstructionSynchronizationProblemsReportService {
 
-    BudgetConstructionSynchronizationProblemsReportDao budgetConstructionSynchronizationProblemsReportDao;
-    BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService;
-    ConfigurationService kualiConfigurationService;
-    BusinessObjectService businessObjectService;
-    PersistenceService persistenceServiceOjb;
+    protected BudgetConstructionSynchronizationProblemsReportDao budgetConstructionSynchronizationProblemsReportDao;
+    protected BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService;
+    protected ConfigurationService kualiConfigurationService;
+    protected BusinessObjectService businessObjectService;
+    protected PersistenceService persistenceServiceOjb;
 
 
     public void updateSynchronizationProblemsReport(String principalName) {

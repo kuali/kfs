@@ -40,10 +40,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BudgetConstructionSubFundSummaryReportServiceImpl implements BudgetConstructionSubFundSummaryReportService {
 
-    private BudgetConstructionAccountSummaryReportDao budgetConstructionAccountSummaryReportDao;
-    private ConfigurationService kualiConfigurationService;
-    private BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
-    private boolean trExist = false;
+    protected BudgetConstructionAccountSummaryReportDao budgetConstructionAccountSummaryReportDao;
+    protected ConfigurationService kualiConfigurationService;
+    protected BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
+    protected boolean trExist = false;
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateSubFundSummaryReport(java.lang.String)

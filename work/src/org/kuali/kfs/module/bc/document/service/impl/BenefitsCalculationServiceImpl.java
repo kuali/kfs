@@ -28,9 +28,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BenefitsCalculationServiceImpl implements BenefitsCalculationService {
 
-    private ConfigurationService kualiConfigurationService;
-    private BenefitsCalculationDao benefitsCalculationDao;
-    private OptionsService optionsService;
+    protected ConfigurationService kualiConfigurationService;
+    protected BenefitsCalculationDao benefitsCalculationDao;
+    protected OptionsService optionsService;
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BenefitsCalculationService#getBenefitsCalculationDisabled()

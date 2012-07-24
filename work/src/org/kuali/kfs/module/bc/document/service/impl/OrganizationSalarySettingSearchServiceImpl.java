@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class OrganizationSalarySettingSearchServiceImpl implements OrganizationSalarySettingSearchService {
     private static Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationSalarySettingSearchServiceImpl.class);
 
-    private OrganizationSalarySettingSearchDao organizationSalarySettingSearchDao;
+    protected OrganizationSalarySettingSearchDao organizationSalarySettingSearchDao;
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.OrganizationSalarySettingSearchService#buildIntendedIncumbentSelect(java.lang.String,

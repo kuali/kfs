@@ -40,9 +40,9 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class BudgetConstructionDocumentAccountObjectDetailReportServiceImpl implements BudgetConstructionDocumentAccountObjectDetailReportService {
-    private BudgetConstructionDocumentAccountObjectDetailReportDao budgetConstructionDocumentAccountObjectDetailReportDao;
-    private ConfigurationService kualiConfigurationService;
-    private BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
+    protected BudgetConstructionDocumentAccountObjectDetailReportDao budgetConstructionDocumentAccountObjectDetailReportDao;
+    protected ConfigurationService kualiConfigurationService;
+    protected BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
 
     @Override
     public void updateDocumentAccountObjectDetailReportTable(String principalName, String documentNumber, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber) {

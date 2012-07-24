@@ -81,18 +81,18 @@ import com.lowagie.text.pdf.PdfWriter;
  */
 
 public class BudgetRequestImportServiceImpl implements BudgetRequestImportService {
-    private BusinessObjectService businessObjectService;
-    private ImportRequestDao importRequestDao;
-    private DictionaryValidationService dictionaryValidationService;
-    private LockService lockService;
-    private BudgetDocumentService budgetDocumentService;
-    private LaborModuleService laborModuleService;
-    private BudgetParameterService budgetParameterService;
-    private OptionsService optionsService;
-    private DocumentHelperService documentHelperService;
-    private DocumentService documentService;
-    private ParameterService parameterService;
-    private PersistenceService persistenceServiceOjb;
+    protected BusinessObjectService businessObjectService;
+    protected ImportRequestDao importRequestDao;
+    protected DictionaryValidationService dictionaryValidationService;
+    protected LockService lockService;
+    protected BudgetDocumentService budgetDocumentService;
+    protected LaborModuleService laborModuleService;
+    protected BudgetParameterService budgetParameterService;
+    protected OptionsService optionsService;
+    protected DocumentHelperService documentHelperService;
+    protected DocumentService documentService;
+    protected ParameterService parameterService;
+    protected PersistenceService persistenceServiceOjb;
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetRequestImportServiceImpl.class);
 

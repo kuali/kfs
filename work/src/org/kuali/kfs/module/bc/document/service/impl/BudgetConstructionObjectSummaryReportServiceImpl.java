@@ -41,9 +41,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BudgetConstructionObjectSummaryReportServiceImpl implements BudgetConstructionObjectSummaryReportService {
 
-    private BudgetConstructionObjectSummaryReportDao budgetConstructionObjectSummaryReportDao;
-    private ConfigurationService kualiConfigurationService;
-    private BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
+    protected BudgetConstructionObjectSummaryReportDao budgetConstructionObjectSummaryReportDao;
+    protected ConfigurationService kualiConfigurationService;
+    protected BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateRepotsLevelSummaryTable(java.lang.String)

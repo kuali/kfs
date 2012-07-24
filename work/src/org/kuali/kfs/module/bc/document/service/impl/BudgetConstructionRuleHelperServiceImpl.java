@@ -45,9 +45,9 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class BudgetConstructionRuleHelperServiceImpl implements BudgetConstructionRuleHelperService {
     private static final Logger LOG = Logger.getLogger(BudgetConstructionRuleHelperServiceImpl.class);
 
-    private DictionaryValidationService dictionaryValidationService;
-    private LaborModuleService laborModuleService;
-    private BudgetDocumentService budgetDocumentService;
+    protected DictionaryValidationService dictionaryValidationService;
+    protected LaborModuleService laborModuleService;
+    protected BudgetDocumentService budgetDocumentService;
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionRuleHelperService#hasDetailPositionRequiredObjectCode(org.kuali.kfs.module.bc.businessobject.PendingBudgetConstructionAppointmentFunding,

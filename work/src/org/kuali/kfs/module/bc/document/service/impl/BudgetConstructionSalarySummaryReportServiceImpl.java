@@ -51,9 +51,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BudgetConstructionSalarySummaryReportServiceImpl implements BudgetConstructionSalarySummaryReportService {
 
-    private BudgetConstructionSalarySummaryReportDao budgetConstructionSalarySummaryReportDao;
-    private BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
-    private ConfigurationService kualiConfigurationService;
+    protected BudgetConstructionSalarySummaryReportDao budgetConstructionSalarySummaryReportDao;
+    protected BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
+    protected ConfigurationService kualiConfigurationService;
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionSalarySummaryReportService#updateSalarySummaryReport(java.lang.String, java.lang.Integer, org.kuali.kfs.module.bc.businessobject.BudgetConstructionReportThresholdSettings)

@@ -46,12 +46,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BudgetConstructionReasonStatisticsReportServiceImpl implements BudgetConstructionReasonStatisticsReportService {
 
-    BudgetConstructionReasonStatisticsReportDao budgetConstructionReasonStatisticsReportDao;
-    BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService;
-    private BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
-    ConfigurationService kualiConfigurationService;
-    BusinessObjectService businessObjectService;
-    PersistenceService persistenceServiceOjb;
+    protected BudgetConstructionReasonStatisticsReportDao budgetConstructionReasonStatisticsReportDao;
+    protected BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService;
+    protected BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
+    protected ConfigurationService kualiConfigurationService;
+    protected BusinessObjectService businessObjectService;
+    protected PersistenceService persistenceServiceOjb;
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionReasonStatisticsReportService#updateReasonStatisticsReport(java.lang.String,

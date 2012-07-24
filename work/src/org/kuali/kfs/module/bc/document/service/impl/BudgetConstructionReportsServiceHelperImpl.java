@@ -51,9 +51,9 @@ import com.lowagie.text.pdf.PdfWriter;
  */
 public class BudgetConstructionReportsServiceHelperImpl implements BudgetConstructionReportsServiceHelper {
 
-    BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService;
-    BusinessObjectService businessObjectService;
-    PersistenceService persistenceServiceOjb; 
+    protected BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService;
+    protected BusinessObjectService businessObjectService;
+    protected PersistenceService persistenceServiceOjb; 
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionReportsServiceHelper#getDataForBuildingReports(java.lang.Class,

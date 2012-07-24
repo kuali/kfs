@@ -63,13 +63,13 @@ import com.lowagie.text.pdf.PdfWriter;
 
 public class PayrateImportServiceImpl implements PayrateImportService {
     
-    private BusinessObjectService businessObjectService;
-    private LockService lockService;
-    private int importCount;
-    private int updateCount;
-    private OptionsService optionsService;
-    private PayrateImportDao payrateImportDao;
-    private BudgetDocumentService budgetDocumentService;
+    protected BusinessObjectService businessObjectService;
+    protected LockService lockService;
+    protected int importCount;
+    protected int updateCount;
+    protected OptionsService optionsService;
+    protected PayrateImportDao payrateImportDao;
+    protected BudgetDocumentService budgetDocumentService;
     
     /**
      * 

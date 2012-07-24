@@ -31,9 +31,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 public class PayrateExportServiceImpl implements PayrateExportService {
-    private BusinessObjectService businessObjectService;
-    private PayrateExportDao payrateExportDao;
-    private int exportCount;
+    protected BusinessObjectService businessObjectService;
+    protected PayrateExportDao payrateExportDao;
+    protected int exportCount;
 
     /**
      * 

@@ -47,10 +47,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BudgetConstructionPositionFundingDetailReportServiceImpl implements BudgetConstructionPositionFundingDetailReportService {
 
-    private BudgetConstructionPositionFundingDetailReportDao budgetConstructionPositionFundingDetailReportDao;
-    private ConfigurationService kualiConfigurationService;
-    private BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
-    private SalarySettingService salarySettingService;
+    protected BudgetConstructionPositionFundingDetailReportDao budgetConstructionPositionFundingDetailReportDao;
+    protected ConfigurationService kualiConfigurationService;
+    protected BudgetConstructionReportsServiceHelper budgetConstructionReportsServiceHelper;
+    protected SalarySettingService salarySettingService;
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetConstructionPositionFundingDetailReportService#updatePositionFundingDetailReport(java.lang.String,

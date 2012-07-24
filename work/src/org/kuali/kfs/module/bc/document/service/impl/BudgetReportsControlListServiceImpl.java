@@ -38,9 +38,9 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class BudgetReportsControlListServiceImpl implements BudgetReportsControlListService {
-    BudgetReportsControlListDao budgetReportsControlListDao;
-    BusinessObjectService businessObjectService;
-    PersistenceService persistenceServiceOjb;
+    protected BudgetReportsControlListDao budgetReportsControlListDao;
+    protected BusinessObjectService businessObjectService;
+    protected PersistenceService persistenceServiceOjb;
 
     /**
      * @see org.kuali.kfs.module.bc.document.service.BudgetReportsControlListService#updateReportsControlList(java.lang.String,

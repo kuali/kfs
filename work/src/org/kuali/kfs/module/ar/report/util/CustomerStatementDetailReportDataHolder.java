@@ -56,8 +56,12 @@ public class CustomerStatementDetailReportDataHolder {
        }
        
        documentNumber = docHeader.getDocumentNumber();
-       this.setDocumentFinalDate(docHeader.getDocumentFinalDate());
+       
+       java.util.Date lastApprovedDate = docHeader.getWorkflowDocument().getDateApproved().toDate();
+       
+       this.setDocumentFinalDate(new java.sql.Date(lastApprovedDate.getTime()));
        this.docType = docType;
+
        orgName = processingOrg.getOrganizationName();
        
        String fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().toString();

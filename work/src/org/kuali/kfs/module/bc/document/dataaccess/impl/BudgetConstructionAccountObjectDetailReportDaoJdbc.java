@@ -30,9 +30,9 @@ import org.kuali.kfs.sys.KFSConstants;
 public class BudgetConstructionAccountObjectDetailReportDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetConstructionAccountObjectDetailReportDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionAccountObjectDetailReportDaoJdbc.class);
 
-    private static ArrayList<SQLForStep> updateReportsAccountObjectDetailTable = new ArrayList<SQLForStep>(4);
-    private static ArrayList<SQLForStep> insertDetailForReport = new ArrayList<SQLForStep>(1);
-    private static ArrayList<SQLForStep> insertSummaryForReport = new ArrayList<SQLForStep>(1);
+    protected static ArrayList<SQLForStep> updateReportsAccountObjectDetailTable = new ArrayList<SQLForStep>(4);
+    protected static ArrayList<SQLForStep> insertDetailForReport = new ArrayList<SQLForStep>(1);
+    protected static ArrayList<SQLForStep> insertSummaryForReport = new ArrayList<SQLForStep>(1);
 
     public BudgetConstructionAccountObjectDetailReportDaoJdbc() {
 

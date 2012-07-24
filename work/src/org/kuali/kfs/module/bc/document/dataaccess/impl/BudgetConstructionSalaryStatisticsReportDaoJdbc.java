@@ -28,7 +28,7 @@ import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionSalaryStati
 public class BudgetConstructionSalaryStatisticsReportDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetConstructionSalaryStatisticsReportDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionSalaryStatisticsReportDaoJdbc.class);
 
-    private static ArrayList<SQLForStep> updateReportsSalaryStatisticsTable = new ArrayList<SQLForStep>(12);
+    protected static ArrayList<SQLForStep> updateReportsSalaryStatisticsTable = new ArrayList<SQLForStep>(12);
 
     public BudgetConstructionSalaryStatisticsReportDaoJdbc() {
 

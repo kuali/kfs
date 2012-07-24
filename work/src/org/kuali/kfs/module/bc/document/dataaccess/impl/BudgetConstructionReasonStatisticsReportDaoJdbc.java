@@ -30,9 +30,9 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 public class BudgetConstructionReasonStatisticsReportDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetConstructionReasonStatisticsReportDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionReasonStatisticsReportDaoJdbc.class);
 
-    private static ArrayList<SQLForStep> updateReportsReasonStatisticsTable = new ArrayList<SQLForStep>(10);
-    private static ArrayList<SQLForStep> reportReasonStatisticsWithThreshold = new ArrayList<SQLForStep>(3);
-    private static ArrayList<SQLForStep> reportReasonStatisticsWithNoThreshold = new ArrayList<SQLForStep>(2);
+    protected static ArrayList<SQLForStep> updateReportsReasonStatisticsTable = new ArrayList<SQLForStep>(10);
+    protected static ArrayList<SQLForStep> reportReasonStatisticsWithThreshold = new ArrayList<SQLForStep>(3);
+    protected static ArrayList<SQLForStep> reportReasonStatisticsWithNoThreshold = new ArrayList<SQLForStep>(2);
 
     public BudgetConstructionReasonStatisticsReportDaoJdbc() {
 

@@ -27,7 +27,7 @@ import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionAccountFund
 public class BudgetConstructionAccountFundingDetailReportDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetConstructionAccountFundingDetailReportDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionAccountFundingDetailReportDaoJdbc.class);
 
-    private static ArrayList<SQLForStep> updateReportsAccountFundingDetailTable = new ArrayList<SQLForStep>(1);
+    protected static ArrayList<SQLForStep> updateReportsAccountFundingDetailTable = new ArrayList<SQLForStep>(1);
 
     public BudgetConstructionAccountFundingDetailReportDaoJdbc() {
 

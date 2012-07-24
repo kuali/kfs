@@ -30,8 +30,8 @@ import org.kuali.kfs.sys.KFSConstants;
 
 public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase implements BenefitsCalculationDao {
 
-    private static ArrayList<SQLForStep> sqlAnnualSteps = new ArrayList<SQLForStep>(6);
-    private static ArrayList<SQLForStep> sqlMonthlySteps = new ArrayList<SQLForStep>(4);
+    protected static ArrayList<SQLForStep> sqlAnnualSteps = new ArrayList<SQLForStep>(6);
+    protected static ArrayList<SQLForStep> sqlMonthlySteps = new ArrayList<SQLForStep>(4);
 
 
     /**

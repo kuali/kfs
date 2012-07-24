@@ -31,12 +31,12 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 public class BudgetConstructionSalarySummaryReportDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetConstructionSalarySummaryReportDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionSalarySummaryReportDaoJdbc.class);
 
-    private static ArrayList<SQLForStep> updateReportsSalarySummaryThreshold = new ArrayList<SQLForStep>(7);
-    private static ArrayList<SQLForStep> salarySummaryAboveThreshold = new ArrayList<SQLForStep>(1);
-    private static ArrayList<SQLForStep> salarySummaryBelowThreshold = new ArrayList<SQLForStep>(1);
-    private static ArrayList<SQLForStep> updateReportsSalarySummaryNoThresholdReason = new ArrayList<SQLForStep>(1);
-    private static ArrayList<SQLForStep> updateReportsSalarySummaryNoThresholdNoReason = new ArrayList<SQLForStep>(1);
-    private static ArrayList<SQLForStep> updateReportsSalarySummaryCommon = new ArrayList<SQLForStep>(2);
+    protected static ArrayList<SQLForStep> updateReportsSalarySummaryThreshold = new ArrayList<SQLForStep>(7);
+    protected static ArrayList<SQLForStep> salarySummaryAboveThreshold = new ArrayList<SQLForStep>(1);
+    protected static ArrayList<SQLForStep> salarySummaryBelowThreshold = new ArrayList<SQLForStep>(1);
+    protected static ArrayList<SQLForStep> updateReportsSalarySummaryNoThresholdReason = new ArrayList<SQLForStep>(1);
+    protected static ArrayList<SQLForStep> updateReportsSalarySummaryNoThresholdNoReason = new ArrayList<SQLForStep>(1);
+    protected static ArrayList<SQLForStep> updateReportsSalarySummaryCommon = new ArrayList<SQLForStep>(2);
 
     public BudgetConstructionSalarySummaryReportDaoJdbc() {
 

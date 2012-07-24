@@ -25,9 +25,9 @@ import org.kuali.kfs.sys.KFSConstants;
 public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJdbcBase implements OrganizationBCDocumentSearchDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationBCDocumentSearchDaoJdbc.class);
 
-    private static String[] buildAccountSelectPullListTemplates = new String[1];
-    private static String[] buildBudgetedAccountsAbovePointsOfView = new String[1];
-    private static String[] buildAccountManagerDelegateListTemplates = new String[3];
+    protected static String[] buildAccountSelectPullListTemplates = new String[1];
+    protected static String[] buildBudgetedAccountsAbovePointsOfView = new String[1];
+    protected static String[] buildAccountManagerDelegateListTemplates = new String[3];
 
     public OrganizationBCDocumentSearchDaoJdbc() {
 

@@ -25,11 +25,11 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationSalarySettingSearchDaoJdbc.class);
 
-    private static final int MAXLEVEL = 50;
-    private static String[] buildIntendedIncumbentSelectTemplates = new String[1];
-    private static String[] initSelectedPositionOrgsTemplates = new String[1];
-    private static String[] populateSelectedPositionOrgsSubTreeTemplates = new String[1];
-    private static String[] populatePositionSelectForSubTreeTemplates = new String[7];
+    protected static final int MAXLEVEL = 50;
+    protected static String[] buildIntendedIncumbentSelectTemplates = new String[1];
+    protected static String[] initSelectedPositionOrgsTemplates = new String[1];
+    protected static String[] populateSelectedPositionOrgsSubTreeTemplates = new String[1];
+    protected static String[] populatePositionSelectForSubTreeTemplates = new String[7];
 
     public OrganizationSalarySettingSearchDaoJdbc() {
 

@@ -29,7 +29,7 @@ import org.kuali.kfs.sys.KFSConstants;
 public class BudgetConstructionMonthSummaryReportDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetConstructionMonthSummaryReportDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionMonthSummaryReportDaoJdbc.class);
 
-    private static ArrayList<SQLForStep> updateReportsMonthSummaryTable = new ArrayList<SQLForStep>(9);
+    protected static ArrayList<SQLForStep> updateReportsMonthSummaryTable = new ArrayList<SQLForStep>(9);
 
     public BudgetConstructionMonthSummaryReportDaoJdbc() {
 

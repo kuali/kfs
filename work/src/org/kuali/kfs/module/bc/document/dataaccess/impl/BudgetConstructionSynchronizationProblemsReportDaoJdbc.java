@@ -30,7 +30,7 @@ import org.kuali.kfs.sys.KFSConstants.BudgetConstructionPositionConstants;
 public class BudgetConstructionSynchronizationProblemsReportDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetConstructionSynchronizationProblemsReportDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionSynchronizationProblemsReportDaoJdbc.class);
 
-    private static ArrayList<SQLForStep> updateReportsSynchronizationProblemsTable = new ArrayList<SQLForStep>(2);
+    protected static ArrayList<SQLForStep> updateReportsSynchronizationProblemsTable = new ArrayList<SQLForStep>(2);
 
     public BudgetConstructionSynchronizationProblemsReportDaoJdbc() {
 

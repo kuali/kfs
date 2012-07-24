@@ -26,9 +26,9 @@ public class BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc extends BudgetC
 
     private static Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc.class);
 
-    private static ArrayList<SQLForStep> deleteAllSql = new ArrayList<SQLForStep>(2);
-    private static ArrayList<SQLForStep> spreadRevenueSql = new ArrayList<SQLForStep>(2);
-    private static ArrayList<SQLForStep> spreadExpenditureSql = new ArrayList<SQLForStep>(3);
+    protected static ArrayList<SQLForStep> deleteAllSql = new ArrayList<SQLForStep>(2);
+    protected static ArrayList<SQLForStep> spreadRevenueSql = new ArrayList<SQLForStep>(2);
+    protected static ArrayList<SQLForStep> spreadExpenditureSql = new ArrayList<SQLForStep>(3);
 
     public BudgetConstructionMonthlyBudgetsCreateDeleteDaoJdbc() {
 

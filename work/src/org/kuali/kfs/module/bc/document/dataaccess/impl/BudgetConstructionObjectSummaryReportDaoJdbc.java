@@ -23,7 +23,7 @@ import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionObjectSumma
 
 public class BudgetConstructionObjectSummaryReportDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetConstructionObjectSummaryReportDao {
 
-    private static ArrayList<SQLForStep> objectSummarySql = new ArrayList<SQLForStep>(5);
+    protected static ArrayList<SQLForStep> objectSummarySql = new ArrayList<SQLForStep>(5);
 
     public BudgetConstructionObjectSummaryReportDaoJdbc() {
 

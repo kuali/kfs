@@ -29,8 +29,8 @@ import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionLevelSummar
 public class BudgetConstructionLevelSummaryReportDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetConstructionLevelSummaryReportDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionLevelSummaryReportDaoJdbc.class);
 
-    private static ArrayList<SQLForStep> updateReportsLevelSummaryTable = new ArrayList<SQLForStep>(7);
-    ArrayList<Integer> insertionPoints = new ArrayList<Integer>(10);
+    protected static ArrayList<SQLForStep> updateReportsLevelSummaryTable = new ArrayList<SQLForStep>(7);
+    protected ArrayList<Integer> insertionPoints = new ArrayList<Integer>(10);
 
 
     public BudgetConstructionLevelSummaryReportDaoJdbc() {

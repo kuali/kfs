@@ -32,13 +32,13 @@ import org.kuali.kfs.module.bc.document.dataaccess.BudgetReportsControlListDao;
 public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetReportsControlListDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetReportsControlListDaoJdbc.class);
 
-    private static String[] updateReportsControlList = new String[5];
-    private static String updateReportsSubFundGroupSelectList = new String();
-    private static String updateReportsObjectCodeSelectList = new String();
-    private static String updateReportsReasonCodeSelectList = new String();
-    private static String updateReportsSelectedSubFundGroupFlags = new String();
-    private static String updateReportsSelectedObjectCodeFlags = new String();
-    private static String updateReportsSelectedReasonCodeFlags = new String();
+    protected static String[] updateReportsControlList = new String[5];
+    protected static String updateReportsSubFundGroupSelectList = new String();
+    protected static String updateReportsObjectCodeSelectList = new String();
+    protected static String updateReportsReasonCodeSelectList = new String();
+    protected static String updateReportsSelectedSubFundGroupFlags = new String();
+    protected static String updateReportsSelectedObjectCodeFlags = new String();
+    protected static String updateReportsSelectedReasonCodeFlags = new String();
 
     public BudgetReportsControlListDaoJdbc() {
         // get the accounts for the selected org(s)

@@ -24,11 +24,11 @@ import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionDocumentAcc
 
 public class BudgetConstructionDocumentAccountObjectDetailReportDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetConstructionDocumentAccountObjectDetailReportDao {
 
-    private SQLForStep initialInsert;
-    private SQLForStep setNonLeaveCSFFTE;
-    private SQLForStep setLeaveCSFFTE;
+    protected SQLForStep initialInsert;
+    protected SQLForStep setNonLeaveCSFFTE;
+    protected SQLForStep setLeaveCSFFTE;
 
-    private ArrayList<Integer> insertionPoints = new ArrayList<Integer>(4);
+    protected ArrayList<Integer> insertionPoints = new ArrayList<Integer>(4);
 
     public BudgetConstructionDocumentAccountObjectDetailReportDaoJdbc() {
         StringBuilder sqlText = new StringBuilder(750);

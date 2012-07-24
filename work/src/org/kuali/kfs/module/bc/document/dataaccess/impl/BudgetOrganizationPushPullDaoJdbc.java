@@ -27,10 +27,10 @@ import org.kuali.kfs.module.bc.document.dataaccess.BudgetOrganizationPushPullDao
  */
 public class BudgetOrganizationPushPullDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetOrganizationPushPullDao {
 
-    private static String[] pullupSelectedOrganizationDocumentsTemplates = new String[8];
-    private static String[] pushdownSelectedOrganizationDocumentsTemplates = new String[11];
-    private static String[] accountSelectBudgetedDocumentsPullUpTemplates = new String[2];
-    private static String[] accountSelectBudgetedDocumentsPushDownTemplates = new String[1];
+    protected static String[] pullupSelectedOrganizationDocumentsTemplates = new String[8];
+    protected static String[] pushdownSelectedOrganizationDocumentsTemplates = new String[11];
+    protected static String[] accountSelectBudgetedDocumentsPullUpTemplates = new String[2];
+    protected static String[] accountSelectBudgetedDocumentsPushDownTemplates = new String[1];
 
     public BudgetOrganizationPushPullDaoJdbc() {
 

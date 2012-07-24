@@ -23,7 +23,7 @@ import org.kuali.kfs.module.bc.document.dataaccess.ReportDumpDao;
  * @see org.kuali.kfs.module.bc.document.dataaccess.ReportDumpDao
  */
 public class ReportDumpDaoJdbc extends BudgetConstructionDaoJdbcBase implements ReportDumpDao {
-    private static String updateAccountDump = new String();
+    protected static String updateAccountDump = new String();
 
     public ReportDumpDaoJdbc() {
         super();

@@ -29,11 +29,11 @@ import org.kuali.kfs.module.bc.document.dataaccess.BudgetConstructionAccountSumm
 public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetConstructionAccountSummaryReportDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionAccountSummaryReportDaoJdbc.class);
 
-    private static ArrayList<SQLForStep> updateReportsAccountSummaryTable = new ArrayList<SQLForStep>(1);
+    protected static ArrayList<SQLForStep> updateReportsAccountSummaryTable = new ArrayList<SQLForStep>(1);
 
-    private static ArrayList<SQLForStep> updateReportsAccountSummaryTableWithConsolidation = new ArrayList<SQLForStep>(1);
+    protected static ArrayList<SQLForStep> updateReportsAccountSummaryTableWithConsolidation = new ArrayList<SQLForStep>(1);
 
-    private static ArrayList<SQLForStep> updateSubFundSummaryReport = new ArrayList<SQLForStep>(1);
+    protected static ArrayList<SQLForStep> updateSubFundSummaryReport = new ArrayList<SQLForStep>(1);
 
     public BudgetConstructionAccountSummaryReportDaoJdbc() {
 

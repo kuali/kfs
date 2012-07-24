@@ -23,10 +23,10 @@ import org.kuali.kfs.module.bc.document.dataaccess.BudgetPullupDao;
 public class BudgetPullupDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetPullupDao {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetPullupDaoJdbc.class);
-    private static final int MAXLEVEL = 50;
+    protected static final int MAXLEVEL = 50;
 
-    private static String[] initPointOfViewTemplates = new String[1];
-    private static String[] insertChildOrgTemplates = new String[2];
+    protected static String[] initPointOfViewTemplates = new String[1];
+    protected static String[] insertChildOrgTemplates = new String[2];
 
     public BudgetPullupDaoJdbc() {
 

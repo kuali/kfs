@@ -30,7 +30,7 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 public class BudgetConstructionPositionFundingDetailReportDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetConstructionPositionFundingDetailReportDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionPositionFundingDetailReportDaoJdbc.class);
 
-    private static ArrayList<SQLForStep> updateReportsPositionFundingDetailTable = new ArrayList<SQLForStep>(5);
+    protected static ArrayList<SQLForStep> updateReportsPositionFundingDetailTable = new ArrayList<SQLForStep>(5);
 
     public BudgetConstructionPositionFundingDetailReportDaoJdbc() {
 

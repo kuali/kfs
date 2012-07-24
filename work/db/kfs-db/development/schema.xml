@@ -13698,7 +13698,7 @@
         <column name="BILL_ST_CD" required="true" size="2" type="VARCHAR"/>
         <column name="BILL_PSTL_CD" required="true" size="20" type="VARCHAR"/>
         <column name="BILL_CNTRY_CD" required="true" size="2" type="VARCHAR"/>
-        <column name="BILL_PHN_NBR" required="true" size="20" type="VARCHAR"/>
+        <column name="BILL_PHN_NBR" size="20" type="VARCHAR"/>
         <column name="EXT_ORG_B2B_SUPP_ID" size="19" type="VARCHAR"/>
         <column name="ORG_AUTO_PO_LMT" scale="2" size="19" type="DECIMAL"/>
         <column name="PO_AUTO_IND" size="1" type="VARCHAR"/>

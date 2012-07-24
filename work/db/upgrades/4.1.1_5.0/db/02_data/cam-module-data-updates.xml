@@ -10,7 +10,7 @@
 			<column name="VER_NBR" valueNumeric="1" />
 			<column name="AST_PMT_DST_NM" value="Distribute cost by amount" />
 			<column name="AST_PMT_DST_COL_NM" value="Allocate Amount" />
-			<column name="AST_PMT_DST_EDT" value="Y" />
+			<column name="AST_PMT_DST_EDT" value="N" />
 			<column name="ROW_ACTV_IND" value="Y" />
 		</insert>
 		<insert tableName="CM_AST_PMT_DST_CD_T">

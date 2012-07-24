@@ -27,13 +27,14 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.fp.document.DistributionOfIncomeAndExpenseDocument;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
+import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.businessobject.TEMExpense;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
 import org.kuali.kfs.module.tem.document.TravelDocument;
+import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
 import org.kuali.kfs.module.tem.service.TEMExpenseService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
@@ -44,6 +45,8 @@ import org.kuali.rice.kns.util.KualiDecimal;
 public class ImportedCTSExpenseServiceImpl extends ExpenseServiceBase implements TEMExpenseService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ImportedCTSExpenseServiceImpl.class);
 
+    ImportedExpensePendingEntryService importedExpensePendingEntryService;
+    
     /**
      * @see org.kuali.kfs.module.tem.service.TEMExpenseService#calculateDistributionTotals(org.kuali.kfs.module.tem.document.TravelDocument, java.util.Map, java.util.List)
      */
@@ -194,7 +197,7 @@ public class ImportedCTSExpenseServiceImpl extends ExpenseServiceBase implements
                 KualiDecimal amount = (accountingLineMap.get(key) == null?tripAccountMap.get(key):tripAccountMap.get(key).subtract(accountingLineMap.get(key)));
                 creditLine.setAmount(amount);
                 creditLine.setReferenceOriginCode(TemConstants.ORIGIN_CODE);
-                ExpenseUtils.generateImportedExpenseGeneralLedgerPendingEntries(travelDocument, creditLine, sequenceHelper, true, distributionIncomeAndExpenseDocumentType);
+                importedExpensePendingEntryService.generateDocumentImportedExpenseGeneralLedgerPendingEntries(travelDocument, creditLine, sequenceHelper, true, distributionIncomeAndExpenseDocumentType);
                 
                 accountingLineMap.remove(key);
             }
@@ -216,7 +219,7 @@ public class ImportedCTSExpenseServiceImpl extends ExpenseServiceBase implements
             debitLine.setOrganizationReferenceId((accountInfo[6].toLowerCase().equals("null")?"":accountInfo[6]));
             debitLine.setAmount(accountingLineMap.get(key));
             debitLine.setReferenceOriginCode(TemConstants.ORIGIN_CODE);
-            ExpenseUtils.generateImportedExpenseGeneralLedgerPendingEntries(travelDocument, debitLine, sequenceHelper, false, distributionIncomeAndExpenseDocumentType);
+            importedExpensePendingEntryService.generateDocumentImportedExpenseGeneralLedgerPendingEntries(travelDocument, debitLine, sequenceHelper, false, distributionIncomeAndExpenseDocumentType);
         }
     }
 
@@ -235,4 +238,9 @@ public class ImportedCTSExpenseServiceImpl extends ExpenseServiceBase implements
         }
         getBusinessObjectService().save(historicalTravelExpenses);
     }
+    
+    public void setImportedExpensePendingEntryService(ImportedExpensePendingEntryService importedExpensePendingEntryService) {
+        this.importedExpensePendingEntryService = importedExpensePendingEntryService;
+    }
+
 }

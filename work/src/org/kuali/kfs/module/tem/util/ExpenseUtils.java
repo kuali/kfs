@@ -27,16 +27,10 @@ import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
 import org.kuali.kfs.module.tem.businessobject.TEMExpense;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
-import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.util.KualiDecimal;
 
@@ -123,75 +117,6 @@ public class ExpenseUtils {
         historicalTravelExpense.setDocumentNumber(documentNumber);
         historicalTravelExpense.setDocumentType(documentType);
         service.save(historicalTravelExpense);        
-    }
-    
-    public static boolean generateImportedExpenseGeneralLedgerPendingEntries(TravelDocument travelDocument, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, boolean isCredit, String docType) {
-        LOG.debug("processGenerateGeneralLedgerPendingEntries(TravelDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper, boolean) - start");
-
-        /*Map<String,Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE,glpeSourceDetail.getFinancialObjectCode());
-        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,glpeSourceDetail.getChartOfAccountsCode());
-        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,((GeneralLedgerPendingEntrySource)travelDocument).getPostingYear());
-        BusinessObjectService service = SpringContext.getBean(BusinessObjectService.class);
-        ObjectCode objectCode = (ObjectCode) service.findByPrimaryKey(ObjectCode.class, fieldValues);*/
-        glpeSourceDetail.getObjectCode().setChartOfAccountsCode(glpeSourceDetail.getChartOfAccountsCode());
-        glpeSourceDetail.getObjectCode().setFinancialObjectCode(glpeSourceDetail.getFinancialObjectCode());
-        glpeSourceDetail.getObjectCode().setUniversityFiscalYear(glpeSourceDetail.getPostingYear());
-        
-        //((TemSourceAccountingLine)glpeSourceDetail).setObjectCode(objectCode);
-        
-        
-        ((TemSourceAccountingLine)glpeSourceDetail).getObjectTypeCode();
-        // handle the explicit entry
-        // create a reference to the explicitEntry to be populated, so we can pass to the offset method later
-        GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
-        processExplicitGeneralLedgerPendingEntry(travelDocument, sequenceHelper, glpeSourceDetail, explicitEntry);
-        
-        explicitEntry.setFinancialDocumentTypeCode(docType);
-        explicitEntry.setTransactionLedgerEntryDescription(TemConstants.TEM_IMPORTED_GLPE_DESC);
-        explicitEntry.setOrganizationDocumentNumber(travelDocument.getTravelDocumentIdentifier());
-        explicitEntry.setDocumentNumber(travelDocument.getDocumentNumber());
-        explicitEntry.setOrganizationReferenceId(travelDocument.getFinancialDocumentTypeCode()+TemConstants.IMPORTED_FLAG);
-        if (isCredit){
-            explicitEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
-            explicitEntry.setProjectCode(null);
-        }
-        else{
-            explicitEntry.setProjectCode(travelDocument.getTemProfileId().toString());
-            explicitEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
-        }
-        
-        // increment the sequence counter
-        sequenceHelper.increment();
-
-        // handle the offset entry
-        GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(explicitEntry);
-        explicitEntry.setOrganizationReferenceId(travelDocument.getFinancialDocumentTypeCode()+TemConstants.IMPORTED_FLAG);
-        boolean success = processOffsetGeneralLedgerPendingEntry(travelDocument, sequenceHelper, glpeSourceDetail, explicitEntry, offsetEntry);
-
-        LOG.debug("processGenerateGeneralLedgerPendingEntries(TravelDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper, boolean) - end");
-        return success;
-    }
-    
-    private static void processExplicitGeneralLedgerPendingEntry(TravelDocument travelDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntry explicitEntry) {
-        LOG.debug("processExplicitGeneralLedgerPendingEntry(TravelDocument, GeneralLedgerPendingEntrySequenceHelper, AccountingLine, GeneralLedgerPendingEntry) - start");
-
-        SpringContext.getBean(GeneralLedgerPendingEntryService.class).populateExplicitGeneralLedgerPendingEntry(travelDocument, glpeSourceDetail, sequenceHelper, explicitEntry);
-
-        travelDocument.addPendingEntry(explicitEntry);
-
-        LOG.debug("processExplicitGeneralLedgerPendingEntry(AccountingDocument, GeneralLedgerPendingEntrySequenceHelper, AccountingLine, GeneralLedgerPendingEntry) - end");
-    }
-    
-    private static boolean processOffsetGeneralLedgerPendingEntry(TravelDocument travelDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntrySourceDetail postable, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
-        LOG.debug("processOffsetGeneralLedgerPendingEntry(TravelDocument, GeneralLedgerPendingEntrySequenceHelper, AccountingLine, GeneralLedgerPendingEntry, GeneralLedgerPendingEntry) - start");
-        
-        // populate the offset entry
-        boolean success = SpringContext.getBean(GeneralLedgerPendingEntryService.class).populateOffsetGeneralLedgerPendingEntry(travelDocument.getPostingYear(), explicitEntry, sequenceHelper, offsetEntry);
-        travelDocument.addPendingEntry(offsetEntry);
-        sequenceHelper.increment();
-        LOG.debug("processOffsetGeneralLedgerPendingEntry(TravelDocument, GeneralLedgerPendingEntrySequenceHelper, AccountingLine, GeneralLedgerPendingEntry, GeneralLedgerPendingEntry) - end");
-        return success;
     }
     
     public static void calculateMileage(List<ActualExpense> actualExpenses){

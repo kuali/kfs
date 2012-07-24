@@ -18,8 +18,6 @@ package org.kuali.kfs.module.tem.batch.service.impl;
 import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
 import static org.kuali.kfs.module.tem.util.BufferedLogger.error;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -34,18 +32,12 @@ import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.ProjectCodeService;
 import org.kuali.kfs.coa.service.SubAccountService;
 import org.kuali.kfs.coa.service.SubObjectCodeService;
-import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.AgencyMatchProcessParameter;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
-import org.kuali.kfs.module.tem.businessobject.TripAccountingInformation;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
-import org.kuali.kfs.sys.KFSConstants;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.document.validation.impl.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -249,100 +241,6 @@ public class ExpenseImportServiceBase {
         else {
             return backupValue;
         }
-    }
-
-    /**
-     * 
-     * This method sets up the common fields in the {@link GeneralLedgerPendingEntry}
-     * @param agencyData
-     * @param info
-     * @param sequenceHelper
-     * @return
-     */
-    protected GeneralLedgerPendingEntry setupGeneralLedgerPendingEntry(AgencyStagingData agencyData, TripAccountingInformation info, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        
-        //3-Digit Code Agency Code + Number of day (001~365) + YY + hhmmss
-        DateFormat dateFormat = new SimpleDateFormat("Dyyhhmmss");
-
-
-        GeneralLedgerPendingEntry glpe = new GeneralLedgerPendingEntry();
-        glpe.setVersionNumber(new Long(1));
-        glpe.setUniversityFiscalYear(getUniversityDateService().getCurrentFiscalYear());
-        glpe.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
-        glpe.setUniversityFiscalPeriodCode(null);
-        glpe.setFinancialDocumentTypeCode(TemConstants.IMPORTED_EXPENSE_DOCUMENT);
-        glpe.setFinancialSystemOriginationCode("TM");
-        glpe.setTransactionLedgerEntryDescription(TemConstants.TEM_IMPORTED_GLPE_DESC);
-        // set doc number "MMddyyyy"
-        glpe.setDocumentNumber(agencyData.getCreditCardOrAgencyCode().substring(0,2) + dateFormat.format(getDateTimeService().getCurrentSqlDate()));
-        glpe.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
-        sequenceHelper.increment();
-        glpe.setTransactionDate(agencyData.getTransactionPostingDate());
-        if (StringUtils.isNotEmpty(agencyData.getTravelerId())) {
-            glpe.setOrganizationDocumentNumber(agencyData.getTravelerId());
-        } 
-        else {
-            glpe.setOrganizationDocumentNumber(agencyData.getTripId());
-        }
-        return glpe;
-    }
-    
-    /**
-     * 
-     * This method builds a debit {@link GeneralLedgerPendingEntry}
-     * @param agencyData
-     * @param info
-     * @param sequenceHelper
-     * @param objectCode
-     * @param amount
-     * @return
-     */
-    protected GeneralLedgerPendingEntry buildDebitGeneralLedgerPendingEntry(AgencyStagingData agencyData, TripAccountingInformation info, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, String objectCode, KualiDecimal amount) {
-        String chartCode = info.getTripChartCode();
-        ObjectCode debitObjectCode = getObjectCode(chartCode, objectCode);
-        if (ObjectUtils.isNull(debitObjectCode)) {
-            LOG.error("Could not get an ObjectCode for chart code: " + chartCode + " object code: " + objectCode);
-            return null;
-        }
-        GeneralLedgerPendingEntry glpe = setupGeneralLedgerPendingEntry(agencyData, info, sequenceHelper);
-        glpe.setChartOfAccountsCode(info.getTripChartCode());
-        glpe.setAccountNumber(info.getTripAccountNumber());
-        glpe.setSubAccountNumber(getEntryValue(info.getTripSubAccountNumber(), GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankSubAccountNumber()));
-        glpe.setFinancialObjectCode(objectCode);
-        glpe.setFinancialSubObjectCode(getEntryValue(info.getSubObjectCode(), GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialSubObjectCode()));
-        glpe.setFinancialObjectTypeCode(debitObjectCode.getFinancialObjectTypeCode());
-        glpe.setTransactionLedgerEntryAmount(amount);
-        glpe.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
-        glpe.setProjectCode(getEntryValue(info.getProjectCode(), GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankProjectCode()));
-        return glpe;
-    }
-
-    /**
-     * 
-     * This method builds a credit {@link GeneralLedgerPendingEntry}
-     * @param agencyData
-     * @param info
-     * @param sequenceHelper
-     * @param amount
-     * @return
-     */
-    protected GeneralLedgerPendingEntry buildCreditGeneralLedgerPendingEntry(AgencyStagingData agencyData, TripAccountingInformation info, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, String objectCode, KualiDecimal amount) {
-        GeneralLedgerPendingEntry glpe = setupGeneralLedgerPendingEntry(agencyData, info, sequenceHelper);
-        String chartCode = getParameter(AgencyMatchProcessParameter.AP_CLEARING_CTS_PAYMENT_CHART, AgencyMatchProcessParameter.AGENCY_MATCH_DTL_TYPE);
-        ObjectCode creditObjectCode = getObjectCode(chartCode, objectCode);
-        if (ObjectUtils.isNull(creditObjectCode)) {
-            LOG.error("Could not get an ObjectCode for chart code: " + chartCode + " object code: " + objectCode);
-            return null;
-        }
-        glpe.setChartOfAccountsCode(chartCode);
-        glpe.setAccountNumber(getParameter(AgencyMatchProcessParameter.AP_CLEARING_CTS_PAYMENT_ACCOUNT, AgencyMatchProcessParameter.AGENCY_MATCH_DTL_TYPE));
-        glpe.setSubAccountNumber(getEntryValue(getParameter(AgencyMatchProcessParameter.AP_CLEARING_CTS_PAYMENT_SUB_ACCOUNT, AgencyMatchProcessParameter.AGENCY_MATCH_DTL_TYPE), GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankSubAccountNumber()));
-        glpe.setFinancialObjectCode(objectCode);
-        glpe.setFinancialSubObjectCode(getEntryValue(info.getSubObjectCode(), GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialSubObjectCode()));
-        glpe.setFinancialObjectTypeCode(creditObjectCode.getFinancialObjectTypeCode());
-        glpe.setTransactionLedgerEntryAmount(amount);
-        glpe.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
-        return glpe;
     }
     
     /**

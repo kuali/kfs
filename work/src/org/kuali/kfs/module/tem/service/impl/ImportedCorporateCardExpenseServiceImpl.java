@@ -29,6 +29,7 @@ import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.DisburseType;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemParameterConstants;
+import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
@@ -47,14 +48,13 @@ import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.util.GlobalVariables;
 
 public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase implements TEMExpenseService {
 
     protected static Logger LOG = Logger.getLogger(ImportedCorporateCardExpenseServiceImpl.class);
     
     TravelDisbursementService travelDisbursementService;
-    
+    ImportedExpensePendingEntryService importedExpensePendingEntryService;
     CreditCardAgencyService creditCardAgencyService;
 
     /**
@@ -138,7 +138,7 @@ public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase 
         //create glpe's for just corp cards;
         for (TemSourceAccountingLine line : (List<TemSourceAccountingLine>)travelDocument.getSourceAccountingLines()){
             if (creditCardAgencyService.getCorpCreditCardAgencyCodeList().contains(line.getCardType())){
-                ExpenseUtils.generateImportedExpenseGeneralLedgerPendingEntries(travelDocument, line, sequenceHelper, false, travelDocument.getFinancialDocumentTypeCode());
+                importedExpensePendingEntryService.generateDocumentImportedExpenseGeneralLedgerPendingEntries(travelDocument, line, sequenceHelper, false, travelDocument.getFinancialDocumentTypeCode());
             }
         }       
     }
@@ -196,5 +196,9 @@ public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase 
     
     public void setCreditCardAgencyService(CreditCardAgencyService creditCardAgencyService) {
         this.creditCardAgencyService = creditCardAgencyService;
+    }
+
+    public void setImportedExpensePendingEntryService(ImportedExpensePendingEntryService importedExpensePendingEntryService) {
+        this.importedExpensePendingEntryService = importedExpensePendingEntryService;
     }
 }

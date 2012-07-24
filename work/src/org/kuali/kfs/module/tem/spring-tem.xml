@@ -735,12 +735,15 @@
 	</bean>
 
 	<bean id="importedCTSExpenseService"
-		class="org.kuali.kfs.module.tem.service.impl.ImportedCTSExpenseServiceImpl" />
+		class="org.kuali.kfs.module.tem.service.impl.ImportedCTSExpenseServiceImpl" >
+        <property name="importedExpensePendingEntryService" ref="importedExpensePendingEntryService" />    
+    </bean>
 		
 	<bean id="importedCorporateCardExpenseService"
 		class="org.kuali.kfs.module.tem.service.impl.ImportedCorporateCardExpenseServiceImpl">
         <property name="travelDisbursementService" ref="travelDisbursementService" />
         <property name="creditCardAgencyService" ref="creditCardAgencyService" />
+        <property name="importedExpensePendingEntryService" ref="importedExpensePendingEntryService" />
     </bean>
     
     <bean id="creditCardAgencyService" class="org.kuali.kfs.module.tem.service.impl.CreditCardAgencyServiceImpl" />
@@ -977,6 +980,7 @@
 		<property name="objectCodeService" ref="objectCodeService" />
 		<property name="subObjectCodeService" ref="subObjectCodeService"/>
 		<property name="businessObjectService" ref="businessObjectService" />
+        <property name="importedExpensePendingEntryService" ref="importedExpensePendingEntryService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="travelExpenseService" ref="travelExpenseService"/>
 		<property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService" />
@@ -990,6 +994,13 @@
 		<property name="dateTimeService" ref="dateTimeService" />
 		<property name="travelExpenseService" ref="travelExpenseService" />
 	</bean>
+    <bean id="importedExpensePendingEntryService" parent="importedExpensePendingEntryService-parentBean" />
+    <bean id="importedExpensePendingEntryService-parentBean" class="org.kuali.kfs.module.tem.batch.service.impl.ImportedExpensePendingEntryServiceImpl">
+      <property name="dateTimeService" ref="dateTimeService" />
+      <property name="universityDateService" ref="universityDateService" />
+      <property name="parameterService" ref="parameterService"/>
+      <property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService" />
+    </bean>
 	<!-- End Agency Upload configuration -->
 
 	<!-- Start Credit Card Upload configuration -->

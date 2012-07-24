@@ -31,6 +31,7 @@ import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTravelerService;
+import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
@@ -57,6 +58,7 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
     private ObjectCodeService objectCodeService;
     private SubObjectCodeService subObjectCodeService;
     private BusinessObjectService businessObjectService;
+    private ImportedExpensePendingEntryService importedExpensePendingEntryService;
     private DateTimeService dateTimeService;
     private TravelExpenseService travelExpenseService;
     private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
@@ -323,26 +325,13 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
 
             // set the amount on the accounting info for by documents pulling in imported expenses
             info.setAmount(currentAmount);
-
-            GeneralLedgerPendingEntry debitGlpe = buildDebitGeneralLedgerPendingEntry(agencyData, info, sequenceHelper, info.getObjectCode(), currentAmount);
-            if (ObjectUtils.isNull(debitGlpe)) {
-                LOG.error("Failed to create a debit GLPE for agency: " + agencyData.getId() + " travelerId" + agencyData.getTravelerId());
-                allGlpesCreated = false;
-            }
-            else {
-                entries.add(debitGlpe);
-                LOG.debug("Created debit GLPE: " + debitGlpe.getDocumentNumber() + " for agency imported expense: " + agencyData.getId() + " travelerId" + agencyData.getTravelerId());
-            }
-                       
-            GeneralLedgerPendingEntry creditGlpe = buildCreditGeneralLedgerPendingEntry(agencyData, info, sequenceHelper, creditObjectCode, currentAmount);
-            if (ObjectUtils.isNull(creditGlpe)) {
-                LOG.error("Failed to create a credit GLPE for agency: " + agencyData.getId() + " travelerId" + agencyData.getTravelerId());
-                allGlpesCreated = false;
-            }
-            else {
-                entries.add(creditGlpe);
-                LOG.debug("Created credit GLPE: " + creditGlpe.getDocumentNumber() + " for agency imported expense: " + agencyData.getId() + " travelerId" + agencyData.getTravelerId());
-            }
+            
+            final boolean generateOffset = true;
+            List<GeneralLedgerPendingEntry> pendingEntries = importedExpensePendingEntryService.buildDebitPendingEntry(agencyData, info, sequenceHelper, info.getObjectCode(), currentAmount, generateOffset);
+            allGlpesCreated = importedExpensePendingEntryService.checkAndAddPendingEntriesToList(pendingEntries, entries, agencyData, false, generateOffset);
+            
+            pendingEntries = importedExpensePendingEntryService.buildCreditPendingEntry(agencyData, info, sequenceHelper, creditObjectCode, currentAmount, generateOffset);
+            allGlpesCreated &= importedExpensePendingEntryService.checkAndAddPendingEntriesToList(pendingEntries, entries, agencyData, true, generateOffset);
        }
         
         if (entries.size() > 0 && allGlpesCreated) {
@@ -570,6 +559,10 @@ public class ExpenseImportByTravelerServiceImpl extends ExpenseImportServiceBase
     @Override
     public void setErrorMessages(List<String> errorMessages) {
         this.errorMessages = errorMessages;
+    }
+
+    public void setImportedExpensePendingEntryService(ImportedExpensePendingEntryService importedExpensePendingEntryService) {
+        this.importedExpensePendingEntryService = importedExpensePendingEntryService;
     }
 
 }

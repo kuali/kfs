@@ -27,6 +27,7 @@ public class TemParameterConstants extends KfsParameterConstants {
     public static final String RELOCATION_PARAM_DTL_TYPE = "TravelRelocation";
     public static final String ENTERTAINMENT_PARAM_DTL_TYPE = "TravelEntertainment";
     public static final String PROFILE_PARAM_DTL_TYPE = "TemProfile";
+    public static final String AGENCY_MATCH_PARAM_DTL_TYPE = "AgencyMatchProcess";
 
     @NAMESPACE(namespace = TEM_NAMESPACE)
     @COMPONENT(component = ALL_COMPONENT)
@@ -73,4 +74,8 @@ public class TemParameterConstants extends KfsParameterConstants {
     public final class TEM_PROFILE{
     }
     
+    @NAMESPACE(namespace = TEM_NAMESPACE)
+    @COMPONENT(component = AGENCY_MATCH_PARAM_DTL_TYPE)
+    public final class TEM_AGENCY_MATCH{
+    }
 }

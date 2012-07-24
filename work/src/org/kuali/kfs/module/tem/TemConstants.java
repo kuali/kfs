@@ -668,8 +668,6 @@ public class TemConstants extends JSTLConstants {
         public static final String REQ_URL = "temREQS.do?methodToCall=docHandler&command=initiate&docTypeName=REQS&temDocID=";
     }
 
-    public static final String IMPORTED_EXPENSE_DOCUMENT = "DI";
-    
     public static class TEMTripTypes {
         public static final String DOMESTIC = "DOM";
         public static final String INTERNATIONAL = "INT";
@@ -709,6 +707,7 @@ public class TemConstants extends JSTLConstants {
 
     public static final String IMPORTED_FLAG = "-IMP";
 
+    public static final String TEM_IMPORTED_SYS_ORIG_CD = "TM";
     public static final String TEM_IMPORTED_GLPE_DESC = "TEM Imported Expense Re-Distribution";
     
     public static final String TEM_PROFILE_RELO_ENT = "Requester";

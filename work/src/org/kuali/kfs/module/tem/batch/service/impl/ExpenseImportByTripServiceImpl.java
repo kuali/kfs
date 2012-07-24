@@ -30,6 +30,7 @@ import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService;
+import org.kuali.kfs.module.tem.batch.service.ImportedExpensePendingEntryService;
 import org.kuali.kfs.module.tem.businessobject.AgencyServiceFee;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.CreditCardStagingData;
@@ -56,6 +57,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
     private TravelExpenseService travelExpenseService;
+    private ImportedExpensePendingEntryService importedExpensePendingEntryService;
 
     List<String> errorMessages=new ArrayList<String>();
 
@@ -340,6 +342,7 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
      * 
      * @see org.kuali.kfs.module.tem.batch.service.ExpenseImportByTripService#reconciliateExpense(org.kuali.kfs.module.tem.businessobject.AgencyStagingData, org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
+    @SuppressWarnings("null")
     @Override
     public boolean reconciliateExpense(AgencyStagingData agencyData, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
 
@@ -414,46 +417,22 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
                 
                 if (ObjectUtils.isNotNull(serviceFee)) {
                     // Agency Data has a DI Code that maps to an Agency Service Fee, create GLPEs for it.
-                    GeneralLedgerPendingEntry debitServiceFeeGlpe = buildDebitServiceFeeGLPE(agencyData, info, sequenceHelper, objectCode, serviceFee, currentFeeAmount);
-                    if (ObjectUtils.isNull(debitServiceFeeGlpe)) {
-                        LOG.error("Failed to create a debit Service Fee GLPE for agency: " + agencyData.getId() + " tripId: " + agencyData.getTripId());
-                        allGlpesCreated = false;
-                    }
-                    else {
-                        entries.add(debitServiceFeeGlpe);
-                        LOG.debug("Created debit service fee GLPE: " + debitServiceFeeGlpe.getDocumentNumber() + " for agency imported expense: " + agencyData.getId() + " tripId: " + agencyData.getTripId());
-                    }
+                    LOG.info("Processing Service Fee GLPE for agency: " + agencyData.getId() + " tripId: " + agencyData.getTripId());
                     
-                    GeneralLedgerPendingEntry creditServiceFeeGlpe = buildCreditServiceFeeGLPE(agencyData, info, sequenceHelper, serviceFee, currentFeeAmount);
-                    if (ObjectUtils.isNull(debitServiceFeeGlpe)) {
-                        LOG.error("Failed to create a credit Service Fee GLPE for agency: " + agencyData.getId() + " tripId: " + agencyData.getTripId());
-                        allGlpesCreated = false;
-                    }
-                    else {
-                        entries.add(creditServiceFeeGlpe);
-                        LOG.debug("Created credit service fee GLPE: " + creditServiceFeeGlpe.getDocumentNumber() + " for agency imported expense: " + agencyData.getId() + " tripId: " + agencyData.getTripId());
-                    }
+                    final boolean generateOffset = true;
+                    List<GeneralLedgerPendingEntry> pendingEntries = importedExpensePendingEntryService.buildDebitPendingEntry(agencyData, info, sequenceHelper, info.getObjectCode(), currentFeeAmount, generateOffset);
+                    allGlpesCreated = importedExpensePendingEntryService.checkAndAddPendingEntriesToList(pendingEntries, entries, agencyData, false, generateOffset);
+                    
+                    pendingEntries = importedExpensePendingEntryService.buildServiceFeeCreditPendingEntry(agencyData, info, sequenceHelper, serviceFee, currentFeeAmount, generateOffset);
+                    allGlpesCreated &= importedExpensePendingEntryService.checkAndAddPendingEntriesToList(pendingEntries, entries, agencyData, true, generateOffset);
                 }
+
+                final boolean generateOffset = true;
+                List<GeneralLedgerPendingEntry> pendingEntries = importedExpensePendingEntryService.buildDebitPendingEntry(agencyData, info, sequenceHelper, objectCode, currentAmount, generateOffset);
+                allGlpesCreated &= importedExpensePendingEntryService.checkAndAddPendingEntriesToList(pendingEntries, entries, agencyData, false, generateOffset);
                 
-                GeneralLedgerPendingEntry debitGlpe = buildDebitGeneralLedgerPendingEntry(agencyData, info, sequenceHelper, objectCode, currentAmount);
-                if (ObjectUtils.isNull(debitGlpe)) {
-                    LOG.error("Failed to create a debit GLPE for agency: " + agencyData.getId() + " tripId: " + agencyData.getTripId());
-                    allGlpesCreated = false;
-                }
-                else {
-                    entries.add(debitGlpe);
-                    LOG.debug("Created debit GLPE: " + debitGlpe.getDocumentNumber() + " for agency imported expense: " + agencyData.getId() + " tripId: " + agencyData.getTripId());
-                }
-                           
-                GeneralLedgerPendingEntry creditGlpe = buildCreditGeneralLedgerPendingEntry(agencyData, info, sequenceHelper, creditObjectCode, currentAmount);
-                if (ObjectUtils.isNull(creditGlpe)) {
-                    LOG.error("Failed to create a credit GLPE for agency: " + agencyData.getId() + " tripId: " + agencyData.getTripId());
-                    allGlpesCreated = false;
-                }
-                else {
-                    entries.add(creditGlpe);
-                    LOG.debug("Created credit GLPE: " + creditGlpe.getDocumentNumber() + " for agency imported expense: " + agencyData.getId() + " tripId: " + agencyData.getTripId());
-                }
+                pendingEntries = importedExpensePendingEntryService.buildCreditPendingEntry(agencyData, info, sequenceHelper, creditObjectCode, currentAmount, generateOffset);
+                allGlpesCreated &= importedExpensePendingEntryService.checkAndAddPendingEntriesToList(pendingEntries, entries, agencyData, true, generateOffset);
             }
             
             if (entries.size() > 0 && allGlpesCreated) {
@@ -520,40 +499,6 @@ public class ExpenseImportByTripServiceImpl extends ExpenseImportServiceBase imp
         return null;
     }
 
-    /**
-     * 
-     * This method creates a debit General Ledger Pending Entry for the Service Fee.
-     * @param agencyData
-     * @param info
-     * @param sequenceHelper
-     * @param objectCode
-     * @param serviceFee
-     * @param amount
-     * @return
-     */
-    protected GeneralLedgerPendingEntry buildDebitServiceFeeGLPE(AgencyStagingData agencyData, TripAccountingInformation info, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, String objectCode, AgencyServiceFee serviceFee, KualiDecimal amount) {
-        GeneralLedgerPendingEntry glpe = buildDebitGeneralLedgerPendingEntry(agencyData, info, sequenceHelper, objectCode, amount);
-        return glpe;
-    }
-    
-    /**
-     * 
-     * This method creates a credit General Ledger Pending Entry for the Service Fee.
-     * @param agencyData
-     * @param info
-     * @param sequenceHelper
-     * @param serviceFee
-     * @param amount
-     * @return
-     */
-    protected GeneralLedgerPendingEntry buildCreditServiceFeeGLPE(AgencyStagingData agencyData, TripAccountingInformation info, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AgencyServiceFee serviceFee, KualiDecimal amount) {
-        GeneralLedgerPendingEntry glpe = buildCreditGeneralLedgerPendingEntry(agencyData, info, sequenceHelper,serviceFee.getCreditObjectCode(), amount);
-        glpe.setChartOfAccountsCode(serviceFee.getCreditChartCode());
-        glpe.setAccountNumber(serviceFee.getCreditAccountNumber());
-        glpe.setFinancialObjectCode(serviceFee.getCreditObjectCode());
-       return glpe;
-    }
-    
     /**
      * Gets the travelAuthorizationService attribute. 
      * @return Returns the travelAuthorizationService.

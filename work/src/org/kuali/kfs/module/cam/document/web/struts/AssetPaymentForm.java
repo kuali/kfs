@@ -218,8 +218,11 @@ public class AssetPaymentForm extends KualiAccountingDocumentFormBase {
 	 * Returns whether the user can edit allocations.
 	 */
 	public boolean isAllocationEditable() {
-		AssetPaymentAllocationType assetPaymentAllocationType = getAssetPaymentDocument().getAssetPaymentAllocationType();
-		boolean allocationEditable = assetPaymentAllocationType==null ? false : assetPaymentAllocationType.isAllocationEditable();
+	    boolean allocationEditable = false;
+	    AssetPaymentAllocationType assetPaymentAllocationType = getAssetPaymentDocument().getAssetPaymentAllocationType();
+	    if (!this.getAssetPaymentDocument().isAllocationFromFPDocuments()) {
+	        allocationEditable = assetPaymentAllocationType==null ? false : assetPaymentAllocationType.isAllocationEditable();
+	    }
 		return allocationEditable;
 	}
 

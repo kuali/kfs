@@ -122,7 +122,7 @@ If this parameter is left blank, then the program will assume the current system
 "KFS-CAM","Batch","NON_DEPRECIABLE_FEDERALLY_OWNED_OBJECT_SUB_TYPES","KFS98","1","CONFG","CO;CP;UO;AM;AF;LA;BY","Non depreciable federally owned object sub type codes.","A","KFS"
 "KFS-CAM","Batch","NON_DEPRECIABLE_NON_CAPITAL_ASSET_STATUS_CODES","KFS99","1","CONFG","N;O","Asset status codes excluded from asset depreciation process.","A","KFS"
 "KFS-CAM","All","FISCAL_YEAR_END_MONTH_AND_DAY","KFSSYS7145-05","1","CONFG","0630","The month and day marking the last date of the fiscal year (0630 means June 30th).","A","KFS"
-"KFS-CG","All","MAXIMUM_ACCOUNT_RESPONSIBILITY_ID","KFS101","1","CONFG","17","Specifies the upper range for the Contracts & Grants Responsibility Id on Contracts & Grants Accounts. The minimum is 1.","A","KFS"
+"KFS-COA","All","MAXIMUM_ACCOUNT_RESPONSIBILITY_ID","KFS101","1","CONFG","17","Specifies the upper range for the Contracts & Grants Responsibility Id on Contracts & Grants Accounts. The minimum is 1.","A","KFS"
 "KFS-COA","CfdaBatchStep","RESULT_SUMMARY_TO_EMAIL_ADDRESSES","KFS102","1","CONFG","knoreceipt-l@indiana.edu","Listserv for recipients of CFDA batch process results.","A","KFS"
 "KFS-COA","CfdaBatchStep","SOURCE_URL","KFS103","1","CONFG","ftp://ftp.cfda.gov/programs","CFDA url","A","KFS"
 "KFS-COA","Account","CAPITAL_SUB_FUND_GROUPS","KFS117","1","CONFG","PFCMR","Indicates the SubFundGroup for this Kuali implementation that is used for CAMS/Capital purposes for capitalization of expenses related to building construction or remodeling.","A","KFS"

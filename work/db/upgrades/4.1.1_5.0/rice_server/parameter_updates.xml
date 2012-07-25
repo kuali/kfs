@@ -1052,5 +1052,14 @@
 			<column name="APPL_ID" value="KFS" />
 		</insert>
 	</changeSet>
+	
+	<changeSet author="KFS50" id="KFSMI-8710">	
+		<comment>KFSMI-7146 MAXIMUM_ACCOUNT_RESPONSIBILITY_ID parameter should be part of KFS-COA instead of KFS-CG</comment>
+		<update tableName="KRCR_PARM_T">
+			<column name="NMSPC_CD"
+				value="KFS-COA" />
+			<where>NMSPC_CD='KFS-CG' AND CMPNT_CD='All' AND PARM_NM='MAXIMUM_ACCOUNT_RESPONSIBILITY_ID'</where>
+		</update>
+	</changeSet>
 
 </databaseChangeLog>

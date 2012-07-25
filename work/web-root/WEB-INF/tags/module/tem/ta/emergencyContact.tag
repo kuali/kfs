@@ -17,14 +17,14 @@
 
 <script>
 	$(document).ready(function() {
-		var showEmergencyContacts = ${KualiForm.document.traveler.emergencyContacts != null && !empty KualiForm.document.traveler.emergencyContacts};
+		var showEmergencyContacts = ${fn:length(KualiForm.document.traveler.emergencyContacts) eq '0'}; 
 		if(showEmergencyContacts){
 			showTab(document, 'EmergencyContactInformation');
 		}
 	});
 </script>
 
-<kul:tab tabTitle="Emergency Contact Information" defaultOpen="${KualiForm.document.traveler.emergencyContacts != null && !empty KualiForm.document.traveler.emergencyContacts}" tabErrorKey="${TemKeyConstants.TRVL_AUTH_EMERGENCY_CONTACT_ERRORS}">
+<kul:tab tabTitle="Emergency Contact Information" defaultOpen="${fn:length(KualiForm.document.traveler.emergencyContacts) eq '0'}" tabErrorKey="${TemKeyConstants.TRVL_AUTH_EMERGENCY_CONTACT_ERRORS}">
 	<div class="tab-container" align="center">
 		<c:set var="documentAttributes" value="${DataDictionary.TravelAuthorizationDocument.attributes}" />
 		<c:set var="travelerAttributes" value="${DataDictionary.TravelerDetail.attributes}" /> 

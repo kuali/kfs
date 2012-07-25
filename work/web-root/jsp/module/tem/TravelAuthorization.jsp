@@ -41,9 +41,11 @@
     </c:if>
     <tem:expenses />
     <tem-ta:estimateTotal /> 
-    <tem:relatedDocuments />
+    <tem:summaryByObjectCode />
+    <tem:assignAccounts />
     <tem:accountingLines />
     <gl:generalLedgerPendingEntries />
+	<tem:relatedDocuments />
     <kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}"
 	attachmentTypesValuesFinderClass="${DataDictionary.TravelEntertainmentDocument.attachmentTypesValuesFinderClass}" />
     <kul:adHocRecipients />

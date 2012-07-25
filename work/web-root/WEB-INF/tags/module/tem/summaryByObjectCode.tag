@@ -42,11 +42,9 @@
 					<c:when test="${fn:length(KualiForm.distribution) > 0}">
 						<logic:iterate indexId="ctr" name="KualiForm" property="distribution" id="dist">
 							<tr>
-								<c:set var="disabled" value="${(dist.remainingAmount == 0 || !fullEntryMode)?'disabled=disabled':''}" />
-								<c:set var="checked" value="${(dist.selected && !(dist.remainingAmount == 0 || !fullEntryMode))?'checked=checked':''}" />
 								<td class="bord-1-b" align="center">
 									<c:choose>
-										<c:when test="${(dist.remainingAmount > 0 && fullEntryMode)}">
+										<c:when test="${(dist.remainingAmount > 0 && fullEntryMode && !dist.disabled)}">
 											<kul:htmlControlAttribute
 												attributeEntry="${distributionAttributes.selected}"
 												property="distribution[${ctr}].selected"
@@ -88,6 +86,7 @@
 										readOnly="true" />
 								</td>
 								<c:set var="tempValue" value="${temfunc:add(dist.remainingAmount,tempValue)}" />
+								<!-- c:set var="tempValue" value="${temfunc:add((dist.disabled?0:dist.remainingAmount),tempValue)}" / -->
 								<c:set var="selectedCount" value="${selectedCount + (dist.selected?1:0)}" />
 								<c:set var="selectedValue" value="${temfunc:add(selectedValue,(dist.selected?dist.subTotal:0))}" />
 							</tr>
@@ -102,7 +101,7 @@
 					<th colspan="4">
 						<div align="left">
 							<c:choose>
-								<c:when test="${tempValue == 0}">
+								<c:when test="${tempValue == 0 || selectedCount == 0}">
 									<img src="<c:out value="${ConfigProperties.externalizable.images.url}" />tinybutton-setdist1.gif" />
 								</c:when>
 								<c:otherwise>

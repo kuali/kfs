@@ -832,3 +832,4 @@ KFS-AR,PaymentApplication,DV_DOCUMENT_ROUTE,KFS-TEM-PARM-138,1,CONFG,BLANKETAPPR
 KFS-FP,DisbursementVoucher,AR_PRE_DISBURSEMENT_EXTRACT_ORGNIZATION,KFS-TEM-PARM-139,1,CONFG,KUAL,Allowed organization code for loading Disbursement Voucher payments to process refund checks for AR.,A,KFS
 KFS-FP,DisbursementVoucher,AR_PRE_DISBURSEMENT_EXTRACT_SUB_UNIT,KFS-TEM-PARM-140,1,CONFG,DV,Allowed sub unit code for loading Disbursement Voucher payments to process refund checks for AR.,A,KFS
 KFS-FP,DisbursementVoucher,CUSTOMER_PAYEE_TYPE_LABEL,KFS-TEM-PARM-141,1,CONFG,Customer,Label used for payees with type code C within the Disbursement Voucher.,A,KFS
+KFS-TEM,TravelAuthorization,ENABLE_ACCOUNTING_DISTRIBUTION_TAB_IND,KFS-TEM-PARM-142,1,CONFG,Y,"Enables accounting distribution tab (summary of expense by object code). When the parameter is ""N,"" only the normal Accounting Lines are displayed.",A,KFS

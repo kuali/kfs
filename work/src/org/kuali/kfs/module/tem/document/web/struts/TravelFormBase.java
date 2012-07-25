@@ -44,6 +44,7 @@ import org.kuali.kfs.module.tem.businessobject.TransportationMode;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
+import org.kuali.kfs.module.tem.document.web.bean.AccountingLineDistributionKey;
 import org.kuali.kfs.module.tem.document.web.bean.TravelMvcWrapperBean;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
@@ -98,7 +99,7 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
     private GroupTraveler newGroupTravelerLine;
     protected FormFile groupTravelerImportFile;
 
-    private List<AccountingDistribution> distribution;
+    protected List<AccountingDistribution> distribution;
     protected Integer accountDistributionnextSourceLineNumber;
     protected TemDistributionAccountingLine accountDistributionnewSourceLine;
     protected List<TemDistributionAccountingLine> accountDistributionsourceAccountingLines = new ArrayList<TemDistributionAccountingLine>();
@@ -849,15 +850,20 @@ public abstract class TravelFormBase extends KualiAccountingDocumentFormBase imp
      */
     @Override
     public void setDistribution(final List<AccountingDistribution> distribution) {
-        if (distribution != null && distribution.size() > 0
-                && this.distribution != null && this.distribution.size() > 0) {
-            Map<String, AccountingDistribution> distributionMap = new HashMap<String, AccountingDistribution>();
+        
+        // set up the selected object code/card type
+        if (!getDistribution().isEmpty() && this.distribution != null && !this.distribution.isEmpty()) {
+            
+            Map<AccountingLineDistributionKey, AccountingDistribution> distributionMap = new HashMap<AccountingLineDistributionKey, AccountingDistribution>();
             for (AccountingDistribution accountDistribution : this.distribution) {
-                distributionMap.put(accountDistribution.getObjectCode() + "-" + accountDistribution.getCardType(), accountDistribution);
+                distributionMap.put(new AccountingLineDistributionKey(accountDistribution.getObjectCode(), accountDistribution.getCardType()), accountDistribution);
             }
+            
+            AccountingLineDistributionKey key; 
             for (AccountingDistribution accountDistribution : distribution) {
-                if (distributionMap.containsKey(accountDistribution.getObjectCode() + "-" + accountDistribution.getCardType())) {
-                    accountDistribution.setSelected(distributionMap.get(accountDistribution.getObjectCode() + "-" + accountDistribution.getCardType()).getSelected());
+                key = new AccountingLineDistributionKey(accountDistribution.getObjectCode(), accountDistribution.getCardType());
+                if (distributionMap.containsKey(key)) {
+                    accountDistribution.setSelected(distributionMap.get(key).getSelected());
                 }
             }
 

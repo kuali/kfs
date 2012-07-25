@@ -23,6 +23,10 @@
 					<key><value>source</value></key>
 					<ref bean="TravelDocument-sourceAccountingLineGroup" parent="AccountingLineGroup"/>
 				</entry>
+                <entry>
+                    <key><value>accountDistribution</value></key>
+                    <ref bean="TravelDocument-accountDistributionSourceAccountingLineGroup" parent="AccountingLineGroup"/>
+                </entry>
 			</map>
 		</property>
 		<property name="attributes">

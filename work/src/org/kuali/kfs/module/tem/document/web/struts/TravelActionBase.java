@@ -82,6 +82,7 @@ import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TemDistributionAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
+import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.module.tem.document.TravelEntertainmentDocument;
@@ -896,6 +897,8 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
             paramDetailType = TravelEntertainmentParameters.PARAM_DTL_TYPE;
         } else if (document instanceof TravelRelocationDocument) {
             paramDetailType = TravelRelocationParameters.PARAM_DTL_TYPE;
+        } else if (document instanceof TravelAuthorizationDocument) {
+            paramDetailType = TravelAuthorizationParameters.PARAM_DTL_TYPE;
         }
         
         if (paramDetailType != null) {

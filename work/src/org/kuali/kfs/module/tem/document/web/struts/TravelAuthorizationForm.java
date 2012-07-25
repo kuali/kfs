@@ -18,6 +18,7 @@ package org.kuali.kfs.module.tem.document.web.struts;
 import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters.PARAM_DTL_TYPE;
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.DOCUMENT_DTL_TYPE;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -29,15 +30,17 @@ import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
-import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
 import org.kuali.kfs.module.tem.businessobject.TransportationMode;
 import org.kuali.kfs.module.tem.businessobject.TransportationModeDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetailEmergencyContact;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
+import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
+import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
+import org.kuali.kfs.module.tem.document.web.bean.AccountingLineDistributionKey;
 import org.kuali.kfs.module.tem.document.web.bean.TravelAuthorizationMvcWrapperBean;
 import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.sys.KFSConstants;
@@ -80,6 +83,24 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
         this.setShowPerDiem(false);
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.document.web.bean.TravelMvcWrapperBean#setDistribution(java.util.List)
+     */
+    @Override
+    public void setDistribution(final List<AccountingDistribution> distribution) {
+        super.setDistribution(distribution);
+        
+        TravelDocument travelDocument = (TravelDocument)getDocument();
+        
+        //TA doc - always deselected the expesne type (ENCUMBRANCE) so it does not get distributed automatically
+        for (AccountingDistribution accountdistribution : this.distribution){
+            if (accountdistribution.getCardType().equals(travelDocument.getExpenseTypeCode())){
+                accountdistribution.setSelected(Boolean.FALSE);
+                accountdistribution.setDisabled(Boolean.TRUE);
+            }
+        }
+    }
+    
     /**
      * @see org.kuali.kfs.module.tem.document.web.struts.TravelFormBase#getPerDiemLabel()
      */
@@ -515,14 +536,14 @@ public class TravelAuthorizationForm extends TravelFormBase implements TravelAut
         return SpringContext.getBean(DataDictionaryService.class);
     }
 
-    @Override
-    public void setDistribution(List<AccountingDistribution> distribution) {
-    }
+//    @Override
+//    public void setDistribution(List<AccountingDistribution> distribution) {
+//    }
 
-    @Override
-    public List<AccountingDistribution> getDistribution() {
-        return null;
-    }
+//    @Override
+//    public List<AccountingDistribution> getDistribution() {
+//        return null;
+//    }
 
     /**
      * @see org.kuali.kfs.module.tem.document.web.struts.TravelFormBase#getEnableTaxable()

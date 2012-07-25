@@ -15,10 +15,14 @@
  */
 package org.kuali.kfs.module.purap.document.validation.impl;
 
+import java.util.Collection;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.module.purap.PurapKeyConstants;
 import org.kuali.kfs.module.purap.businessobject.NegativePaymentRequestApprovalLimit;
+import org.kuali.kfs.module.purap.document.service.NegativePaymentRequestApprovalLimitService;
 import org.kuali.kfs.sys.KFSPropertyConstants;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
@@ -46,9 +50,35 @@ public class NegativePaymentRequestApprovalLimitRule extends MaintenanceDocument
         boolean result = super.processCustomRouteDocumentBusinessRules(document);
         final NegativePaymentRequestApprovalLimit limit = (NegativePaymentRequestApprovalLimit)getNewBo();
         result &= checkExclusiveOrganizationCodeAndAccountNumber(limit);
+        if (document.isNew() || document.isNewWithExisting()) {
+            result &= checkUniqueConstraint(limit);
+        }
         return result;
     }
     
+    
+    private boolean checkUniqueConstraint(NegativePaymentRequestApprovalLimit limit) {
+        boolean result = true;
+        String chartCode = limit.getChartOfAccountsCode();
+        String acctNumber = limit.getAccountNumber();
+        String organizationCode = limit.getOrganizationCode();
+         if (!StringUtils.isBlank(organizationCode)) {
+            Collection<NegativePaymentRequestApprovalLimit> negativePaymentRequestApprovalLimits = SpringContext.getBean(NegativePaymentRequestApprovalLimitService.class).findByChartAndOrganization(chartCode, organizationCode); 
+            if (negativePaymentRequestApprovalLimits.size() > 0) {
+                putFieldError(KFSPropertyConstants.ORGANIZATION_CODE, PurapKeyConstants.ERROR_NEGATIVE_PAYMENT_REQUEST_APPROVAL_LIMIT_ORG_AND_ACCOUNT_UNIQUE, new String[] {});
+                result = false;
+            }
+        } else if (!StringUtils.isBlank(acctNumber)) {
+            Collection<NegativePaymentRequestApprovalLimit> negativePaymentRequestApprovalLimits = SpringContext.getBean(NegativePaymentRequestApprovalLimitService.class).findByChartAndAccount(chartCode, acctNumber);
+            if (negativePaymentRequestApprovalLimits.size() > 0) {
+                putFieldError(KFSPropertyConstants.ACCOUNT_NUMBER, PurapKeyConstants.ERROR_NEGATIVE_PAYMENT_REQUEST_APPROVAL_LIMIT_ORG_AND_ACCOUNT_UNIQUE, new String[] {});
+                result = false;
+            }
+        }
+        return result;
+    }
+
+
     /**
      * Checks that organization code and account number aren't both specified on a new NegativePaymentRequestApprovalLimit
      * @param limit the NegativePaymentRequestApprovalLimit to check

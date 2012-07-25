@@ -180,7 +180,7 @@ public class PurapKeyConstants {
     public static final String ERROR_PAYMENT_REQUEST_LINE_ITEM_QUANTITY_ZERO = "error.paymentRequest.lineItem.quantity.zero";
     
     public static final String ERROR_NEGATIVE_PAYMENT_REQUEST_APPROVAL_LIMIT_ORG_AND_ACCOUNT_EXCLUSIVE = "error.negativePaymentRequestApprovalLimit.organizationAndAccountMutuallyExclusive";
-
+    public static final String ERROR_NEGATIVE_PAYMENT_REQUEST_APPROVAL_LIMIT_ORG_AND_ACCOUNT_UNIQUE = "error.negativePaymentRequestApprovalLimit.organizationAndAccountUniqueEntry";
     public static final String MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT = "message.duplicate.invoice.date.amount";
     public static final String MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLEDORVOIDED = "message.duplicate.invoice.date.amount.cancelledOrVoided";
     public static final String MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_VOIDED = "message.duplicate.invoice.date.amount.voided";

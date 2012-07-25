@@ -119,6 +119,7 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
             glpe.setTransactionLedgerEntryDescription(TemConstants.TEM_IMPORTED_GLPE_DESC);
             glpe.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
             glpe.setTransactionDate(agencyData.getTransactionPostingDate());
+            glpe.setOrganizationReferenceId(DIST_INCOME_DOC_TYPE +TemConstants.IMPORTED_FLAG);
             
             sequenceHelper.increment();
     
@@ -132,7 +133,6 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
             glpe.setTransactionDebitCreditCode(glCredtiDebitCode);
             glpe.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
         }
-        
         return glpe;
         
     }

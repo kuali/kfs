@@ -16,18 +16,12 @@
 package org.kuali.kfs.module.endow.document.validation.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.module.endow.EndowConstants;
 import org.kuali.kfs.module.endow.EndowKeyConstants;
 import org.kuali.kfs.module.endow.EndowPropertyConstants;
-import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionLine;
 import org.kuali.kfs.module.endow.businessobject.EndowmentTransactionSecurity;
 import org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocument;
-import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionalDocument;
-import org.kuali.kfs.module.endow.document.service.EndowmentTransactionLinesDocumentService;
-import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 abstract class OptionalSecurityBaseRules extends EndowmentTransactionLinesDocumentBaseRules {
 

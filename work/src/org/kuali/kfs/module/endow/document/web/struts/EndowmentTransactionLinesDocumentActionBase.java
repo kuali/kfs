@@ -43,6 +43,9 @@ import org.kuali.kfs.module.endow.businessobject.KEMID;
 import org.kuali.kfs.module.endow.businessobject.KEMIDCurrentBalance;
 import org.kuali.kfs.module.endow.businessobject.RegistrationCode;
 import org.kuali.kfs.module.endow.businessobject.Security;
+import org.kuali.kfs.module.endow.businessobject.SourceEndowmentAccountingLine;
+import org.kuali.kfs.module.endow.businessobject.TargetEndowmentAccountingLine;
+import org.kuali.kfs.module.endow.document.EndowmentAccountingLinesDocument;
 import org.kuali.kfs.module.endow.document.EndowmentSecurityDetailsDocumentBase;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocument;
 import org.kuali.kfs.module.endow.document.EndowmentTransactionLinesDocumentBase;
@@ -667,5 +670,56 @@ public abstract class EndowmentTransactionLinesDocumentActionBase extends Financ
         return new ActionForward(lookupUrl, true);
     }
 
+    /**
+     * need to refresh the accounting lines on the document so the referenced objects are
+     * available before document validations.
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#blanketApprove(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        refreshAccountingLines(form);
+        
+        return super.blanketApprove(mapping, form, request, response);
+    }
+        
+    /**
+     * need to refresh the accounting lines on the document so the referenced objects are
+     * available before document validations.
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#route(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        refreshAccountingLines(form);
+        
+        return super.route(mapping, form, request, response);
+    }
+    
+    /**
+     * need to refresh the accounting lines on the document so the referenced objects are
+     * available before document validations.
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#approve(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        refreshAccountingLines(form);
+        
+        return super.approve(mapping, form, request, response);
+    }
 
+    protected void refreshAccountingLines(ActionForm form) {
+        EndowmentAccountingLinesDocumentFormBase tmpForm = (EndowmentAccountingLinesDocumentFormBase) form;
+        EndowmentAccountingLinesDocument endowmentAccountingLinesDocument = (EndowmentAccountingLinesDocument)  tmpForm.getDocument();
+        
+        if (endowmentAccountingLinesDocument.getSourceAccountingLines() != null) {
+            for (int i = 0; i < endowmentAccountingLinesDocument.getSourceAccountingLines().size(); i++) {
+                SourceEndowmentAccountingLine sourceEndowmentAccountingLine = endowmentAccountingLinesDocument.getSourceAccountingLines().get(i);
+                sourceEndowmentAccountingLine.refreshNonUpdateableReferences();
+            }
+        }
+        
+        if (endowmentAccountingLinesDocument.getTargetAccountingLines() != null) {
+            for (int i = 0; i < endowmentAccountingLinesDocument.getTargetAccountingLines().size(); i++) {
+                TargetEndowmentAccountingLine targetEndowmentAccountingLine = endowmentAccountingLinesDocument.getTargetAccountingLines().get(i);
+                targetEndowmentAccountingLine.refreshNonUpdateableReferences();
+            }
+        }
+    }
 }

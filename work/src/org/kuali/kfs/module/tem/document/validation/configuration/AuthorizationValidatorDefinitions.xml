@@ -51,10 +51,17 @@
 	<bean id="TravelAuthorization-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
 		<property name="validations">
 			<list>
+                <bean parent="AccountingDocument-oneSidedRequiredAccountingLinesCountValidation" scope="prototype">
+                  <property name="requiredMinimumCount" value="1" />
+                  <property name="parameterProperties">
+                    <list>
+                      <bean parent="accountingDocumentFieldConversion" />
+                    </list>
+                  </property>
+                </bean>
 				<bean parent="TravelModule-travelAdvanceValidation" scope="prototype" />
 				<bean parent="TravelModule-accommodationInfoRequiredValidation" scope="prototype" />
 				<bean parent="TravelModule-tripDetailEstimateGreaterThanZeroValidation" scope="prototype" />
-    			<!-- <bean parent="TravelModule-accountingLineRequiredValidation" scope="prototype" /> -->
    				<bean parent="TravelModule-expenseTotalsValidation" scope="prototype" />
     			<bean parent="TravelModule-accountingTotalsValidation" scope="prototype" />
     			<!-- bean parent="TravelModule-customerExistValidation" scope="prototype" / -->

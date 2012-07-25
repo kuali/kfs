@@ -1085,5 +1085,14 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 	</changeSet>	
-	
+	<changeSet author="KFS50" id="KFSMI-8182_Attachment_Document_Opener_role">	
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFSMI8146" />
+			<column name="OBJ_ID" value="KFSMI8146" />
+			<column name="VER_NBR" valueNumeric="1" />
+			<column name="ROLE_ID" value="83" />
+			<column name="PERM_ID" value="259" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+	</changeSet>	
 </databaseChangeLog>

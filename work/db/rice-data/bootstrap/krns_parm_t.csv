@@ -760,7 +760,7 @@ KFS-TEM,TravelReimbursement,AR_REFUND_ACCOUNT_NBR,KFS-TEM-PARM-065,1,CONFG,93230
 KFS-TEM,TravelReimbursement,AR_REFUND_CHART_CODE,KFS-TEM-PARM-066,1,CONFG,UA,Chart of Account Code where the chart code should be paid.,A,KFS
 KFS-TEM,TravelReimbursement,AR_REFUND_OBJECT_CODE,KFS-TEM-PARM-067,1,CONFG,6000,Object Code where the travel advance payment should be charged.,A,KFS
 KFS-TEM,TravelReimbursement,DEFAULT_CHART_CODE,KFS-TEM-PARM-068,1,CONFG,BL,Default chart code for creating accounting lines,A,KFS
-KFS-TEM,TravelReimbursement,DEFAULT_REFUND_PAYMENT_REASON_CODE,KFS-TEM-PARM-069,1,CONFG,2,Parameter for TR spawned DVs.,A,KFS
+KFS-TEM,TravelReimbursement,TR_REIMBURSEMENT_DV_REASON_CODE,KFS-TEM-PARM-069,1,CONFG,2,DV Reason Code for the TR Reimbursements.,A,KFS
 KFS-TEM,TravelReimbursement,DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND,KFS-TEM-PARM-070,1,CONFG,Y,Flag whether to show the Less Advances for this Trip and Reimbursment for this Trip fields,A,KFS
 KFS-TEM,TravelReimbursement,DISPLAY_ENCUMBRANCE_IND,KFS-TEM-PARM-071,1,CONFG,Y,Flag whether to show the Encumbrance Total field,A,KFS
 KFS-TEM,TravelReimbursement,ENABLE_ACCOUNTING_DISTRIBUTION_TAB_IND,KFS-TEM-PARM-072,1,CONFG,Y,"Enables accounting distribution tab (summary of expense by object code). When the parameter is ""N,"" only the normal Accounting Lines are displayed.",A,KFS

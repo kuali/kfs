@@ -87,30 +87,11 @@ public class TravelEntertainmentMovingModuleServiceImpl implements TravelEnterta
 		return travelDocumentService.isTravelManager(user);
 	}
 
-	@Override
-	public List<String> getTravelReasonCodes() {
-		//Create list of travel reason codes
-        List<String> travelReasonCodes = new ArrayList<String>();
-        travelReasonCodes.add(parameterService.getParameterValue(PARAM_NAMESPACE, TravelAuthorizationParameters.PARAM_DTL_TYPE, TravelAuthorizationParameters.TRAVEL_ADVANCE_DV_PAYMENT_REASON_CODE));
-        travelReasonCodes.add(parameterService.getParameterValue(PARAM_NAMESPACE, TravelReimbursementParameters.PARAM_DTL_TYPE,TravelReimbursementParameters.DEFAULT_REFUND_PAYMENT_REASON_CODE));
-        travelReasonCodes.add(parameterService.getParameterValue(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, TravelParameters.VENDOR_PAYMENT_DV_REASON_CODE));
-        travelReasonCodes.add(parameterService.getParameterValue(PARAM_NAMESPACE, TravelEntertainmentParameters.PARAM_DTL_TYPE, TravelEntertainmentParameters.ENT_REIMBURSEMENT_DV_REASON_CODE));
-        travelReasonCodes.add(parameterService.getParameterValue(PARAM_NAMESPACE, TravelRelocationParameters.PARAM_DTL_TYPE, TravelRelocationParameters.RELO_REIMBURSEMENT_DV_REASON_CODE));
-        travelReasonCodes.add(parameterService.getParameterValue(PARAM_NAMESPACE, TravelParameters.DOCUMENT_DTL_TYPE, TravelParameters.CORP_CARD_BANK_PAYMENT_REASON_CODE));
-        
-        return travelReasonCodes;
-	}
-	
     @Override
     public void createAccountingDocumentRelationship(String documentNumber, String relDocumentNumber, String relationDescription) {
         accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(documentNumber, relDocumentNumber, relationDescription));
     }
-	
-	@Override 
-	public String getTravelReimbursementPaymentReasonCode() {
-	    return getParameterService().getParameterValue(PARAM_NAMESPACE, TravelReimbursementParameters.PARAM_DTL_TYPE,TravelReimbursementParameters.DEFAULT_REFUND_PAYMENT_REASON_CODE);
-	}
-	
+
     @Override 
     public boolean isTravelReimbursementDocument(TravelEntertainmentMovingTravelDocument document) {
         return document instanceof TravelReimbursementDocument;

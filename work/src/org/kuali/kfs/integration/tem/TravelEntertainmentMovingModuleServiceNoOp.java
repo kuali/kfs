@@ -47,18 +47,6 @@ public class TravelEntertainmentMovingModuleServiceNoOp implements TravelEnterta
 		return false;
 	}
 
-	@Override
-	public List<String> getTravelReasonCodes() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-    @Override
-    public String getTravelReimbursementPaymentReasonCode() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
     @Override
     public boolean isTravelReimbursementDocument(TravelEntertainmentMovingTravelDocument document) {
         // TODO Auto-generated method stub

@@ -225,7 +225,7 @@ public class TemConstants extends JSTLConstants {
         public static final String SHOW_TA_ESTIMATE_IN_SUMMARY_REPORT_IND = "SHOW_TA_ESTIMATE_IN_SUMMARY_REPORT_IND";
         public static final String TEM_FAX_NUMBER = "TEM_FAX_NUMBER";
         public static final String ENABLE_VENDOR_PAYMENT_BEFORE_FINAL_TR_APPROVAL_IND = "ENABLE_VENDOR_PAYMENT_BEFORE_FINAL_TR_APPROVAL_IND";
-        public static final String DEFAULT_REFUND_PAYMENT_REASON_CODE = "DEFAULT_REFUND_PAYMENT_REASON_CODE";
+        public static final String TR_REIMBURSEMENT_DV_REASON_CODE = "TR_REIMBURSEMENT_DV_REASON_CODE";
     }
 
     public static class TravelRelocationParameters {

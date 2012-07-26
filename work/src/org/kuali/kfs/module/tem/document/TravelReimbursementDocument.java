@@ -619,7 +619,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     public void populateDisbursementVoucherFields(DisbursementVoucherDocument disbursementVoucherDocument) {
         super.populateDisbursementVoucherFields(disbursementVoucherDocument);
         
-        final String paymentReasonCode = getParameterService().getParameterValue(TemParameterConstants.TEM_REIMBURSEMENT.class,TravelReimbursementParameters.DEFAULT_REFUND_PAYMENT_REASON_CODE);
+        final String paymentReasonCode = getParameterService().getParameterValue(TemParameterConstants.TEM_REIMBURSEMENT.class,TravelReimbursementParameters.TR_REIMBURSEMENT_DV_REASON_CODE);
         disbursementVoucherDocument.getDvPayeeDetail().setDisbVchrPaymentReasonCode(paymentReasonCode);
         final String paymentLocationCode = getParameterService().getParameterValue(TemParameterConstants.TEM_DOCUMENT.class,TravelParameters.TRAVEL_DOCUMENTATION_LOCATION_CODE);
         disbursementVoucherDocument.setDisbursementVoucherDocumentationLocationCode(paymentLocationCode);

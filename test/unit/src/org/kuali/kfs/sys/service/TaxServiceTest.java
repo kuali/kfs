@@ -162,7 +162,7 @@ public class TaxServiceTest extends KualiTestBase {
     private enum TaxRegionFixture {
 
         TAX_REGION_NO_USE_TAX("NOUSETAX", "NOUSETAX", "POST", "BL", "1031400", "1500", false, true),
-        TAX_REGION_WITH_USE_TAX("USETAX", "USETAX", "ST", "BA", "1031400", "5387", true, true), ;
+        TAX_REGION_WITH_USE_TAX("USETAX", "USETAX", "ST", "BA", " 6044900", "5387", true, true), ;
 
         public String taxRegionCode;
         public String taxRegionName;

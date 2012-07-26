@@ -225,8 +225,8 @@ public class TaxFixture {
      */
     public enum TaxRegionFixture {
 
-        TAX_REGION_NO_USE_TAX("NOUSETAX", "NOUSETAX", "POST", "BA", "1031400", "1500", false, true),
-        TAX_REGION_WITH_USE_TAX("USETAX", "USETAX", "ST", "BA", "1031400", "1500", true, true), ;
+        TAX_REGION_NO_USE_TAX("NOUSETAX", "NOUSETAX", "POST", "BA", " 6044900", "1500", false, true),
+        TAX_REGION_WITH_USE_TAX("USETAX", "USETAX", "ST", "BA", " 6044900", "1500", true, true), ;
 
         public String taxRegionCode;
         public String taxRegionName;

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -30,7 +31,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.gl.service.impl.StringHelper;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
 import org.kuali.kfs.module.ar.businessobject.InvoicePaidApplied;
@@ -47,7 +47,6 @@ import org.kuali.kfs.sys.document.web.struts.FinancialSystemTransactionalDocumen
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -274,38 +273,59 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         return nonSelectedInvoiceApplications;
     }
     
+    
     /**
-     * This comparator is used internally for sorting the list of invoices
+     * An inner class to point to a specific entry in a group
      */
-    protected static class PaymentApplicationComparator implements Comparator<PaymentApplicationInvoiceApply> {
-        
+    protected class EntryHolder {
+        private Date date;
+        private Object holder;
+
         /**
-         * Compares two paydmentApplicationInvoiceApply based on their invoice number
-         * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+         * Constructs a NonAppliedHolding.EntryHolder
+         * @param NonAppliedHolding the entry to point to
+         * @param Date of doc
          */
-        public int compare(PaymentApplicationInvoiceApply rosencrantz, PaymentApplicationInvoiceApply guildenstern) {
-      
-            if (ObjectUtils.isNotNull(rosencrantz.getInvoice()) && ObjectUtils.isNotNull(rosencrantz.getInvoice().getDocumentNumber()))
-                if (ObjectUtils.isNotNull(guildenstern.getInvoice()) && ObjectUtils.isNotNull(guildenstern.getInvoice().getDocumentNumber())) {
-                    String rosecrantzDocNum = rosencrantz.getInvoice().getDocumentNumber();
-                    String guildensternDocNum = guildenstern.getInvoice().getDocumentNumber();
-                    if (rosecrantzDocNum.length() == guildensternDocNum.length()) {
-                        return rosecrantzDocNum.compareTo(guildensternDocNum);
-                    } else if (rosecrantzDocNum.length() > guildensternDocNum.length()) {
-                        return rosecrantzDocNum.compareTo(StringHelper.justifyRight(guildensternDocNum, rosecrantzDocNum.length(), ' '));
-                    } else {
-                        return StringHelper.justifyRight(rosecrantzDocNum, guildensternDocNum.length(), ' ').compareTo(guildensternDocNum);
-                    }
-   
-                 }
-            return 0;
+        public EntryHolder(Date date, Object holder) {
+            this.date = date;
+            this.holder = holder;
+        }
+
+         public Date getDate() {
+            return this.date;
+        }
+
+         public Object getHolder() {
+            return this.holder;
         }
     }
 
-    public List<PaymentApplicationInvoiceApply> getInvoiceApplications() {
-        PaymentApplicationComparator paymentAppInvDetApplyComparator = new PaymentApplicationComparator();
-         List <PaymentApplicationInvoiceApply> results = new ArrayList<PaymentApplicationInvoiceApply>(invoiceApplications);
-        if (results.size() > 0)  Collections.sort(results,paymentAppInvDetApplyComparator);
+    /**
+     * This comparator is used internally for sorting the list of invoices
+     */
+    protected static class EntryHolderComparator implements Comparator<EntryHolder> {
+        
+        /**
+         * Compares two Objects based on their creation date
+         * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+         */
+        public int compare(EntryHolder rosencrantz, EntryHolder guildenstern) {
+             return rosencrantz.getDate().compareTo(guildenstern.getDate());
+      }
+    }
+    
+    
+    public List<PaymentApplicationInvoiceApply> getInvoiceApplications() {        
+        EntryHolderComparator entryHolderComparator = new EntryHolderComparator();
+        List <EntryHolder> entryHoldings = new ArrayList<EntryHolder>(); 
+       for (PaymentApplicationInvoiceApply paymentApplicationInvoiceApply : invoiceApplications){
+           entryHoldings.add(new EntryHolder(paymentApplicationInvoiceApply.getInvoice().getDocumentHeader().getWorkflowDocument().getDateCreated().toDate(), paymentApplicationInvoiceApply));
+       }
+       if (entryHoldings.size() > 0) Collections.sort(entryHoldings, entryHolderComparator);
+       List <PaymentApplicationInvoiceApply> results = new ArrayList<PaymentApplicationInvoiceApply>(); 
+       for (EntryHolder entryHolder : entryHoldings) {
+           results.add((PaymentApplicationInvoiceApply) entryHolder.getHolder());
+       }
         return results;
     }
 
@@ -592,39 +612,18 @@ public class PaymentApplicationDocumentForm extends FinancialSystemTransactional
         return amount;
     }
 
-    /**
-     * This comparator is used internally for sorting the list of invoices
-     */
-    protected static class NonAppliedHoldingComparator implements Comparator<NonAppliedHolding> {
-        
-        /**
-         * Compares two NonAppliedHolding based on their referenceFinancialDocumentNumber
-         * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-         */
-        public int compare(NonAppliedHolding rosencrantz, NonAppliedHolding guildenstern) {
-            if (ObjectUtils.isNotNull(rosencrantz.getReferenceFinancialDocumentNumber()))
-                if (ObjectUtils.isNotNull(guildenstern.getReferenceFinancialDocumentNumber())) {
-                    String rosecrantzDocNum = rosencrantz.getReferenceFinancialDocumentNumber();
-                    String guildensternDocNum = guildenstern.getReferenceFinancialDocumentNumber();
-                    if (rosecrantzDocNum.length() == guildensternDocNum.length()) {
-                        return rosecrantzDocNum.compareTo(guildensternDocNum);
-                    } else if (rosecrantzDocNum.length() > guildensternDocNum.length()) {
-                        return rosecrantzDocNum.compareTo(StringHelper.justifyRight(guildensternDocNum, rosecrantzDocNum.length(), ' '));
-                    } else {
-                        return StringHelper.justifyRight(rosecrantzDocNum, guildensternDocNum.length(), ' ').compareTo(guildensternDocNum);
-                    }
-                 }
-            return 0;
-        }
-     }
-
-
+     
     public List<NonAppliedHolding> getNonAppliedControlHoldings() {
-        BusinessObjectDictionaryService businessObjectDictionaryService = SpringContext.getBean(BusinessObjectDictionaryService.class);
-        List <NonAppliedHolding> results = new ArrayList<NonAppliedHolding>(nonAppliedControlHoldings);
-        NonAppliedHoldingComparator nonAppliedHoldingComparator = new NonAppliedHoldingComparator();
-       
-        if (results.size() > 0) Collections.sort(results, nonAppliedHoldingComparator);
+        EntryHolderComparator entryHolderComparator = new EntryHolderComparator();
+        List <EntryHolder> entryHoldings = new ArrayList<EntryHolder>(); 
+        for (NonAppliedHolding nonAppliedControlHolding : nonAppliedControlHoldings){
+            entryHoldings.add(new EntryHolder(nonAppliedControlHolding.getDocumentHeader().getWorkflowDocument().getDateCreated().toDate(), nonAppliedControlHolding));
+        }
+        if (entryHoldings.size() > 0) Collections.sort(entryHoldings, entryHolderComparator);
+        List <NonAppliedHolding> results = new ArrayList<NonAppliedHolding>(); 
+        for (EntryHolder entryHolder : entryHoldings) {
+            results.add((NonAppliedHolding) entryHolder.getHolder());
+        }
         return results;
     }
 

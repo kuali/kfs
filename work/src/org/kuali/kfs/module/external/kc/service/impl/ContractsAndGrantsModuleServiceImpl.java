@@ -252,7 +252,7 @@ public class ContractsAndGrantsModuleServiceImpl implements ContractsAndGrantsMo
      * @return the maxium account responsiblity id from system parameter
      */
     protected int getMaxiumAccountResponsibilityId() {
-        String maxResponsibilityId = getParameterService().getParameterValueAsString(KfsParameterConstants.CONTRACTS_AND_GRANTS_ALL.class, KcConstants.MAXIMUM_ACCOUNT_RESPONSIBILITY_ID);
+        String maxResponsibilityId = getParameterService().getParameterValueAsString(KfsParameterConstants.CHART_ALL.class, KcConstants.MAXIMUM_ACCOUNT_RESPONSIBILITY_ID);
         return Integer.valueOf(maxResponsibilityId);
     }
 

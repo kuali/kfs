@@ -26,6 +26,7 @@ import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.OffsetDefinition;
 import org.kuali.kfs.coa.service.BalanceTypeService;
+import org.kuali.kfs.coa.service.ObjectCodeService;
 import org.kuali.kfs.coa.service.OffsetDefinitionService;
 import org.kuali.kfs.module.ar.ArConstants;
 import org.kuali.kfs.module.ar.businessobject.AccountsReceivableDocumentHeader;
@@ -700,7 +701,9 @@ public class PaymentApplicationDocument extends GeneralLedgerPostingDocumentBase
 
             if (hasCashControlDocument()) {
                 actualDebitEntry.setFinancialObjectCode(universityClearingAccountObjectCode);
-                actualDebitEntry.setFinancialObjectTypeCode(nonInvoiced.getFinancialObject().getFinancialObjectTypeCode());
+                ObjectCodeService objectCodeService = SpringContext.getBean(ObjectCodeService.class);
+                ObjectCode objectCode = objectCodeService.getByPrimaryIdWithCaching(getPostingYear(),  universityClearingAccountSystemInformation.getUniversityClearingChartOfAccounts().getChartOfAccountsCode(), universityClearingAccountObjectCode);
+                actualDebitEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
                 actualDebitEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
             }
             else {

@@ -39,6 +39,9 @@ public class NegativePaymentRequestApprovalLimitRule extends MaintenanceDocument
         boolean result = super.processCustomApproveDocumentBusinessRules(document);
         final NegativePaymentRequestApprovalLimit limit = (NegativePaymentRequestApprovalLimit)getNewBo();
         result &= checkExclusiveOrganizationCodeAndAccountNumber(limit);
+        if (document.isNew() || document.isNewWithExisting()) {
+            result &= checkUniqueConstraint(limit);
+        }
         return result;
     }
 

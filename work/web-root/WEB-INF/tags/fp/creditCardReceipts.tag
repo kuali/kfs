@@ -82,8 +82,6 @@
                 <th>
 					<c:out value="${ctr + 1}" />:
 				</th>
-                <kul:htmlAttributeHeaderCell literalLabel="${ctr+1}:" scope="row">
-                </kul:htmlAttributeHeaderCell>
 				
                 <td class="datacell">
                 	<kul:htmlControlAttribute attributeEntry="${ccrAttributes.financialDocumentCreditCardTypeCode}" property="document.creditCardReceipt[${ctr}].financialDocumentCreditCardTypeCode" readOnly="${readOnly}" />

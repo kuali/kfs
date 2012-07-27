@@ -327,6 +327,9 @@ public class BatchExtractServiceImpl implements BatchExtractService {
         HashMap<String, Object> assetLockMap = new HashMap<String, Object>();
         // Keep track of purchaseOrderDocument
         HashMap<Integer, PurchaseOrderDocument> poDocMap = new HashMap<Integer, PurchaseOrderDocument>();
+        // KFSMI-7214, add document map for processing multiple items from the same AP doc
+        HashMap<String, PurchasingAccountsPayableDocument> papdMap = new HashMap<String, PurchasingAccountsPayableDocument>();
+        boolean newAssetItem = false;
 
         for (GlAccountLineGroup group : matchedGroups) {
             Entry entry = group.getTargetEntry();
@@ -348,34 +351,50 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                 businessObjectService.save(negativeEntry);
             }
 
-            boolean newApDoc = true;
-            PurchasingAccountsPayableDocument cabPurapDoc = findPurchasingAccountsPayableDocument(entry);
+            // KFSMI-7214, create a active document reference map 
+            boolean newApDoc = false;
+            // KFSMI-7214, find from active document reference map first
+            PurchasingAccountsPayableDocument cabPurapDoc = papdMap.get(entry.getDocumentNumber());
+            if (ObjectUtils.isNull(cabPurapDoc)) {
+                // find from DB
+                cabPurapDoc = findPurchasingAccountsPayableDocument(entry);
+            }
+            
             // if document is found already, update the active flag
             if (ObjectUtils.isNull(cabPurapDoc)) {
                 cabPurapDoc = createPurchasingAccountsPayableDocument(entry);
+                newApDoc = true;
             }
-            else {
-                newApDoc = false;
-            }
+            
             if (cabPurapDoc != null) {
-
+                // KFSMI-7214, add to the cached document map
+                papdMap.put(entry.getDocumentNumber(), cabPurapDoc);
 
                 List<PurApAccountingLineBase> matchedPurApAcctLines = group.getMatchedPurApAcctLines();
 
                 for (PurApAccountingLineBase purApAccountingLine : matchedPurApAcctLines) {
+                    // KFSMI-7214,tracking down changes on CAB item.
+                    newAssetItem = false;
+                    
                     PurApItem purapItem = purApAccountingLine.getPurapItem();
-                    PurchasingAccountsPayableItemAsset itemAsset = findMatchingPurapAssetItem(cabPurapDoc, purapItem);
                     String itemAssetKey = cabPurapDoc.getDocumentNumber() + "-" + purapItem.getItemIdentifier();
+                    // KFSMI-7214, search CAB item from active object reference map first
+                    PurchasingAccountsPayableItemAsset itemAsset = assetItems.get(itemAssetKey);
+                    
+                    if (ObjectUtils.isNull(itemAsset)) {
+                        itemAsset = findMatchingPurapAssetItem(cabPurapDoc, purapItem);
+                    }
 
                     // if new item, create and add to the list
-                    if (itemAsset == null && (itemAsset = assetItems.get(itemAssetKey)) == null) {
+                    if (ObjectUtils.isNull(itemAsset)) {
                         itemAsset = createPurchasingAccountsPayableItemAsset(cabPurapDoc, purapItem);
                         cabPurapDoc.getPurchasingAccountsPayableItemAssets().add(itemAsset);
-                        assetItems.put(itemAssetKey, itemAsset);
+                        newAssetItem = true;
                     }
+                    
+                    assetItems.put(itemAssetKey, itemAsset);
                     PurchasingAccountsPayableLineAssetAccount assetAccount = null;
                     String acctLineKey = cabPurapDoc.getDocumentNumber() + "-" + itemAsset.getAccountsPayableLineItemIdentifier() + "-" + itemAsset.getCapitalAssetBuilderLineNumber() + "-" + generalLedgerEntry.getGeneralLedgerAccountIdentifier();
-
 
                     if ((assetAccount = assetAcctLines.get(acctLineKey)) == null && transactionLedgerEntryAmount.isNonZero() && !hasFORevision) {
                         // if new unique account line within GL, then create a new account line
@@ -405,10 +424,17 @@ public class BatchExtractServiceImpl implements BatchExtractService {
                         assetAccount.setItemAccountTotalAmount(assetAccount.getItemAccountTotalAmount().add(purApAccountingLine.getAmount()));
                     }
 
+                    
+                    // KFSMI-7214: fixed OJB auto-update object issue. 
+                    if (!newAssetItem) {
+                        businessObjectService.save(itemAsset);
+                    }
+
+                    businessObjectService.save(cabPurapDoc);
+                    
                     // Add to the asset lock table if purap has asset number information
                     addAssetLocks(assetLockMap, cabPurapDoc, purapItem, itemAsset.getAccountsPayableLineItemIdentifier(), poDocMap);
                 }
-                businessObjectService.save(cabPurapDoc);
 
                 // update negative and positive GL entry once again
                 if (positiveEntry != null && negativeEntry != null) {
@@ -687,22 +713,24 @@ public class BatchExtractServiceImpl implements BatchExtractService {
      * @return PurchasingAccountsPayableItemAsset
      */
     protected PurchasingAccountsPayableItemAsset findMatchingPurapAssetItem(PurchasingAccountsPayableDocument cabPurapDoc, PurApItem apItem) {
-        Map<String, Object> keys = new HashMap<String, Object>();
-        keys.put(CabPropertyConstants.PurchasingAccountsPayableItemAsset.DOCUMENT_NUMBER, cabPurapDoc.getDocumentNumber());
-        keys.put(CabPropertyConstants.PurchasingAccountsPayableItemAsset.ACCOUNTS_PAYABLE_LINE_ITEM_IDENTIFIER, apItem.getItemIdentifier());
-        Collection<PurchasingAccountsPayableItemAsset> matchingItems = businessObjectService.findMatching(PurchasingAccountsPayableItemAsset.class, keys);
-        if (matchingItems != null && !matchingItems.isEmpty() && matchingItems.size() == 1) {
-            PurchasingAccountsPayableItemAsset itmAsset = matchingItems.iterator().next();
-            // if still active and never split or submitted to CAMS
-            KualiDecimal cabQty = itmAsset.getAccountsPayableItemQuantity();
-            KualiDecimal purapQty = apItem.getItemQuantity();
-            if (CabConstants.ActivityStatusCode.NEW.equalsIgnoreCase(itmAsset.getActivityStatusCode())) {
-                return itmAsset;
+        // KFSMI-7214: fixed OJB proxy object issue. Retrieve object from OJB cache instead of from table.
+        if (ObjectUtils.isNotNull(cabPurapDoc)) {
+            for (PurchasingAccountsPayableItemAsset assetItem : cabPurapDoc.getPurchasingAccountsPayableItemAssets()) {
+                if (assetItem.getAccountsPayableLineItemIdentifier() != null && assetItem.getAccountsPayableLineItemIdentifier().equals(apItem.getItemIdentifier())) {
+                    // if still active and never split or submitted to CAMS
+                    if (ObjectUtils.isNotNull(assetItem) && CabConstants.ActivityStatusCode.NEW.equalsIgnoreCase(assetItem.getActivityStatusCode())) {
+                        // KFSMI-7214: return the proxy object if it's already loaded.
+                        return assetItem;
+                    }
+                }
             }
         }
+        else {
+            LOG.error("expecting the CAB AP document not null");
+        }
+
         return null;
     }
-
     /**
      * @see org.kuali.kfs.module.cab.batch.service.BatchExtractService#separatePOLines(java.util.List, java.util.List,
      *      java.util.Collection)

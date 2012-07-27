@@ -28,7 +28,7 @@
 		</addColumn>
 
 		<addColumn tableName="CM_AST_PMT_DOC_T">
-			<column name="AST_PMT_DST_CD" type="VARCHAR2(2)" defaultValue="2" />
+			<column name="AST_PMT_DST_CD" type="VARCHAR2(1)" defaultValue="2" />
 		</addColumn>
 		<modifySql dbms="mysql">
 			<replace replace="VARCHAR2" with="VARCHAR" />

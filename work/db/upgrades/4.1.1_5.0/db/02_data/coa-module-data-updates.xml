@@ -3,7 +3,7 @@
 	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
 	xsi:schemaLocation='http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd'>
 
- 	
+<!-- JHK: commenting out problem script 	
  <changeSet author="KFS50" id='Convert_CA_ICR_ACCT_T_mysql' dbms='mysql' >
   	<sql>
 ## MySQL data conversion for CA Account ICR values
@@ -65,6 +65,7 @@ SELECT @a21_acct_seq := @a21_acct_seq + 1, uuid(), 1, FIN_COA_CD, ACCOUNT_NBR, S
 INSERT INTO CA_A21_ICR_ACCT_SEQ VALUES (@a21_acct_seq);
   	</sql>
   	</changeSet>
+-->  	
    	<changeSet author="KFS50" id='Convert_CA_ICR_ACCT_T_oracle' dbms='oracle' >
   	<sql>
  <!--  

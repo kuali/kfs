@@ -79,7 +79,7 @@
         ReceivingTransactionalDocument
       </label>
       <docSearchHelpURL>
-        default.htm?turl=WordDocuments%2Freceiving.htm
+        ${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Freceiving.htm
       </docSearchHelpURL>
       <active>
         true
@@ -136,7 +136,7 @@
         default.htm?turl=WordDocuments%2Frequisition.htm
       </helpDefinitionURL>
       <docSearchHelpURL>
-        default.htm?turl=WordDocuments%2Frequisitions.htm
+        ${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Frequisitions.htm
       </docSearchHelpURL>
       <active>
         true
@@ -279,7 +279,7 @@
         default.htm?turl=WordDocuments%2Fpurchaseorder.htm
       </helpDefinitionURL>
       <docSearchHelpURL>
-        default.htm?turl=WordDocuments%2Fpurchaseorders.htm
+        ${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fpurchaseorders.htm
       </docSearchHelpURL>
       <active>
         true
@@ -1159,7 +1159,7 @@
         ${kfs.url}/purapElectronicInvoiceReject.do?methodToCall=docHandler
       </docHandler>
       <docSearchHelpURL>
-        default.htm?turl=WordDocuments%2Felectronicinvoicerejects.htm
+        ${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Felectronicinvoicerejects.htm
       </docSearchHelpURL>
       <active>
         true
@@ -1199,7 +1199,7 @@
         default.htm?turl=WordDocuments%2Fvendorcreditmemo.htm
       </helpDefinitionURL>
       <docSearchHelpURL>
-        default.htm?turl=WordDocuments%2Fcreditmemos.htm
+        ${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fcreditmemos.htm
       </docSearchHelpURL>
       <active>
         true
@@ -1279,7 +1279,7 @@
         default.htm?turl=WordDocuments%2Fpaymentrequest.htm
       </helpDefinitionURL>
       <docSearchHelpURL>
-        default.htm?turl=WordDocuments%2Fpaymentrequests.htm
+        ${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fpaymentrequests.htm
       </docSearchHelpURL>
       <active>
         true

@@ -10,6 +10,7 @@
 	<param name="serviceServletUrl">${application.url}/remoting</param>
 
     <param name="kfs.url">${appserver.url}/kfs-dev2</param>
+    <param name="kfs.externalizable.help.url">${kfs.url}/static/help</param>
 
 	<param name="host.ip">127.0.0.1</param>
 	<param name="encryption.key">7IC64w6kAAAA</param>

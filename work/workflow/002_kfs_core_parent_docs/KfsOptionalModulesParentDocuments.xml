@@ -147,7 +147,7 @@
         CapitalAssetManagementComplexMaintenanceDocument
       </label>
       <docSearchHelpURL>
-        default.htm?turl=WordDocuments%2Fassetmaintenancecustomdocumentsearch.htm
+        ${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fassetmaintenancecustomdocumentsearch.htm
       </docSearchHelpURL>
       <active>
         true

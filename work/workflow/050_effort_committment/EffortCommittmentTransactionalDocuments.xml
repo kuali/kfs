@@ -6,8 +6,7 @@
 			<label>Effort Certification</label>
 			<docHandler>${kfs.url}/effortEffortCertification.do?methodToCall=docHandler
 			</docHandler>
-			<docSearchHelpURL>default.htm?turl=WordDocuments%2Feffortcertificationsearch.htm
-			</docSearchHelpURL>
+			<docSearchHelpURL>${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Feffortcertificationsearch.htm</docSearchHelpURL>
 			<active>true</active>
 			<routingVersion>2</routingVersion>
 			<routePaths>

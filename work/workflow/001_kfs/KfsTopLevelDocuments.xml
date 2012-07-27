@@ -118,7 +118,7 @@
         FinancialSystemTransactionalDocument
       </label>
       <docSearchHelpURL>
-        default.htm?turl=WordDocuments%2Ffinancialtransactions.htm
+        ${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Ffinancialtransactions.htm
       </docSearchHelpURL>
       <active>
         true

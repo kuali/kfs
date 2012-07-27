@@ -914,7 +914,7 @@
         default.htm?turl=WordDocuments%2Fdisbursementvoucher.htm
       </helpDefinitionURL>
       <docSearchHelpURL>
-        default.htm?turl=WordDocuments%2Fdisbursementvouchers.htm
+        ${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fdisbursementvouchers.htm
       </docSearchHelpURL>
       <active>
         true

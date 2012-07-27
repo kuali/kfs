@@ -25,35 +25,35 @@
 	<changeSet author="KFS50" id="UPDATE_DOC_TYPE_HELP_URLS">
 		<comment>Updates the help URLs for multiple document types.</comment>
 		<update tableName="KREW_DOC_TYP_T">
-			<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fpaymentapplications.htm" />
+			<column name="DOC_SEARCH_HELP_URL" value="${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fpaymentapplications.htm" />
 			<where>DOC_TYP_NM = 'APP' and CUR_IND = 1 AND ACTV_IND = 1</where>
 		</update>
 		<update tableName="KREW_DOC_TYP_T">
-			<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fassetmaintenancecustomdocumentsearch.htm" />
+			<column name="DOC_SEARCH_HELP_URL" value="${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fassetmaintenancecustomdocumentsearch.htm" />
 			<where>DOC_TYP_NM = 'CAMM' and CUR_IND = 1 AND ACTV_IND = 1</where>
 		</update>
 		<update tableName="KREW_DOC_TYP_T">
-			<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fcashcontrols.htm" />
+			<column name="DOC_SEARCH_HELP_URL" value="${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fcashcontrols.htm" />
 			<where>DOC_TYP_NM = 'CTRL' and CUR_IND = 1 AND ACTV_IND = 1</where>
 		</update>
 		<update tableName="KREW_DOC_TYP_T">
-			<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Felectronicinvoicerejects.htm" />
+			<column name="DOC_SEARCH_HELP_URL" value="${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Felectronicinvoicerejects.htm" />
 			<where>DOC_TYP_NM = 'EIRT' and CUR_IND = 1 AND ACTV_IND = 1</where>
 		</update>
 		<update tableName="KREW_DOC_TYP_T">
-			<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fcustomerinvoices.htm" />
+			<column name="DOC_SEARCH_HELP_URL" value="${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fcustomerinvoices.htm" />
 			<where>DOC_TYP_NM = 'INV' and CUR_IND = 1 AND ACTV_IND = 1</where>
 		</update>
 		<update tableName="KREW_DOC_TYP_T">
-			<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fcustomerinvoicewriteoffscustomdocumentsearch.htm" />
+			<column name="DOC_SEARCH_HELP_URL" value="${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fcustomerinvoicewriteoffscustomdocumentsearch.htm" />
 			<where>DOC_TYP_NM = 'INVW' and CUR_IND = 1 AND ACTV_IND = 1</where>
 		</update>
 		<update tableName="KREW_DOC_TYP_T">
-			<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Ffinancialtransactions.htm" />
+			<column name="DOC_SEARCH_HELP_URL" value="${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Ffinancialtransactions.htm" />
 			<where>DOC_TYP_NM = 'KFST' and CUR_IND = 1 AND ACTV_IND = 1</where>
 		</update>
 		<update tableName="KREW_DOC_TYP_T">
-			<column name="HELP_DEF_URL" value="default.htm?turl=WordDocuments%2Fvendorpven.htm" />
+			<column name="HELP_DEF_URL" value="${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fvendorpven.htm" />
 			<where>DOC_TYP_NM = 'PVEN' and CUR_IND = 1 AND ACTV_IND = 1</where>
 		</update>
 		<update tableName="KREW_DOC_TYP_T">
@@ -65,11 +65,11 @@
 			<where>DOC_TYP_NM = 'LOBN' and CUR_IND = 1 AND ACTV_IND = 1</where>
 		</update>
 		<update tableName="KREW_DOC_TYP_T">
-			<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Fperformingcustomdocumentsearches.htm" />
+			<column name="DOC_SEARCH_HELP_URL" valueNumeric=" NULL " />
 			<where>DOC_TYP_NM = 'PRPL' and CUR_IND = 1 AND ACTV_IND = 1</where>
 		</update>
 		<update tableName="KREW_DOC_TYP_T">
-			<column name="DOC_SEARCH_HELP_URL" value="default.htm?turl=WordDocuments%2Freceiving.htm" />
+			<column name="DOC_SEARCH_HELP_URL" value="${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Freceiving.htm" />
 			<where>DOC_TYP_NM = 'RCV' and CUR_IND = 1 AND ACTV_IND = 1</where>
 		</update>
 		<update tableName="KREW_DOC_TYP_T">
@@ -90,7 +90,19 @@
 		<comment>Updates all the KFS document types to use the new "kfs.url" instead of "application.url".</comment>
 		<update tableName="KREW_DOC_TYP_T">
 			<column name="doc_hdlr_url" valueNumeric=" REPLACE( DOC_HDLR_URL, 'application.url', 'kfs.url' ) " />
-			<where>doc_typ_nm IN ( 'KFS','GLCP','AD','CMD','CR','CCR','JV','SB','AV','BA','DI','GEC','ICA','ND','PE','PCDO','TF','IB','DV','YEBA','YEDI','YEGE','YETF','CLOS','ECD','ST','LLJV','BT','LLCP','YEBT','YEST','ACM','REQS','PO','POA','POC','POPH','PORH','POR','PORT','POSP','POV','EIRT','CM','PREQ','RCVB','RCVC','RCVL','ECA','EUSA','EHVA','ELD','ELI','EST','GLET','ECR','EGLT','EHA','EAD','EAI','ECDD','ECI','ECT','FSDT','CTRL','APP','INVW','CRM','INV','BC','MPAY','AT','ELR','BCIE' )</where>
+			<where>doc_typ_nm IN ( 'KFS','GLCP','AD','CMD','CR','CCR','JV','SB','AV','BA','DI','GEC','ICA','ND','PE','PCDO','TF','IB','DV','YEBA','YEDI','YEGE','YETF','CLOS','ECD','ST','LLJV','BT','LLCP','YEBT','YEST','ACM','REQS','PO','POA','POC','POPH','PORH','POR','PORT','POSP','POV','EIRT','CM','PREQ','RCVB','RCVC','RCVL','ECA','EUSA','EHVA','ELD','ELI','EST','GLET','ECR','EGLT','EHA','EAD','EAI','ECDD','ECI','ECT','FSDT','CTRL','APP','INVW','CRM','INV','BC','MPAY','AT','ELR','BCIE', 'KFST', 'RCV', 'PRPL', 'CAMM' )
+				AND DOC_HDLR_URL LIKE '%application.url%'
+			</where>
+		</update>
+	</changeSet>
+
+	<changeSet author="KFS50" id="FIX_FOR_DOC_SEARCH_URL_IN_EMBEDDED_RICE_MODE">
+		<comment>Updates all the KFS document types to Add the necessary prefix for the document search URL.</comment>
+		<update tableName="KREW_DOC_TYP_T">
+			<column name="DOC_SEARCH_HELP_URL" valueNumeric=" REPLACE( DOC_SEARCH_HELP_URL, 'default.htm?', '${kfs.externalizable.help.url}/default.htm?' ) " />
+			<where>doc_typ_nm IN ( 'KFS','GLCP','AD','CMD','CR','CCR','JV','SB','AV','BA','DI','GEC','ICA','ND','PE','PCDO','TF','IB','DV','YEBA','YEDI','YEGE','YETF','CLOS','ECD','ST','LLJV','BT','LLCP','YEBT','YEST','ACM','REQS','PO','POA','POC','POPH','PORH','POR','PORT','POSP','POV','EIRT','CM','PREQ','RCVB','RCVC','RCVL','ECA','EUSA','EHVA','ELD','ELI','EST','GLET','ECR','EGLT','EHA','EAD','EAI','ECDD','ECI','ECT','FSDT','CTRL','APP','INVW','CRM','INV','BC','MPAY','AT','ELR','BCIE', 'KFST', 'RCV', 'PRPL', 'CAMM' )
+				AND DOC_SEARCH_HELP_URL LIKE 'default.htm%'
+			</where>
 		</update>
 	</changeSet>
 	

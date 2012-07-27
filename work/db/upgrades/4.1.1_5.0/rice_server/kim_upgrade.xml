@@ -1095,7 +1095,7 @@
 			<column name="ACTV_IND" value="Y" />
 		</insert>
 	</changeSet>	
-	<changeSet author="KFS50" id="KFSMI8906_PERM_FOR_KFSMI8497_CONTRACT_MANAGER_EDIT_PO_ACCOUNTING_LINES_IN_AWAITING_PURCHASING_APPROVAL_ROUTE_NODE">
+	<changeSet author="KFS50" id="KFSMI8906_KFSMI8497_PERM_CONTRACT_MANAGER_EDIT_PO_ACCT_LINES">
 		<comment>Create a new permission to allow Contract Managers to edit Accounting Lines when a PO is at the Awaiting Purchasing Approval route node.</comment>
 		<insert tableName="KRIM_PERM_T">
 			<column name="PERM_ID" value="KFSMI8906-PRM" />

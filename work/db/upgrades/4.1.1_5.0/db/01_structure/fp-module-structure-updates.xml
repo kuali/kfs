@@ -70,13 +70,13 @@
 	<changeSet author="KFS50" id="KSMI-6702_FDOC_POST_PRD_CD_columns">
 		<comment>Add fields, create parameters, permissions, and roles for KSMI-6702 Contribution</comment>
 		<addColumn tableName='FP_INT_BILL_DOC_T'>
-			<column name='FDOC_POST_PRD_CD' type='VARCHAR2(3)' />
+			<column name='FDOC_POST_PRD_CD' type='VARCHAR2(2)' />
 		</addColumn>
 		<addColumn tableName='FP_DISTRIB_DOC_T'>
-			<column name='FDOC_POST_PRD_CD' type='VARCHAR2(3)' />
+			<column name='FDOC_POST_PRD_CD' type='VARCHAR2(2)' />
 		</addColumn>
 		<addColumn tableName='FP_ICR_ADJ_DOC_T'>
-			<column name='FDOC_POST_PRD_CD' type='VARCHAR2(3)' />
+			<column name='FDOC_POST_PRD_CD' type='VARCHAR2(2)' />
 		</addColumn>
 		<modifySql dbms='mysql'>
 			<replace replace='VARCHAR2' with='VARCHAR' />

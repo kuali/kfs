@@ -7080,7 +7080,7 @@
         <column name="FDOC_NXT_FRM_NBR" size="7" type="DECIMAL"/>
         <column name="FDOC_NXT_TO_NBR" size="7" type="DECIMAL"/>
         <column name="FDOC_POST_YR" size="4" type="DECIMAL"/>
-        <column name="FDOC_POST_PRD_CD" size="3" type="VARCHAR"/>
+        <column name="FDOC_POST_PRD_CD" size="2" type="VARCHAR"/>
         <unique name="FP_DISTRIB_DOC_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -7498,7 +7498,7 @@
         <column name="FDOC_NXT_FRM_NBR" size="7" type="DECIMAL"/>
         <column name="FDOC_NXT_TO_NBR" size="7" type="DECIMAL"/>
         <column name="FDOC_POST_YR" size="4" type="DECIMAL"/>
-        <column name="FDOC_POST_PRD_CD" size="3" type="VARCHAR"/>
+        <column name="FDOC_POST_PRD_CD" size="2" type="VARCHAR"/>
         <unique name="FP_ICR_ADJ_DOC_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -7617,7 +7617,7 @@
         <column name="FDOC_NXT_INC_NBR" size="7" type="DECIMAL"/>
         <column name="FDOC_NXT_ITM_NBR" size="7" type="DECIMAL"/>
         <column name="FDOC_POST_YR" size="4" type="DECIMAL"/>
-        <column name="FDOC_POST_PRD_CD" size="3" type="VARCHAR"/>
+        <column name="FDOC_POST_PRD_CD" size="2" type="VARCHAR"/>
         <unique name="FP_INT_BILL_DOC_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>

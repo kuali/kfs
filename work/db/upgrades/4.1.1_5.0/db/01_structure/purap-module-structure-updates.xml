@@ -188,16 +188,8 @@
 	</changeSet>
 	
 	<changeSet author="KFS50" id="KFS8843_PUR_BILL_ADDR_T">
-	   <modifyColumn tableName="PUR_BILL_ADDR_T">
-      		<column name="BILL_PHN_NBR" type="VARCHAR2(45)">
-      			<constraints nullable="true"/>
-     		 </column>
-    	</modifyColumn>
-    	<modifyColumn tableName="PUR_REQS_T">
-      		<column name="BILL_PHN_NBR" type="VARCHAR2(20)">
-      			<constraints nullable="true"/>
-     		 </column>
-    	</modifyColumn>
+		<dropNotNullConstraint tableName="PUR_BILL_ADDR_T" columnName="BILL_PHN_NBR" columnDataType="VARCHAR2(45)" />
+    	<dropNotNullConstraint tableName="PUR_REQS_T" columnName="BILL_PHN_NBR" columnDataType="VARCHAR2(20)" />
 		<modifySql dbms="mysql">
 			<replace replace="VARCHAR2" with="VARCHAR" />
 		</modifySql>

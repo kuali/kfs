@@ -20,12 +20,9 @@ import static org.kuali.kfs.module.tem.TemKeyConstants.AGENCY_SITES_URL;
 import static org.kuali.kfs.module.tem.TemKeyConstants.ENABLE_AGENCY_SITES_URL;
 import static org.kuali.kfs.module.tem.TemKeyConstants.PASS_TRIP_ID_TO_AGENCY_SITES;
 import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.error;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.logger;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.lang.reflect.Field;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,7 +37,6 @@ import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang.StringUtils;

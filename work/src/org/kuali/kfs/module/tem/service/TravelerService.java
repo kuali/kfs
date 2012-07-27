@@ -15,6 +15,8 @@
  */
 package org.kuali.kfs.module.tem.service;
 
+import java.util.List;
+
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomer;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerAddress;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
@@ -22,6 +24,7 @@ import org.kuali.kfs.module.tem.businessobject.TemProfileAddress;
 import org.kuali.kfs.module.tem.businessobject.TemProfileFromCustomer;
 import org.kuali.kfs.module.tem.businessobject.TemProfileFromKimPerson;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
+import org.kuali.kfs.module.tem.businessobject.TravelerDetailEmergencyContact;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.entity.dto.KimEntityInfo;
 import org.kuali.rice.kim.bo.entity.impl.KimEntityAddressImpl;
@@ -85,12 +88,21 @@ public interface TravelerService {
     
     /**
      * 
-     * This method copies the fromTraveler to a new TravelerDetail. Document Number is set in the copied emergency contacts.
+     * This method copies the fromTraveler to a new TravelerDetail. 
+     * 
+     * Document Number is set in the copied emergency contacts and the TravelerDetail
+     * 
      * @param fromTraveler
      * @param documentNumber
      * @return
      */
-    public TravelerDetail copyTraveler(TravelerDetail fromTraveler, String documentNumber);
+    public TravelerDetail copyTravelerDetail(TravelerDetail fromTraveler, String documentNumber);
+    
+    /**
+     * Copies traveler detail emergency contacts and sets new document number
+     */
+    public List<TravelerDetailEmergencyContact> copyTravelerDetailEmergencyContact(List<TravelerDetailEmergencyContact> emergencyContacts, String documentNumber);
+    
     
     public void populateTEMProfile(TEMProfile profile);
     

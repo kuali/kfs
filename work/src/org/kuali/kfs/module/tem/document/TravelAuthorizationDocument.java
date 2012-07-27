@@ -18,7 +18,6 @@ package org.kuali.kfs.module.tem.document;
 import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
 
 import java.beans.PropertyChangeEvent;
-import java.lang.reflect.InvocationTargetException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,7 +31,6 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
@@ -77,6 +75,7 @@ import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.springframework.beans.BeanUtils;
 
 @Entity
 @Table(name = "TEM_TRVL_AUTH_DOC_T")
@@ -113,7 +112,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
         TravelAuthorizationAmendmentDocument doc = (TravelAuthorizationAmendmentDocument) SpringContext.getBean(DocumentService.class).getNewDocument(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_AMEND_DOCUMENT);
         String documentID = doc.getDocumentNumber();
 
-        toCopyTravelDocument(doc, documentID);       
+        toCopyTravelAuthorizationDocument(doc, documentID);       
         
         doc.getDocumentHeader().setDocumentDescription(TemConstants.PRE_FILLED_DESCRIPTION);
         
@@ -124,61 +123,53 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
         TravelAuthorizationCloseDocument doc = (TravelAuthorizationCloseDocument) SpringContext.getBean(DocumentService.class).getNewDocument(TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT);
         String documentID = doc.getDocumentNumber();
 
-        toCopyTravelDocument(doc, documentID);
+        toCopyTravelAuthorizationDocument(doc, documentID);
         
         return doc;
     }
 
-    private void toCopyTravelDocument(TravelDocument doc, String documentID) {
+    /**
+     * 
+     * @param doc
+     * @param documentID
+     */
+    private void toCopyTravelAuthorizationDocument(TravelAuthorizationDocument copytToDocument, String documentID) {
+
+        //copy over all possible elements from this self to TravelAuthorizationDocument except document header 
+        BeanUtils.copyProperties(this, copytToDocument, new String[]{KFSConstants.DOCUMENT_HEADER_PROPERTY_NAME});
+        
+        //CLEANUP ?? SW: this part seems silly - take the given copyTo document, clone the header and then set it back
         FinancialSystemDocumentHeader documentHeader = new FinancialSystemDocumentHeader();
+        BeanUtils.copyProperties(copytToDocument.getDocumentHeader(), documentHeader);
+        copytToDocument.setDocumentHeader(documentHeader);
         
-        try {
-            BeanUtils.copyProperties(documentHeader, doc.getDocumentHeader());
-        }
-        catch (IllegalAccessException ex) {
-            ex.printStackTrace();
-        }
-        catch (InvocationTargetException ex) {
-            ex.printStackTrace();
-        }
+        copytToDocument.setTransportationModes(getTravelDocumentService().copyTransportationModeDetails(getTransportationModes(), documentID));
+        copytToDocument.setPerDiemExpenses(getTravelDocumentService().copyPerDiemExpenses(getPerDiemExpenses(), documentID));
+        copytToDocument.setSpecialCircumstances(getTravelDocumentService().copySpecialCircumstances(getSpecialCircumstances(), documentID));
+        copytToDocument.setTravelerDetailId(null);
+        copytToDocument.setTraveler(getTravelerService().copyTravelerDetail(getTraveler(), documentID));
+        copytToDocument.setGroupTravelers(getTravelDocumentService().copyGroupTravelers(getGroupTravelers(), documentID));               
+        copytToDocument.setTravelAdvances(getTravelDocumentService().copyTravelAdvances(getTravelAdvances(), documentID));
+        copytToDocument.setActualExpenses((List<ActualExpense>) getTravelDocumentService().copyActualExpenses(getActualExpenses(), documentID));
+        copytToDocument.setImportedExpenses(new ArrayList<ImportedExpense>());
         
-        try {
-            BeanUtils.copyProperties(doc, this);
-        }
-        catch (IllegalAccessException ex) {
-            ex.printStackTrace();
-        }
-        catch (InvocationTargetException ex) {
-            ex.printStackTrace();
-        }
-        /*
-         * Replace all list objects with copies and update the copy's document number to the doc number of the TAA
-         */
-        doc.setTransportationModes(getTravelDocumentService().copyTransportationModeDetails(this.getTransportationModes(), documentID));
-        doc.setPerDiemExpenses(getTravelDocumentService().copyPerDiemExpenses(this.getPerDiemExpenses(), documentID));
-        doc.setSpecialCircumstances(getTravelDocumentService().copySpecialCircumstances(this.getSpecialCircumstances(), documentID));
-        doc.getTraveler().setEmergencyContacts(getTravelDocumentService().copyTravelerDetailEmergencyContact(this.getTraveler().getEmergencyContacts(), documentID));
-        doc.setGroupTravelers(getTravelDocumentService().copyGroupTravelers(this.getGroupTravelers(), documentID));               
-        doc.setTravelAdvances(getTravelDocumentService().copyTravelAdvances(this.getTravelAdvances(), documentID));
-        doc.setActualExpenses((List<ActualExpense>) getTravelDocumentService().copyActualExpenses(this.getActualExpenses(), documentID));
-        doc.setImportedExpenses(new ArrayList<ImportedExpense>());
-        
-        doc.setDocumentHeader(documentHeader);
-        doc.getDocumentHeader().getBoNotes().clear();
-        doc.setTravelDocumentIdentifier(getTravelDocumentIdentifier());
-        doc.setDocumentNumber(documentID);
-        doc.getDocumentHeader().setDocumentDescription(this.getDocumentHeader().getDocumentDescription());
-        doc.setGeneralLedgerPendingEntries(new ArrayList<GeneralLedgerPendingEntry>());
+        copytToDocument.getDocumentHeader().getBoNotes().clear();
+        copytToDocument.getDocumentHeader().setDocumentDescription(getDocumentHeader().getDocumentDescription());
+        copytToDocument.setTravelDocumentIdentifier(getTravelDocumentIdentifier());
+        copytToDocument.setDocumentNumber(documentID);
+        copytToDocument.setGeneralLedgerPendingEntries(new ArrayList<GeneralLedgerPendingEntry>());
         List<TemSourceAccountingLine> newList = new ArrayList<TemSourceAccountingLine>();
         int sequence = 1;
-        for (TemSourceAccountingLine line : (List<TemSourceAccountingLine>)doc.getSourceAccountingLines()){
+        for (TemSourceAccountingLine line : (List<TemSourceAccountingLine>)copytToDocument.getSourceAccountingLines()){
+            
+            //CLEANUP is it only CTS that is not being copied? how about encumbrance and agency? those will be replicated.....
             if (!line.getCardType().equals(TemConstants.CARD_TYPE_CTS)){
                 line.setSequenceNumber(new Integer(sequence));
                 sequence++;
                 newList.add(line);
             }
         }
-        doc.setSourceAccountingLines(newList);
+        copytToDocument.setSourceAccountingLines(newList);
     }
     
     /**

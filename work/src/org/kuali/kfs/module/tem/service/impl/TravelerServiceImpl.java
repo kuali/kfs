@@ -22,12 +22,10 @@ import static org.kuali.kfs.module.tem.TemConstants.TemProfileParameters.KIM_AFF
 import static org.kuali.kfs.module.tem.TemConstants.TravelParameters.EMPLOYEE_TRAVELER_TYPE_CODES;
 import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.text.StrTokenizer;
 import org.apache.log4j.Logger;
@@ -40,6 +38,7 @@ import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileAddress;
 import org.kuali.kfs.module.tem.businessobject.TemProfileEmergencyContact;
@@ -67,10 +66,10 @@ import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.ObjectUtils;
+import org.springframework.beans.BeanUtils;
 
 /**
- *
- * @author Leo Przybylski (leo [at] rsmart.com)
+ * 
  */
 public class TravelerServiceImpl implements TravelerService {
     private ParameterService parameterService;
@@ -201,81 +200,53 @@ public class TravelerServiceImpl implements TravelerService {
         }
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.service.TravelerService#copyTravelerDetail(org.kuali.kfs.module.tem.businessobject.TravelerDetail, java.lang.String)
+     */
     @Override
-    public TravelerDetail copyTraveler(TravelerDetail fromTraveler, String documentNumber) {
-        TravelerDetail detail = new TravelerDetail();
-        if(fromTraveler != null){
-            if(detail.getId() == null){
-                SequenceAccessorService sas = SpringContext.getBean(SequenceAccessorService.class);
-                long id = sas.getNextAvailableSequenceNumber(TemConstants.TEM_TRAVELER_DETAIL_SEQ_NAME);        
-                detail.setId((int)id);
-            }
-            
-            detail.setFirstName(fromTraveler.getFirstName());
-            detail.setLastName(fromTraveler.getLastName());
-            detail.setStreetAddressLine1(fromTraveler.getStreetAddressLine1());
-            detail.setStreetAddressLine2(fromTraveler.getStreetAddressLine2());
-            detail.setStateCode(fromTraveler.getStateCode());
-            detail.setCityName(fromTraveler.getCityName());
-            detail.setZipCode(fromTraveler.getZipCode());
-            detail.setCountryCode(fromTraveler.getCountryCode());
-            detail.setPrincipalId(fromTraveler.getPrincipalId());
-            detail.setPrincipalName(fromTraveler.getPrincipalName());
-            detail.setCustomer(fromTraveler.getCustomer());
-            detail.setTravelerType(fromTraveler.getTravelerType());
-            detail.setTravelerTypeCode(fromTraveler.getTravelerTypeCode());
-            detail.setCustomerNumber(fromTraveler.getCustomerNumber());
-            detail.setEmailAddress(fromTraveler.getEmailAddress());
-            detail.setPhoneNumber(fromTraveler.getPhoneNumber());
-            detail.setDateOfBirth(fromTraveler.getDateOfBirth());
-            detail.setGender(fromTraveler.getGender());
-            detail.setCitizenship(fromTraveler.getCitizenship());
-            detail.setDriversLicenseExpDate(fromTraveler.getDriversLicenseExpDate());
-            detail.setDriversLicenseNumber(fromTraveler.getDriversLicenseNumber());
-            detail.setDriversLicenseState(fromTraveler.getDriversLicenseState());
-            detail.setNotifyTAFinal(fromTraveler.isNotifyTAFinal());
-            detail.setNotifyTAStatusChange(fromTraveler.isNotifyTAStatusChange());
-            detail.setNotifyTERFinal(fromTraveler.isNotifyTERFinal());
-            detail.setNotifyTERStatusChange(fromTraveler.isNotifyTERStatusChange());
+    public TravelerDetail copyTravelerDetail(TravelerDetail travelerDetail, String documentNumber) {
+        
+        TravelerDetail newTravelerDetail = new TravelerDetail();
+      
+        //dateOfBirth actually doesn't belong to TravelDetail (only in Profile) so skipping it as it cause error in copyProperties
+        BeanUtils.copyProperties(travelerDetail, newTravelerDetail, new String[]{TEMProfileProperties.DATE_OF_BIRTH});
+        newTravelerDetail.setId(null);
+        newTravelerDetail.setVersionNumber(null);
+        newTravelerDetail.setDocumentNumber(documentNumber);
+        newTravelerDetail.setEmergencyContacts(copyTravelerDetailEmergencyContact(travelerDetail.getEmergencyContacts(), documentNumber));
 
-            if (ObjectUtils.isNotNull(fromTraveler.getEmergencyContacts())){
-                int count = 1;
-                for(TravelerDetailEmergencyContact fromContact : fromTraveler.getEmergencyContacts()){
-                    TravelerDetailEmergencyContact contact = new TravelerDetailEmergencyContact();
-                    contact.setPrimary(fromContact.isPrimary());
-                    contact.setContactRelationTypeCode(fromContact.getContactRelationTypeCode());
-                    contact.setContactRelationType(fromContact.getContactRelationType());
-                    contact.setContactName(fromContact.getContactName());
-                    contact.setPhoneNumber(fromContact.getPhoneNumber());
-                    contact.setEmailAddress(fromContact.getEmailAddress());
-                    contact.setDocumentNumber(documentNumber);
-                    contact.setFinancialDocumentLineNumber(count);
-                    contact.setTravelerDetailId(detail.getId());
-                    detail.getEmergencyContacts().add(contact);
-                    count++;
-                }            
-            }        
-}
-        return detail;
+        return newTravelerDetail;
     }
 
+
+    /**
+     * 
+     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#copyTravelerDetailEmergencyContact(java.util.List, java.lang.String)
+     */
+    @Override
+    public List<TravelerDetailEmergencyContact> copyTravelerDetailEmergencyContact(List<TravelerDetailEmergencyContact> emergencyContacts, String documentNumber) {
+        List<TravelerDetailEmergencyContact> newEmergencyContacts = new ArrayList<TravelerDetailEmergencyContact>();
+        if (emergencyContacts != null) {
+            for (TravelerDetailEmergencyContact emergencyContact : emergencyContacts){
+                TravelerDetailEmergencyContact newEmergencyContact = new TravelerDetailEmergencyContact();
+                BeanUtils.copyProperties(emergencyContact, newEmergencyContact);
+                newEmergencyContact.setDocumentNumber(documentNumber);
+                newEmergencyContact.setVersionNumber(new Long(1));
+                newEmergencyContact.setObjectId(null);
+                newEmergencyContact.setId(null);
+                newEmergencyContacts.add(newEmergencyContact);
+            }
+        }
+        return newEmergencyContacts;
+    }     
+    
     /**
      * @see org.kuali.kfs.module.tem.service.TravelerService#convertToTemProfileFromKim(org.kuali.rice.kim.bo.Person)
      */
     @Override
     public TemProfileFromKimPerson convertToTemProfileFromKim(final Person person) {
         TemProfileFromKimPerson retval = new TemProfileFromKimPerson();
-        
-        try {
-            BeanUtils.copyProperties(retval, person);
-        }
-        catch (IllegalAccessException ex) {
-            LOG.error("IllegalAccessException in convertToTemProfileFromKim - BeanUtils.copyProperties.", ex);
-        }
-        catch (InvocationTargetException ex) {
-            LOG.error("InvocationTargetException in convertToTemProfileFromKim - BeanUtils.copyProperties.", ex);
-        }        
-        
+        BeanUtils.copyProperties(person, retval);
         return retval;
     }
 
@@ -319,22 +290,17 @@ public class TravelerServiceImpl implements TravelerService {
         return retval;
     }
     
+    /**
+     * @see org.kuali.kfs.module.tem.service.TravelerService#convertToTemProfileFromCustomer(org.kuali.kfs.integration.ar.AccountsReceivableCustomer)
+     */
     @Override
     public TemProfileFromCustomer convertToTemProfileFromCustomer(AccountsReceivableCustomer person) {
         TemProfileFromCustomer retval = new TemProfileFromCustomer();
     
         final AccountsReceivableCustomerAddress address = getAddressFor(person);
                      
-        try {
-            BeanUtils.copyProperties(retval, person);
-            BeanUtils.copyProperties(retval, address);
-        }
-        catch (IllegalAccessException ex) {
-            LOG.error("IllegalAccessException in convertToTemProfileFromCustomer - BeanUtils.copyProperties.", ex);
-        }
-        catch (InvocationTargetException ex) {
-            LOG.error("InvocationTargetException in convertToTemProfileFromCustomer - BeanUtils.copyProperties.", ex);
-        } 
+        BeanUtils.copyProperties(person, retval);
+        BeanUtils.copyProperties(address, retval);
         
         return retval;
     }

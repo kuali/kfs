@@ -682,23 +682,18 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         super.toCopy();
         cleanTravelDocument();
 
-        for (final SpecialCircumstances circumstances : getSpecialCircumstances()) {
-            final String sequenceName = getSpecialCircumstancesSequenceName();
-            final Long sequenceNumber = getSequenceAccessorService().getNextAvailableSequenceNumber(sequenceName, SpecialCircumstances.class);
-            circumstances.setId(sequenceNumber);
-            circumstances.setDocumentNumber(getDocumentNumber());
-        }
-        
-        // Cleanup Travel Advances ... not part of a copy
-        this.setTravelAdvances(new ArrayList<TravelAdvance>());
-        // Copy Trip Detail Estimates, Emergency Contacts, Transportation Modes, and Group Travelers
-        setTransportationModes(getTravelDocumentService().copyTransportationModeDetails(this.getTransportationModes(), this.getDocumentNumber()));
-        setPerDiemExpenses(getTravelDocumentService().copyPerDiemExpenses(this.getPerDiemExpenses(), this.getDocumentNumber()));
-        getTraveler().setEmergencyContacts(getTravelDocumentService().copyTravelerDetailEmergencyContact(this.getTraveler().getEmergencyContacts(), this.getDocumentNumber()));
-        setGroupTravelers(getTravelDocumentService().copyGroupTravelers(this.getGroupTravelers(), this.getDocumentNumber()));               
-        setActualExpenses((List<ActualExpense>) getTravelDocumentService().copyActualExpenses(this.getActualExpenses(), this.getDocumentNumber()));
+        // Copy Trip Detail Estimates, Traveler, Emergency Contacts, Transportation Modes, and Group Travelers
+        setTransportationModes(getTravelDocumentService().copyTransportationModeDetails(getTransportationModes(), getDocumentNumber()));
+        setPerDiemExpenses(getTravelDocumentService().copyPerDiemExpenses(getPerDiemExpenses(), getDocumentNumber()));
+        setSpecialCircumstances(getTravelDocumentService().copySpecialCircumstances(this.getSpecialCircumstances(), getDocumentNumber()));
+        setTraveler(getTravelerService().copyTravelerDetail(getTraveler(), getDocumentNumber()));
+        setGroupTravelers(getTravelDocumentService().copyGroupTravelers(getGroupTravelers(), getDocumentNumber()));               
+        setActualExpenses((List<ActualExpense>) getTravelDocumentService().copyActualExpenses(getActualExpenses(), getDocumentNumber()));
         setImportedExpenses(new ArrayList<ImportedExpense>());
-        this.setBoNotes(new ArrayList());
+
+        // Cleanup Travel Advances and notes
+        setTravelAdvances(new ArrayList<TravelAdvance>());
+        setBoNotes(new ArrayList());
     }
 
     /**
@@ -1258,7 +1253,7 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
             primaryKeys.put(TemPropertyConstants.TEMProfileProperties.PROFILE_ID, temProfileId);
             this.temProfile = (TEMProfile) getBusinessObjectService().findByPrimaryKey(TEMProfile.class, primaryKeys);
 
-            this.traveler = getTravelerService().copyTraveler(traveler, this.documentNumber);
+            this.traveler = getTravelerService().copyTravelerDetail(traveler, this.documentNumber);
         }
         else {
             setProfileId(temProfileId);

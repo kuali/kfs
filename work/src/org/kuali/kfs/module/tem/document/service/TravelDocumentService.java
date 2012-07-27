@@ -31,7 +31,6 @@ import org.kuali.kfs.module.tem.businessobject.SpecialCircumstances;
 import org.kuali.kfs.module.tem.businessobject.TEMExpense;
 import org.kuali.kfs.module.tem.businessobject.TransportationModeDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
-import org.kuali.kfs.module.tem.businessobject.TravelerDetailEmergencyContact;
 import org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
@@ -313,11 +312,6 @@ public interface TravelDocumentService {
      * Copies travel advances and sets new document number
      */
     public List<TravelAdvance> copyTravelAdvances(List<TravelAdvance> travelAdvances, String documentNumber);
-    
-    /**
-     * Copies traveler detail emergency contacts and sets new document number
-     */
-    public List<TravelerDetailEmergencyContact> copyTravelerDetailEmergencyContact(List<TravelerDetailEmergencyContact> emergencyContacts, String documentNumber);
     
     /**
      * Copies special circumstances and sets new document number

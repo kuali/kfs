@@ -15,18 +15,10 @@
  */
 package org.kuali.kfs.module.tem.service.impl;
 
-import static org.kuali.kfs.module.tem.TemConstants.PARAM_NAMESPACE;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.integration.tem.TravelEntertainmentMovingModuleService;
 import org.kuali.kfs.integration.tem.TravelEntertainmentMovingTravelDocument;
-import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
-import org.kuali.kfs.module.tem.TemConstants.TravelEntertainmentParameters;
-import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
-import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters;
-import org.kuali.kfs.module.tem.TemConstants.TravelRelocationParameters;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;

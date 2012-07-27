@@ -30,7 +30,6 @@ import static org.kuali.kfs.module.tem.util.BufferedLogger.error;
 import static org.kuali.kfs.module.tem.util.BufferedLogger.warn;
 import static org.kuali.rice.kns.util.GlobalVariables.getMessageList;
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -49,7 +48,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.PersistenceBrokerException;
@@ -81,7 +79,6 @@ import org.kuali.kfs.module.tem.businessobject.SpecialCircumstancesQuestion;
 import org.kuali.kfs.module.tem.businessobject.TEMExpense;
 import org.kuali.kfs.module.tem.businessobject.TransportationModeDetail;
 import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
-import org.kuali.kfs.module.tem.businessobject.TravelerDetailEmergencyContact;
 import org.kuali.kfs.module.tem.businessobject.TripType;
 import org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
@@ -141,6 +138,7 @@ import org.kuali.rice.kns.util.KNSPropertyConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.workflow.service.WorkflowDocumentService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -1948,15 +1946,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         if (groupTravelers != null) {
             for (GroupTraveler groupTraveler : groupTravelers) {
                 GroupTraveler newGroupTraveler = new GroupTraveler();
-                try {
-                    BeanUtils.copyProperties(newGroupTraveler, groupTraveler);
-                }
-                catch (IllegalAccessException ex) {
-                    ex.printStackTrace();
-                }
-                catch (InvocationTargetException ex) {
-                    ex.printStackTrace();
-                }
+                BeanUtils.copyProperties(groupTraveler, newGroupTraveler);
                 newGroupTraveler.setDocumentNumber(documentNumber);
                 newGroupTraveler.setVersionNumber(new Long(1));
                 newGroupTraveler.setObjectId(null);
@@ -1984,15 +1974,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
                     nullCheck = true;
                     actualExpense.setExpenseDate(new Date(0));
                 }
-                try {
-                    BeanUtils.copyProperties(newActualExpense, actualExpense);
-                }
-                catch (IllegalAccessException ex) {
-                    ex.printStackTrace();
-                }
-                catch (InvocationTargetException ex) {
-                    ex.printStackTrace();
-                }
+                BeanUtils.copyProperties(actualExpense, newActualExpense);
                 if (nullCheck) {
                     actualExpense.setExpenseDate(null);
                     newActualExpense.setExpenseDate(null);
@@ -2025,15 +2007,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         if (perDiemExpenses != null) {
             for (PerDiemExpense expense : perDiemExpenses){
                 PerDiemExpense newExpense = new PerDiemExpense();
-                try {
-                    BeanUtils.copyProperties(newExpense, expense);
-                }
-                catch (IllegalAccessException ex) {
-                    ex.printStackTrace();
-                }
-                catch (InvocationTargetException ex) {
-                    ex.printStackTrace();
-                }
+                BeanUtils.copyProperties(expense, newExpense);
                 newExpense.setBreakfastValue(expense.getBreakfastValue());
                 newExpense.setLunchValue(expense.getLunchValue());
                 newExpense.setDinnerValue(expense.getDinnerValue());
@@ -2070,35 +2044,6 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
     
     /**
      * 
-     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#copyTravelerDetailEmergencyContact(java.util.List, java.lang.String)
-     */
-    @Override
-    public List<TravelerDetailEmergencyContact> copyTravelerDetailEmergencyContact(List<TravelerDetailEmergencyContact> emergencyContacts, String documentNumber) {
-        List<TravelerDetailEmergencyContact> newEmergencyContacts = new ArrayList<TravelerDetailEmergencyContact>();
-        if (emergencyContacts != null) {
-            for (TravelerDetailEmergencyContact emergencyContact : emergencyContacts){
-                TravelerDetailEmergencyContact newEmergencyContact = new TravelerDetailEmergencyContact();
-                try {
-                    BeanUtils.copyProperties(newEmergencyContact, emergencyContact);
-                }
-                catch (IllegalAccessException ex) {
-                    ex.printStackTrace();
-                }
-                catch (InvocationTargetException ex) {
-                    ex.printStackTrace();
-                }
-                newEmergencyContact.setDocumentNumber(documentNumber);
-                newEmergencyContact.setVersionNumber(new Long(1));
-                newEmergencyContact.setObjectId(null);
-                newEmergencyContact.setId(null);
-                newEmergencyContacts.add(newEmergencyContact);
-            }
-        }
-        return newEmergencyContacts;
-    }     
-    
-    /**
-     * 
      * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#copySpecialCircumstances(java.util.List, java.lang.String)
      */
     @Override
@@ -2107,15 +2052,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         if (specialCircumstancesList != null) {
             for (SpecialCircumstances specialCircumstances : specialCircumstancesList){
                 SpecialCircumstances newSpecialCircumstances = new SpecialCircumstances();
-                try {
-                    BeanUtils.copyProperties(newSpecialCircumstances, specialCircumstances);
-                }
-                catch (IllegalAccessException ex) {
-                    ex.printStackTrace();
-                }
-                catch (InvocationTargetException ex) {
-                    ex.printStackTrace();
-                }
+                BeanUtils.copyProperties(specialCircumstances, newSpecialCircumstances);
                 newSpecialCircumstances.setDocumentNumber(documentNumber);
                 newSpecialCircumstances.setVersionNumber(new Long(1));
                 newSpecialCircumstances.setObjectId(null);
@@ -2136,15 +2073,7 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         if (transportationModeDetails != null) {
             for (TransportationModeDetail detail : transportationModeDetails){
                 TransportationModeDetail newDetail = new TransportationModeDetail();
-                try {
-                    BeanUtils.copyProperties(newDetail, detail);
-                }
-                catch (IllegalAccessException ex) {
-                    ex.printStackTrace();
-                }
-                catch (InvocationTargetException ex) {
-                    ex.printStackTrace();
-                }
+                BeanUtils.copyProperties(detail, newDetail);
                 newDetail.setDocumentNumber(documentNumber);
                 newDetail.setVersionNumber(new Long(1));
                 newDetail.setObjectId(null);
@@ -2154,6 +2083,9 @@ public class TravelDocumentServiceImpl implements TravelDocumentService {
         return newTransportationModeDetails;
     }  
     
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelDocumentService#showNoTravelAuthorizationError(org.kuali.kfs.module.tem.document.TravelReimbursementDocument)
+     */
     @Override
     public void showNoTravelAuthorizationError(TravelReimbursementDocument document){
         if (document.getTripType() != null && document.getTripType().getTravelAuthorizationRequired()){

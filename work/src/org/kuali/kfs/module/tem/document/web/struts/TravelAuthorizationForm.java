@@ -40,7 +40,6 @@ import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
 import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
-import org.kuali.kfs.module.tem.document.web.bean.AccountingLineDistributionKey;
 import org.kuali.kfs.module.tem.document.web.bean.TravelAuthorizationMvcWrapperBean;
 import org.kuali.kfs.module.tem.service.TravelService;
 import org.kuali.kfs.sys.KFSConstants;

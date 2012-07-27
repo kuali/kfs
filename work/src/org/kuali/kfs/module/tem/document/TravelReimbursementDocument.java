@@ -376,6 +376,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
     public void toCopy() throws WorkflowException {
         super.toCopy();
 
+        //TODO: super class already performed the cleanTravelDocument, this part seems to do nothing (unless it is moved to the base)
         final boolean isTaFree = getParameterService().getIndicatorParameter(TemParameterConstants.TEM_REIMBURSEMENT.class, ALLOW_TR_WITHOUT_TA_IND);
         if (isTaFree) {
             cleanTravelDocument();

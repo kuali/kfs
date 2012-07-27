@@ -177,6 +177,10 @@ public class Security extends PersistableBusinessObjectBase implements MutableIn
      * @return dividendAmount
      */
     public BigDecimal getDividendAmount() {
+        if (dividendAmount == null) {
+            return BigDecimal.ZERO;
+        }
+        
         return dividendAmount;
     }
 

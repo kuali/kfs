@@ -29,6 +29,7 @@ import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class SecurityDocumentPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
 
@@ -52,7 +53,7 @@ public class SecurityDocumentPresentationController extends FinancialSystemMaint
         //if class code type is stocks and SEC_DIV_PAY_DT is entered then 
         //copy the date value to SEC_INC_NEXT_PAY_DT.
         //We do not want to overwrite the date if it already exists.
-        if (EndowConstants.ClassCodeTypes.STOCKS.equalsIgnoreCase(security.getClassCode().getClassCodeType())) {
+        if (ObjectUtils.isNotNull(security.getClassCode()) && EndowConstants.ClassCodeTypes.STOCKS.equalsIgnoreCase(security.getClassCode().getClassCodeType())) {
             if (security.getDividendPayDate() != null) {
                 security.setIncomeNextPayDate(security.getDividendPayDate());
             }

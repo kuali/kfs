@@ -1146,4 +1146,13 @@
 	      <replace replace="sys_guid()" with="uuid()" />
 	    </modifySql>
 	</changeSet>
+	
+	<changeSet id="REMOVE_EXTRA_ROUTE_LOG_MESSAGE_PERM" author="KFS50">
+		<comment>Remove a permission which should not have been present in the prior KFS dataset.</comment>
+		<delete tableName="KRIM_ROLE_PERM_T">
+			<where> role_id = (select role_id from KRIM_ROLE_T where nmspc_cd = 'KR-SYS' and role_nm = 'Technical Administrator') 
+				AND perm_id = (select perm_id from KRIM_PERM_T WHERE nmspc_cd = 'KUALI' AND nm = 'Add Message to Route Log')
+			</where>
+		</delete>		
+	</changeSet>
 </databaseChangeLog>

@@ -71,6 +71,7 @@
 		<parent>BCT</parent>
 		<label>Budget Construction Document</label>
 		<docHandler>${kfs.url}/budgetBudgetConstruction.do?methodToCall=docHandler</docHandler>
+		<postProcessorName>none</postProcessorName>
 		<active>true</active>
 		<routingVersion>2</routingVersion>
 		<routePaths />

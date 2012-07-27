@@ -84,7 +84,7 @@ public class ProcurementCardForm extends CapitalAccountingLinesFormBase implemen
                 }
             }
         }
-
+        
         // don't call populateAccountingLines if you are copying or errorCorrecting a document,
         // since you want the accountingLines in the copy to be "identical" to those in the original
         if (!StringUtils.equals(methodToCall, KFSConstants.COPY_METHOD) && !StringUtils.equals(methodToCall, KFSConstants.ERRORCORRECT_METHOD)) {
@@ -102,6 +102,9 @@ public class ProcurementCardForm extends CapitalAccountingLinesFormBase implemen
         super();
         
         this.newTargetLines = new ArrayList<ProcurementCardTargetAccountingLine>();
+        TargetAccountingLine targetAccountingLine = new TargetAccountingLine();
+        this.newTargetLines.add(targetAccountingLine);
+
         capitalAssetInformation = new ArrayList<CapitalAssetInformation>();
     }
 

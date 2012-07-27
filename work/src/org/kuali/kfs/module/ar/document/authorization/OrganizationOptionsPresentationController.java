@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,13 +29,13 @@ import org.kuali.kfs.sys.service.impl.KfsParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.role.RoleService;
-import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class OrganizationOptionsPresentationController extends FinancialSystemMaintenanceDocumentPresentationControllerBase {
 
     protected static final String ACCOUNTS_RECEIVABLE_MANAGER_ROLE_NAME = "Accounts Receivable Manager";
-    
+
     @Override
     public Set<String> getConditionallyReadOnlySectionIds(MaintenanceDocument document) {
         Set<String> readOnlySectionIds = super.getConditionallyReadOnlySectionIds(document);
@@ -54,12 +54,12 @@ public class OrganizationOptionsPresentationController extends FinancialSystemMa
     }
 
     /**
-     * 
+     *
      * Billing Chart/Org are always read-only on an edit.  Always.
-     * 
-     * They are editable on an Add, but only if KIM lets you in on an Add, 
+     *
+     * They are editable on an Add, but only if KIM lets you in on an Add,
      * but thats handled elsewhere.
-     * 
+     *
      * @param readOnlyPropertyNames
      * @param document
      */
@@ -69,38 +69,38 @@ public class OrganizationOptionsPresentationController extends FinancialSystemMa
             readOnlyPropertyNames.add(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_CODE);
         }
     }
-    
+
     /**
      * Sets the processing Chart/Org code editable
-     * 
+     *
      * @param readOnlyPropertyNames
      * @param document
      */
     protected void setProcessingOrgFieldsEditable(Set<String> readOnlyPropertyNames, MaintenanceDocument document) {
-        
+
         if (document.isEdit()) {
-            
+
             RoleService rms = SpringContext.getBean(RoleService.class);
-            
+
             Person user = GlobalVariables.getUserSession().getPerson();
             String principalId = user.getPrincipalId();
-            
+
             List<String> roleIds = new ArrayList<String>();
             roleIds.add(rms.getRoleIdByNamespaceCodeAndName(KFSConstants.CoreModuleNamespaces.KFS, ACCOUNTS_RECEIVABLE_MANAGER_ROLE_NAME));
-            
+
             // editable only for the AR Manager role
             if (!rms.principalHasRole(principalId, roleIds, null)) {
                 readOnlyPropertyNames.add(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_CHART_OF_ACCOUNTS_CODE);
                 readOnlyPropertyNames.add(ArPropertyConstants.OrganizationOptionsFields.PROCESSING_ORGANIZATION_CODE);
-            } 
+            }
         }
     }
-    
+
     /**
-     * 
-     * Sets the Remit-To Name (ie, OrgCheckPayableToName) to read only if thats how the system parameters are 
+     *
+     * Sets the Remit-To Name (ie, OrgCheckPayableToName) to read only if thats how the system parameters are
      * configured, otherwise leave it read/write.
-     * 
+     *
      * @param readOnlyPropertyNames
      */
     protected void setRemitToNameEditable(Set<String> readOnlyPropertyNames) {
@@ -110,12 +110,12 @@ public class OrganizationOptionsPresentationController extends FinancialSystemMa
             readOnlyPropertyNames.add(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_CHECK_PAYABLE_TO_NAME);
         }
     }
-    
+
     /**
-     * 
-     * Sets the OrgPostalZipCode to readonly if thats what the system parameters say, otherwise leave it 
+     *
+     * Sets the OrgPostalZipCode to readonly if thats what the system parameters say, otherwise leave it
      * read/write.
-     * 
+     *
      * @param readOnlyPropertyNames
      */
     protected void setOrgPostalZipCodeEditable(Set<String> readOnlyPropertyNames) {
@@ -124,12 +124,12 @@ public class OrganizationOptionsPresentationController extends FinancialSystemMa
             readOnlyPropertyNames.add(ArPropertyConstants.OrganizationOptionsFields.ORGANIZATION_POSTAL_ZIP_CODE);
         }
     }
-    
+
     /**
-     * 
+     *
      * Sets the whole Remit-To Address section to read-only if thats what the system parameter says, otherwise leave
      * it read/wrtie.
-     * 
+     *
      * @param readOnlySectionIds
      */
     protected void setRemitToAddressSectionEditable(Set<String> readOnlySectionIds) {
@@ -139,5 +139,5 @@ public class OrganizationOptionsPresentationController extends FinancialSystemMa
             readOnlySectionIds.add(ArConstants.OrganizationOptionsSections.EDIT_ORGANIZATION_REMIT_TO_ADDRESS);
         }
     }
-    
+
 }

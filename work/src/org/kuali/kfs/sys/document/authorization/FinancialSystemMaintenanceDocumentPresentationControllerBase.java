@@ -1,12 +1,12 @@
 /*
  * Copyright 2008-2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,28 +27,15 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 public class FinancialSystemMaintenanceDocumentPresentationControllerBase extends MaintenanceDocumentPresentationControllerBase {
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.krad.maintenance.MaintenanceDocument)
-     */
-    @Override
-    public Set<String> getConditionallyReadOnlyPropertyNames(org.kuali.rice.krad.maintenance.MaintenanceDocument document) {
-        Set<String> readOnlyPropertyNames = super.getConditionallyReadOnlyPropertyNames(document);
-        
-        MaintenanceDocument maintenanceDocument = (MaintenanceDocument)document;
-        readOnlyPropertyNames.addAll(this.getConditionallyReadOnlyPropertyNames(maintenanceDocument));
-        
-        return readOnlyPropertyNames;
-    }
-
-    /**
      * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlySectionIds(org.kuali.rice.krad.maintenance.MaintenanceDocument)
      */
     @Override
-    public Set<String> getConditionallyReadOnlySectionIds(org.kuali.rice.krad.maintenance.MaintenanceDocument document) {
+    public Set<String> getConditionallyReadOnlySectionIds(MaintenanceDocument document) {
         Set<String> readOnlySectionIds = super.getConditionallyReadOnlySectionIds(document);
-        
-        MaintenanceDocument maintenanceDocument = (MaintenanceDocument)document;
+
+        MaintenanceDocument maintenanceDocument = document;
         readOnlySectionIds.addAll(this.getConditionallyReadOnlySectionIds(maintenanceDocument));
-        
+
         return readOnlySectionIds;
     }
 
@@ -56,45 +43,39 @@ public class FinancialSystemMaintenanceDocumentPresentationControllerBase extend
      * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyRequiredPropertyNames(org.kuali.rice.krad.maintenance.MaintenanceDocument)
      */
     @Override
-    public Set<String> getConditionallyRequiredPropertyNames(org.kuali.rice.krad.maintenance.MaintenanceDocument document) {
+    public Set<String> getConditionallyRequiredPropertyNames(MaintenanceDocument document) {
         Set<String> requiredPropertyNames = super.getConditionallyRequiredPropertyNames(document);
-        
-        MaintenanceDocument maintenanceDocument = (MaintenanceDocument)document;
+
+        MaintenanceDocument maintenanceDocument = document;
         requiredPropertyNames.addAll(this.getConditionallyRequiredPropertyNames(maintenanceDocument));
-        
-        return requiredPropertyNames;        
-    } 
-    
+
+        return requiredPropertyNames;
+    }
+
     /**
      * the following three methods still accept the deprecated class as argument in order to bridge the gap between old and new maintenance API
-     * 
-     * This is just workaround solution. The better solution would be to replace old API with new one.   
+     *
+     * This is just workaround solution. The better solution would be to replace old API with new one.
      */
+    @Override
     public Set<String> getConditionallyReadOnlyPropertyNames(MaintenanceDocument document) {
         Set<String> readOnlyPropertyNames = super.getConditionallyReadOnlyPropertyNames(document);
 
         // if accounts can't cross charts, then all chartOfAccountsCode fields shall be displayed readOnly
         if (!SpringContext.getBean(AccountService.class).accountsCanCrossCharts()) {
             AccountPersistenceStructureService apsService = SpringContext.getBean(AccountPersistenceStructureService.class);
-            PersistableBusinessObject bo = document.getNewMaintainableObject().getBusinessObject();      
-            
-            // non-collection reference accounts 
-            Set<String> coaCodeNames = apsService.listChartOfAccountsCodeNames(bo);            
+            PersistableBusinessObject bo = document.getNewMaintainableObject().getBusinessObject();
+
+            // non-collection reference accounts
+            Set<String> coaCodeNames = apsService.listChartOfAccountsCodeNames(bo);
             readOnlyPropertyNames.addAll(coaCodeNames);
 
-            // collection reference accounts   
-            coaCodeNames = apsService.listCollectionChartOfAccountsCodeNames(bo); 
+            // collection reference accounts
+            coaCodeNames = apsService.listCollectionChartOfAccountsCodeNames(bo);
             readOnlyPropertyNames.addAll(coaCodeNames);
         }
-        
-        return readOnlyPropertyNames;                
+
+        return readOnlyPropertyNames;
     }
 
-    public Set<String> getConditionallyReadOnlySectionIds(MaintenanceDocument document) {
-        return super.getConditionallyReadOnlySectionIds(document);
-    }
-
-    public Set<String> getConditionallyRequiredPropertyNames(MaintenanceDocument document) {
-        return super.getConditionallyRequiredPropertyNames(document);
-    } 
 }

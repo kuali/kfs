@@ -1,12 +1,12 @@
 /*
  * Copyright 2009 The Kuali Foundation
- * 
+ *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl2.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,8 +20,7 @@ import java.util.Set;
 import org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase;
 import org.kuali.kfs.vnd.VendorPropertyConstants;
 import org.kuali.kfs.vnd.businessobject.VendorDetail;
-
-import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -52,8 +51,8 @@ public class VendorDocumentPresentationController extends FinancialSystemMainten
             // Vendor Parent Indicator should be readOnly if the vendor is a parent.
             conditionallyReadonlyPropertyNames.add(VendorPropertyConstants.VENDOR_PARENT_INDICATOR);
 
-            // For existing vendors, don't allow vendor type code to be changed if maint table indicates it shouldn't be changed 
-            if (ObjectUtils.isNotNull(vendor.getVendorHeaderGeneratedIdentifier()) && 
+            // For existing vendors, don't allow vendor type code to be changed if maint table indicates it shouldn't be changed
+            if (ObjectUtils.isNotNull(vendor.getVendorHeaderGeneratedIdentifier()) &&
                     !vendor.getVendorHeader().getVendorType().isVendorTypeChangeAllowedIndicator()) {
                 conditionallyReadonlyPropertyNames.add(VendorPropertyConstants.VENDOR_TYPE_CODE);
             }
@@ -77,7 +76,7 @@ public class VendorDocumentPresentationController extends FinancialSystemMainten
 
         return conditionallyReadonlyPropertyNames;
     }
-    
+
     @Override
     public Set<String> getConditionallyHiddenPropertyNames(BusinessObject businessObject) {
         Set<String> conditionallyHiddenPropertyNames = super.getConditionallyHiddenPropertyNames(businessObject);
@@ -87,7 +86,7 @@ public class VendorDocumentPresentationController extends FinancialSystemMainten
         if (vendor.isVendorParentIndicator()) {
             conditionallyHiddenPropertyNames.add(VendorPropertyConstants.VENDOR_PARENT_NAME);
         }
-        
+
         return conditionallyHiddenPropertyNames;
     }
 

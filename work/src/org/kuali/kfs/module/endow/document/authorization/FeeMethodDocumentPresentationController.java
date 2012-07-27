@@ -44,7 +44,7 @@ public class FeeMethodDocumentPresentationController extends FinancialSystemMain
 
         String frequencyCode = feeMethod.getFeeFrequencyCode();
         if (StringUtils.isNotEmpty(frequencyCode)) {
-            FrequencyCodeServiceImpl frequencyCodeServiceImpl = (FrequencyCodeServiceImpl) SpringContext.getBean(FrequencyCodeServiceImpl.class);
+            FrequencyCodeServiceImpl frequencyCodeServiceImpl = SpringContext.getBean(FrequencyCodeServiceImpl.class);
             feeMethod.setFeeNextProcessDate(frequencyCodeServiceImpl.calculateProcessDate(frequencyCode));
         }
 
@@ -72,7 +72,7 @@ public class FeeMethodDocumentPresentationController extends FinancialSystemMain
      * @see org.kuali.rice.krad.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
      */
     @Override
-    public Set<String> getConditionallyReadOnlySectionIds(org.kuali.rice.krad.maintenance.MaintenanceDocument document) {
+    public Set<String> getConditionallyReadOnlySectionIds(MaintenanceDocument document) {
         Set<String> readOnlySectionIds = super.getConditionallyReadOnlySectionIds(document);
 
         // make all the tabs read only to begin with
@@ -100,16 +100,16 @@ public class FeeMethodDocumentPresentationController extends FinancialSystemMain
             readOnlySectionIds.remove(EndowConstants.FeeMethod.ENDOWMENT_TRANSACTION_CODES_TAB_ID);
             readOnlySectionIds.remove(EndowConstants.FeeMethod.PAYMENT_TYPES_TAB_ID);
 
-            List<FeeClassCode> feeClassCodes = (List<FeeClassCode>) feeMethod.getFeeClassCodes();
+            List<FeeClassCode> feeClassCodes = feeMethod.getFeeClassCodes();
             feeClassCodes.clear();
 
-            List<FeeClassCode> oldFeeClassCodes = (List<FeeClassCode>) oldFeeMethod.getFeeClassCodes();
+            List<FeeClassCode> oldFeeClassCodes = oldFeeMethod.getFeeClassCodes();
             oldFeeClassCodes.clear();
 
-            List<FeeSecurity> feeSecurity = (List<FeeSecurity>) feeMethod.getFeeSecurity();
+            List<FeeSecurity> feeSecurity = feeMethod.getFeeSecurity();
             feeSecurity.clear();
 
-            List<FeeSecurity> olFeeSecurity = (List<FeeSecurity>) oldFeeMethod.getFeeSecurity();
+            List<FeeSecurity> olFeeSecurity = oldFeeMethod.getFeeSecurity();
             olFeeSecurity.clear();
 
        //     List<FeePaymentType> feePaymentTypes = (List<FeePaymentType>) feeMethod.getFeePaymentTypes();
@@ -129,19 +129,19 @@ public class FeeMethodDocumentPresentationController extends FinancialSystemMain
             readOnlySectionIds.remove(EndowConstants.FeeMethod.CLASS_CODES_TAB_ID);
             readOnlySectionIds.remove(EndowConstants.FeeMethod.SECURITY_TAB_ID);
 
-            List<FeePaymentType> feePaymentTypes = (List<FeePaymentType>) feeMethod.getFeePaymentTypes();
+            List<FeePaymentType> feePaymentTypes = feeMethod.getFeePaymentTypes();
             feePaymentTypes.clear();
-            List<FeePaymentType> oldFeePaymentTypes = (List<FeePaymentType>) oldFeeMethod.getFeePaymentTypes();
+            List<FeePaymentType> oldFeePaymentTypes = oldFeeMethod.getFeePaymentTypes();
             oldFeePaymentTypes.clear();
 
-            List<FeeTransaction> feeTransactions = (List<FeeTransaction>) feeMethod.getFeeTransactions();
+            List<FeeTransaction> feeTransactions = feeMethod.getFeeTransactions();
             feeTransactions.clear();
-            List<FeeTransaction> oldFeeTransactions = (List<FeeTransaction>) oldFeeMethod.getFeeTransactions();
+            List<FeeTransaction> oldFeeTransactions = oldFeeMethod.getFeeTransactions();
             oldFeeTransactions.clear();
 
-            List<FeeEndowmentTransactionCode> feeEndowmentTransactionCodes = (List<FeeEndowmentTransactionCode>) feeMethod.getFeeEndowmentTransactionCodes();
+            List<FeeEndowmentTransactionCode> feeEndowmentTransactionCodes = feeMethod.getFeeEndowmentTransactionCodes();
             feeEndowmentTransactionCodes.clear();
-            List<FeeEndowmentTransactionCode> oldFeeEndowmentTransactionCodes = (List<FeeEndowmentTransactionCode>) oldFeeMethod.getFeeEndowmentTransactionCodes();
+            List<FeeEndowmentTransactionCode> oldFeeEndowmentTransactionCodes = oldFeeMethod.getFeeEndowmentTransactionCodes();
             oldFeeEndowmentTransactionCodes.clear();
 
             return readOnlySectionIds;
@@ -154,24 +154,24 @@ public class FeeMethodDocumentPresentationController extends FinancialSystemMain
         if (EndowConstants.FeeMethod.FEE_TYPE_CODE_VALUE_FOR_PAYMENTS.equalsIgnoreCase(feeTypeCode)) {
             readOnlySectionIds.remove(EndowConstants.FeeMethod.PAYMENT_TYPES_TAB_ID);
 
-            List<FeeClassCode> feeClassCodes = (List<FeeClassCode>) feeMethod.getFeeClassCodes();
+            List<FeeClassCode> feeClassCodes = feeMethod.getFeeClassCodes();
             feeClassCodes.clear();
-            List<FeeClassCode> oldFeeClassCodes = (List<FeeClassCode>) oldFeeMethod.getFeeClassCodes();
+            List<FeeClassCode> oldFeeClassCodes = oldFeeMethod.getFeeClassCodes();
             oldFeeClassCodes.clear();
 
-            List<FeeSecurity> feeSecurity = (List<FeeSecurity>) feeMethod.getFeeSecurity();
+            List<FeeSecurity> feeSecurity = feeMethod.getFeeSecurity();
             feeSecurity.clear();
-            List<FeeSecurity> olFeeSecurity = (List<FeeSecurity>) oldFeeMethod.getFeeSecurity();
+            List<FeeSecurity> olFeeSecurity = oldFeeMethod.getFeeSecurity();
             olFeeSecurity.clear();
 
-            List<FeeTransaction> feeTransactions = (List<FeeTransaction>) feeMethod.getFeeTransactions();
+            List<FeeTransaction> feeTransactions = feeMethod.getFeeTransactions();
             feeTransactions.clear();
-            List<FeeTransaction> oldFeeTransactions = (List<FeeTransaction>) oldFeeMethod.getFeeTransactions();
+            List<FeeTransaction> oldFeeTransactions = oldFeeMethod.getFeeTransactions();
             oldFeeTransactions.clear();
 
-            List<FeeEndowmentTransactionCode> feeEndowmentTransactionCodes = (List<FeeEndowmentTransactionCode>) feeMethod.getFeeEndowmentTransactionCodes();
+            List<FeeEndowmentTransactionCode> feeEndowmentTransactionCodes = feeMethod.getFeeEndowmentTransactionCodes();
             feeEndowmentTransactionCodes.clear();
-            List<FeeEndowmentTransactionCode> oldFeeEndowmentTransactionCodes = (List<FeeEndowmentTransactionCode>) oldFeeMethod.getFeeEndowmentTransactionCodes();
+            List<FeeEndowmentTransactionCode> oldFeeEndowmentTransactionCodes = oldFeeMethod.getFeeEndowmentTransactionCodes();
             oldFeeEndowmentTransactionCodes.clear();
 
             return readOnlySectionIds;

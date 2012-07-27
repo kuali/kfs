@@ -706,53 +706,6 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         this.getDocumentHeader().setOrganizationDocumentNumber("");
         this.getDocumentHeader().setDocumentDescription(TemConstants.PRE_FILLED_DESCRIPTION);
     }
-
-    /**
-     * 
-     * @return
-     */
-    protected String getSpecialCircumstancesSequenceName() {
-        Class<?> boClass = SpecialCircumstances.class;
-        String retval = "";
-        try {
-            boolean rethrow = true;
-            Exception e = null;
-            while (rethrow) {
-                debug("Looking for id in ", boClass.getName());
-                try {
-                    final Field idField = boClass.getDeclaredField("id");
-                    final SequenceGenerator sequenceInfo = idField.getAnnotation(SequenceGenerator.class);
-                    
-                    return sequenceInfo.sequenceName();
-                }
-                catch (Exception ee) {
-                    // ignore and try again
-                    debug("Could not find id in ", boClass.getName());
-                    
-                    // At the end. Went all the way up the hierarchy until we got to Object
-                    if (Object.class.equals(boClass)) {
-                        rethrow = false;
-                    }
-                    
-                    // get the next superclass
-                    boClass = boClass.getSuperclass();
-                    e = ee;
-                }
-            }
-            
-            if (e != null) {
-                throw e;
-            }
-        }
-        catch (Exception e) {
-            error("Could not get the sequence name for business object ", SpecialCircumstances.class.getSimpleName());
-            error(e.getMessage());
-            if (logger().isDebugEnabled()) {
-                e.printStackTrace();
-            }
-        }
-        return retval;
-    }
     
     /**
      * 

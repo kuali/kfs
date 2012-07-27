@@ -33,6 +33,7 @@ import org.kuali.kfs.module.ar.document.validation.ContinueCustomerCreditMemoDoc
 import org.kuali.kfs.module.ar.document.validation.RecalculateCustomerCreditMemoDetailRule;
 import org.kuali.kfs.module.ar.document.validation.RecalculateCustomerCreditMemoDocumentRule;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.dataaccess.FinancialSystemDocumentHeaderDao;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -327,4 +328,20 @@ public class CustomerCreditMemoDocumentRule extends TransactionalDocumentRuleBas
         return true;
     }
 
+    @Override
+    public boolean isDocumentAttributesValid(Document document, boolean validateRequired) {
+        //refresh GLPE nonupdateable business object references....
+        CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument) document;
+        
+        for (CustomerCreditMemoDetail customerDetail : customerCreditMemoDocument.getCreditMemoDetails()) {
+            customerDetail.getCustomerInvoiceDetail().refreshNonUpdateableReferences();
+        }
+
+        for (GeneralLedgerPendingEntry glpe : customerCreditMemoDocument.getGeneralLedgerPendingEntries()) {
+            glpe.refreshNonUpdateableReferences();
+        }
+        
+        return super.isDocumentAttributesValid(document, validateRequired);
+    }
+    
 }

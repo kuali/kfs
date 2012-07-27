@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 The Kuali Foundation.
+ * Copyright 2010 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,26 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kfs.module.tem.service;
+package org.kuali.kfs.module.tem.businessobject;
 
-import java.util.List;
-import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-public interface CreditCardAgencyService {
-    
-    /**
-     * Get a list of the credit card agency of type Corp Card
-     * 
-     * @return
-     */
-    public List<CreditCardAgency> getCorpCreditCardAgencyList();
-    
-    /**
-     * Get a list of the credit card agency of type Corp Card and its credit card agency code
-     * 
-     * @return
-     */
-    public List<String> getCorpCreditCardAgencyCodeList();
+import org.kuali.rice.kns.bo.KualiCodeBase;
 
+/**
+ * Travel Card Type
+ * 
+ */
+@Entity
+@Table(name="TEM_TRVL_CARD_TYP_T")
+public class TravelCardType extends KualiCodeBase {
 
 }

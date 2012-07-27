@@ -76,7 +76,7 @@ public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase 
             }
             else {
                 if (expense.getCardType() != null 
-                        && !expense.getCardType().equals(TemConstants.CARD_TYPE_CTS) 
+                        && !expense.getCardType().equals(TemConstants.TRAVEL_TYPE_CTS) 
                         && !expense.getNonReimbursable()){
                     expense.refreshReferenceObject("travelExpenseTypeCode");
                     TemTravelExpenseTypeCode code = SpringContext.getBean(TravelExpenseService.class).getExpenseType(expense.getTravelExpenseTypeCodeCode(), 
@@ -126,7 +126,7 @@ public class ImportedCorporateCardExpenseServiceImpl extends ExpenseServiceBase 
     public boolean validateExpenseCalculation(TEMExpense expense){
         return (expense instanceof ImportedExpense)
                 && ((ImportedExpense)expense).getCardType() != null
-                && !StringUtils.defaultString(((ImportedExpense)expense).getCardType()).equals(TemConstants.CARD_TYPE_CTS);
+                && !StringUtils.defaultString(((ImportedExpense)expense).getCardType()).equals(TemConstants.TRAVEL_TYPE_CTS);
     }
     
     /**

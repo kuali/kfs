@@ -60,7 +60,7 @@ public class ExpenseUtils {
            
             ImportedExpense importedExpense = new ImportedExpense();
             if (historicalTravelExpense.isAgencyTravelExpense()){
-                importedExpense.setCardType(TemConstants.CARD_TYPE_CTS);
+                importedExpense.setCardType(TemConstants.TRAVEL_TYPE_CTS);
             }
             else{
                 importedExpense.setCardType(historicalTravelExpense.getCreditCardAgency().getCreditCardOrAgencyCode());

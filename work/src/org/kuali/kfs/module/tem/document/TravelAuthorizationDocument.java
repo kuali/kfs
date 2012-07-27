@@ -163,7 +163,7 @@ public class TravelAuthorizationDocument extends TravelDocumentBase {
         for (TemSourceAccountingLine line : (List<TemSourceAccountingLine>)copytToDocument.getSourceAccountingLines()){
             
             //CLEANUP is it only CTS that is not being copied? how about encumbrance and agency? those will be replicated.....
-            if (!line.getCardType().equals(TemConstants.CARD_TYPE_CTS)){
+            if (!line.getCardType().equals(TemConstants.TRAVEL_TYPE_CTS)){
                 line.setSequenceNumber(new Integer(sequence));
                 sequence++;
                 newList.add(line);

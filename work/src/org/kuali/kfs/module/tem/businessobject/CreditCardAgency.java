@@ -26,7 +26,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.kuali.kfs.fp.businessobject.CreditCardType;
 import org.kuali.rice.kns.bo.Inactivateable;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
@@ -36,8 +35,8 @@ public class CreditCardAgency extends PersistableBusinessObjectBase implements I
 
     private Integer id;
     private String creditCardOrAgencyCode;
-    private CreditCardType creditCardType;
-    private String creditCardTypeCode;
+    private TravelCardType travelCardType;
+    private String travelCardTypeCode;
     private Boolean paymentIndicator;
     private String creditCardOrAgencyName;
     private String address1;
@@ -88,24 +87,24 @@ public class CreditCardAgency extends PersistableBusinessObjectBase implements I
 
 
     @ManyToOne
-    @JoinColumn(name = "CREDIT_CARD_TYPE_CD")
-    public CreditCardType getCreditCardType() {
-        return creditCardType;
+    @JoinColumn(name = "TRAVEL_CARD_TYPE_CD")
+    public TravelCardType getTravelCardType() {
+        return travelCardType;
     }
 
 
-    public void setCreditCardType(CreditCardType creditCardType) {
-        this.creditCardType = creditCardType;
+    public void setTravelCardType(TravelCardType travelCardType) {
+        this.travelCardType = travelCardType;
     }
 
-    @Column(name = "CREDIT_CARD_TYPE_CD", nullable = false, length = 2)
-    public String getCreditCardTypeCode() {
-        return creditCardTypeCode;
+    @Column(name = "TRAVEL_CARD_TYPE_CD", nullable = false, length = 2)
+    public String getTravelCardTypeCode() {
+        return travelCardTypeCode;
     }
 
 
-    public void setCreditCardTypeCode(String creditCardTypeCode) {
-        this.creditCardTypeCode = creditCardTypeCode;
+    public void setTravelCardTypeCode(String travelCardTypeCode) {
+        this.travelCardTypeCode = travelCardTypeCode;
     }
 
     @Column(name = "PAYMENT_IND", nullable = false, length = 1)
@@ -297,7 +296,7 @@ public class CreditCardAgency extends PersistableBusinessObjectBase implements I
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap map = new LinkedHashMap();
         map.put("creditCardOrAgencyCode", this.creditCardOrAgencyCode);
-        map.put("creditCardType", this.creditCardType);
+        map.put("travelCardType", this.travelCardType);
         map.put("creditCardOrAgencyName", this.creditCardOrAgencyName);
         return map;
     }

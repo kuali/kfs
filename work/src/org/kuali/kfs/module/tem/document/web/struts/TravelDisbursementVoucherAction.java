@@ -61,7 +61,7 @@ public class TravelDisbursementVoucherAction extends org.kuali.kfs.fp.document.w
                 List<TemSourceAccountingLine> newList = new ArrayList<TemSourceAccountingLine>();
                 int sequence = 1;
                 for (TemSourceAccountingLine line : (List<TemSourceAccountingLine>)document.getSourceAccountingLines()){
-                    if (!line.getCardType().equals(TemConstants.CARD_TYPE_CTS)){
+                    if (!line.getCardType().equals(TemConstants.TRAVEL_TYPE_CTS)){
                         line.setSequenceNumber(new Integer(sequence));
                         sequence++;
                         newList.add(line);

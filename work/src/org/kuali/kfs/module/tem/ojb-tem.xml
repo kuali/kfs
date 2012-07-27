@@ -213,6 +213,14 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
         <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
     </class-descriptor>
+    
+    <class-descriptor class="org.kuali.kfs.module.tem.businessobject.TravelCardType" table="TEM_TRVL_CARD_TYP_T">
+        <field-descriptor name="code" primarykey="true" column="CODE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="name" column="NM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
+    </class-descriptor>
 
     <class-descriptor class="org.kuali.kfs.module.tem.businessobject.TripType" table="tem_trip_typ_t">
         <field-descriptor name="code" primarykey="true" column="code" jdbc-type="VARCHAR"/>
@@ -1281,7 +1289,7 @@
 	<class-descriptor class="org.kuali.kfs.module.tem.businessobject.CreditCardAgency" table="TEM_CREDIT_CARD_AGENCY_T">
 		<field-descriptor name="id" primarykey="true" sequence-name="TEM_CREDIT_CARD_AGENCY_ID_SEQ" autoincrement="true" column="ID" jdbc-type="INTEGER"/>
 		<field-descriptor name="creditCardOrAgencyCode" column="CREDIT_CARD_AGENCY_CODE" jdbc-type="VARCHAR"/>
-		<field-descriptor name="creditCardTypeCode" column="CREDIT_CARD_TYPE_CD" jdbc-type="VARCHAR"/>
+		<field-descriptor name="travelCardTypeCode" column="TRAVEL_CARD_TYPE_CD" jdbc-type="VARCHAR"/>
 		<field-descriptor name="paymentIndicator" column="PAYMENT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="creditCardOrAgencyName" column="CREDIT_CARD_AGENCY_NAME" jdbc-type="VARCHAR"/>
 		<field-descriptor name="address1" column="ADDRESS1" jdbc-type="VARCHAR"/>
@@ -1300,8 +1308,9 @@
 		<field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT"/>
-		<reference-descriptor name="creditCardType" class-ref="org.kuali.kfs.fp.businessobject.CreditCardType" auto-retrieve="false" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="creditCardTypeCode"/> 
+		
+        <reference-descriptor name="travelCardType" class-ref="org.kuali.kfs.module.tem.businessobject.TravelCardType" auto-retrieve="false" auto-update="none" auto-delete="none">
+		  <foreignkey field-ref="travelCardTypeCode"/> 
 		</reference-descriptor>
 	</class-descriptor>
 

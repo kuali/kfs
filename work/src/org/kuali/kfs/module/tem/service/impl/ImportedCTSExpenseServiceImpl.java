@@ -56,7 +56,7 @@ public class ImportedCTSExpenseServiceImpl extends ExpenseServiceBase implements
         for (ImportedExpense expense : (List<ImportedExpense>) expenses) {
         
             String cardType = expense.getCardType();
-            if (cardType != null && cardType.equals(TemConstants.CARD_TYPE_CTS) && !expense.getNonReimbursable()){
+            if (cardType != null && cardType.equals(TemConstants.TRAVEL_TYPE_CTS) && !expense.getNonReimbursable()){
                 expense.refreshReferenceObject("travelExpenseTypeCode");
                 String financialObjectCode= "";
                 expense.getTravelExpenseTypeCode();
@@ -76,7 +76,7 @@ public class ImportedCTSExpenseServiceImpl extends ExpenseServiceBase implements
                 final ObjectCode objCode = getObjectCodeService().getByPrimaryIdForCurrentYear(defaultChartCode, expense.getTravelExpenseTypeCode().getFinancialObjectCode());
                 if (objCode != null && expense.getTravelExpenseTypeCode() != null && !expense.getTravelExpenseTypeCode().isPrepaidExpense()){
                     AccountingDistribution distribution = null;
-                    String key = objCode.getCode() + "-" + TemConstants.CARD_TYPE_CTS;
+                    String key = objCode.getCode() + "-" + TemConstants.TRAVEL_TYPE_CTS;
                     if (distributionMap.containsKey(key)){
                         distributionMap.get(key).setSubTotal(distributionMap.get(key).getSubTotal().add(expense.getConvertedAmount()));
                         distributionMap.get(key).setRemainingAmount(distributionMap.get(key).getRemainingAmount().add(expense.getConvertedAmount()));
@@ -109,7 +109,7 @@ public class ImportedCTSExpenseServiceImpl extends ExpenseServiceBase implements
     @Override
     public boolean validateExpenseCalculation(TEMExpense expense){
         return (expense instanceof ImportedExpense)
-                && StringUtils.defaultString(((ImportedExpense)expense).getCardType()).equals(TemConstants.CARD_TYPE_CTS);
+                && StringUtils.defaultString(((ImportedExpense)expense).getCardType()).equals(TemConstants.TRAVEL_TYPE_CTS);
     }
     
     /**
@@ -131,7 +131,7 @@ public class ImportedCTSExpenseServiceImpl extends ExpenseServiceBase implements
         GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper(travelDocument.getGeneralLedgerPendingEntries().size()+1);
         Map<String,KualiDecimal> accountingLineMap = new HashMap<String, KualiDecimal>();
         for (TemSourceAccountingLine line : lines){
-           if (line.getCardType().equals(TemConstants.CARD_TYPE_CTS)){
+           if (line.getCardType().equals(TemConstants.TRAVEL_TYPE_CTS)){
                String key = line.getChartOfAccountsCode() + "_" 
                    + line.getAccountNumber() + "_" 
                    + line.getSubAccountNumber() + "_" 

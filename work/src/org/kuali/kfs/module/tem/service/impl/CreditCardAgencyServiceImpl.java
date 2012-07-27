@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
 import org.kuali.kfs.module.tem.service.CreditCardAgencyService;
 import org.kuali.rice.kns.service.BusinessObjectService;
@@ -34,6 +36,7 @@ public class CreditCardAgencyServiceImpl implements CreditCardAgencyService {
     @Override
     public List<CreditCardAgency> getCorpCreditCardAgencyList() {
         Map<String, String> key = new HashMap<String, String>();
+        key.put(TemPropertyConstants.TRAVEL_CARD_TYPE_CODE, TemConstants.TRAVEL_TYPE_CORP);
         List<CreditCardAgency> resultList = (List<CreditCardAgency>)businessObjectSerivce.findMatching(CreditCardAgency.class, key);
         return resultList;
     }
@@ -43,9 +46,10 @@ public class CreditCardAgencyServiceImpl implements CreditCardAgencyService {
      */
     @Override
     public List<String> getCorpCreditCardAgencyCodeList() {
-        //List<CreditCardAgency> resultList = getCorpCreditCardAgencyList();
         List<String> resultList = new ArrayList<String>();
-        resultList.add("USBC");
+        for (CreditCardAgency agency : getCorpCreditCardAgencyList()){
+            resultList.add(agency.getTravelCardTypeCode());
+        }
         return resultList;
     }
     

@@ -556,7 +556,8 @@ public class TemConstants extends JSTLConstants {
     public static final String EXPENSE_IMPORTED = "I";
     public static final String EXPENSE_ACTUAL = "A";
 
-    public static final String CARD_TYPE_CTS = "CTS";
+    public static final String TRAVEL_TYPE_CTS = "CTS";
+    public static final String TRAVEL_TYPE_CORP = "CORP";
     public static final String ACTUAL_EXPENSE = "OUT OF POCKET";
     public static final String ENCUMBRANCE = "ENCUMBRANCE";
     

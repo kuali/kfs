@@ -13,7 +13,7 @@
 		<list>
 			<ref bean="CreditCardAgency-id" />
 			<ref bean="CreditCardAgency-creditCardOrAgencyCode" />
-			<ref bean="CreditCardAgency-creditCardTypeCode" />
+			<ref bean="CreditCardAgency-travelCardTypeCode" />
 			<ref bean="CreditCardAgency-paymentIndicator" />
 			<ref bean="CreditCardAgency-creditCardOrAgencyName" />
 			<ref bean="CreditCardAgency-address1" />
@@ -36,7 +36,7 @@
 		<property name="relationships">
 		<list>
 			<bean parent="RelationshipDefinition">
-				<property name="objectAttributeName" value="creditCardType" />
+				<property name="objectAttributeName" value="travelCardType" />
 				<property name="primitiveAttributes">
 				<list>
 				</list>
@@ -73,16 +73,9 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="4"/></property>
 		<property name="validationPattern"><bean parent="AlphaNumericValidationPattern" /></property>
 	</bean>
-	<bean id="CreditCardAgency-creditCardTypeCode" parent="CreditCardAgency-creditCardTypeCode-parentBean" />
-	<bean id="CreditCardAgency-creditCardTypeCode-parentBean" parent="AttributeDefinition">
-		<property name="name" value="creditCardTypeCode" />
-		<property name="label" value="Credit Card Type Code" />
-		<property name="shortLabel" value="Credit Card Type Code" />
-		<property name="maxLength" value="2" />
-		<property name="required" value="true" />
-		<property name="summary" value="Credit Card Type Code" />
-		<property name="description" value="Credit Card Type Code" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="2"/></property>
+	<bean id="CreditCardAgency-travelCardTypeCode" parent="CreditCardAgency-travelCardTypeCode-parentBean" />
+	<bean id="CreditCardAgency-travelCardTypeCode-parentBean" parent="TravelCardType-code-parentBean">
+		<property name="name" value="travelCardTypeCode" />
 	</bean>
 	<bean id="CreditCardAgency-paymentIndicator" parent="CreditCardAgency-paymentIndicator-parentBean" />
 	<bean id="CreditCardAgency-paymentIndicator-parentBean" parent="GenericAttributes-genericBoolean">
@@ -262,7 +255,7 @@
 				<property name="inquiryFields">
 				<list>
 					<bean parent="FieldDefinition" p:attributeName="creditCardOrAgencyCode" />
-					<bean parent="FieldDefinition" p:attributeName="creditCardTypeCode" />
+					<bean parent="FieldDefinition" p:attributeName="travelCardTypeCode" />
 					<bean parent="FieldDefinition" p:attributeName="paymentIndicator" />
 					<bean parent="FieldDefinition" p:attributeName="creditCardOrAgencyName" />
 					<bean parent="FieldDefinition" p:attributeName="address1" />
@@ -297,7 +290,7 @@
 		<property name="lookupFields"><list>
 			<bean parent="FieldDefinition" p:attributeName="id" />
 			<bean parent="FieldDefinition" p:attributeName="creditCardOrAgencyCode" />
-			<bean parent="FieldDefinition" p:attributeName="creditCardTypeCode" />
+			<bean parent="FieldDefinition" p:attributeName="travelCardTypeCode" />
 			<bean parent="FieldDefinition" p:attributeName="paymentIndicator" />
 			<bean parent="FieldDefinition" p:attributeName="creditCardOrAgencyName" />
 			<bean parent="FieldDefinition" p:attributeName="foreignCompany" />
@@ -308,7 +301,7 @@
 		<list>
 			<bean parent="FieldDefinition" p:attributeName="id" />
 			<bean parent="FieldDefinition" p:attributeName="creditCardOrAgencyCode" />
-			<bean parent="FieldDefinition" p:attributeName="creditCardTypeCode" />
+			<bean parent="FieldDefinition" p:attributeName="travelCardTypeCode" />
 			<bean parent="FieldDefinition" p:attributeName="paymentIndicator" />
 			<bean parent="FieldDefinition" p:attributeName="creditCardOrAgencyName" />
 			<bean parent="FieldDefinition" p:attributeName="address1" />

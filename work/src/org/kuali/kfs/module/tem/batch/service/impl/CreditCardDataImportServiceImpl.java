@@ -144,8 +144,8 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
                             creditCardData.setExpenseTypeCode(ExpenseTypes.OTHER);
                         }
 
-                        //Set Credit Card Key(traveler Id + Credit card Type + Credit Card number 
-                        creditCardData.setCreditCardKey(creditCardData.getTravelerId() + temProfileAccount.getCreditCardAgency().getCreditCardTypeCode()+ creditCardData.getCreditCardNumber());
+                        //Set Credit Card Key(traveler Id + Credit Card Agency + Credit Card number 
+                        creditCardData.setCreditCardKey(creditCardData.getTravelerId() + temProfileAccount.getCreditCardAgency().getCreditCardOrAgencyCode()+ creditCardData.getCreditCardNumber());
                         
                         // need to do the duplicate check at this point, since the CC key is one of the fields being checked
                         if (!isDuplicate(creditCardData)) {
@@ -209,6 +209,9 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
         return true;
     }
     
+    /**
+     * @see org.kuali.kfs.module.tem.batch.service.CreditCardDataImportService#findTraveler(org.kuali.kfs.module.tem.businessobject.CreditCardStagingData)
+     */
     @Override
     public TEMProfileAccount findTraveler(CreditCardStagingData creditCardData){
         Map<String,String> criteria = new HashMap<String,String>(1);        
@@ -223,6 +226,9 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
         return null;
     }
     
+    /**
+     * @see org.kuali.kfs.module.tem.batch.service.CreditCardDataImportService#validateCreditCardAgency(org.kuali.kfs.module.tem.businessobject.CreditCardStagingData)
+     */
     @Override
     public boolean validateCreditCardAgency(CreditCardStagingData creditCardData){
         CreditCardAgency ccAgency = getTravelExpenseService().getCreditCardAgency(creditCardData.getCreditCardOrAgencyCode());
@@ -235,6 +241,9 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
         return true;
     }
     
+    /**
+     * @see org.kuali.kfs.module.tem.batch.service.CreditCardDataImportService#moveCreditCardDataToHistoricalExpenseTable()
+     */
     @Override
     public boolean moveCreditCardDataToHistoricalExpenseTable() {
         List<CreditCardStagingData> creditCardData = travelExpenseService.retrieveValidCreditCardData();
@@ -253,14 +262,6 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
         }        
         
         return true;
-    }
-    
-    private String generateCreditCardKey(){
-        return null;
-    }
-    
-    private String generateTripId(){
-        return null;
     }
     
     /**

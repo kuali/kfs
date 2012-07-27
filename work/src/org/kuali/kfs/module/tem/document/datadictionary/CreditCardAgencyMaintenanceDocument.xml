@@ -30,7 +30,7 @@
 		<property name="title" value="Edit CreditCardAgency" />
 		<property name="maintainableItems"><list>
 			<bean parent="MaintainableFieldDefinition" p:name="creditCardOrAgencyCode" p:required="true"/>
-			<bean parent="MaintainableFieldDefinition" p:name="creditCardTypeCode" p:required="true"/>
+			<bean parent="MaintainableFieldDefinition" p:name="travelCardTypeCode" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="paymentIndicator" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="creditCardOrAgencyName" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="address1" p:required="false"/>

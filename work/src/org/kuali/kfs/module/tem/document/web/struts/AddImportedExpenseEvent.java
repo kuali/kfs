@@ -88,7 +88,7 @@ public class AddImportedExpenseEvent implements Observer {
             wrapper.setDistribution(getAccountingDistributionService().buildDistributionFrom(document));
             
             //Add the appropriate source accounting line
-            if (newImportedExpenseLine.getCardType() != null && newImportedExpenseLine.getCardType().equals(TemConstants.CARD_TYPE_CTS)){                
+            if (newImportedExpenseLine.getCardType() != null && newImportedExpenseLine.getCardType().equals(TemConstants.TRAVEL_TYPE_CTS)){                
                 HistoricalTravelExpense historicalTravelExpense = getBusinessObjectService().findBySinglePrimaryKey(HistoricalTravelExpense.class, newImportedExpenseLine.getHistoricalTravelExpenseId());
                 historicalTravelExpense.refreshReferenceObject("agencyStagingData");
                 List<TripAccountingInformation> tripAccountinfoList = historicalTravelExpense.getAgencyStagingData().getTripAccountingInformation();
@@ -104,7 +104,7 @@ public class AddImportedExpenseEvent implements Observer {
                     importedLine.setFinancialSubObjectCode(tripAccountingInformation.getSubObjectCode());
                     importedLine.setProjectCode(tripAccountingInformation.getProjectCode());
                     importedLine.setOrganizationReferenceId(tripAccountingInformation.getOrganizationReference());
-                    importedLine.setCardType(TemConstants.CARD_TYPE_CTS);
+                    importedLine.setCardType(TemConstants.TRAVEL_TYPE_CTS);
                     importedLine.getPostingYear();
                     importedLine.refresh();
                     document.addSourceAccountingLine(importedLine);

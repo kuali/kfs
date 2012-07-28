@@ -96,16 +96,18 @@
 							<td>${KualiForm.document.currencyFormattedTotalConfirmedCheckAmount}</td>
 						</c:if>
 					</c:if>
-					<c:if test="${confirmMode}">
-						<c:if test="${!checkDetailMode}">
-						<td>
-							<kul:htmlControlAttribute property="document.totalConfirmedCheckAmount"
-								attributeEntry="${cashReceiptAttributes.totalCheckAmount}" /></td>
+					<!--  
+						<c:if test="${confirmMode}">
+							<c:if test="${!checkDetailMode}">
+							<td>
+								<kul:htmlControlAttribute property="document.totalConfirmedCheckAmount"
+									attributeEntry="${cashReceiptAttributes.totalCheckAmount}" /></td>
+							</c:if>
+							<c:if test="${checkDetailMode}">
+								<td>${KualiForm.document.currencyFormattedTotalConfirmedCheckAmount}</td>
+							</c:if>
 						</c:if>
-						<c:if test="${checkDetailMode}">
-							<td>${KualiForm.document.currencyFormattedTotalConfirmedCheckAmount}</td>
-						</c:if>
-					</c:if>
+					-->					
 				</tr>
 				<tr>
 					<th>

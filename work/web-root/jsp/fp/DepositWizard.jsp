@@ -185,7 +185,7 @@ function checkCheckAllOrNone() {
 						<div align="center"><a
 							href="financialCashReceipt.do?methodToCall=docHandler&docId=${cashReceipt.documentHeader.documentNumber}&command=displayDocSearchView"
 							target="new"> <kul:htmlControlAttribute
-							property="depositableCashReceipt[${ctr}].documentNumber"
+							property="depositableCashReceipt[${ctr}].documentHeader.documentNumber"
 							attributeEntry="${cashReceiptAttributes.documentNumber}"
 							readOnly="true" /> </a> <html:hidden
 							property="depositableCashReceipt[${ctr}].documentHeader.documentNumber" />
@@ -283,7 +283,7 @@ function checkCheckAllOrNone() {
 						<div align="center"><a
 							href="financialCashReceipt.do?methodToCall=docHandler&docId=${cashReceipt.documentHeader.documentNumber}&command=displayDocSearchView"
 							target="new"> <kul:htmlControlAttribute
-							property="checkFreeCashReceipt[${ctr}].documentNumber"
+							property="checkFreeCashReceipt[${ctr}].documentHeader.documentNumber"
 							attributeEntry="${cashReceiptAttributes.documentNumber}"
 							readOnly="true" /> </a> <html:hidden
 							property="checkFreeCashReceipt[${ctr}].documentHeader.documentNumber" />

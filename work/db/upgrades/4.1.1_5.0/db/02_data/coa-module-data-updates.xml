@@ -35,8 +35,6 @@ SELECT @acct_seq := @acct_seq + 1, uuid(), 1, FIN_COA_CD, ACCOUNT_NBR, ICR_FIN_C
 #Data conversion completed, increase the current max on the sequence table
 INSERT INTO CA_ICR_ACCT_SEQ VALUES (@acct_seq);
 
-## -------------------------------------------------------------------- ##
-
 ## Set the acct seq to current max of A21 ICR accounts - default to 10000
 INSERT INTO CA_A21_ICR_ACCT_SEQ VALUES ( NULL )
 ;

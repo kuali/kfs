@@ -130,10 +130,10 @@ EOF
 	) > $TEMP_DIR/liquibase.properties
 	pushd $UPGRADE_SCRIPT_DIR/db
 
-	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=debug --changeLogFile=rice-client-script.xml updateSQL > $WORKSPACE/upgrade.sql
-	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=debug --changeLogFile=master-structure-script.xml updateSQL >> $WORKSPACE/upgrade.sql
-	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=debug --changeLogFile=master-data-script.xml updateSQL >> $WORKSPACE/upgrade.sql
-	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=debug --changeLogFile=master-constraint-script.xml updateSQL >> $WORKSPACE/upgrade.sql
+	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=info --changeLogFile=rice-client-script.xml updateSQL > $WORKSPACE/upgrade.sql
+	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=info --changeLogFile=master-structure-script.xml updateSQL >> $WORKSPACE/upgrade.sql
+	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=info --changeLogFile=master-data-script.xml updateSQL >> $WORKSPACE/upgrade.sql
+	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=info --changeLogFile=master-constraint-script.xml updateSQL >> $WORKSPACE/upgrade.sql
 
 	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=debug --changeLogFile=rice-client-script.xml update
 	java -jar ../liquibase*.jar --defaultsFile=$TEMP_DIR/liquibase.properties --logLevel=debug --changeLogFile=master-structure-script.xml update

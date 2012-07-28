@@ -50,6 +50,7 @@ public class AssetPaymentAllocationValidation extends GenericValidation {
 		} else if (CamsPropertyConstants.AssetPaymentAllocation.ASSET_DISTRIBUTION_BY_AMOUNT_CODE.equals(assetPaymentDocument.getAssetPaymentAllocationTypeCode())) {			
 			valid = validateAmountSum(assetPaymentDocument);
 		}
+		
 		return valid;
 	}
 
@@ -59,8 +60,9 @@ public class AssetPaymentAllocationValidation extends GenericValidation {
 	 * @param assetPaymentDocument
 	 * @return true if the amounts are correct
 	 */
-	private boolean validateAmountSum(AssetPaymentDocument assetPaymentDocument) {
-		KualiDecimal total = getAllocatedTotal(assetPaymentDocument);
+	protected boolean validateAmountSum(AssetPaymentDocument assetPaymentDocument) {
+	    KualiDecimal total = getAllocatedTotal(assetPaymentDocument);
+	    
 		KualiDecimal sourceTotal = getSourceLinesTotal(assetPaymentDocument);
 
 		if (!total.equals(sourceTotal)) {
@@ -70,6 +72,10 @@ public class AssetPaymentAllocationValidation extends GenericValidation {
 		return true;
 	}
 
+	/**
+	 * @param assetPaymentDocument
+	 * @return sum of the source accounting lines amounts.
+	 */
 	private KualiDecimal getSourceLinesTotal(AssetPaymentDocument assetPaymentDocument) {
 		KualiDecimal sourceTotal = KualiDecimal.ZERO;
 		for (Object sal : assetPaymentDocument.getSourceAccountingLines()) {
@@ -81,16 +87,17 @@ public class AssetPaymentAllocationValidation extends GenericValidation {
 	/**
 	 * 
 	 * @param assetPaymentDocument
-	 * @return
+	 * @return sum of allocated user value.
 	 */
 	private KualiDecimal getAllocatedTotal(AssetPaymentDocument assetPaymentDocument) {
 		KualiDecimal total = KualiDecimal.ZERO;
+		
 		for (AssetPaymentAssetDetail apad : assetPaymentDocument.getAssetPaymentAssetDetail()) {
-			total = total.add(apad.getAllocatedUserValue());
+		    total = total.add(apad.getAllocatedAmount());
 		}
+		
 		return total;
 	}
-
 
 	/**
 	 * Allocation by percentages must total 100%

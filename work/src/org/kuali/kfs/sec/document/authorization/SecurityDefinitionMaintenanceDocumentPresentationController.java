@@ -34,7 +34,6 @@ public class SecurityDefinitionMaintenanceDocumentPresentationController extends
      *
      * @see org.kuali.rice.krad.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlyPropertyNames(org.kuali.rice.kns.document.MaintenanceDocument)
      */
-    @Override
     public Set<String> getConditionallyReadOnlyPropertyNames(MaintenanceDocument document) {
         Set<String> readOnlyFields = super.getConditionallyReadOnlyPropertyNames(document);
 

@@ -29,7 +29,6 @@ public class FinancialSystemMaintenanceDocumentPresentationControllerBase extend
     /**
      * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlySectionIds(org.kuali.rice.krad.maintenance.MaintenanceDocument)
      */
-    @Override
     public Set<String> getConditionallyReadOnlySectionIds(MaintenanceDocument document) {
         Set<String> readOnlySectionIds = super.getConditionallyReadOnlySectionIds(document);
 
@@ -42,7 +41,6 @@ public class FinancialSystemMaintenanceDocumentPresentationControllerBase extend
     /**
      * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyRequiredPropertyNames(org.kuali.rice.krad.maintenance.MaintenanceDocument)
      */
-    @Override
     public Set<String> getConditionallyRequiredPropertyNames(MaintenanceDocument document) {
         Set<String> requiredPropertyNames = super.getConditionallyRequiredPropertyNames(document);
 
@@ -57,7 +55,6 @@ public class FinancialSystemMaintenanceDocumentPresentationControllerBase extend
      *
      * This is just workaround solution. The better solution would be to replace old API with new one.
      */
-    @Override
     public Set<String> getConditionallyReadOnlyPropertyNames(MaintenanceDocument document) {
         Set<String> readOnlyPropertyNames = super.getConditionallyReadOnlyPropertyNames(document);
 

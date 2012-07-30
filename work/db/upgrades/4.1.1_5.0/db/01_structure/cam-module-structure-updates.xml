@@ -18,7 +18,7 @@
 			<column name="AST_PMT_DST_NM" type="VARCHAR2(40)" />
 			<column name="AST_PMT_DST_COL_NM" type="VARCHAR2(40)" />
 			<column name="AST_PMT_DST_EDT" type="VARCHAR2(1)" />
-			<column name="ROW_ACTV_IND" type="VARCHAR2(1)" defaultValueComputed="'Y'" />
+			<column name="ROW_ACTV_IND" type="VARCHAR2(1)" defaultValue="Y" />
 		</createTable>
 
 		<addColumn tableName="CM_AST_PMT_AST_DTL_T">
@@ -47,6 +47,7 @@
 		<modifySql dbms="mysql">
 			<replace replace="VARCHAR2" with="VARCHAR" />
 			<replace replace="NUMBER" with="DECIMAL" />
+			<replace replace="DEFAULT Y" with="DEFAULT 'Y'" />
 		</modifySql>
 	</changeSet>
 

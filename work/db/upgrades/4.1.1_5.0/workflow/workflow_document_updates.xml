@@ -106,7 +106,7 @@
 			<label>Effort Certification</label>
 			<docHandler>${kfs.url}/effortEffortCertification.do?methodToCall=docHandler
 			</docHandler>
-			<docSearchHelpURL>default.htm?turl=WordDocuments%2Feffortcertificationsearch.htm</docSearchHelpURL>
+			<docSearchHelpURL>${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Feffortcertificationsearch.htm</docSearchHelpURL>
 			<helpDefinitionURL></helpDefinitionURL>
 			<active>true</active>
 			<routingVersion>2</routingVersion>
@@ -227,7 +227,7 @@
         default.htm?turl=WordDocuments%2Fcustomercreditmemo.htm
       </helpDefinitionURL>
       <docSearchHelpURL>
-        default.htm?turl=WordDocuments%2Fcustomercreditmemos.htm
+        ${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fcustomercreditmemos.htm
       </docSearchHelpURL>
       <active>
         true
@@ -281,7 +281,7 @@
         default.htm?turl=WordDocuments%2Fdisbursementvoucher.htm
       </helpDefinitionURL>
       <docSearchHelpURL>
-        default.htm?turl=WordDocuments%2Fdisbursementvouchers.htm
+        ${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fdisbursementvouchers.htm
       </docSearchHelpURL>
       <active>
         true

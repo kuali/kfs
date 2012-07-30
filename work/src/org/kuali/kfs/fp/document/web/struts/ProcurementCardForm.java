@@ -102,9 +102,6 @@ public class ProcurementCardForm extends CapitalAccountingLinesFormBase implemen
         super();
         
         this.newTargetLines = new ArrayList<ProcurementCardTargetAccountingLine>();
-        TargetAccountingLine targetAccountingLine = new TargetAccountingLine();
-        this.newTargetLines.add(targetAccountingLine);
-
         capitalAssetInformation = new ArrayList<CapitalAssetInformation>();
     }
 

@@ -47,7 +47,7 @@ public class FinancialSystemMaintenanceDocumentPresentationControllerBase extend
         Set<String> requiredPropertyNames = super.getConditionallyRequiredPropertyNames(document);
 
         MaintenanceDocument maintenanceDocument = document;
-        requiredPropertyNames.addAll(this.getConditionallyRequiredPropertyNames(maintenanceDocument));
+        requiredPropertyNames.addAll(this.getConditionallyReadOnlyPropertyNames(maintenanceDocument));
 
         return requiredPropertyNames;
     }

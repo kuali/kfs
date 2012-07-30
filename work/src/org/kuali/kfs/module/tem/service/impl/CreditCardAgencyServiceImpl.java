@@ -28,7 +28,7 @@ import org.kuali.rice.kns.service.BusinessObjectService;
 
 public class CreditCardAgencyServiceImpl implements CreditCardAgencyService {
 
-    BusinessObjectService businessObjectSerivce;
+    BusinessObjectService businessObjectService;
 
     /**
      * @see org.kuali.kfs.module.tem.service.CreditCardAgencyService#getCorpCreditCardAgencyList()
@@ -37,7 +37,7 @@ public class CreditCardAgencyServiceImpl implements CreditCardAgencyService {
     public List<CreditCardAgency> getCorpCreditCardAgencyList() {
         Map<String, String> key = new HashMap<String, String>();
         key.put(TemPropertyConstants.TRAVEL_CARD_TYPE_CODE, TemConstants.TRAVEL_TYPE_CORP);
-        List<CreditCardAgency> resultList = (List<CreditCardAgency>)businessObjectSerivce.findMatching(CreditCardAgency.class, key);
+        List<CreditCardAgency> resultList = (List<CreditCardAgency>)businessObjectService.findMatching(CreditCardAgency.class, key);
         return resultList;
     }
     
@@ -53,8 +53,8 @@ public class CreditCardAgencyServiceImpl implements CreditCardAgencyService {
         return resultList;
     }
     
-    public void setBusinessObjectSerivce(BusinessObjectService businessObjectSerivce) {
-        this.businessObjectSerivce = businessObjectSerivce;
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
 }

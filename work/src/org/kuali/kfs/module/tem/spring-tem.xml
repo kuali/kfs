@@ -747,7 +747,7 @@
     </bean>
     
     <bean id="creditCardAgencyService" class="org.kuali.kfs.module.tem.service.impl.CreditCardAgencyServiceImpl" >
-        <property name="businessObjectSerivce" ref="businessObjectSerivce" />
+        <property name="businessObjectService" ref="businessObjectService" />
     </bean>
 		
 	<bean id="actualExpenseService"

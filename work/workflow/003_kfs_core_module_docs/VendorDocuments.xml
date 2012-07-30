@@ -11,7 +11,7 @@
         Vendor
       </label>
       <helpDefinitionURL>
-      	default.htm?turl=WordDocuments%2Fvendorpven.htm
+      	${kfs.externalizable.help.url}/default.htm?turl=WordDocuments%2Fvendorpven.htm
       </helpDefinitionURL>
       <active>
         true

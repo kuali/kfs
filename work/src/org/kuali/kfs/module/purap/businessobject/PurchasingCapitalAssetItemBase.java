@@ -119,7 +119,7 @@ public abstract class PurchasingCapitalAssetItemBase extends PersistableBusiness
     }
     
     public boolean isEmpty() {
-        if (this.getPurchasingDocument().getCapitalAssetSystemTypeCode().equals(PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL)) {
+        if (PurapConstants.CapitalAssetSystemTypes.INDIVIDUAL.equals(this.getPurchasingDocument().getCapitalAssetSystemTypeCode())) {
             return !(StringUtils.isNotEmpty(capitalAssetTransactionTypeCode) || ! this.getPurchasingCapitalAssetSystem().isEmpty());
         }
         else {

@@ -27,32 +27,6 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 public class FinancialSystemMaintenanceDocumentPresentationControllerBase extends MaintenanceDocumentPresentationControllerBase {
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyReadOnlySectionIds(org.kuali.rice.krad.maintenance.MaintenanceDocument)
-     */
-    @Override
-    public Set<String> getConditionallyReadOnlySectionIds(MaintenanceDocument document) {
-        Set<String> readOnlySectionIds = super.getConditionallyReadOnlySectionIds(document);
-
-        MaintenanceDocument maintenanceDocument = document;
-        readOnlySectionIds.addAll(this.getConditionallyReadOnlyPropertyNames(maintenanceDocument));
-
-        return readOnlySectionIds;
-    }
-
-    /**
-     * @see org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationControllerBase#getConditionallyRequiredPropertyNames(org.kuali.rice.krad.maintenance.MaintenanceDocument)
-     */
-    @Override
-    public Set<String> getConditionallyRequiredPropertyNames(MaintenanceDocument document) {
-        Set<String> requiredPropertyNames = super.getConditionallyRequiredPropertyNames(document);
-
-        MaintenanceDocument maintenanceDocument = document;
-        requiredPropertyNames.addAll(this.getConditionallyReadOnlyPropertyNames(maintenanceDocument));
-
-        return requiredPropertyNames;
-    }
-
-    /**
      * the following three methods still accept the deprecated class as argument in order to bridge the gap between old and new maintenance API
      *
      * This is just workaround solution. The better solution would be to replace old API with new one.

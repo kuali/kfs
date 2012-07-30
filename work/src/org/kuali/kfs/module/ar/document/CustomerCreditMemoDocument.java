@@ -433,10 +433,7 @@ public class CustomerCreditMemoDocument extends GeneralLedgerPostingDocumentBase
     public void prepareForSave(KualiDocumentEvent event) {
         CustomerCreditMemoDocument customerCreditMemoDocument = (CustomerCreditMemoDocument)event.getDocument();
         CustomerCreditMemoDocumentService customerCreditMemoDocumentService = SpringContext.getBean(CustomerCreditMemoDocumentService.class);
-        if (event instanceof BlanketApproveDocumentEvent)
-            customerCreditMemoDocumentService.recalculateCustomerCreditMemoDocument(customerCreditMemoDocument,true);
-        else
-            customerCreditMemoDocumentService.recalculateCustomerCreditMemoDocument(customerCreditMemoDocument,false);
+        customerCreditMemoDocumentService.recalculateCustomerCreditMemoDocument(customerCreditMemoDocument,false);
         
         // generate GLPEs
         if (!SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(this)) {

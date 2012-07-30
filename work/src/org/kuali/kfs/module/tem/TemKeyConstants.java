@@ -199,6 +199,7 @@ public class TemKeyConstants extends JSTLConstants {
   //Agency Data Audit Report
     public static final String MESSAGE_AGENCY_DATA_REPORT_HEADER = "message.batch.tem.agencyDataReportHeader";
     public static final String MESSAGE_AGENCY_DATA_NO_MANDATORY_FIELDS="message.batch.tem.agencyDataMandatoryFields";
+    public static final String MESSAGE_AGENCY_DATA_AIR_LODGING_RENTAL_MISSING="message.batch.tem.agencyDataAirLodgingRentalMissing";
     public static final String MESSAGE_AGENCY_DATA_DUPLICATE_RECORD="message.batch.tem.agencyDataDuplicateRecord";
     public static final String MESSAGE_AGENCY_DATA_INVALID_TRAVELER="message.batch.tem.agencyDataInvalidTraveler";
     public static final String MESSAGE_AGENCY_DATA_INVALID_ACCOUNT_NUM="message.batch.tem.agencyDataInvalidAccountNum";

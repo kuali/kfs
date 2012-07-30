@@ -110,7 +110,8 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
             boolean isAllValid = validAgencyList.size() == agencyData.getAgencies().size();
             if (!isAllValid) {
                 String error = "The agency data records to be loaded are rejected due to data problem. Please check the agency data report.";
-                throw new RuntimeException(error);
+                //DO NOT THROW AN EXCEPTION! All records rejected then
+                //throw new RuntimeException(error);
             }
             
             businessObjectService.save(validAgencyList);
@@ -168,7 +169,7 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
                     validData.add(validAgency);
                 }
                 if(errorMessages.size()>0){
-                   writeErrorToReport(reportDataStream,agency,getMessage(getErrorMessageAsString(errorMessages), agency), agency.getImportBy());
+                    writeErrorToReport(reportDataStream,agency, getErrorMessageAsString(errorMessages), agency.getImportBy());
                 }
                 count++;
 
@@ -188,36 +189,19 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
     private String getErrorMessageAsString(List<String> errorMessages){
         StringBuilder errorMessage=new StringBuilder();
         for(String error:errorMessages){
-            errorMessage.append(getConfigurationService().getPropertyString(error)).append(KFSConstants.BLANK_SPACE);
+            errorMessage.append(error).append(" ");
         }
        return  errorMessage.toString();
     }
     
-    private Message getMessage(String errorMessage, AgencyStagingData agency){
-        Message message=null;
-        if(agency.getImportBy().equals(ExpenseImportTypes.IMPORT_BY_TRAVELLER)){
-            message =new Message(errorMessage, 1,agency.getCreditCardOrAgencyCode(),agency.getAgency(), agency.getMerchantName(), 
-                    agency.getTripInvoiceNumber(), agency.getTripExpenseAmount(), agency.getTripArrangerName(), agency.getTripDepartureDate(), agency.getAirBookDate(),
-                    agency.getAirCarrierCode(), agency.getAirTicketNumber(), agency.getPnrNumber(), agency.getTransactionUniqueId(),agency.getTransactionPostingDate());
-                
-        }
-        if(agency.getImportBy().equals(ExpenseImportTypes.IMPORT_BY_TRIP)){
-            message = new Message(errorMessage,1 ,agency.getCreditCardOrAgencyCode(), agency.getAgency(), agency.getTripId(), 
-                    agency.getTripInvoiceNumber(), agency.getTravelerName(), agency.getTripExpenseAmount(),agency.getAlternateTripId() ,agency.getTripArrangerName(),
-                    agency.getTripDepartureDate(),agency.getAirBookDate(), agency.getAirCarrierCode(), agency.getAirTicketNumber(), agency.getTransactionPostingDate(),
-                    agency.getTripAccountingInformation());
-                
-        }
-        return message;
-    }
     
-    protected <T extends AgencyStagingData> void writeErrorToReport(PrintStream reportDataStream,T AgencyStagingData, Message errorMessage, String importBy) {
+    protected <T extends AgencyStagingData> void writeErrorToReport(PrintStream reportDataStream,T AgencyStagingData, String errors, String importBy) {
         
-        String reportEntry = this.formatMessage(AgencyStagingData, errorMessage, importBy);
+        String reportEntry = this.formatMessage(AgencyStagingData, errors, importBy);
         reportDataStream.println(reportEntry);
     }
     
-    protected <T extends AgencyStagingData> String formatMessage(T agencyStagingData, Message message, String importBy) {
+    protected <T extends AgencyStagingData> String formatMessage(T agencyStagingData, String errors, String importBy) {
         StringBuilder body = new StringBuilder();
         Map<String, String> tableDefinition=new LinkedHashMap<String, String>();
         List<String> propertyList =new ArrayList<String>();
@@ -233,7 +217,7 @@ public class AgencyDataImportServiceImpl implements AgencyDataImportService {
         String tableCellFormat = tableDefinition.get(KFSConstants.ReportConstants.TABLE_CELL_FORMAT_KEY);
         String fieldLine = String.format(tableCellFormat, propertyList.toArray());
         body.append(fieldLine);
-        body.append("\t**  ").append(message).append(BusinessObjectReportHelper.LINE_BREAK);
+        body.append("\t**  ").append(errors).append(BusinessObjectReportHelper.LINE_BREAK);
 
         return body.toString();
     }

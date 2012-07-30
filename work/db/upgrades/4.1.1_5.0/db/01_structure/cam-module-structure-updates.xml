@@ -54,11 +54,13 @@
 	<changeSet author="KFS50" id="KFSMI-7175_structure">
 		<comment>KFSMI-7175 We need to add a column to FP_CPTL_AST_INFO_T and CM_AST_PMT_DOC_T tables for enhancement work on KFSMI-7106</comment>
 		<addColumn tableName="CM_AST_PMT_DOC_T">
-			<column name="AST_PMT_DIST_CD_FROM_FP_IND" type="VARCHAR2(1)" defaultValueComputed="'N'" />
+			<column name="AST_PMT_DIST_CD_FROM_FP_IND" type="VARCHAR2(1)" defaultValue="N" />
 		</addColumn>
 		<modifySql dbms="mysql">
 			<replace replace="VARCHAR2" with="VARCHAR" />
 			<replace replace="NUMBER" with="DECIMAL" />
+			<replace replace="DEFAULT Y" with="DEFAULT 'Y'" />
+			<replace replace="DEFAULT N" with="DEFAULT 'N'" />
 		</modifySql>
 	</changeSet>
 
@@ -75,7 +77,7 @@
 				<constraints nullable="false" />
 			</column>
 			<column name="YEAR_END_DEPR_RUN_DATE" type="DATE" />
-			<column name="YEAR_END_DEPR_ACTV_IND" type="VARCHAR2(1)" defaultValueComputed="'Y'" />
+			<column name="YEAR_END_DEPR_ACTV_IND" type="VARCHAR2(1)" defaultValue="Y" />
 		</createTable>
 
 		<createTable tableName="CM_FSCL_YR_END_DEPR_DTL_T">
@@ -91,13 +93,15 @@
 			<column name="VER_NBR" type="NUMBER(8)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
-			<column name="YEAR_END_DEPR_DTL_ACTV_IND" type="VARCHAR2(1)" defaultValueComputed="'Y'" />
-			<column name="YEAR_END_DEPR_DTL_PROC_IND" type="VARCHAR2(1)" defaultValueComputed="'N'" />
+			<column name="YEAR_END_DEPR_DTL_ACTV_IND" type="VARCHAR2(1)" defaultValue="Y" />
+			<column name="YEAR_END_DEPR_DTL_PROC_IND" type="VARCHAR2(1)" defaultValue="N" />
 		</createTable>
 
 		<modifySql dbms="mysql">
 			<replace replace="VARCHAR2" with="VARCHAR" />
 			<replace replace="NUMBER" with="DECIMAL" />
+			<replace replace="DEFAULT Y" with="DEFAULT 'Y'" />
+			<replace replace="DEFAULT N" with="DEFAULT 'N'" />
 		</modifySql>
 	</changeSet>
 
@@ -137,33 +141,40 @@
 				<constraints nullable="false" unique="true" uniqueConstraintName="CM_AST_PMT_DOC_TYP_T_TC0" />
 			</column>
 			<column name="DOC_TYP_NM" type="VARCHAR2(4)" />
-			<column name="ACTV_IND" type="VARCHAR2(1)" defaultValueComputed="'Y'" />
+			<column name="ACTV_IND" type="VARCHAR2(1)" defaultValue="Y" />
 		</createTable>
 		<modifySql dbms="mysql">
 			<replace replace="VARCHAR2" with="VARCHAR" />
 			<replace replace="NUMBER" with="DECIMAL" />
+			<replace replace="DEFAULT Y" with="DEFAULT 'Y'" />
+			<replace replace="DEFAULT N" with="DEFAULT 'N'" />
 		</modifySql>
 	</changeSet>
 
 	<changeSet author="KFS50" id="KFSCNTRB641_ADD_ACTIVE_INDICATORS_TO_CAMS_TABLES">
 		<comment>Adds active indicators to three CAMS tables.</comment>
 		<addColumn tableName="CM_AST_COMPONENT_T">
-			<column name="ACTV_IND" type="VARCHAR2(1)" defaultValueComputed="'Y'"/>
+			<column name="ACTV_IND" type="VARCHAR2(1)" defaultValue="Y"/>
 		</addColumn>
 		<addColumn tableName="CM_AST_WRNTY_T">
-			<column name="ACTV_IND" type="VARCHAR2(1)" defaultValueComputed="'Y'" />
+			<column name="ACTV_IND" type="VARCHAR2(1)" defaultValue="Y" />
 		</addColumn>
 		<addColumn tableName="CM_AST_RPR_HIST_T">
-			<column name="ACTV_IND" type="VARCHAR2(1)" defaultValueComputed="'Y'" />
+			<column name="ACTV_IND" type="VARCHAR2(1)" defaultValue="Y" />
 		</addColumn>
 		<modifySql dbms='mysql'>
 			<replace replace='VARCHAR2' with='VARCHAR' />
+			<replace replace="DEFAULT Y" with="DEFAULT 'Y'" />
+			<replace replace="DEFAULT N" with="DEFAULT 'N'" />
 		</modifySql>
 	</changeSet>
 	
 	<changeSet author="KFS50" id="CM_STRUCTURE_CLEANUP_mysql" dbms="mysql">
 		<dropNotNullConstraint tableName="CM_AST_STATUS_T" columnName="ROW_ACTV_IND" columnDataType="VARCHAR(1)" />
-		<addDefaultValue tableName="CM_AST_STATUS_T" columnName="ROW_ACTV_IND" defaultValueComputed="'Y'" />
+		<addDefaultValue tableName="CM_AST_STATUS_T" columnName="ROW_ACTV_IND" defaultValue="Y" />
+		<modifySql>
+			<replace replace="DEFAULT Y" with="DEFAULT 'Y'" />
+		</modifySql>
 	</changeSet>
 
 	<changeSet author="KFS50" id="CM_STRUCTURE_CLEANUP_oracle" dbms="oracle">

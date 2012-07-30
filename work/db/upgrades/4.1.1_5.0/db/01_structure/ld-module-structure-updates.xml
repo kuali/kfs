@@ -16,7 +16,7 @@
 			<column name="VER_NBR" type="NUMBER(8,0)" defaultValueNumeric="1">
 				<constraints nullable="false" />
 			</column>
-			<column name="ACTV_IND" type="VARCHAR2(1)" defaultValueComputed="'Y'" />
+			<column name="ACTV_IND" type="VARCHAR2(1)" defaultValue="Y" />
 			<column name="LBR_BEN_RT_CAT_NM" type="VARCHAR2(40)"/>
 		</createTable>
 
@@ -33,6 +33,8 @@
 		<modifySql dbms="mysql">
 			<replace replace="VARCHAR2" with="VARCHAR" />
 			<replace replace="NUMBER" with="DECIMAL" />
+			<replace replace="DEFAULT Y" with="DEFAULT 'Y'" />
+			<replace replace="DEFAULT N" with="DEFAULT 'N'" />
 		</modifySql>
 	</changeSet>
 

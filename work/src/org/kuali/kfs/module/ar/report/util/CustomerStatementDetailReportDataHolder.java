@@ -28,6 +28,7 @@ import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CustomerStatementDetailReportDataHolder {
     
@@ -56,10 +57,10 @@ public class CustomerStatementDetailReportDataHolder {
        }
        
        documentNumber = docHeader.getDocumentNumber();
-       
-       java.util.Date lastApprovedDate = docHeader.getWorkflowDocument().getDateApproved().toDate();
-       
-       this.setDocumentFinalDate(new java.sql.Date(lastApprovedDate.getTime()));
+       if (ObjectUtils.isNotNull(docHeader.getWorkflowDocument().getDateApproved())) {
+           java.util.Date lastApprovedDate = docHeader.getWorkflowDocument().getDateApproved().toDate();
+           this.setDocumentFinalDate(new java.sql.Date(lastApprovedDate.getTime()));
+       }
        this.docType = docType;
 
        orgName = processingOrg.getOrganizationName();

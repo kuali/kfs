@@ -31,7 +31,7 @@
       <column name='ICR_FIN_COA_CD' type='VARCHAR2(2)' />
       <column name='ICR_FIN_ACCT_NBR' type='VARCHAR2(7)' />
       <column name='ACLN_PCT' type='VARCHAR2(45)' />
-      <column name='DOBJ_MAINT_CD_ACTV_IND' type='VARCHAR2(1)' defaultValue="Y" />
+      <column name='DOBJ_MAINT_CD_ACTV_IND' type='VARCHAR2(1)' defaultValueComputed="'Y'" />
     </createTable>
     
     <modifySql dbms='mysql'>
@@ -73,7 +73,7 @@
 			<column name='ICR_FIN_COA_CD' type='VARCHAR2(2)' />
 			<column name='ICR_FIN_ACCT_NBR' type='VARCHAR2(7)' />
 			<column name='ACLN_PCT' type='VARCHAR2(45)' />
-			<column name='DOBJ_MAINT_CD_ACTV_IND' type='VARCHAR2(1)' defaultValue="Y" />
+			<column name='DOBJ_MAINT_CD_ACTV_IND' type='VARCHAR2(1)' defaultValueComputed="'Y'" />
 		</createTable>
 		<modifySql dbms='mysql'>
 			<replace replace='VARCHAR2' with='VARCHAR' />
@@ -113,7 +113,7 @@
 			<column name='ICR_FIN_COA_CD' type='VARCHAR2(2)' />
 			<column name='ICR_FIN_ACCT_NBR' type='VARCHAR2(7)' />
 			<column name='ACLN_PCT' type='VARCHAR2(45)' />
-			<column name='DOBJ_MAINT_CD_ACTV_IND' type='VARCHAR2(1)' defaultValue="Y" />
+			<column name='DOBJ_MAINT_CD_ACTV_IND' type='VARCHAR2(1)' defaultValueComputed="'Y'" />
 		</createTable>
 		<modifySql dbms='mysql'>
 			<replace replace='VARCHAR2' with='VARCHAR' />
@@ -137,7 +137,7 @@
 			<column name="ICR_FIN_COA_CD" type="VARCHAR2(2)" />
 			<column name="ICR_FIN_ACCT_NBR" type="VARCHAR2(7)" />
 			<column name="ACLN_PCT" type="VARCHAR2(45)" />
-			<column name="DOBJ_MAINT_CD_ACTV_IND" type="VARCHAR2(1)" defaultValue="Y" />
+			<column name="DOBJ_MAINT_CD_ACTV_IND" type="VARCHAR2(1)" defaultValueComputed="'Y'" />
 		</createTable>
 		<modifySql dbms="mysql">
 			<replace replace="VARCHAR2" with="VARCHAR" />

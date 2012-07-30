@@ -746,7 +746,9 @@
         <property name="importedExpensePendingEntryService" ref="importedExpensePendingEntryService" />
     </bean>
     
-    <bean id="creditCardAgencyService" class="org.kuali.kfs.module.tem.service.impl.CreditCardAgencyServiceImpl" />
+    <bean id="creditCardAgencyService" class="org.kuali.kfs.module.tem.service.impl.CreditCardAgencyServiceImpl" >
+        <property name="businessObjectSerivce" ref="businessObjectSerivce" />
+    </bean>
 		
 	<bean id="actualExpenseService"
 		class="org.kuali.kfs.module.tem.service.impl.ActualExpenseServiceImpl" />

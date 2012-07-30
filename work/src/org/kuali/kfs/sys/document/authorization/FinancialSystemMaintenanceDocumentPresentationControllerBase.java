@@ -34,7 +34,7 @@ public class FinancialSystemMaintenanceDocumentPresentationControllerBase extend
         Set<String> readOnlySectionIds = super.getConditionallyReadOnlySectionIds(document);
 
         MaintenanceDocument maintenanceDocument = document;
-        readOnlySectionIds.addAll(this.getConditionallyReadOnlySectionIds(maintenanceDocument));
+        readOnlySectionIds.addAll(this.getConditionallyReadOnlyPropertyNames(maintenanceDocument));
 
         return readOnlySectionIds;
     }

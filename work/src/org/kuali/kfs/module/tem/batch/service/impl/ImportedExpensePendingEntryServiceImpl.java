@@ -67,7 +67,7 @@ public class ImportedExpensePendingEntryServiceImpl implements ImportedExpensePe
         
         //3-Digit Code Agency Code + Number of day (001~365) + YY + hhmmss
         DateFormat dateFormat = new SimpleDateFormat("Dyyhhmmss");
-        documentNumber = agencyData.getCreditCardOrAgencyCode().substring(0,2) 
+        documentNumber = agencyData.getCreditCardOrAgencyCode().substring(0,3) 
                 + dateFormat.format(dateTimeService.getCurrentSqlDate());
         return documentNumber;
     }

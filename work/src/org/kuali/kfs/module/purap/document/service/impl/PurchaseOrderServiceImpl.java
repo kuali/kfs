@@ -1879,7 +1879,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         int counter = 0;
         for (AutoClosePurchaseOrderView poAutoClose : purchaseOrderAutoCloseList) {
             LOG.info("autoCloseRecurringOrders(): Testing PO ID " + poAutoClose.getPurapDocumentIdentifier() + ". recurringPaymentEndDate: " + poAutoClose.getRecurringPaymentEndDate());
-            if (poAutoClose.getRecurringPaymentEndDate().before(appSettingsDay)) {
+            if (poAutoClose.getRecurringPaymentEndDate().before(threeMonthsAgo)) {
                 String newStatus = PurapConstants.PurchaseOrderStatuses.APPDOC_PENDING_CLOSE;
                 String annotation = "This recurring PO was automatically closed in batch.";
                 String documentType = PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT;

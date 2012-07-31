@@ -63,7 +63,6 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
     protected static final Map<String,Map<DelegationType,String>> DELEGATION_ID_CACHE = new HashMap<String, Map<DelegationType,String>>(2);
 
     protected static final String DELEGATE_SEARCH_IND = "delegate";
-    protected static final String ACTIVE_SEARCH_IND = "active";
 
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
@@ -166,8 +165,8 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
             }
         }
         List<OrgReviewRole> flattenedSearchResults = new ArrayList<OrgReviewRole>();
-        flattenedSearchResults.addAll(flattenToOrgReviewMembers(fieldValues.get(ACTIVE_SEARCH_IND), documentTypeName, searchResultsRoleMembers));
-        flattenedSearchResults.addAll(flattenToOrgReviewDelegationMembers(fieldValues.get(ACTIVE_SEARCH_IND), documentTypeName, searchResultsDelegationMembers));
+        flattenedSearchResults.addAll(flattenToOrgReviewMembers(fieldValues.get(KFSPropertyConstants.ACTIVE), documentTypeName, searchResultsRoleMembers));
+        flattenedSearchResults.addAll(flattenToOrgReviewDelegationMembers(fieldValues.get(KFSPropertyConstants.ACTIVE), documentTypeName, searchResultsDelegationMembers));
         filterOrgReview(fieldValues, flattenedSearchResults);
 
         return flattenedSearchResults;
@@ -540,15 +539,15 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
 
         Map<String, String> searchCriteriaMain = new HashMap<String, String>();
 
-        // FIXME: This is horribly broken, as these attributes are overriding each other
-        // this needs to be completely refactored
-        if(StringUtils.isNotBlank(financialSystemDocumentTypeCode)){
-            searchCriteriaMain.put(MEMBER_ATTRIBUTE_NAME_KEY, KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME);
-            searchCriteriaMain.put(MEMBER_ATTRIBUTE_VALUE_KEY, financialSystemDocumentTypeCode);
-        }
+        // Yes, the lines below overwrite each other.  We are essentially attempting to use the most-selective one present.
+        // Complete filtering will be performed later, after the results are retrieved
         if(StringUtils.isNotBlank(chartOfAccountsCode)){
             searchCriteriaMain.put(MEMBER_ATTRIBUTE_NAME_KEY, KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);
             searchCriteriaMain.put(MEMBER_ATTRIBUTE_VALUE_KEY, chartOfAccountsCode);
+        }
+        if(StringUtils.isNotBlank(financialSystemDocumentTypeCode)){
+            searchCriteriaMain.put(MEMBER_ATTRIBUTE_NAME_KEY, KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME);
+            searchCriteriaMain.put(MEMBER_ATTRIBUTE_VALUE_KEY, financialSystemDocumentTypeCode);
         }
         if(StringUtils.isNotBlank(organizationCode)){
             searchCriteriaMain.put(MEMBER_ATTRIBUTE_NAME_KEY, KfsKimAttributes.ORGANIZATION_CODE);
@@ -615,7 +614,8 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
         String chartOfAccountsCode = fieldValues.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         String organizationCode = fieldValues.get(KFSPropertyConstants.ORGANIZATION_CODE);
 
-        // FIXME: the code below only uses one of the critieria specified (the entries in the map are overwritten if more than one is used)
+        // Yes, the lines below overwrite each other.  We are essentially attempting to use the most-selective one present.
+        // Complete filtering will be performed later, after the results are retrieved
         Map<String, String> searchCriteriaMain = new HashMap<String, String>();
         if(StringUtils.isNotBlank(chartOfAccountsCode)){
             searchCriteriaMain.put(MEMBER_ATTRIBUTE_NAME_KEY, KfsKimAttributes.CHART_OF_ACCOUNTS_CODE);

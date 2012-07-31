@@ -28,6 +28,7 @@ import org.kuali.kfs.coa.service.impl.OrgReviewRoleTestBase;
 import org.kuali.kfs.sys.ConfigureContext;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
+import org.kuali.rice.core.api.delegation.DelegationType;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
@@ -60,7 +61,7 @@ public class OrgReviewRoleMaintainableImplTest extends OrgReviewRoleTestBase {
     }
 
     public void testPrepareFieldsCommon() {
-        Field f = new Field(OrgReviewRole.REVIEW_ROLES_INDICATOR_FIELD_NAME, "Doesn't Matter");
+        Field f = new Field(OrgReviewRole.REVIEW_ROLES_INDICATOR_FIELD_NAME, "This Value Doesn't Matter");
         newMaint.prepareFieldsCommon(f, true, false);
         assertTrue( "Field should have been read only after prepareFieldsCommon", f.isReadOnly() );
     }
@@ -205,18 +206,29 @@ public class OrgReviewRoleMaintainableImplTest extends OrgReviewRoleTestBase {
                     if ( ArrayUtils.contains(FIELDS_TO_IGNORE, field.getPropertyName()) ) {
                         continue;
                     }
+                    boolean fieldChecked = false;
+                    for ( String readOnlyPropertyName : ORG_HIER_READ_ONLY_PROP_NAMES ) {
+                        if ( field.getPropertyName().equals(readOnlyPropertyName) ) {
+                            assertTrue( readOnlyPropertyName + " should have been read only", field.isReadOnly() );
+                            fieldChecked = true;
+                        }
+                    }
                     for ( String fieldName : EDIT_READ_ONLY_PROP_NAMES ) {
                         if ( StringUtils.equals(fieldName, field.getPropertyName() ) ) {
                             assertTrue( fieldName + " should have been read only", field.isReadOnly() );
+                            fieldChecked = true;
                         }
                     }
                     for ( String fieldName : DELEGATE_READ_ONLY_PROP_NAMES ) {
                         if ( StringUtils.equals(fieldName, field.getPropertyName() ) ) {
                             assertTrue( fieldName + " should have been read only", field.isReadOnly() );
+                            fieldChecked = true;
                         }
                     }
-                    assertFalse( field.getPropertyName() + " should not be read only.", field.isReadOnly() );
-                    assertFalse( field.getPropertyName() + " should not be hidden", field.getFieldType().equals(Field.HIDDEN) );
+                    if ( !fieldChecked ) {
+                        assertFalse( field.getPropertyName() + " should not be read only.", field.isReadOnly() );
+                        assertFalse( field.getPropertyName() + " should not be hidden", field.getFieldType().equals(Field.HIDDEN) );
+                    }
                 }
             }
         }
@@ -237,13 +249,20 @@ public class OrgReviewRoleMaintainableImplTest extends OrgReviewRoleTestBase {
                     if ( ArrayUtils.contains(FIELDS_TO_IGNORE, field.getPropertyName()) ) {
                         continue;
                     }
+                    boolean fieldChecked = false;
                     if ( field.getPropertyName().equals(OrgReviewRole.DELEGATION_TYPE_CODE) ) {
                         assertEquals( "Delegation type Field should have been hidden: ", Field.HIDDEN, field.getFieldType() );
+                        fieldChecked = true;
                     }
                     for ( String readOnlyPropertyName : ORG_HIER_READ_ONLY_PROP_NAMES ) {
                         if ( field.getPropertyName().equals(readOnlyPropertyName) ) {
                             assertTrue( readOnlyPropertyName + " should have been read only", field.isReadOnly() );
+                            fieldChecked = true;
                         }
+                    }
+                    if ( !fieldChecked ) {
+                        assertFalse( field.getPropertyName() + " should not be read only.", field.isReadOnly() );
+                        assertFalse( field.getPropertyName() + " should not be hidden", field.getFieldType().equals(Field.HIDDEN) );
                     }
                 }
             }
@@ -287,7 +306,7 @@ public class OrgReviewRoleMaintainableImplTest extends OrgReviewRoleTestBase {
         orgReviewRoleService.saveOrgReviewRoleToKim(orgHierOrgReviewRole);
         MaintenanceDocument doc = createNewDocument_OrgHier_Delegation( orgHierOrgReviewRole.getRoleMemberId() );
 
-        ((OrgReviewRole)doc.getNewMaintainableObject().getBusinessObject()).setDelegationTypeCode("P");
+        ((OrgReviewRole)doc.getNewMaintainableObject().getBusinessObject()).setDelegationTypeCode(DelegationType.PRIMARY.getCode());
         doc.getDocumentHeader().setDocumentDescription("Unit Test");
 
         SpringContext.getBean(BusinessObjectService.class).linkUserFields(doc);
@@ -313,7 +332,6 @@ public class OrgReviewRoleMaintainableImplTest extends OrgReviewRoleTestBase {
         MaintenanceDocument document = (MaintenanceDocument) KRADServiceLocatorWeb.getDocumentService().getNewDocument(ORG_REVIEW_DOC_TYPE);
 
         OrgReviewRole existingOrr = new OrgReviewRole();
-//        orgReviewRoleService.populateOrgReviewRoleFromRoleMember(existingOrr, roleMemberId);
         existingOrr.setODelMId("New");
         existingOrr.setORMId(roleMemberId);
         existingOrr.setMethodToCall("edit");

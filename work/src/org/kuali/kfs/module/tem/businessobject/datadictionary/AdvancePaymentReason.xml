@@ -62,6 +62,7 @@
 				<list>
 					<bean parent="FieldDefinition" p:attributeName="code" />
 					<bean parent="FieldDefinition" p:attributeName="description" />
+                    <bean parent="FieldDefinition" p:attributeName="active" />
 				</list>
 				</property>
 			</bean>
@@ -80,6 +81,7 @@
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="code" />
+                <bean parent="FieldDefinition" p:attributeName="description" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
@@ -87,6 +89,7 @@
 		<list>
 			<bean parent="FieldDefinition" p:attributeName="code" />
 			<bean parent="FieldDefinition" p:attributeName="description" />
+            <bean parent="FieldDefinition" p:attributeName="active" />
 		</list>
 		</property>
 	</bean>

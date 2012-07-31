@@ -68,6 +68,7 @@ import org.kuali.kfs.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.kfs.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.kfs.module.purap.util.PurApItemUtils;
 import org.kuali.kfs.module.purap.util.VendorGroupingHelper;
+import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.Bank;
@@ -93,6 +94,7 @@ import org.kuali.rice.kew.api.document.search.DocumentSearchResult;
 import org.kuali.rice.kew.api.document.search.DocumentSearchResults;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.Note;
@@ -135,7 +137,8 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     protected PurchaseOrderService purchaseOrderService;
     protected FinancialSystemWorkflowHelperService financialSystemWorkflowHelperService;
     protected KualiRuleService kualiRuleService;
-
+    protected PersonService personService;
+    
     /**
      * NOTE: unused
      *
@@ -1768,12 +1771,15 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
         List<String> paymentRequestDocNumbers = new ArrayList<String>();
 
+        Person systemUser = getPersonService().getPersonByPrincipalName(KFSConstants.SYSTEM_USER);
+        String principalId = systemUser.getPrincipalId();
+        
         DocumentSearchCriteria.Builder documentSearchCriteriaDTO = DocumentSearchCriteria.Builder.create();
         documentSearchCriteriaDTO.setDocumentId(routerHeaderIdBuilder.toString());
         documentSearchCriteriaDTO.setDocumentTypeName(PurapConstants.PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT);
 
         DocumentSearchResults reqDocumentsList = KewApiServiceLocator.getWorkflowDocumentService().documentSearch(
-                GlobalVariables.getUserSession().getPrincipalId(), documentSearchCriteriaDTO.build());
+                principalId, documentSearchCriteriaDTO.build());
 
         for (DocumentSearchResult reqDocument : reqDocumentsList.getSearchResults()) {
             ///use the appDocStatus from the KeyValueDTO result to look up custom status
@@ -2136,4 +2142,14 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public AccountsPayableService getAccountsPayableService() {
         return SpringContext.getBean(AccountsPayableService.class);
     }
+    
+    /**
+     * @return Returns the personService.
+     */
+    protected PersonService getPersonService() {
+        if(personService==null)
+            personService = SpringContext.getBean(PersonService.class);
+        return personService;
+    }
+    
 }

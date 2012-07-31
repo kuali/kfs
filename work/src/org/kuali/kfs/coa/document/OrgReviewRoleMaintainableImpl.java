@@ -69,14 +69,23 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
                 getOrgReviewRoleService().populateOrgReviewRoleFromDelegationMember(orr, orr.getORMId(), orr.getODelMId());
 
                 orr.setDelegate(true);
+                if ( KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL.equals(orr.getMethodToCall()) ) {
+                    orr.setDelegationMemberId("");
+                }
             } else if(StringUtils.isNotEmpty(orr.getORMId())){
                 getOrgReviewRoleService().populateOrgReviewRoleFromRoleMember(orr, orr.getORMId());
 
                 if(orr.isCreateDelegation()) {
                     orr.setDelegate(true);
                     orr.setKimDocumentRoleMember(null);
+                    if ( KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL.equals(orr.getMethodToCall()) ) {
+                        orr.setDelegationMemberId("");
+                    }
                 } else {
                     orr.setDelegate(false);
+                    if ( KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL.equals(orr.getMethodToCall()) ) {
+                        orr.setRoleMemberId("");
+                    }
                 }
             }
             // blank these out, since it is a flag to init the object

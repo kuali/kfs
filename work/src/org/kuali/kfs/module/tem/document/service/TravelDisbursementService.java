@@ -100,4 +100,12 @@ public interface TravelDisbursementService {
      * @param sourceAccountingLines
      */
     public void redistributeDisbursementAccountingLine(DisbursementVoucherDocument disbursementVoucherDocument, List<SourceAccountingLine> sourceAccountingLines);
+    
+    /**
+     * Return TravelDVClearing source accounting line from parameters
+     * 
+     * @return
+     */
+    public SourceAccountingLine getTravelClearingGLPESourceDetail();
+    
 }

@@ -20,23 +20,22 @@ import static org.kuali.kfs.module.tem.TemConstants.DISBURSEMENT_VOUCHER_DOCTYPE
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
 import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.purap.businessobject.PaymentRequestView;
 import org.kuali.kfs.module.purap.document.PaymentRequestDocument;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.purap.util.PurApRelatedViews;
 import org.kuali.kfs.module.tem.TemConstants;
-import org.kuali.kfs.module.tem.businessobject.TemAccountingLine;
+import org.kuali.kfs.module.tem.businessobject.TemSourceAccountingLine;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
+import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.util.KualiDecimal;
+import org.springframework.beans.BeanUtils;
 
 public abstract class TEMReimbursementDocument extends TravelDocumentBase {
     
@@ -50,37 +49,72 @@ public abstract class TEMReimbursementDocument extends TravelDocumentBase {
 
     /**
      * Perform business rules common to all TEM documents when generating general ledger pending entries. Do not generate the
-     * entries if the card type is of ACTUAL Expense
+     * entries if the card type is of ACTUAL Expense.  This entry will be generated per document using the TravelClearingAccount
      * 
      * @see org.kuali.kfs.sys.document.AccountingDocumentBase#generateGeneralLedgerPendingEntries(org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail,
      *      org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
      */
+//    @Override
+//    public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+//        LOG.info("processGenerateGeneralLedgerPendingEntries for TEMReimbursementDocument - start");
+//
+//        boolean success = true;
+//        boolean doGenerate = true;
+//
+//        // special handling for TEMAccountingLine
+//        if (glpeSourceDetail instanceof TemAccountingLine) {
+//
+//            // salesTax seems to be a problem on loading the doc, just filtering this from the output
+//            LOG.info(new ReflectionToStringBuilder(glpeSourceDetail, ToStringStyle.MULTI_LINE_STYLE).setExcludeFieldNames(new String[] { "salesTax" }).toString());
+//
+//            // check by cardType
+//            String cardType = ((TemAccountingLine) glpeSourceDetail).getCardType();
+//            // do not generate individual entries for each ACTUAL Expenses - generateDocumentGeneralLedgerPendingEntries will handle it
+//            doGenerate = !TemConstants.ACTUAL_EXPENSE.equals(cardType);
+//
+//            if (!doGenerate) {
+//                LOG.debug("GLPE processing was skipped for " + glpeSourceDetail + "\n for card type" + cardType);
+//            }
+//        }
+//
+//        success = doGenerate ? super.generateGeneralLedgerPendingEntries(glpeSourceDetail, sequenceHelper) : success;
+//
+//        LOG.info("processGenerateGeneralLedgerPendingEntries for TEMReimbursementDocument - end");
+//        return success;
+//    }
+    
+    /**
+     * change to generate the GLPE on ACTUAL EXPENSE based on Reimbursable minus Advance and its only ONE entry to
+     * DV clearning account
+     * 
+     * @see org.kuali.kfs.module.tem.document.TravelDocumentBase#generateDocumentGeneralLedgerPendingEntries
+     * (org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper)
+     */
     @Override
-    public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySourceDetail glpeSourceDetail, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        LOG.info("processGenerateGeneralLedgerPendingEntries for TEMReimbursementDocument - start");
+    public boolean generateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        LOG.info("processDocumentGenerateGeneralLedgerPendingEntries for TEMReimbursementDocument - start");
 
         boolean success = true;
         boolean doGenerate = true;
-
-        // special handling for TEMAccountingLine
-        if (glpeSourceDetail instanceof TemAccountingLine) {
-
-            // salesTax seems to be a problem on loading the doc, just filtering this from the output
-            LOG.info(new ReflectionToStringBuilder(glpeSourceDetail, ToStringStyle.MULTI_LINE_STYLE).setExcludeFieldNames(new String[] { "salesTax" }).toString());
-
-            // check by cardType
-            String cardType = ((TemAccountingLine) glpeSourceDetail).getCardType();
-            // do not generate entries for ACTUAL Expenses - DV will handle them
-            doGenerate = !TemConstants.ACTUAL_EXPENSE.equals(cardType);
-
-            if (!doGenerate) {
-                LOG.debug("GLPE processing was skipped for " + glpeSourceDetail + "\n for card type" + cardType);
-            }
+        
+        success = super.generateDocumentGeneralLedgerPendingEntries(sequenceHelper);
+        
+        KualiDecimal reimbursableToTraveler = getTravelReimbursementService().getReimbursableToTraveler(this);
+        
+        //if there is any at all reimbursable to the traveler, there will be a DV generated later, so we need to funnel through
+        // the travel clearing
+        if (reimbursableToTraveler.isPositive()){
+            //get a source accounting line for DV clearing details
+            SourceAccountingLine sourceDetail = getTravelDisbursementService().getTravelClearingGLPESourceDetail();
+            sourceDetail.setAmount(reimbursableToTraveler);
+            TemSourceAccountingLine temSouceDetail = new TemSourceAccountingLine();
+            BeanUtils.copyProperties(sourceDetail, temSouceDetail);
+            
+            success &= super.generateGeneralLedgerPendingEntries(temSouceDetail, sequenceHelper);
         }
-
-        success = doGenerate ? super.generateGeneralLedgerPendingEntries(glpeSourceDetail, sequenceHelper) : success;
-
-        LOG.info("processGenerateGeneralLedgerPendingEntries for TEMReimbursementDocument - end");
+        
+        LOG.info("processDocumentGenerateGeneralLedgerPendingEntries for TEMReimbursementDocument - end");
+        
         return success;
     }
     

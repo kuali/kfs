@@ -131,27 +131,6 @@ public class TravelReimbursementServiceTest extends KualiTestBase {
     }
 
     /**
-     * This method tests {@link TravelReimbursementService#spawnCashControlDocumentFrom(TravelReimbursementDocument)}
-     * 
-     * @throws WorkflowException
-     */
-    @Test
-    public void testSpawnCashControlDocumentFrom() throws WorkflowException {
-        tr.setTraveler(traveler);
-
-        boolean businessRuleValidation = true;
-        try {
-            trService.spawnCashControlDocumentFrom(tr);
-        }
-        catch (ValidationException e) {
-            businessRuleValidation = false;
-            LOG.warn("Business rule eval failed.", e);
-        }
-
-        assertFalse(businessRuleValidation);
-    }
-
-    /**
      * This method tests
      * {@link TravelReimbursementService#notifyDateChangedOn(TravelReimbursementDocument, java.util.Date, java.util.Date)}
      * 

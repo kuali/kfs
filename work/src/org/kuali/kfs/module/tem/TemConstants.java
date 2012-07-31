@@ -206,9 +206,9 @@ public class TemConstants extends JSTLConstants {
         public static final String DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND = "DISPLAY_ADVANCES_IN_REIMBURSEMENT_TOTAL_IND";
         public static final String TRAVEL_PAYMENT_MEDIUM = "TRAVEL_PAYMENT_MEDIUM_TYPE_CODE";
         public static final String ALLOW_TR_WITHOUT_TA_IND = "ALLOW_TR_WITHOUT_TA_IND";
-        public static final String AR_REFUND_CHART_CODE = "AR_REFUND_CHART_CODE";
-        public static final String AR_REFUND_ACCOUNT_NBR = "AR_REFUND_ACCOUNT_NBR";
-        public static final String AR_REFUND_OBJECT_CODE = "AR_REFUND_OBJECT_CODE";
+        public static final String TRAVEL_DV_CLEARING_CHART_CODE = "TRAVEL_DV_CLEARING_CHART_CODE";
+        public static final String TRAVEL_DV_CLEARING_ACCOUNT_NBR = "TRAVEL_DV_CLEARING_ACCOUNT_NBR";
+        public static final String TRAVEL_DV_CLEARING_OBJECT_CODE = "TRAVEL_DV_CLEARING_OBJECT_CODE";
         public static final String PER_DIEM_OBJECT_CODE = "PER_DIEM_OBJECT_CODE";
         public static final String LODGING_OBJECT_CODE = "LODGING_OBJECT_CODE";
         public static final String DEFAULT_CHART_CODE = "DEFAULT_CHART_CODE";

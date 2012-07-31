@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 import org.kuali.kfs.integration.ar.AccountsReceivableCustomerInvoice;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
+import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.pdf.Coversheet;
@@ -82,14 +83,6 @@ public interface TravelReimbursementService {
     void processCustomerReimbursement(final TravelReimbursementDocument reimbursement) throws WorkflowException;
     
     /**
-     * Use a reimbursement to create a {@link CashControlDocument}. Nothing is returned because the 
-     * created document will be blanketApproved and will show up in the "relatedDocuments" section
-     *
-     * @param reimbursement to use for creating the {@link CashControlDocument}
-     */
-    void spawnCashControlDocumentFrom(final TravelReimbursementDocument reimbursement) throws WorkflowException;
-
-    /**
      * Use a reimbursement to create a {@link CustomerCreditMemoDocument}. Nothing is returned because the 
      * created document will be blanketApproved and will show up in the "relatedDocuments" section
      * 
@@ -138,8 +131,17 @@ public interface TravelReimbursementService {
      */
     Coversheet generateCoversheetFor(final TravelReimbursementDocument document) throws Exception;
 
-    //void handleNewOtherExpenseDetail(final OtherExpenseDetail newOtherExpenseDetailLine, final ActualExpense newOtherExpenseLine);
-
+    /**
+     * the actual reimbursable amount to the traveler.  This includes the calculation for open invoices which will 
+     * not be paid back to the traveler.
+     * 
+     *  TEM requested reimbursable amount subtract open invoices amount 
+     * 
+     * @param reimbursementDocument
+     * @return
+     */
+    public KualiDecimal getReimbursableToTraveler(TEMReimbursementDocument reimbursementDocument);
+    
     /**
      * This method creates GLPE to disencumber the funds that had already been encumbered.
      * 

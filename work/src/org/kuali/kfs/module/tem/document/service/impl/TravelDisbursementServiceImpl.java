@@ -27,6 +27,7 @@ import org.kuali.kfs.fp.document.DisbursementVoucherDocument;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.DisburseType;
 import org.kuali.kfs.module.tem.TemConstants.TravelParameters;
+import org.kuali.kfs.module.tem.TemConstants.TravelReimbursementParameters;
 import org.kuali.kfs.module.tem.TemKeyConstants;
 import org.kuali.kfs.module.tem.TemParameterConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
@@ -135,31 +136,59 @@ public class TravelDisbursementServiceImpl implements TravelDisbursementService{
 
         disbursementVoucherDocument.setDisbVchrPaymentMethodCode(TemConstants.DisbursementVoucherPaymentMethods.CHECK_ACH_PAYMENT_METHOD_CODE);
 
+        //TA's advance payment is done with custom distribution
         if (document.hasCustomDVDistribution()){
             // disbursement voucher distribution will be set by the document in the caller function
         }else {
             // set accounting
             KualiDecimal totalAmount = KualiDecimal.ZERO;
             for (SourceAccountingLine line : document.getReimbursableSourceAccountingLines()) {
-                SourceAccountingLine accountingLine = new SourceAccountingLine();
-                  
-                accountingLine.setChartOfAccountsCode(line.getChartOfAccountsCode());
-                accountingLine.setAccountNumber(line.getAccountNumber());
-                accountingLine.setFinancialObjectCode(line.getFinancialObjectCode());              
-                accountingLine.setFinancialSubObjectCode(line.getFinancialSubObjectCode());
-                accountingLine.setSubAccountNumber(line.getSubAccountNumber());
-                accountingLine.setAmount(line.getAmount());
-                accountingLine.setPostingYear(disbursementVoucherDocument.getPostingYear());
-                accountingLine.setDocumentNumber(disbursementVoucherDocument.getDocumentNumber());
-    
-                disbursementVoucherDocument.addSourceAccountingLine(accountingLine);
+//                SourceAccountingLine accountingLine = new SourceAccountingLine();
+//                  
+//                accountingLine.setChartOfAccountsCode(line.getChartOfAccountsCode());
+//                accountingLine.setAccountNumber(line.getAccountNumber());
+//                accountingLine.setFinancialObjectCode(line.getFinancialObjectCode());              
+//                accountingLine.setFinancialSubObjectCode(line.getFinancialSubObjectCode());
+//                accountingLine.setSubAccountNumber(line.getSubAccountNumber());
+//                accountingLine.setAmount(line.getAmount());
+//                accountingLine.setPostingYear(disbursementVoucherDocument.getPostingYear());
+//                accountingLine.setDocumentNumber(disbursementVoucherDocument.getDocumentNumber());
+//    
+//                disbursementVoucherDocument.addSourceAccountingLine(accountingLine);
                 totalAmount = totalAmount.add(line.getAmount());
             }
+            
+            //All of reimbursement will be paid to DV through the single DV clearing account
+            SourceAccountingLine accountingLine = getTravelClearingGLPESourceDetail();
+            accountingLine.setPostingYear(disbursementVoucherDocument.getPostingYear());
+            accountingLine.setDocumentNumber(disbursementVoucherDocument.getDocumentNumber());
+            accountingLine.setAmount(totalAmount);
+            disbursementVoucherDocument.addSourceAccountingLine(accountingLine);
+            
             //change the DV's total to the total of accounting lines
             disbursementVoucherDocument.setDisbVchrCheckTotalAmount(totalAmount);
         }
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.document.service.TravelDisbursementService#getTravelClearingGLPESourceDetail()
+     */
+    @Override
+    public SourceAccountingLine getTravelClearingGLPESourceDetail() {
+        
+        SourceAccountingLine sourceDetail = new SourceAccountingLine();
+        
+        final String dvClearingChart = parameterService.getParameterValue(TemParameterConstants.TEM_REIMBURSEMENT.class, TravelReimbursementParameters.TRAVEL_DV_CLEARING_CHART_CODE);
+        final String dvClearingAccount = parameterService.getParameterValue(TemParameterConstants.TEM_REIMBURSEMENT.class, TravelReimbursementParameters.TRAVEL_DV_CLEARING_ACCOUNT_NBR);
+        final String dvClearingObject = parameterService.getParameterValue(TemParameterConstants.TEM_REIMBURSEMENT.class, TravelReimbursementParameters.TRAVEL_DV_CLEARING_OBJECT_CODE);
+
+        sourceDetail.setChartOfAccountsCode(dvClearingChart);
+        sourceDetail.setAccountNumber(dvClearingAccount);
+        sourceDetail.setFinancialObjectCode(dvClearingObject);
+        
+        return sourceDetail;
+    }
+    
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelDisbursementService#populateImportedCorpCardDisbursementVoucherFields(org.kuali.kfs.fp.document.DisbursementVoucherDocument, org.kuali.kfs.module.tem.document.TravelDocument, java.lang.String)
      */

@@ -21,7 +21,6 @@ import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
 import static org.kuali.kfs.module.tem.util.BufferedLogger.error;
 import static org.kuali.kfs.module.tem.util.BufferedLogger.logger;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,7 +30,6 @@ import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -55,7 +53,6 @@ import org.kuali.kfs.module.tem.businessobject.TravelAdvance;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
 import org.kuali.kfs.module.tem.businessobject.TripType;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
-import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
 import org.kuali.kfs.sys.businessobject.AccountingLine;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
 import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
@@ -75,7 +72,6 @@ import org.kuali.rice.kns.dao.DocumentDao;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DocumentService;
-import org.kuali.rice.kns.service.SequenceAccessorService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KNSPropertyConstants;
@@ -318,55 +314,6 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
                 }
             }
         }
-    }
-    
-    /**
-     * 
-     * @return
-     */
-    protected String getActualExpenseSequenceName() {
-        Class<?> boClass = ActualExpense.class;
-        String retval = "";
-        try {
-            boolean rethrow = true;
-            Exception e = null;
-            while (rethrow) {
-                debug("Looking for id in ", boClass.getName());
-                try {
-                    final Field idField = boClass.getDeclaredField("id");
-                    final SequenceGenerator sequenceInfo = idField.getAnnotation(SequenceGenerator.class);
-
-                    retval = sequenceInfo.sequenceName();
-                    rethrow = false;
-                    e = null;
-                }
-                catch (Exception ee) {
-                    // ignore and try again
-                    debug("Could not find id in ", boClass.getName());
-
-                    // At the end. Went all the way up the hierarchy until we got to Object
-                    if (Object.class.equals(boClass)) {
-                        rethrow = false;
-                    }
-
-                    // get the next superclass
-                    boClass = boClass.getSuperclass();
-                    e = ee;
-                }
-            }
-
-            if (e != null) {
-                throw e;
-            }
-        }
-        catch (Exception e) {
-            error("Could not get the sequence name for business object ", ActualExpense.class.getSimpleName());
-            error(e.getMessage());
-            if (logger().isDebugEnabled()) {
-                e.printStackTrace();
-            }
-        }
-        return retval;
     }
     
     /**
@@ -752,17 +699,8 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
         return SpringContext.getBean(PersonService.class);
     }
 
-    @Override
-    protected SequenceAccessorService getSequenceAccessorService() {
-        return SpringContext.getBean(SequenceAccessorService.class);
-    }
-
     protected DocumentService getDocumentService() {
         return SpringContext.getBean(DocumentService.class);
-    }
-
-    protected TravelReimbursementService getTravelReimbursementService() {
-        return SpringContext.getBean(TravelReimbursementService.class);
     }
 
     protected TravelAuthorizationService getTravelAuthorizationService() {

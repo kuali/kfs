@@ -32,6 +32,7 @@ public class OrgReviewRoleServiceImplTest extends OrgReviewRoleTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         Logger.getLogger(OrgReviewRoleServiceImpl.class).setLevel(Level.DEBUG);
+        Logger.getLogger("log4j.logger.p6spy").setLevel(Level.INFO);
     }
 
     public void testSaveOrgReviewRoleToKim_OrgReview_New() throws Exception {
@@ -179,15 +180,17 @@ public class OrgReviewRoleServiceImplTest extends OrgReviewRoleTestBase {
         orr.setRoleMemberId(createdRoleMemberId);
         orgReviewRoleService.saveOrgReviewRoleToKim(orr);
         assertNotNull( "OrgReviewRole delegationMemberId should not be null.", orr.getDelegationMemberId() );
+        dumpQueryResultsToErr("SELECT * FROM KRIM_DLGN_T WHERE role_id = '7'");
 
         // check that the delegate member exists
         DelegateMember dm = roleService.getDelegationMemberById(orr.getDelegationMemberId());
         assertNotNull( "Unable to retrieve delegation from KIM after save", dm );
+        System.err.println( "Saved Delegation Member: " + dm );
         String originalDelegationMemberId = dm.getDelegationMemberId();
 
         // edit the delegation
         orr = new OrgReviewRole();
-        orgReviewRoleService.populateOrgReviewRoleFromDelegationMember(orr, dm.getDelegationMemberId());
+        orgReviewRoleService.populateOrgReviewRoleFromDelegationMember(orr, createdRoleMemberId, dm.getDelegationMemberId());
         orr.setEdit(true);
         assertEquals( "Document type on the retrieved DelegationMember was not correct","ACCT",orr.getFinancialSystemDocumentTypeCode());
         orr.setFinancialSystemDocumentTypeCode( "SACC" );
@@ -195,7 +198,9 @@ public class OrgReviewRoleServiceImplTest extends OrgReviewRoleTestBase {
         assertNotNull( "OrgReviewRole delegationMemberId should not be null.", orr.getDelegationMemberId() );
 
         dm = roleService.getDelegationMemberById(orr.getDelegationMemberId());
+        System.err.println( "Updated Delegation Member: " + dm );
         assertNotNull( "Unable to retrieve delegation from KIM after save", dm );
+        dumpQueryResultsToErr("SELECT * FROM KRIM_DLGN_MBR_T WHERE dlgn_mbr_id IN ( '" + originalDelegationMemberId + "', '" + dm.getDelegationMemberId() + "' )");
         assertEquals( "The delegationMemberId should not have changed", originalDelegationMemberId, dm.getDelegationMemberId() );
         assertEquals( "Document type on the retrieved DelegationMember was not correct","SACC",orr.getFinancialSystemDocumentTypeCode());
     }
@@ -221,7 +226,7 @@ public class OrgReviewRoleServiceImplTest extends OrgReviewRoleTestBase {
 
         // edit the delegation
         orr = new OrgReviewRole();
-        orgReviewRoleService.populateOrgReviewRoleFromDelegationMember(orr, dm.getDelegationMemberId());
+        orgReviewRoleService.populateOrgReviewRoleFromDelegationMember(orr, createdRoleMemberId, dm.getDelegationMemberId());
         orr.setEdit(true);
         assertEquals( "Document type on the retrieved DelegationMember was not correct","DI",orr.getFinancialSystemDocumentTypeCode());
         orr.setFinancialSystemDocumentTypeCode( "GEC" );

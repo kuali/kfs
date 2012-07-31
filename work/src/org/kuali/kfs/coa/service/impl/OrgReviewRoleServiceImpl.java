@@ -73,17 +73,20 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
     }
     protected DocumentTypeService documentTypeService;
 
+    protected RoleMember getRoleMemberFromKimRoleService( String roleMemberId ) {
+        RoleMemberQueryResults roleMembers = KimApiServiceLocator.getRoleService().findRoleMembers(QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ID, roleMemberId))));
+        if ( roleMembers == null || roleMembers.getResults() == null || roleMembers.getResults().isEmpty() ) {
+            throw new IllegalArgumentException( "Unknown role member ID passed in - nothing returned from KIM RoleService: " + roleMemberId );
+        }
+        return roleMembers.getResults().get(0);
+    }
+
     @Override
     public void populateOrgReviewRoleFromRoleMember(OrgReviewRole orr, String roleMemberId) {
         if ( StringUtils.isBlank(roleMemberId) ) {
             throw new IllegalArgumentException( "Role member ID may not be blank" );
         }
-        RoleService roleService = KimApiServiceLocator.getRoleService();
-        RoleMemberQueryResults roleMembers = roleService.findRoleMembers(QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ID, roleMemberId))));
-        if ( roleMembers == null || roleMembers.getResults() == null || roleMembers.getResults().isEmpty() ) {
-            throw new IllegalArgumentException( "Unknown role member ID passed in - nothing returned from KIM RoleService: " + roleMemberId );
-        }
-        RoleMember roleMember = roleMembers.getResults().get(0);
+        RoleMember roleMember = getRoleMemberFromKimRoleService(roleMemberId);
         orr.setRoleMember(roleMember);
 
         orr.setKimDocumentRoleMember(roleMember);
@@ -92,12 +95,14 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
     }
 
     @Override
-    public void populateOrgReviewRoleFromDelegationMember(OrgReviewRole orr, String delegationMemberId) {
+    public void populateOrgReviewRoleFromDelegationMember(OrgReviewRole orr, String roleMemberId, String delegationMemberId) {
+        RoleMember roleMember = getRoleMemberFromKimRoleService(roleMemberId);
         RoleService roleService = KimApiServiceLocator.getRoleService();
         DelegateMember delegationMember = roleService.getDelegationMemberById(delegationMemberId);
         DelegateType delegation = roleService.getDelegateTypeByDelegationId(delegationMember.getDelegationId());
 
-        orr.setDelegateMember(delegationMember);
+        orr.setDelegationTypeCode(delegation.getDelegationType().getCode());
+        orr.setDelegateMember(roleMember,delegationMember);
 
         orr.setRoleRspActions(roleService.getRoleMemberResponsibilityActions(delegationMember.getRoleMemberId()));
 
@@ -110,7 +115,7 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
 //        orr.getChart().setChartOfAccountsCode(orr.getChartOfAccountsCode());
 //        orr.getOrganization().setOrganizationCode(orr.getOrganizationCode());
 
-        if(orr.getRoleRspActions()!=null && orr.getRoleRspActions().size()>0){
+        if(orr.getRoleRspActions()!=null && !orr.getRoleRspActions().isEmpty()){
             orr.setActionTypeCode(orr.getRoleRspActions().get(0).getActionTypeCode());
             orr.setPriorityNumber(orr.getRoleRspActions().get(0).getPriorityNumber()==null?"":String.valueOf(orr.getRoleRspActions().get(0).getPriorityNumber()));
             orr.setActionPolicyCode(orr.getRoleRspActions().get(0).getActionPolicyCode());
@@ -266,6 +271,9 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
                 // ensure this is set (for new delegation types)
                 newDelegateType.setKimTypeId( orr.getKimTypeId());
                 delegateType = roleService.createDelegateType(newDelegateType.build());
+                if ( LOG.isDebugEnabled() ) {
+                    LOG.debug("No DelegateType in KIM.  Created new one: " + delegateType);
+                }
             } else {
                 if ( LOG.isDebugEnabled() ) {
                     LOG.debug("Pulled DelegateType from KIM: " + delegateType);
@@ -278,18 +286,15 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
             // check for an existing delegation member given its unique ID
             // if found, update that record
             if ( StringUtils.isNotBlank(dm.getDelegationMemberId()) ) {
-                List<DelegateMember> members = delegateType.getMembers();
-                for ( DelegateMember member : members ) {
-                    if ( member.getDelegationMemberId().equals(dm.getDelegationMemberId()) ) {
-                        if ( LOG.isDebugEnabled() ) {
-                            LOG.debug("Found existing delgate member - updating existing record. " + member);
-                        }
-                        DelegateMember.Builder updatedMember = DelegateMember.Builder.create(member);
-                        updateDelegateMemberFromDocDelegateMember(updatedMember, dm);
-                        foundExistingMember = true;
-                        addedMember = roleService.updateDelegateMember(updatedMember.build());
-                        break;
+                DelegateMember member = roleService.getDelegationMemberById(dm.getDelegationMemberId());
+                if ( member != null ) {
+                    foundExistingMember = true;
+                    if ( LOG.isDebugEnabled() ) {
+                        LOG.debug("Found existing delegate member - updating existing record. " + member);
                     }
+                    DelegateMember.Builder updatedMember = DelegateMember.Builder.create(member);
+                    updateDelegateMemberFromDocDelegateMember(updatedMember, dm);
+                    addedMember = roleService.updateDelegateMember(updatedMember.build());
                 }
             }
             // if we did not find one, then we need to create a new member

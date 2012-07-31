@@ -66,7 +66,7 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
                 (StringUtils.isNotEmpty(orr.getODelMId()) || StringUtils.isNotEmpty(orr.getORMId())) ){
             // check if we have the information to create a delegation
             if(StringUtils.isNotEmpty(orr.getODelMId()) && !orr.isCreateDelegation()){
-                getOrgReviewRoleService().populateOrgReviewRoleFromDelegationMember(orr, orr.getODelMId());
+                getOrgReviewRoleService().populateOrgReviewRoleFromDelegationMember(orr, orr.getORMId(), orr.getODelMId());
 
                 orr.setDelegate(true);
             } else if(StringUtils.isNotEmpty(orr.getORMId())){

@@ -25,7 +25,9 @@ import org.kuali.kfs.coa.identity.KfsKimDocDelegateMember;
 import org.kuali.kfs.coa.identity.OrgReviewRole;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.KualiTestBase;
+import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.context.TestUtils;
+import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.core.api.criteria.PredicateUtils;
@@ -275,4 +277,13 @@ public class OrgReviewRoleTestBase extends KualiTestBase {
         assertEquals("From amount is incorrect", orr.getFromAmountStr(), attr.get(KfsKimAttributes.FROM_AMOUNT));
         assertEquals("To amount is incorrect", orr.getToAmountStr(), attr.get(KfsKimAttributes.TO_AMOUNT));
     }
+
+    protected void dumpQueryResultsToErr( String sql ) {
+        List<Map<String,?>> queryResults = SpringContext.getBean(UnitTestSqlDao.class,"riceUnitTestSqlDao").sqlSelect(sql);
+        System.err.println( sql );
+        for ( Map<String,?> row : queryResults ) {
+            System.err.println( row );
+        }
+    }
+
 }

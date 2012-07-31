@@ -23,7 +23,7 @@ import org.kuali.rice.krad.exception.ValidationException;
 public interface OrgReviewRoleService {
 
     void populateOrgReviewRoleFromRoleMember( OrgReviewRole orr, String roleMemberId );
-    void populateOrgReviewRoleFromDelegationMember( OrgReviewRole orr, String delegationMemberId );
+    void populateOrgReviewRoleFromDelegationMember( OrgReviewRole orr, String roleMemberId, String delegationMemberId );
 
     boolean isValidDocumentTypeForOrgReview(String documentTypeName);
 

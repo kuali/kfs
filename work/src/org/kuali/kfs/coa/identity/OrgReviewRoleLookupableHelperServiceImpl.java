@@ -483,7 +483,8 @@ public class OrgReviewRoleLookupableHelperServiceImpl extends KualiLookupableHel
             }
             if( StringUtils.isBlank(active) || activeInd == member.isActive() ) {
                 OrgReviewRole orgReviewRole = new OrgReviewRole();
-                orgReviewRole.setDelegateMember(member);
+                // TODO: need to pull in role member from the delegate member ID? - Or should OrgReviewRole do that?
+//                orgReviewRole.setDelegateMember(member);
                 if ( LOG.isDebugEnabled() ) {
                     LOG.debug( "Converted To OrgReviewRole: " + orgReviewRole );
                 }

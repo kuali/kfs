@@ -27,6 +27,8 @@
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
     <bean id="unitTestSqlDao" parent="platformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.UnitTestSqlDaoOjb" />
+
+    <bean id="riceUnitTestSqlDao" parent="ricePlatformAwareDao" class="org.kuali.kfs.sys.dataaccess.impl.UnitTestSqlDaoOjb" />
     
 	<bean id="trigger" abstract="true">
 		<property name="group" value="scheduled" />

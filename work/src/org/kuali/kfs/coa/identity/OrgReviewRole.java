@@ -944,32 +944,32 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
         setFinancialSystemDocumentTypeCode(getAttributeValue(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME));
     }
 
-    public void setDelegateMember( DelegateMemberContract roleMember ) {
-//        setRoleId(  roleMember.get)
-        memberTypeCode = roleMember.getType().getCode();
-        if(MemberType.ROLE.equals(roleMember.getType())){
-            roleMemberRoleId = roleMember.getMemberId();
+    public void setDelegateMember( RoleMemberContract roleMember, DelegateMemberContract delegateMember ) {
+        setRoleId(  roleMember.getRoleId() );
+        memberTypeCode = delegateMember.getType().getCode();
+        if(MemberType.ROLE.equals(delegateMember.getType())){
+            roleMemberRoleId = delegateMember.getMemberId();
             getRole();
-        } else if(MemberType.GROUP.equals(roleMember.getType())){
-            groupMemberGroupId = roleMember.getMemberId();
+        } else if(MemberType.GROUP.equals(delegateMember.getType())){
+            groupMemberGroupId = delegateMember.getMemberId();
             getGroup();
-        } else if(MemberType.PRINCIPAL.equals(roleMember.getType())){
-            principalMemberPrincipalId = roleMember.getMemberId();
+        } else if(MemberType.PRINCIPAL.equals(delegateMember.getType())){
+            principalMemberPrincipalId = delegateMember.getMemberId();
             getPerson();
         }
 
-        if ( roleMember.getActiveFromDate() != null ) {
-            setActiveFromDate(roleMember.getActiveFromDate().toDate());
+        if ( delegateMember.getActiveFromDate() != null ) {
+            setActiveFromDate(delegateMember.getActiveFromDate().toDate());
         }
-        if ( roleMember.getActiveToDate() != null ) {
-            setActiveToDate(roleMember.getActiveToDate().toDate());
+        if ( delegateMember.getActiveToDate() != null ) {
+            setActiveToDate(delegateMember.getActiveToDate().toDate());
         }
-        setActive(roleMember.isActive());
+        setActive(delegateMember.isActive());
         setDelegate(true);
-        setDelegationMemberId(roleMember.getDelegationMemberId());
-        setRoleMemberId(roleMember.getRoleMemberId());
+        setDelegationMemberId(delegateMember.getDelegationMemberId());
+        setRoleMemberId(roleMember.getId());
 
-        extractAttributesFromMap(roleMember.getAttributes());
+        extractAttributesFromMap(delegateMember.getAttributes());
     }
 
 //    public String getMemberIdForDelegationMember(String memberTypeCode){

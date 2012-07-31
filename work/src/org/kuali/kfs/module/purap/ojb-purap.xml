@@ -193,9 +193,6 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="documentFundingSourceCode" column="FND_SRC_CD" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="requisitionSourceCode" column="REQS_SRC_CD" jdbc-type="VARCHAR" index="true"/>
-    <!-- 
-    	<field-descriptor name="statusCode" column="REQS_STAT_CD" jdbc-type="VARCHAR" index="true"/>
- 	-->
     <field-descriptor name="purchaseOrderTransmissionMethodCode" column="PO_TRNS_MTHD_CD" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="purchaseOrderCostSourceCode" column="PO_CST_SRC_CD" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="deliveryRequiredDateReasonCode" column="DLVY_REQ_DT_REAS_CD" jdbc-type="VARCHAR" index="true"/>
@@ -416,9 +413,6 @@
     <field-descriptor name="purapDocumentIdentifier" column="PO_ID" jdbc-type="INTEGER" index="true" autoincrement="true" sequence-name="PO_ID"/>
     <field-descriptor name="requisitionIdentifier" column="REQS_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="requisitionSourceCode" column="REQS_SRC_CD" jdbc-type="VARCHAR"/>
-    <!-- 
-    	<field-descriptor name="statusCode" column="PO_STAT_CD" jdbc-type="VARCHAR" index="true"/>
- 	-->    
     <field-descriptor name="purchaseOrderVendorChoiceCode" column="PO_VNDR_CHC_CD" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER"/>
@@ -655,9 +649,6 @@
     <field-descriptor name="purapDocumentIdentifier" column="PO_ID" jdbc-type="INTEGER" index="true" autoincrement="true" sequence-name="PO_ID"/>
     <field-descriptor name="requisitionIdentifier" column="REQS_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="requisitionSourceCode" column="REQS_SRC_CD" jdbc-type="VARCHAR"/>
-    <!-- 
-    	<field-descriptor name="statusCode" column="PO_STAT_CD" jdbc-type="VARCHAR" index="true"/>
- 	-->
     <field-descriptor name="purchaseOrderVendorChoiceCode" column="PO_VNDR_CHC_CD" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER"/>
@@ -894,9 +885,6 @@
     <field-descriptor name="purapDocumentIdentifier" column="PO_ID" jdbc-type="INTEGER" index="true" autoincrement="true" sequence-name="PO_ID"/>
     <field-descriptor name="requisitionIdentifier" column="REQS_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="requisitionSourceCode" column="REQS_SRC_CD" jdbc-type="VARCHAR"/>
-    <!-- 
-    	<field-descriptor name="statusCode" column="PO_STAT_CD" jdbc-type="VARCHAR" index="true"/>
- 	-->
     <field-descriptor name="purchaseOrderVendorChoiceCode" column="PO_VNDR_CHC_CD" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER"/>
@@ -1133,9 +1121,6 @@
     <field-descriptor name="purapDocumentIdentifier" column="PO_ID" jdbc-type="INTEGER" index="true" autoincrement="true" sequence-name="PO_ID"/>
     <field-descriptor name="requisitionIdentifier" column="REQS_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="requisitionSourceCode" column="REQS_SRC_CD" jdbc-type="VARCHAR"/>
-    <!-- 
-    	<field-descriptor name="statusCode" column="PO_STAT_CD" jdbc-type="VARCHAR" index="true"/>
- 	-->
     <field-descriptor name="purchaseOrderVendorChoiceCode" column="PO_VNDR_CHC_CD" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER"/>
@@ -1373,9 +1358,6 @@
     <field-descriptor name="purapDocumentIdentifier" column="PO_ID" jdbc-type="INTEGER" index="true" autoincrement="true" sequence-name="PO_ID"/>
     <field-descriptor name="requisitionIdentifier" column="REQS_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="requisitionSourceCode" column="REQS_SRC_CD" jdbc-type="VARCHAR"/>
-    <!-- 
-    	<field-descriptor name="statusCode" column="PO_STAT_CD" jdbc-type="VARCHAR" index="true"/>
- 	-->
     <field-descriptor name="purchaseOrderVendorChoiceCode" column="PO_VNDR_CHC_CD" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER"/>
@@ -1612,9 +1594,6 @@
     <field-descriptor name="purapDocumentIdentifier" column="PO_ID" jdbc-type="INTEGER" index="true" autoincrement="true" sequence-name="PO_ID"/>
     <field-descriptor name="requisitionIdentifier" column="REQS_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="requisitionSourceCode" column="REQS_SRC_CD" jdbc-type="VARCHAR"/>
-    <!-- 
-    	<field-descriptor name="statusCode" column="PO_STAT_CD" jdbc-type="VARCHAR" index="true"/>
- 	-->
     <field-descriptor name="purchaseOrderVendorChoiceCode" column="PO_VNDR_CHC_CD" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER"/>
@@ -1851,9 +1830,6 @@
     <field-descriptor name="purapDocumentIdentifier" column="PO_ID" jdbc-type="INTEGER" index="true" autoincrement="true" sequence-name="PO_ID"/>
     <field-descriptor name="requisitionIdentifier" column="REQS_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="requisitionSourceCode" column="REQS_SRC_CD" jdbc-type="VARCHAR"/>
-    <!-- 
-    	<field-descriptor name="statusCode" column="PO_STAT_CD" jdbc-type="VARCHAR" index="true"/>
- 	-->
     <field-descriptor name="purchaseOrderVendorChoiceCode" column="PO_VNDR_CHC_CD" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER"/>
@@ -2090,9 +2066,6 @@
     <field-descriptor name="purapDocumentIdentifier" column="PO_ID" jdbc-type="INTEGER" index="true" autoincrement="true" sequence-name="PO_ID"/>
     <field-descriptor name="requisitionIdentifier" column="REQS_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="requisitionSourceCode" column="REQS_SRC_CD" jdbc-type="VARCHAR"/>
-    <!-- 
-    	<field-descriptor name="statusCode" column="PO_STAT_CD" jdbc-type="VARCHAR" index="true"/>
- 	-->
     <field-descriptor name="purchaseOrderVendorChoiceCode" column="PO_VNDR_CHC_CD" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER"/>
@@ -2328,9 +2301,6 @@
     <field-descriptor name="purapDocumentIdentifier" column="PO_ID" jdbc-type="INTEGER" index="true" autoincrement="true" sequence-name="PO_ID"/>
     <field-descriptor name="requisitionIdentifier" column="REQS_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="requisitionSourceCode" column="REQS_SRC_CD" jdbc-type="VARCHAR"/>
-    <!-- 
-    	<field-descriptor name="statusCode" column="PO_STAT_CD" jdbc-type="VARCHAR" index="true"/>
- 	-->
     <field-descriptor name="purchaseOrderVendorChoiceCode" column="PO_VNDR_CHC_CD" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER"/>
@@ -2564,9 +2534,6 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" index="true"/>
-    <!--      
-    	<field-descriptor name="statusCode" column="PMT_RQST_STAT_CD" jdbc-type="VARCHAR" index="true"/>
-     -->
     <field-descriptor name="purchaseOrderIdentifier" column="PO_ID" jdbc-type="INTEGER" index="true"/>
     <field-descriptor name="postingYear" column="PO_ENCUM_FSCL_YR" jdbc-type="INTEGER"/>
     <field-descriptor name="recurringPaymentTypeCode" column="PO_CLSIF_TYP_DESC" jdbc-type="VARCHAR"/>
@@ -3417,7 +3384,6 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="invoiceNumber" column="INV_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="purchaseOrderIdentifier" column="PO_ID" jdbc-type="INTEGER"/>
-<!--     <field-descriptor name="statusCode" column="PMT_RQST_STAT_CD" jdbc-type="VARCHAR"/> -->
     <field-descriptor name="paymentHoldIndicator" column="PMT_HLD_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>  
     <field-descriptor name="paymentRequestedCancelIndicator" column="PMT_RQST_CNCL_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
     <field-descriptor name="vendorName" column="VNDR_NM" jdbc-type="VARCHAR"/>      
@@ -3438,14 +3404,12 @@
     <field-descriptor name="creditMemoNumber" column="CRDT_MEMO_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="paymentRequestIdentifier" column="PMT_RQST_ID" jdbc-type="INTEGER"/>
     <field-descriptor name="purchaseOrderIdentifier" column="PO_ID" jdbc-type="INTEGER"/>
-<!--     <field-descriptor name="creditMemoStatusCode" column="CRDT_MEMO_STAT_CD" jdbc-type="VARCHAR"/>     -->
     <field-descriptor name="creditHoldIndicator" column="CRDT_HLD_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>  
     <field-descriptor name="vendorCustomerNumber" column="VNDR_CUST_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="accountsPayableApprovalTimestamp" column="AP_APRVL_DT" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="creditMemoExtractedTimestamp" column="CRDT_MEMO_EXTRT_DT" jdbc-type="TIMESTAMP"/>         
     <field-descriptor name="creditMemoPaidTimestamp" column="CRDT_MEMO_PD_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="vendorName" column="VNDR_NM" jdbc-type="VARCHAR"/>
-<!--     <field-descriptor name="accountDistributionMethod" column="ACCT_DISTR_MTD_IND" jdbc-type="VARCHAR"/> -->
     
     <reference-descriptor name="documentHeader" class-ref="org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true" >
         <foreignkey field-ref="documentNumber" />

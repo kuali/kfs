@@ -250,7 +250,7 @@ public class OrgReviewRoleTestBase extends KualiTestBase {
         assertEquals("From amount is incorrect", orr.getFromAmountStr(), attr.get(KfsKimAttributes.FROM_AMOUNT));
         assertEquals("To amount is incorrect", orr.getToAmountStr(), attr.get(KfsKimAttributes.TO_AMOUNT));
 
-        List<RoleResponsibilityAction> respActions = rm.getRoleRspActions();
+        List<RoleResponsibilityAction> respActions = KimApiServiceLocator.getRoleService().getRoleMemberResponsibilityActions(rm.getId());
         assertNotNull( "Role resp actions should not be null", respActions );
         assertFalse( "Role resp actions should not be empty", respActions.isEmpty() );
         assertEquals( "There should only be one RoleRespAction", 1, respActions.size() );

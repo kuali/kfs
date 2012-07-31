@@ -254,6 +254,12 @@ public class OrgReviewRoleMaintainableImplTest extends OrgReviewRoleTestBase {
                         assertEquals( "Delegation type Field should have been hidden: ", Field.HIDDEN, field.getFieldType() );
                         fieldChecked = true;
                     }
+                    for ( String fieldName : EDIT_READ_ONLY_PROP_NAMES ) {
+                        if ( StringUtils.equals(fieldName, field.getPropertyName() ) ) {
+                            assertTrue( fieldName + " should have been read only", field.isReadOnly() );
+                            fieldChecked = true;
+                        }
+                    }
                     for ( String readOnlyPropertyName : ORG_HIER_READ_ONLY_PROP_NAMES ) {
                         if ( field.getPropertyName().equals(readOnlyPropertyName) ) {
                             assertTrue( readOnlyPropertyName + " should have been read only", field.isReadOnly() );

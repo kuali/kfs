@@ -326,19 +326,40 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
             if ( orr.isEdit() && roleMembers != null && roleMembers.getResults() != null && !roleMembers.getResults().isEmpty() ) {
                 RoleMember existingRoleMember = roleMembers.getResults().get(0);
                 RoleMember.Builder updatedRoleMember = RoleMember.Builder.create(roleMember);
-                updatedRoleMember.setRoleRspActions( roleRspActionsToSave );
+//                updatedRoleMember.setRoleRspActions( roleRspActionsToSave );
                 updatedRoleMember.setVersionNumber(existingRoleMember.getVersionNumber());
                 updatedRoleMember.setObjectId(existingRoleMember.getObjectId());
                 roleMember = roleService.updateRoleMember( updatedRoleMember.build() );
             } else {
                 RoleMember.Builder newRoleMember = RoleMember.Builder.create(roleMember);
-                newRoleMember.setRoleRspActions( roleRspActionsToSave );
+//                newRoleMember.setRoleRspActions( roleRspActionsToSave );
                 roleMember = roleService.createRoleMember( newRoleMember.build() );
+                //RoleResponsibilityAction.Builder rra = RoleResponsibilityAction.Builder.create();
+                //updateRoleResponsibilityActionFromOrgReviewRole(rra, orr);
+                //roleService.createRoleResponsibilityAction(rra.build());
+            }
+            for ( RoleResponsibilityAction.Builder rra : roleRspActionsToSave ) {
+                // ensure linked to the right record
+                rra.setRoleMemberId(roleMember.getId());
+                if ( StringUtils.isBlank( rra.getId() ) ) {
+                    roleService.createRoleResponsibilityAction(rra.build());
+                } else {
+                    roleService.updateRoleResponsibilityAction(rra.build());
+                }
             }
             orr.setRoleMemberId(roleMember.getId());
             orr.setORMId(roleMember.getId());
         }
     }
+
+//    protected void updateRoleResponsibilityActionFromOrgReviewRole( RoleResponsibilityAction.Builder rra, OrgReviewRole orr ) {
+//        rra.setActionPolicyCode(orr.getActionPolicyCode());
+//        rra.setActionTypeCode(orr.getActionTypeCode());
+//        rra.setForceAction(orr.isForceAction());
+//        rra.setPriorityNumber( Integer.valueOf( orr.getPriorityNumber() ) );
+//        rra.setRoleResponsibilityId("*");
+//        rra.setRoleMemberId(orr.getRoleMemberId());
+//    }
 
     protected Role getRoleInfo( String roleName ) {
         if ( roleName == null ) {
@@ -517,6 +538,7 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
             List<RoleResponsibilityAction> origRoleRspActions = KimApiServiceLocator.getRoleService().getRoleMemberResponsibilityActions(roleMember.getId());
             if ( origRoleRspActions!=null && !origRoleRspActions.isEmpty() ) {
                 rra.setId(origRoleRspActions.get(0).getId());
+                rra.setVersionNumber(origRoleRspActions.get(0).getVersionNumber());
             }
         }
 
@@ -524,9 +546,10 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
         rra.setRoleResponsibilityId("*");
         rra.setActionTypeCode(orr.getActionTypeCode());
         rra.setActionPolicyCode(orr.getActionPolicyCode());
+
         if(StringUtils.isNotBlank(orr.getPriorityNumber())){
             try{
-                rra.setPriorityNumber(Integer.parseInt(orr.getPriorityNumber()));
+                rra.setPriorityNumber(Integer.valueOf(orr.getPriorityNumber()));
             } catch(Exception nfx){
                 rra.setPriorityNumber(null);
             }

@@ -70,7 +70,7 @@
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Yes No with Blank Indicator"/>
     <property name="shortLabel" value="Indicator"/>
-    <property name="maxLength" value="1"/>
+    <property name="maxLength" value="3"/>
     <property name="control" ref="IndicatorYNNullSelectControl" />
     <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
   </bean>

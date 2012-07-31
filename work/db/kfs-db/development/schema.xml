@@ -4177,7 +4177,7 @@
         <column name="NXT_AST_PMT_LN_NBR" size="7" type="DECIMAL"/>
         <column name="CB_ORIGIN_IND" size="1" type="VARCHAR"/>
         <column default="2" name="AST_PMT_DST_CD" size="1" type="VARCHAR"/>
-        <column name="AST_PMT_DIST_CD_FROM_FP_IND" size="1" type="VARCHAR"/>
+        <column default="N" name="AST_PMT_DIST_CD_FROM_FP_IND" size="1" type="VARCHAR"/>
         <foreign-key foreignTable="CM_AST_PMT_DST_CD_T" name="CM_AST_PMT_DOC_TR1">
             <reference foreign="AST_PMT_DST_CD" local="AST_PMT_DST_CD"/>
         </foreign-key>

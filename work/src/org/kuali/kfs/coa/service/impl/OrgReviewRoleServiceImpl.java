@@ -89,8 +89,6 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
         RoleMember roleMember = getRoleMemberFromKimRoleService(roleMemberId);
         orr.setRoleMember(roleMember);
 
-        orr.setKimDocumentRoleMember(roleMember);
-
         populateObjectExtras(orr);
     }
 
@@ -105,40 +103,21 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
         DelegateType delegation = roleService.getDelegateTypeByDelegationId(delegationMember.getDelegationId());
 
         orr.setDelegationTypeCode(delegation.getDelegationType().getCode());
+        //orr.setRoleMember(roleMember);
         orr.setDelegateMember(roleMember,delegationMember);
 
         orr.setRoleRspActions(roleService.getRoleMemberResponsibilityActions(delegationMember.getRoleMemberId()));
 
-        orr.setRoleDocumentDelegationMember(delegationMember);
         populateObjectExtras(orr);
     }
 
     protected void populateObjectExtras( OrgReviewRole orr ) {
-
-//        orr.getChart().setChartOfAccountsCode(orr.getChartOfAccountsCode());
-//        orr.getOrganization().setOrganizationCode(orr.getOrganizationCode());
-
-        if(orr.getRoleRspActions()!=null && !orr.getRoleRspActions().isEmpty()){
+        if( !orr.getRoleRspActions().isEmpty() ){
             orr.setActionTypeCode(orr.getRoleRspActions().get(0).getActionTypeCode());
             orr.setPriorityNumber(orr.getRoleRspActions().get(0).getPriorityNumber()==null?"":String.valueOf(orr.getRoleRspActions().get(0).getPriorityNumber()));
             orr.setActionPolicyCode(orr.getRoleRspActions().get(0).getActionPolicyCode());
             orr.setForceAction(orr.getRoleRspActions().get(0).isForceAction());
         }
-//        if(orr.getPerson()!=null){
-//            orr.setPrincipalMemberPrincipalId(orr.getPerson().getPrincipalId());
-//            orr.setPrincipalMemberPrincipalName(orr.getPerson().getPrincipalName());
-//        }
-//        // RICE20 : this is using the wrong role
-//        if(orr.getRole()!=null){
-//            orr.setRoleMemberRoleId(orr.getRole().getId());
-//            orr.setRoleMemberRoleNamespaceCode(orr.getRole().getNamespaceCode());
-//            orr.setRoleMemberRoleName(orr.getRole().getName());
-//        }
-//        if(orr.getGroup()!=null){
-//            orr.setGroupMemberGroupId(orr.getGroup().getId());
-//            orr.setGroupMemberGroupNamespaceCode(orr.getGroup().getNamespaceCode());
-//            orr.setGroupMemberGroupName(orr.getGroup().getName());
-//        }
     }
 
     @Override
@@ -329,17 +308,12 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
             if ( orr.isEdit() && roleMembers != null && roleMembers.getResults() != null && !roleMembers.getResults().isEmpty() ) {
                 RoleMember existingRoleMember = roleMembers.getResults().get(0);
                 RoleMember.Builder updatedRoleMember = RoleMember.Builder.create(roleMember);
-//                updatedRoleMember.setRoleRspActions( roleRspActionsToSave );
                 updatedRoleMember.setVersionNumber(existingRoleMember.getVersionNumber());
                 updatedRoleMember.setObjectId(existingRoleMember.getObjectId());
                 roleMember = roleService.updateRoleMember( updatedRoleMember.build() );
             } else {
                 RoleMember.Builder newRoleMember = RoleMember.Builder.create(roleMember);
-//                newRoleMember.setRoleRspActions( roleRspActionsToSave );
                 roleMember = roleService.createRoleMember( newRoleMember.build() );
-                //RoleResponsibilityAction.Builder rra = RoleResponsibilityAction.Builder.create();
-                //updateRoleResponsibilityActionFromOrgReviewRole(rra, orr);
-                //roleService.createRoleResponsibilityAction(rra.build());
             }
             for ( RoleResponsibilityAction.Builder rra : roleRspActionsToSave ) {
                 // ensure linked to the right record
@@ -354,15 +328,6 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
             orr.setORMId(roleMember.getId());
         }
     }
-
-//    protected void updateRoleResponsibilityActionFromOrgReviewRole( RoleResponsibilityAction.Builder rra, OrgReviewRole orr ) {
-//        rra.setActionPolicyCode(orr.getActionPolicyCode());
-//        rra.setActionTypeCode(orr.getActionTypeCode());
-//        rra.setForceAction(orr.isForceAction());
-//        rra.setPriorityNumber( Integer.valueOf( orr.getPriorityNumber() ) );
-//        rra.setRoleResponsibilityId("*");
-//        rra.setRoleMemberId(orr.getRoleMemberId());
-//    }
 
     protected Role getRoleInfo( String roleName ) {
         if ( roleName == null ) {

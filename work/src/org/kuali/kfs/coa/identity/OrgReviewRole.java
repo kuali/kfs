@@ -32,9 +32,11 @@ import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.criteria.PredicateUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.delegation.DelegationType;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.kew.api.action.ActionType;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kew.api.util.CodeTranslator;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
@@ -108,15 +110,6 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
     protected Organization organization;
     protected boolean edit;
     protected boolean copy;
-
-//    protected KfsKimDocDelegateType delegation = new KfsKimDocDelegateType();
-    protected KfsKimDocDelegateMember delegationMemberRole = new KfsKimDocDelegateMember( "", MemberType.ROLE );
-    protected KfsKimDocDelegateMember delegationMemberGroup = new KfsKimDocDelegateMember( "", MemberType.GROUP );
-    protected KfsKimDocDelegateMember delegationMemberPerson = new KfsKimDocDelegateMember( "", MemberType.PRINCIPAL );
-
-    protected KfsKimDocRoleMember memberRole = new KfsKimDocRoleMember( "", MemberType.ROLE );
-    protected KfsKimDocRoleMember memberGroup = new KfsKimDocRoleMember( "", MemberType.GROUP );
-    protected KfsKimDocRoleMember memberPerson = new KfsKimDocRoleMember( "", MemberType.PRINCIPAL );
 
     protected RoleEbo role;
     protected GroupEbo group;
@@ -259,8 +252,6 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
      */
     public void setGroupMemberGroupId(String groupMemberGroupId) {
         this.groupMemberGroupId = groupMemberGroupId;
-        memberGroup.setMemberId(groupMemberGroupId);
-        delegationMemberGroup.setMemberId(groupMemberGroupId);
     }
     /**
      * Gets the groupMemberGroupName attribute.
@@ -275,8 +266,6 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
      */
     public void setGroupMemberGroupName(String groupMemberGroupName) {
         this.groupMemberGroupName = groupMemberGroupName;
-        memberGroup.setMemberName(groupMemberGroupName);
-        delegationMemberGroup.setMemberName(groupMemberGroupName);
     }
     /**
      * Gets the groupMemberGroupNamespaceCode attribute.
@@ -291,8 +280,6 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
      */
     public void setGroupMemberGroupNamespaceCode(String groupMemberGroupNamespaceCode) {
         this.groupMemberGroupNamespaceCode = groupMemberGroupNamespaceCode;
-        memberGroup.setMemberNamespaceCode(groupMemberGroupNamespaceCode);
-        delegationMemberGroup.setMemberNamespaceCode(groupMemberGroupNamespaceCode);
     }
     /**
      * Gets the principalMemberPrincipalId attribute.
@@ -307,8 +294,6 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
      */
     public void setPrincipalMemberPrincipalId(String principalMemberPrincipalId) {
         this.principalMemberPrincipalId = principalMemberPrincipalId;
-        memberPerson.setMemberId(principalMemberPrincipalId);
-        delegationMemberPerson.setMemberId(principalMemberPrincipalId);
     }
     /**
      * Gets the principalMemberPrincipalName attribute.
@@ -334,8 +319,6 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
      */
     public void setPrincipalMemberPrincipalName(String principalMemberPrincipalName) {
         this.principalMemberPrincipalName = principalMemberPrincipalName;
-        memberPerson.setMemberName(principalMemberPrincipalName);
-        delegationMemberPerson.setMemberName(principalMemberPrincipalName);
     }
     /**
      * Gets the roleMemberRoleId attribute.
@@ -350,8 +333,6 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
      */
     public void setRoleMemberRoleId(String roleMemberRoleId) {
         this.roleMemberRoleId = roleMemberRoleId;
-        memberRole.setMemberId(roleMemberRoleId);
-        delegationMemberRole.setMemberId(roleMemberRoleId);
     }
     /**
      * Gets the roleMemberRoleName attribute.
@@ -366,8 +347,6 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
      */
     public void setRoleMemberRoleName(String roleMemberRoleName) {
         this.roleMemberRoleName = roleMemberRoleName;
-        memberRole.setMemberName(roleMemberRoleName);
-        delegationMemberRole.setMemberName(roleMemberRoleName);
     }
     /**
      * Gets the roleMemberRoleNamespaceCode attribute.
@@ -382,8 +361,6 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
      */
     public void setRoleMemberRoleNamespaceCode(String roleMemberRoleNamespaceCode) {
         this.roleMemberRoleNamespaceCode = roleMemberRoleNamespaceCode;
-        memberRole.setMemberNamespaceCode(roleMemberRoleNamespaceCode);
-        delegationMemberRole.setMemberNamespaceCode(roleMemberRoleNamespaceCode);
     }
     /**
      * Gets the organization attribute.
@@ -592,9 +569,16 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
     }
 
     public String getDelegationTypeCodeDescription() {
-        return KimConstants.KimUIConstants.DELEGATION_TYPES.get(delegationTypeCode);
+        if ( getDelegationType() != null ) {
+            return getDelegationType().getLabel();
+        }
+        return "";
     }
 
+    public DelegationType getDelegationType() {
+        return DelegationType.parseCode(delegationTypeCode);
+    }
+    
     /**
      * Sets the delegationTypeCode attribute value.
      * @param delegationTypeCode The delegationTypeCode to set.
@@ -737,8 +721,8 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
      * @return
      */
     public String getActionTypeCodeDescription() {
-        String actionTypeCodeDesc = CodeTranslator.arLabels.get(getActionTypeCodeToDisplay());
-        return actionTypeCodeDesc==null?"":actionTypeCodeDesc;
+        ActionType at = ActionType.fromCode(getActionTypeCodeToDisplay(), true);
+        return (at==null)?"":at.getLabel();
     }
 
     /**
@@ -858,43 +842,20 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
         return hasRole() || hasGroup() || hasPrincipal();
     }
 
-    public KfsKimDocDelegateMember getDelegationMemberOfType(String memberTypeCode){
-        if(MemberType.ROLE.getCode().equals(memberTypeCode)){
-            delegationMemberRole.setMemberId(roleMemberRoleId);
-            delegationMemberRole.setMemberName(roleMemberRoleName);
-            delegationMemberRole.setMemberNamespaceCode(roleMemberRoleNamespaceCode);
-            delegationMemberRole.setRoleMemberId(roleMemberId);
-            return delegationMemberRole;
-        } else if(MemberType.GROUP.getCode().equals(memberTypeCode)){
-            delegationMemberGroup.setMemberId(groupMemberGroupId);
-            delegationMemberGroup.setMemberName(groupMemberGroupName);
-            delegationMemberGroup.setMemberNamespaceCode(groupMemberGroupNamespaceCode);
-            delegationMemberRole.setRoleMemberId(roleMemberId);
-            return delegationMemberGroup;
-        } else if(MemberType.PRINCIPAL.getCode().equals(memberTypeCode)){
-            delegationMemberPerson.setMemberId(principalMemberPrincipalId);
-            delegationMemberPerson.setMemberName(principalMemberPrincipalName);
-            delegationMemberRole.setRoleMemberId(roleMemberId);
-            return delegationMemberPerson;
-        }
-        return null;
-    }
-
-    public KfsKimDocRoleMember getRoleMemberOfType(String memberTypeCode){
-        if(MemberType.ROLE.getCode().equals(memberTypeCode)){
-            memberRole.setMemberId(roleMemberRoleId);
-            memberRole.setMemberName(roleMemberRoleName);
-            memberRole.setMemberNamespaceCode(roleMemberRoleNamespaceCode);
-            return memberRole;
-        } else if(MemberType.GROUP.getCode().equals(memberTypeCode)){
-            memberGroup.setMemberId(groupMemberGroupId);
-            memberGroup.setMemberName(groupMemberGroupName);
-            memberGroup.setMemberNamespaceCode(groupMemberGroupNamespaceCode);
-            return memberGroup;
-        } else if(MemberType.PRINCIPAL.getCode().equals(memberTypeCode)){
-            memberPerson.setMemberId(principalMemberPrincipalId);
-            memberPerson.setMemberName(principalMemberPrincipalName);
-            return memberPerson;
+    public KfsKimDocRoleMember getRoleMemberOfType(MemberType memberType){
+        KfsKimDocRoleMember member = new KfsKimDocRoleMember(getRoleId(), memberType);
+        if(MemberType.ROLE.equals(memberType)){
+            member.setMemberName(roleMemberRoleName);
+            member.setMemberNamespaceCode(roleMemberRoleNamespaceCode);
+            return member;
+        } else if(MemberType.GROUP.equals(memberType)){
+            member.setMemberName(groupMemberGroupName);
+            member.setMemberNamespaceCode(groupMemberGroupNamespaceCode);
+            return member;
+        } else if(MemberType.PRINCIPAL.equals(memberType)){
+            member.setMemberName(principalMemberPrincipalName);
+            member.setMemberNamespaceCode("");
+            return member;
         }
         return null;
     }
@@ -985,17 +946,6 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
         }
         return roleMembers.getResults().get(0);
     }
-    
-//    public String getMemberIdForDelegationMember(String memberTypeCode){
-//        KfsKimDocDelegateMember member = getDelegationMemberOfType(memberTypeCode);
-//        return member!=null?member.getMemberId():null;
-//    }
-//
-//    public String getMemberIdForRoleMember(String memberTypeCode){
-//        KfsKimDocRoleMember member = getRoleMemberOfType(memberTypeCode);
-//        return member!=null?member.getMemberId():null;
-//    }
-
 
     public String getMemberId() {
         if(MemberType.ROLE.getCode().equals(memberTypeCode)){
@@ -1073,6 +1023,15 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
      */
     public void setGroup(GroupEbo group) {
         this.group = group;
+        if ( group != null ) {
+            groupMemberGroupNamespaceCode = group.getNamespaceCode();
+            groupMemberGroupName = group.getName();
+            groupMemberGroupId = group.getId();
+        } else {
+            groupMemberGroupNamespaceCode = "";
+            groupMemberGroupName = "";
+            groupMemberGroupId = "";
+        }
     }
     /**
      * Gets the person attribute.
@@ -1087,6 +1046,8 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
                 person = KimApiServiceLocator.getPersonService().getPerson(principalMemberPrincipalId);
             } else if ( StringUtils.isNotEmpty(principalMemberPrincipalName) ) {
                 person = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(principalMemberPrincipalName);
+            } else {
+                person = null;
             }
             if ( person != null ) {
                 principalMemberPrincipalId = person.getPrincipalId();
@@ -1094,6 +1055,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
                 principalMemberName = person.getName();
             } else {
                 principalMemberPrincipalId = "";
+                principalMemberName = "";
             }
         }
         return person;
@@ -1108,6 +1070,10 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
             principalMemberPrincipalName = person.getPrincipalName();
             principalMemberPrincipalId = person.getPrincipalId();
             principalMemberName = person.getName();
+        } else {
+            principalMemberPrincipalId = "";
+            principalMemberPrincipalName = "";
+            principalMemberName = "";            
         }
     }
 
@@ -1130,173 +1096,17 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
         }
         return role;
     }
-
-    /**
-     * Gets the delegationMemberGroup attribute.
-     * @return Returns the delegationMemberGroup.
-     */
-    public KfsKimDocDelegateMember getDelegationMemberGroup() {
-        return delegationMemberGroup;
-    }
-    /**
-     * Sets the delegationMemberGroup attribute value.
-     * @param delegationMemberGroup The delegationMemberGroup to set.
-     */
-    public void setDelegationMemberGroup(DelegateMemberContract delegationMemberGroup) {
-        this.delegationMemberGroup = new KfsKimDocDelegateMember( delegationMemberGroup );
-//        if(delegationMemberGroup!=null){
-//            Group groupInfo = KimApiServiceLocator.getGroupService().getGroup(memberGroup.getMemberId());
-//            setGroup(groupInfo);
-//        }
-    }
-    /**
-     * Gets the delegationMemberPerson attribute.
-     * @return Returns the delegationMemberPerson.
-     */
-    public KfsKimDocDelegateMember getDelegationMemberPerson() {
-        return delegationMemberPerson;
-    }
-    /**
-     * Sets the delegationMemberPerson attribute value.
-     * @param delegationMemberPerson The delegationMemberPerson to set.
-     */
-    public void setDelegationMemberPerson(DelegateMemberContract delegationMemberPerson) {
-        this.delegationMemberPerson = new KfsKimDocDelegateMember( delegationMemberPerson );
-//        if(delegationMemberPerson!=null){
-//            Person person = KimApiServiceLocator.getPersonService().getPerson(delegationMemberPerson.getMemberId());
-//            setPerson(person);
-//        }
-    }
-    /**
-     * Gets the delegationMemberRole attribute.
-     * @return Returns the delegationMemberRole.
-     */
-    public KfsKimDocDelegateMember getDelegationMemberRole() {
-        return delegationMemberRole;
-    }
-    /**
-     * Sets the delegationMemberRole attribute value.
-     * @param delegationMemberRole The delegationMemberRole to set.
-     */
-    public void setDelegationMemberRole(DelegateMemberContract delegationMemberRole) {
-        this.delegationMemberRole = new KfsKimDocDelegateMember( delegationMemberRole );
-//        if(delegationMemberRole!=null){
-//            RoleEbo roleInfo = RoleEbo.from(KimApiServiceLocator.getRoleService().getRole(delegationMemberRole.getMemberId()));
-//            setRole(roleInfo);
-//        }
-    }
-    /**
-     * Gets the memberGroup attribute.
-     * @return Returns the memberGroup.
-     */
-    public KfsKimDocRoleMember getMemberGroup() {
-        return memberGroup;
-    }
-    /**
-     * Sets the memberGroup attribute value.
-     * @param memberGroup The memberGroup to set.
-     */
-    protected void setMemberGroup(RoleMemberContract memberGroup) {
-        this.memberGroup = new KfsKimDocRoleMember( memberGroup );
-//        if(memberGroup!=null){
-//            Group groupInfo = KimApiServiceLocator.getGroupService().getGroup(memberGroup.getMemberId());
-//            setGroup(groupInfo);
-//        }
-    }
-    /**
-     * Gets the memberPerson attribute.
-     * @return Returns the memberPerson.
-     */
-    public KfsKimDocRoleMember getMemberPerson() {
-        return memberPerson;
-    }
-    /**
-     * Sets the memberPerson attribute value.
-     * @param memberPerson The memberPerson to set.
-     */
-    protected void setMemberPerson(RoleMemberContract memberPerson) {
-        this.memberPerson = new KfsKimDocRoleMember( memberPerson );
-//        if(memberPerson!=null){
-//            Person personImpl = getPersonFromService(memberPerson.getMemberId());
-//            setPerson(personImpl);
-//        }
-    }
-    /**
-     * Gets the memberRole attribute.
-     * @return Returns the memberRole.
-     */
-    public KfsKimDocRoleMember getMemberRole() {
-        return memberRole;
-    }
-    /**
-     * Sets the memberRole attribute value.
-     * @param memberRole The memberRole to set.
-     */
-    protected void setMemberRole(KfsKimDocRoleMember memberRole) {
-        this.memberRole = memberRole;
-//        if(memberRole!=null){
-//            Role roleInfo = KimApiServiceLocator.getRoleService().getRole(memberRole.getMemberId());
-////            setRole(roleInfo);
-//        }
-    }
-
-    public void setRoleDocumentDelegationMember(DelegateMember delegationMember){
-        if ( delegationMember != null ) {
-            if(MemberType.ROLE.equals(delegationMember.getType())) {
-                setDelegationMemberRole(delegationMember);
-            }
-            else if(MemberType.GROUP.equals(delegationMember.getType())) {
-                setDelegationMemberGroup(delegationMember);
-            }
-            else if(MemberType.PRINCIPAL.equals(delegationMember.getType())) {
-                setDelegationMemberPerson(delegationMember);
-            }
-            if ( delegationMember.getActiveFromDate() != null ) {
-                setActiveFromDate(delegationMember.getActiveFromDate().toDate());
-            } else {
-                setActiveFromDate( null );
-            }
-            if ( delegationMember.getActiveToDate() != null ) {
-                setActiveToDate(delegationMember.getActiveToDate().toDate());
-            } else {
-                setActiveToDate( null );
-            }
+    
+    public void setRole( RoleEbo role ) {
+        this.role = role;
+        if ( role != null ) {
+            roleMemberRoleNamespaceCode = role.getNamespaceCode();
+            roleMemberRoleName = role.getName();
+            roleMemberRoleId = role.getId();
         } else {
-            setDelegationMemberRole( new KfsKimDocDelegateMember( roleId, MemberType.ROLE ) );
-            setDelegationMemberGroup( new KfsKimDocDelegateMember( roleId, MemberType.GROUP ) );
-            setDelegationMemberPerson( new KfsKimDocDelegateMember( roleId, MemberType.PRINCIPAL ) );
-            setActiveFromDate(null);
-            setActiveToDate(null);
-        }
-    }
-
-    public void setKimDocumentRoleMember(RoleMember roleMember){
-        if ( roleMember != null ) {
-            if(MemberType.ROLE.equals(roleMember.getType())) {
-                setMemberRole( new KfsKimDocRoleMember(roleMember));
-            }
-            else if(MemberType.GROUP.equals(roleMember.getType())) {
-                setMemberGroup(roleMember);
-            }
-            else if(MemberType.PRINCIPAL.equals(roleMember.getType())) {
-                setMemberPerson(roleMember);
-            }
-            if ( roleMember.getActiveFromDate() != null ) {
-                setActiveFromDate(roleMember.getActiveFromDate().toDate());
-            } else {
-                setActiveFromDate( null );
-            }
-            if ( roleMember.getActiveToDate() != null ) {
-                setActiveToDate(roleMember.getActiveToDate().toDate());
-            } else {
-                setActiveToDate( null );
-            }
-        } else {
-            setMemberRole( new KfsKimDocRoleMember(roleId, MemberType.ROLE) );
-            setMemberGroup( new KfsKimDocRoleMember(roleId, MemberType.GROUP) );
-            setMemberPerson( new KfsKimDocRoleMember(roleId, MemberType.PRINCIPAL) );
-            setActiveFromDate(null);
-            setActiveToDate(null);
+            roleMemberRoleNamespaceCode = "";
+            roleMemberRoleName = "";
+            roleMemberRoleId = "";
         }
     }
 
@@ -1416,7 +1226,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
     }
 
     public boolean isCreateDelegation(){
-        return NEW_DELEGATION_ID_KEY_VALUE.equals(getODelMId());
+        return NEW_DELEGATION_ID_KEY_VALUE.equals(getODelMId()) || (isEditDelegation() && StringUtils.isBlank(getDelegationMemberId()));
     }
 
     public boolean isCreateRoleMember(){
@@ -1483,6 +1293,9 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
      * @return Returns the roleRspActions.
      */
     public List<RoleResponsibilityAction> getRoleRspActions() {
+        if ( roleRspActions == null ) {
+            roleRspActions = new ArrayList<RoleResponsibilityAction>(1);
+        }
         return roleRspActions;
     }
     /**

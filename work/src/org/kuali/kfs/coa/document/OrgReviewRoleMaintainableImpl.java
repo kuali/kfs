@@ -77,7 +77,6 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
 
                 if(orr.isCreateDelegation()) {
                     orr.setDelegate(true);
-                    orr.setKimDocumentRoleMember(null);
                     if ( KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL.equals(orr.getMethodToCall()) ) {
                         orr.setDelegationMemberId("");
                     }
@@ -88,21 +87,11 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
                     }
                 }
             }
-            // blank these out, since it is a flag to init the object
+            // blank these out, since they are flags to init the object
             orr.setORMId("");
             orr.setODelMId("");
-            if(orr.isCreateDelegation()){
-                orr.setPrincipalMemberPrincipalId(null);
-                orr.setPrincipalMemberPrincipalName(null);
-                orr.setRoleMemberRoleId(null);
-                orr.setRoleMemberRoleNamespaceCode(null);
-                orr.setRoleMemberRoleName(null);
-                orr.setGroupMemberGroupId(null);
-                orr.setGroupMemberGroupNamespaceCode(null);
-                orr.setGroupMemberGroupName(null);
-            }
         }
-        super.setBusinessObject(orr);
+        setBusinessObject(orr);
     }
 
 //    public List<RoleResponsibilityAction> getRoleRspActions(String roleMemberId){
@@ -114,12 +103,26 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         super.processAfterEdit(document, parameters);
         OrgReviewRole orr = (OrgReviewRole)document.getOldMaintainableObject().getBusinessObject();
         orr.setEdit(true);
+        orr = (OrgReviewRole) document.getNewMaintainableObject().getBusinessObject();
+        orr.setEdit(true);
+        if ( orr.isCreateDelegation() ) {
+            orr.setPerson(null);
+            orr.setRole(null);
+            orr.setGroup(null);
+        }
     }
 
     @Override
     public void processAfterCopy(MaintenanceDocument document, Map<String,String[]> parameters){
         super.processAfterCopy(document, parameters);
         OrgReviewRole orr = (OrgReviewRole)document.getOldMaintainableObject().getBusinessObject();
+        if(orr.isDelegate() || orr.isCreateDelegation()) {
+            orr.setDelegationMemberId("");
+        } else {
+            orr.setRoleMemberId("");
+        }
+        orr.setCopy(true);
+        orr = (OrgReviewRole) document.getNewMaintainableObject().getBusinessObject();
         if(orr.isDelegate() || orr.isCreateDelegation()) {
             orr.setDelegationMemberId("");
         } else {

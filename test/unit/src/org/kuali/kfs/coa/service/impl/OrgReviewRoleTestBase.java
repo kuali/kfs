@@ -156,10 +156,6 @@ public class OrgReviewRoleTestBase extends KualiTestBase {
         orr.setActionPolicyCode(ActionRequestPolicy.FIRST.getCode());
         orr.setForceAction(false);
 
-        orr.setDelegationMemberRole( new KfsKimDocDelegateMember( orr.getRoleId(), MemberType.ROLE ) );
-        orr.setDelegationMemberGroup( new KfsKimDocDelegateMember( orr.getRoleId(), MemberType.GROUP ) );
-        orr.setDelegationMemberPerson( new KfsKimDocDelegateMember( orr.getRoleId(), MemberType.PRINCIPAL ) );
-
         orr.setMemberTypeCode(MemberType.PRINCIPAL.getCode());
         Person p = UserNameFixture.rorenfro.getPerson();
         orr.setPrincipalMemberPrincipalName(p.getPrincipalName());
@@ -191,10 +187,6 @@ public class OrgReviewRoleTestBase extends KualiTestBase {
         orr.setPriorityNumber("");
         orr.setActionPolicyCode(ActionRequestPolicy.FIRST.getCode());
         orr.setForceAction(false);
-
-        orr.setDelegationMemberRole( new KfsKimDocDelegateMember( orr.getRoleId(), MemberType.ROLE ) );
-        orr.setDelegationMemberGroup( new KfsKimDocDelegateMember( orr.getRoleId(), MemberType.GROUP ) );
-        orr.setDelegationMemberPerson( new KfsKimDocDelegateMember( orr.getRoleId(), MemberType.PRINCIPAL ) );
 
         orr.setMemberTypeCode(MemberType.PRINCIPAL.getCode());
         Person p = UserNameFixture.rorenfro.getPerson();

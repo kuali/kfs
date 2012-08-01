@@ -34,6 +34,7 @@ import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.core.api.criteria.PredicateUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.delegation.DelegationType;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.KimConstants;
@@ -125,25 +126,36 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
     protected boolean validateDelegation(OrgReviewRole orr, boolean isEdit){
         boolean valid = true;
         String roleId;
+        
+        if ( orr.getDelegationType() == null  ) {
+            putFieldError("delegationTypeCode", KFSKeyConstants.ERROR_REQUIRED, "Delegation Type Code");
+            valid = false;
+        }
+        
         if(!isEdit && orr.getRoleNamesToConsider()!=null){
             for(String roleName: orr.getRoleNamesToConsider()){
                 roleId = KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(
                         KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName);
                 Map<String, String> criteria = new HashMap<String, String>();
                 criteria.put(KimConstants.PrimaryKeyConstants.ROLE_ID, roleId);
-                DelegateMemberQueryResults results = KimApiServiceLocator.getRoleService().findDelegateMembers(QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ROLE_ID, roleId))));
+                DelegateMemberQueryResults results = KimApiServiceLocator.getRoleService().findDelegateMembers(
+                        QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ROLE_MEMBER_ID, orr.getRoleMemberId()))));
                 List<DelegateMember> roleDelegationMembers = results.getResults();
 
                 //validate if the newly entered delegation members are already assigned to the role
                 if(roleDelegationMembers!=null){
                     for(DelegateMember delegationMember: roleDelegationMembers){
-                        KfsKimDocDelegateMember member = orr.getDelegationMemberOfType(delegationMember.getType().getCode());
+                        KfsKimDocRoleMember member = orr.getRoleMemberOfType(delegationMember.getType());
                         if(member!=null && StringUtils.isNotBlank(member.getMemberName())){
                             String memberId = getMemberIdByName(member.getType(), member.getMemberNamespaceCode(), member.getMemberName());
                             boolean attributesUnique = areAttributesUnique(orr, delegationMember.getAttributes());
-                            if(!attributesUnique && member!=null && StringUtils.isNotBlank(memberId) && memberId.equals(delegationMember.getMemberId())
-                                    && (StringUtils.isNotBlank(orr.getRoleMemberId()) && StringUtils.isNotBlank(delegationMember.getRoleMemberId())
-                                            && orr.getRoleMemberId().equals(delegationMember.getRoleMemberId()))){
+                            if(!attributesUnique 
+                                    && member!=null 
+                                    && StringUtils.isNotBlank(memberId) 
+                                    && memberId.equals(delegationMember.getMemberId())
+                                    && (StringUtils.isNotBlank(orr.getRoleMemberId()) 
+                                            && StringUtils.isNotBlank(delegationMember.getRoleMemberId()))
+                                    ){
                                putFieldError(orr.getMemberFieldName(member.getType()), KFSKeyConstants.ALREADY_ASSIGNED_MEMBER);
                                valid = false;
                             }
@@ -154,7 +166,6 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
         }
         if(StringUtils.isNotEmpty(orr.getRoleMemberId())){
             valid = validateAmounts(orr);
-            //TODO: put from and to amounts validation here
             RoleMemberQueryResults roleMemberResults = KimApiServiceLocator.getRoleService().findRoleMembers(QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ID, orr.getRoleMemberId()))));
             List<RoleMember> roleMembers = roleMemberResults.getResults();
             RoleMember roleMember = null;
@@ -220,7 +231,7 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
                 String memberId = null;
                 if(roleMembershipInfoList!=null){
                     for(RoleMembership roleMembershipInfo: roleMembershipInfoList){
-                        member = orr.getRoleMemberOfType(roleMembershipInfo.getType().getCode());
+                        member = orr.getRoleMemberOfType(roleMembershipInfo.getType());
                         if(member!=null && StringUtils.isNotEmpty(member.getMemberName())){
                             memberId = getMemberIdByName(member.getType(), member.getMemberNamespaceCode(), member.getMemberName());
                             attributesUnique = areAttributesUnique(orr, roleMembershipInfo.getQualifier());

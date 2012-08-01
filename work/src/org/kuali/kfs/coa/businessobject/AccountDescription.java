@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.kfs.sys.businessobject.Building;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.location.impl.campus.CampusBo;
 
 /**
  * 
@@ -35,6 +36,9 @@ public class AccountDescription extends PersistableBusinessObjectBase {
     private String responsibilityCenterDescription;
     private String campusCode;
     private String buildingCode;
+
+    private CampusBo campus;
+    
 
     private Building building;
 
@@ -196,6 +200,24 @@ public class AccountDescription extends PersistableBusinessObjectBase {
         this.building = building;
     }
 
+    /**
+     * Gets the campus attribute.
+     * 
+     * @return Returns the campus
+     */
+    public CampusBo getCampus() {
+        return campus;
+    }
+
+    /** 
+     * Sets the campus attribute.
+     * 
+     * @param campus The campus to set.
+     */
+    public void setCampus(CampusBo campus) {
+        this.campus = campus;
+    }
+    
     /**
      * @see org.kuali.rice.krad.bo.BusinessObjectBase#toStringMapper()
      */

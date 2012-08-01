@@ -1097,6 +1097,10 @@
     <field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="buildingCode" column="BLDG_CD" jdbc-type="VARCHAR" />
 
+    <reference-descriptor name="campus" class-ref="org.kuali.rice.location.impl.campus.CampusBo" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="campusCode" />
+    </reference-descriptor>
+
     <reference-descriptor name="building" class-ref="org.kuali.kfs.sys.businessobject.Building" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="campusCode" />
         <foreignkey field-ref="buildingCode" />

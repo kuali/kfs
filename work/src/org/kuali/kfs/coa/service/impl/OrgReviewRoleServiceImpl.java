@@ -96,7 +96,10 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
 
     @Override
     public void populateOrgReviewRoleFromDelegationMember(OrgReviewRole orr, String roleMemberId, String delegationMemberId) {
-        RoleMember roleMember = getRoleMemberFromKimRoleService(roleMemberId);
+        RoleMember roleMember = null;
+        if ( StringUtils.isNotBlank(roleMemberId) ) {
+            roleMember = getRoleMemberFromKimRoleService(roleMemberId);
+        }
         RoleService roleService = KimApiServiceLocator.getRoleService();
         DelegateMember delegationMember = roleService.getDelegationMemberById(delegationMemberId);
         DelegateType delegation = roleService.getDelegateTypeByDelegationId(delegationMember.getDelegationId());

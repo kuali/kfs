@@ -30,6 +30,8 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.criteria.PredicateUtils;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -44,6 +46,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.role.RoleMemberContract;
+import org.kuali.rice.kim.api.role.RoleMemberQueryResults;
 import org.kuali.rice.kim.api.role.RoleResponsibilityAction;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.api.type.KimType;
@@ -945,7 +948,10 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
     }
 
     public void setDelegateMember( RoleMemberContract roleMember, DelegateMemberContract delegateMember ) {
-        setRoleId(  roleMember.getRoleId() );
+        if ( roleMember == null ) {
+            roleMember = getRoleMemberFromKimRoleService( delegateMember.getRoleMemberId() );
+        }
+        setRoleId( roleMember.getRoleId() );
         memberTypeCode = delegateMember.getType().getCode();
         if(MemberType.ROLE.equals(delegateMember.getType())){
             roleMemberRoleId = delegateMember.getMemberId();
@@ -972,6 +978,14 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
         extractAttributesFromMap(delegateMember.getAttributes());
     }
 
+    protected RoleMember getRoleMemberFromKimRoleService( String roleMemberId ) {
+        RoleMemberQueryResults roleMembers = KimApiServiceLocator.getRoleService().findRoleMembers(QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ID, roleMemberId))));
+        if ( roleMembers == null || roleMembers.getResults() == null || roleMembers.getResults().isEmpty() ) {
+            throw new IllegalArgumentException( "Unknown role member ID passed in - nothing returned from KIM RoleService: " + roleMemberId );
+        }
+        return roleMembers.getResults().get(0);
+    }
+    
 //    public String getMemberIdForDelegationMember(String memberTypeCode){
 //        KfsKimDocDelegateMember member = getDelegationMemberOfType(memberTypeCode);
 //        return member!=null?member.getMemberId():null;

@@ -42,8 +42,7 @@ public class OrgReviewRoleInquirableImpl extends KfsInquirableImpl {
         String roleMemberId = (String) fieldValues.get(ORG_REVIEW_ROLE_MEMBER_ID);
         if ( StringUtils.isNotBlank( roleMemberId ) ) {
             if ( Boolean.valueOf( (String)fieldValues.get(OrgReviewRole.DELEGATE_FIELD_NAME) ) ) {
-                throw new UnsupportedOperationException( "Still need to look up role member for the delegate member record" );
-//                getOrgReviewRoleService().populateOrgReviewRoleFromDelegationMember(orr, "", roleMemberId );
+                getOrgReviewRoleService().populateOrgReviewRoleFromDelegationMember(orr, null, roleMemberId );
             } else {
                 getOrgReviewRoleService().populateOrgReviewRoleFromRoleMember(orr, roleMemberId );
             }

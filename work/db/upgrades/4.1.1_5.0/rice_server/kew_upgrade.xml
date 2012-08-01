@@ -113,6 +113,12 @@
 				val LIKE '%KimTypeQualifierResolver%'
 			</where>
 		</update>
+		<update tableName="KREW_RTE_NODE_CFG_PARM_T">
+			<column name="VAL" valueComputed="REPLACE( VAL, 'org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver', 'org.kuali.rice.krad.workflow.attribute.DataDictionaryQualifierResolver' )" />		
+			<where>
+				val LIKE '%DataDictionaryQualifierResolver%'
+			</where>
+		</update>
 	</changeSet>
 	
 </databaseChangeLog>

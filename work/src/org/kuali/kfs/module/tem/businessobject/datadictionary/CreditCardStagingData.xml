@@ -3,6 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
 
 	<bean id="CreditCardStagingData" parent="CreditCardStagingData-parentBean" />
+  
 	<bean id="CreditCardStagingData-parentBean" abstract="true" parent="BusinessObjectEntry" >
 		<property name="businessObjectClass" value="org.kuali.kfs.module.tem.businessobject.CreditCardStagingData" />
 		<property name="lookupDefinition" ref="CreditCardStagingData-lookupDefinition" />
@@ -16,7 +17,7 @@
 			<ref bean="CreditCardStagingData-travelerId" />
 			<ref bean="CreditCardStagingData-airNumber" />
 			<ref bean="CreditCardStagingData-billingCycleDate" />
-			<ref bean="CreditCardStagingData-creditCardOrAgencyCode" />
+			<ref bean="CreditCardStagingData-creditCardAgencyCode" />
 			<ref bean="CreditCardStagingData-creationDate" />
 			<ref bean="CreditCardStagingData-creationTimestamp" />
 			<ref bean="CreditCardStagingData-departureDate" />
@@ -40,14 +41,31 @@
 			<ref bean="CreditCardStagingData-versionNumber" />
 			<ref bean="CreditCardStagingData-serviceFeeNumber" />
 			<ref bean="CreditCardStagingData-temProfileId" />
+            <ref bean="CreditCardStagingData-profile_employeeId" />
+            <ref bean="CreditCardStagingData-itineraryNumber" />
+            <ref bean="CreditCardStagingData-importBy" />
+            <ref bean="CreditCardStagingData-creditCardAgency_creditCardAgencyCode" />
 		</list>
 		</property>
+        <property name="relationships">
+          <list>
+            <bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="creditCardAgency" />
+              <property name="primitiveAttributes">
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="creditCardAgencyCode" p:targetName="creditCardOrAgencyCode" />
+                </list>
+              </property>
+            </bean>
+          </list>
+        </property>
 	</bean>
+  
 	<bean id="CreditCardStagingData-id" parent="CreditCardStagingData-id-parentBean" />
 	<bean id="CreditCardStagingData-id-parentBean" parent="AttributeDefinition">
 		<property name="name" value="id" />
-		<property name="label" value="Id" />
-		<property name="shortLabel" value="Id" />
+		<property name="label" value="Credit Card Data Id" />
+		<property name="shortLabel" value="Data Id" />
 		<property name="maxLength" value="255" />
 		<property name="required" value="true" />
 		<property name="summary" value="Id" />
@@ -95,9 +113,9 @@
 		<property name="summary" value="Billing Cycle Date" />
 		<property name="description" value="Billing Cycle Date" />
 	</bean>
-	<bean id="CreditCardStagingData-creditCardOrAgencyCode" parent="CreditCardStagingData-creditCardOrAgencyCode-parentBean" />
-	<bean id="CreditCardStagingData-creditCardOrAgencyCode-parentBean" parent="AttributeDefinition">
-		<property name="name" value="creditCardOrAgencyCode" />
+	<bean id="CreditCardStagingData-creditCardAgencyCode" parent="CreditCardStagingData-creditCardAgencyCode-parentBean" />
+	<bean id="CreditCardStagingData-creditCardAgencyCode-parentBean" parent="AttributeDefinition">
+		<property name="name" value="creditCardAgencyCode" />
 		<property name="label" value="Credit Card or Agency Code" />
 		<property name="shortLabel" value="Credit Card or Agency Code" />
 		<property name="maxLength" value="4" />
@@ -260,14 +278,16 @@
 		<property name="description" value="Bank Post Date" />
 	</bean>
 	<bean id="CreditCardStagingData-moveToHistoryIndicator" parent="CreditCardStagingData-moveToHistoryIndicator-parentBean" />
-	<bean id="CreditCardStagingData-moveToHistoryIndicator-parentBean" parent="AttributeDefinition">
+	<bean id="CreditCardStagingData-moveToHistoryIndicator-parentBean" parent="GenericAttributes-genericBoolean">
 		<property name="name" value="moveToHistoryIndicator" />
 		<property name="label" value="Moving To History" />
 		<property name="shortLabel" value="Moving To History" />
 		<property name="maxLength" value="1" />
 		<property name="summary" value="Moving To History" />
 		<property name="description" value="Moving To History" />
-		<property name="control"><bean parent="TextControlDefinition" p:size="1"/></property>
+		<property name="control">
+		<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.rice.kns.lookup.keyvalues.IndicatorValuesFinder" p:includeKeyInLabel="false"/>
+		</property>
 	</bean>
 	<bean id="CreditCardStagingData-location" parent="CreditCardStagingData-location-parentBean" />
 	<bean id="CreditCardStagingData-location-parentBean" parent="AttributeDefinition">
@@ -282,8 +302,8 @@
 	<bean id="CreditCardStagingData-errorCode" parent="CreditCardStagingData-errorCode-parentBean" />
 	<bean id="CreditCardStagingData-errorCode-parentBean" parent="AttributeDefinition">
 		<property name="name" value="errorCode" />
-		<property name="label" value="Error Code" />
-		<property name="shortLabel" value="Error Code" />
+		<property name="label" value="Status Code" />
+		<property name="shortLabel" value="Status" />
 		<property name="maxLength" value="40" />
 		<property name="summary" value="Error Code" />
 		<property name="description" value="Error Code" />
@@ -307,6 +327,24 @@
 		<property name="description" value="Service Fee Number" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="20"/></property>
 	</bean>
+    <bean id="CreditCardStagingData-itineraryNumber" parent="CreditCardStagingData-itineraryNumber-parentBean" />
+    <bean id="CreditCardStagingData-itineraryNumber-parentBean" parent="AttributeDefinition">
+      <property name="name" value="itineraryNumber" />
+      <property name="label" value="Itinerary Number" />
+      <property name="shortLabel" value="Itinerary" />
+      <property name="maxLength" value="20" />
+      <property name="control"><bean parent="TextControlDefinition" p:size="20"/></property>
+    </bean>
+      <bean id="CreditCardStagingData-importBy" parent="CreditCardStagingData-importBy-parentBean" />
+    <bean id="CreditCardStagingData-importBy-parentBean" parent="AttributeDefinition">
+      <property name="name" value="importBy" />
+      <property name="label" value="Import By" />
+      <property name="shortLabel" value="Import By" />
+      <property name="maxLength" value="3" />
+      <property name="control">
+        <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.tem.businessobject.options.ExpenseImportTypeValuesFinder" p:includeKeyInLabel="false"/>
+      </property>
+    </bean>
 	<bean id="CreditCardStagingData-temProfileId" parent="CreditCardStagingData-temProfileId-parentBean" />
 	<bean id="CreditCardStagingData-temProfileId-parentBean" parent="AttributeDefinition">
 		<property name="name" value="temProfileId" />
@@ -317,94 +355,128 @@
 		<property name="description" value="Tem Profile Id" />
 		<property name="control"><bean parent="TextControlDefinition" p:size="19"/></property>
 	</bean>
-	<bean id="CreditCardStagingData-inquiryDefinition" parent="CreditCardStagingData-inquiryDefinition-parentBean" />
+    <bean id="CreditCardStagingData-profile_employeeId" parent="CreditCardStagingData-profile_employeeId-parentBean" />
+    <bean id="CreditCardStagingData-profile_employeeId-parentBean" parent="TEMProfile-employeeId">
+      <property name="name" value="profile.employeeId" />
+    </bean>
+    <bean id="CreditCardStagingData-creditCardAgency_creditCardAgencyCode" parent="CreditCardStagingData-creditCardAgency_creditCardAgencyCode-parentBean" />
+    <bean id="CreditCardStagingData-creditCardAgency_creditCardAgencyCode-parentBean" parent="CreditCardAgency-creditCardOrAgencyCode">
+      <property name="name" value="creditCardAgency.creditCardOrAgencyCode" />
+    </bean>
+  
+    <bean id="CreditCardStagingData-inquiryDefinition" parent="CreditCardStagingData-inquiryDefinition-parentBean" />
 	<bean id="CreditCardStagingData-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 		<property name="title" value="Credit Card Staging Data Inquiry"/>
 		<property name="inquirySections">
 		<list>
 			<bean parent="InquirySectionDefinition">
-				<property name="title" value="Credit Card Staging Data Inquiry"/>
+				<property name="title" value="Traveler"/>
 				<property name="numberOfColumns" value="1"/>
 				<property name="inquiryFields">
 				<list>
 					<bean parent="FieldDefinition" p:attributeName="id" />
 					<bean parent="FieldDefinition" p:attributeName="creditCardKey" />
-					<bean parent="FieldDefinition" p:attributeName="travelerId" />
-					<bean parent="FieldDefinition" p:attributeName="airNumber" />
-					<bean parent="FieldDefinition" p:attributeName="billingCycleDate" />
-					<bean parent="FieldDefinition" p:attributeName="creditCardOrAgencyCode" />
-					<bean parent="FieldDefinition" p:attributeName="creationDate" />
-					<bean parent="FieldDefinition" p:attributeName="creationTimestamp" />
-					<bean parent="FieldDefinition" p:attributeName="departureDate" />
-					<bean parent="FieldDefinition" p:attributeName="identifier" />
-					<bean parent="FieldDefinition" p:attributeName="reconciliationDate" />
-					<bean parent="FieldDefinition" p:attributeName="referenceNumber" />
-					<bean parent="FieldDefinition" p:attributeName="sequenceNumber" />
-					<bean parent="FieldDefinition" p:attributeName="ticketNumber" />
-					<bean parent="FieldDefinition" p:attributeName="transactionAmount" />
-					<bean parent="FieldDefinition" p:attributeName="transactionCode" />
-					<bean parent="FieldDefinition" p:attributeName="transactionDate" />
-					<bean parent="FieldDefinition" p:attributeName="travelerName" />
-					<bean parent="FieldDefinition" p:attributeName="typeCode" />
-					<bean parent="FieldDefinition" p:attributeName="expenseTypeCode" />
-					<bean parent="FieldDefinition" p:attributeName="merchantName" />
-					<bean parent="FieldDefinition" p:attributeName="bankPostDate" />
-					<bean parent="FieldDefinition" p:attributeName="processingTimestamp" />					
-					<bean parent="FieldDefinition" p:attributeName="moveToHistoryIndicator" />					
-					<bean parent="FieldDefinition" p:attributeName="location" />
-					<bean parent="FieldDefinition" p:attributeName="errorCode" />
-					<bean parent="FieldDefinition" p:attributeName="serviceFeeNumber" />
-					<bean parent="FieldDefinition" p:attributeName="temProfileId" />
+                    <bean parent="FieldDefinition" p:attributeName="creditCardAgencyCode" />
+                    <bean parent="FieldDefinition" p:attributeName="errorCode" />		
+                    <bean parent="FieldDefinition" p:attributeName="profile.employeeId" />
+                    <bean parent="FieldDefinition" p:attributeName="temProfileId" />
+                    <bean parent="FieldDefinition" p:attributeName="travelerName" />
+					<bean parent="FieldDefinition" p:attributeName="moveToHistoryIndicator" />
+                    <bean parent="FieldDefinition" p:attributeName="reconciliationDate" />          
 				</list>
 				</property>
 			</bean>
+            <bean parent="InquirySectionDefinition">
+              <property name="title" value="Transaction"/>
+              <property name="numberOfColumns" value="1"/>
+              <property name="inquiryFields">
+              <list>
+                <bean parent="InquirySubSectionHeaderDefinition" p:attributeName="Transaction Detail"/>
+                <bean parent="FieldDefinition" p:attributeName="merchantName" />
+                <bean parent="FieldDefinition" p:attributeName="expenseTypeCode" />
+                <bean parent="FieldDefinition" p:attributeName="typeCode" />
+                <bean parent="FieldDefinition" p:attributeName="airNumber" />
+                <bean parent="FieldDefinition" p:attributeName="ticketNumber" />
+                <bean parent="FieldDefinition" p:attributeName="location" />    
+                <bean parent="FieldDefinition" p:attributeName="departureDate" />
+                <bean parent="FieldDefinition" p:attributeName="transactionAmount" />   
+                <bean parent="InquirySubSectionHeaderDefinition" p:attributeName="Processing Dates"/>
+                <bean parent="FieldDefinition" p:attributeName="billingCycleDate" />
+                <bean parent="FieldDefinition" p:attributeName="creationDate" />
+                <bean parent="FieldDefinition" p:attributeName="creationTimestamp" />
+                <bean parent="FieldDefinition" p:attributeName="identifier" />
+                <bean parent="FieldDefinition" p:attributeName="referenceNumber" />
+                <bean parent="FieldDefinition" p:attributeName="sequenceNumber" />
+                <bean parent="FieldDefinition" p:attributeName="transactionCode" />
+                <bean parent="FieldDefinition" p:attributeName="transactionDate" />
+	            <bean parent="FieldDefinition" p:attributeName="serviceFeeNumber" />          
+                <bean parent="FieldDefinition" p:attributeName="bankPostDate" />
+                <bean parent="FieldDefinition" p:attributeName="processingTimestamp" />         
+              </list>
+              </property>
+            </bean>
 		</list>
 		</property>
 	</bean>
-	<bean id="CreditCardStagingData-lookupDefinition" parent="CreditCardStagingData-lookupDefinition-parentBean" />
+	
+    <bean id="CreditCardStagingData-lookupDefinition" parent="CreditCardStagingData-lookupDefinition-parentBean" />
 	<bean id="CreditCardStagingData-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
 		<property name="title" value="Credit Card Staging Data Lookup" />
+        <property name="lookupableID" value="creditCardStagingDataLookupable" />
 		<property name="defaultSort">
-		<bean parent="SortDefinition">
-			<property name="attributeNames"><list>
-			</list></property>
-		</bean>
+  		<bean parent="SortDefinition">
+  			<property name="attributeNames">
+                <list>
+                    <value>id</value>
+                </list>
+              </property>
+  		</bean>
 		</property>
 		<property name="lookupFields"><list>
-			<bean parent="FieldDefinition" p:attributeName="id" />
+			<bean parent="FieldDefinition" p:attributeName="creditCardAgencyCode" />
 			<bean parent="FieldDefinition" p:attributeName="creditCardKey" />
-			<bean parent="FieldDefinition" p:attributeName="travelerId" />
+		    <bean parent="FieldDefinition" p:attributeName="errorCode" />	
+            <bean parent="FieldDefinition" p:attributeName="temProfileId" />
+            <bean parent="FieldDefinition" p:attributeName="travelerName" />            
+            <bean parent="FieldDefinition" p:attributeName="merchantName" />
+			<!-- <bean parent="FieldDefinition" p:attributeName="bankPostDate" />
+		    <bean parent="FieldDefinition" p:attributeName="billingCycleDate" />
+            <bean parent="FieldDefinition" p:attributeName="transactionDate" />
+            <bean parent="FieldDefinition" p:attributeName="processingTimestamp" /> -->
+            <bean parent="FieldDefinition" p:attributeName="referenceNumber" />
+            <!-- <bean parent="FieldDefinition" p:attributeName="departureDate" /> -->
+            <bean parent="FieldDefinition" p:attributeName="ticketNumber" />
+            <bean parent="FieldDefinition" p:attributeName="serviceFeeNumber" />	
+            <bean parent="FieldDefinition" p:attributeName="itineraryNumber" />
+            <bean parent="FieldDefinition" p:attributeName="transactionAmount" />
+            <bean parent="FieldDefinition" p:attributeName="moveToHistoryIndicator" />
+            <bean parent="FieldDefinition" p:attributeName="importBy" />
 		</list>
 		</property>
 		<property name="resultFields">
 		<list>
-			<bean parent="FieldDefinition" p:attributeName="id" />
+			<!-- suppress the ID displayed so it will not be used for viewing info -->
+            <!-- <bean parent="FieldDefinition" p:attributeName="id" /> -->
+            <bean parent="FieldDefinition" p:attributeName="creditCardAgency.creditCardOrAgencyCode" />
 			<bean parent="FieldDefinition" p:attributeName="creditCardKey" />
-			<bean parent="FieldDefinition" p:attributeName="travelerId" />
-			<bean parent="FieldDefinition" p:attributeName="airNumber" />
-			<bean parent="FieldDefinition" p:attributeName="billingCycleDate" />
-			<bean parent="FieldDefinition" p:attributeName="creditCardOrAgencyCode" />
-			<bean parent="FieldDefinition" p:attributeName="creationDate" />
-			<bean parent="FieldDefinition" p:attributeName="creationTimestamp" />
-			<bean parent="FieldDefinition" p:attributeName="departureDate" />
-			<bean parent="FieldDefinition" p:attributeName="identifier" />
-			<bean parent="FieldDefinition" p:attributeName="reconciliationDate" />
-			<bean parent="FieldDefinition" p:attributeName="referenceNumber" />
-			<bean parent="FieldDefinition" p:attributeName="sequenceNumber" />
-			<bean parent="FieldDefinition" p:attributeName="ticketNumber" />
-			<bean parent="FieldDefinition" p:attributeName="transactionAmount" />
-			<bean parent="FieldDefinition" p:attributeName="transactionCode" />
-			<bean parent="FieldDefinition" p:attributeName="transactionDate" />
-			<bean parent="FieldDefinition" p:attributeName="travelerName" />
-			<bean parent="FieldDefinition" p:attributeName="typeCode" />
-			<bean parent="FieldDefinition" p:attributeName="expenseTypeCode" />
-			<bean parent="FieldDefinition" p:attributeName="merchantName" />
+		    <bean parent="FieldDefinition" p:attributeName="errorCode" />	
+            <bean parent="FieldDefinition" p:attributeName="profile.employeeId" />
+            <bean parent="FieldDefinition" p:attributeName="travelerName" />            
+            <bean parent="FieldDefinition" p:attributeName="merchantName" />
 			<bean parent="FieldDefinition" p:attributeName="bankPostDate" />
-			<bean parent="FieldDefinition" p:attributeName="processingTimestamp" />
-			<bean parent="FieldDefinition" p:attributeName="moveToHistoryIndicator" />
+		    <bean parent="FieldDefinition" p:attributeName="billingCycleDate" />
+            <bean parent="FieldDefinition" p:attributeName="transactionDate" />
+            <bean parent="FieldDefinition" p:attributeName="processingTimestamp" />
+            <bean parent="FieldDefinition" p:attributeName="referenceNumber" />
+            <bean parent="FieldDefinition" p:attributeName="departureDate" />
+            <bean parent="FieldDefinition" p:attributeName="ticketNumber" />
+            <bean parent="FieldDefinition" p:attributeName="serviceFeeNumber" />	
+            <bean parent="FieldDefinition" p:attributeName="itineraryNumber" />
+            <bean parent="FieldDefinition" p:attributeName="transactionAmount" />
+            <bean parent="FieldDefinition" p:attributeName="importBy" />
+            <bean parent="FieldDefinition" p:attributeName="reconciliationDate" />
+            <bean parent="FieldDefinition" p:attributeName="moveToHistoryIndicator" />
 			<bean parent="FieldDefinition" p:attributeName="location" />			
-			<bean parent="FieldDefinition" p:attributeName="errorCode" />
-			<bean parent="FieldDefinition" p:attributeName="serviceFeeNumber" />
 		</list>
 		</property>
 	</bean>

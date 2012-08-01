@@ -224,6 +224,13 @@
             <ref bean="agencyAuditLookupableHelperService" />
         </property>
     </bean>
+    
+    <bean id="creditCardStagingDataLookupableHelperService" class="org.kuali.kfs.module.tem.businessobject.lookup.CreditCardStagingDataLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />
+    <bean id="creditCardStagingDataLookupable" parent="kualiLookupable">
+        <property name="lookupableHelperService">
+            <ref bean="creditCardStagingDataLookupableHelperService" />
+        </property>
+    </bean>
 
 	<bean id="travelerDao" parent="platformAwareDao" class="org.kuali.kfs.module.tem.dataaccess.impl.TravelerDaoOjb">
 		<property name="lookupDao" ref="lookupDao" />

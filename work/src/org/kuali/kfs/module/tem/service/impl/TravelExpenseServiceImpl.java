@@ -195,7 +195,7 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
             throw new RuntimeException("Unable to convert timestamp to date " + e.getMessage());
         }
         
-        CreditCardAgency ccAgency = this.getCreditCardAgency(creditCard.getCreditCardOrAgencyCode());
+        CreditCardAgency ccAgency = this.getCreditCardAgency(creditCard.getCreditCardAgencyCode());
         expense.setCreditCardAgencyId(ccAgency.getId());
         expense.setCreditCardOrAgencyCode(ccAgency.getCreditCardOrAgencyCode());
 

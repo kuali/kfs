@@ -149,7 +149,7 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
                         
                         // need to do the duplicate check at this point, since the CC key is one of the fields being checked
                         if (!isDuplicate(creditCardData)) {
-                            creditCardData.setMoveToHistoryIndicator("Y");
+                            creditCardData.setMoveToHistoryIndicator(true);
                             creditCardData.setImportBy(creditCardList.getImportBy());
                             creditCardData.setProcessingTimestamp(dateTimeService.getCurrentTimestamp());
                             validData.add(creditCardData);
@@ -231,9 +231,9 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
      */
     @Override
     public boolean validateCreditCardAgency(CreditCardStagingData creditCardData){
-        CreditCardAgency ccAgency = getTravelExpenseService().getCreditCardAgency(creditCardData.getCreditCardOrAgencyCode());
+        CreditCardAgency ccAgency = getTravelExpenseService().getCreditCardAgency(creditCardData.getCreditCardAgencyCode());
         if (ObjectUtils.isNull(ccAgency)) {
-            LOG.error("Mandatory Field Credit Card Or Agency Code is invalid: " + creditCardData.getCreditCardOrAgencyCode());
+            LOG.error("Mandatory Field Credit Card Or Agency Code is invalid: " + creditCardData.getCreditCardAgencyCode());
             creditCardData.setErrorCode(CreditCardStagingDataErrorCodes.CREDIT_CARD_INVALID_CC_AGENCY);
             return false;
         }

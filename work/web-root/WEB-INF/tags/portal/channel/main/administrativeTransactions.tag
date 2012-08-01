@@ -76,7 +76,7 @@
 	<c:if test="${ConfigProperties.module.travel.enabled == 'true'}">	   
     <strong>Travel</strong>
     <ul class="chan">
-        <li><portal:portalLink displayTitle="true" title="Travel Agency Audit and Correction Document" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.tem.businessobject.AgencyStagingData&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+        <li><portal:portalLink displayTitle="true" title="Travel Agency Audit and Correction" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.tem.businessobject.AgencyStagingData&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     </ul>
     </c:if>
 </div>

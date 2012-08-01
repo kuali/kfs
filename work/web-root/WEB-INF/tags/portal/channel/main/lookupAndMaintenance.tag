@@ -82,6 +82,7 @@
 	    <strong>Travel</strong><br/>
 	    <ul class="chan">
 	        <li><portal:portalLink displayTitle="true" title="TEM Profile" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.tem.businessobject.TEMProfile&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+	        <li><portal:portalLink displayTitle="true" title="Credit Card Staging Data" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.module.tem.businessobject.CreditCardStagingData&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 	    </ul>
 	</c:if>	
     </div>

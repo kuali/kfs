@@ -37,7 +37,8 @@ public class CreditCardStagingData extends PersistableBusinessObjectBase {
     private Integer travelerId;
     private String airNumber;
     private Date billingCycleDate;
-    private String creditCardOrAgencyCode;
+    private String creditCardAgencyCode;
+    private Integer creditCardAgencyId;
     private Date creationDate;
     private Timestamp creationTimestamp;
     private Date departureDate;
@@ -56,7 +57,7 @@ public class CreditCardStagingData extends PersistableBusinessObjectBase {
     private Date bankPostDate;
     private String creditCardNumber;
     private Timestamp processingTimestamp; // this is the import date
-    private String moveToHistoryIndicator;
+    private boolean moveToHistoryIndicator;
     private String location;
     private String errorCode;
     private String serviceFeeNumber;
@@ -64,7 +65,8 @@ public class CreditCardStagingData extends PersistableBusinessObjectBase {
     private String importBy;
     private Integer temProfileId;
 
-
+    private TEMProfile profile;
+    private CreditCardAgency creditCardAgency;
 
     /**
      * Gets the id attribute.
@@ -116,13 +118,13 @@ public class CreditCardStagingData extends PersistableBusinessObjectBase {
 
 
     @Column(name = "CREDIT_AGENCY_CD", length = 4, nullable = true)
-    public String getCreditCardOrAgencyCode() {
-        return creditCardOrAgencyCode;
+    public String getCreditCardAgencyCode() {
+        return creditCardAgencyCode;
     }
 
 
-    public void setCreditCardOrAgencyCode(String creditCardOrAgencyCode) {
-        this.creditCardOrAgencyCode = creditCardOrAgencyCode;
+    public void setCreditCardAgencyCode(String creditCardAgencyCode) {
+        this.creditCardAgencyCode = creditCardAgencyCode;
     }
 
 
@@ -353,7 +355,7 @@ public class CreditCardStagingData extends PersistableBusinessObjectBase {
      * @return Returns the moveToHistoryIndicator.
      */
     @Column(name = "MV_TO_HISTORY", length = 1, nullable = true)
-    public String getMoveToHistoryIndicator() {
+    public boolean getMoveToHistoryIndicator() {
         return moveToHistoryIndicator;
     }
 
@@ -361,7 +363,7 @@ public class CreditCardStagingData extends PersistableBusinessObjectBase {
      * Sets the moveToHistoryIndicator attribute value.
      * @param moveToHistoryIndicator The moveToHistoryIndicator to set.
      */
-    public void setMoveToHistoryIndicator(String moveToHistoryIndicator) {
+    public void setMoveToHistoryIndicator(boolean moveToHistoryIndicator) {
         this.moveToHistoryIndicator = moveToHistoryIndicator;
     }
     
@@ -477,6 +479,36 @@ public class CreditCardStagingData extends PersistableBusinessObjectBase {
      */
     public void setTemProfileId(Integer temProfileId) {
         this.temProfileId = temProfileId;
+    }
+
+
+    public TEMProfile getProfile() {
+        return profile;
+    }
+
+
+    public void setProfile(TEMProfile profile) {
+        this.profile = profile;
+    }
+
+
+    public CreditCardAgency getCreditCardAgency() {
+        return creditCardAgency;
+    }
+
+
+    public void setCreditCardAgency(CreditCardAgency creditCardAgency) {
+        this.creditCardAgency = creditCardAgency;
+    }
+
+
+    public Integer getCreditCardAgencyId() {
+        return creditCardAgencyId;
+    }
+
+
+    public void setCreditCardAgencyId(Integer creditCardAgencyId) {
+        this.creditCardAgencyId = creditCardAgencyId;
     }
 
 

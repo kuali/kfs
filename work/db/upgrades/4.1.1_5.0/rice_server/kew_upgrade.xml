@@ -106,4 +106,13 @@
 		</update>
 	</changeSet>
 	
+	<changeSet id="FIX_KIM_DOC_QUALIFIER_RESOLVER" author="KFS50">
+		<update tableName="KREW_RTE_NODE_CFG_PARM_T">
+			<column name="VAL" valueComputed="REPLACE( VAL, 'org.kuali.rice.kim.workflow.attribute.KimTypeQualifierResolver', 'org.kuali.rice.kim.impl.type.KimTypeQualifierResolver' )" />		
+			<where>
+				val LIKE '%KimTypeQualifierResolver%'
+			</where>
+		</update>
+	</changeSet>
+	
 </databaseChangeLog>

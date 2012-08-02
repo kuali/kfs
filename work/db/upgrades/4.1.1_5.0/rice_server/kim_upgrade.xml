@@ -1155,4 +1155,56 @@
 			</where>
 		</delete>		
 	</changeSet>
+	
+	<changeSet author="KFS50" id="KFSMI8944_PERM_FOR_KFSMI8882_ALLOW_TAX_MANAGERS_TO_APPROVE_PO">
+		<comment>Create a new permission to allow Tax Managers to approve a PO (currently getting error message that Accounting Lines may not be updated.</comment>
+		<insert tableName="KRIM_PERM_T">
+			<column name="PERM_ID" value="KFSMI8944-PRM" />
+			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_TMPL_ID" valueNumeric=" (select perm_tmpl_id from KRIM_PERM_TMPL_T where nmspc_cd = 'KFS-SYS' and nm = 'Modify Accounting Lines') " />
+			<column name="NMSPC_CD" value="KFS-PURAP" />
+			<column name="NM" value="Modify Accounting Lines PUR Tax itemsourceAccountingLines" />
+			<column name="DESC_TXT" value="Allows users to modify the Source accounting lines on documents answering to the parent document Purchasing Transactional Document when a document is at the Tax Node of routing." />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSMI8944-PRMATT1" />
+			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_ID" value="KFSMI8944-PRM" />
+			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_PERM_TMPL_T where nmspc_cd = 'KFS-SYS' and nm = 'Modify Accounting Lines') " />
+			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-NS' and nm = 'propertyName') " />
+			<column name="ATTR_VAL" value="items.sourceAccountingLines" />
+		</insert>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSMI8944-PRMATT2" />
+			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_ID" value="KFSMI8944-PRM" />
+			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_PERM_TMPL_T where nmspc_cd = 'KFS-SYS' and nm = 'Modify Accounting Lines') " />
+			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-WKFLW' and nm = 'routeNodeName') " />
+			<column name="ATTR_VAL" value="Tax" />
+		</insert>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSMI8944-PRMATT3" />
+			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_ID" value="KFSMI8944-PRM" />
+			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_PERM_TMPL_T where nmspc_cd = 'KFS-SYS' and nm = 'Modify Accounting Lines') " />
+			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-WKFLW' and nm = 'documentTypeName') " />
+			<column name="ATTR_VAL" value="PUR" />
+		</insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFSMI8944-RLPRM" />
+			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
+			<column name="VER_NBR" value="1" />
+			<column name="ROLE_ID" valueNumeric=" (select role_id from KRIM_ROLE_T where nmspc_cd = 'KR-NS' and role_nm = 'Document Editor') " />
+			<column name="PERM_ID" value="KFSMI8944-PRM" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+	    <modifySql dbms='mysql'>
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
+	</changeSet>
 </databaseChangeLog>

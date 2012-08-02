@@ -55,11 +55,14 @@ public class PurchaseOrderAccountingLineAuthorizer extends PurapAccountingLineAu
         }
         
         if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT.equals(workflowDocument.getDocumentTypeName()) && StringUtils.isNotBlank(accountingGroupProperty) && accountingGroupProperty.contains(PurapPropertyConstants.ITEM)) {
-            int itemNumber = determineItemNumberFromGroupProperty(accountingGroupProperty);
-            PurchaseOrderAmendmentDocument poaDoc = (PurchaseOrderAmendmentDocument) accountingDocument;
-            List <PurchaseOrderItem> items = poaDoc.getItems();
-            PurchaseOrderItem item = items.get(itemNumber);
-            return item.isNewItemForAmendment() || item.getSourceAccountingLines().size() == 0;
+            //KFSMI-8961: The accounting line should be addable in the new items as well as 
+            //existing items in POA..
+            //    int itemNumber = determineItemNumberFromGroupProperty(accountingGroupProperty);
+            //    PurchaseOrderAmendmentDocument poaDoc = (PurchaseOrderAmendmentDocument) accountingDocument;
+            //    List <PurchaseOrderItem> items = poaDoc.getItems();
+            //     PurchaseOrderItem item = items.get(itemNumber);
+            //    return item.isNewItemForAmendment() || item.getSourceAccountingLines().size() == 0;
+            return true;
         }
         
         return super.renderNewLine(accountingDocument, accountingGroupProperty);

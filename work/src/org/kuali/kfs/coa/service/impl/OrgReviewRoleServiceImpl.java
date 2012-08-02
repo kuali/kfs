@@ -55,6 +55,7 @@ import org.kuali.rice.kim.api.type.KimType;
 import org.kuali.rice.kim.api.type.KimTypeAttribute;
 import org.kuali.rice.kim.util.KimCommonUtils;
 import org.kuali.rice.krad.exception.ValidationException;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.cache.annotation.Cacheable;
 
 public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
@@ -132,11 +133,13 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
 
     @Override
     public void validateDocumentType(String documentTypeName) throws ValidationException {
-        try{
-            getRolesToConsider(documentTypeName);
-        } catch(Exception ex){
-            throw new ValidationException(ex.getMessage());
-        }
+//        try{
+            if ( getRolesToConsider(documentTypeName).isEmpty() ) {
+                GlobalVariables.getMessageMap().putError("financialSystemDocumentTypeCode", "error.document.orgReview.invalidDocumentType", documentTypeName);
+            }
+//          } catch(ValidationException ex){
+//            throw ex;
+//        }
     }
 
     @Override
@@ -187,9 +190,10 @@ public class OrgReviewRoleServiceImpl implements OrgReviewRoleService {
     @Cacheable(value=OrgReviewRole.CACHE_NAME,key="#p0")
     public List<String> getRolesToConsider(String documentTypeName) throws ValidationException {
         List<String> rolesToConsider = getRolesToConsiderInternal(documentTypeName);
-        if ( rolesToConsider.isEmpty() ) {
-            throw new ValidationException("Invalid document type chosen for Organization Review: " + documentTypeName);
-        }
+//        if ( rolesToConsider.isEmpty() ) {
+//            GlobalVariables.getMessageMap().putError("financialSystemDocumentTypeCode", "error.document.orgReview.invalidDocumentType", documentTypeName);
+//            //throw new ValidationException("Invalid document type chosen for Organization Review: " + documentTypeName);
+//        }
         return rolesToConsider;
     }
 

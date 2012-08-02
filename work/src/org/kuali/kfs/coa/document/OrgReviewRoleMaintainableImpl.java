@@ -16,7 +16,6 @@
 package org.kuali.kfs.coa.document;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -298,36 +297,16 @@ public class OrgReviewRoleMaintainableImpl extends FinancialSystemMaintainable {
         return orgReviewRoleService;
     }
 
-//    protected KfsKimDocDelegateMember getDelegateMemberFromList(List<KfsKimDocDelegateMember> delegateMembers, String memberId, String memberTypeCode){
-//        if(delegateMembers!=null){
-//            if(StringUtils.isEmpty(memberId) || StringUtils.isEmpty(memberTypeCode)) {
-//                return null;
-//            }
-//            for(KfsKimDocDelegateMember info: delegateMembers){
-//                if(StringUtils.equals(info.getMemberId(), memberId) ||
-//                        StringUtils.equals(info.getType().getCode(), memberTypeCode)){
-//                    return info;
-//                }
-//            }
-//        }
-//        return null;
-//    }
-
     @Override
-    public Map populateBusinessObject(Map<String, String> fieldValues, MaintenanceDocument maintenanceDocument, String methodToCall) {
-        String docTypeName = "";
-        if(fieldValues.containsKey(OrgReviewRole.DOC_TYPE_NAME_FIELD_NAME)){
-            docTypeName = fieldValues.get(OrgReviewRole.DOC_TYPE_NAME_FIELD_NAME);
-        }
-        if(KFSConstants.RETURN_METHOD_TO_CALL.equals(methodToCall) &&
-           StringUtils.isNotBlank(docTypeName) &&
+    public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
+        super.refresh(refreshCaller, fieldValues, document);
+        String docTypeName = ((OrgReviewRole)document.getNewMaintainableObject().getBusinessObject()).getFinancialSystemDocumentTypeCode();
+        if(StringUtils.isNotBlank(docTypeName) &&
            !getOrgReviewRoleService().isValidDocumentTypeForOrgReview(docTypeName) ){
 
             GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + OrgReviewRole.DOC_TYPE_NAME_FIELD_NAME, KFSKeyConstants.ERROR_DOCUMENT_ORGREVIEW_INVALID_DOCUMENT_TYPE, docTypeName);
-            return new HashMap();
-
-        }else{
-            return super.populateBusinessObject(fieldValues, maintenanceDocument, methodToCall);
+            ((OrgReviewRole)document.getNewMaintainableObject().getBusinessObject()).setFinancialSystemDocumentTypeCode("");
         }
     }
+
 }

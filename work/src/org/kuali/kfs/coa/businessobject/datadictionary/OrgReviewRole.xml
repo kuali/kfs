@@ -65,6 +65,7 @@
         <ref bean="OrgReviewRole-fromAmount"/>
         <ref bean="OrgReviewRole-toAmount"/>
         <ref bean="OrgReviewRole-overrideCode"/>
+        <!-- <ref bean="OrgReviewRole-overrideCodeLabel"/> -->
         <ref bean="OrgReviewRole-activeFromDate"/>
         <ref bean="OrgReviewRole-activeToDate"/>
         <ref bean="OrgReviewRole-active"/>
@@ -216,7 +217,10 @@
 	<bean id="OrgReviewRole-overrideCode-parentBean" parent="KfsKimAttributes-accountingLineOverrideCode"
 		abstract="true" p:name="overrideCode" />
 
-
+<!-- 	<bean id="OrgReviewRole-overrideCodeLabel" parent="OrgReviewRole-overrideCodeLabel-parentBean" />
+	<bean id="OrgReviewRole-overrideCodeLabel-parentBean" parent="OrgReviewRole-overrideCode"
+		abstract="true" p:name="overrideCodeLabel" />
+ -->
 	<bean id="OrgReviewRole-principalMemberPrincipalId" parent="OrgReviewRole-principalMemberPrincipalId-parentBean" />
 	<bean id="OrgReviewRole-principalMemberPrincipalId-parentBean"
 		parent="PersonImpl-principalId" abstract="true" p:name="principalMemberPrincipalId">

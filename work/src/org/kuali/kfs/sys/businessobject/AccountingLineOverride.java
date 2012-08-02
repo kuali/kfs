@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.sys.businessobject;
 
-import java.sql.Date;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -29,7 +28,6 @@ import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.document.AccountingDocument;
 import org.kuali.kfs.sys.document.service.AccountPresenceService;
-import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
@@ -228,7 +226,7 @@ public class AccountingLineOverride {
         if (!isValidCode(code)) {
             throw new IllegalArgumentException("invalid code " + code);
         }
-        return (AccountingLineOverride) codeToOverrideMap.get(code); // todo: JDK 1.5 generic Map instead of cast
+        return codeToOverrideMap.get(code); // todo: JDK 1.5 generic Map instead of cast
     }
 
     /**
@@ -300,7 +298,7 @@ public class AccountingLineOverride {
     public static AccountingLineOverride determineNeededOverrides(AccountingDocument document ,AccountingLine line) {
         boolean isDocumentFinalOrProcessed = false;
        if(ObjectUtils.isNotNull(document)) {
-           AccountingDocument accountingDocument = (AccountingDocument) document;
+           AccountingDocument accountingDocument = document;
            isDocumentFinalOrProcessed = accountingDocument.isDocumentFinalOrProcessed();
        }
 

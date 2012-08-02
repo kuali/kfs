@@ -38,11 +38,9 @@ import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.action.ActionType;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
-import org.kuali.rice.kew.api.util.CodeTranslator;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.doctype.bo.DocumentTypeEBO;
 import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kim.api.common.delegate.DelegateMember;
 import org.kuali.rice.kim.api.common.delegate.DelegateMemberContract;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.role.Role;
@@ -392,6 +390,13 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
         //updateAttributeValue(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE, overrideCode);
         this.overrideCode = overrideCode;
     }
+
+//    public String getOverrideCodeLabel() {
+//        if ( StringUtils.isBlank(overrideCode) ) {
+//            return "";
+//        }
+//        return AccountingLineOverrideOptionFinder.getLabelFromComponent(Integer.valueOf(overrideCode) );
+//    }
     /**
      * Gets the fromAmount attribute.
      * @return Returns the fromAmount.
@@ -578,7 +583,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
     public DelegationType getDelegationType() {
         return DelegationType.parseCode(delegationTypeCode);
     }
-    
+
     /**
      * Sets the delegationTypeCode attribute value.
      * @param delegationTypeCode The delegationTypeCode to set.
@@ -1073,7 +1078,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
         } else {
             principalMemberPrincipalId = "";
             principalMemberPrincipalName = "";
-            principalMemberName = "";            
+            principalMemberName = "";
         }
     }
 
@@ -1096,7 +1101,7 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
         }
         return role;
     }
-    
+
     public void setRole( RoleEbo role ) {
         this.role = role;
         if ( role != null ) {

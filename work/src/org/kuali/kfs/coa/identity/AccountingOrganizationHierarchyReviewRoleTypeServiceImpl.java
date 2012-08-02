@@ -52,9 +52,12 @@ public class AccountingOrganizationHierarchyReviewRoleTypeServiceImpl extends Or
     }
 
     protected boolean doesOverrideCodeMatch(Map<String,String> qualification, Map<String,String> roleQualifier) {
-        return qualification==null || roleQualifier==null || StringUtils.isBlank(qualification.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE))
+        return qualification==null
+                || roleQualifier==null
+                || StringUtils.isBlank(qualification.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE))
                 || StringUtils.isBlank(roleQualifier.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE))
-                || qualification.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE).equals(roleQualifier.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE));
+                || qualification.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE)
+                        .equals(roleQualifier.get(KfsKimAttributes.ACCOUNTING_LINE_OVERRIDE_CODE));
     }
 
     protected boolean isValidTotalAmount(Map<String,String> qualification, Map<String,String> roleQualifier) {

@@ -216,9 +216,6 @@
     <property name="label" value="Override Code"/>
     <property name="shortLabel" value="Code"/>
     <property name="maxLength" value="100"/>
-    <property name="validationPattern">
-      <ref bean="AnyCharacterValidation" />
-    </property>
     <property name="required" value="false"/>
     <property name="control">
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.sys.businessobject.options.AccountingLineOverrideOptionFinder" p:includeKeyInLabel="false"/>

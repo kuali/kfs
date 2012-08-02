@@ -27,6 +27,7 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
 import org.kuali.kfs.coa.service.OrgReviewRoleService;
 import org.kuali.kfs.sys.KFSConstants;
+import org.kuali.kfs.sys.KFSPropertyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -80,14 +81,14 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
     public static final String GROUP_NAME_FIELD_NAMESPACE_CODE = "groupMemberGroupNamespaceCode";
     public static final String GROUP_NAME_FIELD_NAME = "groupMemberGroupName";
     public static final String PRINCIPAL_NAME_FIELD_NAME = "principalMemberPrincipalName";
-    public static final String CHART_CODE_FIELD_NAME = "chartOfAccountsCode";
-    public static final String ORG_CODE_FIELD_NAME = "organizationCode";
+    public static final String CHART_CODE_FIELD_NAME = KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
+    public static final String ORG_CODE_FIELD_NAME = KFSPropertyConstants.ORGANIZATION_CODE;
     public static final String DOC_TYPE_NAME_FIELD_NAME = "financialSystemDocumentTypeCode";
     public static final String DELEGATE_FIELD_NAME = "delegate";
     public static final String DELEGATION_TYPE_CODE = "delegationTypeCode";
     public static final String FROM_AMOUNT_FIELD_NAME = "fromAmount";
     public static final String TO_AMOUNT_FIELD_NAME = "toAmount";
-    public static final String OVERRIDE_CODE_FIELD_NAME = "overrideCode";
+    public static final String OVERRIDE_CODE_FIELD_NAME = KFSPropertyConstants.OVERRIDE_CODE;
     public static final String ACTION_TYPE_CODE_FIELD_NAME = "actionTypeCode";
     public static final String PRIORITY_CODE_FIELD_NAME = "priorityNumber";
     public static final String ACTION_POLICY_CODE_FIELD_NAME = "actionPolicyCode";
@@ -612,6 +613,10 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
      */
     public void setAttributes(List<KfsKimDocumentAttributeData> attributes) {
         this.attributes = attributes;
+    }
+
+    public List<KfsKimDocumentAttributeData> getAttributes() {
+        return attributes;
     }
 
     public String getAttributeValue(String attributeName){

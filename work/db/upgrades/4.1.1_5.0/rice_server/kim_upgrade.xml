@@ -1207,4 +1207,57 @@
 	      <replace replace="sys_guid()" with="uuid()" />
 	    </modifySql>
 	</changeSet>
+	
+	<changeSet author="KFS50" id="KFSMI8893_PERMS_RESTRICT_RECALL_TO_FP_DOCS">
+		<comment>Create two new permissions to restrict Recall Document functionality in KFS to FP documents.</comment>
+		<insert tableName="KRIM_PERM_T">
+			<column name="PERM_ID" value="KFSMI8893-PRM1" />
+			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_TMPL_ID" valueNumeric=" (select perm_tmpl_id from KRIM_PERM_TMPL_T where nmspc_cd = 'KR-WKFLW' and nm = 'Recall Document') " />
+			<column name="NMSPC_CD" value="KFS-FP" />
+			<column name="NM" value="Recall Document FP" />
+			<column name="DESC_TXT" value="Enable Recall Document functionality for KFS FP documents." />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSMI8893-PRM1ATT1" />
+			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_ID" value="KFSMI8893-PRM1" />
+			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_PERM_TMPL_T where nmspc_cd = 'KR-WKFLW' and nm = 'Recall Document') " />
+			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-WKFLW' and nm = 'documentTypeName') " />
+			<column name="ATTR_VAL" value="FP" />
+		</insert>
+		<insert tableName="KRIM_ROLE_PERM_T">
+			<column name="ROLE_PERM_ID" value="KFSMI8893-RLPRM1" />
+			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
+			<column name="VER_NBR" value="1" />
+			<column name="ROLE_ID" valueNumeric=" (select role_id from KRIM_ROLE_T where nmspc_cd = 'KR-WKFLW' and role_nm = 'Initiator') " />
+			<column name="PERM_ID" value="KFSMI8893-PRM1" />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_PERM_T">
+			<column name="PERM_ID" value="KFSMI8893-PRM2" />
+			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_TMPL_ID" valueNumeric=" (select perm_tmpl_id from KRIM_PERM_TMPL_T where nmspc_cd = 'KR-WKFLW' and nm = 'Recall Document') " />
+			<column name="NMSPC_CD" value="KFS-SYS" />
+			<column name="NM" value="Recall Document KFS" />
+			<column name="DESC_TXT" value="Recall Document functionality for KFS documents." />
+			<column name="ACTV_IND" value="Y" />
+		</insert>
+		<insert tableName="KRIM_PERM_ATTR_DATA_T">
+			<column name="ATTR_DATA_ID" value="KFSMI8893-PRM2ATT1" />
+			<column name="OBJ_ID" valueNumeric="sys_guid() "/>
+			<column name="VER_NBR" value="1" />
+			<column name="PERM_ID" value="KFSMI8893-PRM2" />
+			<column name="KIM_TYP_ID" valueNumeric=" (select kim_typ_id from KRIM_PERM_TMPL_T where nmspc_cd = 'KR-WKFLW' and nm = 'Recall Document') " />
+			<column name="KIM_ATTR_DEFN_ID" valueNumeric=" (select kim_attr_defn_id from KRIM_ATTR_DEFN_T where nmspc_cd = 'KR-WKFLW' and nm = 'documentTypeName') " />
+			<column name="ATTR_VAL" value="KFS" />
+		</insert>
+	    <modifySql dbms='mysql'>
+	      <replace replace="sys_guid()" with="uuid()" />
+	    </modifySql>
+	</changeSet>
 </databaseChangeLog>

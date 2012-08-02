@@ -48,12 +48,14 @@ public class FringeBenefitInquiryAction extends KualiAction {
 
         List<BenefitInquiry> fringebenefitEntries = new ArrayList<BenefitInquiry>();
         for (PositionObjectBenefit positionObjectBenefit : positionObjectBenefits) {
-            BenefitInquiry benefitInquiry = new BenefitInquiry();
-            String fringeBenefitObjectCode = positionObjectBenefit.getBenefitsCalculation().getPositionFringeBenefitObjectCode();
-            benefitInquiry.setFringeBenefitObjectCode(fringeBenefitObjectCode);
-            KualiDecimal benefitAmount = SpringContext.getBean(LaborBenefitsCalculationService.class).calculateFringeBenefit(positionObjectBenefit, amount, accountingLineForm.getAccountNumber(), accountingLineForm.getSubAccountNumber());
-            benefitInquiry.setBenefitAmount(benefitAmount);
-            fringebenefitEntries.add(benefitInquiry);
+            if (positionObjectBenefit.getBenefitsCalculation().isActive()) {
+                BenefitInquiry benefitInquiry = new BenefitInquiry();
+                String fringeBenefitObjectCode = positionObjectBenefit.getBenefitsCalculation().getPositionFringeBenefitObjectCode();
+                benefitInquiry.setFringeBenefitObjectCode(fringeBenefitObjectCode);
+                KualiDecimal benefitAmount = SpringContext.getBean(LaborBenefitsCalculationService.class).calculateFringeBenefit(positionObjectBenefit, amount, accountingLineForm.getAccountNumber(), accountingLineForm.getSubAccountNumber());
+                benefitInquiry.setBenefitAmount(benefitAmount);
+                fringebenefitEntries.add(benefitInquiry);
+            }
         }
 
         Collections.sort(fringebenefitEntries,Collections.reverseOrder());

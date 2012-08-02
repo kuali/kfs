@@ -183,7 +183,7 @@ public class BudgetAdjustmentLaborBenefitsServiceImpl implements BudgetAdjustmen
                     else {
                         LOG.info("Couldn't locate a benefits calculation for " + beneCalc);
                     }
-                    if (benefitsCalculation != null) {
+                    if ((benefitsCalculation != null) && benefitsCalculation.isActive()) {
                         benefitLine.copyFrom(line);
                         benefitLine.setFinancialObjectCode(benefitsCalculation.getPositionFringeBenefitObjectCode());
                         benefitLine.refreshNonUpdateableReferences();

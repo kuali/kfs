@@ -266,7 +266,7 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
 
                                         //Lookup the benefit calculation to get the offset account number and object code
                                         BenefitsCalculation benefitsCalculation = businessObjectService.findByPrimaryKey(BenefitsCalculation.class, fieldValues);
-
+                                        
                                         offsetEntry.setAccountNumber(benefitsCalculation.getAccountCodeOffset());
                                         offsetEntry.setFinancialObjectCode(benefitsCalculation.getObjectCodeOffset());
                                     }
@@ -440,7 +440,7 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
                         positionObjectBenefit.getFinancialObjectBenefitsTypeCode(), defaultLaborBenefitsRateCategoryCode);
 			}
 
-			if(ObjectUtils.isNull(benefitsCalculation)){
+			if(ObjectUtils.isNull(benefitsCalculation) || !benefitsCalculation.isActive()){
 			    continue;
 			}
 

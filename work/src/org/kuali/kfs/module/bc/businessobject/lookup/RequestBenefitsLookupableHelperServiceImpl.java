@@ -97,7 +97,7 @@ public class RequestBenefitsLookupableHelperServiceImpl extends KualiLookupableH
               benefitsCalculation = positionObjectBenefit.getLaborLedgerBenefitsCalculation();
           }
 
-          if (ObjectUtils.isNull(benefitsCalculation) || !(benefitsCalculation.isActive())){
+          if (ObjectUtils.isNull(benefitsCalculation) || !benefitsCalculation.isActive()){
               beneCalcExistsAndActive = false;
               if (ObjectUtils.isNull(benefitsCalculation)){
                   LOG.warn("Could not locate a benefits calculation for {" + fiscalYear + "," + chartOfAccountsCode + "," + positionObjectBenefit.getFinancialObjectBenefitsTypeCode() + "," + positionObjectBenefit.getFinancialObjectCode() + "," + laborBenefitRateCategoryCode + "}");

@@ -166,8 +166,8 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
             //perform the lookup based off the map 
             BenefitsCalculation bc = (BenefitsCalculation) businessObjectService.findByPrimaryKey(BenefitsCalculation.class, fieldValues);
             
-            //make sure the benefits calculation isn't null
-            if (bc != null) {
+            //make sure the benefits calculation isn't null and is active
+            if ((bc != null) && (bc.isActive())) {
                 LOG.info("Found a Benefit Calculation for {" + search + "}");
                 //lookup from the db the fringe benefit percentage from the list that is return.  ***Should only return one value from the database.
                 KualiDecimal fringeBenefitPercent = bc.getPositionFringeBenefitPercent();
@@ -183,9 +183,10 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
             }
         }else{
             // calculate the benefit amount (ledger amt * (benfit pct/100) )
-            KualiDecimal fringeBenefitPercent = positionObjectBenefit.getBenefitsCalculation().getPositionFringeBenefitPercent();
-            
-            fringeBenefitAmount = fringeBenefitPercent.multiply(salaryAmount).divide(KFSConstants.ONE_HUNDRED.kualiDecimalValue());
+        	if (positionObjectBenefit.getBenefitsCalculation().isActive()) {
+        	    KualiDecimal fringeBenefitPercent = positionObjectBenefit.getBenefitsCalculation().getPositionFringeBenefitPercent();       
+        	    fringeBenefitAmount = fringeBenefitPercent.multiply(salaryAmount).divide(KFSConstants.ONE_HUNDRED.kualiDecimalValue());
+        	}
         }
         
         LOG.debug("fringBenefitAmount: " + fringeBenefitAmount);

@@ -28,7 +28,7 @@ public class BulkReceivingDocumentPresentationController extends PurchasingAccou
     
     @Override
     public boolean canSave(Document document) {
-        if (((PurchasingAccountsPayableDocument) document).getFinancialSystemDocumentHeader().getWorkflowDocument().isInitiated()) {
+        if (((BulkReceivingDocument) document).getFinancialSystemDocumentHeader().getWorkflowDocument().isInitiated()) {
             return false;
         }
         return super.canSave(document);
@@ -36,7 +36,7 @@ public class BulkReceivingDocumentPresentationController extends PurchasingAccou
 
     @Override
     public boolean canCancel(Document document) {
-        if (((PurchasingAccountsPayableDocument) document).getFinancialSystemDocumentHeader().getWorkflowDocument().isInitiated()) {
+        if (((BulkReceivingDocument) document).getFinancialSystemDocumentHeader().getWorkflowDocument().isInitiated()) {
             return false;
         }
         return super.canCancel(document);
@@ -44,7 +44,7 @@ public class BulkReceivingDocumentPresentationController extends PurchasingAccou
 
     @Override
     public boolean canClose(Document document) {
-        if (((PurchasingAccountsPayableDocument) document).getFinancialSystemDocumentHeader().getWorkflowDocument().isInitiated()) {
+        if (((BulkReceivingDocument) document).getFinancialSystemDocumentHeader().getWorkflowDocument().isInitiated()) {
             return false;
         }
         return super.canClose(document);
@@ -60,7 +60,7 @@ public class BulkReceivingDocumentPresentationController extends PurchasingAccou
             editModes.add(PurapAuthorizationConstants.BulkReceivingEditMode.LOCK_VENDOR_ENTRY);
         }
 
-        if (((PurchasingAccountsPayableDocument) document).getFinancialSystemDocumentHeader().getWorkflowDocument().isInitiated()) {
+        if (((BulkReceivingDocument) document).getFinancialSystemDocumentHeader().getWorkflowDocument().isInitiated()) {
             editModes.add(PurapAuthorizationConstants.BulkReceivingEditMode.DISPLAY_INIT_TAB);
         }
         

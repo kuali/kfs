@@ -128,27 +128,31 @@
 	                    </td>
 			        </tr>
 				</logic:iterate>
-				<c:if test="${!empty KualiForm.document.capitalAccountingLines}" >
-					<tr height="40">
-						<td colSpan="12">
-						<div align="center"><b>Select Amount Distribution Method&nbsp;</b>
-								<kul:htmlControlAttribute
-								attributeEntry="${capitalAccountingLineAttributes.distributionCode}"
-								property="capitalAccountingLine.distributionCode"
-								readOnly="false"/>
-							</div>
-						</td>
-					</tr>
-					<tr height="40">
-			            <td class="datacell" colSpan="12">
-			            	<div align="center">
-			            		<c:if test="${KualiForm.capitalAccountingLine.canCreateAsset}">
-			                		<html:image property="methodToCall.createAsset" src="${ConfigProperties.externalizable.images.url}tinybutton-createasset.gif" alt="Create Asset Details" title="Create Asset Details" styleClass="tinybutton"/>
-								</c:if>
-								<html:image property="methodToCall.modifyAsset" src="${ConfigProperties.externalizable.images.url}tinybutton-modifyasset.gif" alt="Modify Asset Details" title="Modify Asset Details" styleClass="tinybutton"/>                    		
-			                 </div>
-			            </td>
-					</tr>
+				<c:if test="${!empty KualiForm.document.capitalAccountingLines}">
+					<c:if test="${!readOnly}">
+						<tr height="40">
+							<td colSpan="12">
+							<div align="center"><b>Select Amount Distribution Method&nbsp;</b>
+									<kul:htmlControlAttribute
+									attributeEntry="${capitalAccountingLineAttributes.distributionCode}"
+									property="capitalAccountingLine.distributionCode"
+									readOnly="${readOnly}"/>
+								</div>
+							</td>
+						</tr>
+					</c:if>
+					<c:if test="${!readOnly}">
+						<tr height="40">
+				            <td class="datacell" colSpan="12">
+				            	<div align="center">
+				            		<c:if test="${KualiForm.capitalAccountingLine.canCreateAsset}">
+				                		<html:image property="methodToCall.createAsset" src="${ConfigProperties.externalizable.images.url}tinybutton-createasset.gif" alt="Create Asset Details" title="Create Asset Details" styleClass="tinybutton"/>
+									</c:if>
+									<html:image property="methodToCall.modifyAsset" src="${ConfigProperties.externalizable.images.url}tinybutton-modifyasset.gif" alt="Modify Asset Details" title="Modify Asset Details" styleClass="tinybutton"/>                    		
+				                 </div>
+				            </td>
+						</tr>
+					</c:if>					
 				</c:if>
 	     	</table>	 
 		</c:if>     	

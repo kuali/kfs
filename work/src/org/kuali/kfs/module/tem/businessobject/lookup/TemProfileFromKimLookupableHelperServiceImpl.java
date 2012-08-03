@@ -46,13 +46,12 @@ import org.kuali.rice.kns.util.BeanPropertyComparator;
 import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 
+@SuppressWarnings("rawtypes") 
 public class TemProfileFromKimLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-    
 
     private TravelerService travelerService;
-    private PersonService personService;
+    private PersonService<Person> personService;
     private TemProfileService temProfileService;
-    
     
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#performLookup(org.kuali.rice.kns.web.struts.form.LookupForm, java.util.Collection, boolean)
@@ -66,8 +65,6 @@ public class TemProfileFromKimLookupableHelperServiceImpl extends KualiLookupabl
         return super.performLookup(lookupForm, resultTable, bounded);
     }
 
-
-
     /**
      * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */
@@ -75,14 +72,14 @@ public class TemProfileFromKimLookupableHelperServiceImpl extends KualiLookupabl
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         List<TemProfileFromKimPerson> searchResults = new ArrayList<TemProfileFromKimPerson>();
 
-        
-        final Map<String, String> kimFieldsForLookup = this.getPersonFieldValues(fieldValues);
+        final Map<String, String> kimFieldsForLookup = fieldValues;
+        //final Map<String, String> kimFieldsForLookup = this.getPersonFieldValues(fieldValues);
 
         debug("Looking up people with criteria ", kimFieldsForLookup);
-        final List<? extends Person> persons = getPersonService().findPeople(kimFieldsForLookup);
+        final List<? extends Person> persons = personService.findPeople(kimFieldsForLookup);
         
         for (Person personDetail : persons) {
-            searchResults.add(getTravelerService().convertToTemProfileFromKim(personDetail));
+            searchResults.add(travelerService.convertToTemProfileFromKim(personDetail));
         }
         
         CollectionIncomplete results = new CollectionIncomplete(searchResults, Long.valueOf(searchResults.size()));
@@ -96,8 +93,6 @@ public class TemProfileFromKimLookupableHelperServiceImpl extends KualiLookupabl
         return results;
     }
     
-    
-    
     /**
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getBusinessObjectClass()
      */
@@ -106,49 +101,47 @@ public class TemProfileFromKimLookupableHelperServiceImpl extends KualiLookupabl
         return TemProfileFromKimPerson.class;
     }
 
-
-
-    /**
-     * Generates a {@link Map} of field values where object properties are mapped to values for
-     * search purposes.
-     *
-     * @param fieldValues original field values passed to the lookup
-     * @return Map of values
-     */
-    protected Map<String, String> getPersonFieldValues(final Map<String, String> fieldValues) {
-        return convertFieldValues(PersonImpl.class, fieldValues);
-    }
-    
-    protected Map<String, String> convertFieldValues(final Class boClass, final Map<String, String> fieldValues) {
-        Map<String, String> retval = new HashMap<String, String>();
-
-        debug("Converting field values ", fieldValues);
-
-        for (final FieldDefinition lookupField : getLookupFieldsFor(TravelerDetail.class.getName())) {
-            final String attrName = lookupField.getAttributeName();
-
-            if (lookupField instanceof MappedDefinition) {
-                final MappedDefinition mappedField = (MappedDefinition) lookupField;
-                final String key = mappedField.getAttributeMap().get(boClass.getSimpleName());
-                String value = fieldValues.get(attrName);
-
-                if (retval.containsKey(key)) {
-                    value = retval.get(key) + value;
-                }
-                if (key != null) {
-                    retval.put(key, value);
-                }
-                else {
-                    warn("Got a null key for attribute name ", attrName);
-                }
-            }
-            else if (containsAttribute(boClass, attrName)) {
-                retval.put(attrName, fieldValues.get(attrName));
-            }
-        }
-
-        return retval;
-    }
+//    /**
+//     * Generates a {@link Map} of field values where object properties are mapped to values for
+//     * search purposes.
+//     *
+//     * @param fieldValues original field values passed to the lookup
+//     * @return Map of values
+//     */
+//    protected Map<String, String> getPersonFieldValues(final Map<String, String> fieldValues) {
+//        return convertFieldValues(PersonImpl.class, fieldValues);
+//    }
+//    
+//    protected Map<String, String> convertFieldValues(final Class boClass, final Map<String, String> fieldValues) {
+//        Map<String, String> retval = new HashMap<String, String>();
+//
+//        debug("Converting field values ", fieldValues);
+//
+//        for (final FieldDefinition lookupField : getLookupFieldsFor(TravelerDetail.class.getName())) {
+//            final String attrName = lookupField.getAttributeName();
+//
+//            if (lookupField instanceof MappedDefinition) {
+//                final MappedDefinition mappedField = (MappedDefinition) lookupField;
+//                final String key = mappedField.getAttributeMap().get(boClass.getSimpleName());
+//                String value = fieldValues.get(attrName);
+//
+//                if (retval.containsKey(key)) {
+//                    value = retval.get(key) + value;
+//                }
+//                if (key != null) {
+//                    retval.put(key, value);
+//                }
+//                else {
+//                    warn("Got a null key for attribute name ", attrName);
+//                }
+//            }
+//            else if (containsAttribute(boClass, attrName)) {
+//                retval.put(attrName, fieldValues.get(attrName));
+//            }
+//        }
+//
+//        return retval;
+//    }
     
     /**
      * @see org.kuali.rice.kns.datadictionary.DataDictionary#getBusinessObjectEntry(String)
@@ -169,7 +162,6 @@ public class TemProfileFromKimLookupableHelperServiceImpl extends KualiLookupabl
      */
     @Override
     public List<? extends BusinessObject> getSearchResultsUnbounded(Map<String, String> fieldValues) {
-        // TODO Auto-generated method stub
         return super.getSearchResultsUnbounded(fieldValues);
     }
     
@@ -193,7 +185,7 @@ public class TemProfileFromKimLookupableHelperServiceImpl extends KualiLookupabl
         criteria.put("active", "true");
 
         // If an active TEM Profile doesn't exist, display a create link
-        if (getTemProfileService().findTemProfile(criteria) == null) {
+        if (temProfileService.findTemProfile(criteria) == null) {
             parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION);
 
             String href = UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, parameters);
@@ -217,14 +209,10 @@ public class TemProfileFromKimLookupableHelperServiceImpl extends KualiLookupabl
      * 
      * @param personService The personService to set.
      */
-    public void setPersonService(PersonService personService) {
+    public void setPersonService(PersonService<Person> personService) {
         this.personService = personService;
     }
 
-    public PersonService getPersonService() {
-        return this.personService;
-    }
-    
     /**
      * 
      * Sets the travelerService attribute
@@ -233,22 +221,6 @@ public class TemProfileFromKimLookupableHelperServiceImpl extends KualiLookupabl
     public void setTravelerService(final TravelerService travelerService) {
         this.travelerService = travelerService;
     }
-
-    public TravelerService getTravelerService() {
-        return this.travelerService;
-    }
-
-
-
-    /**
-     * Gets the temProfileService attribute. 
-     * @return Returns the temProfileService.
-     */
-    public TemProfileService getTemProfileService() {
-        return temProfileService;
-    }
-
-
 
     /**
      * Sets the temProfileService attribute value.

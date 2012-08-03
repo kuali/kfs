@@ -42,6 +42,9 @@
       </list>
     </property>
 
+	<!-- This needs to be true or it will clear out the delegate flag upon copy.  The Maintainable takes care of the needed operations during a copy. -->
+	<property name="preserveLockingKeysOnCopy" value="true" />
+
     <property name="documentTypeName" value="ORR"/>
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.OrgReviewRoleRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>

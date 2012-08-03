@@ -1757,10 +1757,10 @@ public abstract class TravelDocumentBase extends AccountingDocumentBase implemen
         fieldValues.put(TemPropertyConstants.TRIP_ID,this.getTravelDocumentIdentifier());
         historicalTravelExpenses = (List<HistoricalTravelExpense>) service.findMatchingOrderBy(HistoricalTravelExpense.class, fieldValues, TemPropertyConstants.TRANSACTION_POSTING_DATE, true);
         for (HistoricalTravelExpense historicalTravelExpense : historicalTravelExpenses){
-            historicalTravelExpense.refreshReferenceObject("creditCardAgency");
-            historicalTravelExpense.refreshReferenceObject("agencyStagingData");
-            historicalTravelExpense.refreshReferenceObject("creditCardStagingData");
-            historicalTravelExpense.getCreditCardAgency().refreshReferenceObject("creditCardType");
+            historicalTravelExpense.refreshReferenceObject(TemPropertyConstants.CREDIT_CARD_AGENCY);
+            historicalTravelExpense.refreshReferenceObject(TemPropertyConstants.AGENCY_STAGING_DATA);
+            historicalTravelExpense.refreshReferenceObject(TemPropertyConstants.CREDIT_CARD_STAGING_DATA);
+            historicalTravelExpense.getCreditCardAgency().refreshReferenceObject(TemPropertyConstants.TRAVEL_CARD_TYPE);
         }
         return historicalTravelExpenses;
     }

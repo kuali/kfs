@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.module.tem.TemConstants;
+import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
@@ -51,10 +52,10 @@ public class ExpenseUtils {
         BusinessObjectService service = SpringContext.getBean(BusinessObjectService.class);
         for (HistoricalTravelExpense historicalTravelExpense : historicalTravelExpenses){
             int i = 0;
-            historicalTravelExpense.refreshReferenceObject("creditCardAgency");
-            historicalTravelExpense.refreshReferenceObject("agencyStagingData");
-            historicalTravelExpense.refreshReferenceObject("creditCardStagingData");
-            historicalTravelExpense.getCreditCardAgency().refreshReferenceObject("creditCardType");
+            historicalTravelExpense.refreshReferenceObject(TemPropertyConstants.CREDIT_CARD_AGENCY);
+            historicalTravelExpense.refreshReferenceObject(TemPropertyConstants.AGENCY_STAGING_DATA);
+            historicalTravelExpense.refreshReferenceObject(TemPropertyConstants.CREDIT_CARD_STAGING_DATA);
+            historicalTravelExpense.getCreditCardAgency().refreshReferenceObject(TemPropertyConstants.TRAVEL_CARD_TYPE);
             
             historicalTravelExpense.setDocumentNumber(travelDocument.getDocumentNumber());            
            

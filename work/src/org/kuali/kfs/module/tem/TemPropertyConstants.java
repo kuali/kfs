@@ -105,6 +105,12 @@ public class TemPropertyConstants extends JSTLConstants {
     public static final String ACCOUNT_DISTRIBUTION_SRC_LINES = "accountDistributionsourceAccountingLines";
     public static final String ACCOUNT_LINE_PERCENT = "accountLinePercent";
     
+    //credit card agency data properties
+    public static final String CREDIT_CARD_AGENCY = "creditCardAgency";
+    public static final String AGENCY_STAGING_DATA = "agencyStagingData";
+    public static final String CREDIT_CARD_STAGING_DATA = "creditCardStagingData";
+    public static final String TRAVEL_CARD_TYPE = "travelCardType";
+    
     public static class TravelAuthorizationFields {
         public static final String TRVL_ADV_REQUESTED = "travelAdvanceRequested";
         public static final String TRIP_BEGIN_DT = "tripBegin";

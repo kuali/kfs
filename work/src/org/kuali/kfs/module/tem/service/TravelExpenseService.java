@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.kuali.kfs.module.tem.TemConstants.ExpenseType;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
-import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
 import org.kuali.kfs.module.tem.businessobject.CreditCardStagingData;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode;

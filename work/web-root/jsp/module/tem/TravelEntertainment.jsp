@@ -49,10 +49,9 @@
     <kul:panelFooter />
          
     <sys:documentControls transactionalDocument="${documentEntry.transactionalDocument}" extraButtons="${KualiForm.extraButtons}" /> 
-    <script type="text/javascript">
-		window.onload = onLoadSetUp();
-		function onLoadSetUp() {
-			getAllStates();
-		}
+<script>
+	$(document).ready(function() {
+		getAllStates();
+	});
 </script>
 </kul:documentPage>

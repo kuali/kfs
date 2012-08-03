@@ -57,13 +57,11 @@
     <c:if test="${KualiForm.docTypeName!=TemConstants.TravelDocTypes.TRAVEL_AUTHORIZATION_CLOSE_DOCUMENT}"> 
     <sys:documentControls transactionalDocument="${documentEntry.transactionalDocument}" extraButtons="${KualiForm.extraButtons}"/>
     </c:if>
-    
-<script type="text/javascript">
-window.onload = onLoadSetUp();
-function onLoadSetUp() {
-	getAllStates();
-	update_travelerTypeCode();
-}
+
+<script>
+	$(document).ready(function() {
+		getAllStates();
+	});
 </script>
       
 </kul:documentPage>

@@ -1480,10 +1480,9 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
             relatedDocuments = getTravelDocumentService().getDocumentsRelatedTo(form.getTravelDocument());
             form.setRelatedDocuments(relatedDocuments);
             form.setRelatedDocumentNotes(null);
-            form.setRelatedDocumentNotes(form.getRelatedDocumentNotes());
+            form.getRelatedDocumentNotes();
         }
         catch (WorkflowException ex) {
-            // TODO Auto-generated catch block
             ex.printStackTrace();
         }
     }

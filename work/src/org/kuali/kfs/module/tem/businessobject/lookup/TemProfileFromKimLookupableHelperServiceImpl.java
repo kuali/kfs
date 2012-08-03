@@ -16,8 +16,6 @@
 package org.kuali.kfs.module.tem.businessobject.lookup;
 
 import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
-import static org.kuali.kfs.module.tem.util.BufferedLogger.warn;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -28,13 +26,10 @@ import java.util.Properties;
 
 import org.kuali.kfs.module.tem.businessobject.TEMProfile;
 import org.kuali.kfs.module.tem.businessobject.TemProfileFromKimPerson;
-import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
-import org.kuali.kfs.module.tem.datadictionary.MappedDefinition;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.impl.PersonImpl;
 import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.datadictionary.FieldDefinition;

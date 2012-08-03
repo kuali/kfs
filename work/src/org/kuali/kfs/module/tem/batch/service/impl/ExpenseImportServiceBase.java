@@ -36,6 +36,7 @@ import org.kuali.kfs.module.tem.TemConstants.AgencyMatchProcessParameter;
 import org.kuali.kfs.module.tem.TemConstants.AgencyStagingDataErrorCodes;
 import org.kuali.kfs.module.tem.businessobject.AgencyStagingData;
 import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
+import org.kuali.kfs.module.tem.service.CreditCardAgencyService;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.service.UniversityDateService;
@@ -253,8 +254,9 @@ public class ExpenseImportServiceBase {
         
         if (StringUtils.isNotEmpty(agencyData.getCreditCardOrAgencyCode())) {
             
-            CreditCardAgency ccAgency = getTravelExpenseService().getCreditCardAgency(agencyData.getCreditCardOrAgencyCode());
+            CreditCardAgency ccAgency = getCreditCardAgencyService().getCreditCardAgencyByCode(agencyData.getCreditCardOrAgencyCode());
             if (ObjectUtils.isNotNull(ccAgency)) {
+                agencyData.setCreditCardAgency(ccAgency);
                 return true;
             }
         }
@@ -343,6 +345,11 @@ public class ExpenseImportServiceBase {
     public TravelExpenseService getTravelExpenseService() {
         return SpringContext.getBean(TravelExpenseService.class);
     }
+    
+    public CreditCardAgencyService getCreditCardAgencyService() {
+        return SpringContext.getBean(CreditCardAgencyService.class);
+    }
+
 
 
 }

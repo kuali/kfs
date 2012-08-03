@@ -37,14 +37,6 @@ public interface TravelExpenseService {
     
     /**
      * 
-     * This method returns the {@link CreditCardAgency} for the Credit Card or Agency Code.
-     * @param code
-     * @return
-     */
-    public CreditCardAgency getCreditCardAgency(String code);
-    
-    /**
-     * 
      * This method creates a new {@link HistoricalTravelExpense} from the {@link AgencyStagingData}.
      * @param agency
      * @return

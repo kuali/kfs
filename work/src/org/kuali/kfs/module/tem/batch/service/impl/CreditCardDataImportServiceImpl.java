@@ -37,6 +37,7 @@ import org.kuali.kfs.module.tem.businessobject.CreditCardImportData;
 import org.kuali.kfs.module.tem.businessobject.CreditCardStagingData;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.TEMProfileAccount;
+import org.kuali.kfs.module.tem.service.CreditCardAgencyService;
 import org.kuali.kfs.module.tem.service.TemProfileService;
 import org.kuali.kfs.module.tem.service.TravelExpenseService;
 import org.kuali.kfs.sys.batch.BatchInputFileType;
@@ -54,6 +55,7 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
     private TemBatchService temBatchService;    
     private TemProfileService temProfileService;
     private TravelExpenseService travelExpenseService;
+    private CreditCardAgencyService creditCardAgencyService;
     
     private List<BatchInputFileType> creditCardDataImportFileTypes;
     private String creditCardDataFileErrorDirectory;
@@ -102,7 +104,7 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
         catch (Exception ex) {
             LOG.error("Failed to process the file : " + dataFileName, ex);
             
-            temBatchService.moveErrorFile(dataFileName, this.getCreditCardDataFileErrorDirectory(), creditCardDataFileErrorDirectory);
+            temBatchService.moveErrorFile(dataFileName, creditCardDataFileErrorDirectory, creditCardDataFileErrorDirectory);
             
             return false;
         }
@@ -121,7 +123,7 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
         for(CreditCardStagingData creditCardData: creditCardList.getCreditCardData()){
             LOG.info("Validating credit card import. Record# " + count + " of " + creditCardList.getCreditCardData().size());
             creditCardData.setErrorCode(CreditCardStagingDataErrorCodes.CREDIT_CARD_NO_ERROR);
-            if(validateCreditCardAgency(creditCardData)){
+            if(validateAndSetCreditCardAgency(creditCardData)){
 
                 if(creditCardList.getImportBy().equals(ExpenseImportTypes.IMPORT_BY_TRAVELLER)){
                     TEMProfileAccount temProfileAccount  = findTraveler(creditCardData);
@@ -217,7 +219,7 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
         Map<String,String> criteria = new HashMap<String,String>(1);        
         criteria.put(TemPropertyConstants.ACCOUNT_NUMBER, creditCardData.getCreditCardNumber());
         
-        Collection<TEMProfileAccount> temProfileAccounts = getBusinessObjectService().findMatching(TEMProfileAccount.class, criteria);
+        Collection<TEMProfileAccount> temProfileAccounts = businessObjectService.findMatching(TEMProfileAccount.class, criteria);
         
         if(ObjectUtils.isNotNull(temProfileAccounts) && temProfileAccounts.size() > 0) {
             return temProfileAccounts.iterator().next();
@@ -227,17 +229,17 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
     }
     
     /**
-     * @see org.kuali.kfs.module.tem.batch.service.CreditCardDataImportService#validateCreditCardAgency(org.kuali.kfs.module.tem.businessobject.CreditCardStagingData)
+     * @see org.kuali.kfs.module.tem.batch.service.CreditCardDataImportService#validateAndSetCreditCardAgency(org.kuali.kfs.module.tem.businessobject.CreditCardStagingData)
      */
     @Override
-    public boolean validateCreditCardAgency(CreditCardStagingData creditCardData){
-        CreditCardAgency ccAgency = getTravelExpenseService().getCreditCardAgency(creditCardData.getCreditCardAgencyCode());
+    public boolean validateAndSetCreditCardAgency(CreditCardStagingData creditCardData){
+        CreditCardAgency ccAgency = creditCardAgencyService.getCreditCardAgencyByCode(creditCardData.getCreditCardAgencyCode());
         if (ObjectUtils.isNull(ccAgency)) {
             LOG.error("Mandatory Field Credit Card Or Agency Code is invalid: " + creditCardData.getCreditCardAgencyCode());
             creditCardData.setErrorCode(CreditCardStagingDataErrorCodes.CREDIT_CARD_INVALID_CC_AGENCY);
             return false;
         }
-        
+        creditCardData.setCreditCardAgency(ccAgency);
         return true;
     }
     
@@ -265,27 +267,11 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
     }
     
     /**
-     * Gets the batchInputFileService attribute. 
-     * @return Returns the batchInputFileService.
-     */
-    public BatchInputFileService getBatchInputFileService() {
-        return batchInputFileService;
-    }
-
-    /**
      * Sets the batchInputFileService attribute value.
      * @param batchInputFileService The batchInputFileService to set.
      */
     public void setBatchInputFileService(BatchInputFileService batchInputFileService) {
         this.batchInputFileService = batchInputFileService;
-    }
-
-    /**
-     * Gets the creditCardDataImportFileTypes attribute. 
-     * @return Returns the creditCardDataImportFileTypes.
-     */
-    public List<BatchInputFileType> getCreditCardDataImportFileTypes() {
-        return creditCardDataImportFileTypes;
     }
 
     /**
@@ -297,27 +283,11 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
     }
 
     /**
-     * Gets the businessObjectService attribute. 
-     * @return Returns the businessObjectService.
-     */
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    /**
      * Sets the businessObjectService attribute value.
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
-    }
-
-    /**
-     * Gets the creditCardDataFileErrorDirectory attribute. 
-     * @return Returns the creditCardDataFileErrorDirectory.
-     */
-    public String getCreditCardDataFileErrorDirectory() {
-        return creditCardDataFileErrorDirectory;
     }
 
     /**
@@ -329,14 +299,6 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
     }
     
     /**
-     * Gets the temBatchService attribute. 
-     * @return Returns the temBatchService.
-     */
-    public TemBatchService getTemBatchService() {
-        return temBatchService;
-    }
-
-    /**
      * Sets the temBatchService attribute value.
      * @param temBatchService The temBatchService to set.
      */
@@ -344,15 +306,6 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
         this.temBatchService = temBatchService;
     }
     
-
-    /**
-     * Gets the temProfileService attribute. 
-     * @return Returns the temProfileService.
-     */
-    public TemProfileService getTemProfileService() {
-        return temProfileService;
-    }
-
     /**
      * Sets the temProfileService attribute value.
      * @param temProfileService The temProfileService to set.
@@ -360,16 +313,7 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
     public void setTemProfileService(TemProfileService temProfileService) {
         this.temProfileService = temProfileService;
     }
-    
-    /**
-     * 
-     * This method...
-     * @return
-     */
-    public TravelExpenseService getTravelExpenseService(){
-        return this.travelExpenseService;
-    }
-    
+        
     /**
      * 
      * This method...
@@ -380,18 +324,14 @@ public class CreditCardDataImportServiceImpl implements CreditCardDataImportServ
     }
     
     /**
-     * Gets the dateTimeService attribute. 
-     * @return Returns the dateTimeService.
-     */
-    public DateTimeService getDateTimeService() {
-        return dateTimeService;
-    }
-
-    /**
      * Sets the dateTimeService attribute value.
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
+    }
+
+    public void setCreditCardAgencyService(CreditCardAgencyService creditCardAgencyService) {
+        this.creditCardAgencyService = creditCardAgencyService;
     }
 }

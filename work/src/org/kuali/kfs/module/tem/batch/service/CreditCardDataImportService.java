@@ -33,7 +33,7 @@ public interface CreditCardDataImportService {
     
     public List<CreditCardStagingData> validateCreditCardData(CreditCardImportData creditCardList, String dataFileName);
     
-    public boolean validateCreditCardAgency(CreditCardStagingData creditCardData);
+    public boolean validateAndSetCreditCardAgency(CreditCardStagingData creditCardData);
     
     public boolean moveCreditCardDataToHistoricalExpenseTable();
 }

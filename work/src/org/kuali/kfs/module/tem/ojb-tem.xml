@@ -1185,7 +1185,7 @@
 		<field-descriptor name="importBy" column="IMPORT_BY" jdbc-type="VARCHAR"/>
 		<field-descriptor name="temProfileId" column="profile_id" jdbc-type="INTEGER"/>
 		<field-descriptor name="agencyDataId" column="agency_data_id" jdbc-type="INTEGER"/>
-        <field-descriptor name="cardId" column="card_id" jdbc-type="INTEGER"/>
+        <field-descriptor name="creditCardAgencyId" column="card_id" jdbc-type="INTEGER"/>
 		<field-descriptor name="creditCardOrAgencyCode" column="CREDIT_AGENCY_CD" jdbc-type="VARCHAR"/>
 		<field-descriptor name="agency" column="agency" jdbc-type="VARCHAR"/>
 		<field-descriptor name="otherCompanyName" column="other_co_nm" jdbc-type="VARCHAR"/>
@@ -1268,7 +1268,7 @@
             <foreignkey field-ref="temProfileId"/>
         </reference-descriptor>
         <reference-descriptor name="creditCardAgency" class-ref="org.kuali.kfs.module.tem.businessobject.CreditCardAgency" auto-retrieve="true" auto-update="none" auto-delete="none">
-            <foreignkey field-ref="cardId"/>
+            <foreignkey field-ref="creditCardAgencyId"/>
         </reference-descriptor>
         <reference-descriptor name="searchChart" class-ref="org.kuali.kfs.coa.businessobject.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 	        <foreignkey field-ref="searchChartOfAccountsCode" />

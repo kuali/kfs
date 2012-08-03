@@ -50,7 +50,7 @@ public class AgencyStagingData extends PersistableBusinessObjectBase {
     // Agency Information
     private Integer agencyDataId;
     private String creditCardOrAgencyCode;
-    private Integer cardId; 
+    private Integer creditCardAgencyId; 
     private String agency;
     private String otherCompanyName;
     private String agencyFileName;
@@ -1552,19 +1552,19 @@ public class AgencyStagingData extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the cardId attribute. 
-     * @return Returns the cardId.
+     * Gets the creditCardAgencyId attribute. 
+     * @return Returns the creditCardAgencyId.
      */
-    public Integer getCardId() {
-        return cardId;
+    public Integer getCreditCardAgencyId() {
+        return creditCardAgencyId;
     }
 
     /**
      * Sets the cardId attribute value.
      * @param cardId The cardId to set.
      */
-    public void setCardId(Integer cardId) {
-        this.cardId = cardId;
+    public void setCreditCardAgencyId(Integer creditCardAgencyId) {
+        this.creditCardAgencyId = creditCardAgencyId;
     }
 
     /**

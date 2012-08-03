@@ -15,7 +15,7 @@
 			<ref bean="AgencyStagingData-errorCode" />
             <ref bean="AgencyStagingData-duplicateRecordId" />
 			<ref bean="AgencyStagingData-agencyDataId" />
-            <ref bean="AgencyStagingData-cardId" />
+            <ref bean="AgencyStagingData-creditCardAgencyId" />
 			<ref bean="AgencyStagingData-creditCardOrAgencyCode" />
 			<ref bean="AgencyStagingData-agency" />
 			<ref bean="AgencyStagingData-otherCompanyName" />
@@ -155,14 +155,14 @@
 		<property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
 		<property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
 	</bean>
-    <bean id="AgencyStagingData-cardId" parent="AgencyStagingData-cardId-parentBean" />
-    <bean id="AgencyStagingData-cardId-parentBean" parent="AttributeDefinition">
-        <property name="name" value="cardId" />
-        <property name="label" value="Card Id" />
-        <property name="shortLabel" value="Card Id" />
+    <bean id="AgencyStagingData-creditCardAgencyId" parent="AgencyStagingData-creditCardAgencyId-parentBean" />
+    <bean id="AgencyStagingData-creditCardAgencyId-parentBean" parent="AttributeDefinition">
+        <property name="name" value="creditCardAgencyId" />
+        <property name="label" value="Credit Card Agency Id" />
+        <property name="shortLabel" value="Credit Card Agency Id" />
         <property name="maxLength" value="32" />
-        <property name="summary" value="Card Id" />
-        <property name="description" value="Card Id" />
+        <property name="summary" value="Credit Card Agency Id" />
+        <property name="description" value="Credit Card Agency Id" />
         <property name="control"><bean parent="TextControlDefinition" p:size="32"/></property>
         <property name="validationPattern"><bean parent="NumericValidationPattern" /></property>
     </bean>

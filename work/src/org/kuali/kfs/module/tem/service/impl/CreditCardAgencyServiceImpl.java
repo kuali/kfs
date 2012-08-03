@@ -25,6 +25,7 @@ import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.businessobject.CreditCardAgency;
 import org.kuali.kfs.module.tem.service.CreditCardAgencyService;
 import org.kuali.rice.kns.service.BusinessObjectService;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 public class CreditCardAgencyServiceImpl implements CreditCardAgencyService {
 
@@ -52,9 +53,22 @@ public class CreditCardAgencyServiceImpl implements CreditCardAgencyService {
         }
         return resultList;
     }
+
+    /**
+     * @see org.kuali.kfs.module.tem.service.CreditCardAgencyService#getCreditCardAgencyByCode(java.lang.String)
+     */
+    @Override
+    public CreditCardAgency getCreditCardAgencyByCode(String code) {
+        Map<String,String> criteria = new HashMap<String,String>(1);
+        criteria.put(TemPropertyConstants.CREDIT_CARD_AGENCY_CODE,code);
+        List<CreditCardAgency> agencyList = (List<CreditCardAgency>)businessObjectService.findMatching(CreditCardAgency.class, criteria);
+        
+        return ObjectUtils.isNotNull(agencyList) && !agencyList.isEmpty() ? agencyList.get(0) : null; 
+    }
     
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
+
 
 }

@@ -34,5 +34,11 @@ public interface CreditCardAgencyService {
      */
     public List<String> getCorpCreditCardAgencyCodeList();
 
+    /**
+     * Get Credit Card Agency by credit card agency code
+     * 
+     * @return
+     */
+    public CreditCardAgency getCreditCardAgencyByCode(String code);
 
 }

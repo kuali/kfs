@@ -124,17 +124,6 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
     }    
 
     @Override
-    public CreditCardAgency getCreditCardAgency(String code) {
-        Map<String,String> criteria = new HashMap<String,String>(1);
-        criteria.put(TemPropertyConstants.CREDIT_CARD_AGENCY_CODE,code);
-        List<CreditCardAgency> ccAgency = (List<CreditCardAgency>) getBusinessObjectService().findMatching(CreditCardAgency.class, criteria);
-        if (ObjectUtils.isNotNull(ccAgency) && ccAgency.size() > 0) {
-            return ccAgency.get(0);
-        }
-        return null;
-    }
-
-    @Override
     public HistoricalTravelExpense createHistoricalTravelExpense(AgencyStagingData agency) {
         
         HistoricalTravelExpense expense = new HistoricalTravelExpense();
@@ -146,7 +135,7 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
             throw new RuntimeException("Unable to convert timestamp to date " + e.getMessage());
         }
         
-        CreditCardAgency ccAgency = this.getCreditCardAgency(agency.getCreditCardOrAgencyCode());
+        CreditCardAgency ccAgency =agency.getCreditCardAgency();
         expense.setCreditCardAgencyId(ccAgency.getId());
         expense.setCreditCardAgency(ccAgency); 
         expense.setCreditCardOrAgencyCode(ccAgency.getCreditCardOrAgencyCode());
@@ -184,6 +173,9 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
         return (TravelExpenseTypeCode) getBusinessObjectService().findByPrimaryKey(TravelExpenseTypeCode.class, primaryKeys);
     }
 
+    /**
+     * @see org.kuali.kfs.module.tem.service.TravelExpenseService#createHistoricalTravelExpense(org.kuali.kfs.module.tem.businessobject.CreditCardStagingData)
+     */
     @Override
     public HistoricalTravelExpense createHistoricalTravelExpense(CreditCardStagingData creditCard) {
         HistoricalTravelExpense expense = new HistoricalTravelExpense();
@@ -195,7 +187,7 @@ public class TravelExpenseServiceImpl implements TravelExpenseService {
             throw new RuntimeException("Unable to convert timestamp to date " + e.getMessage());
         }
         
-        CreditCardAgency ccAgency = this.getCreditCardAgency(creditCard.getCreditCardAgencyCode());
+        CreditCardAgency ccAgency = creditCard.getCreditCardAgency();
         expense.setCreditCardAgencyId(ccAgency.getId());
         expense.setCreditCardOrAgencyCode(ccAgency.getCreditCardOrAgencyCode());
 

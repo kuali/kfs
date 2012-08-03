@@ -1649,6 +1649,8 @@ public abstract class CapitalAssetInformationActionBase extends KualiAccountingD
             newTabStates.put(tabIdForModifyCapitalAsset, KFSConstants.CapitalAssets.CAPITAL_ASSET_TAB_STATE_CLOSE);  
         }
         
+        newTabStates.putAll(tabStates);
+        
         kualiForm.setTabStates(newTabStates);
     }
     

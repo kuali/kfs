@@ -84,13 +84,15 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     private Integer separateSourcePaymentSequenceNumber;
     private boolean capitalAssetBuilderOriginIndicator;
     
-    // CSU 6702 BEGIN
     protected String financialDocumentPostingPeriodCode;
     protected Integer financialDocumentPostingYear;
-    private AccountingPeriod accountingPeriod;
-    // CSU 6702 END
 
-    // Not Persisted
+// CSU 6702 END
+    protected String universityFiscalPeriodName;
+// CSU 6702 END    
+
+    // Not Persisted   
+    private AccountingPeriod accountingPeriod;
     private Date lastInventoryDate;
     private ContractsAndGrantsAgency agency;
     private Person assetRepresentative;
@@ -1130,10 +1132,79 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         if ( accountingPeriodService == null ) {
             accountingPeriodService = SpringContext.getBean(AccountingPeriodService.class);
         }
+        
         return accountingPeriodService;
     }
     
+
+    /**
+     * Set postingYear and postingPeriodCode 
+     * @param accountingPeriod
+     */
+    public void setAccountingPeriod(AccountingPeriod accountingPeriod) {
+        this.accountingPeriod = accountingPeriod; 
+        
+    //    if(ObjectUtils.isNotNull(accountingPeriod)) {
+    //        setFinancialDocumentPostingYear(accountingPeriod.getUniversityFiscalYear());
+    //        setFinancialDocumentPostingPeriodCode(accountingPeriod.getUniversityFiscalPeriodCode());
+    //    }
+    }
     
+    /**
+     * get the accountingPeriod
+     * @return accountingPeriod
+     */
+    public AccountingPeriod getAccountingPeriod() {
+        return accountingPeriod;
+    }
+    // CSU 6702 END    
+    
+    /**
+     * Gets the universityFiscalPeriodName attribute.
+     * 
+     * @return Returns the universityFiscalPeriodName
+     */
+    
+    public String getUniversityFiscalPeriodName() {
+        if (StringUtils.isNotBlank(universityFiscalPeriodName)) {        
+            this.setFinancialDocumentPostingPeriodCode(StringUtils.left(universityFiscalPeriodName, 2));
+            this.setFinancialDocumentPostingYear(new Integer(StringUtils.right(universityFiscalPeriodName, 4)));
+        }
+        
+        if (StringUtils.isBlank(universityFiscalPeriodName)) {
+            if (this.financialDocumentPostingPeriodCode != null && this.financialDocumentPostingYear != null) {
+                universityFiscalPeriodName = this.financialDocumentPostingPeriodCode + this.financialDocumentPostingYear;
+            }
+        }
+        
+        return universityFiscalPeriodName;
+    }
+
+    /** 
+     * Sets the universityFiscalPeriodName attribute.
+     * 
+     * @param universityFiscalPeriodName The universityFiscalPeriodName to set.
+     */
+    public void setUniversityFiscalPeriodName(String universityFiscalPeriodName) {
+        if (StringUtils.isBlank(universityFiscalPeriodName)) {
+            if (this.financialDocumentPostingPeriodCode != null && this.financialDocumentPostingYear != null) {
+                universityFiscalPeriodName = this.financialDocumentPostingPeriodCode + this.financialDocumentPostingYear;
+            }
+        }
+        
+        String THIRTEEN = "13";
+        if (StringUtils.isNotBlank(universityFiscalPeriodName) && StringUtils.left(universityFiscalPeriodName, 2).equals(THIRTEEN)) {
+            String period = StringUtils.left(universityFiscalPeriodName, 2);
+            Integer year = new Integer(StringUtils.right(universityFiscalPeriodName, 4));
+            AccountingPeriod accountingPeriod = getAccountingPeriodService().getByPeriod(period, year);
+            setAccountingPeriod(accountingPeriod);
+        }
+        
+        this.universityFiscalPeriodName = universityFiscalPeriodName;
+    }
+    
+    //this was the code from contribution 6702.....
+    //needs to be refactored...seriously..
     /**
      * Creates a composite of postingPeriodCode and postingyear. 
      * @return composite or an empty string if either postingPeriodCode or postingYear is null
@@ -1159,25 +1230,4 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
             setAccountingPeriod(accountingPeriod);
         }
     }
-
-    /**
-     * Set postingYear and postingPeriodCode 
-     * @param accountingPeriod
-     */
-    public void setAccountingPeriod(AccountingPeriod accountingPeriod) {
-        this.accountingPeriod = accountingPeriod;        
-        if(ObjectUtils.isNotNull(accountingPeriod)) {
-            setFinancialDocumentPostingYear(accountingPeriod.getUniversityFiscalYear());
-            setFinancialDocumentPostingPeriodCode(accountingPeriod.getUniversityFiscalPeriodCode());
-        }
-    }
-    
-    /**
-     * get the accountingPeriod
-     * @return accountingPeriod
-     */
-    public AccountingPeriod getAccountingPeriod() {
-        return accountingPeriod;
-    }
-    // CSU 6702 END    
 }

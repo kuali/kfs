@@ -21,9 +21,11 @@
     <property name="maintainableClass" value="org.kuali.kfs.module.cam.document.AssetGlobalMaintainableImpl"/>
     <property name="maintainableSections">
       <list>
-      	<!-- CSU 6702 BEGIN -->
-      	<ref bean="AssetGlobalMaintenanceDocument-AccountingPeriod"/>
-      	<!-- CSU 6702 END -->
+      	<!-- CSU 6702 BEGIN
+      		<ref bean="AssetGlobalMaintenanceDocument-AccountingPeriod"/>
+      	CSU 6702 END -->
+      
+        <ref bean="AssetGlobalMaintenanceDocument-UniversityFiscalPeriodName"/>
         <ref bean="AssetGlobalMaintenanceDocument-AssetAcquisitionInformation"/>
         <ref bean="AssetGlobalMaintenanceDocument-AssetDetailInformation"/>
         <ref bean="AssetGlobalMaintenanceDocument-CampusLocation"/>
@@ -69,11 +71,22 @@
 
 <!-- Maintenance Section Definitions -->
 
+  	<bean id="AssetGlobalMaintenanceDocument-UniversityFiscalPeriodName" parent="AssetGlobalMaintenanceDocument-UniversityFiscalPeriodName-parentBean"/>
+  	<bean id="AssetGlobalMaintenanceDocument-UniversityFiscalPeriodName-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    	<property name="id" value="universityFiscalPeriodName"/>
+    	<property name="title" value="Accounting Period"/>
+    	<property name="maintainableItems">
+      		<list>
+        		<bean parent="MaintainableFieldDefinition" p:name="universityFiscalPeriodName" p:required="true"/>
+      		</list>
+    	</property>
+  	</bean>
+  	
 	<!-- CSU 6702 BEGIN -->
   	<bean id="AssetGlobalMaintenanceDocument-AccountingPeriod" parent="AssetGlobalMaintenanceDocument-AccountingPeriod-parentBean"/>
   	<bean id="AssetGlobalMaintenanceDocument-AccountingPeriod-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     	<property name="id" value="accountingPeriodCompositeString"/>
-    	<property name="title" value="Accounting Period"/>
+    	<property name="title" value="Accounting Period Composite String"/>
     	<property name="maintainableItems">
       		<list>
         		<bean parent="MaintainableFieldDefinition" p:name="accountingPeriodCompositeString" p:required="false"/>

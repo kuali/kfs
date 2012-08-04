@@ -59,9 +59,11 @@
         <ref bean="AssetGlobal-documentNumber"/> 
         <ref bean="AssetGlobal-financialDocumentPostingPeriodCode"/>
         <ref bean="AssetGlobal-financialDocumentPostingYear"/>
+        <ref bean="AssetGlobal-universityFiscalPeriodName" />
         <!-- CSU 6702 BEGIN -->      
         <ref bean="AssetGlobal-accountingPeriodCompositeString" />
         <!-- CSU 6702 END -->
+
       </list>
     </property>
 	<property name="relationships">
@@ -353,7 +355,20 @@
     <property name="label" value="Fiscal Year"/>
     <property name="required" value="false"/>
   </bean>
+  <bean id="AssetGlobal-universityFiscalPeriodName" parent="AssetGlobal-universityFiscalPeriodName-parentBean"/>
   
+  <bean id="AssetGlobal-universityFiscalPeriodName-parentBean" abstract="true" parent="AccountingPeriod-universityFiscalPeriodName">
+    <property name="name" value="universityFiscalPeriodName"/>
+    <property name="label" value="Accounting Period"/>
+    <property name="required" value="true"/>
+    <property name="maxLength" value="50"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterValidation" />
+    </property>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kfs.module.cam.businessobject.options.CamsYearEndAccountingPeriodValuesFinder" p:includeKeyInLabel="false"/>
+    </property>    
+  </bean>
   <!-- CSU 6702 BEGIN -->
   <bean id="AssetGlobal-accountingPeriodCompositeString" parent="AssetGlobal-accountingPeriodCompositeString-parentBean"/>
   <bean id="AssetGlobal-accountingPeriodCompositeString-parentBean" abstract="true" parent="AttributeDefinition">
@@ -371,4 +386,5 @@
     </property>    
   </bean>    
 	<!-- CSU 6702 END -->  
+  
 </beans>

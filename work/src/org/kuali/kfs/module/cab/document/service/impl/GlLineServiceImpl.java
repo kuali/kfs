@@ -339,7 +339,7 @@ public class GlLineServiceImpl implements GlLineService {
             Integer closingYear = new Integer(SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM));
             if (entry.getUniversityFiscalYear().equals(closingYear + 1)) {
                 //default asset global year end accounting period drop down to current period instead of closing period(period 13)
-                assetGlobal.setAccountingPeriodCompositeString("");
+                assetGlobal.setUniversityFiscalPeriodName("");
             }
         }
         // CSU 6702 END    

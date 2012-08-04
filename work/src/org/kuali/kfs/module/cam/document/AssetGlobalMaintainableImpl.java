@@ -165,9 +165,6 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
             Integer closingYear = new Integer(SpringContext.getBean(ParameterService.class).getParameterValueAsString(KfsParameterConstants.GENERAL_LEDGER_BATCH.class, GeneralLedgerConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM));
             String closingDate = getClosingDate(closingYear);
             try {
-                if (ObjectUtils.isNotNull(assetGlobal.getFinancialDocumentPostingYear()) ) {
-                    assetGlobal.setAccountingPeriodCompositeString(assetGlobal.getAccountingPeriod().getUniversityFiscalPeriodCode()+assetGlobal.getFinancialDocumentPostingYear()); 
-                }
                 updateAssetGlobalForPeriod13(assetGlobal, closingYear, closingDate);
                 assetGlobal.refreshNonUpdateableReferences();                   
             } catch (Exception e) {
@@ -460,6 +457,12 @@ public class AssetGlobalMaintainableImpl extends LedgerPostingMaintainable {
     public void prepareForSave() {
         super.prepareForSave();
         AssetGlobal assetGlobal = (AssetGlobal) this.getBusinessObject();
+        
+        //we need to set the posting period and posting year from the value of the drop-down box...
+        if (StringUtils.isNotBlank(assetGlobal.getUniversityFiscalPeriodName())) {        
+            assetGlobal.setFinancialDocumentPostingPeriodCode(StringUtils.left(assetGlobal.getUniversityFiscalPeriodName(), 2));
+            assetGlobal.setFinancialDocumentPostingYear(new Integer(StringUtils.right(assetGlobal.getUniversityFiscalPeriodName(), 4)));
+        }
         
         List<AssetGlobalDetail> assetSharedDetails = assetGlobal.getAssetSharedDetails();
         List<AssetGlobalDetail> newDetails = new ArrayList<AssetGlobalDetail>();

@@ -15,15 +15,13 @@
  */
 package org.kuali.kfs.coa.document.validation.impl;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kfs.coa.identity.KfsKimDocDelegateMember;
 import org.kuali.kfs.coa.identity.KfsKimDocRoleMember;
 import org.kuali.kfs.coa.identity.KfsKimDocumentAttributeData;
 import org.kuali.kfs.coa.identity.OrgReviewRole;
@@ -32,25 +30,22 @@ import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.kfs.sys.util.KfsDateUtils;
 import org.kuali.rice.core.api.criteria.PredicateUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.core.api.delegation.DelegationType;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.common.delegate.DelegateMember;
 import org.kuali.rice.kim.api.group.Group;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.role.DelegateMemberQueryResults;
 import org.kuali.rice.kim.api.role.RoleMember;
-import org.kuali.rice.kim.api.role.RoleMemberQueryResults;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.exception.ValidationException;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class represents the business rules for the maintenance of {@link AccountGlobal} business objects
@@ -71,107 +66,123 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
     }
 
     @Override
-    public boolean processRouteDocument(Document document) {
-        boolean valid = super.processRouteDocument(document);
-        OrgReviewRole orr = (OrgReviewRole)((MaintenanceDocument)document).getNewMaintainableObject().getBusinessObject();
+    protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
+        boolean valid = super.processCustomRouteDocumentBusinessRules(document);
+        OrgReviewRole orr = (OrgReviewRole)document.getNewMaintainableObject().getBusinessObject();
         if(!orr.hasAnyMember()){
             valid = false;
             putFieldError( OrgReviewRole.PRINCIPAL_NAME_FIELD_NAME, KFSKeyConstants.NO_MEMBER_SELECTED);
         } else{
             getOrgReviewRoleService().validateDocumentType(orr.getFinancialSystemDocumentTypeCode());
-            validateRoleMembersToSave(orr);
-            if(orr.isDelegate()){
-                // Save delegation(s)
-                valid = validateDelegation(orr, ((MaintenanceDocument)document).isEdit());
-            } else{
-                // Save role member(s)
-                valid = validateRoleMember(orr, ((MaintenanceDocument)document).isEdit());
+            valid &= validateRoleMember(orr);
+            valid &= validateAmounts(orr);
+            valid &= validateDates(orr, document.isEdit());
+            // skip these validations if there are other fundamental problems
+            if ( valid ) {
+                if( orr.isDelegate() ) {
+                    valid &= validateDelegation(orr, document.isEdit());
+                } else {
+                    if ( document.isEdit() ) {
+                        valid &= verifyUniqueRoleMembership(orr);
+                    }
+                }
             }
         }
         return valid;
     }
 
-    protected void validateRoleMembersToSave(OrgReviewRole orr){
-        if(orr==null) return;
+    protected boolean validateDates( OrgReviewRole orr, boolean editingExistingRecord ) {
         boolean valid = true;
-        String memberId;
-        if(StringUtils.isNotEmpty(orr.getPrincipalMemberPrincipalName())){
-            Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(orr.getPrincipalMemberPrincipalName());
-            if(principal == null || StringUtils.isEmpty(principal.getPrincipalId())){
-                GlobalVariables.getMessageMap().putError(MAINTAINABLE_ERROR_PATH+"."+OrgReviewRole.PRINCIPAL_NAME_FIELD_NAME,
-                        KFSKeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, KimConstants.KimUIConstants.MEMBER_TYPE_PRINCIPAL);
+        Date today = KfsDateUtils.clearTimeFields(getDateTimeService().getCurrentDate());
+        Date startDate = orr.getActiveFromDate();
+        Date endDate = orr.getActiveToDate();
+        // we only need to validate the start date when creating a new record
+        if ( !editingExistingRecord ) {
+            if ( startDate == null ) {
+                orr.setActiveFromDate(today);
+            } else {
+                if ( startDate.before(today) ) {
+                    String label = getDataDictionaryService().getAttributeLabel(OrgReviewRole.class, OrgReviewRole.ACTIVE_FROM_DATE);
+                    putFieldError( OrgReviewRole.ACTIVE_FROM_DATE, "error.document.orgReview.invalidStartDate", label);
+                    valid = false;
+                }
+            }
+        }
+        // end date must be after start date at all times
+        if ( endDate != null && startDate != null ) {
+            if ( startDate.after(endDate) ) {
+                String label = getDataDictionaryService().getAttributeLabel(OrgReviewRole.class, OrgReviewRole.ACTIVE_TO_DATE);
+                putFieldError(OrgReviewRole.ACTIVE_TO_DATE, "error.document.orgReview.invalidDates", label);
                 valid = false;
             }
         }
-        if(StringUtils.isNotEmpty(orr.getRoleMemberRoleName())){
-            memberId = KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(orr.getRoleMemberRoleNamespaceCode(), orr.getRoleMemberRoleName());
-            if(memberId == null){
-                GlobalVariables.getMessageMap().putError(MAINTAINABLE_ERROR_PATH+"."+OrgReviewRole.ROLE_NAME_FIELD_NAME,
-                        KFSKeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, KimConstants.KimUIConstants.MEMBER_TYPE_ROLE);
+        // end date must always be in the future
+        if ( endDate != null && endDate.before(today) ) {
+            String label = getDataDictionaryService().getAttributeLabel(OrgReviewRole.class, OrgReviewRole.ACTIVE_TO_DATE);
+            putFieldError(OrgReviewRole.ACTIVE_TO_DATE, "error.document.orgReview.invalidEndDate", label);
+            valid = false;
+        }
+        
+        return valid;
+    }
+    
+    protected boolean validateRoleMember(OrgReviewRole orr){
+        boolean valid = true;
+        if(StringUtils.isNotEmpty(orr.getPrincipalMemberPrincipalName())){
+            Person principal = orr.getPerson();
+            if(principal == null || StringUtils.isEmpty(principal.getPrincipalId())){
+                String label = getDataDictionaryService().getAttributeLabel(OrgReviewRole.class, OrgReviewRole.PRINCIPAL_NAME_FIELD_NAME);
+                putFieldError(OrgReviewRole.PRINCIPAL_NAME_FIELD_NAME, "error.document.orgReview.invalidRoleMember", label );
+                valid = false;
+            }
+        }
+        if(StringUtils.isNotEmpty(orr.getRoleMemberRoleName())){            
+            if(orr.getRole() == null){
+                String label = getDataDictionaryService().getAttributeLabel(OrgReviewRole.class, OrgReviewRole.ROLE_NAME_FIELD_NAME);
+                putFieldError(OrgReviewRole.ROLE_NAME_FIELD_NAME, "error.document.orgReview.invalidRoleMember", label );
                 valid = false;
             }
         }
         if(StringUtils.isNotEmpty(orr.getGroupMemberGroupName())){
-            Group groupInfo = KimApiServiceLocator.getGroupService().getGroupByNamespaceCodeAndName(orr.getGroupMemberGroupNamespaceCode(), orr.getGroupMemberGroupName());
-            if(groupInfo == null || StringUtils.isEmpty(groupInfo.getId())){
-                GlobalVariables.getMessageMap().putError(MAINTAINABLE_ERROR_PATH+"."+OrgReviewRole.GROUP_NAME_FIELD_NAME,
-                        KFSKeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, KimConstants.KimUIConstants.MEMBER_TYPE_GROUP);
+            if( orr.getGroup() == null ){
+                String label = getDataDictionaryService().getAttributeLabel(OrgReviewRole.class, OrgReviewRole.GROUP_NAME_FIELD_NAME);
+                putFieldError(OrgReviewRole.GROUP_NAME_FIELD_NAME, "error.document.orgReview.invalidRoleMember", label );
                 valid = false;
             }
         }
-        if(!valid)
-            throw new ValidationException("Invalid Role Member Data");
+        return valid;
     }
 
-    protected boolean validateDelegation(OrgReviewRole orr, boolean isEdit){
-        boolean valid = true;
-        String roleId;
-        
-        if ( orr.getDelegationType() == null  ) {
-            putFieldError("delegationTypeCode", KFSKeyConstants.ERROR_REQUIRED, "Delegation Type Code");
-            valid = false;
-        }
-        
-        if(!isEdit && orr.getRoleNamesToConsider()!=null){
-            for(String roleName: orr.getRoleNamesToConsider()){
-                roleId = KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(
-                        KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName);
-                Map<String, String> criteria = new HashMap<String, String>();
-                criteria.put(KimConstants.PrimaryKeyConstants.ROLE_ID, roleId);
-                DelegateMemberQueryResults results = KimApiServiceLocator.getRoleService().findDelegateMembers(
-                        QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ROLE_MEMBER_ID, orr.getRoleMemberId()))));
-                List<DelegateMember> roleDelegationMembers = results.getResults();
+    protected boolean verifyUniqueDelegationMember(OrgReviewRole orr) {
+        for(String roleName: orr.getRoleNamesToConsider()){
+            String roleId = KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName( KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName);
+            DelegateMemberQueryResults results = KimApiServiceLocator.getRoleService().findDelegateMembers(
+                    QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ROLE_MEMBER_ID, orr.getRoleMemberId()))));
+            List<DelegateMember> roleDelegationMembers = results.getResults();
 
-                //validate if the newly entered delegation members are already assigned to the role
-                if(roleDelegationMembers!=null){
-                    for(DelegateMember delegationMember: roleDelegationMembers){
-                        KfsKimDocRoleMember member = orr.getRoleMemberOfType(delegationMember.getType());
-                        if(member!=null && StringUtils.isNotBlank(member.getMemberName())){
-                            String memberId = getMemberIdByName(member.getType(), member.getMemberNamespaceCode(), member.getMemberName());
-                            boolean attributesUnique = areAttributesUnique(orr, delegationMember.getAttributes());
-                            if(!attributesUnique 
-                                    && member!=null 
-                                    && StringUtils.isNotBlank(memberId) 
-                                    && memberId.equals(delegationMember.getMemberId())
-                                    && (StringUtils.isNotBlank(orr.getRoleMemberId()) 
-                                            && StringUtils.isNotBlank(delegationMember.getRoleMemberId()))
-                                    ){
-                               putFieldError(orr.getMemberFieldName(member.getType()), KFSKeyConstants.ALREADY_ASSIGNED_MEMBER);
-                               valid = false;
-                            }
-                        }
+            //validate if the newly entered delegation members are already assigned to the role
+            if(roleDelegationMembers!=null){
+                for(DelegateMember delegationMember: roleDelegationMembers){
+                    boolean attributesUnique = areAttributesUnique(orr, delegationMember.getAttributes());
+                    if(!attributesUnique 
+                            && StringUtils.isNotBlank(orr.getMemberId()) 
+                            && orr.getMemberId().equals(delegationMember.getMemberId())
+                            && (StringUtils.isNotBlank(orr.getRoleMemberId()) 
+                                    && StringUtils.isNotBlank(delegationMember.getRoleMemberId()))
+                            ){
+                       putFieldError(orr.getMemberFieldName(), KFSKeyConstants.ALREADY_ASSIGNED_MEMBER);
+                       return false;
                     }
                 }
             }
         }
+        return true;
+    }
+    
+    protected boolean validateDelgationAmountsWithinRoleMemberBoundaries( OrgReviewRole orr ) {
+        boolean valid = true;
         if(StringUtils.isNotEmpty(orr.getRoleMemberId())){
-            valid = validateAmounts(orr);
-            RoleMemberQueryResults roleMemberResults = KimApiServiceLocator.getRoleService().findRoleMembers(QueryByCriteria.Builder.fromPredicates( PredicateUtils.convertMapToPredicate(Collections.singletonMap(KimConstants.PrimaryKeyConstants.ID, orr.getRoleMemberId()))));
-            List<RoleMember> roleMembers = roleMemberResults.getResults();
-            RoleMember roleMember = null;
-            if(roleMembers!=null && !roleMembers.isEmpty() ) {
-                roleMember = roleMembers.get(0);
-            }
+            RoleMember roleMember = getOrgReviewRoleService().getRoleMemberFromKimRoleService(orr.getRoleMemberId());
             List<KfsKimDocumentAttributeData> attributes = orr.getAttributeSetAsQualifierList(roleMember.getAttributes());
             if(roleMember!=null && attributes!=null){
                 for(KfsKimDocumentAttributeData attribute: attributes){
@@ -198,7 +209,22 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
                 }
             }
         }
-        //putFieldError("bankOfficeCode", KFSKeyConstants.ERROR_DOCUMENT_ACHBANKMAINT_INVALID_OFFICE_CODE);
+        return valid;
+    }
+    
+    protected boolean validateDelegation(OrgReviewRole orr, boolean isEdit){
+        boolean valid = true;
+        
+        if ( orr.getDelegationType() == null  ) {
+            putFieldError( OrgReviewRole.DELEGATION_TYPE_CODE, KFSKeyConstants.ERROR_REQUIRED, "Delegation Type Code");
+            valid = false;
+        }
+        
+        if(!isEdit){
+            valid &= verifyUniqueDelegationMember(orr);
+        }
+        
+        valid &= validateDelgationAmountsWithinRoleMemberBoundaries(orr);
         return valid;
     }
 
@@ -211,61 +237,31 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
         return valid;
     }
 
-    protected boolean validateRoleMember(OrgReviewRole orr, boolean isEdit){
-        boolean valid = true;
-        String roleId;
-        if(orr==null) return false;
-        boolean attributesUnique = true;
-        valid = validateAmounts(orr);
-        if(!isEdit && orr.getRoleNamesToConsider()!=null){
-            for(String roleName: orr.getRoleNamesToConsider()){
-                roleId = KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(
-                        KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName);
-                //validate if the newly entered role members are already assigned to the role
-                Map<String, Object> criteria = new HashMap<String, Object>();
-                criteria.put(KimConstants.PrimaryKeyConstants.ROLE_ID, roleId);
-                List<String> roleIds = new ArrayList<String>();
-                roleIds.add(roleId);
-                List<RoleMembership> roleMembershipInfoList = KimApiServiceLocator.getRoleService().getFirstLevelRoleMembers(roleIds);
-                KfsKimDocRoleMember member = null;
-                String memberId = null;
-                if(roleMembershipInfoList!=null){
-                    for(RoleMembership roleMembershipInfo: roleMembershipInfoList){
-                        member = orr.getRoleMemberOfType(roleMembershipInfo.getType());
-                        if(member!=null && StringUtils.isNotEmpty(member.getMemberName())){
-                            memberId = getMemberIdByName(member.getType(), member.getMemberNamespaceCode(), member.getMemberName());
-                            attributesUnique = areAttributesUnique(orr, roleMembershipInfo.getQualifier());
-                            if(!attributesUnique && member!=null && StringUtils.isNotEmpty(memberId) && memberId.equals(roleMembershipInfo.getMemberId()) &&
-                                    member.getType().equals(roleMembershipInfo.getType())){
-                               putFieldError(orr.getMemberFieldName(member.getType()), KFSKeyConstants.ALREADY_ASSIGNED_MEMBER);
-                               valid = false;
-                            }
-                        }
+    /**
+     * validate if the newly entered role members are already assigned to the role
+     * 
+     * @param orr
+     * @param isEdit
+     * @return
+     */
+    protected boolean verifyUniqueRoleMembership(OrgReviewRole orr){
+        for ( String roleName : orr.getRoleNamesToConsider() ) {
+            String roleId = KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(
+                    KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, roleName);
+            List<RoleMembership> roleMembershipInfoList = KimApiServiceLocator.getRoleService().getFirstLevelRoleMembers( Collections.singletonList(roleId));
+            if(roleMembershipInfoList!=null){
+                for(RoleMembership roleMembershipInfo: roleMembershipInfoList){
+                    String memberId = orr.getMemberId();
+                    boolean attributesUnique = areAttributesUnique(orr, roleMembershipInfo.getQualifier());
+                    if(!attributesUnique && StringUtils.isNotEmpty(memberId) && memberId.equals(roleMembershipInfo.getMemberId()) &&
+                            orr.getMemberType().equals(roleMembershipInfo.getType())){
+                       putFieldError(orr.getMemberFieldName(), KFSKeyConstants.ALREADY_ASSIGNED_MEMBER);
+                       return false;
                     }
                 }
             }
         }
-        return valid;
-    }
-
-    public String getMemberIdByName(MemberType memberType, String memberNamespaceCode, String memberName){
-        String memberId = "";
-        if(MemberType.PRINCIPAL.equals(memberType)){
-            Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(memberName);
-            if(principal!=null) {
-                memberId = principal.getPrincipalId();
-            }
-
-       } else if(MemberType.GROUP.equals(memberType)){
-            Group groupInfo = getGroupService().getGroupByNamespaceCodeAndName(memberNamespaceCode, memberName);
-            if (groupInfo!=null) {
-                memberId = groupInfo.getId();
-            }
-
-        } else if(MemberType.ROLE.equals(memberType)){
-            memberId = KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(memberNamespaceCode, memberName);
-        }
-        return memberId;
+        return true;
     }
 
     protected boolean areAttributesUnique(OrgReviewRole orr, Map<String,String> attributeSet){

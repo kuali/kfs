@@ -243,6 +243,11 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
      * @return Returns the groupMemberGroupId.
      */
     public String getGroupMemberGroupId() {
+        if ( StringUtils.isBlank(groupMemberGroupId) ) {
+            if ( StringUtils.isNotBlank(groupMemberGroupNamespaceCode) && StringUtils.isNotBlank(groupMemberGroupName) ) {
+                getGroup();
+            }
+        }
         return groupMemberGroupId;
     }
     /**
@@ -285,6 +290,11 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
      * @return Returns the principalMemberPrincipalId.
      */
     public String getPrincipalMemberPrincipalId() {
+        if ( StringUtils.isBlank(principalMemberPrincipalId) ) {
+            if ( StringUtils.isNotBlank(principalMemberPrincipalName) ) {
+                getPerson();
+            }
+        }
         return principalMemberPrincipalId;
     }
     /**
@@ -324,6 +334,11 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
      * @return Returns the roleMemberRoleId.
      */
     public String getRoleMemberRoleId() {
+        if ( StringUtils.isBlank(roleMemberRoleId) ) {
+            if ( StringUtils.isNotBlank(roleMemberRoleName) && StringUtils.isNotBlank(roleMemberRoleName) ) {
+                getRole();
+            }
+        }
         return roleMemberRoleId;
     }
     /**
@@ -990,12 +1005,12 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
         return "";
     }
 
-    public String getMemberFieldName( MemberType memberType ){
-        if(MemberType.ROLE.equals(memberType)) {
+    public String getMemberFieldName(){
+        if(MemberType.ROLE.equals(getMemberType())) {
             return ROLE_NAME_FIELD_NAME;
-        } else if(MemberType.GROUP.equals(memberType)) {
+        } else if(MemberType.GROUP.equals(getMemberType())) {
             return GROUP_NAME_FIELD_NAME;
-        } else if(MemberType.PRINCIPAL.equals(memberType)) {
+        } else if(MemberType.PRINCIPAL.equals(getMemberType())) {
             return PRINCIPAL_NAME_FIELD_NAME;
         }
         return null;
@@ -1008,6 +1023,14 @@ public class OrgReviewRole extends PersistableBusinessObjectBase implements Muta
     public String getMemberTypeCode() {
         return memberTypeCode;
     }
+    
+    public MemberType getMemberType() {
+        if ( StringUtils.isBlank(memberTypeCode) ) {
+            return null;
+        }
+        return MemberType.fromCode(memberTypeCode);
+    }
+    
     /**
      * Gets the group attribute.
      * @return Returns the group.

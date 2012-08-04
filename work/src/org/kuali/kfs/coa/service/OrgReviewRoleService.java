@@ -18,6 +18,7 @@ package org.kuali.kfs.coa.service;
 import java.util.List;
 
 import org.kuali.kfs.coa.identity.OrgReviewRole;
+import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.krad.exception.ValidationException;
 
 public interface OrgReviewRoleService {
@@ -34,6 +35,7 @@ public interface OrgReviewRoleService {
     boolean hasOrganizationHierarchy(final String documentTypeName);
     String getClosestOrgReviewRoleParentDocumentTypeName(final String documentTypeName);
 
+    RoleMember getRoleMemberFromKimRoleService( String roleMemberId );
 
     void saveOrgReviewRoleToKim( OrgReviewRole orr );
 }

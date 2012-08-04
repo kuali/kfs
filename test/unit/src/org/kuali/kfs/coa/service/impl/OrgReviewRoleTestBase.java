@@ -30,11 +30,15 @@ import org.kuali.kfs.sys.context.TestUtils;
 import org.kuali.kfs.sys.dataaccess.UnitTestSqlDao;
 import org.kuali.kfs.sys.fixture.UserNameFixture;
 import org.kuali.kfs.sys.identity.KfsKimAttributes;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.criteria.PredicateUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.delegation.DelegationType;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
+import org.kuali.rice.coreservice.impl.CoreServiceImplServiceLocator;
 import org.kuali.rice.kew.api.action.ActionRequestPolicy;
 import org.kuali.rice.kew.api.action.ActionRequestType;
 import org.kuali.rice.kim.api.KimConstants;
@@ -59,6 +63,7 @@ public class OrgReviewRoleTestBase extends KualiTestBase {
     protected ResponsibilityService responsibilityService;
     protected KimTypeInfoService kimTypeInfoService;
     protected PersonService personService;
+    protected DateTimeService dateTimeService;
     protected Role orgHierRole;
     protected Role acctHierRole;
 
@@ -70,6 +75,7 @@ public class OrgReviewRoleTestBase extends KualiTestBase {
         responsibilityService = KimApiServiceLocator.getResponsibilityService();
         kimTypeInfoService = KimApiServiceLocator.getKimTypeInfoService();
         personService = KimApiServiceLocator.getPersonService();
+        dateTimeService = CoreApiServiceLocator.getDateTimeService();
         orgHierRole = roleService.getRoleByNamespaceCodeAndName(KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAME);
         acctHierRole = roleService.getRoleByNamespaceCodeAndName(KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAMESPACECODE, KFSConstants.SysKimApiConstants.ACCOUNTING_REVIEWER_ROLE_NAME);
         Logger.getLogger(OrgReviewRoleServiceImpl.class).setLevel(Level.DEBUG);

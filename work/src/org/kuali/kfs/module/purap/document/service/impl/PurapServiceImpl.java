@@ -963,12 +963,18 @@ public class PurapServiceImpl implements PurapService {
         if (item.getItemType().isLineItemIndicator()) {
             if (item instanceof PurchasingItem) {
                 PurchasingItemBase purItem = (PurchasingItemBase) item;
+                if (purItem.getPurchasingCommodityCode() == null) {
+                    return callService;
+                }
                 callService = isCommodityCodeTaxable(purItem.getCommodityCode());
             }// if not a purchasing item, then pull item from PO
             else if (item instanceof AccountsPayableItem) {
                 AccountsPayableItem apItem = (AccountsPayableItem) item;
                 PurchaseOrderItem poItem = apItem.getPurchaseOrderItem();
                 if (ObjectUtils.isNotNull(poItem)) {
+                    if (poItem.getPurchasingCommodityCode() == null) {
+                        return callService;
+                    }
                     callService = isCommodityCodeTaxable(poItem.getCommodityCode());
                 }
             }

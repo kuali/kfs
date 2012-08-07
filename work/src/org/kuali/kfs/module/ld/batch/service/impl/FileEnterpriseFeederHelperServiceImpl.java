@@ -253,7 +253,7 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
                             if(total.isNonZero()) {
 
                                 //Lookup the position object benefit to get the object benefit type code
-                                Collection<PositionObjectBenefit> positionObjectBenefits = laborPositionObjectBenefitService.getPositionObjectBenefits(entryList.get(0).getUniversityFiscalYear(), entryList.get(0).getChartOfAccountsCode(), entryList.get(0).getFinancialObjectCode());
+                                Collection<PositionObjectBenefit> positionObjectBenefits = laborPositionObjectBenefitService.getActivePositionObjectBenefits(entryList.get(0).getUniversityFiscalYear(), entryList.get(0).getChartOfAccountsCode(), entryList.get(0).getFinancialObjectCode());
                                 LaborOriginEntry entry = entryList.get(0);
                                 if (positionObjectBenefits == null || positionObjectBenefits.isEmpty()) {
                                     writeMissingBenefitsTypeError(entry, errorStatisticsReport, feederReportData);
@@ -422,7 +422,7 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
 
 		// get benefit types for the entry object code and for each calculation generation an origin entry
 		Collection<PositionObjectBenefit> positionObjectBenefits = laborPositionObjectBenefitService
-				.getPositionObjectBenefits(wageEntry.getUniversityFiscalYear(), wageEntry.getChartOfAccountsCode(),
+				.getActivePositionObjectBenefits(wageEntry.getUniversityFiscalYear(), wageEntry.getChartOfAccountsCode(),
 						wageEntry.getFinancialObjectCode());
 		if (positionObjectBenefits == null || positionObjectBenefits.isEmpty()) {
 			writeMissingBenefitsTypeError(wageEntry, errorStatisticsReport, feederReportData);

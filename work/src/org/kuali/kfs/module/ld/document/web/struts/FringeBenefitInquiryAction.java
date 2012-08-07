@@ -44,7 +44,7 @@ public class FringeBenefitInquiryAction extends KualiAction {
         String chartOfAccountsCode = accountingLineForm.getChartOfAccountsCode();
         String objectCode = accountingLineForm.getFinancialObjectCode();
         KualiDecimal amount = new KualiDecimal(accountingLineForm.getAmount());
-        Collection<PositionObjectBenefit> positionObjectBenefits = SpringContext.getBean(LaborPositionObjectBenefitService.class).getPositionObjectBenefits(payrollFiscalyear, chartOfAccountsCode, objectCode);
+        Collection<PositionObjectBenefit> positionObjectBenefits = SpringContext.getBean(LaborPositionObjectBenefitService.class).getActivePositionObjectBenefits(payrollFiscalyear, chartOfAccountsCode, objectCode);
 
         List<BenefitInquiry> fringebenefitEntries = new ArrayList<BenefitInquiry>();
         for (PositionObjectBenefit positionObjectBenefit : positionObjectBenefits) {

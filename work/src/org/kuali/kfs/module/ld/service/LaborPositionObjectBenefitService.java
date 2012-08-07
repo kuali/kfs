@@ -33,4 +33,5 @@ public interface LaborPositionObjectBenefitService {
      * @return the position object benefits matching the given information
      */
     public Collection<PositionObjectBenefit> getPositionObjectBenefits(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode);
+    public Collection<PositionObjectBenefit> getActivePositionObjectBenefits(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode);
 }

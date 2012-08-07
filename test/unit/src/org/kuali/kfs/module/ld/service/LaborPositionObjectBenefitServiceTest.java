@@ -47,7 +47,7 @@ public class LaborPositionObjectBenefitServiceTest extends KualiTestBase {
      * @throws Exception
      */
     public void testGetPositionObjectBenefits_valid() throws Exception {
-        Collection<PositionObjectBenefit> results = laborPositionObjectBenefitService.getPositionObjectBenefits(Integer.valueOf(PositionObjectTestData.UNIVERSITY_FISCAL_YEAR), PositionObjectTestData.CHART_OF_ACCOUNTS_CODE, PositionObjectTestData.FINANCIAL_OBJECT_CODE);
+        Collection<PositionObjectBenefit> results = laborPositionObjectBenefitService.getActivePositionObjectBenefits(Integer.valueOf(PositionObjectTestData.UNIVERSITY_FISCAL_YEAR), PositionObjectTestData.CHART_OF_ACCOUNTS_CODE, PositionObjectTestData.FINANCIAL_OBJECT_CODE);
         super.assertNotNull("Expected position object parameters to return not null.", results);
 
         for (Iterator iter = results.iterator(); iter.hasNext();) {

@@ -46,6 +46,16 @@ public class LaborPositionObjectBenefitServiceImpl implements LaborPositionObjec
         return businessObjectService.findMatching(PositionObjectBenefit.class, fieldValues);
     }
 
+    public Collection<PositionObjectBenefit> getActivePositionObjectBenefits(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode) {
+
+        Map fieldValues = new HashMap();
+        fieldValues.put("universityFiscalYear", universityFiscalYear);
+        fieldValues.put("chartOfAccountsCode", chartOfAccountsCode);
+        fieldValues.put("financialObjectCode", financialObjectCode);
+        fieldValues.put("active", true);
+        return businessObjectService.findMatching(PositionObjectBenefit.class, fieldValues);
+    }
+
     /**
      * Sets the businessObjectService attribute value.
      * 

@@ -104,7 +104,7 @@ public class LaborPendingEntryGenerator {
         Integer payrollFiscalyear = accountingLine.getPayrollEndDateFiscalYear();
         String chartOfAccountsCode = accountingLine.getChartOfAccountsCode();
         String objectCode = accountingLine.getFinancialObjectCode();
-        Collection<PositionObjectBenefit> positionObjectBenefits = SpringContext.getBean(LaborPositionObjectBenefitService.class).getPositionObjectBenefits(payrollFiscalyear, chartOfAccountsCode, objectCode);
+        Collection<PositionObjectBenefit> positionObjectBenefits = SpringContext.getBean(LaborPositionObjectBenefitService.class).getActivePositionObjectBenefits(payrollFiscalyear, chartOfAccountsCode, objectCode);
 
         List<LaborLedgerPendingEntry> benefitPendingEntries = new ArrayList<LaborLedgerPendingEntry>();
         for (PositionObjectBenefit positionObjectBenefit : positionObjectBenefits) {
@@ -254,18 +254,16 @@ public class LaborPendingEntryGenerator {
         String chartOfAccountsCode = accountingLine.getChartOfAccountsCode();
         String objectCode = accountingLine.getFinancialObjectCode();
 
-        Collection<PositionObjectBenefit> positionObjectBenefits = SpringContext.getBean(LaborPositionObjectBenefitService.class).getPositionObjectBenefits(payrollFiscalyear, chartOfAccountsCode, objectCode);
+        Collection<PositionObjectBenefit> positionObjectBenefits = SpringContext.getBean(LaborPositionObjectBenefitService.class).getActivePositionObjectBenefits(payrollFiscalyear, chartOfAccountsCode, objectCode);
         for (PositionObjectBenefit positionObjectBenefit : positionObjectBenefits) {
-            if (positionObjectBenefit.getBenefitsCalculation().isActive()) {
-                positionObjectBenefit.setLaborBenefitRateCategoryCode(accountingLine.getAccount().getLaborBenefitRateCategoryCode());
-                String benefitTypeCode = positionObjectBenefit.getBenefitsCalculation().getPositionBenefitTypeCode();
+            positionObjectBenefit.setLaborBenefitRateCategoryCode(accountingLine.getAccount().getLaborBenefitRateCategoryCode());
+            String benefitTypeCode = positionObjectBenefit.getBenefitsCalculation().getPositionBenefitTypeCode();
 
-                KualiDecimal benefitAmount = SpringContext.getBean(LaborBenefitsCalculationService.class).calculateFringeBenefit(positionObjectBenefit, accountingLine.getAmount(), accountingLine.getAccountNumber(), accountingLine.getSubAccountNumber());
-                if (benefitAmountSumByBenefitType.containsKey(benefitTypeCode)) {
-                    benefitAmount = benefitAmount.add(benefitAmountSumByBenefitType.get(benefitTypeCode));
-                }
-                benefitAmountSumByBenefitType.put(benefitTypeCode, benefitAmount);
+            KualiDecimal benefitAmount = SpringContext.getBean(LaborBenefitsCalculationService.class).calculateFringeBenefit(positionObjectBenefit, accountingLine.getAmount(), accountingLine.getAccountNumber(), accountingLine.getSubAccountNumber());
+            if (benefitAmountSumByBenefitType.containsKey(benefitTypeCode)) {
+                benefitAmount = benefitAmount.add(benefitAmountSumByBenefitType.get(benefitTypeCode));
             }
+            benefitAmountSumByBenefitType.put(benefitTypeCode, benefitAmount);
         }
     }
 

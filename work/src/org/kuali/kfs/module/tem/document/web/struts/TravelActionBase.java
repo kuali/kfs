@@ -70,10 +70,10 @@ import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.TemPropertyConstants.TEMProfileProperties;
 import org.kuali.kfs.module.tem.TemWorkflowConstants;
 import org.kuali.kfs.module.tem.businessobject.AccountingDocumentRelationship;
+import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.GroupTraveler;
 import org.kuali.kfs.module.tem.businessobject.HistoricalTravelExpense;
 import org.kuali.kfs.module.tem.businessobject.ImportedExpense;
-import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiem;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.PrimaryDestination;
@@ -91,12 +91,14 @@ import org.kuali.kfs.module.tem.document.TravelRelocationDocument;
 import org.kuali.kfs.module.tem.document.authorization.ReturnToFiscalOfficerAuthorizer;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
+import org.kuali.kfs.module.tem.document.service.TravelEncumbranceService;
 import org.kuali.kfs.module.tem.document.validation.event.AddGroupTravelLineEvent;
 import org.kuali.kfs.module.tem.document.validation.event.RecalculateTripDetailTotalEvent;
 import org.kuali.kfs.module.tem.document.validation.event.UpdateTripDetailsEvent;
 import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
 import org.kuali.kfs.module.tem.document.web.bean.TravelMvcWrapperBean;
 import org.kuali.kfs.module.tem.exception.UploadParserException;
+import org.kuali.kfs.module.tem.report.service.TravelReportService;
 import org.kuali.kfs.module.tem.service.AccountingDistributionService;
 import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.module.tem.util.ExpenseUtils;
@@ -112,12 +114,12 @@ import org.kuali.kfs.sys.service.SegmentedLookupResultsService;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.sys.web.struts.KualiAccountingDocumentFormBase;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kim.util.KIMPropertyConstants;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DataDictionaryService;
-import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.service.ParameterService;
@@ -139,11 +141,42 @@ import com.lowagie.text.pdf.SimpleBookmark;
  */
 public abstract class TravelActionBase extends KualiAccountingDocumentActionBase {
 
-    protected ParameterService paramService;
-    protected AccountingDocumentRelationshipService accountingDocumentRelationshipService;
     protected static final String[] methodToCallExclusionArray = { "recalculate", "calculate", "recalculateTripDetailTotal", "save", "route", "approve", "blanketApprove", "updatePerDiemExpenses" };
     public static final String[] GROUP_TRAVELER_ATTRIBUTE_NAMES = { "travelerTypeCode", "groupTravelerEmpId", "name" };
 
+
+    protected DocumentService getDocumentService() {
+        return SpringContext.getBean(DocumentService.class);
+    }
+
+    protected TravelDocumentService getTravelDocumentService() {
+        return SpringContext.getBean(TravelDocumentService.class);
+    }
+    
+    protected TravelEncumbranceService getTravelEncumbranceService() {
+        return SpringContext.getBean(TravelEncumbranceService.class);
+    }
+
+    public PersonService<Person> getPersonService() {
+        return SpringContext.getBean(PersonService.class);
+    }
+
+    protected TravelReportService getTravelReportService() {
+        return SpringContext.getBean(TravelReportService.class);
+    }
+
+    public AccountingDocumentRelationshipService getAccountingDocumentRelationshipService() {
+        return SpringContext.getBean(AccountingDocumentRelationshipService.class);
+    }
+    
+    protected TravelerService getTravelerService() {
+        return SpringContext.getBean(TravelerService.class);
+    }
+
+    protected AccountingDistributionService getAccountingDistributionService() {
+        return SpringContext.getBean(AccountingDistributionService.class);
+    }
+    
     /**
      * When the approver only wants the accounting lines to be changed but the trip information is acceptable, routes the document
      * back to the Account Node (Fiscal Officer Reviewer) and removes the fiscal officer approvals and the approvals that are beyond
@@ -240,7 +273,7 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         final String methodToCall = travelFormBase.getMethodToCall();
         final TravelDocument document = (TravelDocument) travelFormBase.getDocument();
         document.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
-        String showPerDiemBreakdown = getParamService().getParameterValue(PARAM_NAMESPACE, TravelAuthorizationParameters.PARAM_DTL_TYPE, TravelAuthorizationParameters.ENABLE_TA_PER_DIEM_AMOUNT_EDIT_IND);
+        String showPerDiemBreakdown = getParameterService().getParameterValue(PARAM_NAMESPACE, TravelAuthorizationParameters.PARAM_DTL_TYPE, TravelAuthorizationParameters.ENABLE_TA_PER_DIEM_AMOUNT_EDIT_IND);
         travelFormBase.setShowPerDiemBreakdown(showPerDiemBreakdown != null && showPerDiemBreakdown.equals(KFSConstants.ParameterValues.YES));
         travelFormBase.setDisplayNonEmployeeForm(!isEmployee(document.getTraveler()));
 
@@ -509,23 +542,6 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
         return requiresCalculate;
     }
 
-    protected TravelerService getTravelerService() {
-        return SpringContext.getBean(TravelerService.class);
-    }
-
-    protected TravelDocumentService getTravelDocumentService() {
-        return SpringContext.getBean(TravelDocumentService.class);
-    }
-
-    @Override
-    protected DocumentHelperService getDocumentHelperService() {
-        return SpringContext.getBean(DocumentHelperService.class);
-    }
-
-    protected AccountingDistributionService getAccountingDistributionService() {
-        return SpringContext.getBean(AccountingDistributionService.class);
-    }
-
     /**
      * Uses generics to get whatever the authorizer is for the attached {@link KualiDocumentFormBase}
      * 
@@ -533,11 +549,6 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
      */
     protected <T> T getDocumentAuthorizer(final KualiDocumentFormBase form) {
         return (T) getDocumentHelperService().getDocumentAuthorizer(form.getDocument());
-    }
-
-    @Override
-    protected DataDictionaryService getDataDictionaryService() {
-        return SpringContext.getBean(DataDictionaryService.class);
     }
 
     protected Integer getLineNumberFromParameter(String parameterKey) {
@@ -981,35 +992,6 @@ public abstract class TravelActionBase extends KualiAccountingDocumentActionBase
 
     protected List<String> getCalculateIgnoreList() {
         return Arrays.asList(methodToCallExclusionArray);
-    }
-
-    public ParameterService getParamService() {
-        if (paramService == null) {
-            paramService = SpringContext.getBean(ParameterService.class);
-        }
-        
-        return paramService;
-    }
-
-    public void setParamService(ParameterService paramService) {
-        this.paramService = paramService;
-    }
-
-    @Override
-    protected DocumentService getDocumentService() {
-        return SpringContext.getBean(DocumentService.class);
-    }
-
-    public AccountingDocumentRelationshipService getAccountingDocumentRelationshipService() {
-        if (accountingDocumentRelationshipService == null) {
-            accountingDocumentRelationshipService = SpringContext.getBean(AccountingDocumentRelationshipService.class);
-        }
-        
-        return accountingDocumentRelationshipService;
-    }
-
-    public void setAccountingDocumentRelationshipService(AccountingDocumentRelationshipService accountingDocumentRelationshipService) {
-        this.accountingDocumentRelationshipService = accountingDocumentRelationshipService;
     }
 
     /**

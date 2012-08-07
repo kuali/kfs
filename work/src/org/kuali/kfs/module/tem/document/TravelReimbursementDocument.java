@@ -236,7 +236,7 @@ public class TravelReimbursementDocument extends TEMReimbursementDocument implem
                 //CLEANUP when does this happen? GLPE = double of Sourc Accounting Line will not work on ommited GLPE through DV 
                 //                  **NOTE no GLPE is generated as well when pay to CTS (if there is no change)
                 if ((!hasClose) && this.getGeneralLedgerPendingEntries().size() == this.getSourceAccountingLines().size() * 2) {
-                    getTravelReimbursementService().disencumberFunds(this);
+                    getTravelEncumbranceService().disencumberFunds(this);
                 }
 
             }

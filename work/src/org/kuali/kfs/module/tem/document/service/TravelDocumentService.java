@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.kfs.gl.businessobject.Encumbrance;
 import org.kuali.kfs.module.purap.document.RequisitionDocument;
 import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.ExpenseTypeAware;
@@ -35,10 +34,6 @@ import org.kuali.kfs.module.tem.dataaccess.TravelDocumentDao;
 import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.sys.businessobject.FinancialSystemDocumentHeader;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
@@ -173,27 +168,6 @@ public interface TravelDocumentService {
     void setTravelDocumentDao(final TravelDocumentDao travelDocumentDao);
 
     /**
-     * Converts an {@link Encumbrance} instance to a {@link GeneralLedgerPendingEntrySourceDetail}. The purpose is to create
-     * disencumbering transactions for the {@link TravelAuthorizationCloseDocument}
-     * 
-     * @param encumbrance to convert
-     * @return {@link GeneralLedgerPendingEntrySourceDetail} converted
-     */
-    GeneralLedgerPendingEntrySourceDetail convertTo(final Encumbrance toConvert);
-
-    void disencumberFunds(TravelDocument taDoc);
-
-    void updateEncumbranceObjectCode(TravelDocument taDoc, SourceAccountingLine line);
-
-    public void adjustEncumbranceForClose(TravelDocument taDocument);
-
-    public void adjustEncumbranceForAmendment(TravelDocument taDocument);
-
-    public void processRelatedDocuments(TravelDocument document);
-
-    public void liquidateEncumbrance(Encumbrance encumbrance, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, TravelDocument document);
-
-    /**
      * Determines if an object with an expense type is that of a "hosted" meal. In TEM a hosted meal is a meal that has been
      * provided by a hosting institution and cannot be taken as a reimbursement.
      * 
@@ -201,30 +175,6 @@ public interface TravelDocumentService {
      * @return true if the expense is a hosted meal or not
      */
     boolean isHostedMeal(final ExpenseTypeAware havingExpenseType);
-
-
-    /**
-     * This method creates the pending entry based on the document and encumbrance
-     * 
-     * @param encumbrance The encumbrance record that will be updated. This object never gets persisted, but is used for passing
-     *        info
-     * @param sequenceHelper The current sequence
-     * @param taDocument The document the entries are added to.
-     * @return pendingEntry The completed pending entry.
-     */
-    public GeneralLedgerPendingEntry setupPendingEntry(Encumbrance encumbrance, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, TravelDocument document);   
-    
-    /**
-     * This method creates the offset entry based on the pending entry, document, and encumbrance
-     * 
-     * @param encumbrance The encumbrance record that will be updated. This object never gets persisted, but is used for passing
-     *        info
-     * @param sequenceHelper The current sequence
-     * @param taDocument The document the entries are added to.
-     * @param pendingEntry The pending entry that will accompany the offset entry.
-     * @return offsetEntry The completed offset entry.
-     */
-    public GeneralLedgerPendingEntry setupOffsetEntry(Encumbrance encumbrance, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, TravelDocument document, GeneralLedgerPendingEntry pendingEntry);
 
     /**
      * Check to see if the user has the travel arranger role assigned to them

@@ -143,13 +143,6 @@ public interface TravelReimbursementService {
     public KualiDecimal getReimbursableToTraveler(TEMReimbursementDocument reimbursementDocument);
     
     /**
-     * This method creates GLPE to disencumber the funds that had already been encumbered.
-     * 
-     * @param taDoc The document who pending entries need to be disencumbered.
-     */
-    public void disencumberFunds(TravelReimbursementDocument document);
-    
-    /**
      * This method searches to make sure that the expense entered doesn't already exist
      * If they exist, disable them in the per diem table and notify the user.
      * @param trDocument

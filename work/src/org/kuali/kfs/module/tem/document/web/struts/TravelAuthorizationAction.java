@@ -45,8 +45,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.gl.service.EncumbranceService;
-import org.kuali.kfs.integration.ar.AccountsReceivableModuleService;
 import org.kuali.kfs.module.purap.SingleConfirmationQuestion;
 import org.kuali.kfs.module.tem.TemConstants;
 import org.kuali.kfs.module.tem.TemConstants.TravelAuthorizationParameters;
@@ -61,26 +59,19 @@ import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.module.tem.document.TravelReimbursementDocument;
 import org.kuali.kfs.module.tem.document.authorization.TravelAuthorizationAuthorizer;
-import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
-import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
 import org.kuali.kfs.module.tem.document.validation.event.AddEmergencyContactLineEvent;
 import org.kuali.kfs.module.tem.document.validation.event.AddTravelAdvanceLineEvent;
 import org.kuali.kfs.module.tem.document.web.bean.TravelAuthorizationMvcWrapperBean;
-import org.kuali.kfs.module.tem.service.TravelService;
-import org.kuali.kfs.module.tem.service.TravelerService;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.dao.DocumentDao;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.exception.ValidationException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
-import org.kuali.rice.kns.service.BusinessObjectService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.DateTimeService;
 import org.kuali.rice.kns.service.DocumentService;
@@ -118,17 +109,17 @@ public class TravelAuthorizationAction extends TravelActionBase {
         
         setButtonPermissions(reqForm);
         setEmergencyContactMasking(reqForm);
-        List<String> perDiemCats = getParamService().getParameterValues(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, ENABLE_PER_DIEM_CATEGORIES);
-        String perDiemPercentage = getParamService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, TravelAuthorizationParameters.FIRST_AND_LAST_DAY_PER_DIEM_PERCENTAGE);
+        List<String> perDiemCats = getParameterService().getParameterValues(PARAM_NAMESPACE, DOCUMENT_DTL_TYPE, ENABLE_PER_DIEM_CATEGORIES);
+        String perDiemPercentage = getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, TravelAuthorizationParameters.FIRST_AND_LAST_DAY_PER_DIEM_PERCENTAGE);
         final String travelIdentifier = travelReqDoc.getTravelDocumentIdentifier();
         
         reqForm.parsePerDiemCategories(perDiemCats);
         reqForm.setPerDiemPercentage(perDiemPercentage);
 
         if (reqForm.getNewTravelAdvanceLine() == null) {
-            String accountNumber = getParamService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, TRAVEL_ADVANCE_PAYMENT_ACCOUNT_NBR);
-            String objectCode = getParamService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, TRAVEL_ADVANCE_PAYMENT_OBJECT_CODE);
-            String chartCode = getParamService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, TRAVEL_ADVANCE_PAYMENT_CHART_CODE);
+            String accountNumber = getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, TRAVEL_ADVANCE_PAYMENT_ACCOUNT_NBR);
+            String objectCode = getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, TRAVEL_ADVANCE_PAYMENT_OBJECT_CODE);
+            String chartCode = getParameterService().getParameterValue(PARAM_NAMESPACE, PARAM_DTL_TYPE, TRAVEL_ADVANCE_PAYMENT_CHART_CODE);
             TravelAdvance adv = new TravelAdvance();
             adv.setChartOfAccountsCode(chartCode);
             adv.setAccountNumber(accountNumber);
@@ -152,7 +143,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
         debug("Got ", reqForm.getRelatedDocuments().size(), " related documents");
 
         if (!isReturnFromObjectCodeLookup(reqForm, request)) {
-            getTravelDocumentService().updateEncumbranceObjectCode(travelReqDoc, reqForm.getNewSourceLine());
+            getTravelEncumbranceService().updateEncumbranceObjectCode(travelReqDoc, reqForm.getNewSourceLine());
         }
 
         getMessages(reqForm);
@@ -832,7 +823,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
         ActionForward forward = super.updatePerDiemExpenses(mapping, form, request, response);
         taForm.getNewSourceLine().setAmount(this.getAccountingLineAmountToFillin(taForm));
         
-        getTravelDocumentService().updateEncumbranceObjectCode(document, taForm.getNewSourceLine());
+        getTravelEncumbranceService().updateEncumbranceObjectCode(document, taForm.getNewSourceLine());
         
         return forward;
     }
@@ -1073,7 +1064,7 @@ public class TravelAuthorizationAction extends TravelActionBase {
         getDocumentService().addNoteToDocument(taDocument, newNote);
         
         taDocument.updateAppDocStatus(TravelAuthorizationStatusCodeKeys.CANCELLED);
-        getTravelDocumentService().disencumberFunds(taDocument);
+        getTravelEncumbranceService().disencumberFunds(taDocument);
         SpringContext.getBean(DocumentService.class).saveDocument(taDocument);
         
         // send FYI for to initiator and traveler
@@ -1121,32 +1112,6 @@ public class TravelAuthorizationAction extends TravelActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    @Override
-    protected BusinessObjectService getBusinessObjectService() {
-        return SpringContext.getBean(BusinessObjectService.class);
-    }
-
-    @Override
-    protected TravelerService getTravelerService() {
-        return SpringContext.getBean(TravelerService.class);
-    }
-
-    protected TravelService getTravelService() {
-        return SpringContext.getBean(TravelService.class);
-    }
-
-    protected TravelAuthorizationService getTravelAuthorizationService() {
-        return SpringContext.getBean(TravelAuthorizationService.class);
-    }
-
-    protected PersonService getPersonService() {
-        return SpringContext.getBean(PersonService.class);
-    }
-
-    protected AccountsReceivableModuleService getAccountsReceivableModuleService() {
-        return SpringContext.getBean(AccountsReceivableModuleService.class);
-    }
-    
     KualiDecimal getAccountingLineAmountToFillin(TravelAuthorizationForm travelAuthForm) {
         KualiDecimal amount = new KualiDecimal(0);
 
@@ -1258,7 +1223,6 @@ public class TravelAuthorizationAction extends TravelActionBase {
                 
             }
             catch (WorkflowException ex) {
-                // TODO Auto-generated catch block
                 ex.printStackTrace();
             }*/
         }
@@ -1277,24 +1241,4 @@ public class TravelAuthorizationAction extends TravelActionBase {
         return TravelAuthorizationMvcWrapperBean.class;
     }
 
-    protected TravelReimbursementService getTravelReimbursementService() {
-        return SpringContext.getBean(TravelReimbursementService.class);
-    }
-
-    protected EncumbranceService getEncumbranceService() {
-        return SpringContext.getBean(EncumbranceService.class);
-    }
-
-    protected GeneralLedgerPendingEntryService getGeneralLedgerPendingEntryService() {
-        return SpringContext.getBean(GeneralLedgerPendingEntryService.class);
-    }
-
-    @Override
-    protected DataDictionaryService getDataDictionaryService() {
-        return SpringContext.getBean(DataDictionaryService.class);
-    }
-
-    protected DateTimeService getDateTimeService() {
-        return SpringContext.getBean(DateTimeService.class);
-    }  
 }

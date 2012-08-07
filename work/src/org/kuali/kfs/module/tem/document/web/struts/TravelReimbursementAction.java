@@ -72,7 +72,6 @@ import org.kuali.kfs.module.tem.document.authorization.TravelReimbursementAuthor
 import org.kuali.kfs.module.tem.document.authorization.TravelReimbursementDocumentPresentationController;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
-import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
 import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
 import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
 import org.kuali.kfs.module.tem.document.web.bean.TravelReimbursementMvcWrapperBean;
@@ -83,14 +82,10 @@ import org.kuali.kfs.module.tem.report.SummaryByDayReport;
 import org.kuali.kfs.module.tem.report.service.ExpenseSummaryReportService;
 import org.kuali.kfs.module.tem.report.service.NonEmployeeCertificationReportService;
 import org.kuali.kfs.module.tem.report.service.SummaryByDayReportService;
-import org.kuali.kfs.module.tem.report.service.TravelReportService;
 import org.kuali.kfs.module.tem.report.util.BarcodeHelper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ReportGenerationService;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.service.PersonService;
-import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.util.KualiDecimal;
@@ -778,33 +773,12 @@ public class TravelReimbursementAction extends TravelActionBase {
         }
     }
 
-    @Override
-    protected TravelDocumentService getTravelDocumentService() {
-        return SpringContext.getBean(TravelDocumentService.class);
-    }
-
     protected TravelReimbursementService getTravelReimbursementService() {
         return SpringContext.getBean(TravelReimbursementService.class);
     }
 
-    public PersonService getPersonService() {
-        return SpringContext.getBean(PersonService.class);
-    }
-
     protected TravelAuthorizationService getTravelAuthorizationService() {
         return SpringContext.getBean(TravelAuthorizationService.class);
-    }
-
-    protected KualiRuleService getRulesService() {
-        return SpringContext.getBean(KualiRuleService.class);
-    }
-
-    protected ReportGenerationService getReportGenerationService() {
-        return SpringContext.getBean(ReportGenerationService.class);
-    }
-
-    protected TravelReportService getTravelReportService() {
-        return SpringContext.getBean(TravelReportService.class);
     }
 
     protected ExpenseSummaryReportService getExpenseSummaryReportService() {

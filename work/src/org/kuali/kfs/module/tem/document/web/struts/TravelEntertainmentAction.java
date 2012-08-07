@@ -21,8 +21,6 @@ import static org.kuali.kfs.module.tem.TemPropertyConstants.NEW_ATTENDEE_LINE;
 import static org.kuali.kfs.module.tem.TemPropertyConstants.TRVL_IDENTIFIER_PROPERTY;
 import static org.kuali.kfs.module.tem.util.BufferedLogger.debug;
 import static org.kuali.kfs.sys.KFSPropertyConstants.DOCUMENT_NUMBER;
-import static org.kuali.kfs.sys.context.SpringContext.getBean;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
@@ -53,17 +51,13 @@ import org.kuali.kfs.module.tem.report.EntertainmentHostCertificationReport;
 import org.kuali.kfs.module.tem.report.NonEmployeeCertificationReport;
 import org.kuali.kfs.module.tem.report.service.NonEmployeeCertificationReportService;
 import org.kuali.kfs.module.tem.report.service.TravelEntertainmentHostCertificationService;
-import org.kuali.kfs.module.tem.report.service.TravelReportService;
 import org.kuali.kfs.module.tem.report.util.BarcodeHelper;
 import org.kuali.kfs.module.tem.util.UploadParser;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ReportGenerationService;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.bo.Note;
-import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KualiRuleService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -431,18 +425,4 @@ public class TravelEntertainmentAction extends TravelActionBase {
         return TravelEntertainmentMVCWrapperBean.class;
     }
 
-    protected TravelReportService getTravelReportService() {
-        return SpringContext.getBean(TravelReportService.class);
-    }
-
-    protected ReportGenerationService getReportGenerationService() {
-        return SpringContext.getBean(ReportGenerationService.class);
-    }
-
-    protected PersonService getPersonService() {
-        return SpringContext.getBean(PersonService.class);
-    }
-    protected DictionaryValidationService getDictionaryValidationService() {
-        return getBean(DictionaryValidationService.class);
-    }
 }

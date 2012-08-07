@@ -43,9 +43,6 @@ import org.kuali.kfs.fp.document.web.struts.DisbursementVoucherForm;
 import org.kuali.kfs.module.tem.TemPropertyConstants;
 import org.kuali.kfs.module.tem.document.TravelRelocationDocument;
 import org.kuali.kfs.module.tem.document.authorization.TravelRelocationAuthorizer;
-import org.kuali.kfs.module.tem.document.service.TravelAuthorizationService;
-import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
-import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
 import org.kuali.kfs.module.tem.document.service.TravelRelocationService;
 import org.kuali.kfs.module.tem.document.web.bean.AccountingDistribution;
 import org.kuali.kfs.module.tem.document.web.bean.TravelRelocationMvcWrapperBean;
@@ -56,21 +53,15 @@ import org.kuali.kfs.module.tem.report.SummaryByDayReport;
 import org.kuali.kfs.module.tem.report.service.ExpenseSummaryReportService;
 import org.kuali.kfs.module.tem.report.service.NonEmployeeCertificationReportService;
 import org.kuali.kfs.module.tem.report.service.SummaryByDayReportService;
-import org.kuali.kfs.module.tem.report.service.TravelReportService;
 import org.kuali.kfs.module.tem.report.util.BarcodeHelper;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSKeyConstants;
 import org.kuali.kfs.sys.context.SpringContext;
-import org.kuali.kfs.sys.service.ReportGenerationService;
 import org.kuali.kfs.sys.service.UniversityDateService;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.service.PersonService;
 import org.kuali.rice.kns.document.Document;
 import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.DocumentService;
 import org.kuali.rice.kns.service.KualiConfigurationService;
-import org.kuali.rice.kns.service.KualiRuleService;
-import org.kuali.rice.kns.service.ParameterService;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KualiDecimal;
 import org.kuali.rice.kns.util.ObjectUtils;
@@ -272,45 +263,6 @@ public class TravelRelocationAction extends TravelActionBase {
 
     protected TravelRelocationService getTravelRelocationService() {
         return SpringContext.getBean(TravelRelocationService.class);
-    }
-
-    @Override
-    protected DocumentService getDocumentService() {
-        return SpringContext.getBean(DocumentService.class);
-    }
-
-    @Override
-    protected TravelDocumentService getTravelDocumentService() {
-        return SpringContext.getBean(TravelDocumentService.class);
-    }
-
-    protected TravelReimbursementService getTravelReimbursementService() {
-        return SpringContext.getBean(TravelReimbursementService.class);
-    }
-
-    public PersonService getPersonService() {
-        return SpringContext.getBean(PersonService.class);
-    }
-
-    protected TravelAuthorizationService getTravelAuthorizationService() {
-        return SpringContext.getBean(TravelAuthorizationService.class);
-    }
-
-    protected KualiRuleService getRulesService() {
-        return SpringContext.getBean(KualiRuleService.class);
-    }
-
-    @Override
-    protected ParameterService getParameterService() {
-        return SpringContext.getBean(ParameterService.class);
-    }
-
-    protected ReportGenerationService getReportGenerationService() {
-        return SpringContext.getBean(ReportGenerationService.class);
-    }
-
-    protected TravelReportService getTravelReportService() {
-        return SpringContext.getBean(TravelReportService.class);
     }
 
     /**

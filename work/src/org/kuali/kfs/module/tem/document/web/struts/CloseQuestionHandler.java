@@ -36,7 +36,7 @@ import org.kuali.kfs.module.tem.document.TravelDocument;
 import org.kuali.kfs.module.tem.document.TravelDocumentBase;
 import org.kuali.kfs.module.tem.document.service.AccountingDocumentRelationshipService;
 import org.kuali.kfs.module.tem.document.service.TravelDocumentService;
-import org.kuali.kfs.sys.context.SpringContext;
+import org.kuali.kfs.module.tem.document.service.TravelEncumbranceService;
 import org.kuali.rice.kns.bo.Note;
 import org.kuali.rice.kns.dao.DocumentDao;
 import org.kuali.rice.kns.exception.ValidationException;
@@ -53,6 +53,7 @@ public class CloseQuestionHandler implements QuestionHandler<TravelDocument> {
     private KualiConfigurationService kualiConfigurationService;
     private DataDictionaryService dataDictionaryService;
     private TravelDocumentService travelDocumentService;
+    private TravelEncumbranceService travelEncumbranceService;
     private DocumentService documentService;
     private DocumentDao documentDao;
     private AccountingDocumentRelationshipService accountingDocumentRelationshipService;
@@ -83,16 +84,16 @@ public class CloseQuestionHandler implements QuestionHandler<TravelDocument> {
             String user = GlobalVariables.getUserSession().getPerson().getLastName() + ", " + GlobalVariables.getUserSession().getPerson().getFirstName();
             String note = replace(message, "{0}", user);
             
-            final Note newNote = getDocumentService().createNoteFromDocument(document, note);
-            final Note newNoteTAC = getDocumentService().createNoteFromDocument(document, note);
-            getDocumentService().addNoteToDocument(document, newNote); 
+            final Note newNote = documentService.createNoteFromDocument(document, note);
+            final Note newNoteTAC = documentService.createNoteFromDocument(document, note);
+            documentService.addNoteToDocument(document, newNote); 
             ((TravelDocumentBase) document).updateAppDocStatus(newStatus);
-            getDocumentDao().save(document);
+            documentDao.save(document);
             
             String headerID = document.getDocumentHeader().getDocumentNumber();
             TravelAuthorizationCloseDocument tacDocument = ((TravelAuthorizationDocument) document).toCopyTAC();
-            getDocumentService().addNoteToDocument(tacDocument, newNoteTAC);            
-            getTravelDocumentService().adjustEncumbranceForClose(tacDocument);                        
+            documentService.addNoteToDocument(tacDocument, newNoteTAC);            
+            travelEncumbranceService.adjustEncumbranceForClose(tacDocument);                        
             //getDocumentService().saveDocument(tacDocument);
             
             TravelAuthorizationForm form = (TravelAuthorizationForm) ((StrutsInquisitor) asker).getForm();
@@ -104,7 +105,7 @@ public class CloseQuestionHandler implements QuestionHandler<TravelDocument> {
             accountingDocumentRelationshipService.save(new AccountingDocumentRelationship(document.getDocumentNumber(), tacDocument.getDocumentNumber(), relationDescription));            
             
             tacDocument.updateAppDocStatus(TravelAuthorizationStatusCodeKeys.CLOSED);
-            getDocumentService().routeDocument(tacDocument, form.getAnnotation(), null);
+            documentService.routeDocument(tacDocument, form.getAnnotation(), null);
             
             if (isNotNull(returnActionForward)) {
                 return returnActionForward;
@@ -127,7 +128,7 @@ public class CloseQuestionHandler implements QuestionHandler<TravelDocument> {
     }
   
     public String getMessageFrom(final String messageType) {
-        return getConfigurationService().getPropertyString(messageType);
+        return kualiConfigurationService.getPropertyString(messageType);
     }
 
     public String getReturnToFiscalOfficerNote(final String notePrefix, String reason) {
@@ -140,7 +141,7 @@ public class CloseQuestionHandler implements QuestionHandler<TravelDocument> {
         final int noteTextLength = noteText.length();
         
         // Get note text max length from DD.
-        final int noteTextMaxLength = getDataDictionaryService().getAttributeMaxLength(Note.class, NOTE_TEXT_PROPERTY_NAME).intValue();
+        final int noteTextMaxLength = dataDictionaryService.getAttributeMaxLength(Note.class, NOTE_TEXT_PROPERTY_NAME).intValue();
         
         if (isBlank(reason) || (noteTextLength > noteTextMaxLength)) {
             // Figure out exact number of characters that the user can enter.
@@ -164,15 +165,6 @@ public class CloseQuestionHandler implements QuestionHandler<TravelDocument> {
     }
 
     /**
-     * Gets the kualiConfigurationService attribute.
-     * 
-     * @return Returns the kualiConfigurationService.
-     */
-    protected KualiConfigurationService getConfigurationService() {
-        return kualiConfigurationService;
-    }
-
-    /**
      * Sets the dataDictionaryService attribute.
      * 
      * @return Returns the dataDictionaryService.
@@ -181,51 +173,20 @@ public class CloseQuestionHandler implements QuestionHandler<TravelDocument> {
         this.dataDictionaryService = dataDictionaryService;
     }
 
-    /**
-     * Gets the dataDictionaryService attribute.
-     * 
-     * @return Returns the dataDictionaryService.
-     */
-    protected DataDictionaryService getDataDictionaryService() {
-        return dataDictionaryService;
-    }
-
-    public DocumentDao getDocumentDao() {
-        return documentDao;
-    }
-
     public void setDocumentDao(DocumentDao documentDao) {
         this.documentDao = documentDao;
     }
     
-    /**
-     * Sets the documentService attribute.
-     * 
-     * @return Returns the documentService.
-     */
     public void setDocumentService(final DocumentService documentService) {
         this.documentService = documentService;
-    }
-
-    /**
-     * Gets the documentService attribute.
-     * 
-     * @return Returns the documentService.
-     */
-    protected DocumentService getDocumentService() {
-        return SpringContext.getBean(DocumentService.class);
-    }
-
-    public TravelDocumentService getTravelDocumentService() {
-        return travelDocumentService;
     }
 
     public void setTravelDocumentService(TravelDocumentService travelDocumentService) {
         this.travelDocumentService = travelDocumentService;
     }
-
-    public AccountingDocumentRelationshipService getAccountingDocumentRelationshipService() {
-        return accountingDocumentRelationshipService;
+    
+    public void setTravelEncumbranceService(TravelEncumbranceService travelEncumbranceService) {
+        this.travelEncumbranceService = travelEncumbranceService;
     }
 
     public void setAccountingDocumentRelationshipService(AccountingDocumentRelationshipService accountingDocumentRelationshipService) {

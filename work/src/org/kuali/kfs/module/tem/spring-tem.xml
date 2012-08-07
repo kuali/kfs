@@ -496,6 +496,15 @@
       <property name="kualiRuleService" ref="kualiRuleService" />
       <property name="travelDocumentService" ref="temTravelDocumentService" />
     </bean>
+    
+    <bean id="travelEncumbranceService" parent="travelEncumbranceService-parentBean" />
+    <bean id="travelEncumbranceService-parentBean"
+      class="org.kuali.kfs.module.tem.document.service.impl.TravelEncumbranceServiceImpl" abstract="true">
+      <property name="businessObjectService" ref="businessObjectService" />
+      <property name="travelDocumentService" ref="temTravelDocumentService" />
+      <property name="encumbranceService" ref="glEncumbranceService" />
+      <property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService" />
+    </bean>
 
 	<bean id="temTravelAuthorizationService" parent="temTravelAuthorizationService-parentBean" />
 
@@ -1171,6 +1180,7 @@
 		class="org.kuali.kfs.module.tem.document.web.struts.CloseQuestionHandler">
 		<property name="configurationService" ref="kualiConfigurationService" />
 		<property name="travelDocumentService" ref="temTravelDocumentService" />
+        <property name="travelEncumbranceService" ref="travelEncumbranceService" />
 		<property name="documentDao" ref="documentDao" />
 		<property name="dataDictionaryService" ref="dataDictionaryService" />
 		<property name="accountingDocumentRelationshipService" ref="temAccountingDocumentRelationshipService" />

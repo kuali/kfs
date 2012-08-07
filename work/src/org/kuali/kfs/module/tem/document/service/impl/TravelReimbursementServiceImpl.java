@@ -54,7 +54,6 @@ import org.kuali.kfs.module.tem.businessobject.ActualExpense;
 import org.kuali.kfs.module.tem.businessobject.PerDiemExpense;
 import org.kuali.kfs.module.tem.businessobject.TemTravelExpenseTypeCode;
 import org.kuali.kfs.module.tem.businessobject.TravelerDetail;
-import org.kuali.kfs.module.tem.businessobject.TripType;
 import org.kuali.kfs.module.tem.document.TEMReimbursementDocument;
 import org.kuali.kfs.module.tem.document.TravelAuthorizationDocument;
 import org.kuali.kfs.module.tem.document.TravelDocument;
@@ -67,11 +66,6 @@ import org.kuali.kfs.module.tem.document.service.TravelReimbursementService;
 import org.kuali.kfs.module.tem.pdf.Coversheet;
 import org.kuali.kfs.sys.KFSConstants;
 import org.kuali.kfs.sys.KFSPropertyConstants;
-import org.kuali.kfs.sys.businessobject.AccountingLineBase;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntry;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySequenceHelper;
-import org.kuali.kfs.sys.businessobject.GeneralLedgerPendingEntrySourceDetail;
-import org.kuali.kfs.sys.businessobject.SourceAccountingLine;
 import org.kuali.kfs.sys.service.GeneralLedgerPendingEntryService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kim.bo.Person;
@@ -744,6 +738,7 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
         return arDocHeader;
     }
     
+    //CLEANUP
 //    /**
 //     * Applies payments on the {@link PaymentApplicationDocument} according to the <code>cashControlTotal</code>. Iterates over
 //     * invoices. Each {@link CustomerInvoiceDocument} gets its own {@link InvoicePaidApplied} instance added to the
@@ -854,182 +849,183 @@ public class TravelReimbursementServiceImpl implements TravelReimbursementServic
 //
 //        return reimbursementTotal.subtract(invoicesTotal);
 //    }
-
-    /**
-     * @see org.kuali.kfs.module.tem.document.service.TravelReimbursementService#disencumberFunds(org.kuali.kfs.module.tem.document.TravelReimbursementDocument)
-     */
-    @Override
-    public void disencumberFunds(TravelReimbursementDocument trDocument) {
-        if (trDocument.getTripType().isGenerateEncumbrance()) {
-       
-            final Map<String, Object> criteria = new HashMap<String, Object>();
-   
-            KualiDecimal totalAmount = new KualiDecimal(0);
-            
-            //criteria.put("referenceFinancialDocumentNumber", trDocument.getTravelDocumentIdentifier());
-            //criteria.put("financialDocumentTypeCode", TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
-            //List<GeneralLedgerPendingEntry> tripPendingEntryList = (List<GeneralLedgerPendingEntry>) this.getBusinessObjectService().findMatching(GeneralLedgerPendingEntry.class, criteria);
-            KualiDecimal trTotal = new KualiDecimal(0);
-            KualiDecimal taEncTotal = new KualiDecimal(0);
-            Map<String, List<Document>> relatedDocuments = null;
-            TravelAuthorizationDocument taDocument = new TravelAuthorizationDocument();
-            //Find the document that this TR is for
-            try {
-                relatedDocuments = travelDocumentService.getDocumentsRelatedTo(trDocument);
-                List<Document> trDocs = relatedDocuments.get(TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
-                taDocument = (TravelAuthorizationDocument) travelDocumentService.findCurrentTravelAuthorization(trDocument);
-                for (int i=0;i<taDocument.getSourceAccountingLines().size();i++){
-                    taEncTotal = taEncTotal.add(taDocument.getSourceAccountingLine(i).getAmount());
-                }
-                
-                //Get total of all TR's that aren't disapproved not including this one.
-                if (trDocs != null) {
-                    for (Document tempDocument : trDocs) {
-                        if (!tempDocument.getDocumentNumber().equals(trDocument.getDocumentNumber())) {
-                            if (!travelDocumentService.isUnsuccessful((TravelDocument) tempDocument)) {
-                                TravelReimbursementDocument tempTR = (TravelReimbursementDocument) tempDocument;
-                                KualiDecimal temp = tempTR.getReimbursableTotal();
-                                trTotal = trTotal.add(temp);
-                            }
-                        }
-                    }
-                }
-            }
-            catch (WorkflowException ex) {
-                ex.printStackTrace();
-            }
-                      
-            KualiDecimal factor = new KualiDecimal(1);
-            KualiDecimal totalReimbursement = trDocument.getReimbursableTotal();
-            if (!trDocument.getFinalReimbursement()){
-                if (totalReimbursement.isGreaterThan(taEncTotal.subtract(trTotal))){
-                    factor = taEncTotal.subtract(trTotal);
-                    factor = factor.divide(totalReimbursement);
-                }
-            }
-            else{
-                //in the case of the final reimbursement, total reimbursement becomes the remaining amount
-                totalReimbursement = taEncTotal.subtract(trTotal); 
-            }
-                                
-            int counter = trDocument.getPendingLedgerEntriesForSufficientFundsChecking().size() + 1;
-            GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper(counter);
-
-            /*
-             * factor becomes 0 when then encumbrance is equal to the total reimbursed from all TR doc's
-             * factor will never be < 0
-             */
-            if (factor.isGreaterThan(KualiDecimal.ZERO)){
-                //Create disencumbering GLPE's for the TA document 
-                  for (int i=0;i<taDocument.getSourceAccountingLines().size();i++){
-                      GeneralLedgerPendingEntry pendingEntry = null;
-                      GeneralLedgerPendingEntry offsetEntry = null;
-
-                      pendingEntry = setupPendingEntry((AccountingLineBase) taDocument.getSourceAccountingLine(i), sequenceHelper, trDocument);
-                      pendingEntry.setReferenceFinancialDocumentTypeCode(taDocument.getFinancialDocumentTypeCode());
-                      sequenceHelper.increment();
-                      offsetEntry = setupOffsetEntry(sequenceHelper, trDocument, pendingEntry);
-                      offsetEntry.setReferenceFinancialDocumentTypeCode(taDocument.getFinancialDocumentTypeCode());
-                      sequenceHelper.increment();
-                      
-                      KualiDecimal tempAmount = new KualiDecimal(0);
-                      KualiDecimal calculatedTotal = new KualiDecimal(0);
-                      KualiDecimal tempTRTotal = totalReimbursement.multiply(factor);
-                      
-                      if (i == taDocument.getSourceAccountingLines().size()-1){
-                          tempAmount = totalReimbursement.subtract(calculatedTotal);
-                      }
-                      else {
-                          tempAmount = tempTRTotal.divide(taEncTotal);
-                          tempAmount = tempAmount.multiply(taDocument.getSourceAccountingLine(i).getAmount());
-                          calculatedTotal = calculatedTotal.add(tempTRTotal);
-                      }
-                      
-                      pendingEntry.setTransactionLedgerEntryAmount(tempAmount);
-                      offsetEntry.setTransactionLedgerEntryAmount(tempAmount);
-                      trDocument.addPendingEntry(pendingEntry);
-                      trDocument.addPendingEntry(offsetEntry);                   
-                  }
-              }
-              
-          }
-      }
+//
+//    /**
+//     * @see org.kuali.kfs.module.tem.document.service.TravelReimbursementService#disencumberFunds(org.kuali.kfs.module.tem.document.TravelReimbursementDocument)
+//     */
+//    @Override
+//    public void disencumberFunds(TravelReimbursementDocument trDocument) {
+//        if (trDocument.getTripType().isGenerateEncumbrance()) {
+//       
+//            final Map<String, Object> criteria = new HashMap<String, Object>();
+//   
+//            KualiDecimal totalAmount = new KualiDecimal(0);
+//            
+//            //criteria.put("referenceFinancialDocumentNumber", trDocument.getTravelDocumentIdentifier());
+//            //criteria.put("financialDocumentTypeCode", TemConstants.TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
+//            //List<GeneralLedgerPendingEntry> tripPendingEntryList = (List<GeneralLedgerPendingEntry>) this.getBusinessObjectService().findMatching(GeneralLedgerPendingEntry.class, criteria);
+//            KualiDecimal trTotal = new KualiDecimal(0);
+//            KualiDecimal taEncTotal = new KualiDecimal(0);
+//            Map<String, List<Document>> relatedDocuments = null;
+//            TravelAuthorizationDocument taDocument = new TravelAuthorizationDocument();
+//            //Find the document that this TR is for
+//            try {
+//                relatedDocuments = travelDocumentService.getDocumentsRelatedTo(trDocument);
+//                List<Document> trDocs = relatedDocuments.get(TravelDocTypes.TRAVEL_REIMBURSEMENT_DOCUMENT);
+//                taDocument = (TravelAuthorizationDocument) travelDocumentService.findCurrentTravelAuthorization(trDocument);
+//                for (int i=0;i<taDocument.getSourceAccountingLines().size();i++){
+//                    taEncTotal = taEncTotal.add(taDocument.getSourceAccountingLine(i).getAmount());
+//                }
+//                
+//                //Get total of all TR's that aren't disapproved not including this one.
+//                if (trDocs != null) {
+//                    for (Document tempDocument : trDocs) {
+//                        if (!tempDocument.getDocumentNumber().equals(trDocument.getDocumentNumber())) {
+//                            if (!travelDocumentService.isUnsuccessful((TravelDocument) tempDocument)) {
+//                                TravelReimbursementDocument tempTR = (TravelReimbursementDocument) tempDocument;
+//                                KualiDecimal temp = tempTR.getReimbursableTotal();
+//                                trTotal = trTotal.add(temp);
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//            catch (WorkflowException ex) {
+//                ex.printStackTrace();
+//            }
+//                      
+//            KualiDecimal factor = new KualiDecimal(1);
+//            KualiDecimal totalReimbursement = trDocument.getReimbursableTotal();
+//            if (!trDocument.getFinalReimbursement()){
+//                if (totalReimbursement.isGreaterThan(taEncTotal.subtract(trTotal))){
+//                    factor = taEncTotal.subtract(trTotal);
+//                    factor = factor.divide(totalReimbursement);
+//                }
+//            }
+//            else{
+//                //in the case of the final reimbursement, total reimbursement becomes the remaining amount
+//                totalReimbursement = taEncTotal.subtract(trTotal); 
+//            }
+//                                
+//            int counter = trDocument.getPendingLedgerEntriesForSufficientFundsChecking().size() + 1;
+//            GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper(counter);
+//
+//            /*
+//             * factor becomes 0 when then encumbrance is equal to the total reimbursed from all TR doc's
+//             * factor will never be < 0
+//             */
+//            if (factor.isGreaterThan(KualiDecimal.ZERO)){
+//                //Create disencumbering GLPE's for the TA document 
+//                  for (int i=0;i<taDocument.getSourceAccountingLines().size();i++){
+//                      GeneralLedgerPendingEntry pendingEntry = null;
+//                      GeneralLedgerPendingEntry offsetEntry = null;
+//
+//                      pendingEntry = setupPendingEntry((AccountingLineBase) taDocument.getSourceAccountingLine(i), sequenceHelper, trDocument);
+//                      pendingEntry.setReferenceFinancialDocumentTypeCode(taDocument.getFinancialDocumentTypeCode());
+//                      sequenceHelper.increment();
+//                      offsetEntry = setupOffsetEntry(sequenceHelper, trDocument, pendingEntry);
+//                      offsetEntry.setReferenceFinancialDocumentTypeCode(taDocument.getFinancialDocumentTypeCode());
+//                      sequenceHelper.increment();
+//                      
+//                      KualiDecimal tempAmount = new KualiDecimal(0);
+//                      KualiDecimal calculatedTotal = new KualiDecimal(0);
+//                      KualiDecimal tempTRTotal = totalReimbursement.multiply(factor);
+//                      
+//                      if (i == taDocument.getSourceAccountingLines().size()-1){
+//                          tempAmount = totalReimbursement.subtract(calculatedTotal);
+//                      }
+//                      else {
+//                          tempAmount = tempTRTotal.divide(taEncTotal);
+//                          tempAmount = tempAmount.multiply(taDocument.getSourceAccountingLine(i).getAmount());
+//                          calculatedTotal = calculatedTotal.add(tempTRTotal);
+//                      }
+//                      
+//                      pendingEntry.setTransactionLedgerEntryAmount(tempAmount);
+//                      offsetEntry.setTransactionLedgerEntryAmount(tempAmount);
+//                      trDocument.addPendingEntry(pendingEntry);
+//                      trDocument.addPendingEntry(offsetEntry);                   
+//                  }
+//              }
+//              
+//          }
+//      }
+//    
+//    /**
+//     * This method creates the pending entry based on the document and encumbrance
+//     * 
+//     * @param encumbrance The encumbrance record that will be updated. This object never gets persisted, but is used for passing
+//     *        LOG.info
+//     * @param sequenceHelper The current sequence
+//     * @param taDocument The document the entries are added to.
+//     * @return pendingEntry The completed pending entry.
+//     */
+//    public GeneralLedgerPendingEntry setupPendingEntry(AccountingLineBase line, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, TravelDocument document) {
+//        final GeneralLedgerPendingEntrySourceDetail sourceDetail = line;
+//        GeneralLedgerPendingEntry pendingEntry = new GeneralLedgerPendingEntry();
+//
+//        String balanceType = "";
+//        document.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
+//        TripType tripType = document.getTripType();
+//        if (ObjectUtils.isNotNull(tripType)) {
+//            balanceType = tripType.getEncumbranceBalanceType();
+//        }
+//        generalLedgerPendingEntryService.populateExplicitGeneralLedgerPendingEntry(document, sourceDetail, sequenceHelper, pendingEntry);
+//        pendingEntry.setTransactionEncumbranceUpdateCode(KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
+//        pendingEntry.setReferenceFinancialDocumentNumber(document.getTravelDocumentIdentifier());
+//        pendingEntry.setFinancialBalanceTypeCode(balanceType);
+//        pendingEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
+//        pendingEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
+//        pendingEntry.setReferenceFinancialSystemOriginationCode("01");
+//
+//        return pendingEntry;
+//    }  
+//    
+//    /**
+//     * This method creates the offset entry based on the pending entry, document, and encumbrance
+//     * 
+//     * @param encumbrance The encumbrance record that will be updated. This object never gets persisted, but is used for passing info
+//     * @param sequenceHelper The current sequence
+//     * @param taDocument The document the entries are added to.
+//     * @param pendingEntry The pending entry that will accompany the offset entry.
+//     * @return offsetEntry The completed offset entry.
+//     */
+//    public GeneralLedgerPendingEntry setupOffsetEntry(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, TravelDocument document, GeneralLedgerPendingEntry pendingEntry) {
+//        String balanceType = "";
+//        document.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
+//        TripType tripType = document.getTripType();
+//        if (ObjectUtils.isNotNull(tripType)) {
+//            balanceType = tripType.getEncumbranceBalanceType();
+//        }
+//
+//        GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(pendingEntry);
+//        generalLedgerPendingEntryService.populateOffsetGeneralLedgerPendingEntry(pendingEntry.getUniversityFiscalYear(), pendingEntry, sequenceHelper, offsetEntry);
+//        offsetEntry.setTransactionEncumbranceUpdateCode(KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
+//        offsetEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
+//        offsetEntry.setFinancialBalanceTypeCode(balanceType);
+//        offsetEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
+//        offsetEntry.setReferenceFinancialSystemOriginationCode(pendingEntry.getReferenceFinancialSystemOriginationCode());
+//
+//        return offsetEntry;
+//    } 
     
-    /**
-     * This method creates the pending entry based on the document and encumbrance
-     * 
-     * @param encumbrance The encumbrance record that will be updated. This object never gets persisted, but is used for passing
-     *        LOG.info
-     * @param sequenceHelper The current sequence
-     * @param taDocument The document the entries are added to.
-     * @return pendingEntry The completed pending entry.
-     */
-    public GeneralLedgerPendingEntry setupPendingEntry(AccountingLineBase line, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, TravelDocument document) {
-        final GeneralLedgerPendingEntrySourceDetail sourceDetail = line;
-        GeneralLedgerPendingEntry pendingEntry = new GeneralLedgerPendingEntry();
-
-        String balanceType = "";
-        document.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
-        TripType tripType = document.getTripType();
-        if (ObjectUtils.isNotNull(tripType)) {
-            balanceType = tripType.getEncumbranceBalanceType();
-        }
-        generalLedgerPendingEntryService.populateExplicitGeneralLedgerPendingEntry(document, sourceDetail, sequenceHelper, pendingEntry);
-        pendingEntry.setTransactionEncumbranceUpdateCode(KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
-        pendingEntry.setReferenceFinancialDocumentNumber(document.getTravelDocumentIdentifier());
-        pendingEntry.setFinancialBalanceTypeCode(balanceType);
-        pendingEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
-        pendingEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
-        pendingEntry.setReferenceFinancialSystemOriginationCode("01");
-
-        return pendingEntry;
-    }  
-    
-    /**
-     * This method creates the offset entry based on the pending entry, document, and encumbrance
-     * 
-     * @param encumbrance The encumbrance record that will be updated. This object never gets persisted, but is used for passing info
-     * @param sequenceHelper The current sequence
-     * @param taDocument The document the entries are added to.
-     * @param pendingEntry The pending entry that will accompany the offset entry.
-     * @return offsetEntry The completed offset entry.
-     */
-    public GeneralLedgerPendingEntry setupOffsetEntry(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, TravelDocument document, GeneralLedgerPendingEntry pendingEntry) {
-        String balanceType = "";
-        document.refreshReferenceObject(TemPropertyConstants.TRIP_TYPE);
-        TripType tripType = document.getTripType();
-        if (ObjectUtils.isNotNull(tripType)) {
-            balanceType = tripType.getEncumbranceBalanceType();
-        }
-
-        GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(pendingEntry);
-        generalLedgerPendingEntryService.populateOffsetGeneralLedgerPendingEntry(pendingEntry.getUniversityFiscalYear(), pendingEntry, sequenceHelper, offsetEntry);
-        offsetEntry.setTransactionEncumbranceUpdateCode(KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
-        offsetEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
-        offsetEntry.setFinancialBalanceTypeCode(balanceType);
-        offsetEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
-        offsetEntry.setReferenceFinancialSystemOriginationCode(pendingEntry.getReferenceFinancialSystemOriginationCode());
-
-        return offsetEntry;
-    } 
-    
-    private Map<String, KualiDecimal> calculateEncumbranceRecentages(TravelAuthorizationDocument taDocument) {
-        Map<String, KualiDecimal> percentageMap = new HashMap<String, KualiDecimal>();
-        Iterator lines = taDocument.getSourceAccountingLines().iterator();
-        
-        while (lines.hasNext()){
-            SourceAccountingLine line = (SourceAccountingLine) lines.next();
-            StringBuffer key = new StringBuffer();
-            key.append(line.getAccountNumber());
-            key.append(line.getSubAccountNumber());
-            key.append(line.getObjectCode());
-            key.append(line.getSubObjectCode());
-            key.append(taDocument.getTravelDocumentIdentifier());
-            KualiDecimal percentage = line.getAmount().divide(taDocument.getEncumbranceTotal());
-            percentageMap.put(key.toString(), percentage);
-        }
-        return percentageMap;
-    }
+    //unused
+//    private Map<String, KualiDecimal> calculateEncumbranceRecentages(TravelAuthorizationDocument taDocument) {
+//        Map<String, KualiDecimal> percentageMap = new HashMap<String, KualiDecimal>();
+//        Iterator lines = taDocument.getSourceAccountingLines().iterator();
+//        
+//        while (lines.hasNext()){
+//            SourceAccountingLine line = (SourceAccountingLine) lines.next();
+//            StringBuffer key = new StringBuffer();
+//            key.append(line.getAccountNumber());
+//            key.append(line.getSubAccountNumber());
+//            key.append(line.getObjectCode());
+//            key.append(line.getSubObjectCode());
+//            key.append(taDocument.getTravelDocumentIdentifier());
+//            KualiDecimal percentage = line.getAmount().divide(taDocument.getEncumbranceTotal());
+//            percentageMap.put(key.toString(), percentage);
+//        }
+//        return percentageMap;
+//    }
 
     /**
      * @see org.kuali.kfs.module.tem.document.service.TravelReimbursementService#disableDuplicateExpenses(org.kuali.kfs.module.tem.document.TravelReimbursementDocument, org.kuali.kfs.module.tem.businessobject.ActualExpense)

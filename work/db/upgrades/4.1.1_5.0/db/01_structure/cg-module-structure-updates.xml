@@ -6,6 +6,12 @@
 	<changeSet author="KFS50" id="KFSMI6999_RENAME_CFDA_REF_T">
 		<renameTable oldTableName="CG_CFDA_REF_T" newTableName="CA_CFDA_REF_T"/>
 	</changeSet>
-	
+	<changeSet author="KFS50" id='KFSMI-8999_REMOVE_OBSOLETE_FK_NOT_NULL_CONSTRAINTS'>
+		<dropForeignKeyConstraint constraintName="ER_RSRCH_RSK_TYP_TR1" baseTableName="ER_RSRCH_RSK_TYP_T"/>
+		<dropNotNullConstraint tableName="ER_RSRCH_RSK_TYP_T" columnName="CTRL_ATTRIB_TYP_CD" columnDataType="VARCHAR2(1)"/>
+		<modifySql dbms="mysql">
+			<replace replace="VARCHAR2" with="VARCHAR" />
+		</modifySql>
+	</changeSet>	
  
 </databaseChangeLog>

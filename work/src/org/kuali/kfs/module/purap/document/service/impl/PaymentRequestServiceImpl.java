@@ -1139,9 +1139,15 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                     // prorate item line accounts only
                     Set includedItemTypeCodes = new HashSet();
                     includedItemTypeCodes.add(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE);
-                    summaryAccounts = purapAccountingService.generateSummaryIncludeItemTypesAndNoZeroTotals(paymentRequestDocument.getItems(), includedItemTypeCodes);
-                    distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE, PaymentRequestAccount.class);
+                    includedItemTypeCodes.add(PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE);  
                     
+                    summaryAccounts = purapAccountingService.generateSummaryIncludeItemTypesAndNoZeroTotals(paymentRequestDocument.getItems(), includedItemTypeCodes);
+                    //if summaryAccount is empty then do not call generateAccountDistributionForProration as 
+                    //there is a check in that method to throw NPE if accounts percents == 0..
+                    //KFSMI-8487
+                    if (summaryAccounts != null) {
+                        distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, PurapConstants.PRORATION_SCALE, PaymentRequestAccount.class);
+                    }
                     if (PurapConstants.AccountDistributionMethodCodes.SEQUENTIAL_CODE.equalsIgnoreCase(accountDistributionMethod)) {
                         purapAccountingService.updatePreqAccountAmountsWithTotal(distributedAccounts, item.getTotalAmount());
 
@@ -1167,7 +1173,12 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                         totalAmount = paymentRequestDocument.getPurchaseOrderDocument().getTotalDollarAmountAboveLineItems();
                         purapAccountingService.updateAccountAmounts(paymentRequestDocument.getPurchaseOrderDocument());
                         summaryAccounts = purapAccountingService.generateSummary(PurApItemUtils.getAboveTheLineOnly(paymentRequestDocument.getPurchaseOrderDocument().getItems()));
-                        distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, new Integer("6"), PaymentRequestAccount.class);
+                        //if summaryAccount is empty then do not call generateAccountDistributionForProration as 
+                        //there is a check in that method to throw NPE if accounts percents == 0..
+                        //KFSMI-8487
+                        if (summaryAccounts != null) {
+                            distributedAccounts = purapAccountingService.generateAccountDistributionForProration(summaryAccounts, totalAmount, new Integer("6"), PaymentRequestAccount.class);
+                        }
                     }
                 }
                 if (CollectionUtils.isNotEmpty(distributedAccounts) && CollectionUtils.isEmpty(item.getSourceAccountingLines())) {

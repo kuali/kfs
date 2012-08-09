@@ -125,22 +125,33 @@ public class OrgReviewRoleRule extends MaintenanceDocumentRuleBase {
         boolean valid = true;
         if(StringUtils.isNotEmpty(orr.getPrincipalMemberPrincipalName())){
             if (orr.getPerson() == null) {
-                String label = getDataDictionaryService().getAttributeLabel(OrgReviewRole.class, OrgReviewRole.PRINCIPAL_NAME_FIELD_NAME);
-                putFieldError(OrgReviewRole.PRINCIPAL_NAME_FIELD_NAME, "error.document.orgReview.invalidRoleMember", label );
+                putFieldError(OrgReviewRole.PRINCIPAL_NAME_FIELD_NAME, "error.document.orgReview.invalidPrincipal"
+                        , getDataDictionaryService().getAttributeLabel(OrgReviewRole.class, OrgReviewRole.PRINCIPAL_NAME_FIELD_NAME) );
                 valid = false;
             }
         }
         if(StringUtils.isNotEmpty(orr.getRoleMemberRoleName())){
-            if(orr.getRole() == null){
-                String label = getDataDictionaryService().getAttributeLabel(OrgReviewRole.class, OrgReviewRole.ROLE_NAME_FIELD_NAME);
-                putFieldError(OrgReviewRole.ROLE_NAME_FIELD_NAME, "error.document.orgReview.invalidRoleMember", label );
-                valid = false;
+            if ( StringUtils.equals( KFSConstants.SysKimApiConstants.ACCOUNTING_REVIEWER_ROLE_NAME, orr.getRoleMemberRoleName())
+                    || StringUtils.equals( KFSConstants.SysKimApiConstants.ORGANIZATION_REVIEWER_ROLE_NAME, orr.getRoleMemberRoleName() ) ) {
+                putFieldError(OrgReviewRole.ROLE_NAME_FIELD_NAME, "error.document.orgReview.recursiveRole" );
+            } else {
+                if(orr.getRole() == null){
+                    putFieldError(OrgReviewRole.ROLE_NAME_FIELD_NAME, "error.document.orgReview.invalidRole"
+                            , new String[] {
+                                      getDataDictionaryService().getAttributeLabel(OrgReviewRole.class, OrgReviewRole.ROLE_NAME_FIELD_NAME)
+                                    , getDataDictionaryService().getAttributeLabel(OrgReviewRole.class, OrgReviewRole.ROLE_NAME_FIELD_NAMESPACE_CODE)
+                                    } );
+                    valid = false;
+                }
             }
         }
         if(StringUtils.isNotEmpty(orr.getGroupMemberGroupName())){
             if( orr.getGroup() == null ){
-                String label = getDataDictionaryService().getAttributeLabel(OrgReviewRole.class, OrgReviewRole.GROUP_NAME_FIELD_NAME);
-                putFieldError(OrgReviewRole.GROUP_NAME_FIELD_NAME, "error.document.orgReview.invalidRoleMember", label );
+                putFieldError(OrgReviewRole.GROUP_NAME_FIELD_NAME, "error.document.orgReview.invalidGroup"
+                        , new String[] {
+                                  getDataDictionaryService().getAttributeLabel(OrgReviewRole.class, OrgReviewRole.GROUP_NAME_FIELD_NAME)
+                                , getDataDictionaryService().getAttributeLabel(OrgReviewRole.class, OrgReviewRole.GROUP_NAME_FIELD_NAMESPACE_CODE)
+                                } );
                 valid = false;
             }
         }
